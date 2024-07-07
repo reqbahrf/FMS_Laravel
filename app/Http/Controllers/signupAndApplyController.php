@@ -18,7 +18,10 @@ class signupAndApplyController extends Controller
 
     public function store(Request $request)
     {
-        $user_id = Session::get('user_id');
+        
+        $user_name = Session::get('user_name');
+
+
         $successful_inserts = 0;
 
         DB::beginTransaction();
@@ -34,17 +37,15 @@ class signupAndApplyController extends Controller
 
             $designation = htmlspecialchars($request->input('designation'));
             $mobile_number = htmlspecialchars($request->input('Mobile_no'));
-            $email_address = htmlspecialchars($request->input('email_add'));
             $landline = htmlspecialchars($request->input('landline'));
 
             $personalInfoId = DB::table('personal_info')->insertGetId([
-                'user_id' => $user_id,
+                'user_name' => $user_name,
                 'f_name' => $f_name,
                 'l_name' => $l_name,
                 'birth_date' => $formatted_date,
                 'designation' => $designation,
                 'mobile_number' => $mobile_number,
-                'email_address' => $email_address,
                 'landline' => $landline,
             ]);
             $successful_inserts++;

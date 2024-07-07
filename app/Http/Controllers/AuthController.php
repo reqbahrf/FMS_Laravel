@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\CooperatorUser;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
@@ -14,19 +13,22 @@ class AuthController extends Controller
         Log::info('Signup method called');
 
         $request->validate([
-            'userName1' => 'required|unique:cooperator_users,user_name',
+            'userName1' => 'required|unique:users,user_name',
+            'email' => 'required|email|unique:users,email',
             'password1' => 'required',
             'confirm1' => 'required|same:password1',
         ]);
 
         try {
-            $user = new CooperatorUser();
+            $user = new User();
             $user->user_name = $request->userName1;
+            $user->email = $request->email;
             $user->password = Hash::make($request->password1);
 
             $user->save();
 
             session(['user_id' => $user->id]);
+            session(['user_name' => $user->user_name]);
 
             // Auth::login($user);
 

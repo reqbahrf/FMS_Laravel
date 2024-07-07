@@ -225,7 +225,7 @@
             <div class="row mb-3 p-md-4">
               <div class="col-12 col-md-6 p-md-3 p-2">
                 <div class="form-floating">
-                  <input type="text" name="f_name" id="f_name" class="form-control" placeholder="John" required>
+                  <input type="text" name="f_name" id="f_name" class="form-control" value="{{ old('f_name') }}" placeholder="John" required>
                   <div class="invalid-feedback">
                     Please enter your first name.
                   </div>
@@ -234,7 +234,7 @@
               </div>
               <div class="col-12 col-md-6 p-md-3 p-2">
                 <div class="form-floating">
-                  <input type="text" name="l_name" id="l_name" class="form-control" placeholder="Doe" required>
+                  <input type="text" name="l_name" id="l_name" class="form-control" value="{{ old('l_name') }}" placeholder="Doe" required>
                   <div class="invalid-feedback">
                     Please enter your last name.
                   </div>
@@ -245,7 +245,7 @@
                 <div class="row">
                   <div class="col-12 col-md-6 mx-auto">
                     <div class="form-floating">
-                      <input type="text" name="b_date" id="b_date" class="form-control" placeholder="Birth Date:" required>
+                      <input type="text" name="b_date" id="b_date" value="{{ old('b_date') }}" class="form-control" placeholder="Birth Date:" required>
                       <div class="invalid-feedback">
                         Please enter your Birth Date.
                       </div>
@@ -258,7 +258,7 @@
                 <div class="row">
                   <div class="col-12 col-md-6 mx-auto">
                     <div class="form-floating">
-                      <input type="text" name="designation" id="designation" class="form-control" placeholder="Designation" required data-bs-toggle="tooltip" data-bs-placement="right" title="Example: Manager, Owner, CEO, etc.">
+                      <input type="text" name="designation" id="designation" value="{{ old('designation') }}" class="form-control" placeholder="Designation" required data-bs-toggle="tooltip" data-bs-placement="right" title="Example: Manager, Owner, CEO, etc.">
                       <div class="invalid-feedback">
                         Please enter your Designation.
                       </div>
@@ -270,27 +270,18 @@
               <div class="col-12 p-md-3">
                 <h5>Contact Info:</h5>
                 <div class="row">
-                  <div class="col-12 col-md-4 p-2">
+                  <div class="col-12 col-md-6 p-2">
                     <div class="form-floating">
-                      <input type="text" name="Mobile_no" id="Mobile_no" class="form-control" placeholder="0965-453-5432" pattern="\d{4}-\d{3}-\d{4}" title="Please enter a valid mobile number in the format XXXX-XXX-XXXX" required>
+                      <input type="text" name="Mobile_no" value="{{ old('Mobile_no') }}" id="Mobile_no" class="form-control" placeholder="0965-453-5432" pattern="\d{4}-\d{3}-\d{4}"  title="Please enter a valid mobile number in the format XXXX-XXX-XXXX" required>
                       <div class="invalid-feedback">
                         Please enter a valid mobile number.
                       </div>
                       <label for="Mobile_no">Mobile Number: <span class="requiredFields"> *</span></label>
                     </div>
                   </div>
-                  <div class="col-12 col-md-4 p-2">
+                  <div class="col-12 col-md-6 p-2">
                     <div class="form-floating">
-                      <input type="email" name="email_add" id="email_add" class="form-control" placeholder="example@example.com" required>
-                      <div class="invalid-feedback">
-                        Please enter a valid email address.
-                      </div>
-                      <label for="email_add">Email Address: <span class="requiredFields"> *</span></label>
-                    </div>
-                  </div>
-                  <div class="col-12 col-md-4 p-2">
-                    <div class="form-floating">
-                      <input type="text" name="landline" id="landline" class="form-control" placeholder="(XX) YYY ZZZZ">
+                      <input type="text" name="landline" id="landline" value="{{ old('landline') }}" class="form-control" placeholder="(XX) YYY ZZZZ">
                       <div class="invalid-feedback">
                         Please enter a valid landline number.
                       </div>
@@ -307,7 +298,7 @@
             <div class="row mb-12">
               <div class="col-12 col-md-6">
                 <div class="form-floating mb-3">
-                  <input type="text" name="firm_name" id="firm_name" class="form-control" placeholder="ABC Company" required>
+                  <input type="text" name="firm_name" id="firm_name" value="{{ old('firm_name') }}" class="form-control" placeholder="ABC Company" required>
                   <div class="invalid-feedback">
                     Please enter the name of the firm.
                   </div>
@@ -317,11 +308,11 @@
               <div class="col-12 col-md-6">
                 <div class="form-floating mb-3">
                   <select class="form-select" name="enterpriseType" id="enterpriseType" aria-label="Floating label select example" required>
-                    <option selected value="">Select Type of Enterprise</option>
-                    <option value="Sole Proprietorship">Sole Proprietorship</option>
-                    <option value="Partnership">Partnership</option>
-                    <option value="Corporation">Corporation</option>
-                  </select>
+    <option value="" {{ old('enterpriseType') == '' ? 'selected' : '' }}>Select Type of Enterprise</option>
+    <option value="Sole Proprietorship" {{ old('enterpriseType') == 'Sole Proprietorship' ? 'selected' : '' }}>Sole Proprietorship</option>
+    <option value="Partnership" {{ old('enterpriseType') == 'Partnership' ? 'selected' : '' }}>Partnership</option>
+    <option value="Corporation" {{ old('enterpriseType') == 'Corporation' ? 'selected' : '' }}>Corporation</option>
+</select>
                   <label for="enterpriseType">Type Of Enterprise <span class="requiredFields"> *</span></label>
                   <div class="invalid-feedback">
                     Please select a type of enterprise.
@@ -331,7 +322,7 @@
               <div class="col-12 col-md-8 mx-auto">
 
                 <div class="form-floating mb-3">
-                  <input type="text" name="Address" id="Address" class="form-control" placeholder="123 Main St" required>
+                  <input type="text" name="Address" value="{{ old('Address') }}" id="Address" class="form-control" placeholder="123 Main St" required>
                   <div class="invalid-feedback">
                     Please enter the address.
                   </div>
@@ -347,21 +338,21 @@
                     Assets:
                   </legend>
                   <div class="form-floating mb-3">
-                    <input type="text" name="buildings" id="buildings" class="form-control" placeholder="Value in p" required>
+                    <input type="text" name="buildings" value="{{ old('buildings') }}" id="buildings" class="form-control" placeholder="Value in p" required>
                     <div class="invalid-feedback">
                       Please enter the value of buildings.
                     </div>
                     <label for="buildings">Buildings: <span class="requiredFields"> *</span></label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input type="text" name="equipments" id="equipments" class="form-control" placeholder="Value in p" required>
+                    <input type="text" name="equipments" value="{{ old('equipments') }}" id="equipments" class="form-control" placeholder="Value in p" required>
                     <div class="invalid-feedback">
                       Please enter the value of equipments.
                     </div>
                     <label for="equipments">Equipments: <span class="requiredFields"> *</span></label>
                   </div>
                   <div class="form-floating mb-3">
-                    <input type="text" name="working_capital" id="working_capital" class="form-control" placeholder="Value in p" required>
+                    <input type="text" name="working_capital" value="{{ old('working_capital') }}" id="working_capital" class="form-control" placeholder="Value in p" required>
                     <div class="invalid-feedback">
                       Please enter the value of working capital.
                     </div>
@@ -395,7 +386,7 @@
                         <tr>
                           <td>
                             <div class="mb-3">
-                              <input type="text" name="m_personnelDiRe" id="m_personnelDiRe" class="form-control" placeholder="Number of Male Regular" required>
+                              <input type="text" name="m_personnelDiRe" value="{{ old('m_personnelDiRe') }}" id="m_personnelDiRe" class="form-control" placeholder="Number of Male Regular" required>
                               <div class="invalid-feedback">
                                 Please enter the number of male personnel.
                               </div>
@@ -403,7 +394,7 @@
                           </td>
                           <td>
                             <div class="mb-3">
-                              <input type="text" name="f_personnelDiRe" id="f_personnelDiRe" class="form-control" placeholder="Number of Female Regular" required>
+                              <input type="text" name="f_personnelDiRe" value="{{ old('f_personnelDiRe') }}"  id="f_personnelDiRe" class="form-control" placeholder="Number of Female Regular" required>
                               <div class="invalid-feedback">
                                 Please enter the number of female personnel.
                               </div>
@@ -426,7 +417,7 @@
                         <tr>
                           <td>
                             <div class="mb-3">
-                              <input type="text" name="m_personnelDiPart" id="m_personnelDiPart" class="form-control" placeholder="Number of Male Part-time" required>
+                              <input type="text" name="m_personnelDiPart" value="{{ old('m_personnelDiPart') }}" id="m_personnelDiPart" class="form-control" placeholder="Number of Male Part-time" required>
                               <div class="invalid-feedback">
                                 Please enter the number of male personnel.
                               </div>
@@ -434,7 +425,7 @@
                           </td>
                           <td>
                             <div class="mb-3">
-                              <input type="text" name="f_personnelDiPart" id="f_personnelDiPart" class="form-control" placeholder="Number of Female Part-time" required>
+                              <input type="text" name="f_personnelDiPart" value="{{ old('f_personnelDiPart') }}" id="f_personnelDiPart" class="form-control" placeholder="Number of Female Part-time" required>
                               <div class="invalid-feedback">
                                 Please enter the number of female personnel.
                               </div>
@@ -462,7 +453,7 @@
                         <tr>
                           <td>
                             <div class="mb-3">
-                              <input type="text" name="m_personnelIndRe" id="m_personnelIndRe" class="form-control" placeholder="Number of Male Regular" required>
+                              <input type="text" name="m_personnelIndRe" value="{{ old('m_personnelIndRe') }}" id="m_personnelIndRe" class="form-control" placeholder="Number of Male Regular" required>
                               <div class="invalid-feedback">
                                 Please enter the number of male personnel.
                               </div>
@@ -470,7 +461,7 @@
                           </td>
                           <td>
                             <div class="mb-3">
-                              <input type="text" name="f_personnelIndRe" id="f_personnelIndRe" class="form-control" placeholder="Number of Female Regular" required>
+                              <input type="text" name="f_personnelIndRe" value="{{ old('f_personnelIndRe') }}" id="f_personnelIndRe" class="form-control" placeholder="Number of Female Regular" required>
                               <div class="invalid-feedback">
                                 Please enter the number of female personnel.
                               </div>
@@ -493,7 +484,7 @@
                         <tr>
                           <td>
                             <div class="mb-3">
-                              <input type="text" name="m_personnelIndPart" id="m_personnelIndPart" class="form-control" placeholder="Number of Male Part-time" required>
+                              <input type="text" name="m_personnelIndPart" value="{{ old('m_personnelIndPart') }}" id="m_personnelIndPart" class="form-control" placeholder="Number of Male Part-time" required>
                               <div class="invalid-feedback">
                                 Please enter the number of male personnel.
                               </div>
@@ -501,7 +492,7 @@
                           </td>
                           <td>
                             <div class="mb-3">
-                              <input type="text" name="f_personnelIndPart" id="f_personnelIndPart" class="form-control" placeholder="Number of Female Part-time" required>
+                              <input type="text" name="f_personnelIndPart" value="{{ old('f_personnelIndPart') }}" id="f_personnelIndPart" class="form-control" placeholder="Number of Female Part-time" required>
                               <div class="invalid-feedback">
                                 Please enter the number of female personnel.
                               </div>
@@ -614,9 +605,6 @@
 
             <label for="Mobile_no">Mobile Number</label>
             <input type="text" id="re_Mobile_no" class="form-control mb-3" readonly>
-
-            <label for="email_add">Email Address</label>
-            <input type="email" id="re_email_add" class="form-control mb-3" readonly>
 
             <label for="landline">Landline</label>
             <input type="text" id="re_landline" class="form-control mb-3" readonly>
@@ -890,7 +878,6 @@
           $('#re_b_Date').val($('#b_date').val());
           $('#re_designa').val($('#designation').val());
           $('#re_Mobile_no').val($('#Mobile_no').val());
-          $('#re_email_add').val($('#email_add').val());
           $('#re_landline').val($('#landline').val());
 
           // Business Info
