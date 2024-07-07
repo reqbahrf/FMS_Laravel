@@ -10,9 +10,7 @@
   <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
   <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
   <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
-
   <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet" type="text/css" />
-
   <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}"></script>
 
   <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}"></script>

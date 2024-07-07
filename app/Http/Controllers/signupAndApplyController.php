@@ -8,17 +8,11 @@ use Illuminate\Support\Facades\Session;
 
 class signupAndApplyController extends Controller
 {
-    public function signup(){
-        return view('registerpage.signup');
-    }
 
-    public function applicationform(){
-        return view('registerpage.application');
-    }
 
     public function store(Request $request)
     {
-        
+
         $user_name = Session::get('user_name');
 
 
