@@ -1,37 +1,37 @@
 <?php
-$session_expiration = 3600;
+// $session_expiration = 3600;
 
-// Check if the session is not active
-if (session_status() == PHP_SESSION_NONE) {
-  session_set_cookie_params($session_expiration);
-  session_start();
-}
-$conn = include_once '../db_connection/database_connection.php';
+// // Check if the session is not active
+// if (session_status() == PHP_SESSION_NONE) {
+//   session_set_cookie_params($session_expiration);
+//   session_start();
+// }
+// $conn = include_once '../db_connection/database_connection.php';
 
-$ongoing_project_id = $_SESSION['project_id'];
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-  // Check if a file was uploaded
-  if (isset($_FILES['expenseReceipt']) && $_FILES['expenseReceipt']['error'] == 0) {
-    $receipt_file = $_FILES['expenseReceipt']['tmp_name'];
-    $receipt_file_content = addslashes(file_get_contents($receipt_file)); // Read and escape file content
+// $ongoing_project_id = $_SESSION['project_id'];
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//   // Check if a file was uploaded
+//   if (isset($_FILES['expenseReceipt']) && $_FILES['expenseReceipt']['error'] == 0) {
+//     $receipt_file = $_FILES['expenseReceipt']['tmp_name'];
+//     $receipt_file_content = addslashes(file_get_contents($receipt_file)); // Read and escape file content
 
-    // Prepare the SQL statement
-    $sql = "INSERT INTO receipt_upload (ongoing_project_id, receipt_file) VALUES ('$ongoing_project_id', '$receipt_file_content')";
+//     // Prepare the SQL statement
+//     $sql = "INSERT INTO receipt_upload (ongoing_project_id, receipt_file) VALUES ('$ongoing_project_id', '$receipt_file_content')";
 
-    // Execute the SQL query
-    if (mysqli_query($conn, $sql)) {
-      echo "Record inserted successfully";
-    } else {
-      echo "Error: " . $sql . "<br>" . mysqli_error($conn);
-    }
-  } else {
-    echo "No file uploaded or there was an error uploading the file.";
-  }
-  exit();
+//     // Execute the SQL query
+//     if (mysqli_query($conn, $sql)) {
+//       echo "Record inserted successfully";
+//     } else {
+//       echo "Error: " . $sql . "<br>" . mysqli_error($conn);
+//     }
+//   } else {
+//     echo "No file uploaded or there was an error uploading the file.";
+//   }
+//   exit();
 
-  // Close the database connection
-  mysqli_close($conn);
-}
+//   // Close the database connection
+//   mysqli_close($conn);
+// }
 ?>
 
 <style>
@@ -113,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                   </tr>
                 </thead>
                 <tbody id="receiptTable">
-                 
+
                 </tbody>
               </table>
               <hr>

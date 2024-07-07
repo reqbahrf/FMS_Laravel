@@ -70,6 +70,7 @@ class AuthController extends Controller
             $user = Auth::user();
             log::alert($user);
 
+            session(['user_id' => $user->id]);
             session(['user_name' => $user->user_name]);
             session(['role' => $user->role]);
 
@@ -80,9 +81,10 @@ class AuthController extends Controller
 
 
                 if ($personalInfo && $personalInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                    session(['birth_date' => $personalInfo->birth_date->format('Y-m-d')]);
                     // The user is a Cooperator, has a record in personnel_info, and B_date matches.
                     // Proceed with your logic here, e.g., redirecting the user or returning a success response.
-                    return response()->json(['message' => 'Login successful, user is a Cooperator with matching B_date.']);
+                    return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.dashboard')]);
                 } else {
                     // Handle the case where the user is a Cooperator but doesn't have matching personnel_info or B_date.
                     return response()->json(['error' => 'User is a Cooperator but B_date does not match or missing personnel info.'], 422);
@@ -95,6 +97,7 @@ class AuthController extends Controller
                 session(['name' => $orgUserInfo -> full_name]);
 
                 if($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')){
+                    session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
                     return response()->json(['message' => 'Login successful, user is a Staff with matching B_date.']);
                 } else {
                     return response()->json(['error' => 'User is a Staff but B_date does not match or missing org info.'], 422);

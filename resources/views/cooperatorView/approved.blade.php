@@ -1,12 +1,4 @@
-<?php 
-$session_expiration = 3600;
 
-// Check if the session is not active
-if (session_status() == PHP_SESSION_NONE) {
-    session_set_cookie_params($session_expiration);
-    session_start();
-}
-?>
 <body class="overflow-hidden">
   <div class="container-fluid px-0 headerlogo">
     <div class="d-flex align-items-center justify-content-between">
@@ -53,7 +45,7 @@ if (session_status() == PHP_SESSION_NONE) {
   </div>
   <div class=" flex-container d-flex flex-column flex-md-row mobileView">
     <div class="overflow-y-auto">
-      <?php include("navCooperator.php"); ?>
+       @include('cooperatorView.navCooperator')
     </div>
     <main class="main-column scrollable-main" id="main-content">
     </main>
@@ -61,17 +53,22 @@ if (session_status() == PHP_SESSION_NONE) {
 </body>
 <script>
   $(document).ready(function() {
-    loadPage('/my/CooperatorInformationTab.php', 'InformationTab');
+    loadPage('{{ route('Cooperator.InformationTab') }}', 'InformationTab');
   });
 
   function loadPage(url, activeLink) {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      }
+    });
     $.ajax({
       url: url,
       type: 'GET',
       success: function(response) {
         $('#main-content').html(response);
         setActiveLink(activeLink);
-        if (url === '/my/CooperatorInformationTab.php') {
+        if (url === '{{ route('Cooperator.InformationTab') }}') {
           initializeStackedChartPer();
           initializeProgressPer();
         }

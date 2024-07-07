@@ -325,12 +325,10 @@
                         data: formData,
                         success: function(response) {
                             // Log the entire response object to the console
-                            console.log(response);
-
                             if (response.success) {
-                                // Handle success case
+                                window.location.href = response.redirect
                             } else {
-                                // Handle failure case
+                                console.log(response.error)
                             }
                         },
                         error: function(jqXHR, textStatus, errorThrown) {

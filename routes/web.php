@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CooperatorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\signupAndApplyController;
 use Illuminate\Support\Facades\Route;
@@ -27,3 +28,9 @@ Route::get('/login', function () {
 
 Route::post('/login', [AuthController::class, 'login']) -> name('login.submit');
 
+Route::get('/Cooperator/home', [CooperatorController::class, 'index']) -> name('Cooperator.dashboard');
+Route::get('/Cooperator/dashboard', [CooperatorController::class, 'dashboard']) -> name('Cooperator.InformationTab');
+
+Route::get('/Cooperator/Requirements', function(){
+    return view('cooperatorView.CooperatorRequirement');
+}) ->name('Cooperator.Requirements');

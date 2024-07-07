@@ -8,13 +8,9 @@ use Illuminate\Support\Facades\Session;
 
 class signupAndApplyController extends Controller
 {
-
-
     public function store(Request $request)
     {
-
         $user_name = Session::get('user_name');
-
 
         $successful_inserts = 0;
 
@@ -142,8 +138,9 @@ class signupAndApplyController extends Controller
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+            return redirect()
+                ->back()
+                ->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
-
 }

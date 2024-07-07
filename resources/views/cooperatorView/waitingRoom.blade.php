@@ -1,12 +1,4 @@
-<?php
-$session_expiration = 3600;
 
-// Check if the session is not active
-if (session_status() == PHP_SESSION_NONE) {
-    session_set_cookie_params($session_expiration);
-    session_start();
-}
-?>
 <style>
   @keyframes rotate {
     from {
