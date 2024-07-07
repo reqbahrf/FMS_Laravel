@@ -14,3 +14,5 @@ Route::post('/success', [AuthController::class, 'signup'])->name('signup');
 
 Route::get('/application', [signupAndApplyController::class, 'applicationform'])->name('registrationForm');
 
+Route::post('/application/submit', [signupAndApplyController::class, 'store'])->name('applicationFormSubmit');
+

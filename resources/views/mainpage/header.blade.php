@@ -58,7 +58,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <a href="#" class="btn btn-primary">Confirm</a>
+        <a href="/" class="btn btn-primary">Confirm</a>
       </div>
     </div>
   </div>
@@ -100,7 +100,7 @@
       </a>
       <ul class="nav nav-pills align-items-center">
       <li class="nav-item">
-        <a href="/" id="home" class="nav-link {{ basename(request()->path()) == 'index' ? 'active' : '' }}" onclick="confirmRedirect()" data-toggle="modal" data-target="#confirmModal">Home</a>
+        <a href="{{ route('home') }}" id="home" class="nav-link {{ basename(request()->path()) == 'index' ? 'active' : '' }}" onclick="confirmRedirect()" data-toggle="modal" data-target="#confirmModal">Home</a>
         <li class="nav-item"><a href="#" class="nav-link">FAQs</a></li>
         <li class="nav-item"><a href="#" class="nav-link">About</a></li>
         <li class="nav-item"><a href="login.php" class="nav-link login">Login</a></li>

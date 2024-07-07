@@ -1,147 +1,4 @@
-<?php
 
-session_start();
-
-$conn = include_once './db_connection/database_connection.php';
-
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-  // Retrieve current user's ID from session
-
-  $user_id =  $_SESSION['user_id'];
-  $successful_inserts = 0;
-
-  // Personal Info table
-  $f_name = htmlspecialchars($_POST['f_name']);
-  $l_name = htmlspecialchars($_POST['l_name']);
-
-  $b_date = htmlspecialchars($_POST['b_date']);
-  $date = DateTime::createFromFormat('m/d/Y', $b_date);
-  $formatted_date = $date->format('Y-m-d');
-
-  $designation = htmlspecialchars($_POST['designation']);
-  $mobile_number = htmlspecialchars($_POST['Mobile_no']);
-  $email_address = htmlspecialchars($_POST['email_add']);
-  $landline = htmlspecialchars($_POST['landline']);
-
-  // Insert into personal_info table
-  $sql_personal_info = "INSERT INTO personal_info (user_id, f_name, l_name, birth_date, designation, mobile_number, email_address, landline)
-                          VALUES ('$user_id', '$f_name', '$l_name', '$formatted_date', '$designation', '$mobile_number', '$email_address', '$landline')";
-  $conn->query($sql_personal_info);
-  if ($conn->affected_rows > 0) {
-    $successful_inserts++;
-  }
-
-  $personal_info_id = $conn->insert_id;
-
-  // Business Info table
-  $firm_name = htmlspecialchars($_POST['firm_name']);
-  $enterprise_type = htmlspecialchars($_POST['enterpriseType']);
-  $enterprise_level = htmlspecialchars($_POST['enterprise_level']);
-  $address = htmlspecialchars($_POST['Address']);
-  $export_market = htmlspecialchars($_POST['Export']);
-  $local_market = htmlspecialchars($_POST['Local']);
-
-  // Insert into business_info table
-  $sql_business_info = "INSERT INTO business_info (user_info_id, firm_name, enterprise_type, enterprise_level, B_address, Export_Mkt_Outlet, Local_Mkt_Outlet)
-                          VALUES ('$personal_info_id', '$firm_name', '$enterprise_type', '$enterprise_level', '$address', '$export_market', '$local_market')";
-  $conn->query($sql_business_info);
-  if ($conn->affected_rows > 0) {
-    $successful_inserts++;
-  }
-
-  // Retrieve the last inserted business ID
-  $business_id = $conn->insert_id;
-
-  // Assets table
-  $building_value = str_replace(',', '', htmlspecialchars($_POST['buildings']));
-  $equipment_value = str_replace(',', '',  htmlspecialchars($_POST['equipments']));
-  $working_capital =  str_replace(',', '', htmlspecialchars($_POST['working_capital']));
-
-  // Insert into assets table
-  $sql_assets = "INSERT INTO assets (business_id, building_value, equipment_value, working_capital)
-                   VALUES ('$business_id', '$building_value', '$equipment_value', '$working_capital')";
-  $conn->query($sql_assets);
-  if ($conn->affected_rows > 0) {
-    $successful_inserts++;
-  }
-  // Personnel table
-  $m_personnelDiRe = $_POST['m_personnelDiRe'];
-  $f_personnelDiRe = $_POST['f_personnelDiRe'];
-  $m_personnelDiPart = $_POST['m_personnelDiPart'];
-  $f_personnelDiPart = $_POST['f_personnelDiPart'];
-  $m_personnelIndRe = $_POST['m_personnelIndRe'];
-  $f_personnelIndRe = $_POST['f_personnelIndRe'];
-  $m_personnelIndPart = $_POST['m_personnelIndPart'];
-  $f_personnelIndPart = $_POST['f_personnelIndPart'];
-
-
-  // Insert into personnel table
-  $sql_personnel = "INSERT INTO `personnel`(`business_id`, `male_direct_re`, `female_direct_re`, `male_direct_part`, `female_direct_part`, `male_indirect_re`, `female_indirect_re`, `male_indirect_part`, `female_indirect_part`)
-                    VALUES ('$business_id', '$m_personnelDiRe', '$f_personnelDiRe', '$m_personnelDiPart', '$f_personnelDiPart', '$m_personnelIndRe', '$f_personnelIndRe', '$m_personnelIndPart', '$f_personnelIndPart')";
-  $conn->query($sql_personnel);
-  if ($conn->affected_rows > 0) {
-    $successful_inserts++;
-  }
-
-  // Requirements table
-  // Check if the file inputs are set and not empty
-
-  $allowed_mime_type = 'application/pdf';
-
-  $letter_of_intent = $_FILES['IntentFile']['name'];
-  if ($_FILES['IntentFile']['type'] != $allowed_mime_type) {
-    die('Invalid file type for Letter of Intent. Only PDF files are allowed.');
-  }
-
-  $dti_sec_cda = $_FILES['dtiFile']['name'];
-  if ($_FILES['dtiFile']['type'] != $allowed_mime_type) {
-    die('Invalid file type for DTI/SEC/CDA. Only PDF files are allowed.');
-  }
-
-  $business_permit = $_FILES['businessPermitFile']['name'];
-  if ($_FILES['businessPermitFile']['type'] != $allowed_mime_type) {
-    die('Invalid file type for Business Permit. Only PDF files are allowed.');
-  }
-
-  $fda_ito = $_FILES['fdaLtoFile']['name'];
-  if ($_FILES['fdaLtoFile']['type'] != $allowed_mime_type) {
-    die('Invalid file type for FDA/ITO. Only PDF files are allowed.');
-  }
-
-  $official_receipt = $_FILES['receiptFile']['name'];
-  if ($_FILES['receiptFile']['type'] != $allowed_mime_type) {
-    die('Invalid file type for Official Receipt. Only PDF files are allowed.');
-  }
-
-  $government_id = $_FILES['govIdFile']['name'];
-  if ($_FILES['govIdFile']['type'] != $allowed_mime_type) {
-    die('Invalid file type for Government ID. Only PDF files are allowed.');
-  }
-
-  // Insert into the requirements table
-  $sql_files = "INSERT INTO `requirements`(`business_id`, `letter_of_intent`, `dti_sec_cda`, `business_permit`, `fda_ito`, `official_receipt`, `government_id`)
-            VALUES ('$business_id', '$letter_of_intent', '$dti_sec_cda', '$business_permit', '$fda_ito', '$official_receipt', '$government_id')";
-  // Execute the SQL query
-  $conn->query($sql_files);
-  if ($conn->affected_rows > 0) {
-    $successful_inserts++;
-  };
-
-  $sql_applicationInfo = "INSERT INTO `application_info`(`business_id`) VALUES ('$business_id')";
-  $conn->query($sql_applicationInfo);
-  if ($conn->affected_rows > 0) {
-    $successful_inserts++;
-  };
-
-  if ($successful_inserts == 6) {
-    echo '<div class="alert alert-success alert-dismissible text-bg-success border-0 fade show mx-5" role="alert">
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
-        <strong>Success - </strong> All data successfully inserted.
-    </div>';
-  }
-}
-?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -150,18 +7,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Application Form</title>
-  <link rel="icon" href="../assets/svg/DOST_ICON.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="../assets/css/main.css">
-  <script src="../assets/jquery-3.7.1/jquery-3.7.1.min.js"></script>
-  <script src="./assets/bootstrap-5.3.3-dist/js/bootstrap.bundle.js"></script>
-  <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard.min.css" rel="stylesheet" type="text/css" />
-  <link href="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/smart_wizard_theme_arrows.min.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="https://cdn.jsdelivr.net/gh/bbbootstrap/libraries@main/jquery.smartWizard.min.js"></script>
-  <link rel="stylesheet" href="./assets/dist-smartWizard/css/smart_wizard_all.min.css">
-  <script src="./assets/dist-smartWizard/js/jquery.smartWizard.min.js"></script>
-  <script src="./assets/date-picker-assets/moment.min.js"></script>
-  <script src="./assets/date-picker-assets/daterangepicker.js"></script>
-  <link rel="stylesheet" href="./assets/date-picker-assets/daterangepicker.css">
+  <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
+  <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
+  <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
+
+  <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet" type="text/css" />
+
+  <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}"></script>
+
+  <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}"></script>
+
+  <script type="text/javascript" src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}" ></script>
+
+  <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">
   <script>
     $(document).ready(function() {
       $('#b_date').daterangepicker({
@@ -191,7 +49,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       }
     }
 
-    document.querySelector('input[type="checkbox"]').addEventListener('click', togglePasswordVisibility);
 
     function validateForm() {
       let usernameInput = document.getElementById('username');
@@ -315,9 +172,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-  <?php include("header.php"); ?>
+   @include('mainpage.header');
   <div class="container mt-5 shadow">
-    <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" class="g-3 p-5" enctype="multipart/form-data">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show mx-5" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>Success - </strong> {{ session('success') }}
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show mx-5" role="alert">
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+                <strong>Error - </strong> {{ session('error') }}
+            </div>
+        @endif
+    <form action="{{ route('applicationFormSubmit') }}" method="post" class="g-3 p-5" enctype="multipart/form-data">
+        @csrf
       <div id="smartwizard">
         <ul class="nav nav-progress">
           <li class="nav-item">
@@ -946,7 +817,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   </div>
   </div>
   </div>
-  <?php include("footer.php"); ?>
+   @include('mainpage.footer');
   <script>
     $(function() {
       $('[data-bs-toggle="tooltip"]').tooltip()

@@ -26,6 +26,8 @@ class AuthController extends Controller
 
             $user->save();
 
+            session(['user_id' => $user->id]);
+
             // Auth::login($user);
 
             if ($request->ajax()) {
