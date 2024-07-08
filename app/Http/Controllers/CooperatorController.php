@@ -15,7 +15,7 @@ class CooperatorController extends Controller
         $userBirthD = Session::get('birth_date');
 
         if (!isset($userId) && !isset($userName) && !isset($userBirthD)) {
-            return redirect()->route('login');
+            return redirect()->route('login.Form');
         } else {
             $query = "SELECT personal_info.user_name, business_info.user_info_id, application_info.application_status
                       FROM personal_info

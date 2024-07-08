@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CooperatorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\signupAndApplyController;
@@ -53,3 +54,13 @@ Route::get('/staff/Project/Create-Project', function(){
 Route::get('/staff/Project/Create-DataSheet', [StaffController::class, 'createDataSheet']) ->name('staff.Create-DataSheet');
 
 Route::get('/staff/Project/Create-InformationSheet', [StaffController::class, 'createInformationSheet']) ->name('staff.Create-InformationSheet');
+
+Route::get('/Admin/Home', function(){
+    return view('AdminView.adminDashboard');
+}) ->name('admin.home');
+
+Route::get('/Admin/Dashboard', [AdminController::class, 'index'] ) ->name('admin.Dashboard');
+
+Route::get('/Admin/Project', [AdminController::class, 'applicantGet']) ->name('admin.Project');
+
+Route::get('/Admin/Users-List', [AdminController::class, 'userGet']) -> name('admin.Users-list');
