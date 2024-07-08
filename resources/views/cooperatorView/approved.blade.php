@@ -53,7 +53,7 @@
 </body>
 <script>
   $(document).ready(function() {
-    loadPage('{{ route('Cooperator.InformationTab') }}', 'InformationTab');
+    loadPage('{{ route('Cooperator.dashboard') }}', 'InformationTab');
   });
 
   function loadPage(url, activeLink) {
@@ -68,7 +68,7 @@
       success: function(response) {
         $('#main-content').html(response);
         setActiveLink(activeLink);
-        if (url === '{{ route('Cooperator.InformationTab') }}') {
+        if (url === '{{ route('Cooperator.dashboard') }}') {
           initializeStackedChartPer();
           initializeProgressPer();
         }

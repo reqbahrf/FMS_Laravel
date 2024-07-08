@@ -13,7 +13,8 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
-    public function signup(Request $request){
+    public function signup(Request $request)
+    {
         Log::info('Signup method called');
 
         $request->validate([
@@ -53,7 +54,8 @@ class AuthController extends Controller
         }
     }
 
-    public function login(Request $request){
+    public function login(Request $request)
+    {
         Log::info('Login method called');
 
         $request->validate([
@@ -84,7 +86,7 @@ class AuthController extends Controller
                     session(['birth_date' => $personalInfo->birth_date->format('Y-m-d')]);
                     // The user is a Cooperator, has a record in personnel_info, and B_date matches.
                     // Proceed with your logic here, e.g., redirecting the user or returning a success response.
-                    return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.dashboard')]);
+                    return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.home')]);
                 } else {
                     // Handle the case where the user is a Cooperator but doesn't have matching personnel_info or B_date.
                     return response()->json(['error' => 'User is a Cooperator but B_date does not match or missing personnel info.'], 422);
@@ -94,30 +96,27 @@ class AuthController extends Controller
             if ($user->role === 'Staff') {
                 $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
 
-                session(['name' => $orgUserInfo -> full_name]);
+                session(['name' => $orgUserInfo->full_name]);
 
-                if($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')){
+                if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
                     session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
                     return response()->json(['message' => 'Login successful, user is a Staff with matching B_date.']);
                 } else {
                     return response()->json(['error' => 'User is a Staff but B_date does not match or missing org info.'], 422);
                 }
-
             }
 
-            if($user->role === 'Admin'){
+            if ($user->role === 'Admin') {
                 $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
 
-                session(['name' => $orgUserInfo -> full_name]);
+                session(['name' => $orgUserInfo->full_name]);
 
-                if($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')){
+                if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
                     return response()->json(['message' => 'Login successful, user is an Admin with matching B_date.']);
                 } else {
                     return response()->json(['error' => 'User is an Admin but B_date does not match or missing org info.'], 422);
                 }
-            }
-
-            else {
+            } else {
                 // Handle logic for users with roles other than Cooperator.
                 return response()->json(['message' => 'Login successful, user is not a Cooperator.']);
             }
