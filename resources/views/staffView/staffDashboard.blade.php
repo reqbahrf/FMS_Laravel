@@ -222,6 +222,7 @@
         success: function(response) {
           $('#main-content').html(response);
           setActiveLink(activeLink);
+          history.pushState(null, '', url);
           if (url == '{{ route('staff.dashboard') }}') {
             InitdashboardChar();
           }

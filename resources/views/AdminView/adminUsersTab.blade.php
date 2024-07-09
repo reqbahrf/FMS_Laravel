@@ -77,7 +77,7 @@
             <th>Name</th>
             <th>Username</th>
             <th>Password</th>
-            <th>Status</th>
+            <th>Access</th>
             <th>Action</th>
           </tr>
         </thead>
@@ -87,7 +87,7 @@
             <td>Pol You</td>
             <td>DOST_SETUP-Polyo</td>
             <td>43y5uiy3uiy88t78uiqy58yuikjqhjkhjkhq475y78uhjhfhwfg74792jtg8934258uihg</td>
-            <td><strong>has access</strong></td>
+            <td><strong>Permitted</strong></td>
             <td>
               <button type="button" class="btn" id="userModal" data-bs-toggle="modal" data-bs-target="#userModal">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30">
@@ -101,7 +101,7 @@
             <td>Michele Sam</td>
             <td>DOST_SETUP-MicheleSam</td>
             <td>fhjkahhu4uhfhjhjhajshjfhuu4888qkkffhbqjjeruuakkfjeueuqiogkhadhgjhjhue</td>
-            <td><strong>no access</strong></td>
+            <td><strong>Not Permitted</strong></td>
             <td>
               <button type="button" class="btn" id="userModal" data-bs-toggle="modal" data-bs-target="#handleProjectModal" disabled>
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30">
@@ -117,7 +117,7 @@
             <th>Name</th>
             <th>Username</th>
             <th>Password</th>
-            <th>Status</th>
+            <th>Access</th>
             <th>Action</th>
           </tr>
         </tfoot>

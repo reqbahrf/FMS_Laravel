@@ -7,12 +7,23 @@ use App\Models\User;
 
 class AdminController extends Controller
 {
-    public function index(){
-        return view('AdminView.adminDashboardTab');
+    public function index(Request $request)
+    {
+        if($request->ajax())
+        {
+            return view('AdminView.adminDashboardTab');
+        }else
+        {
+            return view('AdminView.adminDashboard');
+        }
+
     }
 
-    public function applicantGet(){
-        $applicants = User::join('personal_info', 'users.user_name', '=', 'personal_info.user_name')
+    public function applicantGet(Request $request){
+
+        if($request->ajax())
+        {
+            $applicants = User::join('personal_info', 'users.user_name', '=', 'personal_info.user_name')
             ->join('business_info', 'business_info.user_info_id', '=', 'personal_info.id')
             ->join('assets', 'assets.business_id', '=', 'business_info.id')
             ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
@@ -24,10 +35,27 @@ class AdminController extends Controller
                 'application_info.date_applied', 'business_info.id'
             ]);
 
-        return view('AdminView.adminProjectlistTab', compact('applicants'));
+           return view('AdminView.adminProjectlistTab', compact('applicants'));
+
+        }
+        else
+        {
+            return view('AdminView.adminDashboard');
+
+        }
+
     }
 
-    public function userGet(){
-        return view('AdminView.adminUsersTab');
+    public function userGet(Request $request){
+
+        if($request->ajax())
+        {
+            return view('AdminView.adminUsersTab');
+        }
+        else
+        {
+            return view('AdminView.adminDashboard');
+        }
+
     }
 }

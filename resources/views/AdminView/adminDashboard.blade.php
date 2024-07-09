@@ -4,6 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>Admin dashboard</title>
   <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
@@ -177,31 +178,53 @@
   </div>
 </body>
 <script>
-  $(document).ready(function() {
-    loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');
-  });
 
-
-  function loadPage(url, activeLink, callback) {
-    $.ajax({
-      url: url,
-      type: 'GET',
-      success: function(response) {
-        $('#main-content').html(response);
-        setActiveLink(activeLink);
-        if (url === '{{ route('admin.Dashboard') }}') {
-          InitdashboardChar()
-          $(document).trigger('DocLoaded');
-        }
-        if (url == '/org-access/viewCooperatorInfo.php') {
-          InitializeviewCooperatorProgress();
-        }
-      },
-      error: function(error) {
-        console.log('Error: ' + error);
-      },
+// if (unsavedChangesExist()) {
+    $(window).on('beforeunload', function() {
+        return 'Are you sure you want to leave?';
     });
+// }
+$(document).ready(function() {
+    let lastUrl = localStorage.getItem('lastUrl');
+    let activeLink = localStorage.getItem('active');
+    if(lastUrl && lastUrl.trim() !== ''){
+        loadPage(lastUrl, activeLink);
+    }else{
+        loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');
+    }
+});
+
+function loadPage(url, activeLink) {
+  $.ajax({
+    url: url,
+    type: 'GET',
+    headers: {
+      'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+    },
+    success: function(response) {
+      handleAjaxSuccess(response, activeLink, url);
+    },
+    error: function(error) {
+      console.log('Error: ' + error);
+    },
+  });
+}
+
+function handleAjaxSuccess(response, activeLink, url) {
+  $('#main-content').html(response);
+  setActiveLink(activeLink);
+  history.pushState(null, '', url);
+  if (url === '{{ route('admin.Dashboard') }}') {
+    InitdashboardChar()
+    $(document).trigger('DocLoaded');
   }
+  if (url === '/org-access/viewCooperatorInfo.php') {
+    InitializeviewCooperatorProgress();
+  }
+  localStorage.setItem('lastUrl', url);
+  localStorage.setItem('active', activeLink);
+}
+
 
   //FIXME: Improve the logic of the following code
   let pieChartAppli, barChartAppli, pieChartOngoing, barChartOngoing, pieChartComple, barChartComple;

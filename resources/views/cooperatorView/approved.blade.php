@@ -68,6 +68,7 @@
       success: function(response) {
         $('#main-content').html(response);
         setActiveLink(activeLink);
+        history.pushState(null, '', url);
         if (url === '{{ route('Cooperator.dashboard') }}') {
           initializeStackedChartPer();
           initializeProgressPer();
