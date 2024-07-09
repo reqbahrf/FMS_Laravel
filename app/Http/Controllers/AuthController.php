@@ -70,7 +70,6 @@ class AuthController extends Controller
         if (Auth::attempt($credentials)) {
             // Authentication passed...
             $user = Auth::user();
-            log::alert($user);
 
             session(['user_id' => $user->id]);
             session(['user_name' => $user->user_name]);
@@ -78,7 +77,6 @@ class AuthController extends Controller
 
             if ($user->role === 'Cooperator') {
                 $personalInfo = PersonalInfo::where('user_name', $user->user_name)->first();
-                log::alert($personalInfo);
 
 
 

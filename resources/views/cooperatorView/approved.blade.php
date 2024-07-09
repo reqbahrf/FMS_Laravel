@@ -52,32 +52,47 @@
   </div>
 </body>
 <script>
+
+   $(window).on('beforeunload' , function() {
+    return 'Are you sure you want to leave?';
+    });
   $(document).ready(function() {
-    loadPage('{{ route('Cooperator.dashboard') }}', 'InformationTab');
+    let lastUrl = sessionStorage.getItem('CoopLastUrl');
+    let lastActive = sessionStorage.getItem('CoopLastActive');
+    if(lastUrl && lastActive) {
+      loadPage(lastUrl, lastActive);
+    } else {
+      loadPage('{{ route('Cooperator.dashboard') }}', 'InformationTab');
+    }
   });
 
   function loadPage(url, activeLink) {
-    $.ajaxSetup({
-      headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      }
-    });
     $.ajax({
       url: url,
       type: 'GET',
+      header: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
       success: function(response) {
-        $('#main-content').html(response);
+        handleAjaxSuccess(response, activeLink, url);
+
+      },
+      error: function(error) {
+        console.log('Error: ' + error);
+      },
+    });
+  }
+
+  function handleAjaxSuccess(response, activeLink, url){
+    $('#main-content').html(response);
         setActiveLink(activeLink);
         history.pushState(null, '', url);
         if (url === '{{ route('Cooperator.dashboard') }}') {
           initializeStackedChartPer();
           initializeProgressPer();
         }
-      },
-      error: function(error) {
-        console.log('Error: ' + error);
-      },
-    });
+        sessionStorage.setItem('CoopLastUrl', url);
+        sessionStorage.setItem('CoopLastActive', activeLink);
   }
 
   function initializeStackedChartPer() {

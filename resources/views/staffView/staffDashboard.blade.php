@@ -206,35 +206,51 @@
     </main>
   </div>
   <script>
+    $(window).on('beforeunload', function() {
+        return 'Are you sure you want to leave?';
+    });
+
     $(document).ready(function() {
-      loadPage('{{ route('staff.dashboard') }}', 'dashboardLink');
+      let lastUrl = sessionStorage.getItem('StafflastUrl')
+      let lastActive = sessionStorage.getItem('StafflastActive')
+      if(lastUrl && lastActive){
+        loadPage(lastUrl, lastActive);
+      }else {
+        loadPage('{{ route('staff.dashboard') }}', 'dashboardLink');
+      }
+
     });
 
     function loadPage(url, activeLink) {
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        }
-      });
       $.ajax({
         url: url,
         type: 'GET',
+        headers:{
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
         success: function(response) {
-          $('#main-content').html(response);
-          setActiveLink(activeLink);
-          history.pushState(null, '', url);
-          if (url == '{{ route('staff.dashboard') }}') {
-            InitdashboardChar();
-          }
-          if (url == '/org-access/viewCooperatorInfo.php') {
-            InitializeviewCooperatorProgress();
-          }
+         handleAjaxSuccess(response, activeLink, url)
         },
         error: function(error) {
           console.log('Error: ' + error);
         },
 
       });
+    }
+
+    function handleAjaxSuccess(response, activelink, url){
+        $('#main-content').html(response);
+        setActiveLink(activelink);
+        history.pushState(null, url);
+        if (url == '{{ route('staff.dashboard') }}') {
+            InitdashboardChar();
+          }
+          if (url == '/org-access/viewCooperatorInfo.php') {
+            InitializeviewCooperatorProgress();
+          }
+          sessionStorage.setItem('StafflastUrl', url);
+          sessionStorage.setItem('StafflastActive', activelink);
+
     }
 
     //TODO: Charts for Applicant, Ongoing and Completed Projects
