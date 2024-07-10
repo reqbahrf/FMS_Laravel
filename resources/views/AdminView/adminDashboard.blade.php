@@ -14,6 +14,7 @@
     <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('other_assets/apexChart/apexcharts.css') }}">
     <script src="{{ asset('other_assets/apexChart/apexcharts.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
@@ -22,6 +23,24 @@
 
 
     <style>
+        html {
+            font-size: clamp(12px, 1vw, 24px); /* Adjusts between 10px and 18px according to viewport width */
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
+
+        :root {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body, button, input, textarea, select {
+        font-family: 'Nunito', sans-serif;
+       }
+
+       h1, h2, h3, h4, h5, h6 {
+        font-weight: 700; /* Example: Set to semi-bold. Adjust the value as needed */
+    }
+
         .headerlogo {
             background: #318791;
             color: white;
@@ -65,7 +84,7 @@
 
         .flex-container {
             display: flex;
-            background-color: #EEEEEE;
+            background-color: #F2F5F8;
         }
 
         .nav-column {
