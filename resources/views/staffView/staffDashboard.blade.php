@@ -241,36 +241,48 @@ html {
     });
 
     function loadPage(url, activeLink) {
-      $.ajax({
-        url: url,
-        type: 'GET',
-        headers:{
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        },
-        success: function(response) {
-         handleAjaxSuccess(response, activeLink, url)
-        },
-        error: function(error) {
-          console.log('Error: ' + error);
-        },
+    // Check if the response is already cached
+    let cachedPage = sessionStorage.getItem(url);
+    if (cachedPage) {
+        // If cached, use the cached response
+        handleAjaxSuccess(cachedPage, activeLink, url);
+    } else {
+        // If not cached, make the AJAX request
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                // Cache the response
+                sessionStorage.setItem(url, response);
+                handleAjaxSuccess(response, activeLink, url);
+            },
+            error: function(error) {
+                console.log('Error: ' + error);
+            }
+        });
+    }
+}
 
-      });
+function handleAjaxSuccess(response, activeLink, url) {
+    $('#main-content').html(response);
+    setActiveLink(activeLink);
+    history.pushState(null, '', url);
+
+    if (url === '{{ route('staff.dashboard') }}') {
+        InitdashboardChar();
     }
 
-    function handleAjaxSuccess(response, activelink, url){
-        $('#main-content').html(response);
-        setActiveLink(activelink);
-        history.pushState(null, url);
-        if (url == '{{ route('staff.dashboard') }}') {
-            InitdashboardChar();
-          }
-          if (url == '/org-access/viewCooperatorInfo.php') {
-            InitializeviewCooperatorProgress();
-          }
-          sessionStorage.setItem('StafflastUrl', url);
-          sessionStorage.setItem('StafflastActive', activelink);
-
+    if (url === '/org-access/viewCooperatorInfo.php') {
+        InitializeviewCooperatorProgress();
     }
+
+    sessionStorage.setItem('StafflastUrl', url);
+    sessionStorage.setItem('StafflastActive', activeLink);
+}
+
 
     //TODO: Charts for Applicant, Ongoing and Completed Projects
 

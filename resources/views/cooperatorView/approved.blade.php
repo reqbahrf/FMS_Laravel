@@ -52,7 +52,6 @@
   </div>
 </body>
 <script>
-
    $(window).on('beforeunload' , function() {
     return 'Are you sure you want to leave?';
     });
@@ -67,33 +66,44 @@
   });
 
   function loadPage(url, activeLink) {
-    $.ajax({
-      url: url,
-      type: 'GET',
-      header: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-      },
-      success: function(response) {
-        handleAjaxSuccess(response, activeLink, url);
+    // Check if the response is already cached
+    let cachedPage = sessionStorage.getItem(url);
+    if (cachedPage) {
+        // If cached, use the cached response
+        handleAjaxSuccess(cachedPage, activeLink, url);
+    } else {
+        // If not cached, make the AJAX request
+        $.ajax({
+            url: url,
+            type: 'GET',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function(response) {
+                // Cache the response
+                sessionStorage.setItem(url, response);
+                handleAjaxSuccess(response, activeLink, url);
+            },
+            error: function(error) {
+                console.log('Error: ' + error);
+            }
+        });
+    }
+}
 
-      },
-      error: function(error) {
-        console.log('Error: ' + error);
-      },
-    });
-  }
-
-  function handleAjaxSuccess(response, activeLink, url){
+function handleAjaxSuccess(response, activeLink, url) {
     $('#main-content').html(response);
-        setActiveLink(activeLink);
-        history.pushState(null, '', url);
-        if (url === '{{ route('Cooperator.dashboard') }}') {
-          initializeStackedChartPer();
-          initializeProgressPer();
-        }
-        sessionStorage.setItem('CoopLastUrl', url);
-        sessionStorage.setItem('CoopLastActive', activeLink);
-  }
+    setActiveLink(activeLink);
+    history.pushState(null, '', url);
+
+    if (url === '{{ route('Cooperator.dashboard') }}') {
+        initializeStackedChartPer();
+        initializeProgressPer();
+    }
+
+    sessionStorage.setItem('CoopLastUrl', url);
+    sessionStorage.setItem('CoopLastActive', activeLink);
+}
 
   function initializeStackedChartPer() {
     var options = {

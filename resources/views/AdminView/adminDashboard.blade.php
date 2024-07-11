@@ -24,7 +24,8 @@
 
     <style>
         html {
-            font-size: clamp(12px, 1vw, 24px); /* Adjusts between 10px and 18px according to viewport width */
+            font-size: clamp(12px, 1vw, 24px);
+            /* Adjusts between 10px and 18px according to viewport width */
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
@@ -33,13 +34,23 @@
             font-family: 'Nunito', sans-serif;
         }
 
-        body, button, input, textarea, select {
-        font-family: 'Nunito', sans-serif;
-       }
+        body,
+        button,
+        input,
+        textarea,
+        select {
+            font-family: 'Nunito', sans-serif;
+        }
 
-       h1, h2, h3, h4, h5, h6 {
-        font-weight: 700; /* Example: Set to semi-bold. Adjust the value as needed */
-    }
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 700;
+            /* Example: Set to semi-bold. Adjust the value as needed */
+        }
 
         .headerlogo {
             background: #318791;
@@ -227,6 +238,13 @@
     });
 
     function loadPage(url, activeLink) {
+    // Check if the response is already cached
+    let cachePage = sessionStorage.getItem(url);
+    if (cachePage) {
+        // If cached, use the cached response
+        handleAjaxSuccess(cachePage, activeLink, url);
+    } else {
+        // If not cached, make the AJAX request
         $.ajax({
             url: url,
             type: 'GET',
@@ -234,6 +252,8 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             success: function(response) {
+                // Cache the response
+                sessionStorage.setItem(url, response);
                 handleAjaxSuccess(response, activeLink, url);
             },
             error: function(error) {
@@ -241,21 +261,22 @@
             },
         });
     }
+}
 
-    function handleAjaxSuccess(response, activeLink, url) {
-        $('#main-content').html(response);
-        setActiveLink(activeLink);
-        history.pushState(null, '', url);
-        if (url === '{{ route('admin.Dashboard') }}') {
-            InitdashboardChar()
-            $(document).trigger('DocLoaded');
-        }
-        if (url === '/org-access/viewCooperatorInfo.php') {
-            InitializeviewCooperatorProgress();
-        }
-        sessionStorage.setItem('AdminlastUrl', url);
-        sessionStorage.setItem('AdminLastActive', activeLink);
+function handleAjaxSuccess(response, activeLink, url) {
+    $('#main-content').html(response);
+    setActiveLink(activeLink);
+    history.pushState(null, '', url);
+    if (url === '{{ route('admin.Dashboard') }}') {
+        InitdashboardChar();
+        $(document).trigger('DocLoaded');
     }
+    if (url === '/org-access/viewCooperatorInfo.php') {
+        InitializeviewCooperatorProgress();
+    }
+    sessionStorage.setItem('AdminlastUrl', url);
+    sessionStorage.setItem('AdminLastActive', activeLink);
+}
 
 
     //FIXME: Improve the logic of the following code
