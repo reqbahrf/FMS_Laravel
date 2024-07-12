@@ -92,7 +92,8 @@
             <div class="card">
                 <div class="card-body">
                     <span class="float-start m-2 me-4">
-                        <img src="assets/images/users/avatar-2.jpg" style="height: 100px;" alt="avatar-2" class="rounded-circle img-thumbnail">
+                        <img src="assets/images/users/avatar-2.jpg" style="height: 100px;" alt="avatar-2"
+                            class="rounded-circle img-thumbnail">
                     </span>
                     <div class="">
                         <h4 class="mt-1 mb-1">Michael Franklin</h4>
@@ -181,7 +182,7 @@
                     </button>
                 </div>
             </div>
-            <div class=" table-responsive-xl">
+            <div class="table-responsive-xl">
                 <table id="user_staff" class="table table-hover mx-2 w-100">
                     <thead>
                         <tr>
@@ -193,7 +194,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody" class=" table-group-divider">
+                    <tbody id="tableBody" class="table-group-divider">
                         <tr>
                             <td>1</td>
                             <td>Pol You</td>

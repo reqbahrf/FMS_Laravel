@@ -375,268 +375,282 @@
         <div>I will not close if you click outside of me.</div>
     </div>
 </div>
-
-
-
-<div class="py-4 bg-white rounded-5">
-    <ul class="nav nav-tabs ps-3" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link tab-Nav active" id="home-tab" data-bs-toggle="tab"
-                data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-                aria-selected="true">
-                <i class="ri-id-card-fill ri-lg"></i>
-                Applicant
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link tab-Nav" id="profile-tab" data-bs-toggle="tab"
-                data-bs-target="#profile-tab-pane" type="button" role="tab" aria-controls="profile-tab-pane"
-                aria-selected="false">
-                <i class="ri-progress-3-fill ri-lg"></i>
-                Ongoing
-            </button>
-        </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link tab-Nav" id="contact-tab" data-bs-toggle="tab"
-                data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane"
-                aria-selected="false">
-                <i class="ri-contract-fill ri-lg"></i>
-                Completed
-            </button>
-        </li>
-    </ul>
-    <div class="tab-content bg-white" id="myTabContent">
-        <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
-            tabindex="0">
-            <!-- Where the applicant is displayed -->
-            <div class="mx-2">
-                <table id="applicant" class="table table-hover mx-2" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Client Name</th>
-                            <th>Designation</th>
-                            <th>Firm Name</th>
-                            <th>Additional Info</th>
-                            <th>Date Applied</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        @if (isset($applicants) && $applicants->isNotEmpty())
-                            @foreach ($applicants as $applicantInfo)
+<div class="card">
+    <div class="card-body">
+        <div class="py-4 bg-white rounded-5">
+            <ul class="nav nav-tabs ps-3" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link tab-Nav active" id="home-tab" data-bs-toggle="tab"
+                        data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                        aria-selected="true">
+                        <i class="ri-id-card-fill ri-lg"></i>
+                        Applicant
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link tab-Nav" id="profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#profile-tab-pane" type="button" role="tab"
+                        aria-controls="profile-tab-pane" aria-selected="false">
+                        <i class="ri-progress-3-fill ri-lg"></i>
+                        Ongoing
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link tab-Nav" id="contact-tab" data-bs-toggle="tab"
+                        data-bs-target="#contact-tab-pane" type="button" role="tab"
+                        aria-controls="contact-tab-pane" aria-selected="false">
+                        <i class="ri-contract-fill ri-lg"></i>
+                        Completed
+                    </button>
+                </li>
+            </ul>
+            <div class="tab-content bg-white" id="myTabContent">
+                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                    tabindex="0">
+                    <!-- Where the applicant is displayed -->
+                    <div class="mx-2 table-responsive-xl">
+                        <table id="applicant" class="table table-hover mx-2" style="width:100%">
+                            <thead>
                                 <tr>
-                                    <td>{{ $applicantInfo->user_id }}</td>
-                                    <td>{{ $applicantInfo->f_name . ' ' . $applicantInfo->l_name }}</td>
-                                    <td>{{ $applicantInfo->designation }}</td>
-                                    <td>{{ $applicantInfo->firm_name }}</td>
+                                    <th>ID</th>
+                                    <th>Client Name</th>
+                                    <th>Designation</th>
+                                    <th>Firm Name</th>
+                                    <th>Additional Info</th>
+                                    <th>Date Applied</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="table-group-divider">
+                                @if (isset($applicants) && $applicants->isNotEmpty())
+                                    @foreach ($applicants as $applicantInfo)
+                                        <tr>
+                                            <td>{{ $applicantInfo->user_id }}</td>
+                                            <td>{{ $applicantInfo->f_name . ' ' . $applicantInfo->l_name }}</td>
+                                            <td>{{ $applicantInfo->designation }}</td>
+                                            <td>{{ $applicantInfo->firm_name }}</td>
+                                            <td>
+                                                <div><strong>Business Address:</strong>
+                                                    <input type="hidden" name="business_id" id="business_id"
+                                                        value="{{ $applicantInfo->id }}">
+                                                    <span
+                                                        class="business_Address">{{ $applicantInfo->B_address }}</span>
+                                                    <br>
+                                                    <strong>Type of Enterprise:</strong> <span
+                                                        class="Type_Enterprise">{{ $applicantInfo->enterprise_type }}</span>
+                                                </div>
+                                                <div>
+                                                    <Strong>Assets:</Strong> <br>
+                                                    <span class="ps-2">
+                                                        Building:
+                                                        <span
+                                                            class="building">{{ number_format($applicantInfo->building_value, 2) }}</span>
+                                                    </span><br>
+                                                    <span class="ps-2">Equipment:
+                                                        <span
+                                                            class="Equipment">{{ number_format($applicantInfo->equipment_value, 2) }}</span>
+                                                    </span> <br>
+                                                    <span class="ps-2">Working Capital:
+                                                        <span
+                                                            class="Working_C">{{ number_format($applicantInfo->working_capital, 2) }}</span>
+                                                    </span>
+                                                </div>
+                                                <strong>Contact Details:</strong>
+                                                <div>
+                                                    <strong class="p-2">Landline:</strong>
+                                                    <span class="landline">{{ $applicantInfo->landline }}</span> <br>
+                                                    <Strong class="p-2">Mobile Phone:</Strong>
+                                                    <span class="MobileNum">{{ $applicantInfo->mobile_number }}</span>
+                                                    <br>
+                                                </div>
+                                            </td>
+                                            <td>{{ $applicantInfo->date_applied }}</td>
+                                            <td>To be reviewed</td>
+                                            <td>
+                                                <button class="btn btn-primary viewApplicant" type="button"
+                                                    data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
+                                                    aria-controls="applicantDetails">
+                                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @endif
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Client Name</th>
+                                    <th>Designation</th>
+                                    <th>Firm Name</th>
+                                    <th>Additional Info</th>
+                                    <th>Date Applied</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- Where the applicant table end -->
+                </div>
+                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                    tabindex="0">
+                    <!-- Where the ongoing project are displayed -->
+                    <div class="mx-2 table-responsive-xl">
+                        <table id="ongoing" class="table table-hover mx-2" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Project Title</th>
+                                    <th>Firm Name</th>
+                                    <th>Firm Info</th>
+                                    <th>Owner Info</th>
+                                    <th>Refund Progress</th>
+
+                                    <th>Handled by</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="table-group-divider">
+                                <tr>
+                                    <td>1</td>
+                                    <td>Imploving the Business.....</td>
+                                    <td>XYZ Company</td>
                                     <td>
-                                        <div><strong>Business Address:</strong>
-                                            <input type="hidden" name="business_id" id="business_id"
-                                                value="{{ $applicantInfo->id }}">
-                                            <span class="business_Address">{{ $applicantInfo->B_address }}</span> <br>
-                                            <strong>Type of Enterprise:</strong> <span
-                                                class="Type_Enterprise">{{ $applicantInfo->enterprise_type }}</span>
-                                        </div>
-                                        <div>
-                                            <Strong>Assets:</Strong> <br>
-                                            <span class="ps-2">
-                                                Building:
-                                                <span
-                                                    class="building">{{ number_format($applicantInfo->building_value, 2) }}</span>
-                                            </span><br>
-                                            <span class="ps-2">Equipment:
-                                                <span
-                                                    class="Equipment">{{ number_format($applicantInfo->equipment_value, 2) }}</span>
-                                            </span> <br>
-                                            <span class="ps-2">Working Capital:
-                                                <span
-                                                    class="Working_C">{{ number_format($applicantInfo->working_capital, 2) }}</span>
-                                            </span>
-                                        </div>
-                                        <strong>Contact Details:</strong>
-                                        <div>
-                                            <strong class="p-2">Landline:</strong>
-                                            <span class="landline">{{ $applicantInfo->landline }}</span> <br>
-                                            <Strong class="p-2">Mobile Phone:</Strong>
-                                            <span class="MobileNum">{{ $applicantInfo->mobile_number }}</span> <br>
-                                        </div>
+                                        <p><strong>Business Address:</strong> tagum, Davao Del Norte <br> <strong>Type
+                                                of
+                                                Enterprise:</strong> Sole Proprietorship</p>
+                                        <p>
+                                            <Strong>
+                                                Assets:
+                                            </Strong> <br>
+                                            <span class="ps-2">Land: 100,000</span><br>
+                                            <span class="ps-2">Building: 100,000</span> <br>
+                                            <span class="ps-2">Equipment: 100,000</span>
+                                        </p>
+
                                     </td>
-                                    <td>{{ $applicantInfo->date_applied }}</td>
-                                    <td>To be reviewed</td>
                                     <td>
-                                        <button class="btn btn-primary viewApplicant" type="button"
-                                            data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
-                                            aria-controls="applicantDetails">
+                                        <p><strong>Name:</strong> Jorge Walt</p>
+                                        <strong>Contact Details:</strong>
+                                        <p><strong class="p-2">Landline:</strong> 1234567 <br><Strong
+                                                class="p-2">Mobile
+                                                Phone:</Strong> 09123456789</p>
+                                    </td>
+                                    <td>500,000/1,000,000</td>
+
+                                    <td>John Smitty</td>
+                                    <td>
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                                            data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
                                             <i class="ri-menu-unfold-4-line ri-1x"></i>
                                         </button>
                                     </td>
                                 </tr>
-                            @endforeach
-                        @endif
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Client Name</th>
-                            <th>Designation</th>
-                            <th>Firm Name</th>
-                            <th>Additional Info</th>
-                            <th>Date Applied</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                </table>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Project Title</th>
+                                    <th>Firm Name</th>
+                                    <th>Firm Info</th>
+                                    <th>Owner Info</th>
+                                    <th>Refund Progress</th>
+
+                                    <th>Handled by</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <!-- Where the ongoing table end -->
+                </div>
+                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                    tabindex="0">
+                    <!-- Where the Complete Table is displayed -->
+                    <div class="mx-2 table-responsive-xl">
+                        <table id="completed" class="table table-hover mx-2" style="width:100%">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Project Title</th>
+                                    <th>Firm Name</th>
+                                    <th>Firm Info</th>
+                                    <th>Owner Info</th>
+                                    <th>Refund Progress</th>
+                                    <th>Status</th>
+                                    <th>Handled by</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tableBody" class="table-group-divider">
+                                <tr>
+                                    <td>1</td>
+                                    <td>Imploving the Business.....</td>
+                                    <td>XYZ Company</td>
+                                    <td>
+                                        <p><strong>Business Address:</strong> tagum, Davao Del Norte <br> <strong>Type
+                                                of
+                                                Enterprise:</strong> Sole Proprietorship</p>
+                                        <p>
+                                            <Strong>
+                                                Assets:
+                                            </Strong> <br>
+                                            <span class="ps-2">Land: 100,000</span><br>
+                                            <span class="ps-2">Building: 100,000</span> <br>
+                                            <span class="ps-2">Equipment: 100,000</span>
+                                        </p>
+
+                                    </td>
+                                    <td>
+                                        <p><strong>Name:</strong> Jorge Walt</p>
+                                        <strong>Contact Details:</strong>
+                                        <p><strong class="p-2">Landline:</strong> 1234567 <br><Strong
+                                                class="p-2">Mobile
+                                                Phone:</Strong> 09123456789</p>
+                                    </td>
+                                    <td>1,000,000/1,000,000</td>
+                                    <td>Completed</td>
+                                    <td>John Smitty</td>
+                                    <td>
+
+                                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                                            data-bs-target="#completedDetails" aria-controls="completedDetails">
+                                            <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Project Title</th>
+                                    <th>Firm Name</th>
+                                    <th>Firm Info</th>
+                                    <th>Owner Info</th>
+                                    <th>Refund Progress</th>
+                                    <th>Status</th>
+                                    <th>Handled by</th>
+                                    <th>Action</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+
+
+                    <!-- Where the Complete Table end -->
+                </div>
             </div>
-            <!-- Where the applicant table end -->
         </div>
-        <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
-            tabindex="0">
-            <!-- Where the ongoing project are displayed -->
-            <div class="mx-2">
-                <table id="ongoing" class="table table-hover mx-2" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Project Title</th>
-                            <th>Firm Name</th>
-                            <th>Firm Info</th>
-                            <th>Owner Info</th>
-                            <th>Refund Progress</th>
 
-                            <th>Handled by</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <tr>
-                            <td>1</td>
-                            <td>Imploving the Business.....</td>
-                            <td>XYZ Company</td>
-                            <td>
-                                <p><strong>Business Address:</strong> tagum, Davao Del Norte <br> <strong>Type of
-                                        Enterprise:</strong> Sole Proprietorship</p>
-                                <p>
-                                    <Strong>
-                                        Assets:
-                                    </Strong> <br>
-                                    <span class="ps-2">Land: 100,000</span><br>
-                                    <span class="ps-2">Building: 100,000</span> <br>
-                                    <span class="ps-2">Equipment: 100,000</span>
-                                </p>
-
-                            </td>
-                            <td>
-                                <p><strong>Name:</strong> Jorge Walt</p>
-                                <strong>Contact Details:</strong>
-                                <p><strong class="p-2">Landline:</strong> 1234567 <br><Strong class="p-2">Mobile
-                                        Phone:</Strong> 09123456789</p>
-                            </td>
-                            <td>500,000/1,000,000</td>
-
-                            <td>John Smitty</td>
-                            <td>
-                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                    data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
-                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Project Title</th>
-                            <th>Firm Name</th>
-                            <th>Firm Info</th>
-                            <th>Owner Info</th>
-                            <th>Refund Progress</th>
-
-                            <th>Handled by</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-            <!-- Where the ongoing table end -->
-        </div>
-        <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
-            tabindex="0">
-            <!-- Where the Complete Table is displayed -->
-            <div class="mx-2">
-                <table id="completed" class="table table-hover mx-2" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Project Title</th>
-                            <th>Firm Name</th>
-                            <th>Firm Info</th>
-                            <th>Owner Info</th>
-                            <th>Refund Progress</th>
-                            <th>Status</th>
-                            <th>Handled by</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="tableBody">
-                        <tr>
-                            <td>1</td>
-                            <td>Imploving the Business.....</td>
-                            <td>XYZ Company</td>
-                            <td>
-                                <p><strong>Business Address:</strong> tagum, Davao Del Norte <br> <strong>Type of
-                                        Enterprise:</strong> Sole Proprietorship</p>
-                                <p>
-                                    <Strong>
-                                        Assets:
-                                    </Strong> <br>
-                                    <span class="ps-2">Land: 100,000</span><br>
-                                    <span class="ps-2">Building: 100,000</span> <br>
-                                    <span class="ps-2">Equipment: 100,000</span>
-                                </p>
-
-                            </td>
-                            <td>
-                                <p><strong>Name:</strong> Jorge Walt</p>
-                                <strong>Contact Details:</strong>
-                                <p><strong class="p-2">Landline:</strong> 1234567 <br><Strong class="p-2">Mobile
-                                        Phone:</Strong> 09123456789</p>
-                            </td>
-                            <td>1,000,000/1,000,000</td>
-                            <td>Completed</td>
-                            <td>John Smitty</td>
-                            <td>
-
-                                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                    data-bs-target="#completedDetails" aria-controls="completedDetails">
-                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Project Title</th>
-                            <th>Firm Name</th>
-                            <th>Firm Info</th>
-                            <th>Owner Info</th>
-                            <th>Refund Progress</th>
-                            <th>Status</th>
-                            <th>Handled by</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-
-
-            <!-- Where the Complete Table end -->
-        </div>
     </div>
 </div>
+
+
+
+
+
 
 <script>
     $(document).ready(function() { // Populate the table first

@@ -149,7 +149,7 @@
                             </div>
                             <div class="col-12">
 
-                                    Contact Details:
+                                Contact Details:
 
                             </div>
                             <div class="col-md-4">
@@ -311,118 +311,101 @@
         </div>
     </div>
 </div>
-<div class="bg-white py-2 rounded-5">
-    <div class="modal fade" id="ApplicantModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-        aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h4 class="modal-title text-white" id="exampleModalLabel">Info</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body p-5">
-                    <div>
-                        <fieldset class="mt-2">
-                            <legend class="w-auto">
-                                Firm Info
-                            </legend>
 
-                        </fieldset>
-
-                    </div>
-                </div>
-
-            </div>
+<div class="card">
+    <div class="card-body">
+        <div class="m-3 table-responsive-sm">
+            <!-- Where the applicant table start -->
+            <table id="applicant" class="table table-hover" style="width:100%">
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Client Name</th>
+                        <th>Designation</th>
+                        <th>Firm Name</th>
+                        <th>Additional Info</th>
+                        <th>Date Applied</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody" class="table-group-divider">
+                    @if (isset($applicants) && count($applicants) > 0)
+                        @foreach ($applicants as $item)
+                            <tr>
+                                <td>{{ $item->user_name }}</td>
+                                <td>{{ $item->f_name }} {{ $item->l_name }}</td>
+                                <td>{{ $item->designation }}</td>
+                                <td>{{ $item->firm_name }}</td>
+                                <td>
+                                    <div>
+                                        <strong>Business Address:</strong>
+                                        <input type="hidden" id="business_id" name="business_id"
+                                            value="{{ $item->id }}">
+                                        <span class="b_address">{{ $item->B_address }}</span><br>
+                                        <strong>Type of Enterprise:</strong> <span
+                                            class="enterprise_l">{{ $item->enterprise_type }}</span>
+                                        <p>
+                                            <strong>Assets:</strong> <br>
+                                            <span class="ps-2">Building:
+                                                {{ number_format($item->building_value, 2) }}</span><br>
+                                            <span class="ps-2">Equipment:
+                                                {{ number_format($item->equipment_value, 2) }}</span> <br>
+                                            <span class="ps-2">Working Capital:
+                                                {{ number_format($item->working_capital, 2) }}</span>
+                                        </p>
+                                        <strong>Contact Details:</strong>
+                                        <p>
+                                            <strong class="p-2">Landline:</strong> <span
+                                                class="landline">{{ $item->landline }}</span> <br>
+                                            <strong class="p-2">Mobile Phone:</strong> <span
+                                                class="mobile_num">{{ $item->mobile_number }}</span> <br>
+                                            <strong class="p-2">Email:</strong> <span
+                                                class="email_add">{{ $item->email }}</span>
+                                        </p>
+                                    </div>
+                                </td>
+                                <td>{{ $item->date_applied }}</td>
+                                <td>To be reviewed</td>
+                                <td>
+                                    <button class="btn btn-primary applicantDetailsBtn" type="button"
+                                        data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
+                                        aria-controls="applicantDetails">
+                                        <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                    </button>
+                                    <button class="btn" data-bs-toggle="modal" data-bs-target="#ApplicantModal">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30"
+                                            height="30">
+                                            <path
+                                                d="M56.177,16.832c-0.547-4.731-4.278-8.462-9.009-9.009C43.375,7.384,38.264,7,32,7S20.625,7.384,16.832,7.823c-4.731,0.547-8.462,4.278-9.009,9.009C7.384,20.625,7,25.736,7,32s0.384,11.375,0.823,15.168c0.547,4.731,4.278,8.462,9.009,9.009C20.625,56.616,25.736,57,32,57s11.375-0.384,15.168-0.823c4.731-0.547,8.462-4.278,9.009-9.009C56.616,43.375,57,38.264,57,32S56.616,20.625,56.177,16.832z M36,32c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,29.791,36,32z M36,45c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,42.791,36,45z M36,19c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,16.791,36,19z"
+                                                fill="#000000" />
+                                        </svg>
+                                    </button>
+                                </td>
+                            </tr>
+                        @endforeach
+                    @endif
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>id</th>
+                        <th>Client Name</th>
+                        <th>Designation</th>
+                        <th>Firm Name</th>
+                        <th>Additional Info</th>
+                        <th>Date Applied</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
-    <div class="m-3">
-        <!-- Where the applicant table start -->
-        <table id="applicant" class="table table-hover" style="width:100%">
-            <thead>
-                <tr>
-                    <th>id</th>
-                    <th>Client Name</th>
-                    <th>Designation</th>
-                    <th>Firm Name</th>
-                    <th>Additional Info</th>
-                    <th>Date Applied</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody id="tableBody">
-                @if (isset($applicants) && count($applicants) > 0)
-                    @foreach ($applicants as $item)
-                        <tr>
-                            <td>{{ $item->user_name }}</td>
-                            <td>{{ $item->f_name }} {{ $item->l_name }}</td>
-                            <td>{{ $item->designation }}</td>
-                            <td>{{ $item->firm_name }}</td>
-                            <td>
-                                <div>
-                                    <strong>Business Address:</strong>
-                                    <input type="hidden" id="business_id" name="business_id"
-                                        value="{{ $item->id }}">
-                                    <span class="b_address">{{ $item->B_address }}</span><br>
-                                    <strong>Type of Enterprise:</strong> <span
-                                        class="enterprise_l">{{ $item->enterprise_type }}</span>
-                                    <p>
-                                        <strong>Assets:</strong> <br>
-                                        <span class="ps-2">Building:
-                                            {{ number_format($item->building_value, 2) }}</span><br>
-                                        <span class="ps-2">Equipment:
-                                            {{ number_format($item->equipment_value, 2) }}</span> <br>
-                                        <span class="ps-2">Working Capital:
-                                            {{ number_format($item->working_capital, 2) }}</span>
-                                    </p>
-                                    <strong>Contact Details:</strong>
-                                    <p>
-                                        <strong class="p-2">Landline:</strong> <span
-                                            class="landline">{{ $item->landline }}</span> <br>
-                                        <strong class="p-2">Mobile Phone:</strong> <span
-                                            class="mobile_num">{{ $item->mobile_number }}</span> <br>
-                                        <strong class="p-2">Email:</strong> <span
-                                            class="email_add">{{ $item->email }}</span>
-                                    </p>
-                                </div>
-                            </td>
-                            <td>{{ $item->date_applied }}</td>
-                            <td>To be reviewed</td>
-                            <td>
-                                <button class="btn btn-primary applicantDetailsBtn" type="button"
-                                    data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
-                                    aria-controls="applicantDetails">
-                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                </button>
-                                <button class="btn" data-bs-toggle="modal" data-bs-target="#ApplicantModal">
-                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30"
-                                        height="30">
-                                        <path
-                                            d="M56.177,16.832c-0.547-4.731-4.278-8.462-9.009-9.009C43.375,7.384,38.264,7,32,7S20.625,7.384,16.832,7.823c-4.731,0.547-8.462,4.278-9.009,9.009C7.384,20.625,7,25.736,7,32s0.384,11.375,0.823,15.168c0.547,4.731,4.278,8.462,9.009,9.009C20.625,56.616,25.736,57,32,57s11.375-0.384,15.168-0.823c4.731-0.547,8.462-4.278,9.009-9.009C56.616,43.375,57,38.264,57,32S56.616,20.625,56.177,16.832z M36,32c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,29.791,36,32z M36,45c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,42.791,36,45z M36,19c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,16.791,36,19z"
-                                            fill="#000000" />
-                                    </svg>
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                @endif
-            </tbody>
-            <tfoot>
-                <tr>
-                    <th>id</th>
-                    <th>Client Name</th>
-                    <th>Designation</th>
-                    <th>Firm Name</th>
-                    <th>Additional Info</th>
-                    <th>Date Applied</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-    <!-- Where the applicant table end -->
 </div>
+
+
+<!-- Where the applicant table end -->
+
 <script>
     $(document).ready(function() {
         new DataTable('#applicant'); // Then initialize DataTables
