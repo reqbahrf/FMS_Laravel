@@ -40,12 +40,41 @@
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
     <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
-
+    <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 </head>
 
 
 
 <style>
+    html {
+        font-size: clamp(12px, 1vw, 24px);
+        /* Adjusts between 10px and 18px according to viewport width */
+    }
+
+    @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
+
+    :root {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    body,
+    button,
+    input,
+    textarea,
+    select {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-weight: 700;
+        /* Example: Set to semi-bold. Adjust the value as needed */
+    }
+
     :root {
         --sw-toolbar-btn-background-color: #318791;
         --sw-anchor-default-primary-color: #f8f9fa;
@@ -62,6 +91,18 @@
         --sw-loader-background-color: #f8f9fa;
         --sw-loader-background-wrapper-color: rgba(255, 255, 255, 0.7);
     }
+
+    .card {
+        height: 70vh;
+        width: 30vw;
+    }
+
+    @media (max-width: 768px) {
+        .card {
+            height: auto;
+            width: 80vw;
+        }
+    }
 </style>
 
 <body>
@@ -77,11 +118,10 @@
                 </g>
             </svg>
         </div>
-        <div class="card p-4 p-sm-0 p-md-2 rounded-5 shadow">
+        <div class="card p-1 p-sm-3 rounded-5 shadow">
             <div class="card-body">
-                <div class="card-header w-100 px-5 d-flex justify-content-center align-items-center">
+                <div class="w-100 d-flex justify-content-center align-items-center">
                     <a href="index.php">
-                        <span>
                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                                 xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="74.488px"
                                 height="75.079px" viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079"
@@ -119,59 +159,75 @@
                                     </g>
                                 </g>
                             </svg>
-                        </span>
                     </a>
-                    <h3 class="px-4 mb-0 mx-auto">DOST-SETUP-SYS</h3>
+                    <h3 class="mb-0 mx-auto">DOST-SETUP-SYS</h3>
                 </div>
                 <h4 class="header-title my-3 text-center">Sign up</h4>
-                <form id="signup-form" action="{{ route('signup') }}" method="post" class="g-3">
-                    @csrf
-                    <div class="row">
-                        <div class="col-12 d-flex justify-content-center mb-3 p-1 p-sm-0 p-md-2 p-lg-2">
-                            <div class="w-75">
-                                <div class="col-12 p-md-3 p-2">
-                                    <div class="form-floating">
-                                        <input type="text" class="form-control" id="userName1" name="userName1"
-                                            placeholder="Username" value="{{ old('userName1') }}">
-                                        <label for="userName1">Username</label>
-                                        <div class="invalid-feedback">Please Enter Username</div>
-                                    </div>
+                <div>
+                    <form id="signup-form" action="{{ route('signup') }}" method="post">
+                        @csrf
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <div class="form-floating">
+                                    <input type="text" class="form-control" id="userName1" name="userName1"
+                                        placeholder="Username" value="{{ old('userName1') }}">
+                                    <label for="userName1">Username</label>
+                                    <div class="invalid-feedback">Please Enter Username</div>
                                 </div>
-                                <div class="col-12 p-md-3 p-2">
-                                    <div class="form-floating">
-                                        <input type="email" class="form-control" id="email" name="email"
-                                            placeholder="Email Address" value="{{ old('email') }}">
-                                        <label for="email">Email Address</label>
-                                        <div class="invalid-feedback">Please Enter Email</div>
-                                    </div>
+                            </div>
+                            <div class="col-md-6 mb-4">
+                                <div class="form-floating">
+                                    <input type="email" class="form-control" id="email" name="email"
+                                        placeholder="Email Address" value="{{ old('email') }}">
+                                    <label for="email">Email Address</label>
+                                    <div class="invalid-feedback">Please Enter Email</div>
                                 </div>
-                                <div class="col-12 p-md-3 p-2">
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group mb-4">
                                     <div class="form-floating">
                                         <input type="password" id="password1" name="password1" class="form-control"
                                             placeholder="Password">
                                         <label for="password1">Password</label>
-                                        <div class="invalid-feedback">Please Enter Password</div>
                                     </div>
+                                    <button type="button" class="input-group-text">
+                                        <i class="ri-eye-off-fill"></i>
+                                        <i class="ri-eye-fill" style="display:none"></i>
+
+                                    </button>
+                                    <div class="invalid-feedback">Please Enter Password</div>
                                 </div>
-                                <div class="col-12 p-md-3 p-2">
+                            </div>
+                            <div class="col-12">
+                                <div class="input-group mb-4">
                                     <div class="form-floating">
                                         <input type="password" id="confirm1" name="confirm1" class="form-control"
                                             placeholder="Confirm Password">
                                         <label for="confirm1">Re-enter Password</label>
-                                        <div id="Invalid-feedbackPass" class="invalid-feedback"></div>
                                     </div>
-                                </div>
-                                <div class="col-12 p-md-3 p-2">
-                                    <button type="submit" class="btn btn-primary w-100">Sign-up</button>
-                                </div>
-                                <div class="text-center">
-                                    <a href="{{ url('/') }}"
-                                        class="text-decoration-none text-reset text-primary">home</a>
+                                    <button type="button" class="input-group-text">
+                                        <i class="ri-eye-off-fill"></i>
+                                        <i class="ri-eye-fill" style="display:none"></i>
+                                    </button>
+                                    <div id="Invalid-feedbackPass" class="invalid-feedback"></div>
                                 </div>
                             </div>
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-primary w-100">Sign-up</button>
+                            </div>
+                            <div class="text-center col-12 py-3">
+                                <a href="{{ url('/') }}"
+                                    class="text-decoration-none text-reset text-primary">home</a>
+                            </div>
+                            <div class="text-center col-12">
+                                Already have an account? <a href="{{ url('login') }}"
+                                    class="text-decoration-none text-primary">Login</a>
+                            </div>
                         </div>
-                    </div>
-                </form>
+
+                    </form>
+                </div>
+
             </div>
         </div>
     </div> <!-- end card-body -->
@@ -201,6 +257,23 @@
             </div><!-- /.modal-content -->
         </div><!-- /.modal-dialog -->
     </div>
+    <script>
+        $(document).ready(function() {
+            $('.input-group-text').click(function() {
+                // Toggle the input type
+                let input = $(this).siblings('.form-floating').find('input');
+                if (input.attr('type') === 'password') {
+                    input.attr('type', 'text');
+                    $(this).find('.ri-eye-fill').show();
+                    $(this).find('.ri-eye-off-fill').hide();
+                } else {
+                    input.attr('type', 'password');
+                    $(this).find('.ri-eye-fill').hide();
+                    $(this).find('.ri-eye-off-fill').show();
+                }
+            });
+        });
+    </script>
 
     <script>
         $(document).ready(function() {
@@ -210,13 +283,13 @@
                 e.preventDefault(); // prevent the form from being submitted
                 console.log('Form submit intercepted');
 
-                var isValid = true;
+                let isValid = true;
 
                 // Validate specific input fields by their IDs
-                var fieldsToValidate = ['userName1', 'email', 'password1', 'confirm1'];
+                let fieldsToValidate = ['userName1', 'email', 'password1', 'confirm1'];
 
                 fieldsToValidate.forEach(function(fieldId) {
-                    var field = $('#' + fieldId);
+                    let field = $('#' + fieldId);
                     if (field.length === 0) {
                         console.log('Field with ID ' + fieldId + ' not found');
                         isValid = false;
@@ -234,8 +307,8 @@
                     }
                 });
 
-                var password = $('#password1').val();
-                var confirmPassword = $('#confirm1').val();
+                let password = $('#password1').val();
+                let confirmPassword = $('#confirm1').val();
 
                 if (confirmPassword === '') {
                     $('#confirm1').addClass('is-invalid');
