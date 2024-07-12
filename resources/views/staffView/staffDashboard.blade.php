@@ -256,7 +256,7 @@ html {
             },
             success: function(response) {
                 // Cache the response
-                sessionStorage.setItem(url, response);
+                //sessionStorage.setItem(url, response);
                 handleAjaxSuccess(response, activeLink, url);
             },
             error: function(error) {

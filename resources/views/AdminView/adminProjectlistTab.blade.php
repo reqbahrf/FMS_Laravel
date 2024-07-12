@@ -366,7 +366,7 @@
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary ">
         <h5 class="offcanvas-title text-white fs-4" id="staticBackdropLabel">
-            <i class="ri-file-check-fill"></i>
+            <i class="ri-contract-fill ri-lg"></i>
             Completed Project Details
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -400,7 +400,7 @@
             <button class="nav-link tab-Nav" id="contact-tab" data-bs-toggle="tab"
                 data-bs-target="#contact-tab-pane" type="button" role="tab" aria-controls="contact-tab-pane"
                 aria-selected="false">
-                <i class="ri-file-check-fill ri-lg"></i>
+                <i class="ri-contract-fill ri-lg"></i>
                 Completed
             </button>
         </li>
