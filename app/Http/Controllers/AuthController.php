@@ -24,7 +24,6 @@ class AuthController extends Controller
             'confirm1' => 'required|same:password1',
         ]);
 
-        try {
             $user = new User();
             $user->user_name = $request->userName1;
             $user->email = $request->email;
@@ -34,24 +33,23 @@ class AuthController extends Controller
 
             session(['user_id' => $user->id]);
             session(['user_name' => $user->user_name]);
+            session(['email' => $user->email]);
 
-            // Auth::login($user);
+            if ($user->save()) {
+                // try{
+                // }
+                // catch(\Exception $e){
+                //     return response()->json(['error' => $e], 422);
+                // }
 
-            if ($request->ajax()) {
-                Log::info('AJAX request handled successfully');
-                return response()->json(['success' => true, 'redirect' => route('registrationForm')]);
+                return response()->json(['success' => 'Account created successfully. Please verify your email.', 'redirect' => route('verification.notice')]);
+            }else
+            {
+                return response()->json(['error' => 'Account creation failed.'], 422);
             }
 
-            return redirect()->route('registrationForm')->with('success', 'Account created successfully');
-        } catch (\Exception $e) {
-            Log::error('Signup error: ' . $e->getMessage());
 
-            if ($request->ajax()) {
-                return response()->json(['success' => false, 'message' => 'Failed to create account']);
-            }
 
-            return redirect()->route('home')->with('error', 'Failed to create account');
-        }
     }
 
     public function login(Request $request)
@@ -122,5 +120,19 @@ class AuthController extends Controller
 
         // Handle failed authentication.
         return response()->json(['error' => 'Authentication failed.'], 401);
+    }
+
+    public function verifyEmail($id, $hash)
+    {
+        $user = User::find($id);
+
+        if (!$user || sha1($user->email) !== $hash) {
+            return redirect()->route('home')->with('error', 'Invalid verification link.');
+        }
+
+        $user->email_verified_at = now();
+        $user->save();
+
+        return redirect()->route('home')->with('success', 'Email verified successfully.');
     }
 }
