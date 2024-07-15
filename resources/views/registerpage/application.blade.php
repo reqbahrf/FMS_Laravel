@@ -812,228 +812,331 @@
                 <div class="col-md-12 mb-4">
                     <h5>Review and confirm the details provided before submission.</h5>
                 </div>
-                <div class="d-flex justify-content-center align-items-center flex-column"">
-                    <div class="w-50 border rounded-5 p-4 shadow">
-                        <h6 class="mb-4">Personal info:</h6>
-                        <div class="ps-4">
-                            <label for="f_name">First Name</label>
-                            <input type="text" id="re_f_name" class="form-control mb-3" readonly>
-
-                            <label for="l_name">Last Name</label>
-                            <input type="text" id="re_l_name" class="form-control mb-3" readonly>
-
-                            <label for="b_Date">Birth Date</label>
-                            <input type="text" id="re_b_Date" class="form-control mb-3" readonly>
-
-                            <label for="designa">Designation</label>
-                            <input type="text" id="re_designa" class="form-control mb-3" readonly>
-
-                            <label for="Mobile_no">Mobile Number</label>
-                            <input type="text" id="re_Mobile_no" class="form-control mb-3" readonly>
-
-                            <label for="landline">Landline</label>
-                            <input type="text" id="re_landline" class="form-control mb-3" readonly>
-                        </div>
-                        <h6 class="mb-4">Business Info:</h6>
-                        <div class="ps-4">
-                            <label for="firm_name">Firm Name</label>
-                            <input type="text" id="re_firm_name" class="form-control mb-3" readonly>
-
-                            <label for="type_enterprise">Type of Enterprise</label>
-                            <input type="text" id="re_type_enterprise" class="form-control mb-3" readonly>
-
-                            <label for="Address">Address</label>
-                            <input type="text" id="re_Address" class="form-control mb-3" readonly>
-                            <fieldset class=" my-3">
-                                <legend>
-                                    Assets
-                                </legend>
-                                <label for="buildings">Buildings</label>
-                                <input type="text" id="re_buildings" class="form-control mb-3" readonly>
-
-                                <label for="equipments">Equipments</label>
-                                <input type="text" id="re_equipments" class="form-control mb-3" readonly>
-
-                                <label for="working_capital">Working Capital</label>
-                                <input type="text" id="re_working_capital" class="form-control mb-3" readonly>
-
-                                <p>Total Assets: <span id="re_to_Assets"></span></p>
-                                <p>Enterprise Level: <span id="re_Enterprise_Level"></span></p>
-                                <p>Estimated funds that can be acquired:</p>
-                                <div class="text-center">
-                                    <span id="re_EstimatedFund" class="p-2"></span> <br>
-                                    <span id="re_EstimationNotice">*Note that this estimation is still subject to
-                                        further business evaluation.</span>
+                <div class="row g-3">
+                    <div class="col-12 col-md-8">
+                        <div class="card">
+                            <div class="card-header">
+                                Personal Infomation
+                            </div>
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <label for="re_full_name">Full Name</label>
+                                    <input type="text" id="re_Full_name" class="form-control mb-3" readonly>
                                 </div>
-
-                            </fieldset>
-                            <div class="col-12 mb-3">
-                                <fieldset class="p-0" disabled>
-                                    <legend class="w-auto">Number of Personnel Direct(Production):</legend>
-                                    <table class="table my-4">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" colspan="2" class="text-center table-primary">
-                                                    Regular</th>
-                                            </tr>
-                                            <tr>
-                                                <th scope="col">Male:</th>
-                                                <th scope="col">Female:</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="mb-3">
-                                                        <input type="text" name="re_m_personnelDiRe"
-                                                            id="re_m_personnelDiRe" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="mb-3">
-                                                        <input type="text" name="re_f_personnelDiRe"
-                                                            id="re_f_personnelDiRe" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" colspan="2" class="text-center table-primary">
-                                                    Part-time</th>
-                                            </tr>
-                                            <tr>
-                                                <th scope="col">Male:</th>
-                                                <th scope="col">Female:</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="mb-3">
-                                                        <input type="text" name="re_m_personnelDiPart"
-                                                            id="re_m_personnelDiPart" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="mb-3">
-                                                        <input type="text" name="re_f_personnelDiPart"
-                                                            id="re_f_personnelDiPart" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </fieldset>
+                                <div class="col-12">
+                                    <label for="b_Date">Birth Date</label>
+                                    <input type="text" id="re_b_Date" class="form-control mb-3" readonly>
+                                </div>
+                                <div class="col-12">
+                                    <label for="designa">Designation</label>
+                                    <input type="text" id="re_designa" class="form-control mb-3" readonly>
+                                </div>
+                                <div class="col-12">
+                                    <label for="Mobile_no">Mobile Number</label>
+                                    <input type="text" id="re_Mobile_no" class="form-control mb-3" readonly>
+                                </div>
+                                <div class="col-12">
+                                    <label for="landline">Landline</label>
+                                    <input type="text" id="re_landline" class="form-control mb-3" readonly>
+                                </div>
                             </div>
-                            <div class="col-12 mb-3">
-                                <fieldset class="p-0" disabled>
-                                    <legend class="w-auto">Number of Personnel Indirect(Admin and Marketing):</legend>
-                                    <table class="table my-4">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" colspan="2" class="text-center table-primary">
-                                                    Regular</th>
-                                            </tr>
-                                            <tr>
-                                                <th scope="col">Male:</th>
-                                                <th scope="col">Female:</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="mb-3">
-                                                        <input type="text" name="re_m_personnelIndRe"
-                                                            id="re_m_personnelIndRe" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="mb-3">
-                                                        <input type="text" name="re_f_personnelIndRe"
-                                                            id="re_f_personnelIndRe" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th scope="col" colspan="2" class="text-center table-primary">
-                                                    Part-time</th>
-                                            </tr>
-                                            <tr>
-                                                <th scope="col">Male:</th>
-                                                <th scope="col">Female:</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>
-                                                    <div class="mb-3">
-                                                        <input type="text" name="re_m_personnelIndPart"
-                                                            id="re_m_personnelIndPart" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <div class="mb-3">
-                                                        <input type="text" name="re_f_personnelIndPart"
-                                                            id="re_f_personnelIndPart" class="form-control" readonly>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </fieldset>
-                            </div>
-                            <fieldset class=" my-3">
-                                <legend>
-                                    Market Outlet
-                                </legend>
-                                <label for="Export">Export</label>
-                                <textarea id="re_ExportMar" class="form-control mb-3" readonly></textarea>
-
-                                <label for="Local">Local</label>
-                                <textarea id="re_LocalMar" class="form-control mb-3" readonly></textarea>
-                            </fieldset>
-
                         </div>
-                        <h6 class="mb-4">Requirement Uploaded:</h6>
-                        <div class="ps-4">
-                            <div class="form-group">
-                                <label for="IntentFileReadonly">Intent File Name:</label>
-                                <input class="form-control mb-3" type="text" id="IntentFileReadonly" readonly>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card">
+                            <div class="card-header">
+                                Uploaded Requirements
                             </div>
-                            <div class="form-group">
-                                <label for="dtiFileReadonly">DTI File Name:</label>
-                                <input class="form-control mb-3" type="text" id="dtiFileReadonly" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="businessPermitFileReadonly">Business Permit File Name:</label>
-                                <input class="form-control mb-3" type="text" id="businessPermitFileReadonly"
-                                    readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="fdaLtoFileReadonly">FDA LTO File Name:</label>
-                                <input class="form-control mb-3" type="text" id="fdaLtoFileReadonly" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="receiptFileReadonly">Receipt File Name:</label>
-                                <input class="form-control mb-3" type="text" id="receiptFileReadonly" readonly>
-                            </div>
-                            <div class="form-group">
-                                <label for="govIdFileReadonly">Government ID File Name:</label>
-                                <input class="form-control mb-3" type="text" id="govIdFileReadonly" readonly>
+                            <div class="card-body">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="IntentFileReadonly">Intent File Name:</label>
+                                        <input class="form-control mb-3" type="text" id="IntentFileReadonly"
+                                            readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="dtiFileReadonly">DTI File Name:</label>
+                                        <input class="form-control mb-3" type="text" id="dtiFileReadonly"
+                                            readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="businessPermitFileReadonly">Business Permit File Name:</label>
+                                        <input class="form-control mb-3" type="text"
+                                            id="businessPermitFileReadonly" readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="fdaLtoFileReadonly">FDA LTO File Name:</label>
+                                        <input class="form-control mb-3" type="text" id="fdaLtoFileReadonly"
+                                            readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="receiptFileReadonly">Receipt File Name:</label>
+                                        <input class="form-control mb-3" type="text" id="receiptFileReadonly"
+                                            readonly>
+                                    </div>
+
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="govIdFileReadonly">Government ID File Name:</label>
+                                        <input class="form-control mb-3" type="text" id="govIdFileReadonly"
+                                            readonly>
+                                    </div>
+
+                                </div>
                             </div>
                         </div>
 
                     </div>
+                    <div class="col-12">
+                        <div class="card">
+                            <div class="card-header">
+                                Business Information
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12 col-md-8">
+                                        <label for="firm_name">Firm Name</label>
+                                        <input type="text" id="re_firm_name" class="form-control mb-3" readonly>
+
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label for="type_enterprise">Type of Enterprise</label>
+                                        <input type="text" id="re_type_enterprise" class="form-control mb-3"
+                                            readonly>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="Address">Full Address</label>
+                                        <input type="text" id="re_Address" class="form-control mb-3" readonly>
+                                    </div>
+                                    <div class="col-12 my-3">
+                                        <div class="card">
+                                            <div class="card-header">
+                                                Assets
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-12 col-md-4">
+                                                        <label for="buildings">Buildings</label>
+                                                        <input type="text" id="re_buildings"
+                                                            class="form-control mb-3" readonly>
+
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <label for="equipments">Equipments</label>
+                                                        <input type="text" id="re_equipments"
+                                                            class="form-control mb-3" readonly>
+                                                    </div>
+                                                    <div class="col-12 col-md-4">
+                                                        <label for="working_capital">Working Capital</label>
+                                                        <input type="text" id="re_working_capital"
+                                                            class="form-control mb-3" readonly>
+                                                    </div>
+                                                    <div class="col-12">
+                                                        <div class="col-12">
+                                                            <p>Total Assets: <span id="re_to_Assets"></span></p>
+
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <p>Enterprise Level: <span id="re_Enterprise_Level"></span>
+                                                            </p>
+                                                        </div>
+                                                        <div class="col-12">
+
+                                                            <div class="text-center">
+                                                                <p>Estimated funds that can be acquired:</p>
+                                                                <span id="re_EstimatedFund" class="p-2"></span>
+                                                                <br>
+                                                                <span id="re_EstimationNotice">*Note that this
+                                                                    estimation
+                                                                    is still subject
+                                                                    to
+                                                                    further business evaluation.</span>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            <div class="col-12 col-md-3">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        Number of Personnel Direct(Production):
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                Regular
+                                                            </div>
+                                                            <div class="card-body">
+
+                                                                <div class="col-12">
+                                                                    <label for="re_m_personnelDiRe">Male</label>
+                                                                    <div class="mb-3">
+                                                                        <input type="text"
+                                                                            name="re_m_personnelDiRe"
+                                                                            id="re_m_personnelDiRe"
+                                                                            class="form-control" readonly>
+                                                                    </div>
+
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="re_f_personnelDiRe">Female</label>
+                                                                    <div class="mb-3">
+                                                                        <input type="text"
+                                                                            name="re_f_personnelDiRe"
+                                                                            id="re_f_personnelDiRe"
+                                                                            class="form-control" readonly>
+                                                                    </div>
+                                                                </div>
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="card my-3">
+                                                            <div class="card-header">
+                                                                Part-time
+                                                            </div>
+                                                            <div class="card-body">
+
+                                                                <div class="col-12">
+                                                                    <label for="">Male</label>
+                                                                    <div class="mb-3">
+                                                                        <input type="text"
+                                                                            name="re_m_personnelDiPart"
+                                                                            id="re_m_personnelDiPart"
+                                                                            class="form-control" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="">Female</label>
+                                                                    <div class="mb-3">
+                                                                        <input type="text"
+                                                                            name="re_f_personnelDiPart"
+                                                                            id="re_f_personnelDiPart"
+                                                                            class="form-control" readonly>
+                                                                    </div>
+                                                                </div>
 
 
+
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-3">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        Number of Personnel Indirect(Admin and Marketing):
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="card">
+                                                            <div class="card-header">
+                                                                Regular
+                                                            </div>
+                                                            <div class="card-body">
+
+                                                                <div class="col-12">
+                                                                    <label for="re_m_personnelIndRe">Male</label>
+                                                                    <div class="mb-3">
+                                                                        <input type="text"
+                                                                            name="re_m_personnelIndRe"
+                                                                            id="re_m_personnelIndRe"
+                                                                            class="form-control" readonly>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="re_f_personnelIndRe">Female</label>
+                                                                    <div class="mb-3">
+                                                                        <input type="text"
+                                                                            name="re_f_personnelIndRe"
+                                                                            id="re_f_personnelIndRe"
+                                                                            class="form-control" readonly>
+                                                                    </div>
+                                                                </div>
+
+
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="card my-3">
+                                                            <div class="card-header">
+                                                                Part-time
+                                                            </div>
+                                                            <div class="card-body">
+                                                                <div class="col-12">
+                                                                    <label for="re_m_personnelIndPart">Male</label>
+                                                                    <div class="mb-3">
+                                                                        <input type="text"
+                                                                            name="re_m_personnelIndPart"
+                                                                            id="re_m_personnelIndPart"
+                                                                            class="form-control" readonly>
+                                                                    </div>
+
+
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="re_f_personnelIndPart">Female</label>
+                                                                    <div class="mb-3">
+                                                                        <input type="text"
+                                                                            name="re_f_personnelIndPart"
+                                                                            id="re_f_personnelIndPart"
+                                                                            class="form-control" readonly>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <div class="card">
+                                                    <div class="card-header">
+                                                        Market Outlet
+                                                    </div>
+                                                    <div class="card-body">
+                                                        <div class="col-12">
+                                                            <label for="Export">Export</label>
+                                                            <textarea id="re_ExportMar" class="form-control mb-3" readonly></textarea>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <label for="Local">Local</label>
+                                                            <textarea id="re_LocalMar" class="form-control mb-3" readonly></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
             </div>
 
 
@@ -1114,8 +1217,11 @@
                     console.log("Arriving at Last Step - Transferring Values");
 
                     // Personal Info
-                    $('#re_f_name').val($('#f_name').val());
-                    $('#re_l_name').val($('#l_name').val());
+
+                    let fullName = $('#prefix').val() + ' ' + $('#f_name').val() + ' ' + $('#middle_name')
+                        .val() + ' ' + $('#l_name').val() + ' ' + $('#suffix').val();
+                    console.log(fullName);
+                    $('#re_Full_name').val(fullName);
                     $('#re_b_Date').val($('#b_date').val());
                     $('#re_designa').val($('#designation').val());
                     $('#re_Mobile_no').val($('#Mobile_no').val());
@@ -1124,7 +1230,14 @@
                     // Business Info
                     $('#re_firm_name').val($('#firm_name').val());
                     $('#re_type_enterprise').val($('#enterpriseType').val());
-                    $('#re_Address').val($('#Address').val());
+                    let landMark = $('#Landmark').val();
+                    let Barangay = 'Barangay ' + $('#barangay').val();
+                    let City = $('#city').val();
+                    let Province = $('#province').val();
+                    let Region = $('#region').val();
+
+                    $('#re_Address').val(landMark + ', ' + Barangay + ', ' + City + ', ' + Province + ', ' +
+                        Region);
                     $('#re_buildings').val($('#buildings').val());
                     $('#re_equipments').val($('#equipments').val());
                     $('#re_working_capital').val($('#working_capital').val());
@@ -1289,8 +1402,9 @@
                     const regionSelect = document.getElementById("region");
                     data.forEach(region => {
                         const option = document.createElement("option");
-                        option.value = region.code;
+                        option.value = region.name;
                         option.textContent = region.name;
+                        option.dataset.code = region.code;
                         regionSelect.appendChild(option);
                     });
                 });
@@ -1298,6 +1412,7 @@
 
         function updateProvinces() {
             const regionSelect = document.getElementById("region");
+            const selectedRegionOption = regionSelect.options[regionSelect.selectedIndex];
             const provinceSelect = document.getElementById("province");
             const citySelect = document.getElementById("city");
             const barangaySelect = document.getElementById("barangay");
@@ -1314,15 +1429,16 @@
             citySelect.innerHTML = '<option value="">Select City</option>';
             barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
 
-            const selectedRegion = regionSelect.value;
-            if (selectedRegion) {
-                fetch(`${API_BASE_URL}/regions/${selectedRegion}/provinces/`)
+            const selectedRegionCode = selectedRegionOption.dataset.code;
+            if (selectedRegionCode) {
+                fetch(`${API_BASE_URL}/regions/${selectedRegionCode}/provinces/`)
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(province => {
                             const option = document.createElement("option");
-                            option.value = province.code;
+                            option.value = province.name;
                             option.textContent = province.name;
+                            option.dataset.code = province.code;
                             provinceSelect.appendChild(option);
                         });
                     });
@@ -1331,6 +1447,7 @@
 
         function updateCities() {
             const provinceSelect = document.getElementById("province");
+            const selectedProvinceOption = provinceSelect.options[provinceSelect.selectedIndex];
             const citySelect = document.getElementById("city");
             const barangaySelect = document.getElementById("barangay");
 
@@ -1339,21 +1456,21 @@
             } else {
                 citySelect.disabled = true;
                 barangaySelect.disabled = true;
-
             }
 
             citySelect.innerHTML = '<option value="">Select City</option>';
             barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
 
-            const selectedProvince = provinceSelect.value;
-            if (selectedProvince) {
-                fetch(`${API_BASE_URL}/provinces/${selectedProvince}/cities-municipalities/`)
+            const selectedProvinceCode = selectedProvinceOption.dataset.code;
+            if (selectedProvinceCode) {
+                fetch(`${API_BASE_URL}/provinces/${selectedProvinceCode}/cities-municipalities/`)
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(city => {
                             const option = document.createElement("option");
-                            option.value = city.code;
+                            option.value = city.name;
                             option.textContent = city.name;
+                            option.dataset.code = city.code;
                             citySelect.appendChild(option);
                         });
                     });
@@ -1362,6 +1479,7 @@
 
         function updateBarangays() {
             const citySelect = document.getElementById("city");
+            const selectedCityOption = citySelect.options[citySelect.selectedIndex];
             const barangaySelect = document.getElementById("barangay");
 
             if (citySelect.value) {
@@ -1372,15 +1490,16 @@
 
             barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
 
-            const selectedCity = citySelect.value;
-            if (selectedCity) {
-                fetch(`${API_BASE_URL}/cities-municipalities/${selectedCity}/barangays/`)
+            const selectedCityCode = selectedCityOption.dataset.code;
+            if (selectedCityCode) {
+                fetch(`${API_BASE_URL}/cities-municipalities/${selectedCityCode}/barangays/`)
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(barangay => {
                             const option = document.createElement("option");
-                            option.value = barangay.code;
+                            option.value = barangay.name;
                             option.textContent = barangay.name;
+                            option.dataset.code = barangay.code;
                             barangaySelect.appendChild(option);
                         });
                     });
