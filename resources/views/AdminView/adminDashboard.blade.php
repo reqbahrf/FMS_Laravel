@@ -32,6 +32,8 @@
 
         :root {
             font-family: 'Nunito', sans-serif;
+            --nav-width-min: 3rem;
+            --nav-width-max: 8rem;
         }
 
         body,
@@ -55,25 +57,6 @@
         .headerlogo {
             background: #318791;
             color: white;
-        }
-
-        fieldset legend {
-            position: absolute;
-            top: -20px;
-            color: #495057;
-            border-radius: 0.25rem;
-            padding: 0.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            left: 10px;
-        }
-
-        fieldset {
-            position: relative;
-            padding: 2rem;
-            border: 2px solid #dee2e6;
-            border-radius: 0.25rem;
-            background-color: #fff
         }
 
         .logo {
@@ -100,7 +83,6 @@
 
         .nav-column {
             width: auto;
-            order: 2;
         }
 
         .main-column {
@@ -108,8 +90,30 @@
             margin-top: 0.5rem;
             margin-left: 1rem;
             margin-right: 1rem;
-            width: 85%;
-            order: 1;
+            width: 100%;
+        }
+
+        .wrapper {
+            display: flex;
+            /* This enables Flexbox layout */
+            align-items: center;
+            /* This aligns items vertically in the center */
+            position: relative;
+            /* This is needed for the absolute positioning of the sidebar */
+            overflow: hidden;
+            background-color: #F4F6F9;
+        }
+
+        .nav-column {
+            flex: 0;
+            /* This allows the nav-column to grow and take up space */
+            /* Additional styling for your nav-column */
+        }
+
+        .content-row {
+            flex: 3;
+            /* This allows the content-row to take up more space than the nav-column */
+            /* Additional styling for your content-row */
         }
 
         .dt-paging .page-item .page-link {
@@ -143,83 +147,181 @@
             /* Border color for active page */
         }
 
-        @media (min-width: 768px) {
-            .flex-container {
-                flex-direction: row;
-            }
+        @media (min-width: 768px) {}
 
-            .nav-column {
-                order: 1;
-            }
+        /* side bar */
+
+        .color {
+            fill: #f1f1f1;
+        }
+
+        .sidenav {
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 100vh;
+            width: auto;
+            min-width: calc(var(--nav-width-min) * 1);
+            max-width: calc(var(--nav-width-max) * 1);
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #111;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            padding-top: 20px;
+            transition: width 200ms ease;
+        }
+
+        .sidenav a {
+            padding: 6px 8px 6px 6px;
+            text-decoration: none;
+            font-size: 15px;
+            color: #818181;
+            display: block;
+
+        }
+
+        .sidenav a:hover {
+            filter: grayscale(0%) opacity(1);
+            color: white;
+        }
+
+        .sidenav a:hover svg path {
+            fill: #FFFFFF;
+        }
+
+        .hide-text {
+            letter-spacing: -10px;
+            display: none;
+        }
+
+        .rotate-icon {
+            transform: rotate(-180deg);
+            transition: transform 0.3s ease;
+        }
+
+        .navExpanded {
+            margin-left: calc(var(--nav-width-max) * 1);
+        }
+
+        .navMinimized {
+            margin-left: calc(var(--nav-width-min) * 1);
+        }
+
+        .sidenav.expanded {
+            width: calc(var(--nav-width-max) * 1);
+        }
+
+        .sidenav.Minimized {
+            width: calc(var(--nav-width-min) * 1);
         }
     </style>
 </head>
 
 <body class="overflow-hidden">
-    <div class="container-fluid px-0 headerlogo">
-        <div class="d-flex align-items-center justify-content-between">
-            <div class="d-flex align-items-center">
-                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px"
-                    viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079" xml:space="preserve"
-                    class="m-3 logo">
-                    <g>
-                        <rect x="19.235" y="19.699" width="36" height="36" />
-                        <circle fill="#48C4D3" cx="19.235" cy="19.699" r="18" />
-                        <g>
-                            <circle fill="#48C4D3" cx="19.195" cy="19.648" r="18" />
-                            <path fill="#FFFFFF"
-                                d="M19.323,37.598c9.918-0.027,17.953-8.071,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L19.323,37.598z" />
+    <div class="wrapper">
+        <nav class="sidenav expanded">
+            <ul class="navbar-nav">
+                <li class="nav-item mb-2">
+                    <a href="#" onclick="toggleSidebar()">
+                        <svg id="hover-link" class=" bg-secondary rounded-circle" xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 64 64" width="30" height="30">
                             <path
-                                d="M37.192,19.601C37.166,9.682,29.12,1.648,19.195,1.648S1.224,9.682,1.198,19.601H37.192z" />
-                        </g>
-                        <g>
-                            <circle fill="#48C4D3" cx="55.315" cy="19.651" r="18" />
-                            <path fill="#FFFFFF"
-                                d="M37.319,19.651c0.027,9.918,8.07,17.952,17.996,17.952c9.925,0,17.972-8.034,17.998-17.952L37.319,19.651z" />
-                            <path
-                                d="M55.315,37.648c9.919-0.027,17.953-8.072,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L55.315,37.648z" />
-                        </g>
-                        <g>
-                            <circle fill="#48C4D3" cx="55.315" cy="55.649" r="18" />
-                            <path fill="#FFFFFF"
-                                d="M55.269,37.605c-9.918,0.027-17.953,8.072-17.953,17.997s8.035,17.972,17.953,17.999V37.605z" />
-                            <path
-                                d="M37.317,55.649c0.028,9.919,8.073,17.952,17.999,17.952c9.923,0,17.97-8.033,17.997-17.952H37.317z" />
-                        </g>
-                        <g>
-                            <circle fill="#48C4D3" cx="19.315" cy="55.725" r="18" />
-                            <path fill="#FFFFFF"
-                                d="M37.313,55.628c-0.027-9.919-8.072-17.953-17.997-17.953c-9.926,0-17.972,8.034-17.999,17.952L37.313,55.628z" />
-                            <path
-                                d="M19.268,37.682C9.349,37.709,1.315,45.754,1.315,55.679S9.349,73.65,19.268,73.677V37.682z" />
-                        </g>
-                    </g>
-                </svg>
-                <h4 class="text-white">DOST-SETUP Fund Monitoring System</h4>
+                                d="M16.113281 6.2050781L13.064453 8.7949219L31.578125 32.003906L13.0625 55.308594L16.115234 57.892578L37.701172 33.9375L39.451172 31.996094L37.697266 30.056641L16.113281 6.2050781 z M 33.113281 6.2050781L30.064453 8.7949219L48.578125 32.003906L30.0625 55.308594L33.115234 57.892578L54.701172 33.9375L56.451172 31.996094L54.697266 30.056641L33.113281 6.2050781 z"
+                                fill="#FFFFFF" />
+                        </svg>
+                        <span class="nav-text ml-2">Minimize</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#" id="dashboardLink"
+                        onclick="loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');">
+                        <i class="ri-dashboard-3-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#" id="projectList"
+                        onclick="loadPage('{{ route('admin.Project') }}', 'projectList');">
+                        <i class="ri-file-list-3-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Project List</span>
+                    </a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a href="#" id="userList" onclick="loadPage('{{ route('admin.Users-list') }}','userList');">
+                        <i class="ri-shield-user-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Users</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div id="toggle-left-margin" class="content-row navExpanded">
+            <div class="topNav shadow-sm">
+                <div class="d-flex align-items-center justify-content-between bg-white">
+                    <div class="d-flex align-items-center">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px"
+                            viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079" xml:space="preserve"
+                            class="m-3 logo">
+                            <g>
+                                <rect x="19.235" y="19.699" width="36" height="36" />
+                                <circle fill="#48C4D3" cx="19.235" cy="19.699" r="18" />
+                                <g>
+                                    <circle fill="#48C4D3" cx="19.195" cy="19.648" r="18" />
+                                    <path fill="#FFFFFF"
+                                        d="M19.323,37.598c9.918-0.027,17.953-8.071,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L19.323,37.598z" />
+                                    <path
+                                        d="M37.192,19.601C37.166,9.682,29.12,1.648,19.195,1.648S1.224,9.682,1.198,19.601H37.192z" />
+                                </g>
+                                <g>
+                                    <circle fill="#48C4D3" cx="55.315" cy="19.651" r="18" />
+                                    <path fill="#FFFFFF"
+                                        d="M37.319,19.651c0.027,9.918,8.07,17.952,17.996,17.952c9.925,0,17.972-8.034,17.998-17.952L37.319,19.651z" />
+                                    <path
+                                        d="M55.315,37.648c9.919-0.027,17.953-8.072,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L55.315,37.648z" />
+                                </g>
+                                <g>
+                                    <circle fill="#48C4D3" cx="55.315" cy="55.649" r="18" />
+                                    <path fill="#FFFFFF"
+                                        d="M55.269,37.605c-9.918,0.027-17.953,8.072-17.953,17.997s8.035,17.972,17.953,17.999V37.605z" />
+                                    <path
+                                        d="M37.317,55.649c0.028,9.919,8.073,17.952,17.999,17.952c9.923,0,17.97-8.033,17.997-17.952H37.317z" />
+                                </g>
+                                <g>
+                                    <circle fill="#48C4D3" cx="19.315" cy="55.725" r="18" />
+                                    <path fill="#FFFFFF"
+                                        d="M37.313,55.628c-0.027-9.919-8.072-17.953-17.997-17.953c-9.926,0-17.972,8.034-17.999,17.952L37.313,55.628z" />
+                                    <path
+                                        d="M19.268,37.682C9.349,37.709,1.315,45.754,1.315,55.679S9.349,73.65,19.268,73.677V37.682z" />
+                                </g>
+                            </g>
+                        </svg>
+                        <h4 class="text-black">DOST-SETUP Fund Monitoring System</h4>
+                    </div>
+                    <div>
+                        <button class="btn position-relative pe-4">
+                            <svg xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30">
+                                <path
+                                    d="M47.841797 5.0351562C47.05125 4.9672344 46.262109 5.4091719 45.943359 6.2011719L45.246094 7.9394531C37.943094 4.7824531 32.698625 6.4574844 30.640625 10.021484C23.743625 21.966484 16.695906 26.420828 15.628906 27.048828L49.583984 45.121094C49.880984 42.010094 51.171375 34.723891 56.734375 25.087891C58.792375 21.522891 57.621328 16.142484 51.236328 11.396484L52.392578 9.9257812C53.095578 9.0297812 52.841469 7.7193906 51.855469 7.1503906L48.615234 5.2792969C48.368734 5.1370469 48.105312 5.0577969 47.841797 5.0351562 z M 11.449219 27.326172C10.230984 27.331562 7.4444219 27.949797 4.6386719 32.810547L28.820312 46.771484C27.923145 49.295954 28.910806 52.176668 31.314453 53.564453C33.718585 54.952518 36.707485 54.368453 38.445312 52.328125L50 59C53.741 52.52 50.96875 49.839844 50.96875 49.839844L12.087891 27.390625C12.087891 27.390625 11.855297 27.324375 11.449219 27.326172 z"
+                                    fill="#FFFFFF" />
+                            </svg>
+                            <span
+                                class="position-absolute top-25 start-75 translate-middle p-1 bg-danger border border-light rounded-circle">
+                                <span class="visually-hidden">New alerts</span>
+                            </span>
+                        </button>
+                    </div>
+                </div>
             </div>
-            <div>
-                <button class="btn position-relative pe-4">
-                    <svg xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30">
-                        <path
-                            d="M47.841797 5.0351562C47.05125 4.9672344 46.262109 5.4091719 45.943359 6.2011719L45.246094 7.9394531C37.943094 4.7824531 32.698625 6.4574844 30.640625 10.021484C23.743625 21.966484 16.695906 26.420828 15.628906 27.048828L49.583984 45.121094C49.880984 42.010094 51.171375 34.723891 56.734375 25.087891C58.792375 21.522891 57.621328 16.142484 51.236328 11.396484L52.392578 9.9257812C53.095578 9.0297812 52.841469 7.7193906 51.855469 7.1503906L48.615234 5.2792969C48.368734 5.1370469 48.105312 5.0577969 47.841797 5.0351562 z M 11.449219 27.326172C10.230984 27.331562 7.4444219 27.949797 4.6386719 32.810547L28.820312 46.771484C27.923145 49.295954 28.910806 52.176668 31.314453 53.564453C33.718585 54.952518 36.707485 54.368453 38.445312 52.328125L50 59C53.741 52.52 50.96875 49.839844 50.96875 49.839844L12.087891 27.390625C12.087891 27.390625 11.855297 27.324375 11.449219 27.326172 z"
-                            fill="#FFFFFF" />
-                    </svg>
-                    <span
-                        class="position-absolute top-25 start-75 translate-middle p-1 bg-danger border border-light rounded-circle">
-                        <span class="visually-hidden">New alerts</span>
-                    </span>
-                </button>
+            <div class="main-content">
+                <main class="main-column scrollable-main" id="main-content">
+                </main>
             </div>
         </div>
     </div>
-    <div class="flex-container d-flex flex-column flex-md-row mobileView">
-        <div class="nav-column">
-            @include('AdminView.navAdmin')
-        </div>
-        <main class="main-column scrollable-main" id="main-content">
-        </main>
-    </div>
+
 </body>
 <script>
     // if (unsavedChangesExist()) {
@@ -238,45 +340,45 @@
     });
 
     function loadPage(url, activeLink) {
-    // Check if the response is already cached
-    let cachePage = sessionStorage.getItem(url);
-    if (cachePage) {
-        // If cached, use the cached response
-        handleAjaxSuccess(cachePage, activeLink, url);
-    } else {
-        // If not cached, make the AJAX request
-        $.ajax({
-            url: url,
-            type: 'GET',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-            success: function(response) {
-                // Cache the response
-                sessionStorage.setItem(url, response);
-                handleAjaxSuccess(response, activeLink, url);
-            },
-            error: function(error) {
-                console.log('Error: ' + error);
-            },
-        });
+        // Check if the response is already cached
+        let cachePage = sessionStorage.getItem(url);
+        if (cachePage) {
+            // If cached, use the cached response
+            handleAjaxSuccess(cachePage, activeLink, url);
+        } else {
+            // If not cached, make the AJAX request
+            $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    // Cache the response
+                    sessionStorage.setItem(url, response);
+                    handleAjaxSuccess(response, activeLink, url);
+                },
+                error: function(error) {
+                    console.log('Error: ' + error);
+                },
+            });
+        }
     }
-}
 
-function handleAjaxSuccess(response, activeLink, url) {
-    $('#main-content').html(response);
-    setActiveLink(activeLink);
-    history.pushState(null, '', url);
-    if (url === '{{ route('admin.Dashboard') }}') {
-        InitdashboardChar();
-        $(document).trigger('DocLoaded');
+    function handleAjaxSuccess(response, activeLink, url) {
+        $('#main-content').html(response);
+        setActiveLink(activeLink);
+        history.pushState(null, '', url);
+        if (url === '{{ route('admin.Dashboard') }}') {
+            InitdashboardChar();
+            $(document).trigger('DocLoaded');
+        }
+        if (url === '/org-access/viewCooperatorInfo.php') {
+            InitializeviewCooperatorProgress();
+        }
+        sessionStorage.setItem('AdminlastUrl', url);
+        sessionStorage.setItem('AdminLastActive', activeLink);
     }
-    if (url === '/org-access/viewCooperatorInfo.php') {
-        InitializeviewCooperatorProgress();
-    }
-    sessionStorage.setItem('AdminlastUrl', url);
-    sessionStorage.setItem('AdminLastActive', activeLink);
-}
 
 
     //FIXME: Improve the logic of the following code
@@ -808,6 +910,37 @@ function handleAjaxSuccess(response, activeLink, url) {
         var chart = new ApexCharts(document.querySelector("#employmentGeneChart"), options);
         chart.render();
 
+    }
+</script>
+<script>
+    function toggleSidebar() {
+        const sidebar = document.querySelector('.sidenav');
+        sidebar.classList.toggle('expanded');
+        sidebar.classList.toggle('minimized');
+        const container = $('#toggle-left-margin');
+        if (container.hasClass('navExpanded')) {
+            container.removeClass('navExpanded').addClass('navMinimized');
+        } else {
+            container.removeClass('navMinimized').addClass('navExpanded');
+        };
+        //side bar minimize
+        $('.sidenav a span').each(function() {
+            $(this).toggleClass('d-none');
+        });
+
+        $('.sidenav a').each(function() {
+            $(this).toggleClass('justify-content-center');
+        });
+        //size bar minimize rotation
+        $('#hover-link').toggleClass('rotate-icon');
+
+    }
+
+    function setActiveLink(activeLink) {
+        $('.nav-item a').removeClass('active');
+        var defaultLink = 'dashboardLink';
+        var linkToActivate = $('#' + (activeLink || defaultLink));
+        linkToActivate.addClass('active');
     }
 </script>
 
