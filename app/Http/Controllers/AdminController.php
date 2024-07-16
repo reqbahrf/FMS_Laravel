@@ -30,8 +30,8 @@ class AdminController extends Controller
             ->where('application_info.application_status', 'waiting')
             ->get([
                 'users.id as user_id', 'personal_info.f_name', 'personal_info.l_name', 'personal_info.designation',
-                'personal_info.mobile_number', 'personal_info.landline', 'business_info.firm_name', 'business_info.enterprise_type',
-                'business_info.B_address', 'assets.building_value', 'assets.equipment_value', 'assets.working_capital',
+                'personal_info.mobile_number', 'personal_info.landline', 'business_info.firm_name', 'business_info.enterprise_type', 'business_info.landMark',
+                'business_info.barangay', 'business_info.city', 'business_info.city', 'business_info.province', 'business_info.region', 'assets.building_value', 'assets.equipment_value', 'assets.working_capital',
                 'application_info.date_applied', 'business_info.id'
             ]);
 

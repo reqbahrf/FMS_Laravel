@@ -435,7 +435,7 @@
                                                     <input type="hidden" name="business_id" id="business_id"
                                                         value="{{ $applicantInfo->id }}">
                                                     <span
-                                                        class="business_Address">{{ $applicantInfo->B_address }}</span>
+                                                        class="business_Address"> {{ $applicantInfo->landMark }}, {{ $applicantInfo->barangay }}, {{ $applicantInfo->city }}, {{ $applicantInfo->province }}, {{ $applicantInfo->region }}</span>
                                                     <br>
                                                     <strong>Type of Enterprise:</strong> <span
                                                         class="Type_Enterprise">{{ $applicantInfo->enterprise_type }}</span>

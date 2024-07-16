@@ -36,7 +36,7 @@ class StaffController extends Controller
             ->where('users.role', 'Cooperator')
             ->select('users.user_name', 'users.email', 'users.role', 'personal_info.f_name', 'personal_info.l_name',
                 'personal_info.designation', 'personal_info.mobile_number', 'personal_info.landline',
-                'business_info.firm_name', 'business_info.B_address', 'business_info.enterprise_type',
+                'business_info.firm_name', 'business_info.landmark','business_info.barangay', 'business_info.city', 'business_info.province', 'business_info.region', 'business_info.enterprise_type',
                 'business_info.enterprise_level', 'assets.building_value', 'assets.equipment_value',
                 'assets.working_capital', 'pi.project_title', 'pi.fund_amount', 'pi.date_approved',
                 'org_users_info.full_name', 'application_info.application_status')
@@ -62,9 +62,9 @@ class StaffController extends Controller
             ->join('assets', 'assets.business_id', '=', 'business_info.id')
             ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
             ->where('application_info.application_status', 'waiting')
-            ->select('users.user_name', 'users.email', 'personal_info.f_name', 'personal_info.l_name',
+            ->select('users.user_name', 'users.email', 'personal_info.prefix', 'personal_info.f_name', 'personal_info.mid_name', 'personal_info.l_name', 'personal_info.suffix',
                      'personal_info.designation', 'personal_info.mobile_number', 'personal_info.landline',
-                     'business_info.firm_name', 'business_info.enterprise_type', 'business_info.B_address',
+                     'business_info.firm_name', 'business_info.enterprise_type', 'business_info.landMark','business_info.barangay', 'business_info.city', 'business_info.province', 'business_info.region',
                      'assets.building_value', 'assets.equipment_value', 'assets.working_capital',
                      'application_info.date_applied', 'application_info.application_status', 'business_info.id')
             ->get();

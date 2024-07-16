@@ -761,6 +761,7 @@
                             <tbody id="tableBody" class=" table-group-divider">
                                 @if (isset($approved) && count($approved) > 0)
                                     @foreach ($approved as $item)
+
                                         <tr>
                                             <td>{{ $item->id }}</td>
                                             <td>{{ $item->f_name }} {{ $item->l_name }}</td>
@@ -768,7 +769,7 @@
                                             <td>{{ $item->firm_name }}</td>
                                             <td>
                                                 <div>
-                                                    <strong>Business Address:</strong> {{ $item->B_address }} <br>
+                                                    <strong>Business Address:</strong> <br> {{ $item->landMark }}, {{ $item->barangay }}, {{ $item->city }}, {{ $item->province }}, {{ $item->region }}  <br>
                                                     <strong>Type of Enterprise:</strong> {{ $item->enterprise_type }}
                                                     <br>
                                                     <strong>Level of Enterprise:</strong> {{ $item->enterprise_level }}

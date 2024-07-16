@@ -334,7 +334,7 @@
                         @foreach ($applicants as $item)
                             <tr>
                                 <td>{{ $item->user_name }}</td>
-                                <td>{{ $item->f_name }} {{ $item->l_name }}</td>
+                                <td> {{ $item->prefix }} {{ $item->f_name }} {{ $item->l_name }} {{ $item->suffix }}</td>
                                 <td>{{ $item->designation }}</td>
                                 <td>{{ $item->firm_name }}</td>
                                 <td>
@@ -342,7 +342,7 @@
                                         <strong>Business Address:</strong>
                                         <input type="hidden" id="business_id" name="business_id"
                                             value="{{ $item->id }}">
-                                        <span class="b_address">{{ $item->B_address }}</span><br>
+                                        <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }}, {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
                                         <strong>Type of Enterprise:</strong> <span
                                             class="enterprise_l">{{ $item->enterprise_type }}</span>
                                         <p>
