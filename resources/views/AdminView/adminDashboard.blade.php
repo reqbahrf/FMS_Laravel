@@ -32,8 +32,9 @@
 
         :root {
             font-family: 'Nunito', sans-serif;
-            --nav-width-min: 3rem;
-            --nav-width-max: 8rem;
+            --nav-width-min: 70px;
+            --nav-width-max: 225px;
+            --top-header-height: 70px;
         }
 
         body,
@@ -62,11 +63,13 @@
         .logo {
             width: 50px;
             height: 50px;
-            border-radius: 25%;
-            border: 0.5px solid white;
-            background-color: white;
             object-fit: cover;
             object-position: center;
+        }
+
+        .navlogo {
+            height: var(--top-header-height);
+
         }
 
         .scrollable-main {
@@ -86,34 +89,14 @@
         }
 
         .main-column {
-            flex-grow: 1;
-            margin-top: 0.5rem;
-            margin-left: 1rem;
-            margin-right: 1rem;
             width: 100%;
         }
 
         .wrapper {
-            display: flex;
-            /* This enables Flexbox layout */
-            align-items: center;
-            /* This aligns items vertically in the center */
-            position: relative;
-            /* This is needed for the absolute positioning of the sidebar */
             overflow: hidden;
             background-color: #F4F6F9;
-        }
-
-        .nav-column {
-            flex: 0;
-            /* This allows the nav-column to grow and take up space */
-            /* Additional styling for your nav-column */
-        }
-
-        .content-row {
-            flex: 3;
-            /* This allows the content-row to take up more space than the nav-column */
-            /* Additional styling for your content-row */
+            width: 100%;
+            height: 100%;
         }
 
         .dt-paging .page-item .page-link {
@@ -167,17 +150,29 @@
             z-index: 1;
             top: 0;
             left: 0;
-            background-color: #111;
+            background-color: #313A46;
             overflow-x: hidden;
             overflow-y: hidden;
-            padding-top: 20px;
             transition: width 200ms ease;
+        }
+
+        .nav-item a.active {
+            color: #FFFFFF;
+        }
+
+        .sideTextMain {
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .sideTextSec {
+            font-size: 12px;
+            font-weight: 400;
         }
 
         .sidenav a {
             padding: 6px 8px 6px 6px;
             text-decoration: none;
-            font-size: 15px;
             color: #818181;
             display: block;
 
@@ -185,16 +180,11 @@
 
         .sidenav a:hover {
             filter: grayscale(0%) opacity(1);
-            color: white;
+            color: #318791;
         }
 
-        .sidenav a:hover svg path {
-            fill: #FFFFFF;
-        }
-
-        .hide-text {
-            letter-spacing: -10px;
-            display: none;
+        .topNav {
+            height: var(--top-header-height);
         }
 
         .rotate-icon {
@@ -225,46 +215,11 @@
         <nav class="sidenav expanded">
             <ul class="navbar-nav">
                 <li class="nav-item mb-2">
-                    <a href="#" onclick="toggleSidebar()">
-                        <svg id="hover-link" class=" bg-secondary rounded-circle" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 64 64" width="30" height="30">
-                            <path
-                                d="M16.113281 6.2050781L13.064453 8.7949219L31.578125 32.003906L13.0625 55.308594L16.115234 57.892578L37.701172 33.9375L39.451172 31.996094L37.697266 30.056641L16.113281 6.2050781 z M 33.113281 6.2050781L30.064453 8.7949219L48.578125 32.003906L30.0625 55.308594L33.115234 57.892578L54.701172 33.9375L56.451172 31.996094L54.697266 30.056641L33.113281 6.2050781 z"
-                                fill="#FFFFFF" />
-                        </svg>
-                        <span class="nav-text ml-2">Minimize</span>
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" id="dashboardLink"
-                        onclick="loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');">
-                        <i class="ri-dashboard-3-fill ri-2x"></i>
-                        <span class="nav-text ml-2">Dashboard</span>
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" id="projectList"
-                        onclick="loadPage('{{ route('admin.Project') }}', 'projectList');">
-                        <i class="ri-file-list-3-fill ri-2x"></i>
-                        <span class="nav-text ml-2">Project List</span>
-                    </a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a href="#" id="userList" onclick="loadPage('{{ route('admin.Users-list') }}','userList');">
-                        <i class="ri-shield-user-fill ri-2x"></i>
-                        <span class="nav-text ml-2">Users</span>
-                    </a>
-                </li>
-            </ul>
-        </nav>
-        <div id="toggle-left-margin" class="content-row navExpanded">
-            <div class="topNav shadow-sm">
-                <div class="d-flex align-items-center justify-content-between bg-white">
-                    <div class="d-flex align-items-center">
+                    <div class="navlogo d-flex justify-content-center align-items-center">
                         <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
                             xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px"
                             viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079" xml:space="preserve"
-                            class="m-3 logo">
+                            class="m-1 logo">
                             <g>
                                 <rect x="19.235" y="19.699" width="36" height="36" />
                                 <circle fill="#48C4D3" cx="19.235" cy="19.699" r="18" />
@@ -298,7 +253,45 @@
                                 </g>
                             </g>
                         </svg>
-                        <h4 class="text-black">DOST-SETUP Fund Monitoring System</h4>
+                        <div id="logoTitle" class="row">
+                            <div class="col-12">
+                                <p class="sideTextMain text-white m-0">DOST-SETUP</p>
+                            </div>
+                            <div class="col-12">
+                                <p class="sideTextSec text-white m-0">Fund Monitoring System</p>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="dashboardLink"
+                        onclick="loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');">
+                        <i class="ri-dashboard-3-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="projectList"
+                        onclick="loadPage('{{ route('admin.Project') }}', 'projectList');">
+                        <i class="ri-file-list-3-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Project List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" id="userList" onclick="loadPage('{{ route('admin.Users-list') }}','userList');">
+                        <i class="ri-shield-user-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Users</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div id="toggle-left-margin" class="content-row navExpanded">
+            <div class="topNav shadow-sm bg-white">
+                <div class="d-flex align-items-center justify-content-between gy-5">
+                    <div class="">
+                        <button onclick="toggleSidebar()" class="btn">
+                            <i class="ri-menu-unfold-fill ri-2x"></i>
+                        </button>
                     </div>
                     <div>
                         <button class="btn position-relative pe-4">
@@ -915,6 +908,9 @@
 <script>
     function toggleSidebar() {
         const sidebar = document.querySelector('.sidenav');
+        const logoDescription = document.querySelector('#logoTitle');
+        logoDescription.classList.toggle('d-none');
+
         sidebar.classList.toggle('expanded');
         sidebar.classList.toggle('minimized');
         const container = $('#toggle-left-margin');
