@@ -245,15 +245,15 @@
                     </li>
                 </ul>
 
-                <div class="tab-content">
+                <d class="tab-content">
                     <p class="legend-notice">"<span class="requiredFields">*</span>" Required</p>
                     <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1"
                         style="position: static; left: 0px; display: block;">
                         <!-- Where Personal Info Displayed -->
                         <div class="row mb-3 gy-3">
-                            <div class="col-12 col-md-1">
-                                <label for="prefix">Prefix: <span class="requiredFields">*</span></label>
-                                <input list="prefixOptions" class="form-select" name="prefix" id="prefix" required>
+                            <div class="col-12 col-md-2">
+                                <label for="prefix">Prefix:</label>
+                                <input list="prefixOptions" class="form-select" name="prefix" id="prefix">
                                 <datalist id="prefixOptions">
                                     <option value="none">None</option>
                                     <option value="Mr.">Mr.</option>
@@ -267,7 +267,7 @@
                                     <option value="Atty.">Atty.</option>
                                 </datalist>
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-3">
                                 <label for="f_name">First Name: <span class="requiredFields"> *</span></label>
                                 <input type="text" name="f_name" id="f_name" class="form-control"
                                     value="{{ old('f_name') }}" placeholder="John" required>
@@ -278,12 +278,9 @@
                             <div class="col-12 col-md-2">
                                 <label for="middle_name">Middle Name: <span class="requiredFields">*</span></label>
                                 <input type="text" name="middle_name" id="middle_name"
-                                    value="{{ old('middle_name') }}" class="form-control" placeholder="Doe" required>
-                                <div class="invalid-feedback">
-                                    Please enter your middle name.
-                                </div>
+                                    value="{{ old('middle_name') }}" class="form-control" placeholder="Doe">
                             </div>
-                            <div class="col-12 col-md-4">
+                            <div class="col-12 col-md-3">
                                 <label for="l_name">Last Name: <span class="requiredFields"> *</span></label>
 
                                 <input type="text" name="l_name" id="l_name" class="form-control"
@@ -292,10 +289,10 @@
                                     Please enter your last name.
                                 </div>
                             </div>
-                            <div class="col-12 col-md-1">
+                            <div class="col-12 col-md-2">
                                 <label for="suffix">Suffix: <span class="requiredFields">*</span></label>
                                 <input list="suffixList" class="form-select" name="suffix" id="suffix"
-                                    value="{{ old('suffix') }}" required>
+                                    value="{{ old('suffix') }}">
                                 <datalist id="suffixList">
                                     <option value="none">None</option>
                                     <option value="Jr.">Jr.</option>
@@ -306,9 +303,6 @@
                                     <option value="Esq.">Esq.</option>
                                     <option value="Ph.D.">Ph.D.</option>
                                 </datalist>
-                                <div class="invalid-feedback">
-                                    Please select a suffix.
-                                </div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <div class="row">
@@ -391,6 +385,7 @@
                                 <label for="enterpriseType">Type Of Enterprise <span class="requiredFields">
                                         *</span></label>
                                 <select class="form-select" name="enterpriseType" id="enterpriseType" required>
+                                    <option value="">Select Enterprise</option>
                                     <option value="Sole Proprietorship"
                                         {{ old('enterpriseType') == 'Sole Proprietorship' ? 'selected' : '' }}>Sole
                                         Proprietorship</option>
@@ -1127,19 +1122,12 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
-
-
-
                             </div>
                         </div>
                     </div>
                 </div>
-
             </div>
-
-
         </div>
     </div>
     <div class="progress">
@@ -1190,16 +1178,16 @@
                 }
             });
 
-            // $('#smartwizard').on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex,
-            //     stepDirection) {
-            //     // Check if the user is moving forward
-            //     if (nextStepIndex > currentStepIndex) {
-            //         // Perform validation for the current step
-            //         if (!validateCurrentStep(currentStepIndex)) {
-            //             return false; // Prevent moving to the next step
-            //         }
-            //     }
-            // });
+            $('#smartwizard').on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex,
+                stepDirection) {
+                // Check if the user is moving forward
+                if (nextStepIndex > currentStepIndex) {
+                    // Perform validation for the current step
+                    if (!validateCurrentStep(currentStepIndex)) {
+                        return false; // Prevent moving to the next step
+                    }
+                }
+            });
 
             $('#smartwizard').on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
                 var totalSteps = $('#smartwizard').find('ul li').length;

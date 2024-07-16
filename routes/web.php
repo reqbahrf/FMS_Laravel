@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CooperatorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
@@ -24,7 +25,7 @@ Route::get('/application', function () {
     return view('registerpage.application');
 })->name('registrationForm');
 
-Route::post('/application/submit', [signupAndApplyController::class, 'store'])->name('applicationFormSubmit');
+Route::post('/application/submit', [ApplicationController::class, 'store'])->name('applicationFormSubmit');
 
 //Login routes
 

@@ -6,11 +6,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-class signupAndApplyController extends Controller
+class ApplicationController extends Controller
 {
     public function store(Request $request)
     {
-        $user_name = Session::get('user_name');
+       // $user_name = Session::get('user_name');
+        $user_name = "test1";
 
         $successful_inserts = 0;
 
@@ -18,51 +19,61 @@ class signupAndApplyController extends Controller
 
         try {
             // Personal Info table
-            $f_name = htmlspecialchars($request->input('f_name'));
-            $l_name = htmlspecialchars($request->input('l_name'));
-
-            $b_date = htmlspecialchars($request->input('b_date'));
+            $name_prefix = ($request->input('prefix'));
+            $f_name = ($request->input('f_name'));
+            $mid_name = ($request->input('middle_name'));
+            $l_name = ($request->input('l_name'));
+            $name_suffix = ($request->input('suffix'));
+            $b_date = ($request->input('b_date'));
             $date = \DateTime::createFromFormat('m/d/Y', $b_date);
             $formatted_date = $date->format('Y-m-d');
-
-            $designation = htmlspecialchars($request->input('designation'));
-            $mobile_number = htmlspecialchars($request->input('Mobile_no'));
-            $landline = htmlspecialchars($request->input('landline'));
-
+            $designation = ($request->input('designation'));
+            $mobile_number = ($request->input('Mobile_no'));
+            $landline = ($request->input('landline'));
             $personalInfoId = DB::table('personal_info')->insertGetId([
                 'user_name' => $user_name,
+                'prefix' => $name_prefix,
                 'f_name' => $f_name,
+                'mid_name' => $mid_name,
                 'l_name' => $l_name,
+                'suffix' => $name_suffix,
                 'birth_date' => $formatted_date,
                 'designation' => $designation,
                 'mobile_number' => $mobile_number,
                 'landline' => $landline,
             ]);
             $successful_inserts++;
-
-            // Business Info table
-            $firm_name = htmlspecialchars($request->input('firm_name'));
-            $enterprise_type = htmlspecialchars($request->input('enterpriseType'));
-            $enterprise_level = htmlspecialchars($request->input('enterprise_level'));
-            $address = htmlspecialchars($request->input('Address'));
-            $export_market = htmlspecialchars($request->input('Export'));
-            $local_market = htmlspecialchars($request->input('Local'));
+           // Business Info table
+            $firm_name = ($request->input('firm_name'));
+            $enterprise_type = ($request->input('enterpriseType'));
+            $enterprise_level = ($request->input('enterprise_level'));
+            $region = ($request->input('region'));
+            $province = ($request->input('province'));
+            $city = ($request->input('city'));
+            $barangay = ($request->input('barangay'));
+            $landmark = ($request->input('Landmark'));
+            $export_market = ($request->input('Export'));
+            $local_market = ($request->input('Local'));
 
             $businessId = DB::table('business_info')->insertGetId([
                 'user_info_id' => $personalInfoId,
                 'firm_name' => $firm_name,
                 'enterprise_type' => $enterprise_type,
                 'enterprise_level' => $enterprise_level,
-                'B_address' => $address,
+                'landmark' => $landmark,
+                'barangay' => $barangay,
+                'city' => $city,
+                'province' => $province,
+                'region' => $region,
                 'Export_Mkt_Outlet' => $export_market,
                 'Local_Mkt_Outlet' => $local_market,
             ]);
             $successful_inserts++;
 
             // Assets table
-            $building_value = str_replace(',', '', htmlspecialchars($request->input('buildings')));
-            $equipment_value = str_replace(',', '', htmlspecialchars($request->input('equipments')));
-            $working_capital = str_replace(',', '', htmlspecialchars($request->input('working_capital')));
+            $building_value = str_replace(',', '', ($request->input('buildings')));
+            $equipment_value = str_replace(',', '', ($request->input('equipments')));
+            $working_capital = str_replace(',', '', ($request->input('working_capital')));
 
             DB::table('assets')->insert([
                 'business_id' => $businessId,
@@ -134,12 +145,13 @@ class signupAndApplyController extends Controller
                 return redirect()->back()->with('success', 'All data successfully inserted.');
             } else {
                 DB::rollBack();
-                return redirect()->back()->with('error', 'Data insertion failed.');
+                return redirect()->back()->withInput()->with('error', 'Data insertion failed.');
             }
         } catch (\Exception $e) {
             DB::rollBack();
             return redirect()
                 ->back()
+                ->withInput()
                 ->with('error', 'An error occurred: ' . $e->getMessage());
         }
     }
