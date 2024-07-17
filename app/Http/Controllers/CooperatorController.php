@@ -79,7 +79,11 @@ class CooperatorController extends Controller
                 'personal_info.landline',
                 'personal_info.mobile_number',
                 'business_info.firm_name',
-                'business_info.B_address'
+                'business_info.landMark',
+                'business_info.barangay',
+                'business_info.city',
+                'business_info.province',
+                'business_info.region',
             )
             ->where('personal_info.user_name', $username)
             ->first();

@@ -15,6 +15,7 @@
     <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('other_assets/apexChart/apexcharts.css') }}">
     <script src="{{ asset('other_assets/apexChart/apexcharts.min.js') }}"></script>
+    <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
@@ -30,6 +31,23 @@
 
         :root {
             font-family: 'Nunito', sans-serif;
+            --sw-toolbar-btn-background-color: #318791;
+            --sw-anchor-default-primary-color: #f8f9fa;
+            --sw-anchor-active-primary-color: #318791;
+            --sw-anchor-active-secondary-color: #ffffff;
+            --sw-anchor-done-primary-color: #48C4D3;
+            --sw-anchor-error-primary-color: #dc3545;
+            --sw-anchor-error-secondary-color: #ffffff;
+            --sw-anchor-warning-primary-color: #ffc107;
+            --sw-anchor-warning-secondary-color: #ffffff;
+            --sw-progress-color: #318791;
+            --sw-progress-background-color: #f8f9fa;
+            --sw-loader-color: #318791;
+            --sw-loader-background-color: #f8f9fa;
+            --sw-loader-background-wrapper-color: rgba(255, 255, 255, 0.7);
+            --nav-width-min: 70px;
+            --nav-width-max: 225px;
+            --top-header-height: 70px;
         }
 
         body,
@@ -50,36 +68,15 @@
             /* Example: Set to semi-bold. Adjust the value as needed */
         }
 
-        .headerlogo {
-            background: #318791;
-        }
-
-        :root {
-            --sw-toolbar-btn-background-color: #318791;
-            --sw-anchor-default-primary-color: #f8f9fa;
-            --sw-anchor-active-primary-color: #318791;
-            --sw-anchor-active-secondary-color: #ffffff;
-            --sw-anchor-done-primary-color: #48C4D3;
-            --sw-anchor-error-primary-color: #dc3545;
-            --sw-anchor-error-secondary-color: #ffffff;
-            --sw-anchor-warning-primary-color: #ffc107;
-            --sw-anchor-warning-secondary-color: #ffffff;
-            --sw-progress-color: #318791;
-            --sw-progress-background-color: #f8f9fa;
-            --sw-loader-color: #318791;
-            --sw-loader-background-color: #f8f9fa;
-            --sw-loader-background-wrapper-color: rgba(255, 255, 255, 0.7);
-        }
-
-
         .logo {
             width: 50px;
             height: 50px;
-            border-radius: 25%;
-            border: 0.5px solid white;
-            background-color: white;
             object-fit: cover;
             object-position: center;
+        }
+
+        .navlogo{
+            height: var(--top-header-height);
         }
 
         .scrollable-main {
@@ -96,85 +93,181 @@
 
         .nav-column {
             width: auto;
-            order: 2;
+        }
+
+        .main-column {
+            width: 100;
+        }
+
+        .wrapper{
+            overflow: hidden
+        }
+
+        @keyframes expandNav{
+            from{
+                width: var(--nav-width-min);
+            }to{
+                width: var(--nav-width-max);
+            }
+        }
+
+        @keyframes minimizeNav{
+            from{
+                width: var(--nav-width-max);
+            }to{
+                width: var(--nav-width-min);
+            }
+        }
+
+        @keyframes container-right-margin-Expanded-state {
+            from {
+                margin-left: var(--nav-width-min);
+            }
+
+            to {
+                margin-left: var(--nav-width-max);
+            }
+        }
+
+        @keyframes container-right-margin-Minimized-state {
+            from {
+                margin-left: var(--nav-width-max);
+            }
+
+            to {
+                margin-left: var(--nav-width-min);
+            }
+        }
+
+        @keyframes logo-whole-text{
+            from{
+                right: 50px;
+            }to{
+                right: 0;
+            }
+        }
+
+        @keyframes navLogo-text-main-expand {
+          from{
+            opacity: 0.5;
+          }to{
+            opacity: 1;
+          }
+        }
+
+        @keyframes navLogo-text-sec-expand {
+          from{
+           opacity: 0;
+          }to{
+            opacity: 1;
+          }
         }
 
 
-        @media (min-width: 768px) {
-            .flex-container {
-                flex-direction: row;
-            }
+        .sidenav {
+            display: inline-flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            height: 100vh;
+            width: auto;
+            min-width: calc(var(--nav-width-min) * 1);
+            max-width: calc(var(--nav-width-max) * 1);
+            position: absolute;
+            z-index: 1;
+            top: 0;
+            left: 0;
+            background-color: #313A46;
+            overflow-x: hidden;
+            overflow-y: hidden;
+            animation: minimizeNav 0.5s ease;
+        }
 
-            .nav-column {
-                order: 1;
-            }
+        .nav-item a.active {
+            color: #FFFFFF;
+            background-color: #318791;
+            padding: 10px 20px;
+            font-weight: 700;
+            border-right:#f1f1f1 4px solid;
+        }
 
-            .main-column {
-                flex-grow: 1;
-                margin-top: 0.5rem;
-                margin-left: 1rem;
-                margin-right: 1rem;
-                width: 85%;
-                order: 1;
-            }
+        .nav-item a.active:hover{
+            color: #FFFFFF;
+            border-right:#f1f1f1 10px solid;
+        }
 
-            fieldset legend {
-                position: absolute;
-                /* Set position to absolute */
-                top: -20px;
-                /* Adjust this value to move legend up */
-                background-color: #fff;
-                /* Match the background color to your form or page background */
-                color: #495057;
-                border-radius: 0.25rem;
-                padding: 0.5rem;
-                font-size: 1rem;
-                font-weight: bold;
-                left: 10px;
-                /* Adjust horizontally if needed */
-            }
-
-
-            /* Additional styling to ensure the fieldset and its contents look integrated */
-            fieldset {
-                position: relative;
-                /* Added position relative */
-                padding: 2rem;
-                border: 2px solid #dee2e6;
-                border-radius: 0.25rem;
-                background-color: #fff;
-            }
-
+        .sidenav a {
+            padding: 6px 8px 6px 6px;
+            text-decoration: none;
+            color: #818181;
+            display: block;
 
 
         }
-
-        @media (max-width: 768px) {
-            .main-column {
-                padding: 0.5rem 0rem;
-                width: 100% !important;
-            }
-
-            fieldset legend {
-                position: absolute;
-                top: -20px;
-                background-color: #fff;
-                color: #495057;
-                border-radius: 0.25rem;
-                padding: 0.5rem;
-                font-size: 1rem;
-                font-weight: bold;
-                left: 10px;
-            }
-
-            fieldset {
-                position: relative;
-                padding: 0.5rem;
-                border: 1px solid #dee2e6;
-                border-radius: 0.25rem;
-                background-color: #fff;
-            }
+        .sidenav a:hover {
+            filter: grayscale(0%) opacity(1);
+            color: #318791;
+            border-right:#f1f1f1 4px solid;
         }
+
+        .topNav {
+            height: var(--top-header-height);
+        }
+
+        #logoTitle {
+            right: 50px;
+            animation: logo-whole-text 1s forwards;
+        }
+
+        .sideTextMain {
+            position: absolute;
+            bottom: 50%;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .sideTextMain::after {
+            content: "DOST-SETUP";
+
+            opacity: 0.5;
+            animation: navLogo-text-main-expand 2s forwards;
+        }
+
+        .sideTextSec {
+            position: absolute;
+            top: 50%;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .sideTextSec::after {
+            content: "Fund Monitoring System";
+
+            opacity: 0;
+            animation: navLogo-text-sec-expand 3s forwards;
+        }
+
+        .navExpanded {
+            margin-left: calc(var(--nav-width-max) * 1);
+            animation: container-right-margin-Expanded-state 0.5s ease;
+
+        }
+
+        .navMinimized {
+            margin-left: calc(var(--nav-width-min) * 1);
+            animation: container-right-margin-Minimized-state 0.5s ease;
+        }
+
+        .sidenav.expanded {
+            width: calc(var(--nav-width-max) * 1);
+            animation: expandNav 0.5s ease;
+        }
+
+        .sidenav.Minimized {
+            width: calc(var(--nav-width-min) * 1);
+        }
+
+
+
+
     </style>
 </head>
 

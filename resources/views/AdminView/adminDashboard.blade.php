@@ -55,11 +55,6 @@
             /* Example: Set to semi-bold. Adjust the value as needed */
         }
 
-        .headerlogo {
-            background: #318791;
-            color: white;
-        }
-
         .logo {
             width: 50px;
             height: 50px;
@@ -132,18 +127,22 @@
 
         /* side bar */
 
-        @keyframes expandNav{
-            from{
+        @keyframes expandNav {
+            from {
                 width: var(--nav-width-min);
-            }to{
+            }
+
+            to {
                 width: var(--nav-width-max);
             }
         }
 
-        @keyframes minimizeNav{
-            from{
+        @keyframes minimizeNav {
+            from {
                 width: var(--nav-width-max);
-            }to{
+            }
+
+            to {
                 width: var(--nav-width-min);
             }
         }
@@ -168,28 +167,34 @@
             }
         }
 
-        @keyframes logo-whole-text{
-            from{
+        @keyframes logo-whole-text {
+            from {
                 right: 50px;
-            }to{
+            }
+
+            to {
                 right: 0;
             }
         }
 
         @keyframes navLogo-text-main-expand {
-          from{
-            opacity: 0.5;
-          }to{
-            opacity: 1;
-          }
+            from {
+                opacity: 0.5;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes navLogo-text-sec-expand {
-          from{
-           opacity: 0;
-          }to{
-            opacity: 1;
-          }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
 
@@ -216,12 +221,12 @@
             background-color: #318791;
             padding: 10px 20px;
             font-weight: 700;
-            border-right:#f1f1f1 4px solid;
+            border-right: #f1f1f1 4px solid;
         }
 
-        .nav-item a.active:hover{
+        .nav-item a.active:hover {
             color: #FFFFFF;
-            border-right:#f1f1f1 10px solid;
+            border-right: #f1f1f1 10px solid;
         }
 
         .sidenav a {
@@ -232,10 +237,11 @@
 
 
         }
+
         .sidenav a:hover {
             filter: grayscale(0%) opacity(1);
             color: #318791;
-            border-right:#f1f1f1 4px solid;
+            border-right: #f1f1f1 4px solid;
         }
 
         .topNav {
@@ -267,6 +273,7 @@
             font-size: 12px;
             font-weight: 400;
         }
+
         .sideTextSec::after {
             content: "Fund Monitoring System";
 
@@ -367,7 +374,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="#" id="userList" onclick="loadPage('{{ route('admin.Users-list') }}','userList');"
-                    class="mb-2 d-flex align-items-center">
+                        class="mb-2 d-flex align-items-center">
                         <i class="ri-shield-user-fill ri-2x"></i>
                         <span class="nav-text ml-2">Users</span>
                     </a>
@@ -403,630 +410,631 @@
             </div>
         </div>
     </div>
+    <script>
+        // if (unsavedChangesExist()) {
+        $(window).on('beforeunload', function() {
+            return 'Are you sure you want to leave?';
+        });
+        // }
+        $(document).ready(function() {
+            let lastUrl = sessionStorage.getItem('AdminlastUrl');
+            let lastActive = sessionStorage.getItem('AdminLastActive');
+            if (lastUrl && lastActive) {
+                loadPage(lastUrl, lastActive);
+            } else {
+                loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');
+            }
+        });
+
+        function loadPage(url, activeLink) {
+            // Check if the response is already cached
+            let cachePage = sessionStorage.getItem(url);
+            if (cachePage) {
+                // If cached, use the cached response
+                handleAjaxSuccess(cachePage, activeLink, url);
+            } else {
+                // If not cached, make the AJAX request
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        // Cache the response
+                        sessionStorage.setItem(url, response);
+                        handleAjaxSuccess(response, activeLink, url);
+                    },
+                    error: function(error) {
+                        console.log('Error: ' + error);
+                    },
+                });
+            }
+        }
+
+        function handleAjaxSuccess(response, activeLink, url) {
+            $('#main-content').html(response);
+            setActiveLink(activeLink);
+            history.pushState(null, '', url);
+            if (url === '{{ route('admin.Dashboard') }}') {
+                InitdashboardChar();
+                $(document).trigger('DocLoaded');
+            }
+            if (url === '/org-access/viewCooperatorInfo.php') {
+                InitializeviewCooperatorProgress();
+            }
+            sessionStorage.setItem('AdminlastUrl', url);
+            sessionStorage.setItem('AdminLastActive', activeLink);
+        }
+
+
+        //FIXME: Improve the logic of the following code
+        let pieChartAppli, barChartAppli, pieChartOngoing, barChartOngoing, pieChartComple, barChartComple;
+        $(document).on('DocLoaded', function() {
+            $(document).off('shown.bs.modal');
+            $(document).on('shown.bs.modal', '#applicantModal', function() {
+                setTimeout(function() {
+                    console.log('Initializing charts for applicantModal');
+
+                    pieChartAppli = initializePieChart('pieChartApp');
+                    barChartAppli = initializeBarChart('barChartApp');
+                    console.log(pieChartAppli, barChartAppli)
+
+                    $('#closeApplicant').off('click').click(function() {
+                        if (pieChartAppli) pieChartAppli?.destroy();
+                        if (barChartAppli) barChartAppli?.destroy();
+                    });
+
+                }, 500);
+            });
+
+            $(document).on('shown.bs.modal', '#ongoingModal', function() {
+                setTimeout(function() {
+                    console.log('Initializing charts for ongoingModal');
+
+                    pieChartOngoing = initializePieChart('pieChartOngo');
+                    barChartOngoing = initializeBarChart('barChartOngo');
+
+                    $('#closeOngoing').off('click').click(function() {
+                        if (pieChartOngoing) pieChartOngoing?.destroy();
+                        if (barChartOngoing) barChartOngoing?.destroy();
+                    });
+                }, 500);
+            });
+
+            $(document).on('shown.bs.modal', '#completedModal', function() {
+                setTimeout(function() {
+                    console.log('Initializing charts for completedModal');
+
+                    pieChartComple = initializePieChart('pieChartComp');
+                    barChartComple = initializeBarChart('barChartComp');
+
+                    $('#closeComple').off('click').click(function() {
+                        if (pieChartComple) pieChartComple?.destroy();
+                        if (barChartComple) barChartComple?.destroy();
+                    });
+                }, 500);
+            });
+        });
+
+
+        // Optionally reinitialize the charts or perform other cleanup
+
+        //TODO: Charts for Applicant, Ongoing and Completed Projects
+
+        function InitdashboardChar() {
+            var randomizeArray = function(arg) {
+                var array = arg.slice();
+                var currentIndex = array.length,
+                    temporaryValue, randomIndex;
+
+                while (0 !== currentIndex) {
+
+                    randomIndex = Math.floor(Math.random() * currentIndex);
+                    currentIndex -= 1;
+
+                    temporaryValue = array[currentIndex];
+                    array[currentIndex] = array[randomIndex];
+                    array[randomIndex] = temporaryValue;
+                }
+
+                return array;
+            }
+            var sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19,
+                46
+            ];
+            var applicationChar = {
+                chart: {
+                    id: 'Applicant',
+                    type: 'area',
+                    height: 160,
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{
+                    name: 'Applicants',
+                    data: randomizeArray(sparklineData)
+                }],
+                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+                yaxis: {
+                    min: 0
+                },
+                xaxis: {
+                    type: 'datetime',
+                },
+                colors: ['#48C4D3'],
+                title: {
+                    text: '52',
+                    offsetX: 30,
+                    style: {
+                        fontSize: '24px',
+                        cssClass: 'apexcharts-yaxis-title'
+                    }
+                },
+                subtitle: {
+                    text: 'Applicants',
+                    offsetX: 30,
+                    style: {
+                        fontSize: '14px',
+                        cssClass: 'apexcharts-yaxis-title'
+                    }
+                }
+            }
+
+            var OngoingChar = {
+                chart: {
+                    id: 'Ongoing',
+                    type: 'area',
+                    height: 160,
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{
+                    name: 'Ongoing',
+                    data: randomizeArray(sparklineData)
+                }],
+                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+                yaxis: {
+                    min: 0
+                },
+                xaxis: {
+                    type: 'datetime',
+                },
+                colors: ['#48C4D3'],
+                title: {
+                    text: '312',
+                    offsetX: 30,
+                    style: {
+                        fontSize: '24px',
+                        cssClass: 'apexcharts-yaxis-title'
+                    }
+                },
+                subtitle: {
+                    text: 'Ongoing',
+                    offsetX: 30,
+                    style: {
+                        fontSize: '14px',
+                        cssClass: 'apexcharts-yaxis-title'
+                    }
+                }
+            }
+
+            var completedChar = {
+                chart: {
+                    id: 'Completed',
+                    type: 'area',
+                    height: 160,
+                    sparkline: {
+                        enabled: true
+                    },
+                },
+                stroke: {
+                    curve: 'straight'
+                },
+                fill: {
+                    opacity: 1,
+                },
+                series: [{
+                    name: 'Completed',
+                    data: randomizeArray(sparklineData)
+                }],
+                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
+                xaxis: {
+                    type: 'datetime',
+                },
+                yaxis: {
+                    min: 0
+                },
+                colors: ['#48C4D3'],
+                //colors: ['#5564BE'],
+                title: {
+                    text: '13',
+                    offsetX: 30,
+                    style: {
+                        fontSize: '24px',
+                        cssClass: 'apexcharts-yaxis-title'
+                    }
+                },
+                subtitle: {
+                    text: 'Completed',
+                    offsetX: 30,
+                    style: {
+                        fontSize: '14px',
+                        cssClass: 'apexcharts-yaxis-title'
+                    }
+                }
+            }
+            new ApexCharts(document.querySelector("#Applicant"), applicationChar).render();
+            new ApexCharts(document.querySelector("#Ongoing"), OngoingChar).render();
+            new ApexCharts(document.querySelector("#Completed"), completedChar).render();
+            // staff handled projects chart
+            var handledBusiness = {
+                series: [{
+                    name: 'Micro Enterprise',
+                    data: [21, 22, 10, 28, 16]
+                }, {
+                    name: 'Small Enterprise',
+                    data: [15, 25, 11, 19, 14]
+                }, {
+                    name: 'Medium Enterprise',
+                    data: [10, 20, 15, 24, 10]
+                }],
+                chart: {
+                    height: 350,
+                    type: 'bar',
+                    stacked: true,
+                    events: {
+                        click: function(chart, w, e) {
+                            // console.log(chart, w, e)
+                        }
+                    }
+                },
+                colors: ['#008ffb', '#00e396', '#feb019'],
+                plotOptions: {
+                    bar: {
+                        columnWidth: '45%',
+                        distributed: false,
+                        borderRadius: 10,
+                        borderRadiusApplication: 'end',
+                        borderRadiusWhenStacked: 'last',
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                legend: {
+                    show: true,
+                    position: 'bottom'
+                },
+                xaxis: {
+                    categories: [
+                        'Staff1',
+                        'Staff2',
+                        'Staff3',
+                        'Staff4',
+                        'Staff5',
+                    ],
+                    labels: {
+                        style: {
+                            colors: ['#111111'],
+                            fontSize: '12px'
+                        }
+                    }
+                }
+            };
+
+            new ApexCharts(document.querySelector("#staffHandledB"), handledBusiness).render();
+        }
+
+        function initializePieChart(chartID) {
+            var options = {
+                series: [77, 58, 50],
+                chart: {
+                    width: 380,
+                    type: 'pie',
+                },
+                labels: ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'],
+                responsive: [{
+                    breakpoint: 480,
+                    options: {
+                        chart: {
+                            width: 200
+                        },
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }]
+            };
+
+            var pieChart = new ApexCharts(document.querySelector("#" + chartID), options);
+            pieChart.render();
+            return pieChart;
+        }
+
+        function initializeBarChart(chartID) {
+            var options = {
+                series: [{
+                    name: 'Micro Enterprise',
+                    data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
+                }, {
+                    name: 'Small Enterprise',
+                    data: [300, 330, 348, 370, 440, 480, 590, 1000, 1100, 1280]
+                }, {
+                    name: 'Medium Enterprise',
+                    data: [200, 230, 248, 270, 340, 380, 490, 900, 1000, 1180]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350,
+                    stacked: true
+                },
+                plotOptions: {
+                    bar: {
+                        borderRadius: 4,
+                        borderRadiusApplication: 'end',
+                        horizontal: true,
+                        columnWidth: '45%',
+                        distributed: false,
+                        endingShape: 'rounded'
+                    }
+                },
+                dataLabels: {
+                    enabled: false
+                },
+                xaxis: {
+                    categories: ['Tagum City', 'Panabo City', 'Island Garden City of Samal', 'Braulio E. Dujali',
+                        'Carmen', 'Kapalong', 'New Corella', 'San Isidro', 'Santo Tomas', 'Talaingod'
+                    ],
+                }
+            };
+
+            var barChart = new ApexCharts(document.querySelector("#" + chartID), options);
+            barChart.render();
+            return barChart;
+        }
+
+        function InitializeviewCooperatorProgress() {
+            var options = {
+                series: [75],
+                chart: {
+                    height: 250,
+                    type: 'radialBar',
+                    toolbar: {
+                        show: true
+                    }
+                },
+                plotOptions: {
+                    radialBar: {
+                        startAngle: -135,
+                        endAngle: 225,
+                        hollow: {
+                            margin: 0,
+                            size: '70%',
+                            background: '#fff',
+                            image: undefined,
+                            imageOffsetX: 0,
+                            imageOffsetY: 0,
+                            position: 'front',
+                            dropShadow: {
+                                enabled: true,
+                                top: 3,
+                                left: 0,
+                                blur: 4,
+                                opacity: 0.24
+                            }
+                        },
+                        track: {
+                            background: '#fff',
+                            strokeWidth: '67%',
+                            margin: 0, // margin is in pixels
+                            dropShadow: {
+                                enabled: true,
+                                top: -3,
+                                left: 0,
+                                blur: 4,
+                                opacity: 0.35
+                            }
+                        },
+
+                        dataLabels: {
+                            show: true,
+                            name: {
+                                offsetY: -10,
+                                show: true,
+                                color: '#888',
+                                fontSize: '17px'
+                            },
+                            value: {
+                                formatter: function(val) {
+                                    return parseInt(val);
+                                },
+                                color: '#111',
+                                fontSize: '36px',
+                                show: true,
+                            }
+                        }
+                    }
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'dark',
+                        type: 'horizontal',
+                        shadeIntensity: 0.5,
+                        gradientToColors: ['#ABE5A1'],
+                        inverseColors: true,
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 100]
+                    }
+                },
+                stroke: {
+                    lineCap: 'round'
+                },
+                labels: ['Percent'],
+            };
+
+            var chart = new ApexCharts(document.querySelector("#progressBar"), options);
+            chart.render();
+
+            //TODO: Production Generated Chart
+            var options = {
+                series: [{
+                    name: 'Growth',
+                    data: [10, 15, 7, -12]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                plotOptions: {
+                    bar: {
+                        colors: {
+                            ranges: [{
+                                from: -100,
+                                to: -46,
+                                color: '#F15B46'
+                            }, {
+                                from: -45,
+                                to: 0,
+                                color: '#FEB019'
+                            }]
+                        },
+                        columnWidth: '80%',
+                    }
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                yaxis: {
+                    title: {
+                        text: 'Growth',
+                    },
+                    labels: {
+                        formatter: function(y) {
+                            return y.toFixed(0) + "%";
+                        }
+                    }
+                },
+                xaxis: {
+                    categories: [
+                        'Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'
+                    ],
+                    labels: {
+                        rotate: -90
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#productionGeneChart"), options);
+            chart.render();
+
+            //TODO: Employment Generated Chart
+
+            var options = {
+                series: [{
+                    name: 'Growth',
+                    data: [2, -2, 4, 5]
+                }],
+                chart: {
+                    type: 'bar',
+                    height: 350
+                },
+                plotOptions: {
+                    bar: {
+                        colors: {
+                            ranges: [{
+                                from: -100,
+                                to: -46,
+                                color: '#F15B46'
+                            }, {
+                                from: -45,
+                                to: 0,
+                                color: '#FEB019'
+                            }]
+                        },
+                        columnWidth: '80%',
+                    }
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                yaxis: {
+                    title: {
+                        text: 'Growth',
+                    },
+                    labels: {
+                        formatter: function(y) {
+                            return y.toFixed(0) + "%";
+                        }
+                    }
+                },
+                xaxis: {
+                    categories: [
+                        'Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'
+                    ],
+                    labels: {
+                        rotate: -90
+                    }
+                }
+            };
+
+            var chart = new ApexCharts(document.querySelector("#employmentGeneChart"), options);
+            chart.render();
+
+        }
+    </script>
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidenav');
+            const logoDescription = document.querySelector('#logoTitle');
+            logoDescription.classList.toggle('d-none');
+
+            sidebar.classList.toggle('expanded');
+            sidebar.classList.toggle('minimized');
+            const container = $('#toggle-left-margin');
+            if (container.hasClass('navExpanded')) {
+                container.removeClass('navExpanded').addClass('navMinimized');
+            } else {
+                container.removeClass('navMinimized').addClass('navExpanded');
+            };
+            //side bar minimize
+            $('.sidenav a span').each(function() {
+                $(this).toggleClass('d-none');
+            });
+
+            $('.sidenav a').each(function() {
+                $(this).toggleClass('justify-content-center');
+            });
+            //size bar minimize rotation
+            $('#hover-link').toggleClass('rotate-icon');
+
+        }
+
+        function setActiveLink(activeLink) {
+            $('.nav-item a').removeClass('active');
+            var defaultLink = 'dashboardLink';
+            var linkToActivate = $('#' + (activeLink || defaultLink));
+            linkToActivate.addClass('active');
+        }
+    </script>
 
 </body>
-<script>
-    // if (unsavedChangesExist()) {
-    $(window).on('beforeunload', function() {
-        return 'Are you sure you want to leave?';
-    });
-    // }
-    $(document).ready(function() {
-        let lastUrl = sessionStorage.getItem('AdminlastUrl');
-        let lastActive = sessionStorage.getItem('AdminLastActive');
-        if (lastUrl && lastActive) {
-            loadPage(lastUrl, lastActive);
-        } else {
-            loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');
-        }
-    });
 
-    function loadPage(url, activeLink) {
-        // Check if the response is already cached
-        let cachePage = sessionStorage.getItem(url);
-        if (cachePage) {
-            // If cached, use the cached response
-            handleAjaxSuccess(cachePage, activeLink, url);
-        } else {
-            // If not cached, make the AJAX request
-            $.ajax({
-                url: url,
-                type: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                success: function(response) {
-                    // Cache the response
-                    sessionStorage.setItem(url, response);
-                    handleAjaxSuccess(response, activeLink, url);
-                },
-                error: function(error) {
-                    console.log('Error: ' + error);
-                },
-            });
-        }
-    }
-
-    function handleAjaxSuccess(response, activeLink, url) {
-        $('#main-content').html(response);
-        setActiveLink(activeLink);
-        history.pushState(null, '', url);
-        if (url === '{{ route('admin.Dashboard') }}') {
-            InitdashboardChar();
-            $(document).trigger('DocLoaded');
-        }
-        if (url === '/org-access/viewCooperatorInfo.php') {
-            InitializeviewCooperatorProgress();
-        }
-        sessionStorage.setItem('AdminlastUrl', url);
-        sessionStorage.setItem('AdminLastActive', activeLink);
-    }
-
-
-    //FIXME: Improve the logic of the following code
-    let pieChartAppli, barChartAppli, pieChartOngoing, barChartOngoing, pieChartComple, barChartComple;
-    $(document).on('DocLoaded', function() {
-        $(document).off('shown.bs.modal');
-        $(document).on('shown.bs.modal', '#applicantModal', function() {
-            setTimeout(function() {
-                console.log('Initializing charts for applicantModal');
-
-                pieChartAppli = initializePieChart('pieChartApp');
-                barChartAppli = initializeBarChart('barChartApp');
-                console.log(pieChartAppli, barChartAppli)
-
-                $('#closeApplicant').off('click').click(function() {
-                    if (pieChartAppli) pieChartAppli?.destroy();
-                    if (barChartAppli) barChartAppli?.destroy();
-                });
-
-            }, 500);
-        });
-
-        $(document).on('shown.bs.modal', '#ongoingModal', function() {
-            setTimeout(function() {
-                console.log('Initializing charts for ongoingModal');
-
-                pieChartOngoing = initializePieChart('pieChartOngo');
-                barChartOngoing = initializeBarChart('barChartOngo');
-
-                $('#closeOngoing').off('click').click(function() {
-                    if (pieChartOngoing) pieChartOngoing?.destroy();
-                    if (barChartOngoing) barChartOngoing?.destroy();
-                });
-            }, 500);
-        });
-
-        $(document).on('shown.bs.modal', '#completedModal', function() {
-            setTimeout(function() {
-                console.log('Initializing charts for completedModal');
-
-                pieChartComple = initializePieChart('pieChartComp');
-                barChartComple = initializeBarChart('barChartComp');
-
-                $('#closeComple').off('click').click(function() {
-                    if (pieChartComple) pieChartComple?.destroy();
-                    if (barChartComple) barChartComple?.destroy();
-                });
-            }, 500);
-        });
-    });
-
-
-    // Optionally reinitialize the charts or perform other cleanup
-
-    //TODO: Charts for Applicant, Ongoing and Completed Projects
-
-    function InitdashboardChar() {
-        var randomizeArray = function(arg) {
-            var array = arg.slice();
-            var currentIndex = array.length,
-                temporaryValue, randomIndex;
-
-            while (0 !== currentIndex) {
-
-                randomIndex = Math.floor(Math.random() * currentIndex);
-                currentIndex -= 1;
-
-                temporaryValue = array[currentIndex];
-                array[currentIndex] = array[randomIndex];
-                array[randomIndex] = temporaryValue;
-            }
-
-            return array;
-        }
-        var sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19,
-            46
-        ];
-        var applicationChar = {
-            chart: {
-                id: 'Applicant',
-                type: 'area',
-                height: 160,
-                sparkline: {
-                    enabled: true
-                },
-            },
-            stroke: {
-                curve: 'straight'
-            },
-            fill: {
-                opacity: 1,
-            },
-            series: [{
-                name: 'Applicants',
-                data: randomizeArray(sparklineData)
-            }],
-            labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
-            yaxis: {
-                min: 0
-            },
-            xaxis: {
-                type: 'datetime',
-            },
-            colors: ['#48C4D3'],
-            title: {
-                text: '52',
-                offsetX: 30,
-                style: {
-                    fontSize: '24px',
-                    cssClass: 'apexcharts-yaxis-title'
-                }
-            },
-            subtitle: {
-                text: 'Applicants',
-                offsetX: 30,
-                style: {
-                    fontSize: '14px',
-                    cssClass: 'apexcharts-yaxis-title'
-                }
-            }
-        }
-
-        var OngoingChar = {
-            chart: {
-                id: 'Ongoing',
-                type: 'area',
-                height: 160,
-                sparkline: {
-                    enabled: true
-                },
-            },
-            stroke: {
-                curve: 'straight'
-            },
-            fill: {
-                opacity: 1,
-            },
-            series: [{
-                name: 'Ongoing',
-                data: randomizeArray(sparklineData)
-            }],
-            labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
-            yaxis: {
-                min: 0
-            },
-            xaxis: {
-                type: 'datetime',
-            },
-            colors: ['#48C4D3'],
-            title: {
-                text: '312',
-                offsetX: 30,
-                style: {
-                    fontSize: '24px',
-                    cssClass: 'apexcharts-yaxis-title'
-                }
-            },
-            subtitle: {
-                text: 'Ongoing',
-                offsetX: 30,
-                style: {
-                    fontSize: '14px',
-                    cssClass: 'apexcharts-yaxis-title'
-                }
-            }
-        }
-
-        var completedChar = {
-            chart: {
-                id: 'Completed',
-                type: 'area',
-                height: 160,
-                sparkline: {
-                    enabled: true
-                },
-            },
-            stroke: {
-                curve: 'straight'
-            },
-            fill: {
-                opacity: 1,
-            },
-            series: [{
-                name: 'Completed',
-                data: randomizeArray(sparklineData)
-            }],
-            labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
-            xaxis: {
-                type: 'datetime',
-            },
-            yaxis: {
-                min: 0
-            },
-            colors: ['#48C4D3'],
-            //colors: ['#5564BE'],
-            title: {
-                text: '13',
-                offsetX: 30,
-                style: {
-                    fontSize: '24px',
-                    cssClass: 'apexcharts-yaxis-title'
-                }
-            },
-            subtitle: {
-                text: 'Completed',
-                offsetX: 30,
-                style: {
-                    fontSize: '14px',
-                    cssClass: 'apexcharts-yaxis-title'
-                }
-            }
-        }
-        new ApexCharts(document.querySelector("#Applicant"), applicationChar).render();
-        new ApexCharts(document.querySelector("#Ongoing"), OngoingChar).render();
-        new ApexCharts(document.querySelector("#Completed"), completedChar).render();
-        // staff handled projects chart
-        var handledBusiness = {
-            series: [{
-                name: 'Micro Enterprise',
-                data: [21, 22, 10, 28, 16]
-            }, {
-                name: 'Small Enterprise',
-                data: [15, 25, 11, 19, 14]
-            }, {
-                name: 'Medium Enterprise',
-                data: [10, 20, 15, 24, 10]
-            }],
-            chart: {
-                height: 350,
-                type: 'bar',
-                stacked: true,
-                events: {
-                    click: function(chart, w, e) {
-                        // console.log(chart, w, e)
-                    }
-                }
-            },
-            colors: ['#008ffb', '#00e396', '#feb019'],
-            plotOptions: {
-                bar: {
-                    columnWidth: '45%',
-                    distributed: false,
-                    borderRadius: 10,
-                    borderRadiusApplication: 'end',
-                    borderRadiusWhenStacked: 'last',
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            legend: {
-                show: true,
-                position: 'bottom'
-            },
-            xaxis: {
-                categories: [
-                    'Staff1',
-                    'Staff2',
-                    'Staff3',
-                    'Staff4',
-                    'Staff5',
-                ],
-                labels: {
-                    style: {
-                        colors: ['#111111'],
-                        fontSize: '12px'
-                    }
-                }
-            }
-        };
-
-        new ApexCharts(document.querySelector("#staffHandledB"), handledBusiness).render();
-    }
-
-    function initializePieChart(chartID) {
-        var options = {
-            series: [77, 58, 50],
-            chart: {
-                width: 380,
-                type: 'pie',
-            },
-            labels: ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'],
-            responsive: [{
-                breakpoint: 480,
-                options: {
-                    chart: {
-                        width: 200
-                    },
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
-            }]
-        };
-
-        var pieChart = new ApexCharts(document.querySelector("#" + chartID), options);
-        pieChart.render();
-        return pieChart;
-    }
-
-    function initializeBarChart(chartID) {
-        var options = {
-            series: [{
-                name: 'Micro Enterprise',
-                data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
-            }, {
-                name: 'Small Enterprise',
-                data: [300, 330, 348, 370, 440, 480, 590, 1000, 1100, 1280]
-            }, {
-                name: 'Medium Enterprise',
-                data: [200, 230, 248, 270, 340, 380, 490, 900, 1000, 1180]
-            }],
-            chart: {
-                type: 'bar',
-                height: 350,
-                stacked: true
-            },
-            plotOptions: {
-                bar: {
-                    borderRadius: 4,
-                    borderRadiusApplication: 'end',
-                    horizontal: true,
-                    columnWidth: '45%',
-                    distributed: false,
-                    endingShape: 'rounded'
-                }
-            },
-            dataLabels: {
-                enabled: false
-            },
-            xaxis: {
-                categories: ['Tagum City', 'Panabo City', 'Island Garden City of Samal', 'Braulio E. Dujali',
-                    'Carmen', 'Kapalong', 'New Corella', 'San Isidro', 'Santo Tomas', 'Talaingod'
-                ],
-            }
-        };
-
-        var barChart = new ApexCharts(document.querySelector("#" + chartID), options);
-        barChart.render();
-        return barChart;
-    }
-
-    function InitializeviewCooperatorProgress() {
-        var options = {
-            series: [75],
-            chart: {
-                height: 250,
-                type: 'radialBar',
-                toolbar: {
-                    show: true
-                }
-            },
-            plotOptions: {
-                radialBar: {
-                    startAngle: -135,
-                    endAngle: 225,
-                    hollow: {
-                        margin: 0,
-                        size: '70%',
-                        background: '#fff',
-                        image: undefined,
-                        imageOffsetX: 0,
-                        imageOffsetY: 0,
-                        position: 'front',
-                        dropShadow: {
-                            enabled: true,
-                            top: 3,
-                            left: 0,
-                            blur: 4,
-                            opacity: 0.24
-                        }
-                    },
-                    track: {
-                        background: '#fff',
-                        strokeWidth: '67%',
-                        margin: 0, // margin is in pixels
-                        dropShadow: {
-                            enabled: true,
-                            top: -3,
-                            left: 0,
-                            blur: 4,
-                            opacity: 0.35
-                        }
-                    },
-
-                    dataLabels: {
-                        show: true,
-                        name: {
-                            offsetY: -10,
-                            show: true,
-                            color: '#888',
-                            fontSize: '17px'
-                        },
-                        value: {
-                            formatter: function(val) {
-                                return parseInt(val);
-                            },
-                            color: '#111',
-                            fontSize: '36px',
-                            show: true,
-                        }
-                    }
-                }
-            },
-            fill: {
-                type: 'gradient',
-                gradient: {
-                    shade: 'dark',
-                    type: 'horizontal',
-                    shadeIntensity: 0.5,
-                    gradientToColors: ['#ABE5A1'],
-                    inverseColors: true,
-                    opacityFrom: 1,
-                    opacityTo: 1,
-                    stops: [0, 100]
-                }
-            },
-            stroke: {
-                lineCap: 'round'
-            },
-            labels: ['Percent'],
-        };
-
-        var chart = new ApexCharts(document.querySelector("#progressBar"), options);
-        chart.render();
-
-        //TODO: Production Generated Chart
-        var options = {
-            series: [{
-                name: 'Growth',
-                data: [10, 15, 7, -12]
-            }],
-            chart: {
-                type: 'bar',
-                height: 350
-            },
-            plotOptions: {
-                bar: {
-                    colors: {
-                        ranges: [{
-                            from: -100,
-                            to: -46,
-                            color: '#F15B46'
-                        }, {
-                            from: -45,
-                            to: 0,
-                            color: '#FEB019'
-                        }]
-                    },
-                    columnWidth: '80%',
-                }
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            yaxis: {
-                title: {
-                    text: 'Growth',
-                },
-                labels: {
-                    formatter: function(y) {
-                        return y.toFixed(0) + "%";
-                    }
-                }
-            },
-            xaxis: {
-                categories: [
-                    'Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'
-                ],
-                labels: {
-                    rotate: -90
-                }
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#productionGeneChart"), options);
-        chart.render();
-
-        //TODO: Employment Generated Chart
-
-        var options = {
-            series: [{
-                name: 'Growth',
-                data: [2, -2, 4, 5]
-            }],
-            chart: {
-                type: 'bar',
-                height: 350
-            },
-            plotOptions: {
-                bar: {
-                    colors: {
-                        ranges: [{
-                            from: -100,
-                            to: -46,
-                            color: '#F15B46'
-                        }, {
-                            from: -45,
-                            to: 0,
-                            color: '#FEB019'
-                        }]
-                    },
-                    columnWidth: '80%',
-                }
-            },
-            dataLabels: {
-                enabled: false,
-            },
-            yaxis: {
-                title: {
-                    text: 'Growth',
-                },
-                labels: {
-                    formatter: function(y) {
-                        return y.toFixed(0) + "%";
-                    }
-                }
-            },
-            xaxis: {
-                categories: [
-                    'Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'
-                ],
-                labels: {
-                    rotate: -90
-                }
-            }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#employmentGeneChart"), options);
-        chart.render();
-
-    }
-</script>
-<script>
-    function toggleSidebar() {
-        const sidebar = document.querySelector('.sidenav');
-        const logoDescription = document.querySelector('#logoTitle');
-        logoDescription.classList.toggle('d-none');
-
-        sidebar.classList.toggle('expanded');
-        sidebar.classList.toggle('minimized');
-        const container = $('#toggle-left-margin');
-        if (container.hasClass('navExpanded')) {
-            container.removeClass('navExpanded').addClass('navMinimized');
-        } else {
-            container.removeClass('navMinimized').addClass('navExpanded');
-        };
-        //side bar minimize
-        $('.sidenav a span').each(function() {
-            $(this).toggleClass('d-none');
-        });
-
-        $('.sidenav a').each(function() {
-            $(this).toggleClass('justify-content-center');
-        });
-        //size bar minimize rotation
-        $('#hover-link').toggleClass('rotate-icon');
-
-    }
-
-    function setActiveLink(activeLink) {
-        $('.nav-item a').removeClass('active');
-        var defaultLink = 'dashboardLink';
-        var linkToActivate = $('#' + (activeLink || defaultLink));
-        linkToActivate.addClass('active');
-    }
-</script>
 
 </html>
