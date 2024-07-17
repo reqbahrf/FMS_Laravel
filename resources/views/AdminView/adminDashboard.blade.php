@@ -130,13 +130,68 @@
             /* Border color for active page */
         }
 
-        @media (min-width: 768px) {}
-
         /* side bar */
 
-        .color {
-            fill: #f1f1f1;
+        @keyframes expandNav{
+            from{
+                width: var(--nav-width-min);
+            }to{
+                width: var(--nav-width-max);
+            }
         }
+
+        @keyframes minimizeNav{
+            from{
+                width: var(--nav-width-max);
+            }to{
+                width: var(--nav-width-min);
+            }
+        }
+
+        @keyframes container-right-margin-Expanded-state {
+            from {
+                margin-left: var(--nav-width-min);
+            }
+
+            to {
+                margin-left: var(--nav-width-max);
+            }
+        }
+
+        @keyframes container-right-margin-Minimized-state {
+            from {
+                margin-left: var(--nav-width-max);
+            }
+
+            to {
+                margin-left: var(--nav-width-min);
+            }
+        }
+
+        @keyframes logo-whole-text{
+            from{
+                right: 50px;
+            }to{
+                right: 0;
+            }
+        }
+
+        @keyframes navLogo-text-main-expand {
+          from{
+            opacity: 0.5;
+          }to{
+            opacity: 1;
+          }
+        }
+
+        @keyframes navLogo-text-sec-expand {
+          from{
+           opacity: 0;
+          }to{
+            opacity: 1;
+          }
+        }
+
 
         .sidenav {
             display: inline-flex;
@@ -153,21 +208,20 @@
             background-color: #313A46;
             overflow-x: hidden;
             overflow-y: hidden;
-            transition: width 200ms ease;
+            animation: minimizeNav 0.5s ease;
         }
 
         .nav-item a.active {
             color: #FFFFFF;
-        }
-
-        .sideTextMain {
-            font-size: 15px;
+            background-color: #318791;
+            padding: 10px 20px;
             font-weight: 700;
+            border-right:#f1f1f1 4px solid;
         }
 
-        .sideTextSec {
-            font-size: 12px;
-            font-weight: 400;
+        .nav-item a.active:hover{
+            color: #FFFFFF;
+            border-right:#f1f1f1 10px solid;
         }
 
         .sidenav a {
@@ -176,32 +230,64 @@
             color: #818181;
             display: block;
 
-        }
 
+        }
         .sidenav a:hover {
             filter: grayscale(0%) opacity(1);
             color: #318791;
+            border-right:#f1f1f1 4px solid;
         }
 
         .topNav {
             height: var(--top-header-height);
         }
 
-        .rotate-icon {
-            transform: rotate(-180deg);
-            transition: transform 0.3s ease;
+        #logoTitle {
+            right: 50px;
+            animation: logo-whole-text 1s forwards;
+        }
+
+        .sideTextMain {
+            position: absolute;
+            bottom: 50%;
+            font-size: 15px;
+            font-weight: 700;
+        }
+
+        .sideTextMain::after {
+            content: "DOST-SETUP";
+
+            opacity: 0.5;
+            animation: navLogo-text-main-expand 2s forwards;
+        }
+
+        .sideTextSec {
+            position: absolute;
+            top: 50%;
+            font-size: 12px;
+            font-weight: 400;
+        }
+        .sideTextSec::after {
+            content: "Fund Monitoring System";
+
+            opacity: 0;
+            animation: navLogo-text-sec-expand 3s forwards;
         }
 
         .navExpanded {
             margin-left: calc(var(--nav-width-max) * 1);
+            animation: container-right-margin-Expanded-state 0.5s ease;
+
         }
 
         .navMinimized {
             margin-left: calc(var(--nav-width-min) * 1);
+            animation: container-right-margin-Minimized-state 0.5s ease;
         }
 
         .sidenav.expanded {
             width: calc(var(--nav-width-max) * 1);
+            animation: expandNav 0.5s ease;
         }
 
         .sidenav.Minimized {
@@ -253,32 +339,35 @@
                                 </g>
                             </g>
                         </svg>
-                        <div id="logoTitle" class="row">
-                            <div class="col-12">
-                                <p class="sideTextMain text-white m-0">DOST-SETUP</p>
+                        <div id="logoTitle" class="row position-relative h-100 w-75">
+                            <div class="position-absolute top-50">
+                                <p class="sideTextMain text-white m-0 w-100"></p>
                             </div>
-                            <div class="col-12">
-                                <p class="sideTextSec text-white m-0">Fund Monitoring System</p>
+                            <div class="position-absolute bottom-50">
+                                <p class="sideTextSec text-white m-0 w-100"></p>
                             </div>
                         </div>
                     </div>
                 </li>
                 <li class="nav-item">
                     <a href="#" id="dashboardLink"
-                        onclick="loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');">
+                        onclick="loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');"
+                        class="mb-2 d-flex align-items-center">
                         <i class="ri-dashboard-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Dashboard</span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" id="projectList"
-                        onclick="loadPage('{{ route('admin.Project') }}', 'projectList');">
+                        onclick="loadPage('{{ route('admin.Project') }}', 'projectList');"
+                        class="mb-2 d-flex align-items-center">
                         <i class="ri-file-list-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Project List</span>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="userList" onclick="loadPage('{{ route('admin.Users-list') }}','userList');">
+                    <a href="#" id="userList" onclick="loadPage('{{ route('admin.Users-list') }}','userList');"
+                    class="mb-2 d-flex align-items-center">
                         <i class="ri-shield-user-fill ri-2x"></i>
                         <span class="nav-text ml-2">Users</span>
                     </a>
