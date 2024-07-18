@@ -5,10 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PersonalInfo extends Model
+class coopUserInfo extends Model
 {
     use HasFactory;
-    protected $table = 'personal_info';
+    protected $table = 'coop_users_info';
 
     protected $fillable = [
         'user_name',

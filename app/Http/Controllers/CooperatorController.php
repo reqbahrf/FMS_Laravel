@@ -19,11 +19,11 @@ class CooperatorController extends Controller
             }
             else
             {
-                $query = "SELECT personal_info.user_name, business_info.user_info_id, application_info.application_status
-                          FROM personal_info
-                          INNER JOIN business_info ON business_info.user_info_id = personal_info.id
+                $query = "SELECT coop_users_info.user_name, business_info.user_info_id, application_info.application_status
+                          FROM coop_users_info
+                          INNER JOIN business_info ON business_info.user_info_id = coop_users_info.id
                           INNER JOIN application_info ON application_info.business_id = business_info.id
-                          WHERE personal_info.user_name = ?;";
+                          WHERE coop_users_info.user_name = ?;";
 
                 $result = DB::select($query, [$userName]);
 
@@ -34,11 +34,11 @@ class CooperatorController extends Controller
                 }
 
                 if (Session::get('application_status') == 'approved') {
-                    $projectInfoQuery = "SELECT personal_info.user_name, business_info.id AS business_id, project_info.id AS project_id
-                                         FROM personal_info
-                                         INNER JOIN business_info ON business_info.user_info_id = personal_info.id
+                    $projectInfoQuery = "SELECT coop_users_info.user_name, business_info.id AS business_id, project_info.id AS project_id
+                                         FROM coop_users_info
+                                         INNER JOIN business_info ON business_info.user_info_id = coop_users_info.id
                                          INNER JOIN project_info ON project_info.business_id = business_info.id
-                                         WHERE personal_info.user_name = ?;";
+                                         WHERE coop_users_info.user_name = ?;";
 
                     $projectInfo = DB::select($projectInfoQuery, [$userName]);
 
@@ -65,19 +65,19 @@ class CooperatorController extends Controller
             $username = Session::get('user_name');
 
         // Query the database
-        $row = DB::table('personal_info')
-            ->Join('users', 'users.user_name', '=', 'personal_info.user_name')
-            ->join('business_info', 'business_info.user_info_id', '=', 'personal_info.id')
+        $row = DB::table('coop_users_info')
+            ->Join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+            ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
             ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
             ->select(
                 'users.user_name',
                 'users.email',
                 'project_info.project_title',
-                'personal_info.f_name',
-                'personal_info.l_name',
-                'personal_info.designation',
-                'personal_info.landline',
-                'personal_info.mobile_number',
+                'coop_users_info.f_name',
+                'coop_users_info.l_name',
+                'coop_users_info.designation',
+                'coop_users_info.landline',
+                'coop_users_info.mobile_number',
                 'business_info.firm_name',
                 'business_info.landMark',
                 'business_info.barangay',
@@ -85,7 +85,7 @@ class CooperatorController extends Controller
                 'business_info.province',
                 'business_info.region',
             )
-            ->where('personal_info.user_name', $username)
+            ->where('coop_users_info.user_name', $username)
             ->first();
 
         return view('cooperatorView.CooperatorInformationTab', compact('row'));

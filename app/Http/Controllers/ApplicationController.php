@@ -11,7 +11,7 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
        // $user_name = Session::get('user_name');
-        $user_name = "test1";
+        $user_name = 'test1';
 
         $successful_inserts = 0;
 
@@ -30,7 +30,7 @@ class ApplicationController extends Controller
             $designation = ($request->input('designation'));
             $mobile_number = ($request->input('Mobile_no'));
             $landline = ($request->input('landline'));
-            $personalInfoId = DB::table('personal_info')->insertGetId([
+            $personalInfoId = DB::table('coop_users_info')->insertGetId([
                 'user_name' => $user_name,
                 'prefix' => $name_prefix,
                 'f_name' => $f_name,
@@ -76,7 +76,7 @@ class ApplicationController extends Controller
             $working_capital = str_replace(',', '', ($request->input('working_capital')));
 
             DB::table('assets')->insert([
-                'business_id' => $businessId,
+                'id' => $businessId,
                 'building_value' => $building_value,
                 'equipment_value' => $equipment_value,
                 'working_capital' => $working_capital,
@@ -94,7 +94,7 @@ class ApplicationController extends Controller
             $f_personnelIndPart = $request->input('f_personnelIndPart');
 
             DB::table('personnel')->insert([
-                'business_id' => $businessId,
+                'id' => $businessId,
                 'male_direct_re' => $m_personnelDiRe,
                 'female_direct_re' => $f_personnelDiRe,
                 'male_direct_part' => $m_personnelDiPart,
@@ -107,40 +107,12 @@ class ApplicationController extends Controller
             $successful_inserts++;
 
             // Requirements table
-            $allowed_mime_type = 'application/pdf';
-
-            $files = [
-                'IntentFile' => $request->file('IntentFile'),
-                'dtiFile' => $request->file('dtiFile'),
-                'businessPermitFile' => $request->file('businessPermitFile'),
-                'fdaLtoFile' => $request->file('fdaLtoFile'),
-                'receiptFile' => $request->file('receiptFile'),
-                'govIdFile' => $request->file('govIdFile'),
-            ];
-
-            foreach ($files as $key => $file) {
-                if ($file->getMimeType() != $allowed_mime_type) {
-                    return response('Invalid file type for ' . $key . '. Only PDF files are allowed.', 400);
-                }
-            }
-
-            DB::table('requirements')->insert([
-                'business_id' => $businessId,
-                'letter_of_intent' => $files['IntentFile']->getClientOriginalName(),
-                'dti_sec_cda' => $files['dtiFile']->getClientOriginalName(),
-                'business_permit' => $files['businessPermitFile']->getClientOriginalName(),
-                'fda_ito' => $files['fdaLtoFile']->getClientOriginalName(),
-                'official_receipt' => $files['receiptFile']->getClientOriginalName(),
-                'government_id' => $files['govIdFile']->getClientOriginalName(),
-            ]);
-            $successful_inserts++;
-
             DB::table('application_info')->insert([
                 'business_id' => $businessId,
             ]);
             $successful_inserts++;
 
-            if ($successful_inserts == 6) {
+            if ($successful_inserts == 5) {
                 DB::commit();
                 return redirect()->back()->with('success', 'All data successfully inserted.');
             } else {
