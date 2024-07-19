@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -12,7 +12,8 @@
     @vite('resources/js/app.js')
     <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
         type="text/css" />
-    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer></script>
+    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
+    </script>
     <link rel="stylesheet" href="{{ asset('other_assets/apexChart/apexcharts.css') }}">
     <script src="{{ asset('other_assets/apexChart/apexcharts.min.js') }}" defer></script>
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
@@ -56,6 +57,16 @@
         textarea,
         select {
             font-family: 'Nunito', sans-serif;
+            color: var(--bs-text-color);
+        }
+
+        .card-body label {
+            color: var(--bs-text-color);
+        }
+
+        .card-body input[type="text"] {
+            color: var(--bs-text-color);
+
         }
 
         h1,
@@ -65,6 +76,7 @@
         h5,
         h6 {
             font-weight: 700;
+            color: var(--bs-text-color);
             /* Example: Set to semi-bold. Adjust the value as needed */
         }
 
@@ -75,7 +87,7 @@
             object-position: center;
         }
 
-        .navlogo{
+        .navlogo {
             height: var(--top-header-height);
         }
 
@@ -88,7 +100,7 @@
 
         .flex-container {
             display: flex;
-            background-color: #EEEEEE;
+            background-color: var(--bs-body-color);
         }
 
         .nav-column {
@@ -99,22 +111,29 @@
             width: 100;
         }
 
-        .wrapper{
-            overflow: hidden
+        .wrapper {
+            overflow: hidden;
+            background-color: var(--bs-body-color);
+            width: 100%;
+            height: 100%;
         }
 
-        @keyframes expandNav{
-            from{
+        @keyframes expandNav {
+            from {
                 width: var(--nav-width-min);
-            }to{
+            }
+
+            to {
                 width: var(--nav-width-max);
             }
         }
 
-        @keyframes minimizeNav{
-            from{
+        @keyframes minimizeNav {
+            from {
                 width: var(--nav-width-max);
-            }to{
+            }
+
+            to {
                 width: var(--nav-width-min);
             }
         }
@@ -139,28 +158,34 @@
             }
         }
 
-        @keyframes logo-whole-text{
-            from{
+        @keyframes logo-whole-text {
+            from {
                 right: 50px;
-            }to{
+            }
+
+            to {
                 right: 0;
             }
         }
 
         @keyframes navLogo-text-main-expand {
-          from{
-            opacity: 0.5;
-          }to{
-            opacity: 1;
-          }
+            from {
+                opacity: 0.5;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         @keyframes navLogo-text-sec-expand {
-          from{
-           opacity: 0;
-          }to{
-            opacity: 1;
-          }
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
 
@@ -176,7 +201,7 @@
             z-index: 1;
             top: 0;
             left: 0;
-            background-color: #313A46;
+            background-color: var(--bs-sidenav-color);
             overflow-x: hidden;
             overflow-y: hidden;
             animation: minimizeNav 0.5s ease;
@@ -187,12 +212,12 @@
             background-color: #318791;
             padding: 10px 20px;
             font-weight: 700;
-            border-right:#f1f1f1 4px solid;
+            border-right: #f1f1f1 4px solid;
         }
 
-        .nav-item a.active:hover{
+        .nav-item a.active:hover {
             color: #FFFFFF;
-            border-right:#f1f1f1 10px solid;
+            border-right: #f1f1f1 10px solid;
         }
 
         .sidenav a {
@@ -203,15 +228,52 @@
 
 
         }
+
         .sidenav a:hover {
             filter: grayscale(0%) opacity(1);
             color: #318791;
-            border-right:#f1f1f1 4px solid;
+            border-right: #f1f1f1 4px solid;
         }
 
         .topNav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
             height: var(--top-header-height);
+            background: var(--bs-topnav-color);
         }
+
+        .topNav-button {
+            text-align: center color: var(--bs-topnav-icon);
+            border: none;
+            width: 60px;
+            background-color: transparent;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 1;
+            position: relative;
+        }
+
+        .topbar-menu {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .topNav i {
+            color: var(--bs-topnav-icon);
+        }
+
+        .topNav p {
+            color: var(--bs-text-color);
+        }
+
+        .topNav i:hover {
+            color: var(--bs-primary);
+        }
+
 
         #logoTitle {
             right: 50px;
@@ -238,6 +300,7 @@
             font-size: 12px;
             font-weight: 400;
         }
+
         .sideTextSec::after {
             content: "Fund Monitoring System";
 
@@ -266,8 +329,45 @@
         }
 
 
+        /* notification */
+        .nofi-li,
+        .avatar-li {
+            padding: 0;
+            position: relative;
+            height: var(--top-header-height);
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+        }
 
+        .notifi-bagde {
+            position: absolute;
+            top: 25%;
+            left: 60%;
+        }
 
+        .notify-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .notify-icon.bg-primary {
+            background-color: #007bff;
+        }
+
+        .notify-icon.bg-info {
+            background-color: #17a2b8;
+        }
+
+        .notify-icon img {
+            width: 30px;
+            height: 30px;
+        }
     </style>
 </head>
 

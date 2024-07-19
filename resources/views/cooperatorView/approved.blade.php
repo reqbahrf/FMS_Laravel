@@ -67,24 +67,83 @@
              </ul>
         </nav>
         <div id="toggle-left-margin" class="content-row navExpanded">
-            <div class="topNav shadow-sm bg-white">
-                <div class="d-flex align-items-center justify-content-between">
-                    <div class="">
+            <div class="topNav shadow-sm px-3 container-fluid">
+                    <div class="d-flex align-items-center justify-content-between">
                         <button onclick="toggleSidebar()" class="btn">
                             <i class="ri-menu-unfold-fill ri-2x"></i>
                         </button>
                     </div>
-                    <div>
-                      <button class="btn position-relative">
-                        <svg xmlns=" http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30" height="30">
-                          <path d="M47.841797 5.0351562C47.05125 4.9672344 46.262109 5.4091719 45.943359 6.2011719L45.246094 7.9394531C37.943094 4.7824531 32.698625 6.4574844 30.640625 10.021484C23.743625 21.966484 16.695906 26.420828 15.628906 27.048828L49.583984 45.121094C49.880984 42.010094 51.171375 34.723891 56.734375 25.087891C58.792375 21.522891 57.621328 16.142484 51.236328 11.396484L52.392578 9.9257812C53.095578 9.0297812 52.841469 7.7193906 51.855469 7.1503906L48.615234 5.2792969C48.368734 5.1370469 48.105312 5.0577969 47.841797 5.0351562 z M 11.449219 27.326172C10.230984 27.331562 7.4444219 27.949797 4.6386719 32.810547L28.820312 46.771484C27.923145 49.295954 28.910806 52.176668 31.314453 53.564453C33.718585 54.952518 36.707485 54.368453 38.445312 52.328125L50 59C53.741 52.52 50.96875 49.839844 50.96875 49.839844L12.087891 27.390625C12.087891 27.390625 11.855297 27.324375 11.449219 27.326172 z" fill="#FFFFFF" />
-                        </svg>
-                        <span class="position-absolute top-25 start-75 translate-middle p-1 bg-danger border border-light rounded-circle">
-                          <span class="visually-hidden">New alerts</span>
-                        </span>
-                      </button>
-                    </div>
-                  </div>
+                    <ul class="list-unstyled d-flex align-items-center m-0 gap-3 ">
+                        <li class="nofi-li">
+                            <a class="position-relative text-decoration-none nav-link" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <i class="ri-notification-3-line ri-2x"></i>
+                                <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
+                                <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <p class="m-0 font-16 fw-semibold">Notification</p>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a href="#" class="text-dark text-decoration-underline">
+                                                <small>Clear All</small>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="px-2" style="max-height: 300px; width:20vw; overflow-y: auto;">
+                                    <h5 class="text-muted font-13 fw-normal mt-2">Today</h5>
+                                    <a href="#" class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
+                                        <div class="card-body">
+                                            <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-shrink-0">
+                                                    <div class="notify-icon bg-primary">
+                                                        <i class="mdi mdi-comment-account-outline"></i>
+                                                    </div>
+                                                </div>
+                                                <div class="flex-grow-1 text-truncate ms-2">
+                                                    <p class="m-0">New user registered</p>
+                                                    <p class="m-0 text-muted">2 min ago</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                    <div class="text-center">
+                                    </div>
+                                </div>
+                                <a href="#" class="dropdown-item text-center text-primary notify-item border-top py-2">
+                                    View All
+                                </a>
+                            </div>
+                        </li>
+                        <li class="avatar-li">
+                            <a class="text-decoration-none nav-link" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="false" aria-expanded="false">
+                                <span class="account-avatar d-flex align-items-center justify-content-center gap-2">
+                                    <img src="{{ asset('sampleProfile/raf,360x360,075,t,fafafa_ca443f4786.jpg') }}" width="32" height="32" class="object-fit-cover rounded-circle border border-1 border-black" alt="">
+                                    <p class="m-0 fw-bold">John Doe</p>
+                                </span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"  style="max-height: 300px; width:10vw;">
+                                <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
+                                    <div class="row align-items-center">
+                                        <div class="col">
+                                            <p class="m-0 font-16 fw-semibold">Account</p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="px-2">
+                                    <a href="#" class="dropdown-item py-2">
+                                        <p><i class="ri-user-3-line me-2"></i>My Account</p>
+                                    </a>
+                                    <a href="#" class="dropdown-item py-2">
+                                        <p><i class="ri-logout-box-line me-2"></i>Logout</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
             </div>
             <div class="main-content">
                 <main class="main-column scrollable-main" id="main-content">
