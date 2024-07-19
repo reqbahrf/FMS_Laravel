@@ -74,25 +74,117 @@
 <div class="p-3">
   <h4>Requirements</h4>
 </div>
-<div class="g-3 mt-sm-2 ms-sm-2 me-sm-2 mb-sm-2 p-sm-2 bg-white rounded-5">
-  <div class=" bg-white p-3">
-    <div class="form-check form-check-lg">
-      <input class="form-check-input" type="checkbox" name="requirements[]" value="TNA" id="tna">
-      <label class="form-check-label" for="tna">TNA</label>
+<div class="m-0 m-md-3">
+    <div class="row g-3">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    Application Requirements Uploaded
+                </div>
+                <div class="card-body">
+                    <div
+                        class="table-responsive"
+                    >
+                        <table
+                            class="table table-bordered"
+                        >
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">File Name</th>
+                                    <th scope="col">Data Uploaded</th>
+                                    <th scope="col">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="">
+                                    <td scope="row">R1C1</td>
+                                    <td>R1C2</td>
+                                    <td>R1C3</td>
+                                </tr>
+                                <tr class="">
+                                    <td scope="row">Item</td>
+                                    <td>Item</td>
+                                    <td>Item</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+        </div>
     </div>
-    <div class="form-check form-check-lg">
-      <input class="form-check-input" type="checkbox" name="requirements[]" value="Project Deliberation Approval" id="pda">
-      <label class="form-check-label" for="pda">Project Deliberation Approval</label>
+
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                   Requirements Checklist
+                </div>
+                <div class="card-body">
+                    <div class="p-3">
+                        <div class="form-check form-check-lg">
+                          <input class="form-check-input" type="checkbox" name="requirements[]" value="TNA" id="tna">
+                          <label class="form-check-label" for="tna">TNA</label>
+                        </div>
+                        <div class="form-check form-check-lg">
+                          <input class="form-check-input" type="checkbox" name="requirements[]" value="Project Deliberation Approval" id="pda">
+                          <label class="form-check-label" for="pda">Project Deliberation Approval</label>
+                        </div>
+                        <div class="form-check form-check-lg">
+                          <input class="form-check-input" type="checkbox" name="requirements[]" value="PDC-post Dated Cheque" id="pdc">
+                          <label class="form-check-label" for="pdc">PDC-post Dated Cheque</label>
+                        </div>
+                        <div class="form-check form-check-lg">
+                          <input class="form-check-input" type="checkbox" name="requirements[]" value="Fund release" id="fr">
+                          <label class="form-check-label" for="fr">Fund release</label>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="card">
+               <div class="card-header">
+                Expense Receipt
+               </div>
+                <div class="card-body">
+                    <table class="table table-bordered">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Receipt Name</th>
+                                <th scope="col">Receipt File</th>
+                                <th scope="col">Date Uploaded</th>
+                                <th scope="col">Remark</th>
+                                <th scope="col">Comment</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Receipt 1</td>
+                                <td><a href="path/to/receipt1.pdf" target="_blank">Download</a></td>
+                                <td>2023-10-01</td>
+                                <td>Approved</td>
+                                <td>First receipt</td>
+                            </tr>
+                            <tr>
+                                <td>Receipt 2</td>
+                                <td><a href="path/to/receipt2.pdf" target="_blank">Download</a></td>
+                                <td>2023-10-02</td>
+                                <td>Pending</td>
+                                <td>Second receipt</td>
+                            </tr>
+                            <!-- Add more rows as needed -->
+                        </tbody>
+                    </table>
+                    <div class="text-end">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#expenseReceiptModal">Upload Receipt</button>
+                      </div>
+                </div>
+            </div>
+
+
+        </div>
     </div>
-    <div class="form-check form-check-lg">
-      <input class="form-check-input" type="checkbox" name="requirements[]" value="PDC-post Dated Cheque" id="pdc">
-      <label class="form-check-label" for="pdc">PDC-post Dated Cheque</label>
-    </div>
-    <div class="form-check form-check-lg">
-      <input class="form-check-input" type="checkbox" name="requirements[]" value="Fund release" id="fr">
-      <label class="form-check-label" for="fr">Fund release</label>
-    </div>
-  </div>
+
+
   <!-- Upload receipt modal -->
   <div class="modal fade" id="expenseReceiptModal" tabindex="-1" aria-labelledby="expenseReceiptModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -117,6 +209,7 @@
                 </tbody>
               </table>
               <hr>
+
             </div>
             <div>
               <div class="mb-4 d-flex justify-content-center position-relative" >
@@ -141,9 +234,6 @@
         </div>
       </div>
     </div>
-  </div>
-  <div class="text-end">
-    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#expenseReceiptModal">Upload Receipt</button>
   </div>
   <div>
     <div class="mt-4">

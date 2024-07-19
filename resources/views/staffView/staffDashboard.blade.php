@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -62,7 +62,7 @@
         textarea,
         select {
             font-family: 'Nunito', sans-serif;
-            color: var(--bs-text-color);
+            color: var(--ct-text-color);
         }
 
         h1,
@@ -72,7 +72,7 @@
         h5,
         h6 {
             font-weight: 700;
-            color: var(--bs-text-color);
+            color: var(--ct-text-color);
             /* Example: Set to semi-bold. Adjust the value as needed */
         }
 
@@ -96,7 +96,7 @@
 
         .flex-container {
             display: flex;
-            background-color: var(--bs-body-color);
+            background-color: var(--ct-body-color);
         }
 
         .nav-column {
@@ -109,7 +109,7 @@
 
         .wrapper {
             overflow: hidden;
-            background-color: var(--bs-body-color);
+            background-color: var(--ct-body-color);
             width: 100%;
             height: 100%;
         }
@@ -294,7 +294,7 @@
         }
 
         .topNav p {
-            color: var(--bs-text-color);
+            color: var(--ct-text-color);
         }
 
         .topNav i:hover {

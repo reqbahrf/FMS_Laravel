@@ -312,7 +312,7 @@
     </div>
 </div>
 
-<div class="card">
+<div class="card m-0 m-md-3">
     <div class="card-body">
         <div class="m-3 table-responsive-sm">
             <!-- Where the applicant table start -->
@@ -372,14 +372,6 @@
                                         data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
                                         aria-controls="applicantDetails">
                                         <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                    </button>
-                                    <button class="btn" data-bs-toggle="modal" data-bs-target="#ApplicantModal">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="30"
-                                            height="30">
-                                            <path
-                                                d="M56.177,16.832c-0.547-4.731-4.278-8.462-9.009-9.009C43.375,7.384,38.264,7,32,7S20.625,7.384,16.832,7.823c-4.731,0.547-8.462,4.278-9.009,9.009C7.384,20.625,7,25.736,7,32s0.384,11.375,0.823,15.168c0.547,4.731,4.278,8.462,9.009,9.009C20.625,56.616,25.736,57,32,57s11.375-0.384,15.168-0.823c4.731-0.547,8.462-4.278,9.009-9.009C56.616,43.375,57,38.264,57,32S56.616,20.625,56.177,16.832z M36,32c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,29.791,36,32z M36,45c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,42.791,36,45z M36,19c0,2.209-1.791,4-4,4s-4-1.791-4-4s1.791-4,4-4S36,16.791,36,19z"
-                                                fill="#000000" />
-                                        </svg>
                                     </button>
                                 </td>
                             </tr>

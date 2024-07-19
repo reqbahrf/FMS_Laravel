@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -21,6 +21,10 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js" defer></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js" defer></script>
+    <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">
+    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}" defer></script>
+    <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}" defer></script>
+
 
     <style>
         html {
@@ -57,15 +61,15 @@
         textarea,
         select {
             font-family: 'Nunito', sans-serif;
-            color: var(--bs-text-color);
+            color: var(--ct-text-color);
         }
 
         .card-body label {
-            color: var(--bs-text-color);
+            color: var(--ct-text-color);
         }
 
         .card-body input[type="text"] {
-            color: var(--bs-text-color);
+            color: var(--ct-text-color);
 
         }
 
@@ -76,7 +80,7 @@
         h5,
         h6 {
             font-weight: 700;
-            color: var(--bs-text-color);
+            color: var(--ct-text-color) !important;
             /* Example: Set to semi-bold. Adjust the value as needed */
         }
 
@@ -100,7 +104,7 @@
 
         .flex-container {
             display: flex;
-            background-color: var(--bs-body-color);
+            background-color: var(--ct-body-color);
         }
 
         .nav-column {
@@ -113,7 +117,7 @@
 
         .wrapper {
             overflow: hidden;
-            background-color: var(--bs-body-color);
+            background-color: var(--ct-body-color);
             width: 100%;
             height: 100%;
         }
@@ -267,7 +271,7 @@
         }
 
         .topNav p {
-            color: var(--bs-text-color);
+            color: var(--ct-text-color);
         }
 
         .topNav i:hover {

@@ -702,7 +702,7 @@
         </div>
     </div>
 
-    <div class="card">
+    <div class="card m-0 m-md-3">
         <div class="card-body">
             <div class="d-flex justify-content-end">
                 <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"

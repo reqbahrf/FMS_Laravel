@@ -154,7 +154,6 @@
             <div>
                 <div class="card">
                     <div class="card-header">
-
                         <span class="fw-bold fs-5">
                             <i class="ri-contacts-fill"></i>
                             Personal Info
@@ -232,7 +231,7 @@
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="ongoingDetails"
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary text-white">
-        <h5 class="offcanvas-title fs-4" id="staticBackdropLabel">
+        <h5 class="offcanvas-title text-white fs-4" id="staticBackdropLabel">
             <i class="ri-progress-3-line ri-lg"></i>
             Ongoing Project Details
         </h5>
@@ -375,7 +374,7 @@
         <div>I will not close if you click outside of me.</div>
     </div>
 </div>
-<div class="card">
+<div class="card p-0 m-0 m-md-3">
     <div class="card-body">
         <div class="py-4 bg-white rounded-5">
             <ul class="nav nav-tabs ps-3" id="myTab" role="tablist">

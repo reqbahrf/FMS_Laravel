@@ -170,7 +170,7 @@
     <!-- userModal end -->
     <!-- Add User Modal -->
     <!-- Add User Modal end -->
-    <div class="card">
+    <div class="card m-0 m-md-3">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center">
                 <h6 class="card-title ps-2 mb-0 text-body-secondary">Staff Table</h6>
