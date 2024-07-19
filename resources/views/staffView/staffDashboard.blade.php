@@ -8,20 +8,20 @@
     <title>Staff Dashboard</title>
 
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
-    <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
+    @vite('resources/css/app.scss')
+    @vite('resources/js/app.js')
     <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
         type="text/css" />
-    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer></script>
     <link rel="stylesheet" href="{{ asset('other_assets/apexChart/apexcharts.css') }}">
-    <script src="{{ asset('other_assets/apexChart/apexcharts.min.js') }}"></script>
-    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}"></script>
-    <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}"></script>
+    <script src="{{ asset('other_assets/apexChart/apexcharts.min.js') }}" defer></script>
+    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}" defer></script>
+    <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}" defer></script>
     <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">
 
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
-    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js"></script>
-    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js"></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js" defer></script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js" defer></script>
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
 
@@ -425,7 +425,7 @@
         </div>
 
     </div>
-    <script>
+    <script type="module">
         $(window).on('beforeunload', function() {
             return 'Are you sure you want to leave?';
         });
@@ -441,7 +441,7 @@
 
         });
 
-        function loadPage(url, activeLink) {
+        window.loadPage = function(url, activeLink) {
             // Check if the response is already cached
             let cachedPage = sessionStorage.getItem(url);
             if (cachedPage) {
@@ -465,7 +465,7 @@
                     }
                 });
             }
-        }
+        };
 
         function handleAjaxSuccess(response, activeLink, url) {
             $('#main-content').html(response);

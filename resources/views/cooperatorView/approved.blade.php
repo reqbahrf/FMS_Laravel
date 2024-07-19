@@ -94,7 +94,7 @@
         </div>
 
     </div>
-    <script>
+    <script type="module">
         $(window).on('beforeunload' , function() {
          return 'Are you sure you want to leave?';
          });
@@ -108,7 +108,7 @@
          }
        });
 
-       function loadPage(url, activeLink) {
+        window.loadPage = function(url, activeLink) {
          // Check if the response is already cached
          let cachedPage = sessionStorage.getItem(url);
          if (cachedPage) {
@@ -132,7 +132,7 @@
                  }
              });
          }
-     }
+     };
 
      function handleAjaxSuccess(response, activeLink, url) {
          $('#main-content').html(response);

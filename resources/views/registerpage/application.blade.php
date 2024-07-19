@@ -6,16 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Form</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
-    <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
+    @vite('resources/css/app.scss')
+    @vite('resources/js/app.js')
     <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
         type="text/css" />
-    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}"></script>
-    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
+    </script>
+    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}" defer></script>
+    <script type="text/javascript" src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}" defer></script>
     <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
-    <script>
+
+    <script type="module">
         $(document).ready(function() {
             $('#b_date').daterangepicker({
                 "singleDatePicker": true,
@@ -34,7 +36,7 @@
             });
         });
     </script>
-    <script>
+    <script type="module">
         function togglePasswordVisibility() {
             let passwordInput = document.querySelector('#password');
             if (passwordInput.type === 'password') {
@@ -1137,10 +1139,7 @@
     </div>
     </div>
     @include('mainpage.footer');
-    <script>
-        $(function() {
-            $('[data-bs-toggle="tooltip"]').tooltip()
-        })
+    <script type="module">
         $(document).ready(function() {
 
             var fileInputs = {

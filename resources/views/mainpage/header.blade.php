@@ -137,7 +137,7 @@
     </header>
   </div>
 </div>
-<script>
+<script type="module">
   $(document).ready(function($) {
     // Your jQuery code here using "$"
     $('#home').click(function(e) {
