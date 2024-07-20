@@ -26,6 +26,7 @@ Route::get('/application', function () {
 })->name('registrationForm');
 
 Route::post('/application/submit', [ApplicationController::class, 'store'])->name('applicationFormSubmit');
+Route::post('/requirements/submit', [ApplicationController::class, 'upload_requirments']);
 
 //Login routes
 

@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Application Form</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
@@ -216,7 +217,7 @@
                 <strong>Error - </strong> {{ session('error') }}
             </div>
         @endif
-        <form action="{{ route('applicationFormSubmit') }}" method="post" class="g-3 p-5"
+        <form action="{{ route('applicationFormSubmit') }}" id="applicationForm" method="post" class="g-3 p-5"
             enctype="multipart/form-data">
             @csrf
             <div id="smartwizard">
@@ -747,7 +748,7 @@
                             <div class="mb-3">
                                 <label for="IntentFile" class="form-label">Letter of Intent:<span
                                         class="requiredFields"> *</span></label>
-                                <input class="form-control" type="file" name="IntentFile" id="IntentFile"
+                                <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
                                     required>
                                 <div class="invalid-feedback">
                                     Please upload the Letter of Intent.
@@ -756,7 +757,7 @@
                             <div class="mb-3">
                                 <label for="dtiFile" class="form-label">DTI/SEC/CDA: <span class="requiredFields">
                                         *</span></label>
-                                <input class="form-control" type="file" name="dtiFile" id="dtiFile" required>
+                                <input class="fileUploads" type="file" name="dtiFile" id="dtiFile" required>
                                 <div class="invalid-feedback">
                                     Please upload the DTI/SEC/CDA document.
                                 </div>
@@ -764,7 +765,7 @@
                             <div class="mb-3">
                                 <label for="businessPermitFile" class="form-label">Business Permit: <span
                                         class="requiredFields"> *</span></label>
-                                <input class="form-control" type="file" name="businessPermitFile"
+                                <input class="fileUploads" type="file" name="businessPermitFile"
                                     id="businessPermitFile" required>
                                 <div class="invalid-feedback">
                                     Please upload the Business Permit.
@@ -772,12 +773,12 @@
                             </div>
                             <div class="mb-3">
                                 <label for="fdaLtoFile" class="form-label">FDA/LTO:(Optional)</label>
-                                <input class="form-control" type="file" name="fdaLtoFile" id="fdaLtoFile">
+                                <input class="fileUploads" type="file" name="fdaLtoFile" id="fdaLtoFile">
                             </div>
                             <div class="mb-3">
                                 <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
                                         class="requiredFields"> *</span></label>
-                                <input class="form-control" type="file" name="receiptFile" id="receiptFile"
+                                <input class="fileUploads" type="file" name="receiptFile" id="receiptFile"
                                     required>
                                 <div class="invalid-feedback">
                                     Please upload the Official Receipt of the Business.
@@ -786,11 +787,12 @@
                             <div class="mb-3">
                                 <label for="govIdFile" class="form-label">Copy of Government Valid ID: <span
                                         class="requiredFields"> *</span></label>
-                                <input class="form-control" type="file" name="govIdFile" id="govIdFile" required>
+                                <input class="fileUploads" type="file" name="govIdFile" id="govIdFile" required>
                                 <div class="invalid-feedback">
                                     Please upload the Copy of Government Valid ID.
                                 </div>
                             </div>
+                            <input type="hidden" name="unique_id" value="">
                             <div class="form-check my-4">
                                 <input type="checkbox" name="agree_terms" id="agree_terms" class="form-check-input"
                                     required>
@@ -1140,6 +1142,40 @@
     </div>
     @include('mainpage.footer');
     <script type="module">
+       document.addEventListener('DOMContentLoaded', function() {
+           let Intent = getElementById('IntentFile');
+           let dti = getElementById('dtiFile');
+           let businessPermit = getElementById('businessPermitFile');
+           let fdaLto = getElementById('fdaLtoFile');
+           let receiptFile = getElementById('receiptFile');
+           let goverId = getElementById('goverIdFile');
+           let fileUploads = document.querySelectorAll('.fileUploads');
+
+               FilePond.create(fileUploads, {
+                   allowMultiple: false,
+                   acceptedFileTypes: ['application/pdf'],
+                   server: {
+                       process: {
+                           url: '/requirements/submit',
+                           method: 'POST',
+                           withCredentials: false,
+                           headers: {
+                               'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                           },
+                           onload: (response) => {
+                               const data = JSON.parse(response);
+                               if (data.temp_file_path && data.unique_id) {
+                                   // Store unique_id in a hidden input field or as a data attribute
+                                   document.querySelector('input[name="unique_id"]').value = data.unique_id;
+                               }
+                           }
+                       }
+                   },
+               });
+
+       });
+    </script>
+    <script type="module">
         $(document).ready(function() {
 
             var fileInputs = {
@@ -1177,16 +1213,16 @@
                 }
             });
 
-            $('#smartwizard').on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex,
-                stepDirection) {
-                // Check if the user is moving forward
-                if (nextStepIndex > currentStepIndex) {
-                    // Perform validation for the current step
-                    if (!validateCurrentStep(currentStepIndex)) {
-                        return false; // Prevent moving to the next step
-                    }
-                }
-            });
+            // $('#smartwizard').on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex,
+            //     stepDirection) {
+
+            //     if (nextStepIndex > currentStepIndex) {
+
+            //         if (!validateCurrentStep(currentStepIndex)) {
+            //             return false;
+            //         }
+            //     }
+            // });
 
             $('#smartwizard').on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
                 var totalSteps = $('#smartwizard').find('ul li').length;
