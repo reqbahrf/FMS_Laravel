@@ -25,7 +25,6 @@
     <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}" defer></script>
     <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}" defer></script>
 
-
     <style>
         html {
             font-size: clamp(12px, 1vw, 24px);
@@ -371,6 +370,13 @@
         .notify-icon img {
             width: 30px;
             height: 30px;
+        }
+
+        /* Quarter link */
+
+        .disabled-li-report{
+            pointer-events: none;;
+            cursor: default;
         }
     </style>
 </head>

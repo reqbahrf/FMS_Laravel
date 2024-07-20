@@ -7,6 +7,14 @@ window.$ = window.jQuery = $;
 
 import * as bootstrap from 'bootstrap';
 
+import * as FilePond from 'filepond';
+window.FilePond = FilePond;
+
+import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
+
+FilePond.registerPlugin(FilePondPluginImagePreview);
+
+
 $(document).ready(function() {
     console.log('jQuery is working');
     // Initialize tooltips for Bootstrap 5
@@ -15,3 +23,4 @@ $(document).ready(function() {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 });
+

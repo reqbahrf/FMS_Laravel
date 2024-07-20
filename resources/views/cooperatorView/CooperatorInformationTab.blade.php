@@ -6,7 +6,7 @@
     <div class="col-12 col-md-12">
         <div class="card p-0 ">
             <div class="card-header">
-                <h5>Project Info:</h5>
+                Project Info
             </div>
             <div class="card-body">
                 <div class="row gy-4">
@@ -50,7 +50,7 @@
         <div class="col-12 col-md-4">
           <div class="card mt-4">
             <div class="card-header">
-              <h5>Refund Progress:</h5>
+              Refund Progress
             </div>
             <div class="card-body">
               <div class="container">
@@ -71,7 +71,7 @@
         <div class="col-12 col-md-8">
           <div class="card mt-4">
             <div class="card-header">
-              <h6><strong>Refund History:</strong></h6>
+             Refund History:
             </div>
             <div class="card-body">
               <table class="table">

@@ -5,9 +5,9 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CooperatorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\signupAndApplyController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReceiptController;
 
 //Applicant routes
 
@@ -83,3 +83,6 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', [MailController::class, 'sendEmailVerify'])->name('verification.verify');
 
 Route::get('/verify-email/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
+
+Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
+Route::resource('receipts', ReceiptController::class);

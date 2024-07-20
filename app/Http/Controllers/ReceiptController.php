@@ -1,0 +1,133 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
+use App\Models\ReceiptUpload;
+
+class ReceiptController extends Controller
+{
+
+    public function img_upload(Request $request)
+    {
+        // Validate the request
+        $request->validate([
+            'receipt_file' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+        ]);
+
+        $project_id = Session::get('project_id');
+        if (!$project_id) {
+            return response()->json(['error' => 'Project ID not found.'], 400);
+        }
+
+        // Generate a unique ID based on the project_id
+        $uniqueId = $project_id . '_' . uniqid();
+
+        // Handle the file upload
+        $file = $request->file('receipt_file');
+        $uniqueId = $project_id . '_' . uniqid();
+        $fileName = $uniqueId . '.' . $file->getClientOriginalExtension();
+        $tempPath = $file->storeAs('tmp', $fileName, 'public');
+
+        return response()->json([
+            'temp_file_path' => $tempPath,
+            'unique_id' => $uniqueId
+        ]);
+    }
+    /**
+     * Display a listing of the resource.
+     */
+
+    public function index()
+    {
+
+        //
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(Request $request)
+    {
+
+        // Validate the request
+        $request->validate([
+            'receiptName' => 'required|string|max:20',
+            'unique_id' => 'required|string'
+        ]);
+
+        // Retrieve project_id from session
+        $project_id = Session::get('project_id');
+        if (!$project_id) {
+            return redirect()->back()->withErrors(['error' => 'Project ID not found.']);
+        }
+
+        // Generate the unique file name based on unique_id
+        $uniqueId = $request->input('unique_id');
+        $filePaths = Storage::disk('public')->files('tmp', $uniqueId);
+        if (empty($filePaths)) {
+            return redirect()->back()->withErrors(['error' => 'File not found in temporary storage.']);
+        }
+
+        $filePath = $filePaths[0]; // Assume there's only one matching file
+        $fileContent = Storage::disk('public')->get($filePath);
+
+        // Insert into the database
+        ReceiptUpload::create([
+            'ongoing_project_id' => $project_id,
+            'receipt_name' => $request->input('receiptName'),
+            'receipt_file' => $fileContent, // Store the file content as a BLOB
+            'can_edit' => 'yes', // Or whatever default value you prefer
+            'remark' => null,
+            'comment' => null
+        ]);
+
+        // Optionally, delete the temporary file after processing
+        Storage::disk('public')->delete($filePath);
+
+        // Return success response
+        return response()->json(['success' => 'Receipt uploaded and saved successfully.']);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(string $id)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(Request $request, string $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        //
+    }
+}
