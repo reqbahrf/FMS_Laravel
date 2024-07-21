@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -631,163 +631,51 @@
         //TODO: Charts for Applicant, Ongoing and Completed Projects
 
         function InitdashboardChar() {
-            var randomizeArray = function(arg) {
-                var array = arg.slice();
-                var currentIndex = array.length,
-                    temporaryValue, randomIndex;
-
-                while (0 !== currentIndex) {
-
-                    randomIndex = Math.floor(Math.random() * currentIndex);
-                    currentIndex -= 1;
-
-                    temporaryValue = array[currentIndex];
-                    array[currentIndex] = array[randomIndex];
-                    array[randomIndex] = temporaryValue;
-                }
-
-                return array;
-            }
-            var sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19,
-                46
-            ];
-            var applicationChar = {
-                chart: {
-                    id: 'Applicant',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                stroke: {
-                    curve: 'straight'
-                },
-                fill: {
-                    opacity: 1,
+            var lineChartOptions = {
+                theme: {
+                    mode: 'light',
                 },
                 series: [{
-                    name: 'Applicants',
-                    data: randomizeArray(sparklineData)
-                }],
-                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
-                yaxis: {
-                    min: 0
-                },
-                xaxis: {
-                    type: 'datetime',
-                },
-                colors: ['#48C4D3'],
-                title: {
-                    text: '52',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '24px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                },
-                subtitle: {
-                    text: 'Applicants',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '14px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                }
-            }
-
-            var OngoingChar = {
-                chart: {
-                    id: 'Ongoing',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                stroke: {
-                    curve: 'straight'
-                },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
+                    name: 'Applicant',
+                    data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60]
+                }, {
                     name: 'Ongoing',
-                    data: randomizeArray(sparklineData)
+                    data: [5, 10, 7, 12, 9, 15, 11, 18, 13, 20]
+                }, {
+                    name: 'Completed',
+                    data: [2, 4, 3, 6, 5, 8, 7, 10, 9, 12]
                 }],
-                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
-                yaxis: {
-                    min: 0
-                },
-                xaxis: {
-                    type: 'datetime',
-                },
-                colors: ['#48C4D3'],
-                title: {
-                    text: '312',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '24px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                },
-                subtitle: {
-                    text: 'Ongoing',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '14px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                }
-            }
-
-            var completedChar = {
                 chart: {
-                    id: 'Completed',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
+                    height: 350,
+                    type: 'bar'
                 },
                 stroke: {
-                    curve: 'straight'
+                    width: [6, 6, 6],
+                    curve: 'smooth',
+                    dashArray: [0, 0, 0]
                 },
-                fill: {
-                    opacity: 1,
+                markers: {
+                    size: 0
                 },
-                series: [{
-                    name: 'Completed',
-                    data: randomizeArray(sparklineData)
-                }],
-                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
                 xaxis: {
-                    type: 'datetime',
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
                 },
                 yaxis: {
-                    min: 0
+                    title: {
+                        text: 'Count',
+                    },
                 },
-                colors: ['#48C4D3'],
-                title: {
-                    text: '13',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '24px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                },
-                subtitle: {
-                    text: 'Completed',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '14px',
-                        cssClass: 'apexcharts-yaxis-title'
+                legend: {
+                    tooltipHoverFormatter: function(val, opts) {
+                        return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
                     }
                 }
-            }
-            new ApexCharts(document.querySelector("#Applicant"), applicationChar).render();
-            new ApexCharts(document.querySelector("#Ongoing"), OngoingChar).render();
-            new ApexCharts(document.querySelector("#Completed"), completedChar).render();
+            };
+
+            var lineChart = new ApexCharts(document.querySelector("#lineChart"), lineChartOptions);
+            lineChart.render();
+
+            console.log(lineChart);
             // initialize datatable
             new DataTable("#handledProject");
         }
@@ -992,6 +880,8 @@
             chart.render();
 
         }
+
+        // Line chart
     </script>
     <script>
         function toggleSidebar() {
