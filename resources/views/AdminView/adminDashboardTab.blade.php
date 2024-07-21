@@ -20,31 +20,43 @@
     <h4 class="p-3">Dashboard</h4>
 </div>
 <div class="container-fluid">
-    <div class="d-flex flex-column flex-sm-row flex-md-row">
-        <div class="col-12 col-sm-3">
-            <div class="container mb-3 z-3" id="applicantChart" data-bs-toggle="modal" data-bs-target="#applicantModal">
-                <div class="card shadow-sm">
-                    <div class="box box1 pt-2 bg-white">
-                        <div id="Applicant"></div>
-                    </div>
+    <div class="row gy-3 gx-2">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fw-bold fs-5 m-0">Projects</p>
                 </div>
-            </div>
-            <div class="container mb-3 z-3" id="ongoingChart" data-bs-toggle="modal" data-bs-target="#ongoingModal">
-                <div class="card shadow-sm">
-                    <div class="box box2 pt-2 bg-white">
-                        <div id="Ongoing"></div>
-                    </div>
-                </div>
-            </div>
-            <div class="container mb-3 z-3" id="completedChart" data-bs-toggle="modal" data-bs-target="#completedModal">
-                <div class="card shadow-sm">
-                    <div class="box box3 pt-2 bg-white">
-                        <div id="Completed"></div>
+                <div class="card-body">
+                    <div id="overallProjectGraph">
+
                     </div>
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-9 py-2 py-sm-0">
+        <div class="col-12 col-md-9">
+            <div class="card">
+                <div class="card-header">
+                    <p class="fw-bold fs-5 m-0">Local</p>
+                </div>
+                <div class="card-body">
+                    <div id="localeChart">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-3">
+            <div class="card h-100">
+                <div class="card-header">
+                    <p class="fw-bold fs-5 m-0">Enterprise Level Percentage</p>
+                </div>
+                <div class="card-body h-100 d-flex justify-content-center align-items-center">
+                    <div id="enterpriseLevelChart">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12 py-2 py-sm-0">
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Staff Handle Projects</h5>
@@ -54,9 +66,6 @@
             </div>
         </div>
     </div>
-
-
-
     <!-- Modal -->
     <div class="modal fade" id="applicantModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
         aria-hidden="true" data-bs-backdrop="static">

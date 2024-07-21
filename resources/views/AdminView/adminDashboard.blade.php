@@ -586,7 +586,7 @@
                     },
                     success: function(response) {
                         // Cache the response
-                        sessionStorage.setItem(url, response);
+                        //sessionStorage.setItem(url, response);
                         handleAjaxSuccess(response, activeLink, url);
                     },
                     error: function(error) {
@@ -611,222 +611,60 @@
             sessionStorage.setItem('AdminLastActive', activeLink);
         }
 
-
-        //FIXME: Improve the logic of the following code
-        let pieChartAppli, barChartAppli, pieChartOngoing, barChartOngoing, pieChartComple, barChartComple;
-        $(document).on('DocLoaded', function() {
-            $(document).off('shown.bs.modal');
-            $(document).on('shown.bs.modal', '#applicantModal', function() {
-                setTimeout(function() {
-                    console.log('Initializing charts for applicantModal');
-
-                    pieChartAppli = initializePieChart('pieChartApp');
-                    barChartAppli = initializeBarChart('barChartApp');
-                    console.log(pieChartAppli, barChartAppli)
-
-                    $('#closeApplicant').off('click').click(function() {
-                        if (pieChartAppli) pieChartAppli?.destroy();
-                        if (barChartAppli) barChartAppli?.destroy();
-                    });
-
-                }, 500);
-            });
-
-            $(document).on('shown.bs.modal', '#ongoingModal', function() {
-                setTimeout(function() {
-                    console.log('Initializing charts for ongoingModal');
-
-                    pieChartOngoing = initializePieChart('pieChartOngo');
-                    barChartOngoing = initializeBarChart('barChartOngo');
-
-                    $('#closeOngoing').off('click').click(function() {
-                        if (pieChartOngoing) pieChartOngoing?.destroy();
-                        if (barChartOngoing) barChartOngoing?.destroy();
-                    });
-                }, 500);
-            });
-
-            $(document).on('shown.bs.modal', '#completedModal', function() {
-                setTimeout(function() {
-                    console.log('Initializing charts for completedModal');
-
-                    pieChartComple = initializePieChart('pieChartComp');
-                    barChartComple = initializeBarChart('barChartComp');
-
-                    $('#closeComple').off('click').click(function() {
-                        if (pieChartComple) pieChartComple?.destroy();
-                        if (barChartComple) barChartComple?.destroy();
-                    });
-                }, 500);
-            });
-        });
-
-
         // Optionally reinitialize the charts or perform other cleanup
 
         //TODO: Charts for Applicant, Ongoing and Completed Projects
 
         function InitdashboardChar() {
-            var randomizeArray = function(arg) {
-                var array = arg.slice();
-                var currentIndex = array.length,
-                    temporaryValue, randomIndex;
-
-                while (0 !== currentIndex) {
-
-                    randomIndex = Math.floor(Math.random() * currentIndex);
-                    currentIndex -= 1;
-
-                    temporaryValue = array[currentIndex];
-                    array[currentIndex] = array[randomIndex];
-                    array[randomIndex] = temporaryValue;
-                }
-
-                return array;
-            }
-            var sparklineData = [47, 45, 54, 38, 56, 24, 65, 31, 37, 39, 62, 51, 35, 41, 35, 27, 93, 53, 61, 27, 54, 43, 19,
-                46
-            ];
-            var applicationChar = {
-                chart: {
-                    id: 'Applicant',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                stroke: {
-                    curve: 'straight'
-                },
-                fill: {
-                    opacity: 1,
+            var overallProject = {
+                theme: {
+                    mode: 'light',
                 },
                 series: [{
-                    name: 'Applicants',
-                    data: randomizeArray(sparklineData)
-                }],
-                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
-                yaxis: {
-                    min: 0
-                },
-                xaxis: {
-                    type: 'datetime',
-                },
-                colors: ['#48C4D3'],
-                title: {
-                    text: '52',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '24px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                },
-                subtitle: {
-                    text: 'Applicants',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '14px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                }
-            }
-
-            var OngoingChar = {
-                chart: {
-                    id: 'Ongoing',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
-                },
-                stroke: {
-                    curve: 'straight'
-                },
-                fill: {
-                    opacity: 1,
-                },
-                series: [{
+                    name: 'Applicant',
+                    data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60]
+                }, {
                     name: 'Ongoing',
-                    data: randomizeArray(sparklineData)
+                    data: [5, 10, 7, 12, 9, 15, 11, 18, 13, 20]
+                }, {
+                    name: 'Completed',
+                    data: [2, 4, 3, 6, 5, 8, 7, 10, 9, 12]
                 }],
-                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
-                yaxis: {
-                    min: 0
-                },
-                xaxis: {
-                    type: 'datetime',
-                },
-                colors: ['#48C4D3'],
-                title: {
-                    text: '312',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '24px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                },
-                subtitle: {
-                    text: 'Ongoing',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '14px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                }
-            }
-
-            var completedChar = {
                 chart: {
-                    id: 'Completed',
-                    type: 'area',
-                    height: 160,
-                    sparkline: {
-                        enabled: true
-                    },
+                    height: 350,
+                    type: 'bar'
                 },
                 stroke: {
-                    curve: 'straight'
+                    width: [6, 6, 6],
+                    curve: 'smooth',
+                    dashArray: [0, 0, 0]
                 },
-                fill: {
-                    opacity: 1,
+                markers: {
+                    size: 0
                 },
-                series: [{
-                    name: 'Completed',
-                    data: randomizeArray(sparklineData)
-                }],
-                labels: [...Array(24).keys()].map(n => `2018-09-0${n+1}`),
                 xaxis: {
-                    type: 'datetime',
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
                 },
                 yaxis: {
-                    min: 0
+                    title: {
+                        text: 'Count',
+                    },
                 },
-                colors: ['#48C4D3'],
-                //colors: ['#5564BE'],
-                title: {
-                    text: '13',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '24px',
-                        cssClass: 'apexcharts-yaxis-title'
-                    }
-                },
-                subtitle: {
-                    text: 'Completed',
-                    offsetX: 30,
-                    style: {
-                        fontSize: '14px',
-                        cssClass: 'apexcharts-yaxis-title'
+                legend: {
+                    tooltipHoverFormatter: function(val, opts) {
+                        return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
                     }
                 }
-            }
-            new ApexCharts(document.querySelector("#Applicant"), applicationChar).render();
-            new ApexCharts(document.querySelector("#Ongoing"), OngoingChar).render();
-            new ApexCharts(document.querySelector("#Completed"), completedChar).render();
+            };
+
+            var overallProjectGraph = new ApexCharts(document.querySelector("#overallProjectGraph"), overallProject);
+            overallProjectGraph.render();
+
             // staff handled projects chart
             var handledBusiness = {
+                theme: {
+                    mode: 'light',
+                },
                 series: [{
                     name: 'Micro Enterprise',
                     data: [21, 22, 10, 28, 16]
@@ -882,16 +720,21 @@
             };
 
             new ApexCharts(document.querySelector("#staffHandledB"), handledBusiness).render();
-        }
 
-        function initializePieChart(chartID) {
             var options = {
+                theme:{
+                    mode: 'light',
+                    palette: 'palette2',
+                },
                 series: [77, 58, 50],
+                labels: ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'],
                 chart: {
-                    width: 380,
+                    width: 300,
                     type: 'pie',
                 },
-                labels: ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'],
+                legend: {
+                    show: false
+                },
                 responsive: [{
                     breakpoint: 480,
                     options: {
@@ -905,13 +748,15 @@
                 }]
             };
 
-            var pieChart = new ApexCharts(document.querySelector("#" + chartID), options);
+            var pieChart = new ApexCharts(document.querySelector("#enterpriseLevelChart"), options);
             pieChart.render();
-            return pieChart;
-        }
 
-        function initializeBarChart(chartID) {
+
             var options = {
+                theme:{
+                    mode: 'light',
+                    palette: 'palette2',
+                },
                 series: [{
                     name: 'Micro Enterprise',
                     data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
@@ -947,10 +792,10 @@
                 }
             };
 
-            var barChart = new ApexCharts(document.querySelector("#" + chartID), options);
-            barChart.render();
-            return barChart;
+            var localeChart = new ApexCharts(document.querySelector("#localeChart"), options);
+            localeChart.render();
         }
+
 
         function InitializeviewCooperatorProgress() {
             var options = {
