@@ -27,6 +27,7 @@ Route::get('/application', function () {
 
 Route::post('/application/submit', [ApplicationController::class, 'store'])->name('applicationFormSubmit');
 Route::post('/requirements/submit', [ApplicationController::class, 'upload_requirments']);
+Route::delete('/requirements/revert', [ApplicationController::class, 'revert']);
 
 //Login routes
 

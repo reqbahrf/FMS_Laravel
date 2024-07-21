@@ -108,6 +108,10 @@ class ApplicationController extends Controller
             ]);
             $successful_inserts++;
 
+            foreach ($request->file() as $file) {
+                $filePaths[$file->getClientOriginalName()] = $file->store("temp/$businessId", ['disk' => 'public']);
+            }
+
             // Requirements table
             DB::table('application_info')->insert([
                 'business_id' => $businessId,
@@ -131,68 +135,24 @@ class ApplicationController extends Controller
     }
 
     public function upload_requirments(Request $request)
-
     {
-        $businessId = Session::get('business_id');
-        $user_name = Session::get('user_name');
-
-        $folderPath = storage_path('temp/uploads/' . $businessId . '/' . $user_name . '/');
-
+        $businessId = session('business_id');
+        $userName = session('user_name');
+        $folderPath = storage_path("temp/uploads/$businessId/$userName");
 
         if (!file_exists($folderPath)) {
             mkdir($folderPath, 0777, true);
         }
 
-        if($request->file('IntendFile') != null)
-        {
-            $IntentFilePath = $request->file('IntentFile')->storeAs('temp', $request->file('IntentFile')->getClientOriginalName());
-        }
-        if($request->file('dtiFile') != null)
-        {
-            $dtiFilePath = $request->file('dtiFile')->storeAs('temp', $request->file('dtiFile')->getClientOriginalName());
-        }if($request->file('businessPermitFile') != null)
-        {
-            $businessPermitFilePath = $request->file('businessPermitFile')->storeAs('temp', $request->file('businessPermitFile')->getClientOriginalName());
-        }
-        if($request->file('fdaLtoFile') != null){
-            $fdaLtoFilePath = $request->file('fdaLtoFile')->storeAs('temp', $request->file('fdaLtoFile')->getClientOriginalName());
-        }
-        if($request->file('receiptFile') != null){
-            $receiptFilePath = $request->file('receiptFile')->storeAs('temp', $request->file('receiptFile')->getClientOriginalName());
-        }
-        if($request->file('govIdFile') != null){
-            $govIdFilePath = $request->file('govIdFile')->storeAs('temp', $request->file('govIdFile')->getClientOriginalName());
+        $filePaths = [];
+
+        foreach ($request->file() as $file) {
+            $filePaths[$file->getClientOriginalName()] = $file->store("temp/$businessId", ['disk' => 'public']);
         }
 
         return response()->json([
-            'temp_file_path' => $folderPath,
-            'unique_id' => $businessId
+            'unique_id' => $businessId,
+            'file_paths' => $filePaths,
         ]);
-
-
-       $request->merge([
-           'IntentFilePath' => $IntentFilePath,
-           'dtiFilePath' => $dtiFilePath,
-           'businessPermitFilePath' => $businessPermitFilePath,
-           'fdaLtoFilePath' => $fdaLtoFilePath,
-           'receiptFilePath' => $receiptFilePath,
-          'govIdFilePath' => $govIdFilePath,
-       ]);
-
-       $request->validate([
-        'IntentFilePath' => 'required|mimes:pdf',
-         'dtiFilePath' => 'required|mimes:pdf',
-         'businessPermitFilePath' => 'required|mimes:pdf',
-         'fdaLtoFilePath' => 'required|mimes:pdf',
-         'receiptFilePath' => 'required|mimes:pdf',
-         'govIdFilePath' => 'required|mimes:pdf',
-
-
-       ]);
-
-
-
-
-
     }
 }

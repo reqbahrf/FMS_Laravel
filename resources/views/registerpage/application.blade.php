@@ -1142,38 +1142,68 @@
     </div>
     @include('mainpage.footer');
     <script type="module">
-       document.addEventListener('DOMContentLoaded', function() {
-           let Intent = getElementById('IntentFile');
-           let dti = getElementById('dtiFile');
-           let businessPermit = getElementById('businessPermitFile');
-           let fdaLto = getElementById('fdaLtoFile');
-           let receiptFile = getElementById('receiptFile');
-           let goverId = getElementById('goverIdFile');
-           let fileUploads = document.querySelectorAll('.fileUploads');
-
-               FilePond.create(fileUploads, {
-                   allowMultiple: false,
-                   acceptedFileTypes: ['application/pdf'],
-                   server: {
-                       process: {
-                           url: '/requirements/submit',
-                           method: 'POST',
-                           withCredentials: false,
-                           headers: {
-                               'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                           },
-                           onload: (response) => {
-                               const data = JSON.parse(response);
-                               if (data.temp_file_path && data.unique_id) {
-                                   // Store unique_id in a hidden input field or as a data attribute
-                                   document.querySelector('input[name="unique_id"]').value = data.unique_id;
-                               }
-                           }
-                       }
-                   },
-               });
-
-       });
+       document.addEventListener('DOMContentLoaded', () => {
+        $('#submitForm').click(function() {
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('applicationFormSubmit') }}',
+                data: $('#applicationForm').serialize(),
+                success: function(response) {
+                    // Handle the response from the server
+                    console.log('Form submitted successfully', response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors
+                    console.error('Error submitting form', error);
+                }
+            });
+        });
+    let fileUploads = document.querySelectorAll('.fileUploads');
+    fileUploads.forEach((fileUpload) => {
+        FilePond.create(fileUpload, {
+            allowMultiple: false,
+            acceptedFileTypes: ['application/pdf'],
+            allowRevert: true,
+            server: {
+                process: {
+                    url: '/requirements/submit',
+                    method: 'POST',
+                    withCredentials: false,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    },
+                    onload: (response) => {
+                        const data = JSON.parse(response);
+                        if (data.temp_file_path && data.unique_id) {
+                            // Store unique_id in a hidden input field or as a data attribute
+                            document.querySelector('input[name="unique_id"]').value = data.unique_id;
+                            fileUpload.setAttribute('data-unique-id', data.unique_id);
+                        }
+                    }
+                },
+                revert: (uniqueFileId, load, error) => {
+                    fetch('/requirements/revert', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({ unique_id: uniqueFileId })
+                    }).then(response => {
+                        if (response.ok) {
+                            load(); // Indicate that the revert was successful
+                        } else {
+                            error('Could not revert file');
+                        }
+                    }).catch(() => {
+                        error('Could not revert file');
+                    });
+                }
+            }
+        });
+    });
+    console.log(fileUploads);
+});
     </script>
     <script type="module">
         $(document).ready(function() {
