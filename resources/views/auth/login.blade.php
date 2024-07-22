@@ -7,8 +7,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Login</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
-    <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
+    @vite('resources/css/app.scss')
+    @vite('resources/js/app.js')
     <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}"></script>
     <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}"></script>
     <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">

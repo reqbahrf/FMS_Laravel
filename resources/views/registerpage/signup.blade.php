@@ -38,8 +38,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Sign up</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
-    <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
+    @vite('resources/css/app.scss')
+    @vite('resources/js/app.js')
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 </head>
 
@@ -167,7 +167,7 @@
                     <form id="signup-form" action="{{ route('signup') }}" method="post">
                         @csrf
                         <div class="row">
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-12 mb-4">
                                 <div class="form-floating">
                                     <input type="text" class="form-control" id="userName1" name="userName1"
                                         placeholder="Username" value="{{ old('userName1') }}">
@@ -175,7 +175,7 @@
                                     <div class="invalid-feedback">Please Enter Username</div>
                                 </div>
                             </div>
-                            <div class="col-md-6 mb-4">
+                            <div class="col-md-12 mb-4">
                                 <div class="form-floating">
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="Email Address" value="{{ old('email') }}">

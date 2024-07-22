@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -719,7 +719,7 @@
                                         Market Outlet
                                     </legend>
                                     <div class="form-floating mb-3">
-                                        <textarea name="Export" id="ExportMar" class="form-control" placeholder="Export" required required
+                                        <textarea name="Export" id="ExportMar" class="form-control" placeholder="Export" required
                                             data-bs-toggle="tooltip" data-bs-placement="top" title="Export Market Example: Japan, China, USA, etc."></textarea>
                                         <div class="invalid-feedback">
                                             Please enter the Export Market Outlet

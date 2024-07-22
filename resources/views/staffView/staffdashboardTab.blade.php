@@ -67,7 +67,7 @@
 <div class="">
     <div class="card m-3">
         <div class="card-header">
-            <p class="fw-bold fs-5 m-0"> Projects</p>
+            <p class="fw-bold fs-5 m-0 text-center"> Projects</p>
         </div>
         <div class="card-body">
             <div id="lineChart">
@@ -76,7 +76,7 @@
     </div>
     <div class="card m-3">
         <div class="card-header">
-            <p class="fw-bold fs-5 m-0">Handled Project</p>
+            <p class="fw-bold fs-5 m-0 text-center">Handled Project</p>
         </div>
         <div class="card-body">
             <table id="handledProject" class="table table-hover" style="width:100%">

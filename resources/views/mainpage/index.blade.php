@@ -7,11 +7,39 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DOST-SETUP</title>
   <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
-  <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
-  <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
+  @vite('resources/css/app.scss')
+  @vite('resources/js/app.js')
 
 
   <style>
+      html {
+            font-size: clamp(12px, 1vw, 24px);
+            /* Adjusts between 10px and 18px according to viewport width */
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
+
+        :root {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        body,
+        button,
+        input,
+        textarea,
+        select {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-weight: 700;
+            /* Example: Set to semi-bold. Adjust the value as needed */
+        }
     /*--------------------------------------------------------------
     # Hero Section
     --------------------------------------------------------------*/

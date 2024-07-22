@@ -13,7 +13,7 @@ class ApplicationController extends Controller
     public function store(Request $request)
     {
         // $user_name = Session::get('user_name');
-        $user_name = 'test1';
+        $user_name = 'test2';
 
         $successful_inserts = 0;
 

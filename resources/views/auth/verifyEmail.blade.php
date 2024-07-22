@@ -6,8 +6,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Confirm Email</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DGUx_62c.css') }}">
-    <script src="{{ asset('build/assets/app-DBkvPR3S.js') }}"></script>
+    @vite('resources/css/app.scss')
+    @vite('resources/js/app.js')
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
     <style>
         html {

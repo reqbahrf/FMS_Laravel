@@ -121,7 +121,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table">
                             <thead class="thead-dark">
                                 <tr>
                                     <th scope="col">File Name</th>
@@ -131,9 +131,9 @@
                             </thead>
                             <tbody>
                                 <tr class="">
-                                    <td scope="row">R1C1</td>
-                                    <td>R1C2</td>
-                                    <td>R1C3</td>
+                                    <td scope="3"></td>
+                                    <td>Where the Application requirements are disp</td>
+                                    <td></td>
                                 </tr>
                                 <tr class="">
                                     <td scope="row">Item</td>
@@ -184,7 +184,7 @@
                     Expense Receipt
                 </div>
                 <div class="card-body">
-                    <table class="table table-bordered">
+                    <table class="table">
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Receipt Name</th>
@@ -196,18 +196,11 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>Receipt 1</td>
-                                <td><a href="path/to/receipt1.pdf" target="_blank">Download</a></td>
-                                <td>2023-10-01</td>
-                                <td>Approved</td>
-                                <td>First receipt</td>
-                            </tr>
-                            <tr>
-                                <td>Receipt 2</td>
-                                <td><a href="path/to/receipt2.pdf" target="_blank">Download</a></td>
-                                <td>2023-10-02</td>
-                                <td>Pending</td>
-                                <td>Second receipt</td>
+                                <td></td>
+                                <td></td>
+                                <td>Where the receipt infomation are displayed</td>
+                                <td></td>
+                                <td></td>
                             </tr>
                             <!-- Add more rows as needed -->
                         </tbody>
