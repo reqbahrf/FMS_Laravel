@@ -5,6 +5,10 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
+
+
 
 class ApplicationController extends Controller
 {
@@ -136,7 +140,8 @@ class ApplicationController extends Controller
 
     public function upload_requirments(Request $request)
     {
-        $businessId = session('business_id');
+        // $businessId = session('business_id');
+        $businessId = 27;
         $userName = session('user_name');
         $folderPath = storage_path("temp/uploads/$businessId/$userName");
 
@@ -146,13 +151,37 @@ class ApplicationController extends Controller
 
         $filePaths = [];
 
-        foreach ($request->file() as $file) {
-            $filePaths[$file->getClientOriginalName()] = $file->store("temp/$businessId", ['disk' => 'public']);
-        }
+       foreach ($request->file() as $fieldName => $file) {
+           $fileName = $file->getClientOriginalName();
+           $filePaths[$fieldName] = $file->store("temp/$businessId/$fileName", ['disk' => 'public']);
+       }
 
         return response()->json([
             'unique_id' => $businessId,
             'file_paths' => $filePaths,
         ]);
+    }
+
+    public function revertFile($uniqueId, Request $request)
+    {
+        Log::info('revertFile called with uniqueId: ' . $uniqueId);
+
+        // Retrieve the file path from the request
+        $filePath = $request->input('file_path');
+        Log::info('File path: ' . $filePath);
+
+        // Resolve the full file path
+        $fullPath = storage_path('app/public/' . $filePath);
+        Log::info('Full file path: ' . $fullPath);
+
+        if (file_exists($fullPath)) {
+            unlink($fullPath);
+            Log::info('File deleted: ' . $fullPath);
+
+            return response()->json(['status' => 'success'], 200);
+        }
+
+        Log::error('File not found: ' . $fullPath);
+        return response()->json(['status' => 'error', 'message' => 'File not found'], 404);
     }
 }

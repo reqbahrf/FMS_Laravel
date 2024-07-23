@@ -719,8 +719,8 @@
                                         Market Outlet
                                     </legend>
                                     <div class="form-floating mb-3">
-                                        <textarea name="Export" id="ExportMar" class="form-control" placeholder="Export" required
-                                            data-bs-toggle="tooltip" data-bs-placement="top" title="Export Market Example: Japan, China, USA, etc."></textarea>
+                                        <textarea name="Export" id="ExportMar" class="form-control" placeholder="Export" required data-bs-toggle="tooltip"
+                                            data-bs-placement="top" title="Export Market Example: Japan, China, USA, etc."></textarea>
                                         <div class="invalid-feedback">
                                             Please enter the Export Market Outlet
                                         </div>
@@ -1142,68 +1142,141 @@
     </div>
     @include('mainpage.footer');
     <script type="module">
-       document.addEventListener('DOMContentLoaded', () => {
-        $('#submitForm').click(function() {
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('applicationFormSubmit') }}',
-                data: $('#applicationForm').serialize(),
-                success: function(response) {
-                    // Handle the response from the server
-                    console.log('Form submitted successfully', response);
-                },
-                error: function(xhr, status, error) {
-                    // Handle any errors
-                    console.error('Error submitting form', error);
+        document.addEventListener('DOMContentLoaded', () => {
+            $('#submitForm').click(function() {
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('applicationFormSubmit') }}',
+                    data: $('#applicationForm').serialize(),
+                    success: function(response) {
+                        // Handle the response from the server
+                        console.log('Form submitted successfully', response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle any errors
+                        console.error('Error submitting form', error);
+                    }
+                });
+            });
+            let IntentFile = document.getElementById('IntentFile');
+            FilePond.create(IntentFile, {
+                allowMultiple: false,
+                acceptedFileTypes: ['application/pdf'],
+                allowRevert: true,
+                server: {
+                    process: {
+                        url: '/requirements/submit',
+                        method: 'POST',
+                        withCredentials: false,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        onload: (response) => {
+                            const data = JSON.parse(response);
+                            if (data.unique_id && data.file_paths) {
+                                // Store unique_id in a hidden input field or as a data attribute
+                                document.querySelector('input[name="unique_id"]').value = data
+                                .unique_id;
+                                IntentFile.setAttribute('data-unique-id', data.unique_id);
+
+                                // Update the file path for the IntentFile
+                                const filePath = data.file_paths.IntentFile;
+                                if (filePath) {
+                                    // Update the file path in the file upload element
+                                    IntentFile.setAttribute('data-file-path', filePath);
+                                }
+                            }
+
+                            // Return the unique file ID that FilePond will use to track the file
+                            return data.unique_id;
+                        },
+                        onerror: (response) => {
+                            // Handle error response
+                            console.error('File upload error:', response);
+                        }
+                    },
+                    revert: (uniqueFileId, load, error) => {
+                        const filePath = IntentFile.getAttribute('data-file-path');
+                        const unique_id = IntentFile.getAttribute('data-unique-id');
+
+                        console.log('Reverting file with path:', filePath, 'and unique ID:', unique_id);
+
+                        fetch(`/delete/file/${unique_id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                file_path: filePath
+                            })
+                        }).then(response => {
+                            if (response.ok) {
+                                load(); // Indicate that the revert was successful
+                            } else {
+                                error('Could not revert file');
+                            }
+                        }).catch(() => {
+                            error('Could not revert file');
+                        });
+                    }
+
                 }
             });
+
+
+            // fileUploads.forEach((fileUpload) => {
+            //     FilePond.create(fileUpload, {
+            //         allowMultiple: false,
+            //         acceptedFileTypes: ['application/pdf'],
+            //         allowRevert: true,
+            //         server: {
+            //             process: {
+            //                 url: '/requirements/submit',
+            //                 method: 'POST',
+            //                 withCredentials: false,
+            //                 headers: {
+            //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+            //                         .getAttribute('content')
+            //                 },
+            //                 onload: (response) => {
+            //                     const data = JSON.parse(response);
+            //                     if (data.temp_file_path && data.unique_id) {
+            //                         // Store unique_id in a hidden input field or as a data attribute
+            //                         document.querySelector('input[name="unique_id"]').value =
+            //                             data.unique_id;
+            //                         fileUpload.setAttribute('data-unique-id', data.unique_id);
+            //                     }
+            //                 }
+            //             },
+            //             revert: (uniqueFileId, load, error) => {
+            //                 fetch('/requirements/revert', {
+            //                     method: 'DELETE',
+            //                     headers: {
+            //                         'Content-Type': 'application/json',
+            //                         'X-CSRF-TOKEN': document.querySelector(
+            //                             'meta[name="csrf-token"]').getAttribute(
+            //                             'content')
+            //                     },
+            //                     body: JSON.stringify({
+            //                         unique_id: uniqueFileId
+            //                     })
+            //                 }).then(response => {
+            //                     if (response.ok) {
+            //                         load(); // Indicate that the revert was successful
+            //                     } else {
+            //                         error('Could not revert file');
+            //                     }
+            //                 }).catch(() => {
+            //                     error('Could not revert file');
+            //                 });
+            //             }
+            //         }
+            //     });
+            // });
         });
-    let fileUploads = document.querySelectorAll('.fileUploads');
-    fileUploads.forEach((fileUpload) => {
-        FilePond.create(fileUpload, {
-            allowMultiple: false,
-            acceptedFileTypes: ['application/pdf'],
-            allowRevert: true,
-            server: {
-                process: {
-                    url: '/requirements/submit',
-                    method: 'POST',
-                    withCredentials: false,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    },
-                    onload: (response) => {
-                        const data = JSON.parse(response);
-                        if (data.temp_file_path && data.unique_id) {
-                            // Store unique_id in a hidden input field or as a data attribute
-                            document.querySelector('input[name="unique_id"]').value = data.unique_id;
-                            fileUpload.setAttribute('data-unique-id', data.unique_id);
-                        }
-                    }
-                },
-                revert: (uniqueFileId, load, error) => {
-                    fetch('/requirements/revert', {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                        },
-                        body: JSON.stringify({ unique_id: uniqueFileId })
-                    }).then(response => {
-                        if (response.ok) {
-                            load(); // Indicate that the revert was successful
-                        } else {
-                            error('Could not revert file');
-                        }
-                    }).catch(() => {
-                        error('Could not revert file');
-                    });
-                }
-            }
-        });
-    });
-    console.log(fileUploads);
-});
     </script>
     <script type="module">
         $(document).ready(function() {
