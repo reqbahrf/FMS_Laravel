@@ -142,22 +142,17 @@ class ApplicationController extends Controller
     {
         // $businessId = session('business_id');
         $businessId = 27;
-        $userName = session('user_name');
-        $folderPath = storage_path("temp/uploads/$businessId/$userName");
-
-        if (!file_exists($folderPath)) {
-            mkdir($folderPath, 0777, true);
-        }
 
         $filePaths = [];
 
        foreach ($request->file() as $fieldName => $file) {
+           $uniqueId = $businessId . '_' . uniqid();
            $fileName = $file->getClientOriginalName();
-           $filePaths[$fieldName] = $file->store("temp/$businessId/$fileName", ['disk' => 'public']);
+           $filePaths[$fieldName] = $file->store("temp/$uniqueId/$fileName", ['disk' => 'public']);
        }
 
         return response()->json([
-            'unique_id' => $businessId,
+            'unique_id' => $uniqueId,
             'file_paths' => $filePaths,
         ]);
     }
