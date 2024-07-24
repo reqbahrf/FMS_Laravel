@@ -792,12 +792,12 @@
                                     Please upload the Copy of Government Valid ID.
                                 </div>
                             </div>
-                            <input type="hidden" name="unique_id" id="IntentFileID" value="">
-                            <input type="hidden" name="unique_id" id="dtiFileID" value="">
-                            <input type="hidden" name="unique_id" id="businessPermitFileID" value="">
-                            <input type="hidden" name="unique_id" id="fdaLtoFileID" value="">
-                            <input type="hidden" name="unique_id" id="receiptFileID" value="">
-                            <input type="hidden" name="unique_id" id="govIdFileID" value="">
+                            <input type="hidden" name="unique_id" id="IntentFileID" value="" disabled>
+                            <input type="hidden" name="unique_id" id="dtiFileID" value="" disabled>
+                            <input type="hidden" name="unique_id" id="businessPermitFileID" value="" disabled>
+                            <input type="hidden" name="unique_id" id="fdaLtoFileID" value="" disabled>
+                            <input type="hidden" name="unique_id" id="receiptFileID" value="" disabled>
+                            <input type="hidden" name="unique_id" id="govIdFileID" value="" disabled>
                             <div class="form-check my-4">
                                 <input type="checkbox" name="agree_terms" id="agree_terms" class="form-check-input"
                                     required>
@@ -1148,21 +1148,6 @@
     @include('mainpage.footer');
     <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
-            $('#submitForm').click(function() {
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('applicationFormSubmit') }}',
-                    data: $('#applicationForm').serialize(),
-                    success: function(response) {
-                        // Handle the response from the server
-                        console.log('Form submitted successfully', response);
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle any errors
-                        console.error('Error submitting form', error);
-                    }
-                });
-            });
             //IntentFile upload pond
             let IntentFile = document.getElementById('IntentFile');
             FilePond.create(IntentFile, {
@@ -1191,6 +1176,7 @@
                                 if (IntentFilePath) {
                                     // Update the file path in the file upload element
                                     IntentFile.setAttribute('data-file-path', IntentFilePath);
+                                    console.log(IntentFile);
                                 }
                             }
 
@@ -1589,22 +1575,22 @@
     <script type="module">
         $(document).ready(function() {
 
-            var fileInputs = {
-                'IntentFile': 'IntentFileReadonly',
-                'dtiFile': 'dtiFileReadonly',
-                'businessPermitFile': 'businessPermitFileReadonly',
-                'fdaLtoFile': 'fdaLtoFileReadonly',
-                'receiptFile': 'receiptFileReadonly',
-                'govIdFile': 'govIdFileReadonly'
-            };
+            // var fileInputs = {
+            //     'IntentFile': 'IntentFileReadonly',
+            //     'dtiFile': 'dtiFileReadonly',
+            //     'businessPermitFile': 'businessPermitFileReadonly',
+            //     'fdaLtoFile': 'fdaLtoFileReadonly',
+            //     'receiptFile': 'receiptFileReadonly',
+            //     'govIdFile': 'govIdFileReadonly'
+            // };
 
-            // Attach change event listeners to file inputs for updating readonly fields
-            $.each(fileInputs, function(inputId, readonlyId) {
-                $('#' + inputId).on('change', function() {
-                    var fileName = this.files.length > 0 ? this.files[0].name : '';
-                    $('#' + readonlyId).val(fileName);
-                });
-            });
+            // // Attach change event listeners to file inputs for updating readonly fields
+            // $.each(fileInputs, function(inputId, readonlyId) {
+            //     $('#' + inputId).on('change', function() {
+            //         var fileName = this.files.length > 0 ? this.files[0].name : '';
+            //         $('#' + readonlyId).val(fileName);
+            //     });
+            // });
 
             $('#smartwizard').smartWizard({
                 selected: 0,
@@ -1624,30 +1610,38 @@
                 }
             });
 
-            // $('#smartwizard').on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex,
-            //     stepDirection) {
+            $('#smartwizard').on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex,
+                stepDirection) {
 
-            //     if (nextStepIndex > currentStepIndex) {
+                    console.log('Leave Step', currentStepIndex, nextStepIndex, stepDirection);
 
-            //         if (!validateCurrentStep(currentStepIndex)) {
-            //             return false;
-            //         }
-            //     }
-            // });
+                if (nextStepIndex > currentStepIndex) {
+
+                    if (!validateCurrentStep(currentStepIndex)) {
+                        return false;
+                    }
+                }
+            });
 
             $('#smartwizard').on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
                 var totalSteps = $('#smartwizard').find('ul li').length;
                 console.log("Total Steps:", totalSteps);
 
+                console.log(stepIndex, totalSteps, stepPosition);
+
+                if(stepPosition != "Last") {
+                    $('.btn-success, .btn-secondary').hide();
+                }
+
                 if (stepIndex === totalSteps - 1 && stepPosition === 'last') {
                     console.log("Arriving at Last Step - Showing Buttons");
-                    $('.btn-success, .btn-secondary').show();
 
                 } else {
                     console.log("Not Arriving at Last Step - Hiding Buttons");
                     $('.btn-success, .btn-secondary').hide();
                 }
                 if (stepIndex === 3) { // Since stepIndex is 0-based, step-4 corresponds to index 3
+                    $('.btn-success, .btn-secondary').show();
                     console.log("Arriving at Last Step - Transferring Values");
 
                     // Personal Info
@@ -1720,9 +1714,21 @@
         }
 
 
-        function onFinish() {
-            console.log("Form submitted");
-            $('form').submit();
+         window.onFinish = function() {
+            event.preventDefault();
+            $.ajax({
+                    type: 'POST',
+                    url: '{{ route('applicationFormSubmit') }}',
+                    data: $('#applicationForm').serialize(),
+                    success: function(response) {
+                        // Handle the response from the server
+                        console.log('Form submitted successfully', response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle any errors
+                        console.error('Error submitting form', error);
+                    }
+                });
         }
 
         function onCancel() {
