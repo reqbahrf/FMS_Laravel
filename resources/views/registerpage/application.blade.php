@@ -792,7 +792,8 @@
                                     Please upload the Copy of Government Valid ID.
                                 </div>
                             </div>
-                            <input type="hidden" name="unique_id" value="">
+                            <input type="hidden" name="unique_id" id="IntentFile" value="">
+                            <input type="hidden" name="unique_id" id="dtiFile" value="">
                             <div class="form-check my-4">
                                 <input type="checkbox" name="agree_terms" id="agree_terms" class="form-check-input"
                                     required>
@@ -1158,6 +1159,7 @@
                     }
                 });
             });
+            //IntentFile upload pond
             let IntentFile = document.getElementById('IntentFile');
             FilePond.create(IntentFile, {
                 allowMultiple: false,
@@ -1176,15 +1178,15 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"]').value = data
+                                document.querySelector('input[name="unique_id"][id="IntentFile"]').value = data
                                 .unique_id;
                                 IntentFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the IntentFile
-                                const filePath = data.file_paths.IntentFile;
-                                if (filePath) {
+                                const IntentFilePath = data.file_paths.IntentFile;
+                                if (IntentFilePath) {
                                     // Update the file path in the file upload element
-                                    IntentFile.setAttribute('data-file-path', filePath);
+                                    IntentFile.setAttribute('data-file-path', IntentFilePath);
                                 }
                             }
 
@@ -1197,10 +1199,10 @@
                         }
                     },
                     revert: (uniqueFileId, load, error) => {
-                        const filePath = IntentFile.getAttribute('data-file-path');
+                        const IntentFilePath = IntentFile.getAttribute('data-file-path');
                         const unique_id = IntentFile.getAttribute('data-unique-id');
 
-                        console.log('Reverting file with path:', filePath, 'and unique ID:', unique_id);
+                        console.log('Reverting file with path:', IntentFilePath, 'and unique ID:', unique_id);
 
                         fetch(`/delete/file/${unique_id}`, {
                             method: 'DELETE',
@@ -1210,7 +1212,7 @@
                                     'meta[name="csrf-token"]').getAttribute('content')
                             },
                             body: JSON.stringify({
-                                file_path: filePath
+                                file_path: IntentFilePath
                             })
                         }).then(response => {
                             if (response.ok) {
@@ -1226,56 +1228,79 @@
                 }
             });
 
+            //DTI File upload
+            let dtiFile = document.getElementById('dtiFile');
+            FilePond.create(dtiFile, {
+                allowMultiple: false,
+                acceptedFileTypes: ['application/pdf'],
+                allowRevert: true,
+                server: {
+                    process: {
+                        url: '/requirements/submit',
+                        method: 'POST',
+                        withCredentials: false,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        onload: (response) => {
+                            const data = JSON.parse(response);
+                            if (data.unique_id && data.file_paths) {
+                                // Store unique_id in a hidden input field or as a data attribute
+                                document.querySelector('input[name="unique_id"][id="dtiFile"]').value = data
+                                .unique_id;
+                                dtiFile.setAttribute('data-unique-id', data.unique_id);
 
-            // fileUploads.forEach((fileUpload) => {
-            //     FilePond.create(fileUpload, {
-            //         allowMultiple: false,
-            //         acceptedFileTypes: ['application/pdf'],
-            //         allowRevert: true,
-            //         server: {
-            //             process: {
-            //                 url: '/requirements/submit',
-            //                 method: 'POST',
-            //                 withCredentials: false,
-            //                 headers: {
-            //                     'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-            //                         .getAttribute('content')
-            //                 },
-            //                 onload: (response) => {
-            //                     const data = JSON.parse(response);
-            //                     if (data.temp_file_path && data.unique_id) {
-            //                         // Store unique_id in a hidden input field or as a data attribute
-            //                         document.querySelector('input[name="unique_id"]').value =
-            //                             data.unique_id;
-            //                         fileUpload.setAttribute('data-unique-id', data.unique_id);
-            //                     }
-            //                 }
-            //             },
-            //             revert: (uniqueFileId, load, error) => {
-            //                 fetch('/requirements/revert', {
-            //                     method: 'DELETE',
-            //                     headers: {
-            //                         'Content-Type': 'application/json',
-            //                         'X-CSRF-TOKEN': document.querySelector(
-            //                             'meta[name="csrf-token"]').getAttribute(
-            //                             'content')
-            //                     },
-            //                     body: JSON.stringify({
-            //                         unique_id: uniqueFileId
-            //                     })
-            //                 }).then(response => {
-            //                     if (response.ok) {
-            //                         load(); // Indicate that the revert was successful
-            //                     } else {
-            //                         error('Could not revert file');
-            //                     }
-            //                 }).catch(() => {
-            //                     error('Could not revert file');
-            //                 });
-            //             }
-            //         }
-            //     });
-            // });
+                                // Update the file path for the dtiFile
+                                const dtiFilePath = data.file_paths.dtiFile;
+                                if (dtiFilePath) {
+                                    // Update the file path in the file upload element
+                                    dtiFile.setAttribute('data-file-path', dtiFilePath);
+                                    console.log(dtiFile);
+                                }
+                            }
+
+                            // Return the unique file ID that FilePond will use to track the file
+                            return data.unique_id;
+                        },
+                        onerror: (response) => {
+                            // Handle error response
+                            console.error('File upload error:', response);
+                        }
+                    },
+                    revert: (uniqueFileId, load, error) => {
+                        const dtiFilePath = dtiFile.getAttribute('data-file-path');
+                        const unique_id = dtiFile.getAttribute('data-unique-id');
+
+                        console.log('Reverting file with path:', dtiFilePath, 'and unique ID:', unique_id);
+
+                        fetch(`/delete/file/${unique_id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                file_path: dtiFilePath
+                            })
+                        }).then(response => {
+                            if (response.ok) {
+                                load(); // Indicate that the revert was successful
+                            } else {
+                                error('Could not revert file');
+                            }
+                        }).catch(() => {
+                            error('Could not revert file');
+                        });
+                    }
+
+                }
+
+            })
+
+
+
         });
     </script>
     <script type="module">
