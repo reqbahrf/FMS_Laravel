@@ -217,40 +217,39 @@
                 <strong>Error - </strong> {{ session('error') }}
             </div>
         @endif
-        <form action="{{ route('applicationFormSubmit') }}" id="applicationForm" method="post" class="g-3 p-5"
-            enctype="multipart/form-data">
-            @csrf
-            <div id="smartwizard">
-                <ul class="nav nav-progress">
-                    <li class="nav-item">
-                        <a class="nav-link default active" href="#step-1">
-                            <div class="num">1</div>
-                            Personal Info
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link default" href="#step-2">
-                            <span class="num">2</span>
-                            Business Info
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link default" href="#step-3">
-                            <span class="num">3</span>
-                            Requirements
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link default" href="#step-4">
-                            <span class="num">4</span>
-                            Confirm Details
-                        </a>
-                    </li>
-                </ul>
-
-                <d class="tab-content">
+        <div id="smartwizard">
+            <ul class="nav nav-progress">
+                <li class="nav-item">
+                    <a class="nav-link default active" href="#step-1">
+                        <div class="num">1</div>
+                        Personal Info
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link default" href="#step-2">
+                        <span class="num">2</span>
+                        Business Info
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link default" href="#step-3">
+                        <span class="num">3</span>
+                        Requirements
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link default" href="#step-4">
+                        <span class="num">4</span>
+                        Confirm Details
+                    </a>
+                </li>
+            </ul>
+            <form action="{{ route('applicationFormSubmit') }}" id="applicationForm" method="post" class="g-3 p-5"
+                enctype="multipart/form-data">
+                @csrf
+                <div class="tab-content">
                     <p class="legend-notice">"<span class="requiredFields">*</span>" Required</p>
-                    <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1"
+                    <div id="step-1" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-1"
                         style="position: static; left: 0px; display: block;">
                         <!-- Where Personal Info Displayed -->
                         <div class="row mb-3 gy-3">
@@ -281,11 +280,13 @@
                             <div class="col-12 col-md-2">
                                 <label for="middle_name">Middle Name: <span class="requiredFields">*</span></label>
                                 <input type="text" name="middle_name" id="middle_name"
-                                    value="{{ old('middle_name') }}" class="form-control" placeholder="Doe">
+                                    value="{{ old('middle_name') }}" class="form-control" placeholder="Doe" required>
+                                <div class="invalid-feedback">
+                                    Please enter your middle name.
+                                </div>
                             </div>
                             <div class="col-12 col-md-3">
                                 <label for="l_name">Last Name: <span class="requiredFields"> *</span></label>
-
                                 <input type="text" name="l_name" id="l_name" class="form-control"
                                     value="{{ old('l_name') }}" placeholder="Doe" required>
                                 <div class="invalid-feedback">
@@ -293,7 +294,7 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-2">
-                                <label for="suffix">Suffix: <span class="requiredFields">*</span></label>
+                                <label for="suffix">Suffix: </label>
                                 <input list="suffixList" class="form-select" name="suffix" id="suffix"
                                     value="{{ old('suffix') }}">
                                 <datalist id="suffixList">
@@ -307,7 +308,24 @@
                                     <option value="Ph.D.">Ph.D.</option>
                                 </datalist>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 mx-auto">
+                                        <label for="gender">Gender: <span class="requiredFields">*</span></label>
+                                        <select name="gender" id="gender" class="form-select" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Non-Binary">Non-Binary</option>
+                                            <option value="Prefer not to say">Prefer not to say</option>
+                                        </select>
+                                        <div class="invalid-feedback">
+                                            Please select your gender.
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4">
                                 <div class="row">
                                     <div class="col-12 col-md-6 mx-auto">
                                         <label for="designation">Designation: <span
@@ -323,7 +341,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-12 col-md-6">
+                            <div class="col-12 col-md-4">
                                 <div class="row">
                                     <div class="col-12 col-md-6 mx-auto">
                                         <label for="b_date">Birth Date: <span class="requiredFields">
@@ -370,7 +388,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2"
+                    <div id="step-2" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-2"
                         style="position: static; left: 0px; display: none;">
                         <!-- Where the business info displayed -->
                         <div class="row gy-3">
@@ -711,8 +729,6 @@
 
                                 </div>
                             </div>
-
-
                             <div class="col-12 mb-3">
                                 <fieldset>
                                     <legend>
@@ -735,19 +751,17 @@
                                         <label for="Local">Local: <span class="requiredFields"> *</span></label>
                                     </div>
                                 </fieldset>
-
                             </div>
-
                         </div>
                     </div>
-                    <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3"
+                    <div id="step-3" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-3"
                         style="position: static; left: 0px; display: none;">
-                        <!-- Where the requirements uploaded -->
                         <h3>Upload the Following Requirements:</h3>
                         <div class="row mb-12 p-5">
                             <div class="mb-3">
                                 <label for="IntentFile" class="form-label">Letter of Intent:<span
-                                        class="requiredFields"> *</span></label>
+                                        class="requiredFields">
+                                        *</span></label>
                                 <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
                                     required>
                                 <div class="invalid-feedback">
@@ -794,7 +808,8 @@
                             </div>
                             <input type="hidden" name="unique_id" id="IntentFileID" value="" disabled>
                             <input type="hidden" name="unique_id" id="dtiFileID" value="" disabled>
-                            <input type="hidden" name="unique_id" id="businessPermitFileID" value="" disabled>
+                            <input type="hidden" name="unique_id" id="businessPermitFileID" value=""
+                                disabled>
                             <input type="hidden" name="unique_id" id="fdaLtoFileID" value="" disabled>
                             <input type="hidden" name="unique_id" id="receiptFileID" value="" disabled>
                             <input type="hidden" name="unique_id" id="govIdFileID" value="" disabled>
@@ -809,322 +824,322 @@
                             </div>
                         </div>
                     </div>
-        </form>
-        <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4"
-            style="position: static; left: 0px; display: none;">
-            <div class="row">
-                <div class="col-md-12 mb-4">
-                    <h5>Review and confirm the details provided before submission.</h5>
                 </div>
-                <div class="row g-3">
-                    <div class="col-12 col-md-8">
-                        <div class="card">
-                            <div class="card-header">
-                                Personal Infomation
-                            </div>
-                            <div class="card-body">
-                                <div class="col-12">
-                                    <label for="re_full_name">Full Name</label>
-                                    <input type="text" id="re_Full_name" class="form-control mb-3" readonly>
-                                </div>
-                                <div class="col-12">
-                                    <label for="b_Date">Birth Date</label>
-                                    <input type="text" id="re_b_Date" class="form-control mb-3" readonly>
-                                </div>
-                                <div class="col-12">
-                                    <label for="designa">Designation</label>
-                                    <input type="text" id="re_designa" class="form-control mb-3" readonly>
-                                </div>
-                                <div class="col-12">
-                                    <label for="Mobile_no">Mobile Number</label>
-                                    <input type="text" id="re_Mobile_no" class="form-control mb-3" readonly>
-                                </div>
-                                <div class="col-12">
-                                    <label for="landline">Landline</label>
-                                    <input type="text" id="re_landline" class="form-control mb-3" readonly>
-                                </div>
-                            </div>
-                        </div>
+            </form>
+            <div id="step-4" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-4"
+                style="position: static; left: 0px; display: none;">
+                <div class="row">
+                    <div class="col-md-12 mb-4">
+                        <h5>Review and confirm the details provided before submission.</h5>
                     </div>
-                    <div class="col-12 col-md-4">
-                        <div class="card">
-                            <div class="card-header">
-                                Uploaded Requirements
-                            </div>
-                            <div class="card-body">
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="IntentFileReadonly">Intent File Name:</label>
-                                        <input class="form-control mb-3" type="text" id="IntentFileReadonly"
-                                            readonly>
-                                    </div>
-
+                    <div class="row g-3">
+                        <div class="col-12 col-md-8">
+                            <div class="card">
+                                <div class="card-header">
+                                    Personal Infomation
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="dtiFileReadonly">DTI File Name:</label>
-                                        <input class="form-control mb-3" type="text" id="dtiFileReadonly"
-                                            readonly>
-                                    </div>
-
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="businessPermitFileReadonly">Business Permit File Name:</label>
-                                        <input class="form-control mb-3" type="text"
-                                            id="businessPermitFileReadonly" readonly>
-                                    </div>
-
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="fdaLtoFileReadonly">FDA LTO File Name:</label>
-                                        <input class="form-control mb-3" type="text" id="fdaLtoFileReadonly"
-                                            readonly>
-                                    </div>
-
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="receiptFileReadonly">Receipt File Name:</label>
-                                        <input class="form-control mb-3" type="text" id="receiptFileReadonly"
-                                            readonly>
-                                    </div>
-
-                                </div>
-                                <div class="col-12">
-                                    <div class="form-group">
-                                        <label for="govIdFileReadonly">Government ID File Name:</label>
-                                        <input class="form-control mb-3" type="text" id="govIdFileReadonly"
-                                            readonly>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                Business Information
-                            </div>
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-12 col-md-8">
-                                        <label for="firm_name">Firm Name</label>
-                                        <input type="text" id="re_firm_name" class="form-control mb-3" readonly>
-
-                                    </div>
-                                    <div class="col-12 col-md-4">
-                                        <label for="type_enterprise">Type of Enterprise</label>
-                                        <input type="text" id="re_type_enterprise" class="form-control mb-3"
-                                            readonly>
+                                <div class="card-body">
+                                    <div class="col-12">
+                                        <label for="re_full_name">Full Name</label>
+                                        <input type="text" id="re_Full_name" class="form-control mb-3" readonly>
                                     </div>
                                     <div class="col-12">
-                                        <label for="Address">Full Address</label>
-                                        <input type="text" id="re_Address" class="form-control mb-3" readonly>
+                                        <label for="b_Date">Birth Date</label>
+                                        <input type="text" id="re_b_Date" class="form-control mb-3" readonly>
                                     </div>
-                                    <div class="col-12 my-3">
-                                        <div class="card">
-                                            <div class="card-header">
-                                                Assets
-                                            </div>
-                                            <div class="card-body">
-                                                <div class="row">
-                                                    <div class="col-12 col-md-4">
-                                                        <label for="buildings">Buildings</label>
-                                                        <input type="text" id="re_buildings"
-                                                            class="form-control mb-3" readonly>
-
-                                                    </div>
-                                                    <div class="col-12 col-md-4">
-                                                        <label for="equipments">Equipments</label>
-                                                        <input type="text" id="re_equipments"
-                                                            class="form-control mb-3" readonly>
-                                                    </div>
-                                                    <div class="col-12 col-md-4">
-                                                        <label for="working_capital">Working Capital</label>
-                                                        <input type="text" id="re_working_capital"
-                                                            class="form-control mb-3" readonly>
-                                                    </div>
-                                                    <div class="col-12">
-                                                        <div class="col-12">
-                                                            <p>Total Assets: <span id="re_to_Assets"></span></p>
-
-                                                        </div>
-                                                        <div class="col-12">
-                                                            <p>Enterprise Level: <span id="re_Enterprise_Level"></span>
-                                                            </p>
-                                                        </div>
-                                                        <div class="col-12">
-
-                                                            <div class="text-center">
-                                                                <p>Estimated funds that can be acquired:</p>
-                                                                <span id="re_EstimatedFund" class="p-2"></span>
-                                                                <br>
-                                                                <span id="re_EstimationNotice">*Note that this
-                                                                    estimation
-                                                                    is still subject
-                                                                    to
-                                                                    further business evaluation.</span>
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
-                                                </div>
-
-                                            </div>
+                                    <div class="col-12">
+                                        <label for="designa">Designation</label>
+                                        <input type="text" id="re_designa" class="form-control mb-3" readonly>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="Mobile_no">Mobile Number</label>
+                                        <input type="text" id="re_Mobile_no" class="form-control mb-3" readonly>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="landline">Landline</label>
+                                        <input type="text" id="re_landline" class="form-control mb-3" readonly>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <div class="card">
+                                <div class="card-header">
+                                    Uploaded Requirements
+                                </div>
+                                <div class="card-body">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="IntentFileReadonly">Intent File Name:</label>
+                                            <input class="form-control mb-3" type="text" id="IntentFileReadonly"
+                                                readonly>
                                         </div>
 
                                     </div>
                                     <div class="col-12">
-                                        <div class="row">
-                                            <div class="col-12 col-md-3">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        Number of Personnel Direct(Production):
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="card">
-                                                            <div class="card-header">
-                                                                Regular
-                                                            </div>
-                                                            <div class="card-body">
+                                        <div class="form-group">
+                                            <label for="dtiFileReadonly">DTI File Name:</label>
+                                            <input class="form-control mb-3" type="text" id="dtiFileReadonly"
+                                                readonly>
+                                        </div>
 
-                                                                <div class="col-12">
-                                                                    <label for="re_m_personnelDiRe">Male</label>
-                                                                    <div class="mb-3">
-                                                                        <input type="text"
-                                                                            name="re_m_personnelDiRe"
-                                                                            id="re_m_personnelDiRe"
-                                                                            class="form-control" readonly>
-                                                                    </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="businessPermitFileReadonly">Business Permit File
+                                                Name:</label>
+                                            <input class="form-control mb-3" type="text"
+                                                id="businessPermitFileReadonly" readonly>
+                                        </div>
 
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <label for="re_f_personnelDiRe">Female</label>
-                                                                    <div class="mb-3">
-                                                                        <input type="text"
-                                                                            name="re_f_personnelDiRe"
-                                                                            id="re_f_personnelDiRe"
-                                                                            class="form-control" readonly>
-                                                                    </div>
-                                                                </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="fdaLtoFileReadonly">FDA LTO File Name:</label>
+                                            <input class="form-control mb-3" type="text" id="fdaLtoFileReadonly"
+                                                readonly>
+                                        </div>
 
-                                                            </div>
-                                                        </div>
-                                                        <div class="card my-3">
-                                                            <div class="card-header">
-                                                                Part-time
-                                                            </div>
-                                                            <div class="card-body">
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="receiptFileReadonly">Receipt File Name:</label>
+                                            <input class="form-control mb-3" type="text" id="receiptFileReadonly"
+                                                readonly>
+                                        </div>
 
-                                                                <div class="col-12">
-                                                                    <label for="">Male</label>
-                                                                    <div class="mb-3">
-                                                                        <input type="text"
-                                                                            name="re_m_personnelDiPart"
-                                                                            id="re_m_personnelDiPart"
-                                                                            class="form-control" readonly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <label for="">Female</label>
-                                                                    <div class="mb-3">
-                                                                        <input type="text"
-                                                                            name="re_f_personnelDiPart"
-                                                                            id="re_f_personnelDiPart"
-                                                                            class="form-control" readonly>
-                                                                    </div>
-                                                                </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="govIdFileReadonly">Government ID File Name:</label>
+                                            <input class="form-control mb-3" type="text" id="govIdFileReadonly"
+                                                readonly>
+                                        </div>
 
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card">
+                                <div class="card-header">
+                                    Business Information
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-md-8">
+                                            <label for="firm_name">Firm Name</label>
+                                            <input type="text" id="re_firm_name" class="form-control mb-3"
+                                                readonly>
 
-
-                                                            </div>
-                                                        </div>
-
-                                                    </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <label for="type_enterprise">Type of Enterprise</label>
+                                            <input type="text" id="re_type_enterprise" class="form-control mb-3"
+                                                readonly>
+                                        </div>
+                                        <div class="col-12">
+                                            <label for="Address">Full Address</label>
+                                            <input type="text" id="re_Address" class="form-control mb-3" readonly>
+                                        </div>
+                                        <div class="col-12 my-3">
+                                            <div class="card">
+                                                <div class="card-header">
+                                                    Assets
                                                 </div>
-                                            </div>
-                                            <div class="col-12 col-md-3">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        Number of Personnel Indirect(Admin and Marketing):
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="card">
-                                                            <div class="card-header">
-                                                                Regular
-                                                            </div>
-                                                            <div class="card-body">
+                                                <div class="card-body">
+                                                    <div class="row">
+                                                        <div class="col-12 col-md-4">
+                                                            <label for="buildings">Buildings</label>
+                                                            <input type="text" id="re_buildings"
+                                                                class="form-control mb-3" readonly>
 
-                                                                <div class="col-12">
-                                                                    <label for="re_m_personnelIndRe">Male</label>
-                                                                    <div class="mb-3">
-                                                                        <input type="text"
-                                                                            name="re_m_personnelIndRe"
-                                                                            id="re_m_personnelIndRe"
-                                                                            class="form-control" readonly>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <label for="re_f_personnelIndRe">Female</label>
-                                                                    <div class="mb-3">
-                                                                        <input type="text"
-                                                                            name="re_f_personnelIndRe"
-                                                                            id="re_f_personnelIndRe"
-                                                                            class="form-control" readonly>
-                                                                    </div>
-                                                                </div>
-
-
-
-                                                            </div>
                                                         </div>
-                                                        <div class="card my-3">
-                                                            <div class="card-header">
-                                                                Part-time
-                                                            </div>
-                                                            <div class="card-body">
-                                                                <div class="col-12">
-                                                                    <label for="re_m_personnelIndPart">Male</label>
-                                                                    <div class="mb-3">
-                                                                        <input type="text"
-                                                                            name="re_m_personnelIndPart"
-                                                                            id="re_m_personnelIndPart"
-                                                                            class="form-control" readonly>
-                                                                    </div>
+                                                        <div class="col-12 col-md-4">
+                                                            <label for="equipments">Equipments</label>
+                                                            <input type="text" id="re_equipments"
+                                                                class="form-control mb-3" readonly>
+                                                        </div>
+                                                        <div class="col-12 col-md-4">
+                                                            <label for="working_capital">Working Capital</label>
+                                                            <input type="text" id="re_working_capital"
+                                                                class="form-control mb-3" readonly>
+                                                        </div>
+                                                        <div class="col-12">
+                                                            <div class="col-12">
+                                                                <p>Total Assets: <span id="re_to_Assets"></span>
+                                                                </p>
 
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <p>Enterprise Level: <span
+                                                                        id="re_Enterprise_Level"></span>
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-12">
 
-                                                                </div>
-                                                                <div class="col-12">
-                                                                    <label for="re_f_personnelIndPart">Female</label>
-                                                                    <div class="mb-3">
-                                                                        <input type="text"
-                                                                            name="re_f_personnelIndPart"
-                                                                            id="re_f_personnelIndPart"
-                                                                            class="form-control" readonly>
-                                                                    </div>
+                                                                <div class="text-center">
+                                                                    <p>Estimated funds that can be acquired:</p>
+                                                                    <span id="re_EstimatedFund" class="p-2"></span>
+                                                                    <br>
+                                                                    <span id="re_EstimationNotice">*Note that this
+                                                                        estimation
+                                                                        is still subject
+                                                                        to
+                                                                        further business evaluation.</span>
                                                                 </div>
                                                             </div>
+
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="col-12 col-md-6">
-                                                <div class="card">
-                                                    <div class="card-header">
-                                                        Market Outlet
-                                                    </div>
-                                                    <div class="card-body">
-                                                        <div class="col-12">
-                                                            <label for="Export">Export</label>
-                                                            <textarea id="re_ExportMar" class="form-control mb-3" readonly></textarea>
+                                        </div>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-12 col-md-3">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            Number of Personnel Direct(Production):
                                                         </div>
-                                                        <div class="col-12">
-                                                            <label for="Local">Local</label>
-                                                            <textarea id="re_LocalMar" class="form-control mb-3" readonly></textarea>
+                                                        <div class="card-body">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    Regular
+                                                                </div>
+                                                                <div class="card-body">
+
+                                                                    <div class="col-12">
+                                                                        <label for="re_m_personnelDiRe">Male</label>
+                                                                        <div class="mb-3">
+                                                                            <input type="text"
+                                                                                name="re_m_personnelDiRe"
+                                                                                id="re_m_personnelDiRe"
+                                                                                class="form-control" readonly>
+                                                                        </div>
+
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label for="re_f_personnelDiRe">Female</label>
+                                                                        <div class="mb-3">
+                                                                            <input type="text"
+                                                                                name="re_f_personnelDiRe"
+                                                                                id="re_f_personnelDiRe"
+                                                                                class="form-control" readonly>
+                                                                        </div>
+                                                                    </div>
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="card my-3">
+                                                                <div class="card-header">
+                                                                    Part-time
+                                                                </div>
+                                                                <div class="card-body">
+
+                                                                    <div class="col-12">
+                                                                        <label for="">Male</label>
+                                                                        <div class="mb-3">
+                                                                            <input type="text"
+                                                                                name="re_m_personnelDiPart"
+                                                                                id="re_m_personnelDiPart"
+                                                                                class="form-control" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label for="">Female</label>
+                                                                        <div class="mb-3">
+                                                                            <input type="text"
+                                                                                name="re_f_personnelDiPart"
+                                                                                id="re_f_personnelDiPart"
+                                                                                class="form-control" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-3">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            Number of Personnel Indirect(Admin and Marketing):
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    Regular
+                                                                </div>
+                                                                <div class="card-body">
+
+                                                                    <div class="col-12">
+                                                                        <label for="re_m_personnelIndRe">Male</label>
+                                                                        <div class="mb-3">
+                                                                            <input type="text"
+                                                                                name="re_m_personnelIndRe"
+                                                                                id="re_m_personnelIndRe"
+                                                                                class="form-control" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label for="re_f_personnelIndRe">Female</label>
+                                                                        <div class="mb-3">
+                                                                            <input type="text"
+                                                                                name="re_f_personnelIndRe"
+                                                                                id="re_f_personnelIndRe"
+                                                                                class="form-control" readonly>
+                                                                        </div>
+                                                                    </div>
+
+
+
+                                                                </div>
+                                                            </div>
+                                                            <div class="card my-3">
+                                                                <div class="card-header">
+                                                                    Part-time
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="col-12">
+                                                                        <label for="re_m_personnelIndPart">Male</label>
+                                                                        <div class="mb-3">
+                                                                            <input type="text"
+                                                                                name="re_m_personnelIndPart"
+                                                                                id="re_m_personnelIndPart"
+                                                                                class="form-control" readonly>
+                                                                        </div>
+
+
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label
+                                                                            for="re_f_personnelIndPart">Female</label>
+                                                                        <div class="mb-3">
+                                                                            <input type="text"
+                                                                                name="re_f_personnelIndPart"
+                                                                                id="re_f_personnelIndPart"
+                                                                                class="form-control" readonly>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-12 col-md-6">
+                                                    <div class="card">
+                                                        <div class="card-header">
+                                                            Market Outlet
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="col-12">
+                                                                <label for="Export">Export</label>
+                                                                <textarea id="re_ExportMar" class="form-control mb-3" readonly></textarea>
+                                                            </div>
+                                                            <div class="col-12">
+                                                                <label for="Local">Local</label>
+                                                                <textarea id="re_LocalMar" class="form-control mb-3" readonly></textarea>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1138,12 +1153,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="progress">
-        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
-            aria-valuemax="100"></div>
-    </div>
-    </div>
     </div>
     @include('mainpage.footer');
     <script type="module">
@@ -1167,8 +1176,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="IntentFileID"]').value = data
-                                .unique_id;
+                                document.querySelector('input[name="unique_id"][id="IntentFileID"]')
+                                    .value = data
+                                    .unique_id;
                                 IntentFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the IntentFile
@@ -1192,7 +1202,8 @@
                         const IntentFilePath = IntentFile.getAttribute('data-file-path');
                         const unique_id = IntentFile.getAttribute('data-unique-id');
 
-                        console.log('Reverting file with path:', IntentFilePath, 'and unique ID:', unique_id);
+                        console.log('Reverting file with path:', IntentFilePath, 'and unique ID:',
+                            unique_id);
 
                         fetch(`/delete/file/${unique_id}`, {
                             method: 'DELETE',
@@ -1237,8 +1248,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="dtiFileID"]').value = data
-                                .unique_id;
+                                document.querySelector('input[name="unique_id"][id="dtiFileID"]')
+                                    .value = data
+                                    .unique_id;
                                 dtiFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the dtiFile
@@ -1263,7 +1275,8 @@
                         const dtiFilePath = dtiFile.getAttribute('data-file-path');
                         const unique_id = dtiFile.getAttribute('data-unique-id');
 
-                        console.log('Reverting file with path:', dtiFilePath, 'and unique ID:', unique_id);
+                        console.log('Reverting file with path:', dtiFilePath, 'and unique ID:',
+                            unique_id);
 
                         fetch(`/delete/file/${unique_id}`, {
                             method: 'DELETE',
@@ -1308,15 +1321,18 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="businessPermitFileID"]').value = data
-                                .unique_id;
+                                document.querySelector(
+                                        'input[name="unique_id"][id="businessPermitFileID"]').value =
+                                    data
+                                    .unique_id;
                                 businessPermitFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the dtiFile
                                 const BusinessPermitFilePath = data.file_paths.businessPermitFile;
                                 if (BusinessPermitFilePath) {
                                     // Update the file path in the file upload element
-                                    businessPermitFile.setAttribute('data-file-path', BusinessPermitFilePath);
+                                    businessPermitFile.setAttribute('data-file-path',
+                                        BusinessPermitFilePath);
                                     console.log(BusinessPermitFilePath);
                                 }
                             }
@@ -1330,10 +1346,12 @@
                         }
                     },
                     revert: (uniqueFileId, load, error) => {
-                        const BusinessPermitFilePath = businessPermitFile.getAttribute('data-file-path');
+                        const BusinessPermitFilePath = businessPermitFile.getAttribute(
+                            'data-file-path');
                         const unique_id = businessPermitFile.getAttribute('data-unique-id');
 
-                        console.log('Reverting file with path:', BusinessPermitFilePath, 'and unique ID:', unique_id);
+                        console.log('Reverting file with path:', BusinessPermitFilePath,
+                            'and unique ID:', unique_id);
 
                         fetch(`/delete/file/${unique_id}`, {
                             method: 'DELETE',
@@ -1377,8 +1395,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="fdaLtoFileID"]').value = data
-                                .unique_id;
+                                document.querySelector('input[name="unique_id"][id="fdaLtoFileID"]')
+                                    .value = data
+                                    .unique_id;
                                 fdaLtoFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the dtiFile
@@ -1402,7 +1421,8 @@
                         const fdaLtoFilePath = fdaLtoFile.getAttribute('data-file-path');
                         const unique_id = fdaLtoFile.getAttribute('data-unique-id');
 
-                        console.log('Reverting file with path:', fdaLtoFilePath, 'and unique ID:', unique_id);
+                        console.log('Reverting file with path:', fdaLtoFilePath, 'and unique ID:',
+                            unique_id);
 
                         fetch(`/delete/file/${unique_id}`, {
                             method: 'DELETE',
@@ -1446,8 +1466,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="receiptFileID"]').value = data
-                                .unique_id;
+                                document.querySelector('input[name="unique_id"][id="receiptFileID"]')
+                                    .value = data
+                                    .unique_id;
                                 receiptFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the dtiFile
@@ -1471,7 +1492,8 @@
                         const receiptFilePath = receiptFile.getAttribute('data-file-path');
                         const unique_id = receiptFile.getAttribute('data-unique-id');
 
-                        console.log('Reverting file with path:', receiptFilePath, 'and unique ID:', unique_id);
+                        console.log('Reverting file with path:', receiptFilePath, 'and unique ID:',
+                            unique_id);
 
                         fetch(`/delete/file/${unique_id}`, {
                             method: 'DELETE',
@@ -1516,8 +1538,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="govIdFileID"]').value = data
-                                .unique_id;
+                                document.querySelector('input[name="unique_id"][id="govIdFileID"]')
+                                    .value = data
+                                    .unique_id;
                                 govIdFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the dtiFile
@@ -1543,7 +1566,8 @@
                         const govIdFilePath = govIdFile.getAttribute('data-file-path');
                         const unique_id = govIdFile.getAttribute('data-unique-id');
 
-                        console.log('Reverting file with path:', govIdFilePath, 'and unique ID:', unique_id);
+                        console.log('Reverting file with path:', govIdFilePath, 'and unique ID:',
+                            unique_id);
 
                         fetch(`/delete/file/${unique_id}`, {
                             method: 'DELETE',
@@ -1575,6 +1599,12 @@
     <script type="module">
         $(document).ready(function() {
 
+            $('input, select').focus(function() {
+                if ($(this).attr('required')) {
+                    $(this).removeClass('is-invalid');
+                }
+            });
+
             // var fileInputs = {
             //     'IntentFile': 'IntentFileReadonly',
             //     'dtiFile': 'dtiFileReadonly',
@@ -1595,6 +1625,7 @@
             $('#smartwizard').smartWizard({
                 selected: 0,
                 theme: 'dots',
+                autoAdjustHeight: true,
                 transition: {
                     animation: 'slideHorizontal'
                 },
@@ -1613,7 +1644,7 @@
             $('#smartwizard').on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex,
                 stepDirection) {
 
-                    console.log('Leave Step', currentStepIndex, nextStepIndex, stepDirection);
+                console.log('Leave Step', currentStepIndex, nextStepIndex, stepDirection);
 
                 if (nextStepIndex > currentStepIndex) {
 
@@ -1629,7 +1660,7 @@
 
                 console.log(stepIndex, totalSteps, stepPosition);
 
-                if(stepPosition != "Last") {
+                if (stepPosition != "Last") {
                     $('.btn-success, .btn-secondary').hide();
                 }
 
@@ -1714,21 +1745,21 @@
         }
 
 
-         window.onFinish = function() {
+        window.onFinish = function() {
             event.preventDefault();
             $.ajax({
-                    type: 'POST',
-                    url: '{{ route('applicationFormSubmit') }}',
-                    data: $('#applicationForm').serialize(),
-                    success: function(response) {
-                        // Handle the response from the server
-                        console.log('Form submitted successfully', response);
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle any errors
-                        console.error('Error submitting form', error);
-                    }
-                });
+                type: 'POST',
+                url: '{{ route('applicationFormSubmit') }}',
+                data: $('#applicationForm').serialize(),
+                success: function(response) {
+                    // Handle the response from the server
+                    console.log('Form submitted successfully', response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors
+                    console.error('Error submitting form', error);
+                }
+            });
         }
 
         function onCancel() {

@@ -30,6 +30,7 @@ class ApplicationController extends Controller
             $mid_name = ($request->input('middle_name'));
             $l_name = ($request->input('l_name'));
             $name_suffix = ($request->input('suffix'));
+            $gender = ($request->input('gender'));
             $b_date = ($request->input('b_date'));
             $date = \DateTime::createFromFormat('m/d/Y', $b_date);
             $formatted_date = $date->format('Y-m-d');
@@ -43,6 +44,7 @@ class ApplicationController extends Controller
                 'mid_name' => $mid_name,
                 'l_name' => $l_name,
                 'suffix' => $name_suffix,
+                'gender' => $gender,
                 'birth_date' => $formatted_date,
                 'designation' => $designation,
                 'mobile_number' => $mobile_number,

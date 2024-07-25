@@ -23,7 +23,7 @@ return new class extends Migration
             $table->timestamps();
             $table->foreign('ongoing_project_id')->references('id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });
-        DB::statement("ALTER TABLE `receipt_upload` ADD receipt_file MEDIUMBLOB");
+        DB::statement("ALTER TABLE `receipt_upload` ADD `receipt_file` MEDIUMBLOB AFTER `receipt_name`");
     }
 
     /**
