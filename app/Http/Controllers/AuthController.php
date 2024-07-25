@@ -18,36 +18,43 @@ class AuthController extends Controller
         Log::info('Signup method called');
 
         $request->validate([
-            'userName1' => 'required|unique:users,user_name',
+            'userName' => 'required|unique:users,user_name',
             'email' => 'required|email|unique:users,email',
             'password1' => 'required',
             'confirm1' => 'required|same:password1',
         ]);
 
+        try {
             $user = new User();
-            $user->user_name = $request->userName1;
+            $user->user_name = $request->userName;
             $user->email = $request->email;
             $user->password = Hash::make($request->password1);
 
-            $user->save();
-
-            session(['user_id' => $user->id]);
-            session(['user_name' => $user->user_name]);
-            session(['email' => $user->email]);
-
             if ($user->save()) {
-                // try{
-                // }
-                // catch(\Exception $e){
-                //     return response()->json(['error' => $e], 422);
-                // }
+                session(['user_id' => $user->id]);
+                session(['user_name' => $user->user_name]);
+                session(['email' => $user->email]);
 
-                return response()->json(['success' => 'Account created successfully. Please verify your email.', 'redirect' => route('verification.notice')]);
-            }else
-            {
-                return response()->json(['error' => 'Account creation failed.'], 422);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Account created successfully. Please verify your email.',
+                    'redirect' => route('verification.notice')
+                ]);
+            } else {
+                return response()->json([
+                    'success' => false,
+                    'error' => 'Account creation failed.'
+                ], 422);
             }
+        } catch (\Exception $e) {
+            // Log the exception message for debugging
+            Log::error('Signup failed: ' . $e->getMessage());
 
+            return response()->json([
+                'success' => false,
+                'error' => 'An unexpected error occurred. Please try again later.'
+            ], 500);
+        }
 
 
     }
