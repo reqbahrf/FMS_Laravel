@@ -824,9 +824,7 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </form>
-            <div id="step-4" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-4"
+                    <div id="step-4" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-4"
                 style="position: static; left: 0px; display: none;">
                 <div class="row">
                     <div class="col-md-12 mb-4">
@@ -1152,6 +1150,8 @@
                     </div>
                 </div>
             </div>
+                </div>
+            </form>
         </div>
     </div>
     @include('mainpage.footer');
@@ -1750,7 +1750,7 @@
             $.ajax({
                 type: 'POST',
                 url: '{{ route('applicationFormSubmit') }}',
-                data: $('#applicationForm').serialize(),
+                data: $('#applicationForm').find(':input:not([readonly])').serialize(),
                 success: function(response) {
                     // Handle the response from the server
                     console.log('Form submitted successfully', response);

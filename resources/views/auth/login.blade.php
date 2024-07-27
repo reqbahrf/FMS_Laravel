@@ -9,71 +9,13 @@
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
     @vite('resources/js/app.js')
-    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}"></script>
-    <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}"></script>
+    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}" defer></script>
+    <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}" defer></script>
     <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
 
 
-    <script>
-        $(document).ready(function() {
-            $('#datepicker').daterangepicker({
-                "singleDatePicker": true,
-                "showDropdowns": true,
-                "opens": "center",
-                "drops": "up",
-                "autoUpdateInput": false
-            });
-
-            $('#datepicker').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY'));
-            });
-
-            $('#datepicker').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
-            });
-        });
-    </script>
-    <script>
-        function validateForm() {
-            let usernameInput = document.getElementById('username');
-            let passwordInput = document.getElementById('password');
-            let birthDateInput = document.getElementById('datepicker');
-
-            let inputs = [usernameInput, passwordInput, birthDateInput];
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.classList.remove('is-invalid');
-                });
-            });
-
-            // Reset validation feedback
-            usernameInput.classList.remove('is-invalid');
-            passwordInput.classList.remove('is-invalid');
-            birthDateInput.classList.remove('is-invalid');
-
-            if (usernameInput.value === '') {
-                usernameInput.classList.add('is-invalid');
-                usernameInput.nextElementSibling.textContent = 'Please enter a username.';
-                return false;
-            }
-
-            if (passwordInput.value === '') {
-                passwordInput.classList.add('is-invalid');
-                passwordInput.nextElementSibling.textContent = 'Please enter a password.';
-                return false;
-            }
-
-            if (birthDateInput.value === '') {
-                birthDateInput.classList.add('is-invalid');
-                birthDateInput.nextElementSibling.textContent = 'Please enter a birth date.';
-                return false;
-            }
-
-            return true;
-        }
-    </script>
     <style>
         html {
             font-size: clamp(12px, 1vw, 24px);
@@ -318,7 +260,7 @@
             document.write(new Date().getFullYear())
         </script> © DOST - SETUP
     </footer>
-    <script>
+    <script type="module">
         $('#passwordtoggle').on('click', function() {
             event.preventDefault();
 
@@ -366,6 +308,65 @@
                 });
             });
         });
+    </script>
+
+    <script type="module">
+        $(document).ready(function() {
+            $('#datepicker').daterangepicker({
+                "singleDatePicker": true,
+                "showDropdowns": true,
+                "opens": "center",
+                "drops": "up",
+                "autoUpdateInput": false
+            });
+
+            $('#datepicker').on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MM/DD/YYYY'));
+            });
+
+            $('#datepicker').on('cancel.daterangepicker', function(ev, picker) {
+                $(this).val('');
+            });
+        });
+    </script>
+    <script type="module">
+        function validateForm() {
+            let usernameInput = document.getElementById('username');
+            let passwordInput = document.getElementById('password');
+            let birthDateInput = document.getElementById('datepicker');
+
+            let inputs = [usernameInput, passwordInput, birthDateInput];
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.classList.remove('is-invalid');
+                });
+            });
+
+            // Reset validation feedback
+            usernameInput.classList.remove('is-invalid');
+            passwordInput.classList.remove('is-invalid');
+            birthDateInput.classList.remove('is-invalid');
+
+            if (usernameInput.value === '') {
+                usernameInput.classList.add('is-invalid');
+                usernameInput.nextElementSibling.textContent = 'Please enter a username.';
+                return false;
+            }
+
+            if (passwordInput.value === '') {
+                passwordInput.classList.add('is-invalid');
+                passwordInput.nextElementSibling.textContent = 'Please enter a password.';
+                return false;
+            }
+
+            if (birthDateInput.value === '') {
+                birthDateInput.classList.add('is-invalid');
+                birthDateInput.nextElementSibling.textContent = 'Please enter a birth date.';
+                return false;
+            }
+
+            return true;
+        }
     </script>
 </body>
 
