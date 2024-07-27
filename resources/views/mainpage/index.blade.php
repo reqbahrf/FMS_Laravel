@@ -658,8 +658,7 @@
                 <h2>What We Do</h2>
                 <p>Magnam dolores commodi suscipit consequatur ex aliquid</p>
             </div>
-
-            <div class="row">
+            <div class="row mb-3">
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
                     <div class="icon-box">
                         <div class="icon"><i class="bx bxl-dribbble"></i></div>
@@ -680,6 +679,49 @@
                         <h4><a href="">Magni Dolores</a></h4>
                         <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
                     </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="alert alert-primary h-100" role="alert">
+                        <h4 class="alert-heading mb-3">Eligible to Join!</h4>
+                        <ul>
+                            <li>
+                                <strong>Business Type:</strong><br>
+                                Your business must be a small or medium-scale enterprise.
+                            </li>
+                            <li>
+                                <strong>Ownership:</strong><br>
+                                The business should be wholly owned by Filipino citizens.
+
+
+                            </li>
+                            <li>
+                                <strong>Industry:</strong><br>
+                                Your business should fall under one of the identified priority sectors.
+                            </li>
+                            <li>
+                                <strong>Willingness to adopt technology:</strong><br>
+                                Your business should be open to incorporating technological improvements into its operations.
+                            </li>
+                        </ul>
+                        <hr>
+                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-primary h-100">
+                        <h4 class="alert-header mb-3">General Requirements</h4>
+                        <ul class="">
+                            <li>Letter of Intent</li>
+                            <li>DTI/SEC/CDA</li>
+                            <li>Business Permit</li>
+                            <li>FDA/LTO</li>
+                            <li>Official Receipt of the Business</li>
+                            <li>Copy of Government Valid ID</li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
