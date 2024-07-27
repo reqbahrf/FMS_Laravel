@@ -41,8 +41,9 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
 Route::get('/Cooperator/Home', [CooperatorController::class, 'index'])->name('Cooperator.home');
 Route::get('/Cooperator/Dashboard', [CooperatorController::class, 'dashboard'])->name('Cooperator.dashboard');
-
 Route::get('/Cooperator/Requirements', [CooperatorController::class, 'requirementsGet'])->name('Cooperator.Requirements');
+
+Route::get('/Cooperator/QuarterlyReport', [CooperatorController::class, 'quarterlyReportGet'])->name('Cooperator.QuarterlyReport');
 
 //Staff routes
 

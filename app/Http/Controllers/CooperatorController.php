@@ -113,4 +113,17 @@ class CooperatorController extends Controller
 
     }
 
+    public function quarterlyReportGet(Request $request)
+    {
+
+        if($request->ajax())
+        {
+            return view('cooperatorView.outputs.quarterlyReport');
+        }
+        else
+        {
+            return view('cooperatorView.CooperatorDashboard');
+        }
+    }
+
 }

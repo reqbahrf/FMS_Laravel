@@ -51,7 +51,7 @@
                         </div>
                     </div>
                 </li>
-                <li class="nav-item mb-2">
+                <li class="nav-item main-Nav mb-2">
                     <a href="#" id="InformationTab"
                         onclick="loadPage('{{ route('Cooperator.dashboard') }}','InformationTab');"
                         class="mb-2 d-flex align-items-center">
@@ -59,7 +59,7 @@
                         <span class="nav-text ml-2">Dashboard</span>
                     </a>
                 </li>
-                <li class="nav-item mb-2">
+                <li class="nav-item main-Nav mb-2">
                     <a href="#" id="requirementTab"
                         onclick="loadPage('{{ route('Cooperator.Requirements') }}','requirementTab');"
                         class="mb-2 d-flex align-items-center">
@@ -76,7 +76,7 @@
                     <div class="d-none" id="sidebarTasks">
                         <ul class="list-unstyled ps-5">
                             <li>
-                                <a href="#">Quarter 1 <span class="badge rounded-pill text-bg-success">Open</span>
+                                <a href="#" id="querterlyReportTab1" onclick="loadPage('{{ route('Cooperator.QuarterlyReport') }}','querterlyReportTab1');">Quarter 1 <span class="badge rounded-pill text-bg-success">Open</span>
                                 </a>
                             </li>
                             <li>

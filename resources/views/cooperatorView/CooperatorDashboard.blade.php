@@ -210,7 +210,7 @@
             animation: minimizeNav 0.5s ease;
         }
 
-        .nav-item a.active {
+        .nav-item.main-Nav a.active {
             color: #FFFFFF;
             background-color: #318791;
             padding: 10px 20px;
