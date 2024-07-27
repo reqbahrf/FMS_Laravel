@@ -46,6 +46,7 @@
                     </ul>
                     <div class="tab-content">
                         <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                            <h5>1.0 Assets</h5>
                             <div class="row ms-md-4 ms-sm-2 my-4">
                                 <div class="col-12 col-md-4">
                                     <label for="BuildingAsset">Building: <span class="requiredFields">
@@ -118,6 +119,7 @@
                             </div>
                         </div>
                         <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                            <h5>2.0 Total Employment</h5>
                             <div class="card mb-0 mb-md-3">
                                 <div class="card-header">
                                     2.1 Direct Labor(Production)
@@ -246,10 +248,7 @@
                             </div>
                         </div>
                         <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                            <fieldset class="mt-4">
-                                <legend class="w-auto">
-                                    3.0 PRODUCTION AND SALES DATA FOR THE QUARTER
-                                </legend>
+                                    <h5>3.0 PRODUCTION AND SALES DATA FOR THE QUARTER</h5>
                                 <div class="row align-items-center">
                                     <div class="col-12">
                                             <strong>3.1 Export Market</strong>
@@ -368,27 +367,23 @@
                                 </div>
                         </div>
                         <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
-                            <fieldset class="mt-4 h-100">
-                                <legend class="w-auto">
-                                    4.0 MARKET OUTLETS
-                                </legend>
-                                <div class="row">
-                                    <div class="col-md-6 col-sm-6">
-                                        <strong class="ms-2">4.1 Export</strong>
-                                        <div class="form-floating ms-4">
-                                            <textarea class="form-control h-100" name="Market_Export" placeholder="Export" id="exportTextarea"></textarea>
-                                            <label for="exportTextarea">Export</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6 col-sm-6">
-                                        <strong class="ms-2">4.2 Local</strong>
-                                        <div class="form-floating ms-4">
-                                            <textarea class="form-control h-100" name="Market_local" placeholder="Local" id="localTextarea"></textarea>
-                                            <label for="localTextarea">Local</label>
-                                        </div>
+                            <h5>4.0 MARKET OUTLETS</h5>
+                            <div class="row">
+                                <div class="col-md-6 col-sm-6">
+                                    <strong class="ms-2">4.1 Export</strong>
+                                    <div class="form-floating ms-4">
+                                        <textarea class="form-control h-100" name="Market_Export" placeholder="Export" id="exportTextarea"></textarea>
+                                        <label for="exportTextarea">Export</label>
                                     </div>
                                 </div>
-                            </fieldset>
+                                <div class="col-md-6 col-sm-6">
+                                    <strong class="ms-2">4.2 Local</strong>
+                                    <div class="form-floating ms-4">
+                                        <textarea class="form-control h-100" name="Market_local" placeholder="Local" id="localTextarea"></textarea>
+                                        <label for="localTextarea">Local</label>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
