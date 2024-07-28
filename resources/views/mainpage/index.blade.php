@@ -138,7 +138,7 @@
     # Sections General
     --------------------------------------------------------------*/
         section {
-            padding: 60px 0;
+            padding: 60px 0 30px 0;
         }
 
         .section-bg {
@@ -209,14 +209,15 @@
             font-size: 28px;
         }
 
-        .what-we-do .icon-box h4 {
+        .what-we-do .icon-box h6 {
             font-weight: 700;
             margin-bottom: 15px;
-            font-size: 24px;
+            font-size: 20px;
         }
 
-        .what-we-do .icon-box h4 a {
+        .what-we-do .icon-box h6 a {
             color: #384046;
+            text-decoration: none;
             transition: ease-in-out 0.3s;
         }
 
@@ -342,7 +343,84 @@
             <a href="{{ route('registerpage.signup') }}" class="btn-apply scrollto">Apply Now</a>
         </div>
     </section>
+    <section id="what-we-do" class="what-we-do">
+        <div class="container">
+            <div class="section-title">
+                <h2>What We Do</h2>
+                <p>Small Enterprise Technology Upgrading Program (SETUP) assist small and medium-scale enterprisees (MSMEs)</p>
+            </div>
+            <div class="row mb-3">
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
+                    <div class="icon-box">
+                        <div class="icon"><svg width="64px" height="64px" viewBox="-16 -16 96.00 96.00" data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)"><rect x="-16" y="-16" width="96.00" height="96.00" rx="48" fill="#7ed0ec" strokewidth="0"></rect></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><defs><style>.cls-1{fill:#ba9bc9;}.cls-2{fill:#f4ecce;}.cls-3{fill:#838bc5;}.cls-4{fill:#8f6c56;}.cls-5{fill:#65c8d0;}</style></defs><path class="cls-1" d="M47,36a15,15,0,0,1-30,0"></path><path class="cls-2" d="M42,36a10,10,0,0,1-20,0"></path><rect class="cls-2" height="4" width="6" x="23" y="1"></rect><rect class="cls-1" height="14" width="17" x="5" y="21"></rect><polygon class="cls-3" points="30 19 30 20 29 5 23 5 21 35 30 35 31 35 58 35 58 19 30 19"></polygon><polyline class="cls-4" points="41 15 42 5 46 5 47 15"></polyline><polyline class="cls-4" points="50 15 51 5 55 5 56 15"></polyline><polyline class="cls-4" points="32 15 33 5 37 5 38 15"></polyline><rect class="cls-1" height="6" rx="3" width="30" x="29" y="15"></rect><rect class="cls-4" height="2" width="60" x="2" y="34"></rect><polyline class="cls-4" points="7 21 8 11 12 11 13 21"></polyline><rect class="cls-2" height="6" width="4" x="34" y="25"></rect><rect class="cls-2" height="6" width="4" x="50" y="25"></rect><rect class="cls-2" height="6" width="4" x="42" y="25"></rect><rect class="cls-2" height="2" width="2" x="8" y="24"></rect><rect class="cls-2" height="2" width="2" x="12" y="24"></rect><rect class="cls-2" height="2" width="2" x="16" y="24"></rect><rect class="cls-2" height="2" width="2" x="8" y="28"></rect><rect class="cls-2" height="2" width="2" x="12" y="28"></rect><rect class="cls-2" height="2" width="2" x="16" y="28"></rect><circle class="cls-5" cx="32" cy="60" r="2"></circle><circle class="cls-5" cx="60" cy="60" r="2"></circle><circle class="cls-5" cx="56" cy="52" r="2"></circle><circle class="cls-5" cx="60" cy="44" r="2"></circle><circle class="cls-5" cx="4" cy="60" r="2"></circle><circle class="cls-5" cx="8" cy="52" r="2"></circle><circle class="cls-5" cx="4" cy="44" r="2"></circle><path class="cls-3" d="M60,57a3,3,0,0,0-2.82,2H47V55a1,1,0,0,0-.88-1L39,53.12V50.37a15.94,15.94,0,0,0,3.78-2.59L43,49.16A1,1,0,0,0,44,50h2.59l2.7,2.71A1,1,0,0,0,50,53h3.18a3,3,0,1,0,0-2H50.41l-2.7-2.71A1,1,0,0,0,47,48H44.85l-.34-2.06A16.18,16.18,0,0,0,46.82,42h3.46l.77,2.32A1,1,0,0,0,52,45h5.18a3,3,0,1,0,0-2H52.72L52,40.68A1,1,0,0,0,51,40H47.47A15.56,15.56,0,0,0,48,36H46a14,14,0,0,1-28,0H16a15.56,15.56,0,0,0,.53,4H13a1,1,0,0,0-.95.68L11.28,43H6.82a3,3,0,1,0,0,2H12a1,1,0,0,0,.95-.68L13.72,42h3.46a15.93,15.93,0,0,0,2.31,4l-.34,2H17a1,1,0,0,0-.71.29L13.59,51H10.82a3,3,0,1,0,0,2H14a1,1,0,0,0,.71-.29L17.41,50H20a1,1,0,0,0,1-.84l.22-1.38A15.91,15.91,0,0,0,25,50.37v2.75L17.88,54A1,1,0,0,0,17,55v4H6.82a3,3,0,1,0,0,2H18a1,1,0,0,0,1-1V55.88L26.12,55A1,1,0,0,0,27,54V51.19A16,16,0,0,0,31,52v5.23a3,3,0,1,0,2,0V52a16,16,0,0,0,4-.76V54a1,1,0,0,0,.88,1l7.12.89V60a1,1,0,0,0,1,1H57.18A3,3,0,1,0,60,57Zm-4-6a1,1,0,1,1-1,1A1,1,0,0,1,56,51Zm4-8a1,1,0,1,1-1,1A1,1,0,0,1,60,43ZM4,45a1,1,0,1,1,1-1A1,1,0,0,1,4,45Zm4,8a1,1,0,1,1,1-1A1,1,0,0,1,8,53ZM4,61a1,1,0,1,1,1-1A1,1,0,0,1,4,61Zm28,0a1,1,0,1,1,1-1A1,1,0,0,1,32,61Zm28,0a1,1,0,1,1,1-1A1,1,0,0,1,60,61Z"></path></g></svg></div>
+                        <h6><a href="">Enhances business through technology.</a></h6>
+                        <p>DOST-SETUP helps businesses incorporate modern technology for better operations.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
+                    <div class="icon-box">
+                        <div class="icon"><svg width="64px" height="64px" viewBox="-10 -10 120.00 120.00" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"><rect x="-10" y="-10" width="120.00" height="120.00" rx="60" fill="#7ed0ec" strokewidth="0"></rect></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill-rule="evenodd" clip-rule="evenodd" fill="#24AE5F" d="M23.25 79L0 67V32.656L51.75 7 75 19v34.5L23.25 79z"></path><path fill-rule="evenodd" clip-rule="evenodd" fill="#1E9450" d="M0 64.554v2.983l23.193 11.932 51.622-25.356V51.13L23.193 76.486 0 64.554zm0-5.22v2.983l23.193 11.932 51.622-25.355V45.91L23.193 71.266 0 59.334zm0-10.441v2.983l23.193 11.932 51.622-25.355V35.47L23.193 60.825 0 48.893zm0 5.22v2.983l23.193 11.932 51.622-25.356v-2.983L23.193 66.046 0 54.113zm0-10.44v2.983l23.193 11.932 51.622-25.356V30.25L23.193 55.605 0 43.673zm23.251 1.462L0 33.084v3.013l23.251 12.05L75.003 22.54v-3.013L23.251 45.135zM0 38.453v2.983l23.251 11.932 51.752-25.356v-2.983L23.251 50.385 0 38.453z"></path><path fill-rule="evenodd" clip-rule="evenodd" fill="#24AE5F" d="M48.133 91.884L24.998 79.951V50.647l51.495-25.355L100 37.299v29L48.133 91.884z"></path><path fill-rule="evenodd" clip-rule="evenodd" fill="#1E9450" d="M25 77.085v2.983L48.25 92 100 66.644v-2.983L48.25 89.017 25 77.085zm0-5.22v2.983L48.25 86.78 100 61.424v-2.983L48.25 83.796 25 71.865zm0-10.441v2.983l23.25 11.932L100 50.983V48L48.25 73.356 25 61.424zm0 5.22v2.983L48.25 81.56 100 56.204v-2.983L48.25 78.576 25 66.644zm0-10.44v2.983l23.25 11.932L100 45.763V42.78L48.25 68.136 25 56.204zm23.25 6.367L25 50.64v2.983l23.25 11.932L100 40.199v-2.983L48.25 62.571z"></path><path opacity=".1" d="M23.193 45.165L0 33.25v34.344L23.25 79.5l-.057-34.335zm25 17.435L25 50.685v29.292l23.25 11.906-.057-29.283z"></path><path fill-rule="evenodd" clip-rule="evenodd" fill="#1E9450" d="M59.996 50.609l-11.363 5.459-9.702-5.22 13.138-6.436s-.912-2.62-.354-3.019c-.01.047-19.386 9.692-19.386 9.692l16.583 8.291 17.048-8.523s-1.669.055-3.148-.006c-1.502-.06-2.816-.238-2.816-.238zm13.446-3.496L93.5 37.5l-16.299-8.849-17.032 8.515c2.582-.133 4.697.978 4.697.978l12.126-5.94 10.448 5.221-13.99 6.72-.008 2.968z"></path><path fill="#1E9450" d="M64.235 46.958a5.58 5.58 0 0 0 1.99-.302l-3.529-1.87-.3.078-.384.123c-.523.157-1.059.302-1.61.433-.551.131-1.111.213-1.68.246s-1.137-.001-1.702-.101a5.753 5.753 0 0 1-1.693-.597c-.574-.304-.973-.63-1.196-.977-.223-.348-.306-.694-.25-1.04.056-.346.236-.686.538-1.019a5.136 5.136 0 0 1 1.151-.924l-1.3-.689.981-.52 1.3.689a11.139 11.139 0 0 1 1.734-.57 9.4 9.4 0 0 1 1.831-.255 8.713 8.713 0 0 1 1.887.137 7.553 7.553 0 0 1 1.886.612l-2.361 1.251a3.822 3.822 0 0 0-1.564-.389c-.581-.026-1.06.061-1.437.261l2.989 1.584.509-.162.559-.171c1.045-.315 1.956-.502 2.731-.562.775-.058 1.449-.048 2.02.031.571.08 1.056.205 1.455.374.399.171.74.331 1.021.48.248.131.499.329.754.594.255.265.405.576.449.934.045.358-.059.753-.309 1.184-.251.431-.764.882-1.538 1.353l1.435.761-.981.52-1.435-.761c-1.332.61-2.69.918-4.075.924-1.385.007-2.797-.313-4.237-.959l2.344-1.242a4.315 4.315 0 0 0 2.017.541zm3.45-1.229c.143-.153.233-.311.27-.474a.693.693 0 0 0-.074-.489c-.086-.163-.264-.316-.535-.459a2.616 2.616 0 0 0-1.395-.308c-.491.028-1.154.167-1.988.418l3.242 1.718a2.6 2.6 0 0 0 .48-.406zM57.08 42.391a.76.76 0 0 0-.22.394.545.545 0 0 0 .098.413c.091.137.255.268.492.393.372.197.775.288 1.21.272.435-.016.981-.133 1.637-.349l-2.753-1.458a1.841 1.841 0 0 0-.464.335z"></path><path fill-rule="evenodd" clip-rule="evenodd" fill="#1E9450" d="M34.583 32.609L23.22 38.068l-9.702-5.22 13.138-6.436s-.913-2.62-.354-3.019c-.01.047-19.386 9.692-19.386 9.692l16.583 8.291 17.048-8.523s-1.669.055-3.148-.006c-1.502-.06-2.816-.238-2.816-.238zm13.446-3.496L68.087 19.5l-16.299-8.849-17.032 8.515c2.582-.133 4.697.978 4.697.978l12.126-5.94 10.448 5.221-13.989 6.72-.009 2.968z"></path><path fill="#1E9450" d="M38.822 28.958a5.558 5.558 0 0 0 1.99-.302l-3.53-1.87-.3.078-.384.123a28.85 28.85 0 0 1-1.61.433c-.551.131-1.111.213-1.68.246s-1.136-.001-1.702-.101a5.753 5.753 0 0 1-1.693-.597c-.574-.304-.973-.63-1.196-.977-.223-.348-.306-.694-.25-1.04.057-.346.236-.685.538-1.018a5.136 5.136 0 0 1 1.151-.924l-1.3-.689.981-.52 1.3.689a11.139 11.139 0 0 1 1.734-.57 9.4 9.4 0 0 1 1.831-.255 8.713 8.713 0 0 1 1.887.137 7.553 7.553 0 0 1 1.886.612l-2.361 1.251a3.822 3.822 0 0 0-1.564-.389c-.581-.026-1.06.061-1.437.261l2.989 1.584.509-.163.559-.171c1.045-.315 1.956-.502 2.731-.562.775-.059 1.449-.048 2.02.031.571.08 1.056.205 1.455.375.399.171.74.331 1.021.48.248.131.499.329.754.594.255.265.405.576.449.934.045.358-.059.753-.309 1.184-.251.431-.764.882-1.538 1.353l1.435.761-.981.52-1.435-.761c-1.332.61-2.69.918-4.075.924-1.385.007-2.797-.313-4.237-.959l2.344-1.242c.63.345 1.303.525 2.018.54zm3.45-1.229c.143-.153.233-.311.269-.474a.693.693 0 0 0-.074-.489c-.086-.163-.264-.316-.535-.46a2.616 2.616 0 0 0-1.395-.308l-1.988.419 3.242 1.718c.178-.117.338-.252.481-.406zm-10.605-3.338a.76.76 0 0 0-.22.394.545.545 0 0 0 .098.413c.092.137.255.268.492.393.372.197.775.288 1.211.272.435-.016.981-.133 1.637-.349l-2.753-1.458a1.83 1.83 0 0 0-.465.335z"></path></g></svg></div>
+                        <h6><a href="">Provides technological assistance to MSMEs.</a></h6>
+                        <p>The program specifically focuses on assisting micro, small, and medium-sized enterprises.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
+                    <div class="icon-box">
+                        <div class="icon"><svg viewBox="-8.32 -8.32 80.64 80.64" xmlns="http://www.w3.org/2000/svg" fill="#000000"><g id="SVGRepo_bgCarrier" stroke-width="0"><rect x="-8.32" y="-8.32" width="80.64" height="80.64" rx="40.32" fill="#7ed0ec" strokewidth="0"></rect></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g fill="none" fill-rule="evenodd"> <rect width="54" height="33" x="5" y="12" fill="#FFAF40"></rect> <rect width="5" height="10" x="18" y="29" fill="#595959"></rect> <rect width="5" height="14" x="26" y="25" fill="#595959"></rect> <rect width="5" height="18" x="34" y="21" fill="#595959"></rect> <rect width="5" height="21" x="42" y="18" fill="#22BA8E"></rect> <rect width="60" height="4" x="2" y="8" fill="#BD7575" rx="2"></rect> <rect width="60" height="4" x="2" y="45" fill="#BD7575" rx="2"></rect> <rect width="4" height="11" x="30" y="49" fill="#9D4C4C"></rect> <rect width="12" height="4" x="26" y="58" fill="#BD7575"></rect> </g> </g></svg></div>
+                        <h6><a href="">Boosts productivity and competitiveness.</a></h6>
+                        <p>By providing technological solutions, DOST-SETUP aims to increase business output and efficiency.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="alert alert-secondary h-100" role="alert">
+                        <h4 class="alert-heading mb-3">Eligible to Join!</h4>
+                        <ul>
+                            <li>
+                                <strong>Business Type:</strong><br>
+                                Your business must be a small or medium-scale enterprise.
+                            </li>
+                            <li>
+                                <strong>Ownership:</strong><br>
+                                The business should be wholly owned by Filipino citizens.
+
+
+                            </li>
+                            <li>
+                                <strong>Industry:</strong><br>
+                                Your business should fall under one of the identified priority sectors.
+                            </li>
+                            <li>
+                                <strong>Willingness to adopt technology:</strong><br>
+                                Your business should be open to incorporating technological improvements into its operations.
+                            </li>
+                        </ul>
+                        <hr>
+                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="alert alert-secondary h-100">
+                        <h4 class="alert-header mb-3">General Requirements</h4>
+                        <ul class="">
+                            <li>Letter of Intent</li>
+                            <li>DTI/SEC/CDA</li>
+                            <li>Business Permit</li>
+                            <li>FDA/LTO</li>
+                            <li>Official Receipt of the Business</li>
+                            <li>Copy of Government Valid ID</li>
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="img-section">
+        <div class="section-title">
+            <h2>Supported Industries</h2>
+        </div>
         <div class="imgs-container">
             <div class="img-box position-relative">
                 <img src="https://4.img-dpreview.com/files/p/E~C667x0S5333x4000T1200x900~articles/3925134721/0266554465.jpeg"
@@ -647,80 +725,6 @@
                         </g>
                     </svg>
                     <span class="logo-text">metals and engineering</span>
-
-                </div>
-            </div>
-        </div>
-    </section>
-    <section id="what-we-do" class="what-we-do">
-        <div class="container">
-            <div class="section-title">
-                <h2>What We Do</h2>
-                <p>Magnam dolores commodi suscipit consequatur ex aliquid</p>
-            </div>
-            <div class="row mb-3">
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
-                    <div class="icon-box">
-                        <div class="icon"><i class="bx bxl-dribbble"></i></div>
-                        <h4><a href="">Lorem Ipsum</a></h4>
-                        <p>Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-md-0">
-                    <div class="icon-box">
-                        <div class="icon"><i class="bx bx-file"></i></div>
-                        <h4><a href="">Sed ut perspiciatis</a></h4>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore</p>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4 mt-lg-0">
-                    <div class="icon-box">
-                        <div class="icon"><i class="bx bx-tachometer"></i></div>
-                        <h4><a href="">Magni Dolores</a></h4>
-                        <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia</p>
-                    </div>
-                </div>
-            </div>
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="alert alert-primary h-100" role="alert">
-                        <h4 class="alert-heading mb-3">Eligible to Join!</h4>
-                        <ul>
-                            <li>
-                                <strong>Business Type:</strong><br>
-                                Your business must be a small or medium-scale enterprise.
-                            </li>
-                            <li>
-                                <strong>Ownership:</strong><br>
-                                The business should be wholly owned by Filipino citizens.
-
-
-                            </li>
-                            <li>
-                                <strong>Industry:</strong><br>
-                                Your business should fall under one of the identified priority sectors.
-                            </li>
-                            <li>
-                                <strong>Willingness to adopt technology:</strong><br>
-                                Your business should be open to incorporating technological improvements into its operations.
-                            </li>
-                        </ul>
-                        <hr>
-                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="alert alert-primary h-100">
-                        <h4 class="alert-header mb-3">General Requirements</h4>
-                        <ul class="">
-                            <li>Letter of Intent</li>
-                            <li>DTI/SEC/CDA</li>
-                            <li>Business Permit</li>
-                            <li>FDA/LTO</li>
-                            <li>Official Receipt of the Business</li>
-                            <li>Copy of Government Valid ID</li>
-                        </ul>
-                    </div>
 
                 </div>
             </div>
