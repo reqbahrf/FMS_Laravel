@@ -6,6 +6,7 @@ window.$ = window.jQuery = $;
 
 
 import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 
 import * as FilePond from 'filepond';
 window.FilePond = FilePond;

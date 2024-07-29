@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('business_info', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_info_id')->unsigned();
-            $table->string('firm_name', 40);
+            $table->string('firm_name', 40)->unique();
             $table->string('enterprise_type', 40);
             $table->string('enterprise_level', 30);
             $table->string('landMark', 64);

@@ -245,7 +245,7 @@
                 </li>
             </ul>
             <form action="{{ route('applicationFormSubmit') }}" id="applicationForm" method="post" class="g-3 p-5"
-                enctype="multipart/form-data">
+                enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="tab-content">
                     <p class="legend-notice">"<span class="requiredFields">*</span>" Required</p>
@@ -558,12 +558,6 @@
 
                                         </div>
                                     </div>
-                                    <div class="text-center">
-                                        <p class=" fw-bold">Estimated funds that can be acquired</p>
-                                        <span id="EstimatedFund" class="p-2"></span> <br>
-                                        <span id="EstimationNotice" hidden>*Note that this estimation is still subject
-                                            to further business evaluation.</span>
-                                    </div>
                                     <input type="hidden" id="EnterpriseLevelInput" name="enterprise_level">
                                 </div>
                             </div>
@@ -763,7 +757,7 @@
                                         class="requiredFields">
                                         *</span></label>
                                 <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
-                                    required>
+                                    >
                                 <div class="invalid-feedback">
                                     Please upload the Letter of Intent.
                                 </div>
@@ -782,7 +776,7 @@
                                     </div>
                                     <div class="col-10" id="DtiSecCdaContainer">
                                         <input class="fileUploads" type="file" name="DTI_SEC_CDA_File" id="DtiSecCdafile"
-                                            required>
+                                            >
                                     </div>
                                 </div>
                                 <div class="form-text">Choose either the the 3 document that you want to upload.</div>
@@ -794,7 +788,7 @@
                                 <label for="businessPermitFile" class="form-label">Business Permit: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="businessPermitFile"
-                                    id="businessPermitFile" required>
+                                    id="businessPermitFile" >
                                 <div class="invalid-feedback">
                                     Please upload the Business Permit.
                                 </div>
@@ -819,7 +813,7 @@
                                 <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="receiptFile" id="receiptFile"
-                                    required>
+                                    >
                                 <div class="invalid-feedback">
                                     Please upload the Official Receipt of the Business.
                                 </div>
@@ -827,7 +821,7 @@
                             <div class="mb-3">
                                 <label for="govIdFile" class="form-label">Copy of Government Valid ID: <span
                                         class="requiredFields"> *</span></label>
-                                <input class="fileUploads" type="file" name="govIdFile" id="govIdFile" required>
+                                <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
                                 <div class="invalid-feedback">
                                     Please upload the Copy of Government Valid ID.
                                 </div>
@@ -1007,22 +1001,6 @@
                                                                                 id="re_Enterprise_Level"></span>
                                                                         </p>
                                                                     </div>
-                                                                    <div class="col-12">
-
-                                                                        <div class="text-center">
-                                                                            <p>Estimated funds that can be acquired:</p>
-                                                                            <span id="re_EstimatedFund"
-                                                                                class="p-2"></span>
-                                                                            <br>
-                                                                            <span id="re_EstimationNotice">*Note that
-                                                                                this
-                                                                                estimation
-                                                                                is still subject
-                                                                                to
-                                                                                further business evaluation.</span>
-                                                                        </div>
-                                                                    </div>
-
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1187,12 +1165,39 @@
                                         </div>
                                     </div>
                                 </div>
+                                <div class="col-12">
+                                    <div class="form-check my4">
+                                        <input type="checkbox" name="detail_confirm" id="detail_confirm" class="form-check-input" required>
+                                        <label for="detail_confirm" class="form-check-label">I hereby confirm that the above information is true and correct</label>
+                                        <div class="invalid-feedback">
+                                            You must confirm that the above information is true and correct.
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </form>
         </div>
+        {{-- Modal Start --}}
+        <div class="modal fade" id="confirmationModal" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                  <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to submit the form?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn" id="cancelButton" data-bs-dismiss="modal">Cancel</button>
+                  <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{-- Modal End --}}
     </div>
     @include('mainpage.footer');
     <script type="module">
@@ -1689,7 +1694,7 @@
                     showNextButton: true,
                     showPreviousButton: true,
                     position: 'both bottom',
-                    extraHtml: `<button type="submit" class="btn btn-success" onclick="onFinish()">Submit</button>
+                    extraHtml: `<button type="button" class="btn btn-success" onclick="onFinish()" >Submit</button>
                         <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
                 },
                 anchorSettings: {
@@ -1759,7 +1764,6 @@
                     $('#re_to_Assets').text($('#to_Assets').text());
                     $('#re_Enterprise_Level').text($('#Enterprise_Level').text());
                     $('#EnterpriseLevelInput').val($('#Enterprise_Level').text());
-                    $('#re_EstimatedFund').text($('#EstimatedFund').text());
                     $('#re_LocalMar').val($('#LocalMar').val());
                     $('#re_ExportMar').val($('#ExportMar').val());
 
@@ -1800,23 +1804,39 @@
             return isValid;
         }
 
-
         window.onFinish = function() {
             event.preventDefault();
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('applicationFormSubmit') }}',
-                data: $('#applicationForm').find(':input:not([readonly])').serialize(),
-                success: function(response) {
-                    // Handle the response from the server
-                    console.log('Form submitted successfully', response);
-                },
-                error: function(xhr, status, error) {
-                    // Handle any errors
-                    console.error('Error submitting form', error);
-                }
-            });
+            let confirm_info_checked = document.getElementById('detail_confirm');
+
+            if (confirm_info_checked.checked) {
+                const confimationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                confimationModal.show();
+            } else {
+                confirm_info_checked.classList.add('is-invalid');
+            }
         }
+
+            const confirmButton = document.getElementById('confirmButton');
+            confirmButton.addEventListener('click', function(){
+                submitForm();
+            });
+
+            function submitForm() {
+
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('applicationFormSubmit') }}',
+                    data: $('#applicationForm').find(':input:not([readonly])').serialize(),
+                    success: function(response) {
+                        // Handle the response from the server
+                        console.log('Form submitted successfully', response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle any errors
+                        console.error('Error submitting form', error);
+                    }
+                });
+            }
 
         function onCancel() {
             console.log("Form cancelled");
@@ -1881,16 +1901,6 @@
                     $('#Enterprise_Level').text('Large Enterprise');
                 }
 
-                // Calculate 50% of the total
-                var estimatedFund = total * 0.5;
-
-                // Update the span element with the estimated fund
-                $('#EstimatedFund').text(estimatedFund.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
-
-                // Unhide the estimation notice
-                $('#EstimationNotice').removeAttr('hidden');
-                // Unhide the estimation notice
-                document.getElementById('EstimationNotice').style.display = 'inline';
             }
 
             $('#buildings, #equipments, #working_capital').on('input', updateEnterpriseLevel);
