@@ -59,6 +59,7 @@ class ApplicationController extends Controller
             $city = ($request->input('city'));
             $barangay = ($request->input('barangay'));
             $landmark = ($request->input('Landmark'));
+            $zip_code = ($request->input('zipcode'));
             $export_market = ($request->input('Export'));
             $local_market = ($request->input('Local'));
 
@@ -67,6 +68,7 @@ class ApplicationController extends Controller
                 'firm_name' => $firm_name,
                 'enterprise_type' => $enterprise_type,
                 'enterprise_level' => $enterprise_level,
+                'zip_code' => $zip_code,
                 'landmark' => $landmark,
                 'barangay' => $barangay,
                 'city' => $city,

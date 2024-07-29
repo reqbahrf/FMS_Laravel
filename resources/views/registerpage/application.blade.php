@@ -202,21 +202,6 @@
 <body>
     @include('mainpage.header');
     <div class="container mt-5 shadow">
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible text-bg-success border-0 fade show mx-5" role="alert">
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
-                    aria-label="Close"></button>
-                <strong>Success - </strong> {{ session('success') }}
-            </div>
-        @endif
-
-        @if (session('error'))
-            <div class="alert alert-danger alert-dismissible text-bg-danger border-0 fade show mx-5" role="alert">
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
-                    aria-label="Close"></button>
-                <strong>Error - </strong> {{ session('error') }}
-            </div>
-        @endif
         <div id="smartwizard">
             <ul class="nav nav-progress">
                 <li class="nav-item">
@@ -248,7 +233,10 @@
                 enctype="multipart/form-data" novalidate>
                 @csrf
                 <div class="tab-content">
-                    <p class="legend-notice">"<span class="requiredFields">*</span>" Required</p>
+                    <div class="alert alert-primary m-0" role="alert">
+                        <i class="ri-information-2-fill ri-lg"></i>
+                        Please fill out all the <span class="requiredFields">*</span> required fields
+                      </div>
                     <div id="step-1" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-1"
                         style="position: static; left: 0px; display: block;">
                         <!-- Where Personal Info Displayed -->
@@ -391,7 +379,7 @@
                     <div id="step-2" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-2"
                         style="position: static; left: 0px; display: none;">
                         <!-- Where the business info displayed -->
-                        <div class="row gy-3">
+                        <div class="row g-3">
                             <div class="col-12 col-md-8">
                                 <label for="firm_name">Name of Firm: <span class="requiredFields">
                                         *</span></label>
@@ -402,7 +390,7 @@
                                     Please enter the name of the firm.
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4 mb-4">
+                            <div class="col-12 col-md-4">
                                 <label for="enterpriseType">Type Of Enterprise <span class="requiredFields">
                                         *</span></label>
                                 <select class="form-select" name="enterpriseType" id="enterpriseType" required>
@@ -421,47 +409,64 @@
                                     Please select a type of enterprise.
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3">
-                                <label for="region">Region:<span class="requiredFields">*</span></label>
-                                <select id="region" name="region" class="form-select"
-                                    onchange="updateProvinces()" required>
-                                    <option value="">Select Region</option>
-                                </select>
-                                <div class="invalid-feedback">Please select a region</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <label for="province">Province:<span class="requiredFields">*</span></label>
-                                <select id="province" class="form-select" name="province" onchange="updateCities()"
-                                    required disabled>
-                                    <option value="">Select Province</option>
-                                </select>
-                                <div class="invalid-feedback">Please select a Province</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <label for="city">City:<span class="requiredFields">*</span></label>
-                                <select id="city" name="city" class="form-select"
-                                    onchange="updateBarangays()" required disabled>
-                                    <option value="">Select City</option>
-                                </select>
-                                <div class="invalid-feedback">Please select a City</div>
-                            </div>
-                            <div class="col-12 col-md-3">
-                                <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
-                                <select id="barangay" class="form-select" name="barangay" required disabled>
-                                    <option value="">Select Barangay</option>
-                                </select>
-                                <div class="invalid-feedback">Please select a Barangey</div>
-                            </div>
-                            <div class="col-12 col-md-8 mx-auto mb-3">
-                                <label for="Landmark">Landmark: <span class="requiredFields"> *</span></label>
-                                <input type="text" name="Landmark" value="{{ old('Landmark') }}" id="Landmark"
-                                    class="form-control" placeholder="Street Name, or Purok, Building No." required>
-                                <div class="invalid-feedback">
-                                    Please enter the landmark.
+                            <div class="card p-0">
+                              <div class="card-header">
+                                Business Address:
+                              </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-12 col-md-3">
+                                            <label for="region">Region:<span class="requiredFields">*</span></label>
+                                            <select id="region" name="region" class="form-select"
+                                                onchange="updateProvinces()" required>
+                                                <option value="">Select Region</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select a region</div>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <label for="province">Province:<span class="requiredFields">*</span></label>
+                                            <select id="province" class="form-select" name="province" onchange="updateCities()"
+                                                required disabled>
+                                                <option value="">Select Province</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select a Province</div>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <label for="city">City:<span class="requiredFields">*</span></label>
+                                            <select id="city" name="city" class="form-select"
+                                                onchange="updateBarangays()" required disabled>
+                                                <option value="">Select City</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select a City</div>
+                                        </div>
+                                        <div class="col-12 col-md-3">
+                                            <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
+                                            <select id="barangay" class="form-select" name="barangay" required disabled>
+                                                <option value="">Select Barangay</option>
+                                            </select>
+                                            <div class="invalid-feedback">Please select a Barangey</div>
+                                        </div>
+                                        <div class="col-12 col-md-10">
+                                            <label for="Landmark">Landmark: <span class="requiredFields"> *</span></label>
+                                            <input type="text" name="Landmark" value="{{ old('Landmark') }}" id="Landmark"
+                                                class="form-control" placeholder="Street Name, or Purok, Building No." required>
+                                            <div class="invalid-feedback">
+                                                Please enter the landmark.
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-2">
+                                            <label for="zipcode">Zip Code: <span class="requiredFields"> *</span"></label>
+                                            <input type="text" name="zipcode" value="{{ old('zipcode') }}" id="zipcode"
+                                                class="form-control" placeholder="8000" required>
+                                            <div class="invalid-feedback">
+                                                Please enter the zipcode.
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row justify-content-center mb-2 mt-3">
+                        <div class="row justify-content-center my-1 g-3">
                             <div class="card p-0">
                                 <div class="card-header">
                                     Assets:
@@ -561,157 +566,150 @@
                                     <input type="hidden" id="EnterpriseLevelInput" name="enterprise_level">
                                 </div>
                             </div>
-                            <div class="row my-3">
-                                <div class="col-md-6">
-                                    <div class="card p-0">
+                            <div class="row p-0 mt-0 g-3">
+                                <div class="col-12 p-0">
+                                    <div class="card">
                                         <div class="card-header">
                                             Number of Personnel Direct(Production):
                                         </div>
                                         <div class="card-body">
                                             <div class="row g-3">
-                                                <div class="col-12">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            Regular
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div class="col-12">
-                                                                <label for="m_personelDiRe">Male:<span
-                                                                        class="requiredFields">
-                                                                        *</span>
-                                                                </label>
-                                                                <input type="text" name="m_personnelDiRe"
-                                                                    value="{{ old('m_personnelDiRe') }}"
-                                                                    id="m_personnelDiRe" class="form-control"
-                                                                    placeholder="Number of Male Regular" required>
-                                                                <div class="invalid-feedback">
-                                                                    Please enter the number of male personnel.
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <label for="f_personnelDiRe">Female:<span
-                                                                        class="requiredFields"> *</span>
-                                                                </label>
-                                                                <input type="text" name="f_personnelDiRe"
-                                                                    value="{{ old('f_personnelDiRe') }}"
-                                                                    id="f_personnelDiRe" class="form-control"
-                                                                    placeholder="Number of Female Regular" required>
-                                                                <div class="invalid-feedback">
-                                                                    Please enter the number of female personnel.
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="col-12 col-md-8">
+                                                    <div class="alert alert-primary" role="alert">
+                                                        <h4 class="alert-heading">Well done!</h4>
+                                                        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                                                        <hr>
+                                                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                                                      </div>
                                                 </div>
-                                                <div class="col-12">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            Part-time
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div class="col-12">
-                                                                <label for="m_personnelDiPart">Male:<span
-                                                                        class="requiredFields">
-                                                                        *</span>
-                                                                </label>
-                                                                <input type="text" name="m_personnelDiPart"
-                                                                    value="{{ old('m_personnelDiPart') }}"
-                                                                    id="m_personnelDiPart" class="form-control"
-                                                                    placeholder="Number of Male Part-time" required>
-                                                                <div class="invalid-feedback">
-                                                                    Please enter the number of male personnel.
+                                                <div class="col-12 col-md-4">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    Regular
+                                                                </div>
+                                                                <div class="card-body">
+                                                                         <div class="col-12">
+                                                                            <label for="m_personelDiRe">Male:
+                                                                            </label>
+                                                                            <input type="text" name="m_personnelDiRe"
+                                                                                value="{{ old('m_personnelDiRe') }}"
+                                                                                id="m_personnelDiRe" class="form-control"
+                                                                                placeholder="Number of Male Regular">
+
+                                                                        </div>
+                                                                        <div class="col-12">
+                                                                            <label for="f_personnelDiRe">Female:
+                                                                            </label>
+                                                                            <input type="text" name="f_personnelDiRe"
+                                                                                value="{{ old('f_personnelDiRe') }}"
+                                                                                id="f_personnelDiRe" class="form-control"
+                                                                                placeholder="Number of Female Regular">
+
+                                                                        </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-12">
-                                                                <label for="f_personnelDiPart">Female:<span
-                                                                        class="requiredFields">
-                                                                        *</span>
-                                                                </label>
-                                                                <input type="text" name="f_personnelDiPart"
-                                                                    value="{{ old('f_personnelDiPart') }}"
-                                                                    id="f_personnelDiPart" class="form-control"
-                                                                    placeholder="Number of Female Part-time" required>
-                                                                <div class="invalid-feedback">
-                                                                    Please enter the number of female personnel.
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    Part-time
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="col-12">
+                                                                        <label for="m_personnelDiPart">Male:
+                                                                        </label>
+                                                                        <input type="text" name="m_personnelDiPart"
+                                                                            value="{{ old('m_personnelDiPart') }}"
+                                                                            id="m_personnelDiPart" class="form-control"
+                                                                            placeholder="Number of Male Part-time">
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label for="f_personnelDiPart">Female:
+                                                                        </label>
+                                                                        <input type="text" name="f_personnelDiPart"
+                                                                            value="{{ old('f_personnelDiPart') }}"
+                                                                            id="f_personnelDiPart" class="form-control"
+                                                                            placeholder="Number of Female Part-time">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
 
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-12 p-0">
                                     <div class="card p-0">
                                         <div class="card-header">
                                             Number of Personnel Indirect(Admin and Marketing):
                                         </div>
                                         <div class="card-body">
                                             <div class="row g-3">
-                                                <div class="col-12">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            Regular
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div class="col-12">
-                                                                <label for="m_personnelIndRe">Male:<span
-                                                                        class="requiredFields"> *</span>
-                                                                </label>
-                                                                <input type="text" name="m_personnelIndRe"
-                                                                    value="{{ old('m_personnelIndRe') }}"
-                                                                    id="m_personnelIndRe" class="form-control"
-                                                                    placeholder="Number of Male Regular" required>
-                                                                <div class="invalid-feedback">
-                                                                    Please enter the number of male personnel.
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-12">
-                                                                <label for="f_personnelIndRe">Female:<span
-                                                                        class="requiredFields"> *</span>
-                                                                </label>
-                                                                <input type="text" name="f_personnelIndRe"
-                                                                    value="{{ old('f_personnelIndRe') }}"
-                                                                    id="f_personnelIndRe" class="form-control"
-                                                                    placeholder="Number of Female Regular" required>
-                                                                <div class="invalid-feedback">
-                                                                    Please enter the number of female personnel.
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                <div class="col-12 col-md-8">
+                                                    <div class="alert alert-primary" role="alert">
+                                                        <h4 class="alert-heading">Well done!</h4>
+                                                        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                                                        <hr>
+                                                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
+                                                      </div>
                                                 </div>
-                                                <div class="col-12">
-                                                    <div class="card">
-                                                        <div class="card-header">
-                                                            Part-time
-                                                        </div>
-                                                        <div class="card-body">
-                                                            <div class="col-12">
-                                                                <label for="">Male:<span
-                                                                        class="requiredFields"> *</span>
-                                                                </label>
-                                                                <input type="text" name="m_personnelIndPart"
-                                                                    value="{{ old('m_personnelIndPart') }}"
-                                                                    id="m_personnelIndPart" class="form-control"
-                                                                    placeholder="Number of Male Part-time" required>
-                                                                <div class="invalid-feedback">
-                                                                    Please enter the number of male personnel.
+                                                <div class="col-12 col-md-4">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    Regular
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="col-12">
+                                                                        <label for="m_personnelIndRe">Male:
+                                                                        </label>
+                                                                        <input type="text" name="m_personnelIndRe"
+                                                                            value="{{ old('m_personnelIndRe') }}"
+                                                                            id="m_personnelIndRe" class="form-control"
+                                                                            placeholder="Number of Male Regular">
+
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label for="f_personnelIndRe">Female:
+                                                                        </label>
+                                                                        <input type="text" name="f_personnelIndRe"
+                                                                            value="{{ old('f_personnelIndRe') }}"
+                                                                            id="f_personnelIndRe" class="form-control"
+                                                                            placeholder="Number of Female Regular">
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="col-12">
-                                                                <label for="">Female:<span
-                                                                        class="requiredFields"> *</span>
-                                                                </label>
-                                                                <input type="text" name="f_personnelIndPart"
-                                                                    value="{{ old('f_personnelIndPart') }}"
-                                                                    id="f_personnelIndPart" class="form-control"
-                                                                    placeholder="Number of Female Part-time" required>
-                                                                <div class="invalid-feedback">
-                                                                    Please enter the number of female personnel.
+                                                        </div>
+                                                        <div class="col-6">
+                                                            <div class="card">
+                                                                <div class="card-header">
+                                                                    Part-time
+                                                                </div>
+                                                                <div class="card-body">
+                                                                    <div class="col-12">
+                                                                        <label for="">Male:
+                                                                        </label>
+                                                                        <input type="text" name="m_personnelIndPart"
+                                                                            value="{{ old('m_personnelIndPart') }}"
+                                                                            id="m_personnelIndPart" class="form-control"
+                                                                            placeholder="Number of Male Part-time">
+
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label for="">Female:
+                                                                        </label>
+                                                                        <input type="text" name="f_personnelIndPart"
+                                                                            value="{{ old('f_personnelIndPart') }}"
+                                                                            id="f_personnelIndPart" class="form-control"
+                                                                            placeholder="Number of Female Part-time">
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -720,31 +718,50 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
-                            <div class="col-12 mb-3">
-                                <fieldset>
-                                    <legend>
+                            <div class="col-12 mb-3 p-0">
+                                <div class="card">
+                                    <div class="card-header">
                                         Market Outlet
-                                    </legend>
-                                    <div class="form-floating mb-3">
-                                        <textarea name="Export" id="ExportMar" class="form-control" placeholder="Export" required data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Export Market Example: Japan, China, USA, etc."></textarea>
-                                        <div class="invalid-feedback">
-                                            Please enter the Export Market Outlet
-                                        </div>
-                                        <label for="Export">Export: <span class="requiredFields"> *</span></label>
                                     </div>
-                                    <div class="form-floating mb-3">
-                                        <textarea name="Local" id="LocalMar" class="form-control" placeholder="Local" required data-bs-toggle="tooltip"
-                                            data-bs-placement="top" title="Local Market Example: Tagum, Carmen, Panabo, etc."></textarea>
-                                        <div class="invalid-feedback">
-                                            Please enter the Local Market Outlet
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="alert alert-primary" role="alert">
+                                                    <i class="ri-information-2-fill ri-lg"></i>
+                                                    Please enter the products name for the Export and Local Market
+                                                </div>
+                                            </div>
+                                            <div class="col-12 mb-3">
+                                                <label for="Local">Local: <span class="requiredFields">*</span></label>
+                                                <div class="input-group">
+                                                    <textarea name="Local" id="LocalMar" class="form-control" placeholder="Local" required data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Local Market Example: Tagum, Carmen, Panabo, etc."></textarea>
+                                                </div>
+                                                <div class="form-text">
+                                                    Enter none if not applicable
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    Please enter the Local Market Outlet
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="Export">Export: <span class="requiredFields"> *</span></label>
+                                                <div class="input-group">
+                                                    <textarea name="Export" id="ExportMar" class="form-control" placeholder="Export" required data-bs-toggle="tooltip"
+                                                        data-bs-placement="top" title="Export Market Example: Japan, China, USA, etc."></textarea>
+                                                </div>
+                                                <div class="form-text">
+                                                    Enter none if not applicable
+                                                </div>
+                                                <div class="invalid-feedback">
+                                                    Please enter the Export Market Outlet
+                                                </div>
+                                            </div>
                                         </div>
-                                        <label for="Local">Local: <span class="requiredFields"> *</span></label>
                                     </div>
-                                </fieldset>
+                                </div>
                             </div>
                         </div>
                     </div>

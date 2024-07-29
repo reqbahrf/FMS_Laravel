@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('firm_name', 40)->unique();
             $table->string('enterprise_type', 40);
             $table->string('enterprise_level', 30);
+            $table->string('zip_code', 10);
             $table->string('landMark', 64);
             $table->string('barangay', 64);
             $table->string('city', 64);
