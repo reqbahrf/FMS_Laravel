@@ -290,29 +290,34 @@
             $('form').on('submit', function(event) {
                 event.preventDefault(); // Prevent the form from submitting via the browser.
 
-                var formData = $(this).serialize(); // Serialize the form data.
+                if(validateForm()){
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                    var formData = $(this).serialize(); // Serialize the form data.
 
-                $.post({
-                    url: $(this).attr('action'),
-                    data: formData,
-                    success: function(response) {
-                        // Log the entire response object to the console
-                        if (response.success) {
-                            window.location.href = response.redirect
-                        } else {
-                            console.log(response.error)
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                         }
-                    },
-                    error: function(jqXHR, textStatus, errorThrown) {
-                        console.error('An error occurred: ', textStatus, errorThrown);
-                    }
-                });
+                    });
+
+                    $.post({
+                        url: $(this).attr('action'),
+                        data: formData,
+                        success: function(response) {
+                            // Log the entire response object to the console
+                            if (response.success) {
+                                window.location.href = response.redirect
+                            }
+                            if(response.no_record) {
+                               window.location.href = response.redirect
+                            }
+                        },
+                        error: function(response) {
+                            console.log(response);
+                        }
+                    });
+                }
+
             });
         });
     </script>
@@ -337,7 +342,7 @@
         });
     </script>
     <script type="module">
-        function validateForm() {
+         window.validateForm = function() {
             let usernameInput = document.getElementById('username');
             let passwordInput = document.getElementById('password');
             let birthDateInput = document.getElementById('datepicker');

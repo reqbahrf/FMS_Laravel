@@ -88,15 +88,14 @@ class AuthController extends Controller
 
 
 
-                if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                    session(['birth_date' => $coop_userInfo->birth_date->format('Y-m-d')]);
+                if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') ?? false === $bDate->format('Y-m-d')) {
+                    //session(['birth_date' => $coop_userInfo->birth_date->format('Y-m-d')]);
                     // The user is a Cooperator, has a record in personnel_info, and B_date matches.
                     // Proceed with your logic here, e.g., redirecting the user or returning a success response.
                     return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.home')]);
                 } else {
-                    log::info($coop_userInfo->birth_date);
                     // Handle the case where the user is a Cooperator but doesn't have matching personnel_info or B_date.
-                    return response()->json(['error' => 'User is a Cooperator but B_date does not match or missing personnel info.'], 422);
+                    return response()->json(['no_record' => 'User is a Cooperator but B_date does not match or missing personnel info.','redirect' => route('registrationForm')]);
                 }
             }
 

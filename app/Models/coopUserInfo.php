@@ -12,8 +12,12 @@ class coopUserInfo extends Model
 
     protected $fillable = [
         'user_name',
+        'prefix',
         'f_name',
+        'mid_name',
         'l_name',
+        'suffix',
+        'gender',
         'birth_date',
         'designation',
         'mobile_number',
