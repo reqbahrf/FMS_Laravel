@@ -195,6 +195,13 @@
             color: black;
             font-weight: bold;
         }
+
+        .disabled {
+          background-color: #ccc;
+          opacity: 0.5;
+          cursor: not-allowed;
+          pointer-events: none;
+}
     </style>
 
 </head>
@@ -236,7 +243,7 @@
                     <div class="alert alert-primary m-0" role="alert">
                         <i class="ri-information-2-fill ri-lg"></i>
                         Please fill out all the <span class="requiredFields">*</span> required fields
-                      </div>
+                    </div>
                     <div id="step-1" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-1"
                         style="position: static; left: 0px; display: block;">
                         <!-- Where Personal Info Displayed -->
@@ -410,9 +417,9 @@
                                 </div>
                             </div>
                             <div class="card p-0">
-                              <div class="card-header">
-                                Business Address:
-                              </div>
+                                <div class="card-header">
+                                    Business Address:
+                                </div>
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12 col-md-3">
@@ -424,9 +431,10 @@
                                             <div class="invalid-feedback">Please select a region</div>
                                         </div>
                                         <div class="col-12 col-md-3">
-                                            <label for="province">Province:<span class="requiredFields">*</span></label>
-                                            <select id="province" class="form-select" name="province" onchange="updateCities()"
-                                                required disabled>
+                                            <label for="province">Province:<span
+                                                    class="requiredFields">*</span></label>
+                                            <select id="province" class="form-select" name="province"
+                                                onchange="updateCities()" required disabled>
                                                 <option value="">Select Province</option>
                                             </select>
                                             <div class="invalid-feedback">Please select a Province</div>
@@ -440,24 +448,29 @@
                                             <div class="invalid-feedback">Please select a City</div>
                                         </div>
                                         <div class="col-12 col-md-3">
-                                            <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
-                                            <select id="barangay" class="form-select" name="barangay" required disabled>
+                                            <label for="barangay">Barangay:<span
+                                                    class="requiredFields">*</span></label>
+                                            <select id="barangay" class="form-select" name="barangay" required
+                                                disabled>
                                                 <option value="">Select Barangay</option>
                                             </select>
                                             <div class="invalid-feedback">Please select a Barangey</div>
                                         </div>
                                         <div class="col-12 col-md-10">
-                                            <label for="Landmark">Landmark: <span class="requiredFields"> *</span></label>
-                                            <input type="text" name="Landmark" value="{{ old('Landmark') }}" id="Landmark"
-                                                class="form-control" placeholder="Street Name, or Purok, Building No." required>
+                                            <label for="Landmark">Landmark: <span class="requiredFields">
+                                                    *</span></label>
+                                            <input type="text" name="Landmark" value="{{ old('Landmark') }}"
+                                                id="Landmark" class="form-control"
+                                                placeholder="Street Name, or Purok, Building No." required>
                                             <div class="invalid-feedback">
                                                 Please enter the landmark.
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-2">
-                                            <label for="zipcode">Zip Code: <span class="requiredFields"> *</span"></label>
-                                            <input type="text" name="zipcode" value="{{ old('zipcode') }}" id="zipcode"
-                                                class="form-control" placeholder="8000" required>
+                                            <label for="zipcode">Zip Code: <span class="requiredFields"> *</span">
+                                                    </label>
+                                            <input type="text" name="zipcode" value="{{ old('zipcode') }}"
+                                                id="zipcode" class="form-control" placeholder="8000" required>
                                             <div class="invalid-feedback">
                                                 Please enter the zipcode.
                                             </div>
@@ -577,10 +590,14 @@
                                                 <div class="col-12 col-md-8">
                                                     <div class="alert alert-primary" role="alert">
                                                         <h4 class="alert-heading">Well done!</h4>
-                                                        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                                                        <p>Aww yeah, you successfully read this important alert message.
+                                                            This example text is going to run a bit longer so that you
+                                                            can see how spacing within an alert works with this kind of
+                                                            content.</p>
                                                         <hr>
-                                                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                                                      </div>
+                                                        <p class="mb-0">Whenever you need to, be sure to use margin
+                                                            utilities to keep things nice and tidy.</p>
+                                                    </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
                                                     <div class="row">
@@ -590,24 +607,24 @@
                                                                     Regular
                                                                 </div>
                                                                 <div class="card-body">
-                                                                         <div class="col-12">
-                                                                            <label for="m_personelDiRe">Male:
-                                                                            </label>
-                                                                            <input type="text" name="m_personnelDiRe"
-                                                                                value="{{ old('m_personnelDiRe') }}"
-                                                                                id="m_personnelDiRe" class="form-control"
-                                                                                placeholder="Number of Male Regular">
+                                                                    <div class="col-12">
+                                                                        <label for="m_personelDiRe">Male:
+                                                                        </label>
+                                                                        <input type="text" name="m_personnelDiRe"
+                                                                            value="{{ old('m_personnelDiRe') }}"
+                                                                            id="m_personnelDiRe" class="form-control"
+                                                                            placeholder="Number of Male Regular">
 
-                                                                        </div>
-                                                                        <div class="col-12">
-                                                                            <label for="f_personnelDiRe">Female:
-                                                                            </label>
-                                                                            <input type="text" name="f_personnelDiRe"
-                                                                                value="{{ old('f_personnelDiRe') }}"
-                                                                                id="f_personnelDiRe" class="form-control"
-                                                                                placeholder="Number of Female Regular">
+                                                                    </div>
+                                                                    <div class="col-12">
+                                                                        <label for="f_personnelDiRe">Female:
+                                                                        </label>
+                                                                        <input type="text" name="f_personnelDiRe"
+                                                                            value="{{ old('f_personnelDiRe') }}"
+                                                                            id="f_personnelDiRe" class="form-control"
+                                                                            placeholder="Number of Female Regular">
 
-                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -622,7 +639,8 @@
                                                                         </label>
                                                                         <input type="text" name="m_personnelDiPart"
                                                                             value="{{ old('m_personnelDiPart') }}"
-                                                                            id="m_personnelDiPart" class="form-control"
+                                                                            id="m_personnelDiPart"
+                                                                            class="form-control"
                                                                             placeholder="Number of Male Part-time">
                                                                     </div>
                                                                     <div class="col-12">
@@ -630,7 +648,8 @@
                                                                         </label>
                                                                         <input type="text" name="f_personnelDiPart"
                                                                             value="{{ old('f_personnelDiPart') }}"
-                                                                            id="f_personnelDiPart" class="form-control"
+                                                                            id="f_personnelDiPart"
+                                                                            class="form-control"
                                                                             placeholder="Number of Female Part-time">
                                                                     </div>
                                                                 </div>
@@ -653,10 +672,14 @@
                                                 <div class="col-12 col-md-8">
                                                     <div class="alert alert-primary" role="alert">
                                                         <h4 class="alert-heading">Well done!</h4>
-                                                        <p>Aww yeah, you successfully read this important alert message. This example text is going to run a bit longer so that you can see how spacing within an alert works with this kind of content.</p>
+                                                        <p>Aww yeah, you successfully read this important alert message.
+                                                            This example text is going to run a bit longer so that you
+                                                            can see how spacing within an alert works with this kind of
+                                                            content.</p>
                                                         <hr>
-                                                        <p class="mb-0">Whenever you need to, be sure to use margin utilities to keep things nice and tidy.</p>
-                                                      </div>
+                                                        <p class="mb-0">Whenever you need to, be sure to use margin
+                                                            utilities to keep things nice and tidy.</p>
+                                                    </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
                                                     <div class="row">
@@ -696,18 +719,22 @@
                                                                     <div class="col-12">
                                                                         <label for="">Male:
                                                                         </label>
-                                                                        <input type="text" name="m_personnelIndPart"
+                                                                        <input type="text"
+                                                                            name="m_personnelIndPart"
                                                                             value="{{ old('m_personnelIndPart') }}"
-                                                                            id="m_personnelIndPart" class="form-control"
+                                                                            id="m_personnelIndPart"
+                                                                            class="form-control"
                                                                             placeholder="Number of Male Part-time">
 
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <label for="">Female:
                                                                         </label>
-                                                                        <input type="text" name="f_personnelIndPart"
+                                                                        <input type="text"
+                                                                            name="f_personnelIndPart"
                                                                             value="{{ old('f_personnelIndPart') }}"
-                                                                            id="f_personnelIndPart" class="form-control"
+                                                                            id="f_personnelIndPart"
+                                                                            class="form-control"
                                                                             placeholder="Number of Female Part-time">
                                                                     </div>
                                                                 </div>
@@ -734,7 +761,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 mb-3">
-                                                <label for="Local">Local: <span class="requiredFields">*</span></label>
+                                                <label for="Local">Local: <span
+                                                        class="requiredFields">*</span></label>
                                                 <div class="input-group">
                                                     <textarea name="Local" id="LocalMar" class="form-control" placeholder="Local" required data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Local Market Example: Tagum, Carmen, Panabo, etc."></textarea>
@@ -747,7 +775,8 @@
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <label for="Export">Export: <span class="requiredFields"> *</span></label>
+                                                <label for="Export">Export: <span class="requiredFields">
+                                                        *</span></label>
                                                 <div class="input-group">
                                                     <textarea name="Export" id="ExportMar" class="form-control" placeholder="Export" required data-bs-toggle="tooltip"
                                                         data-bs-placement="top" title="Export Market Example: Japan, China, USA, etc."></textarea>
@@ -774,17 +803,19 @@
                                         class="requiredFields">
                                         *</span></label>
                                 <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
-                                    >
+                                    required>
                                 <div class="invalid-feedback">
                                     Please upload the Letter of Intent.
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="DtiSecCdafile" class="form-label">DTI/SEC/CDA: <span class="requiredFields">
+                                <label for="DtiSecCdafile" class="form-label">DTI/SEC/CDA: <span
+                                        class="requiredFields">
                                         *</span></label>
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
-                                        <select id="DtiSecCdaSelector" class="form-select form-select-lg" name="DSC-file-Selector">
+                                        <select id="DtiSecCdaSelector" class="form-select form-select-lg"
+                                            name="DSC-file-Selector" required>
                                             <option value="">Choose...</option>
                                             <option value="DTI">DTI</option>
                                             <option value="SEC">SEC</option>
@@ -792,8 +823,8 @@
                                         </select>
                                     </div>
                                     <div class="col-10" id="DtiSecCdaContainer">
-                                        <input class="fileUploads" type="file" name="DTI_SEC_CDA_File" id="DtiSecCdafile"
-                                            >
+                                        <input class="fileUploads" type="file" name="DTI_SEC_CDA_File"
+                                            id="DtiSecCdafile" required>
                                     </div>
                                 </div>
                                 <div class="form-text">Choose either the the 3 document that you want to upload.</div>
@@ -805,23 +836,26 @@
                                 <label for="businessPermitFile" class="form-label">Business Permit: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="businessPermitFile"
-                                    id="businessPermitFile" >
+                                    id="businessPermitFile">
                                 <div class="invalid-feedback">
                                     Please upload the Business Permit.
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="fdaLtoFile" class="form-label">FDA/LTO:<span class="fw-lighter"> (if Applicable)</span></label>
+                                <label for="fdaLtoFile" class="form-label">FDA/LTO:<span class="fw-lighter"> (if
+                                        Applicable)</span></label>
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
-                                        <select id="fdaLtoSelector" class="form-select form-select-lg" name="Fda-Lto-Selector">
+                                        <select id="fdaLtoSelector" class="form-select form-select-lg"
+                                            name="Fda-Lto-Selector">
                                             <option value="">Choose...</option>
                                             <option value="FDA">FDA</option>
                                             <option value="LTO">LTO</option>
                                         </select>
                                     </div>
-                                    <div class="col-10" id="">
-                                        <input class="fileUploads" type="file" name="fdaLtoFile" id="fdaLtoFile">
+                                    <div class="col-10">
+                                        <input class="fileUploads" type="file" name="fdaLtoFile" id="fdaLtoFile"
+                                        >
                                     </div>
                                 </div>
                                 <div class="form-text">Choose either the the 3 document that you want to upload.</div>
@@ -830,7 +864,7 @@
                                 <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="receiptFile" id="receiptFile"
-                                    >
+                                    required>
                                 <div class="invalid-feedback">
                                     Please upload the Official Receipt of the Business.
                                 </div>
@@ -838,18 +872,18 @@
                             <div class="mb-3">
                                 <label for="govIdFile" class="form-label">Copy of Government Valid ID: <span
                                         class="requiredFields"> *</span></label>
-                                <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
+                                <input class="fileUploads" type="file" name="govIdFile" id="govIdFile" required>
                                 <div class="invalid-feedback">
                                     Please upload the Copy of Government Valid ID.
                                 </div>
                             </div>
-                            <input type="hidden" name="unique_id" id="IntentFileID" value="" disabled>
-                            <input type="hidden" name="unique_id" id="dtiFileID" value="" disabled>
-                            <input type="hidden" name="unique_id" id="businessPermitFileID" value=""
-                                disabled>
-                            <input type="hidden" name="unique_id" id="fdaLtoFileID" value="" disabled>
-                            <input type="hidden" name="unique_id" id="receiptFileID" value="" disabled>
-                            <input type="hidden" name="unique_id" id="govIdFileID" value="" disabled>
+                            <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path" value="">
+                            <input type="hidden" name="DTI_SEC_CDA_unique_id_path" id="DtiSecCdaFileID_path" value="">
+                            <input type="hidden" name="BusinessPermit_unique_id_path" id="businessPermitFileID_path" value=""
+                                >
+                            <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path" value="">
+                            <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path" value="">
+                            <input type="hidden" name="govId_unique_id_path" id="govIdFileID_path" value="">
                             <div class="form-check my-4">
                                 <input type="checkbox" name="agree_terms" id="agree_terms" class="form-check-input"
                                     required>
@@ -1184,8 +1218,10 @@
                                 </div>
                                 <div class="col-12">
                                     <div class="form-check my4">
-                                        <input type="checkbox" name="detail_confirm" id="detail_confirm" class="form-check-input" required>
-                                        <label for="detail_confirm" class="form-check-label">I hereby confirm that the above information is true and correct</label>
+                                        <input type="checkbox" name="detail_confirm" id="detail_confirm"
+                                            class="form-check-input" required>
+                                        <label for="detail_confirm" class="form-check-label">I hereby confirm that the
+                                            above information is true and correct</label>
                                         <div class="invalid-feedback">
                                             You must confirm that the above information is true and correct.
                                         </div>
@@ -1198,22 +1234,24 @@
             </form>
         </div>
         {{-- Modal Start --}}
-        <div class="modal fade" id="confirmationModal" data-bs-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal fade" id="confirmationModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="confirmationModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                  <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                <div class="modal-content">
+                    <div class="modal-header bg-primary text-white">
+                        <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Are you sure you want to submit the form?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" id="cancelButton"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+                    </div>
                 </div>
-                <div class="modal-body">
-                  <p>Are you sure you want to submit the form?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn" id="cancelButton" data-bs-dismiss="modal">Cancel</button>
-                  <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
-                </div>
-              </div>
             </div>
-          </div>
+        </div>
         {{-- Modal End --}}
     </div>
     @include('mainpage.footer');
@@ -1238,9 +1276,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="IntentFileID"]')
+                                document.querySelector('input[name="Intent_unique_id_path"][id="IntentFileID_path"]')
                                     .value = data
-                                    .unique_id;
+                                    .file_paths.IntentFile;
                                 IntentFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the IntentFile
@@ -1294,7 +1332,7 @@
             //DTI File upload
             let DTI_SEC_CDA_File = document.getElementById('DtiSecCdafile');
             console.log(DTI_SEC_CDA_File);
-          let DTI_SEC_CDA_instance = FilePond.create(DTI_SEC_CDA_File, {
+            let DTI_SEC_CDA_instance = FilePond.create(DTI_SEC_CDA_File, {
                 allowMultiple: false,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
@@ -1311,9 +1349,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="dtiFileID"]')
+                                document.querySelector('input[name="DTI_SEC_CDA_unique_id_path"][id="DtiSecCdaFileID_path"]')
                                     .value = data
-                                    .unique_id;
+                                    .file_paths.DTI_SEC_CDA_File;
                                 DTI_SEC_CDA_File.setAttribute('data-unique-id', data.unique_id);
                                 console.log(DTI_SEC_CDA_File);
 
@@ -1323,8 +1361,8 @@
                                 if (dtiSecCdaFilePath) {
                                     // Update the file path in the file upload element
                                     DTI_SEC_CDA_File.setAttribute('data-file-path', dtiSecCdaFilePath);
-                                    if(DTI_SEC_CDA_File){
-                                        document.getElementById('DtiSecCdaSelector').disabled = true;
+                                    if (DTI_SEC_CDA_File) {
+                                        document.getElementById('DtiSecCdaSelector').classList.add('disabled');
                                     }
                                     console.log(dtiSecCdaFilePath);
                                 }
@@ -1339,8 +1377,8 @@
                         }
                     },
                     revert: (uniqueFileId, load, error) => {
-                        const dSC_FilePath =  DTI_SEC_CDA_File.getAttribute('data-file-path');
-                        const unique_id =  DTI_SEC_CDA_File.getAttribute('data-unique-id');
+                        const dSC_FilePath = DTI_SEC_CDA_File.getAttribute('data-file-path');
+                        const unique_id = DTI_SEC_CDA_File.getAttribute('data-unique-id');
 
                         console.log('Reverting file with path:', dSC_FilePath, 'and unique ID:',
                             unique_id);
@@ -1371,6 +1409,7 @@
             })
 
             let DTI_SEC_CDA_file_Selector = document.getElementById('DtiSecCdaSelector');
+
             function checkDTI_SEC_CDA_fileValue() {
                 if(DTI_SEC_CDA_file_Selector.value === ''){
                     DTI_SEC_CDA_instance.disabled = true;
@@ -1400,9 +1439,9 @@
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
                                 document.querySelector(
-                                        'input[name="unique_id"][id="businessPermitFileID"]').value =
+                                        'input[name="BusinessPermit_unique_id_path"][id="businessPermitFileID_path"]').value =
                                     data
-                                    .unique_id;
+                                    .file_paths.businessPermitFile;
                                 businessPermitFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the dtiFile
@@ -1473,9 +1512,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="fdaLtoFileID"]')
+                                document.querySelector('input[name="FDA_LTO_unique_id_path"][id="fdaLtoFileID_path"]')
                                     .value = data
-                                    .unique_id;
+                                    .file_paths.fdaLtoFile;
                                 fdaLtoFile.setAttribute('data-unique-id', data.unique_id);
                                 console.log(fdaLtoFile);
 
@@ -1485,9 +1524,9 @@
                                 if (fdaLtoFilePath) {
                                     // Update the file path in the file upload element
                                     fdaLtoFile.setAttribute('data-file-path', fdaLtoFilePath);
-                                    if(fdaLtoFile){
+                                    if (fdaLtoFile) {
                                         console.log(fdaLtoFilePath);
-                                        document.getElementById('fdaLtoSelector').disabled = true;
+                                        document.getElementById('fdaLtoSelector').classList.add('disabled');
                                     }
                                     console.log(fdaLtoFilePath);
                                 }
@@ -1533,13 +1572,15 @@
             })
 
             let fda_lto_select = document.getElementById('fdaLtoSelector');
+
             function checkFdalto() {
                 if (fda_lto_select.value === '') {
                     fdaLto_instance.disabled = true;
                 } else {
                     fdaLto_instance.disabled = false;
                 }
-            } checkFdalto()
+            }
+            checkFdalto()
             fda_lto_select.addEventListener('change', checkFdalto);
 
             let receiptFile = document.getElementById('receiptFile');
@@ -1560,9 +1601,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="receiptFileID"]')
+                                document.querySelector('input[name="receipt_unique_id_path"][id="receiptFileID_path"]')
                                     .value = data
-                                    .unique_id;
+                                    .file_paths.receiptFile;
                                 receiptFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the dtiFile
@@ -1632,9 +1673,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="unique_id"][id="govIdFileID"]')
+                                document.querySelector('input[name="govId_unique_id_path"][id="govIdFileID_path"]')
                                     .value = data
-                                    .unique_id;
+                                    .file_paths.govIdFile;
                                 govIdFile.setAttribute('data-unique-id', data.unique_id);
 
                                 // Update the file path for the dtiFile
@@ -1833,12 +1874,12 @@
             }
         }
 
-            const confirmButton = document.getElementById('confirmButton');
+        const confirmButton = document.getElementById('confirmButton');
             confirmButton.addEventListener('click', function(){
                 submitForm();
             });
 
-            function submitForm() {
+        function submitForm() {
 
                 $.ajax({
                     type: 'POST',
