@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreApplicationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -14,28 +15,30 @@ class ApplicationController extends Controller
 {
 
 
-    public function store(Request $request)
+    public function store(StoreApplicationRequest $request)
     {
          $user_name = Session::get('user_name');
 
         $successful_inserts = 0;
 
+        $validatedInputs = $request->validated();
+
         DB::beginTransaction();
 
         try {
             // Personal Info table
-            $name_prefix = ($request->input('prefix'));
-            $f_name = ($request->input('f_name'));
-            $mid_name = ($request->input('middle_name'));
-            $l_name = ($request->input('l_name'));
-            $name_suffix = ($request->input('suffix'));
-            $gender = ($request->input('gender'));
-            $b_date = ($request->input('b_date'));
-            $date = \DateTime::createFromFormat('m/d/Y', $b_date);
+            $name_prefix = $validatedInputs['prefix'];
+            $f_name = $validatedInputs['f_name'];
+            $mid_name = $validatedInputs['middle_name'];
+            $l_name = $validatedInputs['l_name'];
+            $name_suffix = $validatedInputs['suffix'];
+            $gender = $validatedInputs['gender'];
+            $b_date = $validatedInputs['b_date'];
+            $date = \DateTime::createFromFormat('Y/m/d', $b_date);
             $formatted_date = $date->format('Y-m-d');
-            $designation = ($request->input('designation'));
-            $mobile_number = ($request->input('Mobile_no'));
-            $landline = ($request->input('landline'));
+            $designation = $validatedInputs['designation'];
+            $mobile_number = $validatedInputs['Mobile_no'];
+            $landline = $validatedInputs['landline'];
             $personalInfoId = DB::table('coop_users_info')->insertGetId([
                 'user_name' => $user_name,
                 'prefix' => $name_prefix,
@@ -51,17 +54,17 @@ class ApplicationController extends Controller
             ]);
             $successful_inserts++;
             // Business Info table
-            $firm_name = ($request->input('firm_name'));
-            $enterprise_type = ($request->input('enterpriseType'));
+            $firm_name = $validatedInputs['firm_name'];
+            $enterprise_type = $validatedInputs['enterpriseType'];
             $enterprise_level = ($request->input('enterprise_level'));
-            $region = ($request->input('region'));
-            $province = ($request->input('province'));
-            $city = ($request->input('city'));
-            $barangay = ($request->input('barangay'));
-            $landmark = ($request->input('Landmark'));
-            $zip_code = ($request->input('zipcode'));
-            $export_market = ($request->input('Export'));
-            $local_market = ($request->input('Local'));
+            $region = $validatedInputs['region'];
+            $province = $validatedInputs['province'];
+            $city = $validatedInputs['city'];
+            $barangay = $validatedInputs['barangay'];
+            $landmark = $validatedInputs['Landmark'];
+            $zip_code = $validatedInputs['zipcode'];
+            $export_market = $validatedInputs['Export'];
+            $local_market = $validatedInputs['Local'];
 
             $businessId = DB::table('business_info')->insertGetId([
                 'user_info_id' => $personalInfoId,
@@ -80,9 +83,9 @@ class ApplicationController extends Controller
             $successful_inserts++;
 
             // Assets table
-            $building_value = str_replace(',', '', ($request->input('buildings')));
-            $equipment_value = str_replace(',', '', ($request->input('equipments')));
-            $working_capital = str_replace(',', '', ($request->input('working_capital')));
+            $building_value = str_replace(',', '', ($validatedInputs['buildings']));
+            $equipment_value = str_replace(',', '', ($validatedInputs['equipments']));
+            $working_capital = str_replace(',', '', ($validatedInputs['working_capital']));
 
             DB::table('assets')->insert([
                 'id' => $businessId,
@@ -93,14 +96,14 @@ class ApplicationController extends Controller
             $successful_inserts++;
 
             // Personnel table
-            $m_personnelDiRe = $request->input('m_personnelDiRe');
-            $f_personnelDiRe = $request->input('f_personnelDiRe');
-            $m_personnelDiPart = $request->input('m_personnelDiPart');
-            $f_personnelDiPart = $request->input('f_personnelDiPart');
-            $m_personnelIndRe = $request->input('m_personnelIndRe');
-            $f_personnelIndRe = $request->input('f_personnelIndRe');
-            $m_personnelIndPart = $request->input('m_personnelIndPart');
-            $f_personnelIndPart = $request->input('f_personnelIndPart');
+            $m_personnelDiRe = $validatedInputs['m_personnelDiRe'];
+            $f_personnelDiRe = $validatedInputs['f_personnelDiRe'];
+            $m_personnelDiPart = $validatedInputs['m_personnelDiPart'];
+            $f_personnelDiPart = $validatedInputs['f_personnelDiPart'];
+            $m_personnelIndRe = $validatedInputs['m_personnelIndRe'];
+            $f_personnelIndRe = $validatedInputs['f_personnelIndRe'];
+            $m_personnelIndPart = $validatedInputs['m_personnelIndPart'];
+            $f_personnelIndPart = $validatedInputs['f_personnelIndPart'];
 
             DB::table('personnel')->insert([
                 'id' => $businessId,
@@ -127,24 +130,20 @@ class ApplicationController extends Controller
 
             if ($successful_inserts == 5) {
                 DB::commit();
-                return redirect()->back()->with('success', 'All data successfully inserted.');
+                return response()->json(['success' => 'All data successfully inserted.']);
             } else {
                 DB::rollBack();
-                return redirect()->back()->withInput()->with('error', 'Data insertion failed.');
+                return response()->json(['error' => 'Data insertion failed.']);
             }
         } catch (\Exception $e) {
             DB::rollBack();
-            return redirect()
-                ->back()
-                ->withInput()
-                ->with('error', 'An error occurred: ' . $e->getMessage());
+            return response()->json(['error' => 'An error occurred: ' . $e->getMessage()]);
         }
     }
 
     public function upload_requirments(Request $request)
     {
-        // $businessId = session('business_id');
-        $businessId = 27;
+        $businessId = session('business_id');
 
         $filePaths = [];
 

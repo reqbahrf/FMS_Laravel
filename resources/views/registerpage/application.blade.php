@@ -29,7 +29,7 @@
             });
 
             $('#b_date').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY'));
+                $(this).val(picker.startDate.format('YYYY/MM/DD'));
             });
 
             $('#b_date').on('cancel.daterangepicker', function(ev, picker) {
