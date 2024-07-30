@@ -72,9 +72,12 @@ class AuthController extends Controller
         $credentials = ['user_name' => $request->username, 'password' => $request->password];
         $bDate = new DateTime($request->B_date);
 
-        if (Auth::attempt($credentials)) {
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
             // Authentication passed...
             $user = Auth::user();
+
 
             session(['user_id' => $user->id]);
             session(['user_name' => $user->user_name]);

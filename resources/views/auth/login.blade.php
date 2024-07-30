@@ -115,7 +115,7 @@
             width: 100%;
         }
         .card {
-        height: 70vh;
+        height: auto;
         width: 30vw;
     }
 
@@ -137,11 +137,11 @@
                     </circle>
                     <circle style="fill: rgba(72, 196, 211, 0.6);" cx="400" cy="400" r="500">
                     </circle>
-                    <circle style="fill: rgba(72, 196, 211, 0.7);" cx="400" cy="400" r="300">
+                    <circle style="fill: rgba(72, 196, 211, 0.7);" cx="400" cy="400" r="400">
                     </circle>
-                    <circle style="fill: rgba(72, 196, 211, 0.8);" cx="400" cy="400" r="200">
+                    <circle style="fill: rgba(72, 196, 211, 0.8);" cx="400" cy="400" r="300">
                     </circle>
-                    <circle style="fill: rgba(72, 196, 211, 0.9);" cx="400" cy="400" r="100">
+                    <circle style="fill: rgba(72, 196, 211, 0.9);" cx="400" cy="400" r="200">
                     </circle>
                 </g>
             </svg>
@@ -230,12 +230,19 @@
                             <div class="invalid-feedback">
                                 Please select a date.
                             </div>
-
-
                         </div>
-
+                        <div class="d-flex justify-content-end">
+                            <div class="form-check">
+                                <input type="checkbox" name="remember" id="rememberMe" class="form-check-input">
+                                <label class="form-check-label" for="rememberMe">Remember Me</label>
+                            </div>
+                        </div>
                         <div class="d-flex justify-content-center mt-3">
                             <button type="submit" class="btn btn-primary w-100">Login</Button>
+                        </div>
+                        <div class="text-center mt-3">
+                            <a href="" class="text-decoration-none">Forgot Password?
+                            </a>
                         </div>
                     </form>
                 </div>
