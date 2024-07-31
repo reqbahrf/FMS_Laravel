@@ -1,10 +1,22 @@
 <style>
     #smartwizard th {
-        font-size: 13px;
+        font-size: clamp(12px, 1vw, 13px);
     }
 
     #smartwizard th.theader {
-        font-size: 15px;
+        font-size: 40px;
+    }
+
+    .volumeUnit {
+        max-width: 130px;
+    }
+
+    @media screen and (max-width: 768px) {
+
+        .table th,
+        .table td {
+            min-width: 35vw;
+        }
     }
 </style>
 <div class="p-3">
@@ -53,18 +65,7 @@
                                             *</span></label>
                                     <div class="input-group">
                                         <span class="input-group-text">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16"
-                                                fill="none" stroke="#000000" stroke-linecap="round"
-                                                stroke-linejoin="round" id="Currency-Peso--Streamline-Tabler"
-                                                height="16" width="16">
-                                                <desc>Currency Peso Streamline Icon: https://streamlinehq.com
-                                                </desc>
-                                                <path
-                                                    d="M3.825 13.931249999999999V1.06875H7.040625C10.22325 1.06875 12.2124375 4.5140625 10.621125 7.2703125C9.8825 8.5495625 8.51775 9.337562499999999 7.040625 9.3375H3.825"
-                                                    stroke-width="1"></path>
-                                                <path d="M13.0125 3.825H1.9875" stroke-width="1"></path>
-                                                <path d="M13.0125 6.58125H1.9875" stroke-width="1"></path>
-                                            </svg>
+                                            ₱
                                         </span>
                                         <input type="text" class="form-control" id="BuildingAsset" name="Building"
                                             placeholder="500,000">
@@ -76,18 +77,7 @@
                                     <div class="input-group">
 
                                         <span class="input-group-text">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16"
-                                                fill="none" stroke="#000000" stroke-linecap="round"
-                                                stroke-linejoin="round" id="Currency-Peso--Streamline-Tabler"
-                                                height="16" width="16">
-                                                <desc>Currency Peso Streamline Icon: https://streamlinehq.com
-                                                </desc>
-                                                <path
-                                                    d="M3.825 13.931249999999999V1.06875H7.040625C10.22325 1.06875 12.2124375 4.5140625 10.621125 7.2703125C9.8825 8.5495625 8.51775 9.337562499999999 7.040625 9.3375H3.825"
-                                                    stroke-width="1"></path>
-                                                <path d="M13.0125 3.825H1.9875" stroke-width="1"></path>
-                                                <path d="M13.0125 6.58125H1.9875" stroke-width="1"></path>
-                                            </svg>
+                                            ₱
                                         </span>
                                         <input type="text" class="form-control" id="Equipment" name="Equipment"
                                             placeholder="500,000">
@@ -99,18 +89,7 @@
                                     <div class="input-group">
 
                                         <span class="input-group-text">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16"
-                                                fill="none" stroke="#000000" stroke-linecap="round"
-                                                stroke-linejoin="round" id="Currency-Peso--Streamline-Tabler"
-                                                height="16" width="16">
-                                                <desc>Currency Peso Streamline Icon: https://streamlinehq.com
-                                                </desc>
-                                                <path
-                                                    d="M3.825 13.931249999999999V1.06875H7.040625C10.22325 1.06875 12.2124375 4.5140625 10.621125 7.2703125C9.8825 8.5495625 8.51775 9.337562499999999 7.040625 9.3375H3.825"
-                                                    stroke-width="1"></path>
-                                                <path d="M13.0125 3.825H1.9875" stroke-width="1"></path>
-                                                <path d="M13.0125 6.58125H1.9875" stroke-width="1"></path>
-                                            </svg>
+                                           ₱
                                         </span>
                                         <input type="text" class="form-control" id="WorkingCapital"
                                             name="WorkingCapital" placeholder="500,000">
@@ -125,56 +104,85 @@
                                     2.1 Direct Labor(Production)
                                 </div>
                                 <div class="card-body">
-                                    <div class="card my-2">
-                                        <div class="card-header">
-                                            2.1a Direct Labor
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="maleInput">Male: <span class="requiredFields">
-                                                            *</span></label>
-                                                    <input type="text" name="male_Dir_Regular"
-                                                        class="form-control" id="maleInput">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="maleInput">Female: <span class="requiredFields">
-                                                            *</span></label>
-                                                    <input type="text" name="female_Dir_Regular"
-                                                        class="form-control" id="femaleInput">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="maleInput">Workday: <span class="requiredFields">
-                                                            *</span></label>
-                                                    <input type="text" name="workday_Dir_Regular"
-                                                        class="form-control" id="workdayInput">
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-8">
+                                            <div class="alert alert-primary h-100" role="alert">
+                                                <h4 class="alert-heading">Well done!</h4>
+                                                <p>Aww yeah, you successfully read this important alert message.
+                                                    This example text is going to run a bit longer so that you
+                                                    can see how spacing within an alert works with this kind of
+                                                    content.</p>
+                                                <hr>
+                                                <p class="mb-0">Whenever you need to, be sure to use margin
+                                                    utilities to keep things nice and tidy.</p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="card my-2">
-                                        <div class="card-header">
-                                            2.1b Part Time
-                                        </div>
-                                        <div class="card-body">
+                                        <div class="col-12 col-md-4">
                                             <div class="row">
-                                                <div class="col-12">
-                                                    <label for="maleInput">Male: <span class="requiredFields">
-                                                            *</span></label>
-                                                    <input type="text" name="male_Dir_PartT" class="form-control"
-                                                        id="parttimeMaleInput">
+                                                <div class="col-6">
+                                                    <div class="card my-2">
+                                                        <div class="card-header">
+                                                            2.1a Direct Labor
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="maleInput">Male: <span
+                                                                            class="requiredFields">
+                                                                            *</span></label>
+                                                                    <input type="text" name="male_Dir_Regular"
+                                                                        class="form-control" id="maleInput">
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="maleInput">Female: <span
+                                                                            class="requiredFields">
+                                                                            *</span></label>
+                                                                    <input type="text" name="female_Dir_Regular"
+                                                                        class="form-control" id="femaleInput">
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="maleInput">Workday: <span
+                                                                            class="requiredFields">
+                                                                            *</span></label>
+                                                                    <input type="text" name="workday_Dir_Regular"
+                                                                        class="form-control" id="workdayInput">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="col-12">
-                                                    <label for="maleInput">Female: <span class="requiredFields">
-                                                            *</span></label>
-                                                    <input type="text" name="female_Dir_PartT"
-                                                        class="form-control" id="parttimeFemaleInput">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="maleInput">workday: <span class="requiredFields">
-                                                            *</span></label>
-                                                    <input type="text" name="workday_Dir_PartT"
-                                                        class="form-control" id="parttimeWorkdayInput">
+                                                <div class="col-6">
+                                                    <div class="card my-2">
+                                                        <div class="card-header">
+                                                            2.1b Part Time
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="maleInput">Male: <span
+                                                                            class="requiredFields">
+                                                                            *</span></label>
+                                                                    <input type="text" name="male_Dir_PartT"
+                                                                        class="form-control" id="parttimeMaleInput">
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="maleInput">Female: <span
+                                                                            class="requiredFields">
+                                                                            *</span></label>
+                                                                    <input type="text" name="female_Dir_PartT"
+                                                                        class="form-control" id="parttimeFemaleInput">
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="maleInput">workday: <span
+                                                                            class="requiredFields">
+                                                                            *</span></label>
+                                                                    <input type="text" name="workday_Dir_PartT"
+                                                                        class="form-control"
+                                                                        id="parttimeWorkdayInput">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
@@ -186,185 +194,337 @@
                                     2.2 Indirect Labor(Admin and Marketing)
                                 </div>
                                 <div class="card-body">
-                                    <div class="card my-2">
-                                        <div class="card-header">
-                                            2.2a Direct Labor
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="regularMaleInput">Male: <span
-                                                            class="requiredFields">*</span></label>
-                                                    <input type="text" name="male_Indir_Regular"
-                                                        class="form-control" id="regularMaleInput">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="regularFemaleInput">Female: <span
-                                                            class="requiredFields">*</span></label>
-                                                    <input type="text" name="female_Indir_Regular"
-                                                        class="form-control" id="regularFemaleInput">
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="regularWorkdayInput">Workday: <span
-                                                            class="requiredFields">*</span></label>
-                                                    <input type="text" name="workday_Indir_Regular"
-                                                        class="form-control" id="regularWorkdayInput">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="card my-2">
-                                        <div class="card-header">
-                                            2.2b Part Time
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="row">
-                                                <div class="col-12">
-                                                    <label for="parttimeMaleInput">Male: <span
-                                                            class="requiredFields">*</span></label>
-                                                    <input type="text" name="male_Indir_PartT"
-                                                        class="form-control" id="parttimeMaleInput">
-
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="parttimeFemaleInput">Female: <span
-                                                            class="requiredFields">*</span></label>
-                                                    <input type="text" name="female_Indir_PartT"
-                                                        class="form-control" id="parttimeFemaleInput">
-
-                                                </div>
-                                                <div class="col-12">
-                                                    <label for="parttimeWorkdayInput">Workday: <span
-                                                            class="requiredFields">*</span></label>
-                                                    <input type="text" name="workday_Indir_PartT"
-                                                        class="form-control" id="parttimeWorkdayInput">
-
-                                                </div>
+                                    <div class="row">
+                                        <div class="col-12 col-md-8">
+                                            <div class="alert alert-primary h-100" role="alert">
+                                                <h4 class="alert-heading">Well done!</h4>
+                                                <p>Aww yeah, you successfully read this important alert message.
+                                                    This example text is going to run a bit longer so that you
+                                                    can see how spacing within an alert works with this kind of
+                                                    content.</p>
+                                                <hr>
+                                                <p class="mb-0">Whenever you need to, be sure to use margin
+                                                    utilities to keep things nice and tidy.</p>
                                             </div>
 
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="row">
+                                                <div class="col-6">
+                                                    <div class="card my-2">
+                                                        <div class="card-header">
+                                                            2.2a Direct Labor
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="regularMaleInput">Male: <span
+                                                                            class="requiredFields">*</span></label>
+                                                                    <input type="text" name="male_Indir_Regular"
+                                                                        class="form-control" id="regularMaleInput">
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="regularFemaleInput">Female: <span
+                                                                            class="requiredFields">*</span></label>
+                                                                    <input type="text" name="female_Indir_Regular"
+                                                                        class="form-control" id="regularFemaleInput">
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="regularWorkdayInput">Workday: <span
+                                                                            class="requiredFields">*</span></label>
+                                                                    <input type="text" name="workday_Indir_Regular"
+                                                                        class="form-control" id="regularWorkdayInput">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-6">
+                                                    <div class="card my-2">
+                                                        <div class="card-header">
+                                                            2.2b Part Time
+                                                        </div>
+                                                        <div class="card-body">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <label for="parttimeMaleInput">Male: <span
+                                                                            class="requiredFields">*</span></label>
+                                                                    <input type="text" name="male_Indir_PartT"
+                                                                        class="form-control" id="parttimeMaleInput">
+
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="parttimeFemaleInput">Female: <span
+                                                                            class="requiredFields">*</span></label>
+                                                                    <input type="text" name="female_Indir_PartT"
+                                                                        class="form-control" id="parttimeFemaleInput">
+
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <label for="parttimeWorkdayInput">Workday: <span
+                                                                            class="requiredFields">*</span></label>
+                                                                    <input type="text" name="workday_Indir_PartT"
+                                                                        class="form-control"
+                                                                        id="parttimeWorkdayInput">
+
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
-                                    <h5>3.0 PRODUCTION AND SALES DATA FOR THE QUARTER</h5>
-                                <div class="row align-items-center">
-                                    <div class="col-12">
-                                            <strong>3.1 Export Market</strong>
-                                            <div id="productExport" class="productExport">
-                                                <div class="row">
-                                                    <div class="mb-3">
-                                                        <div class="mt-2">
+                            <h5>3.0 PRODUCTION AND SALES DATA FOR THE QUARTER</h5>
+                            <div class="row align-items-center">
+                                <div class="col-12">
+                                    <strong>3.1 Export Market</strong>
+                                    <div id="productExport" class="productExport">
+                                        <div class="row">
+                                            <div class="mb-3">
+                                                <div class="mt-2">
 
-                                                            <div class="d-flex justify-content-end p-2">
-                                                                <button type="button" id="addExportRow"
-                                                                    class="btn btn-primary" data-toggle="tooltip"
-                                                                    title="Add a new row">
-                                                                    <i class="ri-add-box-fill"></i>
+                                                    <div class="d-flex justify-content-end p-2">
+                                                        <button type="button" id="addExportRow"
+                                                            class="btn btn-primary" data-toggle="tooltip"
+                                                            title="Add a new row">
+                                                            <i class="ri-add-box-fill"></i>
 
-                                                                </button>
-                                                                <button type="button"
-                                                                    class="btn btn-danger deleteExportRow mx-2"
-                                                                    data-toggle="tooltip" title="Delete row">
-                                                                    <i class="ri-subtract-fill"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="table-responsive">
-                                                            <table class="table Export-Outlet">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th scope="col">Name of Product</th>
-                                                                        <th scope="col">Packing Details</th>
-                                                                        <th scope="col">Volume of Production</th>
-                                                                        <th scope="col">Gross Sales</th>
-                                                                        <th scope="col">Estimated Cost of Production
-                                                                        </th>
-                                                                        <th scope="col">Net Sales</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody class="ExportData table-group-divider">
-                                                                    <tr>
-                                                                        <td><input type="text" class="form-control"
-                                                                                id="productName" name="productName"></td>
-                                                                        <td>
-                                                                            <textarea class="form-control" id="packingDetails" name="packingDetails"></textarea>
-                                                                        </td>
-                                                                        <td><input type="text" class="form-control"
-                                                                                id="volumeOfProduction"
-                                                                                name="volumeOfProduction"></td>
-                                                                        <td><input type="text" class="form-control"
-                                                                                id="grossSales" name="grossSales"></td>
-                                                                        <td><input type="text" class="form-control"
-                                                                                id="estimatedCostOfProduction"
-                                                                                name="estimatedCostOfProduction"></td>
-                                                                        <td><input type="text" class="form-control"
-                                                                                id="netSales" name="netSales"></td>
-                                                                    </tr>
-                                                                </tbody>
-                                                            </table>
-                                                        </div>
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-danger deleteExportRow mx-2"
+                                                            data-toggle="tooltip" title="Delete row">
+                                                            <i class="ri-subtract-fill"></i>
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            </div>
-                                    </div>
-                                    <div class="col-12">
-                                                <strong>3.2 Local Market</strong>
-                                            <div id="productLocal" class="productLocal">
-                                                <div class="row p-0">
-                                                    <div class="col-12">
-                                                        <div class="mt-2">
-                                                            <div class="d-flex justify-content-end p-2">
-                                                                <button type="button" id="addLocalRow"
-                                                                    class="btn btn-primary" data-toggle="tooltip"
-                                                                    title="Add a new row">
-                                                                    <i class="ri-add-box-fill"></i>
-                                                                </button>
-                                                                <button type="button"
-                                                                    class="btn btn-danger mx-2 deleteLocalRow"
-                                                                    data-toggle="tooltip" title="Delete row">
-                                                                    <i class="ri-subtract-fill"></i>
-                                                                </button>
-                                                            </div>
-                                                        </div>
-                                                        <table class="table local-Outlet">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">Name of Product</th>
-                                                                    <th scope="col">Packing Details</th>
-                                                                    <th scope="col">Volume of Production</th>
-                                                                    <th scope="col">Gross Sales</th>
-                                                                    <th scope="col">Estimated Cost of Production
-                                                                    </th>
-                                                                    <th scope="col">Net Sales</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody class="LocalData table-group-divider">
-                                                                <tr>
-                                                                    <td><input type="text" class="form-control"
-                                                                            id="productName" name="productName"></td>
-                                                                    <td>
-                                                                        <textarea class="form-control" id="packingDetails" name="packingDetails"></textarea>
-                                                                    </td>
-                                                                    <td><input type="text" class="form-control"
+                                                <div class="table-responsive">
+                                                    <table class="table Export-Outlet">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Name of Product</th>
+                                                                <th scope="col">Packing Details</th>
+                                                                <th scope="col">Volume of Production</th>
+                                                                <th scope="col">Gross Sales</th>
+                                                                <th scope="col">Estimated Cost of Production
+                                                                </th>
+                                                                <th scope="col">Net Sales</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="ExportData table-group-divider">
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="text" class="form-control w-100"
+                                                                        id="productName" name="productName">
+                                                                </td>
+                                                                <td>
+                                                                    <textarea class="form-control w-100" id="packingDetails" name="packingDetails"></textarea>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <select class="form-select volumeUnit">
+                                                                            <!-- Volume Units -->
+                                                                            <optgroup label="Volume">
+                                                                                <option value="milliliters">Milliliters
+                                                                                    (mL)</option>
+                                                                                <option value="cubic-centimeters">Cubic
+                                                                                    Centimeters (cm³)</option>
+                                                                                <option value="fluid-ounces">Fluid
+                                                                                    Ounces (fl oz)</option>
+                                                                                <option value="cups">Cups (cup)
+                                                                                </option>
+                                                                                <option value="pints">Pints (pt)
+                                                                                </option>
+                                                                                <option value="quarts">Quarts (qt)
+                                                                                </option>
+                                                                                <option value="liters">Liters (L)
+                                                                                </option>
+                                                                                <option value="gallons">Gallons (gal)
+                                                                                </option>
+                                                                                <option value="cubic-inches">Cubic
+                                                                                    Inches (in³)</option>
+                                                                                <option value="cubic-feet">Cubic Feet
+                                                                                    (ft³)</option>
+                                                                                <option value="cubic-meters">Cubic
+                                                                                    Meters (m³)</option>
+                                                                            </optgroup>
+                                                                            <!-- Weight Units -->
+                                                                            <optgroup label="Weight">
+                                                                                <option value="grams">Grams (g)
+                                                                                </option>
+                                                                                <option value="ounces">Ounces (oz)
+                                                                                </option>
+                                                                                <option value="pounds">Pounds (lb)
+                                                                                </option>
+                                                                                <option value="kilograms">Kilograms
+                                                                                    (kg)</option>
+                                                                            </optgroup>
+                                                                        </select>
+                                                                        <input type="text" class="form-control"
                                                                             id="volumeOfProduction"
-                                                                            name="volumeOfProduction"></td>
-                                                                    <td><input type="text" class="form-control"
-                                                                            id="grossSales" name="grossSales"></td>
-                                                                    <td><input type="text" class="form-control"
+                                                                            name="volumeOfProduction">
+                                                                    </div>
+
+
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text">
+                                                                            ₱
+                                                                        </span>
+                                                                        <input type="text" class="form-control"
+                                                                            id="grossSales" name="grossSales">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text">
+                                                                            ₱
+                                                                        </span>
+                                                                        <input type="text" class="form-control"
                                                                             id="estimatedCostOfProduction"
-                                                                            name="estimatedCostOfProduction"></td>
-                                                                    <td><input type="text" class="form-control"
-                                                                            id="netSales" name="netSales"></td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                    </div>
+                                                                            name="estimatedCostOfProduction">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text">
+                                                                            ₱
+                                                                        </span>
+                                                                        <input type="text" class="form-control"
+                                                                            id="netSales" name="netSales">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
                                                 </div>
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
+                                <div class="col-12">
+                                    <strong>3.2 Local Market</strong>
+                                    <div id="productLocal" class="productLocal">
+                                        <div class="row p-0">
+                                            <div class="col-12">
+                                                <div class="mt-2">
+                                                    <div class="d-flex justify-content-end p-2">
+                                                        <button type="button" id="addLocalRow"
+                                                            class="btn btn-primary" data-toggle="tooltip"
+                                                            title="Add a new row">
+                                                            <i class="ri-add-box-fill"></i>
+                                                        </button>
+                                                        <button type="button"
+                                                            class="btn btn-danger mx-2 deleteLocalRow"
+                                                            data-toggle="tooltip" title="Delete row">
+                                                            <i class="ri-subtract-fill"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="table-responsive">
+
+                                                    <table class="table local-Outlet">
+                                                        <thead>
+                                                            <tr>
+                                                                <th scope="col">Name of Product</th>
+                                                                <th scope="col">Packing Details</th>
+                                                                <th scope="col">Volume of Production</th>
+                                                                <th scope="col">Gross Sales</th>
+                                                                <th scope="col">Estimated Cost of Production
+                                                                </th>
+                                                                <th scope="col">Net Sales</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody class="LocalData table-group-divider">
+                                                            <tr>
+                                                                <td><input type="text" class="form-control"
+                                                                        id="productName" name="productName"></td>
+                                                                <td>
+                                                                    <textarea class="form-control" id="packingDetails" name="packingDetails"></textarea>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <select class="form-select volumeUnit">
+                                                                            <!-- Volume Units -->
+                                                                            <optgroup label="Volume">
+                                                                                <option value="milliliters">Milliliters
+                                                                                    (mL)</option>
+                                                                                <option value="cubic-centimeters">Cubic
+                                                                                    Centimeters (cm³)</option>
+                                                                                <option value="fluid-ounces">Fluid
+                                                                                    Ounces (fl oz)</option>
+                                                                                <option value="cups">Cups (cup)
+                                                                                </option>
+                                                                                <option value="pints">Pints (pt)
+                                                                                </option>
+                                                                                <option value="quarts">Quarts (qt)
+                                                                                </option>
+                                                                                <option value="liters">Liters (L)
+                                                                                </option>
+                                                                                <option value="gallons">Gallons (gal)
+                                                                                </option>
+                                                                                <option value="cubic-inches">Cubic
+                                                                                    Inches (in³)</option>
+                                                                                <option value="cubic-feet">Cubic Feet
+                                                                                    (ft³)</option>
+                                                                                <option value="cubic-meters">Cubic
+                                                                                    Meters (m³)</option>
+                                                                            </optgroup>
+                                                                            <!-- Weight Units -->
+                                                                            <optgroup label="Weight">
+                                                                                <option value="grams">Grams (g)
+                                                                                </option>
+                                                                                <option value="ounces">Ounces (oz)
+                                                                                </option>
+                                                                                <option value="pounds">Pounds (lb)
+                                                                                </option>
+                                                                                <option value="kilograms">Kilograms
+                                                                                    (kg)</option>
+                                                                            </optgroup>
+                                                                        </select>
+                                                                        <input type="text" class="form-control"
+                                                                            id="volumeOfProduction"
+                                                                            name="volumeOfProduction">
+                                                                    </div>
+
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text">₱</span>
+                                                                        <input type="text" class="form-control"
+                                                                            id="grossSales" name="grossSales">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text">₱</span>
+                                                                        <input type="text" class="form-control"
+                                                                            id="estimatedCostOfProduction"
+                                                                            name="estimatedCostOfProduction">
+                                                                    </div>
+                                                                </td>
+                                                                <td>
+                                                                    <div class="input-group">
+                                                                        <span class="input-group-text">₱</span>
+                                                                        <input type="text" class="form-control"
+                                                                            id="netSales" name="netSales">
+                                                                    </div>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                         <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
                             <h5>4.0 MARKET OUTLETS</h5>
@@ -443,10 +603,67 @@
             <tr>
                 <td><input type="text" class="form-control" name="${identifier}ProductName${counters[identifier]}"></td>
                 <td><textarea class="form-control" name="${identifier}PackingDetails${counters[identifier]}"></textarea></td>
-                <td><input type="text" class="form-control" name="${identifier}VolumeOfProduction${counters[identifier]}"></td>
-                <td><input type="text" class="form-control" name="${identifier}GrossSales${counters[identifier]}"></td>
-                <td><input type="text" class="form-control" name="${identifier}EstimatedCostOfProduction${counters[identifier]}"></td>
-                <td><input type="text" class="form-control" name="${identifier}NetSales${counters[identifier]}"></td>
+                <td>
+                    <div class="input-group">
+                                                                        <select class="form-select volumeUnit">
+                                                                            <!-- Volume Units -->
+                                                                            <optgroup label="Volume">
+                                                                                <option value="milliliters">Milliliters
+                                                                                    (mL)</option>
+                                                                                <option value="cubic-centimeters">Cubic
+                                                                                    Centimeters (cm³)</option>
+                                                                                <option value="fluid-ounces">Fluid
+                                                                                    Ounces (fl oz)</option>
+                                                                                <option value="cups">Cups (cup)
+                                                                                </option>
+                                                                                <option value="pints">Pints (pt)
+                                                                                </option>
+                                                                                <option value="quarts">Quarts (qt)
+                                                                                </option>
+                                                                                <option value="liters">Liters (L)
+                                                                                </option>
+                                                                                <option value="gallons">Gallons (gal)
+                                                                                </option>
+                                                                                <option value="cubic-inches">Cubic
+                                                                                    Inches (in³)</option>
+                                                                                <option value="cubic-feet">Cubic Feet
+                                                                                    (ft³)</option>
+                                                                                <option value="cubic-meters">Cubic
+                                                                                    Meters (m³)</option>
+                                                                            </optgroup>
+                                                                            <!-- Weight Units -->
+                                                                            <optgroup label="Weight">
+                                                                                <option value="grams">Grams (g)
+                                                                                </option>
+                                                                                <option value="ounces">Ounces (oz)
+                                                                                </option>
+                                                                                <option value="pounds">Pounds (lb)
+                                                                                </option>
+                                                                                <option value="kilograms">Kilograms
+                                                                                    (kg)</option>
+                                                                            </optgroup>
+                                                                        </select>
+                    <input type="text" class="form-control" name="${identifier}VolumeOfProduction${counters[identifier]}">
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                        <span class="input-group-text">₱</span>
+                        <input type="text" class="form-control" name="${identifier}GrossSales${counters[identifier]}">
+                    </div>
+                </td>
+                <td>
+                     <div class="input-group">
+                        <span class="input-group-text">₱</span>
+                        <input type="text" class="form-control" name="${identifier}EstimatedCostOfProduction${counters[identifier]}">
+                    </div>
+                </td>
+                <td>
+                     <div class="input-group">
+                        <span class="input-group-text">₱</span>
+                        <input type="text" class="form-control" name="${identifier}NetSales${counters[identifier]}">
+                    </div>
+                </td>
             </tr>
             `;
 
