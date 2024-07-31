@@ -11,6 +11,10 @@
         max-width: 130px;
     }
 
+    .netSales_val {
+        pointer-events: none;
+    }
+
     @media screen and (max-width: 768px) {
 
         .table th,
@@ -89,7 +93,7 @@
                                     <div class="input-group">
 
                                         <span class="input-group-text">
-                                           ₱
+                                            ₱
                                         </span>
                                         <input type="text" class="form-control" id="WorkingCapital"
                                             name="WorkingCapital" placeholder="500,000">
@@ -366,19 +370,16 @@
                                                                             </optgroup>
                                                                         </select>
                                                                         <input type="text" class="form-control"
-                                                                            id="volumeOfProduction"
                                                                             name="volumeOfProduction">
                                                                     </div>
-
-
                                                                 </td>
                                                                 <td>
                                                                     <div class="input-group">
                                                                         <span class="input-group-text">
                                                                             ₱
                                                                         </span>
-                                                                        <input type="text" class="form-control"
-                                                                            id="grossSales" name="grossSales">
+                                                                        <input type="text" class="form-control grossSales_val"
+                                                                            name="grossSales">
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -386,8 +387,7 @@
                                                                         <span class="input-group-text">
                                                                             ₱
                                                                         </span>
-                                                                        <input type="text" class="form-control"
-                                                                            id="estimatedCostOfProduction"
+                                                                        <input type="text" class="form-control estimatedCostOfProduction_val"
                                                                             name="estimatedCostOfProduction">
                                                                     </div>
                                                                 </td>
@@ -396,8 +396,8 @@
                                                                         <span class="input-group-text">
                                                                             ₱
                                                                         </span>
-                                                                        <input type="text" class="form-control"
-                                                                            id="netSales" name="netSales">
+                                                                        <input type="text" class="form-control netSales_val"
+                                                                            name="netSales">
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -428,7 +428,6 @@
                                                     </div>
                                                 </div>
                                                 <div class="table-responsive">
-
                                                     <table class="table local-Outlet">
                                                         <thead>
                                                             <tr>
@@ -489,7 +488,6 @@
                                                                             </optgroup>
                                                                         </select>
                                                                         <input type="text" class="form-control"
-                                                                            id="volumeOfProduction"
                                                                             name="volumeOfProduction">
                                                                     </div>
 
@@ -497,23 +495,25 @@
                                                                 <td>
                                                                     <div class="input-group">
                                                                         <span class="input-group-text">₱</span>
-                                                                        <input type="text" class="form-control"
-                                                                            id="grossSales" name="grossSales">
+                                                                        <input type="text"
+                                                                            class="form-control grossSales_val"
+                                                                            name="grossSales">
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="input-group">
                                                                         <span class="input-group-text">₱</span>
-                                                                        <input type="text" class="form-control"
-                                                                            id="estimatedCostOfProduction"
+                                                                        <input type="text"
+                                                                            class="form-control estimatedCostOfProduction_val"
                                                                             name="estimatedCostOfProduction">
                                                                     </div>
                                                                 </td>
                                                                 <td>
                                                                     <div class="input-group">
                                                                         <span class="input-group-text">₱</span>
-                                                                        <input type="text" class="form-control"
-                                                                            id="netSales" name="netSales">
+                                                                        <input type="text"
+                                                                            class="form-control netSales_val"
+                                                                            name="netSales">
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -586,6 +586,20 @@
             $(this).val(value);
         });
 
+        function parseValue(value){
+            return parseFloat(value.replace(/,/g, '')) || 0;
+        }
+
+
+        $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+3):nth-child(-n+5) input', function() {
+            let row = $(this).closest('tr');
+            let grossSales = parseValue(row.find('.grossSales_val').val());
+            let estimatedCostOfProduction = parseValue(row.find('.estimatedCostOfProduction_val').val());
+            let netSales = grossSales - estimatedCostOfProduction;
+            let formattedNetSales = netSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            console.log(grossSales, estimatedCostOfProduction, formattedNetSales);
+            row.find('.netSales_val').val(formattedNetSales);
+        });
     });
 </script>
 <script type="module">
@@ -649,19 +663,19 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-text">₱</span>
-                        <input type="text" class="form-control" name="${identifier}GrossSales${counters[identifier]}">
+                        <input type="text" class="form-control grossSales_val" name="${identifier}GrossSales${counters[identifier]}">
                     </div>
                 </td>
                 <td>
                      <div class="input-group">
                         <span class="input-group-text">₱</span>
-                        <input type="text" class="form-control" name="${identifier}EstimatedCostOfProduction${counters[identifier]}">
+                        <input type="text" class="form-control estimatedCostOfProduction_val" name="${identifier}EstimatedCostOfProduction${counters[identifier]}">
                     </div>
                 </td>
                 <td>
                      <div class="input-group">
                         <span class="input-group-text">₱</span>
-                        <input type="text" class="form-control" name="${identifier}NetSales${counters[identifier]}">
+                        <input type="text" class="form-control netSales_val" name="${identifier}NetSales${counters[identifier]}">
                     </div>
                 </td>
             </tr>
