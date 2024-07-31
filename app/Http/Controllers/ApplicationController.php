@@ -118,9 +118,60 @@ class ApplicationController extends Controller
             ]);
             $successful_inserts++;
 
-            foreach ($request->file() as $file) {
-                $filePaths[$file->getClientOriginalName()] = $file->store("temp/$businessId", ['disk' => 'public']);
+            // $IntentFileID = $validatedInputs['IntentFile'];
+            // $DTI_SEC_CDA_FileID = $validatedInputs['DTI_SEC_CDA_File'];
+            // $businessPermitFileID = $validatedInputs['businessPermitFile'];
+            // $FDA_LTO_FileID = $validatedInputs['fdaLtoFile'];
+            // $receiptFileID = $validatedInputs['receiptFile'];
+            // $govFileID = $validatedInputs['govIdFile'];
+
+
+
+            $file_to_insert = [
+
+                'IntentFilePath' => $validatedInputs['Intent_unique_id_path'],
+                'DSCFilePath' => $validatedInputs['DTI_SEC_CDA_unique_id_path'],
+                'businessPermitFilePath' => $validatedInputs['BusinessPermit_unique_id_path'],
+                'FDA_LTOFilePath' => $validatedInputs['FDA_LTO_unique_id_path'],
+                'receiptFilePath' => $validatedInputs['receipt_unique_id_path'],
+                'govFilePath' => $validatedInputs['govId_unique_id_path'],
+            ];
+
+            Log::info($file_to_insert);
+
+            $fileNames = [
+                'IntentFilePath' => 'Intent File',
+                'businessPermitFilePath' => 'Business Permit',
+                'receiptFilePath' => 'Receipt',
+                'govFilePath' => 'Government ID',
+            ];
+
+            $DSC_file_Name_Selector = $validatedInputs['DSC_file_Selector'];
+            $fda_lto_Name_Selector = $validatedInputs['Fda_Lto_Selector'];
+
+            $fileNames['DSCFilePath'] = $DSC_file_Name_Selector;
+            $fileNames['FDA_LTOFilePath'] = $fda_lto_Name_Selector;
+
+            foreach($file_to_insert as $filekey => $filePath){
+                $fileContents = Storage::disk('public')->get($filePath);
+
+                log::info($fileContents);
+
+                $fileName = $fileNames[$filekey];
+                $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+
+                DB::table('requirements')->insert([
+                    'business_id' => $businessId,
+                    'file_name' => $fileName,
+                    'files' => $fileContents,
+                    'file_type' => $fileExtension,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
             }
+
+            $successful_inserts++;
+
 
             // Requirements table
             DB::table('application_info')->insert([
@@ -128,7 +179,7 @@ class ApplicationController extends Controller
             ]);
             $successful_inserts++;
 
-            if ($successful_inserts == 5) {
+            if ($successful_inserts == 6) {
                 DB::commit();
                 return response()->json(['success' => 'All data successfully inserted.']);
             } else {
@@ -144,13 +195,14 @@ class ApplicationController extends Controller
     public function upload_requirments(Request $request)
     {
         $businessId = session('business_id');
+        $uniqueId = $businessId . '_' . uniqid();
 
         $filePaths = [];
 
        foreach ($request->file() as $fieldName => $file) {
-           $uniqueId = $businessId . '_' . uniqid();
+
            $fileName = $file->getClientOriginalName();
-           $filePaths[$fieldName] = $file->store("temp/$uniqueId/$fileName", ['disk' => 'public']);
+           $filePaths[$fieldName] = $file->storeAs("temp/$uniqueId", $fileName, 'public');
        }
 
         return response()->json([
@@ -167,18 +219,15 @@ class ApplicationController extends Controller
         $filePath = $request->input('file_path');
         Log::info('File path: ' . $filePath);
 
-        // Resolve the full file path
-        $fullPath = storage_path('app/public/' . $filePath);
-        Log::info('Full file path: ' . $fullPath);
 
-        if (file_exists($fullPath)) {
-            unlink($fullPath);
-            Log::info('File deleted: ' . $fullPath);
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+            Log::info('File deleted: ' . $filePath);
 
             return response()->json(['status' => 'success'], 200);
         }
 
-        Log::error('File not found: ' . $fullPath);
+        Log::error('File not found: ' . $filePath);
         return response()->json(['status' => 'error', 'message' => 'File not found'], 404);
     }
 }

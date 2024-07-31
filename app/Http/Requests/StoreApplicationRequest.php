@@ -54,6 +54,20 @@ class StoreApplicationRequest extends FormRequest
             'f_personnelIndPart' => 'nullable|integer',
             'Export' => 'nullable|max:100',
             'Local' => 'nullable|max:100',
+            'IntentFile' => 'required|string',
+            'DSC_file_Selector' => 'required|string|in:DTI,SEC,CDA',
+            'DTI_SEC_CDA_File' => 'required|string',
+            'businessPermitFile' => 'required|string',
+            'Fda_Lto_Selector' => 'nullable|string|in:FDA,LTO',
+            'fdaLtoFile' => 'nullable|string',
+            'receiptFile' => 'required|string',
+            'govIdFile' => 'required|string',
+            'Intent_unique_id_path' => 'required|string',
+            'DTI_SEC_CDA_unique_id_path' => 'required|string',
+            'BusinessPermit_unique_id_path' => 'required|string',
+            'FDA_LTO_unique_id_path' => 'nullable|string',
+            'receipt_unique_id_path' => 'required|string',
+            'govId_unique_id_path' => 'required|string',
         ];
     }
 }

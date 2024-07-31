@@ -815,7 +815,7 @@
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
                                         <select id="DtiSecCdaSelector" class="form-select form-select-lg"
-                                            name="DSC-file-Selector" required>
+                                            name="DSC_file_Selector" required>
                                             <option value="">Choose...</option>
                                             <option value="DTI">DTI</option>
                                             <option value="SEC">SEC</option>
@@ -847,7 +847,7 @@
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
                                         <select id="fdaLtoSelector" class="form-select form-select-lg"
-                                            name="Fda-Lto-Selector">
+                                            name="Fda_Lto_Selector">
                                             <option value="">Choose...</option>
                                             <option value="FDA">FDA</option>
                                             <option value="LTO">LTO</option>
