@@ -331,6 +331,8 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="input-group">
+                                                                        <input type="text" class="form-control productionVolume_val"
+                                                                            name="volumeOfProduction">
                                                                         <select class="form-select volumeUnit">
                                                                             <!-- Volume Units -->
                                                                             <optgroup label="Volume">
@@ -369,8 +371,6 @@
                                                                                     (kg)</option>
                                                                             </optgroup>
                                                                         </select>
-                                                                        <input type="text" class="form-control"
-                                                                            name="volumeOfProduction">
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -449,46 +449,46 @@
                                                                 </td>
                                                                 <td>
                                                                     <div class="input-group">
-                                                                        <select class="form-select volumeUnit">
-                                                                            <!-- Volume Units -->
-                                                                            <optgroup label="Volume">
-                                                                                <option value="milliliters">Milliliters
-                                                                                    (mL)</option>
-                                                                                <option value="cubic-centimeters">Cubic
-                                                                                    Centimeters (cm³)</option>
-                                                                                <option value="fluid-ounces">Fluid
-                                                                                    Ounces (fl oz)</option>
-                                                                                <option value="cups">Cups (cup)
-                                                                                </option>
-                                                                                <option value="pints">Pints (pt)
-                                                                                </option>
-                                                                                <option value="quarts">Quarts (qt)
-                                                                                </option>
-                                                                                <option value="liters">Liters (L)
-                                                                                </option>
-                                                                                <option value="gallons">Gallons (gal)
-                                                                                </option>
-                                                                                <option value="cubic-inches">Cubic
-                                                                                    Inches (in³)</option>
-                                                                                <option value="cubic-feet">Cubic Feet
-                                                                                    (ft³)</option>
-                                                                                <option value="cubic-meters">Cubic
-                                                                                    Meters (m³)</option>
-                                                                            </optgroup>
-                                                                            <!-- Weight Units -->
-                                                                            <optgroup label="Weight">
-                                                                                <option value="grams">Grams (g)
-                                                                                </option>
-                                                                                <option value="ounces">Ounces (oz)
-                                                                                </option>
-                                                                                <option value="pounds">Pounds (lb)
-                                                                                </option>
-                                                                                <option value="kilograms">Kilograms
-                                                                                    (kg)</option>
-                                                                            </optgroup>
-                                                                        </select>
-                                                                        <input type="text" class="form-control"
+                                                                        <input type="text" class="form-control productionVolume_val"
                                                                             name="volumeOfProduction">
+                                                                            <select class="form-select volumeUnit">
+                                                                                <!-- Volume Units -->
+                                                                                <optgroup label="Volume">
+                                                                                    <option value="milliliters">Milliliters
+                                                                                        (mL)</option>
+                                                                                    <option value="cubic-centimeters">Cubic
+                                                                                        Centimeters (cm³)</option>
+                                                                                    <option value="fluid-ounces">Fluid
+                                                                                        Ounces (fl oz)</option>
+                                                                                    <option value="cups">Cups (cup)
+                                                                                    </option>
+                                                                                    <option value="pints">Pints (pt)
+                                                                                    </option>
+                                                                                    <option value="quarts">Quarts (qt)
+                                                                                    </option>
+                                                                                    <option value="liters">Liters (L)
+                                                                                    </option>
+                                                                                    <option value="gallons">Gallons (gal)
+                                                                                    </option>
+                                                                                    <option value="cubic-inches">Cubic
+                                                                                        Inches (in³)</option>
+                                                                                    <option value="cubic-feet">Cubic Feet
+                                                                                        (ft³)</option>
+                                                                                    <option value="cubic-meters">Cubic
+                                                                                        Meters (m³)</option>
+                                                                                </optgroup>
+                                                                                <!-- Weight Units -->
+                                                                                <optgroup label="Weight">
+                                                                                    <option value="grams">Grams (g)
+                                                                                    </option>
+                                                                                    <option value="ounces">Ounces (oz)
+                                                                                    </option>
+                                                                                    <option value="pounds">Pounds (lb)
+                                                                                    </option>
+                                                                                    <option value="kilograms">Kilograms
+                                                                                        (kg)</option>
+                                                                                </optgroup>
+                                                                            </select>
                                                                     </div>
 
                                                                 </td>
@@ -586,12 +586,27 @@
             $(this).val(value);
         });
 
+        $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+3) input', function(){
+            let row = $(this).closest('tr');
+            let production = row.find('.productionVolume_val').val().replace(/[^0-9,]/g, '');
+            let selectedUnit = row.find('.volumeUnit').val();
+            let concatenatedValue = production + selectedUnit;
+            console.log(production, selectedUnit, concatenatedValue);
+        }).on('change', 'tr td:nth-child(n+3) select', function(){
+            let row = $(this).closest('tr');
+            let production = row.find('.productionVolume_val').val().replace(/[^0-9,]/g, '');
+            let selectedUnit = row.find('.volumeUnit').val();
+            let concatenatedValue = production + selectedUnit;
+            row.find('.productionVolume_val').val(concatenatedValue);
+            console.log(production, selectedUnit, concatenatedValue);
+        });
+
         function parseValue(value){
             return parseFloat(value.replace(/,/g, '')) || 0;
         }
 
 
-        $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+3):nth-child(-n+5) input', function() {
+        $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+4):nth-child(-n+5) input', function() {
             let row = $(this).closest('tr');
             let grossSales = parseValue(row.find('.grossSales_val').val());
             let estimatedCostOfProduction = parseValue(row.find('.estimatedCostOfProduction_val').val());
@@ -619,6 +634,7 @@
                 <td><textarea class="form-control" name="${identifier}PackingDetails${counters[identifier]}"></textarea></td>
                 <td>
                     <div class="input-group">
+                         <input type="text" class="form-control productionVolume_val" name="${identifier}VolumeOfProduction${counters[identifier]}">
                                                                         <select class="form-select volumeUnit">
                                                                             <!-- Volume Units -->
                                                                             <optgroup label="Volume">
@@ -657,7 +673,6 @@
                                                                                     (kg)</option>
                                                                             </optgroup>
                                                                         </select>
-                    <input type="text" class="form-control" name="${identifier}VolumeOfProduction${counters[identifier]}">
                     </div>
                 </td>
                 <td>
