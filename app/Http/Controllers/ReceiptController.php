@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\ReceiptUpload;
+use Illuminate\Support\Facades\Log;
 
 class ReceiptController extends Controller
 {
@@ -36,6 +37,18 @@ class ReceiptController extends Controller
             'unique_id' => $uniqueId
         ]);
     }
+
+    public function img_revert($uniqueId, Request $request)
+    {
+        $filePath = $request->input('receiptfilePath');
+        log::info('File path: ' . $filePath);
+
+        if (Storage::disk('public')->exists($filePath)) {
+            Storage::disk('public')->delete($filePath);
+            return response()->json(['status' => 'success'], 200);
+        }
+
+    }
     /**
      * Display a listing of the resource.
      */
@@ -46,13 +59,6 @@ class ReceiptController extends Controller
         //
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.

@@ -272,12 +272,41 @@
                         if (data.temp_file_path && data.unique_id) {
                             // Store unique_id in a hidden input field or as a data attribute
                             document.querySelector('input[name="unique_id"]').value = data.unique_id;
+                            inputElement.setAttribute('data-unique-id', data.unique_id);
+                            if(data.temp_file_path) {
+                                inputElement.setAttribute('data-file-path', data.temp_file_path);
+                            }
                         }
+                        return data.unique_id;
                     }
                 },
-                revert: null // Revert is not needed for temporary files
+                revert: (uniqueFileId, load, error) =>{
+                    const receiptPath = inputElement.getAttribute('data-file-path');
+                    const unique_id = inputElement.getAttribute('data-unique-id');
+
+                    console.log('Reverting file with path:', receiptPath, 'and unique ID:', unique_id);
+
+                    fetch(`/delete/Img/{uniqueId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type' : 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                        },
+                        body: JSON.stringify({
+                            receiptfilePath: receiptPath
+                    })
+                }).then(response => {
+                    if (response.ok) {
+                        load();
+                    } else {
+                        console.error('Failed to delete file:', response.statusText);
+                    }
+                }).catch(() => {
+                    error('Failed to delete file');
+                });
+                } // Revert is not needed for temporary files
             }
-        });
+        })
 
         const form = document.getElementById('uploadForm');
     const successMessage = document.getElementById('successMessage');

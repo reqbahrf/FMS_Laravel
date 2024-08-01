@@ -42,7 +42,6 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::get('/Cooperator/Home', [CooperatorController::class, 'index'])->name('Cooperator.home');
 Route::get('/Cooperator/Dashboard', [CooperatorController::class, 'dashboard'])->name('Cooperator.dashboard');
 Route::get('/Cooperator/Requirements', [CooperatorController::class, 'requirementsGet'])->name('Cooperator.Requirements');
-
 Route::get('/Cooperator/QuarterlyReport', [CooperatorController::class, 'quarterlyReportGet'])->name('Cooperator.QuarterlyReport');
 
 //Staff routes
@@ -88,4 +87,5 @@ Route::get('/email/verify/{id}/{hash}', [MailController::class, 'sendEmailVerify
 Route::get('/verify-email/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
 
 Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
+Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
 Route::resource('receipts', ReceiptController::class);
