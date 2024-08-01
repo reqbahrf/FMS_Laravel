@@ -76,7 +76,7 @@
                     <div class="d-none" id="sidebarTasks">
                         <ul class="list-unstyled ps-5">
                             <li>
-                                <a href="#" id="querterlyReportTab1" onclick="loadPage('{{ route('Cooperator.QuarterlyReport') }}','querterlyReportTab1');">Quarter 1 <span class="badge rounded-pill text-bg-success">Open</span>
+                                <a href="#" id="querterlyReportTab1" onclick="loadPage('/Cooperator/QuarterlyReport/create','querterlyReportTab1');">Quarter 1 <span class="badge rounded-pill text-bg-success">Open</span>
                                 </a>
                             </li>
                             <li>

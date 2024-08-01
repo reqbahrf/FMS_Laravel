@@ -33,6 +33,7 @@
     <div class="card-body">
         <div class="quarterly-Report-wrapper">
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+                @csrf
                 <div id="smartwizard" class="my-4">
                     <ul class="nav nav-progress">
                         <li class="nav-item">
