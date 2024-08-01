@@ -160,7 +160,7 @@
                                 <th scope="col">Comment</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="expenseReceipt_tbody">
                             <tr>
                                 <td></td>
                                 <td></td>

@@ -55,8 +55,24 @@ class ReceiptController extends Controller
 
     public function index()
     {
+        $projectId = Session::get('project_id');
 
-        //
+        $receiptUploads = ReceiptUpload::where('ongoing_project_id', $projectId)
+            ->select('ongoing_project_id','receipt_name', 'receipt_file', 'remark', 'created_at')
+            ->get();
+
+        $result = [];
+        foreach ($receiptUploads as $receiptUpload) {
+            $result[] = [
+                'ongoing_project_id' => $receiptUpload->ongoing_project_id,
+                'receipt_name' => ($receiptUpload->receipt_name),
+                'receipt_file' => base64_encode($receiptUpload->receipt_file),
+                'remark' => ($receiptUpload->remark),
+                'created_at' => $receiptUpload->created_at->format('Y-m-d H:i:s'),
+            ];
+        }
+
+        return response()->json($result);
     }
 
 

@@ -378,6 +378,13 @@
             pointer-events: none;;
             cursor: default;
         }
+
+        .img-Content{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 150px;
+        }
     </style>
 </head>
 

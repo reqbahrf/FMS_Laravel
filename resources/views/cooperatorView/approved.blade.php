@@ -244,6 +244,7 @@
 
             if (url === '{{ route('Cooperator.Requirements') }}') {
                 initializeFilePond();
+                getReceipt();
             }
 
             sessionStorage.setItem('CoopLastUrl', url);
@@ -308,7 +309,7 @@
             }
         })
 
-        const form = document.getElementById('uploadForm');
+    const form = document.getElementById('uploadForm');
     const successMessage = document.getElementById('successMessage');
     const submitBtn = document.getElementById('submitButton');
 
@@ -336,7 +337,33 @@
         })
         .catch(error => console.error('Error:', error));
     });
-        }
+ }
+
+   function getReceipt(){
+       fetch('{{ route('receipts.index') }}')
+       .then(response => response.json())
+       .then(data => {
+           console.log(data);
+           let tableBody = $('#expenseReceipt_tbody');
+            tableBody.empty(); // Clear the existing rows
+
+            $.each(data, function(key, value) {
+                let receiptImage = `<img src="data:image/png;base64,${value.receipt_file}" alt="${value.receipt_name}" style="max-width: 200px; max-height: 200px;" />`;
+
+                let row = `<tr>
+                    <td>${value.receipt_name}</td>
+                    <td class="img-Content">${receiptImage}</td>
+                    <td>${value.created_at}</td>
+                    <td>${value.remark}</td>
+                    <td></td> <!-- You can add comment logic here if needed -->
+                </tr>`;
+
+                tableBody.append(row);
+            });
+        })
+       .catch(error => console.error('Error:', error));
+   }
+
 
         function initializeStackedChartPer() {
             var options = {
