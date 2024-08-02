@@ -32,8 +32,7 @@
     </div>
     <div class="card-body">
         <div class="quarterly-Report-wrapper">
-            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
-                @csrf
+            <form id="quarterlyForm" action="/Cooperator/QuarterlyReport" method="post">
                 <div id="smartwizard" class="my-4">
                     <ul class="nav nav-progress">
                         <li class="nav-item">
@@ -322,18 +321,17 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="ExportData table-group-divider">
-                                                            <tr>
+                                                            <tr class="table_row">
                                                                 <td>
-                                                                    <input type="text" class="form-control w-100"
-                                                                        id="productName" name="productName">
+                                                                    <input type="text" class="form-control productName"
+                                                                    >
                                                                 </td>
                                                                 <td>
-                                                                    <textarea class="form-control w-100" id="packingDetails" name="packingDetails"></textarea>
+                                                                    <textarea class="form-control w-100 packingDetails"></textarea>
                                                                 </td>
                                                                 <td>
                                                                     <div class="input-group">
-                                                                        <input type="text" class="form-control productionVolume_val"
-                                                                            name="volumeOfProduction">
+                                                                        <input type="text" class="form-control productionVolume_val">
                                                                         <select class="form-select volumeUnit">
                                                                             <!-- Volume Units -->
                                                                             <optgroup label="Volume">
@@ -380,7 +378,7 @@
                                                                             ₱
                                                                         </span>
                                                                         <input type="text" class="form-control grossSales_val"
-                                                                            name="grossSales">
+                                                                           >
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -389,7 +387,7 @@
                                                                             ₱
                                                                         </span>
                                                                         <input type="text" class="form-control estimatedCostOfProduction_val"
-                                                                            name="estimatedCostOfProduction">
+                                                                            >
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -398,7 +396,7 @@
                                                                             ₱
                                                                         </span>
                                                                         <input type="text" class="form-control netSales_val"
-                                                                            name="netSales">
+                                                                            >
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -442,16 +440,16 @@
                                                             </tr>
                                                         </thead>
                                                         <tbody class="LocalData table-group-divider">
-                                                            <tr>
-                                                                <td><input type="text" class="form-control"
-                                                                        id="productName" name="productName"></td>
+                                                            <tr class="table_row">
+                                                                <td><input type="text" class="form-control productName"
+                                                                       ></td>
                                                                 <td>
-                                                                    <textarea class="form-control" id="packingDetails" name="packingDetails"></textarea>
+                                                                    <textarea class="form-control packingDetails"></textarea>
                                                                 </td>
                                                                 <td>
                                                                     <div class="input-group">
                                                                         <input type="text" class="form-control productionVolume_val"
-                                                                            name="volumeOfProduction">
+                                                                           >
                                                                             <select class="form-select volumeUnit">
                                                                                 <!-- Volume Units -->
                                                                                 <optgroup label="Volume">
@@ -498,7 +496,7 @@
                                                                         <span class="input-group-text">₱</span>
                                                                         <input type="text"
                                                                             class="form-control grossSales_val"
-                                                                            name="grossSales">
+                                                                           >
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -506,7 +504,7 @@
                                                                         <span class="input-group-text">₱</span>
                                                                         <input type="text"
                                                                             class="form-control estimatedCostOfProduction_val"
-                                                                            name="estimatedCostOfProduction">
+                                                                           >
                                                                     </div>
                                                                 </td>
                                                                 <td>
@@ -514,7 +512,7 @@
                                                                         <span class="input-group-text">₱</span>
                                                                         <input type="text"
                                                                             class="form-control netSales_val"
-                                                                            name="netSales">
+                                                                        >
                                                                     </div>
                                                                 </td>
                                                             </tr>
@@ -587,21 +585,6 @@
             $(this).val(value);
         });
 
-        $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+3) input', function(){
-            let row = $(this).closest('tr');
-            let production = row.find('.productionVolume_val').val().replace(/[^0-9,]/g, '');
-            let selectedUnit = row.find('.volumeUnit').val();
-            let concatenatedValue = production + selectedUnit;
-            console.log(production, selectedUnit, concatenatedValue);
-        }).on('change', 'tr td:nth-child(n+3) select', function(){
-            let row = $(this).closest('tr');
-            let production = row.find('.productionVolume_val').val().replace(/[^0-9,]/g, '');
-            let selectedUnit = row.find('.volumeUnit').val();
-            let concatenatedValue = production + selectedUnit;
-            row.find('.productionVolume_val').val(concatenatedValue);
-            console.log(production, selectedUnit, concatenatedValue);
-        });
-
         function parseValue(value){
             return parseFloat(value.replace(/,/g, '')) || 0;
         }
@@ -630,12 +613,12 @@
                 counters[identifier]++;
 
                 let newRow = `
-            <tr>
-                <td><input type="text" class="form-control" name="${identifier}ProductName${counters[identifier]}"></td>
-                <td><textarea class="form-control" name="${identifier}PackingDetails${counters[identifier]}"></textarea></td>
+            <tr class="table_row">
+                <td><input type="text" class="form-control productName"></td>
+                <td><textarea class="form-control packingDetails"></textarea></td>
                 <td>
                     <div class="input-group">
-                         <input type="text" class="form-control productionVolume_val" name="${identifier}VolumeOfProduction${counters[identifier]}">
+                         <input type="text" class="form-control productionVolume_val">
                                                                         <select class="form-select volumeUnit">
                                                                             <!-- Volume Units -->
                                                                             <optgroup label="Volume">
@@ -679,19 +662,19 @@
                 <td>
                     <div class="input-group">
                         <span class="input-group-text">₱</span>
-                        <input type="text" class="form-control grossSales_val" name="${identifier}GrossSales${counters[identifier]}">
+                        <input type="text" class="form-control grossSales_val">
                     </div>
                 </td>
                 <td>
                      <div class="input-group">
                         <span class="input-group-text">₱</span>
-                        <input type="text" class="form-control estimatedCostOfProduction_val" name="${identifier}EstimatedCostOfProduction${counters[identifier]}">
+                        <input type="text" class="form-control estimatedCostOfProduction_val">
                     </div>
                 </td>
                 <td>
                      <div class="input-group">
                         <span class="input-group-text">₱</span>
-                        <input type="text" class="form-control netSales_val" name="${identifier}NetSales${counters[identifier]}">
+                        <input type="text" class="form-control netSales_val">
                     </div>
                 </td>
             </tr>
@@ -769,19 +752,63 @@
     });
 </script>
 <script type="module">
+
+
     $(document).ready(function() {
         $('form').submit(function(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
-            // Convert form data to JSON
             let formData = $(this).serializeArray();
             let dataObject = {};
             $.each(formData, function(i, v) {
                 dataObject[v.name] = v.value;
             });
 
+            const ExportTable_row = $('.ExportData .table_row');
+            const localTable_row = $('.LocalData .table_row');
+            const ExportTable_data = [];
+            const localTable_data = [];
+
+
+        ExportTable_row.each(function() {
+            const row = $(this); // Wrap `this` with jQuery to use jQuery methods
+            const exporttable_row = {
+                ProductName: row.find('.productName').val(),
+                PackingDetails: row.find('.packingDetails').val(),
+                volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
+                grossSales: row.find('.grossSales_val').val(),
+                estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
+                netSales: row.find('.netSales_val').val()
+            };
+            ExportTable_data.push(exporttable_row);
+        });
+
+        // const ExportwrappedData = {ExportProductInfo: ExportTable_data};
+       dataObject.ExportProduct = ExportTable_data;
+
+
+        localTable_row.each(function() {
+            const row = $(this); // Wrap `this` with jQuery to use jQuery methods
+            const localtable_row = {
+                ProductName: row.find('.productName').val(),
+                PackingDetails: row.find('.packingDetails').val(),
+                volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
+                grossSales: row.find('.grossSales_val').val(),
+                estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
+                netSales: row.find('.netSales_val').val()
+            };
+            localTable_data.push(localtable_row);
+        });
+
+        // const LocalwrappedData = {LocalProductInfo: localTable_data};
+        dataObject.LocalProduct = localTable_data;
+
+
             // Send form data using AJAX
             $.ajax({
+                heaeders: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 type: 'POST',
                 url: $(this).attr('action'),
                 data: JSON.stringify(dataObject), // Send the new data object

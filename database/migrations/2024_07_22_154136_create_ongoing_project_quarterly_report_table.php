@@ -17,9 +17,8 @@ return new class extends Migration
             $table->integer('ongoing_project_id')->unsigned();
             $table->string('quarter', 64);
             $table->longText('report_file')->nullable();
-            $table->timestamp('date_created')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('date_Completed')->nullable();
-            $table->string('can_edit', 30);
+            $table->string('can_edit', 30)->default('yes');
+            $table->timestamps();
             $table->foreign('ongoing_project_id')->references('id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });
     }
