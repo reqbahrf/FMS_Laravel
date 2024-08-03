@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -314,6 +314,7 @@
         }
 
         .imgbox-text{
+            color: #fff;
             position: absolute;
             opacity: 0;
             top: 0;
@@ -432,6 +433,88 @@
                         </ul>
                     </div>
 
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="section-title">
+            <h2>What can you get from SETUP</h2>
+        </div>
+        <div class="row g-3">
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                            <h6>
+                             Infusion of new/advanced technologies
+                            </h6>
+                    </div>
+                    <div class="col-12">
+                        The infusion of new and advanced technologies is crucial for enhancing efficiency and innovation. By adopting cutting-edge tools and systems, organizations can streamline processes, reduce costs, and gain a competitive advantage. Implementing new technologies is essential for driving growth and staying ahead in the market.
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h6>
+                         Provision of seed funds for technology acquisition and equipment upgrading.
+                        </h6>
+
+                    </div>
+                    <div class="col-12">
+                        The program provides financial support for acquiring new or upgraded technology and equipment. This includes funding assistance for advanced tools and machinery to improve operations and investments in modern technology to enhance productivity and product quality.
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h6>
+                        Technical trainings
+                        </h6>
+                    </div>
+                    <div class="col-12">
+                        The program offers a comprehensive approach to quality and environmental management, including training in specific technical skills. It covers Hazard Analysis and Critical Control Points (HACCP), Good Manufacturing Practices (GMP), and Quality and Environmental Management Systems (QMS/EMS). Additionally, the program provides training in specialized areas such as machining for furniture, handloom weaving, seaweed culture, and tissue culture production.
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h6>
+                        Technical Advisory and Consultancy Services
+                        </h6>
+
+                    </div>
+                    <div class="col-12">
+                        The program focuses on enhancing food safety, resource efficiency, and cleaner production practices. It offers manufacturing, productivity, and extension programs, along with consultancy services for agricultural and manufacturing productivity improvement. The program also emphasizes product and process standardization, productivity improvement, and energy conservation and efficiency assessments.
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h6>
+                        Design of functional packages and labels
+                        </h6>
+                    </div>
+                    <div class="col-12">
+                        The program focuses on designing visually appealing and practical packaging solutions, developing clear and informative product labels, and creating packaging that protects the product while enhancing its presentation.
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="row">
+                    <div class="col-12">
+                        <h6>
+                        Support in the establishment of product standard including testing and calibration
+                        </h6>
+                    </div>
+                    <div class="col-12">
+                        The program provides assistance in developing product specifications and quality criteria. It also conducts product testing and evaluation to ensure compliance with standards and offers calibration services for measurement equipment to maintain accuracy.
+                    </div>
                 </div>
             </div>
         </div>
