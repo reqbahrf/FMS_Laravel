@@ -197,11 +197,15 @@
         }
 
         .disabled {
-          background-color: #ccc;
-          opacity: 0.5;
-          cursor: not-allowed;
-          pointer-events: none;
-}
+            background-color: #ccc;
+            opacity: 0.5;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        .paragraph-content{
+            text-align: justify;
+        }
     </style>
 
 </head>
@@ -324,7 +328,8 @@
                                 <div class="row">
                                     <div class="col-12 col-md-6 mx-auto">
                                         <label for="designation">Designation: <span
-                                                class="requiredFields">*</span></label>
+                                                class="requiredFields">*</span>
+                                            </label>
                                         <input type="text" name="designation" id="designation"
                                             value="{{ old('designation') }}" class="form-control"
                                             placeholder="Designation" required data-bs-toggle="tooltip"
@@ -468,7 +473,7 @@
                                         </div>
                                         <div class="col-12 col-md-2">
                                             <label for="zipcode">Zip Code: <span class="requiredFields"> *</span">
-                                                    </label>
+                                            </label>
                                             <input type="text" name="zipcode" value="{{ old('zipcode') }}"
                                                 id="zipcode" class="form-control" placeholder="8000" required>
                                             <div class="invalid-feedback">
@@ -522,7 +527,7 @@
                                                     *</span></label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                   ₱
+                                                    ₱
                                                 </span>
                                                 <input type="text" name="working_capital"
                                                     value="{{ old('working_capital') }}" id="working_capital"
@@ -557,10 +562,16 @@
                                             <div class="row g-3">
                                                 <div class="col-12 col-md-8">
                                                     <div class="alert alert-primary" role="alert">
-                                                        <h5 class="alert-heading"> <i class="ri-information-2-fill"></i> Direct Personnel</h5>
-                                                        <p>Direct personnel are those who are actively involved in the production process of the products, an example are operators, assemblers, and quality control inspectors.</p>
+                                                        <h5 class="alert-heading"> <i
+                                                                class="ri-information-2-fill"></i> Direct Personnel
+                                                        </h5>
+                                                        <p>Direct personnel are those who are actively involved in the
+                                                            production process of the products, an example are
+                                                            operators, assemblers, and quality control inspectors.</p>
                                                         <hr>
-                                                        <p class="mb-0 text-secondary text-small">You may enter zero if none</p>
+                                                        <p class="mb-0 text-secondary text-small">You may enter zero if
+                                                            none
+                                                        </p>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
@@ -587,7 +598,6 @@
                                                                             value="{{ old('f_personnelDiRe') }}"
                                                                             id="f_personnelDiRe" class="form-control"
                                                                             placeholder="Number of Female Regular">
-
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -624,7 +634,6 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="col-12 p-0">
                                     <div class="card p-0">
@@ -635,10 +644,15 @@
                                             <div class="row g-3">
                                                 <div class="col-12 col-md-8">
                                                     <div class="alert alert-primary" role="alert">
-                                                        <h5 class="alert-heading"> <i class="ri-information-2-fill"></i> Indirect Personnel</h5>
-                                                        <p>Indirect personnel are those who are not actively involved in the production process of the products, such as administrative staff, managers, and maintenance workers.</p>
+                                                        <h5 class="alert-heading"> <i
+                                                                class="ri-information-2-fill"></i> Indirect Personnel
+                                                        </h5>
+                                                        <p>Indirect personnel are those who are not actively involved in
+                                                            the production process of the products, such as
+                                                            administrative staff, managers, and maintenance workers.</p>
                                                         <hr>
-                                                        <p class="mb-0 text-secondary text-small">You may enter zero if none</p>
+                                                        <p class="mb-0 text-secondary text-small">You may enter zero if
+                                                            none</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
@@ -762,8 +776,7 @@
                                 <label for="IntentFile" class="form-label">Letter of Intent:<span
                                         class="requiredFields">
                                         *</span></label>
-                                <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
-                                    required>
+                                <input class="fileUploads" type="file" name="IntentFile" id="IntentFile">
                                 <div class="form-text">accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Letter of Intent.
@@ -772,11 +785,13 @@
                             <div class="mb-3">
                                 <label for="DtiSecCdafile" class="form-label">DTI/SEC/CDA: <span
                                         class="requiredFields">
-                                        *</span> <span class="form-text text-secondary fw-lighter">Department of Trade and Industry(DTI), Securit and Exchange Commission(SEC), and Cooperative Development Authority(CDA) Registrations</span></label>
+                                        *</span> <span class="form-text text-secondary fw-lighter">Department of Trade
+                                        and Industry(DTI), Securit and Exchange Commission(SEC), and Cooperative
+                                        Development Authority(CDA) Registrations</span></label>
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
                                         <select id="DtiSecCdaSelector" class="form-select form-select-lg"
-                                            name="DSC_file_Selector" required>
+                                            name="DSC_file_Selector">
                                             <option value="">Choose...</option>
                                             <option value="DTI">DTI</option>
                                             <option value="SEC">SEC</option>
@@ -785,10 +800,11 @@
                                     </div>
                                     <div class="col-10" id="DtiSecCdaContainer">
                                         <input class="fileUploads" type="file" name="DTI_SEC_CDA_File"
-                                            id="DtiSecCdafile" required>
+                                            id="DtiSecCdafile">
                                     </div>
                                 </div>
-                                <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf.</div>
+                                <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf.
+                                </div>
                                 <div class="invalid-feedback">
                                     Please upload the DTI/SEC/CDA document.
                                 </div>
@@ -805,7 +821,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="fdaLtoFile" class="form-label">FDA/LTO:<span class="fw-lighter"> (if
-                                        Applicable)</span> <span class="form-text text-secondary fw-lighter">Food and Drug Administration(FDA) or Food and Drug Administration(LTO)</span></label>
+                                        Applicable)</span> <span class="form-text text-secondary fw-lighter">Food and
+                                        Drug Administration(FDA) or Food and Drug Administration(LTO)</span></label>
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
                                         <select id="fdaLtoSelector" class="form-select form-select-lg"
@@ -816,17 +833,16 @@
                                         </select>
                                     </div>
                                     <div class="col-10">
-                                        <input class="fileUploads" type="file" name="fdaLtoFile" id="fdaLtoFile"
-                                        >
+                                        <input class="fileUploads" type="file" name="fdaLtoFile" id="fdaLtoFile">
                                     </div>
                                 </div>
-                                <div class="form-text">Choose 1 out of 2 documents above. the accepted formats: .pdf</div>
+                                <div class="form-text">Choose 1 out of 2 documents above. the accepted formats: .pdf
+                                </div>
                             </div>
                             <div class="mb-3">
                                 <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
                                         class="requiredFields"> *</span></label>
-                                <input class="fileUploads" type="file" name="receiptFile" id="receiptFile"
-                                    required>
+                                <input class="fileUploads" type="file" name="receiptFile" id="receiptFile">
                                 <div class="form-text">accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Official Receipt of the Business.
@@ -835,43 +851,42 @@
                             <div class="mb-3">
                                 <label for="govIdFile" class="form-label">Government Valid ID: <span
                                         class="requiredFields"> *</span></label>
-                                <input class="fileUploads" type="file" name="govIdFile" id="govIdFile" required>
+                                <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
                                 <div class="form-text">accepted formats: .jpg, .png.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Copy of Government Valid ID.
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="BIRFile" class="form-label">BIR: <span class="requiredFields">
-                                        *</span><span class="form-text text-secondary fw-lighter"> Bureau of Internal Revenue(BIR) Certificate of Registration</span></span>
+                                <label for="BIRFile" class="form-label">BIR:
+                                    <span class="requiredFields">
+                                        *</span>
+                                        <span class="form-text text-secondary fw-lighter"> Bureau of Internal
+                                        Revenue(BIR) Certificate of Registration</span>
                                 </label>
-                                <input class="fileUploads" type="file" name="BIRFile" id="BIRFile" required>
+                                <input class="fileUploads" type="file" name="BIRFile" id="BIRFile">
                                 <div class="form-text">accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the BIR.
                                 </div>
                             </div>
-                            <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path" value="">
-                            <input type="hidden" name="DTI_SEC_CDA_unique_id_path" id="DtiSecCdaFileID_path" value="">
-                            <input type="hidden" name="BusinessPermit_unique_id_path" id="businessPermitFileID_path" value="">
-                            <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path" value="">
-                            <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path" value="">
+                            <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path"
+                                value="">
+                            <input type="hidden" name="DTI_SEC_CDA_unique_id_path" id="DtiSecCdaFileID_path"
+                                value="">
+                            <input type="hidden" name="BusinessPermit_unique_id_path" id="businessPermitFileID_path"
+                                value="">
+                            <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path"
+                                value="">
+                            <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path"
+                                value="">
                             <input type="hidden" name="govId_unique_id_path" id="govIdFileID_path" value="">
                             <input type="hidden" name="BIR_unique_id_path" id="BIRFileID_path" value="">
-                            <div class="form-check my-4">
-                                <input type="checkbox" name="agree_terms" id="agree_terms" class="form-check-input"
-                                    required>
-                                <div class="invalid-feedback">
-                                    You must agree to the terms and conditions .
-                                </div>
-                                <label for="agree_terms" class="form-check-label">Agree to <a
-                                        href="">terms</a> and <a href="">conditions</a></label>
-                            </div>
                         </div>
                     </div>
                     <div id="step-4" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-4"
                         style="position: static; left: 0px; display: none;">
-                        <div class="row">
+                        <div class="row mb-3">
                             <div class="col-md-12 mb-4">
                                 <h5>Review and confirm the details provided before submission.</h5>
                             </div>
@@ -1112,7 +1127,8 @@
 
                                                                             <div class="col-12">
                                                                                 <label
-                                                                                    for="re_m_personnelIndRe">Male</label>
+                                                                                    for="re_m_personnelIndRe">Male
+                                                                                </label>
                                                                                 <div class="mb-3">
                                                                                     <input type="text"
                                                                                         name="re_m_personnelIndRe"
@@ -1130,9 +1146,6 @@
                                                                                         class="form-control" readonly>
                                                                                 </div>
                                                                             </div>
-
-
-
                                                                         </div>
                                                                     </div>
                                                                     <div class="card my-3">
@@ -1149,8 +1162,6 @@
                                                                                         id="re_m_personnelIndPart"
                                                                                         class="form-control" readonly>
                                                                                 </div>
-
-
                                                                             </div>
                                                                             <div class="col-12">
                                                                                 <label
@@ -1190,17 +1201,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="form-check my4">
-                                        <input type="checkbox" name="detail_confirm" id="detail_confirm"
-                                            class="form-check-input" required>
-                                        <label for="detail_confirm" class="form-check-label">I hereby confirm that the
-                                            above information is true and correct</label>
-                                        <div class="invalid-feedback">
-                                            You must confirm that the above information is true and correct.
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -1216,12 +1216,113 @@
                         <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
                     </div>
                     <div class="modal-body">
-                        <p>Are you sure you want to submit the form?</p>
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6>Data Privacy Consent</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="paragraph-content">The Department of Science and Technology XI respect your privacy and are committed to
+                                    protecting
+                                    your personal data. This Data Privacy Consent informs you about how we collect, use,
+                                    store, and
+                                    disclose your personal data when you use this information system.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Information We Collect:</strong> Login credentials: Username, password,
+                                    security questions/answers (if
+                                    applicable) Personal information: Name, email address, contact number, other
+                                    information you
+                                    provide during registration or use of the system. Usage data: Log data (e.g. access
+                                    times), system
+                                    navigation data, information about your use of features and functionalities
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>How We Use Your Information:</strong> Provide access to the information
+                                    system: Verify your identity and
+                                    authenticate your login. Manage your account: Process your registration, maintain
+                                    your profile, and
+                                    respond to your inquiries. Operate and improve the system: Analyze usage data to
+                                    optimize
+                                    performance and troubleshoot issues. Communicate with you: Send system updates,
+                                    announcements, and support messages.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Disclosure of Your Information:</strong> We will not disclose your personal
+                                    data to any third party without
+                                    your explicit consent, except as required by law or to comply with legal process. We
+                                    may share
+                                    aggregate and anonymized data with third-party service providers for analytics and
+                                    performance
+                                    improvement purposes.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Your Rights:</strong> You have the right to access, rectify, erase, and
+                                    restrict the processing of your personal
+                                    data. You have the right to withdraw your consent at any time. You have the right to
+                                    complain to the
+                                    relevant data protection authority if you believe your rights have been violated.
+                                </p>
+                                <p class="paragraph-content">
+                                    By logging in to this information system, you acknowledge that you have read and
+                                    understood this
+                                    Data Privacy Consent and agree to the collection, use, and disclosure of your
+                                    personal data as
+                                    described herein.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h6>Terms and Conditions</h6>
+                            </div>
+                            <div class="card-body text-justify">
+                                <p class="paragraph-content">Welcome to DOST-SETUP-SYS. By accessing and using this website, you agree to comply with and be bound by the following terms and conditions:
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Acceptance of Terms:</strong> By using this website, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions
+                                </p>
+                                <p>
+                                    <strong>Use of the Website:</strong> You agree to use this website only for lawful purposes and in a manner that does not infringe the rights of, restrict, or inhibit anyone else’s use and enjoyment of the website.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>
+                                    User Accounts:
+                                    </strong>
+                                    If you create an account on this website, you are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Changes to Terms:</strong> We reserve the right to modify these terms and conditions at any time. Your continued use of the website after any changes indicates your acceptance of the new terms.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Governing Law:</strong> These terms and conditions are governed by and construed in accordance with the laws of the Philippines.
+                                </p>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" name="detail_confirm" id="detail_confirm"
+                                        class="form-check-input" required>
+                                    <label for="detail_confirm" class="form-check-label">I hereby confirm that the
+                                         information I provided is true and correct</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" name="agree_terms" id="agree_terms"
+                                        class="form-check-input" required>
+                                    <label for="agree_terms" class="form-check-label">I have read and agree to terms
+                                        and conditions</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn" id="cancelButton"
                             data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-primary" id="confirmButton">Confirm</button>
+                        <button type="button" class="btn btn-primary" id="confirmButton" disabled>Confirm</button>
                     </div>
                 </div>
             </div>
@@ -1250,7 +1351,8 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="Intent_unique_id_path"][id="IntentFileID_path"]')
+                                document.querySelector(
+                                        'input[name="Intent_unique_id_path"][id="IntentFileID_path"]')
                                     .value = data
                                     .file_paths.IntentFile;
                                 IntentFile.setAttribute('data-unique-id', data.unique_id);
@@ -1323,7 +1425,9 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="DTI_SEC_CDA_unique_id_path"][id="DtiSecCdaFileID_path"]')
+                                document.querySelector(
+                                        'input[name="DTI_SEC_CDA_unique_id_path"][id="DtiSecCdaFileID_path"]'
+                                        )
                                     .value = data
                                     .file_paths.DTI_SEC_CDA_File;
                                 DTI_SEC_CDA_File.setAttribute('data-unique-id', data.unique_id);
@@ -1336,7 +1440,8 @@
                                     // Update the file path in the file upload element
                                     DTI_SEC_CDA_File.setAttribute('data-file-path', dtiSecCdaFilePath);
                                     if (DTI_SEC_CDA_File) {
-                                        document.getElementById('DtiSecCdaSelector').classList.add('disabled');
+                                        document.getElementById('DtiSecCdaSelector').classList.add(
+                                            'disabled');
                                     }
                                     console.log(dtiSecCdaFilePath);
                                 }
@@ -1385,9 +1490,9 @@
             let DTI_SEC_CDA_file_Selector = document.getElementById('DtiSecCdaSelector');
 
             function checkDTI_SEC_CDA_fileValue() {
-                if(DTI_SEC_CDA_file_Selector.value === ''){
+                if (DTI_SEC_CDA_file_Selector.value === '') {
                     DTI_SEC_CDA_instance.disabled = true;
-                }else {
+                } else {
                     DTI_SEC_CDA_instance.disabled = false;
                 }
             }
@@ -1413,7 +1518,8 @@
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
                                 document.querySelector(
-                                        'input[name="BusinessPermit_unique_id_path"][id="businessPermitFileID_path"]').value =
+                                        'input[name="BusinessPermit_unique_id_path"][id="businessPermitFileID_path"]'
+                                        ).value =
                                     data
                                     .file_paths.businessPermitFile;
                                 businessPermitFile.setAttribute('data-unique-id', data.unique_id);
@@ -1486,7 +1592,8 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="FDA_LTO_unique_id_path"][id="fdaLtoFileID_path"]')
+                                document.querySelector(
+                                        'input[name="FDA_LTO_unique_id_path"][id="fdaLtoFileID_path"]')
                                     .value = data
                                     .file_paths.fdaLtoFile;
                                 fdaLtoFile.setAttribute('data-unique-id', data.unique_id);
@@ -1500,7 +1607,8 @@
                                     fdaLtoFile.setAttribute('data-file-path', fdaLtoFilePath);
                                     if (fdaLtoFile) {
                                         console.log(fdaLtoFilePath);
-                                        document.getElementById('fdaLtoSelector').classList.add('disabled');
+                                        document.getElementById('fdaLtoSelector').classList.add(
+                                            'disabled');
                                     }
                                     console.log(fdaLtoFilePath);
                                 }
@@ -1575,7 +1683,8 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="receipt_unique_id_path"][id="receiptFileID_path"]')
+                                document.querySelector(
+                                        'input[name="receipt_unique_id_path"][id="receiptFileID_path"]')
                                     .value = data
                                     .file_paths.receiptFile;
                                 receiptFile.setAttribute('data-unique-id', data.unique_id);
@@ -1647,7 +1756,8 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="govId_unique_id_path"][id="govIdFileID_path"]')
+                                document.querySelector(
+                                        'input[name="govId_unique_id_path"][id="govIdFileID_path"]')
                                     .value = data
                                     .file_paths.govIdFile;
                                 govIdFile.setAttribute('data-unique-id', data.unique_id);
@@ -1721,7 +1831,8 @@
                             const data = JSON.parse(response);
                             if (data.unique_id && data.file_paths) {
                                 // Store unique_id in a hidden input field or as a data attribute
-                                document.querySelector('input[name="BIR_unique_id_path"][id="BIRFileID_path"]')
+                                document.querySelector(
+                                        'input[name="BIR_unique_id_path"][id="BIRFileID_path"]')
                                     .value = data
                                     .file_paths.BIRFile;
                                 BIR.setAttribute('data-unique-id', data.unique_id);
@@ -1909,37 +2020,39 @@
 
         window.onFinish = function() {
             event.preventDefault();
-            let confirm_info_checked = document.getElementById('detail_confirm');
-
-            if (confirm_info_checked.checked) {
-                const confimationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-                confimationModal.show();
-            } else {
-                confirm_info_checked.classList.add('is-invalid');
-            }
+            const confimationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            confimationModal.show();
         }
 
+        const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
+        const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
+
         const confirmButton = document.getElementById('confirmButton');
-            confirmButton.addEventListener('click', function(){
-                submitForm();
-            });
+
+        confirmTrueInfo.add(confirmAgreeInfo).change(function() {
+            confirmButton.disabled = !(confirmTrueInfo.is(':checked') && confirmAgreeInfo.is(':checked'));
+        });
+
+        confirmButton.addEventListener('click', function() {
+            submitForm();
+        });
 
         function submitForm() {
 
-                $.ajax({
-                    type: 'POST',
-                    url: '{{ route('applicationFormSubmit') }}',
-                    data: $('#applicationForm').find(':input:not([readonly])').serialize(),
-                    success: function(response) {
-                        // Handle the response from the server
-                        console.log('Form submitted successfully', response);
-                    },
-                    error: function(xhr, status, error) {
-                        // Handle any errors
-                        console.error('Error submitting form', error);
-                    }
-                });
-            }
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('applicationFormSubmit') }}',
+                data: $('#applicationForm').find(':input:not([readonly])').serialize(),
+                success: function(response) {
+                    // Handle the response from the server
+                    console.log('Form submitted successfully', response);
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors
+                    console.error('Error submitting form', error);
+                }
+            });
+        }
 
         function onCancel() {
             console.log("Form cancelled");
