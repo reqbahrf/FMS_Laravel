@@ -833,7 +833,7 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="govIdFile" class="form-label">Copy of Government Valid ID: <span
+                                <label for="govIdFile" class="form-label">Government Valid ID: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="govIdFile" id="govIdFile" required>
                                 <div class="form-text">accepted formats: .jpg, .png.</div>
@@ -841,13 +841,23 @@
                                     Please upload the Copy of Government Valid ID.
                                 </div>
                             </div>
+                            <div class="mb-3">
+                                <label for="BIRFile" class="form-label">BIR: <span class="requiredFields">
+                                        *</span><span class="form-text text-secondary fw-lighter"> Bureau of Internal Revenue(BIR) Certificate of Registration</span></span>
+                                </label>
+                                <input class="fileUploads" type="file" name="BIRFile" id="BIRFile" required>
+                                <div class="form-text">accepted formats: .pdf.</div>
+                                <div class="invalid-feedback">
+                                    Please upload the BIR.
+                                </div>
+                            </div>
                             <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path" value="">
                             <input type="hidden" name="DTI_SEC_CDA_unique_id_path" id="DtiSecCdaFileID_path" value="">
-                            <input type="hidden" name="BusinessPermit_unique_id_path" id="businessPermitFileID_path" value=""
-                                >
+                            <input type="hidden" name="BusinessPermit_unique_id_path" id="businessPermitFileID_path" value="">
                             <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path" value="">
                             <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path" value="">
                             <input type="hidden" name="govId_unique_id_path" id="govIdFileID_path" value="">
+                            <input type="hidden" name="BIR_unique_id_path" id="BIRFileID_path" value="">
                             <div class="form-check my-4">
                                 <input type="checkbox" name="agree_terms" id="agree_terms" class="form-check-input"
                                     required>
@@ -1677,6 +1687,77 @@
                             },
                             body: JSON.stringify({
                                 file_path: govIdFilePath
+                            })
+                        }).then(response => {
+                            if (response.ok) {
+                                load(); // Indicate that the revert was successful
+                            } else {
+                                error('Could not revert file');
+                            }
+                        }).catch(() => {
+                            error('Could not revert file');
+                        });
+                    }
+
+                }
+
+            })
+
+            let BIR = document.getElementById('BIRFile');
+            FilePond.create(BIR, {
+                allowMultiple: false,
+                acceptedFileTypes: ['application/pdf'],
+                allowRevert: true,
+                server: {
+                    process: {
+                        url: '/requirements/submit',
+                        method: 'POST',
+                        withCredentials: false,
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                                'content')
+                        },
+                        onload: (response) => {
+                            const data = JSON.parse(response);
+                            if (data.unique_id && data.file_paths) {
+                                // Store unique_id in a hidden input field or as a data attribute
+                                document.querySelector('input[name="BIR_unique_id_path"][id="BIRFileID_path"]')
+                                    .value = data
+                                    .file_paths.BIRFile;
+                                BIR.setAttribute('data-unique-id', data.unique_id);
+
+                                // Update the file path for the dtiFile
+                                const BIRFilePath = data.file_paths.BIRFile;
+                                if (BIRFilePath) {
+                                    // Update the file path in the file upload element
+                                    BIR.setAttribute('data-file-path', BIRFilePath);
+                                    console.log(BIRFilePath);
+                                }
+                            }
+
+                            return data.unique_id;
+                        },
+                        onerror: (response) => {
+                            // Handle error response
+                            console.error('File upload error:', response);
+                        }
+                    },
+                    revert: (uniqueFileId, load, error) => {
+                        const BIRFilePath = BIR.getAttribute('data-file-path');
+                        const unique_id = BIR.getAttribute('data-unique-id');
+
+                        console.log('Reverting file with path:', BIRFilePath, 'and unique ID:',
+                            unique_id);
+
+                        fetch(`/delete/file/${unique_id}`, {
+                            method: 'DELETE',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': document.querySelector(
+                                    'meta[name="csrf-token"]').getAttribute('content')
+                            },
+                            body: JSON.stringify({
+                                file_path: BIRFilePath
                             })
                         }).then(response => {
                             if (response.ok) {
