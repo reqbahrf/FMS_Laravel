@@ -57,7 +57,7 @@
         }
 
         .card {
-            height: 70vh;
+            height: auto;
             width: 30vw;
         }
 
@@ -138,14 +138,14 @@
                     <div class="col-12">
                         <h5>Please verify your email to continue</h5>
                     </div>
+                    @if(session('status'))
                     <div class="col-12">
-                        A email has been send to <strong></strong> Please check for an attach click on the included link to verify.
+                        {!! session('status') !!}
                     </div>
+                    @endif
                     <div class="col-12">
-                        <a href="{{ route('verification.verify', ['id' => session('user_id'), 'hash' => sha1(session('email'))]) }}" class="btn btn-primary">Verify Email</a>
+                        <a href="{{ route('verification.verify', ['id' => session('user_id'), 'hash' => sha1(session('email'))]) }}" class="btn btn-primary">Send Email</a>
                     </div>
-
-
                 </div>
             </div>
         </div>

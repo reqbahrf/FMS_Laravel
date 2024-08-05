@@ -23,7 +23,7 @@ class MailController extends Controller
 
             // Send the email
             Mail::to($user->email)->send(new verifyEmail($user));
-            return back()->with('status', 'Verification email sent!');
+            return back()->with('status', 'A email has been sent to <strong>' . e($user->email) . ' </strong> Please check your gmail to verify.');
         } else {
             return redirect('/login')->withErrors(['Invalid verification link']);
         }
