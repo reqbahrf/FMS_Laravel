@@ -421,7 +421,7 @@
                                     Business Address:
                                 </div>
                                 <div class="card-body">
-                                    <div class="row">
+                                    <div class="row gy-3">
                                         <div class="col-12 col-md-3">
                                             <label for="region">Region:<span class="requiredFields">*</span></label>
                                             <select id="region" name="region" class="form-select"
@@ -490,19 +490,9 @@
                                             <label for="buildings">Buildings: <span class="requiredFields">
                                                     *</span></label>
                                             <div class="input-group">
-                                                <span class="input-group-text"><svg xmlns="http://www.w3.org/2000/svg"
-                                                        viewBox="-0.5 -0.5 16 16" fill="none" stroke="#000000"
-                                                        stroke-linecap="round" stroke-linejoin="round"
-                                                        id="Currency-Peso--Streamline-Tabler" height="16"
-                                                        width="16">
-                                                        <desc>Currency Peso Streamline Icon: https://streamlinehq.com
-                                                        </desc>
-                                                        <path
-                                                            d="M3.825 13.931249999999999V1.06875H7.040625C10.22325 1.06875 12.2124375 4.5140625 10.621125 7.2703125C9.8825 8.5495625 8.51775 9.337562499999999 7.040625 9.3375H3.825"
-                                                            stroke-width="1"></path>
-                                                        <path d="M13.0125 3.825H1.9875" stroke-width="1"></path>
-                                                        <path d="M13.0125 6.58125H1.9875" stroke-width="1"></path>
-                                                    </svg></span>
+                                                <span class="input-group-text">
+                                                    ₱
+                                                </span>
                                                 <input type="text" name="buildings"
                                                     value="{{ old('buildings') }}" id="buildings"
                                                     class="form-control" placeholder="500,000.00" required>
@@ -516,18 +506,7 @@
                                                     *</span></label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16"
-                                                        fill="none" stroke="#000000" stroke-linecap="round"
-                                                        stroke-linejoin="round" id="Currency-Peso--Streamline-Tabler"
-                                                        height="16" width="16">
-                                                        <desc>Currency Peso Streamline Icon: https://streamlinehq.com
-                                                        </desc>
-                                                        <path
-                                                            d="M3.825 13.931249999999999V1.06875H7.040625C10.22325 1.06875 12.2124375 4.5140625 10.621125 7.2703125C9.8825 8.5495625 8.51775 9.337562499999999 7.040625 9.3375H3.825"
-                                                            stroke-width="1"></path>
-                                                        <path d="M13.0125 3.825H1.9875" stroke-width="1"></path>
-                                                        <path d="M13.0125 6.58125H1.9875" stroke-width="1"></path>
-                                                    </svg>
+                                                    ₱
                                                 </span>
                                                 <input type="text" name="equipments"
                                                     value="{{ old('equipments') }}" id="equipments"
@@ -543,18 +522,7 @@
                                                     *</span></label>
                                             <div class="input-group">
                                                 <span class="input-group-text">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="-0.5 -0.5 16 16"
-                                                        fill="none" stroke="#000000" stroke-linecap="round"
-                                                        stroke-linejoin="round" id="Currency-Peso--Streamline-Tabler"
-                                                        height="16" width="16">
-                                                        <desc>Currency Peso Streamline Icon: https://streamlinehq.com
-                                                        </desc>
-                                                        <path
-                                                            d="M3.825 13.931249999999999V1.06875H7.040625C10.22325 1.06875 12.2124375 4.5140625 10.621125 7.2703125C9.8825 8.5495625 8.51775 9.337562499999999 7.040625 9.3375H3.825"
-                                                            stroke-width="1"></path>
-                                                        <path d="M13.0125 3.825H1.9875" stroke-width="1"></path>
-                                                        <path d="M13.0125 6.58125H1.9875" stroke-width="1"></path>
-                                                    </svg>
+                                                   ₱
                                                 </span>
                                                 <input type="text" name="working_capital"
                                                     value="{{ old('working_capital') }}" id="working_capital"
@@ -589,14 +557,10 @@
                                             <div class="row g-3">
                                                 <div class="col-12 col-md-8">
                                                     <div class="alert alert-primary" role="alert">
-                                                        <h4 class="alert-heading">Well done!</h4>
-                                                        <p>Aww yeah, you successfully read this important alert message.
-                                                            This example text is going to run a bit longer so that you
-                                                            can see how spacing within an alert works with this kind of
-                                                            content.</p>
+                                                        <h5 class="alert-heading"> <i class="ri-information-2-fill"></i> Direct Personnel</h5>
+                                                        <p>Direct personnel are those who are actively involved in the production process of the products, an example are operators, assemblers, and quality control inspectors.</p>
                                                         <hr>
-                                                        <p class="mb-0">Whenever you need to, be sure to use margin
-                                                            utilities to keep things nice and tidy.</p>
+                                                        <p class="mb-0 text-secondary text-small">You may enter zero if none</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
@@ -671,14 +635,10 @@
                                             <div class="row g-3">
                                                 <div class="col-12 col-md-8">
                                                     <div class="alert alert-primary" role="alert">
-                                                        <h4 class="alert-heading">Well done!</h4>
-                                                        <p>Aww yeah, you successfully read this important alert message.
-                                                            This example text is going to run a bit longer so that you
-                                                            can see how spacing within an alert works with this kind of
-                                                            content.</p>
+                                                        <h5 class="alert-heading"> <i class="ri-information-2-fill"></i> Indirect Personnel</h5>
+                                                        <p>Indirect personnel are those who are not actively involved in the production process of the products, such as administrative staff, managers, and maintenance workers.</p>
                                                         <hr>
-                                                        <p class="mb-0">Whenever you need to, be sure to use margin
-                                                            utilities to keep things nice and tidy.</p>
+                                                        <p class="mb-0 text-secondary text-small">You may enter zero if none</p>
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-md-4">
@@ -757,7 +717,7 @@
                                             <div class="col-12">
                                                 <div class="alert alert-primary" role="alert">
                                                     <i class="ri-information-2-fill ri-lg"></i>
-                                                    Please enter the products name for the Export and Local Market
+                                                    Please input the products name for the Export and Local Market
                                                 </div>
                                             </div>
                                             <div class="col-12 mb-3">
@@ -804,6 +764,7 @@
                                         *</span></label>
                                 <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
                                     required>
+                                <div class="form-text">accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Letter of Intent.
                                 </div>
@@ -811,7 +772,7 @@
                             <div class="mb-3">
                                 <label for="DtiSecCdafile" class="form-label">DTI/SEC/CDA: <span
                                         class="requiredFields">
-                                        *</span></label>
+                                        *</span> <span class="form-text text-secondary fw-lighter">Department of Trade and Industry(DTI), Securit and Exchange Commission(SEC), and Cooperative Development Authority(CDA) Registrations</span></label>
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
                                         <select id="DtiSecCdaSelector" class="form-select form-select-lg"
@@ -827,7 +788,7 @@
                                             id="DtiSecCdafile" required>
                                     </div>
                                 </div>
-                                <div class="form-text">Choose either the the 3 document that you want to upload.</div>
+                                <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the DTI/SEC/CDA document.
                                 </div>
@@ -837,13 +798,14 @@
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="businessPermitFile"
                                     id="businessPermitFile">
+                                <div class="form-text">accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Business Permit.
                                 </div>
                             </div>
                             <div class="mb-3">
                                 <label for="fdaLtoFile" class="form-label">FDA/LTO:<span class="fw-lighter"> (if
-                                        Applicable)</span></label>
+                                        Applicable)</span> <span class="form-text text-secondary fw-lighter">Food and Drug Administration(FDA) or Food and Drug Administration(LTO)</span></label>
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
                                         <select id="fdaLtoSelector" class="form-select form-select-lg"
@@ -858,13 +820,14 @@
                                         >
                                     </div>
                                 </div>
-                                <div class="form-text">Choose either the the 3 document that you want to upload.</div>
+                                <div class="form-text">Choose 1 out of 2 documents above. the accepted formats: .pdf</div>
                             </div>
                             <div class="mb-3">
                                 <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="receiptFile" id="receiptFile"
                                     required>
+                                <div class="form-text">accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Official Receipt of the Business.
                                 </div>
@@ -873,6 +836,7 @@
                                 <label for="govIdFile" class="form-label">Copy of Government Valid ID: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="govIdFile" id="govIdFile" required>
+                                <div class="form-text">accepted formats: .jpg, .png.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Copy of Government Valid ID.
                                 </div>
