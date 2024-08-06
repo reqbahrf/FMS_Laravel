@@ -45,6 +45,10 @@
         height: 13vh;
     }
 
+    .footer-cont {
+        height: 10vh;
+    }
+
 
     #logoTitle {
         right: 50px;
