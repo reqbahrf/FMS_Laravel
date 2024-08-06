@@ -340,6 +340,15 @@
           font-weight: bold;
          }
 
+         .secondary-info-text{
+            font-size: 11px;
+            font-weight: lighter;
+         }
+
+         .sub-list{
+            list-style-type: lower-alpha;
+         }
+
 
         /* .img-box img:hover {
             width: 400px;
@@ -701,7 +710,7 @@
         </div>
         <div class="row justify-content-center mx-3">
             <div class="col-12 col-md-6">
-                <div class="alert alert-secondary h-100" role="alert">
+                <div class="alert alert-light h-100" role="alert">
                     <h4 class="alert-heading mb-3">Who may Apply?</h4>
                     <ul>
                         <li>
@@ -725,19 +734,24 @@
                 </div>
             </div>
             <div class="col-12 col-md-6">
-                <div class="alert alert-secondary h-100">
+                <div class="alert alert-light h-100">
                     <h4 class="alert-header mb-3">What documents are required?</h4>
-                    <ul class="">
+                    <ol class="">
                         <li>Letter of Intent</li>
-                        <li>DTI/SEC/CDA</li>
+                        <li>DTI/SEC/CDA
+                            <span class="secondary-info-text">Department of Trade and Industry(DTI), Securit and Exchange Commission(SEC), and Cooperative Development Authority(CDA) Registrations
+                            </span>
+                            </li>
                         <li>Business Permit</li>
                         <li>BIR
-                           
+                            <span class="secondary-info-text">
+                                Bureau of Internal Revenue(BIR) Certificate of Registration
+                            </span>
                         </li>
-                        <li>FDA/LTO(if applicable)</li>
+                        <li>FDA/LTO(if applicable) </li>
                         <li>Official Receipt of the Business</li>
                         <li>Copy of Government Valid ID</li>
-                    </ul>
+                    </ol>
                     <div class="accordion">
                         <div class="accordion-item">
                             <h2 class="accordion-header">
@@ -747,7 +761,7 @@
                             </h2>
                             <div id="follow-up_req" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
                               <div class="accordion-body">
-                                <ul>
+                                <ol>
                                     <li>
                                         Proponent's Barangay Certification
                                     </li>
@@ -760,7 +774,7 @@
                                     <li>
                                         Audited Financial Statements for the past three (3) years of the enterprise.
                                         The Audited Financial Report must contain the following statements:
-                                        <ul>
+                                        <ul class="sub-list">
                                             <li>
                                                 Statement of Financial Condition
 
@@ -813,7 +827,7 @@
                                     <li>
                                         Project Proposal
                                     </li>
-                                </ul>
+                                </ol>
 
                               </div>
                             </div>

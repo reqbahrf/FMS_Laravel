@@ -43,10 +43,11 @@
 
     .header-cont {
         height: 13vh;
+
     }
 
     .footer-cont {
-        height: 10vh;
+        height: auto;
     }
 
 

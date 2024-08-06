@@ -211,7 +211,7 @@
 </head>
 
 <body>
-    @include('mainpage.header');
+    @include('mainpage.header')
     <div class="container mt-5 shadow">
         <div id="smartwizard">
             <ul class="nav nav-progress">
@@ -1329,7 +1329,7 @@
         </div>
         {{-- Modal End --}}
     </div>
-    @include('mainpage.footer');
+    @include('mainpage.footer')
     <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
             //IntentFile upload pond
