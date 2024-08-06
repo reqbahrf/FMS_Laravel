@@ -300,7 +300,6 @@
 
         .sideTextMain::after {
             content: "DOST-SETUP";
-
             opacity: 0.5;
             animation: navLogo-text-main-expand 2s forwards;
         }

@@ -41,8 +41,82 @@
         /* Ensure this element takes up the full height of its container */
     }
 
-    .header-cont{
+    .header-cont {
         height: 13vh;
+    }
+
+
+    #logoTitle {
+        right: 50px;
+        animation: logo-whole-text 1s forwards;
+    }
+
+    .navlogo {
+        height: 13vh;
+        width: 15vw;
+    }
+
+    .logo {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .sideTextMain {
+        position: absolute;
+        bottom: 50%;
+        font-size: 20px;
+        font-weight: 700;
+    }
+
+    .sideTextMain::after {
+        content: "DOST-SETUP";
+        opacity: 0.5;
+        animation: navLogo-text-main-expand 2s forwards;
+    }
+
+    .sideTextSec {
+        position: absolute;
+        top: 50%;
+        font-size: 15px;
+        font-weight: 400;
+    }
+
+    .sideTextSec::after {
+        content: "Fund Monitoring Sys";
+        opacity: 0;
+        animation: navLogo-text-sec-expand 3s forwards;
+    }
+
+    @keyframes logo-whole-text {
+        from {
+            right: 50px;
+        }
+
+        to {
+            right: 0;
+        }
+    }
+
+    @keyframes navLogo-text-main-expand {
+        from {
+            opacity: 0.5;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes navLogo-text-sec-expand {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
     }
 </style>
 
@@ -68,12 +142,13 @@
 <!-- Confirmation modal End -->
 <div class="p-1 shadow-lg z-3 header-cont">
     <div class="container-flex px-0 px-md-5 px-lg-5 align-items-center mb-3 mb-md-0">
-        <header class="d-flex flex-wrap justify-content-center py-3 mb-2 border-bottom">
-            <a href="/" class="d-flex align-items-center me-auto text-dark text-decoration-none">
-                <span class="fs-4">
+        <header class="d-flex flex-wrap justify-content-center">
+            <a href="/" class="d-flex justify-content-between me-auto text-dark text-decoration-none">
+                <div class="navlogo d-flex justify-content-center align-items-center">
                     <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width= "55px" height= "55px"
-                        viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079" xml:space="preserve">
+                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px"
+                        viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079" xml:space="preserve"
+                        class="m-1 logo">
                         <g>
                             <rect x="19.235" y="19.699" width="36" height="36" />
                             <circle fill="#48C4D3" cx="19.235" cy="19.699" r="18" />
@@ -107,8 +182,15 @@
                             </g>
                         </g>
                     </svg>
-                </span>
-                <p class="headerText px-3 my-auto">DOST-SETUP-SYS</p>
+                    <div id="logoTitle" class="row position-relative h-100 w-75">
+                        <div class="position-absolute top-50">
+                            <p class="sideTextMain text-black m-0 w-100"></p>
+                        </div>
+                        <div class="position-absolute bottom-50">
+                            <p class="sideTextSec text-black m-0 w-100"></p>
+                        </div>
+                    </div>
+                </div>
             </a>
             <ul class="nav nav-pills align-items-center">
                 <li class="nav-item">
