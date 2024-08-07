@@ -15,6 +15,10 @@
         pointer-events: none;
     }
 
+    span.requiredFields {
+            color: red;
+        }
+
     @media screen and (max-width: 768px) {
 
         .table th,
@@ -64,6 +68,12 @@
                         <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
                             <h5>1.0 Assets</h5>
                             <div class="row ms-md-4 ms-sm-2 my-4">
+                                <div class="col-12 my-3">
+                                    <div class="alert alert-primary m-0" role="alert">
+                                        <i class="ri-information-2-fill ri-lg"></i>
+                                        Please Enter the current assets for the Building, Equipment, and Working Capital for the current quarter.
+                                    </div>
+                                </div>
                                 <div class="col-12 col-md-4">
                                     <label for="BuildingAsset">Building: <span class="requiredFields">
                                             *</span></label>
@@ -111,14 +121,16 @@
                                     <div class="row">
                                         <div class="col-12 col-md-8">
                                             <div class="alert alert-primary h-100" role="alert">
-                                                <h4 class="alert-heading">Well done!</h4>
-                                                <p>Aww yeah, you successfully read this important alert message.
-                                                    This example text is going to run a bit longer so that you
-                                                    can see how spacing within an alert works with this kind of
-                                                    content.</p>
-                                                <hr>
-                                                <p class="mb-0">Whenever you need to, be sure to use margin
-                                                    utilities to keep things nice and tidy.</p>
+                                                <h5 class="alert-heading"> <i
+                                                    class="ri-information-2-fill"></i> Direct Personnel
+                                            </h5>
+                                            <p>Direct personnel are those who are actively involved in the
+                                                production process of the products, an example are
+                                                operators, assemblers, and quality control inspectors.</p>
+                                            <hr>
+                                            <p class="mb-0 text-secondary text-small">You may enter zero if
+                                                none
+                                            </p>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4">
@@ -201,14 +213,15 @@
                                     <div class="row">
                                         <div class="col-12 col-md-8">
                                             <div class="alert alert-primary h-100" role="alert">
-                                                <h4 class="alert-heading">Well done!</h4>
-                                                <p>Aww yeah, you successfully read this important alert message.
-                                                    This example text is going to run a bit longer so that you
-                                                    can see how spacing within an alert works with this kind of
-                                                    content.</p>
-                                                <hr>
-                                                <p class="mb-0">Whenever you need to, be sure to use margin
-                                                    utilities to keep things nice and tidy.</p>
+                                                <h5 class="alert-heading"> <i
+                                                    class="ri-information-2-fill"></i> Indirect Personnel
+                                            </h5>
+                                            <p>Indirect personnel are those who are not actively involved in
+                                                the production process of the products, such as
+                                                administrative staff, managers, and maintenance workers.</p>
+                                            <hr>
+                                            <p class="mb-0 text-secondary text-small">You may enter zero if
+                                                none</p>
                                             </div>
 
                                         </div>
@@ -290,6 +303,12 @@
                                     <strong>3.1 Export Market</strong>
                                     <div id="productExport" class="productExport">
                                         <div class="row">
+                                            <div class="col-12 my-3">
+                                                <div class="alert alert-primary m-0" role="alert">
+                                                    <i class="ri-information-2-fill ri-lg"></i>
+                                                    Please Enter the Products details for the Export and Local Market.
+                                                </div>
+                                            </div>
                                             <div class="mb-3">
                                                 <div class="mt-2">
 
