@@ -71,7 +71,7 @@
                                 <div class="col-12 my-3">
                                     <div class="alert alert-primary m-0" role="alert">
                                         <i class="ri-information-2-fill ri-lg"></i>
-                                        Please Enter the current assets for the Building, Equipment, and Working Capital for the current quarter.
+                                        Kindly provide the current assets for the building, equipment, and working capital for the current quarter.
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4">
@@ -126,7 +126,13 @@
                                             </h5>
                                             <p>Direct personnel are those who are actively involved in the
                                                 production process of the products, an example are
-                                                operators, assemblers, and quality control inspectors.</p>
+                                                Operators, Assemblers, and quality control inspectors.
+                                                <br>
+                                                <ul>
+                                                    <li>Please provide the number of regular and part-time direct employees for both male and female.</li>
+                                                    <li>Please also provide the total number of workdays for this quarter.</li>
+                                                </ul>
+                                            </p>
                                             <hr>
                                             <p class="mb-0 text-secondary text-small">You may enter zero if
                                                 none
@@ -143,23 +149,17 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <label for="maleInput">Male: <span
-                                                                            class="requiredFields">
-                                                                            *</span></label>
+                                                                    <label for="maleInput">Male:</label>
                                                                     <input type="text" name="male_Dir_Regular"
                                                                         class="form-control" id="maleInput">
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="maleInput">Female: <span
-                                                                            class="requiredFields">
-                                                                            *</span></label>
+                                                                    <label for="maleInput">Female:</label>
                                                                     <input type="text" name="female_Dir_Regular"
                                                                         class="form-control" id="femaleInput">
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="maleInput">Workday: <span
-                                                                            class="requiredFields">
-                                                                            *</span></label>
+                                                                    <label for="maleInput">Workday:</label>
                                                                     <input type="text" name="workday_Dir_Regular"
                                                                         class="form-control" id="workdayInput">
                                                                 </div>
@@ -175,23 +175,17 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <label for="maleInput">Male: <span
-                                                                            class="requiredFields">
-                                                                            *</span></label>
+                                                                    <label for="maleInput">Male:</label>
                                                                     <input type="text" name="male_Dir_PartT"
                                                                         class="form-control" id="parttimeMaleInput">
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="maleInput">Female: <span
-                                                                            class="requiredFields">
-                                                                            *</span></label>
+                                                                    <label for="maleInput">Female:</label>
                                                                     <input type="text" name="female_Dir_PartT"
                                                                         class="form-control" id="parttimeFemaleInput">
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="maleInput">workday: <span
-                                                                            class="requiredFields">
-                                                                            *</span></label>
+                                                                    <label for="maleInput">workday:</label>
                                                                     <input type="text" name="workday_Dir_PartT"
                                                                         class="form-control"
                                                                         id="parttimeWorkdayInput">
@@ -218,7 +212,14 @@
                                             </h5>
                                             <p>Indirect personnel are those who are not actively involved in
                                                 the production process of the products, such as
-                                                administrative staff, managers, and maintenance workers.</p>
+                                                Administrative staff, Managers, and Maintenance workers.
+                                                <br>
+                                                <ul>
+                                                    <li>Please provide the number of regular and part-time indirect employees for both male and female.</li>
+                                                    <li>Please also provide the total number of workdays for this quarter.</li>
+                                                </ul>
+
+                                            </p>
                                             <hr>
                                             <p class="mb-0 text-secondary text-small">You may enter zero if
                                                 none</p>
@@ -235,20 +236,17 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <label for="regularMaleInput">Male: <span
-                                                                            class="requiredFields">*</span></label>
+                                                                    <label for="regularMaleInput">Male:</label>
                                                                     <input type="text" name="male_Indir_Regular"
                                                                         class="form-control" id="regularMaleInput">
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="regularFemaleInput">Female: <span
-                                                                            class="requiredFields">*</span></label>
+                                                                    <label for="regularFemaleInput">Female:</label>
                                                                     <input type="text" name="female_Indir_Regular"
                                                                         class="form-control" id="regularFemaleInput">
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="regularWorkdayInput">Workday: <span
-                                                                            class="requiredFields">*</span></label>
+                                                                    <label for="regularWorkdayInput">Workday:</label>
                                                                     <input type="text" name="workday_Indir_Regular"
                                                                         class="form-control" id="regularWorkdayInput">
                                                                 </div>
@@ -264,22 +262,19 @@
                                                         <div class="card-body">
                                                             <div class="row">
                                                                 <div class="col-12">
-                                                                    <label for="parttimeMaleInput">Male: <span
-                                                                            class="requiredFields">*</span></label>
+                                                                    <label for="parttimeMaleInput">Male: </label>
                                                                     <input type="text" name="male_Indir_PartT"
                                                                         class="form-control" id="parttimeMaleInput">
 
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="parttimeFemaleInput">Female: <span
-                                                                            class="requiredFields">*</span></label>
+                                                                    <label for="parttimeFemaleInput">Female: </label>
                                                                     <input type="text" name="female_Indir_PartT"
                                                                         class="form-control" id="parttimeFemaleInput">
 
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="parttimeWorkdayInput">Workday: <span
-                                                                            class="requiredFields">*</span></label>
+                                                                    <label for="parttimeWorkdayInput">Workday: </label>
                                                                     <input type="text" name="workday_Indir_PartT"
                                                                         class="form-control"
                                                                         id="parttimeWorkdayInput">
@@ -300,18 +295,33 @@
                             <h5>3.0 PRODUCTION AND SALES DATA FOR THE QUARTER</h5>
                             <div class="row align-items-center">
                                 <div class="col-12">
-                                    <strong>3.1 Export Market</strong>
+                                    <div class="alert alert-primary h-100" role="alert">
+                                        <h5 class="alert-heading">
+                                            <i class="ri-information-2-fill"></i> Export and Local Market Product
+                                        </h5>
+                                    <p>Please provide the necesary product Infomarmation for this Export and Local Market. The following are required Information for the product:
+                                        <br>
+                                        <ul>
+                                            <li>Product Name</li>
+                                            <li>Packaging Details</li>
+                                            <li>Volume of the product</li>
+                                            <li>Gross Sales</li>
+                                            <li>Estimated cost of production</li>
+                                        </ul>
+                                      You may add or delete rows as needed.
+                                    </p>
+                                    <hr>
+                                    <p class="mb-0 text-secondary text-small">You may enter none on the product name if
+                                        not applicable.
+                                    </p>
+                                    </div>
+                                </div>
+                                <div class="col-12">
                                     <div id="productExport" class="productExport">
+                                        <strong>3.1 Export Market</strong>
                                         <div class="row">
-                                            <div class="col-12 my-3">
-                                                <div class="alert alert-primary m-0" role="alert">
-                                                    <i class="ri-information-2-fill ri-lg"></i>
-                                                    Please Enter the Products details for the Export and Local Market.
-                                                </div>
-                                            </div>
                                             <div class="mb-3">
                                                 <div class="mt-2">
-
                                                     <div class="d-flex justify-content-end p-2">
                                                         <button type="button" id="addExportRow"
                                                             class="btn btn-primary" data-toggle="tooltip"
@@ -354,38 +364,40 @@
                                                                         <select class="form-select volumeUnit">
                                                                             <!-- Volume Units -->
                                                                             <optgroup label="Volume">
-                                                                                <option value="milliliters">Milliliters
+                                                                                <option value="mL">Milliliters
                                                                                     (mL)</option>
-                                                                                <option value="cubic-centimeters">Cubic
+                                                                                <option value="cm³">Cubic
                                                                                     Centimeters (cm³)</option>
-                                                                                <option value="fluid-ounces">Fluid
+                                                                                <option value="fl oz">Fluid
                                                                                     Ounces (fl oz)</option>
-                                                                                <option value="cups">Cups (cup)
+                                                                                <option value="cup">Cups (cup)
                                                                                 </option>
-                                                                                <option value="pints">Pints (pt)
+                                                                                <option value="pt">Pints (pt)
                                                                                 </option>
-                                                                                <option value="quarts">Quarts (qt)
+                                                                                <option value="qt">Quarts (qt)
                                                                                 </option>
-                                                                                <option value="liters">Liters (L)
+                                                                                <option value="L">Liters (L)
                                                                                 </option>
-                                                                                <option value="gallons">Gallons (gal)
+                                                                                <option value="gal">Gallons (gal)
                                                                                 </option>
-                                                                                <option value="cubic-inches">Cubic
-                                                                                    Inches (in³)</option>
-                                                                                <option value="cubic-feet">Cubic Feet
+                                                                                <option value="in³">Cubic
+                                                                                    Inches (in³)
+                                                                                </option>
+                                                                                <option value="ft³">Cubic Feet
                                                                                     (ft³)</option>
-                                                                                <option value="cubic-meters">Cubic
-                                                                                    Meters (m³)</option>
+                                                                                <option value="m³">Cubic
+                                                                                    Meters (m³)
+                                                                                </option>
                                                                             </optgroup>
                                                                             <!-- Weight Units -->
                                                                             <optgroup label="Weight">
-                                                                                <option value="grams">Grams (g)
+                                                                                <option value="g">Grams (g)
                                                                                 </option>
-                                                                                <option value="ounces">Ounces (oz)
+                                                                                <option value="oz">Ounces (oz)
                                                                                 </option>
-                                                                                <option value="pounds">Pounds (lb)
+                                                                                <option value="lb">Pounds (lb)
                                                                                 </option>
-                                                                                <option value="kilograms">Kilograms
+                                                                                <option value="kg">Kilograms
                                                                                     (kg)</option>
                                                                             </optgroup>
                                                                         </select>
@@ -427,8 +439,8 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <strong>3.2 Local Market</strong>
                                     <div id="productLocal" class="productLocal">
+                                        <strong>3.2 Local Market</strong>
                                         <div class="row p-0">
                                             <div class="col-12">
                                                 <div class="mt-2">
@@ -472,38 +484,38 @@
                                                                             <select class="form-select volumeUnit">
                                                                                 <!-- Volume Units -->
                                                                                 <optgroup label="Volume">
-                                                                                    <option value="milliliters">Milliliters
+                                                                                    <option value="mL">Milliliters
                                                                                         (mL)</option>
-                                                                                    <option value="cubic-centimeters">Cubic
+                                                                                    <option value="cm³">Cubic
                                                                                         Centimeters (cm³)</option>
-                                                                                    <option value="fluid-ounces">Fluid
+                                                                                    <option value="fl oz">Fluid
                                                                                         Ounces (fl oz)</option>
-                                                                                    <option value="cups">Cups (cup)
+                                                                                    <option value="cup">Cups (cup)
                                                                                     </option>
-                                                                                    <option value="pints">Pints (pt)
+                                                                                    <option value="pt">Pints (pt)
                                                                                     </option>
-                                                                                    <option value="quarts">Quarts (qt)
+                                                                                    <option value="qt">Quarts (qt)
                                                                                     </option>
-                                                                                    <option value="liters">Liters (L)
+                                                                                    <option value="L">Liters (L)
                                                                                     </option>
-                                                                                    <option value="gallons">Gallons (gal)
+                                                                                    <option value="gal">Gallons (gal)
                                                                                     </option>
-                                                                                    <option value="cubic-inches">Cubic
+                                                                                    <option value="in³">Cubic
                                                                                         Inches (in³)</option>
-                                                                                    <option value="cubic-feet">Cubic Feet
+                                                                                    <option value="ft³">Cubic Feet
                                                                                         (ft³)</option>
                                                                                     <option value="cubic-meters">Cubic
                                                                                         Meters (m³)</option>
                                                                                 </optgroup>
                                                                                 <!-- Weight Units -->
                                                                                 <optgroup label="Weight">
-                                                                                    <option value="grams">Grams (g)
+                                                                                    <option value="g">Grams (g)
                                                                                     </option>
-                                                                                    <option value="ounces">Ounces (oz)
+                                                                                    <option value="oz">Ounces (oz)
                                                                                     </option>
-                                                                                    <option value="pounds">Pounds (lb)
+                                                                                    <option value="lb">Pounds (lb)
                                                                                     </option>
-                                                                                    <option value="kilograms">Kilograms
+                                                                                    <option value="kg">Kilograms
                                                                                         (kg)</option>
                                                                                 </optgroup>
                                                                             </select>
@@ -547,18 +559,37 @@
                         <div id="step-4" class="tab-pane" role="tabpanel" aria-labelledby="step-4">
                             <h5>4.0 MARKET OUTLETS</h5>
                             <div class="row">
+                                <div class="col-12 my-3">
+                                    <div class="alert alert-primary h-100" role="alert">
+                                        <h5 class="alert-heading">
+                                            <i class="ri-information-2-fill"></i> Export and Local Market
+                                        </h5>
+                                    <p>
+                                        Kindly provide the necessary information for this Export and Local Market Outlet. The following details are needed.
+                                        <ul>
+                                            <li>
+                                                Export - location name in which the outlet is located(example: USA, China, etc)
+                                            </li>
+                                            <li>
+                                                Local - location name in which the outlet is located(example: Carmin, Tagum, etc)
+                                            </li>
+                                        </ul>
+                                    </p>
+                                    <hr>
+                                    <p class="mb-0 text-secondary text-small">You may enter none or leave blank if not applicable.
+                                    </p>
+                                    </div>
+                                </div>
                                 <div class="col-md-6 col-sm-6">
                                     <strong class="ms-2">4.1 Export</strong>
-                                    <div class="form-floating ms-4">
+                                    <div class="ms-4">
                                         <textarea class="form-control h-100" name="Market_Export" placeholder="Export" id="exportTextarea"></textarea>
-                                        <label for="exportTextarea">Export</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <strong class="ms-2">4.2 Local</strong>
-                                    <div class="form-floating ms-4">
+                                    <div class="ms-4">
                                         <textarea class="form-control h-100" name="Market_local" placeholder="Local" id="localTextarea"></textarea>
-                                        <label for="localTextarea">Local</label>
                                     </div>
                                 </div>
                             </div>
@@ -638,44 +669,44 @@
                 <td>
                     <div class="input-group">
                          <input type="text" class="form-control productionVolume_val">
-                                                                        <select class="form-select volumeUnit">
-                                                                            <!-- Volume Units -->
-                                                                            <optgroup label="Volume">
-                                                                                <option value="milliliters">Milliliters
-                                                                                    (mL)</option>
-                                                                                <option value="cubic-centimeters">Cubic
-                                                                                    Centimeters (cm³)</option>
-                                                                                <option value="fluid-ounces">Fluid
-                                                                                    Ounces (fl oz)</option>
-                                                                                <option value="cups">Cups (cup)
-                                                                                </option>
-                                                                                <option value="pints">Pints (pt)
-                                                                                </option>
-                                                                                <option value="quarts">Quarts (qt)
-                                                                                </option>
-                                                                                <option value="liters">Liters (L)
-                                                                                </option>
-                                                                                <option value="gallons">Gallons (gal)
-                                                                                </option>
-                                                                                <option value="cubic-inches">Cubic
-                                                                                    Inches (in³)</option>
-                                                                                <option value="cubic-feet">Cubic Feet
-                                                                                    (ft³)</option>
-                                                                                <option value="cubic-meters">Cubic
-                                                                                    Meters (m³)</option>
-                                                                            </optgroup>
-                                                                            <!-- Weight Units -->
-                                                                            <optgroup label="Weight">
-                                                                                <option value="grams">Grams (g)
-                                                                                </option>
-                                                                                <option value="ounces">Ounces (oz)
-                                                                                </option>
-                                                                                <option value="pounds">Pounds (lb)
-                                                                                </option>
-                                                                                <option value="kilograms">Kilograms
-                                                                                    (kg)</option>
-                                                                            </optgroup>
-                                                                        </select>
+                                                                       <select class="form-select volumeUnit">
+
+                                                                                <optgroup label="Volume">
+                                                                                    <option value="mL">Milliliters
+                                                                                        (mL)</option>
+                                                                                    <option value="cm³">Cubic
+                                                                                        Centimeters (cm³)</option>
+                                                                                    <option value="fl oz">Fluid
+                                                                                        Ounces (fl oz)</option>
+                                                                                    <option value="cup">Cups (cup)
+                                                                                    </option>
+                                                                                    <option value="pt">Pints (pt)
+                                                                                    </option>
+                                                                                    <option value="qt">Quarts (qt)
+                                                                                    </option>
+                                                                                    <option value="L">Liters (L)
+                                                                                    </option>
+                                                                                    <option value="gal">Gallons (gal)
+                                                                                    </option>
+                                                                                    <option value="in³">Cubic
+                                                                                        Inches (in³)</option>
+                                                                                    <option value="ft³">Cubic Feet
+                                                                                        (ft³)</option>
+                                                                                    <option value="cubic-meters">Cubic
+                                                                                        Meters (m³)</option>
+                                                                                </optgroup>
+
+                                                                                <optgroup label="Weight">
+                                                                                    <option value="g">Grams (g)
+                                                                                    </option>
+                                                                                    <option value="oz">Ounces (oz)
+                                                                                    </option>
+                                                                                    <option value="lb">Pounds (lb)
+                                                                                    </option>
+                                                                                    <option value="kg">Kilograms
+                                                                                        (kg)</option>
+                                                                                </optgroup>
+                                                                            </select>
                     </div>
                 </td>
                 <td>
