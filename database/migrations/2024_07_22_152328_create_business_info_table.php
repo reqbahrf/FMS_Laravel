@@ -23,8 +23,8 @@ return new class extends Migration
             $table->string('city', 64);
             $table->string('province', 64);
             $table->string('region', 64);
-            $table->string('Export_Mkt_Outlet', 255);
-            $table->string('Local_Mkt_Outlet', 255);
+            $table->string('Export_Mkt_Outlet', 255)->default('N/A');
+            $table->string('Local_Mkt_Outlet', 255)->default('N/A');
             $table->foreign('user_info_id')->references('id')->on('coop_users_info')->onDelete('cascade')->onUpdate('cascade');
         });
     }

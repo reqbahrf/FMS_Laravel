@@ -183,7 +183,7 @@
         }
 
         textarea {
-            height: 200px !important;
+            height: 100px !important;
         }
 
         span.requiredFields {
@@ -724,39 +724,35 @@
                             <div class="col-12 mb-3 p-0">
                                 <div class="card">
                                     <div class="card-header">
-                                        Market Outlet
+                                        Market Outlet Product
                                     </div>
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-12">
                                                 <div class="alert alert-primary" role="alert">
                                                     <i class="ri-information-2-fill ri-lg"></i>
-                                                    Please input the products name for the Export and Local Market
+                                                    Please input the Products name for the Export and Local Market
                                                 </div>
                                             </div>
                                             <div class="col-12 mb-3">
-                                                <label for="Local">Local: <span
-                                                        class="requiredFields">*</span></label>
+                                                <label for="Local">Local Market Products:</label>
                                                 <div class="input-group">
-                                                    <textarea name="Local" id="LocalMar" class="form-control" placeholder="Local" required data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Local Market Example: Tagum, Carmen, Panabo, etc."></textarea>
+                                                    <textarea name="Local" id="LocalMar" class="form-control" placeholder="ex. Assoeted breads, Milk, Eggs, etc"></textarea>
                                                 </div>
                                                 <div class="form-text">
-                                                    Enter none if not applicable
+                                                    Enter N/A if not applicable
                                                 </div>
                                                 <div class="invalid-feedback">
                                                     Please enter the Local Market Outlet
                                                 </div>
                                             </div>
                                             <div class="col-12">
-                                                <label for="Export">Export: <span class="requiredFields">
-                                                        *</span></label>
+                                                <label for="Export">Export Market Products:</label>
                                                 <div class="input-group">
-                                                    <textarea name="Export" id="ExportMar" class="form-control" placeholder="Export" required data-bs-toggle="tooltip"
-                                                        data-bs-placement="top" title="Export Market Example: Japan, China, USA, etc."></textarea>
+                                                    <textarea name="Export" id="ExportMar" class="form-control" placeholder="ex. Assoeted breads, Milk, Eggs, etc""></textarea>
                                                 </div>
                                                 <div class="form-text">
-                                                    Enter none if not applicable
+                                                    Enter N/A if not applicable
                                                 </div>
                                                 <div class="invalid-feedback">
                                                     Please enter the Export Market Outlet
@@ -777,7 +773,7 @@
                                         class="requiredFields">
                                         *</span></label>
                                 <input class="fileUploads" type="file" name="IntentFile" id="IntentFile">
-                                <div class="form-text">accepted formats: .pdf.</div>
+                                <div class="form-text">Accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Letter of Intent.
                                 </div>
@@ -814,7 +810,7 @@
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="businessPermitFile"
                                     id="businessPermitFile">
-                                <div class="form-text">accepted formats: .pdf.</div>
+                                <div class="form-text">Accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Business Permit.
                                 </div>
@@ -843,7 +839,7 @@
                                 <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="receiptFile" id="receiptFile">
-                                <div class="form-text">accepted formats: .pdf.</div>
+                                <div class="form-text">Accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Official Receipt of the Business.
                                 </div>
@@ -852,7 +848,7 @@
                                 <label for="govIdFile" class="form-label">Government Valid ID: <span
                                         class="requiredFields"> *</span></label>
                                 <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
-                                <div class="form-text">accepted formats: .jpg, .png.</div>
+                                <div class="form-text">Accepted formats: .jpg, .png.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Copy of Government Valid ID.
                                 </div>
@@ -865,10 +861,14 @@
                                         Revenue(BIR) Certificate of Registration</span>
                                 </label>
                                 <input class="fileUploads" type="file" name="BIRFile" id="BIRFile">
-                                <div class="form-text">accepted formats: .pdf.</div>
+                                <div class="form-text">Accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the BIR.
                                 </div>
+                            </div>
+                            <div class="alert alert-primary m-0" role="alert">
+                                <i class="ri-information-2-fill ri-lg"></i>
+                                Please, before you proceed to the next step, make sure you have double-checked all the uploaded files.
                             </div>
                             <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path"
                                 value="">
@@ -890,94 +890,39 @@
                             <div class="col-md-12 mb-4">
                                 <h5>Review and confirm the details provided before submission.</h5>
                             </div>
-                            <div class="row g-3">
-                                <div class="col-12 col-md-8">
+                            <div class="row gy-3">
+                                <div class="col-12">
                                     <div class="card">
                                         <div class="card-header">
                                             Personal Infomation
                                         </div>
                                         <div class="card-body">
-                                            <div class="col-12">
-                                                <label for="re_full_name">Full Name</label>
-                                                <input type="text" id="re_Full_name" class="form-control mb-3"
+                                            <div class="row justify-content-center">
+                                                <div class="col-12 col-md-6">
+                                                    <label for="re_full_name">Full Name</label>
+                                                    <input type="text" id="re_Full_name" class="form-control mb-3"
+                                                        readonly>
+                                                </div>
+                                                <div class="col-12 col-md-4">
+                                                    <label for="designa">Designation</label>
+                                                    <input type="text" id="re_designa" class="form-control mb-3"
                                                     readonly>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="b_Date">Birth Date</label>
-                                                <input type="text" id="re_b_Date" class="form-control mb-3"
-                                                    readonly>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="designa">Designation</label>
-                                                <input type="text" id="re_designa" class="form-control mb-3"
-                                                    readonly>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="Mobile_no">Mobile Number</label>
-                                                <input type="text" id="re_Mobile_no" class="form-control mb-3"
-                                                    readonly>
-                                            </div>
-                                            <div class="col-12">
-                                                <label for="landline">Landline</label>
-                                                <input type="text" id="re_landline" class="form-control mb-3"
-                                                    readonly>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-12 col-md-4">
-                                    <div class="card">
-                                        <div class="card-header">
-                                            Uploaded Requirements
-                                        </div>
-                                        <div class="card-body">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="IntentFileReadonly">Intent File Name:</label>
-                                                    <input class="form-control mb-3" type="text"
-                                                        id="IntentFileReadonly" readonly>
                                                 </div>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="dtiFileReadonly">DTI File Name:</label>
-                                                    <input class="form-control mb-3" type="text"
-                                                        id="dtiFileReadonly" readonly>
+                                                <div class="col-12 col-md-2">
+                                                    <label for="b_Date">Birth Date</label>
+                                                    <input type="text" id="re_b_Date" class="form-control mb-3"
+                                                        readonly>
                                                 </div>
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="businessPermitFileReadonly">Business Permit File
-                                                        Name:</label>
-                                                    <input class="form-control mb-3" type="text"
-                                                        id="businessPermitFileReadonly" readonly>
+                                                <div class="col-12 col-md-4">
+                                                    <label for="Mobile_no">Mobile Number</label>
+                                                    <input type="text" id="re_Mobile_no" class="form-control mb-3"
+                                                        readonly>
                                                 </div>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="fdaLtoFileReadonly">FDA LTO File Name:</label>
-                                                    <input class="form-control mb-3" type="text"
-                                                        id="fdaLtoFileReadonly" readonly>
+                                                <div class="col-12 col-md-4">
+                                                    <label for="landline">Landline</label>
+                                                    <input type="text" id="re_landline" class="form-control mb-3"
+                                                        readonly>
                                                 </div>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="receiptFileReadonly">Receipt File Name:</label>
-                                                    <input class="form-control mb-3" type="text"
-                                                        id="receiptFileReadonly" readonly>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label for="govIdFileReadonly">Government ID File Name:</label>
-                                                    <input class="form-control mb-3" type="text"
-                                                        id="govIdFileReadonly" readonly>
-                                                </div>
-
                                             </div>
                                         </div>
                                     </div>
@@ -1306,15 +1251,14 @@
                                     <input type="checkbox" name="detail_confirm" id="detail_confirm"
                                         class="form-check-input" required>
                                     <label for="detail_confirm" class="form-check-label">I hereby confirm that the
-                                         information I provided is true and correct</label>
+                                         information I provided is true and correct.</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
                                     <input type="checkbox" name="agree_terms" id="agree_terms"
                                         class="form-check-input" required>
-                                    <label for="agree_terms" class="form-check-label">I have read and agree to terms
-                                        and conditions</label>
+                                    <label for="agree_terms" class="form-check-label">I have read and agree to the terms and conditions.</label>
                                 </div>
                             </div>
                         </div>
