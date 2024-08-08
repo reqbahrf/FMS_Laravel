@@ -783,11 +783,8 @@
             },
         });
         $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
-            let totalSteps = $('#smartwizard').find('ul li').length;
-            // console.log("Step: ", stepNumber);
-            console.log("Total Steps:", totalSteps);
 
-            if (stepIndex === totalSteps - 1 && stepPosition === 'last') {
+            if (stepIndex === 3 && stepPosition === 'last') {
                 console.log("Arriving at Last Step - Showing Buttons");
                 $('.btn-success, .btn-secondary').show();
             } else {
@@ -856,7 +853,7 @@
 
             // Send form data using AJAX
             $.ajax({
-                heaeders: {
+                headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',

@@ -961,7 +961,6 @@
                                                                     <label for="buildings">Buildings</label>
                                                                     <input type="text" id="re_buildings"
                                                                         class="form-control mb-3" readonly>
-
                                                                 </div>
                                                                 <div class="col-12 col-md-4">
                                                                     <label for="equipments">Equipments</label>
@@ -974,14 +973,13 @@
                                                                     <input type="text" id="re_working_capital"
                                                                         class="form-control mb-3" readonly>
                                                                 </div>
-                                                                <div class="col-12">
-                                                                    <div class="col-12">
+                                                                <div class="row text-center">
+                                                                    <div class="col-12 col-md-6">
                                                                         <p>Total Assets: <span
                                                                                 id="re_to_Assets"></span>
                                                                         </p>
-
                                                                     </div>
-                                                                    <div class="col-12">
+                                                                    <div class="col-12 col-md-6">
                                                                         <p>Enterprise Level: <span
                                                                                 id="re_Enterprise_Level"></span>
                                                                         </p>
@@ -1227,7 +1225,7 @@
                                     <strong>Acceptance of Terms:</strong> By using this website, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions
                                 </p>
                                 <p>
-                                    <strong>Use of the Website:</strong> You agree to use this website only for lawful purposes and in a manner that does not infringe the rights of, restrict, or inhibit anyone else’s use and enjoyment of the website.
+                                    <strong>Use of the Website:</strong> You agree to use this website only for lawful purposes and in a manner that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the website.
                                 </p>
                                 <p class="paragraph-content">
                                     <strong>
@@ -1990,6 +1988,7 @@
                 success: function(response) {
                     // Handle the response from the server
                     console.log('Form submitted successfully', response);
+                    window.location.href = response.redirect;
                 },
                 error: function(xhr, status, error) {
                     // Handle any errors
