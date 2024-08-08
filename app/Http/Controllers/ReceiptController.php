@@ -58,7 +58,7 @@ class ReceiptController extends Controller
         $projectId = Session::get('project_id');
 
         $receiptUploads = ReceiptUpload::where('ongoing_project_id', $projectId)
-            ->select('ongoing_project_id','receipt_name', 'receipt_file', 'remark', 'created_at')
+            ->select('ongoing_project_id','receipt_name', 'receipt_description', 'receipt_file', 'remark', 'created_at')
             ->get();
 
         $result = [];
@@ -66,6 +66,7 @@ class ReceiptController extends Controller
             $result[] = [
                 'ongoing_project_id' => $receiptUpload->ongoing_project_id,
                 'receipt_name' => ($receiptUpload->receipt_name),
+                'receipt_description' => ($receiptUpload->receipt_description),
                 'receipt_file' => base64_encode($receiptUpload->receipt_file),
                 'remark' => ($receiptUpload->remark),
                 'created_at' => $receiptUpload->created_at->format('Y-m-d H:i:s'),
@@ -83,8 +84,9 @@ class ReceiptController extends Controller
     {
 
         // Validate the request
-        $request->validate([
-            'receiptName' => 'required|string|max:20',
+      $validated = $request->validate([
+            'receiptName' => 'required|string|max:30',
+            'receiptShortDescription' => 'required|string|max:255',
             'unique_id' => 'required|string'
         ]);
 
@@ -107,7 +109,8 @@ class ReceiptController extends Controller
         // Insert into the database
         ReceiptUpload::create([
             'ongoing_project_id' => $project_id,
-            'receipt_name' => $request->input('receiptName'),
+            'receipt_name' => $validated['receiptName'],
+            'receipt_description' => $validated['receiptShortDescription'],
             'receipt_file' => $fileContent, // Store the file content as a BLOB
             'can_edit' => 'yes', // Or whatever default value you prefer
             'remark' => null,

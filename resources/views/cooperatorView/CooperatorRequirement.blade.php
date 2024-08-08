@@ -52,15 +52,23 @@
             <div class="modal-body">
                 <form id="uploadForm" enctype="multipart/form-data">
                     @csrf
-                    <div class="row">
+                    <div class="row gy-3">
                         <div class="col-12">
-                            <label for="receiptName">Receipt Name</label>
-                            <input type="text" class="form-control" name="receiptName" id="receiptName" required>
+                            <label for="receiptName">Receipt Name:</label>
+                            <input type="text" class="form-control" name="receiptName" id="receiptName" required maxlength="30">
                             <div class="form-text">
-                                Name of the receipt 20 charater max
+                                Name of the receipt 30 charater max
                             </div>
                         </div>
                         <div class="col-12">
+                            <label for="receiptShortDescription">Short Description:</label>
+                            <textarea name="receiptShortDescription" class="form-control" id="receiptShortDescription" rows="5" maxlength="255"></textarea>
+                            <div class="form-text">
+                                Kindly provide a short Desciption explaining the receipt that you want to upload. Max 255 charaters
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label for="receipt_file">Upload Receipt:</label>
                             <input type="file" name="receipt_file" class="filepond-receipt-upload">
                             <input type="hidden" name="unique_id">
                         </div>
@@ -154,6 +162,7 @@
                         <thead class="thead-dark">
                             <tr>
                                 <th scope="col">Receipt Name</th>
+                                <th scope="col">Description</th>
                                 <th scope="col">Receipt File</th>
                                 <th scope="col">Date Uploaded</th>
                                 <th scope="col">Remark</th>

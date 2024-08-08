@@ -393,6 +393,7 @@
 
                 let row = `<tr>
                     <td>${value.receipt_name}</td>
+                    <td>${value.receipt_description}</td>
                     <td class="img-Content">${receiptImage}</td>
                     <td>${value.created_at}</td>
                     <td>${value.remark}</td>

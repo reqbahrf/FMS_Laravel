@@ -13,6 +13,7 @@ class ReceiptUpload extends Model
     protected $fillable = [
         'ongoing_project_id',
         'receipt_name',
+        'receipt_description',
         'receipt_file',
         'date_uploaded',
         'can_edit',

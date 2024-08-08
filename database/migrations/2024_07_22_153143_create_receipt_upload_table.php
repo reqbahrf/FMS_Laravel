@@ -16,14 +16,14 @@ return new class extends Migration
             $table->increments('id');
             $table->integer('ongoing_project_id')->unsigned();
             $table->string('receipt_name', 30);
-            // $table->binary('receipt_file');
+            $table->string('receipt_description', 255);
             $table->string('can_edit', 30);
             $table->string('remark', 30)->nullable();
             $table->string('comment', 255)->nullable();
             $table->timestamps();
             $table->foreign('ongoing_project_id')->references('id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });
-        DB::statement("ALTER TABLE `receipt_upload` ADD `receipt_file` MEDIUMBLOB AFTER `receipt_name`");
+        DB::statement("ALTER TABLE `receipt_upload` ADD `receipt_file` MEDIUMBLOB AFTER `receipt_description`");
     }
 
     /**
