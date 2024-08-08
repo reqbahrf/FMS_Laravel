@@ -1271,6 +1271,17 @@
         </div>
         {{-- Modal End --}}
     </div>
+    <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer" style="z-index: 1100;">
+        <div id="successToast" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header text-bg-success">
+                <strong class="me-auto">Success</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body" id="successToastBody">
+                Form submitted successfully!
+            </div>
+        </div>
+    </div>
     @include('mainpage.footer')
     <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
@@ -1962,8 +1973,8 @@
 
         window.onFinish = function() {
             event.preventDefault();
-            const confimationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-            confimationModal.show();
+            window.confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            confirmationModal.show();
         }
 
         const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
@@ -1988,7 +1999,23 @@
                 success: function(response) {
                     // Handle the response from the server
                     console.log('Form submitted successfully', response);
-                    window.location.href = response.redirect;
+                    const message = response.success;
+
+                    confirmationModal.hide();
+
+                    if(response.success){
+                        setTimeout(() => {
+                            const toastElement = document.getElementById('successToast');
+                            const toast = new bootstrap.Toast(toastElement);
+                            toast.show();
+                        }, 500);
+
+                        setTimeout(() => {
+                            window.location.href = response.redirect;
+                        }, 3000);
+                    }
+
+                    // Display the toast
                 },
                 error: function(xhr, status, error) {
                     // Handle any errors

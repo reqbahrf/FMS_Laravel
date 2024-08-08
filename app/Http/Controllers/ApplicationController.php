@@ -181,7 +181,7 @@ class ApplicationController extends Controller
 
             if ($successful_inserts == 6) {
                 DB::commit();
-                return response()->json(['success' => 'All data successfully inserted.', 'redirect' => route('Cooperator.home')]);
+                return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.home')]);
             } else {
                 DB::rollBack();
                 return response()->json(['error' => 'Data insertion failed.']);
