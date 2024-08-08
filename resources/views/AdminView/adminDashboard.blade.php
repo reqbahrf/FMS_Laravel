@@ -235,7 +235,7 @@
         .sidenav a {
             padding: 6px 8px 6px 6px;
             text-decoration: none;
-            color: #818181;
+            color: #aaaaaa;
             display: block;
 
 
