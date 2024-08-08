@@ -71,25 +71,55 @@
                     <a href="#" id="querterlyReportTab" class="mb-2 d-flex align-items-center">
                         <i class="ri-draft-fill ri-2x"></i>
                         <span class="nav-text ml-2">Quarterly Report</span>
-
+                        <span class="ms-auto" id="dropDown_arrow">
+                            <i class="ri-arrow-right-s-line  ri-lg d-block"></i>
+                            <i class="ri-arrow-down-s-line ri-lg d-none"></i>
+                        </span>
                     </a>
                     <div class="d-none" id="sidebarTasks">
                         <ul class="list-unstyled ps-5">
                             <li>
-                                <a href="#" id="querterlyReportTab1" onclick="loadPage('/Cooperator/QuarterlyReport/create','querterlyReportTab1');">Quarter 1 <span class="badge rounded-pill text-bg-success">Open</span>
+                                <a href="#" id="querterlyReportTab1" onclick="loadPage('/Cooperator/QuarterlyReport/create','querterlyReportTab1');">
+                                    <span class="position-relative">
+                                        Quarter 1
+
+                                    </span>
+                                <span class="badge rounded-pill text-bg-success">Open</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="#" class="disabled-li-report">Quarter 2 <span
-                                        class="badge rounded-pill text-bg-secondary">Close</span></a>
+                                <a href="#" class="disabled-li-report">
+                                    <span class="position-relative">
+                                        Quarter 2
+
+                                    </span>
+                                    <span
+                                        class="badge rounded-pill text-bg-secondary">
+                                        Close
+                                    </span>
+                                </a>
                             </li>
                             <li>
-                                <a href="#" class="disabled-li-report">Quarter 3 <span
-                                        class="badge rounded-pill text-bg-secondary">Close</span></a>
+                                <a href="#" class="disabled-li-report">
+                                    <span class="position-relative">
+                                        Quarter 3
+
+                                    </span>
+                                    <span
+                                        class="badge rounded-pill text-bg-secondary">
+                                        Close
+                                    </span>
+                                </a>
                             </li>
                             <li>
-                                <a href="#" class="disabled-li-report">Quarter 4 <span
-                                        class="badge rounded-pill text-bg-secondary">Close</span></a>
+                                <a href="#" class="disabled-li-report">
+                                    <span class="position-relative">
+                                        Quarter 4
+                                    </span>
+                                    <span
+                                        class="badge rounded-pill text-bg-secondary">Close
+                                    </span>
+                                </a>
                             </li>
                         </ul>
                     </div>
@@ -546,7 +576,14 @@
         //  Sidebar dropdown
 
         $('#querterlyReportTab').click(function() {
-            $('#sidebarTasks').toggleClass('d-none');
+          $('#sidebarTasks').toggleClass('d-none');
+          if ($('#sidebarTasks').hasClass('d-none')) {
+            $('.ri-arrow-right-s-line').removeClass('d-none').addClass('d-block');
+            $('.ri-arrow-down-s-line').removeClass('d-block').addClass('d-none');
+          }else{
+            $('.ri-arrow-right-s-line').removeClass('d-block').addClass('d-none');
+            $('.ri-arrow-down-s-line').removeClass('d-none').addClass('d-block');
+          }
         });
     </script>
 </body>
