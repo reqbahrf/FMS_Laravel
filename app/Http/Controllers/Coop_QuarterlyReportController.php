@@ -33,8 +33,7 @@ class Coop_QuarterlyReportController extends Controller
      */
     public function store(Request $request)
     {
-        // $project_id = Session::get('project_id');
-        $project_id = 1;
+        $project_id = Session::get('project_id');
         $quarter = 'Q1';
         OngoingQuarterlyReport::create([
             'ongoing_project_id' => $project_id,

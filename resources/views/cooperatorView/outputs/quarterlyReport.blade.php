@@ -600,6 +600,135 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="confirmationModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
+            aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white" id="confirmationModalLabel">Confirmation</h5>
+                    </div>
+                    <div class="modal-body">
+                        <div class="card mb-3">
+                            <div class="card-header">
+                                <h6>Data Privacy Consent</h6>
+                            </div>
+                            <div class="card-body">
+                                <p class="paragraph-content">The Department of Science and Technology XI respect your privacy and are committed to
+                                    protecting
+                                    your personal data. This Data Privacy Consent informs you about how we collect, use,
+                                    store, and
+                                    disclose your personal data when you use this information system.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Information We Collect:</strong> Login credentials: Username, password,
+                                    security questions/answers (if
+                                    applicable) Personal information: Name, email address, contact number, other
+                                    information you
+                                    provide during registration or use of the system. Usage data: Log data (e.g. access
+                                    times), system
+                                    navigation data, information about your use of features and functionalities
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>How We Use Your Information:</strong> Provide access to the information
+                                    system: Verify your identity and
+                                    authenticate your login. Manage your account: Process your registration, maintain
+                                    your profile, and
+                                    respond to your inquiries. Operate and improve the system: Analyze usage data to
+                                    optimize
+                                    performance and troubleshoot issues. Communicate with you: Send system updates,
+                                    announcements, and support messages.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Disclosure of Your Information:</strong> We will not disclose your personal
+                                    data to any third party without
+                                    your explicit consent, except as required by law or to comply with legal process. We
+                                    may share
+                                    aggregate and anonymized data with third-party service providers for analytics and
+                                    performance
+                                    improvement purposes.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Your Rights:</strong> You have the right to access, rectify, erase, and
+                                    restrict the processing of your personal
+                                    data. You have the right to withdraw your consent at any time. You have the right to
+                                    complain to the
+                                    relevant data protection authority if you believe your rights have been violated.
+                                </p>
+                                <p class="paragraph-content">
+                                    By logging in to this information system, you acknowledge that you have read and
+                                    understood this
+                                    Data Privacy Consent and agree to the collection, use, and disclosure of your
+                                    personal data as
+                                    described herein.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h6>Terms and Conditions</h6>
+                            </div>
+                            <div class="card-body text-justify">
+                                <p class="paragraph-content">Welcome to DOST-SETUP-SYS. By accessing and using this website, you agree to comply with and be bound by the following terms and conditions:
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Acceptance of Terms:</strong> By using this website, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions
+                                </p>
+                                <p>
+                                    <strong>Use of the Website:</strong> You agree to use this website only for lawful purposes and in a manner that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the website.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>
+                                    User Accounts:
+                                    </strong>
+                                    If you create an account on this website, you are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Changes to Terms:</strong> We reserve the right to modify these terms and conditions at any time. Your continued use of the website after any changes indicates your acceptance of the new terms.
+                                </p>
+                                <p class="paragraph-content">
+                                    <strong>Governing Law:</strong> These terms and conditions are governed by and construed in accordance with the laws of the Philippines.
+                                </p>
+
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" name="detail_confirm" id="detail_confirm"
+                                        class="form-check-input" required>
+                                    <label for="detail_confirm" class="form-check-label">I hereby confirm that the
+                                         information I provided is true and correct.</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-check">
+                                    <input type="checkbox" name="agree_terms" id="agree_terms"
+                                        class="form-check-input" required>
+                                    <label for="agree_terms" class="form-check-label">I have read and agree to the terms and conditions.</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" id="cancelButton"
+                            data-bs-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-primary" id="confirmButton" disabled>Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer" style="z-index: 1100;">
+    <div id="successToast" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header text-bg-success">
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="successToastBody">
+            Form submitted successfully!
+        </div>
+    </div>
+</div>
 
 
 <script type="module">
@@ -778,7 +907,7 @@
                 showNextButton: true, // show/hide a Next button
                 showPreviousButton: true, // show/hide a Previous button
                 position: 'both buttom', // none/ top/ both bottom
-                extraHtml: `<button class="btn btn-success" onclick="">Submit</button>
+                extraHtml: `<button type="button" class="btn btn-success" onclick="showConfirm()">Submit</button>
                               <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
             },
         });
@@ -800,12 +929,28 @@
 </script>
 <script type="module">
 
-
-    $(document).ready(function() {
-        $('form').submit(function(event) {
+        window.showConfirm = function() {
             event.preventDefault();
+            window.confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+            confirmationModal.show();
+        }
 
-            let formData = $(this).serializeArray();
+        const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
+        const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
+        const confirmButton = document.getElementById('confirmButton');
+
+        confirmTrueInfo.add(confirmAgreeInfo).change(function() {
+            confirmButton.disabled = !(confirmTrueInfo.is(':checked') && confirmAgreeInfo.is(':checked'));
+        });
+
+        confirmButton.addEventListener('click', function() {
+            submitQuarterlyForm();
+        });
+
+
+        function submitQuarterlyForm() {
+
+            let formData = $('#quarterlyForm').serializeArray();
             let dataObject = {};
             $.each(formData, function(i, v) {
                 dataObject[v.name] = v.value;
@@ -857,18 +1002,23 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 type: 'POST',
-                url: $(this).attr('action'),
+                url: '/Cooperator/QuarterlyReport',
                 data: JSON.stringify(dataObject), // Send the new data object
                 contentType: 'application/json', // Set content type to JSON
                 success: function(response) {
                     // Handle the response if needed
-                    $('#qReport').removeClass('d-none');
+                    setTimeout(() => {
+                            confirmationModal.hide();
+                            const toastElement = document.getElementById('successToast');
+                            const toast = new bootstrap.Toast(toastElement);
+                            toast.show();
+                        }, 500);
                     console.log(response);
                 },
                 error: function(xhr, status, error) {
                     // Handle any errors
                 }
             });
-        });
-    });
+        }
+
 </script>
