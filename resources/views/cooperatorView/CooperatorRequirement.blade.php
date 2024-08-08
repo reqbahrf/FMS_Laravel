@@ -61,7 +61,7 @@
                             </div>
                         </div>
                         <div class="col-12">
-                            <input type="file" name="receipt_file" class="filepond-receipt-upload" id="">
+                            <input type="file" name="receipt_file" class="filepond-receipt-upload">
                             <input type="hidden" name="unique_id">
                         </div>
                     </div>

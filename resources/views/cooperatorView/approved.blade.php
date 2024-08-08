@@ -255,7 +255,7 @@
             console.log('DOM is fully loaded');
             // Initialize FilePond
             const inputElement = document.querySelector('.filepond-receipt-upload');
-        FilePond.create(inputElement, {
+      const receiptFilePondInit = FilePond.create(inputElement, {
             acceptedFileTypes: ['image/*'],
             imagePreviewHeight: 170,
             imageCropAspectRatio: '1:1',
@@ -310,6 +310,8 @@
         })
 
     const form = document.getElementById('uploadForm');
+    const receiptName = document.getElementById('receiptName');
+    window.submissionModal = new bootstrap.Modal(document.getElementById('receiptModal'));
     const successMessage = document.getElementById('successMessage');
     const submitBtn = document.getElementById('submitButton');
 
@@ -331,6 +333,15 @@
                 successMessage.textContent = data.success;
                 successMessage.style.display = 'block';
                 successMessage.classList.add('alert', 'alert-success');
+
+                setTimeout(() => {
+                    receiptName.value = '';
+                    receiptFilePondInit.removeFile();
+                    successMessage.style.display = 'none';
+                    successMessage.classList.remove('alert', 'alert-success');
+                    submissionModal.hide();
+                    getReceipt();
+                }, 1000);
             } else {
                 console.error(data.error);
             }
