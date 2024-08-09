@@ -588,7 +588,7 @@
                                                                         <input type="text" name="m_personnelDiRe"
                                                                             value="{{ old('m_personnelDiRe') }}"
                                                                             id="m_personnelDiRe" class="form-control"
-                                                                            placeholder="Number of Male Regular">
+                                                                            placeholder="No. Male Regular">
 
                                                                     </div>
                                                                     <div class="col-12">
@@ -597,7 +597,7 @@
                                                                         <input type="text" name="f_personnelDiRe"
                                                                             value="{{ old('f_personnelDiRe') }}"
                                                                             id="f_personnelDiRe" class="form-control"
-                                                                            placeholder="Number of Female Regular">
+                                                                            placeholder="No. Female Regular">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -615,7 +615,7 @@
                                                                             value="{{ old('m_personnelDiPart') }}"
                                                                             id="m_personnelDiPart"
                                                                             class="form-control"
-                                                                            placeholder="Number of Male Part-time">
+                                                                            placeholder="No. Male Part-time">
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <label for="f_personnelDiPart">Female:
@@ -624,7 +624,7 @@
                                                                             value="{{ old('f_personnelDiPart') }}"
                                                                             id="f_personnelDiPart"
                                                                             class="form-control"
-                                                                            placeholder="Number of Female Part-time">
+                                                                            placeholder="No. Female Part-time">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -669,7 +669,7 @@
                                                                         <input type="text" name="m_personnelIndRe"
                                                                             value="{{ old('m_personnelIndRe') }}"
                                                                             id="m_personnelIndRe" class="form-control"
-                                                                            placeholder="Number of Male Regular">
+                                                                            placeholder="No. Male Regular">
 
                                                                     </div>
                                                                     <div class="col-12">
@@ -678,7 +678,7 @@
                                                                         <input type="text" name="f_personnelIndRe"
                                                                             value="{{ old('f_personnelIndRe') }}"
                                                                             id="f_personnelIndRe" class="form-control"
-                                                                            placeholder="Number of Female Regular">
+                                                                            placeholder="No. Female Regular">
 
                                                                     </div>
                                                                 </div>
@@ -698,7 +698,7 @@
                                                                             value="{{ old('m_personnelIndPart') }}"
                                                                             id="m_personnelIndPart"
                                                                             class="form-control"
-                                                                            placeholder="Number of Male Part-time">
+                                                                            placeholder="No. Male Part-time">
 
                                                                     </div>
                                                                     <div class="col-12">
@@ -737,7 +737,7 @@
                                             <div class="col-12 mb-3">
                                                 <label for="Local">Local Market Products:</label>
                                                 <div class="input-group">
-                                                    <textarea name="Local" id="LocalMar" class="form-control" placeholder="ex. Assoeted breads, Milk, Eggs, etc"></textarea>
+                                                    <textarea name="Local" id="LocalMar" class="form-control" placeholder="ex. Assorted breads, Milk, Eggs, etc"></textarea>
                                                 </div>
                                                 <div class="form-text">
                                                     Enter N/A if not applicable
@@ -749,7 +749,7 @@
                                             <div class="col-12">
                                                 <label for="Export">Export Market Products:</label>
                                                 <div class="input-group">
-                                                    <textarea name="Export" id="ExportMar" class="form-control" placeholder="ex. Assoeted breads, Milk, Eggs, etc""></textarea>
+                                                    <textarea name="Export" id="ExportMar" class="form-control" placeholder="ex. Assorted breads, Milk, Eggs, etc""></textarea>
                                                 </div>
                                                 <div class="form-text">
                                                     Enter N/A if not applicable
@@ -1696,6 +1696,9 @@
                 allowMultiple: false,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
+                onremovefile: () => {
+                    adjustSmartWizardHeight();
+                },
                 server: {
                     process: {
                         url: '/requirements/submit',
@@ -1721,6 +1724,7 @@
                                     // Update the file path in the file upload element
                                     govIdFile.setAttribute('data-file-path', govIdFilePath);
                                     console.log(govIdFilePath);
+                                    adjustSmartWizardHeight();
                                 }
                             }
 
@@ -1849,7 +1853,9 @@
                 }
             });
 
-
+            window.adjustSmartWizardHeight = function() {
+            $('#smartwizard').smartWizard("fixHeight");
+            }
             $('#smartwizard').smartWizard({
                 selected: 0,
                 theme: 'dots',

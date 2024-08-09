@@ -225,7 +225,7 @@ class ApplicationController extends Controller
             Storage::disk('public')->delete($filePath);
             Log::info('File deleted: ' . $filePath);
 
-            return response()->json(['status' => 'success'], 200);
+            return response()->json(['status' => 'success', 'ok' => 'true'], 200);
         }
 
         Log::error('File not found: ' . $filePath);
