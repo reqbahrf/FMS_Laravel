@@ -319,7 +319,7 @@
             <table id="applicant" class="table table-hover" style="width:100%">
                 <thead>
                     <tr>
-                        <th>id</th>
+
                         <th>Client Name</th>
                         <th>Designation</th>
                         <th>Firm Name</th>
@@ -333,7 +333,7 @@
                     @if (isset($applicants) && count($applicants) > 0)
                         @foreach ($applicants as $item)
                             <tr>
-                                <td>{{ $item->user_name }}</td>
+        
                                 <td> {{ $item->prefix }} {{ $item->f_name }} {{ $item->l_name }} {{ $item->suffix }}</td>
                                 <td>{{ $item->designation }}</td>
                                 <td>{{ $item->firm_name }}</td>
@@ -380,7 +380,7 @@
                 </tbody>
                 <tfoot>
                     <tr>
-                        <th>id</th>
+
                         <th>Client Name</th>
                         <th>Designation</th>
                         <th>Firm Name</th>
