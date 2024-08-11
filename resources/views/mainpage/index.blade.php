@@ -40,12 +40,13 @@
             font-weight: 700;
         }
 
-        html, body {
-       margin: 0;
-       padding: 0;
-       height: 100%;
-       overflow-x: hidden;
-}
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow-x: hidden;
+        }
 
 
         /*--------------------------------------------------------------
@@ -53,13 +54,13 @@
     --------------------------------------------------------------*/
         #hero {
             width: 100%;
-            height: 90vh;
+            height: 100vh;
             background-image: url({{ 'herobackground.svg' }});
             background-size: cover;
             background-position: center;
             position: relative;
             padding: 0;
-            z-index: -1;
+            z-index: 1;
         }
 
         #hero:before {
@@ -337,17 +338,17 @@
         }
 
         .Values-list li::first-letter {
-          font-weight: bold;
-         }
+            font-weight: bold;
+        }
 
-         .secondary-info-text{
+        .secondary-info-text {
             font-size: 11px;
             font-weight: lighter;
-         }
+        }
 
-         .sub-list{
+        .sub-list {
             list-style-type: lower-alpha;
-         }
+        }
 
 
         /* .img-box img:hover {
@@ -547,6 +548,150 @@
     </section>
     <section>
         <div class="section-title">
+            <h2>Application Requirements</h2>
+        </div>
+        <div class="row justify-content-center mx-3">
+            <div class="col-12 col-md-6">
+                <div class="alert alert-light h-100" role="alert">
+                    <h4 class="alert-heading mb-3">Who may Apply?</h4>
+                    <ul>
+                        <li>
+                            <strong>Business Type:</strong><br>
+                            Your business must be a small or medium-scale enterprise.
+                        </li>
+                        <li>
+                            <strong>Ownership:</strong><br>
+                            The business should be wholly owned by Filipino citizens.
+                        </li>
+                        <li>
+                            <strong>Industry:</strong><br>
+                            Your business should fall under one of the identified priority sectors.
+                        </li>
+                        <li>
+                            <strong>Willingness to adopt technology:</strong><br>
+                            Your business should be open to incorporating technological improvements into its
+                            operations.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-12 col-md-6">
+                <div class="alert alert-light h-100">
+                    <h4 class="alert-header mb-3">What documents are required?</h4>
+                    <ol class="">
+                        <li>Letter of Intent</li>
+                        <li>DTI/SEC/CDA(Certificate of Registration)
+                            <span class="secondary-info-text">Department of Trade and Industry(DTI), Securit and
+                                Exchange Commission(SEC), and Cooperative Development Authority(CDA)
+                            </span>
+                        </li>
+                        <li>Business Permit</li>
+                        <li>BIR(Certificate of Registration)
+                            <span class="secondary-info-text">
+                                Bureau of Internal Revenue(BIR) Certificate of Registration
+                            </span>
+                        </li>
+                        <li>FDA/LTO(if applicable) </li>
+                        <li>Official Receipt of the Business</li>
+                        <li>Copy of Government Valid ID</li>
+                    </ol>
+                    <P class="fw-lighter text-secondary">Below are the List of Required Documents:</P>
+                    <div class="accordion">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                    data-bs-target="#follow-up_req" aria-expanded="true"
+                                    aria-controls="follow-up_req">
+                                    Follow-up Requirements
+                                </button>
+                            </h2>
+                            <div id="follow-up_req" class="accordion-collapse collapse"
+                                data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <ol>
+                                        <li>
+                                            Proponent's Barangay Certification
+                                        </li>
+                                        <li>
+                                            Lease Contract (if applicable)
+                                        </li>
+                                        <li>
+                                            Co-maker’s Government Issued ID
+                                        </li>
+                                        <li>
+                                            Audited Financial Statements for the past three (3) years of the enterprise.
+                                            The Audited Financial Report must contain the following statements:
+                                            <ul class="sub-list">
+                                                <li>
+                                                    Statement of Financial Condition
+
+                                                </li>
+                                                <li>
+                                                    Statement of Financial Position
+
+                                                </li>
+                                                <li>
+                                                    Statement of Cash Flows
+
+                                                </li>
+                                                <li>
+                                                    Statement of Changes in Net Assets/Equity
+
+                                                </li>
+                                                <li>
+                                                    Notes to Financial Statement
+
+                                                </li>
+
+                                            </ul>
+                                        </li>
+                                        <li>
+                                            Omnibus affidavit
+                                        </li>
+                                        <li>
+                                            Quotations for Equipment to be acquired from 3 different suppliers
+                                        </li>
+                                        <li>
+                                            Board resolution authorizing the availment of financial assistance from DOST
+                                            XI and designating authorized signatory for the financial assistance.
+                                        </li>
+                                        <li>
+                                            Authenticated copy of the Articles of Incorporation showing original
+                                            incorporators/organizers (for corp/coop)
+                                        </li>
+                                        <li>
+                                            Secretary's certificate of incumbent officers (for corp/coop)
+                                        </li>
+                                        <li>
+                                            Certificate of Filing with SEC/Certificate of Approval by CDA (for
+                                            corp/coop)
+                                        </li>
+                                        <li>
+                                            Proponent's Biodata
+                                        </li>
+                                        <li>
+                                            37 Landbank Post-Dated Checks
+                                        </li>
+                                        <li>
+                                            Project Proposal
+                                        </li>
+                                    </ol>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <p class="m-0">
+                        <i class="ri-information-2-fill ri-lg"></i> The 7 documents above are required for the
+                        Application submission process.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="section-title">
             <h2>What can you get from SETUP</h2>
         </div>
         <div class="row g-3 justify-content-center">
@@ -704,144 +849,8 @@
             </div>
         </div>
     </section>
-     <section>
-        <div class="section-title">
-            <h2>Application Requirements</h2>
-        </div>
-        <div class="row justify-content-center mx-3">
-            <div class="col-12 col-md-6">
-                <div class="alert alert-light h-100" role="alert">
-                    <h4 class="alert-heading mb-3">Who may Apply?</h4>
-                    <ul>
-                        <li>
-                            <strong>Business Type:</strong><br>
-                            Your business must be a small or medium-scale enterprise.
-                        </li>
-                        <li>
-                            <strong>Ownership:</strong><br>
-                            The business should be wholly owned by Filipino citizens.
-                        </li>
-                        <li>
-                            <strong>Industry:</strong><br>
-                            Your business should fall under one of the identified priority sectors.
-                        </li>
-                        <li>
-                            <strong>Willingness to adopt technology:</strong><br>
-                            Your business should be open to incorporating technological improvements into its
-                            operations.
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-12 col-md-6">
-                <div class="alert alert-light h-100">
-                    <h4 class="alert-header mb-3">What documents are required?</h4>
-                    <ol class="">
-                        <li>Letter of Intent</li>
-                        <li>DTI/SEC/CDA
-                            <span class="secondary-info-text">Department of Trade and Industry(DTI), Securit and Exchange Commission(SEC), and Cooperative Development Authority(CDA) Registrations
-                            </span>
-                            </li>
-                        <li>Business Permit</li>
-                        <li>BIR
-                            <span class="secondary-info-text">
-                                Bureau of Internal Revenue(BIR) Certificate of Registration
-                            </span>
-                        </li>
-                        <li>FDA/LTO(if applicable) </li>
-                        <li>Official Receipt of the Business</li>
-                        <li>Copy of Government Valid ID</li>
-                    </ol>
-                    <div class="accordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header">
-                              <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#follow-up_req" aria-expanded="true" aria-controls="follow-up_req">
-                                Follow-up Requirements
-                              </button>
-                            </h2>
-                            <div id="follow-up_req" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                              <div class="accordion-body">
-                                <ol>
-                                    <li>
-                                        Proponent's Barangay Certification
-                                    </li>
-                                    <li>
-                                        Lease Contract (if applicable)
-                                    </li>
-                                    <li>
-                                        Co-maker’s Government Issued ID
-                                    </li>
-                                    <li>
-                                        Audited Financial Statements for the past three (3) years of the enterprise.
-                                        The Audited Financial Report must contain the following statements:
-                                        <ul class="sub-list">
-                                            <li>
-                                                Statement of Financial Condition
 
-                                            </li>
-                                            <li>
-                                                Statement of Financial Position
-
-                                            </li>
-                                            <li>
-                                                Statement of Cash Flows
-
-                                            </li>
-                                            <li>
-                                                Statement of Changes in Net Assets/Equity
-
-                                            </li>
-                                            <li>
-                                                Notes to Financial Statement
-
-                                            </li>
-
-                                        </ul>
-                                    </li>
-                                    <li>
-                                        Omnibus affidavit
-                                    </li>
-                                    <li>
-                                        Quotations for Equipment to be acquired from 3 different suppliers
-                                    </li>
-                                    <li>
-                                        Board resolution authorizing the availment of financial assistance from DOST
-                                        XI and designating authorized signatory for the financial assistance.
-                                    </li>
-                                    <li>
-                                        Authenticated copy of the Articles of Incorporation showing original
-                                        incorporators/organizers (for corp/coop)
-                                    </li>
-                                    <li>
-                                        Secretary's certificate of incumbent officers (for corp/coop)
-                                    </li>
-                                    <li>
-                                        Certificate of Filing with SEC/Certificate of Approval by CDA (for corp/coop)
-                                    </li>
-                                    <li>
-                                        Proponent's Biodata
-                                    </li>
-                                    <li>
-                                        37 Landbank Post-Dated Checks
-                                    </li>
-                                    <li>
-                                        Project Proposal
-                                    </li>
-                                </ol>
-
-                              </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <p class="m-0">
-                        <i class="ri-information-2-fill ri-lg"></i> The 7 documents above are required for the Application submission process.
-                    </p>
-                </div>
-            </div>
-        </div>
-     </section>
-     <hr>
+    <hr>
     <section id="about" class="about">
         <div class="container">
             <div class="row">
@@ -915,6 +924,35 @@
     </section>
     @include('mainpage.footer')
     <script type="module">
+        $(document).ready(function() {
+            let previousScrollPosition = 0;
+            let scrollPosition = 0;
+            let isScrolling = false;
+            let scrollTimeout = null;
+
+            $('body').on('scroll', function() {
+                scrollPosition = $(this).scrollTop();
+                console.log('Scroll position:', scrollPosition);
+                if (scrollPosition !== previousScrollPosition) {
+                    if (scrollPosition > previousScrollPosition) {
+                        console.log('Scrolling down');
+                    } else {
+                        console.log('Scrolling up');
+                    }
+                    previousScrollPosition = scrollPosition;
+                    isScrolling = true;
+                    clearTimeout(scrollTimeout);
+                    scrollTimeout = setTimeout(function() {
+                        isScrolling = false;
+                        console.log('User stopped scrolling');
+                        $('.header-cont').addClass('show').removeClass('hide');
+                    }, 400); // adjust the timeout value as needed
+                }
+                if (scrollPosition && isScrolling) {
+                    $('.header-cont').addClass('hide').removeClass('show');
+                }
+            });
+        });
         $(document).ready(function() {
             let currentIndex = 0;
             const imgBoxes = $(".img-box");

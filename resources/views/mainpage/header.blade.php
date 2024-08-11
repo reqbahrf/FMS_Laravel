@@ -15,20 +15,10 @@
     }
 
     .nav-link.login {
-        color: #ffffff;
-        /* White text */
-        background-color: #318791;
-        /* Blue background */
-        padding: 10px 16px;
+        padding: 8px 16px;
         border-radius: 20px;
+        border: 1px solid #48C4D3;
         font-weight: bold;
-    }
-
-    .nav-link.login:hover {
-        background-color: #48C4D3;
-        /* Darker blue on hover */
-        text-decoration: none;
-        /* Removes underline on hover */
     }
 
     .headerText {
@@ -43,7 +33,19 @@
 
     .header-cont {
         height: 13vh;
+        background-color: var(--bs-topnav-color);
+        transition: all 0.5s ease;
 
+    }
+
+    .hide {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    .show {
+        transform: translateY(0);
+        opacity: 1;
     }
 
     .footer-cont {
@@ -145,7 +147,7 @@
     </div>
 </div>
 <!-- Confirmation modal End -->
-<div class="p-1 shadow-lg z-3 header-cont">
+<div class="p-1 shadow-lg z-3  {{ request()->is('index') ? 'position-fixed' : '' }} header-cont w-100">
     <div class="container-flex px-0 px-md-5 px-lg-5 align-items-center mb-3 mb-md-0">
         <header class="d-flex flex-wrap justify-content-center">
             <a href="/" class="d-flex justify-content-between me-auto text-dark text-decoration-none">
