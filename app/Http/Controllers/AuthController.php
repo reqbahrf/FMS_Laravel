@@ -147,8 +147,7 @@ class AuthController extends Controller
         }
 
         $currentTime = now()->timestamp;
-        $linkTime = intval(hash('sha256', $timestamp));
-        $timeDiffence = $currentTime - $linkTime;
+        $timeDiffence = $currentTime - $timestamp;
 
         if($timeDiffence > 1800) {
             return redirect()->route('home')->with('error', 'Verification link expired.');
