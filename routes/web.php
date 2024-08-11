@@ -84,8 +84,7 @@ Route::get('/email/verify', function () {
 })->name('verification.notice');
 
 Route::get('/email/verify/{id}/{hash}', [MailController::class, 'sendEmailVerify'])->name('verification.verify');
-
-Route::get('/verify-email/{id}/{hash}', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
+Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
 
 Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
 Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);

@@ -16,7 +16,7 @@ class MailController extends Controller
         $email = session('email');
 
         // Check if session data matches the route parameters
-        if ($userId && $userId == $id && sha1($email) == $hash) {
+        if ($userId && $userId == $id && hash('sha256', $email) == $hash) {
             // Create a user object
             $user = (object) ['id' => $userId, 'user_name' => $userName, 'email' => $email];
             Log::alert("message", ['user' => $user]);

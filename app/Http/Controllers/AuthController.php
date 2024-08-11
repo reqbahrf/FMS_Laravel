@@ -138,12 +138,20 @@ class AuthController extends Controller
         return response()->json(['error' => 'Authentication failed.'], 401);
     }
 
-    public function verifyEmail($id, $hash)
+    public function verifyEmail($id, $hash, $timestamp)
     {
         $user = User::find($id);
 
-        if (!$user || sha1($user->email) !== $hash) {
+        if (!$user || hash('sha256', $user->email) !== $hash) {
             return redirect()->route('home')->with('error', 'Invalid verification link.');
+        }
+
+        $currentTime = now()->timestamp;
+        $linkTime = intval(hash('sha256', $timestamp));
+        $timeDiffence = $currentTime - $linkTime;
+
+        if($timeDiffence > 1800) {
+            return redirect()->route('home')->with('error', 'Verification link expired.');
         }
 
         $user->email_verified_at = now();

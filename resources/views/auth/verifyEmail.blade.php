@@ -144,7 +144,7 @@
                     </div>
                     @endif
                     <div class="col-12">
-                        <a href="{{ route('verification.verify', ['id' => session('user_id'), 'hash' => sha1(session('email'))]) }}" class="btn btn-primary">Send Email</a>
+                        <a href="{{ route('verification.verify', ['id' => session('user_id'), 'hash' => hash('sha256', session('email'))]) }}" class="btn btn-primary">Send Email</a>
                     </div>
                 </div>
             </div>

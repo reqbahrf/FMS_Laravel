@@ -29,10 +29,15 @@ class verifyEmail extends Mailable
      */
     public function build()
     {
+        $timestamp = now()->timestamp;
         return $this->markdown('emailContent.confirmEmail')
             ->with([
                 'userName' => $this->user->user_name,
-                'verificationUrl' => route('verifyEmail', ['id' => $this->user->id, 'hash' => sha1($this->user->email)]),
+                'verificationUrl' => route('verifyEmail', [
+                    'id' => $this->user->id,
+                    'hash' => hash('sha256', $this->user->email),
+                    'timestamp' => $timestamp,
+                ]),
             ]);
     }
 }
