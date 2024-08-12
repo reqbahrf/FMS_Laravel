@@ -43,6 +43,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row g-3">
+                            <input type="hidden" id="selected_businessID">
                             <div class="col-md-6">
                                 <label for="firm_name" class="form-label">Name of Firm</label>
                                 <input type="text" class="form-control form-control-sm" id="firm_name" readonly>
@@ -83,9 +84,7 @@
                             </div>
                             <div class="col-md-4">
                                 <label for="email" class="form-label">Email Address:</label>
-
                                 <input type="text" class="form-control form-control-sm" id="email" readonly>
-
                             </div>
                         </div>
                     </div>
@@ -108,32 +107,14 @@
                                         <tr>
                                             <th class="fw-medium">File Name</th>
                                             <th class="fw-medium">File Type</th>
-                                            <th class="fw-medium">Can Edit</th>
-                                            <th class="fw-medium">Date Uploaded</th>
-                                            <th class="fw-medium">Date Updated</th>
-                                            <th class="fw-medium">Remark</th>
                                             <th class="fw-medium">Action</th>
                                         </tr>
                                 </thead>
                                 <tbody class="table-group-divider">
 
                                 </tbody>
-                                <tfoot>
-                                        <tr>
-                                            <th class="fw-medium">File Name</th>
-                                            <th class="fw-medium">File Type</th>
-                                            <th class="fw-medium">Can Edit</th>
-                                            <th class="fw-medium">Date Uploaded</th>
-                                            <th class="fw-medium">Date Updated</th>
-                                            <th class="fw-medium">Remark</th>
-                                            <th class="fw-medium">Action</th>
-                                        </tr>
-
-                                </tfoot>
                             </table>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="card">
@@ -145,7 +126,7 @@
                     </div>
                     <div class="card-body">
                         <div class="input-group date" data-date-format="mm-dd-yyyy">
-                            <input type="text" id="datepicker"" class=" form-control">
+                            <input type="text" id="datepicker" class=" form-control">
                             <div class="input-group-append">
                                 <i class="ri-calendar-schedule-fill input-group-text"></i>
                             </div>
@@ -168,7 +149,6 @@
                                     aria-label="Close"></button>
                                 <strong>Success - </strong> All data successfully inserted.
                             </div>
-                            <input type="hidden" name="b_ID" id="b_ID">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="projectTitle" name="projectTitle"
                                     placeholder="Project Title">
@@ -362,16 +342,17 @@
             let fullName = row.find('td:nth-child(1)').text();
             let designation = row.find('td:nth-child(2)').text();
             let firmName = row.find('td:nth-child(3)').text();
-            let businessID = row.find('td:nth-child(5) input#business_id').val();
+            let businessID = row.find('td:nth-child(4) input#business_id').val();
             let businessAddress = row.find('td:nth-child(4) span.b_address').text();
             let enterpriseType = row.find('td:nth-child(4) span.enterprise_l').text();
             let landline = row.find('td:nth-child(4) span.landline').text();
             let mobilePhone = row.find('td:nth-child(4) span.mobile_num').text();
             let emailAddress = row.find('td:nth-child(4) span.email_add').text();
             // Add more fields as needed
+            console.log(businessID);
 
             $('#firm_name').val(firmName);
-            $('#b_ID').val(businessID);
+            $('#selected_businessID').val(businessID);
             $('#address').val(businessAddress);
             $('#contact_person').val(fullName); // Add corresponding value
             $('#designation').val(designation);
@@ -380,6 +361,22 @@
             $('#mobile_phone').val(mobilePhone);
             $('#email').val(emailAddress);
             // Add more fields as needed
+            $.ajax({
+            type: 'GET',
+            url: '{{ route('staff.Applicant.Requirement') }}',
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+        data: {
+            selected_businessID: $('#selected_businessID').val()
+        },
+            success: function(responce) {
+                console.log(responce);
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })
         });
     });
 </script>
@@ -387,14 +384,7 @@
 
     $(document).ready(function() {
 
-        
-
-
-
-
-
     });
-
 
 </script>
 
