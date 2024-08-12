@@ -849,7 +849,6 @@
             </div>
         </div>
     </section>
-
     <hr>
     <section id="about" class="about">
         <div class="container">
@@ -923,6 +922,32 @@
         </div>
     </section>
     @include('mainpage.footer')
+    @if (session('error') || session('success'))
+        <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer" style="z-index: 1100;">
+            <div id="emailNofiToast" class="toast align-items-center" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="toast-header {{ session('error') ? 'text-bg-danger' : 'text-bg-success' }}">
+                    <strong class="me-auto">{{ session('error') ? 'Error' : 'Success' }}</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="successToastBody">
+                    {{ session('error') ? session('error') : session('success') }}
+                </div>
+            </div>
+        </div>
+    @endif
+    @if (session('error') || session('success'))
+        <script type="module">
+            $(document).ready(function() {
+                setTimeout(() => {
+                    const toastElement = document.getElementById('emailNofiToast');
+                    const toast = new bootstrap.Toast(toastElement);
+                    toast.show();
+                }, 500);
+            });
+        </script>
+    @endif
     <script type="module">
         $(document).ready(function() {
             let previousScrollPosition = 0;
