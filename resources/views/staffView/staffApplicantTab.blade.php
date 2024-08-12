@@ -1,87 +1,4 @@
-<?php
 
-// session_start();
-
-// $staffID = $_SESSION['staff_id'];
-
-// $conn = include_once '../db_connection/database_connection.php';
-
-// function getApplicant($conn)
-// {
-//     $sql = "SELECT users.user_name, users.email, personal_info.user_name, personal_info.f_name, personal_info.l_name, personal_info.designation, personal_info.mobile_number,  personal_info.landline, business_info.firm_name, business_info.enterprise_type, business_info.B_address, assets.building_value, assets.equipment_value, assets.working_capital, application_info.date_applied, application_info.application_status, business_info.id
-
-//     FROM users
-//     INNER JOIN personal_info ON personal_info.user_name = users.user_name
-//     INNER JOIN business_info ON business_info.user_info_id = personal_info.id
-//     INNER JOIN assets ON assets.business_id = business_info.id
-//     INNER JOIN application_info ON application_info.business_id = business_info.id
-//     WHERE application_info.application_status = 'waiting';";
-
-//     $result = mysqli_query($conn, $sql);
-//     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-//     return $rows;
-// }
-
-// $applicants = getApplicant($conn);
-
-// foreach ($applicants as $applicant) {
-//     $ApplicantTable[] = $applicant;
-// }
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-//     $b_ID = $_POST['b_ID'];
-//     $projectTitle = $_POST['projectTitle'];
-//     $fundAmount = floatval(str_replace(',', '', $_POST['fundAmount']));
-
-//     $stmt = $conn->prepare("INSERT INTO `project_info` (`business_id`, `evaluated_by_id`, `project_title`, `fund_amount`) VALUES (?, ?, ?, ?)");
-
-//     $stmt->bind_param("iiss", $b_ID, $staffID, $projectTitle, $fundAmount);
-
-//     $b_ID = $_POST['b_ID'];
-//     $projectTitle = $_POST['projectTitle'];
-//     $fundAmount = $_POST['fundAmount'];
-
-//     if ($stmt->execute()) {
-//         echo "New record created successfully";
-//     } else {
-//         echo "Error: " . $stmt->error;
-//     }
-
-//     $stmt->close();
-// }
-
-// [user_id] => 1
-// [f_name] => Reanz Arthur
-// [l_name] => Monera
-// [designation] => CEO
-// [mobile_number] => 0982-322-3232
-// [email_address] => re@erer
-// [landline] => 1121
-// [firm_name] => Resf
-// [enterprise_type] => Partnership
-// [B_address] => Mats
-// [building_value] => 1.00
-// [equipment_value] => 343.00
-// [working_capital] => 43.00
-// [date_applied] => 2024-05-22
-?>
-<!-- checkbox modal -->
-<!-- <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content ">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Review File</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" >Approve</button>
-                <button type="button" class="btn btn-secondary" >Resubmit</button>
-            </div>
-        </div>
-    </div>
-</div> -->
 <style>
     #applicant_wrapper>div:first-child {
         background-color: #318791;
@@ -92,7 +9,7 @@
     }
 
     #applicantDetails {
-        width: 50vw;
+        width:70vw;
         max-width: 100%;
     }
 
@@ -181,73 +98,42 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="row">
-                            <div class="col-md-8">
-                                <div>
-                                    <ul class="list-group">
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-1" type="checkbox" value=""
-                                                    id="letterOfIntentCheckbox">
-                                                <label class="form-check-label" for="letterOfIntentCheckbox">Letter of
-                                                    Intent</label>
-                                                <span class="badge bg-success">Reviewed</span>
-                                            </div>
-                                            <a href="path/to/letter_of_intent.pdf" target="_blank">Review File</a>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-1" type="checkbox" value=""
-                                                    id="dtiSecCdaCheckbox">
-                                                <label class="form-check-label"
-                                                    for="dtiSecCdaCheckbox">DTI/SEC/CDA</label>
-                                                <span class="badge bg-success">Reviewed</span>
-                                            </div>
-                                            <a href="path/to/dti_sec_cda.pdf" target="_blank">Review File</a>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-1" type="checkbox" value=""
-                                                    id="businessPermitCheckbox">
-                                                <label class="form-check-label" for="businessPermitCheckbox">Business
-                                                    Permit</label>
-                                                <span class="badge bg-success">Reviewed</span>
-                                            </div>
-                                            <a href="path/to/business_permit.pdf" target="_blank">Review File</a>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-1" type="checkbox" value=""
-                                                    id="fdaLtoCheckbox">
-                                                <label class="form-check-label" for="fdaLtoCheckbox">FDA/LTO</label>
-                                                <span class="badge bg-success">Reviewed</span>
-                                            </div>
-                                            <a href="path/to/fda_lto.pdf" target="_blank">Review File</a>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-1" type="checkbox" value=""
-                                                    id="officialReceiptCheckbox">
-                                                <label class="form-check-label" for="officialReceiptCheckbox">Official
-                                                    Receipt of the Business</label>
-                                                <span class="badge bg-success">Reviewed</span>
-                                            </div>
-                                            <a href="path/to/official_receipt.pdf" target="_blank">Review File</a>
-                                        </li>
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            <div>
-                                                <input class="form-check-input me-1" type="checkbox" value=""
-                                                    id="govValidIdCheckbox">
-                                                <label class="form-check-label" for="govValidIdCheckbox">Copy of
-                                                    Government Valid ID</label>
-                                                <span class="badge bg-success">Reviewed</span>
-                                            </div>
-                                            <a href="path/to/government_id.pdf" target="_blank">Review File</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div
+                            class="table-responsive"
+                        >
+                            <table
+                                class="table table-hover table-borderless align-middle"
+                            >
+                                <thead class="table-light">
+                                        <tr>
+                                            <th class="fw-medium">File Name</th>
+                                            <th class="fw-medium">File Type</th>
+                                            <th class="fw-medium">Can Edit</th>
+                                            <th class="fw-medium">Date Uploaded</th>
+                                            <th class="fw-medium">Date Updated</th>
+                                            <th class="fw-medium">Remark</th>
+                                            <th class="fw-medium">Action</th>
+                                        </tr>
+                                </thead>
+                                <tbody class="table-group-divider">
+
+                                </tbody>
+                                <tfoot>
+                                        <tr>
+                                            <th class="fw-medium">File Name</th>
+                                            <th class="fw-medium">File Type</th>
+                                            <th class="fw-medium">Can Edit</th>
+                                            <th class="fw-medium">Date Uploaded</th>
+                                            <th class="fw-medium">Date Updated</th>
+                                            <th class="fw-medium">Remark</th>
+                                            <th class="fw-medium">Action</th>
+                                        </tr>
+
+                                </tfoot>
+                            </table>
                         </div>
+
+
                     </div>
                 </div>
                 <div class="card">
@@ -333,8 +219,8 @@
                     @if (isset($applicants) && count($applicants) > 0)
                         @foreach ($applicants as $item)
                             <tr>
-        
-                                <td> {{ $item->prefix }} {{ $item->f_name }} {{ $item->l_name }} {{ $item->suffix }}</td>
+
+                                <td>{{ $item->prefix }} {{ $item->f_name }} {{ $item->l_name }} {{ $item->suffix }}</td>
                                 <td>{{ $item->designation }}</td>
                                 <td>{{ $item->firm_name }}</td>
                                 <td>
@@ -398,7 +284,7 @@
 
 <!-- Where the applicant table end -->
 
-<script>
+<script type="module">
     $(document).ready(function() {
         new DataTable('#applicant'); // Then initialize DataTables
         $('#datepicker').daterangepicker({
@@ -445,7 +331,7 @@
 
     });
 </script>
-<script>
+<script type="module">
     // jQuery code to populate modal fields with table row values
     $(document).ready(function() {
 
@@ -473,16 +359,15 @@
         $('.applicantDetailsBtn').on('click', function() {
             let row = $(this).closest('tr');
 
-            let userId = row.find('td:nth-child(1)').text();
-            let fullName = row.find('td:nth-child(2)').text();
-            let designation = row.find('td:nth-child(3)').text();
-            let firmName = row.find('td:nth-child(4)').text();
+            let fullName = row.find('td:nth-child(1)').text();
+            let designation = row.find('td:nth-child(2)').text();
+            let firmName = row.find('td:nth-child(3)').text();
             let businessID = row.find('td:nth-child(5) input#business_id').val();
-            let businessAddress = row.find('td:nth-child(5) span.b_address').text();
-            let enterpriseType = row.find('td:nth-child(5) span.enterprise_l').text();
-            let landline = row.find('td:nth-child(5) span.landline').text();
-            let mobilePhone = row.find('td:nth-child(5) span.mobile_num').text();
-            let emailAddress = row.find('td:nth-child(5) span.email_add').text();
+            let businessAddress = row.find('td:nth-child(4) span.b_address').text();
+            let enterpriseType = row.find('td:nth-child(4) span.enterprise_l').text();
+            let landline = row.find('td:nth-child(4) span.landline').text();
+            let mobilePhone = row.find('td:nth-child(4) span.mobile_num').text();
+            let emailAddress = row.find('td:nth-child(4) span.email_add').text();
             // Add more fields as needed
 
             $('#firm_name').val(firmName);
@@ -498,23 +383,18 @@
         });
     });
 </script>
-<script>
-    $(document).ready(function() {
-        $("#submitProject").click(function(e) {
-            e.preventDefault(); // Prevent default form submission
+<script type="module">
 
-            $.ajax({
-                type: 'POST',
-                url: '<?php echo $_SERVER['PHP_SELF']; ?>',
-                data: $('#projectP').serialize(), // Serialize the form data
-                success: function(response) {
-                    // Handle the response from the server
-                    $('#alertForm').removeClass('d-none');
-                },
-                error: function(xhr, status, error) {
-                    // Handle errors
-                }
-            });
-        });
+    $(document).ready(function() {
+
+        
+
+
+
+
+
     });
+
+
 </script>
+

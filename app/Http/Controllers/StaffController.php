@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\requirement;
 use App\Models\User;
 use Illuminate\Http\Request;
+
+
 
 class StaffController extends Controller
 {
@@ -75,6 +78,35 @@ class StaffController extends Controller
         else{
             return view('staffView.staffDashboard');
         }
+
+    }
+
+    public function applicantGetRequirements(Request $request)
+    {
+       $validated = $request->validate([
+           'id' => 'required|string'
+       ]);
+
+       $applicantUploadedFiles = requirement::where('business_id', $validated['id'])
+       ->select('file_name', 'files', 'file_type', 'can_edit', 'remarks', 'created_at', 'updated_at')
+       ->get();
+
+       $result = [];
+
+       foreach ($applicantUploadedFiles as $applicantUploadedFile){
+           $result[] = [
+               'file_name' => $applicantUploadedFile->file_name,
+               'files' => base64_encode($applicantUploadedFile->files),
+               'file_type' => $applicantUploadedFile->file_type,
+               'can_edit' => $applicantUploadedFile->can_edit,
+               'remarks' => $applicantUploadedFile->remarks,
+               'created_at' => $applicantUploadedFile->created_at->format('Y-m-d H:i:s'),
+               'updated_at' => $applicantUploadedFile->updated_at->format('Y-m-d H:i:s'),
+           ];
+       }
+
+       return response()->json($result, 200);
+
 
     }
     public function createDataSheet(Request $request)

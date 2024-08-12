@@ -62,8 +62,8 @@ Route::get('/staff/Project/Create-Project', function () {
 })->name('staff.Create-Project');
 
 Route::get('/staff/Project/Create-DataSheet', [StaffController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
-
 Route::get('/staff/Project/Create-InformationSheet', [StaffController::class, 'createInformationSheet'])->name('staff.Create-InformationSheet');
+Route::get('/staff/Applicant/Requirement', [StaffController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
 
 //Admin routes
 
