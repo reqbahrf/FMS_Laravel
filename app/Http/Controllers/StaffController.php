@@ -6,6 +6,7 @@ use App\Models\requirement;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 
 
@@ -125,13 +126,13 @@ class StaffController extends Controller
 
 
             if (!storage::disk('public')->exists($storagePath)) {
-                Storage::disk('public')->put($storagePath, base64_decode($applicantUploadedFile->files));
+                Storage::disk('public')->put($storagePath, $applicantUploadedFile->files);
             }
-            $fileUrl = asset('storage/' . $storagePath);
+            $fileUrl = $storagePath;
 
             $result[] = [
                 'file_name' => $applicantUploadedFile->file_name,
-                '$full_url' => $fileUrl,
+                'full_url' => $fileUrl,
                 'file_type' => $applicantUploadedFile->file_type,
                 'can_edit' => $applicantUploadedFile->can_edit,
                 'remarks' => $applicantUploadedFile->remarks,
@@ -142,6 +143,28 @@ class StaffController extends Controller
 
         return response()->json($result, 200);
     }
+
+    public function reviewFileFromUrl(Request $request)
+    {
+        $validate = $request->validate([
+            'file_url' => 'required|string'
+        ]);
+        $fileUrl = $validate['file_url'];
+
+        if(!Storage::disk('public')->exists($fileUrl)){
+            return response()->json(['error' => 'File not found'], 404);
+        }
+
+        $fileContent = Storage::disk('public')->get($fileUrl);
+
+        $base64File = base64_encode($fileContent);
+        return response()->json([
+            'base64File' =>  $base64File,
+        ], 200);
+
+
+    }
+
     public function createDataSheet(Request $request)
     {
         if ($request->ajax()) {

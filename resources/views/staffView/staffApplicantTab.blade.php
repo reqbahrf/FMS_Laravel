@@ -1,4 +1,3 @@
-
 <style>
     #applicant_wrapper>div:first-child {
         background-color: #318791;
@@ -9,7 +8,7 @@
     }
 
     #applicantDetails {
-        width:70vw;
+        width: 70vw;
         max-width: 100%;
     }
 
@@ -97,20 +96,17 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div
-                            class="table-responsive"
-                        >
-                            <table
-                                class="table table-hover table-borderless align-middle"
-                            >
+                        <div class="table-responsive">
+                            <table class="table table-hover table-borderless align-middle">
                                 <thead class="table-light">
-                                        <tr>
-                                            <th class="fw-medium">File Name</th>
-                                            <th class="fw-medium">File Type</th>
-                                            <th class="fw-medium">Action</th>
-                                        </tr>
+                                    <tr>
+                                        <th class="fw-bold">File Name</th>
+                                        <th class="fw-bold">File Type</th>
+                                        <th class="fw-bold text-center">Action</th>
+                                    </tr>
                                 </thead>
-                                <tbody class="table-group-divider">
+                                <tbody class="table-group-divider" id="requirementsTables">
+
 
                                 </tbody>
                             </table>
@@ -208,7 +204,8 @@
                                         <strong>Business Address:</strong>
                                         <input type="hidden" id="business_id" name="business_id"
                                             value="{{ $item->id }}">
-                                        <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }}, {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
+                                        <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }},
+                                            {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
                                         <strong>Type of Enterprise:</strong> <span
                                             class="enterprise_l">{{ $item->enterprise_type }}</span>
                                         <p>
@@ -257,6 +254,34 @@
                     </tr>
                 </tfoot>
             </table>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="reviewFileModal" tabindex="-1" aria-labelledby="reviewFileModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="exampleModalLabel">Review Requirement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row h-100">
+                    <div class="col-12 col-md-8">
+                        <div id="fileContent" class="h-100">
+
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
         </div>
     </div>
 </div>
@@ -362,29 +387,100 @@
             $('#email').val(emailAddress);
             // Add more fields as needed
             $.ajax({
-            type: 'GET',
-            url: '{{ route('staff.Applicant.Requirement') }}',
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            },
-        data: {
-            selected_businessID: $('#selected_businessID').val()
-        },
-            success: function(responce) {
-                console.log(responce);
-            },
-            error: function(error) {
-                console.log(error);
-            }
-        })
+                type: 'GET',
+                url: '{{ route('staff.Applicant.Requirement') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    selected_businessID: $('#selected_businessID').val()
+                },
+                success: function(response) {
+                    populateReqTable(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            })
         });
+
+        function populateReqTable(response) {
+            const requimentTableBody = $('#requirementsTables');
+
+            $.each(response, function(index, requirement) {
+                const row = $('<tr>');
+                row.append('<td>' + requirement.file_name + '</td>');
+                row.append('<td>' + requirement.file_type + '</td>');
+                row.append('<td class="text-center">' +
+                    '<button class="btn btn-primary" onclick="retrieveAndDisplayFile(\'' + requirement.full_url + '\', \'' + requirement.file_type + '\');">View</button>' + '</td>');
+                row.append('<input type="hidden" id="can_edit" name="can_edit" value="' + requirement
+                    .can_edit + '">');
+                row.append('<input type="hidden" id="remark" name"remark" value="' + requirement
+                    .remarks + '">');
+                row.append('<input type="hidden" id="created_at" name="created_at" value="' +
+                    requirement.created_at + '">');
+                row.append('<input type="hidden" id="updated_at" name="updated_at" value="' +
+                    requirement.updated_at + '">');
+
+
+                requimentTableBody.append(row);
+            })
+
+
+
+        }
+
+        window.retrieveAndDisplayFile = function(fileUrl, fileType) {
+            $.ajax({
+                url: '{{ route('staff.Applicant.Requirement.View') }}',
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    file_url: fileUrl
+                },
+                success: function(data) {
+                    const fileContent = $('#fileContent');
+                    fileContent.empty(); // Clear any previous content
+
+                    if (fileType === 'pdf') {
+                        // Display PDF in an iframe
+                        const base64PDF = 'data:application/pdf;base64,' + data.base64File + '';
+                        const embed = $('<iframe>', {
+                            src: base64PDF,
+                            type: 'application/pdf',
+                            width: '100%',
+                            height: '100%',
+                            frameborder: '0',
+                            allow: 'fullscreen'
+                        });
+                        fileContent.append(embed);
+
+
+                    } else {
+                        // Display Image
+                        const img = $('<img>', {
+                            src: `data:${fileType};base64,${data.base64File}`,
+                            class: 'img-fluid',
+                        });
+                        fileContent.append(img);
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+
+            })
+
+            const reviewFileModal = new bootstrap.Modal(document.getElementById('reviewFileModal'));
+            reviewFileModal.show();
+
+        }
     });
 </script>
 <script type="module">
-
     $(document).ready(function() {
 
     });
-
 </script>
-
