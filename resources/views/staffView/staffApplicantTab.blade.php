@@ -16,6 +16,13 @@
         font-size: clamp(12px, 1vw, 13px);
         font-weight: 600;
     }
+
+    .fixPosition {
+        position: fixed;
+        height: 60vh;
+        top: 10%;
+        right: 0;
+    }
 </style>
 
 <div>
@@ -97,7 +104,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <table class="table table-hover table-borderless align-middle">
+                            <table class="table table-hover align-middle">
                                 <thead class="table-light">
                                     <tr>
                                         <th class="fw-bold">File Name</th>
@@ -196,7 +203,7 @@
                         @foreach ($applicants as $item)
                             <tr>
 
-                                <td>{{ $item->prefix }} {{ $item->f_name }} {{ $item->l_name }} {{ $item->suffix }}</td>
+                                <td>{{ $item->prefix }} {{ $item->f_name }} {{ $item->mid_name }} {{ $item->l_name }} {{ $item->suffix }}</td>
                                 <td>{{ $item->designation }}</td>
                                 <td>{{ $item->firm_name }}</td>
                                 <td>
@@ -204,8 +211,7 @@
                                         <strong>Business Address:</strong>
                                         <input type="hidden" id="business_id" name="business_id"
                                             value="{{ $item->id }}">
-                                        <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }},
-                                            {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
+                                        <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }}, {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
                                         <strong>Type of Enterprise:</strong> <span
                                             class="enterprise_l">{{ $item->enterprise_type }}</span>
                                         <p>
@@ -273,14 +279,44 @@
 
                         </div>
                     </div>
-                    <div class="col-12 col-md-4">
+                    <div class="col-12 col-md-4 fixPosition">
+                        <div class="border border-3 h-100">
+                            <div class="row p-3 my-3 gy-3">
+                                <div class="col-12 col-md-8">
+                                    <div class="form-group">
+                                        <label for="fileName">File Name:</label>
+                                        <input class="form-control" type="text" id="fileName" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <div class="form-group">
+                                        <label for="filetype">File Type:</label>
+                                        <input class="form-control" type="text" id="filetype" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="fileUploaded">Uploaded at:</label>
+                                        <input class="form-control" type="text" id="fileUploaded" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <div class="form-group">
+                                        <label for="fileUpdated">Updated at:</label>
+                                        <input class="form-control" type="text" id="fileUpdated" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label for="fileUploadedBy">Uploaded by:</label>
+                                        <input class="form-control" type="text" id="fileUploadedBy" readonly>
+                                    </div>
+                                </div>
 
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>
@@ -412,14 +448,13 @@
                 row.append('<td>' + requirement.file_name + '</td>');
                 row.append('<td>' + requirement.file_type + '</td>');
                 row.append('<td class="text-center">' +
-                    '<button class="btn btn-primary" onclick="retrieveAndDisplayFile(\'' + requirement.full_url + '\', \'' + requirement.file_type + '\');">View</button>' + '</td>');
-                row.append('<input type="hidden" id="can_edit" name="can_edit" value="' + requirement
-                    .can_edit + '">');
-                row.append('<input type="hidden" id="remark" name"remark" value="' + requirement
-                    .remarks + '">');
-                row.append('<input type="hidden" id="created_at" name="created_at" value="' +
+                    '<button class="btn btn-primary viewReq">View</button>' + '</td>');
+                row.append('<input type="hidden"  name="file_url" value="' + requirement.full_url + '">')
+                row.append('<input type="hidden"  name="can_edit" value="' + requirement.can_edit + '">');
+                row.append('<input type="hidden"  name"remark" value="' + requirement.remarks + '">');
+                row.append('<input type="hidden"  name="created_at" value="' +
                     requirement.created_at + '">');
-                row.append('<input type="hidden" id="updated_at" name="updated_at" value="' +
+                row.append('<input type="hidden"  name="updated_at" value="' +
                     requirement.updated_at + '">');
 
 
@@ -430,7 +465,25 @@
 
         }
 
-        window.retrieveAndDisplayFile = function(fileUrl, fileType) {
+        $('#requirementsTables').on('click', '.viewReq', function() {
+            let row = $(this).closest('tr');
+            let file_Name = row.find('td:nth-child(1)').text();
+            let fileUrl = row.find('input[type="hidden"][name="file_url"]').val();
+            let fileType = row.find('td:nth-child(2)').text();
+            let uploadedDate = row.find('input[type="hidden"][name="created_at"]').val();
+            let updatedDate = row.find('input[type="hidden"][name="updated_at"]').val();
+            let uploader = $('#contact_person').val();
+
+
+            $('#fileName').val(file_Name);
+            $('#filetype').val(fileType);
+            $('#fileUploaded').val(uploadedDate);
+            $('#fileUploadedBy').val(updatedDate);
+            $('#fileUploadedBy').val(uploader);
+            retrieveAndDisplayFile(fileUrl, fileType);
+        });
+
+       function retrieveAndDisplayFile(fileUrl, fileType) {
             $.ajax({
                 url: '{{ route('staff.Applicant.Requirement.View') }}',
                 method: 'GET',
