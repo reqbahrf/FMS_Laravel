@@ -62,11 +62,13 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="contact_person" class="form-label">Contact Person:</label>
-                                    <input type="text" class="form-control form-control-sm" id="contact_person" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="contact_person"
+                                        readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="designation" class="form-label">Designation:</label>
-                                    <input type="text" class="form-control form-control-sm" id="designation" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="designation"
+                                        readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="enterpriseType" class="form-label">Type Of Enterprise:</label>
@@ -82,7 +84,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="mobile_phone" class="form-label">Mobile Phone:</label>
-                                    <input type="text" class="form-control form-control-sm" id="mobile_phone" readonly>
+                                    <input type="text" class="form-control form-control-sm" id="mobile_phone"
+                                        readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="email" class="form-label">Email Address:</label>
@@ -126,10 +129,11 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row">
+                            <div class="row h-100">
                                 <div class="col-10">
                                     <div class="input-group date" data-date-format="mm-dd-yyyy">
-                                        <input type="text" id="evaluationSchedule-datepicker" class="form-control">
+                                        <input type="text" id="evaluationSchedule-datepicker"
+                                            class="form-control">
                                         <div class="input-group-append">
                                             <i class="ri-calendar-schedule-fill input-group-text"></i>
                                         </div>
@@ -139,7 +143,12 @@
                                     <button type="button" class="btn btn-primary" id="setEvaluationDate">
                                         SET
                                     </button>
-                               </div>
+                                </div>
+                                <div class="col-12">
+                                    <div id="nofi_ScheduleCont">
+
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -220,9 +229,9 @@
                                     <div>
                                         <strong>Business Address:</strong>
                                         <input type="hidden" name="userID" value="{{ $item->user_id }}">
-                                        <input type="hidden" name="businessID"
-                                            value="{{ $item->business_id }}">
-                                        <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }}, {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
+                                        <input type="hidden" name="businessID" value="{{ $item->business_id }}">
+                                        <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }},
+                                            {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
                                         <strong>Type of Enterprise:</strong> <span
                                             class="enterprise_l">{{ $item->enterprise_type }}</span>
                                         <p>
@@ -276,7 +285,8 @@
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="reviewFileModal" tabindex="-1" aria-labelledby="reviewFileModalLabel" aria-hidden="true">
+<div class="modal fade" id="reviewFileModal" tabindex="-1" aria-labelledby="reviewFileModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header bg-primary">
@@ -347,7 +357,7 @@
             "autoUpdateInput": false,
             "timePicker": true,
             "locale": {
-              "format": "MM/DD/YYYY h:mm A"
+                "format": "MM/DD/YYYY h:mm A"
             }
         });
 
@@ -439,6 +449,9 @@
             $('#mobile_phone').val(mobilePhone);
             $('#email').val(emailAddress);
             // Add more fields as needed
+
+            notifDatePopulate(businessID)
+
             $.ajax({
                 type: 'GET',
                 url: '{{ route('staff.Applicant.Requirement') }}',
@@ -457,6 +470,37 @@
             })
         });
 
+        function notifDatePopulate(businessID) {
+            $.ajax({
+                type: 'GET',
+                url: '/staff/Applicant/Evaluation-Schedule',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                data: {
+                    business_id: businessID,
+                },
+                success: function(response) {
+
+                    let nofi_dateCont = $('#nofi_ScheduleCont');
+                    nofi_dateCont.empty();
+                    if(response.Scheduled_date){
+                        nofi_dateCont.append(
+                            '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
+                            response.Scheduled_date +
+                            '</strong> has been set for this applicant.</div>');
+                    }else{
+                        nofi_dateCont.append(
+                            '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>');
+                    }
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            });
+
+        }
+
         function populateReqTable(response) {
             let requimentTableBody = $('#requirementsTables');
 
@@ -468,8 +512,10 @@
                 row.append('<td>' + requirement.file_type + '</td>');
                 row.append('<td class="text-center">' +
                     '<button class="btn btn-primary viewReq">View</button>' + '</td>');
-                row.append('<input type="hidden"  name="file_url" value="' + requirement.full_url + '">')
-                row.append('<input type="hidden"  name="can_edit" value="' + requirement.can_edit + '">');
+                row.append('<input type="hidden"  name="file_url" value="' + requirement.full_url +
+                    '">')
+                row.append('<input type="hidden"  name="can_edit" value="' + requirement.can_edit +
+                    '">');
                 row.append('<input type="hidden"  name"remark" value="' + requirement.remarks + '">');
                 row.append('<input type="hidden"  name="created_at" value="' +
                     requirement.created_at + '">');
@@ -502,7 +548,7 @@
             retrieveAndDisplayFile(fileUrl, fileType);
         });
 
-       function retrieveAndDisplayFile(fileUrl, fileType) {
+        function retrieveAndDisplayFile(fileUrl, fileType) {
             $.ajax({
                 url: '{{ route('staff.Applicant.Requirement.View') }}',
                 method: 'GET',
@@ -550,7 +596,7 @@
 
         }
 
-        $('#setEvaluationDate').on('click', function(){
+        $('#setEvaluationDate').on('click', function() {
             let user_id = $('#selected_userId').val();
             let business_id = $('#selected_businessID').val();
             let Scheduledate = $('#evaluationSchedule-datepicker').val();
@@ -575,7 +621,8 @@
                 }
             })
 
+            notifDatePopulate(business_id);
+
         });
     });
 </script>
-

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\applicationInfo;
+use App\Models\businessInfo;
 use App\Models\requirement;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
-
-
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Cache;
 
 class StaffController extends Controller
 {
@@ -143,6 +145,43 @@ class StaffController extends Controller
         }
 
         return response()->json($result, 200);
+    }
+
+    public function getScheduledDate(Request $request)
+    {
+
+        $validated = $request->validate([
+            'business_id' => 'required|integer',
+        ]);
+
+        try {
+
+            $scheduled_date = applicationInfo::where('business_id', $validated['business_id'])
+                ->select('Evaluation_date')
+                ->first();
+
+                log::info($scheduled_date);
+
+
+            if ($scheduled_date->Evaluation_date !== null) {
+
+                $evaluation_date = Carbon::parse($scheduled_date->Evaluation_date)->format('Y-m-d h:i A');
+
+                return response()->json([
+                    'Scheduled_date' => $evaluation_date
+                ], 200);
+
+            }else{
+
+                return response()->json(['message' => 'Not Scheduled yet']);
+            }
+
+
+
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['message' => 'Not Scheduled yet']);
+        }
     }
 
     public function reviewFileFromUrl(Request $request)

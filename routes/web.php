@@ -68,9 +68,10 @@ Route::get('/staff/Applicant/Requirement', [StaffController::class, 'applicantGe
 Route::get('/staff/Applicant/Requirement/View', [StaffController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
 
 //Staff Evaluation Schedule Set date
-
 Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule']);
 
+//Get evaluation schedule
+Route::get('/staff/Applicant/Evaluation-Schedule', [StaffController::class, 'getScheduledDate']);
 //Admin routes
 
 Route::get('/Admin/Home', function () {
