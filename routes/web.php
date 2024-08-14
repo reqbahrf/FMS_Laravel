@@ -9,6 +9,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\ScheduleController;
 
 //Applicant routes
 
@@ -65,6 +66,10 @@ Route::get('/staff/Project/Create-DataSheet', [StaffController::class, 'createDa
 Route::get('/staff/Project/Create-InformationSheet', [StaffController::class, 'createInformationSheet'])->name('staff.Create-InformationSheet');
 Route::get('/staff/Applicant/Requirement', [StaffController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
 Route::get('/staff/Applicant/Requirement/View', [StaffController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
+
+//Staff Evaluation Schedule Set date
+
+Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule']);
 
 //Admin routes
 

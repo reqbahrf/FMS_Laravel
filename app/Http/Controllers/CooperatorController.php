@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
@@ -10,6 +11,9 @@ class CooperatorController extends Controller
 {
     public function index()
     {
+            $user = Auth::user();
+            $notifications = $user->notifications;
+
             $userId = Session::get('user_id');
             $userName = Session::get('user_name');
             $userBirthD = Session::get('birth_date');
@@ -48,7 +52,7 @@ class CooperatorController extends Controller
                     }
                 }
 
-                return view('cooperatorView.CooperatorDashboard', [
+                return view('cooperatorView.CooperatorDashboard', compact('notifications') , [
                     'application_status' => Session::get('application_status')
                 ]);
             }

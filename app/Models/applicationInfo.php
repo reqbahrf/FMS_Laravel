@@ -15,6 +15,7 @@ class applicationInfo extends Model
         'business_id',
         'date_applied',
         'application_status',
+        'Evaluation_date',
     ];
 
     public function businessInfo()

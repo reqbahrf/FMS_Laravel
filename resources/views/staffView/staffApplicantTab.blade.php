@@ -39,131 +39,141 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="fw-bold fs-6">
-                            <i class="ri-briefcase-fill"></i>
-                            Business Info
+            <div class="row g-3">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="fw-bold fs-6">
+                                <i class="ri-briefcase-fill"></i>
+                                Business Info
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <input type="hidden" id="selected_businessID">
-                            <div class="col-md-6">
-                                <label for="firm_name" class="form-label">Name of Firm</label>
-                                <input type="text" class="form-control form-control-sm" id="firm_name" readonly>
-                            </div>
-                            <div class="col-md-6">
-                                <label class="form-label">Address</label>
-                                <input type="text" class="form-control form-control-sm" id="address" readonly>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="contact_person" class="form-label">Contact Person:</label>
-                                <input type="text" class="form-control form-control-sm" id="contact_person" readonly>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="designation" class="form-label">Designation:</label>
-                                <input type="text" class="form-control form-control-sm" id="designation" readonly>
-                            </div>
-                            <div class="col-md-4">
-                                <label for="enterpriseType" class="form-label">Type Of Enterprise:</label>
-                                <input type="text" class="form-control form-control-sm" id="enterpriseType"
-                                    value="Sole Proprietorship" readonly>
-                            </div>
-                            <div class="col-12">
-
-                                Contact Details:
-
-                            </div>
-                            <div class="col-md-4">
-                                <label for="landline" class="form-label">Landline:</label>
-
-                                <input type="text" class="form-control form-control-sm" id="landline" readonly>
-
-                            </div>
-                            <div class="col-md-4">
-                                <label for="mobile_phone" class="form-label">Mobile Phone:</label>
-
-                                <input type="text" class="form-control form-control-sm" id="mobile_phone" readonly>
-
-                            </div>
-                            <div class="col-md-4">
-                                <label for="email" class="form-label">Email Address:</label>
-                                <input type="text" class="form-control form-control-sm" id="email" readonly>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <input type="hidden" id="selected_userId">
+                                <input type="hidden" id="selected_businessID">
+                                <div class="col-md-6">
+                                    <label for="firm_name" class="form-label">Name of Firm</label>
+                                    <input type="text" class="form-control form-control-sm" id="firm_name" readonly>
+                                </div>
+                                <div class="col-md-6">
+                                    <label class="form-label">Address</label>
+                                    <input type="text" class="form-control form-control-sm" id="address" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="contact_person" class="form-label">Contact Person:</label>
+                                    <input type="text" class="form-control form-control-sm" id="contact_person" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="designation" class="form-label">Designation:</label>
+                                    <input type="text" class="form-control form-control-sm" id="designation" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="enterpriseType" class="form-label">Type Of Enterprise:</label>
+                                    <input type="text" class="form-control form-control-sm" id="enterpriseType"
+                                        value="Sole Proprietorship" readonly>
+                                </div>
+                                <div class="col-12">
+                                    Contact Details:
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="landline" class="form-label">Landline:</label>
+                                    <input type="text" class="form-control form-control-sm" id="landline" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="mobile_phone" class="form-label">Mobile Phone:</label>
+                                    <input type="text" class="form-control form-control-sm" id="mobile_phone" readonly>
+                                </div>
+                                <div class="col-md-4">
+                                    <label for="email" class="form-label">Email Address:</label>
+                                    <input type="text" class="form-control form-control-sm" id="email" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class=" card-header">
-                        <div class="fw-bold fs-6">
-                            <i class="ri-file-list-3-fill"></i>
-                            Application requirements
+                <div class="col-12 col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="fw-bold fs-6">
+                                <i class="ri-file-list-3-fill"></i>
+                                Application requirements
+                            </div>
                         </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover align-middle">
-                                <thead class="table-light">
-                                    <tr>
-                                        <th class="fw-bold">File Name</th>
-                                        <th class="fw-bold">File Type</th>
-                                        <th class="fw-bold text-center">Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-group-divider" id="requirementsTables">
-
-
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="fw-bold fs-6">
-                            <i class="ri-calendar-event-fill"></i>
-                            Schedule an Evaluation
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="input-group date" data-date-format="mm-dd-yyyy">
-                            <input type="text" id="datepicker" class=" form-control">
-                            <div class="input-group-append">
-                                <i class="ri-calendar-schedule-fill input-group-text"></i>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-hover align-middle">
+                                    <thead class="table-light">
+                                        <tr>
+                                            <th class="fw-bold">File Name</th>
+                                            <th class="fw-bold">File Type</th>
+                                            <th class="fw-bold text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider" id="requirementsTables">
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <div class="fw-bold fs-6">
-                            <i class="ri-file-list-3-fill"></i>
-                            Project Proposal
+                <div class="col-12 col-md-6">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <div class="fw-bold fs-6">
+                                <i class="ri-calendar-event-fill"></i>
+                                Schedule an Evaluation
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-10">
+                                    <div class="input-group date" data-date-format="mm-dd-yyyy">
+                                        <input type="text" id="evaluationSchedule-datepicker" class="form-control">
+                                        <div class="input-group-append">
+                                            <i class="ri-calendar-schedule-fill input-group-text"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-primary" id="setEvaluationDate">
+                                        SET
+                                    </button>
+                               </div>
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" id="projectP">
-                            <div id="alertForm"
-                                class="alert alert-success alert-dismissible text-bg-success border-0 fade show mx-5 d-none"
-                                role="alert">
-                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
-                                    aria-label="Close"></button>
-                                <strong>Success - </strong> All data successfully inserted.
+                </div>
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="fw-bold fs-6">
+                                <i class="ri-file-list-3-fill"></i>
+                                Project Proposal
                             </div>
-                            <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="projectTitle" name="projectTitle"
-                                    placeholder="Project Title">
-                                <label for="projectTitle">Project Title</label>
-                            </div>
-                            <div class="form-floating w-75 mx-auto">
-                                <input type="text" class="form-control" id="fundAmount"
-                                    name="fundAmountFormatted" placeholder="Fund Amount">
-                                <label for="fundAmount">Fund Amount</label>
-                                <input type="hidden" id="fundAmountHidden" name="fundAmount">
-                            </div>
-                        </form>
+                        </div>
+                        <div class="card-body">
+                            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" id="projectP">
+                                <div id="alertForm"
+                                    class="alert alert-success alert-dismissible text-bg-success border-0 fade show mx-5 d-none"
+                                    role="alert">
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
+                                        aria-label="Close"></button>
+                                    <strong>Success - </strong> All data successfully inserted.
+                                </div>
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="projectTitle" name="projectTitle"
+                                        placeholder="Project Title">
+                                    <label for="projectTitle">Project Title</label>
+                                </div>
+                                <div class="form-floating w-75 mx-auto">
+                                    <input type="text" class="form-control" id="fundAmount"
+                                        name="fundAmountFormatted" placeholder="Fund Amount">
+                                    <label for="fundAmount">Fund Amount</label>
+                                    <input type="hidden" id="fundAmountHidden" name="fundAmount">
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="d-flex justify-content-end gap-2 py-3">
@@ -209,8 +219,9 @@
                                 <td>
                                     <div>
                                         <strong>Business Address:</strong>
-                                        <input type="hidden" id="business_id" name="business_id"
-                                            value="{{ $item->id }}">
+                                        <input type="hidden" name="userID" value="{{ $item->user_id }}">
+                                        <input type="hidden" name="businessID"
+                                            value="{{ $item->business_id }}">
                                         <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }}, {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
                                         <strong>Type of Enterprise:</strong> <span
                                             class="enterprise_l">{{ $item->enterprise_type }}</span>
@@ -328,19 +339,23 @@
 <script type="module">
     $(document).ready(function() {
         new DataTable('#applicant'); // Then initialize DataTables
-        $('#datepicker').daterangepicker({
+        $('#evaluationSchedule-datepicker').daterangepicker({
             "singleDatePicker": true,
             "showDropdowns": true,
             "opens": "center",
             "drops": "up",
-            "autoUpdateInput": false
+            "autoUpdateInput": false,
+            "timePicker": true,
+            "locale": {
+              "format": "MM/DD/YYYY h:mm A"
+            }
         });
 
-        $('#datepicker').on('apply.daterangepicker', function(ev, picker) {
-            $(this).val(picker.startDate.format('MM/DD/YYYY'));
+        $('#evaluationSchedule-datepicker').on('apply.daterangepicker', function(ev, picker) {
+            $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm'));
         });
 
-        $('#datepicker').on('cancel.daterangepicker', function(ev, picker) {
+        $('#evaluationSchedule-datepicker').on('cancel.daterangepicker', function(ev, picker) {
             $(this).val('');
         });
 
@@ -403,7 +418,8 @@
             let fullName = row.find('td:nth-child(1)').text();
             let designation = row.find('td:nth-child(2)').text();
             let firmName = row.find('td:nth-child(3)').text();
-            let businessID = row.find('td:nth-child(4) input#business_id').val();
+            let userID = row.find('td:nth-child(4) input[name="userID"]').val();
+            let businessID = row.find('td:nth-child(4) input[name="businessID"]').val();
             let businessAddress = row.find('td:nth-child(4) span.b_address').text();
             let enterpriseType = row.find('td:nth-child(4) span.enterprise_l').text();
             let landline = row.find('td:nth-child(4) span.landline').text();
@@ -413,6 +429,7 @@
             console.log(businessID);
 
             $('#firm_name').val(firmName);
+            $('#selected_userId').val(userID);
             $('#selected_businessID').val(businessID);
             $('#address').val(businessAddress);
             $('#contact_person').val(fullName); // Add corresponding value
@@ -441,7 +458,9 @@
         });
 
         function populateReqTable(response) {
-            const requimentTableBody = $('#requirementsTables');
+            let requimentTableBody = $('#requirementsTables');
+
+            requimentTableBody.empty();
 
             $.each(response, function(index, requirement) {
                 const row = $('<tr>');
@@ -530,10 +549,33 @@
             reviewFileModal.show();
 
         }
-    });
-</script>
-<script type="module">
-    $(document).ready(function() {
 
+        $('#setEvaluationDate').on('click', function(){
+            let user_id = $('#selected_userId').val();
+            let business_id = $('#selected_businessID').val();
+            let Scheduledate = $('#evaluationSchedule-datepicker').val();
+
+
+            $.ajax({
+                type: 'PUT',
+                url: '/staff/Applicant/Evaluation-Schedule',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    user_id: user_id,
+                    business_id: business_id,
+                    evaluation_date: Scheduledate
+                },
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            })
+
+        });
     });
 </script>
+

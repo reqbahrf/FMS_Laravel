@@ -77,6 +77,7 @@ class StaffController extends Controller
                 ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
                 ->where('application_info.application_status', 'waiting')
                 ->select(
+                    'users.id as user_id',
                     'users.email',
                     'coop_users_info.prefix',
                     'coop_users_info.f_name',
@@ -96,9 +97,9 @@ class StaffController extends Controller
                     'assets.building_value',
                     'assets.equipment_value',
                     'assets.working_capital',
-                    'application_info.date_applied',
+                    'application_info.created_at as date_applied',
                     'application_info.application_status',
-                    'business_info.id'
+                    'business_info.id as business_id'
                 )
                 ->get();
 
