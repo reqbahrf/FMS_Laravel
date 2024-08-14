@@ -25,7 +25,22 @@ class ScheduleController extends Controller
             ['Evaluation_date' => $validated['evaluation_date']]
         );
 
-        $applicant->notify(new EvaluationScheduleNotification($schedule));
+        // Instantiate the notification
+        $notification = new EvaluationScheduleNotification($schedule);
+
+        // Find existing notification
+        $existingNotification = $notification->findExisting($applicant);
+
+        // Prepare the notification data
+        $notificationData = $notification->toArray($applicant);
+
+        if ($existingNotification) {
+            // Update the existing notification
+            $existingNotification->update(['data' => $notificationData]);
+        } else {
+            // Send a new notification
+            $applicant->notify($notification);
+        }
 
         return response()
         ->json([

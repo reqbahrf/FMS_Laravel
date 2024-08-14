@@ -130,7 +130,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row h-100">
-                                <div class="col-10">
+                                <div class="col-9">
                                     <div class="input-group date" data-date-format="mm-dd-yyyy">
                                         <input type="text" id="evaluationSchedule-datepicker"
                                             class="form-control">
@@ -139,8 +139,8 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-primary" id="setEvaluationDate">
+                                <div class="col-3">
+                                    <button type="button" class="btn btn-primary mx-auto" id="setEvaluationDate">
                                         SET
                                     </button>
                                 </div>
@@ -483,12 +483,14 @@
                 success: function(response) {
 
                     let nofi_dateCont = $('#nofi_ScheduleCont');
+                    let setAndUpdateBtn = $('#setEvaluationDate');
                     nofi_dateCont.empty();
                     if(response.Scheduled_date){
                         nofi_dateCont.append(
                             '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
                             response.Scheduled_date +
                             '</strong> has been set for this applicant.</div>');
+                        setAndUpdateBtn.text('Update');
                     }else{
                         nofi_dateCont.append(
                             '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>');
@@ -615,13 +617,16 @@
                 },
                 success: function(response) {
                     console.log(response);
+                    if(response.success == true) {
+                        notifDatePopulate(business_id);
+                    }
                 },
                 error: function(error) {
                     console.log(error);
                 }
             })
 
-            notifDatePopulate(business_id);
+
 
         });
     });

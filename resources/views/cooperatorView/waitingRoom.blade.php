@@ -147,26 +147,30 @@
                             </div>
                             <div class="px-2" style="max-height: 300px; width:30vw; overflow-y: auto;">
                                 <h5 class="text-muted font-13 fw-normal mt-2">Today</h5>
-                                @foreach ($notifications as $notification)
-                                    <a href="#"
-                                        class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
-                                        <div class="card-body">
-                                            <div class="d-flex align-items-center">
-                                                <div class="flex-shrink-0">
-                                                    <div class="notify-icon bg-primary">
-                                                        <i class="mdi mdi-comment-account-outline"></i>
+                                @if (count($notifications) == 0)
+                                    <p>No notifications available.</p>
+                                @else
+                                    @foreach ($notifications as $notification)
+                                        <a href="#"
+                                            class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
+                                            <div class="card-body">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="flex-shrink-0">
+                                                        <div class="notify-icon bg-primary">
+                                                            <i class="mdi mdi-comment-account-outline"></i>
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex-grow-1 text-truncate ms-2">
+                                                        <p>{{ $notification->data['message'] }}</p>
+
+                                                        <p><small>{{ $notification->created_at->diffForHumans() }}</small>
+                                                        </p>
                                                     </div>
                                                 </div>
-                                                <div class="flex-grow-1 text-truncate ms-2">
-                                                    <p>{{ $notification->data['message'] }}</p>
-                                                    <!-- Display the notification message -->
-                                                    <p><small>{{ $notification->created_at->diffForHumans() }}</small>
-                                                    </p> <!-- Display when the notification was created -->
-                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                @endforeach
+                                        </a>
+                                    @endforeach
+                                @endif
                                 <div class="text-center">
                                 </div>
                             </div>
@@ -222,6 +226,7 @@
                         </div>
                     @endif
                 @endforeach
+
                 <div class="waiting-clock">
                     <div
                         class="container d-flex flex-column justify-content-center align-items-center p-4 shadow rounded-5 ">

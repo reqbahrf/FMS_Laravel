@@ -15,6 +15,7 @@ class EvaluationScheduleNotification extends Notification
 
     protected $schedule;
 
+
     /**
      * Create a new notification instance.
      */
@@ -65,5 +66,13 @@ class EvaluationScheduleNotification extends Notification
             'message' => 'Your evaluation is scheduled on ' .  $evaluationDate,
             'schedule_id' => $this->schedule->id,
         ]);
+    }
+
+    public function findExisting($notifiable)
+    {
+    return $notifiable->notifications()
+                      ->where('type', self::class)
+                      ->where('notifiable_id', $notifiable->id)
+                      ->first();
     }
 }
