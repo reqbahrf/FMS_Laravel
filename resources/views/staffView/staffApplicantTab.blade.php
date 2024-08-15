@@ -58,7 +58,8 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label">Address</label>
-                                    <input type="text" class="form-control form-control-sm" id="address" readonly>
+                                    <input type="text" class="form-control form-control-sm text-nowrap"
+                                        id="address" readonly>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="contact_person" class="form-label">Contact Person:</label>
@@ -210,8 +211,7 @@
 
                         <th>Client Name</th>
                         <th>Designation</th>
-                        <th>Firm Name</th>
-                        <th>Additional Info</th>
+                        <th>Business Info</th>
                         <th>Date Applied</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -222,16 +222,19 @@
                         @foreach ($applicants as $item)
                             <tr>
 
-                                <td>{{ $item->prefix }} {{ $item->f_name }} {{ $item->mid_name }} {{ $item->l_name }} {{ $item->suffix }}</td>
+                                <td>{{ $item->prefix }} {{ $item->f_name }} {{ $item->mid_name }} {{ $item->l_name }}
+                                    {{ $item->suffix }}</td>
                                 <td>{{ $item->designation }}</td>
-                                <td>{{ $item->firm_name }}</td>
                                 <td>
                                     <div>
+                                        <strong>Firm Name:</strong> <span
+                                            class="firm_name">{{ $item->firm_name }}</span><br>
                                         <strong>Business Address:</strong>
                                         <input type="hidden" name="userID" value="{{ $item->user_id }}">
                                         <input type="hidden" name="businessID" value="{{ $item->business_id }}">
-                                        <span class="b_address"> {{ $item->landMark }}, {{ $item->barangay }},
-                                            {{ $item->city }}, {{ $item->province }}, {{ $item->region }}</span><br>
+                                        <span
+                                            class="b_address text-nowrap">{{ $item->landMark . ', ' . $item->barangay . ', ' . $item->city . ', ' . $item->province . ', ' . $item->region }}
+                                        </span><br>
                                         <strong>Type of Enterprise:</strong> <span
                                             class="enterprise_l">{{ $item->enterprise_type }}</span>
                                         <p>
@@ -272,8 +275,7 @@
 
                         <th>Client Name</th>
                         <th>Designation</th>
-                        <th>Firm Name</th>
-                        <th>Additional Info</th>
+                        <th>Business Info</th>
                         <th>Date Applied</th>
                         <th>Status</th>
                         <th>Action</th>
@@ -427,14 +429,14 @@
 
             let fullName = row.find('td:nth-child(1)').text();
             let designation = row.find('td:nth-child(2)').text();
-            let firmName = row.find('td:nth-child(3)').text();
-            let userID = row.find('td:nth-child(4) input[name="userID"]').val();
-            let businessID = row.find('td:nth-child(4) input[name="businessID"]').val();
-            let businessAddress = row.find('td:nth-child(4) span.b_address').text();
-            let enterpriseType = row.find('td:nth-child(4) span.enterprise_l').text();
-            let landline = row.find('td:nth-child(4) span.landline').text();
-            let mobilePhone = row.find('td:nth-child(4) span.mobile_num').text();
-            let emailAddress = row.find('td:nth-child(4) span.email_add').text();
+            let firmName = row.find('td:nth-child(3) span.firm_name').text();
+            let userID = row.find('td:nth-child(3) input[name="userID"]').val();
+            let businessID = row.find('td:nth-child(3) input[name="businessID"]').val();
+            let businessAddress = row.find('td:nth-child(3) span.b_address').text();
+            let enterpriseType = row.find('td:nth-child(3) span.enterprise_l').text();
+            let landline = row.find('td:nth-child(3) span.landline').text();
+            let mobilePhone = row.find('td:nth-child(3) span.mobile_num').text();
+            let emailAddress = row.find('td:nth-child(3) span.email_add').text();
             // Add more fields as needed
             console.log(businessID);
 
@@ -485,15 +487,16 @@
                     let nofi_dateCont = $('#nofi_ScheduleCont');
                     let setAndUpdateBtn = $('#setEvaluationDate');
                     nofi_dateCont.empty();
-                    if(response.Scheduled_date){
+                    if (response.Scheduled_date) {
                         nofi_dateCont.append(
                             '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
                             response.Scheduled_date +
                             '</strong> has been set for this applicant.</div>');
                         setAndUpdateBtn.text('Update');
-                    }else{
+                    } else {
                         nofi_dateCont.append(
-                            '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>');
+                            '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>'
+                        );
                     }
                 },
                 error: function(error) {
@@ -617,7 +620,7 @@
                 },
                 success: function(response) {
                     console.log(response);
-                    if(response.success == true) {
+                    if (response.success == true) {
                         notifDatePopulate(business_id);
                     }
                 },

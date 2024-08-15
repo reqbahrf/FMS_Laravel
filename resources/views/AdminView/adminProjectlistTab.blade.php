@@ -411,11 +411,9 @@
                         <table id="applicant" class="table table-hover mx-2" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Client Name</th>
                                     <th>Designation</th>
-                                    <th>Firm Name</th>
-                                    <th>Additional Info</th>
+                                    <th>Business Info</th>
                                     <th>Date Applied</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -425,16 +423,21 @@
                                 @if (isset($applicants) && $applicants->isNotEmpty())
                                     @foreach ($applicants as $applicantInfo)
                                         <tr>
-                                            <td>{{ $applicantInfo->user_id }}</td>
-                                            <td>{{ $applicantInfo->f_name . ' ' . $applicantInfo->l_name }}</td>
+                                            <input type="hidden" name="user_Id" class="user_Id" value="{{ $applicantInfo->user_id }}">
+                                            <td>{{ $applicantInfo->prefix . ' ' . $applicantInfo->f_name . ' ' . $applicantInfo->mid_name . ' ' . $applicantInfo->l_name . ' ' . $applicantInfo->suffix }}
+                                            </td>
                                             <td>{{ $applicantInfo->designation }}</td>
-                                            <td>{{ $applicantInfo->firm_name }}</td>
                                             <td>
-                                                <div><strong>Business Address:</strong>
+                                                <div>
+                                                    <strong>Business Name:</strong>
+                                                    <span class="firm_name">
+                                                        {{ $applicantInfo->firm_name }}
+                                                    </span><br>
+                                                    <strong>Business Address:</strong>
                                                     <input type="hidden" name="business_id" id="business_id"
                                                         value="{{ $applicantInfo->id }}">
                                                     <span
-                                                        class="business_Address"> {{ $applicantInfo->landMark }}, {{ $applicantInfo->barangay }}, {{ $applicantInfo->city }}, {{ $applicantInfo->province }}, {{ $applicantInfo->region }}</span>
+                                                        class="business_Address"> {{ $applicantInfo->landMark . ', ' . $applicantInfo->barangay . ', ' . $applicantInfo->city . ', ' . $applicantInfo->province . ', ' . $applicantInfo->region }}</span>
                                                     <br>
                                                     <strong>Type of Enterprise:</strong> <span
                                                         class="Type_Enterprise">{{ $applicantInfo->enterprise_type }}</span>
@@ -456,13 +459,15 @@
                                                     </span>
                                                 </div>
                                                 <strong>Contact Details:</strong>
-                                                <div>
-                                                    <strong class="p-2">Landline:</strong>
+                                                <p>
+                                                    <span class="p-2">Landline:</span>
                                                     <span class="landline">{{ $applicantInfo->landline }}</span> <br>
-                                                    <Strong class="p-2">Mobile Phone:</Strong>
-                                                    <span class="MobileNum">{{ $applicantInfo->mobile_number }}</span>
+                                                    <span class="p-2">Mobile Phone:</span>
+                                                    <span class="MobileNum">{{ $applicantInfo->mobile_number }}</span><br>
+                                                    <span class="p-2">Email:</span>
+                                                    <span class="Email">{{ $applicantInfo->email }}</span>
                                                     <br>
-                                                </div>
+                                                </p>
                                             </td>
                                             <td>{{ $applicantInfo->date_applied }}</td>
                                             <td>To be reviewed</td>
@@ -479,11 +484,9 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Client Name</th>
                                     <th>Designation</th>
-                                    <th>Firm Name</th>
-                                    <th>Additional Info</th>
+                                    <th>Business Info</th>
                                     <th>Date Applied</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -556,7 +559,6 @@
                                     <th>Firm Info</th>
                                     <th>Owner Info</th>
                                     <th>Refund Progress</th>
-
                                     <th>Handled by</th>
                                     <th>Action</th>
                                 </tr>
@@ -661,8 +663,8 @@
         $('.viewApplicant').on('click', function() {
             let row = $(this).closest('tr');
 
-            $('#cooperatorName').val(row.find('td:eq(1)').text());
-            $('#designation').val(row.find('td:eq(2)').text());
+            $('#cooperatorName').val(row.find('td:nth-child(2)').text());
+            $('#designation').val(row.find('td:nth-child(3)').text());
             $('#b_id').val(row.find('#business_id').val());
             $('#businessAddress').val(row.find('.business_Address').text());
             $('#typeOfEnterprise').val(row.find('.Type_Enterprise').text());

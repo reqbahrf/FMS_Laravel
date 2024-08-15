@@ -97,6 +97,14 @@
             height: 100%;
         }
 
+        th {
+            font-size: 14px;
+        }
+
+        td{
+            font-size: 15px;
+        }
+
         .dt-paging .page-item .page-link {
             color: #318791;
             /* Default text color */
