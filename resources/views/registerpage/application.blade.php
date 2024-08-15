@@ -203,7 +203,7 @@
             pointer-events: none;
         }
 
-        .paragraph-content{
+        .paragraph-content {
             text-align: justify;
         }
     </style>
@@ -327,9 +327,8 @@
                             <div class="col-12 col-md-4">
                                 <div class="row">
                                     <div class="col-12 col-md-6 mx-auto">
-                                        <label for="designation">Designation: <span
-                                                class="requiredFields">*</span>
-                                            </label>
+                                        <label for="designation">Designation: <span class="requiredFields">*</span>
+                                        </label>
                                         <input type="text" name="designation" id="designation"
                                             value="{{ old('designation') }}" class="form-control"
                                             placeholder="Designation" required data-bs-toggle="tooltip"
@@ -779,11 +778,15 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="DtiSecCdafile" class="form-label">DTI/SEC/CDA: <span
-                                        class="requiredFields">
-                                        *</span> <span class="form-text text-secondary fw-lighter">Department of Trade
+                                <label for="DtiSecCdafile" class="form-label">DTI/SEC/CDA
+                                    <span class="form-text">(Certificate of Registration):</span>
+                                    <span class="requiredFields">
+                                        *</span>
+                                    <span class="form-text text-secondary fw-lighter">Department of Trade
                                         and Industry(DTI), Securit and Exchange Commission(SEC), and Cooperative
-                                        Development Authority(CDA) Registrations</span></label>
+                                        Development Authority(CDA) Registrations
+                                    </span>
+                                </label>
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
                                         <select id="DtiSecCdaSelector" class="form-select form-select-lg"
@@ -816,9 +819,15 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="fdaLtoFile" class="form-label">FDA/LTO:<span class="fw-lighter"> (if
-                                        Applicable)</span> <span class="form-text text-secondary fw-lighter">Food and
-                                        Drug Administration(FDA) or Food and Drug Administration(LTO)</span></label>
+                                <label for="fdaLtoFile" class="form-label">FDA/LTO
+                                    <span class="form-text">(Certificate of Registration):</span>
+                                    <span class="fw-lighter">
+                                        (if Applicable)
+                                    </span>
+                                    <span class="form-text text-secondary fw-lighter">
+                                        Food and Drug Administration(FDA) or Food and Drug Administration(LTO)
+                                    </span>
+                                </label>
                                 <div class="row">
                                     <div class="col-2 d-flex align-items-center justify-content-center">
                                         <select id="fdaLtoSelector" class="form-select form-select-lg"
@@ -854,11 +863,14 @@
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="BIRFile" class="form-label">BIR:
+                                <label for="BIRFile" class="form-label">BIR
+                                    <span class="form-text">(Certificate of Registration):</span>
                                     <span class="requiredFields">
-                                        *</span>
-                                        <span class="form-text text-secondary fw-lighter"> Bureau of Internal
-                                        Revenue(BIR) Certificate of Registration</span>
+                                        *
+                                    </span>
+                                    <span class="form-text text-secondary fw-lighter">
+                                        Bureau of Internal Revenue(BIR) Certificate of Registration
+                                    </span>
                                 </label>
                                 <input class="fileUploads" type="file" name="BIRFile" id="BIRFile">
                                 <div class="form-text">Accepted formats: .pdf.</div>
@@ -868,7 +880,8 @@
                             </div>
                             <div class="alert alert-primary m-0" role="alert">
                                 <i class="ri-information-2-fill ri-lg"></i>
-                                Please, before you proceed to the next step, make sure you have double-checked all the uploaded files.
+                                Please, before you proceed to the next step, make sure you have double-checked all the
+                                uploaded files.
                             </div>
                             <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path"
                                 value="">
@@ -906,7 +919,7 @@
                                                 <div class="col-12 col-md-4">
                                                     <label for="designa">Designation</label>
                                                     <input type="text" id="re_designa" class="form-control mb-3"
-                                                    readonly>
+                                                        readonly>
                                                 </div>
                                                 <div class="col-12 col-md-2">
                                                     <label for="b_Date">Birth Date</label>
@@ -1069,8 +1082,7 @@
                                                                         <div class="card-body">
 
                                                                             <div class="col-12">
-                                                                                <label
-                                                                                    for="re_m_personnelIndRe">Male
+                                                                                <label for="re_m_personnelIndRe">Male
                                                                                 </label>
                                                                                 <div class="mb-3">
                                                                                     <input type="text"
@@ -1164,7 +1176,8 @@
                                 <h6>Data Privacy Consent</h6>
                             </div>
                             <div class="card-body">
-                                <p class="paragraph-content">The Department of Science and Technology XI respect your privacy and are committed to
+                                <p class="paragraph-content">The Department of Science and Technology XI respect your
+                                    privacy and are committed to
                                     protecting
                                     your personal data. This Data Privacy Consent informs you about how we collect, use,
                                     store, and
@@ -1219,25 +1232,35 @@
                                 <h6>Terms and Conditions</h6>
                             </div>
                             <div class="card-body text-justify">
-                                <p class="paragraph-content">Welcome to DOST-SETUP-SYS. By accessing and using this website, you agree to comply with and be bound by the following terms and conditions:
+                                <p class="paragraph-content">Welcome to DOST-SETUP-SYS. By accessing and using this
+                                    website, you agree to comply with and be bound by the following terms and
+                                    conditions:
                                 </p>
                                 <p class="paragraph-content">
-                                    <strong>Acceptance of Terms:</strong> By using this website, you acknowledge that you have read, understood, and agree to be bound by these terms and conditions
+                                    <strong>Acceptance of Terms:</strong> By using this website, you acknowledge that
+                                    you have read, understood, and agree to be bound by these terms and conditions
                                 </p>
                                 <p>
-                                    <strong>Use of the Website:</strong> You agree to use this website only for lawful purposes and in a manner that does not infringe the rights of, restrict, or inhibit anyone else's use and enjoyment of the website.
+                                    <strong>Use of the Website:</strong> You agree to use this website only for lawful
+                                    purposes and in a manner that does not infringe the rights of, restrict, or inhibit
+                                    anyone else's use and enjoyment of the website.
                                 </p>
                                 <p class="paragraph-content">
                                     <strong>
-                                    User Accounts:
+                                        User Accounts:
                                     </strong>
-                                    If you create an account on this website, you are responsible for maintaining the confidentiality of your account information and for all activities that occur under your account.
+                                    If you create an account on this website, you are responsible for maintaining the
+                                    confidentiality of your account information and for all activities that occur under
+                                    your account.
                                 </p>
                                 <p class="paragraph-content">
-                                    <strong>Changes to Terms:</strong> We reserve the right to modify these terms and conditions at any time. Your continued use of the website after any changes indicates your acceptance of the new terms.
+                                    <strong>Changes to Terms:</strong> We reserve the right to modify these terms and
+                                    conditions at any time. Your continued use of the website after any changes
+                                    indicates your acceptance of the new terms.
                                 </p>
                                 <p class="paragraph-content">
-                                    <strong>Governing Law:</strong> These terms and conditions are governed by and construed in accordance with the laws of the Philippines.
+                                    <strong>Governing Law:</strong> These terms and conditions are governed by and
+                                    construed in accordance with the laws of the Philippines.
                                 </p>
 
                             </div>
@@ -1249,14 +1272,15 @@
                                     <input type="checkbox" name="detail_confirm" id="detail_confirm"
                                         class="form-check-input" required>
                                     <label for="detail_confirm" class="form-check-label">I hereby confirm that the
-                                         information I provided is true and correct.</label>
+                                        information I provided is true and correct.</label>
                                 </div>
                             </div>
                             <div class="col-12">
                                 <div class="form-check">
                                     <input type="checkbox" name="agree_terms" id="agree_terms"
                                         class="form-check-input" required>
-                                    <label for="agree_terms" class="form-check-label">I have read and agree to the terms and conditions.</label>
+                                    <label for="agree_terms" class="form-check-label">I have read and agree to the
+                                        terms and conditions.</label>
                                 </div>
                             </div>
                         </div>
@@ -1272,10 +1296,12 @@
         {{-- Modal End --}}
     </div>
     <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer" style="z-index: 1100;">
-        <div id="successToast" class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+        <div id="successToast" class="toast align-items-center" role="alert" aria-live="assertive"
+            aria-atomic="true">
             <div class="toast-header text-bg-success">
                 <strong class="me-auto">Success</strong>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
             </div>
             <div class="toast-body" id="successToastBody">
                 Form submitted successfully!
@@ -1380,7 +1406,7 @@
                                 // Store unique_id in a hidden input field or as a data attribute
                                 document.querySelector(
                                         'input[name="DTI_SEC_CDA_unique_id_path"][id="DtiSecCdaFileID_path"]'
-                                        )
+                                    )
                                     .value = data
                                     .file_paths.DTI_SEC_CDA_File;
                                 DTI_SEC_CDA_File.setAttribute('data-unique-id', data.unique_id);
@@ -1472,7 +1498,7 @@
                                 // Store unique_id in a hidden input field or as a data attribute
                                 document.querySelector(
                                         'input[name="BusinessPermit_unique_id_path"][id="businessPermitFileID_path"]'
-                                        ).value =
+                                    ).value =
                                     data
                                     .file_paths.businessPermitFile;
                                 businessPermitFile.setAttribute('data-unique-id', data.unique_id);
@@ -1854,7 +1880,7 @@
             });
 
             window.adjustSmartWizardHeight = function() {
-            $('#smartwizard').smartWizard("fixHeight");
+                $('#smartwizard').smartWizard("fixHeight");
             }
             $('#smartwizard').smartWizard({
                 selected: 0,
@@ -2009,7 +2035,7 @@
 
                     confirmationModal.hide();
 
-                    if(response.success){
+                    if (response.success) {
                         setTimeout(() => {
                             const toastElement = document.getElementById('successToast');
                             const toast = new bootstrap.Toast(toastElement);
