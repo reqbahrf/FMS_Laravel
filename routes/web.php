@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CooperatorController;
 use App\Http\Controllers\AuthController;
@@ -31,6 +31,7 @@ Route::post('/application/submit', [ApplicationController::class, 'store'])->nam
 Route::post('/requirements/submit', [ApplicationController::class, 'upload_requirments']);
 Route::delete('/delete/file/{uniqueId}', [ApplicationController::class, 'revertFile']);
 
+//Applicant Routes End
 //Login routes
 
 Route::get('/login', function () {
@@ -39,14 +40,19 @@ Route::get('/login', function () {
 
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
-//Cooperator routes
+//Cooperator Routes
 
 Route::get('/Cooperator/Home', [CooperatorController::class, 'index'])->name('Cooperator.home');
 Route::get('/Cooperator/Dashboard', [CooperatorController::class, 'dashboard'])->name('Cooperator.dashboard');
 Route::get('/Cooperator/Requirements', [CooperatorController::class, 'requirementsGet'])->name('Cooperator.Requirements');
 Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);
 
-//Staff routes
+Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
+Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
+Route::resource('receipts', ReceiptController::class);
+
+//Cooperator Routes End
+//Staff Routes
 
 Route::get('/Staff/Home', function () {
     return view('staffView.staffDashboard');
@@ -72,18 +78,19 @@ Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, '
 
 //Get evaluation schedule
 Route::get('/staff/Applicant/Evaluation-Schedule', [StaffController::class, 'getScheduledDate']);
+
+//Staff Route End
 //Admin routes
 
 Route::get('/Admin/Home', function () {
     return view('AdminView.adminDashboard');
 })->name('admin.home');
 
-Route::get('/Admin/Dashboard', [AdminController::class, 'index'])->name('admin.Dashboard');
+Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])->name('admin.Dashboard');
+Route::get('/Admin/Project', [AdminViewController::class, 'applicantGet'])->name('admin.Project');
+Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])->name('admin.Users-list');
 
-Route::get('/Admin/Project', [AdminController::class, 'applicantGet'])->name('admin.Project');
-
-Route::get('/Admin/Users-List', [AdminController::class, 'userGet'])->name('admin.Users-list');
-
+//Admin Route End
 //Email Verification
 
 Route::get('/email/verify', function () {
@@ -93,6 +100,4 @@ Route::get('/email/verify', function () {
 Route::get('/email/verify/{id}/{hash}', [MailController::class, 'sendEmailVerify'])->name('verification.verify');
 Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
 
-Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
-Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
-Route::resource('receipts', ReceiptController::class);
+

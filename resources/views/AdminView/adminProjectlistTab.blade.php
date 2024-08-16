@@ -150,76 +150,96 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <div>
-            <div>
-                <div class="card">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
-                            <i class="ri-contacts-fill"></i>
-                            Personal Info
-                        </span>
-                    </div>
-                    <div class="card-body">
-                        <label for="cooperatorName">Cooperator Name:</label>
-                        <input type="text" id="cooperatorName" class="form-control" readonly>
-                        <label for="designation">Designation:</label>
-                        <input type="text" id="designation" class="form-control" readonly>
-                        <label>Contact Details:</label>
-                        <div>
-                            <label for="landline" class="p-2">Landline:</label>
+        <div class="row gy-3">
+            <div class="card p-0">
+                <div class="card-header">
+                    <h5>
+                        <i class="ri-contacts-fill"></i>
+                        Personal Info
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row gy-2">
+                        <div class="col-12 col-md-8">
+                            <label for="cooperatorName">Cooperator Name:</label>
+                            <input type="text" id="cooperatorName" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="designation">Designation:</label>
+                            <input type="text" id="designation" class="form-control" readonly>
+                        </div>
+                        <h6>Contact Details:</h6>
+                        <div class="col-12 col-md-4">
+                            <label for="landline">Landline:</label>
                             <input type="text" id="landline" class="form-control" readonly>
-                            <label for="mobilePhone" class="p-2">Mobile Phone:</label>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="mobilePhone">Mobile Phone:</label>
                             <input type="text" id="mobilePhone" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
-                            <i class="ri-briefcase-fill"></i>
-                            Business Info
-                        </span>
-                    </div>
-                    <div class="card-body">
+            </div>
+            <div class="card p-0">
+                <div class="card-header">
+                    <span class="fw-bold fs-5">
+                        <i class="ri-briefcase-fill"></i>
+                        Business Info
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row gy-2">
                         <input type="hidden" name="b_id" id="b_id">
-                        <label for="businessAddress">Business Address:</label>
-                        <input type="text" id="businessAddress" class="form-control" readonly>
-                        <label for="typeOfEnterprise">Type of Enterprise:</label>
-                        <input type="text" id="typeOfEnterprise" class="form-control" readonly>
-                        <label>Assets:</label>
-                        <div>
+                        <div class="col-12">
+                            <label for="businessAddress">Business Address:</label>
+                            <input type="text" id="businessAddress" class="form-control" readonly>
+                        </div>
+                        <div class="col-12">
+                            <label for="typeOfEnterprise">Type of Enterprise:</label>
+                            <input type="text" id="typeOfEnterprise" class="form-control" readonly>
+                        </div>
+                        <h6>Assets:</h6>
+                        <div class="col-12 col-md-4">
                             <label for="building" class="ps-2">Building:</label>
                             <input type="text" id="building" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
                             <label for="equipment" class="ps-2">Equipment:</label>
                             <input type="text" id="equipment" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
                             <label for="land" class="ps-2">Land:</label>
                             <input type="text" id="workingCapital" class="form-control" readonly>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="card-header">
-                        <span class=" fw-bold fs-5">
-                            <i class="ri-draft-fill"></i>
-                            Project Proposal
-                        </span>
-                    </div>
-                    <div class="card-body">
-                        <label for="ProjectTitle_fetch">Project Title:</label>
-                        <input type="text" id="ProjectTitle_fetch" class="form-control" readonly value="">
-                        <div class="row my-2">
-                            <div class="col-md-8">
-                                <label for="Amount_fetch">Amount:</label>
-                                <input type="text" id="Amount_fetch" class="form-control" readonly value="">
-                            </div>
-                            <div class="col-md-4">
-                                <label for="Applied_fetch">Date Applied:</label>
-                                <input type="text" id="Applied_fetch" class="form-control" readonly value="">
-                            </div>
+            </div>
+            <div class="card p-0">
+                <div class="card-header">
+                    <span class=" fw-bold fs-5">
+                        <i class="ri-draft-fill"></i>
+                        Project Proposal
+                    </span>
+                </div>
+                <div class="card-body">
+                    <label for="ProjectTitle_fetch">Project Title:</label>
+                    <input type="text" id="ProjectTitle_fetch" class="form-control" readonly value="">
+                    <div class="row my-2">
+                        <div class="col-md-8">
+                            <label for="Amount_fetch">Amount:</label>
+                            <input type="text" id="Amount_fetch" class="form-control" readonly value="">
                         </div>
-                        <label for="evaluated_fetch">Evaluated by:</label>
-                        <input type="text" id="evaluated_fetch" class="form-control" readonly value="">
+                        <div class="col-md-4">
+                            <label for="Applied_fetch">Date Applied:</label>
+                            <input type="text" id="Applied_fetch" class="form-control" readonly value="">
+                        </div>
                     </div>
+                    <label for="evaluated_fetch">Evaluated by:</label>
+                    <input type="text" id="evaluated_fetch" class="form-control" readonly value="">
                 </div>
             </div>
         </div>
@@ -239,7 +259,7 @@
     </div>
     <div class="offcanvas-body">
         <div class="container">
-            <d>
+            <div>
                 <div class="card">
                     <div class="card-header">
                         <span class="fw-bold fs-5">
@@ -354,13 +374,12 @@
                         Delete
                     </button>
                 </div>
+            </div>
         </div>
     </div>
 </div>
 {{-- ongoing off canvas end --}}
 {{-- Complete off canvas start --}}
-
-
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="completedDetails"
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary ">
@@ -423,7 +442,8 @@
                                 @if (isset($applicants) && $applicants->isNotEmpty())
                                     @foreach ($applicants as $applicantInfo)
                                         <tr>
-                                            <input type="hidden" name="user_Id" class="user_Id" value="{{ $applicantInfo->user_id }}">
+                                            <input type="hidden" name="user_Id" class="user_Id"
+                                                value="{{ $applicantInfo->user_id }}">
                                             <td>{{ $applicantInfo->prefix . ' ' . $applicantInfo->f_name . ' ' . $applicantInfo->mid_name . ' ' . $applicantInfo->l_name . ' ' . $applicantInfo->suffix }}
                                             </td>
                                             <td>{{ $applicantInfo->designation }}</td>
@@ -437,7 +457,8 @@
                                                     <input type="hidden" name="business_id" id="business_id"
                                                         value="{{ $applicantInfo->id }}">
                                                     <span
-                                                        class="business_Address"> {{ $applicantInfo->landMark . ', ' . $applicantInfo->barangay . ', ' . $applicantInfo->city . ', ' . $applicantInfo->province . ', ' . $applicantInfo->region }}</span>
+                                                        class="business_Address">{{ $applicantInfo->landMark . ', ' . $applicantInfo->barangay . ', ' . $applicantInfo->city . ', ' . $applicantInfo->province . ', ' . $applicantInfo->region }}
+                                                    </span>
                                                     <br>
                                                     <strong>Type of Enterprise:</strong> <span
                                                         class="Type_Enterprise">{{ $applicantInfo->enterprise_type }}</span>
@@ -461,9 +482,11 @@
                                                 <strong>Contact Details:</strong>
                                                 <p>
                                                     <span class="p-2">Landline:</span>
-                                                    <span class="landline">{{ $applicantInfo->landline }}</span> <br>
+                                                    <span class="landline">{{ $applicantInfo->landline }}</span>
+                                                    <br>
                                                     <span class="p-2">Mobile Phone:</span>
-                                                    <span class="MobileNum">{{ $applicantInfo->mobile_number }}</span><br>
+                                                    <span
+                                                        class="MobileNum">{{ $applicantInfo->mobile_number }}</span><br>
                                                     <span class="p-2">Email:</span>
                                                     <span class="Email">{{ $applicantInfo->email }}</span>
                                                     <br>
@@ -520,9 +543,11 @@
                                     <td>Imploving the Business.....</td>
                                     <td>XYZ Company</td>
                                     <td>
-                                        <p><strong>Business Address:</strong> tagum, Davao Del Norte <br> <strong>Type
+                                        <p><strong>Business Address:</strong> tagum, Davao Del Norte <br>
+                                            <strong>Type
                                                 of
-                                                Enterprise:</strong> Sole Proprietorship</p>
+                                                Enterprise:</strong> Sole Proprietorship
+                                        </p>
                                         <p>
                                             <Strong>
                                                 Assets:
@@ -591,9 +616,11 @@
                                     <td>Imploving the Business.....</td>
                                     <td>XYZ Company</td>
                                     <td>
-                                        <p><strong>Business Address:</strong> tagum, Davao Del Norte <br> <strong>Type
+                                        <p><strong>Business Address:</strong> tagum, Davao Del Norte <br>
+                                            <strong>Type
                                                 of
-                                                Enterprise:</strong> Sole Proprietorship</p>
+                                                Enterprise:</strong> Sole Proprietorship
+                                        </p>
                                         <p>
                                             <Strong>
                                                 Assets:
@@ -615,7 +642,6 @@
                                     <td>Completed</td>
                                     <td>John Smitty</td>
                                     <td>
-
                                         <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
                                             data-bs-target="#completedDetails" aria-controls="completedDetails">
                                             <i class="ri-menu-unfold-4-line ri-1x"></i>
@@ -644,15 +670,8 @@
                 </div>
             </div>
         </div>
-
     </div>
 </div>
-
-
-
-
-
-
 <script>
     $(document).ready(function() { // Populate the table first
         $('#applicant').DataTable(); // Then initialize DataTables
@@ -663,16 +682,16 @@
         $('.viewApplicant').on('click', function() {
             let row = $(this).closest('tr');
 
-            $('#cooperatorName').val(row.find('td:nth-child(2)').text());
-            $('#designation').val(row.find('td:nth-child(3)').text());
+            $('#cooperatorName').val(row.find('td:nth-child(2)').text().trim());
+            $('#designation').val(row.find('td:nth-child(3)').text().trim());
             $('#b_id').val(row.find('#business_id').val());
-            $('#businessAddress').val(row.find('.business_Address').text());
-            $('#typeOfEnterprise').val(row.find('.Type_Enterprise').text());
-            $('#landline').val(row.find('.landline').text());
-            $('#mobilePhone').val(row.find('.MobileNum').text());
-            $('#building').val(row.find('.building').text());
-            $('#equipment').val(row.find('.Equipment').text());
-            $('#workingCapital').val(row.find('.Working_C').text());
+            $('#businessAddress').val(row.find('.business_Address').text().trim());
+            $('#typeOfEnterprise').val(row.find('.Type_Enterprise').text().trim());
+            $('#landline').val(row.find('.landline').text().trim());
+            $('#mobilePhone').val(row.find('.MobileNum').text().trim());
+            $('#building').val(row.find('.building').text().trim());
+            $('#equipment').val(row.find('.Equipment').text().trim());
+            $('#workingCapital').val(row.find('.Working_C').text().trim());
         });
     });
 </script>
