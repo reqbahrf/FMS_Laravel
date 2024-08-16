@@ -118,6 +118,9 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-success btn-sm" id="markAsDone">Mark as Done</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -130,7 +133,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row h-100">
+                            <div class="row align-content-between h-100">
                                 <div class="col-9">
                                     <div class="input-group date" data-date-format="mm-dd-yyyy">
                                         <input type="text" id="evaluationSchedule-datepicker"
@@ -145,9 +148,14 @@
                                         SET
                                     </button>
                                 </div>
-                                <div class="col-12">
+                                <div class="col-12 my-auto">
                                     <div id="nofi_ScheduleCont">
 
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="d-flex justify-content-end">
+                                        <button class="btn btn-success btn-sm" id="markAsDone">Mark as Done</button>
                                     </div>
                                 </div>
                             </div>
@@ -163,7 +171,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" id="projectP">
+                            <form method="post" id="projectP">
                                 <div id="alertForm"
                                     class="alert alert-success alert-dismissible text-bg-success border-0 fade show mx-5 d-none"
                                     role="alert">
@@ -171,30 +179,31 @@
                                         aria-label="Close"></button>
                                     <strong>Success - </strong> All data successfully inserted.
                                 </div>
-                                <div class="form-floating mb-3">
-                                    <input type="text" class="form-control" id="projectTitle" name="projectTitle"
-                                        placeholder="Project Title">
-                                    <label for="projectTitle">Project Title</label>
+                                <div class="row">
+                                    <div class="col-12 col-md-3">
+                                        <label for="projectID">Project ID:</label>
+                                        <input type="text" class="form-control" id="projectID" name="projectID"
+                                        placeholder="Project ID" required>
+                                    </div>
+                                    <div class="col-12 col-md-6">
+                                            <label for="projectTitle">Project Title:</label>
+                                            <input type="text" class="form-control" id="projectTitle" name="projectTitle"
+                                                placeholder="Project Title" required>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                            <label for="fundAmount">Fund Amount:</label>
+                                            <input type="text" class="form-control" id="fundAmount"
+                                                name="fundAmountFormatted" placeholder="Fund Amount" required>
+                                    </div>
                                 </div>
-                                <div class="form-floating w-75 mx-auto">
-                                    <input type="text" class="form-control" id="fundAmount"
-                                        name="fundAmountFormatted" placeholder="Fund Amount">
-                                    <label for="fundAmount">Fund Amount</label>
-                                    <input type="hidden" id="fundAmountHidden" name="fundAmount">
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary m-2" id="submitProjectProposal">Submit</button>
+                                    </div>
                                 </div>
                             </form>
                         </div>
                     </div>
-                </div>
-                <div class="d-flex justify-content-end gap-2 py-3">
-                    <button type="button" class="btn btn-success">
-                        <i class="ri-draft-fill"></i>
-                        Draft
-                    </button>
-                    <button type="submit" id="submitProject" class="btn btn-primary me-2">
-                        <i class="ri-file-transfer-fill"></i>
-                        Submit
-                    </button>
                 </div>
             </div>
         </div>
@@ -221,9 +230,9 @@
                     @if (isset($applicants) && count($applicants) > 0)
                         @foreach ($applicants as $item)
                             <tr>
-
-                                <td>{{ $item->prefix }} {{ $item->f_name }} {{ $item->mid_name }} {{ $item->l_name }}
-                                    {{ $item->suffix }}</td>
+                                <td>
+                                    {{ $item->prefix . ' ' . $item->f_name . ' ' . $item->mid_name . ' ' . $item->l_name . ' ' . $item->suffix }}
+                                </td>
                                 <td>{{ $item->designation }}</td>
                                 <td>
                                     <div>
@@ -427,16 +436,16 @@
         $('.applicantDetailsBtn').on('click', function() {
             let row = $(this).closest('tr');
 
-            let fullName = row.find('td:nth-child(1)').text();
-            let designation = row.find('td:nth-child(2)').text();
-            let firmName = row.find('td:nth-child(3) span.firm_name').text();
+            let fullName = row.find('td:nth-child(1)').text().trim();
+            let designation = row.find('td:nth-child(2)').text().trim();
+            let firmName = row.find('td:nth-child(3) span.firm_name').text().trim();
             let userID = row.find('td:nth-child(3) input[name="userID"]').val();
             let businessID = row.find('td:nth-child(3) input[name="businessID"]').val();
-            let businessAddress = row.find('td:nth-child(3) span.b_address').text();
-            let enterpriseType = row.find('td:nth-child(3) span.enterprise_l').text();
-            let landline = row.find('td:nth-child(3) span.landline').text();
-            let mobilePhone = row.find('td:nth-child(3) span.mobile_num').text();
-            let emailAddress = row.find('td:nth-child(3) span.email_add').text();
+            let businessAddress = row.find('td:nth-child(3) span.b_address').text().trim();
+            let enterpriseType = row.find('td:nth-child(3) span.enterprise_l').text().trim();
+            let landline = row.find('td:nth-child(3) span.landline').text().trim();
+            let mobilePhone = row.find('td:nth-child(3) span.mobile_num').text().trim();
+            let emailAddress = row.find('td:nth-child(3) span.email_add').text().trim();
             // Add more fields as needed
             console.log(businessID);
 
@@ -628,9 +637,10 @@
                     console.log(error);
                 }
             })
-
-
-
         });
+
+        $('').on('click', function() {
+            
+        })
     });
 </script>

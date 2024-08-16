@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_info', function (Blueprint $table) {
-            $table->increments('id');
+            $table->char('Project_id', 15)->primary()->unique()->collation('utf8mb4_bin');
             $table->integer('business_id')->unsigned();
             $table->integer('evaluated_by_id')->unsigned();
             $table->integer('handled_by_id')->unsigned()->default(1);

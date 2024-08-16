@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
 
-class StaffController extends Controller
+class StaffViewController extends Controller
 {
     public function dashboard(Request $request)
     {

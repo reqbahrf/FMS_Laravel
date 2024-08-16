@@ -14,12 +14,12 @@ return new class extends Migration
     {
         Schema::create('ongoing_project_quarterly_report', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('ongoing_project_id')->unsigned();
+            $table->char('ongoing_project_id', 15)->unique()->collation('utf8mb4_bin');
             $table->string('quarter', 64);
             $table->longText('report_file')->nullable();
             $table->string('can_edit', 30)->default('yes');
             $table->timestamps();
-            $table->foreign('ongoing_project_id')->references('id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('ongoing_project_id')->references('project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

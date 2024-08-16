@@ -6,7 +6,7 @@ use App\Http\Controllers\CooperatorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\StaffController;
+use App\Http\Controllers\StaffViewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
@@ -58,26 +58,26 @@ Route::get('/Staff/Home', function () {
     return view('staffView.staffDashboard');
 })->name('staff.home');
 
-Route::get('/staff/dashboard', [StaffController::class, 'dashboard'])->name('staff.dashboard');
+Route::get('/staff/dashboard', [StaffViewController::class, 'dashboard'])->name('staff.dashboard');
 
-Route::get('/staff/Project', [StaffController::class, 'approvedProjectGet'])->name('staff.Project');
+Route::get('/staff/Project', [StaffViewController::class, 'approvedProjectGet'])->name('staff.Project');
 
-Route::get('/staff/Applicant', [StaffController::class, 'applicantGet'])->name('staff.Applicant');
+Route::get('/staff/Applicant', [StaffViewController::class, 'applicantGet'])->name('staff.Applicant');
 
 Route::get('/staff/Project/Create-Project', function () {
     return view('staffView.staffProjectCreateTab');
 })->name('staff.Create-Project');
 
-Route::get('/staff/Project/Create-DataSheet', [StaffController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
-Route::get('/staff/Project/Create-InformationSheet', [StaffController::class, 'createInformationSheet'])->name('staff.Create-InformationSheet');
-Route::get('/staff/Applicant/Requirement', [StaffController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
-Route::get('/staff/Applicant/Requirement/View', [StaffController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
+Route::get('/staff/Project/Create-DataSheet', [StaffViewController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
+Route::get('/staff/Project/Create-InformationSheet', [StaffViewController::class, 'createInformationSheet'])->name('staff.Create-InformationSheet');
+Route::get('/staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
+Route::get('/staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
 
 //Staff Evaluation Schedule Set date
 Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule']);
 
 //Get evaluation schedule
-Route::get('/staff/Applicant/Evaluation-Schedule', [StaffController::class, 'getScheduledDate']);
+Route::get('/staff/Applicant/Evaluation-Schedule', [StaffViewController::class, 'getScheduledDate']);
 
 //Staff Route End
 //Admin routes
@@ -90,7 +90,7 @@ Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])->name('adm
 Route::get('/Admin/Project', [AdminViewController::class, 'applicantGet'])->name('admin.Project');
 Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])->name('admin.Users-list');
 
-//Admin Route End
+//Admin Route EndView
 //Email Verification
 
 Route::get('/email/verify', function () {
