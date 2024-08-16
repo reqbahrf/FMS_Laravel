@@ -40,13 +40,17 @@ Route::get('/login', function () {
 
 Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 
+//Login Routes End
+//Logout routes
+Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
+//Logout Routes End
+
 //Cooperator Routes
 
 Route::get('/Cooperator/Home', [CooperatorController::class, 'index'])->name('Cooperator.home');
 Route::get('/Cooperator/Dashboard', [CooperatorController::class, 'dashboard'])->name('Cooperator.dashboard');
 Route::get('/Cooperator/Requirements', [CooperatorController::class, 'requirementsGet'])->name('Cooperator.Requirements');
 Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);
-
 Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
 Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
 Route::resource('receipts', ReceiptController::class);

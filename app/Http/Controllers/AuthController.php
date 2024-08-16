@@ -85,6 +85,8 @@ class AuthController extends Controller
 
             if ($user->role === 'Cooperator') {
                 $coop_userInfo = coopUserInfo::where('user_name', $user->user_name)->first();
+                $midName = substr($coop_userInfo->mid_name, 0, 1);
+                session(['Coop_name' => $coop_userInfo->f_name .' '. $midName . '. ' . $coop_userInfo->l_name]);
                 log::info($coop_userInfo);
 
 
@@ -112,7 +114,7 @@ class AuthController extends Controller
 
                 if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
                     session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
-                    return response()->json(['message' => 'Login successful, user is a Staff with matching B_date.']);
+                    return response()->json(['success' => 'Login successful, user is a Staff with matching B_date.', 'redirect' => route('staff.home')], 200);
                 } else {
                     return response()->json(['error' => 'User is a Staff but B_date does not match or missing org info.'], 422);
                 }
@@ -124,7 +126,7 @@ class AuthController extends Controller
                 session(['name' => $orgUserInfo->full_name]);
 
                 if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                    return response()->json(['message' => 'Login successful, user is an Admin with matching B_date.']);
+                    return response()->json(['success' => 'Login successful, user is an Admin with matching B_date.']);
                 } else {
                     return response()->json(['error' => 'User is an Admin but B_date does not match or missing org info.'], 422);
                 }
@@ -136,6 +138,16 @@ class AuthController extends Controller
 
         // Handle failed authentication.
         return response()->json(['error' => 'Authentication failed.'], 401);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
+        return redirect('/login');
     }
 
     public function verifyEmail($id, $hash, $timestamp)

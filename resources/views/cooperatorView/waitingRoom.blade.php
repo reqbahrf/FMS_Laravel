@@ -122,6 +122,9 @@
                     </div>
                 </div>
             </div>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                @csrf
+            </form>
             <div>
                 <ul class="list-unstyled d-flex align-items-center m-0 gap-3 ">
                     <li class="nofi-li">
@@ -187,7 +190,7 @@
                                 <img src="{{ asset('sampleProfile/raf,360x360,075,t,fafafa_ca443f4786.jpg') }}"
                                     width="32" height="32"
                                     class="object-fit-cover rounded-circle border border-1 border-black" alt="">
-                                <p class="m-0 fw-bold">John Doe</p>
+                                <p class="m-0 fw-bold">{{ session('Coop_name') }}</p>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"
@@ -203,7 +206,7 @@
                                 <a href="#" class="dropdown-item py-2">
                                     <p><i class="ri-user-3-line me-2"></i>My Account</p>
                                 </a>
-                                <a href="#" class="dropdown-item py-2">
+                                <a href="{{ route('logout') }}" class="dropdown-item py-2" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <p><i class="ri-logout-box-line me-2"></i>Logout</p>
                                 </a>
                             </div>

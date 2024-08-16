@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\projectInfo;
+
 class StaffViewController extends Controller
 {
     public function dashboard(Request $request)
     {
         //dashboard logic here
         if ($request->ajax()) {
+
             return view('staffView.staffdashboardTab');
         } else {
             return view('staffView.staffDashboard');
@@ -55,9 +57,10 @@ class StaffViewController extends Controller
                     'assets.building_value',
                     'assets.equipment_value',
                     'assets.working_capital',
+                    'pi.Project_id',
                     'pi.project_title',
                     'pi.fund_amount',
-                    'pi.date_approved',
+                    'pi.created_at as date_approved',
                     'org_users_info.full_name',
                     'application_info.application_status'
                 )

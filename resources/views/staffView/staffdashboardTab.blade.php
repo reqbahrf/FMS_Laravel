@@ -123,7 +123,6 @@
                                 data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
                                 <i class="ri-menu-unfold-4-line ri-1x"></i>
                             </button>
-                            </button>
                         </td>
                     </tr>
 
