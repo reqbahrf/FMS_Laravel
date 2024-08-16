@@ -195,9 +195,12 @@
                         onsubmit="return validateForm()" novalidate>
                         @csrf
                         <h4 class="fw-bold text-center py-4">Login</h4>
+                        <div id="server_feedback">
+
+                        </div>
                         <div class="form-floating my-4">
                             <input type="text" name="username" value="{{ old('username') }}" id="username"
-                                class="form-control" maxlength="50" placeholder="Username" required>
+                                class="form-control" maxlength="20" placeholder="Username" required>
                             <div class="invalid-feedback">
                                 Please enter a username.
                             </div>
@@ -206,7 +209,7 @@
                         <div class="input-group my-4">
                             <div class="form-floating">
                                 <input type="password" name="password" value="{{ old('password') }}" id="password"
-                                    class="form-control" maxlength="50" placeholder="Password" required>
+                                    class="form-control" maxlength="15" placeholder="Password" required>
                                 <label for="password">Password</label>
                             </div>
                             <button type="button" class="input-group-text" id="passwordtoggle">
@@ -222,7 +225,6 @@
                                 <input type="text" name="B_date" value="{{ old('B_date') }}"
                                     class="form-control" id="datepicker" placeholder="Select Date" required>
                                 <label for="datepicker">Select Birth Date</label>
-
                             </div>
                             <span class=" input-group-text">
                                 <i class="ri-calendar-event-fill ri-lg"></i>
@@ -304,16 +306,40 @@
                         url: $(this).attr('action'),
                         data: formData,
                         success: function(response) {
+                            const server_feedback = $('#server_feedback');
+                            server_feedback.empty();
                             // Log the entire response object to the console
-                            if (response.success) {
-                                window.location.href = response.redirect
+                            if (response?.success) {
+
+
+                                    server_feedback.append(
+                                        '<div class="alert alert-success text-center" role="alert">Login successfully</div>'
+                                    );
+                                    setTimeout(() => {
+                                        if (response?.redirect) {
+                                            window.location.href = response.redirect;
+                                        }
+                                    }, 1000);
                             }
-                            if(response.no_record) {
-                               window.location.href = response.redirect
+                            if (response?.no_record) {
+                                const server_feedback = $('#server_feedback');
+                                server_feedback.empty();
+
+                                    server_feedback.append(
+                                        '<div class="alert alert-info text-center" role="alert">No Record Information Found</div>'
+                                    );
+                                    setTimeout(() => {
+                                        if (response?.redirect) {
+                                            window.location.href = response.redirect;
+                                        }
+                                    }, 1000);
                             }
                         },
-                        error: function(response) {
-                            console.log(response);
+                        error: function(xhr , status, error) {
+                            let errorResponse = xhr.responseJSON;
+                            let server_feedback = $('#server_feedback');
+                            server_feedback.empty();
+                            server_feedback.append('<div class="alert alert-danger text-center" role="alert">' + errorResponse.error + '</div>');
                         }
                     });
                 }

@@ -60,7 +60,7 @@ Route::resource('receipts', ReceiptController::class);
 
 Route::get('/Staff/Home', function () {
     return view('staffView.staffDashboard');
-})->name('staff.home');
+})->name('Staff.home');
 
 Route::get('/staff/dashboard', [StaffViewController::class, 'dashboard'])->name('staff.dashboard');
 
@@ -91,7 +91,7 @@ Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'sub
 
 Route::get('/Admin/Home', function () {
     return view('AdminView.adminDashboard');
-})->name('admin.home');
+})->name('Admin.home');
 
 Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])->name('admin.Dashboard');
 Route::get('/Admin/Project', [AdminViewController::class, 'applicantGet'])->name('admin.Project');

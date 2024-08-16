@@ -61,8 +61,6 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        Log::info('Login method called');
-
         $request->validate([
             'username' => 'required',
             'password' => 'required',
@@ -72,72 +70,41 @@ class AuthController extends Controller
         $credentials = ['user_name' => $request->username, 'password' => $request->password];
         $bDate = new DateTime($request->B_date);
 
-        $remember = $request->has('remember');
-
-        if (Auth::attempt($credentials, $remember)) {
-            // Authentication passed...
+        if (Auth::attempt($credentials, $request->has('remember'))) {
             $user = Auth::user();
-
 
             session(['user_id' => $user->id]);
             session(['user_name' => $user->user_name]);
             session(['role' => $user->role]);
 
-            if ($user->role === 'Cooperator') {
-                $coop_userInfo = coopUserInfo::where('user_name', $user->user_name)->first();
-                $midName = substr($coop_userInfo->mid_name, 0, 1);
-                session(['Coop_name' => $coop_userInfo->f_name .' '. $midName . '. ' . $coop_userInfo->l_name]);
-                log::info($coop_userInfo);
+            switch ($user->role) {
+                case 'Cooperator':
+                    $coop_userInfo = coopUserInfo::where('user_name', $user->user_name)->first();
+                    session(['Coop_name' => $coop_userInfo->f_name .' '. substr($coop_userInfo->mid_name, 0, 1) . '. ' . $coop_userInfo->l_name]);
 
+                    if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                        return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.home')]);
+                    } else if (is_null($coop_userInfo)) {
+                        return response()->json(['no_record' => 'User is a Cooperator match but does not have Application info.', 'redirect' => route('registrationForm')], 302);
+                    }
+                    break;
+                case 'Staff':
+                case 'Admin':
+                    $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
 
+                    session(['name' => $orgUserInfo->full_name]);
 
-                if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') ?? false === $bDate->format('Y-m-d')) {
-
-                    // FIXME: BirthDay Return true even note match
-                    log::info($coop_userInfo->birth_date->format('Y-m-d'));
-                    log::info($bDate->format('Y-m-d'));
-
-                    // session(['birth_date' => $coop_userInfo->birth_date->format('Y-m-d')]);
-                    // The user is a Cooperator, has a record in personnel_info, and B_date matches.
-                    // Proceed with your logic here, e.g., redirecting the user or returning a success response.
-                    return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.home')]);
-                } else {
-                    // Handle the case where the user is a Cooperator but doesn't have matching personnel_info or B_date.
-                    return response()->json(['no_record' => 'User is a Cooperator match but does note or missing Application info.','redirect' => route('registrationForm')]);
-                }
-            }
-
-            if ($user->role === 'Staff') {
-                $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
-
-                session(['name' => $orgUserInfo->full_name]);
-
-                if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                    session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
-                    return response()->json(['success' => 'Login successful, user is a Staff with matching B_date.', 'redirect' => route('staff.home')], 200);
-                } else {
-                    return response()->json(['error' => 'User is a Staff but B_date does not match or missing org info.'], 422);
-                }
-            }
-
-            if ($user->role === 'Admin') {
-                $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
-
-                session(['name' => $orgUserInfo->full_name]);
-
-                if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                    return response()->json(['success' => 'Login successful, user is an Admin with matching B_date.']);
-                } else {
-                    return response()->json(['error' => 'User is an Admin but B_date does not match or missing org info.'], 422);
-                }
-            } else {
-                // Handle logic for users with roles other than Cooperator.
-                return response()->json(['message' => 'Login successful, user is not a Cooperator.']);
+                    if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                        session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
+                        return response()->json(['success' => 'Login successful, user is a '. $user->role .' with matching B_date.', 'redirect' => route($user->role . '.home')], 200);
+                    } else {
+                        return response()->json(['error' => 'Invalid credentials.'], 401);
+                    }
+                break;
             }
         }
 
-        // Handle failed authentication.
-        return response()->json(['error' => 'Authentication failed.'], 401);
+        return response()->json(['error' => 'Invalid credentials.'], 401);
     }
 
     public function logout(Request $request)
@@ -146,7 +113,7 @@ class AuthController extends Controller
 
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
+
         return redirect('/login');
     }
 
