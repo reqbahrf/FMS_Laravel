@@ -15,10 +15,11 @@ return new class extends Migration
         Schema::create('project_info', function (Blueprint $table) {
             $table->char('Project_id', 15)->primary()->unique()->collation('utf8mb4_bin');
             $table->integer('business_id')->unsigned();
-            $table->integer('evaluated_by_id')->unsigned();
-            $table->integer('handled_by_id')->unsigned()->default(1);
+            $table->integer('evaluated_by_id')->unsigned()->nullable();
+            $table->integer('handled_by_id')->unsigned()->nullable();
             $table->string('project_title', 255)->default('still in evaluation');
-            $table->timestamp('date_approved')->useCurrent();
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->decimal('fund_amount', 10, 2)->default(0.00);
             $table->decimal('refunded_amount', 10, 2)->default(0.00);
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');

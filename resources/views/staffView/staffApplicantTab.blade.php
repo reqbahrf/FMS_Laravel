@@ -171,7 +171,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <form method="post" id="projectP">
+                            <form method="post" id="projectProposal">
                                 <div id="alertForm"
                                     class="alert alert-success alert-dismissible text-bg-success border-0 fade show mx-5 d-none"
                                     role="alert">
@@ -193,7 +193,7 @@
                                     <div class="col-12 col-md-3">
                                             <label for="fundAmount">Fund Amount:</label>
                                             <input type="text" class="form-control" id="fundAmount"
-                                                name="fundAmountFormatted" placeholder="Fund Amount" required>
+                                                name="fundAmount" placeholder="Fund Amount" required>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -639,8 +639,27 @@
             })
         });
 
-        $('').on('click', function() {
-            
+        $('#submitProjectProposal').on('click', function() {
+            event.preventDefault();
+
+            let b_id = $('#selected_businessID').val();
+            let formdata = $('#projectProposal').serialize() + '&business_id=' + b_id;
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('staff.Applicant.Submit-Project-Proposal') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formdata,
+                success: function(response) {
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+            })
+
         })
     });
 </script>

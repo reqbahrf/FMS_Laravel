@@ -79,6 +79,9 @@ Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, '
 //Get evaluation schedule
 Route::get('/staff/Applicant/Evaluation-Schedule', [StaffViewController::class, 'getScheduledDate']);
 
+//Staff Submit Project Proposal
+Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])->name('staff.Applicant.Submit-Project-Proposal');
+
 //Staff Route End
 //Admin routes
 

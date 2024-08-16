@@ -10,8 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
-
+use App\Models\projectInfo;
 class StaffViewController extends Controller
 {
     public function dashboard(Request $request)
@@ -220,6 +219,40 @@ class StaffViewController extends Controller
             return view('staffView.outputs.InformationSheetTable');
         } else {
             return view('staffView.staffDashboard');
+        }
+    }
+
+    public function submitProjectProposal(Request $request)
+    {
+        $validated = $request->validate([
+            'business_id' => 'required|integer',
+            'projectID' => 'required|string',
+            'projectTitle' => 'required|string',
+            'fundAmount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
+        ]);
+
+        $TestStaffId = 1;
+
+        $fundAmountFormatted = number_format(str_replace(',', '', $validated['fundAmount']), 2, '.', '');
+
+        try{
+            $project = ProjectInfo::where('project_id', $validated['projectID'])->first();
+            if($project){
+                return response()->json(['error' => 'Project Id already exist'], 400);
+            }
+
+            ProjectInfo::create([
+                'Project_id' => $validated['projectID'],
+                'business_id' => $validated['business_id'],
+                'evaluated_by_id' => $TestStaffId,
+                'project_title' => $validated['projectTitle'],
+                'fund_amount' => $fundAmountFormatted
+            ]);
+
+
+            return response()->json(['message' => 'Project Proposal Submitted'], 200);
+        }catch (\Exception $e){
+            Log::error($e->getMessage());
         }
     }
 }

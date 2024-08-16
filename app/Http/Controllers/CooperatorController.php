@@ -38,7 +38,7 @@ class CooperatorController extends Controller
                 }
 
                 if (Session::get('application_status') == 'approved') {
-                    $projectInfoQuery = "SELECT coop_users_info.user_name, business_info.id AS business_id, project_info.id AS project_id
+                    $projectInfoQuery = "SELECT coop_users_info.user_name, business_info.id AS business_id, project_info.project_id AS project_id
                                          FROM coop_users_info
                                          INNER JOIN business_info ON business_info.user_info_id = coop_users_info.id
                                          INNER JOIN project_info ON project_info.business_id = business_info.id
