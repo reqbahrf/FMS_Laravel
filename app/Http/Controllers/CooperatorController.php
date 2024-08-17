@@ -23,32 +23,28 @@ class CooperatorController extends Controller
             }
             else
             {
-                $query = "SELECT coop_users_info.user_name, business_info.user_info_id, application_info.application_status
-                          FROM coop_users_info
-                          INNER JOIN business_info ON business_info.user_info_id = coop_users_info.id
-                          INNER JOIN application_info ON application_info.business_id = business_info.id
-                          WHERE coop_users_info.user_name = ?;";
+                $result = DB::table('application_info')
+                    ->select('coop_users_info.user_name', 'business_info.user_info_id', 'application_info.application_status')
+                    ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
+                    ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
+                    ->where('coop_users_info.user_name', $userName)
+                    ->first();
 
-                $result = DB::select($query, [$userName]);
+                if ($result) {
+                    Session::put('application_status', $result->application_status);
 
-                if (count($result) > 0) {
-                    Session::put('application_status', $result[0]->application_status);
-                } else {
-                    // Handle the case where there are no results
-                }
+                    if ($result->application_status == 'approved') {
+                        $projectInfo = DB::table('project_info')
+                            ->select('coop_users_info.user_name', 'business_info.id AS business_id', 'project_info.project_id AS project_id')
+                            ->join('business_info', 'business_info.id', '=', 'project_info.business_id')
+                            ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
+                            ->where('coop_users_info.user_name', $userName)
+                            ->first();
 
-                if (Session::get('application_status') == 'approved') {
-                    $projectInfoQuery = "SELECT coop_users_info.user_name, business_info.id AS business_id, project_info.project_id AS project_id
-                                         FROM coop_users_info
-                                         INNER JOIN business_info ON business_info.user_info_id = coop_users_info.id
-                                         INNER JOIN project_info ON project_info.business_id = business_info.id
-                                         WHERE coop_users_info.user_name = ?;";
-
-                    $projectInfo = DB::select($projectInfoQuery, [$userName]);
-
-                    if (count($projectInfo) > 0) {
-                        Session::put('business_id', $projectInfo[0]->business_id);
-                        Session::put('project_id', $projectInfo[0]->project_id);
+                        if ($projectInfo) {
+                            Session::put('business_id', $projectInfo->business_id);
+                            Session::put('project_id', $projectInfo->project_id);
+                        }
                     }
                 }
 
@@ -98,7 +94,7 @@ class CooperatorController extends Controller
         }
         else
         {
-            return view('CooperatorView.CooperatorDashboard');
+            return view('cooperatorView.CooperatorDashboard');
         }
 
 
