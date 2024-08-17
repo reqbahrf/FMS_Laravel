@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\applicationInfo;
+use App\Models\projectInfo;
 use App\Models\businessInfo;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
 
 class AdminViewController extends Controller
 {
@@ -81,6 +85,26 @@ class AdminViewController extends Controller
 
     }
 
+    public function staffGet(Request $request)
+    {
+        $stafflist = User::select([
+            'users.user_name',
+            'users.role',
+            'org_users_info.id as staff_id',
+            'org_users_info.full_name',
+        ])
+        ->join('org_users_info', 'users.user_name', '=', 'org_users_info.user_name')
+        ->where('users.role', '=', 'Staff')
+        ->get();
+
+        if($stafflist){
+            return response()->json($stafflist);
+        }else{
+            return response()->json(['error' => 'No Registered Staff'], 404);
+        }
+
+    }
+
     public function projectProposalGet(Request $request)
     {
 
@@ -115,14 +139,44 @@ class AdminViewController extends Controller
     {
 
         $validated = $request->validate([
-            'project_id' => 'required|integer',
+            'project_id' => 'required|string',
             'business_id' => 'required|integer',
+            'assigned_staff_id' => 'required|integer',
         ]);
 
-        
+        try{
 
-       $projectApproval = applicationInfo::updateOrCreate(
-        ['application_status' => 'approved'],
-       );
+            DB::beginTransaction();
+
+            $project = projectInfo::where('Project_id',$validated['project_id'])
+                ->where('business_id',$validated['business_id'])
+                ->firstOrFail();
+
+            $project->handled_by_id = $validated['assigned_staff_id'];
+            $project->save();
+
+            $application = applicationInfo::where ('business_id', $validated['business_id'])
+                ->firstOrFail();
+            $application->application_status = 'approved';
+            $application->save();
+
+            DB::commit();
+
+            return response()->json([
+                'message' => 'Project proposal approved successfully.',
+                'status' => 'success',
+            ], 200);
+
+        }catch(\Exception $e){
+            DB::rollBack();
+            Log::error($e->getMessage());
+
+            return response()->json([
+                'message' => 'Failed to approve project proposal.',
+                'status' => 'error',
+            ], 500);
+
+        }
+
     }
 }

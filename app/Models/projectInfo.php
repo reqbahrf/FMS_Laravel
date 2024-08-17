@@ -11,6 +11,8 @@ class projectInfo extends Model
 
     protected $table = 'project_info';
 
+    protected $primaryKey = 'Project_id';
+
     protected $fillable = [
         'Project_id',
         'business_id',

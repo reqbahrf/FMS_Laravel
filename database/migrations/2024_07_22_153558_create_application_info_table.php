@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('application_status', 15)->default('waiting');
             $table->timestamp('Evaluation_date')->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
         });
     }

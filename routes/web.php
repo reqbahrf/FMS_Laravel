@@ -98,6 +98,7 @@ Route::get('/Admin/Project', [AdminViewController::class, 'applicantGet'])->name
 Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])->name('admin.Users-list');
 Route::post('/Admin/Project/ProposalDetails', [AdminViewController::class, 'projectProposalGet'])->name('admin.Project.GetProposalDetails');
 Route::post('/Admin/Project/Approved-Project', [AdminViewController::class, 'approvedProjectProposal'])->name('admin.Project.ApprovedProjectProposal');
+Route::get('/Admin/Stafflist', [AdminViewController::class, 'staffGet'])->name('admin.Stafflist');
 
 
 //Admin Route End
