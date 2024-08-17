@@ -82,39 +82,34 @@
             <table id="handledProject" class="table table-hover" style="width:100%">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Project ID</th>
                         <th>Project Title</th>
                         <th>Firm Name</th>
-                        <th>Firm Info</th>
-                        <th>Owner Info</th>
+                        <th>Owner Name</th>
                         <th>Refund Progress</th>
                         <th>Status</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="handledProjectTableBody">
                     <tr>
                         <td>1</td>
                         <td>Imploving the Business.....</td>
-                        <td>XYZ Company</td>
                         <td>
-                            <p><strong>Business Address:</strong> tagum, Davao Del Norte <br> <strong>Type of
-                                    Enterprise:</strong> Sole Proprietorship</p>
-                            <p>
-                                <Strong>
-                                    Assets:
-                                </Strong> <br>
-                                <span class="ps-2">Land: 100,000</span><br>
-                                <span class="ps-2">Building: 100,000</span> <br>
-                                <span class="ps-2">Equipment: 100,000</span>
+                            <p class="firm_name">
+                                XYZ Ltd.
                             </p>
-
+                            <input type="hidden" class="business_enterprise_type">
+                            <input type="hidden" class="business_address">
+                            <input type="hidden" class="asset_land">
+                            <input type="hidden" class="asset_building">
+                            <input type="hidden" class="asset_equipment">
                         </td>
                         <td>
-                            <p><strong>Name:</strong> Jorge Walt</p>
-                            <strong>Contact Details:</strong>
-                            <p><strong class="p-2">Landline:</strong> 1234567 <br><Strong class="p-2">Mobile
-                                    Phone:</Strong> 09123456789</p>
+                            <p class="owner_name">Jorge Walt</p>
+                            <input type="hidden" class="landline" value="1234567">
+                            <input type="hidden" class="mobile_phone" value="09123456789">
+                            <input type="hidden" class="email" value="">
                         </td>
                         <td>500,000/1,000,000</td>
                         <td>On-going</td>
@@ -131,7 +126,6 @@
                     <tr>
                         <th>ID</th>
                         <th>Project Title</th>
-                        <th>Firm Name</th>
                         <th>Firm Info</th>
                         <th>Owner Info</th>
                         <th>Refund Progress</th>
@@ -143,3 +137,55 @@
         </div>
     </div>
 </div>
+<script type="module">
+    $(document).ready(function() {
+
+        fetchHandleProject();
+
+        function fetchHandleProject(){
+            fetch('{{ route('staff.Dashboard.getHandledProjects') }}', {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+            }
+            ).then(response => response.json())
+            .then(data => {
+                const handledProjectTableBody = $('#handledProjectTableBody');
+                handledProjectTableBody.empty();
+                data.forEach(project => {
+                    handledProjectTableBody.append(`
+                    <tr>
+                        <td>${project.Project_id}</td>
+                        <td>${project.project_title}</td>
+                        <td>
+                            <p class="firm_name">${project.firm_name}</p>
+                            <input type="hidden" class="business_enterprise_type" value="${project.enterprise_type}">
+                            <input type="hidden" class="business_address" value="${project.landMark + ', ' + project.barangay + ', ' + project.city + ', ' + project.province + ', ' + project.region}">
+                            <input type="hidden" class="building_value" value="${project.building_value}">
+                            <input type="hidden" class="equipment_value" value="${project.equipment_value}">
+                            <input type="hidden" class="working_capital" value="${project.working_capital}">
+                        </td>
+                        <td>
+                            <p class="owner_name">${project.f_name + ' ' + project.l_name}</p>
+                            <input type="hidden" class="landline" value="${project.landline}">
+                            <input type="hidden" class="mobile_phone" value="${project.mobile_number}">
+                            <input type="hidden" class="email" value="${project.email}">
+                        </td>
+                        <td>${parseFloat(project.fund_amount).toLocaleString('en-US', { minimumFractionDigits: 2 })}</td>
+                        <td>${project.application_status}</td>
+                        <td>
+                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
+                                <i class="ri-menu-unfold-4-line ri-1x"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    `);
+                });
+            });
+        }
+
+    })
+
+</script>

@@ -73,20 +73,23 @@ Route::middleware([CheckStaffUser::class])->group(function () {
         return view('staffView.staffDashboard');
     })->name('Staff.home');
 
-    Route::get('/staff/dashboard', [StaffViewController::class, 'dashboard'])->name('staff.dashboard');
+    Route::get('/Staff/dashboard', [StaffViewController::class, 'dashboard'])->name('staff.dashboard');
 
-    Route::get('/staff/Project', [StaffViewController::class, 'approvedProjectGet'])->name('staff.Project');
+    Route::get('/Staff/Project', [StaffViewController::class, 'approvedProjectGet'])->name('staff.Project');
 
-    Route::get('/staff/Applicant', [StaffViewController::class, 'applicantGet'])->name('staff.Applicant');
+    Route::get('/Staff/Applicant', [StaffViewController::class, 'applicantGet'])->name('staff.Applicant');
 
-    Route::get('/staff/Project/Create-Project', function () {
+    Route::get('/Staff/Dashboard/getHandledProjects', [StaffViewController::class, 'getHandledProjects'])->name('staff.Dashboard.getHandledProjects');
+
+
+    Route::get('/Staff/Project/Create-Project', function () {
         return view('staffView.staffProjectCreateTab');
     })->name('staff.Create-Project');
 
-    Route::get('/staff/Project/Create-DataSheet', [StaffViewController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
-    Route::get('/staff/Project/Create-InformationSheet', [StaffViewController::class, 'createInformationSheet'])->name('staff.Create-InformationSheet');
-    Route::get('/staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
-    Route::get('/staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
+    Route::get('/Staff/Project/Create-DataSheet', [StaffViewController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
+    Route::get('/Staff/Project/Create-InformationSheet', [StaffViewController::class, 'createInformationSheet'])->name('staff.Create-InformationSheet');
+    Route::get('/Staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
+    Route::get('/Staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
 
     //Staff Evaluation Schedule Set date
     Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule']);

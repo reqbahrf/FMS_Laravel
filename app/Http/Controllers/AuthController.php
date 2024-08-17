@@ -95,9 +95,9 @@ class AuthController extends Controller
                 case 'Admin':
                     $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
 
-                    session(['name' => $orgUserInfo->full_name]);
-
                     if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                        session(['name' => $orgUserInfo->full_name]);
+                        session(['org_userId' => $orgUserInfo->id]);
                         session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
                         return response()->json(['success' => 'Login successful, user is a '. $user->role .' with matching B_date.', 'redirect' => route($user->role . '.home')], 200);
                     } else {
