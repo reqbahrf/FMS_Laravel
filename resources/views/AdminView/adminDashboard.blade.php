@@ -534,7 +534,7 @@
                                     width="32" height="32"
                                     class="object-fit-cover rounded-circle border border-1 border-black"
                                     alt="">
-                                <p class="m-0 fw-bold">{{ session('Admin_name') }}</p>
+                                <p class="m-0 fw-bold">{{ session('name') }}</p>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"

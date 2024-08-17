@@ -226,20 +226,31 @@
                     </span>
                 </div>
                 <div class="card-body">
-                    <label for="ProjectTitle_fetch">Project Title:</label>
-                    <input type="text" id="ProjectTitle_fetch" class="form-control" readonly value="">
-                    <div class="row my-2">
-                        <div class="col-md-8">
+                    <div class="row gy-2">
+                        <div class="col-12 col-md-3">
+                            <label for="ProjectId_fetch">Project Id:</label>
+                            <input type="text" id="ProjectId_fetch" class="form-control" readonly value=""></label>
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <label for="ProjectTitle_fetch">Project Title:</label>
+                            <input type="text" id="ProjectTitle_fetch" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-8">
                             <label for="Amount_fetch">Amount:</label>
                             <input type="text" id="Amount_fetch" class="form-control" readonly value="">
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-12 col-md-4">
                             <label for="Applied_fetch">Date Applied:</label>
                             <input type="text" id="Applied_fetch" class="form-control" readonly value="">
                         </div>
+                        <div class="col-12 col-md-8">
+                            <label for="evaluated_fetch">Evaluated by:</label>
+                            <input type="text" id="evaluated_fetch" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-4 d-flex justify-content-end align-items-end">
+                            <button type="button" class="btn btn-primary" id="approvedButton">Approved</button>
+                        </div>
                     </div>
-                    <label for="evaluated_fetch">Evaluated by:</label>
-                    <input type="text" id="evaluated_fetch" class="form-control" readonly value="">
                 </div>
             </div>
         </div>
@@ -677,8 +688,7 @@
         $('#applicant').DataTable(); // Then initialize DataTables
         $('#ongoing').DataTable();
         $('#completed').DataTable();
-    });
-    $(document).ready(function() {
+
         $('.viewApplicant').on('click', function() {
             let row = $(this).closest('tr');
 
@@ -689,70 +699,76 @@
             $('#typeOfEnterprise').val(row.find('.Type_Enterprise').text().trim());
             $('#landline').val(row.find('.landline').text().trim());
             $('#mobilePhone').val(row.find('.MobileNum').text().trim());
+            $('#email').val(row.find('.Email').text().trim());
             $('#building').val(row.find('.building').text().trim());
             $('#equipment').val(row.find('.Equipment').text().trim());
             $('#workingCapital').val(row.find('.Working_C').text().trim());
+
+            getProjectProposal($('#b_id').val());
         });
     });
 </script>
 <script>
     $(document).ready(function() {
-        $("#approveButton").click(function(e) {
-            e.preventDefault();
-            let Business_ID = $('#b_id').val(); // replace this with your argument
-            let approved = 'approved';
+
+         window.getProjectProposal = function(businessId){
+
             $.ajax({
-                url: '<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>',
-                type: 'post',
-                data: {
-                    businessId: Business_ID,
-                    approvalStatus: approved
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                success: function(response) {
-                    // Do something with the response from the server
-                    console.log(response);
-                    if (response === 'success') {
-                        $('#approvedAlert').removeClass('d-none');
-                    }
-                }
-            });
-        });
-    });
-    $(document).ready(function() {
-        $('button[data-bs-target="#ApplicantModal"]').click(function(e) {
-            e.preventDefault();
-
-            let businessId = $(this).closest('tr').find('#business_id')
-                .val(); // get the value of the hidden input in the same row
-            console.log(businessId);
-
-            $.ajax({
-                url: '<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>',
-                type: 'post',
+                url: '{{ route('admin.Project.GetProposalDetails') }}',
+                type: 'POST',
                 data: {
                     business_id: businessId
                 },
                 dataType: 'json', // Expect a JSON response
                 success: function(response) {
-                    if (response.error === 'No data found.') {
-                        $('#ProjectTitle_fetch').val('');
-                        $('#Amount_fetch').val('');
-                        $('#Applied_fetch').val('');
-                        $('#evaluated_fetch').val('');
-                        console.log('No data found.');
-                    } else {
-                        console.log(response);
-                        $('#ProjectTitle_fetch').val(response.ProjectTitle_fetch);
-                        $('#Amount_fetch').val(parseFloat(response.Amount_fetch)
+                        $('#ProjectId_fetch').val(response.Project_id);
+                        $('#ProjectTitle_fetch').val(response.project_title);
+                        $('#Amount_fetch').val(parseFloat(response.fund_amount)
                             .toLocaleString('en-US', {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2
                             }));
-                        $('#Applied_fetch').val(response.Applied_fetch);
-                        $('#evaluated_fetch').val(response.evaluated_fetch);
-                    }
+                        $('#Applied_fetch').val(response.date_applied);
+                        $('#evaluated_fetch').val(response.name);
+                },
+                error: function(xhr, status, error) {
+                    $('#ProjectTitle_fetch').val('');
+                    $('#Amount_fetch').val('');
+                    $('#Applied_fetch').val('');
+                    $('#evaluated_fetch').val('');
                 }
             });
-        });
+        }
+
+        window.approvedProjectProposal = function(businessId, project_id){
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: '{{ route('admin.Project.ApprovedProjectProposal') }}',
+                type: 'POST',
+                data: {
+                    project_id: project_id,
+                    business_id: businessId
+                },
+                success: function(response) {
+                   window.loadPage('{{ route('admin.Project') }}', 'projectList');
+                },
+                error: function(xhr, status, error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        $('#approvedButton').on('click', function() {
+            if (typeof $('#b_id').val() !== 'undefined' && typeof $('#ProjectId_fetch').val() !== 'undefined')
+            {
+                approvedProjectProposal($('#b_id').val(), $('#ProjectId_fetch').val());
+            }
+        })
     });
 </script>

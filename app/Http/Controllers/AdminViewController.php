@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\applicationInfo;
+use App\Models\businessInfo;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -23,12 +25,7 @@ class AdminViewController extends Controller
 
         if($request->ajax())
         {
-            $applicants = User::join('coop_users_info', 'users.user_name', '=', 'coop_users_info.user_name')
-            ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
-            ->join('assets', 'assets.id', '=', 'business_info.id')
-            ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-            ->where('application_info.application_status', 'waiting')
-            ->get([
+            $applicants = User::select([
                 'users.id as user_id',
                 'users.email',
                 'coop_users_info.prefix',
@@ -52,7 +49,13 @@ class AdminViewController extends Controller
                 'assets.working_capital',
                 'application_info.created_at as date_applied',
                 'business_info.id'
-            ]);
+            ])
+            ->join('coop_users_info', 'users.user_name', '=', 'coop_users_info.user_name')
+            ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
+            ->join('assets', 'assets.id', '=', 'business_info.id')
+            ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
+            ->where('application_info.application_status', 'waiting')
+            ->get();
 
            return view('AdminView.adminProjectlistTab', compact('applicants'));
 
@@ -76,5 +79,50 @@ class AdminViewController extends Controller
             return view('AdminView.adminDashboard');
         }
 
+    }
+
+    public function projectProposalGet(Request $request)
+    {
+
+        $validated = $request->validate([
+            'business_id' => 'required|integer',
+        ]);
+
+        $projectProposal = businessInfo::select([
+            'business_info.id as business_id',
+            'project_info.Project_id',
+            'project_info.project_title',
+            'project_info.fund_amount',
+            'application_info.created_at as date_applied',
+            'org_users_info.full_name as name'
+
+        ])
+        ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
+        ->join('org_users_info', 'project_info.evaluated_by_id', '=', 'org_users_info.id')
+        ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
+        ->where('application_info.application_status', 'waiting')
+        ->where('business_info.id', '=', $validated['business_id'])
+        ->first();
+
+        if ($projectProposal) {
+            return response()->json($projectProposal);
+        } else {
+            return response()->json(['error' => 'No data found.'], 404);
+        }
+
+    }
+    public function approvedProjectProposal(Request $request)
+    {
+
+        $validated = $request->validate([
+            'project_id' => 'required|integer',
+            'business_id' => 'required|integer',
+        ]);
+
+        
+
+       $projectApproval = applicationInfo::updateOrCreate(
+        ['application_status' => 'approved'],
+       );
     }
 }
