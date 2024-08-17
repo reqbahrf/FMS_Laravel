@@ -10,6 +10,10 @@ use App\Http\Controllers\StaffViewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Middleware\CheckCooperatorUser;
+use App\Http\Middleware\CheckStaffUser;
+use App\Http\Middleware\checkAdminUser;
+
 
 //Applicant routes
 
@@ -47,59 +51,68 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 //Cooperator Routes
 
-Route::get('/Cooperator/Home', [CooperatorController::class, 'index'])->name('Cooperator.home');
-Route::get('/Cooperator/Dashboard', [CooperatorController::class, 'dashboard'])->name('Cooperator.dashboard');
-Route::get('/Cooperator/Requirements', [CooperatorController::class, 'requirementsGet'])->name('Cooperator.Requirements');
-Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);
-Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
-Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
-Route::resource('receipts', ReceiptController::class);
+Route::middleware([CheckCooperatorUser::class])->group(function () {
+
+    Route::get('/Cooperator/Home', [CooperatorController::class, 'index'])->name('Cooperator.home');
+    Route::get('/Cooperator/Dashboard', [CooperatorController::class, 'dashboard'])->name('Cooperator.dashboard');
+    Route::get('/Cooperator/Requirements', [CooperatorController::class, 'requirementsGet'])->name('Cooperator.Requirements');
+    Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);
+    Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
+    Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
+    Route::resource('receipts', ReceiptController::class);
+
+});
+
 
 //Cooperator Routes End
 //Staff Routes
 
-Route::get('/Staff/Home', function () {
-    return view('staffView.staffDashboard');
-})->name('Staff.home');
+Route::middleware([CheckStaffUser::class])->group(function () {
 
-Route::get('/staff/dashboard', [StaffViewController::class, 'dashboard'])->name('staff.dashboard');
+    Route::get('/Staff/Home', function () {
+        return view('staffView.staffDashboard');
+    })->name('Staff.home');
 
-Route::get('/staff/Project', [StaffViewController::class, 'approvedProjectGet'])->name('staff.Project');
+    Route::get('/staff/dashboard', [StaffViewController::class, 'dashboard'])->name('staff.dashboard');
 
-Route::get('/staff/Applicant', [StaffViewController::class, 'applicantGet'])->name('staff.Applicant');
+    Route::get('/staff/Project', [StaffViewController::class, 'approvedProjectGet'])->name('staff.Project');
 
-Route::get('/staff/Project/Create-Project', function () {
-    return view('staffView.staffProjectCreateTab');
-})->name('staff.Create-Project');
+    Route::get('/staff/Applicant', [StaffViewController::class, 'applicantGet'])->name('staff.Applicant');
 
-Route::get('/staff/Project/Create-DataSheet', [StaffViewController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
-Route::get('/staff/Project/Create-InformationSheet', [StaffViewController::class, 'createInformationSheet'])->name('staff.Create-InformationSheet');
-Route::get('/staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
-Route::get('/staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
+    Route::get('/staff/Project/Create-Project', function () {
+        return view('staffView.staffProjectCreateTab');
+    })->name('staff.Create-Project');
 
-//Staff Evaluation Schedule Set date
-Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule']);
+    Route::get('/staff/Project/Create-DataSheet', [StaffViewController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
+    Route::get('/staff/Project/Create-InformationSheet', [StaffViewController::class, 'createInformationSheet'])->name('staff.Create-InformationSheet');
+    Route::get('/staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
+    Route::get('/staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
 
-//Get evaluation schedule
-Route::get('/staff/Applicant/Evaluation-Schedule', [StaffViewController::class, 'getScheduledDate']);
+    //Staff Evaluation Schedule Set date
+    Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule']);
 
-//Staff Submit Project Proposal
-Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])->name('staff.Applicant.Submit-Project-Proposal');
+    //Get evaluation schedule
+    Route::get('/staff/Applicant/Evaluation-Schedule', [StaffViewController::class, 'getScheduledDate']);
+
+    //Staff Submit Project Proposal
+    Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])->name('staff.Applicant.Submit-Project-Proposal');
+});
+
 
 //Staff Route End
 //Admin routes
 
-Route::get('/Admin/Home', function () {
-    return view('AdminView.adminDashboard');
-})->name('Admin.home');
-
-Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])->name('admin.Dashboard');
-Route::get('/Admin/Project', [AdminViewController::class, 'applicantGet'])->name('admin.Project');
-Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])->name('admin.Users-list');
-Route::post('/Admin/Project/ProposalDetails', [AdminViewController::class, 'projectProposalGet'])->name('admin.Project.GetProposalDetails');
-Route::post('/Admin/Project/Approved-Project', [AdminViewController::class, 'approvedProjectProposal'])->name('admin.Project.ApprovedProjectProposal');
-Route::get('/Admin/Stafflist', [AdminViewController::class, 'staffGet'])->name('admin.Stafflist');
-
+Route::middleware([CheckAdminUser::class])->group(function () {
+    Route::get('/Admin/Home', function () {
+        return view('AdminView.adminDashboard');
+    })->name('Admin.home');
+    Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])->name('admin.Dashboard');
+    Route::get('/Admin/Project', [AdminViewController::class, 'applicantGet'])->name('admin.Project');
+    Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])->name('admin.Users-list');
+    Route::post('/Admin/Project/ProposalDetails', [AdminViewController::class, 'projectProposalGet'])->name('admin.Project.GetProposalDetails');
+    Route::post('/Admin/Project/Approved-Project', [AdminViewController::class, 'approvedProjectProposal'])->name('admin.Project.ApprovedProjectProposal');
+    Route::get('/Admin/Stafflist', [AdminViewController::class, 'staffGet'])->name('admin.Stafflist');
+});
 
 //Admin Route End
 //Email Verification
@@ -107,7 +120,6 @@ Route::get('/Admin/Stafflist', [AdminViewController::class, 'staffGet'])->name('
 Route::get('/email/verify', function () {
     return view('auth.verifyEmail');
 })->name('verification.notice');
-
 Route::get('/email/verify/{id}/{hash}', [MailController::class, 'sendEmailVerify'])->name('verification.verify');
 Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
 
