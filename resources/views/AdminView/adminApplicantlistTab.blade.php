@@ -85,47 +85,6 @@
                     </div>
                 </div>
             </div>
-            <div class="card p-0">
-                <div class="card-header">
-                    <span class=" fw-bold fs-5">
-                        <i class="ri-draft-fill"></i>
-                        Project Proposal
-                    </span>
-                </div>
-                <div class="card-body">
-                    <div class="row gy-2">
-                        <div class="col-12 col-md-3">
-                            <label for="ProjectId_fetch">Project Id:</label>
-                            <input type="text" id="ProjectId_fetch" class="form-control" readonly value="">
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <label for="ProjectTitle_fetch">Project Title:</label>
-                            <input type="text" id="ProjectTitle_fetch" class="form-control" readonly value="">
-                        </div>
-                        <div class="col-12 col-md-8">
-                            <label for="Amount_fetch">Amount:</label>
-                            <input type="text" id="Amount_fetch" class="form-control" readonly value="">
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="Applied_fetch">Date Applied:</label>
-                            <input type="text" id="Applied_fetch" class="form-control" readonly value="">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="evaluated_fetch">Evaluated by:</label>
-                            <input type="text" id="evaluated_fetch" class="form-control" readonly value="">
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="Assigned_to">Assigned to:</label>
-                            <select name="Assigned_to" id="Assigned_to" class="form-select">
-
-                            </select>
-                        </div>
-                        <div class="col-12 d-flex justify-content-end align-items-end">
-                            <button type="button" class="btn btn-primary" id="approvedButton">Approved</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
 </div>
@@ -242,91 +201,7 @@
             $('#equipment').val(row.find('.Equipment').text().trim());
             $('#workingCapital').val(row.find('.Working_C').text().trim());
 
-            getProjectProposal($('#b_id').val());
-            getStafflist();
         });
-
-        function getStafflist()
-        {
-            fetch('{{ route('admin.Stafflist') }}', {
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                dataType: 'json',
-            })
-                .then(response => response.json())
-                .then(data => {
-                    let staffList = $('#Assigned_to');
-                    staffList.empty();
-                    data.forEach(staff => {
-                        staffList.append(`<option value="${staff.staff_id}">${staff.full_name}</option>`);
-                    });
-
-                }).catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-
-          window.getProjectProposal = function(businessId){
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '{{ route('admin.Project.GetProposalDetails') }}',
-                type: 'POST',
-                data: {
-                    business_id: businessId
-                },
-                dataType: 'json', // Expect a JSON response
-                success: function(response) {
-                        $('#ProjectId_fetch').val(response.Project_id);
-                        $('#ProjectTitle_fetch').val(response.project_title);
-                        $('#Amount_fetch').val(parseFloat(response.fund_amount)
-                            .toLocaleString('en-US', {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            }));
-                        $('#Applied_fetch').val(response.date_applied);
-                        $('#evaluated_fetch').val(response.name);
-                },
-                error: function(xhr, status, error) {
-                    $('#ProjectTitle_fetch').val('');
-                    $('#Amount_fetch').val('');
-                    $('#Applied_fetch').val('');
-                    $('#evaluated_fetch').val('');
-                }
-            });
-        }
-
-        window.approvedProjectProposal = function(businessId, projectId, assignedStaff_Id){
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '{{ route('admin.Project.ApprovedProjectProposal') }}',
-                type: 'POST',
-                data: {
-                    business_id: businessId,
-                    project_id: projectId,
-                    assigned_staff_id: assignedStaff_Id
-                },
-                success: function(response) {
-                   window.loadPage('{{ route('admin.Applicant') }}','applicantList');
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        $('#approvedButton').on('click', function() {
-            if (typeof $('#b_id').val() !== 'undefined' && typeof $('#ProjectId_fetch').val() !== 'undefined' && typeof $('#Assigned_to').val() !== 'undefined')
-            {
-                approvedProjectProposal($('#b_id').val(), $('#ProjectId_fetch').val(), $('#Assigned_to').val());
-            }
-        })
     });
 
 </script>

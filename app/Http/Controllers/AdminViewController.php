@@ -192,7 +192,7 @@ class AdminViewController extends Controller
         ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
         ->join('org_users_info', 'project_info.evaluated_by_id', '=', 'org_users_info.id')
         ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-        ->where('application_info.application_status', 'waiting')
+        ->where('application_info.application_status', 'pending')
         ->where('business_info.id', '=', $validated['business_id'])
         ->first();
 

@@ -1,95 +1,3 @@
-<?php
-
-// $conn = include_once '../db_connection/database_connection.php';
-
-// function getApplicant($conn)
-// {
-//     $sql = "SELECT users.id, personal_info.f_name, personal_info.l_name, personal_info.designation, personal_info.mobile_number, personal_info.landline, business_info.firm_name, business_info.enterprise_type, business_info.B_address, assets.building_value, assets.equipment_value, assets.working_capital, application_info.date_applied, business_info.id
-
-//     FROM users
-//     INNER JOIN personal_info ON personal_info.user_name = users.user_name
-//     INNER JOIN business_info ON business_info.user_info_id = personal_info.id
-//     INNER JOIN assets ON assets.business_id = business_info.id
-//     INNER JOIN application_info ON application_info.business_id = business_info.id
-//     WHERE application_info.application_status = 'waiting';";
-
-//     $result = mysqli_query($conn, $sql);
-//     $rows = mysqli_fetch_all($result, MYSQLI_ASSOC);
-//     return $rows;
-// }
-
-// $applicants = getApplicant($conn);
-
-// foreach ($applicants as $applicant) {
-//     $ApplicantTable[] = $applicant;
-// }
-
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     if (isset($_POST['businessId']) && isset($_POST['approvalStatus'])) {
-//         $businessId = $_POST['businessId'];
-//         $approvalStatus = $_POST['approvalStatus'];
-//         function approveApplication($businessId, $approvalStatus, $conn)
-//         {
-//             $sql = "UPDATE `application_info` SET `application_status` = ? WHERE `business_id` = ?";
-//             $stmt = mysqli_prepare($conn, $sql);
-//             mysqli_stmt_bind_param($stmt, 'si', $approvalStatus, $businessId);
-//             mysqli_stmt_execute($stmt);
-//             echo 'success';
-//         }
-//         approveApplication($businessId, $approvalStatus, $conn);
-//     }
-// }
-
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     if (isset($_POST['business_id'])) {
-//         $businessId = $_POST['business_id'];
-
-//         function getProposal($businessId, $conn)
-//         {
-//             $sql = "SELECT
-//                 business_info.id,
-//                 project_info.project_title,
-//                 project_info.fund_amount,
-//                 application_info.date_applied,
-//                 org_users.user_name
-//                 FROM project_info
-//                 INNER JOIN business_info
-//                 ON project_info.business_id = business_info.id
-//                 INNER JOIN application_info
-//                 ON application_info.business_id = business_info.id
-//                 INNER JOIN org_users
-//                 ON project_info.evaluated_by_id = org_users.id
-//                 WHERE business_info.id = ?";
-
-//             $stmt = mysqli_prepare($conn, $sql);
-//             mysqli_stmt_bind_param($stmt, 'i', $businessId);
-//             mysqli_stmt_execute($stmt);
-//             $result = mysqli_stmt_get_result($stmt);
-//             $row = mysqli_fetch_assoc($result);
-//             return $row;
-//         }
-
-//         $row = getProposal($businessId, $conn);
-
-//         header('Content-Type: application/json'); // Set the header for JSON response
-
-//         if ($row) {
-//             $response = array(
-//                 'ProjectTitle_fetch' => $row['project_title'],
-//                 'Amount_fetch' => $row['fund_amount'],
-//                 'Applied_fetch' => $row['date_applied'],
-//                 'evaluated_fetch' => $row['user_name']
-//             );
-//             echo json_encode($response); // Return the response as JSON
-//         } else {
-//             echo json_encode(array('error' => 'No data found.'));
-//         }
-//     }
-
-//     exit();
-// }
-?>
-
 
 <style>
     ul#myTab li.nav-item button.tab-Nav.active {
@@ -129,7 +37,7 @@
     }
 
     #approvalDetails{
-        width: 40%;
+        width: 45%;
         max-width: 100%;
     }
 
@@ -452,14 +360,14 @@
                             <thead>
                                 <tr>
                                     <th>Applicant Name</th>
-                                    <th width="30%">Business Info</th>
+                                    <th>Firm Name</th>
                                     <th>Project title</th>
                                     <th>Date Applied</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableBody" class="table-group-divider">
+                            <tbody id="ApprovaltableBody" class="table-group-divider">
                                 <tr>
                                     <td>
                                         John Smith
@@ -511,7 +419,6 @@
                                     <th>Firm Info</th>
                                     <th>Owner Info</th>
                                     <th>Refund Progress</th>
-
                                     <th>Handled by</th>
                                     <th>Action</th>
                                 </tr>
@@ -653,24 +560,41 @@
 </div>
 <script>
     $(document).ready(function() { // Populate the table first
-        $('#forApproval').DataTable(); // Then initialize DataTables
+        $('#forApproval').DataTable({
+            columnDefs: [
+                {targets: 2, width: '30%'},
+                {targets: 3, width: '15%'},
+                {targets: 4, width: '8%'},
+                {targets: 5, width: '5%'},
+            ]
+        }); // Then initialize DataTables
         $('#ongoing').DataTable();
         $('#completed').DataTable();
 
-        $('.viewApplicant').on('click', function() {
-            let row = $(this).closest('tr');
+        $('#ApprovaltableBody').on('click', '.viewApproval', function() {
+            const row = $(this).closest('tr');
+            const inputs = row.find('input');
 
-            $('#cooperatorName').val(row.find('td:nth-child(2)').text().trim());
-            $('#designation').val(row.find('td:nth-child(3)').text().trim());
-            $('#b_id').val(row.find('#business_id').val());
-            $('#businessAddress').val(row.find('.business_Address').text().trim());
-            $('#typeOfEnterprise').val(row.find('.Type_Enterprise').text().trim());
-            $('#landline').val(row.find('.landline').text().trim());
-            $('#mobilePhone').val(row.find('.MobileNum').text().trim());
-            $('#email').val(row.find('.Email').text().trim());
-            $('#building').val(row.find('.building').text().trim());
-            $('#equipment').val(row.find('.Equipment').text().trim());
-            $('#workingCapital').val(row.find('.Working_C').text().trim());
+            $('#cooperatorName').val(row.find('td:eq(0)').text().trim());
+            $('#designation').val(inputs.filter('.designation').val());
+            $('#b_id').val(inputs.filter('.business_id').val());
+            $('#businessAddress').val(inputs.filter('.business_address').val());
+            $('#typeOfEnterprise').val(inputs.filter('.type_of_enterprise').val());
+            $('#landline').val(inputs.filter('.landline').val());
+            $('#mobilePhone').val(inputs.filter('.mobile_number').val());
+            $('#email').val(inputs.filter('.email').val());
+            $('#building').val(parseFloat(inputs.filter('.building_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+            $('#equipment').val(parseFloat(inputs.filter('.equipment_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+            $('#workingCapital').val(parseFloat(inputs.filter('.working_capital_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
 
             getProjectProposal($('#b_id').val());
             getStafflist();
@@ -711,11 +635,11 @@
                     table.clear().draw();
                     data.forEach(project => {
                         table.row.add([
-                            `${project.f_name} ${project.mid_name}. ${project.l_name} ${project.suffix},
+                            `${project.f_name} ${project.mid_name}. ${project.l_name} ${project.suffix}
                             <input type="hidden" class="designation" value="${project.designation}">
                             <input type="hidden" class="mobile_number" value="${project.mobile_number}">
                             <input type="hidden" class="email" value="${project.email}">
-                            <input type="hidden" class="landline" value="${project.landline}">`,
+                            <input type="hidden" class="landline" value="${project.landline ?? ''}">`,
                             `${project.firm_name} <input type="hidden" class="business_id" value="${project.id}">
                             <input type="hidden" class="business_address" value=" ${project.landMark} ${project.barangay}, ${project.city}, ${project.province}, ${project.region}, ${project.zip_code}">
                             <input type="hidden" class="type_of_enterprise" value="${project.enterprise_type}">
@@ -730,7 +654,7 @@
                             <input type="hidden" class="application_status" value="${project.fund_amount}">`,
                             `${project.date_proposed}`,
                             `<span class="badge bg-primary">${project.application_status}</span>`,
-                            `<button class="btn btn-primary viewApplicant" type="button" data-bs-toggle="offcanvas"
+                            `<button class="btn btn-primary viewApproval" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#approvalDetails" aria-controls="approvalDetails">
                                 <i class="ri-menu-unfold-4-line ri-1x"></i>
                             </button>`
