@@ -459,6 +459,12 @@
                     </a>
                 </li>
                 <li class="nav-item">
+                    <a href="#" id="applicantList" onclick="loadPage('{{ route('admin.Applicant') }}','applicantList');"  class="mb-2 d-flex align-items-center">
+                        <i class="ri-id-card-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Applicant List</span>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a href="#" id="userList" onclick="loadPage('{{ route('admin.Users-list') }}','userList');"
                         class="mb-2 d-flex align-items-center">
                         <i class="ri-shield-user-fill ri-2x"></i>

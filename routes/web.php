@@ -110,7 +110,8 @@ Route::middleware([CheckAdminUser::class])->group(function () {
         return view('AdminView.adminDashboard');
     })->name('Admin.home');
     Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])->name('admin.Dashboard');
-    Route::get('/Admin/Project', [AdminViewController::class, 'applicantGet'])->name('admin.Project');
+    Route::get('/Admin/Project', [AdminViewController::class, 'projectTabGet'])->name('admin.Project');
+    Route::get('/Admin/Applicant', [AdminViewController::class, 'applicantTabGet'])->name('admin.Applicant');
     Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])->name('admin.Users-list');
     Route::post('/Admin/Project/ProposalDetails', [AdminViewController::class, 'projectProposalGet'])->name('admin.Project.GetProposalDetails');
     Route::post('/Admin/Project/Approved-Project', [AdminViewController::class, 'approvedProjectProposal'])->name('admin.Project.ApprovedProjectProposal');

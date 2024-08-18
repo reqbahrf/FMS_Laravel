@@ -119,7 +119,7 @@
     }
 
     #ongoing_wrapper>div:first-child,
-    #applicant_wrapper>div:first-child,
+    #forApproval_wrapper>div:first-child,
     #completed_wrapper>div:first-child {
         background-color: #318791;
         padding-top: 1rem;
@@ -128,7 +128,11 @@
         margin-top: 0 !important;
     }
 
-    #applicantDetails,
+    #approvalDetails{
+        width: 40%;
+        max-width: 100%;
+    }
+
     #ongoingDetails,
     #completedDetails {
         width: 50vw;
@@ -140,12 +144,12 @@
 </div>
 {{-- Offcanvas start --}}
 
-<div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="applicantDetails"
+<div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="approvalDetails"
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary">
         <h5 class="offcanvas-title text-white fs-4" id="staticBackdropLabel">
             <i class="ri-id-card-fill ri-lg"></i>
-            Applicant Details
+            Approval Details
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
@@ -229,7 +233,7 @@
                     <div class="row gy-2">
                         <div class="col-12 col-md-3">
                             <label for="ProjectId_fetch">Project Id:</label>
-                            <input type="text" id="ProjectId_fetch" class="form-control" readonly value=""></label>
+                            <input type="text" id="ProjectId_fetch" class="form-control" readonly value="">
                         </div>
                         <div class="col-12 col-md-9">
                             <label for="ProjectTitle_fetch">Project Title:</label>
@@ -416,15 +420,15 @@
             <ul class="nav nav-tabs ps-3" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link tab-Nav active" id="home-tab" data-bs-toggle="tab"
-                        data-bs-target="#home-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
+                        data-bs-target="#approval-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
                         aria-selected="true">
                         <i class="ri-id-card-fill ri-lg"></i>
-                        Applicant
+                        For Approval
                     </button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link tab-Nav" id="profile-tab" data-bs-toggle="tab"
-                        data-bs-target="#profile-tab-pane" type="button" role="tab"
+                        data-bs-target="#ongoing-tab-pane" type="button" role="tab"
                         aria-controls="profile-tab-pane" aria-selected="false">
                         <i class="ri-progress-3-fill ri-lg"></i>
                         Ongoing
@@ -432,7 +436,7 @@
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link tab-Nav" id="contact-tab" data-bs-toggle="tab"
-                        data-bs-target="#contact-tab-pane" type="button" role="tab"
+                        data-bs-target="#completed-tab-pane" type="button" role="tab"
                         aria-controls="contact-tab-pane" aria-selected="false">
                         <i class="ri-contract-fill ri-lg"></i>
                         Completed
@@ -440,103 +444,55 @@
                 </li>
             </ul>
             <div class="tab-content bg-white" id="myTabContent">
-                <div class="tab-pane fade show active" id="home-tab-pane" role="tabpanel" aria-labelledby="home-tab"
+                <div class="tab-pane fade show active" id="approval-tab-pane" role="tabpanel" aria-labelledby="approval-tab"
                     tabindex="0">
                     <!-- Where the applicant is displayed -->
                     <div class="mx-2 table-responsive-xl">
-                        <table id="applicant" class="table table-hover mx-2" style="width:100%">
+                        <table id="forApproval" class="table table-hover mx-2" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>Client Name</th>
-                                    <th>Designation</th>
-                                    <th>Business Info</th>
+                                    <th>Applicant Name</th>
+                                    <th width="30%">Business Info</th>
                                     <th>Date Applied</th>
                                     <th>Status</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
                             <tbody id="tableBody" class="table-group-divider">
-                                @if (isset($applicants) && $applicants->isNotEmpty())
-                                    @foreach ($applicants as $applicantInfo)
-                                        <tr>
-                                            <input type="hidden" name="user_Id" class="user_Id"
-                                                value="{{ $applicantInfo->user_id }}">
-                                            <td>{{ $applicantInfo->prefix . ' ' . $applicantInfo->f_name . ' ' . $applicantInfo->mid_name . ' ' . $applicantInfo->l_name . ' ' . $applicantInfo->suffix }}
-                                            </td>
-                                            <td>{{ $applicantInfo->designation }}</td>
-                                            <td>
-                                                <div>
-                                                    <strong>Business Name:</strong>
-                                                    <span class="firm_name">
-                                                        {{ $applicantInfo->firm_name }}
-                                                    </span><br>
-                                                    <strong>Business Address:</strong>
-                                                    <input type="hidden" name="business_id" id="business_id"
-                                                        value="{{ $applicantInfo->id }}">
-                                                    <span
-                                                        class="business_Address">{{ $applicantInfo->landMark . ', ' . $applicantInfo->barangay . ', ' . $applicantInfo->city . ', ' . $applicantInfo->province . ', ' . $applicantInfo->region }}
-                                                    </span>
-                                                    <br>
-                                                    <strong>Type of Enterprise:</strong> <span
-                                                        class="Type_Enterprise">{{ $applicantInfo->enterprise_type }}</span>
-                                                </div>
-                                                <div>
-                                                    <Strong>Assets:</Strong> <br>
-                                                    <span class="ps-2">
-                                                        Building:
-                                                        <span
-                                                            class="building">{{ number_format($applicantInfo->building_value, 2) }}</span>
-                                                    </span><br>
-                                                    <span class="ps-2">Equipment:
-                                                        <span
-                                                            class="Equipment">{{ number_format($applicantInfo->equipment_value, 2) }}</span>
-                                                    </span> <br>
-                                                    <span class="ps-2">Working Capital:
-                                                        <span
-                                                            class="Working_C">{{ number_format($applicantInfo->working_capital, 2) }}</span>
-                                                    </span>
-                                                </div>
-                                                <strong>Contact Details:</strong>
-                                                <p>
-                                                    <span class="p-2">Landline:</span>
-                                                    <span class="landline">{{ $applicantInfo->landline }}</span>
-                                                    <br>
-                                                    <span class="p-2">Mobile Phone:</span>
-                                                    <span
-                                                        class="MobileNum">{{ $applicantInfo->mobile_number }}</span><br>
-                                                    <span class="p-2">Email:</span>
-                                                    <span class="Email">{{ $applicantInfo->email }}</span>
-                                                    <br>
-                                                </p>
-                                            </td>
-                                            <td>{{ $applicantInfo->date_applied }}</td>
-                                            <td>To be reviewed</td>
-                                            <td>
-                                                <button class="btn btn-primary viewApplicant" type="button"
-                                                    data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
-                                                    aria-controls="applicantDetails">
-                                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    @endforeach
-                                @endif
-                            </tbody>
-                            <tfoot>
                                 <tr>
-                                    <th>Client Name</th>
-                                    <th>Designation</th>
-                                    <th>Business Info</th>
-                                    <th>Date Applied</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
+                                    <td>
+                                        John Smith
+                                        <input type="hidden" class="designation">
+                                        <input type="hidden" class="mobileNo">
+                                        <input type="hidden" class="email">
+                                        <input type="hidden" class="landline">
+                                    </td>
+                                    <td>
+                                        XYZ Company
+                                        <input type="hidden" class="business_id">
+                                        <input type="hidden" class="business_address">
+                                        <input type="hidden" class="type_of_enterprise">
+                                        <input type="hidden" class="building_Assets">
+                                        <input type="hidden" class="equipment_Assets">
+                                        <input type="hidden" class="working_capital_Assets">
+                                    </td>
+                                    <td>
+                                        01/01/2022
+                                    </td>
+                                    <td><span class="badge bg-primary">Pending</span></td>
+                                    <td>
+                                        <button class="btn btn-primary viewApplicant" type="button" data-bs-toggle="offcanvas"
+                                            data-bs-target="#approvalDetails" aria-controls="approvalDetails">
+                                            <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                        </button>
+                                    </td>
                                 </tr>
-                            </tfoot>
+                            </tbody>
                         </table>
                     </div>
                     <!-- Where the applicant table end -->
                 </div>
-                <div class="tab-pane fade" id="profile-tab-pane" role="tabpanel" aria-labelledby="profile-tab"
+                <div class="tab-pane fade" id="ongoing-tab-pane" role="tabpanel" aria-labelledby="ongoing-tab"
                     tabindex="0">
                     <!-- Where the ongoing project are displayed -->
                     <div class="mx-2 table-responsive-xl">
@@ -609,7 +565,7 @@
                     </div>
                     <!-- Where the ongoing table end -->
                 </div>
-                <div class="tab-pane fade" id="contact-tab-pane" role="tabpanel" aria-labelledby="contact-tab"
+                <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab"
                     tabindex="0">
                     <!-- Where the Complete Table is displayed -->
                     <div class="mx-2 table-responsive-xl">
@@ -691,7 +647,7 @@
 </div>
 <script>
     $(document).ready(function() { // Populate the table first
-        $('#applicant').DataTable(); // Then initialize DataTables
+        $('#forApproval').DataTable(); // Then initialize DataTables
         $('#ongoing').DataTable();
         $('#completed').DataTable();
 
