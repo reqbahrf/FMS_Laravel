@@ -390,7 +390,7 @@
 
 @if (session('application_status') == 'approved')
     @include('cooperatorView.approved')
-@elseif(session('application_status') == 'waiting')
+@elseif(in_array(session('application_status'), ['waiting', 'pending']))
     @include('cooperatorView.waitingRoom')
 @endif
 

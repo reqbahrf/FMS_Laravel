@@ -453,6 +453,7 @@
                                 <tr>
                                     <th>Applicant Name</th>
                                     <th width="30%">Business Info</th>
+                                    <th>Project title</th>
                                     <th>Date Applied</th>
                                     <th>Status</th>
                                     <th>Action</th>
@@ -475,6 +476,11 @@
                                         <input type="hidden" class="building_Assets">
                                         <input type="hidden" class="equipment_Assets">
                                         <input type="hidden" class="working_capital_Assets">
+                                    </td>
+                                    <td>
+                                        Project_title
+                                        <input type="hidden" class="project_id">
+                                        <input type="hidden" class="amount">
                                     </td>
                                     <td>
                                         01/01/2022
@@ -690,6 +696,53 @@
                     console.error('Error:', error);
                 });
         }
+
+        function getforApprovalProject()
+        {
+            fetch('{{ route('admin.Project.PendingProject') }}', {
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                dataType: 'json',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let table = $('#forApproval').DataTable();
+                    table.clear().draw();
+                    data.forEach(project => {
+                        table.row.add([
+                            `${project.f_name} ${project.mid_name}. ${project.l_name} ${project.suffix},
+                            <input type="hidden" class="designation" value="${project.designation}">
+                            <input type="hidden" class="mobile_number" value="${project.mobile_number}">
+                            <input type="hidden" class="email" value="${project.email}">
+                            <input type="hidden" class="landline" value="${project.landline}">`,
+                            `${project.firm_name} <input type="hidden" class="business_id" value="${project.id}">
+                            <input type="hidden" class="business_address" value=" ${project.landMark} ${project.barangay}, ${project.city}, ${project.province}, ${project.region}, ${project.zip_code}">
+                            <input type="hidden" class="type_of_enterprise" value="${project.enterprise_type}">
+                            <input type="hidden" class="Enterpriselevel" value="${project.enterprise_level}">
+                            <input type="hidden" class="building_Assets" value="${project.building_value}">
+                            <input type="hidden" class="equipment_Assets" value="${project.equipment_value}">
+                            <input type="hidden" class="working_capital_Assets" value="${project.working_capital}">`,
+                           `${project.project_title}
+                            <input type="hidden" class="project_title" value="${project.Project_id}">
+                            <input type="hidden" class="date_proposed" value="${project.evaluated_by_id}">
+                            <input type="hidden" class="assigned_to" value="${project.full_name}">
+                            <input type="hidden" class="application_status" value="${project.fund_amount}">`,
+                            `${project.date_proposed}`,
+                            `<span class="badge bg-primary">${project.application_status}</span>`,
+                            `<button class="btn btn-primary viewApplicant" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#approvalDetails" aria-controls="approvalDetails">
+                                <i class="ri-menu-unfold-4-line ri-1x"></i>
+                            </button>`
+                        ]).draw(false);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+
+        }
+        getforApprovalProject();
     });
 </script>
 <script>

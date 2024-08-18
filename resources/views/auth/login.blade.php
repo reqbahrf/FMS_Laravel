@@ -251,7 +251,7 @@
             </div>
             <div class=" mt-3 z-3">
                 <div class="text-center">
-                    <p class="">Don't have an account? <a href="{{ route('signup') }}" class="ms-1"><b>Sign
+                    <p class="">Don't have an account? <a href="{{ route('registerpage.signup') }}" class="ms-1"><b>Sign
                                 Up</b></a></p>
                 </div> <!-- end col -->
             </div>

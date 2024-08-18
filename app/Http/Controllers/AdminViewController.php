@@ -40,14 +40,33 @@ class AdminViewController extends Controller
 
     }
 
-    public function applicantTabGet(Request $request)
+
+    public function pendingProjectGet(Request $request)
     {
-        if($request->ajax())
+        try
         {
-            $applicants = User::select([
-                'users.id as user_id',
-                'users.email',
-                'coop_users_info.prefix',
+        $pendingProjects = DB::table('business_info')
+            ->select([
+                'business_info.id',
+                'business_info.firm_name',
+                'business_info.enterprise_type',
+                'business_info.enterprise_level',
+                'business_info.zip_code',
+                'business_info.landMark',
+                'business_info.barangay',
+                'business_info.city',
+                'business_info.province',
+                'business_info.region',
+                'assets.building_value',
+                'assets.equipment_value',
+                'assets.working_capital',
+                'application_info.application_status',
+                'project_info.Project_id',
+                'project_info.project_title',
+                'project_info.evaluated_by_id',
+                'project_info.fund_amount',
+                'project_info.created_at as date_proposed',
+                'org_users_info.full_name',
                 'coop_users_info.f_name',
                 'coop_users_info.mid_name',
                 'coop_users_info.l_name',
@@ -55,20 +74,58 @@ class AdminViewController extends Controller
                 'coop_users_info.designation',
                 'coop_users_info.mobile_number',
                 'coop_users_info.landline',
-                'business_info.firm_name',
-                'business_info.enterprise_type',
-                'business_info.landMark',
-                'business_info.barangay',
-                'business_info.city',
-                'business_info.city',
-                'business_info.province',
-                'business_info.region',
-                'assets.building_value',
-                'assets.equipment_value',
-                'assets.working_capital',
-                'application_info.created_at as date_applied',
-                'business_info.id'
+                'users.email'
             ])
+                ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
+                ->join('assets', 'assets.id', '=', 'business_info.id')
+                ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
+                ->join('org_users_info', 'project_info.evaluated_by_id', '=', 'org_users_info.id')
+                ->join('coop_users_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
+                ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+                ->where('application_info.application_status', 'pending')
+                ->whereNotNull('project_info.business_id')
+            ->get();
+
+            if ($pendingProjects->isEmpty()) {
+                return response()->json(['error' => 'No data found.'], 404);
+            } else {
+                return response()->json($pendingProjects);
+            }
+        }catch (\Exception $e)
+        {
+            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+    public function applicantTabGet(Request $request)
+    {
+        if($request->ajax())
+        {
+            $applicants = DB::table('users')
+                ->select([
+                    'users.id as user_id',
+                    'users.email',
+                    'coop_users_info.prefix',
+                    'coop_users_info.f_name',
+                    'coop_users_info.mid_name',
+                    'coop_users_info.l_name',
+                    'coop_users_info.suffix',
+                    'coop_users_info.designation',
+                    'coop_users_info.mobile_number',
+                    'coop_users_info.landline',
+                    'business_info.firm_name',
+                    'business_info.enterprise_type',
+                    'business_info.landMark',
+                    'business_info.barangay',
+                    'business_info.city',
+                    'business_info.province',
+                    'business_info.region',
+                    'assets.building_value',
+                    'assets.equipment_value',
+                    'assets.working_capital',
+                    'application_info.created_at as date_applied',
+                    'business_info.id'
+                ])
                 ->join('coop_users_info', 'users.user_name', '=', 'coop_users_info.user_name')
                 ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
                 ->join('assets', 'assets.id', '=', 'business_info.id')

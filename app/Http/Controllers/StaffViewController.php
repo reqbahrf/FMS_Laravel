@@ -291,13 +291,18 @@ class StaffViewController extends Controller
                 return response()->json(['error' => 'Project Id already exist'], 400);
             }
 
-            ProjectInfo::create([
-                'Project_id' => $validated['projectID'],
-                'business_id' => $validated['business_id'],
-                'evaluated_by_id' => $TestStaffId,
-                'project_title' => $validated['projectTitle'],
-                'fund_amount' => $fundAmountFormatted
-            ]);
+            ProjectInfo::updateOrCreate(
+                ['Project_id' => $validated['projectID']],
+                [
+                    'business_id' => $validated['business_id'],
+                    'evaluated_by_id' => $TestStaffId,
+                    'project_title' => $validated['projectTitle'],
+                    'fund_amount' => $fundAmountFormatted
+                ]
+            );
+
+            ApplicationInfo::where('business_id', $validated['business_id'])
+                ->update(['application_status' => 'pending']);
 
 
             return response()->json(['message' => 'Project Proposal Submitted'], 200);
