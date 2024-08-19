@@ -75,7 +75,8 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
     Route::get('/Staff/dashboard', [StaffViewController::class, 'dashboard'])->name('staff.dashboard');
 
-    Route::get('/Staff/Project', [StaffViewController::class, 'approvedProjectGet'])->name('staff.Project');
+    Route::get('/Staff/Project', [StaffViewController::class, 'getProjectsView'])->name('staff.Project');
+    Route::post('/Staff/Project/Approved-Project', [StaffViewController::class, 'getApprovedProjects'])->name('staff.Project.ApprovedProjectProposal');
 
     Route::get('/Staff/Applicant', [StaffViewController::class, 'applicantGet'])->name('staff.Applicant');
 

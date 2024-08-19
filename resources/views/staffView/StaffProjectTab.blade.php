@@ -1,26 +1,4 @@
-<?php
-// $conn = include_once '../db_connection/database_connection.php';
 
-// $sql = "SELECT users.user_name, users.email, users.role, personal_info.f_name, personal_info.l_name, personal_info.designation, personal_info.mobile_number, personal_info.landline, business_info.firm_name, business_info.B_address, business_info.enterprise_type, business_info.enterprise_level, assets.building_value, assets.equipment_value, assets.working_capital, pi.project_title, pi.fund_amount, pi.date_approved, org_users_info.full_name, application_info.application_status
-// FROM users
-// INNER JOIN personal_info ON personal_info.user_name = users.user_name
-// INNER JOIN business_info ON business_info.user_info_id = personal_info.id
-// INNER JOIN assets ON assets.business_id = business_info.id
-// INNER JOIN project_info AS pi ON pi.business_id = business_info.id
-// LEFT JOIN org_users_info ON pi.handled_by_id = org_users_info.id
-// INNER JOIN application_info ON application_info.business_id = business_info.id
-// WHERE application_info.application_status ='approved' AND users.role='Cooperator'";
-
-// $approved = mysqli_query($conn, $sql);
-
-// if (!$approved) {
-//     echo 'Error: ' . mysqli_error($conn);
-// } else {
-//     while ($row = mysqli_fetch_assoc($approved)) {
-//         // Access the data in $row
-//     }
-// }
-?>
 <style>
     ul#myTab li.nav-item button.tab-Nav.active {
         background-color: #318791 !important;
@@ -84,7 +62,114 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div>Need More Info for the content</div>
+           <div class="row gy-3">
+            <div class="card p-0">
+                <div class="card-header">
+                    <h5>
+                        <i class="ri-contacts-fill"></i>
+                        Personal Info
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row gy-2">
+                        <div class="col-12 col-md-8">
+                            <label for="cooperatorName">Cooperator Name:</label>
+                            <input type="text" id="cooperatorName" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="designation">Designation:</label>
+                            <input type="text" id="designation" class="form-control" readonly>
+                        </div>
+                        <h6>Contact Details:</h6>
+                        <div class="col-12 col-md-4">
+                            <label for="landline">Landline:</label>
+                            <input type="text" id="landline" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="mobilePhone">Mobile Phone:</label>
+                            <input type="text" id="mobilePhone" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="email">Email:</label>
+                            <input type="text" id="email" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-0">
+                <div class="card-header">
+                    <span class="fw-bold fs-5">
+                        <i class="ri-briefcase-fill"></i>
+                        Business Info
+                    </span>
+                </div>
+                <div class="card-body">
+                    <div class="row gy-2">
+                        <input type="hidden" name="b_id" id="b_id">
+                        <div class="col-12">
+                            <label for="businessAddress">Business Address:</label>
+                            <input type="text" id="businessAddress" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="typeOfEnterprise">Type of Enterprise:</label>
+                            <input type="text" id="typeOfEnterprise" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="enterpriseLevel">Enterprise Level:</label>
+                            <input type="text" id="enterpriseLevel" class="form-control" readonly>
+                        </div>
+                        <h6>Assets:</h6>
+                        <div class="col-12 col-md-4">
+                            <label for="building" class="ps-2">Building:</label>
+                            <input type="text" id="building" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="equipment" class="ps-2">Equipment:</label>
+                            <input type="text" id="equipment" class="form-control" readonly>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="land" class="ps-2">Land:</label>
+                            <input type="text" id="workingCapital" class="form-control" readonly>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card p-0">
+                <div class="card-body">
+                    <div class="card-header">
+                         <i class="ri-draft-fill"></i>
+                        Project Information
+                    </div>
+                    <div class="row gy-2">
+                        <div class="col-12 col-md-3">
+                            <label for="ProjectId_fetch">Project Id:</label>
+                            <input type="text" id="ProjectId" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-9">
+                            <label for="ProjectTitle_fetch">Project Title:</label>
+                            <input type="text" id="ProjectTitle" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <label for="Amount_fetch">Amount:</label>
+                            <input type="text" id="Amount" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="Applied_fetch">Date Applied:</label>
+                            <input type="text" id="Applied" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="evaluated_fetch">Evaluated by:</label>
+                            <input type="text" id="evaluated" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="Assigned_to">Assigned to:</label>
+                            <input type="text" id="Assigned_to" class="form-control" readonly value="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+           </div>
         </div>
     </div>
     {{-- Offcanvas Approved End --}}
@@ -756,16 +841,15 @@
                         <table id="approvedTable" class="table table-hover" style="width:100%">
                             <thead>
                                 <tr>
-                                    <th>id</th>
+                                    <th>Project #</th>
                                     <th>Client Name</th>
-                                    <th>Designation</th>
                                     <th>Firm Name</th>
-                                    <th>Additional Info</th>
-                                    <th>Project Info</th>
+                                    <th>Project Title</th>
+                                    <th>Date Approved</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
-                            <tbody id="tableBody" class=" table-group-divider">
+                            <tbody id="ApprovedtableBody" class=" table-group-divider">
                                 @if (isset($approved) && count($approved) > 0)
                                     @foreach ($approved as $item)
 
@@ -827,17 +911,6 @@
                                     @endforeach
                                 @endif
                             </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>id</th>
-                                    <th>Client Name</th>
-                                    <th>Designation</th>
-                                    <th>Firm Name</th>
-                                    <th>Additional Info</th>
-                                    <th>Project Info</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
                         </table>
 
                     </div>
@@ -1073,5 +1146,95 @@
             // Your function goes here
             $('#sw-AddProject').smartWizard('fixHeight');
         });
+
+        $('#ApprovedtableBody').on('click', '.approvedProjectInfo', function() {
+            const row = $(this).closest('tr');
+            const inputs = row.find('input');
+
+            $('#cooperatorName').val(row.find('td:eq(1)').text().trim());
+            $('#designation').val(inputs.filter('.designation').val());
+            $('#b_id').val(inputs.filter('.business_id').val());
+            $('#businessAddress').val(inputs.filter('.business_address').val());
+            $('#typeOfEnterprise').val(inputs.filter('.enterprise_type').val());
+            $('#enterpriseLevel').val(inputs.filter('.enterprise_level').val());
+            $('#landline').val(inputs.filter('.landline').val());
+            $('#mobilePhone').val(inputs.filter('.mobile_number').val());
+            $('#email').val(inputs.filter('.email').val());
+            $('#ProjectId').val(row.find('td:eq(0)').text().trim());
+            $('#ProjectTitle').val(row.find('td:eq(3)').text().trim());
+            $('#Amount').val(
+                parseFloat(inputs.filter('.fund_amount').val().replace(/,/g, '')).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+            $('#Applied').val(inputs.filter('.Applied').val());
+            $('#evaluated').val(inputs.filter('.evaluated').val());
+            $('#Assigned_to').val(inputs.filter('.assigned_to').val());
+            $('#building').val(parseFloat(inputs.filter('.building_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+            $('#equipment').val(parseFloat(inputs.filter('.equipment_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+            $('#workingCapital').val(parseFloat(inputs.filter('.working_capital_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }));
+
+
+
+
+        });
+
+       function getApprovedProjects(){
+            fetch('{{ route('staff.Project.ApprovedProjectProposal') }}', {
+                method:'POST',
+                headers:{
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                dataType: 'json',
+            })
+                .then(response => response.json())
+                .then(data => {
+                    let ApprovedDatatable = $('#approvedTable').DataTable();
+                    ApprovedDatatable.clear().draw();
+                    data.forEach(Approved => {
+                        ApprovedDatatable.row.add([
+                            `${Approved.Project_id}`,
+                            `${Approved.f_name} ${Approved.l_name}
+                            <input type="hidden" class="designation" value="${Approved.designation}">
+                            <input type="hidden" class="mobile_number" value="${Approved.mobile_number}">
+                            <input type="hidden" class="email" value="${Approved.email}">
+                            <input type="hidden" class="landline" value="${Approved.landline ?? ''}">`,
+                            `${Approved.firm_name}
+                            <input type="hidden" class="enterprise_type" value="${Approved.enterprise_type}">
+                            <input type="hidden" class="enterprise_level" value="${Approved.enterprise_level}">
+                            <input type="hidden" class="building_Assets" value="${Approved.building_value}">
+                            <input type="hidden" class="equipment_Assets" value="${Approved.equipment_value}">
+                            <input type="hidden" class="working_capital_Assets" value="${Approved.working_capital}">
+                            <input type="hidden" class="business_address" value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}">`,
+                            `${Approved.project_title}
+                            <input type="hidden" class="fund_amount" value="${Approved.fund_amount}">
+                            <input type="hidden" class="evaluated_by" value="${Approved.evaluated_by_id}">
+                            <input type="hidden" class="assigned_to" value="${Approved.full_name}">`,
+                            `${Approved.date_approved}`,
+                            ` <button class="btn btn-primary approvedProjectInfo" type="button"
+                                                    data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
+                                                    aria-controls="approvedDetails">
+                                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                                </button>`
+
+                        ]).draw(false);
+                    });
+
+                }).catch(error => {
+                    console.error('Error:', error);
+                });
+
+        }
+
+        getApprovedProjects();
     });
 </script>

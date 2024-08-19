@@ -368,39 +368,7 @@
                                 </tr>
                             </thead>
                             <tbody id="ApprovaltableBody" class="table-group-divider">
-                                <tr>
-                                    <td>
-                                        John Smith
-                                        <input type="hidden" class="designation">
-                                        <input type="hidden" class="mobileNo">
-                                        <input type="hidden" class="email">
-                                        <input type="hidden" class="landline">
-                                    </td>
-                                    <td>
-                                        XYZ Company
-                                        <input type="hidden" class="business_id">
-                                        <input type="hidden" class="business_address">
-                                        <input type="hidden" class="type_of_enterprise">
-                                        <input type="hidden" class="building_Assets">
-                                        <input type="hidden" class="equipment_Assets">
-                                        <input type="hidden" class="working_capital_Assets">
-                                    </td>
-                                    <td>
-                                        Project_title
-                                        <input type="hidden" class="project_id">
-                                        <input type="hidden" class="amount">
-                                    </td>
-                                    <td>
-                                        01/01/2022
-                                    </td>
-                                    <td><span class="badge bg-primary">Pending</span></td>
-                                    <td>
-                                        <button class="btn btn-primary viewApplicant" type="button" data-bs-toggle="offcanvas"
-                                            data-bs-target="#approvalDetails" aria-controls="approvalDetails">
-                                            <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                        </button>
-                                    </td>
-                                </tr>
+
                             </tbody>
                         </table>
                     </div>

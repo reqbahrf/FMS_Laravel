@@ -72,11 +72,21 @@ class StaffViewController extends Controller
             }
     }
 
-    public function approvedProjectGet(Request $request)
+    public function getProjectsView(Request $request)
     {
+        $approvedProjects = $this->getApprovedProjects();
 
         if ($request->ajax()) {
-            $approved = User::join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
+            return view('staffView.StaffProjectTab', compact('approvedProjects'));
+        } else {
+            return view('staffView.staffDashboard');
+        }
+    }
+
+    public function getApprovedProjects()
+    {
+
+         $approved = User::join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
                 ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
                 ->join('assets', 'assets.id', '=', 'business_info.id')
                 ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
@@ -113,11 +123,10 @@ class StaffViewController extends Controller
                 )
                 ->get();
 
-            return view('staffView.StaffProjectTab', compact('approved'));
-        } else {
-            return view('staffView.staffDashboard');
-        }
+                return response()->json($approved);
+
     }
+
 
     public function applicantGet(Request $request)
     {
