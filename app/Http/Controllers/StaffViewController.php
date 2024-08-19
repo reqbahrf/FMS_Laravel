@@ -74,10 +74,8 @@ class StaffViewController extends Controller
 
     public function getProjectsView(Request $request)
     {
-        $approvedProjects = $this->getApprovedProjects();
-
         if ($request->ajax()) {
-            return view('staffView.StaffProjectTab', compact('approvedProjects'));
+            return view('staffView.StaffProjectTab');
         } else {
             return view('staffView.staffDashboard');
         }
@@ -90,8 +88,14 @@ class StaffViewController extends Controller
                 ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
                 ->join('assets', 'assets.id', '=', 'business_info.id')
                 ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
-                ->leftJoin('org_users_info', 'pi.handled_by_id', '=', 'org_users_info.id')
+            ->leftJoin('org_users_info as handled_by', function ($join) {
+                $join->on('pi.handled_by_id', '=', 'handled_by.id');
+            })->leftJoin('org_users_info as evaluated_by', function ($join) {
+                $join->on('pi.evaluated_by_id', '=', 'evaluated_by.id');
+            })
                 ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
+                ->where('pi.handled_by_id', '!=', null)
+                ->where('pi.evaluated_by_id', '!=', null)
                 ->where('application_info.application_status', 'approved')
                 ->where('users.role', 'Cooperator')
                 ->select(
@@ -118,7 +122,9 @@ class StaffViewController extends Controller
                     'pi.project_title',
                     'pi.fund_amount',
                     'pi.created_at as date_approved',
-                    'org_users_info.full_name',
+                    'evaluated_by.full_name As evaluated_by',
+                    'handled_by.full_name As assinged_to',
+                    'application_info.created_at as date_applied',
                     'application_info.application_status'
                 )
                 ->get();

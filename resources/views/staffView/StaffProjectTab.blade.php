@@ -135,11 +135,13 @@
                 </div>
             </div>
             <div class="card p-0">
-                <div class="card-body">
-                    <div class="card-header">
+                <div class="card-header">
+                     <span class="fw-bold fs-5">
                          <i class="ri-draft-fill"></i>
-                        Project Information
-                    </div>
+                          Project Information
+                     </span>
+                </div>
+                <div class="card-body">
                     <div class="row gy-2">
                         <div class="col-12 col-md-3">
                             <label for="ProjectId_fetch">Project Id:</label>
@@ -168,8 +170,11 @@
                     </div>
                 </div>
             </div>
-
-           </div>
+        </div>
+        <div class="buttonContainer position-fixed bottom-0 end-0 m-3">
+            <div class="d-flex justify-content-end">
+                <button class="btn btn-primary" type="button">Create PIS</button>
+            </div>
         </div>
     </div>
     {{-- Offcanvas Approved End --}}
@@ -1107,7 +1112,17 @@
 </script>
 <script>
     $(document).ready(function() {
-        $('#approvedTable').DataTable();
+        $('#approvedTable').DataTable({
+            columnDefs: [
+                {targets: 0, width: '5%'},
+                {targets: 1, width: '10%'},
+                {targets: 2, width: '15%'},
+                {targets: 3, width: '20%'},
+                {targets: 4, width: '10%'},
+                {targets: 5, width: '5%'},
+            ]
+        }
+        );
         $('#ongoingTable').DataTable();
         $('#completed').DataTable();
 
@@ -1150,6 +1165,7 @@
         $('#ApprovedtableBody').on('click', '.approvedProjectInfo', function() {
             const row = $(this).closest('tr');
             const inputs = row.find('input');
+            console.log(inputs);
 
             $('#cooperatorName').val(row.find('td:eq(1)').text().trim());
             $('#designation').val(inputs.filter('.designation').val());
@@ -1167,8 +1183,10 @@
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2
             }));
-            $('#Applied').val(inputs.filter('.Applied').val());
-            $('#evaluated').val(inputs.filter('.evaluated').val());
+            const dateAppliedValue = inputs.filter('.dateApplied').val();
+            console.log(dateAppliedValue);
+            $('#Applied').val(inputs.filter('.dateApplied').val());
+            $('#evaluated').val(inputs.filter('.evaluated_by').val());
             $('#Assigned_to').val(inputs.filter('.assigned_to').val());
             $('#building').val(parseFloat(inputs.filter('.building_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
@@ -1217,8 +1235,9 @@
                             <input type="hidden" class="business_address" value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}">`,
                             `${Approved.project_title}
                             <input type="hidden" class="fund_amount" value="${Approved.fund_amount}">
-                            <input type="hidden" class="evaluated_by" value="${Approved.evaluated_by_id}">
-                            <input type="hidden" class="assigned_to" value="${Approved.full_name}">`,
+                            <input type="hidden" class="dateApplied" value="${Approved.date_applied}">
+                            <input type="hidden" class="evaluated_by" value="${Approved.evaluated_by}">
+                            <input type="hidden" class="assigned_to" value="${Approved.assinged_to}">`,
                             `${Approved.date_approved}`,
                             ` <button class="btn btn-primary approvedProjectInfo" type="button"
                                                     data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
