@@ -37,6 +37,8 @@ class ScheduleController extends Controller
         if ($existingNotification) {
             // Update the existing notification
             $existingNotification->update(['data' => $notificationData]);
+
+            $applicant->notify(new EvaluationScheduleNotification($existingNotification));
         } else {
             // Send a new notification
             $applicant->notify($notification);

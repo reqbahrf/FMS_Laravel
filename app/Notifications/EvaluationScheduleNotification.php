@@ -31,19 +31,20 @@ class EvaluationScheduleNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database', 'broadcast'];
+        return ['database', 'broadcast', 'mail'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    // public function toMail(object $notifiable): MailMessage
-    // {
-    //     return (new MailMessage)
-    //                 ->line('The introduction to the notification.')
-    //                 ->action('Notification Action', url('/'))
-    //                 ->line('Thank you for using our application!');
-    // }
+    public function toMail(object $notifiable): MailMessage
+    {
+        $evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i A');
+        return (new MailMessage)
+                    ->line('Your evaluation is scheduled on ')
+                    ->line('**' . $evaluationDate . '**')
+                    ->line('Thank you for using our application!');
+    }
 
     /**
      * Get the array representation of the notification.
