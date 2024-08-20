@@ -847,17 +847,32 @@
                             <div class="mb-3">
                                 <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
                                         class="requiredFields"> *</span></label>
-                                <input class="fileUploads" type="file" name="receiptFile" id="receiptFile">
-                                <div class="form-text">Accepted formats: .pdf.</div>
+                                        <input class="fileUploads" type="file" name="receiptFile" id="receiptFile">
+                                        <div class="form-text">Accepted formats: .pdf.</div>
                                 <div class="invalid-feedback">
                                     Please upload the Official Receipt of the Business.
                                 </div>
                             </div>
                             <div class="mb-3">
-                                <label for="govIdFile" class="form-label">Government Valid ID: <span
-                                        class="requiredFields"> *</span></label>
-                                <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
-                                <div class="form-text">Accepted formats: .jpg, .png.</div>
+                                <label for="govIdFile" class="form-label">Government Valid ID:
+                                     <span
+                                        class="requiredFields"> *</span>
+                                </label>
+                                  <div class="row">
+                                        <div class="col-2 d-flex align-items-center justify-content-center">
+                                            <Select id="GovIdSelector" class="form-select form-select-lg" name="GovIdSelector">
+                                                <option value="">Choose...</option>
+                                                <option value="National ID">National ID</option>
+                                                <option value="SSS ID">SSS UMID</option>
+                                                <option value="GSIS ID">GSIS UMID</option>
+                                                <option value="Passport ID">Philippine Passport</option>
+                                            </Select>
+                                        </div>
+                                        <div class="col-10">
+                                            <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
+                                            <div class="form-text">Accepted formats: .jpg, .png.</div>
+                                        </div>
+                                </div>
                                 <div class="invalid-feedback">
                                     Please upload the Copy of Government Valid ID.
                                 </div>
@@ -1632,6 +1647,7 @@
                 }
             })
 
+
             let fda_lto_select = document.getElementById('fdaLtoSelector');
 
             function checkFdalto() {
@@ -1718,7 +1734,7 @@
             })
 
             let govIdFile = document.getElementById('govIdFile');
-            FilePond.create(govIdFile, {
+            let govId_instance = FilePond.create(govIdFile, {
                 allowMultiple: false,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
@@ -1750,6 +1766,7 @@
                                     // Update the file path in the file upload element
                                     govIdFile.setAttribute('data-file-path', govIdFilePath);
                                     console.log(govIdFilePath);
+                                    document.getElementById('GovIdSelector').classList.add('disabled');
                                     adjustSmartWizardHeight();
                                 }
                             }
@@ -1795,6 +1812,17 @@
                 }
 
             })
+
+            let govId_select = document.getElementById('GovIdSelector');
+            function checkGovId(){
+                if(govId_select.value === ''){
+                    govId_instance.disabled = true;
+                }else{
+                    govId_instance.disabled = false;
+                }
+            }
+            checkGovId()
+            govId_select.addEventListener('change', checkGovId);
 
             let BIR = document.getElementById('BIRFile');
             FilePond.create(BIR, {
@@ -1983,283 +2011,273 @@
                 }
 
             });
-        });
+            function validateCurrentStep(stepIndex) {
+                var isValid = true;
+                var currentStep = $('#step-' + (stepIndex + 1)); // stepIndex is 0-based
 
+                currentStep.find('input, select, textarea').each(function() {
+                    if (!this.checkValidity()) {
+                        $(this).addClass('is-invalid'); // Add invalid class for styling
+                        isValid = false;
+                        $('#smartwizard').smartWizard('fixHeight');
+                    } else {
+                        $(this).removeClass('is-invalid');
+                    }
+                });
 
-        function validateCurrentStep(stepIndex) {
-            var isValid = true;
-            var currentStep = $('#step-' + (stepIndex + 1)); // stepIndex is 0-based
+                return isValid;
+            }
 
-            currentStep.find('input, select, textarea').each(function() {
-                if (!this.checkValidity()) {
-                    $(this).addClass('is-invalid'); // Add invalid class for styling
-                    isValid = false;
-                    $('#smartwizard').smartWizard('fixHeight');
-                } else {
-                    $(this).removeClass('is-invalid');
-                }
+            window.onFinish = function() {
+                event.preventDefault();
+                window.confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                confirmationModal.show();
+            }
+
+            const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
+            const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
+
+            const confirmButton = document.getElementById('confirmButton');
+
+            confirmTrueInfo.add(confirmAgreeInfo).change(function() {
+                confirmButton.disabled = !(confirmTrueInfo.is(':checked') && confirmAgreeInfo.is(':checked'));
             });
 
-            return isValid;
-        }
+            confirmButton.addEventListener('click', function() {
+                submitForm();
+            });
 
-        window.onFinish = function() {
-            event.preventDefault();
-            window.confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
-            confirmationModal.show();
-        }
+            function submitForm() {
 
-        const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
-        const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
+                $.ajax({
+                    type: 'POST',
+                    url: '{{ route('applicationFormSubmit') }}',
+                    data: $('#applicationForm').find(':input:not([readonly])').serialize(),
+                    success: function(response) {
+                        // Handle the response from the server
+                        console.log('Form submitted successfully', response);
+                        const message = response.success;
 
-        const confirmButton = document.getElementById('confirmButton');
+                        confirmationModal.hide();
 
-        confirmTrueInfo.add(confirmAgreeInfo).change(function() {
-            confirmButton.disabled = !(confirmTrueInfo.is(':checked') && confirmAgreeInfo.is(':checked'));
-        });
+                        if (response.success) {
+                            setTimeout(() => {
+                                const toastElement = document.getElementById('successToast');
+                                const toast = new bootstrap.Toast(toastElement);
+                                toast.show();
+                            }, 500);
 
-        confirmButton.addEventListener('click', function() {
-            submitForm();
-        });
+                            setTimeout(() => {
+                                window.location.href = response.redirect;
+                            }, 3000);
+                        }
 
-        function submitForm() {
+                        // Display the toast
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle any errors
+                        console.error('Error submitting form', error);
+                    }
+                });
+            }
 
-            $.ajax({
-                type: 'POST',
-                url: '{{ route('applicationFormSubmit') }}',
-                data: $('#applicationForm').find(':input:not([readonly])').serialize(),
-                success: function(response) {
-                    // Handle the response from the server
-                    console.log('Form submitted successfully', response);
-                    const message = response.success;
+            function onCancel() {
+                console.log("Form cancelled");
+                window.location.href = 'some_cancel_url'; // Redirect to a specific URL
+            }
+                $('#Mobile_no').on('keypress', function(e) {
+                    var charCode = (e.which) ? e.which : e.keyCode;
+                    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                        return false;
+                    }
+                    return true;
+                }).on('input', function() {
+                    var number = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
+                    if (number.length > 0) {
+                        var formattedNumber = number.match(/(\d{0,4})(\d{0,3})(\d{0,4})/);
+                        var formatted = '';
+                        if (formattedNumber[1]) formatted += formattedNumber[1];
+                        if (formattedNumber[2]) formatted += '-' + formattedNumber[2];
+                        if (formattedNumber[3]) formatted += '-' + formattedNumber[3];
+                        $(this).val(formatted);
+                    }
+                });
 
-                    confirmationModal.hide();
+                function updateEnterpriseLevel() {
+                    const formatNumber = (input) => {
+                        let value = input.value.replace(/,/g, ''); // Remove existing commas
+                        value = value.replace(/[^\d.]/g,
+                            ''); // Remove non-numeric characters except for decimal point
+                        value = value.replace(/(\.\d{2})\d+$/, '$1'); // Limit decimal points to 2
 
-                    if (response.success) {
-                        setTimeout(() => {
-                            const toastElement = document.getElementById('successToast');
-                            const toast = new bootstrap.Toast(toastElement);
-                            toast.show();
-                        }, 500);
+                        // Add commas every 3 digits
+                        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-                        setTimeout(() => {
-                            window.location.href = response.redirect;
-                        }, 3000);
+                        input.value = value;
+                    };
+
+                    formatNumber(document.getElementById('buildings'));
+                    formatNumber(document.getElementById('equipments'));
+                    formatNumber(document.getElementById('working_capital'));
+
+                    var buildingsValue = parseFloat($('#buildings').val().replace(/,/g, '')) || 0;
+                    var equipmentsValue = parseFloat($('#equipments').val().replace(/,/g, '')) || 0;
+                    var workingCapitalValue = parseFloat($('#working_capital').val().replace(/,/g, '')) || 0;
+                    var total = buildingsValue + equipmentsValue + workingCapitalValue;
+                    $('#to_Assets').text(total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
+                    if (total === 0) {
+                        $('#Enterprise_Level').text('');
+                        return;
+                    }
+                    if (total < 3e6) {
+                        $('#Enterprise_Level').text('Micro Enterprise');
+                    } else if (total < 15e6) {
+                        $('#Enterprise_Level').text('Small Enterprise');
+                    } else if (total < 100e6) {
+                        $('#Enterprise_Level').text('Medium Enterprise');
+                    } else {
+                        $('#Enterprise_Level').text('Large Enterprise');
                     }
 
-                    // Display the toast
-                },
-                error: function(xhr, status, error) {
-                    // Handle any errors
-                    console.error('Error submitting form', error);
+                }
+
+                $('#buildings, #equipments, #working_capital').on('input', updateEnterpriseLevel);
+
+            $('textarea').on('input', function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+
+            $('textarea[readonly]').each(function() {
+                this.style.height = 'auto';
+                this.style.height = (this.scrollHeight) + 'px';
+            });
+
+
+            $('#Export, #Local').on('input', function() {
+                if (this.scrollHeight > this.clientHeight) {
+                    $('#smartwizard').smartWizard('fixHeight');
                 }
             });
-        }
-
-        function onCancel() {
-            console.log("Form cancelled");
-            window.location.href = 'some_cancel_url'; // Redirect to a specific URL
-        }
-
-        $(document).ready(function() {
-            $('#Mobile_no').on('keypress', function(e) {
-                var charCode = (e.which) ? e.which : e.keyCode;
-                if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                    return false;
-                }
-                return true;
-            }).on('input', function() {
-                var number = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
-                if (number.length > 0) {
-                    var formattedNumber = number.match(/(\d{0,4})(\d{0,3})(\d{0,4})/);
-                    var formatted = '';
-                    if (formattedNumber[1]) formatted += formattedNumber[1];
-                    if (formattedNumber[2]) formatted += '-' + formattedNumber[2];
-                    if (formattedNumber[3]) formatted += '-' + formattedNumber[3];
-                    $(this).val(formatted);
-                }
-            });
-        });
-
-        $(document).ready(function() {
-
-            function updateEnterpriseLevel() {
-                const formatNumber = (input) => {
-                    let value = input.value.replace(/,/g, ''); // Remove existing commas
-                    value = value.replace(/[^\d.]/g,
-                        ''); // Remove non-numeric characters except for decimal point
-                    value = value.replace(/(\.\d{2})\d+$/, '$1'); // Limit decimal points to 2
-
-                    // Add commas every 3 digits
-                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-                    input.value = value;
-                };
-
-                formatNumber(document.getElementById('buildings'));
-                formatNumber(document.getElementById('equipments'));
-                formatNumber(document.getElementById('working_capital'));
-
-                var buildingsValue = parseFloat($('#buildings').val().replace(/,/g, '')) || 0;
-                var equipmentsValue = parseFloat($('#equipments').val().replace(/,/g, '')) || 0;
-                var workingCapitalValue = parseFloat($('#working_capital').val().replace(/,/g, '')) || 0;
-                var total = buildingsValue + equipmentsValue + workingCapitalValue;
-                $('#to_Assets').text(total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
-                if (total === 0) {
-                    $('#Enterprise_Level').text('');
-                    return;
-                }
-                if (total < 3e6) {
-                    $('#Enterprise_Level').text('Micro Enterprise');
-                } else if (total < 15e6) {
-                    $('#Enterprise_Level').text('Small Enterprise');
-                } else if (total < 100e6) {
-                    $('#Enterprise_Level').text('Medium Enterprise');
-                } else {
-                    $('#Enterprise_Level').text('Large Enterprise');
-                }
-
-            }
-
-            $('#buildings, #equipments, #working_capital').on('input', updateEnterpriseLevel);
-        });
-
-
-
-        $('textarea').on('input', function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-
-        $('textarea[readonly]').each(function() {
-            this.style.height = 'auto';
-            this.style.height = (this.scrollHeight) + 'px';
-        });
-
-
-        $('#Export, #Local').on('input', function() {
-            if (this.scrollHeight > this.clientHeight) {
-                $('#smartwizard').smartWizard('fixHeight');
-            }
         });
     </script>
-    <script>
-        const API_BASE_URL = 'https://psgc.gitlab.io/api';
+    <script type="module">
+            const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
-        document.addEventListener("DOMContentLoaded", function() {
-            fetchRegions();
-        });
+            document.addEventListener("DOMContentLoaded", function() {
+                fetchRegions();
+            });
 
-        function fetchRegions() {
-            fetch(`${API_BASE_URL}/regions/`)
-                .then(response => response.json())
-                .then(data => {
-                    const regionSelect = document.getElementById("region");
-                    data.forEach(region => {
-                        const option = document.createElement("option");
-                        option.value = region.name;
-                        option.textContent = region.name;
-                        option.dataset.code = region.code;
-                        regionSelect.appendChild(option);
-                    });
-                });
-        }
-
-        function updateProvinces() {
-            const regionSelect = document.getElementById("region");
-            const selectedRegionOption = regionSelect.options[regionSelect.selectedIndex];
-            const provinceSelect = document.getElementById("province");
-            const citySelect = document.getElementById("city");
-            const barangaySelect = document.getElementById("barangay");
-
-            if (regionSelect.value) {
-                provinceSelect.disabled = false;
-            } else {
-                provinceSelect.disabled = true;
-                citySelect.disabled = true;
-                barangaySelect.disabled = true;
-            }
-
-            provinceSelect.innerHTML = '<option value="">Select Province</option>';
-            citySelect.innerHTML = '<option value="">Select City</option>';
-            barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
-
-            const selectedRegionCode = selectedRegionOption.dataset.code;
-            if (selectedRegionCode) {
-                fetch(`${API_BASE_URL}/regions/${selectedRegionCode}/provinces/`)
+            window.fetchRegions = function() {
+                fetch(`${API_BASE_URL}/regions/`)
                     .then(response => response.json())
                     .then(data => {
-                        data.forEach(province => {
+                        const regionSelect = document.getElementById("region");
+                        data.forEach(region => {
                             const option = document.createElement("option");
-                            option.value = province.name;
-                            option.textContent = province.name;
-                            option.dataset.code = province.code;
-                            provinceSelect.appendChild(option);
+                            option.value = region.name;
+                            option.textContent = region.name;
+                            option.dataset.code = region.code;
+                            regionSelect.appendChild(option);
                         });
                     });
             }
-        }
 
-        function updateCities() {
-            const provinceSelect = document.getElementById("province");
-            const selectedProvinceOption = provinceSelect.options[provinceSelect.selectedIndex];
-            const citySelect = document.getElementById("city");
-            const barangaySelect = document.getElementById("barangay");
+            window.updateProvinces = function() {
+                const regionSelect = document.getElementById("region");
+                const selectedRegionOption = regionSelect.options[regionSelect.selectedIndex];
+                const provinceSelect = document.getElementById("province");
+                const citySelect = document.getElementById("city");
+                const barangaySelect = document.getElementById("barangay");
 
-            if (provinceSelect.value) {
-                citySelect.disabled = false;
-            } else {
-                citySelect.disabled = true;
-                barangaySelect.disabled = true;
-            }
+                if (regionSelect.value) {
+                    provinceSelect.disabled = false;
+                } else {
+                    provinceSelect.disabled = true;
+                    citySelect.disabled = true;
+                    barangaySelect.disabled = true;
+                }
 
-            citySelect.innerHTML = '<option value="">Select City</option>';
-            barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+                provinceSelect.innerHTML = '<option value="">Select Province</option>';
+                citySelect.innerHTML = '<option value="">Select City</option>';
+                barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
 
-            const selectedProvinceCode = selectedProvinceOption.dataset.code;
-            if (selectedProvinceCode) {
-                fetch(`${API_BASE_URL}/provinces/${selectedProvinceCode}/cities-municipalities/`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(city => {
-                            const option = document.createElement("option");
-                            option.value = city.name;
-                            option.textContent = city.name;
-                            option.dataset.code = city.code;
-                            citySelect.appendChild(option);
+                const selectedRegionCode = selectedRegionOption.dataset.code;
+                if (selectedRegionCode) {
+                    fetch(`${API_BASE_URL}/regions/${selectedRegionCode}/provinces/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(province => {
+                                const option = document.createElement("option");
+                                option.value = province.name;
+                                option.textContent = province.name;
+                                option.dataset.code = province.code;
+                                provinceSelect.appendChild(option);
+                            });
                         });
-                    });
-            }
-        }
-
-        function updateBarangays() {
-            const citySelect = document.getElementById("city");
-            const selectedCityOption = citySelect.options[citySelect.selectedIndex];
-            const barangaySelect = document.getElementById("barangay");
-
-            if (citySelect.value) {
-                barangaySelect.disabled = false;
-            } else {
-                barangaySelect.disabled = true;
+                }
             }
 
-            barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+            window.updateCities = function() {
+                const provinceSelect = document.getElementById("province");
+                const selectedProvinceOption = provinceSelect.options[provinceSelect.selectedIndex];
+                const citySelect = document.getElementById("city");
+                const barangaySelect = document.getElementById("barangay");
 
-            const selectedCityCode = selectedCityOption.dataset.code;
-            if (selectedCityCode) {
-                fetch(`${API_BASE_URL}/cities-municipalities/${selectedCityCode}/barangays/`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(barangay => {
-                            const option = document.createElement("option");
-                            option.value = barangay.name;
-                            option.textContent = barangay.name;
-                            option.dataset.code = barangay.code;
-                            barangaySelect.appendChild(option);
+                if (provinceSelect.value) {
+                    citySelect.disabled = false;
+                } else {
+                    citySelect.disabled = true;
+                    barangaySelect.disabled = true;
+                }
+
+                citySelect.innerHTML = '<option value="">Select City</option>';
+                barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+
+                const selectedProvinceCode = selectedProvinceOption.dataset.code;
+                if (selectedProvinceCode) {
+                    fetch(`${API_BASE_URL}/provinces/${selectedProvinceCode}/cities-municipalities/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(city => {
+                                const option = document.createElement("option");
+                                option.value = city.name;
+                                option.textContent = city.name;
+                                option.dataset.code = city.code;
+                                citySelect.appendChild(option);
+                            });
                         });
-                    });
+                }
             }
-        }
+
+            window.updateBarangays = function() {
+                const citySelect = document.getElementById("city");
+                const selectedCityOption = citySelect.options[citySelect.selectedIndex];
+                const barangaySelect = document.getElementById("barangay");
+
+                if (citySelect.value) {
+                    barangaySelect.disabled = false;
+                } else {
+                    barangaySelect.disabled = true;
+                }
+
+                barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+
+                const selectedCityCode = selectedCityOption.dataset.code;
+                if (selectedCityCode) {
+                    fetch(`${API_BASE_URL}/cities-municipalities/${selectedCityCode}/barangays/`)
+                        .then(response => response.json())
+                        .then(data => {
+                            data.forEach(barangay => {
+                                const option = document.createElement("option");
+                                option.value = barangay.name;
+                                option.textContent = barangay.name;
+                                option.dataset.code = barangay.code;
+                                barangaySelect.appendChild(option);
+                            });
+                        });
+                }
+            }
     </script>
 </body>
 

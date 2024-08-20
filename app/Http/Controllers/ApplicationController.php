@@ -143,14 +143,15 @@ class ApplicationController extends Controller
                 'IntentFilePath' => 'Intent File',
                 'businessPermitFilePath' => 'Business Permit',
                 'receiptFilePath' => 'Receipt',
-                'govFilePath' => 'Government ID',
             ];
 
             $DSC_file_Name_Selector = $validatedInputs['DSC_file_Selector'];
             $fda_lto_Name_Selector = $validatedInputs['Fda_Lto_Selector'];
+            $govId_Selector = $validatedInputs['GovIdSelector'];
 
             $fileNames['DSCFilePath'] = $DSC_file_Name_Selector;
             $fileNames['FDA_LTOFilePath'] = $fda_lto_Name_Selector;
+            $fileNames['govFilePath'] = $govId_Selector;
 
             foreach($file_to_insert as $filekey => $filePath){
                 $fileContents = Storage::disk('public')->get($filePath);

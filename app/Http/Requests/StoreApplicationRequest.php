@@ -62,6 +62,7 @@ class StoreApplicationRequest extends FormRequest
             'fdaLtoFile' => 'nullable|string',
             'receiptFile' => 'required|string',
             'govIdFile' => 'required|string',
+            'GovIdSelector' => 'required|string|in:National ID,SSS ID,GSIS ID,Passport ID',
             'Intent_unique_id_path' => 'required|string',
             'DTI_SEC_CDA_unique_id_path' => 'required|string',
             'BusinessPermit_unique_id_path' => 'required|string',
