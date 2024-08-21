@@ -47,14 +47,16 @@
     #sw-AddProject th {
         font-size: 12px;
     }
-     /* Off canvas style end */
+
+    /* Off canvas style end */
 
 
     /* Menu Button on Approved Project Information  */
 
     .menu-container {
         position: absolute;
-        bottom: 0;
+        right: 0;
+        bottom: 1%;
         padding: 2rem;
     }
 
@@ -113,8 +115,23 @@
         transform: rotate(45deg) translate(-70px) rotate(-45deg);
     }
 
-     /* Menu Button on Approved Project Information  */
+    .menu-item:nth-child(3) {
+        transform: rotate(90deg) translate(-100px) rotate(-90deg);
+    }
 
+    /* Menu Button on Approved Project Information  */
+
+    .bottom_border {
+        width: 50%;
+        border-top: 0;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 1px solid #ced4da;
+    }
+
+    .bottom_border:focus {
+        outline: none;
+    }
 </style>
 <div>
     <h4 class="p-3">Projects</h4>
@@ -131,129 +148,170 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="row gy-3">
-                <div class="card p-0">
-                    <div class="card-header">
-                        <h5>
-                            <i class="ri-contacts-fill"></i>
-                            Personal Info
-                        </h5>
+            <div class="m-2">
+                <div class="row gy-3 section-container" id="cooperatorDetails">
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <h5>
+                                <i class="ri-contacts-fill"></i>
+                                Personal Info
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <div class="col-12 col-md-8">
+                                    <label for="cooperatorName">Cooperator Name:</label>
+                                    <input type="text" id="cooperatorName" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="designation">Designation:</label>
+                                    <input type="text" id="designation" class="form-control" readonly>
+                                </div>
+                                <h6>Contact Details:</h6>
+                                <div class="col-12 col-md-4">
+                                    <label for="landline">Landline:</label>
+                                    <input type="text" id="landline" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="mobilePhone">Mobile Phone:</label>
+                                    <input type="text" id="mobilePhone" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="email">Email:</label>
+                                    <input type="text" id="email" class="form-control" readonly>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="card-body">
-                        <div class="row gy-2">
-                            <div class="col-12 col-md-8">
-                                <label for="cooperatorName">Cooperator Name:</label>
-                                <input type="text" id="cooperatorName" class="form-control" readonly>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-briefcase-fill"></i>
+                                Business Info
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <input type="hidden" name="b_id" id="b_id">
+                                <div class="col-12">
+                                    <label for="businessAddress">Business Address:</label>
+                                    <input type="text" id="businessAddress" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="typeOfEnterprise">Type of Enterprise:</label>
+                                    <input type="text" id="typeOfEnterprise" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="enterpriseLevel">Enterprise Level:</label>
+                                    <input type="text" id="enterpriseLevel" class="form-control" readonly>
+                                </div>
+                                <h6>Assets:</h6>
+                                <div class="col-12 col-md-4">
+                                    <label for="building" class="ps-2">Building:</label>
+                                    <input type="text" id="building" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="equipment" class="ps-2">Equipment:</label>
+                                    <input type="text" id="equipment" class="form-control" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="land" class="ps-2">Land:</label>
+                                    <input type="text" id="workingCapital" class="form-control" readonly>
+                                </div>
                             </div>
-                            <div class="col-12 col-md-4">
-                                <label for="designation">Designation:</label>
-                                <input type="text" id="designation" class="form-control" readonly>
-                            </div>
-                            <h6>Contact Details:</h6>
-                            <div class="col-12 col-md-4">
-                                <label for="landline">Landline:</label>
-                                <input type="text" id="landline" class="form-control" readonly>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label for="mobilePhone">Mobile Phone:</label>
-                                <input type="text" id="mobilePhone" class="form-control" readonly>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label for="email">Email:</label>
-                                <input type="text" id="email" class="form-control" readonly>
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-draft-fill"></i>
+                                Project Information
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <div class="col-12 col-md-3">
+                                    <label for="ProjectId_fetch">Project Id:</label>
+                                    <input type="text" id="ProjectId" class="form-control" readonly value="">
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <label for="ProjectTitle_fetch">Project Title:</label>
+                                    <input type="text" id="ProjectTitle" class="form-control" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-8">
+                                    <label for="Amount_fetch">Amount:</label>
+                                    <input type="text" id="Amount" class="form-control" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="Applied_fetch">Date Applied:</label>
+                                    <input type="text" id="Applied" class="form-control" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="evaluated_fetch">Evaluated by:</label>
+                                    <input type="text" id="evaluated" class="form-control" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="Assigned_to">Assigned to:</label>
+                                    <input type="text" id="Assigned_to" class="form-control" readonly
+                                        value="">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
-                            <i class="ri-briefcase-fill"></i>
-                            Business Info
-                        </span>
+                <div class="row gy-3 section-container" id="cooperatorRequirementsLinks" style="display: none;">
+                    <div class="d-flex justify-between align-items-center">
+                        <h6>Cooperator Requirements:</h6>
+                        <button type="button" class="btn btn-primary ms-auto" id="addRequirement"><i
+                                class="ri-add-fill ri-lg"></i></button>
                     </div>
-                    <div class="card-body">
-                        <div class="row gy-2">
-                            <input type="hidden" name="b_id" id="b_id">
-                            <div class="col-12">
-                                <label for="businessAddress">Business Address:</label>
-                                <input type="text" id="businessAddress" class="form-control" readonly>
+                    <div id="linkContainer">
+                        <div class="col-12 linkConstInstance">
+                            <div class="col-12 m-2">
+                                <label for="requirements_name" class="">Requirement Name:</label>
+                                <input type="text" name="requirements_name" class=" bottom_border">
                             </div>
-                            <div class="col-12 col-md-6">
-                                <label for="typeOfEnterprise">Type of Enterprise:</label>
-                                <input type="text" id="typeOfEnterprise" class="form-control" readonly>
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label for="enterpriseLevel">Enterprise Level:</label>
-                                <input type="text" id="enterpriseLevel" class="form-control" readonly>
-                            </div>
-                            <h6>Assets:</h6>
-                            <div class="col-12 col-md-4">
-                                <label for="building" class="ps-2">Building:</label>
-                                <input type="text" id="building" class="form-control" readonly>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label for="equipment" class="ps-2">Equipment:</label>
-                                <input type="text" id="equipment" class="form-control" readonly>
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label for="land" class="ps-2">Land:</label>
-                                <input type="text" id="workingCapital" class="form-control" readonly>
+                            <div class="input-group">
+                                <label for="requirements_link" class="input-group-text"><i
+                                        class="ri-links-fill"></i></label>
+                                <input type="text" name="requirements_link" class="form-control">
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
-                            <i class="ri-draft-fill"></i>
-                            Project Information
-                        </span>
-                    </div>
-                    <div class="card-body">
-                        <div class="row gy-2">
-                            <div class="col-12 col-md-3">
-                                <label for="ProjectId_fetch">Project Id:</label>
-                                <input type="text" id="ProjectId" class="form-control" readonly value="">
-                            </div>
-                            <div class="col-12 col-md-9">
-                                <label for="ProjectTitle_fetch">Project Title:</label>
-                                <input type="text" id="ProjectTitle" class="form-control" readonly
-                                    value="">
-                            </div>
-                            <div class="col-12 col-md-8">
-                                <label for="Amount_fetch">Amount:</label>
-                                <input type="text" id="Amount" class="form-control" readonly value="">
-                            </div>
-                            <div class="col-12 col-md-4">
-                                <label for="Applied_fetch">Date Applied:</label>
-                                <input type="text" id="Applied" class="form-control" readonly value="">
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label for="evaluated_fetch">Evaluated by:</label>
-                                <input type="text" id="evaluated" class="form-control" readonly value="">
-                            </div>
-                            <div class="col-12 col-md-6">
-                                <label for="Assigned_to">Assigned to:</label>
-                                <input type="text" id="Assigned_to" class="form-control" readonly value="">
-                            </div>
-                        </div>
-                    </div>
+                <div class="row gy-3 section-container" id="createPIS" style="display: none;">
+
                 </div>
-                <div class="menu-container">
-                    <div class="menu-button z-3 p-3 text-white">
-                        <i class="ri-menu-2-fill ri-lg" id="menu-icon-state"></i>
-                    </div>
-                    <div class="menu" id="menu">
-                        <div class="menu-item text-nowrap">
-                            <i class="ri-home-fill"></i>
-                            Create PIS
-                        </div>
-                        <div class="menu-item text-nowrap">
-                            <i class="ri-user-fill"></i>
-                            Attach Document Link
-                        </div>
-                    </div>
+            </div>
+        </div>
+        <div class="menu-container">
+            <div class="menu-button z-3 p-3 text-white">
+                <i class="ri-menu-2-fill ri-lg" id="menu-icon-state"></i>
+            </div>
+            <div class="menu" id="menu">
+                <div class="menu-item text-nowrap">
+                    <button class="btn text-white" data-display-section="cooperatorRequirementsLinks"
+                        id="attachlink">
+                        <i class="ri-user-fill"></i>
+                        Attach Link
+                    </button>
+                </div>
+                <div class="menu-item text-nowrap">
+                    <button class="btn text-white" data-display-section="createPIS" id="createPIS">
+                        <i class="ri-home-fill"></i>
+                        Create PIS
+                    </button>
+                </div>
+                <div class="menu-item text-nowrap">
+                    <button class="btn text-white" data-display-section="cooperatorDetails"
+                        id="cooperatorDetails">
+                        <i class="ri-file-add-fill"></i>
+                        Details
+                    </button>
                 </div>
             </div>
         </div>
@@ -1389,9 +1447,49 @@
                     }).catch(error => {
                         console.error('Error:', error);
                     });
-
             }
-
             getApprovedProjects();
+
+            $('#addRequirement').on('click', function() {
+                let RequirementLinkContent = $('#linkContainer')
+
+                RequirementLinkContent.append(`
+                <div class="col-12 linkConstInstance">
+                            <div class="row">
+                                <div class="col-11">
+                                    <div class="col-12 m-2">
+                                        <label for="requirements_name" class="">Name:</label>
+                                        <input type="text" name="requirements_name" class=" bottom_border">
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="requirements_link" class="input-group-text"><i
+                                                class="ri-links-fill"></i></label>
+                                        <input type="text" name="requirements_link" class="form-control">
+                                    </div>
+                                </div>
+                                 <div class="col-1 align-content-center">
+                                    <button class="btn removeRequirement"><i class="ri-close-large-fill"></i></button>
+                                </div>
+                            </div>
+                    </div>
+                `);
+            });
+
+            $('#linkContainer').on('click', '.removeRequirement', function() {
+                $(this).closest('.linkConstInstance').remove();
+            });
+
+            $('[data-display-section]').on('click', function() {
+                // Cache the data attribute value
+                let sectionId = $(this).data('display-section');
+                // Cache the section container selector
+                let sectionContainer = $('.section-container');
+
+                // Hide all sections in one go, instead of calling hide() on each element
+                sectionContainer.hide();
+
+                // Toggle the display of the selected section
+                $('#' + sectionId).toggle();
+            });
         });
     </script>
