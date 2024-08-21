@@ -167,7 +167,7 @@
 </style>
 <div id="pageSize">
   <div id=InfoSheetHeader>
-    <img src="/assets/img/projectsheetsHeader.png" alt="header">
+    <img src="{{ asset('DOST_sheets_assets/DOSTheader.png') }}" alt="header">
   </div>
   <div class="tg-wrap">
     <table id="dataSheetTable" class="tg">

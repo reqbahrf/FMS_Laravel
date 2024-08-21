@@ -107,6 +107,7 @@ class StaffViewController extends Controller
                     'coop_users_info.designation',
                     'coop_users_info.mobile_number',
                     'coop_users_info.landline',
+                    'business_info.id as business_id',
                     'business_info.firm_name',
                     'business_info.landmark',
                     'business_info.barangay',
@@ -271,8 +272,13 @@ class StaffViewController extends Controller
 
     public function createDataSheet(Request $request)
     {
+        $validated = $request->validate([
+            'business_id' => 'required|integer',
+            'projectID' => 'required|string',
+        ]);
         if ($request->ajax()) {
-            return view('staffView.outputs.DataSheetTable');
+
+            return view('staffView.outputs.DataSheetTable' , compact('validated'));
         } else {
             return view('staffView.staffDashboard');
         }

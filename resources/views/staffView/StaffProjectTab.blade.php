@@ -215,7 +215,7 @@
                                     <input type="text" id="equipment" class="form-control" readonly>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <label for="land" class="ps-2">Land:</label>
+                                    <label for="land" class="ps-2">Working Capital:</label>
                                     <input type="text" id="workingCapital" class="form-control" readonly>
                                 </div>
                             </div>
@@ -284,7 +284,147 @@
                     </div>
                 </div>
                 <div class="row gy-3 section-container" id="createPIS" style="display: none;">
-
+                        <div class="card p-0">
+                            <div class="card-header">
+                                Assistance obtained from DOST (please check)
+                            </div>
+                            <div class="card-body">
+                                <form action="" id="PIS_checklistsForm">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-12 ps-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="productionTechnology">
+                                                <label class="form-check-label" for="productionTechnology">
+                                                    A1 Production Technology
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-3">
+                                            <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="process" name="process">
+                                                    <label class="form-check-label " for="process">
+                                                        A.1.1 Process
+                                                    </label>
+                                            </div>
+                                            <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="processDefinition">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-3">
+                                            <div class="form-check">
+                                                    <input class="form-check-input" type="checkbox"
+                                                        id="equipment" name="equipment">
+                                                    <label class="form-check-label " for="equipment">
+                                                        A.1.2 Equipment
+                                                    </label>
+                                            </div>
+                                            <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="processDefinition">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-3">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="qualityControl" name="qualityControl">
+                                                <label class="form-check-label " for="qualityControl">
+                                                    A.1.3 Quality Control/Laboratory Testing/Analysis
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-4">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="productionTechnology1" name="productionTechnology1">
+                                                <label class="form-check-label " for="productionTechnology1">
+                                                    1.3.1 Production Technology
+                                                </label>
+                                            </div>
+                                             <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="qualityControlDefinition">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="packagingLabeling" name="packagingLabeling">
+                                                <label class="form-check-label" for="packagingLabeling">
+                                                    A2 Packaging/Labeling
+                                                </label>
+                                            </div>
+                                             <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="packagingLabelingDefinition">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="postHarvest" name="postHarvest">
+                                                <label class="form-check-label" for="postHarvest">
+                                                    A3 Post-Harvest
+                                                </label>
+                                            </div>
+                                            <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="postHarvestDefinition">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="marketAssistance" name="marketAssistance">
+                                                <label class="form-check-label" for="marketAssistance">
+                                                    A4 Market Assistance
+                                                </label>
+                                            </div>
+                                             <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="marketAssistanceDefinition">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="humanResourceTraining" name="humanResourceTraining">
+                                                <label class="form-check-label" for="humanResourceTraining">
+                                                    A5 Human Resource training
+                                                </label>
+                                            </div>
+                                             <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="humanResourceTrainingDefinition">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="consultanceServices" name="consultanceServices">
+                                                <label class="form-check-label" for="consultanceServices">
+                                                    A6 Consultance Services
+                                                </label>
+                                            </div>
+                                            <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="consultanceServicesDefinition">
+                                            </div>
+                                        </div>
+                                        <div class="col-12 ps-1">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox"
+                                                    id="otherServices" name="otherServices">
+                                                <label class="form-check-label" for="otherServices">
+                                                    A7 other Services (FDA Permit, LGU Registration, Barcoding)
+                                                </label>
+                                            </div>
+                                             <div class="ps-4">
+                                                <input type="text" class="bottom_border" name="consultanceServicesDefinition">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-primary" id="createPISButton">Create Sheet</button>
+                        </div>
                 </div>
             </div>
         </div>
@@ -307,8 +447,7 @@
                     </button>
                 </div>
                 <div class="menu-item text-nowrap">
-                    <button class="btn text-white" data-display-section="cooperatorDetails"
-                        id="cooperatorDetails">
+                    <button class="btn text-white" data-display-section="cooperatorDetails" id="cooperatorDetails">
                         <i class="ri-file-add-fill"></i>
                         Details
                     </button>
@@ -905,24 +1044,20 @@
     </div>
     {{-- offcanva Add existing Project end  --}}
     <div class="">
-        <!--Ongoing Modal start-->
-        <div class="modal fade" id="ApplicationModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        <!--Project Information sheet Modal start-->
+        <div class="modal fade" id="PISModal" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true" data-bs-backdrop="static">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-fullscreen">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Action</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Project Information Sheet</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal"
                             aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <div>
-                            <h6>Project Title:</h6>
-                            <p class="ps-2">"Imploving the business processes of LCC company"</p>
-                        </div>
-                        <button class="btn btn-primary"
-                            onclick="loadPage('{{ route('staff.Create-Project') }}','projectLink');"
-                            data-bs-dismiss="modal">Create Sheet</button>
+                      <div id="PIS_Modal_container">
+
+                      </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -1320,8 +1455,6 @@
     </script>
     <script type="module">
         $(document).ready(function() {
-
-
             $('#sw-AddProject').smartWizard({
                 selected: 0,
                 theme: 'dots',
@@ -1423,6 +1556,7 @@
                             <input type="hidden" class="email" value="${Approved.email}">
                             <input type="hidden" class="landline" value="${Approved.landline ?? ''}">`,
                                 `${Approved.firm_name}
+                            <input type="hidden" class="business_id" value="${Approved.business_id}">
                             <input type="hidden" class="enterprise_type" value="${Approved.enterprise_type}">
                             <input type="hidden" class="enterprise_level" value="${Approved.enterprise_level}">
                             <input type="hidden" class="building_Assets" value="${Approved.building_value}">
@@ -1491,5 +1625,28 @@
                 // Toggle the display of the selected section
                 $('#' + sectionId).toggle();
             });
+
+            $('#createPISButton').on('click', function() {
+              let ProjectInformationSheetModel = new bootstrap.Modal(document.getElementById('PISModal'));
+              let project_id = $('#ProjectId').val();
+              let business_id = $('#b_id').val();
+              let form = $('#PIS_checklistsForm');
+
+                $.ajax({
+                    type: 'POST',
+                    data: form.serialize() + '&project_id=' + project_id + '&business_id=' + business_id,
+                    url: '{{ route('staff.Create-InformationSheet') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#PIS_Modal_container').html(response);
+                        ProjectInformationSheetModel.show();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                })
+            })
         });
     </script>
