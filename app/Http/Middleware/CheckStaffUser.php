@@ -26,7 +26,6 @@ class CheckStaffUser
         {
             return redirect()->route('home');
         }
-
         return $next($request);
     }
 }

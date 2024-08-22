@@ -11,7 +11,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\projectInfo;
-use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Auth;
+
 
 class StaffViewController extends Controller
 {
@@ -28,7 +29,7 @@ class StaffViewController extends Controller
 
     public function getHandledProjects(Request $request)
     {
-         $org_userId = Session::get('org_userId');
+         $org_userId = Auth::user()->orgusername->id;
 
          $handledProjects = DB::table('project_info')
             ->join('business_info', 'business_info.id', '=', 'project_info.business_id')
@@ -125,6 +126,7 @@ class StaffViewController extends Controller
                     'pi.created_at as date_approved',
                     'evaluated_by.full_name As evaluated_by',
                     'handled_by.full_name As assinged_to',
+                    'handled_by.user_name as staffUserName',
                     'application_info.created_at as date_applied',
                     'application_info.application_status'
                 )

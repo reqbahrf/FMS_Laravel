@@ -428,32 +428,6 @@
                 </div>
             </div>
         </div>
-        <div class="menu-container">
-            <div class="menu-button z-3 p-3 text-white">
-                <i class="ri-menu-2-fill ri-lg" id="menu-icon-state"></i>
-            </div>
-            <div class="menu" id="menu">
-                <div class="menu-item text-nowrap">
-                    <button class="btn text-white" data-display-section="cooperatorRequirementsLinks"
-                        id="attachlink">
-                        <i class="ri-user-fill"></i>
-                        Attach Link
-                    </button>
-                </div>
-                <div class="menu-item text-nowrap">
-                    <button class="btn text-white" data-display-section="createPIS" id="createPIS">
-                        <i class="ri-home-fill"></i>
-                        Create PIS
-                    </button>
-                </div>
-                <div class="menu-item text-nowrap">
-                    <button class="btn text-white" data-display-section="cooperatorDetails" id="cooperatorDetails">
-                        <i class="ri-file-add-fill"></i>
-                        Details
-                    </button>
-                </div>
-            </div>
-        </div>
     </div>
     {{-- Offcanvas Approved End --}}
     {{-- offcanvas Ongoing start --}}
@@ -1351,7 +1325,8 @@
     </div>
     <script>
         $(document).ready(function() {
-            $(document).on('click', '.menu-button', function() {
+            $('#approvedDetails').on('click', '.menu-button', function() {
+                event.stopPropagation();
                 console.log('Menu button clicked');
                 $('.menu').toggleClass('open');
                 if ($('.menu').hasClass('open')) {
@@ -1530,6 +1505,45 @@
                     maximumFractionDigits: 2
                 }));
 
+                const approvedProjectOffcanvas = $('#approvedDetails');
+                const userName = inputs.filter('.staffUserName').val();
+                const authUserName = "{{ Auth::user()->user_name }}";
+               console.log(userName);
+               if(userName !== undefined && userName !== null && authUserName === userName){
+                 approvedProjectOffcanvas.find('.offcanvas-body').after(`
+                  <div class="menu-container">
+            <div class="menu-button z-3 p-3 text-white">
+                <i class="ri-menu-2-fill ri-lg" id="menu-icon-state"></i>
+            </div>
+            <div class="menu" id="menu">
+                <div class="menu-item text-nowrap">
+                    <button class="btn text-white" data-display-section="cooperatorRequirementsLinks"
+                        id="attachlink">
+                        <i class="ri-user-fill"></i>
+                        Attach Link
+                    </button>
+                </div>
+                <div class="menu-item text-nowrap">
+                    <button class="btn text-white" data-display-section="createPIS" id="createPIS">
+                        <i class="ri-home-fill"></i>
+                        Create PIS
+                    </button>
+                </div>
+                <div class="menu-item text-nowrap menuBtn">
+                    <button class="btn text-white" data-display-section="cooperatorDetails" id="cooperatorDetails">
+                        <i class="ri-file-add-fill"></i>
+                        Details
+                    </button>
+                </div>
+            </div>
+        </div>`);
+
+               }else{
+                   approvedProjectOffcanvas.find('.menu-container').remove();
+               }
+
+
+
 
 
 
@@ -1566,6 +1580,7 @@
                                 `${Approved.project_title}
                             <input type="hidden" class="fund_amount" value="${Approved.fund_amount}">
                             <input type="hidden" class="dateApplied" value="${Approved.date_applied}">
+                            <input type="hidden" class="staffUserName" value="${Approved.staffUserName}">
                             <input type="hidden" class="evaluated_by" value="${Approved.evaluated_by}">
                             <input type="hidden" class="assigned_to" value="${Approved.assinged_to}">`,
                                 `${Approved.date_approved}`,
@@ -1613,7 +1628,7 @@
                 $(this).closest('.linkConstInstance').remove();
             });
 
-            $('[data-display-section]').on('click', function() {
+            $('#approvedDetails').on('click', '[data-display-section]', function() {
                 // Cache the data attribute value
                 let sectionId = $(this).data('display-section');
                 // Cache the section container selector
