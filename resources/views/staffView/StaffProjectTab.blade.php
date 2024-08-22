@@ -1542,11 +1542,6 @@
                    approvedProjectOffcanvas.find('.menu-container').remove();
                }
 
-
-
-
-
-
             });
 
             function getApprovedProjects() {
