@@ -38,7 +38,7 @@ class StaffViewController extends Controller
             ->join('assets', 'assets.id', '=', 'business_info.id')
             ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
             ->where('handled_by_id', $org_userId)
-            ->where('application_info.application_status', 'approved')
+            ->whereIn('application_info.application_status', ['approved', 'ongoing', 'completed'])
             ->select(
                 'users.email',
                 'project_info.Project_id',
