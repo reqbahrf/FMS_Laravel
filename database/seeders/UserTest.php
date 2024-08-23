@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -28,8 +27,8 @@ class UserTest extends Seeder
 
         DB::table('org_users_info')->insert([
             'user_name' => 'Staff101',
-            'full_name' => 'Example User',
-            'birthdate' => '1990-01-01',
+            'full_name' => 'User A. Staff',
+            'birthdate' => '2000-01-01',
             'access_to' => 'Allowed',
         ]);
     }

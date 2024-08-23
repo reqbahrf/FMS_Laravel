@@ -81,9 +81,6 @@ class AuthController extends Controller
             switch ($user->role) {
                 case 'Cooperator':
                     $coop_userInfo = coopUserInfo::where('user_name', $user->user_name)->first();
-                    if ($coop_userInfo && $coop_userInfo->f_name && $coop_userInfo->mid_name && $coop_userInfo->l_name) {
-                        session(['Coop_name' => $coop_userInfo->f_name .' '. substr($coop_userInfo->mid_name, 0, 1) . '. ' . $coop_userInfo->l_name]);
-                    }
 
                     if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
                         return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.home')]);

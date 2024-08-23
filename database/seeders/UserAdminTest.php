@@ -28,8 +28,8 @@ class UserAdminTest extends Seeder
 
         DB::table('org_users_info')->insert([
             'user_name' => 'Admin101',
-            'full_name' => 'Admin User Ex.',
-            'birthdate' => '2002-01-01',
+            'full_name' => 'User A. Admin',
+            'birthdate' => '2000-01-01',
             'access_to' => 'Allowed',
         ]);
     }

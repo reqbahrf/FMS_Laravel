@@ -463,6 +463,7 @@
 
             notifDatePopulate(businessID)
 
+            // Get requirement and call the populateReqTable function
             $.ajax({
                 type: 'GET',
                 url: '{{ route('staff.Applicant.Requirement') }}',
@@ -481,6 +482,7 @@
             })
         });
 
+        //Get the set evaluation date
         function notifDatePopulate(businessID) {
             $.ajax({
                 type: 'GET',
@@ -500,7 +502,8 @@
                         nofi_dateCont.append(
                             '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
                             response.Scheduled_date +
-                            '</strong> has been set for this applicant.</div>');
+                            '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
+                        );
                         setAndUpdateBtn.text('Update');
                     } else {
                         nofi_dateCont.append(
@@ -514,7 +517,7 @@
             });
 
         }
-
+        //Get applicant requirements to populate the requirements table
         function populateReqTable(response) {
             let requimentTableBody = $('#requirementsTables');
 
@@ -543,7 +546,7 @@
 
 
         }
-
+        //View applicant requirements
         $('#requirementsTables').on('click', '.viewReq', function() {
             let row = $(this).closest('tr');
             let file_Name = row.find('td:nth-child(1)').text();
@@ -562,6 +565,7 @@
             retrieveAndDisplayFile(fileUrl, fileType);
         });
 
+        //retrieve and display file function as base64 format for both pdf and img type
         function retrieveAndDisplayFile(fileUrl, fileType) {
             $.ajax({
                 url: '{{ route('staff.Applicant.Requirement.View') }}',
@@ -610,6 +614,7 @@
 
         }
 
+        //set evaluation date
         $('#setEvaluationDate').on('click', function() {
             let user_id = $('#selected_userId').val();
             let business_id = $('#selected_businessID').val();
@@ -639,6 +644,7 @@
             })
         });
 
+        //submit project proposal
         $('#submitProjectProposal').on('click', function() {
             event.preventDefault();
 

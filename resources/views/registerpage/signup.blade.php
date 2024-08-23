@@ -1,33 +1,4 @@
-@php
-    // session_start();
 
-    // $conn = include_once 'db_connection/database_connection.php';
-
-    // if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    //   $username = htmlspecialchars($_POST["userName1"]);
-    //   $password = htmlspecialchars($_POST["password1"]);
-
-    //   $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Hash the password before storing it
-
-    //   $stmt = $conn->prepare("INSERT INTO cooperator_users (user_name, password) VALUES (?, ?)");
-    //   $stmt->bind_param("ss", $username, $hashedPassword);
-
-    //   if ($stmt->execute()) {
-    //     // Start the session if it's not already started
-//     if (session_status() == PHP_SESSION_NONE) {
-//       session_start();
-//     }
-
-//     // Store the ID in the session
-//     $_SESSION['user_id'] = $conn->insert_id;
-
-    //     echo "New record created successfully";
-    //   } else {
-    //     echo "Error: " . $stmt->error;
-    //   }
-    //   $stmt->close();
-    // }
-@endphp
 
 <!DOCTYPE html>
 <html lang="en">
@@ -218,8 +189,8 @@
                                 <button type="submit" class="btn btn-primary w-100">Sign-up</button>
                             </div>
                             <div class="text-center col-12 py-3">
-                                <a href="{{ url('/') }}"
-                                    class="text-decoration-none text-reset text-primary">home</a>
+                                <a href="{{ url('/index') }}"
+                                    class="text-decoration-none text-reset text-primary">Home</a>
                             </div>
                             <div class="text-center col-12">
                                 Already have an account? <a href="{{ url('login') }}"

@@ -190,7 +190,7 @@
                                 <img src="{{ asset('sampleProfile/raf,360x360,075,t,fafafa_ca443f4786.jpg') }}"
                                     width="32" height="32"
                                     class="object-fit-cover rounded-circle border border-1 border-black" alt="">
-                                <p class="m-0 fw-bold">{{ session('Coop_name') }}</p>
+                                <p class="m-0 fw-bold">{{ Auth::user()->coopusername->f_name . ' '. (Auth::user()->coopusername->mid_name ? substr(Auth::user()->coopusername->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->coopusername->l_name }}</p>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"

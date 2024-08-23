@@ -56,4 +56,9 @@ class User extends Authenticatable  implements MustVerifyEmail
     {
         return $this->hasOne(OrgUserInfo::class, 'user_name', 'user_name');
     }
+
+    public function coopusername(): HasOne
+    {
+        return $this->hasOne(coopUserInfo::class, 'user_name', 'user_name');
+    }
 }
