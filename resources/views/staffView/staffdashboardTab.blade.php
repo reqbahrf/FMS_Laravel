@@ -39,6 +39,36 @@
         outline: none;
     }
 </style>
+{{-- add Payment modal start--}}
+<div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <h1 class="modal-title fs-5 text-white" id="paymentModalLabel">Add New Payment</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <div class="row">
+            <form id="paymentForm">
+                <div class="col-12">
+                    <label for="TransactionID">Transaction ID:</label>
+                    <input type="text" name="TransactionID" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label for="amount">Amount:</label>
+                    <input type="text" name="amount" class="form-control">
+                </div>
+            </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="submitPayment">Save</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- add Payment modal end --}}
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="handleProjectOff"
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary">
@@ -168,7 +198,10 @@
                     <div class="col-12 ongoingProjectContent">
                         <div class="card p-0">
                             <div class="card-header">
-                                <h5 class="card-title">Payment History</h5>
+                                <div class="d-flex align-items-center">
+                                    <h5 class="card-title me-auto">Payment History</h5>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#paymentModal"><i class="ri-sticky-note-add-fill"></i></button>
+                                </div>
                             </div>
                             <div class="card-body" id="paymentHistoryContainer">
 
@@ -306,6 +339,8 @@
 <script type="module">
     $(document).ready(function() {
 
+
+
         $('#nav-link-tab').on('shown.bs.tab', () => $('.projectDetailsTabMenu').addClass('d-none'));
         $('#nav-link-tab').on('hidden.bs.tab', () => $('.projectDetailsTabMenu').removeClass('d-none'));
         $('#nav-details-tab').on('shown.bs.tab', () => $('.AttachlinkTabMenu').addClass('d-none'));
@@ -366,6 +401,22 @@
                     handleProjectOffcanvas.find('.ongoingProjectContent').removeClass('d-none');
                     handleProjectOffcanvas.find('.approvedProjectContent').addClass('d-none');
                     handleProjectOffcanvas.find('#paymentHistoryContainer').html(paymentHistoryTable());
+
+                    $('#paymentHistoryTable').DataTable({
+                        columns: [{
+                                title: 'Transaction #'
+                            },
+                            {
+                                title: 'Amount'
+                            },
+                            {
+                                title: 'Date Created'
+                            },
+                            {
+                                title: 'Status'
+                            },
+                        ]
+                    });
                 },
                 completed: () => {
 
@@ -375,26 +426,39 @@
             content[project_status]();
         }
 
-        function paymentHistoryTable(){
+
+
+        //Generate payment history datatable
+        function paymentHistoryTable() {
             const paymentHistoryTable = `
-                <table class="table table-hover table-sm" id="paymentHistoryTable">
-                    <thead>
-                        <tr>
-                            <th>Transaction ID</th>
-                            <th>Amount</th>
-                            <th>Date</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="paymentHistoryTableBody">
-                        <tr>
-                           <td colspan="4" class="text-center">No payment history</td>
-                        </tr>
-                    </tbody>
+                <table class="table table-hover table-sm" id="paymentHistoryTable" syle="width:100%">
+
                 </table>
             `;
             return paymentHistoryTable;
         }
+
+       $('#submitPayment').on('click', function() {
+         let project_id = $('#ProjectID').val();
+
+            let formData = $('#paymentForm').serialize() + '&project_id=' + project_id;
+            $.ajax ({
+                type: 'POST',
+                url:'{{ route('PaymentRecord.store') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: formData,
+                success: function(response) {
+                    //TODO: handle success message
+                    console.log(response);
+                },
+                error: function(error) {
+                    console.log(error);
+                }
+
+            })
+       })
 
 
 
@@ -476,7 +540,8 @@
                     // TODO: handle success
                     closeOffcanvasInstances('#handleProjectOff');
                     setTimeout(() => {
-                        showToastFeedback('text-bg-success', 'Project is now move to ongoing');
+                        showToastFeedback('text-bg-success',
+                            'Project is now move to ongoing');
                     }, 500);
                 },
                 error: function(error) {
@@ -487,7 +552,7 @@
         })
 
         //toast feedback
-        window.showToastFeedback = function(feedbackStatus, feedbackMessage){
+        window.showToastFeedback = function(feedbackStatus, feedbackMessage) {
             console.log('showToastFeedback called with:', feedbackStatus, feedbackMessage);
             const toastFeedback = $('#ActionFeedbackToast');
             const toastFeedbackInstance = new bootstrap.Toast(toastFeedback);
@@ -497,10 +562,10 @@
         }
 
         //close offcanvas
-      window.closeOffcanvasInstances = function(offcanva_id){
-        const offcanvasElement = $(offcanva_id).get(0);
-        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-        offcanvasInstance.hide();
-}
+        window.closeOffcanvasInstances = function(offcanva_id) {
+            const offcanvasElement = $(offcanva_id).get(0);
+            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+            offcanvasInstance.hide();
+        }
     })
 </script>

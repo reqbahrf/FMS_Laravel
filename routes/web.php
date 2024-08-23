@@ -10,6 +10,7 @@ use App\Http\Controllers\StaffViewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\StaffPaymentRecordController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Middleware\checkAdminUser;
@@ -101,6 +102,8 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
     //Staff Submit Project Proposal
     Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])->name('staff.Applicant.Submit-Project-Proposal');
+
+    Route::resource('PaymentRecord', StaffPaymentRecordController::class);
 });
 
 
