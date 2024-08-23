@@ -459,6 +459,7 @@
             $(this).closest('.linkConstInstance').remove();
         });
 
+        //Mark Approved Project to Ongoing
         $('#MarkhandleProjectBtn').on('click', function() {
 
             $.ajax({
@@ -473,6 +474,10 @@
                 },
                 success: function(response) {
                     // TODO: handle success
+                    closeOffcanvasInstances('#handleProjectOff');
+                    setTimeout(() => {
+                        showToastFeedback('text-bg-success', 'Project is now move to ongoing');
+                    }, 500);
                 },
                 error: function(error) {
                     console.log(error);
@@ -481,5 +486,21 @@
             })
         })
 
+        //toast feedback
+        window.showToastFeedback = function(feedbackStatus, feedbackMessage){
+            console.log('showToastFeedback called with:', feedbackStatus, feedbackMessage);
+            const toastFeedback = $('#ActionFeedbackToast');
+            const toastFeedbackInstance = new bootstrap.Toast(toastFeedback);
+            toastFeedback.find('.toast-header').addClass(feedbackStatus);
+            toastFeedback.find('.toast-body').text(feedbackMessage);
+            toastFeedbackInstance.show();
+        }
+
+        //close offcanvas
+      window.closeOffcanvasInstances = function(offcanva_id){
+        const offcanvasElement = $(offcanva_id).get(0);
+        const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+        offcanvasInstance.hide();
+}
     })
 </script>

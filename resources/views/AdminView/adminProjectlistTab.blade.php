@@ -640,6 +640,7 @@
 <script>
     $(document).ready(function() {
 
+        //Get Proposal Details
          window.getProjectProposal = function(businessId){
 
             $.ajax({
@@ -672,6 +673,7 @@
             });
         }
 
+        //Approved the Proposed Project
         window.approvedProjectProposal = function(businessId, projectId, assignedStaff_Id){
 
             $.ajax({
@@ -694,6 +696,7 @@
             });
         }
 
+        //Submit the Approved Proposal
         $('#approvedButton').on('click', function() {
             if (typeof $('#b_id').val() !== 'undefined' && typeof $('#ProjectId_fetch').val() !== 'undefined' && typeof $('#Assigned_to').val() !== 'undefined')
             {

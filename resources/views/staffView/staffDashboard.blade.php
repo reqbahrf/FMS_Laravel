@@ -106,8 +106,13 @@
         .main-column {
             width: 100%;
         }
+        body{
+            height: 100vh;
+            width: 100vw;
+        }
 
         .wrapper {
+            position: relative;
             overflow: hidden;
             background-color: var(--ct-body-color);
             width: 100%;
@@ -402,6 +407,21 @@
 
 <body class="overflow-hidden">
     <div class="wrapper">
+        {{-- Toast Container start --}}
+<div class="toast-container position-fixed top-0 end-0 p-3" id="toastFeedbackContainer" style="z-index: 1200;">
+    <div id="ActionFeedbackToast" class="toast align-items-center" role="alert" aria-live="assertive"
+                aria-atomic="true">
+        <div class="toast-header">
+                <strong class="me-auto">Message</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                    aria-label="Close"></button>
+        </div>
+        <div class="toast-body" id="ToastBody">
+
+        </div>
+    </div>
+ </div>
+{{-- Toast Container end --}}
         <nav class="sidenav expanded">
             <ul class="navbar-nav">
                 <li class="nav-item mb-2">
