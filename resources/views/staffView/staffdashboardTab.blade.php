@@ -165,36 +165,72 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-12 ongoingProjectContent">
+                        <div class="card p-0">
+                            <div class="card-header">
+                                <h5 class="card-title">Payment History</h5>
+                            </div>
+                            <div class="card-body" id="paymentHistoryContainer">
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab"
                 tabindex="0">
-                 <div id="linkContainer">
-                     <div class="d-flex justify-between align-items-center">
+                <div id="linkContainer">
+                    <div class="table-responsive my-3">
+                        <table class="table table-hover table-sm" id="linkTable">
+                            <thead>
+                                <tr>
+                                    <th width="20%">File Name</th>
+                                    <th width="70%">Links</th>
+                                    <th width="10%">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="linkTableBody">
+                                <tr>
+                                    <td colspan="3" class="text-center">No data available</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="d-flex justify-between align-items-center">
                         <h6>Cooperator Requirements:</h6>
                         <button type="button" class="btn btn-primary ms-auto" id="addRequirement"><i
                                 class="ri-add-fill ri-lg"></i></button>
                     </div>
-                        <div class="col-12 linkConstInstance">
-                            <div class="col-12 m-2">
-                                <label for="requirements_name" class="">Name:</label>
-                                <input type="text" name="requirements_name" class=" bottom_border">
-                            </div>
-                            <div class="input-group">
-                                <label for="requirements_link" class="input-group-text"><i
-                                        class="ri-links-fill"></i></label>
-                                <input type="text" name="requirements_link" class="form-control">
-                            </div>
+                    <div class="col-12 linkConstInstance">
+                        <div class="col-12 m-2">
+                            <label for="requirements_name" class="">Name:</label>
+                            <input type="text" name="requirements_name" class=" bottom_border">
+                        </div>
+                        <div class="input-group">
+                            <label for="requirements_link" class="input-group-text"><i
+                                    class="ri-links-fill"></i></label>
+                            <input type="text" name="requirements_link" class="form-control">
                         </div>
                     </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="d-flex justify-content-end p-3" id="MarkAsOngoing">
-        <button class="btn btn-primary" id="MarkhandleProjectBtn">Mark as Ongoing</button>
+    <div class="approvedProjectContent">
+        <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
+            <button class="btn btn-primary" id="MarkhandleProjectBtn">Mark as Ongoing</button>
+        </div>
+        <div class="d-flex justify-content-end p-3 d-none AttachlinkTabMenu">
+            <button class="btn btn-primary" id="SaveLinkProjectBtn">Save</button>
+        </div>
     </div>
-    <div class="d-flex justify-content-end p-3 d-none" id="saveFileLinks">
-        <button class="btn btn-primary" id="SaveLinkProjectBtn">Save</button>
+    <div class="ongoingProjectContent">
+        <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
+            <button class="btn btn-primary" id="">View Quarterly Report</button>
+        </div>
+        <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
+            <button class="btn btn-primary" id="">Save</button>
+        </div>
     </div>
 </div>
 
@@ -270,11 +306,10 @@
 <script type="module">
     $(document).ready(function() {
 
-        $('#nav-link-tab').on('shown.bs.tab', () => $('#MarkAsOngoing').addClass('d-none'));
-        $('#nav-link-tab').on('hidden.bs.tab', () => $('#MarkAsOngoing').removeClass('d-none'));
-        $('#nav-details-tab').on('shown.bs.tab', () => $('#saveFileLinks').addClass('d-none'));
-        $('#nav-details-tab').on('hidden.bs.tab', () => $('#saveFileLinks').removeClass('d-none'));
-
+        $('#nav-link-tab').on('shown.bs.tab', () => $('.projectDetailsTabMenu').addClass('d-none'));
+        $('#nav-link-tab').on('hidden.bs.tab', () => $('.projectDetailsTabMenu').removeClass('d-none'));
+        $('#nav-details-tab').on('shown.bs.tab', () => $('.AttachlinkTabMenu').addClass('d-none'));
+        $('#nav-details-tab').on('hidden.bs.tab', () => $('.AttachlinkTabMenu').removeClass('d-none'));
 
         fetchHandleProject();
 
@@ -317,9 +352,57 @@
                 });
         }
 
+        function handleProjectOffcanvasContent(project_status) {
+            const handleProjectOffcanvas = $('#handleProjectOff');
+            const content = {
+                approved: () => {
+                    handleProjectOffcanvas.find('.approvedProjectContent').removeClass('d-none');
+                    handleProjectOffcanvas.find('.ongoingProjectContent').addClass('d-none');
+
+
+
+                },
+                ongoing: () => {
+                    handleProjectOffcanvas.find('.ongoingProjectContent').removeClass('d-none');
+                    handleProjectOffcanvas.find('.approvedProjectContent').addClass('d-none');
+                    handleProjectOffcanvas.find('#paymentHistoryContainer').html(paymentHistoryTable());
+                },
+                completed: () => {
+
+                }
+            };
+
+            content[project_status]();
+        }
+
+        function paymentHistoryTable(){
+            const paymentHistoryTable = `
+                <table class="table table-hover table-sm" id="paymentHistoryTable">
+                    <thead>
+                        <tr>
+                            <th>Transaction ID</th>
+                            <th>Amount</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="paymentHistoryTableBody">
+                        <tr>
+                           <td colspan="4" class="text-center">No payment history</td>
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            return paymentHistoryTable;
+        }
+
+
+
         $('#handledProjectTableBody').on('click', '.handleProjectbtn', function() {
             const handledProjectRow = $(this).closest('tr');
             const hiddenInput = handledProjectRow.find('input[type="hidden"]');
+            let project_status = handledProjectRow.find('td:eq(5)').text().trim();
+            handleProjectOffcanvasContent(project_status);
 
             $('#hiddenbusiness_id').val(hiddenInput.filter('.business_id').val());
 
@@ -347,10 +430,10 @@
 
         });
 
-         $('#addRequirement').on('click', function() {
-                let RequirementLinkContent = $('#linkContainer')
+        $('#addRequirement').on('click', function() {
+            let RequirementLinkContent = $('#linkContainer')
 
-                RequirementLinkContent.append(`
+            RequirementLinkContent.append(`
                 <div class="col-12 linkConstInstance">
                             <div class="row">
                                 <div class="col-11">
@@ -370,33 +453,33 @@
                             </div>
                     </div>
                 `);
-            });
+        });
 
-              $('#linkContainer').on('click', '.removeRequirement', function() {
-                $(this).closest('.linkConstInstance').remove();
-            });
+        $('#linkContainer').on('click', '.removeRequirement', function() {
+            $(this).closest('.linkConstInstance').remove();
+        });
 
-            $('#MarkhandleProjectBtn').on('click', function() {
+        $('#MarkhandleProjectBtn').on('click', function() {
 
-                $.ajax({
-                    type: 'PUT',
-                    url: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    data: {
-                        project_id: $('#ProjectID').val(),
-                        business_id: $('#hiddenbusiness_id').val(),
-                    },
-                    success: function(response) {
-                        // TODO: handle success
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
+            $.ajax({
+                type: 'PUT',
+                url: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    project_id: $('#ProjectID').val(),
+                    business_id: $('#hiddenbusiness_id').val(),
+                },
+                success: function(response) {
+                    // TODO: handle success
+                },
+                error: function(error) {
+                    console.log(error);
+                }
 
-                })
             })
+        })
 
     })
 </script>
