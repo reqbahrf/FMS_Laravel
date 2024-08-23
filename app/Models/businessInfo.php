@@ -30,4 +30,14 @@ class businessInfo extends Model
     {
         return $this->hasMany(businessInfo::class, 'user_info_id', 'id');
     }
+
+    public function applicationInfo()
+    {
+        return $this->hasMany(applicationInfo::class, 'business_id', 'id');
+    }
+
+    public function projectInfo()
+    {
+        return $this->hasMany(projectInfo::class, 'business_id', 'id');
+    }
 }

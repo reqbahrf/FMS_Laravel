@@ -69,6 +69,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="row gy-3">
+                                    <input type="hidden" id="hiddenbusiness_id">
                                     <div class="col-4">
                                         <label for="ProjectID">Project ID</label>
                                         <input type="text" class="form-control" id="ProjectID" readonly>
@@ -190,10 +191,10 @@
         </div>
     </div>
     <div class="d-flex justify-content-end p-3" id="MarkAsOngoing">
-        <button class="btn btn-primary" id="handleProjectBtn">Mark as Ongoing</button>
+        <button class="btn btn-primary" id="MarkhandleProjectBtn">Mark as Ongoing</button>
     </div>
     <div class="d-flex justify-content-end p-3 d-none" id="saveFileLinks">
-        <button class="btn btn-primary" id="handleProjectBtn">Save</button>
+        <button class="btn btn-primary" id="SaveLinkProjectBtn">Save</button>
     </div>
 </div>
 
@@ -320,7 +321,7 @@
             const handledProjectRow = $(this).closest('tr');
             const hiddenInput = handledProjectRow.find('input[type="hidden"]');
 
-            let Selected_business_id = hiddenInput.filter('.business_id').val();
+            $('#hiddenbusiness_id').val(hiddenInput.filter('.business_id').val());
 
             let birthDate = new Date(hiddenInput.filter('.birth_date').val());
             let age = Math.floor((new Date() - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
@@ -374,6 +375,28 @@
               $('#linkContainer').on('click', '.removeRequirement', function() {
                 $(this).closest('.linkConstInstance').remove();
             });
+
+            $('#MarkhandleProjectBtn').on('click', function() {
+
+                $.ajax({
+                    type: 'PUT',
+                    url: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    data: {
+                        project_id: $('#ProjectID').val(),
+                        business_id: $('#hiddenbusiness_id').val(),
+                    },
+                    success: function(response) {
+                        // TODO: handle success
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+
+                })
+            })
 
     })
 </script>

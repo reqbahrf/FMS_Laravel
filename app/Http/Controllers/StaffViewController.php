@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\applicationInfo;
+use App\Models\businessInfo;
 use Illuminate\Support\Facades\DB;
 use App\Models\requirement;
 use App\Models\User;
@@ -278,6 +279,27 @@ class StaffViewController extends Controller
         ], 200);
 
 
+    }
+
+    public function updateProjectStatusToOngoing(Request $request)
+    {
+        $validated = $request->validate([
+            'business_id' => 'required|integer',
+            'project_id' => 'required|string|max:10',
+        ]);
+
+        try {
+            applicationInfo::where('business_id', $validated['business_id'])
+                ->whereHas('businessInfo.projectInfo', function ($query) use ($validated) {
+                    $query->where('project_id', $validated['project_id']);
+                })
+                ->update(['application_status' => 'ongoing']);
+
+            return response()->json(['message' => 'Application status updated successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['error' => 'Failed to update application status'], 500);
+        }
     }
 
     public function createDataSheet(Request $request)
