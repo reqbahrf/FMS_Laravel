@@ -605,29 +605,40 @@
             $(this).closest('.linkConstInstance').remove();
         });
 
+        //link validation
         $('#linkContainer').on('blur', 'input[name="requirements_link"]', function() {
-            const $linkConstInstance = $(this).closest('.linkConstInstance');
-            const inputtedLink = $(this).val(); // Directly use $(this) to get the value
-            const proxyUrl = `/proxy?url=${encodeURIComponent(inputtedLink)}`; // Construct the proxy URL
+            const linkConstInstance = $(this).closest('.linkConstInstance');
+            const inputField = $(this)
+            const inputtedLink = $(this).val();
+            const proxyUrl = `/proxy?url=${encodeURIComponent(inputtedLink)}`;
+
+
 
         if(inputtedLink){
+              const spinner = `<div class="spinner-border spinner-border-sm text-primary ms-3" role="status" style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;">
+                        <span class="visually-hidden"></span>
+                    </div>`;
+
+            inputField.after(spinner);
             fetch(proxyUrl)
                 .then(response => response.json())
                 .then(data => {
                     if (data.status === 200) {
                         console.log('Link is valid:', data.status);
-                        $linkConstInstance.find('input[name="requirements_link"]').addClass('is-valid').removeClass('is-invalid');
+                        linkConstInstance.find('input[name="requirements_link"]').addClass('is-valid').removeClass('is-invalid');
                     } else {
                         console.log('Link is invalid:', data.status);
-                        $linkConstInstance.find('input[name="requirements_link"]').addClass('is-invalid').removeClass('is-valid');
+                        linkConstInstance.find('input[name="requirements_link"]').addClass('is-invalid').removeClass('is-valid');
                     }
                 })
                 .catch(error => {
                     console.error('Error fetching the link:', error);
-                    $linkConstInstance.find('input[name="requirements_link"]').addClass('is-invalid').removeClass('is-valid');
+                    linkConstInstance.find('input[name="requirements_link"]').addClass('is-invalid').removeClass('is-valid');
+                }).finally(() => {
+                    linkConstInstance.find('.spinner-border').remove();
                 });
             }else{
-                $linkConstInstance.find('input[name="requirements_link"]').removeClass([
+                linkConstInstance.find('input[name="requirements_link"]').removeClass([
                     'is-valid', 'is-invalid'
                 ]);
             }
