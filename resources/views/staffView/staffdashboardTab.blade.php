@@ -99,7 +99,7 @@
         </h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
-    <div class="offcanvas-body">
+    <div class="offcanvas-body overflow-x-hidden">
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-details-tab" data-bs-toggle="tab" data-bs-target="#nav-details"
@@ -236,29 +236,29 @@
             </div>
             <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab"
                 tabindex="0">
+                <div class="table-responsive my-3">
+                    <table class="table table-hover table-sm" id="linkTable">
+                        <thead>
+                            <tr>
+                                <th width="20%">File Name</th>
+                                <th width="70%">Links</th>
+                                <th width="10%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="linkTableBody">
+                            <tr>
+                                <td colspan="3" class="text-center">No data available</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex justify-between align-items-center">
+                    <h6>Cooperator Requirements:</h6>
+                    <button type="button" class="btn btn-primary ms-auto" id="addRequirement"><i
+                            class="ri-add-fill ri-lg"></i></button>
+                </div>
                 <div id="linkContainer">
-                    <div class="table-responsive my-3">
-                        <table class="table table-hover table-sm" id="linkTable">
-                            <thead>
-                                <tr>
-                                    <th width="20%">File Name</th>
-                                    <th width="70%">Links</th>
-                                    <th width="10%">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="linkTableBody">
-                                <tr>
-                                    <td colspan="3" class="text-center">No data available</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="d-flex justify-between align-items-center">
-                        <h6>Cooperator Requirements:</h6>
-                        <button type="button" class="btn btn-primary ms-auto" id="addRequirement"><i
-                                class="ri-add-fill ri-lg"></i></button>
-                    </div>
-                    <div class="col-12 linkConstInstance">
+                    <div class="row linkConstInstance">
                         <div class="col-12 m-2">
                             <label for="requirements_name" class="">Name:</label>
                             <input type="text" name="requirements_name" class=" bottom_border">
@@ -278,7 +278,7 @@
             <button class="btn btn-primary" id="MarkhandleProjectBtn">Mark as Ongoing</button>
         </div>
         <div class="d-flex justify-content-end p-3 d-none AttachlinkTabMenu">
-            <button class="btn btn-primary" id="SaveLinkProjectBtn">Save</button>
+            <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
         </div>
     </div>
     <div class="ongoingProjectContent">
@@ -286,7 +286,7 @@
             <button class="btn btn-primary" id="">View Quarterly Report</button>
         </div>
         <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
-            <button class="btn btn-primary" id="">Save</button>
+            <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
         </div>
     </div>
 </div>
@@ -473,7 +473,7 @@
             let formData = $('#paymentForm').serialize() + '&project_id=' + project_id;
             $.ajax({
                 type: 'POST',
-                url:'{{ route('PaymentRecord.store') }}',
+                url: '{{ route('PaymentRecord.store') }}',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -487,7 +487,7 @@
                     }, 500);
                 },
                 error: function(error) {
-                   showToastFeedback('text-bg-danger', error.responseJSON.message)
+                    showToastFeedback('text-bg-danger', error.responseJSON.message)
                 }
 
             })
@@ -495,83 +495,85 @@
 
         //get the payment history
 
-    function fetchPaymentHistory(projectId) {
-        $.ajax({
-            type: 'GET',
-            url: '{{ route('PaymentRecord.index') }}?project_id=' + projectId,
-            success: function(response) {
-                const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
-                paymentHistoryTable.clear();
-                paymentHistoryTable.rows.add(response.map(payment => [
-                    payment.transaction_id,
-                    parseFloat(payment.amount).toLocaleString('en-US', { minimumFractionDigits: 2 }),
-                    payment.payment_method,
-                    payment.payment_status,
-                    payment.created_at
-                ]));
+        function fetchPaymentHistory(projectId) {
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('PaymentRecord.index') }}?project_id=' + projectId,
+                success: function(response) {
+                    const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
+                    paymentHistoryTable.clear();
+                    paymentHistoryTable.rows.add(response.map(payment => [
+                        payment.transaction_id,
+                        parseFloat(payment.amount).toLocaleString('en-US', {
+                            minimumFractionDigits: 2
+                        }),
+                        payment.payment_method,
+                        payment.payment_status,
+                        payment.created_at
+                    ]));
 
-                paymentHistoryTable.draw();
+                    paymentHistoryTable.draw();
 
-            },
-            error: function(error) {
-                showToastFeedback('text-bg-danger', error.responseJSON.message);
-            }
-        })
-    }
+                },
+                error: function(error) {
+                    showToastFeedback('text-bg-danger', error.responseJSON.message);
+                }
+            })
+        }
 
 
 
-       $('#handledProjectTableBody').on('click', '.handleProjectbtn', function() {
-    const handledProjectRow = $(this).closest('tr');
-    const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
+        $('#handledProjectTableBody').on('click', '.handleProjectbtn', function() {
+            const handledProjectRow = $(this).closest('tr');
+            const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
 
-    // Cache values from the row
-    const project_status = handledProjectRow.find('td:eq(5)').text().trim();
-    const project_id = handledProjectRow.find('td:eq(0)').text().trim();
-    const projectTitle = handledProjectRow.find('td:eq(1)').text().trim();
-    const amount = handledProjectRow.find('td:eq(4)').text().trim();
-    const firmName = handledProjectRow.find('td:eq(2) p.firm_name').text().trim();
-    const cooperatorName = handledProjectRow.find('td:eq(3) p.owner_name').text().trim();
+            // Cache values from the row
+            const project_status = handledProjectRow.find('td:eq(5)').text().trim();
+            const project_id = handledProjectRow.find('td:eq(0)').text().trim();
+            const projectTitle = handledProjectRow.find('td:eq(1)').text().trim();
+            const amount = handledProjectRow.find('td:eq(4)').text().trim();
+            const firmName = handledProjectRow.find('td:eq(2) p.firm_name').text().trim();
+            const cooperatorName = handledProjectRow.find('td:eq(3) p.owner_name').text().trim();
 
-    handleProjectOffcanvasContent(project_status);
-    fetchPaymentHistory(project_id);
+            handleProjectOffcanvasContent(project_status);
+            fetchPaymentHistory(project_id);
 
-    // Cache hidden input values
-    const business_id = hiddenInputs.filter('.business_id').val();
-    const birthDate = new Date(hiddenInputs.filter('.birth_date').val());
-    const dateApplied = hiddenInputs.filter('.dateApplied').val();
-    const gender = hiddenInputs.filter('.gender').val();
-    const landline = hiddenInputs.filter('.landline').val();
-    const mobilePhone = hiddenInputs.filter('.mobile_phone').val();
-    const email = hiddenInputs.filter('.email').val();
-    const enterpriseType = hiddenInputs.filter('.business_enterprise_type').val();
-    const enterpriseLevel = hiddenInputs.filter('.business_enterprise_level').val();
-    const buildingAsset = hiddenInputs.filter('.building_value').val();
-    const equipmentAsset = hiddenInputs.filter('.equipment_value').val();
-    const workingCapitalAsset = hiddenInputs.filter('.working_capital').val();
+            // Cache hidden input values
+            const business_id = hiddenInputs.filter('.business_id').val();
+            const birthDate = new Date(hiddenInputs.filter('.birth_date').val());
+            const dateApplied = hiddenInputs.filter('.dateApplied').val();
+            const gender = hiddenInputs.filter('.gender').val();
+            const landline = hiddenInputs.filter('.landline').val();
+            const mobilePhone = hiddenInputs.filter('.mobile_phone').val();
+            const email = hiddenInputs.filter('.email').val();
+            const enterpriseType = hiddenInputs.filter('.business_enterprise_type').val();
+            const enterpriseLevel = hiddenInputs.filter('.business_enterprise_level').val();
+            const buildingAsset = hiddenInputs.filter('.building_value').val();
+            const equipmentAsset = hiddenInputs.filter('.equipment_value').val();
+            const workingCapitalAsset = hiddenInputs.filter('.working_capital').val();
 
-    // Calculate age
-    const age = Math.floor((new Date() - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
+            // Calculate age
+            const age = Math.floor((new Date() - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
 
-    // Update form fields
-    $('#hiddenbusiness_id').val(business_id);
-    $('#age').val(age);
-    $('#ProjectID').val(project_id);
-    $('#ProjectTitle').val(projectTitle);
-    $('#amount').val(amount);
-    $('#appliedDate').val(dateApplied);
-    $('#FirmName').val(firmName);
-    $('#CooperatorName').val(cooperatorName);
-    $('#Gender').val(gender);
-    $('#landline').val(landline);
-    $('#mobilePhone').val(mobilePhone);
-    $('#email').val(email);
-    $('#enterpriseType').val(enterpriseType);
-    $('#EnterpriseLevel').val(enterpriseLevel);
-    $('#buildingAsset').val(buildingAsset);
-    $('#equipmentAsset').val(equipmentAsset);
-    $('#workingCapitalAsset').val(workingCapitalAsset);
-});
+            // Update form fields
+            $('#hiddenbusiness_id').val(business_id);
+            $('#age').val(age);
+            $('#ProjectID').val(project_id);
+            $('#ProjectTitle').val(projectTitle);
+            $('#amount').val(amount);
+            $('#appliedDate').val(dateApplied);
+            $('#FirmName').val(firmName);
+            $('#CooperatorName').val(cooperatorName);
+            $('#Gender').val(gender);
+            $('#landline').val(landline);
+            $('#mobilePhone').val(mobilePhone);
+            $('#email').val(email);
+            $('#enterpriseType').val(enterpriseType);
+            $('#EnterpriseLevel').val(enterpriseLevel);
+            $('#buildingAsset').val(buildingAsset);
+            $('#equipmentAsset').val(equipmentAsset);
+            $('#workingCapitalAsset').val(workingCapitalAsset);
+        });
 
 
         $('#addRequirement').on('click', function() {
@@ -601,6 +603,48 @@
 
         $('#linkContainer').on('click', '.removeRequirement', function() {
             $(this).closest('.linkConstInstance').remove();
+        });
+
+        $('#linkContainer').on('blur', 'input[name="requirements_link"]', function() {
+            const $linkConstInstance = $(this).closest('.linkConstInstance');
+            const inputtedLink = $(this).val(); // Directly use $(this) to get the value
+            const proxyUrl = `/proxy?url=${encodeURIComponent(inputtedLink)}`; // Construct the proxy URL
+
+        if(inputtedLink){
+            fetch(proxyUrl)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 200) {
+                        console.log('Link is valid:', data.status);
+                        $linkConstInstance.find('input[name="requirements_link"]').addClass('is-valid').removeClass('is-invalid');
+                    } else {
+                        console.log('Link is invalid:', data.status);
+                        $linkConstInstance.find('input[name="requirements_link"]').addClass('is-invalid').removeClass('is-valid');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching the link:', error);
+                    $linkConstInstance.find('input[name="requirements_link"]').addClass('is-invalid').removeClass('is-valid');
+                });
+            }else{
+                $linkConstInstance.find('input[name="requirements_link"]').removeClass([
+                    'is-valid', 'is-invalid'
+                ]);
+            }
+        });
+
+
+
+        //Save the inputted links to the database
+        $('.SaveLinkProjectBtn').on('click', function() {
+            let requirementLinks = {};
+            $('.linkConstInstance').each(function() {
+                let name = $(this).find('input[name="requirements_name"]').val();
+                let link = $(this).find('input[name="requirements_link"]').val();
+                requirementLinks[name] = link;
+
+            });
+            console.log(requirementLinks);
         });
 
         //Mark Approved Project to Ongoing

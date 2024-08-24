@@ -6,6 +6,7 @@ use App\Http\Controllers\CooperatorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\ProxyController;
 use App\Http\Controllers\StaffViewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReceiptController;
@@ -105,6 +106,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
     Route::resource('/Staff/Project/PaymentRecord', StaffPaymentRecordController::class);
     // Route::get('/Staff/Project/GetPaymentRecord', [StaffPaymentRecordController::class, 'index'] )->name('PaymentRecord.Index');
+    Route::get('/proxy', [ProxyController::class, 'proxy']);
 });
 
 
