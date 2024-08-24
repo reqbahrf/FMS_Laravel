@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('project_file_links', function (Blueprint $table) {
-           $table->char('Project_id', 15)->primary()->unique()->collation('utf8mb4_bin');
+           $table->id();
+           $table->char('Project_id', 15)->collation('utf8mb4_bin');
            $table->string('file_name', 64);
            $table->string('file_link', 255);
            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));

@@ -13,7 +13,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('payment_records', function (Blueprint $table) {
-            $table->char('Project_id', 15)->primary()->unique()->collation('utf8mb4_bin');
+            $table->id();
+            $table->char('Project_id', 15)->collation('utf8mb4_bin');
             $table->string('transaction_id', 64)->unique();
             $table->decimal('amount', 10, 2);
             $table->string('payment_status', 64);
