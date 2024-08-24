@@ -103,8 +103,8 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     //Staff Submit Project Proposal
     Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])->name('staff.Applicant.Submit-Project-Proposal');
 
-    Route::post('/Staff/Project/StorePaymentRecord', [StaffPaymentRecordController::class, 'store'])->name('PaymentRecord.Store');
-    Route::get('/Staff/Project/GetPaymentRecord', [StaffPaymentRecordController::class, 'index'] )->name('PaymentRecord.Index');
+    Route::resource('/Staff/Project/PaymentRecord', StaffPaymentRecordController::class);
+    // Route::get('/Staff/Project/GetPaymentRecord', [StaffPaymentRecordController::class, 'index'] )->name('PaymentRecord.Index');
 });
 
 

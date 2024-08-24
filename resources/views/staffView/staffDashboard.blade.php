@@ -914,13 +914,26 @@
 
         // Line chart
           //toast feedback
-        window.showToastFeedback = function(feedbackStatus, feedbackMessage) {
-            console.log('showToastFeedback called with:', feedbackStatus, feedbackMessage);
-            const toastFeedback = $('#ActionFeedbackToast');
-            const toastFeedbackInstance = new bootstrap.Toast(toastFeedback);
-            toastFeedback.find('.toast-header').addClass(feedbackStatus);
-            toastFeedback.find('.toast-body').text(feedbackMessage);
-            toastFeedbackInstance.show();
+        window.showToastFeedback = function(status, message) {
+            const toast = $('#ActionFeedbackToast');
+            const toastInstance = new bootstrap.Toast(toast);
+
+            toast.find('.toast-header').removeClass([
+                'text-bg-danger',
+                'text-bg-success',
+                'text-bg-warning',
+                'text-bg-info',
+                'text-bg-primary',
+                'text-bg-light',
+                'text-bg-dark'
+            ]);
+
+            toast.find('.toast-body').text('');
+
+            toast.find('.toast-header').addClass(status);
+            toast.find('.toast-body').text(message);
+
+            toastInstance.show();
         }
 
         //close offcanvas

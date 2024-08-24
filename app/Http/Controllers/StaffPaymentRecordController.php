@@ -18,20 +18,14 @@ class StaffPaymentRecordController extends Controller
         $validated = $request->validate([
             'project_id' => 'required|string|max:15',
         ]);
-
-        $paymentRecord = DB::table('payment_records')
-        ->where('Project_id', $validated['project_id'])
-            ->select('transaction_id', 'amount', 'payment_method', 'payment_status', 'created_at')
-            ->get();
-
-        if (!$paymentRecord) {
-            return response()->json([
-                'success' => false,
-                'message' => 'No payment record found.',
-            ]);
+        try {
+            return DB::table('payment_records')->where('Project_id', $validated['project_id'])
+                ->select('transaction_id', 'amount', 'payment_method', 'payment_status', 'created_at')
+                ->get();
+        } catch (\Exception $e) {
+            Log::error('Error fetching payment records: ' . $e->getMessage());
+            return response()->json(['error' => 'Error fetching payment records'], 500);
         }
-
-        return response()->json($paymentRecord);
     }
 
     /**
@@ -56,13 +50,17 @@ class StaffPaymentRecordController extends Controller
         ]);
 
         try {
+            $exists = PaymentRecord::where('transaction_id', $validated['TransactionID'])->exists();
 
-            $formatAmount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
+            if ($exists) {
+                return response()->json(['message' => 'Transaction ID already exists'], 409);
+            }
 
+            // Use mass assignment to create the record
             PaymentRecord::create([
                 'Project_id' => $validated['project_id'],
                 'transaction_id' => $validated['TransactionID'],
-                'amount' => $formatAmount,
+                'amount' => number_format(str_replace(',', '', $validated['amount']), 2, '.', ''),
                 'payment_status' => $validated['paymentStatus'],
                 'payment_method' => $validated['paymentMethod'],
             ]);
@@ -74,8 +72,6 @@ class StaffPaymentRecordController extends Controller
 
             return response()->json(['message' => 'Error creating payment record'], 500);
         }
-
-
     }
 
     /**

@@ -473,7 +473,7 @@
             let formData = $('#paymentForm').serialize() + '&project_id=' + project_id;
             $.ajax({
                 type: 'POST',
-                url:'{{ route('PaymentRecord.Store') }}',
+                url:'{{ route('PaymentRecord.store') }}',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
@@ -487,7 +487,7 @@
                     }, 500);
                 },
                 error: function(error) {
-                    console.log(error);
+                   showToastFeedback('text-bg-danger', error.responseJSON.message)
                 }
 
             })
@@ -498,10 +498,7 @@
     function fetchPaymentHistory(projectId) {
         $.ajax({
             type: 'GET',
-            url: '{{ route('PaymentRecord.Index') }}',
-            data: {
-                'project_id': projectId
-            },
+            url: '{{ route('PaymentRecord.index') }}?project_id=' + projectId,
             success: function(response) {
                 const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
                 paymentHistoryTable.clear();
@@ -517,7 +514,7 @@
 
             },
             error: function(error) {
-                console.log(error);
+                showToastFeedback('text-bg-danger', error.responseJSON.message);
             }
         })
     }
@@ -627,7 +624,7 @@
                     }, 500);
                 },
                 error: function(error) {
-                    console.log(error);
+                    showToastFeedback('text-bg-danger', error.responseJSON.message)
                 }
 
             })
