@@ -913,6 +913,22 @@
         }
 
         // Line chart
+          //toast feedback
+        window.showToastFeedback = function(feedbackStatus, feedbackMessage) {
+            console.log('showToastFeedback called with:', feedbackStatus, feedbackMessage);
+            const toastFeedback = $('#ActionFeedbackToast');
+            const toastFeedbackInstance = new bootstrap.Toast(toastFeedback);
+            toastFeedback.find('.toast-header').addClass(feedbackStatus);
+            toastFeedback.find('.toast-body').text(feedbackMessage);
+            toastFeedbackInstance.show();
+        }
+
+        //close offcanvas
+        window.closeOffcanvasInstances = function(offcanva_id) {
+            const offcanvasElement = $(offcanva_id).get(0);
+            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+            offcanvasInstance.hide();
+        }
     </script>
     <script>
         function toggleSidebar() {

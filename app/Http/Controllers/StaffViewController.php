@@ -358,7 +358,7 @@ class StaffViewController extends Controller
                 ->update(['application_status' => 'pending']);
 
 
-            return response()->json(['message' => 'Project Proposal Submitted'], 200);
+            return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
         }catch (\Exception $e){
             Log::error($e->getMessage());
         }

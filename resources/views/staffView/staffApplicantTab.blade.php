@@ -172,13 +172,6 @@
                         </div>
                         <div class="card-body">
                             <form method="post" id="projectProposal">
-                                <div id="alertForm"
-                                    class="alert alert-success alert-dismissible text-bg-success border-0 fade show mx-5 d-none"
-                                    role="alert">
-                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"
-                                        aria-label="Close"></button>
-                                    <strong>Success - </strong> All data successfully inserted.
-                                </div>
                                 <div class="row">
                                     <div class="col-12 col-md-3">
                                         <label for="projectID">Project ID:</label>
@@ -659,7 +652,12 @@
                 },
                 data: formdata,
                 success: function(response) {
-                    console.log(response);
+                    if(response.success == 'true'){
+                        closeOffcanvasInstances('#applicantDetails');
+                        setTimeout(() => {
+                            showToastFeedback('text-bg-success', response.message);
+                        }, 500);
+                    }
                 },
                 error: function(error) {
                     console.log(error);
