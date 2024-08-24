@@ -524,38 +524,58 @@
 
 
 
-        $('#handledProjectTableBody').on('click', '.handleProjectbtn', function() {
-            const handledProjectRow = $(this).closest('tr');
-            const hiddenInput = handledProjectRow.find('input[type="hidden"]');
-            let project_status = handledProjectRow.find('td:eq(5)').text().trim();
-            handleProjectOffcanvasContent(project_status);
-            fetchPaymentHistory(handledProjectRow.find('td:eq(0)').text().trim());
+       $('#handledProjectTableBody').on('click', '.handleProjectbtn', function() {
+    const handledProjectRow = $(this).closest('tr');
+    const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
 
-            $('#hiddenbusiness_id').val(hiddenInput.filter('.business_id').val());
+    // Cache values from the row
+    const project_status = handledProjectRow.find('td:eq(5)').text().trim();
+    const project_id = handledProjectRow.find('td:eq(0)').text().trim();
+    const projectTitle = handledProjectRow.find('td:eq(1)').text().trim();
+    const amount = handledProjectRow.find('td:eq(4)').text().trim();
+    const firmName = handledProjectRow.find('td:eq(2) p.firm_name').text().trim();
+    const cooperatorName = handledProjectRow.find('td:eq(3) p.owner_name').text().trim();
 
-            let birthDate = new Date(hiddenInput.filter('.birth_date').val());
-            let age = Math.floor((new Date() - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
-            $('#age').val(age);
+    handleProjectOffcanvasContent(project_status);
+    fetchPaymentHistory(project_id);
 
+    // Cache hidden input values
+    const business_id = hiddenInputs.filter('.business_id').val();
+    const birthDate = new Date(hiddenInputs.filter('.birth_date').val());
+    const dateApplied = hiddenInputs.filter('.dateApplied').val();
+    const gender = hiddenInputs.filter('.gender').val();
+    const landline = hiddenInputs.filter('.landline').val();
+    const mobilePhone = hiddenInputs.filter('.mobile_phone').val();
+    const email = hiddenInputs.filter('.email').val();
+    const enterpriseType = hiddenInputs.filter('.business_enterprise_type').val();
+    const enterpriseLevel = hiddenInputs.filter('.business_enterprise_level').val();
+    const buildingAsset = hiddenInputs.filter('.building_value').val();
+    const equipmentAsset = hiddenInputs.filter('.equipment_value').val();
+    const workingCapitalAsset = hiddenInputs.filter('.working_capital').val();
 
-            $('#ProjectID').val(handledProjectRow.find('td:eq(0)').text().trim());
-            $('#ProjectTitle').val(handledProjectRow.find('td:eq(1)').text().trim());
-            $('#amount').val(handledProjectRow.find('td:eq(4)').text().trim());
-            $('#appliedDate').val(hiddenInput.filter('.dateApplied').val());
-            $('#FirmName').val(handledProjectRow.find('td:eq(2) p.firm_name').text().trim());
-            $('#CooperatorName').val(handledProjectRow.find('td:eq(3) p.owner_name').text().trim());
-            $('#Gender').val(hiddenInput.filter('.gender').val());
-            $('#landline').val(hiddenInput.filter('.landline').val());
-            $('#mobilePhone').val(hiddenInput.filter('.mobile_phone').val());
-            $('#email').val(hiddenInput.filter('.email').val());
-            $('#enterpriseType').val(hiddenInput.filter('.business_enterprise_type').val());
-            $('#EnterpriseLevel').val(hiddenInput.filter('.business_enterprise_level').val());
-            $('#buildingAsset').val(hiddenInput.filter('.building_value').val());
-            $('#equipmentAsset').val(hiddenInput.filter('.equipment_value').val());
-            $('#workingCapitalAsset').val(hiddenInput.filter('.working_capital').val());
+    // Calculate age
+    const age = Math.floor((new Date() - birthDate) / (365.25 * 24 * 60 * 60 * 1000));
 
+    // Update form fields
+    $('#hiddenbusiness_id').val(business_id);
+    $('#age').val(age);
+    $('#ProjectID').val(project_id);
+    $('#ProjectTitle').val(projectTitle);
+    $('#amount').val(amount);
+    $('#appliedDate').val(dateApplied);
+    $('#FirmName').val(firmName);
+    $('#CooperatorName').val(cooperatorName);
+    $('#Gender').val(gender);
+    $('#landline').val(landline);
+    $('#mobilePhone').val(mobilePhone);
+    $('#email').val(email);
+    $('#enterpriseType').val(enterpriseType);
+    $('#EnterpriseLevel').val(enterpriseLevel);
+    $('#buildingAsset').val(buildingAsset);
+    $('#equipmentAsset').val(equipmentAsset);
+    $('#workingCapitalAsset').val(workingCapitalAsset);
+});
 
-        });
 
         $('#addRequirement').on('click', function() {
             let RequirementLinkContent = $('#linkContainer')
