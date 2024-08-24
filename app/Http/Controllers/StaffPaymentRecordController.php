@@ -2,16 +2,36 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\PaymentRecord;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class StaffPaymentRecordController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+
+        $validated = $request->validate([
+            'project_id' => 'required|string|max:15',
+        ]);
+
+        $paymentRecord = DB::table('payment_records')
+        ->where('Project_id', $validated['project_id'])
+            ->select('transaction_id', 'amount', 'payment_method', 'payment_status', 'created_at')
+            ->get();
+
+        if (!$paymentRecord) {
+            return response()->json([
+                'success' => false,
+                'message' => 'No payment record found.',
+            ]);
+        }
+
+        return response()->json($paymentRecord);
     }
 
     /**
@@ -28,12 +48,34 @@ class StaffPaymentRecordController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'Project_id' => 'required|string|max:15',
-            'transaction_id' => 'required|string|max:15',
-            'amount' => 'required|string|max:15',
+            'project_id' => 'required|string|max:15',
+            'TransactionID' => 'required|string|max:15',
+            'amount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
+            'paymentMethod' => 'required|string|max:15',
+            'paymentStatus' => 'required|string|max:15',
         ]);
 
-        
+        try {
+
+            $formatAmount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
+
+            PaymentRecord::create([
+                'Project_id' => $validated['project_id'],
+                'transaction_id' => $validated['TransactionID'],
+                'amount' => $formatAmount,
+                'payment_status' => $validated['paymentStatus'],
+                'payment_method' => $validated['paymentMethod'],
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Payment record created successfully'], 200);
+
+        } catch (\Exception $e) {
+            Log::error('Error creating payment record: ' . $e->getMessage());
+
+            return response()->json(['message' => 'Error creating payment record'], 500);
+        }
+
+
     }
 
     /**
@@ -41,7 +83,7 @@ class StaffPaymentRecordController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**

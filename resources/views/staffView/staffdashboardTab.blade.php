@@ -39,34 +39,56 @@
         outline: none;
     }
 </style>
-{{-- add Payment modal start--}}
-<div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header bg-primary">
-        <h1 class="modal-title fs-5 text-white" id="paymentModalLabel">Add New Payment</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-         <div class="row">
-            <form id="paymentForm">
-                <div class="col-12">
-                    <label for="TransactionID">Transaction ID:</label>
-                    <input type="text" name="TransactionID" class="form-control">
-                </div>
-                <div class="col-12">
-                    <label for="amount">Amount:</label>
-                    <input type="text" name="amount" class="form-control">
-                </div>
-            </form>
+{{-- add Payment modal start --}}
+<div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h1 class="modal-title fs-5 text-white" id="paymentModalLabel">Add New Payment</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="paymentForm">
+                    <div class="row gy-3">
+                        <div class="col-12">
+                            <label for="TransactionID">Transaction ID:</label>
+                            <input type="text" name="TransactionID" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="amount">Amount:</label>
+                            <input type="text" name="amount" id="paymentAmount" class="form-control">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="paymentMethod">Payment Method:</label>
+                            <input type="text" name="paymentMethod" class="form-control" list="paymentMethodList"
+                                placeholder="Select Payment Method">
+                            <datalist id="paymentMethodList">
+                                <option value="Cash">
+                                <option value="Check">
+                                <option value="Credit Card">
+                                <option value="Online Transfer">
+                            </datalist>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="paymentStatus">Payment Status:</label>
+                            <input type="text" name="paymentStatus" class="form-control" list="paymentStatusList"
+                                placeholder="Select Payment Status">
+                            <datalist id="paymentStatusList">
+                                <option value="Paid">
+                                <option value="Pending">
+                                <option value="Failed">
+                            </datalist>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="submitPayment">Save</button>
+            </div>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" id="submitPayment">Save</button>
-      </div>
     </div>
-  </div>
 </div>
 {{-- add Payment modal end --}}
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="handleProjectOff"
@@ -200,7 +222,9 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
                                     <h5 class="card-title me-auto">Payment History</h5>
-                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#paymentModal"><i class="ri-sticky-note-add-fill"></i></button>
+                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#paymentModal"><i
+                                            class="ri-sticky-note-add-fill"></i></button>
                                 </div>
                             </div>
                             <div class="card-body" id="paymentHistoryContainer">
@@ -339,7 +363,7 @@
 <script type="module">
     $(document).ready(function() {
 
-
+        formatCurrency('#paymentAmount');
 
         $('#nav-link-tab').on('shown.bs.tab', () => $('.projectDetailsTabMenu').addClass('d-none'));
         $('#nav-link-tab').on('hidden.bs.tab', () => $('.projectDetailsTabMenu').removeClass('d-none'));
@@ -410,13 +434,18 @@
                                 title: 'Amount'
                             },
                             {
-                                title: 'Date Created'
+                                title: 'Payment Method'
                             },
                             {
                                 title: 'Status'
                             },
+                            {
+                                title: 'Date Created'
+                            },
                         ]
                     });
+
+
                 },
                 completed: () => {
 
@@ -438,27 +467,60 @@
             return paymentHistoryTable;
         }
 
-       $('#submitPayment').on('click', function() {
-         let project_id = $('#ProjectID').val();
+        $('#submitPayment').on('click', function() {
+            let project_id = $('#ProjectID').val();
 
             let formData = $('#paymentForm').serialize() + '&project_id=' + project_id;
-            $.ajax ({
+            $.ajax({
                 type: 'POST',
-                url:'{{ route('PaymentRecord.store') }}',
+                url:'{{ route('PaymentRecord.Store') }}',
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 data: formData,
                 success: function(response) {
                     //TODO: handle success message
-                    console.log(response);
+                    closeModal('#paymentModal');
+                    fetchPaymentHistory(project_id);
+                    setTimeout(() => {
+                        showToastFeedback('text-bg-success', response.message);
+                    }, 500);
                 },
                 error: function(error) {
                     console.log(error);
                 }
 
             })
-       })
+        })
+
+        //get the payment history
+
+    function fetchPaymentHistory(projectId) {
+        $.ajax({
+            type: 'GET',
+            url: '{{ route('PaymentRecord.Index') }}',
+            data: {
+                'project_id': projectId
+            },
+            success: function(response) {
+                const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
+                paymentHistoryTable.clear();
+                paymentHistoryTable.rows.add(response.map(payment => [
+                    payment.transaction_id,
+                    parseFloat(payment.amount).toLocaleString('en-US', { minimumFractionDigits: 2 }),
+                    payment.payment_method,
+                    payment.payment_status,
+                    payment.created_at
+                ]));
+
+                paymentHistoryTable.draw();
+
+            },
+            error: function(error) {
+                console.log(error);
+            }
+        })
+    }
 
 
 
@@ -467,6 +529,7 @@
             const hiddenInput = handledProjectRow.find('input[type="hidden"]');
             let project_status = handledProjectRow.find('td:eq(5)').text().trim();
             handleProjectOffcanvasContent(project_status);
+            fetchPaymentHistory(handledProjectRow.find('td:eq(0)').text().trim());
 
             $('#hiddenbusiness_id').val(hiddenInput.filter('.business_id').val());
 

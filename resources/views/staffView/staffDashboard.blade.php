@@ -929,6 +929,32 @@
             const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
             offcanvasInstance.hide();
         }
+
+        //format currency
+
+        window.formatCurrency = function(inputSelector) {
+            $(inputSelector).on('input', function() {
+            let value = $(this).val().replace(/[^0-9.]/g, ''); // Include decimal point in regex
+            // Ensure two decimal places
+            if (value.includes('.')) {
+                let parts = value.split('.');
+                parts[1] = parts[1].substring(0, 2); // Limit to two decimal places
+                value = parts.join('.');
+            }
+
+            // Add commas every three digits
+            let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+            // Set the new value to the input field
+            $(this).val(formattedValue);
+
+        });
+        }
+
+        window.closeModal = function(modelId){
+            const model = bootstrap.Modal.getInstance(modelId);
+            model.hide();
+        }
     </script>
     <script>
         function toggleSidebar() {
