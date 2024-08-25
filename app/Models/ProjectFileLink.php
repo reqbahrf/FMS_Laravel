@@ -15,7 +15,7 @@ class ProjectFileLink extends Model
     protected $fillable = [
         'Project_id',
         'file_name',
-        'file_url',
+        'file_link',
     ];
 
     public function Project_id(): BelongsTo

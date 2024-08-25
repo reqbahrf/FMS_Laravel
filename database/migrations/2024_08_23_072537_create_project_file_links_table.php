@@ -15,8 +15,8 @@ return new class extends Migration
         Schema::create('project_file_links', function (Blueprint $table) {
            $table->id();
            $table->char('Project_id', 15)->collation('utf8mb4_bin');
-           $table->string('file_name', 64);
-           $table->string('file_link', 255);
+           $table->string('file_name', 64)->unique();
+           $table->string('file_link', 255)->unique();
            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
            $table->foreign('Project_id')->references('Project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');

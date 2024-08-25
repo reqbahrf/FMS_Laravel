@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StaffPaymentRecordController;
+use App\Http\Controllers\StaffProjectLinkController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Middleware\checkAdminUser;
@@ -105,7 +106,8 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])->name('staff.Applicant.Submit-Project-Proposal');
 
     Route::resource('/Staff/Project/PaymentRecord', StaffPaymentRecordController::class);
-    // Route::get('/Staff/Project/GetPaymentRecord', [StaffPaymentRecordController::class, 'index'] )->name('PaymentRecord.Index');
+
+    Route::resource('/Staff/Project/ProjectLink', StaffProjectLinkController::class);
     Route::get('/proxy', [ProxyController::class, 'proxy']);
 });
 

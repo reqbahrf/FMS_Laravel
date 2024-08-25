@@ -237,19 +237,8 @@
             <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab"
                 tabindex="0">
                 <div class="table-responsive my-3">
-                    <table class="table table-hover table-sm" id="linkTable">
-                        <thead>
-                            <tr>
-                                <th width="20%">File Name</th>
-                                <th width="70%">Links</th>
-                                <th width="10%">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="linkTableBody">
-                            <tr>
-                                <td colspan="3" class="text-center">No data available</td>
-                            </tr>
-                        </tbody>
+                    <table class="table table-hover table-sm" id="linkTable" style="width: 100%;">
+
                     </table>
                 </div>
                 <div class="d-flex justify-between align-items-center">
@@ -364,6 +353,45 @@
     $(document).ready(function() {
 
         formatCurrency('#paymentAmount');
+        $('#linkTable').DataTable({
+            autoWidth: false,
+            responsive : true,
+            columns: [{
+                    title: 'File Name',
+                },
+                {
+                    title: 'Link',
+                },
+                {
+                    title: 'Date Created',
+                },
+                {
+                    title: 'Action',
+                }
+
+            ],
+            columnDefs: [{
+                    targets: 0,
+                    width: '15%'
+                },
+                {
+                    targets: 1,
+                    width: '40%'
+                },
+                {
+                    targets: 2,
+                    width: '20%'
+                },
+                {
+                    targets: 3,
+                    width: '10%',
+                     render: function(data, type, row) {
+                    return `<button class="btn btn-primary">Open</button>`;
+                },
+                }
+            ],
+
+        });
 
         $('#nav-link-tab').on('shown.bs.tab', () => $('.projectDetailsTabMenu').addClass('d-none'));
         $('#nav-link-tab').on('hidden.bs.tab', () => $('.projectDetailsTabMenu').removeClass('d-none'));
@@ -427,6 +455,7 @@
                     handleProjectOffcanvas.find('#paymentHistoryContainer').html(paymentHistoryTable());
 
                     $('#paymentHistoryTable').DataTable({
+                        responsive: true,
                         columns: [{
                                 title: 'Transaction #'
                             },
@@ -479,7 +508,6 @@
                 },
                 data: formData,
                 success: function(response) {
-                    //TODO: handle success message
                     closeModal('#paymentModal');
                     fetchPaymentHistory(project_id);
                     setTimeout(() => {
@@ -523,6 +551,7 @@
 
 
 
+        //TODO: Implove the this event listener for the Offcanvas handled project
         $('#handledProjectTableBody').on('click', '.handleProjectbtn', function() {
             const handledProjectRow = $(this).closest('tr');
             const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
@@ -537,6 +566,7 @@
 
             handleProjectOffcanvasContent(project_status);
             fetchPaymentHistory(project_id);
+            fetchProjectLinks(project_id);
 
             // Cache hidden input values
             const business_id = hiddenInputs.filter('.business_id').val();
@@ -612,32 +642,33 @@
             const inputtedLink = $(this).val();
             const proxyUrl = `/proxy?url=${encodeURIComponent(inputtedLink)}`;
 
-
-
-        if(inputtedLink){
-              const spinner = `<div class="spinner-border spinner-border-sm text-primary ms-3" role="status" style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;">
+            if (inputtedLink) {
+                const spinner = `<div class="spinner-border spinner-border-sm text-primary ms-3" role="status" style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;">
                         <span class="visually-hidden"></span>
                     </div>`;
 
-            inputField.after(spinner);
-            fetch(proxyUrl)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 200) {
-                        console.log('Link is valid:', data.status);
-                        linkConstInstance.find('input[name="requirements_link"]').addClass('is-valid').removeClass('is-invalid');
-                    } else {
-                        console.log('Link is invalid:', data.status);
-                        linkConstInstance.find('input[name="requirements_link"]').addClass('is-invalid').removeClass('is-valid');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error fetching the link:', error);
-                    linkConstInstance.find('input[name="requirements_link"]').addClass('is-invalid').removeClass('is-valid');
-                }).finally(() => {
-                    linkConstInstance.find('.spinner-border').remove();
-                });
-            }else{
+                inputField.after(spinner);
+                fetch(proxyUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 200) {
+                            console.log('Link is valid:', data.status);
+                            linkConstInstance.find('input[name="requirements_link"]').addClass(
+                                'is-valid').removeClass('is-invalid');
+                        } else {
+                            console.log('Link is invalid:', data.status);
+                            linkConstInstance.find('input[name="requirements_link"]').addClass(
+                                'is-invalid').removeClass('is-valid');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching the link:', error);
+                        linkConstInstance.find('input[name="requirements_link"]').addClass(
+                            'is-invalid').removeClass('is-valid');
+                    }).finally(() => {
+                        linkConstInstance.find('.spinner-border').remove();
+                    });
+            } else {
                 linkConstInstance.find('input[name="requirements_link"]').removeClass([
                     'is-valid', 'is-invalid'
                 ]);
@@ -647,6 +678,7 @@
 
 
         //Save the inputted links to the database
+        //TODO: Submit links
         $('.SaveLinkProjectBtn').on('click', function() {
             let requirementLinks = {};
             $('.linkConstInstance').each(function() {
@@ -655,8 +687,52 @@
                 requirementLinks[name] = link;
 
             });
-            console.log(requirementLinks);
+
+            $.ajax({
+                type: 'POST',
+                url: '{{ route('ProjectLink.store') }}',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    project_id: $('#ProjectID').val(),
+                    linklist: requirementLinks,
+                },
+                success: function(response) {
+                    showToastFeedback('text-bg-success', 'Links added successfully');
+                },
+                error: function(error) {
+                    showToastFeedback('text-bg-danger', error.responseJSON.message)
+                }
+            })
         });
+
+        function fetchProjectLinks(Project_id) {
+
+            $.ajax({
+                type: 'GET',
+                url: '{{ route('ProjectLink.index') }}?project_id=' + Project_id,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                success: function(response) {
+                    const linkDataTable = $('#linkTable').DataTable();
+                    linkDataTable.clear();
+                    linkDataTable.rows.add(response.map(link => [
+                        link.file_name,
+                        link.file_link,
+                        link.created_at
+                    ]));
+                    linkDataTable.draw();
+
+                },
+                error: function(error) {
+                    showToastFeedback('text-bg-danger', error.responseJSON.message)
+                }
+
+            });
+        }
+
 
         //Mark Approved Project to Ongoing
         $('#MarkhandleProjectBtn').on('click', function() {
