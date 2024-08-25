@@ -227,7 +227,25 @@
                                             class="ri-sticky-note-add-fill"></i></button>
                                 </div>
                             </div>
-                            <div class="card-body" id="paymentHistoryContainer">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12" id="paymentHistoryContainer">
+
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-5" id="progressPercentage">
+
+                                        </div>
+                                        <div class="col-7 inline-block">
+                                            <p class="fw-bold">Total Paid:
+                                                <span class="fw-light" id="totalPaid"></span>
+                                            </p>
+                                            <p class="fw-bold">Funded Amount:
+                                                <span class="fw-light" id="FundedAmount"></span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
 
                             </div>
                         </div>
@@ -355,7 +373,7 @@
         formatCurrency('#paymentAmount');
         $('#linkTable').DataTable({
             autoWidth: false,
-            responsive : true,
+            responsive: true,
             columns: [{
                     title: 'File Name',
                 },
@@ -385,9 +403,9 @@
                 {
                     targets: 3,
                     width: '10%',
-                     render: function(data, type, row) {
-                    return `<button class="btn btn-primary">Open</button>`;
-                },
+                    render: function(data, type, row) {
+                        return `<button class="btn btn-primary">Open</button>`;
+                    },
                 }
             ],
 
@@ -523,30 +541,35 @@
 
         //get the payment history
 
-        function fetchPaymentHistory(projectId) {
-            $.ajax({
-                type: 'GET',
-                url: '{{ route('PaymentRecord.index') }}?project_id=' + projectId,
-                success: function(response) {
-                    const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
-                    paymentHistoryTable.clear();
-                    paymentHistoryTable.rows.add(response.map(payment => [
-                        payment.transaction_id,
-                        parseFloat(payment.amount).toLocaleString('en-US', {
-                            minimumFractionDigits: 2
-                        }),
-                        payment.payment_method,
-                        payment.payment_status,
-                        payment.created_at
-                    ]));
+        async function fetchPaymentHistory(projectId) {
+            try {
+                const response = await $.ajax({
+                    type: 'GET',
+                    url: '{{ route('PaymentRecord.index') }}?project_id=' + projectId,
+                });
 
-                    paymentHistoryTable.draw();
+                const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
+                paymentHistoryTable.clear();
+                paymentHistoryTable.rows.add(response.map(payment => [
+                    payment.transaction_id,
+                    parseFloat(payment.amount).toLocaleString('en-US', {
+                        minimumFractionDigits: 2
+                    }),
+                    payment.payment_method,
+                    payment.payment_status,
+                    payment.created_at
+                ]));
+                paymentHistoryTable.draw();
 
-                },
-                error: function(error) {
-                    showToastFeedback('text-bg-danger', error.responseJSON.message);
-                }
-            })
+                let totalAmount = 0;
+                response.forEach(payment => {
+                    totalAmount += parseFloat(payment.amount);
+                });
+                return totalAmount;
+            } catch (error) {
+                showToastFeedback('text-bg-danger', error.responseJSON.message);
+                throw error;
+            }
         }
 
 
@@ -565,7 +588,23 @@
             const cooperatorName = handledProjectRow.find('td:eq(3) p.owner_name').text().trim();
 
             handleProjectOffcanvasContent(project_status);
-            fetchPaymentHistory(project_id);
+            fetchPaymentHistory(project_id).then(totalAmount => {
+                const fundedAmount = parseFloat(amount.replace(/,/g, ''));
+                const remainingAmount = fundedAmount - totalAmount;
+                const percentage = Math.round((totalAmount / fundedAmount) * 100);
+                $('#totalPaid').text(totalAmount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2
+                }));
+                $('#FundedAmount').text(fundedAmount.toLocaleString('en-US', {
+                    minimumFractionDigits: 2
+                }));
+
+                setTimeout(() => {
+                   InitializeviewCooperatorProgress(percentage);
+                }, 500);
+            }).catch(error => {
+                console.log(error);
+            });
             fetchProjectLinks(project_id);
 
             // Cache hidden input values
@@ -759,6 +798,79 @@
                 }
 
             })
-        })
-    })
+        });
+
+        //Cooperator Payment Progress
+    let paymentProgress;
+
+     function InitializeviewCooperatorProgress(percentage) {
+
+            const options = {
+                series: [percentage],
+                chart: {
+                    type: 'radialBar',
+                    width: '100%',
+                    height: '200px',
+                    sparkline: {
+                        enabled: true
+                    }
+                },
+                colors: ['#00D8B6'],
+                plotOptions: {
+                    radialBar: {
+                        startAngle: -90,
+                        endAngle: 90,
+                        track: {
+                            background: "#e7e7e7",
+                            strokeWidth: '97%',
+                            margin: 5, // margin is in pixels
+                            dropShadow: {
+                                enabled: true,
+                                top: 2,
+                                left: 0,
+                                color: '#999',
+                                opacity: 1,
+                                blur: 2
+                            }
+                        },
+                        dataLabels: {
+                            name: {
+                                show: false
+                            },
+                            value: {
+                                offsetY: -2,
+                                fontSize: '22px'
+                            }
+                        }
+                    }
+                },
+                grid: {
+                    padding: {
+                        top: -10
+                    }
+                },
+                fill: {
+                    type: 'gradient',
+                    gradient: {
+                        shade: 'light',
+                        shadeIntensity: 0.4,
+                        inverseColors: false,
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 50, 53, 91]
+                    },
+                },
+                labels: ['Average Results'],
+            };
+
+            if(paymentProgress) {
+                console.log(paymentProgress);
+                paymentProgress.destroy();
+            }
+
+            paymentProgress = new ApexCharts(document.querySelector("#progressPercentage"), options);
+            paymentProgress.render();
+
+        }
+    });
 </script>
