@@ -600,9 +600,9 @@
 
     </div>
     <script type="module">
-        $(window).on('beforeunload', function() {
-            return 'Are you sure you want to leave?';
-        });
+        // $(window).on('beforeunload', function() {
+        //     return 'Are you sure you want to leave?';
+        // });
 
         $(document).ready(function() {
             let lastUrl = sessionStorage.getItem('StafflastUrl')
