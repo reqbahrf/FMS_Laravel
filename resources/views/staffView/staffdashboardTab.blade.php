@@ -23,7 +23,7 @@
     }
 
     #handleProjectOff {
-        width: 50vw;
+        width: 100vw;
         max-width: 100%;
     }
 
@@ -75,9 +75,9 @@
                             <input type="text" name="paymentStatus" class="form-control" list="paymentStatusList"
                                 placeholder="Select Payment Status">
                             <datalist id="paymentStatusList">
-                                <option value="Paid">
-                                <option value="Pending">
-                                <option value="Failed">
+                                <option value="Paid"></option>
+                                <option value="Pending"></option>
+                                <option value="Failed"></option>
                             </datalist>
                         </div>
                     </div>
@@ -91,6 +91,7 @@
     </div>
 </div>
 {{-- add Payment modal end --}}
+
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="handleProjectOff"
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary">
@@ -114,8 +115,8 @@
             <div class="tab-pane fade show active" id="nav-details" role="tabpanel" aria-labelledby="nav-home-tab"
                 tabindex="0">
                 <div class="row gy-3">
-                    <div class="col-12">
-                        <div class="card p-0">
+                    <div class="col-12 col-md-6">
+                        <div class="card p-0 h-100">
                             <div class="card-header">
                                 <h5 class="card-title">Project Details</h5>
                             </div>
@@ -138,11 +139,23 @@
                                         <label for="appliedDate">Approved Date:</label>
                                         <input type="text" class="form-control" id="appliedDate" readonly>
                                     </div>
+                                     <div class="row align-items-baseline">
+                                         <div class="col-5" id="progressPercentage">
+                                           </div>
+                                           <div class="col-7 inline-block">
+                                               <p class="fw-bold">Total Paid:
+                                                   <span class="fw-light" id="totalPaid"></span>
+                                               </p>
+                                               <p class="fw-bold">Funded Amount:
+                                                   <span class="fw-light" id="FundedAmount"></span>
+                                               </p>
+                                          </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div class="col-12">
+                    <div class="col-12 col-md-6">
                         <div class="card p-0">
                             <div class="card-header">
                                 <h5 class="card-title">Business Information</h5>
@@ -232,21 +245,10 @@
                                     <div class="col-12" id="paymentHistoryContainer">
 
                                     </div>
-                                    <div class="row">
-                                        <div class="col-5" id="progressPercentage">
-
-                                        </div>
-                                        <div class="col-7 inline-block">
-                                            <p class="fw-bold">Total Paid:
-                                                <span class="fw-light" id="totalPaid"></span>
-                                            </p>
-                                            <p class="fw-bold">Funded Amount:
-                                                <span class="fw-light" id="FundedAmount"></span>
-                                            </p>
-                                        </div>
-                                    </div>
                                 </div>
-
+                            </div>
+                            <div class="col-12" id="generatedDocumentContainer">
+                                
                             </div>
                         </div>
                     </div>
@@ -290,7 +292,8 @@
     </div>
     <div class="ongoingProjectContent">
         <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
-            <button class="btn btn-primary" id="">View Quarterly Report</button>
+            <button class= "btn btn-primary mx-3 GeneratePIS">Generate PIS</button>
+            <button class="btn btn-primary GenerateQuarterlyReport">Generate Quarterly Report</button>
         </div>
         <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
             <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
@@ -367,8 +370,4 @@
         </div>
     </div>
 </div>
-<script type="module">
-    $(document).ready(function() {
 
-    });
-</script>

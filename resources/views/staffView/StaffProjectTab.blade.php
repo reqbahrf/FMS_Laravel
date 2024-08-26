@@ -136,6 +136,11 @@
 <div>
     <h4 class="p-3">Projects</h4>
 </div>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb px-3">
+        <li class="breadcrumb-item active">Projects</li>
+    </ol>
+</nav>
 <div>
     {{-- offcanvas Approved Start --}}
     <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="approvedDetails"
@@ -1064,6 +1069,7 @@
             </div>
         </div>
 
+
         <div class="card m-0 m-md-3">
             <div class="card-body">
                 <div class="d-flex justify-content-end">
@@ -1394,7 +1400,7 @@
             updateDeleteButtonState();
         });
     </script>
-   
+
     <script type="module">
         $(document).ready(function() {
             $('#sw-AddProject').smartWizard({

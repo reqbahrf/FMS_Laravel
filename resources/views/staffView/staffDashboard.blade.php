@@ -612,6 +612,11 @@
 
           }
 
+          const GenerateSheetsRoute = {
+              generateProjectInformationSheet: '{{ route('staff.Create-InformationSheet') }}',
+              generateQuarterlyReport: ''
+          }
+
           //Project Tab
           const ProjectTabRoute = {
                projectApprovalLink: '{{ route('staff.Project.ApprovedProjectProposal') }}',

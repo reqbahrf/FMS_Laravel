@@ -397,7 +397,10 @@ $(document).on('DOMContentLoaded', function() {
        }
     //Dashboard Tab JS
     window.initializeDashboardTabEvents = function(){
+
+        //Foramt Input with Id paymentAmount
          formatCurrency("#paymentAmount");
+
          $("#linkTable").DataTable({
              autoWidth: false,
              responsive: true,
@@ -552,6 +555,7 @@ $(document).on('DOMContentLoaded', function() {
                  });
          }
 
+         //Determine The Content to be displayed on offcanvas based on the project status
          function handleProjectOffcanvasContent(project_status) {
              const handleProjectOffcanvas = $("#handleProjectOff");
              const content = {
@@ -886,7 +890,6 @@ $(document).on('DOMContentLoaded', function() {
          );
 
          //Save the inputted links to the database
-         //TODO: Submit links
          $(".SaveLinkProjectBtn").on("click", function () {
              let requirementLinks = {};
              $(".linkConstInstance").each(function () {
@@ -1065,7 +1068,26 @@ $(document).on('DOMContentLoaded', function() {
              paymentProgress.render();
          }
 
-    };
+         //Generate Project Information Sheets
+
+         $('.GeneratePIS').on('click', async () => {
+            try{
+                let project_id = $("#ProjectID").val();
+                let business_id = $("#hiddenbusiness_id").val();
+                let form = $("#PIS_checklistsForm");
+                const data = { ...form.serializeArray(), project_id, business_id };
+                const response = await $.post(GenerateSheetsRoute.generateProjectInformationSheet, data, null, 'html');
+
+                $("#PIS_Modal_container").html(response);
+                ProjectInformationSheetModel.show();
+            } catch(error){
+                console.log(error);
+            }
+         });
+
+    }
+
+
 
     //Project Tab JS
 
