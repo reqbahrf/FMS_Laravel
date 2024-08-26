@@ -506,7 +506,7 @@
         <div id="toggle-left-margin" class="content-row navExpanded">
             <div class="topNav shadow-sm px-3 container-fluid">
                 <div class="d-flex align-items-center justify-content-between">
-                    <button onclick="toggleSidebar()" class="btn">
+                    <button onclick="toggleSidebar()" class="btn" id="sidebar_toggle">
                         <i class="ri-menu-unfold-fill ri-2x"></i>
                     </button>
                 </div>
@@ -599,11 +599,39 @@
         </div>
 
     </div>
+    <script>
+        //Global Route Variables for the Navigation Tabs
+          //Dashboard Tab
+          const DashboardTabRoute = {
+              getHandledProjects: '{{ route('staff.Dashboard.getHandledProjects') }}',
+              setProjectToOngoing: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
+              storePaymentRecords: '{{ route('PaymentRecord.store') }}',
+              getPaymentRecords: '{{ route('PaymentRecord.index') }}',
+              storeProjectLinks: '{{ route('ProjectLink.store') }}',
+              getProjectLinks: '{{ route('ProjectLink.index') }}'
+
+          }
+
+          //Project Tab
+          const ProjectTabRoute = {
+               projectApprovalLink: '{{ route('staff.Project.ApprovedProjectProposal') }}',
+          }
+
+          //Application Tab
+          const ApplicantTabRoute = {
+              getApplicantRequirementsLink: '{{ route('staff.Applicant.Requirement') }}',
+              setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
+              getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
+              getRequirementFiles: '{{ route('staff.Applicant.Requirement.View') }}',
+              submitProjectProposal: '{{ route('staff.Applicant.Submit-Project-Proposal') }}'
+          }
+
+    </script>
     <script type="module">
+
         // $(window).on('beforeunload', function() {
         //     return 'Are you sure you want to leave?';
         // });
-
         $(document).ready(function() {
             let lastUrl = sessionStorage.getItem('StafflastUrl')
             let lastActive = sessionStorage.getItem('StafflastActive')
@@ -648,361 +676,52 @@
 
             if (url === '{{ route('staff.dashboard') }}') {
                 InitdashboardChar();
+                initializeDashboardTabEvents();
             }
 
             if (url === '/org-access/viewCooperatorInfo.php') {
                 InitializeviewCooperatorProgress();
             }
 
+            if (url === '{{ route('staff.Project') }}') {
+                initializeProjectTabEvents();
+                attachProjectInformationSheetEvents();
+            }
+
+            if (url === '{{ route('staff.Applicant') }}'){
+                InitializeApplicantTabEvents();
+            }
+
             sessionStorage.setItem('StafflastUrl', url);
             sessionStorage.setItem('StafflastActive', activeLink);
         }
 
+            function attachProjectInformationSheetEvents() {
+                $('#createPISButton').on('click', function() {
+                 let ProjectInformationSheetModel = new bootstrap.Modal(document.getElementById('PISModal'));
+                 let project_id = $('#ProjectId').val();
+                 let business_id = $('#b_id').val();
+                 let form = $('#PIS_checklistsForm');
 
-        //TODO: Charts for Applicant, Ongoing and Completed Projects
-
-        function InitdashboardChar() {
-            var lineChartOptions = {
-                theme: {
-                    mode: 'light',
-                },
-                series: [{
-                    name: 'Applicant',
-                    data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60]
-                }, {
-                    name: 'Ongoing',
-                    data: [5, 10, 7, 12, 9, 15, 11, 18, 13, 20]
-                }, {
-                    name: 'Completed',
-                    data: [2, 4, 3, 6, 5, 8, 7, 10, 9, 12]
-                }],
-                chart: {
-                    height: 350,
-                    type: 'bar'
-                },
-                stroke: {
-                    width: [6, 6, 6],
-                    curve: 'smooth',
-                    dashArray: [0, 0, 0]
-                },
-                markers: {
-                    size: 0
-                },
-                xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
-                },
-                yaxis: {
-                    title: {
-                        text: 'Count',
-                    },
-                },
-                legend: {
-                    tooltipHoverFormatter: function(val, opts) {
-                        return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
-                    }
-                }
-            };
-
-            var lineChart = new ApexCharts(document.querySelector("#lineChart"), lineChartOptions);
-            lineChart.render();
-
-            console.log(lineChart);
-            // initialize datatable
-            new DataTable("#handledProject");
-        }
-
-        function makeData() {
-            var data = [];
-            for (var i = 0; i < 10; i++) {
-                data.push(Math.floor(Math.random() * 100)); // Generates random numbers between 0 and 99
+                   $.ajax({
+                       type: 'POST',
+                       data: form.serialize() + '&project_id=' + project_id + '&business_id=' + business_id,
+                       url: '{{ route('staff.Create-InformationSheet') }}',
+                       headers: {
+                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                       },
+                       success: function(response) {
+                           $('#PIS_Modal_container').html(response);
+                           ProjectInformationSheetModel.show();
+                       },
+                       error: function(error) {
+                           console.log(error);
+                       }
+                   })
+               })
             }
-            console.log(data);
-            return data;
-        }
-
-
-        function InitializeviewCooperatorProgress() {
-            var options = {
-                series: [75],
-                chart: {
-                    height: 250,
-                    type: 'radialBar',
-                    toolbar: {
-                        show: true
-                    }
-                },
-                plotOptions: {
-                    radialBar: {
-                        startAngle: -135,
-                        endAngle: 225,
-                        hollow: {
-                            margin: 0,
-                            size: '70%',
-                            background: '#fff',
-                            image: undefined,
-                            imageOffsetX: 0,
-                            imageOffsetY: 0,
-                            position: 'front',
-                            dropShadow: {
-                                enabled: true,
-                                top: 3,
-                                left: 0,
-                                blur: 4,
-                                opacity: 0.24
-                            }
-                        },
-                        track: {
-                            background: '#fff',
-                            strokeWidth: '67%',
-                            margin: 0, // margin is in pixels
-                            dropShadow: {
-                                enabled: true,
-                                top: -3,
-                                left: 0,
-                                blur: 4,
-                                opacity: 0.35
-                            }
-                        },
-
-                        dataLabels: {
-                            show: true,
-                            name: {
-                                offsetY: -10,
-                                show: true,
-                                color: '#888',
-                                fontSize: '17px'
-                            },
-                            value: {
-                                formatter: function(val) {
-                                    return parseInt(val);
-                                },
-                                color: '#111',
-                                fontSize: '36px',
-                                show: true,
-                            }
-                        }
-                    }
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shade: 'dark',
-                        type: 'horizontal',
-                        shadeIntensity: 0.5,
-                        gradientToColors: ['#ABE5A1'],
-                        inverseColors: true,
-                        opacityFrom: 1,
-                        opacityTo: 1,
-                        stops: [0, 100]
-                    }
-                },
-                stroke: {
-                    lineCap: 'round'
-                },
-                labels: ['Percent'],
-            };
-
-            var chart = new ApexCharts(document.querySelector("#progressBar"), options);
-            chart.render();
-
-            //TODO: Production Generated Chart
-            var options = {
-                series: [{
-                    name: 'Growth',
-                    data: [10, 15, 7, -12]
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350
-                },
-                plotOptions: {
-                    bar: {
-                        colors: {
-                            ranges: [{
-                                from: -100,
-                                to: -46,
-                                color: '#F15B46'
-                            }, {
-                                from: -45,
-                                to: 0,
-                                color: '#FEB019'
-                            }]
-                        },
-                        columnWidth: '80%',
-                    }
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-                yaxis: {
-                    title: {
-                        text: 'Growth',
-                    },
-                    labels: {
-                        formatter: function(y) {
-                            return y.toFixed(0) + "%";
-                        }
-                    }
-                },
-                xaxis: {
-                    categories: [
-                        'Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'
-                    ],
-                    labels: {
-                        rotate: -90
-                    }
-                }
-            };
-
-            var chart = new ApexCharts(document.querySelector("#productionGeneChart"), options);
-            chart.render();
-
-            //TODO: Employment Generated Chart
-
-            var options = {
-                series: [{
-                    name: 'Growth',
-                    data: [2, -2, 4, 5]
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350
-                },
-                plotOptions: {
-                    bar: {
-                        colors: {
-                            ranges: [{
-                                from: -100,
-                                to: -46,
-                                color: '#F15B46'
-                            }, {
-                                from: -45,
-                                to: 0,
-                                color: '#FEB019'
-                            }]
-                        },
-                        columnWidth: '80%',
-                    }
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-                yaxis: {
-                    title: {
-                        text: 'Growth',
-                    },
-                    labels: {
-                        formatter: function(y) {
-                            return y.toFixed(0) + "%";
-                        }
-                    }
-                },
-                xaxis: {
-                    categories: [
-                        'Quarter 1', 'Quarter 2', 'Quarter 3', 'Quarter 4'
-                    ],
-                    labels: {
-                        rotate: -90
-                    }
-                }
-            };
-
-            var chart = new ApexCharts(document.querySelector("#employmentGeneChart"), options);
-            chart.render();
-
-        }
-
-        // Line chart
-          //toast feedback
-        window.showToastFeedback = function(status, message) {
-            const toast = $('#ActionFeedbackToast');
-            const toastInstance = new bootstrap.Toast(toast);
-
-            toast.find('.toast-header').removeClass([
-                'text-bg-danger',
-                'text-bg-success',
-                'text-bg-warning',
-                'text-bg-info',
-                'text-bg-primary',
-                'text-bg-light',
-                'text-bg-dark'
-            ]);
-
-            toast.find('.toast-body').text('');
-
-            toast.find('.toast-header').addClass(status);
-            toast.find('.toast-body').text(message);
-
-            toastInstance.show();
-        }
-
-        //close offcanvas
-        window.closeOffcanvasInstances = function(offcanva_id) {
-            const offcanvasElement = $(offcanva_id).get(0);
-            const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-            offcanvasInstance.hide();
-        }
-
-        //format currency
-
-        window.formatCurrency = function(inputSelector) {
-            $(inputSelector).on('input', function() {
-            let value = $(this).val().replace(/[^0-9.]/g, ''); // Include decimal point in regex
-            // Ensure two decimal places
-            if (value.includes('.')) {
-                let parts = value.split('.');
-                parts[1] = parts[1].substring(0, 2); // Limit to two decimal places
-                value = parts.join('.');
-            }
-
-            // Add commas every three digits
-            let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-            // Set the new value to the input field
-            $(this).val(formattedValue);
-
-        });
-        }
-
-        window.closeModal = function(modelId){
-            const model = bootstrap.Modal.getInstance(modelId);
-            model.hide();
-        }
     </script>
-    <script>
-        function toggleSidebar() {
-            const sidebar = document.querySelector('.sidenav');
-            const logoDescription = document.querySelector('#logoTitle');
-            logoDescription.classList.toggle('d-none');
-
-            sidebar.classList.toggle('expanded');
-            sidebar.classList.toggle('minimized');
-            const container = $('#toggle-left-margin');
-            if (container.hasClass('navExpanded')) {
-                container.removeClass('navExpanded').addClass('navMinimized');
-            } else {
-                container.removeClass('navMinimized').addClass('navExpanded');
-            };
-            //side bar minimize
-            $('.sidenav a span').each(function() {
-                $(this).toggleClass('d-none');
-            });
-
-            $('.sidenav a').each(function() {
-                $(this).toggleClass('justify-content-center');
-            });
-            //size bar minimize rotation
-            $('#hover-link').toggleClass('rotate-icon');
-
-        }
-
-        function setActiveLink(activeLink) {
-            $('.nav-item a').removeClass('active');
-            var defaultLink = 'dashboardLink';
-            var linkToActivate = $('#' + (activeLink || defaultLink));
-            linkToActivate.addClass('active');
-        }
-    </script>
+    @vite('resources/js/staffPage.js')
 </body>
 
 </html>

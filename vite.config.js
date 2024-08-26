@@ -11,6 +11,7 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.scss',
                     'resources/js/app.js',
+                    'resources/js/staffPage.js',
                     ],
             refresh: true,
         }),

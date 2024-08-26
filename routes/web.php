@@ -97,10 +97,11 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::put('/Staff/Dashboard/updateProjectStatusToOngoing', [StaffViewController::class, 'updateProjectStatusToOngoing'])->name('staff.Dashboard.updateProjectStatusToOngoing');
 
     //Staff Evaluation Schedule Set date
-    Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule']);
+    Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])
+    ->name('staff.set.EvaluationSchedule');
 
     //Get evaluation schedule
-    Route::get('/staff/Applicant/Evaluation-Schedule', [StaffViewController::class, 'getScheduledDate']);
+    Route::get('/staff/Applicant/Evaluation-Schedule', [StaffViewController::class, 'getScheduledDate'])->name('staff.get.EvaluationSchedule');
 
     //Staff Submit Project Proposal
     Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])->name('staff.Applicant.Submit-Project-Proposal');
