@@ -1071,15 +1071,26 @@ $(document).on('DOMContentLoaded', function() {
          //Generate Project Information Sheets
 
          $('.GeneratePIS').on('click', async () => {
+            $.ajaxSetup({
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
             try{
                 let project_id = $("#ProjectID").val();
                 let business_id = $("#hiddenbusiness_id").val();
                 let form = $("#PIS_checklistsForm");
                 const data = { ...form.serializeArray(), project_id, business_id };
-                const response = await $.post(GenerateSheetsRoute.generateProjectInformationSheet, data, null, 'html');
+                const response = await $.post(
+                    GenerateSheetsRoute.generateProjectInformationSheet,
+                    data,
+                    null,
+                );
 
-                $("#PIS_Modal_container").html(response);
-                ProjectInformationSheetModel.show();
+                // $("#PIS_Modal_container").html(response);
+                // ProjectInformationSheetModel.show();
             } catch(error){
                 console.log(error);
             }
