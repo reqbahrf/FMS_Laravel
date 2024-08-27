@@ -4,10 +4,15 @@
 <head>
     <title>Hello, World!</title>
     <style type="text/css">
+
+   #pageSize{
+    margin: 20px;
+   }
+
         .tg {
             border-collapse: collapse;
             border-spacing: 0;
-            margin: 0px auto;
+            margin: 0px;
         }
 
         .tg td {
@@ -46,6 +51,7 @@
 
         .tg .tg-wa1i {
             font-weight: bold;
+            margin: 20px;
             text-align: center;
             vertical-align: middle
         }
@@ -55,6 +61,14 @@
             font-weight: bold;
             text-align: left;
             vertical-align: bottom
+        }
+
+        .tg .col-fir-header-width{
+            width: 80%;
+        }
+
+        .tg .col-Sec-header-width{
+            width: 20%;
         }
 
         .tg .tg-j6zm {
@@ -78,7 +92,7 @@
             vertical-align: top
         }
 
-        @media screen and (max-width: 767px) {
+        /* @media screen and (max-width: 767px) {
             .tg {
                 width: auto !important;
             }
@@ -92,7 +106,7 @@
                 -webkit-overflow-scrolling: touch;
                 margin: auto 0px;
             }
-        }
+        } */
 
         /* @page {
     size: A4;
@@ -113,28 +127,14 @@
             height: auto;
         }
 
-        @media screen and (max-width: 767px) {
-            .tg {
-                width: auto !important;
-            }
 
-            .tg col {
-                width: auto !important;
-            }
-
-            .tg-wrap {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                margin: auto 0px;
-            }
-        }
-
-        #pageSize {
+        /* #pageSize {
             width: 794px;
             margin: auto;
             padding: 5%;
-            /* or any specific width */
+
         }
+        */
 
         @media print {
             /* body * {
@@ -168,6 +168,7 @@
                 padding: 5px;
                 /* Reduce padding to save space */
             }
+
         }
     </style>
 
@@ -179,8 +180,8 @@
             <table id="dataSheetTable" class="tg">
                 <thead>
                     <tr>
-                        <th class="tg-hvke" colspan="5">Project title:</th>
-                        <th class="tg-j6zm">Project Code</th>
+                        <th class="tg-hvke col-fir-header-width" colspan="5">Project title:</th>
+                        <th class="tg-j6zm col-Sec-header-width">Project Code</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -257,33 +258,30 @@
                         <td class="tg-8d8j" colspan="3">&nbsp;&nbsp;</td>
                     </tr>
                     <tr>
-                        <td class="tg-wa1i" colspan="2" rowspan="3">Total&nbsp;&nbsp;&nbsp;Employment Generated
+                        <td class="tg-wa1i" colspan="2" >Total&nbsp;&nbsp;&nbsp;Employment Generated
                         </td>
-                        <td class="tg-wa1i" colspan="3" rowspan="3">man-mouth</td>
-                        <td class="tg-8d8j" rowspan="3">fgfggf</td>
+                        <td class="tg-wa1i" colspan="3" >man-mouth</td>
+                        <td class="tg-8d8j" colspan="1" ><br /><br /></td>
                     </tr>
                     <tr>
-                    </tr>
-                    <tr>
-                    </tr>
-                    <tr>
-                        <td class="tg-7zrl" colspan="5">Direct&nbsp;&nbsp;&nbsp;Employment:</td>
+                        <td class="tg-7zrl" colspan="5">Direct&nbsp;Employment:</td>
                         <td class="tg-7zrl"></td>
                     </tr>
                     <tr>
-                        <td class="tg-0lax" colspan="2">*Company&nbsp;&nbsp;&nbsp;Hire </td>
+                        <td class="tg-0lax" colspan="2">*Company&nbsp;Hire </td>
                         <td class="tg-7zrl">Male</td>
                         <td class="tg-7zrl">Female</td>
                         <td class="tg-7zrl">Sub-total</td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl"></td>
                     </tr>
                     <tr>
-                        <td class="tg-0lax" colspan="2"> Regular</td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-0lax" colspan="2">Regular</td>
+                        <td class="tg-7zrl"></td>
+                        <td class="tg-7zrl"></td>
+                        <td class="tg-7zrl"></td>
+                        <td class="tg-7zrl"></td>
                     </tr>
+
                     <tr>
                         <td class="tg-0lax" colspan="2"> Part-Time</td>
                         <td class="tg-7zrl"> </td>

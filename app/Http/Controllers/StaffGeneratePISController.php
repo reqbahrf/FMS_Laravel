@@ -15,13 +15,12 @@ class StaffGeneratePISController extends Controller
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',
-            'margin_top' => 2,
-            'margin_bottom' => 2,
-            'margin_left' => 2,
-            'margin_right' => 2,
-            'tempDir' => storage_path('app/mpdf'), // Use a custom temporary directory
+            'orientation' => 'P',
+            'margin_top' => 5,
+            'margin_bottom' => 5,
+            'margin_left' => 5,
+            'margin_right' => 5
         ]);
-
         $mpdf->WriteHTML($html);
         $mpdf->Output('hello.pdf', 'D'); // Download the PDF with the filename hello.pdf
 
