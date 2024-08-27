@@ -186,12 +186,12 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="tg-8d8j" colspan="5"> &nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="5">{{ $projectData->project_title }} &nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-j6zm" colspan="5">Name of Firm:</td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-j6zm" colspan="5">Name of Firm:{{ $projectData->firm_name }}</td>
+                        <td class="tg-7zrl"></td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl" colspan="4">Owner: Contact&nbsp;&nbsp;&nbsp;Person:</td>
@@ -199,17 +199,17 @@
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="3">Name: </td>
-                        <td class="tg-7zrl">Gender:</td>
-                        <td class="tg-7zrl">Age:</td>
+                        <td class="tg-7zrl" colspan="3">Name: {{ $projectData->f_name . ' ' . $projectData->mid_name . ' ' . $projectData->l_name }}</td>
+                        <td class="tg-7zrl">Gender: {{ $projectData->gender }}</td>
+                        <td class="tg-7zrl">Age: {{ \Carbon\Carbon::parse($projectData->birth_date)->age  }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-j6zm" colspan="5">Type of Organization Enterprize:</td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-j6zm" colspan="5">Type of Organization Enterprize:&nbsp;&nbsp;&nbsp;</td>
+                        <td class="tg-7zrl">  </td>
                     </tr>
                     <tr>
-                        <td class="tg-8d8j" colspan="5"> &nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="5"> {{ $projectData->enterprise_type }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -217,19 +217,21 @@
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-8d8j" colspan="4"> &nbsp;&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="4">{{ $projectData->landMark . ', ' . $projectData->barangay . ', ' . $projectData->city . ', ' . $projectData->province . ', ' . $projectData->region }}</td>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td class="tg-j6zm">Contact&nbsp;&nbsp;&nbsp;Details: </td>
-                        <td class="tg-7zrl">Landline: </td>
+                        <td class="tg-7zrl">Landline: {{ $projectData->landline }}</td>
                         <td class="tg-7zrl" colspan="3">Fax: </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="2">Mobile Phone:</td>
-                        <td class="tg-7zrl" colspan="3">Email Address:</td>
+                        <td class="tg-7zrl" colspan="2">Mobile Phone: {{ $projectData->mobile_number }}</td>
+                        <td class="tg-7zrl" colspan="3">Email Address:
+                            {{ $projectData->email }}
+                        </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class projectInfo extends Model
 {
@@ -22,4 +23,9 @@ class projectInfo extends Model
         'fund_amount',
         'refund_amout'
     ];
+
+    public function businessInfo(): BelongsTo
+    {
+        return $this->belongsTo(businessInfo::class, 'id', 'business_id');
+    }
 }
