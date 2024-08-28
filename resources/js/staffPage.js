@@ -441,18 +441,30 @@ $(document).on('DOMContentLoaded', function() {
              ],
          });
 
+         //Handled Project Offcanvas Button Events
+         $("#nav-GeneratedSheets-tab").on("shown.bs.tab", () => {
+             $('.GeneratedSheetsTabMenu').removeClass("d-none");
+             $(".AttachlinkTabMenu").addClass("d-none");
+         });
+         $("#nav-GeneratedSheets-tab").on("hidden.bs.tab", () => {
+             $(".GeneratedSheetsTabMenu").addClass("d-none");
+             $(".AttachlinkTabMenu").removeClass("d-none");
+         });
+
          $("#nav-link-tab").on("shown.bs.tab", () =>
-             $(".projectDetailsTabMenu").addClass("d-none")
+             $(".GeneratedSheetsTabMenu").addClass("d-none")
          );
          $("#nav-link-tab").on("hidden.bs.tab", () =>
-             $(".projectDetailsTabMenu").removeClass("d-none")
+             $(".GeneratedSheetsTabMenu").removeClass("d-none")
          );
-         $("#nav-details-tab").on("shown.bs.tab", () =>
+         $("#nav-details-tab").on("shown.bs.tab", () => {
              $(".AttachlinkTabMenu").addClass("d-none")
-         );
-         $("#nav-details-tab").on("hidden.bs.tab", () =>
+             $(".GeneratedSheetsTabMenu").addClass("d-none");
+         });
+         $("#nav-details-tab").on("hidden.bs.tab", () => {
              $(".AttachlinkTabMenu").removeClass("d-none")
-         );
+             $(".GeneratedSheetsTabMenu").removeClass("d-none")
+         });
 
          fetchHandleProject();
 
