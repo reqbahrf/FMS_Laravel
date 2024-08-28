@@ -320,7 +320,6 @@ $(document).on('DOMContentLoaded', function() {
               ]);
 
           toast.find(".toast-body").text("");
-
           toast.find(".toast-header").addClass(status);
           toast.find(".toast-body").text(message);
 
@@ -337,8 +336,8 @@ $(document).on('DOMContentLoaded', function() {
 
       //format currency
 
-      window.formatCurrency = function (inputSelector) {
-          $(inputSelector).on("input", function () {
+      window.formatCurrency = (inputSelector) => {
+          $(inputSelector).on("input",  function()  {
               let value = $(this)
                   .val()
                   .replace(/[^0-9.]/g, ""); // Include decimal point in regex
@@ -397,96 +396,95 @@ $(document).on('DOMContentLoaded', function() {
        }
     //Dashboard Tab JS
     window.initializeDashboardTabEvents = function(){
-
         //Foramt Input with Id paymentAmount
-         formatCurrency("#paymentAmount");
+        formatCurrency("#paymentAmount");
 
-         $("#linkTable").DataTable({
-             autoWidth: false,
-             responsive: true,
-             columns: [
-                 {
-                     title: "File Name",
-                 },
-                 {
-                     title: "Link",
-                 },
-                 {
-                     title: "Date Created",
-                 },
-                 {
-                     title: "Action",
-                 },
-             ],
-             columnDefs: [
-                 {
-                     targets: 0,
-                     width: "15%",
-                 },
-                 {
-                     targets: 1,
-                     width: "40%",
-                 },
-                 {
-                     targets: 2,
-                     width: "20%",
-                 },
-                 {
-                     targets: 3,
-                     width: "10%",
-                     render: function (data, type, row) {
-                         return `<button class="btn btn-primary">Open</button>`;
-                     },
-                 },
-             ],
-         });
+        $("#linkTable").DataTable({
+            autoWidth: false,
+            responsive: true,
+            columns: [
+                {
+                    title: "File Name",
+                },
+                {
+                    title: "Link",
+                },
+                {
+                    title: "Date Created",
+                },
+                {
+                    title: "Action",
+                },
+            ],
+            columnDefs: [
+                {
+                    targets: 0,
+                    width: "15%",
+                },
+                {
+                    targets: 1,
+                    width: "40%",
+                },
+                {
+                    targets: 2,
+                    width: "20%",
+                },
+                {
+                    targets: 3,
+                    width: "10%",
+                    render: function (data, type, row) {
+                        return `<button class="btn btn-primary">Open</button>`;
+                    },
+                },
+            ],
+        });
 
-         //Handled Project Offcanvas Button Events
-         $("#nav-GeneratedSheets-tab").on("shown.bs.tab", () => {
-             $('.GeneratedSheetsTabMenu').removeClass("d-none");
-             $(".AttachlinkTabMenu").addClass("d-none");
-         });
-         $("#nav-GeneratedSheets-tab").on("hidden.bs.tab", () => {
-             $(".GeneratedSheetsTabMenu").addClass("d-none");
-             $(".AttachlinkTabMenu").removeClass("d-none");
-         });
+        //Handled Project Offcanvas Button Events
+        $("#nav-GeneratedSheets-tab").on("shown.bs.tab", () => {
+            $(".GeneratedSheetsTabMenu").removeClass("d-none");
+            $(".AttachlinkTabMenu").addClass("d-none");
+        });
+        $("#nav-GeneratedSheets-tab").on("hidden.bs.tab", () => {
+            $(".GeneratedSheetsTabMenu").addClass("d-none");
+            $(".AttachlinkTabMenu").removeClass("d-none");
+        });
 
-         $("#nav-link-tab").on("shown.bs.tab", () =>
-             $(".GeneratedSheetsTabMenu").addClass("d-none")
-         );
-         $("#nav-link-tab").on("hidden.bs.tab", () =>
-             $(".GeneratedSheetsTabMenu").removeClass("d-none")
-         );
-         $("#nav-details-tab").on("shown.bs.tab", () => {
-             $(".AttachlinkTabMenu").addClass("d-none")
-             $(".GeneratedSheetsTabMenu").addClass("d-none");
-         });
-         $("#nav-details-tab").on("hidden.bs.tab", () => {
-             $(".AttachlinkTabMenu").removeClass("d-none")
-             $(".GeneratedSheetsTabMenu").removeClass("d-none")
-         });
+        $("#nav-link-tab").on("shown.bs.tab", () =>
+            $(".GeneratedSheetsTabMenu").addClass("d-none")
+        );
+        $("#nav-link-tab").on("hidden.bs.tab", () =>
+            $(".GeneratedSheetsTabMenu").removeClass("d-none")
+        );
+        $("#nav-details-tab").on("shown.bs.tab", () => {
+            $(".AttachlinkTabMenu").addClass("d-none");
+            $(".GeneratedSheetsTabMenu").addClass("d-none");
+        });
+        $("#nav-details-tab").on("hidden.bs.tab", () => {
+            $(".AttachlinkTabMenu").removeClass("d-none");
+            $(".GeneratedSheetsTabMenu").removeClass("d-none");
+        });
 
-         fetchHandleProject();
+        fetchHandleProject();
 
-         function fetchHandleProject() {
-             fetch(DashboardTabRoute.getHandledProjects, {
-                 method: "GET",
-                 headers: {
-                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                         "content"
-                     ),
-                 },
-             })
-                 .then((response) => response.json())
-                 .then((data) => {
-                     const handledProjectTable =
-                         $("#handledProject").DataTable();
-                     handledProjectTable.clear();
-                     handledProjectTable.rows.add(
-                         data.map((project) => [
-                             project.Project_id,
-                             project.project_title,
-                             `<p class="firm_name">${project.firm_name}</p>
+        function fetchHandleProject() {
+            fetch(DashboardTabRoute.getHandledProjects, {
+                method: "GET",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            })
+                .then((response) => response.json())
+                .then((data) => {
+                    const handledProjectTable =
+                        $("#handledProject").DataTable();
+                    handledProjectTable.clear();
+                    handledProjectTable.rows.add(
+                        data.map((project) => [
+                            project.Project_id,
+                            project.project_title,
+                            `<p class="firm_name">${project.firm_name}</p>
                     <input type="hidden" class="business_id" value="${
                         project.business_id
                     }">
@@ -519,15 +517,15 @@ $(document).on('DOMContentLoaded', function() {
                     <input type="hidden" class="working_capital" value="${parseFloat(
                         project.working_capital
                     ).toLocaleString("en-US", { minimumFractionDigits: 2 })}">`,
-                             `<p class="owner_name">${
-                                 project.prefix +
-                                 " " +
-                                 project.f_name +
-                                 " " +
-                                 project.l_name +
-                                 " " +
-                                 project.suffix
-                             }</p>
+                            `<p class="owner_name">${
+                                project.prefix +
+                                " " +
+                                project.f_name +
+                                " " +
+                                project.l_name +
+                                " " +
+                                project.suffix
+                            }</p>
                     <input type="hidden" class="gender" value="${
                         project.gender
                     }">
@@ -543,285 +541,278 @@ $(document).on('DOMContentLoaded', function() {
                     <input type="hidden" class="email" value="${
                         project.email
                     }">`,
-                             `${parseFloat(project.fund_amount).toLocaleString(
-                                 "en-US",
-                                 { minimumFractionDigits: 2 }
-                             )}`,
-                             `<span class="badge ${
-                                 project.application_status === "approved"
-                                     ? "bg-warning"
-                                     : project.application_status === "ongoing"
-                                     ? "bg-primary"
-                                     : project.application_status ===
-                                       "completed"
-                                     ? "bg-sucesss"
-                                     : "bg-danger"
-                             }">${project.application_status}</span>`,
-                             `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
+                            `${parseFloat(project.fund_amount).toLocaleString(
+                                "en-US",
+                                { minimumFractionDigits: 2 }
+                            )}`,
+                            `<span class="badge ${
+                                project.application_status === "approved"
+                                    ? "bg-warning"
+                                    : project.application_status === "ongoing"
+                                    ? "bg-primary"
+                                    : project.application_status === "completed"
+                                    ? "bg-sucesss"
+                                    : "bg-danger"
+                            }">${project.application_status}</span>`,
+                            `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
                         data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
                         <i class="ri-menu-unfold-4-line ri-1x"></i>
                     </button>`,
-                         ])
-                     );
-                     handledProjectTable.draw();
-                 });
-         }
+                        ])
+                    );
+                    handledProjectTable.draw();
+                });
+        }
 
-         //Determine The Content to be displayed on offcanvas based on the project status
-         function handleProjectOffcanvasContent(project_status) {
-             const handleProjectOffcanvas = $("#handleProjectOff");
-             const content = {
-                 approved: () => {
-                     handleProjectOffcanvas
-                         .find(".approvedProjectContent")
-                         .removeClass("d-none");
-                     handleProjectOffcanvas
-                         .find(".ongoingProjectContent")
-                         .addClass("d-none");
-                 },
-                 ongoing: () => {
-                     handleProjectOffcanvas
-                         .find(".ongoingProjectContent")
-                         .removeClass("d-none");
-                     handleProjectOffcanvas
-                         .find(".approvedProjectContent")
-                         .addClass("d-none");
-                     handleProjectOffcanvas
-                         .find("#paymentHistoryContainer")
-                         .html(paymentHistoryTable());
+        //Determine The Content to be displayed on offcanvas based on the project status
+        function handleProjectOffcanvasContent(project_status) {
+            const handleProjectOffcanvas = $("#handleProjectOff");
+            const content = {
+                approved: () => {
+                    handleProjectOffcanvas
+                        .find(".approvedProjectContent")
+                        .removeClass("d-none");
+                    handleProjectOffcanvas
+                        .find(".ongoingProjectContent")
+                        .addClass("d-none");
+                },
+                ongoing: () => {
+                    handleProjectOffcanvas
+                        .find(".ongoingProjectContent")
+                        .removeClass("d-none");
+                    handleProjectOffcanvas
+                        .find(".approvedProjectContent")
+                        .addClass("d-none");
+                    handleProjectOffcanvas
+                        .find("#paymentHistoryContainer")
+                        .html(paymentHistoryTable());
 
-                     $("#paymentHistoryTable").DataTable({
-                         responsive: true,
-                         columns: [
-                             {
-                                 title: "Transaction #",
-                             },
-                             {
-                                 title: "Amount",
-                             },
-                             {
-                                 title: "Payment Method",
-                             },
-                             {
-                                 title: "Status",
-                             },
-                             {
-                                 title: "Date Created",
-                             },
-                         ],
-                     });
-                 },
-                 completed: () => {},
-             };
+                    $("#paymentHistoryTable").DataTable({
+                        responsive: true,
+                        columns: [
+                            {
+                                title: "Transaction #",
+                            },
+                            {
+                                title: "Amount",
+                            },
+                            {
+                                title: "Payment Method",
+                            },
+                            {
+                                title: "Status",
+                            },
+                            {
+                                title: "Date Created",
+                            },
+                        ],
+                    });
+                },
+                completed: () => {},
+            };
 
-             content[project_status]();
-         }
+            content[project_status]();
+        }
 
-         //Generate payment history datatable
-         function paymentHistoryTable() {
-             const paymentHistoryTable = `
+        //Generate payment history datatable
+        function paymentHistoryTable() {
+            const paymentHistoryTable = `
                 <table class="table table-hover table-sm" id="paymentHistoryTable" syle="width:100%">
 
                 </table>
             `;
-             return paymentHistoryTable;
-         }
+            return paymentHistoryTable;
+        }
 
-         $("#submitPayment").on("click", function () {
-             let project_id = $("#ProjectID").val();
+        $("#submitPayment").on("click", function () {
+            let project_id = $("#ProjectID").val();
 
-             let formData =
-                 $("#paymentForm").serialize() + "&project_id=" + project_id;
-             $.ajax({
-                 type: "POST",
-                 url: DashboardTabRoute.storePaymentRecords,
-                 headers: {
-                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                         "content"
-                     ),
-                 },
-                 data: formData,
-                 success: function (response) {
-                     closeModal("#paymentModal");
-                     fetchPaymentHistory(project_id);
-                     setTimeout(() => {
-                         showToastFeedback("text-bg-success", response.message);
-                     }, 500);
-                 },
-                 error: function (error) {
-                     showToastFeedback(
-                         "text-bg-danger",
-                         error.responseJSON.message
-                     );
-                 },
-             });
-         });
+            let formData =
+                $("#paymentForm").serialize() + "&project_id=" + project_id;
+            $.ajax({
+                type: "POST",
+                url: DashboardTabRoute.storePaymentRecords,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: formData,
+                success: function (response) {
+                    closeModal("#paymentModal");
+                    fetchPaymentHistory(project_id);
+                    setTimeout(() => {
+                        showToastFeedback("text-bg-success", response.message);
+                    }, 500);
+                },
+                error: function (error) {
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
+                },
+            });
+        });
 
-         //get the payment history
+        //get the payment history
 
-         async function fetchPaymentHistory(projectId) {
-             try {
-                 const response = await $.ajax({
-                     type: "GET",
-                     url:
-                         DashboardTabRoute.getPaymentRecords +
-                         "?project_id=" +
-                         projectId,
-                 });
+        async function fetchPaymentHistory(projectId) {
+            try {
+                const response = await $.ajax({
+                    type: "GET",
+                    url:
+                        DashboardTabRoute.getPaymentRecords +
+                        "?project_id=" +
+                        projectId,
+                });
 
-                 const paymentHistoryTable = $(
-                     "#paymentHistoryTable"
-                 ).DataTable();
-                 paymentHistoryTable.clear();
-                 paymentHistoryTable.rows.add(
-                     response.map((payment) => [
-                         payment.transaction_id,
-                         parseFloat(payment.amount).toLocaleString("en-US", {
-                             minimumFractionDigits: 2,
-                         }),
-                         payment.payment_method,
-                         payment.payment_status,
-                         payment.created_at,
-                     ])
-                 );
-                 paymentHistoryTable.draw();
+                const paymentHistoryTable = $(
+                    "#paymentHistoryTable"
+                ).DataTable();
+                paymentHistoryTable.clear();
+                paymentHistoryTable.rows.add(
+                    response.map((payment) => [
+                        payment.transaction_id,
+                        parseFloat(payment.amount).toLocaleString("en-US", {
+                            minimumFractionDigits: 2,
+                        }),
+                        payment.payment_method,
+                        payment.payment_status,
+                        payment.created_at,
+                    ])
+                );
+                paymentHistoryTable.draw();
 
-                 let totalAmount = 0;
-                 response.forEach((payment) => {
-                     totalAmount += parseFloat(payment.amount);
-                 });
-                 return totalAmount;
-             } catch (error) {
-                 showToastFeedback(
-                     "text-bg-danger",
-                     error.responseJSON.message
-                 );
-                 throw error;
-             }
-         }
+                let totalAmount = 0;
+                response.forEach((payment) => {
+                    totalAmount += parseFloat(payment.amount);
+                });
+                return totalAmount;
+            } catch (error) {
+                showToastFeedback("text-bg-danger", error.responseJSON.message);
+                throw error;
+            }
+        }
 
-         //TODO: Implove the this event listener for the Offcanvas handled project
-         $("#handledProjectTableBody").on(
-             "click",
-             ".handleProjectbtn",
-             function () {
-                 const handledProjectRow = $(this).closest("tr");
-                 const hiddenInputs = handledProjectRow.find(
-                     'input[type="hidden"]'
-                 );
+        //TODO: Implove the this event listener for the Offcanvas handled project
+        $("#handledProjectTableBody").on(
+            "click",
+            ".handleProjectbtn",
+            function () {
+                const handledProjectRow = $(this).closest("tr");
+                const hiddenInputs = handledProjectRow.find(
+                    'input[type="hidden"]'
+                );
 
-                 // Cache values from the row
-                 const project_status = handledProjectRow
-                     .find("td:eq(5)")
-                     .text()
-                     .trim();
-                 const project_id = handledProjectRow
-                     .find("td:eq(0)")
-                     .text()
-                     .trim();
-                 const projectTitle = handledProjectRow
-                     .find("td:eq(1)")
-                     .text()
-                     .trim();
-                 const amount = handledProjectRow
-                     .find("td:eq(4)")
-                     .text()
-                     .trim();
-                 const firmName = handledProjectRow
-                     .find("td:eq(2) p.firm_name")
-                     .text()
-                     .trim();
-                 const cooperatorName = handledProjectRow
-                     .find("td:eq(3) p.owner_name")
-                     .text()
-                     .trim();
+                // Cache values from the row
+                const project_status = handledProjectRow
+                    .find("td:eq(5)")
+                    .text()
+                    .trim();
+                const project_id = handledProjectRow
+                    .find("td:eq(0)")
+                    .text()
+                    .trim();
+                const projectTitle = handledProjectRow
+                    .find("td:eq(1)")
+                    .text()
+                    .trim();
+                const amount = handledProjectRow.find("td:eq(4)").text().trim();
+                const firmName = handledProjectRow
+                    .find("td:eq(2) p.firm_name")
+                    .text()
+                    .trim();
+                const cooperatorName = handledProjectRow
+                    .find("td:eq(3) p.owner_name")
+                    .text()
+                    .trim();
 
-                 handleProjectOffcanvasContent(project_status);
-                 fetchPaymentHistory(project_id)
-                     .then((totalAmount) => {
-                         const fundedAmount = parseFloat(
-                             amount.replace(/,/g, "")
-                         );
-                         const remainingAmount = fundedAmount - totalAmount;
-                         const percentage = Math.round(
-                             (totalAmount / fundedAmount) * 100
-                         );
-                         $("#totalPaid").text(
-                             totalAmount.toLocaleString("en-US", {
-                                 minimumFractionDigits: 2,
-                             })
-                         );
-                         $("#FundedAmount").text(
-                             fundedAmount.toLocaleString("en-US", {
-                                 minimumFractionDigits: 2,
-                             })
-                         );
+                handleProjectOffcanvasContent(project_status);
+                fetchPaymentHistory(project_id)
+                    .then((totalAmount) => {
+                        const fundedAmount = parseFloat(
+                            amount.replace(/,/g, "")
+                        );
+                        const remainingAmount = fundedAmount - totalAmount;
+                        const percentage = Math.round(
+                            (totalAmount / fundedAmount) * 100
+                        );
+                        $("#totalPaid").text(
+                            totalAmount.toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                            })
+                        );
+                        $("#FundedAmount").text(
+                            fundedAmount.toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                            })
+                        );
 
-                         setTimeout(() => {
-                             InitializeviewCooperatorProgress(percentage);
-                         }, 500);
-                     })
-                     .catch((error) => {
-                         console.log(error);
-                     });
-                 fetchProjectLinks(project_id);
+                        setTimeout(() => {
+                            InitializeviewCooperatorProgress(percentage);
+                        }, 500);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+                fetchProjectLinks(project_id);
 
-                 // Cache hidden input values
-                 const business_id = hiddenInputs.filter(".business_id").val();
-                 const birthDate = new Date(
-                     hiddenInputs.filter(".birth_date").val()
-                 );
-                 const dateApplied = hiddenInputs.filter(".dateApplied").val();
-                 const gender = hiddenInputs.filter(".gender").val();
-                 const landline = hiddenInputs.filter(".landline").val();
-                 const mobilePhone = hiddenInputs.filter(".mobile_phone").val();
-                 const email = hiddenInputs.filter(".email").val();
-                 const enterpriseType = hiddenInputs
-                     .filter(".business_enterprise_type")
-                     .val();
-                 const enterpriseLevel = hiddenInputs
-                     .filter(".business_enterprise_level")
-                     .val();
-                 const buildingAsset = hiddenInputs
-                     .filter(".building_value")
-                     .val();
-                 const equipmentAsset = hiddenInputs
-                     .filter(".equipment_value")
-                     .val();
-                 const workingCapitalAsset = hiddenInputs
-                     .filter(".working_capital")
-                     .val();
+                // Cache hidden input values
+                const business_id = hiddenInputs.filter(".business_id").val();
+                const birthDate = new Date(
+                    hiddenInputs.filter(".birth_date").val()
+                );
+                const dateApplied = hiddenInputs.filter(".dateApplied").val();
+                const gender = hiddenInputs.filter(".gender").val();
+                const landline = hiddenInputs.filter(".landline").val();
+                const mobilePhone = hiddenInputs.filter(".mobile_phone").val();
+                const email = hiddenInputs.filter(".email").val();
+                const enterpriseType = hiddenInputs
+                    .filter(".business_enterprise_type")
+                    .val();
+                const enterpriseLevel = hiddenInputs
+                    .filter(".business_enterprise_level")
+                    .val();
+                const buildingAsset = hiddenInputs
+                    .filter(".building_value")
+                    .val();
+                const equipmentAsset = hiddenInputs
+                    .filter(".equipment_value")
+                    .val();
+                const workingCapitalAsset = hiddenInputs
+                    .filter(".working_capital")
+                    .val();
 
-                 // Calculate age
-                 const age = Math.floor(
-                     (new Date() - birthDate) / (365.25 * 24 * 60 * 60 * 1000)
-                 );
+                // Calculate age
+                const age = Math.floor(
+                    (new Date() - birthDate) / (365.25 * 24 * 60 * 60 * 1000)
+                );
 
-                 // Update form fields
-                 $("#hiddenbusiness_id").val(business_id);
-                 $("#age").val(age);
-                 $("#ProjectID").val(project_id);
-                 $("#ProjectTitle").val(projectTitle);
-                 $("#amount").val(amount);
-                 $("#appliedDate").val(dateApplied);
-                 $("#FirmName").val(firmName);
-                 $("#CooperatorName").val(cooperatorName);
-                 $("#Gender").val(gender);
-                 $("#landline").val(landline);
-                 $("#mobilePhone").val(mobilePhone);
-                 $("#email").val(email);
-                 $("#enterpriseType").val(enterpriseType);
-                 $("#EnterpriseLevel").val(enterpriseLevel);
-                 $("#buildingAsset").val(buildingAsset);
-                 $("#equipmentAsset").val(equipmentAsset);
-                 $("#workingCapitalAsset").val(workingCapitalAsset);
-             }
-         );
+                // Update form fields
+                $("#hiddenbusiness_id").val(business_id);
+                $("#age").val(age);
+                $("#ProjectID").val(project_id);
+                $("#ProjectTitle").val(projectTitle);
+                $("#amount").val(amount);
+                $("#appliedDate").val(dateApplied);
+                $("#FirmName").val(firmName);
+                $("#CooperatorName").val(cooperatorName);
+                $("#Gender").val(gender);
+                $("#landline").val(landline);
+                $("#mobilePhone").val(mobilePhone);
+                $("#email").val(email);
+                $("#enterpriseType").val(enterpriseType);
+                $("#EnterpriseLevel").val(enterpriseLevel);
+                $("#buildingAsset").val(buildingAsset);
+                $("#equipmentAsset").val(equipmentAsset);
+                $("#workingCapitalAsset").val(workingCapitalAsset);
+            }
+        );
 
-         $("#addRequirement").on("click", function () {
-             let RequirementLinkContent = $("#linkContainer");
+        $("#addRequirement").on("click", function () {
+            let RequirementLinkContent = $("#linkContainer");
 
-             RequirementLinkContent.append(`
+            RequirementLinkContent.append(`
                 <div class="col-12 linkConstInstance">
                             <div class="row">
                                 <div class="col-11">
@@ -841,248 +832,280 @@ $(document).on('DOMContentLoaded', function() {
                             </div>
                     </div>
                 `);
-         });
+        });
 
-         $("#linkContainer").on("click", ".removeRequirement", function () {
-             $(this).closest(".linkConstInstance").remove();
-         });
+        $("#linkContainer").on("click", ".removeRequirement", function () {
+            $(this).closest(".linkConstInstance").remove();
+        });
 
-         //link validation
-         $("#linkContainer").on(
-             "blur",
-             'input[name="requirements_link"]',
-             function () {
-                 const linkConstInstance =
-                     $(this).closest(".linkConstInstance");
-                 const inputField = $(this);
-                 const inputtedLink = $(this).val();
-                 const proxyUrl = `/proxy?url=${encodeURIComponent(
-                     inputtedLink
-                 )}`;
+        //link validation
+        $("#linkContainer").on(
+            "blur",
+            'input[name="requirements_link"]',
+            function () {
+                const linkConstInstance = $(this).closest(".linkConstInstance");
+                const inputField = $(this);
+                const inputtedLink = $(this).val();
+                const proxyUrl = `/proxy?url=${encodeURIComponent(
+                    inputtedLink
+                )}`;
 
-                 if (inputtedLink) {
-                     const spinner = `<div class="spinner-border spinner-border-sm text-primary ms-3" role="status" style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;">
+                if (inputtedLink) {
+                    const spinner = `<div class="spinner-border spinner-border-sm text-primary ms-3" role="status" style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;">
                         <span class="visually-hidden"></span>
                     </div>`;
 
-                     inputField.after(spinner);
-                     fetch(proxyUrl)
-                         .then((response) => response.json())
-                         .then((data) => {
-                             if (data.status === 200) {
-                                 console.log("Link is valid:", data.status);
-                                 linkConstInstance
-                                     .find('input[name="requirements_link"]')
-                                     .addClass("is-valid")
-                                     .removeClass("is-invalid");
-                             } else {
-                                 console.log("Link is invalid:", data.status);
-                                 linkConstInstance
-                                     .find('input[name="requirements_link"]')
-                                     .addClass("is-invalid")
-                                     .removeClass("is-valid");
-                             }
-                         })
-                         .catch((error) => {
-                             console.error("Error fetching the link:", error);
-                             linkConstInstance
-                                 .find('input[name="requirements_link"]')
-                                 .addClass("is-invalid")
-                                 .removeClass("is-valid");
-                         })
-                         .finally(() => {
-                             linkConstInstance.find(".spinner-border").remove();
-                         });
-                 } else {
-                     linkConstInstance
-                         .find('input[name="requirements_link"]')
-                         .removeClass(["is-valid", "is-invalid"]);
-                 }
-             }
-         );
+                    inputField.after(spinner);
+                    fetch(proxyUrl)
+                        .then((response) => response.json())
+                        .then((data) => {
+                            if (data.status === 200) {
+                                console.log("Link is valid:", data.status);
+                                linkConstInstance
+                                    .find('input[name="requirements_link"]')
+                                    .addClass("is-valid")
+                                    .removeClass("is-invalid");
+                            } else {
+                                console.log("Link is invalid:", data.status);
+                                linkConstInstance
+                                    .find('input[name="requirements_link"]')
+                                    .addClass("is-invalid")
+                                    .removeClass("is-valid");
+                            }
+                        })
+                        .catch((error) => {
+                            console.error("Error fetching the link:", error);
+                            linkConstInstance
+                                .find('input[name="requirements_link"]')
+                                .addClass("is-invalid")
+                                .removeClass("is-valid");
+                        })
+                        .finally(() => {
+                            linkConstInstance.find(".spinner-border").remove();
+                        });
+                } else {
+                    linkConstInstance
+                        .find('input[name="requirements_link"]')
+                        .removeClass(["is-valid", "is-invalid"]);
+                }
+            }
+        );
 
-         //Save the inputted links to the database
-         $(".SaveLinkProjectBtn").on("click", function () {
-             let requirementLinks = {};
-             $(".linkConstInstance").each(function () {
-                 let name = $(this)
-                     .find('input[name="requirements_name"]')
-                     .val();
-                 let link = $(this)
-                     .find('input[name="requirements_link"]')
-                     .val();
-                 requirementLinks[name] = link;
-             });
+        //Save the inputted links to the database
+        $(".SaveLinkProjectBtn").on("click", function () {
+            let requirementLinks = {};
+            $(".linkConstInstance").each(function () {
+                let name = $(this)
+                    .find('input[name="requirements_name"]')
+                    .val();
+                let link = $(this)
+                    .find('input[name="requirements_link"]')
+                    .val();
+                requirementLinks[name] = link;
+            });
 
-             $.ajax({
-                 type: "POST",
-                 url: DashboardTabRoute.storeProjectLinks,
-                 headers: {
-                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                         "content"
-                     ),
-                 },
-                 data: {
-                     project_id: $("#ProjectID").val(),
-                     linklist: requirementLinks,
-                 },
-                 success: function (response) {
-                     showToastFeedback(
-                         "text-bg-success",
-                         "Links added successfully"
-                     );
-                 },
-                 error: function (error) {
-                     showToastFeedback(
-                         "text-bg-danger",
-                         error.responseJSON.message
-                     );
-                 },
-             });
+            $.ajax({
+                type: "POST",
+                url: DashboardTabRoute.storeProjectLinks,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: {
+                    project_id: $("#ProjectID").val(),
+                    linklist: requirementLinks,
+                },
+                success: function (response) {
+                    showToastFeedback(
+                        "text-bg-success",
+                        "Links added successfully"
+                    );
+                },
+                error: function (error) {
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
+                },
+            });
+        });
+
+        function fetchProjectLinks(Project_id) {
+            $.ajax({
+                type: "GET",
+                url:
+                    DashboardTabRoute.getProjectLinks +
+                    "?project_id=" +
+                    Project_id,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                success: function (response) {
+                    const linkDataTable = $("#linkTable").DataTable();
+                    linkDataTable.clear();
+                    linkDataTable.rows.add(
+                        response.map((link) => [
+                            link.file_name,
+                            link.file_link,
+                            link.created_at,
+                        ])
+                    );
+                    linkDataTable.draw();
+                },
+                error: function (error) {
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
+                },
+            });
+        }
+
+        //Mark Approved Project to Ongoing
+        $("#MarkhandleProjectBtn").on("click", function () {
+            $.ajax({
+                type: "PUT",
+                url: DashboardTabRoute.setProjectToOngoing,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: {
+                    project_id: $("#ProjectID").val(),
+                    business_id: $("#hiddenbusiness_id").val(),
+                },
+                success: function (response) {
+                    closeOffcanvasInstances("#handleProjectOff");
+                    setTimeout(() => {
+                        showToastFeedback(
+                            "text-bg-success",
+                            "Project is now move to ongoing"
+                        );
+                    }, 500);
+                },
+                error: function (error) {
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
+                },
+            });
+        });
+
+        //Cooperator Payment Progress
+        let paymentProgress;
+
+        function InitializeviewCooperatorProgress(percentage) {
+            const options = {
+                series: [percentage],
+                chart: {
+                    type: "radialBar",
+                    width: "100%",
+                    height: "200px",
+                    sparkline: {
+                        enabled: true,
+                    },
+                },
+                colors: ["#00D8B6"],
+                plotOptions: {
+                    radialBar: {
+                        startAngle: -90,
+                        endAngle: 90,
+                        track: {
+                            background: "#e7e7e7",
+                            strokeWidth: "97%",
+                            margin: 5, // margin is in pixels
+                            dropShadow: {
+                                enabled: true,
+                                top: 2,
+                                left: 0,
+                                color: "#999",
+                                opacity: 1,
+                                blur: 2,
+                            },
+                        },
+                        dataLabels: {
+                            name: {
+                                show: false,
+                            },
+                            value: {
+                                offsetY: -2,
+                                fontSize: "22px",
+                            },
+                        },
+                    },
+                },
+                grid: {
+                    padding: {
+                        top: -10,
+                    },
+                },
+                fill: {
+                    type: "gradient",
+                    gradient: {
+                        shade: "light",
+                        shadeIntensity: 0.4,
+                        inverseColors: false,
+                        opacityFrom: 1,
+                        opacityTo: 1,
+                        stops: [0, 50, 53, 91],
+                    },
+                },
+                labels: ["Average Results"],
+            };
+
+            if (paymentProgress) {
+                console.log(paymentProgress);
+                paymentProgress.destroy();
+            }
+
+            paymentProgress = new ApexCharts(
+                document.querySelector("#progressPercentage"),
+                options
+            );
+            paymentProgress.render();
+        }
+
+        //TODO: Implement spinner for the ajax request 
+        //Get Form for Project Information Sheets and Project Data Sheets
+        $('button[data-form-type]').on('click', function (){
+            const formType = $(this).data('form-type');
+            $.ajax({
+                type: "GET",
+                url: GenerateSheetsRoute.getProjectSheetForm + "?form_type=" + formType + "&project_id=" + $("#ProjectID").val(),
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                success: function (response) {
+                    toggleDocumentSelector();
+                    $("#SheetFormDocumentContainer").append(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+            });
+        });
+
+        //TODO: Make this reusable and efficient
+        //Breadcrumb for Project Information Sheets and Project Data Sheets
+         $("#SheetFormDocumentContainer").on("click", '.breadcrumb-item:not(.active)', function () {
+             $("#PISFormContainer").remove();
+             toggleDocumentSelector();
          });
 
-         function fetchProjectLinks(Project_id) {
-             $.ajax({
-                 type: "GET",
-                 url:
-                     DashboardTabRoute.getProjectLinks +
-                     "?project_id=" +
-                     Project_id,
-                 headers: {
-                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                         "content"
-                     ),
-                 },
-                 success: function (response) {
-                     const linkDataTable = $("#linkTable").DataTable();
-                     linkDataTable.clear();
-                     linkDataTable.rows.add(
-                         response.map((link) => [
-                             link.file_name,
-                             link.file_link,
-                             link.created_at,
-                         ])
-                     );
-                     linkDataTable.draw();
-                 },
-                 error: function (error) {
-                     showToastFeedback(
-                         "text-bg-danger",
-                         error.responseJSON.message
-                     );
-                 },
-             });
-         }
+        //toggle the display of the document to generate selector
+       const toggleDocumentSelector = () => $('#selectDOC_toGenerate').toggleClass("d-none");
 
-         //Mark Approved Project to Ongoing
-         $("#MarkhandleProjectBtn").on("click", function () {
-             $.ajax({
-                 type: "PUT",
-                 url: DashboardTabRoute.setProjectToOngoing,
-                 headers: {
-                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                         "content"
-                     ),
-                 },
-                 data: {
-                     project_id: $("#ProjectID").val(),
-                     business_id: $("#hiddenbusiness_id").val(),
-                 },
-                 success: function (response) {
-                     closeOffcanvasInstances("#handleProjectOff");
-                     setTimeout(() => {
-                         showToastFeedback(
-                             "text-bg-success",
-                             "Project is now move to ongoing"
-                         );
-                     }, 500);
-                 },
-                 error: function (error) {
-                     showToastFeedback(
-                         "text-bg-danger",
-                         error.responseJSON.message
-                     );
-                 },
-             });
-         });
 
-         //Cooperator Payment Progress
-         let paymentProgress;
+        //Generate Project Information Sheets
 
-         function InitializeviewCooperatorProgress(percentage) {
-             const options = {
-                 series: [percentage],
-                 chart: {
-                     type: "radialBar",
-                     width: "100%",
-                     height: "200px",
-                     sparkline: {
-                         enabled: true,
-                     },
-                 },
-                 colors: ["#00D8B6"],
-                 plotOptions: {
-                     radialBar: {
-                         startAngle: -90,
-                         endAngle: 90,
-                         track: {
-                             background: "#e7e7e7",
-                             strokeWidth: "97%",
-                             margin: 5, // margin is in pixels
-                             dropShadow: {
-                                 enabled: true,
-                                 top: 2,
-                                 left: 0,
-                                 color: "#999",
-                                 opacity: 1,
-                                 blur: 2,
-                             },
-                         },
-                         dataLabels: {
-                             name: {
-                                 show: false,
-                             },
-                             value: {
-                                 offsetY: -2,
-                                 fontSize: "22px",
-                             },
-                         },
-                     },
-                 },
-                 grid: {
-                     padding: {
-                         top: -10,
-                     },
-                 },
-                 fill: {
-                     type: "gradient",
-                     gradient: {
-                         shade: "light",
-                         shadeIntensity: 0.4,
-                         inverseColors: false,
-                         opacityFrom: 1,
-                         opacityTo: 1,
-                         stops: [0, 50, 53, 91],
-                     },
-                 },
-                 labels: ["Average Results"],
-             };
-
-             if (paymentProgress) {
-                 console.log(paymentProgress);
-                 paymentProgress.destroy();
-             }
-
-             paymentProgress = new ApexCharts(
-                 document.querySelector("#progressPercentage"),
-                 options
-             );
-             paymentProgress.render();
-         }
-
-         //Generate Project Information Sheets
-
-         $('.GeneratePIS').on('click', async () => {
+        $(".GeneratePIS").on("click", async () => {
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -1090,24 +1113,27 @@ $(document).on('DOMContentLoaded', function() {
                     ),
                 },
             });
-            try{
+            try {
                 let project_id = $("#ProjectID").val();
                 let business_id = $("#hiddenbusiness_id").val();
                 let form = $("#PIS_checklistsForm");
-                const data = { ...form.serializeArray(), project_id, business_id };
+                const data = {
+                    ...form.serializeArray(),
+                    project_id,
+                    business_id,
+                };
                 const response = await $.post(
                     GenerateSheetsRoute.generateProjectInformationSheet,
                     data,
-                    null,
+                    null
                 );
 
                 // $("#PIS_Modal_container").html(response);
                 // ProjectInformationSheetModel.show();
-            } catch(error){
+            } catch (error) {
                 console.log(error);
             }
-         });
-
+        });
     }
 
 

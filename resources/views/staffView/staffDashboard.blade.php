@@ -613,6 +613,7 @@
           }
 
           const GenerateSheetsRoute = {
+              getProjectSheetForm: '{{ route('getProjectSheetsForm') }}',
               generateProjectInformationSheet: '{{ route('staff.Create-InformationSheet') }}',
               generateQuarterlyReport: ''
           }

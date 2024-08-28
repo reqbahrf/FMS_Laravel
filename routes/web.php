@@ -92,6 +92,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     })->name('staff.Create-Project');
 
     Route::get('/Staff/Project/Create-DataSheet', [StaffViewController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
+    Route::get('/Staff/Project/getForm/{type?}/{projectId?}', [StaffViewController::class, 'getProjectSheetsForm'])->name('getProjectSheetsForm');
     Route::post('/Staff/Project/Create-InformationSheet', [StaffGeneratePISController::class, 'index'])->name('staff.Create-InformationSheet');
     Route::get('/Staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
     Route::get('/Staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');

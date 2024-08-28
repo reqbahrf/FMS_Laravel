@@ -363,4 +363,11 @@ class StaffViewController extends Controller
             Log::error($e->getMessage());
         }
     }
+
+    //TODO: Implement Validation and query for Cooperator Information
+    public function getProjectSheetsForm(Request $request)
+    {
+        return view('staffView.SheetFormTemplete.PISFormTemplete');
+
+    }
 }
