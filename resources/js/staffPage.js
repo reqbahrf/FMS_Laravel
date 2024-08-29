@@ -1094,8 +1094,8 @@ $(document).on('DOMContentLoaded', function() {
 
         //TODO: Make this reusable and efficient
         //Breadcrumb for Project Information Sheets and Project Data Sheets
-         $("#SheetFormDocumentContainer").on("click", '.breadcrumb-item:not(.active)', function () {
-             $("#PISFormContainer").remove();
+         $("#SheetFormDocumentContainer").on("click", '.breadcrumb-item:not(.active) a', function () {
+             $("#PISFormContainer , #PDSFormContainer").remove();
              toggleDocumentSelector();
          });
 

@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\GeneratePISRequest;
-use App\Models\projectInfo;
-use Illuminate\Http\Request;
 use Mpdf\Mpdf;
 
 class StaffGeneratePISController extends Controller

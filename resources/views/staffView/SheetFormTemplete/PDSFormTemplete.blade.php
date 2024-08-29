@@ -10,7 +10,7 @@
         <div class="col-12">
             <div class="card p-0">
                 <div class="card-body">
-                    <div class="row">
+                    <div class="row gy-2">
                         <div class="col-12">
                             <label for="projectTitle" class="form-label">Project Title</label>
                             <input type="text" class="bottom_border ms-2" name="projectTitle" id="projectTitle">
@@ -28,11 +28,11 @@
                             <input type="text" class="bottom_border ms-2" name="ContantPerson" id="ContantPerson">
                         </div>
                         <div class="col-12 col-md-6">
-                            <label for="Designation">Designation</label>
+                            <label for="Designation" class="form-label">Designation</label>
                             <input type="text" class="bottom_border ms-2" name="Designation" id="Designation">
                         </div>
-                        <div class="col-12 col-md-3">
-                            <Span>Contact Details:</Span>
+                        <div class="col-12 my-2">
+                            <Span class="fw-semibold">Contact Details:</Span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="landline">landline</label>
@@ -46,6 +46,25 @@
                             <label for="email">Email</label>
                             <input type="text" class="bottom_border ms-2" name="email" id="email">
                         </div>
+                        <div class="col-12 my-2">
+                            <span class="fw-semibold">Period Covered(Please tick)</span>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="FirstQuarter">1st Quarter</label>
+                            <input type="checkbox" class=" ms-2" name="FirstQuarter" id="FirstQuarter">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="SecondQuarter">2nd Quarter</label>
+                            <input type="checkbox" class=" ms-2" name="SecondQuarter" id="SecondQuarter">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="ThirdQuarter">3rd Quarter</label>
+                            <input type="checkbox" class=" ms-2" name="ThirdQuarter" id="ThirdQuarter">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="FourthQuarter">4th Quarter</label>
+                            <input type="checkbox" class=" ms-2" name="FourthQuarter" id="FourthQuarter">
+                        </div>
                     </div>
                 </div>
             </div>
@@ -57,21 +76,21 @@
                         <div class="col-12">
                             <h6>1.0 Assets</h6>
                         </div>
-                        <div class="col-12 col-4">
+                        <div class="col-12 col-md-4">
                             <label for="buildingAsset">1.1 Building</label>
                             <input type="text" class="bottom_border ms-2" name="buildingAsset" id="buildingAsset">
                         </div>
-                        <div class="col-12 col-4">
+                        <div class="col-12 col-md-4">
                             <label for="EquipmentAsset">1.2 Equipment</label>
                             <input type="text" class="bottom_border ms-2" name="EquipmentAsset" id="EquipmentAsset">
                         </div>
-                        <div class="col-12 col-4">
+                        <div class="col-12 col-md-4">
                             <label for="workingCapitalAsset">1.3 Working Capital</label>
                             <input type="text" class="bottom_border ms-2" name="workingCapitalAsset"
                                 id="workingCapitalAsset">
                         </div>
-                        <div class="col-12 col-md-3">
-                            <span>Classification of Enterprise</span>
+                        <div class="col-12 my-2">
+                            <span class="fw-semibold">Classification of Enterprise</span>
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="Micro">Micro(assets less than 3M)</label>
@@ -82,7 +101,7 @@
                             <input type="checkbox" class="form-check-input ms-2" name="Small" id="Small">
                         </div>
                         <div class="col-12 col-md-3">
-                            <label for="m=Medium">m=Medium(assets of 15M than 100M)</label>
+                            <label for="m=Medium">Medium(assets of 15M than 100M)</label>
                             <input type="checkbox" class="form-check-input ms-2" name="Large" id="m=Medium">
                         </div>
                     </div>
@@ -99,7 +118,7 @@
                         <div class="col-12">
                             <span>2.1 Direct Labor Force (Production)</span>
                         </div>
-                        <div class="col-12 col-md-2">
+                        <div class="col-12">
                             <span>2.1a regulate</span>
                         </div>
                         <div class="col-12 col-md-2">
@@ -124,18 +143,18 @@
                                 id="DireRegularTotalWorkday">
                         </div>
                         <div class="col-12 col-md-2">
+                            <label for="DireRegularTotalManMonth">
+                                Total Man-Month
+                            </label>
+                            <input type="text" class="bottom_border ms-2" name="DireRegularTotalManMonth"
+                            id="DireRegularTotalManMonth">
+                        </div>
+                        <div class="col-12 col-md-2">
                             <label for="RemarkDirectLabor">
                                 Remark
                             </label>
                             <input type="text" class="bottom_border ms-2" name="RemarkDirectLabor"
                                 id="RemarkDirectLabor">
-                        </div>
-                        <div class="col-12 col-md-2">
-                            <label for="DireRegularTotalManMonth">
-                                Total Man-Month
-                            </label>
-                            <input type="text" class="bottom_border ms-2" name="DireRegularTotalManMonth"
-                                id="DireRegularTotalManMonth">
                         </div>
                         <div class="col-12">
                             <span>2.1b Part-time</span>
@@ -171,12 +190,12 @@
                             <span>2.2a Regular</span>
                         </div>
                         <div class="col-12 col-md-2">
-                            <label for="IndirectMale">Male</label>
+                            <label for="IndiRegularMale">Male</label>
                             <input type="text" class="bottom_border ms-2" name="IndiRegularMale"
                                 id="IndiRegularMale">
                         </div>
                         <div class="col-12 col-md-2">
-                            <label for="IndirectFemale">Female</label>
+                            <label for="IndiRegularFemale">Female</label>
                             <input type="text" class="bottom_border ms-2" name="IndiRegularFemale"
                                 id="IndiRegularFemale">
                         </div>
@@ -205,8 +224,22 @@
                         </div>
                         <div class="col-12 col-md-2">
                             <label for="IndirectParttimeFemale">Female</label>
-                            <input type="text" class="bottom_border ms-2" name="IndiParttimeFemale"
-                                id="IndiParttimeFemale">
+                            <input type="text" class="bottom_border ms-2" name="IndiParttimeFemale" id="IndiParttimeFemale">
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label for="IndirectParttimeTotalWorkday">Total Workday</label>
+                            <input type="text" class="bottom_border ms-2" name="IndiParttimeTotalWorkday"
+                                id="IndiParttimeTotalWorkday">
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label for="IndiParttimeTotalManMonth">Total Man-Month</label>
+                            <input type="text" class="bottom_border ms-2" name="IndiParttimeTotalManMonth"
+                                id="IndiParttimeTotalManMonth">
+                        </div>
+                        <div class="col-12 col-md-2">
+                            <label for="IndiParttimeRemark">Remark</label>
+                            <input type="text" class="bottom_border ms-2" name="IndiParttimeRemark"
+                                id="IndiParttimeRemark">
                         </div>
                         <div class="col-12">
                             <span>Total Employment for this Quarter:</span>
