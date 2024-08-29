@@ -317,10 +317,6 @@
         </div>
     </div>
     <div class="ongoingProjectContent">
-        <div class="d-flex justify-content-end p-3 d-none GeneratedSheetsTabMenu">
-            <button class= "btn btn-primary mx-3 GeneratePIS">Generate PIS</button>
-            <button class="btn btn-primary GenerateQuarterlyReport">Generate Quarterly Report</button>
-        </div>
         <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
             <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
         </div>

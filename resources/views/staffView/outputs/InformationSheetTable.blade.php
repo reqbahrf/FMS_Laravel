@@ -186,11 +186,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="tg-8d8j" colspan="5">{{ $projectData->project_title }} &nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="5">{{ $PISdata['projectTitle'] }} &nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-j6zm" colspan="5">Name of Firm:{{ $projectData->firm_name }}</td>
+                        <td class="tg-j6zm" colspan="5">Name of Firm:{{ $PISdata['firmName'] }}</td>
                         <td class="tg-7zrl"></td>
                     </tr>
                     <tr>
@@ -199,9 +199,9 @@
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="3">Name: {{ $projectData->f_name . ' ' . $projectData->mid_name . ' ' . $projectData->l_name }}</td>
-                        <td class="tg-7zrl">Gender: {{ $projectData->gender }}</td>
-                        <td class="tg-7zrl">Age: {{ \Carbon\Carbon::parse($projectData->birth_date)->age  }}</td>
+                        <td class="tg-7zrl" colspan="3">Name: {{ $PISdata['name'] }}</td>
+                        <td class="tg-7zrl">Gender: {{ $PISdata['gender'] }}</td>
+                        <td class="tg-7zrl">Age: {{ $PISdata['age']  }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -209,7 +209,7 @@
                         <td class="tg-7zrl">  </td>
                     </tr>
                     <tr>
-                        <td class="tg-8d8j" colspan="5"> {{ $projectData->enterprise_type }}</td>
+                        <td class="tg-8d8j" colspan="5"> {{ $PISdata['typeOfOrganization'] }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -217,20 +217,20 @@
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-8d8j" colspan="4">{{ $projectData->landMark . ', ' . $projectData->barangay . ', ' . $projectData->city . ', ' . $projectData->province . ', ' . $projectData->region }}</td>
+                        <td class="tg-8d8j" colspan="4">{{ $PISdata['businessAddress'] }}</td>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td class="tg-j6zm">Contact&nbsp;&nbsp;&nbsp;Details: </td>
-                        <td class="tg-7zrl">Landline: {{ $projectData->landline }}</td>
+                        <td class="tg-7zrl">Landline: {{ $PISdata['landline'] }}</td>
                         <td class="tg-7zrl" colspan="3">Fax: </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="2">Mobile Phone: {{ $projectData->mobile_number }}</td>
+                        <td class="tg-7zrl" colspan="2">Mobile Phone: {{ $PISdata['mobile_phone'] }}</td>
                         <td class="tg-7zrl" colspan="3">Email Address:
-                            {{ $projectData->email }}
+                            {{ $PISdata['email'] }}
                         </td>
                         <td class="tg-7zrl"> </td>
                     </tr>

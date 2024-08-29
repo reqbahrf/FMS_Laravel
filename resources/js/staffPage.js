@@ -1070,7 +1070,7 @@ $(document).on('DOMContentLoaded', function() {
             paymentProgress.render();
         }
 
-        //TODO: Implement spinner for the ajax request 
+        //TODO: Implement spinner for the ajax request
         //Get Form for Project Information Sheets and Project Data Sheets
         $('button[data-form-type]').on('click', function (){
             const formType = $(this).data('form-type');
@@ -1103,9 +1103,9 @@ $(document).on('DOMContentLoaded', function() {
        const toggleDocumentSelector = () => $('#selectDOC_toGenerate').toggleClass("d-none");
 
 
-        //Generate Project Information Sheets
-
-        $(".GeneratePIS").on("click", async () => {
+        //Sent PIS form to Generate Project Information Sheets
+        //TODO: change the event listener to ajax request button
+        $("#SheetFormDocumentContainer").on("click", ".ExportPDF", async () => {
             $.ajaxSetup({
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -1114,14 +1114,9 @@ $(document).on('DOMContentLoaded', function() {
                 },
             });
             try {
-                let project_id = $("#ProjectID").val();
-                let business_id = $("#hiddenbusiness_id").val();
-                let form = $("#PIS_checklistsForm");
-                const data = {
-                    ...form.serializeArray(),
-                    project_id,
-                    business_id,
-                };
+                const ProjectDetailsForm = $("#projectInfoForm").serialize();
+                const ChecklistForm = $("#PIS_checklistsForm").serialize();
+                const data = ProjectDetailsForm + "&" + ChecklistForm;
                 const response = await $.post(
                     GenerateSheetsRoute.generateProjectInformationSheet,
                     data,
@@ -1176,7 +1171,6 @@ $(document).on('DOMContentLoaded', function() {
          $("#ApprovedtableBody").on("click", ".approvedProjectInfo", function () {
              const row = $(this).closest("tr");
              const inputs = row.find("input");
-             console.log(inputs);
 
              $("#cooperatorName").val(row.find("td:eq(1)").text().trim());
              $("#designation").val(inputs.filter(".designation").val());
