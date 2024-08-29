@@ -364,22 +364,57 @@ class StaffViewController extends Controller
         }
     }
 
-    //TODO: Implement Validation and query for Cooperator Information
     public function getProjectSheetsForm(Request $request)
     {
-        $validated = $request->validate([
+        $request->validate([
             'form_type' => 'required|string|in:PIS,PDS',
             'project_id' => 'required|string|max:15',
         ]);
 
-        $projectData = projectInfo::join('business_info', 'project_info.business_id', '=', 'business_info.id')
+        $formType = $request->input('form_type');
+        $projectId = $request->input('project_id');
+
+        switch ($formType) {
+            case 'PIS':
+                $projectData = $this->getProjectData($projectId);
+
+                return view('staffView.SheetFormTemplete.PISFormTemplete', compact('projectData'));
+                break;
+
+            case 'PDS':
+                return view('staffView.SheetFormTemplete.PDSFormTemplete');
+                break;
+        }
+    }
+
+    private function getProjectData(string $projectId): object
+    {
+        return projectInfo::select(
+            'Project_id',
+            'project_title',
+            'business_id',
+            'firm_name',
+            'enterprise_type',
+            'zip_code',
+            'landMark',
+            'barangay',
+            'city',
+            'province',
+            'region',
+            'f_name',
+            'mid_name',
+            'l_name',
+            'suffix',
+            'gender',
+            'birth_date',
+            'mobile_number',
+            'landline',
+            'email'
+        )
+            ->join('business_info', 'project_info.business_id', '=', 'business_info.id')
             ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
             ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
-            ->select('Project_id', 'project_title', 'business_id', 'firm_name', 'enterprise_type', 'zip_code', 'landMark', 'barangay', 'city', 'province', 'region', 'f_name', 'mid_name', 'l_name', 'suffix', 'gender', 'birth_date', 'mobile_number', 'landline', 'email')
-            ->where('project_info.Project_id', $validated['project_id'])
-            ->firstOrFail();;
-
-        return view('staffView.SheetFormTemplete.PISFormTemplete', compact('projectData'));
-
+            ->where('project_info.Project_id', $projectId)
+            ->firstOrFail();
     }
 }
