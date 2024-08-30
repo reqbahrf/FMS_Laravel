@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
@@ -28,9 +29,9 @@ class businessInfo extends Model
         'Local_Mkt_Outlet',
     ];
 
-    public function userInfo() : HasOne
+    public function userInfo() : BelongsTo
     {
-        return $this->HasOne(coopUserInfo::class, 'user_info_id', 'id');
+        return $this->BelongsTo(coopUserInfo::class, 'user_info_id', 'id');
     }
 
     public function applicationInfo() : HasMany
