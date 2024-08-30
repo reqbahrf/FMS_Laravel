@@ -302,29 +302,6 @@ class StaffViewController extends Controller
         }
     }
 
-    public function createDataSheet(Request $request)
-    {
-        $validated = $request->validate([
-            'business_id' => 'required|integer',
-            'projectID' => 'required|string',
-        ]);
-        if ($request->ajax()) {
-
-            return view('staffView.outputs.DataSheetTable' , compact('validated'));
-        } else {
-            return view('staffView.staffDashboard');
-        }
-    }
-
-    public function createInformationSheet(Request $request)
-    {
-        if ($request->ajax()) {
-            return view('staffView.outputs.InformationSheetTable');
-        } else {
-            return view('staffView.staffDashboard');
-        }
-    }
-
     public function submitProjectProposal(Request $request)
     {
         $validated = $request->validate([
@@ -376,18 +353,20 @@ class StaffViewController extends Controller
 
         switch ($formType) {
             case 'PIS':
-                $projectData = $this->getProjectData($projectId);
+                $projectData = $this->getProjectInfomationSheetData($projectId);
 
                 return view('staffView.SheetFormTemplete.PISFormTemplete', compact('projectData'));
                 break;
 
             case 'PDS':
-                return view('staffView.SheetFormTemplete.PDSFormTemplete');
+
+                $projectData = $this->getProjectDataSheetData($projectId);
+                return view('staffView.SheetFormTemplete.PDSFormTemplete', compact('projectData'));
                 break;
         }
     }
 
-    private function getProjectData(string $projectId): object
+    private function getProjectInfomationSheetData(string $projectId): object
     {
         return projectInfo::select(
             'Project_id',
@@ -409,6 +388,34 @@ class StaffViewController extends Controller
             'birth_date',
             'mobile_number',
             'landline',
+            'email'
+        )
+            ->join('business_info', 'project_info.business_id', '=', 'business_info.id')
+            ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
+            ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+            ->where('project_info.Project_id', $projectId)
+            ->firstOrFail();
+    }
+
+    private function getProjectDataSheetData(string $projectId): object
+    {
+        return projectInfo::select(
+            'Project_id',
+            'project_title',
+            'firm_name',
+            'landMark',
+            'barangay',
+            'city',
+            'province',
+            'region',
+            'zip_code',
+            'f_name',
+            'mid_name',
+            'l_name',
+            'suffix',
+            'designation',
+            'landline',
+            'mobile_number',
             'email'
         )
             ->join('business_info', 'project_info.business_id', '=', 'business_info.id')

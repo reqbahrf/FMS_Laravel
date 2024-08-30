@@ -99,7 +99,7 @@
     width: 100%;
     height: auto;
   }
-  @media screen and (max-width: 767px) {
+  /* @media screen and (max-width: 767px) {
     .tg {
       width: auto !important;
     }
@@ -113,23 +113,22 @@
       -webkit-overflow-scrolling: touch;
       margin: auto 0px;
     }
-  }
+  } */
 
   #containerSize {
     width: 794px;
     margin: auto;
     padding: 5%;
-    /* or any specific width */
-  }
 
-  @media print {
+  }
+/*
+   @media print {
     body * {
       visibility: hidden;
     }
 
     .tg-vkv7 {
       background-color: #FF0;
-      /* Yellow background */
     }
 
     #containerSize,
@@ -145,72 +144,101 @@
 
     .tg {
       width: 100%;
-      /* Adjust the width as necessary */
+
       box-sizing: border-box;
-      /* Include padding and borders in the width */
+
       max-width: 100%;
-      /* Ensure it doesn't exceed the page width */
+
       font-size: 10px;
-      /* Reduce font size to fit content */
+
     }
 
     .tg td,
     .tg th {
       padding: 5px;
-      /* Reduce padding to save space */
     }
 
   }
+    */
+
+    .form-container {
+            font-family: Arial, sans-serif;
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        td {
+            padding: 5px 0;
+        }
+        .label {
+            width: 20%;
+            font-weight: bold;
+            vertical-align: top;
+        }
+        .input {
+            width: 80%;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+        .small-input {
+            width: 30%;
+            border-bottom: 1px solid #000;
+            padding-bottom: 5px;
+        }
+        .small-label {
+            width: 10%;
+            font-weight: bold;
+            vertical-align: top;
+        }
+
+        .bottomBorder {
+          width: 100%;
+          border: 0px;
+        }
 </style>
 <div id="containerSize">
-  <div id=dataSheetHeader>
-    <img src="/assets/img/projectsheetsHeader.png" alt="header">
-  </div>
-  <div>
-    <!-- Create a textfield for the following; Project Title:, Name of Firm:, Address:, the Contact person: and Designation: should be in the same horizontal line then Contact Details such as landline:, Mobile Phone: and Email Address should also in the same line. note that the textfield should utilize bootstrap -->
-    <div class="form-group row">
-      <label for="project_title" class="col-sm-2 col-form-label">Project Title:</label>
-      <div class="col-sm-10">
-        <p class="" id="project_title"><u>[Project Title Value]</u></p>
-      </div>
+  <div class="form-container">
+        <table>
+            <tr>
+                <td class="label">Project Title:</td>
+                <td class="input">{{ $projectTitle }}</td>
+            </tr>
+            <tr>
+                <td class="label">Name of Firm:</td>
+                <td class="input">{{ $firmName }}</td>
+            </tr>
+            <tr>
+                <td class="label">Address:</td>
+                <td class="input">{{ $address }}</td>
+            </tr>
+            <tr>
+                <td class="label">Contact Person:</td>
+                <td class="input">{{ $ContactPerson }}</td>
+            </tr>
+            <tr>
+                <td class="small-label">Designation:</td>
+                <td class="small-input">{{ $Designation }}</td>
+            </tr>
+            <tr>
+                <td class="label">Landline:</td>
+                <td class="small-input">{{ $landline ?? 'none' }}</td>
+            </tr>
+            <tr>
+                <td class="small-label">Mobile Phone:</td>
+                <td class="small-input">{{ $mobile }}</td>
+            </tr>
+            <tr>
+                <td class="small-label">Email Address:</td>
+                <td class="small-input">{{ $email }}</td>
+            </tr>
+        </table>
     </div>
-    <div class="form-group row">
-      <label for="firm_name" class="col-sm-2 col-form-label">Name of Firm:</label>
-      <div class="col-sm-10">
-        <p class="" id="firm_name"><u>[Firm Name Value]</u></p>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="address" class="col-sm-2 col-form-label">Address:</label>
-      <div class="col-sm-10">
-        <p class="" id="address"><u>[Address Value]</u></p>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="contact_person" class="col-sm-2 col-form-label">Contact Person:</label>
-      <div class="col-sm-4">
-        <p class="" id="contact_person"><u>[Contact Person Value]</u></p>
-      </div>
-      <label for="designation" class="col-sm-2 col-form-label">Designation:</label>
-      <div class="col-sm-4">
-        <p class="" id="designation"><u>[Designation Value]</u></p>
-      </div>
-    </div>
-    <div class="form-group row">
-      <label for="landline" class="col-sm-2 col-form-label">Landline:</label>
-      <div class="col-sm-2">
-        <p class="" id="landline"><u>[Landline Value]</u></p>
-      </div>
-      <label for="mobile_phone" class="col-sm-2 col-form-label">Mobile Phone:</label>
-      <div class="col-sm-2">
-        <p class="" id="mobile_phone"><u>[Mobile Phone Value]</u></p>
-      </div>
-      <label for="email" class="col-sm-2 col-form-label">Email Address:</label>
-      <div class="col-sm-2">
-        <p class="" id="email"><u>[Email Address Value]</u></p>
-      </div>
-    </div>
-  </div>
   <div class="tg-wrap">
     <table class="tg">
       <!-- <thead>

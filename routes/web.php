@@ -11,6 +11,7 @@ use App\Http\Controllers\StaffViewController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\StaffPaymentRecordController;
 use App\Http\Controllers\StaffProjectLinkController;
@@ -91,9 +92,9 @@ Route::middleware([CheckStaffUser::class])->group(function () {
         return view('staffView.staffProjectCreateTab');
     })->name('staff.Create-Project');
 
-    Route::get('/Staff/Project/Create-DataSheet', [StaffViewController::class, 'createDataSheet'])->name('staff.Create-DataSheet');
     Route::get('/Staff/Project/getForm/{type?}/{projectId?}', [StaffViewController::class, 'getProjectSheetsForm'])->name('getProjectSheetsForm');
     Route::post('/Staff/Project/Create-InformationSheet', [StaffGeneratePISController::class, 'index'])->name('staff.Create-InformationSheet');
+    Route::post('/Staff/Project/Create-DataSheet', [StaffGeneratePDSController::class, 'index'])->name('staff.Create-DataSheet');
     Route::get('/Staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])->name('staff.Applicant.Requirement');
     Route::get('/Staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])->name('staff.Applicant.Requirement.View');
     Route::put('/Staff/Dashboard/updateProjectStatusToOngoing', [StaffViewController::class, 'updateProjectStatusToOngoing'])->name('staff.Dashboard.updateProjectStatusToOngoing');

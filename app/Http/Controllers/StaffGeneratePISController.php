@@ -40,7 +40,7 @@ class StaffGeneratePISController extends Controller
             'margin_right' => 5
         ]);
         $mpdf->WriteHTML($html);
-        $mpdf->Output('hello.pdf', 'D'); // Download the PDF with the filename hello.pdf
+        $mpdf->Output('hello.pdf', 'D');
 
     }
 

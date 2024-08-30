@@ -401,7 +401,7 @@
              </div>
          </div>
          <div class="d-flex justify-content-end p-3">
-             <button type="button" class="btn btn-primary ExportPDF">Export as PDF</button>
+             <button type="button" data-to-export="PIS" class="btn btn-primary ExportPDF">Export as PDF</button>
          </div>
      </div>
  </div>

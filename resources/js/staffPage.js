@@ -964,7 +964,6 @@ $(document).on('DOMContentLoaded', function() {
             });
         }
 
-        //Mark Approved Project to Ongoing
         $("#MarkhandleProjectBtn").on("click", function () {
             $.ajax({
                 type: "PUT",
@@ -1071,7 +1070,7 @@ $(document).on('DOMContentLoaded', function() {
         }
 
         //TODO: Implement spinner for the ajax request
-        //Get Form for Project Information Sheets and Project Data Sheets
+
         $('button[data-form-type]').on('click', function (){
             const formType = $(this).data('form-type');
             $.ajax({
@@ -1103,25 +1102,29 @@ $(document).on('DOMContentLoaded', function() {
        const toggleDocumentSelector = () => $('#selectDOC_toGenerate').toggleClass("d-none");
 
 
-        //Sent PIS form to Generate Project Information Sheets
-        //TODO: change the event listener to ajax request button
-        $("#SheetFormDocumentContainer").on("click", ".ExportPDF", async () => {
-            $.ajaxSetup({
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-            });
+        $("#SheetFormDocumentContainer").off("click", ".ExportPDF").on("click", ".ExportPDF", async function(e) {
+            e.preventDefault();
+
             try {
-                const ProjectDetailsForm = $("#projectInfoForm").serialize();
-                const ChecklistForm = $("#PIS_checklistsForm").serialize();
-                const data = ProjectDetailsForm + "&" + ChecklistForm;
-                const response = await $.post(
-                    GenerateSheetsRoute.generateProjectInformationSheet,
-                    data,
-                    null
-                );
+                const ExportPDF_BUTTON_DATA_VALUE = $(this).data("to-export");
+                let route_url = {
+                    PIS: GenerateSheetsRoute.generateProjectInformationSheet,
+                    PDS: GenerateSheetsRoute.generateDataSheetReport,
+                }[ExportPDF_BUTTON_DATA_VALUE];
+                let data =
+                    ExportPDF_BUTTON_DATA_VALUE === "PIS"
+                        ? $("#projectInfoForm").serialize() +
+                          "&" +
+                          $("#PIS_checklistsForm").serialize()
+                        : ExportPDF_BUTTON_DATA_VALUE === "PDS"
+                        ? $("#projectDataForm").serialize()
+                        : null;
+                const response = await $.post({
+                    url: route_url,
+                    data: data,
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+                    }});
 
                 // $("#PIS_Modal_container").html(response);
                 // ProjectInformationSheetModel.show();

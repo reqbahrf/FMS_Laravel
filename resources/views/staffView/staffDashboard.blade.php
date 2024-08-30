@@ -106,7 +106,8 @@
         .main-column {
             width: 100%;
         }
-        body{
+
+        body {
             height: 100vh;
             width: 100vw;
         }
@@ -123,7 +124,7 @@
             font-size: 14px;
         }
 
-        td{
+        td {
             font-size: 15px;
         }
 
@@ -408,20 +409,20 @@
 <body class="overflow-hidden">
     <div class="wrapper">
         {{-- Toast Container start --}}
-<div class="toast-container position-fixed top-0 end-0 p-3" id="toastFeedbackContainer" style="z-index: 1200;">
-    <div id="ActionFeedbackToast" class="toast align-items-center" role="alert" aria-live="assertive"
+        <div class="toast-container position-fixed top-0 end-0 p-3" id="toastFeedbackContainer" style="z-index: 1200;">
+            <div id="ActionFeedbackToast" class="toast align-items-center" role="alert" aria-live="assertive"
                 aria-atomic="true">
-        <div class="toast-header">
-                <strong class="me-auto">Message</strong>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-        </div>
-        <div class="toast-body" id="ToastBody">
+                <div class="toast-header">
+                    <strong class="me-auto">Message</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="ToastBody">
 
+                </div>
+            </div>
         </div>
-    </div>
- </div>
-{{-- Toast Container end --}}
+        {{-- Toast Container end --}}
         <nav class="sidenav expanded">
             <ul class="navbar-nav">
                 <li class="nav-item mb-2">
@@ -583,7 +584,8 @@
                                 <a href="#" class="dropdown-item py-2">
                                     <p><i class="ri-user-3-line me-2"></i>My Account</p>
                                 </a>
-                                <a href="{{ route('logout') }}" class="dropdown-item py-2" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a href="{{ route('logout') }}" class="dropdown-item py-2"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <p><i class="ri-logout-box-line me-2"></i>Logout</p>
                                 </a>
                             </div>
@@ -601,40 +603,38 @@
     </div>
     <script>
         //Global Route Variables for the Navigation Tabs
-          //Dashboard Tab
-          const DashboardTabRoute = {
-              getHandledProjects: '{{ route('staff.Dashboard.getHandledProjects') }}',
-              setProjectToOngoing: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
-              storePaymentRecords: '{{ route('PaymentRecord.store') }}',
-              getPaymentRecords: '{{ route('PaymentRecord.index') }}',
-              storeProjectLinks: '{{ route('ProjectLink.store') }}',
-              getProjectLinks: '{{ route('ProjectLink.index') }}'
+        //Dashboard Tab
+        const DashboardTabRoute = {
+            getHandledProjects: '{{ route('staff.Dashboard.getHandledProjects') }}',
+            setProjectToOngoing: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
+            storePaymentRecords: '{{ route('PaymentRecord.store') }}',
+            getPaymentRecords: '{{ route('PaymentRecord.index') }}',
+            storeProjectLinks: '{{ route('ProjectLink.store') }}',
+            getProjectLinks: '{{ route('ProjectLink.index') }}'
 
-          }
+        }
 
-          const GenerateSheetsRoute = {
-              getProjectSheetForm: '{{ route('getProjectSheetsForm') }}',
-              generateProjectInformationSheet: '{{ route('staff.Create-InformationSheet') }}',
-              generateQuarterlyReport: ''
-          }
+        const GenerateSheetsRoute = {
+            getProjectSheetForm: '{{ route('getProjectSheetsForm') }}',
+            generateProjectInformationSheet: '{{ route('staff.Create-InformationSheet') }}',
+            generateDataSheetReport: '{{ route('staff.Create-DataSheet') }}'
+        }
 
-          //Project Tab
-          const ProjectTabRoute = {
-               projectApprovalLink: '{{ route('staff.Project.ApprovedProjectProposal') }}',
-          }
+        //Project Tab
+        const ProjectTabRoute = {
+            projectApprovalLink: '{{ route('staff.Project.ApprovedProjectProposal') }}',
+        }
 
-          //Application Tab
-          const ApplicantTabRoute = {
-              getApplicantRequirementsLink: '{{ route('staff.Applicant.Requirement') }}',
-              setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
-              getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
-              getRequirementFiles: '{{ route('staff.Applicant.Requirement.View') }}',
-              submitProjectProposal: '{{ route('staff.Applicant.Submit-Project-Proposal') }}'
-          }
-
+        //Application Tab
+        const ApplicantTabRoute = {
+            getApplicantRequirementsLink: '{{ route('staff.Applicant.Requirement') }}',
+            setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
+            getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
+            getRequirementFiles: '{{ route('staff.Applicant.Requirement.View') }}',
+            submitProjectProposal: '{{ route('staff.Applicant.Submit-Project-Proposal') }}'
+        }
     </script>
     <script type="module">
-
         // $(window).on('beforeunload', function() {
         //     return 'Are you sure you want to leave?';
         // });
@@ -694,7 +694,7 @@
                 attachProjectInformationSheetEvents();
             }
 
-            if (url === '{{ route('staff.Applicant') }}'){
+            if (url === '{{ route('staff.Applicant') }}') {
                 InitializeApplicantTabEvents();
             }
 
@@ -702,30 +702,30 @@
             sessionStorage.setItem('StafflastActive', activeLink);
         }
 
-            function attachProjectInformationSheetEvents() {
-                $('#createPISButton').on('click', function() {
-                 let ProjectInformationSheetModel = new bootstrap.Modal(document.getElementById('PISModal'));
-                 let project_id = $('#ProjectId').val();
-                 let business_id = $('#b_id').val();
-                 let form = $('#PIS_checklistsForm');
+        function attachProjectInformationSheetEvents() {
+            $('#createPISButton').on('click', function() {
+                let ProjectInformationSheetModel = new bootstrap.Modal(document.getElementById('PISModal'));
+                let project_id = $('#ProjectId').val();
+                let business_id = $('#b_id').val();
+                let form = $('#PIS_checklistsForm');
 
-                   $.ajax({
-                       type: 'POST',
-                       data: form.serialize() + '&project_id=' + project_id + '&business_id=' + business_id,
-                       url: '{{ route('staff.Create-InformationSheet') }}',
-                       headers: {
-                           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                       },
-                       success: function(response) {
-                           $('#PIS_Modal_container').html(response);
-                           ProjectInformationSheetModel.show();
-                       },
-                       error: function(error) {
-                           console.log(error);
-                       }
-                   })
-               })
-            }
+                $.ajax({
+                    type: 'POST',
+                    data: form.serialize() + '&project_id=' + project_id + '&business_id=' + business_id,
+                    url: '{{ route('staff.Create-InformationSheet') }}',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        $('#PIS_Modal_container').html(response);
+                        ProjectInformationSheetModel.show();
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                })
+            })
+        }
     </script>
     @vite('resources/js/staffPage.js')
 </body>
