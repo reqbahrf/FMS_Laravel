@@ -5,53 +5,52 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
+use App\Models\coopUserInfo;
 
 class CooperatorController extends Controller
 {
     public function index()
     {
-            $user = Auth::user();
-            $notifications = $user->notifications;
+        $user = Auth::user();
+        $notifications = $user->notifications;
 
-            $userId = Session::get('user_id');
-            $userName = Session::get('user_name');
-            $userBirthD = Session::get('birth_date');
+        $userId = Session::get('user_id');
+        $userName = Session::get('user_name');
+        $userBirthD = Session::get('birth_date');
 
-            if (!isset($userId) && !isset($userName) && !isset($userBirthD)) {
-                return redirect()->route('login.Form');
-            }
-            else
-            {
-                $result = DB::table('application_info')
-                    ->select('coop_users_info.user_name', 'business_info.user_info_id', 'application_info.application_status')
-                    ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
-                    ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
-                    ->where('coop_users_info.user_name', $userName)
-                    ->first();
+        if (!isset($userId) && !isset($userName) && !isset($userBirthD)) {
+            return redirect()->route('login.Form');
+        }
+        else
+        {
+            $result = coopUserInfo::where('user_name', $userName)
+                ->with('businessInfo.applicationInfo')
+                ->first();
 
-                if ($result) {
-                    Session::put('application_status', $result->application_status);
+            if ($result) {
 
-                    if ($result->application_status == 'approved') {
-                        $projectInfo = DB::table('project_info')
-                            ->select('coop_users_info.user_name', 'business_info.id AS business_id', 'project_info.project_id AS project_id')
-                            ->join('business_info', 'business_info.id', '=', 'project_info.business_id')
-                            ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
-                            ->where('coop_users_info.user_name', $userName)
-                            ->first();
+                $applicationStatus = $result->businessInfo->first()->applicationInfo->first()->application_status;
+                Session::put('application_status', $applicationStatus);
 
-                        if ($projectInfo) {
-                            Session::put('business_id', $projectInfo->business_id);
-                            Session::put('project_id', $projectInfo->project_id);
-                        }
+                if (in_array($applicationStatus, ['approved', 'ongoing'])) {
+                    $projectInfo = $result->businessInfo->first()->projectInfo->first();
+                    if ($projectInfo) {
+                        Session::put('project_id', $projectInfo->Project_id);
+                        Session::put('business_id', $projectInfo->business_id);
+
+                        Log::info('Project_id Type: ' . gettype($projectInfo->Project_id));
+                        Log::info('Project_id Value: ' . $projectInfo->Project_id);
+                        Log::info('Session Project_id: ' . Session::get('project_id'));
                     }
                 }
-
-                return view('cooperatorView.CooperatorDashboard', compact('notifications') , [
-                    'application_status' => Session::get('application_status')
-                ]);
             }
+
+            return view('cooperatorView.CooperatorDashboard', compact('notifications') , [
+                'application_status' => Session::get('application_status')
+            ]);
+        }
 
 
 

@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class coopUserInfo extends Model
 {
@@ -31,5 +33,10 @@ class coopUserInfo extends Model
     public function user()
     {
         return $this->belongsTo(User::class, 'user_name', 'user_name');
+    }
+
+    public function businessInfo() : HasMany
+    {
+        return $this->hasMany(businessInfo::class, 'user_info_id', 'id');
     }
 }

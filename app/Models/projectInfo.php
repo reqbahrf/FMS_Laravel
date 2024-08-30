@@ -13,6 +13,8 @@ class projectInfo extends Model
     protected $table = 'project_info';
 
     protected $primaryKey = 'Project_id';
+    public $incrementing = false;
+    protected $keyType = 'string';
 
     protected $fillable = [
         'Project_id',
@@ -24,8 +26,12 @@ class projectInfo extends Model
         'refund_amout'
     ];
 
-    public function businessInfo(): BelongsTo
+    protected $casts = [
+        'Project_id' => 'string',
+    ];
+
+    public function businessInfo() : BelongsTo
     {
-        return $this->belongsTo(businessInfo::class, 'id', 'business_id');
+        return $this->BelongsTo(businessInfo::class, 'business_id', 'id');
     }
 }

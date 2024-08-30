@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class businessInfo extends Model
 {
@@ -26,18 +28,18 @@ class businessInfo extends Model
         'Local_Mkt_Outlet',
     ];
 
-    public function businessInfo()
+    public function userInfo() : HasOne
     {
-        return $this->hasMany(businessInfo::class, 'user_info_id', 'id');
+        return $this->HasOne(coopUserInfo::class, 'user_info_id', 'id');
     }
 
-    public function applicationInfo()
+    public function applicationInfo() : HasMany
     {
-        return $this->hasMany(applicationInfo::class, 'business_id', 'id');
+        return $this->HasMany(applicationInfo::class, 'business_id', 'id');
     }
 
-    public function projectInfo()
+    public function projectInfo() : HasMany
     {
-        return $this->hasMany(projectInfo::class, 'business_id', 'id');
+        return $this->HasMany(projectInfo::class, 'business_id', 'id');
     }
 }
