@@ -246,7 +246,7 @@
       <th class="tg-j6zm" colspan="8">1.0&nbsp;&nbsp;&nbsp;ASSETS</th>
     </tr>
   </thead> -->
-      <tbody>
+        <tbody>
         <tr>
           <td class="tg-7zrl">1.1 Building</td>
           <td class="tg-8d8j" colspan="4"> &nbsp;&nbsp;&nbsp;</td>
@@ -261,31 +261,21 @@
           <td class="tg-8d8j" colspan="4"> &nbsp;&nbsp;&nbsp;</td>
         </tr>
         <tr>
-          <td class="tg-wa1i" rowspan="4">Classification of Enterprise: </td>
-          <td class="tg-nrix" colspan="2" rowspan="4">Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)</td>
-          <td class="tg-nrix" colspan="2" rowspan="4">Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)</td>
-          <td class="tg-nrix" colspan="3" rowspan="4">Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)</td>
+          <td class="tg-wa1i">Classification of Enterprise: </td>
+          <td class="tg-nrix" colspan="2" >Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)</td>
+          <td class="tg-nrix" colspan="2" >Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)</td>
+          <td class="tg-nrix" colspan="3" >Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)</td>
         </tr>
         <tr>
+          <td class="tg-j6zm" colspan="6">2.0 Total Employment&nbsp;&nbsp;&nbsp;For The Quarter </td>
+          <td class="tg-7zrl" colspan="2"> </td>
         </tr>
         <tr>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-j6zm" colspan="7">2.0 Total Employment&nbsp;&nbsp;&nbsp;For The Quarter </td>
-          <td class="tg-7zrl"> </td>
-        </tr>
-        <tr>
-          <td class="tg-8d8j" rowspan="3"> <br><br></td>
-          <td class="tg-baqh" colspan="2" rowspan="3">No. of Personnel </td>
-          <td class="tg-baqh" rowspan="4">Total&nbsp;&nbsp;&nbsp;Work Days of the Personnel for the Quarter</td>
-          <td class="tg-baqh" colspan="2" rowspan="4">Total&nbsp;&nbsp;&nbsp;Man-Month=no. of Work Days/20 x no Personnel)</td>
-          <td class="tg-baqh" colspan="2" rowspan="4">Remarks</td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
+          <td class="tg-8d8j"> <br><br></td>
+          <td class="tg-baqh" colspan="2">No. of Personnel </td>
+          <td class="tg-baqh" rowspan="2">Total&nbsp;&nbsp;&nbsp;Work Days of the Personnel for the Quarter</td>
+          <td class="tg-baqh" colspan="2" rowspan="2" >Total&nbsp;&nbsp;&nbsp;Man-Month=no. of Work Days/20 x no Personnel)</td>
+          <td class="tg-baqh" colspan="2" rowspan="2">Remarks</td>
         </tr>
         <tr>
           <td class="tg-7zrl"> </td>
@@ -293,197 +283,155 @@
           <td class="tg-nrix">Female </td>
         </tr>
         <tr>
-          <td class="tg-7zrl" rowspan="2">2.1 Direct Labor Force(Production)</td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
+          <td class="tg-7zrl" >2.1 Direct Labor Force(Production)</td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2"> <br> </td>
+          <td class="tg-8d8j" colspan="2"> <br> </td>
         </tr>
         <tr>
+          <td class="tg-cly1" >2.1a&nbsp;&nbsp;&nbsp;Regular</td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
         </tr>
         <tr>
-          <td class="tg-cly1" rowspan="2">2.1a&nbsp;&nbsp;&nbsp;Regular</td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
+          <td class="tg-cly1" >2.1b&nbsp;&nbsp;&nbsp;Part-time </td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
         </tr>
         <tr>
+          <td class="tg-7zrl" >2.2 Indirect Labor Force(Admin and Marketing)</td>
+          <td class="tg-8d8j" > <br><br></td>
+          <td class="tg-8d8j"> <br><br></td>
+          <td class="tg-8d8j" > <br><br></td>
+          <td class="tg-8d8j" colspan="2" > <br> <br> </td>
+          <td class="tg-8d8j" colspan="2" > <br> <br> </td>
         </tr>
         <tr>
-          <td class="tg-cly1" rowspan="2">2.1b&nbsp;&nbsp;&nbsp;Part-time </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
+          <td class="tg-cly1" >2.2a&nbsp;&nbsp;&nbsp;Regular </td>
+          <td class="tg-8d8j"> <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j"> <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
         </tr>
         <tr>
+          <td class="tg-cly1" >2.2b&nbsp;&nbsp;&nbsp;Part-time</td>
+          <td class="tg-8d8j"> <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
         </tr>
         <tr>
-          <td class="tg-7zrl" rowspan="3">2.2 Indirect Labor Force(Admin and Marketing)</td>
-          <td class="tg-8d8j" rowspan="3"> <br><br></td>
-          <td class="tg-8d8j" rowspan="3"> <br><br></td>
-          <td class="tg-8d8j" rowspan="3"> <br><br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="3"> <br> <br> </td>
-          <td class="tg-8d8j" colspan="2" rowspan="3"> <br> <br> </td>
+          <td class="tg-0lax" colspan="3" >Total Employment for this Quarter: </td>
+          <td class="tg-cly1" colspan="2">No. of Personnel: </td>
+          <td class="tg-cly1" colspan="3" >No. of Man-Months:</td>
         </tr>
         <tr>
+          <td class="tg-1wig" colspan="8" >3.0&nbsp;&nbsp;&nbsp;Production And Sales Data For The Quanter</td>
         </tr>
         <tr>
+          <td class="tg-8d8j" > <br><br></td>
+          <td class="tg-baqh" >Name of&nbsp;&nbsp;&nbsp;Product </td>
+          <td class="tg-baqh" >Packaging&nbsp;&nbsp;&nbsp;Details</td>
+          <td class="tg-baqh" >Volume&nbsp;&nbsp;&nbsp;of Production</td>
+          <td class="tg-baqh" colspan="2" >Gross Sales </td>
+          <td class="tg-baqh" >Estimated&nbsp;&nbsp;&nbsp;Cost of Production</td>
+          <td class="tg-baqh" >Net Sales</td>
         </tr>
         <tr>
-          <td class="tg-cly1" rowspan="2">2.2a&nbsp;&nbsp;&nbsp;Regular </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
+          <td class="tg-0lax" rowspan="3">3.1 Export Market</td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
         </tr>
         <tr>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+        </tr>
+
+        <tr>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
         </tr>
         <tr>
-          <td class="tg-cly1" rowspan="2">2.2b&nbsp;&nbsp;&nbsp;Part-time</td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
+          <td class="tg-0lax" rowspan="4">3.2 Local Market</td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j"> <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+        </tr>
+
+        <tr>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j"> <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
         </tr>
         <tr>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
         </tr>
         <tr>
-          <td class="tg-0lax" colspan="3" rowspan="2">Total Employment for this Quarter: </td>
-          <td class="tg-cly1" colspan="2" rowspan="2">No. of Personnel: </td>
-          <td class="tg-cly1" colspan="3" rowspan="2">No. of Man-Months:</td>
+          <td class="tg-cly1" colspan="3" >TOTAL </td>
+          <td class="tg-8d8j" colspan="2" > <br> </td>
+          <td class="tg-8d8j" > <br></td>
+          <td class="tg-8d8j" > <br></td>
         </tr>
+
         <tr>
+          <td class="tg-yla0" colspan="8" >4.0 MARKET&nbsp;&nbsp;&nbsp;OUTLETS</td>
         </tr>
+
         <tr>
-          <td class="tg-1wig" colspan="8" rowspan="2">3.0&nbsp;&nbsp;&nbsp;Production And Sales Data For The Quanter</td>
+          <td class="tg-cly1" >4.1&nbsp;&nbsp;&nbsp;Export</td>
+          <td class="tg-8d8j" colspan="7" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
+
         <tr>
-        </tr>
-        <tr>
-          <td class="tg-8d8j" rowspan="3"> <br><br></td>
-          <td class="tg-baqh" rowspan="3">Name of&nbsp;&nbsp;&nbsp;Product </td>
-          <td class="tg-baqh" rowspan="3">Packaging&nbsp;&nbsp;&nbsp;Details</td>
-          <td class="tg-baqh" rowspan="3">Volume&nbsp;&nbsp;&nbsp;of Production</td>
-          <td class="tg-baqh" colspan="2" rowspan="3">Gross Sales </td>
-          <td class="tg-baqh" rowspan="3">Estimated&nbsp;&nbsp;&nbsp;Cost of Production</td>
-          <td class="tg-baqh" rowspan="3">Net Sales</td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-0lax" rowspan="6">3.1 Export Market</td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-0lax" rowspan="6">3.2 Local Market</td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-cly1" colspan="4" rowspan="2">TOTAL </td>
-          <td class="tg-8d8j" colspan="2" rowspan="2"> <br> </td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-          <td class="tg-8d8j" rowspan="2"> <br></td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-yla0" colspan="8" rowspan="2">4.0 MARKET&nbsp;&nbsp;&nbsp;OUTLETS</td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-cly1" rowspan="2">4.1&nbsp;&nbsp;&nbsp;Export</td>
-          <td class="tg-8d8j" colspan="7" rowspan="2"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-cly1" rowspan="2">4.2&nbsp;&nbsp;&nbsp;Local</td>
-          <td class="tg-8d8j" colspan="7" rowspan="2"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        </tr>
-        <tr>
+          <td class="tg-cly1" >4.2&nbsp;&nbsp;&nbsp;Local</td>
+          <td class="tg-8d8j" colspan="7" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
         <br>
         <tr>
           <td colspan="8" style="height: 10px; border-left: none; border-right: none;">&nbsp;</td>
         </tr>
         <tr>
-          <td class="tg-vkv7" colspan="8" rowspan="2">TO BE&nbsp;&nbsp;&nbsp;ACCOMPLISHED BY DOST XI</td>
+          <td class="tg-vkv7" colspan="8" >TO BE&nbsp;&nbsp;&nbsp;ACCOMPLISHED BY DOST XI</td>
         </tr>
+
         <tr>
-        </tr>
-        <tr>
-          <td class="tg-baqh" colspan="2" rowspan="4">Gross Sales Generated = Gross Sales Q4 - Gross Sales Q3</td>
-          <td class="tg-baqh" colspan="2" rowspan="3">Gross Sales&nbsp;&nbsp;&nbsp;Q4(for the reporting period)</td>
-          <td class="tg-baqh" colspan="2" rowspan="3">Cross Sales&nbsp;&nbsp;&nbsp;Q3(Previous Quarter)</td>
-          <td class="tg-baqh" colspan="2" rowspan="3">TOTAL GROSS&nbsp;&nbsp;&nbsp;SALES GENERATED</td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
+          <td class="tg-baqh" colspan="2" rowspan="2">Gross Sales Generated = Gross Sales Q4 - Gross Sales Q3</td>
+          <td class="tg-baqh" colspan="2" >Gross Sales&nbsp;&nbsp;&nbsp;Q4(for the reporting period)</td>
+          <td class="tg-baqh" colspan="2" >Cross Sales&nbsp;&nbsp;&nbsp;Q3(Previous Quarter)</td>
+          <td class="tg-baqh" colspan="2" >TOTAL GROSS&nbsp;&nbsp;&nbsp;SALES GENERATED</td>
         </tr>
         <tr>
           <td class="tg-8d8j" colspan="2"> </td>
@@ -491,22 +439,14 @@
           <td class="tg-8d8j" colspan="2"> </td>
         </tr>
         <tr>
-          <td class="tg-0lax" colspan="2" rowspan="4">% Increase in Productivity Generated = ((Gross Sales Q4 - Gross&nbsp;&nbsp;&nbsp;Sales Q3)/Gross Sales) X 100 </td>
-          <td class="tg-8d8j" colspan="6" rowspan="4"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+          <td class="tg-0lax" colspan="2" >% Increase in Productivity Generated = ((Gross Sales Q4 - Gross&nbsp;&nbsp;&nbsp;Sales Q3)/Gross Sales) X 100 </td>
+          <td class="tg-8d8j" colspan="6"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
         <tr>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
-          <td class="tg-0lax" colspan="2" rowspan="3">Employment Generated = Employment Q4 - Employment Q3</td>
-          <td class="tg-8d8j" colspan="2" rowspan="2">Total&nbsp;&nbsp;&nbsp;Employment Q4(For the reporting period)</td>
-          <td class="tg-8d8j" colspan="2" rowspan="2">Total&nbsp;&nbsp;&nbsp;Employment Q3 (previous quarter)</td>
-          <td class="tg-baqh" colspan="2" rowspan="2">EMPLOYMENT&nbsp;&nbsp;&nbsp;GENERATED </td>
-        </tr>
-        <tr>
+          <td class="tg-0lax" colspan="2" rowspan="2">Employment Generated = Employment Q4 - Employment Q3</td>
+          <td class="tg-8d8j" colspan="2" >Total&nbsp;&nbsp;&nbsp;Employment Q4(For the reporting period)</td>
+          <td class="tg-8d8j" colspan="2" >Total&nbsp;&nbsp;&nbsp;Employment Q3 (previous quarter)</td>
+          <td class="tg-baqh" colspan="2" >EMPLOYMENT&nbsp;&nbsp;&nbsp;GENERATED </td>
         </tr>
         <tr>
           <td class="tg-8d8j" colspan="2"> </td>
@@ -514,12 +454,8 @@
           <td class="tg-8d8j" colspan="2"> </td>
         </tr>
         <tr>
-          <td class="tg-8d8j" colspan="2" rowspan="3">% Increase in Employment Generated = ((Employment Q4 -&nbsp;&nbsp;&nbsp;Employment Q3)/Employment Q3) X 100 </td>
-          <td class="tg-8d8j" colspan="6" rowspan="3"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-        </tr>
-        <tr>
-        </tr>
-        <tr>
+          <td class="tg-8d8j" colspan="2" >% Increase in Employment Generated = ((Employment Q4 -&nbsp;&nbsp;&nbsp;Employment Q3)/Employment Q3) X 100 </td>
+          <td class="tg-8d8j" colspan="6" > &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
         </tr>
       </tbody>
     </table>
