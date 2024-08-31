@@ -2,400 +2,393 @@
 
 // TODO Modularie these charts function initializations
 
-$(document).on('DOMContentLoaded', function() {
-      window.InitdashboardChar = function() {
-          const lineChartOptions = {
-              theme: {
-                  mode: "light",
-              },
-              series: [
-                  {
-                      name: "Applicant",
-                      data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60],
-                  },
-                  {
-                      name: "Ongoing",
-                      data: [5, 10, 7, 12, 9, 15, 11, 18, 13, 20],
-                  },
-                  {
-                      name: "Completed",
-                      data: [2, 4, 3, 6, 5, 8, 7, 10, 9, 12],
-                  },
-              ],
-              chart: {
-                  height: 350,
-                  type: "bar",
-              },
-              stroke: {
-                  width: [6, 6, 6],
-                  curve: "smooth",
-                  dashArray: [0, 0, 0],
-              },
-              markers: {
-                  size: 0,
-              },
-              xaxis: {
-                  categories: [
-                      "Jan",
-                      "Feb",
-                      "Mar",
-                      "Apr",
-                      "May",
-                      "Jun",
-                      "Jul",
-                      "Aug",
-                      "Sep",
-                      "Oct",
-                  ],
-              },
-              yaxis: {
-                  title: {
-                      text: "Count",
-                  },
-              },
-              legend: {
-                  tooltipHoverFormatter: function (val, opts) {
-                      return (
-                          val +
-                          " - " +
-                          opts.w.globals.series[opts.seriesIndex][
-                              opts.dataPointIndex
-                          ] +
-                          ""
-                      );
-                  },
-              },
-          };
+$(document).on("DOMContentLoaded", function () {
+    window.InitdashboardChar = function () {
+        const lineChartOptions = {
+            theme: {
+                mode: "light",
+            },
+            series: [
+                {
+                    name: "Applicant",
+                    data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60],
+                },
+                {
+                    name: "Ongoing",
+                    data: [5, 10, 7, 12, 9, 15, 11, 18, 13, 20],
+                },
+                {
+                    name: "Completed",
+                    data: [2, 4, 3, 6, 5, 8, 7, 10, 9, 12],
+                },
+            ],
+            chart: {
+                height: 350,
+                type: "bar",
+            },
+            stroke: {
+                width: [6, 6, 6],
+                curve: "smooth",
+                dashArray: [0, 0, 0],
+            },
+            markers: {
+                size: 0,
+            },
+            xaxis: {
+                categories: [
+                    "Jan",
+                    "Feb",
+                    "Mar",
+                    "Apr",
+                    "May",
+                    "Jun",
+                    "Jul",
+                    "Aug",
+                    "Sep",
+                    "Oct",
+                ],
+            },
+            yaxis: {
+                title: {
+                    text: "Count",
+                },
+            },
+            legend: {
+                tooltipHoverFormatter: function (val, opts) {
+                    return (
+                        val +
+                        " - " +
+                        opts.w.globals.series[opts.seriesIndex][
+                            opts.dataPointIndex
+                        ] +
+                        ""
+                    );
+                },
+            },
+        };
 
-          const lineChart = new ApexCharts(
-              document.querySelector("#lineChart"),
-              lineChartOptions
-          );
-          lineChart.render();
+        const lineChart = new ApexCharts(
+            document.querySelector("#lineChart"),
+            lineChartOptions
+        );
+        lineChart.render();
 
-          // initialize datatable
-          new DataTable("#handledProject");
-      }
+        // initialize datatable
+        new DataTable("#handledProject");
+    };
 
-       function makeData() {
-          var data = [];
-          for (var i = 0; i < 10; i++) {
-              data.push(Math.floor(Math.random() * 100)); // Generates random numbers between 0 and 99
-          }
-          console.log(data);
-          return data;
-      }
+    function makeData() {
+        var data = [];
+        for (var i = 0; i < 10; i++) {
+            data.push(Math.floor(Math.random() * 100)); // Generates random numbers between 0 and 99
+        }
+        console.log(data);
+        return data;
+    }
 
-      window.InitializeviewCooperatorProgress = function() {
-         const Progressoptions = {
-              series: [75],
-              chart: {
-                  height: 250,
-                  type: "radialBar",
-                  toolbar: {
-                      show: true,
-                  },
-              },
-              plotOptions: {
-                  radialBar: {
-                      startAngle: -135,
-                      endAngle: 225,
-                      hollow: {
-                          margin: 0,
-                          size: "70%",
-                          background: "#fff",
-                          image: undefined,
-                          imageOffsetX: 0,
-                          imageOffsetY: 0,
-                          position: "front",
-                          dropShadow: {
-                              enabled: true,
-                              top: 3,
-                              left: 0,
-                              blur: 4,
-                              opacity: 0.24,
-                          },
-                      },
-                      track: {
-                          background: "#fff",
-                          strokeWidth: "67%",
-                          margin: 0, // margin is in pixels
-                          dropShadow: {
-                              enabled: true,
-                              top: -3,
-                              left: 0,
-                              blur: 4,
-                              opacity: 0.35,
-                          },
-                      },
+    window.InitializeviewCooperatorProgress = function () {
+        const Progressoptions = {
+            series: [75],
+            chart: {
+                height: 250,
+                type: "radialBar",
+                toolbar: {
+                    show: true,
+                },
+            },
+            plotOptions: {
+                radialBar: {
+                    startAngle: -135,
+                    endAngle: 225,
+                    hollow: {
+                        margin: 0,
+                        size: "70%",
+                        background: "#fff",
+                        image: undefined,
+                        imageOffsetX: 0,
+                        imageOffsetY: 0,
+                        position: "front",
+                        dropShadow: {
+                            enabled: true,
+                            top: 3,
+                            left: 0,
+                            blur: 4,
+                            opacity: 0.24,
+                        },
+                    },
+                    track: {
+                        background: "#fff",
+                        strokeWidth: "67%",
+                        margin: 0, // margin is in pixels
+                        dropShadow: {
+                            enabled: true,
+                            top: -3,
+                            left: 0,
+                            blur: 4,
+                            opacity: 0.35,
+                        },
+                    },
 
-                      dataLabels: {
-                          show: true,
-                          name: {
-                              offsetY: -10,
-                              show: true,
-                              color: "#888",
-                              fontSize: "17px",
-                          },
-                          value: {
-                              formatter: function (val) {
-                                  return parseInt(val);
-                              },
-                              color: "#111",
-                              fontSize: "36px",
-                              show: true,
-                          },
-                      },
-                  },
-              },
-              fill: {
-                  type: "gradient",
-                  gradient: {
-                      shade: "dark",
-                      type: "horizontal",
-                      shadeIntensity: 0.5,
-                      gradientToColors: ["#ABE5A1"],
-                      inverseColors: true,
-                      opacityFrom: 1,
-                      opacityTo: 1,
-                      stops: [0, 100],
-                  },
-              },
-              stroke: {
-                  lineCap: "round",
-              },
-              labels: ["Percent"],
-          };
+                    dataLabels: {
+                        show: true,
+                        name: {
+                            offsetY: -10,
+                            show: true,
+                            color: "#888",
+                            fontSize: "17px",
+                        },
+                        value: {
+                            formatter: function (val) {
+                                return parseInt(val);
+                            },
+                            color: "#111",
+                            fontSize: "36px",
+                            show: true,
+                        },
+                    },
+                },
+            },
+            fill: {
+                type: "gradient",
+                gradient: {
+                    shade: "dark",
+                    type: "horizontal",
+                    shadeIntensity: 0.5,
+                    gradientToColors: ["#ABE5A1"],
+                    inverseColors: true,
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100],
+                },
+            },
+            stroke: {
+                lineCap: "round",
+            },
+            labels: ["Percent"],
+        };
 
-         const progresschart = new ApexCharts(
-             document.querySelector("#progressBar"),
-             Progressoptions
-         );
-          progresschart.render();
+        const progresschart = new ApexCharts(
+            document.querySelector("#progressBar"),
+            Progressoptions
+        );
+        progresschart.render();
 
-          //TODO: Production Generated Chart
-          const productionGeneoptions = {
-              series: [
-                  {
-                      name: "Growth",
-                      data: [10, 15, 7, -12],
-                  },
-              ],
-              chart: {
-                  type: "bar",
-                  height: 350,
-              },
-              plotOptions: {
-                  bar: {
-                      colors: {
-                          ranges: [
-                              {
-                                  from: -100,
-                                  to: -46,
-                                  color: "#F15B46",
-                              },
-                              {
-                                  from: -45,
-                                  to: 0,
-                                  color: "#FEB019",
-                              },
-                          ],
-                      },
-                      columnWidth: "80%",
-                  },
-              },
-              dataLabels: {
-                  enabled: false,
-              },
-              yaxis: {
-                  title: {
-                      text: "Growth",
-                  },
-                  labels: {
-                      formatter: function (y) {
-                          return y.toFixed(0) + "%";
-                      },
-                  },
-              },
-              xaxis: {
-                  categories: [
-                      "Quarter 1",
-                      "Quarter 2",
-                      "Quarter 3",
-                      "Quarter 4",
-                  ],
-                  labels: {
-                      rotate: -90,
-                  },
-              },
-          };
+        //TODO: Production Generated Chart
+        const productionGeneoptions = {
+            series: [
+                {
+                    name: "Growth",
+                    data: [10, 15, 7, -12],
+                },
+            ],
+            chart: {
+                type: "bar",
+                height: 350,
+            },
+            plotOptions: {
+                bar: {
+                    colors: {
+                        ranges: [
+                            {
+                                from: -100,
+                                to: -46,
+                                color: "#F15B46",
+                            },
+                            {
+                                from: -45,
+                                to: 0,
+                                color: "#FEB019",
+                            },
+                        ],
+                    },
+                    columnWidth: "80%",
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            yaxis: {
+                title: {
+                    text: "Growth",
+                },
+                labels: {
+                    formatter: function (y) {
+                        return y.toFixed(0) + "%";
+                    },
+                },
+            },
+            xaxis: {
+                categories: [
+                    "Quarter 1",
+                    "Quarter 2",
+                    "Quarter 3",
+                    "Quarter 4",
+                ],
+                labels: {
+                    rotate: -90,
+                },
+            },
+        };
 
-          const productionGenechart = new ApexCharts(
-              document.querySelector("#productionGeneChart"),
-              productionGeneoptions
-          );
-          productionGenechart.render();
+        const productionGenechart = new ApexCharts(
+            document.querySelector("#productionGeneChart"),
+            productionGeneoptions
+        );
+        productionGenechart.render();
 
-          //TODO: Employment Generated Chart
+        //TODO: Employment Generated Chart
 
-          const employmentGeneoptions = {
-              series: [
-                  {
-                      name: "Growth",
-                      data: [2, -2, 4, 5],
-                  },
-              ],
-              chart: {
-                  type: "bar",
-                  height: 350,
-              },
-              plotOptions: {
-                  bar: {
-                      colors: {
-                          ranges: [
-                              {
-                                  from: -100,
-                                  to: -46,
-                                  color: "#F15B46",
-                              },
-                              {
-                                  from: -45,
-                                  to: 0,
-                                  color: "#FEB019",
-                              },
-                          ],
-                      },
-                      columnWidth: "80%",
-                  },
-              },
-              dataLabels: {
-                  enabled: false,
-              },
-              yaxis: {
-                  title: {
-                      text: "Growth",
-                  },
-                  labels: {
-                      formatter: function (y) {
-                          return y.toFixed(0) + "%";
-                      },
-                  },
-              },
-              xaxis: {
-                  categories: [
-                      "Quarter 1",
-                      "Quarter 2",
-                      "Quarter 3",
-                      "Quarter 4",
-                  ],
-                  labels: {
-                      rotate: -90,
-                  },
-              },
-          };
+        const employmentGeneoptions = {
+            series: [
+                {
+                    name: "Growth",
+                    data: [2, -2, 4, 5],
+                },
+            ],
+            chart: {
+                type: "bar",
+                height: 350,
+            },
+            plotOptions: {
+                bar: {
+                    colors: {
+                        ranges: [
+                            {
+                                from: -100,
+                                to: -46,
+                                color: "#F15B46",
+                            },
+                            {
+                                from: -45,
+                                to: 0,
+                                color: "#FEB019",
+                            },
+                        ],
+                    },
+                    columnWidth: "80%",
+                },
+            },
+            dataLabels: {
+                enabled: false,
+            },
+            yaxis: {
+                title: {
+                    text: "Growth",
+                },
+                labels: {
+                    formatter: function (y) {
+                        return y.toFixed(0) + "%";
+                    },
+                },
+            },
+            xaxis: {
+                categories: [
+                    "Quarter 1",
+                    "Quarter 2",
+                    "Quarter 3",
+                    "Quarter 4",
+                ],
+                labels: {
+                    rotate: -90,
+                },
+            },
+        };
 
-          const employmentGenechart = new ApexCharts(
-              document.querySelector("#employmentGeneChart"),
-              employmentGeneoptions
-          );
-          employmentGenechart.render();
-      }
+        const employmentGenechart = new ApexCharts(
+            document.querySelector("#employmentGeneChart"),
+            employmentGeneoptions
+        );
+        employmentGenechart.render();
+    };
 
-      // Line chart
-      //toast feedback
-      window.showToastFeedback = function (status, message) {
-          const toast = $("#ActionFeedbackToast");
-          const toastInstance = new bootstrap.Toast(toast);
+    // Line chart
+    //toast feedback
+    function showToastFeedback(status, message) {
+        const toast = $("#ActionFeedbackToast");
+        const toastInstance = new bootstrap.Toast(toast);
 
-          toast
-              .find(".toast-header")
-              .removeClass([
-                  "text-bg-danger",
-                  "text-bg-success",
-                  "text-bg-warning",
-                  "text-bg-info",
-                  "text-bg-primary",
-                  "text-bg-light",
-                  "text-bg-dark",
-              ]);
+        toast
+            .find(".toast-header")
+            .removeClass([
+                "text-bg-danger",
+                "text-bg-success",
+                "text-bg-warning",
+                "text-bg-info",
+                "text-bg-primary",
+                "text-bg-light",
+                "text-bg-dark",
+            ]);
 
-          toast.find(".toast-body").text("");
-          toast.find(".toast-header").addClass(status);
-          toast.find(".toast-body").text(message);
+        toast.find(".toast-body").text("");
+        toast.find(".toast-header").addClass(status);
+        toast.find(".toast-body").text(message);
 
-          toastInstance.show();
-      };
+        toastInstance.show();
+    }
 
-      //close offcanvas
-      window.closeOffcanvasInstances = function (offcanva_id) {
-          const offcanvasElement = $(offcanva_id).get(0);
-          const offcanvasInstance =
-              bootstrap.Offcanvas.getInstance(offcanvasElement);
-          offcanvasInstance.hide();
-      };
+    //close offcanvas
+    function closeOffcanvasInstances(offcanva_id) {
+        const offcanvasElement = $(offcanva_id).get(0);
+        const offcanvasInstance =
+            bootstrap.Offcanvas.getInstance(offcanvasElement);
+        offcanvasInstance.hide();
+    };
 
-      //format currency
+    //format currency
 
-      window.formatCurrency = (inputSelector) => {
-          $(inputSelector).on("input",  function()  {
-              let value = $(this)
-                  .val()
-                  .replace(/[^0-9.]/g, ""); // Include decimal point in regex
-              // Ensure two decimal places
-              if (value.includes(".")) {
-                  let parts = value.split(".");
-                  parts[1] = parts[1].substring(0, 2); // Limit to two decimal places
-                  value = parts.join(".");
-              }
+    function formatCurrency(inputSelector) {
+        $(inputSelector).on("input", function () {
+            let value = $(this)
+                .val()
+                .replace(/[^0-9.]/g, ""); // Include decimal point in regex
+            // Ensure two decimal places
+            if (value.includes(".")) {
+                let parts = value.split(".");
+                parts[1] = parts[1].substring(0, 2); // Limit to two decimal places
+                value = parts.join(".");
+            }
 
-              // Add commas every three digits
-              let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            // Add commas every three digits
+            let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-              // Set the new value to the input field
-              $(this).val(formattedValue);
-          });
-      };
+            // Set the new value to the input field
+            $(this).val(formattedValue);
+        });
+    }
 
-      window.closeModal = function (modelId) {
-          const model = bootstrap.Modal.getInstance(modelId);
-          model.hide();
-      };
+    function closeModal(modelId) {
+        const model = bootstrap.Modal.getInstance(modelId);
+        model.hide();
+    }
 
-      //Side Nav toggle
+    //Side Nav toggle
 
-      $('#sidebar_toggle').on('click', function () {
-          const sidebar = document.querySelector(".sidenav");
-          const logoDescription = document.querySelector("#logoTitle");
-          logoDescription.classList.toggle("d-none");
+    $("#sidebar_toggle").on("click", function () {
+        const sidebar = document.querySelector(".sidenav");
+        const logoDescription = document.querySelector("#logoTitle");
+        logoDescription.classList.toggle("d-none");
 
-          sidebar.classList.toggle("expanded");
-          sidebar.classList.toggle("minimized");
-          const container = $("#toggle-left-margin");
-          if (container.hasClass("navExpanded")) {
-              container.removeClass("navExpanded").addClass("navMinimized");
-          } else {
-              container.removeClass("navMinimized").addClass("navExpanded");
-          }
-          //side bar minimize
-          $(".sidenav a span").each(function () {
-              $(this).toggleClass("d-none");
-          });
+        sidebar.classList.toggle("expanded");
+        sidebar.classList.toggle("minimized");
+        const container = $("#toggle-left-margin");
+        if (container.hasClass("navExpanded")) {
+            container.removeClass("navExpanded").addClass("navMinimized");
+        } else {
+            container.removeClass("navMinimized").addClass("navExpanded");
+        }
+        //side bar minimize
+        $(".sidenav a span").each(function () {
+            $(this).toggleClass("d-none");
+        });
 
-          $(".sidenav a").each(function () {
-              $(this).toggleClass("justify-content-center");
-          });
-          //size bar minimize rotation
-          $("#hover-link").toggleClass("rotate-icon");
-      });
-
-       window.setActiveLink = function(activeLink) {
-           $(".nav-item a").removeClass("active");
-           var defaultLink = "dashboardLink";
-           var linkToActivate = $("#" + (activeLink || defaultLink));
-           linkToActivate.addClass("active");
-       }
+        $(".sidenav a").each(function () {
+            $(this).toggleClass("justify-content-center");
+        });
+        //size bar minimize rotation
+        $("#hover-link").toggleClass("rotate-icon");
+    });
     //Dashboard Tab JS
-    window.initializeDashboardTabEvents = function(){
+    window.initializeDashboardTabEvents = function () {
         //Foramt Input with Id paymentAmount
         formatCurrency("#paymentAmount");
 
@@ -1071,11 +1064,16 @@ $(document).on('DOMContentLoaded', function() {
 
         //TODO: Implement spinner for the ajax request
 
-        $('button[data-form-type]').on('click', function (){
-            const formType = $(this).data('form-type');
+        $("button[data-form-type]").on("click", function () {
+            const formType = $(this).data("form-type");
             $.ajax({
                 type: "GET",
-                url: GenerateSheetsRoute.getProjectSheetForm + "?form_type=" + formType + "&project_id=" + $("#ProjectID").val(),
+                url:
+                    GenerateSheetsRoute.getProjectSheetForm +
+                    "?form_type=" +
+                    formType +
+                    "&project_id=" +
+                    $("#ProjectID").val(),
                 headers: {
                     "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                         "content"
@@ -1093,53 +1091,60 @@ $(document).on('DOMContentLoaded', function() {
 
         //TODO: Make this reusable and efficient
         //Breadcrumb for Project Information Sheets and Project Data Sheets
-         $("#SheetFormDocumentContainer").on("click", '.breadcrumb-item:not(.active) a', function () {
-             $("#PISFormContainer , #PDSFormContainer").remove();
-             toggleDocumentSelector();
-         });
+        $("#SheetFormDocumentContainer").on(
+            "click",
+            ".breadcrumb-item:not(.active) a",
+            function () {
+                $("#PISFormContainer , #PDSFormContainer").remove();
+                toggleDocumentSelector();
+            }
+        );
 
         //toggle the display of the document to generate selector
-       const toggleDocumentSelector = () => $('#selectDOC_toGenerate').toggleClass("d-none");
+        const toggleDocumentSelector = () =>
+            $("#selectDOC_toGenerate").toggleClass("d-none");
 
+        $("#SheetFormDocumentContainer")
+            .off("click", ".ExportPDF")
+            .on("click", ".ExportPDF", async function (e) {
+                e.preventDefault();
 
-        $("#SheetFormDocumentContainer").off("click", ".ExportPDF").on("click", ".ExportPDF", async function(e) {
-            e.preventDefault();
+                try {
+                    const ExportPDF_BUTTON_DATA_VALUE =
+                        $(this).data("to-export");
+                    let route_url = {
+                        PIS: GenerateSheetsRoute.generateProjectInformationSheet,
+                        PDS: GenerateSheetsRoute.generateDataSheetReport,
+                    }[ExportPDF_BUTTON_DATA_VALUE];
+                    let data =
+                        ExportPDF_BUTTON_DATA_VALUE === "PIS"
+                            ? $("#projectInfoForm").serialize() +
+                              "&" +
+                              $("#PIS_checklistsForm").serialize()
+                            : ExportPDF_BUTTON_DATA_VALUE === "PDS"
+                            ? $("#projectDataForm").serialize()
+                            : null;
+                    const response = await $.post({
+                        url: route_url,
+                        data: data,
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                    });
 
-            try {
-                const ExportPDF_BUTTON_DATA_VALUE = $(this).data("to-export");
-                let route_url = {
-                    PIS: GenerateSheetsRoute.generateProjectInformationSheet,
-                    PDS: GenerateSheetsRoute.generateDataSheetReport,
-                }[ExportPDF_BUTTON_DATA_VALUE];
-                let data =
-                    ExportPDF_BUTTON_DATA_VALUE === "PIS"
-                        ? $("#projectInfoForm").serialize() +
-                          "&" +
-                          $("#PIS_checklistsForm").serialize()
-                        : ExportPDF_BUTTON_DATA_VALUE === "PDS"
-                        ? $("#projectDataForm").serialize()
-                        : null;
-                const response = await $.post({
-                    url: route_url,
-                    data: data,
-                    headers: {
-                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-                    }});
-
-                // $("#PIS_Modal_container").html(response);
-                // ProjectInformationSheetModel.show();
-            } catch (error) {
-                console.log(error);
-            }
-        });
-    }
-
-
+                    // $("#PIS_Modal_container").html(response);
+                    // ProjectInformationSheetModel.show();
+                } catch (error) {
+                    console.log(error);
+                }
+            });
+    };
 
     //Project Tab JS
 
-    window.initializeProjectTabEvents = function(){
-
+    window.initializeProjectTabEvents = function () {
         $("#approvedTable").DataTable({
             columnDefs: [
                 {
@@ -1171,72 +1176,87 @@ $(document).on('DOMContentLoaded', function() {
         $("#ongoingTable").DataTable();
         $("#completed").DataTable();
 
-         $("#ApprovedtableBody").on("click", ".approvedProjectInfo", function () {
-             const row = $(this).closest("tr");
-             const inputs = row.find("input");
+        $("#ApprovedtableBody").on(
+            "click",
+            ".approvedProjectInfo",
+            function () {
+                const row = $(this).closest("tr");
+                const inputs = row.find("input");
 
-             $("#cooperatorName").val(row.find("td:eq(1)").text().trim());
-             $("#designation").val(inputs.filter(".designation").val());
-             $("#b_id").val(inputs.filter(".business_id").val());
-             $("#businessAddress").val(inputs.filter(".business_address").val());
-             $("#typeOfEnterprise").val(inputs.filter(".enterprise_type").val());
-             $("#enterpriseLevel").val(inputs.filter(".enterprise_level").val());
-             $("#landline").val(inputs.filter(".landline").val());
-             $("#mobilePhone").val(inputs.filter(".mobile_number").val());
-             $("#email").val(inputs.filter(".email").val());
-             $("#ProjectId").val(row.find("td:eq(0)").text().trim());
-             $("#ProjectTitle").val(row.find("td:eq(3)").text().trim());
-             $("#Amount").val(
-                 parseFloat(
-                     inputs.filter(".fund_amount").val().replace(/,/g, "")
-                 ).toLocaleString("en-US", {
-                     minimumFractionDigits: 2,
-                     maximumFractionDigits: 2,
-                 })
-             );
-             const dateAppliedValue = inputs.filter(".dateApplied").val();
-             console.log(dateAppliedValue);
-             $("#Applied").val(inputs.filter(".dateApplied").val());
-             $("#evaluated").val(inputs.filter(".evaluated_by").val());
-             $("#Assigned_to").val(inputs.filter(".assigned_to").val());
-             $("#building").val(
-                 parseFloat(
-                     inputs.filter(".building_Assets").val().replace(/,/g, "")
-                 ).toLocaleString("en-US", {
-                     minimumFractionDigits: 2,
-                     maximumFractionDigits: 2,
-                 })
-             );
-             $("#equipment").val(
-                 parseFloat(
-                     inputs.filter(".equipment_Assets").val().replace(/,/g, "")
-                 ).toLocaleString("en-US", {
-                     minimumFractionDigits: 2,
-                     maximumFractionDigits: 2,
-                 })
-             );
-             $("#workingCapital").val(
-                 parseFloat(
-                     inputs
-                         .filter(".working_capital_Assets")
-                         .val()
-                         .replace(/,/g, "")
-                 ).toLocaleString("en-US", {
-                     minimumFractionDigits: 2,
-                     maximumFractionDigits: 2,
-                 })
-             );
+                $("#cooperatorName").val(row.find("td:eq(1)").text().trim());
+                $("#designation").val(inputs.filter(".designation").val());
+                $("#b_id").val(inputs.filter(".business_id").val());
+                $("#businessAddress").val(
+                    inputs.filter(".business_address").val()
+                );
+                $("#typeOfEnterprise").val(
+                    inputs.filter(".enterprise_type").val()
+                );
+                $("#enterpriseLevel").val(
+                    inputs.filter(".enterprise_level").val()
+                );
+                $("#landline").val(inputs.filter(".landline").val());
+                $("#mobilePhone").val(inputs.filter(".mobile_number").val());
+                $("#email").val(inputs.filter(".email").val());
+                $("#ProjectId").val(row.find("td:eq(0)").text().trim());
+                $("#ProjectTitle").val(row.find("td:eq(3)").text().trim());
+                $("#Amount").val(
+                    parseFloat(
+                        inputs.filter(".fund_amount").val().replace(/,/g, "")
+                    ).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    })
+                );
+                const dateAppliedValue = inputs.filter(".dateApplied").val();
+                console.log(dateAppliedValue);
+                $("#Applied").val(inputs.filter(".dateApplied").val());
+                $("#evaluated").val(inputs.filter(".evaluated_by").val());
+                $("#Assigned_to").val(inputs.filter(".assigned_to").val());
+                $("#building").val(
+                    parseFloat(
+                        inputs
+                            .filter(".building_Assets")
+                            .val()
+                            .replace(/,/g, "")
+                    ).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    })
+                );
+                $("#equipment").val(
+                    parseFloat(
+                        inputs
+                            .filter(".equipment_Assets")
+                            .val()
+                            .replace(/,/g, "")
+                    ).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    })
+                );
+                $("#workingCapital").val(
+                    parseFloat(
+                        inputs
+                            .filter(".working_capital_Assets")
+                            .val()
+                            .replace(/,/g, "")
+                    ).toLocaleString("en-US", {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    })
+                );
 
-             const approvedProjectOffcanvas = $("#approvedDetails");
-             const userName = inputs.filter(".staffUserName").val();
-             const authUserName = "{{ Auth::user()->user_name }}";
-             console.log(userName);
-             if (
-                 userName !== undefined &&
-                 userName !== null &&
-                 authUserName === userName
-             ) {
-                 approvedProjectOffcanvas.find(".offcanvas-body").after(`
+                const approvedProjectOffcanvas = $("#approvedDetails");
+                const userName = inputs.filter(".staffUserName").val();
+                const authUserName = "{{ Auth::user()->user_name }}";
+                console.log(userName);
+                if (
+                    userName !== undefined &&
+                    userName !== null &&
+                    authUserName === userName
+                ) {
+                    approvedProjectOffcanvas.find(".offcanvas-body").after(`
                     <div class="menu-container">
               <div class="menu-button z-3 p-3 text-white">
                   <i class="ri-menu-2-fill ri-lg" id="menu-icon-state"></i>
@@ -1263,15 +1283,16 @@ $(document).on('DOMContentLoaded', function() {
                   </div>
               </div>
           </div>`);
-             } else {
-                 approvedProjectOffcanvas.find(".menu-container").remove();
-             }
-         });
+                } else {
+                    approvedProjectOffcanvas.find(".menu-container").remove();
+                }
+            }
+        );
 
-          $("#addRequirement").on("click", function () {
-              let RequirementLinkContent = $("#linkContainer");
+        $("#addRequirement").on("click", function () {
+            let RequirementLinkContent = $("#linkContainer");
 
-              RequirementLinkContent.append(`
+            RequirementLinkContent.append(`
                   <div class="col-12 linkConstInstance">
                               <div class="row">
                                   <div class="col-11">
@@ -1291,48 +1312,45 @@ $(document).on('DOMContentLoaded', function() {
                               </div>
                       </div>
                   `);
-          });
+        });
 
-           $("#linkContainer").on("click", ".removeRequirement", function () {
-               $(this).closest(".linkConstInstance").remove();
-           });
+        $("#linkContainer").on("click", ".removeRequirement", function () {
+            $(this).closest(".linkConstInstance").remove();
+        });
 
-             $("#approvedDetails").on(
-                 "click",
-                 "[data-display-section]",
-                 function () {
-                     // Cache the data attribute value
-                     let sectionId = $(this).data("display-section");
-                     // Cache the section container selector
-                     let sectionContainer = $(".section-container");
+        $("#approvedDetails").on(
+            "click",
+            "[data-display-section]",
+            function () {
+                // Cache the data attribute value
+                let sectionId = $(this).data("display-section");
+                // Cache the section container selector
+                let sectionContainer = $(".section-container");
 
-                     // Hide all sections in one go, instead of calling hide() on each element
-                     sectionContainer.hide();
+                // Hide all sections in one go, instead of calling hide() on each element
+                sectionContainer.hide();
 
-                     // Toggle the display of the selected section
-                     $("#" + sectionId).toggle();
-                 }
-             );
+                // Toggle the display of the selected section
+                $("#" + sectionId).toggle();
+            }
+        );
 
-                 fetch(ProjectTabRoute.projectApprovalLink, {
-                     method: "POST",
-                     headers: {
-                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                             "content"
-                         ),
-                     },
-                     dataType: "json",
-                 })
-                     .then((response) => response.json())
-                     .then((data) => {
-                         let ApprovedDatatable =
-                             $("#approvedTable").DataTable();
-                         ApprovedDatatable.clear().draw();
-                         data.forEach((Approved) => {
-                             ApprovedDatatable.row
-                                 .add([
-                                     `${Approved.Project_id}`,
-                                     `${Approved.f_name} ${Approved.l_name}
+        fetch(ProjectTabRoute.projectApprovalLink, {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            dataType: "json",
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                let ApprovedDatatable = $("#approvedTable").DataTable();
+                ApprovedDatatable.clear().draw();
+                data.forEach((Approved) => {
+                    ApprovedDatatable.row
+                        .add([
+                            `${Approved.Project_id}`,
+                            `${Approved.f_name} ${Approved.l_name}
                             <input type="hidden" class="designation" value="${
                                 Approved.designation
                             }">
@@ -1345,7 +1363,7 @@ $(document).on('DOMContentLoaded', function() {
                             <input type="hidden" class="landline" value="${
                                 Approved.landline ?? ""
                             }">`,
-                                     `${Approved.firm_name}
+                            `${Approved.firm_name}
                             <input type="hidden" class="business_id" value="${Approved.business_id}">
                             <input type="hidden" class="enterprise_type" value="${Approved.enterprise_type}">
                             <input type="hidden" class="enterprise_level" value="${Approved.enterprise_level}">
@@ -1353,83 +1371,81 @@ $(document).on('DOMContentLoaded', function() {
                             <input type="hidden" class="equipment_Assets" value="${Approved.equipment_value}">
                             <input type="hidden" class="working_capital_Assets" value="${Approved.working_capital}">
                             <input type="hidden" class="business_address" value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}">`,
-                                     `${Approved.project_title}
+                            `${Approved.project_title}
                             <input type="hidden" class="fund_amount" value="${Approved.fund_amount}">
                             <input type="hidden" class="dateApplied" value="${Approved.date_applied}">
                             <input type="hidden" class="staffUserName" value="${Approved.staffUserName}">
                             <input type="hidden" class="evaluated_by" value="${Approved.evaluated_by}">
                             <input type="hidden" class="assigned_to" value="${Approved.assinged_to}">`,
-                                     `${Approved.date_approved}`,
-                                     ` <button class="btn btn-primary approvedProjectInfo" type="button"
+                            `${Approved.date_approved}`,
+                            ` <button class="btn btn-primary approvedProjectInfo" type="button"
                                                     data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
                                                     aria-controls="approvedDetails">
                                                     <i class="ri-menu-unfold-4-line ri-1x"></i>
                                                 </button>`,
-                                 ])
-                                 .draw(false);
-                         });
-                     })
-                     .catch((error) => {
-                         console.error("Error:", error);
-                     });
-
-    }
+                        ])
+                        .draw(false);
+                });
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+    };
     //Applcant Tab JS
-    window.InitializeApplicantTabEvents = function(){
-         new DataTable("#applicant"); // Then initialize DataTables
-         $("#evaluationSchedule-datepicker").daterangepicker({
-             singleDatePicker: true,
-             showDropdowns: true,
-             opens: "center",
-             drops: "up",
-             autoUpdateInput: false,
-             timePicker: true,
-             locale: {
-                 format: "MM/DD/YYYY h:mm A",
-             },
-         });
+    window.InitializeApplicantTabEvents = function () {
+        new DataTable("#applicant"); // Then initialize DataTables
+        $("#evaluationSchedule-datepicker").daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            opens: "center",
+            drops: "up",
+            autoUpdateInput: false,
+            timePicker: true,
+            locale: {
+                format: "MM/DD/YYYY h:mm A",
+            },
+        });
 
-         $("#evaluationSchedule-datepicker").on(
-             "apply.daterangepicker",
-             function (ev, picker) {
-                 $(this).val(picker.startDate.format("YYYY-MM-DD HH:mm"));
-             }
-         );
+        $("#evaluationSchedule-datepicker").on(
+            "apply.daterangepicker",
+            function (ev, picker) {
+                $(this).val(picker.startDate.format("YYYY-MM-DD HH:mm"));
+            }
+        );
 
-         $("#evaluationSchedule-datepicker").on(
-             "cancel.daterangepicker",
-             function (ev, picker) {
-                 $(this).val("");
-             }
-         );
+        $("#evaluationSchedule-datepicker").on(
+            "cancel.daterangepicker",
+            function (ev, picker) {
+                $(this).val("");
+            }
+        );
 
-         // Get all checkboxes and their corresponding 'Reviewed' spans
-         const checkboxes = document.querySelectorAll(".form-check-input");
-         const reviewedSpans = document.querySelectorAll(".badge.bg-success");
+        // Get all checkboxes and their corresponding 'Reviewed' spans
+        const checkboxes = document.querySelectorAll(".form-check-input");
+        const reviewedSpans = document.querySelectorAll(".badge.bg-success");
 
-         // Hide all 'Reviewed' spans initially
-         reviewedSpans.forEach((span) => {
-             span.style.display = "none";
-         });
+        // Hide all 'Reviewed' spans initially
+        reviewedSpans.forEach((span) => {
+            span.style.display = "none";
+        });
 
-         // Add event listener to each checkbox
-         checkboxes.forEach((checkbox, index) => {
-             checkbox.addEventListener("change", function () {
-                 if (this.checked) {
-                     // Show confirmation modal
-                     // You can customize the modal content and appearance based on your requirements
-                     $("#myModal").modal("show");
+        // Add event listener to each checkbox
+        checkboxes.forEach((checkbox, index) => {
+            checkbox.addEventListener("change", function () {
+                if (this.checked) {
+                    // Show confirmation modal
+                    // You can customize the modal content and appearance based on your requirements
+                    $("#myModal").modal("show");
 
-                     // Show 'Reviewed' span if checkbox is checked
-                     reviewedSpans[index].style.display = "inline";
-                 } else {
-                     reviewedSpans[index].style.display = "none"; // Hide 'Reviewed' span if checkbox is unchecked
-                 }
-             });
-         });
+                    // Show 'Reviewed' span if checkbox is checked
+                    reviewedSpans[index].style.display = "inline";
+                } else {
+                    reviewedSpans[index].style.display = "none"; // Hide 'Reviewed' span if checkbox is unchecked
+                }
+            });
+        });
 
-           formatCurrency('#fundAmount');
-
+        formatCurrency("#fundAmount");
 
         $(".applicantDetailsBtn").on("click", function () {
             const row = $(this).closest("tr");
@@ -1503,223 +1519,223 @@ $(document).on('DOMContentLoaded', function() {
             });
         });
 
-           function notifDatePopulate(businessID) {
-               $.ajax({
-                   type: "GET",
-                   url: ApplicantTabRoute.getEvaluationScheduleDate,
-                   headers: {
-                       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                           "content"
-                       ),
-                   },
-                   data: {
-                       business_id: businessID,
-                   },
-                   success: function (response) {
-                       let nofi_dateCont = $("#nofi_ScheduleCont");
-                       let setAndUpdateBtn = $("#setEvaluationDate");
-                       nofi_dateCont.empty();
-                       if (response.Scheduled_date) {
-                           nofi_dateCont.append(
-                               '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
-                                   response.Scheduled_date +
-                                   '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
-                           );
-                           setAndUpdateBtn.text("Update");
-                       } else {
-                           nofi_dateCont.append(
-                               '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>'
-                           );
-                       }
-                   },
-                   error: function (error) {
-                       console.log(error);
-                   },
-               });
-           }
-           //Get applicant requirements to populate the requirements table
-           function populateReqTable(response) {
-               let requimentTableBody = $("#requirementsTables");
+        function notifDatePopulate(businessID) {
+            $.ajax({
+                type: "GET",
+                url: ApplicantTabRoute.getEvaluationScheduleDate,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: {
+                    business_id: businessID,
+                },
+                success: function (response) {
+                    let nofi_dateCont = $("#nofi_ScheduleCont");
+                    let setAndUpdateBtn = $("#setEvaluationDate");
+                    nofi_dateCont.empty();
+                    if (response.Scheduled_date) {
+                        nofi_dateCont.append(
+                            '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
+                                response.Scheduled_date +
+                                '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
+                        );
+                        setAndUpdateBtn.text("Update");
+                    } else {
+                        nofi_dateCont.append(
+                            '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>'
+                        );
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+            });
+        }
+        //Get applicant requirements to populate the requirements table
+        function populateReqTable(response) {
+            let requimentTableBody = $("#requirementsTables");
 
-               requimentTableBody.empty();
+            requimentTableBody.empty();
 
-               $.each(response, function (index, requirement) {
-                   const row = $("<tr>");
-                   row.append("<td>" + requirement.file_name + "</td>");
-                   row.append("<td>" + requirement.file_type + "</td>");
-                   row.append(
-                       '<td class="text-center">' +
-                           '<button class="btn btn-primary viewReq">View</button>' +
-                           "</td>"
-                   );
-                   row.append(
-                       '<input type="hidden"  name="file_url" value="' +
-                           requirement.full_url +
-                           '">'
-                   );
-                   row.append(
-                       '<input type="hidden"  name="can_edit" value="' +
-                           requirement.can_edit +
-                           '">'
-                   );
-                   row.append(
-                       '<input type="hidden"  name"remark" value="' +
-                           requirement.remarks +
-                           '">'
-                   );
-                   row.append(
-                       '<input type="hidden"  name="created_at" value="' +
-                           requirement.created_at +
-                           '">'
-                   );
-                   row.append(
-                       '<input type="hidden"  name="updated_at" value="' +
-                           requirement.updated_at +
-                           '">'
-                   );
+            $.each(response, function (index, requirement) {
+                const row = $("<tr>");
+                row.append("<td>" + requirement.file_name + "</td>");
+                row.append("<td>" + requirement.file_type + "</td>");
+                row.append(
+                    '<td class="text-center">' +
+                        '<button class="btn btn-primary viewReq">View</button>' +
+                        "</td>"
+                );
+                row.append(
+                    '<input type="hidden"  name="file_url" value="' +
+                        requirement.full_url +
+                        '">'
+                );
+                row.append(
+                    '<input type="hidden"  name="can_edit" value="' +
+                        requirement.can_edit +
+                        '">'
+                );
+                row.append(
+                    '<input type="hidden"  name"remark" value="' +
+                        requirement.remarks +
+                        '">'
+                );
+                row.append(
+                    '<input type="hidden"  name="created_at" value="' +
+                        requirement.created_at +
+                        '">'
+                );
+                row.append(
+                    '<input type="hidden"  name="updated_at" value="' +
+                        requirement.updated_at +
+                        '">'
+                );
 
-                   requimentTableBody.append(row);
-               });
-           }
-           //View applicant requirements
-           $("#requirementsTables").on("click", ".viewReq", function () {
-               const row = $(this).closest("tr");
-               const file_Name = row.find("td:nth-child(1)").text();
-               const fileUrl = row
-                   .find('input[type="hidden"][name="file_url"]')
-                   .val();
-               const fileType = row.find("td:nth-child(2)").text();
-               const uploadedDate = row
-                   .find('input[type="hidden"][name="created_at"]')
-                   .val();
-               const updatedDate = row
-                   .find('input[type="hidden"][name="updated_at"]')
-                   .val();
-               const uploader = $("#contact_person").val();
+                requimentTableBody.append(row);
+            });
+        }
+        //View applicant requirements
+        $("#requirementsTables").on("click", ".viewReq", function () {
+            const row = $(this).closest("tr");
+            const file_Name = row.find("td:nth-child(1)").text();
+            const fileUrl = row
+                .find('input[type="hidden"][name="file_url"]')
+                .val();
+            const fileType = row.find("td:nth-child(2)").text();
+            const uploadedDate = row
+                .find('input[type="hidden"][name="created_at"]')
+                .val();
+            const updatedDate = row
+                .find('input[type="hidden"][name="updated_at"]')
+                .val();
+            const uploader = $("#contact_person").val();
 
-               $("#fileName").val(file_Name);
-               $("#filetype").val(fileType);
-               $("#fileUploaded").val(uploadedDate);
-               $("#fileUploadedBy").val(updatedDate);
-               $("#fileUploadedBy").val(uploader);
-               retrieveAndDisplayFile(fileUrl, fileType);
-           });
+            $("#fileName").val(file_Name);
+            $("#filetype").val(fileType);
+            $("#fileUploaded").val(uploadedDate);
+            $("#fileUploadedBy").val(updatedDate);
+            $("#fileUploadedBy").val(uploader);
+            retrieveAndDisplayFile(fileUrl, fileType);
+        });
 
-           //retrieve and display file function as base64 format for both pdf and img type
-           function retrieveAndDisplayFile(fileUrl, fileType) {
-               $.ajax({
-                   url: ApplicantTabRoute.getRequirementFiles,
-                   method: "GET",
-                   headers: {
-                       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                           "content"
-                       ),
-                   },
-                   data: {
-                       file_url: fileUrl,
-                   },
-                   success: function (data) {
-                       const fileContent = $("#fileContent");
-                       fileContent.empty(); // Clear any previous content
+        //retrieve and display file function as base64 format for both pdf and img type
+        function retrieveAndDisplayFile(fileUrl, fileType) {
+            $.ajax({
+                url: ApplicantTabRoute.getRequirementFiles,
+                method: "GET",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: {
+                    file_url: fileUrl,
+                },
+                success: function (data) {
+                    const fileContent = $("#fileContent");
+                    fileContent.empty(); // Clear any previous content
 
-                       if (fileType === "pdf") {
-                           // Display PDF in an iframe
-                           const base64PDF =
-                               "data:application/pdf;base64," +
-                               data.base64File +
-                               "";
-                           const embed = $("<iframe>", {
-                               src: base64PDF,
-                               type: "application/pdf",
-                               width: "100%",
-                               height: "100%",
-                               frameborder: "0",
-                               allow: "fullscreen",
-                           });
-                           fileContent.append(embed);
-                       } else {
-                           // Display Image
-                           const img = $("<img>", {
-                               src: `data:${fileType};base64,${data.base64File}`,
-                               class: "img-fluid",
-                           });
-                           fileContent.append(img);
-                       }
-                   },
-                   error: function (error) {
-                       console.log(error);
-                   },
-               });
+                    if (fileType === "pdf") {
+                        // Display PDF in an iframe
+                        const base64PDF =
+                            "data:application/pdf;base64," +
+                            data.base64File +
+                            "";
+                        const embed = $("<iframe>", {
+                            src: base64PDF,
+                            type: "application/pdf",
+                            width: "100%",
+                            height: "100%",
+                            frameborder: "0",
+                            allow: "fullscreen",
+                        });
+                        fileContent.append(embed);
+                    } else {
+                        // Display Image
+                        const img = $("<img>", {
+                            src: `data:${fileType};base64,${data.base64File}`,
+                            class: "img-fluid",
+                        });
+                        fileContent.append(img);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+            });
 
-               const reviewFileModal = new bootstrap.Modal(
-                   document.getElementById("reviewFileModal")
-               );
-               reviewFileModal.show();
-           }
+            const reviewFileModal = new bootstrap.Modal(
+                document.getElementById("reviewFileModal")
+            );
+            reviewFileModal.show();
+        }
 
-           //set evaluation date
-           $("#setEvaluationDate").on("click", function () {
-               let user_id = $("#selected_userId").val();
-               let business_id = $("#selected_businessID").val();
-               let Scheduledate = $("#evaluationSchedule-datepicker").val();
+        //set evaluation date
+        $("#setEvaluationDate").on("click", function () {
+            let user_id = $("#selected_userId").val();
+            let business_id = $("#selected_businessID").val();
+            let Scheduledate = $("#evaluationSchedule-datepicker").val();
 
-               $.ajax({
-                   type: "PUT",
-                   url: ApplicantTabRoute.setEvaluationScheduleDate,
-                   headers: {
-                       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                           "content"
-                       ),
-                   },
-                   data: {
-                       user_id: user_id,
-                       business_id: business_id,
-                       evaluation_date: Scheduledate,
-                   },
-                   success: function (response) {
-                       console.log(response);
-                       if (response.success == true) {
-                           notifDatePopulate(business_id);
-                       }
-                   },
-                   error: function (error) {
-                       console.log(error);
-                   },
-               });
-           });
+            $.ajax({
+                type: "PUT",
+                url: ApplicantTabRoute.setEvaluationScheduleDate,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: {
+                    user_id: user_id,
+                    business_id: business_id,
+                    evaluation_date: Scheduledate,
+                },
+                success: function (response) {
+                    console.log(response);
+                    if (response.success == true) {
+                        notifDatePopulate(business_id);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+            });
+        });
 
-           //submit project proposal
-           $("#submitProjectProposal").on("click", function () {
-               event.preventDefault();
+        //submit project proposal
+        $("#submitProjectProposal").on("click", function () {
+            event.preventDefault();
 
-               let b_id = $("#selected_businessID").val();
-               let formdata =
-                   $("#projectProposal").serialize() + "&business_id=" + b_id;
+            let b_id = $("#selected_businessID").val();
+            let formdata =
+                $("#projectProposal").serialize() + "&business_id=" + b_id;
 
-               $.ajax({
-                   type: "POST",
-                   url: ApplicantTabRoute.submitProjectProposal,
-                   headers: {
-                       "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                           "content"
-                       ),
-                   },
-                   data: formdata,
-                   success: function (response) {
-                       if (response.success == "true") {
-                           closeOffcanvasInstances("#applicantDetails");
-                           setTimeout(() => {
-                               showToastFeedback(
-                                   "text-bg-success",
-                                   response.message
-                               );
-                           }, 500);
-                       }
-                   },
-                   error: function (error) {
-                       console.log(error);
-                   },
-               });
-           });
-    }
+            $.ajax({
+                type: "POST",
+                url: ApplicantTabRoute.submitProjectProposal,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+                data: formdata,
+                success: function (response) {
+                    if (response.success == "true") {
+                        closeOffcanvasInstances("#applicantDetails");
+                        setTimeout(() => {
+                            showToastFeedback(
+                                "text-bg-success",
+                                response.message
+                            );
+                        }, 500);
+                    }
+                },
+                error: function (error) {
+                    console.log(error);
+                },
+            });
+        });
+    };
 });

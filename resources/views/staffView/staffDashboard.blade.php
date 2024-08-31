@@ -638,7 +638,10 @@
         // $(window).on('beforeunload', function() {
         //     return 'Are you sure you want to leave?';
         // });
-        $(document).ready(function() {
+
+
+        $(document).ready(() => {
+
             let lastUrl = sessionStorage.getItem('StafflastUrl')
             let lastActive = sessionStorage.getItem('StafflastActive')
             if (lastUrl && lastActive) {
@@ -646,61 +649,68 @@
             } else {
                 loadPage('{{ route('staff.dashboard') }}', 'dashboardLink');
             }
-
         });
 
-        window.loadPage = function(url, activeLink) {
-            // Check if the response is already cached
-            let cachedPage = sessionStorage.getItem(url);
-            if (cachedPage) {
-                // If cached, use the cached response
-                handleAjaxSuccess(cachedPage, activeLink, url);
-            } else {
-                // If not cached, make the AJAX request
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        // Cache the response
-                        //sessionStorage.setItem(url, response);
-                        handleAjaxSuccess(response, activeLink, url);
-                    },
-                    error: function(error) {
-                        console.log('Error: ' + error);
-                    }
-                });
+           function setActiveLink(activeLink) {
+                $(".nav-item a").removeClass("active");
+                const defaultLink = "dashboardLink";
+                const linkToActivate = $("#" + (activeLink || defaultLink));
+                linkToActivate.addClass("active");
+            };
+
+            window.loadPage = (url, activeLink) => {
+                // Check if the response is already cached
+                let cachedPage = sessionStorage.getItem(url);
+                if (cachedPage) {
+                    // If cached, use the cached response
+                    handleAjaxSuccess(cachedPage, activeLink, url);
+                } else {
+                    // If not cached, make the AJAX request
+                    $.ajax({
+                        url: url,
+                        type: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function(response) {
+                            // Cache the response
+                            //sessionStorage.setItem(url, response);
+                            handleAjaxSuccess(response, activeLink, url);
+                        },
+                        error: function(error) {
+                            console.log('Error: ' + error);
+                        }
+                    });
+                }
+            };
+
+           function handleAjaxSuccess(response, activeLink, url) {
+                $('#main-content').html(response);
+                setActiveLink(activeLink);
+                history.pushState(null, '', url);
+
+                if (url === '{{ route('staff.dashboard') }}') {
+                    InitdashboardChar();
+                    initializeDashboardTabEvents();
+                }
+
+                if (url === '/org-access/viewCooperatorInfo.php') {
+                    InitializeviewCooperatorProgress();
+                }
+
+                if (url === '{{ route('staff.Project') }}') {
+                    initializeProjectTabEvents();
+                    attachProjectInformationSheetEvents();
+                }
+
+                if (url === '{{ route('staff.Applicant') }}') {
+                    InitializeApplicantTabEvents();
+                }
+
+                sessionStorage.setItem('StafflastUrl', url);
+                sessionStorage.setItem('StafflastActive', activeLink);
             }
-        };
 
-        function handleAjaxSuccess(response, activeLink, url) {
-            $('#main-content').html(response);
-            setActiveLink(activeLink);
-            history.pushState(null, '', url);
-
-            if (url === '{{ route('staff.dashboard') }}') {
-                InitdashboardChar();
-                initializeDashboardTabEvents();
-            }
-
-            if (url === '/org-access/viewCooperatorInfo.php') {
-                InitializeviewCooperatorProgress();
-            }
-
-            if (url === '{{ route('staff.Project') }}') {
-                initializeProjectTabEvents();
-                attachProjectInformationSheetEvents();
-            }
-
-            if (url === '{{ route('staff.Applicant') }}') {
-                InitializeApplicantTabEvents();
-            }
-
-            sessionStorage.setItem('StafflastUrl', url);
-            sessionStorage.setItem('StafflastActive', activeLink);
-        }
 
         function attachProjectInformationSheetEvents() {
             $('#createPISButton').on('click', function() {
