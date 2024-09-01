@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OngoingQuarterlyReport extends Model
 {
@@ -18,4 +19,13 @@ class OngoingQuarterlyReport extends Model
         'report_file',
         'can_edit'
     ];
+
+    protected $casts = [
+        'report_file' => 'array'
+    ];
+
+    public function projectInfo() : BelongsTo
+    {
+        return $this->BelongsTo(projectInfo::class, 'ongoing_project_id', 'Project_id');
+    }
 }

@@ -79,16 +79,17 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="buildingAsset">1.1 Building</label>
-                                <input type="text" class="bottom_border ms-2" name="buildingAsset" id="buildingAsset">
+                                <input type="text" class="bottom_border ms-2" name="buildingAsset" id="buildingAsset" value="{{ $quarterlyData['Building']; }}">
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="EquipmentAsset">1.2 Equipment</label>
-                                <input type="text" class="bottom_border ms-2" name="EquipmentAsset" id="EquipmentAsset">
+                                <input type="text" class="bottom_border ms-2" name="EquipmentAsset" id="EquipmentAsset" value="{{ $quarterlyData['Equipment']; }}">
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="workingCapitalAsset">1.3 Working Capital</label>
                                 <input type="text" class="bottom_border ms-2" name="workingCapitalAsset"
-                                    id="workingCapitalAsset">
+                                    id="workingCapitalAsset"
+                                    value="{{ $quarterlyData['WorkingCapital']; }}">
                             </div>
                             <div class="col-12 my-2">
                                 <span class="fw-semibold">Classification of Enterprise</span>
@@ -127,21 +128,21 @@
                                     Male
                                 </label>
                                 <input type="text" class="bottom_border ms-2" name="DireRegularMale"
-                                    id="DireRegularMale">
+                                    id="DireRegularMale" value="{{ $quarterlyData['male_Dir_Regular']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="DireRegularFemale">
                                     Female
                                 </label>
                                 <input type="text" class="bottom_border ms-2" name="DireRegularFemale"
-                                    id="DireRegularFemale">
+                                    id="DireRegularFemale" value="{{ $quarterlyData['female_Dir_Regular']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="DireRegularTotalWorkday">
                                     Total Workday
                                 </label>
                                 <input type="text" class="bottom_border ms-2" name="DireRegularTotalWorkday"
-                                    id="DireRegularTotalWorkday">
+                                    id="DireRegularTotalWorkday" value="{{ $quarterlyData['workday_Dir_Regular']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="DireRegularTotalManMonth">
@@ -162,17 +163,18 @@
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="ParttimeMale">Male</label>
-                                <input type="text" class="bottom_border ms-2" name="ParttimeMale" id="ParttimeMale">
+                                <input type="text" class="bottom_border ms-2" name="ParttimeMale" id="ParttimeMale" value="{{ $quarterlyData['male_Dir_PartT']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="ParttimeFemale">Female</label>
                                 <input type="text" class="bottom_border ms-2" name="ParttimeFemale"
-                                    id="ParttimeFemale">
+                                    id="ParttimeFemale" value="{{ $quarterlyData['female_Dir_PartT']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="ParttimeTotalWorkday">Total Workday</label>
                                 <input type="text" class="bottom_border ms-2" name="ParttimeTotalWorkday"
-                                    id="ParttimeTotalWorkday">
+                                    id="ParttimeTotalWorkday"
+                                    value="{{ $quarterlyData['workday_Dir_PartT']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="ParttimeTotalManMonth">Total Man-Month</label>
@@ -193,17 +195,19 @@
                             <div class="col-12 col-md-2">
                                 <label for="IndiRegularMale">Male</label>
                                 <input type="text" class="bottom_border ms-2" name="IndiRegularMale"
-                                    id="IndiRegularMale">
+                                    id="IndiRegularMale" value="{{ $quarterlyData['male_Indir_Regular']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="IndiRegularFemale">Female</label>
                                 <input type="text" class="bottom_border ms-2" name="IndiRegularFemale"
-                                    id="IndiRegularFemale">
+                                    id="IndiRegularFemale"
+                                    value="{{ $quarterlyData['female_Indir_Regular']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="IndirectTotalWorkday">Total Workday</label>
                                 <input type="text" class="bottom_border ms-2" name="IndiRegularTotalWorkday"
-                                    id="IndiRegularTotalWorkday">
+                                    id="IndiRegularTotalWorkday"
+                                    value="{{ $quarterlyData['workday_Indir_Regular']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="IndirectTotalManMonth">Total Man-Month</label>
@@ -221,16 +225,19 @@
                             <div class="col-12 col-md-2">
                                 <label for="IndirectParttimeMale">Male</label>
                                 <input type="text" class="bottom_border ms-2" name="IndiParttimeMale"
-                                    id="IndiParttimeMale">
+                                    id="IndiParttimeMale"
+                                    value="{{ $quarterlyData['male_Indir_PartT']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="IndirectParttimeFemale">Female</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiParttimeFemale" id="IndiParttimeFemale">
+                                <input type="text" class="bottom_border ms-2" name="IndiParttimeFemale" id="IndiParttimeFemale"
+                                    value="{{ $quarterlyData['female_Indir_PartT']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="IndirectParttimeTotalWorkday">Total Workday</label>
                                 <input type="text" class="bottom_border ms-2" name="IndiParttimeTotalWorkday"
-                                    id="IndiParttimeTotalWorkday">
+                                    id="IndiParttimeTotalWorkday"
+                                    value="{{ $quarterlyData['workday_Indir_PartT']; }}">
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="IndiParttimeTotalManMonth">Total Man-Month</label>
@@ -253,13 +260,14 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <div class="w-100">
-                            <h6>3.0 Prodection and Sales Data for the Quarter</h6>
+                            <h6>3.0 Production and Sales Data for the Quarter</h6>
                         </div>
                         <div class="container mt-2">
+                            @if(count($quarterlyData['LocalProduct']) > 0)
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
-                                        <th rowspan="2">3.1 Export Market</th>
+                                        <th rowspan="4">3.1 Export Market</th>
                                         <th>Name of Product</th>
                                         <th>Packaging Details</th>
                                         <th>Volume of Production</th>
@@ -269,18 +277,35 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach($quarterlyData['LocalProduct'] as $product)
                                     <tr>
-                                        <td>None</td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>
+                                            <input class="bottom_border" type="text" value="{{ $product['ProductName'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $product['PackingDetails'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $product['volumeOfProduction'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $product['grossSales'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $product['estimatedCostOfProduction'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $product['netSales'] }}">
+                                        </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
+                            @endif
                         </div>
                         <div class="container mb-2">
+                            @if(count($quarterlyData['ExportProduct']) > 0)
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -294,22 +319,40 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($quarterlyData['ExportProduct'] as $Exportproduct)
                                     <tr>
-                                        <td>None</td>
                                         <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['ProductName'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['PackingDetails'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['volumeOfProduction'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['grossSales'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['estimatedCostOfProduction'] }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border" value="
+                                            {{ $Exportproduct['netSales'] }}">
+                                        </td>
                                     </tr>
+                                    @endforeach
                                     <tr>
-                                        <td colspan="3">Total</td>
+                                        <td colspan="4">Total</td>
                                         <td>₱</td>
                                         <td>₱</td>
                                         <td>₱</td>
                                     </tr>
                                 </tbody>
+
                             </table>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -323,11 +366,11 @@
                             </div>
                             <div class="col-12">
                                 <label for="Export">4.1 Export</label>
-                                <input type="text" class="bottom_border ms-2" name="ExportOutlet" id="Export">
+                                <input type="text" class="bottom_border ms-2" name="ExportOutlet" id="Export" value="{{ $quarterlyData['Market_Export']; }}">
                             </div>
                             <div class="col-12">
                                 <label for="Local">4.2 Local</label>
-                                <input type="text" class="bottom_border ms-2" name="LocalOutlet" id="Local">
+                                <input type="text" class="bottom_border ms-2" name="LocalOutlet" id="Local" value="{{ $quarterlyData['Market_local']; }}">
                             </div>
                         </div>
                     </div>

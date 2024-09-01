@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class projectInfo extends Model
 {
@@ -33,5 +34,10 @@ class projectInfo extends Model
     public function businessInfo() : BelongsTo
     {
         return $this->BelongsTo(businessInfo::class, 'business_id', 'id');
+    }
+
+    public function quarterlyReport() : HasMany
+    {
+        return $this->HasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
     }
 }
