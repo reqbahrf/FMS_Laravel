@@ -598,7 +598,16 @@ $(document).on("DOMContentLoaded", function () {
                             {
                                 title: "Date Created",
                             },
+                            {
+                                title: "Action",
+                            }
                         ],
+                        columnDefs: [
+                            {
+                                targets : 5,
+                                width: "8%",
+                            },
+                        ]
                     });
                 },
                 completed: () => {},
@@ -617,37 +626,88 @@ $(document).on("DOMContentLoaded", function () {
             return paymentHistoryTable;
         }
 
-        $("#submitPayment").on("click", function () {
-            let project_id = $("#ProjectID").val();
-
-            let formData =
+        async function storePaymentRecords(project_id) {
+            const formData =
                 $("#paymentForm").serialize() + "&project_id=" + project_id;
-            $.ajax({
-                type: "POST",
-                url: DashboardTabRoute.storePaymentRecords,
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-                data: formData,
-                success: function (response) {
-                    closeModal("#paymentModal");
-                    fetchPaymentHistory(project_id);
-                    setTimeout(() => {
-                        showToastFeedback("text-bg-success", response.message);
-                    }, 500);
-                },
-                error: function (error) {
-                    showToastFeedback(
-                        "text-bg-danger",
-                        error.responseJSON.message
-                    );
-                },
-            });
-        });
 
-        //get the payment history
+            try {
+                const response = await $.ajax({
+                    type: "POST",
+                    url: DashboardTabRoute.storePaymentRecords,
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                    data: formData,
+                });
+
+                closeModal("#paymentModal");
+                await fetchPaymentHistory(project_id);
+                setTimeout(() => {
+                    showToastFeedback("text-bg-success", response.message);
+                }, 500);
+            } catch (error) {
+                showToastFeedback(
+                    "text-bg-danger",
+                    error.responseJSON.message
+                );
+            }
+        }
+
+        async function update_payment_records() {
+
+            const project_id = $("#ProjectID").val();
+            const transaction_id = $("#TransactionID").val();
+            const formData = $("#paymentForm")
+                .serialize();
+            try{
+
+                const response = await $.ajax({
+                    type: "PUT",
+                    url: DashboardTabRoute.updatePaymentRecord.replace(
+                        ":transaction_id",
+                        transaction_id
+                    ),
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                    data: formData + "&project_id=" + project_id,
+                });
+
+                closeModal("#paymentModal");
+                await fetchPaymentHistory($("#ProjectID").val());
+                setTimeout(() => {
+                    showToastFeedback("text-bg-success", response.message);
+                }, 500);
+
+            }catch (error) {
+                showToastFeedback(
+                    "text-bg-danger",
+                    error.responseJSON.message
+                );
+            }
+
+        }
+
+        $("#submitPayment").on("click", function () {
+            const submissionMethod = $(this).data("submissionmethod");
+
+            if (submissionMethod === "add") {
+                const project_id = $("#ProjectID").val();
+                if (project_id) {
+                    storePaymentRecords(project_id);
+                } else {
+                    console.error("Project ID is null");
+                }
+            } else if (submissionMethod === "update") {
+                update_payment_records();
+            } else {
+                console.error("Submission method is not defined");
+            }
+        });
 
         async function fetchPaymentHistory(projectId) {
             try {
@@ -672,6 +732,10 @@ $(document).on("DOMContentLoaded", function () {
                         payment.payment_method,
                         payment.payment_status,
                         payment.created_at,
+                        `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                                        data-bs-target="#paymentModal"
+                                        data-action="Update"><i class="ri-file-edit-fill"></i></button>
+                        <button class="btn btn-danger btn-sm"><i class="ri-delete-bin-2-fill"></i></button>`,
                     ])
                 );
                 paymentHistoryTable.draw();
@@ -685,6 +749,39 @@ $(document).on("DOMContentLoaded", function () {
                 showToastFeedback("text-bg-danger", error.responseJSON.message);
                 throw error;
             }
+        }
+
+        $("#paymentModal").on('show.bs.modal', function (event) {
+            const button = $(event.relatedTarget);
+            const action = button.data('action');
+
+            const modal = $(this);
+            const modalTitle = modal.find('.modal-title');
+            const submitButton = modal.find('#submitPayment');
+
+            if(action === 'Add') {
+                modalTitle.text('Add Payment');
+                submitButton.text('Add Payment');
+                submitButton.attr("data-submissionMethod", "add");
+            } else if(action === 'Update') {
+                modalTitle.text('Update Payment');
+                submitButton.text('Update Payment');
+                submitButton.attr("data-submissionMethod", "update");
+                retrieve_the_selected_record_TO_UPDATE(button.closest('tr'));
+            }
+        });
+
+        async function retrieve_the_selected_record_TO_UPDATE(selected_row){
+
+            const selected_transaction_id = selected_row.find("td:eq(0)").text().trim();
+            const selected_amount = selected_row.find("td:eq(1)").text().trim();
+            const selected_payment_method = selected_row.find("td:eq(2)").text().trim();
+            const selected_payment_status = selected_row.find("td:eq(3)").text().trim();
+
+            $("#TransactionID").val(selected_transaction_id);
+            $("#paymentAmount").val(selected_amount);
+            $("#paymentMethod").val(selected_payment_method);
+            $("#paymentStatus").val(selected_payment_status);
         }
 
         //TODO: Implove the this event listener for the Offcanvas handled project
@@ -739,6 +836,11 @@ $(document).on("DOMContentLoaded", function () {
                             fundedAmount.toLocaleString("en-US", {
                                 minimumFractionDigits: 2,
                             })
+                        );
+                        $("#remainingBalance").text(
+                            remainingAmount.toLocaleString("en-US",{
+                                 minimumFractionDigits: 2,
+                        })
                         );
 
                         setTimeout(() => {

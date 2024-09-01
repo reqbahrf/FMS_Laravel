@@ -95,7 +95,34 @@ class StaffPaymentRecordController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $validated = $request->validate([
+            'project_id' => 'required|string|max:15',
+            'TransactionID' => 'required|string|max:15',
+            'amount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
+            'paymentMethod' => 'required|string|max:15',
+            'paymentStatus' => 'required|string|max:15',
+        ]);
+
+        try {
+            $exists = PaymentRecord::where('transaction_id', $validated['TransactionID'])->exists();
+            if (!$exists) {
+                return response()->json(['message' => 'Transaction ID does not exist'], 404);
+            }
+
+            $record = PaymentRecord::where('transaction_id', $validated['TransactionID'])->first();
+            $record->update([
+                'Project_id' => $validated['project_id'],
+                'transaction_id' => $validated['TransactionID'],
+                'amount' => number_format(str_replace(',', '', $validated['amount']), 2, '.', ''),
+                'payment_status' => $validated['paymentStatus'],
+                'payment_method' => $validated['paymentMethod'],
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Payment record updated successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error updating payment record: ' . $e->getMessage());
+            return response()->json(['message' => 'Error updating payment record'], 500);
+        }
     }
 
     /**

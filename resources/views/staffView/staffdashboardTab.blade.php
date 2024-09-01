@@ -53,7 +53,7 @@
                     <div class="row gy-3">
                         <div class="col-12">
                             <label for="TransactionID">Transaction ID:</label>
-                            <input type="text" name="TransactionID" class="form-control">
+                            <input type="text" name="TransactionID" class="form-control" id="TransactionID">
                         </div>
                         <div class="col-12">
                             <label for="amount">Amount:</label>
@@ -61,7 +61,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="paymentMethod">Payment Method:</label>
-                            <input type="text" name="paymentMethod" class="form-control" list="paymentMethodList"
+                            <input type="text" name="paymentMethod" class="form-control" list="paymentMethodList" id="paymentMethod"
                                 placeholder="Select Payment Method">
                             <datalist id="paymentMethodList">
                                 <option value="Cash">
@@ -72,7 +72,7 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="paymentStatus">Payment Status:</label>
-                            <input type="text" name="paymentStatus" class="form-control" list="paymentStatusList"
+                            <input type="text" name="paymentStatus" class="form-control" list="paymentStatusList" id="paymentStatus"
                                 placeholder="Select Payment Status">
                             <datalist id="paymentStatusList">
                                 <option value="Paid"></option>
@@ -85,7 +85,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submitPayment">Save</button>
+                <button type="button" class="btn btn-primary" id="submitPayment" data-submissionMethod="" >Save</button>
             </div>
         </div>
     </div>
@@ -152,6 +152,9 @@
                                             </p>
                                             <p class="fw-bold">Funded Amount:
                                                 <span class="fw-light" id="FundedAmount"></span>
+                                            </p>
+                                            <p class="fw-bold">Remaining Balance:
+                                                <span class="fw-light" id="remainingBalance"></span>
                                             </p>
                                         </div>
                                     </div>
@@ -239,9 +242,11 @@
                             <div class="card-header">
                                 <div class="d-flex align-items-center">
                                     <h5 class="card-title me-auto">Payment History</h5>
-                                    <button class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#paymentModal"><i
-                                            class="ri-sticky-note-add-fill"></i></button>
+                                    <button class="btn btn-primary btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#paymentModal"
+                                        data-action="Add">
+                                        <i class="ri-sticky-note-add-fill"></i></button>
                                 </div>
                             </div>
                             <div class="card-body">

@@ -609,6 +609,7 @@
             setProjectToOngoing: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
             storePaymentRecords: '{{ route('PaymentRecord.store') }}',
             getPaymentRecords: '{{ route('PaymentRecord.index') }}',
+            updatePaymentRecord: '{{ route('PaymentRecord.update',':transaction_id') }}',
             storeProjectLinks: '{{ route('ProjectLink.store') }}',
             getProjectLinks: '{{ route('ProjectLink.index') }}'
 
