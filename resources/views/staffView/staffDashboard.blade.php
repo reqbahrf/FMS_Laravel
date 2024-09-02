@@ -611,7 +611,8 @@
             getPaymentRecords: '{{ route('PaymentRecord.index') }}',
             updatePaymentRecord: '{{ route('PaymentRecord.update',':transaction_id') }}',
             storeProjectLinks: '{{ route('ProjectLink.store') }}',
-            getProjectLinks: '{{ route('ProjectLink.index') }}'
+            getProjectLinks: '{{ route('ProjectLink.index') }}',
+            updateProjectLink: '{{ route('ProjectLink.update',':project_link_name') }}'
 
         }
 

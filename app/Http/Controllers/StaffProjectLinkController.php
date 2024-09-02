@@ -46,14 +46,19 @@ class StaffProjectLinkController extends Controller
      */
     public function store(Request $request)
     {
+        // Initial validation for project_id and linklist array
         $validated = $request->validate([
             'project_id' => 'required|string|max:15',
             'linklist' => 'required|array',
-            'linklist.*' => [
-                'required',
-                'regex:/^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-]*)*([\/?%&=]*)?$/',
-                'max:255',
-            ],
+            'linklist' => [
+                function ($attribute, $value, $fail) {
+                    foreach ($value as $key => $link) {
+                        if (!preg_match('/^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-]*)*(\?.*)?$/', $link)) {
+                            $fail('The linklist.' . $key . ' must be a valid URL.');
+                        }
+                    }
+                },
+            ]
         ]);
 
         try {
@@ -68,7 +73,7 @@ class StaffProjectLinkController extends Controller
                 ];
             }, array_keys($validated['linklist']), $validated['linklist']);
 
-            // Batch insert
+            // Batch insert into the database
             ProjectFileLink::insert($data);
 
             return response()->json(['message' => 'Project links added successfully.'], 200);
@@ -76,7 +81,6 @@ class StaffProjectLinkController extends Controller
             Log::alert($e->getMessage());
             return response()->json(['message' => 'An unexpected error occurred. Please try again later.'], 500);
         }
-
     }
 
     /**
@@ -98,9 +102,26 @@ class StaffProjectLinkController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $LinkName)
     {
-        //
+        $validated = $request->validate([
+            "project_id" => 'required|string|max:15',
+            "projectNameUpdated" => 'required|string|max:15',
+            "projectLink" => 'required|string|max:255',
+        ]);
+
+        try {
+            ProjectFileLink::where('file_name', $LinkName)
+                ->where('Project_id', $validated['project_id'])
+                ->update([
+                    'file_name' => $validated['projectNameUpdated'],
+                    'file_link' => $validated['projectLink'],
+                ]);
+            return response()->json(['message' => 'Project link updated successfully.'], 200);
+        } catch (\Exception $e) {
+            Log::alert($e->getMessage());
+            return response()->json(['message' => 'An unexpected error occurred. Please try again later.'], 500);
+        }
     }
 
     /**

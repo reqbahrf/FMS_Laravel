@@ -39,7 +39,7 @@
         outline: none;
     }
 </style>
-{{-- add Payment modal start --}}
+{{-- Payment modal start --}}
 <div class="modal fade" id="paymentModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="paymentModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -90,8 +90,42 @@
         </div>
     </div>
 </div>
-{{-- add Payment modal end --}}
+{{-- Payment modal end --}}
+{{-- Project Links Record Modal Start --}}
 
+<div class="modal fade" id="projectLinkModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="projectLinkModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h1 class="modal-title fs-5 text-white" id="projectLinkModalLabel">Project Link</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="projectLinkForm">
+                    <div class="row">
+                        <div class="col-12">
+                            <input type="hidden" id="HiddenProjectNameToUpdate">
+                            <label for="projectNameToUpdated" class="form-label">File Name</label>
+                            <input type="text" name="projectNameUpdated" id="projectNameUpdated" class="form-control">
+                        </div>
+                        <div class="col-12">
+                            <label for="projectLink" class="form-label">Project Link</label>
+                            <textarea type="text" name="projectLink" id="projectLink" class="form-control"></textarea>
+                        </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="UpdateProjectLink">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{-- Project Links Record End --}}
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="handleProjectOff"
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary">

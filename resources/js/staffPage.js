@@ -425,9 +425,6 @@ $(document).on("DOMContentLoaded", function () {
                 {
                     targets: 3,
                     width: "10%",
-                    render: function (data, type, row) {
-                        return `<button class="btn btn-primary">Open</button>`;
-                    },
                 },
             ],
         });
@@ -557,7 +554,6 @@ $(document).on("DOMContentLoaded", function () {
                 });
         }
 
-        //Determine The Content to be displayed on offcanvas based on the project status
         function handleProjectOffcanvasContent(project_status) {
             const handleProjectOffcanvas = $("#handleProjectOff");
             const content = {
@@ -987,7 +983,7 @@ $(document).on("DOMContentLoaded", function () {
         );
 
         //Save the inputted links to the database
-        $(".SaveLinkProjectBtn").on("click", function () {
+        $(".SaveLinkProjectBtn").on("click", async function () {
             let requirementLinks = {};
             $(".linkConstInstance").each(function () {
                 let name = $(this)
@@ -999,65 +995,118 @@ $(document).on("DOMContentLoaded", function () {
                 requirementLinks[name] = link;
             });
 
-            $.ajax({
-                type: "POST",
-                url: DashboardTabRoute.storeProjectLinks,
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
-                    ),
-                },
-                data: {
-                    project_id: $("#ProjectID").val(),
-                    linklist: requirementLinks,
-                },
-                success: function (response) {
-                    showToastFeedback(
-                        "text-bg-success",
-                        "Links added successfully"
-                    );
-                },
-                error: function (error) {
-                    showToastFeedback(
-                        "text-bg-danger",
-                        error.responseJSON.message
-                    );
-                },
-            });
+            try {
+                const response = await $.ajax({
+                    type: "POST",
+                    url: DashboardTabRoute.storeProjectLinks,
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                    data: {
+                        project_id: $("#ProjectID").val(),
+                        linklist: requirementLinks,
+                    },
+                });
+
+                showToastFeedback(
+                    "text-bg-success",
+                    "Links added successfully"
+                );
+            } catch (error) {
+                showToastFeedback(
+                    "text-bg-danger",
+                    error.responseJSON.message
+                );
+            }
         });
 
-        function fetchProjectLinks(Project_id) {
-            $.ajax({
-                type: "GET",
-                url:
-                    DashboardTabRoute.getProjectLinks +
-                    "?project_id=" +
-                    Project_id,
-                headers: {
-                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
-                        "content"
+        $("#UpdateProjectLink").on('click', async () => {
+
+            try{
+                const project_id = $("#ProjectID").val();
+                const updatedProjectLinks = $("#projectLinkForm").serialize();
+                const projectName = $("#HiddenProjectNameToUpdate").val();
+
+                const response = await $.ajax({
+                    type: "PUT",
+                    url: DashboardTabRoute.updateProjectLink.replace(
+                        ":project_link_name",
+                        projectName
                     ),
-                },
-                success: function (response) {
-                    const linkDataTable = $("#linkTable").DataTable();
-                    linkDataTable.clear();
-                    linkDataTable.rows.add(
-                        response.map((link) => [
-                            link.file_name,
-                            link.file_link,
-                            link.created_at,
-                        ])
-                    );
-                    linkDataTable.draw();
-                },
-                error: function (error) {
-                    showToastFeedback(
-                        "text-bg-danger",
-                        error.responseJSON.message
-                    );
-                },
-            });
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                    data: updatedProjectLinks + "&project_id=" + project_id,
+                });
+
+                closeModal("#projectLinkModal");
+                showToastFeedback(
+                    "text-bg-success",
+                    response.message
+                );
+
+            }catch(error){
+                showToastFeedback(
+                    "text-bg-danger",
+                    error
+                );
+            }
+
+        });
+
+        async function fetchProjectLinks(Project_id) {
+            try {
+                const response = await $.ajax({
+                    type: "GET",
+                    url:
+                        DashboardTabRoute.getProjectLinks +
+                        "?project_id=" +
+                        Project_id,
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                });
+
+                const linkDataTable = $("#linkTable").DataTable();
+                linkDataTable.clear();
+                linkDataTable.rows.add(
+                    response.map((link) => [
+                        link.file_name,
+                        link.file_link,
+                        link.created_at,
+                        `<a class="btn btn-outline-primary btn-sm" target="_blank" href="${link.file_link}"><i class="ri-eye-fill"></i></a>
+                        <button class="btn btn-primary btn-sm updateLinkRecord" data-bs-toggle="modal" data-bs-target="#projectLinkModal"><i class="ri-pencil-fill" ></i></button>
+                        <button class="btn btn-danger btn-sm deleteLinkRecord"> <i class="ri-delete-bin-6-fill"></i></button>`,
+                    ])
+                );
+                linkDataTable.draw();
+            } catch (error) {
+                showToastFeedback(
+                    "text-bg-danger",
+                    error.responseJSON.message
+                );
+            }
         }
+
+        $("#projectLinkModal").on('show.bs.modal', function (event) {
+            const triggeredbutton = $(event.relatedTarget);
+
+            const selectedRow = triggeredbutton.closest("tr");
+
+            const projectName = selectedRow.find("td:eq(0)").text();
+            const projectLink = selectedRow.find("td:eq(1)").text();
+
+            const modal = $(this);
+            modal.find("input#HiddenProjectNameToUpdate").val(projectName);
+            modal.find("input#projectNameUpdated").val(projectName);
+            modal.find("textarea#projectLink").val(projectLink);
+        })
 
         $("#MarkhandleProjectBtn").on("click", function () {
             $.ajax({
@@ -1202,9 +1251,7 @@ $(document).on("DOMContentLoaded", function () {
             }
         );
 
-        //toggle the display of the document to generate selector
-        const toggleDocumentSelector = () =>
-            $("#selectDOC_toGenerate").toggleClass("d-none");
+        const toggleDocumentSelector = () => $("#selectDOC_toGenerate").toggleClass("d-none");
 
         $("#SheetFormDocumentContainer")
             .off("click", ".ExportPDF")
