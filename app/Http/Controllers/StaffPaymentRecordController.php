@@ -128,8 +128,21 @@ class StaffPaymentRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $transaction_id)
     {
-        //
+
+        try {
+            $exists = PaymentRecord::where('transaction_id', $transaction_id)->exists();
+            if (!$exists) {
+                return response()->json(['message' => 'Transaction ID does not exist'], 404);
+            }
+
+            $record = PaymentRecord::where('transaction_id', $transaction_id)->first();
+            $record->delete();
+            return response()->json(['success' => true, 'message' => 'Payment record deleted successfully'], 200);
+        } catch (\Exception $e) {
+            Log::error('Error deleting payment record: ' . $e->getMessage());
+            return response()->json(['message' => 'Error deleting payment record'], 500);
+        }
     }
 }

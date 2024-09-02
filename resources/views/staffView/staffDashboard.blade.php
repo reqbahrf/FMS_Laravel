@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html lang="en" data-bs-theme="dark">
 
 <head>
     <meta charset="UTF-8">
@@ -610,9 +610,11 @@
             storePaymentRecords: '{{ route('PaymentRecord.store') }}',
             getPaymentRecords: '{{ route('PaymentRecord.index') }}',
             updatePaymentRecord: '{{ route('PaymentRecord.update',':transaction_id') }}',
+            deletePaymentRecord: '{{ route('PaymentRecord.destroy',':transaction_id') }}',
             storeProjectLinks: '{{ route('ProjectLink.store') }}',
             getProjectLinks: '{{ route('ProjectLink.index') }}',
-            updateProjectLink: '{{ route('ProjectLink.update',':project_link_name') }}'
+            updateProjectLink: '{{ route('ProjectLink.update',':project_link_name') }}',
+            deleteProjectLink: '{{ route('ProjectLink.destroy',':project_link_name') }}'
 
         }
 

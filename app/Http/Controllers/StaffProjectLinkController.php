@@ -127,8 +127,14 @@ class StaffProjectLinkController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $LinkName)
     {
-        //
+        try {
+            ProjectFileLink::where('file_name', $LinkName)->delete();
+            return response()->json(['message' => 'Project link deleted successfully.'], 200);
+        } catch (\Exception $e) {
+            Log::alert($e->getMessage());
+            return response()->json(['message' => 'An unexpected error occurred. Please try again later.'], 500);
+        }
     }
 }

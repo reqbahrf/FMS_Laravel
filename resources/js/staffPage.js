@@ -674,7 +674,7 @@ $(document).on("DOMContentLoaded", function () {
                 });
 
                 closeModal("#paymentModal");
-                await fetchPaymentHistory($("#ProjectID").val());
+                await fetchPaymentHistoryAndCalculation($("#ProjectID").val());
                 setTimeout(() => {
                     showToastFeedback("text-bg-success", response.message);
                 }, 500);
@@ -731,7 +731,7 @@ $(document).on("DOMContentLoaded", function () {
                         `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#paymentModal"
                                         data-action="Update"><i class="ri-file-edit-fill"></i></button>
-                        <button class="btn btn-danger btn-sm"><i class="ri-delete-bin-2-fill"></i></button>`,
+                        <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-delete-record-type="projectPayment"><i class="ri-delete-bin-2-fill"></i></button>`,
                     ])
                 );
                 paymentHistoryTable.draw();
@@ -814,38 +814,7 @@ $(document).on("DOMContentLoaded", function () {
                     .trim();
 
                 handleProjectOffcanvasContent(project_status);
-                fetchPaymentHistory(project_id)
-                    .then((totalAmount) => {
-                        const fundedAmount = parseFloat(
-                            amount.replace(/,/g, "")
-                        );
-                        const remainingAmount = fundedAmount - totalAmount;
-                        const percentage = Math.round(
-                            (totalAmount / fundedAmount) * 100
-                        );
-                        $("#totalPaid").text(
-                            totalAmount.toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                            })
-                        );
-                        $("#FundedAmount").text(
-                            fundedAmount.toLocaleString("en-US", {
-                                minimumFractionDigits: 2,
-                            })
-                        );
-                        $("#remainingBalance").text(
-                            remainingAmount.toLocaleString("en-US",{
-                                 minimumFractionDigits: 2,
-                        })
-                        );
-
-                        setTimeout(() => {
-                            InitializeviewCooperatorProgress(percentage);
-                        }, 500);
-                    })
-                    .catch((error) => {
-                        console.log(error);
-                    });
+                fetchPaymentHistoryAndCalculation(project_id, amount);
                 fetchProjectLinks(project_id);
 
                 // Cache hidden input values
@@ -899,6 +868,39 @@ $(document).on("DOMContentLoaded", function () {
                 $("#workingCapitalAsset").val(workingCapitalAsset);
             }
         );
+
+        const fetchPaymentHistoryAndCalculation = async (project_id, amount) => {
+            await fetchPaymentHistory(project_id)
+                 .then((totalAmount) => {
+                     const fundedAmount = parseFloat(amount.replace(/,/g, ""));
+                     const remainingAmount = fundedAmount - totalAmount;
+                     const percentage = Math.round(
+                         (totalAmount / fundedAmount) * 100
+                     );
+                     $("#totalPaid").text(
+                         totalAmount.toLocaleString("en-US", {
+                             minimumFractionDigits: 2,
+                         })
+                     );
+                     $("#FundedAmount").text(
+                         fundedAmount.toLocaleString("en-US", {
+                             minimumFractionDigits: 2,
+                         })
+                     );
+                     $("#remainingBalance").text(
+                         remainingAmount.toLocaleString("en-US", {
+                             minimumFractionDigits: 2,
+                         })
+                     );
+
+                     setTimeout(() => {
+                         InitializeviewCooperatorProgress(percentage);
+                     }, 500);
+                 })
+                 .catch((error) => {
+                     console.log(error);
+                 });
+        }
 
         $("#addRequirement").on("click", function () {
             let RequirementLinkContent = $("#linkContainer");
@@ -1082,7 +1084,7 @@ $(document).on("DOMContentLoaded", function () {
                         link.created_at,
                         `<a class="btn btn-outline-primary btn-sm" target="_blank" href="${link.file_link}"><i class="ri-eye-fill"></i></a>
                         <button class="btn btn-primary btn-sm updateLinkRecord" data-bs-toggle="modal" data-bs-target="#projectLinkModal"><i class="ri-pencil-fill" ></i></button>
-                        <button class="btn btn-danger btn-sm deleteLinkRecord"> <i class="ri-delete-bin-6-fill"></i></button>`,
+                        <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-delete-record-type="projectLink"> <i class="ri-delete-bin-6-fill"></i></button>`,
                     ])
                 );
                 linkDataTable.draw();
@@ -1096,7 +1098,6 @@ $(document).on("DOMContentLoaded", function () {
 
         $("#projectLinkModal").on('show.bs.modal', function (event) {
             const triggeredbutton = $(event.relatedTarget);
-
             const selectedRow = triggeredbutton.closest("tr");
 
             const projectName = selectedRow.find("td:eq(0)").text();
@@ -1107,6 +1108,79 @@ $(document).on("DOMContentLoaded", function () {
             modal.find("input#projectNameUpdated").val(projectName);
             modal.find("textarea#projectLink").val(projectLink);
         })
+
+        $("#deleteRecordModal").on("show.bs.modal", function (event) {
+            const triggeredDeleteButton = $(event.relatedTarget);
+            const action = triggeredDeleteButton.data("delete-record-type");
+            const recordRow = triggeredDeleteButton.closest("tr");
+
+            const modal = $(this);
+
+            if(action ===  "projectPayment"){
+
+                const paymentTransactionID = recordRow.find("td:eq(0)").text();
+                const paymentAmount = recordRow.find("td:eq(1)").text();
+
+                modal.find(".modal-body").html(`Are you sure you want to delete this transaction <strong>${paymentTransactionID}</strong> with amount of <strong>${paymentAmount}</strong>?`);
+                modal.find("#deleteRecord")
+                .attr("data-record-to-delete", "paymentRecord")
+                .attr("data-unique-val", paymentTransactionID);
+
+            }else if(action === "projectLink"){
+
+                const projectName = recordRow.find("td:eq(0)").text();
+                const projectLink = recordRow.find("td:eq(1)").text();
+
+                modal.find(".modal-body").html(`Are you sure you want to delete this link <a href="${projectLink}" target="_blank">${projectLink}</a> with a file named ${projectName}?`);
+                modal.find("#deleteRecord")
+                .attr("data-record-to-delete", "projectLinkRecord")
+                .attr("data-unique-val", projectName);
+
+            }
+             modal.find("#deleteRecord").off('click').on("click", async function () {
+                 const recordToDelete = $(this).attr("data-record-to-delete");
+                 const uniqueVal = $(this).attr("data-unique-val");
+                 console.log(recordToDelete, uniqueVal);
+                 const deleteRoute =
+                     recordToDelete === "paymentRecord"
+                         ? DashboardTabRoute.deletePaymentRecord.replace(
+                               ":transaction_id",
+                               uniqueVal
+                           )
+                         : recordToDelete === "projectLinkRecord"
+                         ? DashboardTabRoute.deleteProjectLink.replace(
+                               ":project_link_name",
+                               uniqueVal
+                           )
+                         : "";
+                 try {
+                     const response = await $.ajax({
+                         type: "DELETE",
+                         url: deleteRoute,
+                         headers: {
+                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                 "content"
+                             ),
+                         },
+                     });
+                     showToastFeedback("text-bg-success", response.message);
+                     closeModal("#deleteRecordModal");
+                     modal.hide();
+                     recordToDelete === "projectLinkRecord"
+                         ? await fetchProjectLinks($("#ProjectID").val())
+                         : recordToDelete === "paymentRecord"
+                         ? await fetchPaymentHistoryAndCalculation(
+                               $("#ProjectID").val()
+                           )
+                         : null;
+                 } catch (error) {
+                    console.log(error);
+                     showToastFeedback("text-bg-danger", error.responseJSON.message);
+                 }
+             });
+        })
+
+
 
         $("#MarkhandleProjectBtn").on("click", function () {
             $.ajax({
