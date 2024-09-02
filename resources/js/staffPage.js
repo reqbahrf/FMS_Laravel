@@ -554,7 +554,7 @@ $(document).on("DOMContentLoaded", function () {
                 });
         }
 
-        function handleProjectOffcanvasContent(project_status) {
+     async function handleProjectOffcanvasContent(project_status) {
             const handleProjectOffcanvas = $("#handleProjectOff");
             const content = {
                 approved: () => {
@@ -565,7 +565,7 @@ $(document).on("DOMContentLoaded", function () {
                         .find(".ongoingProjectContent")
                         .addClass("d-none");
                 },
-                ongoing: () => {
+                ongoing: async () => {
                     handleProjectOffcanvas
                         .find(".ongoingProjectContent")
                         .removeClass("d-none");
@@ -574,7 +574,7 @@ $(document).on("DOMContentLoaded", function () {
                         .addClass("d-none");
                     handleProjectOffcanvas
                         .find("#paymentHistoryContainer")
-                        .html(paymentHistoryTable());
+                        .html(await paymentHistoryTable());
 
                     $("#paymentHistoryTable").DataTable({
                         responsive: true,
@@ -609,11 +609,11 @@ $(document).on("DOMContentLoaded", function () {
                 completed: () => {},
             };
 
-            content[project_status]();
+          await content[project_status]();
         }
 
         //Generate payment history datatable
-        function paymentHistoryTable() {
+        const paymentHistoryTable = async () => {
             const paymentHistoryTable = `
                 <table class="table table-hover table-sm" id="paymentHistoryTable" syle="width:100%">
 
@@ -639,7 +639,7 @@ $(document).on("DOMContentLoaded", function () {
                 });
 
                 closeModal("#paymentModal");
-                await fetchPaymentHistory(project_id);
+                await fetchPaymentHistoryAndCalculation(project_id);
                 setTimeout(() => {
                     showToastFeedback("text-bg-success", response.message);
                 }, 500);
@@ -814,7 +814,7 @@ $(document).on("DOMContentLoaded", function () {
                     .trim();
 
                 handleProjectOffcanvasContent(project_status);
-                fetchPaymentHistoryAndCalculation(project_id, amount);
+                fetchPaymentHistoryAndCalculation(project_id);
                 fetchProjectLinks(project_id);
 
                 // Cache hidden input values
@@ -869,9 +869,10 @@ $(document).on("DOMContentLoaded", function () {
             }
         );
 
-        const fetchPaymentHistoryAndCalculation = async (project_id, amount) => {
+        const fetchPaymentHistoryAndCalculation = async (project_id) => {
             await fetchPaymentHistory(project_id)
                  .then((totalAmount) => {
+                     const amount = $("#amount").val();
                      const fundedAmount = parseFloat(amount.replace(/,/g, ""));
                      const remainingAmount = fundedAmount - totalAmount;
                      const percentage = Math.round(
