@@ -117,140 +117,143 @@
                             <div class="col-12">
                                 <h6>2.0 Total Employment For the Quarter</h6>
                             </div>
-                            <div class="col-12">
-                                <span>2.1 Direct Labor Force (Production)</span>
-                            </div>
-                            <div class="col-12">
-                                <span>2.1a regulate</span>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="DireRegularMale">
-                                    Male
-                                </label>
-                                <input type="text" class="bottom_border ms-2" name="DireRegularMale"
-                                    id="DireRegularMale" value="{{ $quarterlyData['male_Dir_Regular']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="DireRegularFemale">
-                                    Female
-                                </label>
-                                <input type="text" class="bottom_border ms-2" name="DireRegularFemale"
-                                    id="DireRegularFemale" value="{{ $quarterlyData['female_Dir_Regular']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="DireRegularTotalWorkday">
-                                    Total Workday
-                                </label>
-                                <input type="text" class="bottom_border ms-2" name="DireRegularTotalWorkday"
-                                    id="DireRegularTotalWorkday" value="{{ $quarterlyData['workday_Dir_Regular']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="DireRegularTotalManMonth">
-                                    Total Man-Month
-                                </label>
-                                <input type="text" class="bottom_border ms-2" name="DireRegularTotalManMonth"
-                                id="DireRegularTotalManMonth">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="RemarkDirectLabor">
-                                    Remark
-                                </label>
-                                <input type="text" class="bottom_border ms-2" name="RemarkDirectLabor"
-                                    id="RemarkDirectLabor">
-                            </div>
-                            <div class="col-12">
-                                <span>2.1b Part-time</span>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="ParttimeMale">Male</label>
-                                <input type="text" class="bottom_border ms-2" name="ParttimeMale" id="ParttimeMale" value="{{ $quarterlyData['male_Dir_PartT']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="ParttimeFemale">Female</label>
-                                <input type="text" class="bottom_border ms-2" name="ParttimeFemale"
-                                    id="ParttimeFemale" value="{{ $quarterlyData['female_Dir_PartT']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="ParttimeTotalWorkday">Total Workday</label>
-                                <input type="text" class="bottom_border ms-2" name="ParttimeTotalWorkday"
-                                    id="ParttimeTotalWorkday"
-                                    value="{{ $quarterlyData['workday_Dir_PartT']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="ParttimeTotalManMonth">Total Man-Month</label>
-                                <input type="text" class="bottom_border ms-2" name="ParttimeTotalManMonth"
-                                    id="ParttimeTotalManMonth">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="RemarkParttime">Remark</label>
-                                <input type="text" class="bottom_border ms-2" name="RemarkParttime"
-                                    id="RemarkParttime">
-                            </div>
-                            <div class="col-12">
-                                <span>2.2 Indirect Labor Force(Admin and Marketing)</span>
-                            </div>
-                            <div class="col-12">
-                                <span>2.2a Regular</span>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndiRegularMale">Male</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiRegularMale"
-                                    id="IndiRegularMale" value="{{ $quarterlyData['male_Indir_Regular']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndiRegularFemale">Female</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiRegularFemale"
-                                    id="IndiRegularFemale"
-                                    value="{{ $quarterlyData['female_Indir_Regular']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndirectTotalWorkday">Total Workday</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiRegularTotalWorkday"
-                                    id="IndiRegularTotalWorkday"
-                                    value="{{ $quarterlyData['workday_Indir_Regular']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndirectTotalManMonth">Total Man-Month</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiRegularTotalManMonth"
-                                    id="IndiRegularTotalManMonth">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="RemarkIndirect">Remark</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiRegularRemark"
-                                    id="IndiRegularRemark">
-                            </div>
-                            <div class="col-12">
-                                <span>2.2b Part-time</span>
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndirectParttimeMale">Male</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiParttimeMale"
-                                    id="IndiParttimeMale"
-                                    value="{{ $quarterlyData['male_Indir_PartT']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndirectParttimeFemale">Female</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiParttimeFemale" id="IndiParttimeFemale"
-                                    value="{{ $quarterlyData['female_Indir_PartT']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndirectParttimeTotalWorkday">Total Workday</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiParttimeTotalWorkday"
-                                    id="IndiParttimeTotalWorkday"
-                                    value="{{ $quarterlyData['workday_Indir_PartT']; }}">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndiParttimeTotalManMonth">Total Man-Month</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiParttimeTotalManMonth"
-                                    id="IndiParttimeTotalManMonth">
-                            </div>
-                            <div class="col-12 col-md-2">
-                                <label for="IndiParttimeRemark">Remark</label>
-                                <input type="text" class="bottom_border ms-2" name="IndiParttimeRemark"
-                                    id="IndiParttimeRemark">
-                            </div>
-                            <div class="col-12">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th scope="col" width="20%"></th>
+                                        <th scope="col" width="10%">Male</th>
+                                        <th scope="col" width="10%">Female</th>
+                                        <th scope="col" width="10%">Total Workday</th>
+                                        <th scope="col" width="10%">Total Man-Month</th>
+                                        <th scope="col" width="20%">Remark</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="totalEmployment">
+                                    <tr>
+                                         <td>
+                                            <span>2.1 Direct Labor Force (Production)</span>
+                                        </td>
+                                    </tr>
+                                    <tr class="DirectRegular">
+                                        <td>
+                                            <span class="ps-3">2.1a regulate</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 maleInput" name="DireRegularMale"
+                                                id="DireRegularMale" value="{{ $quarterlyData['male_Dir_Regular']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 femaleInput" name="DireRegularFemale"
+                                                id="DireRegularFemale" value="{{ $quarterlyData['female_Dir_Regular']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 workdayInput" name="DireRegularTotalWorkday"
+                                                id="DireRegularTotalWorkday" value="{{ $quarterlyData['workday_Dir_Regular']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 totalManMonth" name="DireRegularTotalManMonth"
+                                            id="DireRegularTotalManMonth">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2" name="RemarkDirectLabor"
+                                                id="RemarkDirectLabor">
+                                        </td>
+                                    </tr>
+                                    <tr class="DirectParttime">
+                                         <td>
+                                          <span class="ps-3">2.1b Part Time</span>
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 maleInput" name="ParttimeMale" id="ParttimeMale" value="{{ $quarterlyData['male_Dir_PartT']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 femaleInput" name="ParttimeFemale"
+                                                id="ParttimeFemale" value="{{ $quarterlyData['female_Dir_PartT']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 workdayInput" name="ParttimeTotalWorkday"
+                                                id="ParttimeTotalWorkday"
+                                                value="{{ $quarterlyData['workday_Dir_PartT']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 totalManMonth" name="ParttimeTotalManMonth"
+                                                id="ParttimeTotalManMonth">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2" name="RemarkParttime"
+                                                id="RemarkParttime">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6"> <span>2.2 Indirect Labor Force(Admin and Marketing)</span></td>
+                                    </tr>
+                                    <tr class="IndirectRegular">
+                                        <td><span class="ps-3">2.2a Regular</span></td>
+                                        <td>
+
+                                            <input type="text" class="bottom_border ms-2 maleInput" name="IndiRegularMale"
+                                                id="IndiRegularMale" value="{{ $quarterlyData['male_Indir_Regular']; }}">
+                                        </td>
+                                        <td>
+
+                                            <input type="text" class="bottom_border ms-2 femaleInput" name="IndiRegularFemale"
+                                                id="IndiRegularFemale"
+                                                value="{{ $quarterlyData['female_Indir_Regular']; }}">
+                                        </td>
+                                        <td>
+
+                                            <input type="text" class="bottom_border ms-2 workdayInput" name="IndiRegularTotalWorkday"
+                                                id="IndiRegularTotalWorkday"
+                                                value="{{ $quarterlyData['workday_Indir_Regular']; }}">
+                                        </td>
+                                        <td>
+
+                                            <input type="text" class="bottom_border ms-2 totalManMonth" name="IndiRegularTotalManMonth"
+                                                id="IndiRegularTotalManMonth">
+                                        </td>
+                                        <td>
+
+                                            <input type="text" class="bottom_border ms-2" name="IndiRegularRemark"
+                                                id="IndiRegularRemark">
+                                        </td>
+                                    </tr>
+                                    <tr class="InDirectParttime">
+                                        <td><span class="ps-3">2.2b Part-time</span></td>
+                                        <td>
+                                            <input type="text" class="bottom_border maleInput ms-2" name="IndiParttimeMale"
+                                                id="IndiParttimeMale"
+                                                value="{{ $quarterlyData['male_Indir_PartT']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border femaleInput ms-2" name="IndiParttimeFemale" id="IndiParttimeFemale"
+                                                value="{{ $quarterlyData['female_Indir_PartT']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border workdayInput ms-2" name="IndiParttimeTotalWorkday"
+                                                id="IndiParttimeTotalWorkday"
+                                                value="{{ $quarterlyData['workday_Indir_PartT']; }}">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2 totalManMonth" name="IndiParttimeTotalManMonth"
+                                                id="IndiParttimeTotalManMonth">
+                                        </td>
+                                        <td>
+                                            <input type="text" class="bottom_border ms-2" name="IndiParttimeRemark"
+                                                id="IndiParttimeRemark">
+                                            </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="col-12 col-md-6">
                                 <span>Total Employment for this Quarter:</span>
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="TotalEmployment">No. of Personnel</label>
+                                <input type="text" class="bottom_border ms-2" name="TotalEmployment" id="TotalEmployment">
+                            </div>
+                            <div class="col-12 col-md-3">
+                                <label for="TotalManMonth">No. of Man Month</label>
+                                <input type="text" class="bottom_border ms-2" name="TotalManMonth" id="TotalManMonth">
                             </div>
                         </div>
                     </div>
@@ -338,8 +341,7 @@
                                             <input type="text" class="bottom_border productionCost_val" value="{{ $Exportproduct['estimatedCostOfProduction'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border netSales_val" value="
-                                            {{ $Exportproduct['netSales'] }}">
+                                            <input type="text" class="bottom_border netSales_val" value="{{ $Exportproduct['netSales'] }}">
                                         </td>
                                     </tr>
                                     @endforeach
@@ -395,9 +397,17 @@
                                             <td class="table-subheader">TOTAL GROSS SALES GENERATED</td>
                                         </tr>
                                         <tr>
-                                            <td class="table-data">₱1,600,000.00</td>
-                                            <td class="table-data">₱1,556,709.00</td>
-                                            <td class="table-data">₱43,291.00</td>
+                                            <td class="table-data">
+                                                ₱1,600,000.00
+                                                <input type="text" class="bottom_border CurrentgrossSales_val" name="grossSales">
+                                            </td>
+                                            <td class="table-data">
+                                                ₱1,556,709.00
+                                                <input type="text" class="bottom_border PreviousgrossSales_val" name="grossSales">
+                                            </td>
+                                            <td class="table-data">₱43,291.00
+                                                <input type="text" class="bottom_border TotalgrossSales_val" name="TotalgrossSales">
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td class="highlight-text">% Increase in Productivity Generated =<br>

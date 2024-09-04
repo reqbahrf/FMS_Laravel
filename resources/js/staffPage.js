@@ -1246,6 +1246,70 @@ $(document).on('DOMContentLoaded', function () {
     function PDSFormEvents() {
         console.log("Data Sheet Form Events Loaded");
 
+        function inputsFormatter(thisInput){
+              let value = thisInput.val().replace(/[^0-9.]/g, '');
+
+              if ((value.match(/\./g) || []).length > 1) {
+                value =
+                  value.substring(0, value.indexOf('.') + 1) +
+                  value.substring(value.indexOf('.') + 1).replace(/\./g, '');
+              }
+              let [integerPart, decimalPart] = value.split('.');
+
+              integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+              if (decimalPart !== undefined)
+                decimalPart = decimalPart.slice(0, 2);
+
+              thisInput.val(
+                decimalPart !== undefined
+                  ? `${integerPart}.${decimalPart}`
+                  : integerPart
+              );
+        }
+
+       const calculateTotalEmployment = () => {
+         let totalNumPersonel = 0;
+         let totalManMonth = 0;
+         $('#totalEmployment tr').each(function () {
+          const totalMalePersonel = parseValue($(this).find('.maleInput').val());
+          const totalFemalePersonel = parseValue($(this).find('.femaleInput').val());
+          const workDays = parseValue($(this).find('.workdayInput').val());
+          const thisRowManMonth = (totalMalePersonel + totalFemalePersonel) * (workDays/20);
+          $(this).find('.totalManMonth').val(thisRowManMonth.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          }));
+
+           totalNumPersonel += totalMalePersonel + totalFemalePersonel;
+
+           totalManMonth += parseValue($(this).find('.totalManMonth').val());
+         });
+         $('#TotalManMonth').val(totalManMonth.toLocaleString('en-US', {
+           minimumFractionDigits: 2,
+         }));
+         $('#TotalEmployment').val(totalNumPersonel.toLocaleString('en-US', {
+           minimumFractionDigits: 2,
+         }));
+       };
+
+        $('#totalEmployment').on(
+          'input',
+          'td input.maleInput, td input.femaleInput, td input.workdayInput',
+          function () {
+            inputsFormatter($(this));
+
+            const employeeRow = $(this).closest('tr');
+            const maleVal = parseValue(employeeRow.find('.maleInput').val());
+            const femaleVal = parseValue(employeeRow.find('.femaleInput').val());
+            const workDays = parseValue(employeeRow.find('.workdayInput').val());
+
+            const totalManMonth = (workDays/20) * (maleVal + femaleVal);
+            employeeRow.find('.totalManMonth').val(totalManMonth);
+
+            calculateTotalEmployment();
+          }
+        );
+
         const parseValue = (value) => {
             return parseFloat(value?.replace(/,/g, '')) || 0;
         }
@@ -1256,11 +1320,19 @@ $(document).on('DOMContentLoaded', function () {
           let totalNetSales = 0;
 
          $('#localProducts tr, #exportProducts tr').each(function () {
-           let grossSales = parseValue($(this).find('.grossSales_val').val());
+           const tableRow = $(this);
+           let grossSales = parseValue(tableRow.find('.grossSales_val').val());
            let productionCost = parseValue(
-             $(this).find('.productionCost_val').val()
+             tableRow.find('.productionCost_val').val()
            );
-           let netSales = parseValue($(this).find('.netSales_val').val());
+
+           let netSales = grossSales - productionCost;
+
+           let FormattedNetSales = netSales.toLocaleString('en-US', {
+             minimumFractionDigits: 2,
+           });
+
+           tableRow.find('.netSales_val').val(FormattedNetSales);
 
            totalGrossSales += grossSales;
            totalProductionCost += productionCost;
@@ -1289,30 +1361,22 @@ $(document).on('DOMContentLoaded', function () {
           'input',
           'td input.grossSales_val, td input.productionCost_val',
           function () {
-            console.log('Local Product Input Changed');
-            let value = $(this)
-              .val()
-              .replace(/[^0-9]/g, '');
-            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            $(this).val(value);
+            const thisInput = $(this);
+            inputsFormatter(thisInput);
 
-            let productRow = $(this).closest('tr');
-            let grossSales = parseValue(
-              productRow.find('.grossSales_val').val()
-            );
-            let estimatedProductionCost = parseValue(
-              productRow.find('.productionCost_val').val()
-            );
+            const $productRow = thisInput.closest('tr');
+            const grossSales = parseValue($productRow.find('.grossSales_val').val());
+            const estimatedProductionCost = parseValue($productRow.find('.productionCost_val').val());
+            const netSales = grossSales - estimatedProductionCost;
 
-            let netSales = grossSales - estimatedProductionCost;
-            let formattedNetSales = netSales.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            });
-            productRow.find('.netSales_val').val(formattedNetSales);
+            $productRow.find('.netSales_val').val(netSales.toLocaleString('en-US', { minimumFractionDigits: 2 }));
 
             calculateTotals();
           }
         );
+
+        calculateTotalEmployment();
+        calculateTotals();
     }
 
 
