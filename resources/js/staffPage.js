@@ -1296,9 +1296,10 @@ $(document).on('DOMContentLoaded', function () {
           'input',
           'td input.maleInput, td input.femaleInput, td input.workdayInput',
           function () {
-            inputsFormatter($(this));
+            const thisEmployeeRow = $(this);
+            inputsFormatter(thisEmployeeRow);
 
-            const employeeRow = $(this).closest('tr');
+            const employeeRow = thisEmployeeRow.closest('tr');
             const maleVal = parseValue(employeeRow.find('.maleInput').val());
             const femaleVal = parseValue(employeeRow.find('.femaleInput').val());
             const workDays = parseValue(employeeRow.find('.workdayInput').val());
@@ -1372,6 +1373,101 @@ $(document).on('DOMContentLoaded', function () {
             $productRow.find('.netSales_val').val(netSales.toLocaleString('en-US', { minimumFractionDigits: 2 }));
 
             calculateTotals();
+          }
+        );
+
+        const calculateToBeAccomplishedProductivity = (CurrentgrossSales, PreviousgrossSales) => {
+          const increaseInProductivityRow = $(
+            '#ToBeAccomplished .increaseInProductivity'
+          );
+
+          increaseInProductivityRow.find('.CurrentgrossSales_val_cal').text(
+            CurrentgrossSales.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+          increaseInProductivityRow.find('.PreviousgrossSales_val_cal').text(
+            PreviousgrossSales.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+
+          const increaseInProductivityByPercent = ((CurrentgrossSales - PreviousgrossSales) / PreviousgrossSales) * 100;
+          console.log(increaseInProductivityByPercent);
+          increaseInProductivityRow
+            .find('.totalgrossSales_percent')
+            .text(`${increaseInProductivityByPercent.toFixed(2)}%`);
+        };
+
+        $('#ToBeAccomplished').on(
+          'input',
+          'td .CurrentgrossSales_val, td .PreviousgrossSales_val',
+          function () {
+            const thisInput = $(this);
+            inputsFormatter(thisInput);
+
+            const thisRow = thisInput.closest('tr');
+            const CurrentgrossSales = parseValue(
+              thisRow.find('.CurrentgrossSales_val').val()
+            );
+            const PreviousgrossSales = parseValue(
+              thisRow.find('.PreviousgrossSales_val').val()
+            );
+
+            const TotalgrossSales = CurrentgrossSales - PreviousgrossSales;
+            thisRow.find('.TotalgrossSales_val').val(
+              TotalgrossSales.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+              })
+            );
+            calculateToBeAccomplishedProductivity(CurrentgrossSales, PreviousgrossSales);
+          }
+        );
+
+        const calculateToBeAccomplishedEmployment = (CurrentEmployment, PreviousEmployment) => {
+          const increaseInEmploymentRow = $(
+            '#ToBeAccomplished .increaseInEmployment'
+          );
+
+          increaseInEmploymentRow.find('.CurrentEmployment_val_cal').text(
+            CurrentEmployment.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+          increaseInEmploymentRow.find('.PreviousEmployment_val_cal').text(
+            PreviousEmployment.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+
+          const increaseInEmploymentByPercent = ((CurrentEmployment - PreviousEmployment) / PreviousEmployment) * 100;
+          increaseInEmploymentRow
+            .find('.totalEmployment_percent')
+            .text(`${increaseInEmploymentByPercent.toFixed(2)}%`);
+
+        };
+
+        $('#ToBeAccomplished').on(
+          'input',
+          'td .CurrentEmployment_val , td .PreviousEmployment_val',
+          function () {
+            const thisInput = $(this);
+            inputsFormatter(thisInput);
+
+            const thisRow = thisInput.closest('tr');
+            const CurrentEmployment = parseValue(
+              thisRow.find('.CurrentEmployment_val').val()
+            );
+            const PreviousEmployment = parseValue(
+              thisRow.find('.PreviousEmployment_val').val()
+            );
+            const TotalEmployment = CurrentEmployment - PreviousEmployment;
+            thisRow.find('.TotalEmployment_val').val(
+              TotalEmployment.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+              })
+            );
+            calculateToBeAccomplishedEmployment(CurrentEmployment, PreviousEmployment);
           }
         );
 

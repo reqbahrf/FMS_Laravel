@@ -388,7 +388,7 @@
                                             <th colspan="4" class="table-header">TO BE ACCOMPLISHED BY DOST XI</th>
                                         </tr>
                                     </thead>
-                                    <tbody>
+                                    <tbody id="ToBeAccomplished">
                                         <tr>
                                             <td class="highlight-text" rowspan="2">Gross Sales Generated =<br>Gross
                                                 Sales Q2 - Gross Sales Q1</td>
@@ -396,7 +396,7 @@
                                             <td class="table-subheader">Gross Sales Q1 <br> (previous quarter)</td>
                                             <td class="table-subheader">TOTAL GROSS SALES GENERATED</td>
                                         </tr>
-                                        <tr>
+                                        <tr class="grossSalesGenerated">
                                             <td class="table-data">
                                                 ₱1,600,000.00
                                                 <input type="text" class="bottom_border CurrentgrossSales_val" name="grossSales">
@@ -409,15 +409,56 @@
                                                 <input type="text" class="bottom_border TotalgrossSales_val" name="TotalgrossSales">
                                             </td>
                                         </tr>
-                                        <tr>
+                                        <tr class="increaseInProductivity">
                                             <td class="highlight-text">% Increase in Productivity Generated =<br>
                                                 <div style="text-align: center;">
                                                     Gross Sales Q2 - Gross Sales Q1 x 100<br>
                                                     Gross Sales Q1
                                                 </div>
                                             </td>
-                                            <td colspan="3" class="table-data">1,600,000.00 - 1,556,709.00 x 100 /
-                                                1,556,709.00 = 2.78%</td>
+                                            <td colspan="3" class="table-data nowrap" width="50%">1,600,000.00 - 1,556,709.00 x 100 / 1,556,709.00 = 2.78% <br>
+                                                <span class="CurrentgrossSales_val_cal"></span>
+                                                -
+                                                <span class="PreviousgrossSales_val_cal"></span>
+                                                x 100 / <span class="PreviousgrossSales_val_cal"></span> =
+                                                <span class="totalgrossSales_percent"></span>
+
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="highlight-text" rowspan="2">Employees Generated =<br>Employement
+                                                 Q2 - Employement Q1</td>
+                                            <td class="table-subheader">Total Employment Q2 <br> (for the reporting period)</td>
+                                            <td class="table-subheader">Total Employment Q1 <br> (previous quarter)</td>
+                                            <td class="table-subheader">TOTAL EMPLOYMENT GENERATED</td>
+                                        </tr>
+                                        <tr class="EmploymentGenerated">
+                                            <td class="table-data">
+                                                10
+                                                <input type="text" class="bottom_border CurrentEmployment_val">
+                                            </td>
+                                            <td class="table-data">
+                                              10
+                                                <input type="text" class="bottom_border PreviousEmployment_val">
+                                            </td>
+                                            <td class="table-data">0
+                                                <input type="text" class="bottom_border TotalEmployment_val">
+                                            </td>
+                                        </tr>
+                                        <tr class="increaseInEmployment">
+                                            <td class="highlight-text">% Increase in Employment Generated =<br>
+                                                <div style="text-align: center;">
+                                                   Employment Q2 - Employment Q1 x 100<br>
+                                                   Employment Q1
+                                                </div>
+                                            </td>
+                                            <td colspan="3" class="table-data nowrap" width="50%">10 - 10 x 100 / 10 = 0% <br>
+                                                <span class="CurrentEmployment_val_cal"></span>
+                                                -
+                                                <span class="PreviousEmployment_val_cal"></span>
+                                                x 100 / <span class="PreviousEmployment_val_cal"></span> =
+                                                <span class="totalEmployment_percent"></span>
+                                            </td>
                                         </tr>
                                     </tbody>
                                 </table>
