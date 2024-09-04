@@ -276,7 +276,7 @@
                                         <th>Net Sales</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="localProducts">
                                     @foreach($quarterlyData['LocalProduct'] as $product)
                                     <tr>
                                         <td></td>
@@ -290,13 +290,13 @@
                                             <input type="text" class="bottom_border" value="{{ $product['volumeOfProduction'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $product['grossSales'] }}">
+                                            <input type="text" class="bottom_border grossSales_val" value="{{ $product['grossSales'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $product['estimatedCostOfProduction'] }}">
+                                            <input type="text" class="bottom_border productionCost_val" value="{{ $product['estimatedCostOfProduction'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $product['netSales'] }}">
+                                            <input type="text" class="bottom_border netSales_val" value="{{ $product['netSales'] }}">
                                         </td>
                                     </tr>
                                     @endforeach
@@ -318,7 +318,7 @@
                                         <th>Net Sales</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="exportProducts">
                                     @foreach ($quarterlyData['ExportProduct'] as $Exportproduct)
                                     <tr>
                                         <td></td>
@@ -332,22 +332,22 @@
                                             <input type="text" class="bottom_border" value="{{ $Exportproduct['volumeOfProduction'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['grossSales'] }}">
+                                            <input type="text" class="bottom_border grossSales_val" value="{{ $Exportproduct['grossSales'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['estimatedCostOfProduction'] }}">
+                                            <input type="text" class="bottom_border productionCost_val" value="{{ $Exportproduct['estimatedCostOfProduction'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="
+                                            <input type="text" class="bottom_border netSales_val" value="
                                             {{ $Exportproduct['netSales'] }}">
                                         </td>
                                     </tr>
                                     @endforeach
                                     <tr>
                                         <td colspan="4">Total</td>
-                                        <td>₱</td>
-                                        <td>₱</td>
-                                        <td>₱</td>
+                                        <td id="totalGrossSales">₱</td>
+                                        <td id="totalProductionCost">₱</td>
+                                        <td id="totalNetSales">₱</td>
                                     </tr>
                                 </tbody>
 

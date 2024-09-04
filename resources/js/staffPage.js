@@ -1201,28 +1201,120 @@ $(document).on('DOMContentLoaded', function () {
 
     //TODO: Implement spinner for the ajax request
 
-    $('button[data-form-type]').on('click', function () {
+    const getProjectSheetForm = async (formType) => {
+      try {
+        const response = await $.ajax({
+          type: 'GET',
+          url:
+            GenerateSheetsRoute.getProjectSheetForm +
+            '?form_type=' +
+            formType +
+            '&project_id=' +
+            $('#ProjectID').val(),
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          },
+        });
+
+        toggleDocumentSelector();
+        $('#SheetFormDocumentContainer').append(response);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    $('button[data-form-type]').on('click', async function () {
       const formType = $(this).data('form-type');
-      $.ajax({
-        type: 'GET',
-        url:
-          GenerateSheetsRoute.getProjectSheetForm +
-          '?form_type=' +
-          formType +
-          '&project_id=' +
-          $('#ProjectID').val(),
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+      await getProjectSheetForm(formType);
+
+      const formTypeEventListeners = {
+        PIS: () => {
+          PISFormEvents();
         },
-        success: function (response) {
-          toggleDocumentSelector();
-          $('#SheetFormDocumentContainer').append(response);
+        PDS: () => {
+          PDSFormEvents();
         },
-        error: function (error) {
-          console.log(error);
-        },
-      });
+      }[formType];
+      formTypeEventListeners();
     });
+
+    function PISFormEvents() {
+        console.log("Project Information Sheet Form Events Loaded");
+
+    }
+
+    function PDSFormEvents() {
+        console.log("Data Sheet Form Events Loaded");
+
+        const parseValue = (value) => {
+            return parseFloat(value?.replace(/,/g, '')) || 0;
+        }
+
+        const calculateTotals = () => {
+          let totalGrossSales = 0;
+          let totalProductionCost = 0;
+          let totalNetSales = 0;
+
+         $('#localProducts tr, #exportProducts tr').each(function () {
+           let grossSales = parseValue($(this).find('.grossSales_val').val());
+           let productionCost = parseValue(
+             $(this).find('.productionCost_val').val()
+           );
+           let netSales = parseValue($(this).find('.netSales_val').val());
+
+           totalGrossSales += grossSales;
+           totalProductionCost += productionCost;
+           totalNetSales += netSales;
+
+         });
+
+          $('#totalGrossSales').text(
+            `₱ ${totalGrossSales.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })}`
+          );
+          $('#totalProductionCost').text(
+            `₱ ${totalProductionCost.toLocaleString('en-US', {
+               minimumFractionDigits: 2,
+          })}`
+          );
+          $('#totalNetSales').text(
+            `₱ ${totalNetSales.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })}`
+          );
+        };
+
+        $('#localProducts, #exportProducts').on(
+          'input',
+          'td input.grossSales_val, td input.productionCost_val',
+          function () {
+            console.log('Local Product Input Changed');
+            let value = $(this)
+              .val()
+              .replace(/[^0-9]/g, '');
+            value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            $(this).val(value);
+
+            let productRow = $(this).closest('tr');
+            let grossSales = parseValue(
+              productRow.find('.grossSales_val').val()
+            );
+            let estimatedProductionCost = parseValue(
+              productRow.find('.productionCost_val').val()
+            );
+
+            let netSales = grossSales - estimatedProductionCost;
+            let formattedNetSales = netSales.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            });
+            productRow.find('.netSales_val').val(formattedNetSales);
+
+            calculateTotals();
+          }
+        );
+    }
+
 
     //TODO: Make this reusable and efficient
     //Breadcrumb for Project Information Sheets and Project Data Sheets
