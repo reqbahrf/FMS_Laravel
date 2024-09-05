@@ -1341,17 +1341,17 @@ $(document).on('DOMContentLoaded', function () {
 
          });
 
-          $('#totalGrossSales').text(
+          $('#totalGrossSales').val(
             `₱ ${totalGrossSales.toLocaleString('en-US', {
               minimumFractionDigits: 2,
             })}`
           );
-          $('#totalProductionCost').text(
+          $('#totalProductionCost').val(
             `₱ ${totalProductionCost.toLocaleString('en-US', {
                minimumFractionDigits: 2,
           })}`
           );
-          $('#totalNetSales').text(
+          $('#totalNetSales').val(
             `₱ ${totalNetSales.toLocaleString('en-US', {
               minimumFractionDigits: 2,
             })}`
@@ -1535,7 +1535,49 @@ $(document).on('DOMContentLoaded', function () {
            },
 
             PDS: function () {
-             return $('#projectDataForm').serialize();
+             const thisFormData =$('#projectDataForm').serializeArray();
+             let thisFormObject = {};
+             $.each(thisFormData, function(i, v) {
+               thisFormObject[v.name] = v.value;
+             });
+
+            const localProductsRow = $('#localProducts tr');
+            const exportProductsRow = $('#exportProducts tr');
+            const localProductData = [];
+            const exportProductData = [];
+
+            localProductsRow.each(function() {
+              const tableRow = $(this);
+              const localProductDetails = {
+                productName: tableRow.find('.productName').val(),
+                packingDetails: tableRow.find('.packingDetails').val(),
+                volumeOfProduction: tableRow.find('.volumeOfProduction_val').val(),
+                grossSales: tableRow.find('.grossSales_val').val(),
+                productionCost: tableRow.find('.productionCost_val').val(),
+                netSales: tableRow.find('.netSales_val').val(),
+              };
+              localProductData.push(localProductDetails);
+            });
+
+            thisFormObject.localProduct = localProductData;
+
+            exportProductsRow.each(function() {
+              const tableRow = $(this);
+              const exportProductDetails = {
+                productName: tableRow.find('.productName').val(),
+                packingDetails: tableRow.find('.packingDetails').val(),
+                volumeOfProduction: tableRow.find('.volumeOfProduction_val').val(),
+                grossSales: tableRow.find('.grossSales_val').val(),
+                productionCost: tableRow.find('.productionCost_val').val(),
+                netSales: tableRow.find('.netSales_val').val(),
+              };
+              exportProductData.push(exportProductDetails);
+            });
+
+            thisFormObject.exportProduct = exportProductData;
+
+            return thisFormObject;
+
            },
         }; return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
 

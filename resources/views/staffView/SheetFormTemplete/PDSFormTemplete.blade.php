@@ -284,13 +284,13 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <input class="bottom_border" type="text" value="{{ $product['ProductName'] }}">
+                                            <input class="bottom_border productName" type="text" value="{{ $product['ProductName'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $product['PackingDetails'] }}">
+                                            <input type="text" class="bottom_border packingDetails" value="{{ $product['PackingDetails'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $product['volumeOfProduction'] }}">
+                                            <input type="text" class="bottom_border volumeOfProduction_val" value="{{ $product['volumeOfProduction'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border grossSales_val" value="{{ $product['grossSales'] }}">
@@ -326,13 +326,13 @@
                                     <tr>
                                         <td></td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['ProductName'] }}">
+                                            <input type="text" class="bottom_border productName" value="{{ $Exportproduct['ProductName'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['PackingDetails'] }}">
+                                            <input type="text" class="bottom_border packingDetails" value="{{ $Exportproduct['PackingDetails'] }}">
                                         </td>
                                         <td>
-                                            <input type="text" class="bottom_border" value="{{ $Exportproduct['volumeOfProduction'] }}">
+                                            <input type="text" class="bottom_border volumeOfProduction_val" value="{{ $Exportproduct['volumeOfProduction'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border grossSales_val" value="{{ $Exportproduct['grossSales'] }}">
@@ -347,9 +347,15 @@
                                     @endforeach
                                     <tr id="totalRow">
                                         <td colspan="4">Total</td>
-                                        <td id="totalGrossSales">₱</td>
-                                        <td id="totalProductionCost">₱</td>
-                                        <td id="totalNetSales">₱</td>
+                                        <td>
+                                            <input name="totalGrossSales" type="text" class="bottom_border totalGrossSales_val" id="totalGrossSales">
+                                        </td>
+                                        <td>
+                                            <input name="totalProductionCost" type="text" class="bottom_border totalProductionCost_val" id="totalProductionCost">
+                                        </td>
+                                        <td>
+                                            <input name="totalNetSales" type="text" class="bottom_border totalNetSales_val" id="totalNetSales">
+                                        </td>
                                     </tr>
                                 </tbody>
 
@@ -399,11 +405,11 @@
                                         <tr class="grossSalesGenerated">
                                             <td class="table-data">
                                                 ₱1,600,000.00
-                                                <input type="text" class="bottom_border CurrentgrossSales_val" name="grossSales">
+                                                <input type="text" class="bottom_border CurrentgrossSales_val" name="CurrentgrossSales">
                                             </td>
                                             <td class="table-data">
                                                 ₱1,556,709.00
-                                                <input type="text" class="bottom_border PreviousgrossSales_val" name="grossSales">
+                                                <input type="text" class="bottom_border PreviousgrossSales_val" name="PreviousgrossSales">
                                             </td>
                                             <td class="table-data">₱43,291.00
                                                 <input type="text" class="bottom_border TotalgrossSales_val" name="TotalgrossSales">
@@ -435,14 +441,14 @@
                                         <tr class="EmploymentGenerated">
                                             <td class="table-data">
                                                 10
-                                                <input type="text" class="bottom_border CurrentEmployment_val">
+                                                <input type="text" name="CurrentEmployment" class="bottom_border CurrentEmployment_val">
                                             </td>
                                             <td class="table-data">
                                               10
-                                                <input type="text" class="bottom_border PreviousEmployment_val">
+                                                <input type="text" name="PreviousEmployment" class="bottom_border PreviousEmployment_val">
                                             </td>
                                             <td class="table-data">0
-                                                <input type="text" class="bottom_border TotalEmployment_val">
+                                                <input type="text" name="TotalEmploymentGenerated" class="bottom_border TotalEmployment_val">
                                             </td>
                                         </tr>
                                         <tr class="increaseInEmployment">
