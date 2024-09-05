@@ -152,7 +152,7 @@
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 totalManMonth" name="DireRegularTotalManMonth"
-                                            id="DireRegularTotalManMonth">
+                                            id="DireRegularTotalManMonth" readonly>
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2" name="RemarkDirectLabor"
@@ -177,7 +177,7 @@
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 totalManMonth" name="ParttimeTotalManMonth"
-                                                id="ParttimeTotalManMonth">
+                                                id="ParttimeTotalManMonth" readonly>
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2" name="RemarkParttime"
@@ -209,7 +209,7 @@
                                         <td>
 
                                             <input type="text" class="bottom_border ms-2 totalManMonth" name="IndiRegularTotalManMonth"
-                                                id="IndiRegularTotalManMonth">
+                                                id="IndiRegularTotalManMonth" readonly>
                                         </td>
                                         <td>
 
@@ -217,7 +217,7 @@
                                                 id="IndiRegularRemark">
                                         </td>
                                     </tr>
-                                    <tr class="InDirectParttime">
+                                    <tr class="IndiParttime">
                                         <td><span class="ps-3">2.2b Part-time</span></td>
                                         <td>
                                             <input type="text" class="bottom_border maleInput ms-2" name="IndiParttimeMale"
@@ -235,7 +235,7 @@
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 totalManMonth" name="IndiParttimeTotalManMonth"
-                                                id="IndiParttimeTotalManMonth">
+                                                id="IndiParttimeTotalManMonth" readonly>
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2" name="IndiParttimeRemark"
@@ -345,7 +345,7 @@
                                         </td>
                                     </tr>
                                     @endforeach
-                                    <tr>
+                                    <tr id="totalRow">
                                         <td colspan="4">Total</td>
                                         <td id="totalGrossSales">₱</td>
                                         <td id="totalProductionCost">₱</td>

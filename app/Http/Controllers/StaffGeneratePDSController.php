@@ -23,6 +23,10 @@ class StaffGeneratePDSController extends Controller
             'margin_right' => 5
         ]);
         $mpdf->WriteHTML($html);
-        $mpdf->Output('PDSsample.pdf', 'D');
+
+        return response($mpdf->Output('PDSsample.pdf', 'S'), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="PDSsample.pdf"',
+        ]);
     }
 }

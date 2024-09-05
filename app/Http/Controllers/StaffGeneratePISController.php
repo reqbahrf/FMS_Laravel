@@ -40,7 +40,11 @@ class StaffGeneratePISController extends Controller
             'margin_right' => 5
         ]);
         $mpdf->WriteHTML($html);
-        $mpdf->Output('hello.pdf', 'D');
+        return response($mpdf->Output('PISsample.pdf', 'S'), 200, [
+            'Content-Type' => 'application/pdf',
+            'Content-Disposition' => 'attachment; filename="PISsample.pdf"',
+        ]);
+
 
     }
 

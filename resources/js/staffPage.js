@@ -1497,11 +1497,11 @@ $(document).on('DOMContentLoaded', function () {
 
         try {
           const ExportPDF_BUTTON_DATA_VALUE = $(this).data('to-export');
-          let route_url = {
+          let route_url = await {
             PIS: GenerateSheetsRoute.generateProjectInformationSheet,
             PDS: GenerateSheetsRoute.generateDataSheetReport,
           }[ExportPDF_BUTTON_DATA_VALUE];
-          let data =
+          let data = await
             ExportPDF_BUTTON_DATA_VALUE === 'PIS'
               ? $('#projectInfoForm').serialize() +
                 '&' +
@@ -1509,16 +1509,23 @@ $(document).on('DOMContentLoaded', function () {
               : ExportPDF_BUTTON_DATA_VALUE === 'PDS'
               ? $('#projectDataForm').serialize()
               : null;
-          const response = await $.post({
-            url: route_url,
-            data: data,
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-          });
+        const response = await $.ajax({
+          type: 'POST',
+          url: route_url,
+          data: data,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          },
+          xhrFields: {
+            responseType: 'blob',
+          },
+        });
 
-          // $("#PIS_Modal_container").html(response);
-          // ProjectInformationSheetModel.show();
+         const blob = new Blob([response], { type: 'application/pdf' });
+         const url = window.URL.createObjectURL(blob);
+         window.open(url, '_blank'); // Open the PDF in a new browser tab
+
+         console.log('PDF successfully generated and opened in a new tab.');
         } catch (error) {
           console.log(error);
         }
