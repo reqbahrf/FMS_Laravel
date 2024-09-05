@@ -428,6 +428,7 @@
                                                 <span class="PreviousgrossSales_val_cal"></span>
                                                 x 100 / <span class="PreviousgrossSales_val_cal"></span> =
                                                 <span class="totalgrossSales_percent"></span>
+                                                <input type="text" name="totalgrossSales_percent" class="bottom_border totalgrossSales_percent" style="width:10%;">
 
                                             </td>
                                         </tr>
@@ -463,7 +464,7 @@
                                                 -
                                                 <span class="PreviousEmployment_val_cal"></span>
                                                 x 100 / <span class="PreviousEmployment_val_cal"></span> =
-                                                <span class="totalEmployment_percent"></span>
+                                                <input type="text" name="totalEmployment_percent" class="bottom_border totalEmployment_percent" style="width:10%;">
                                             </td>
                                         </tr>
                                     </tbody>

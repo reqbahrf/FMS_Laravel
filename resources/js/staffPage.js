@@ -1396,7 +1396,7 @@ $(document).on('DOMContentLoaded', function () {
           console.log(increaseInProductivityByPercent);
           increaseInProductivityRow
             .find('.totalgrossSales_percent')
-            .text(`${increaseInProductivityByPercent.toFixed(2)}%`);
+            .val(`${increaseInProductivityByPercent.toFixed(2)}%`);
         };
 
         $('#ToBeAccomplished').on(
@@ -1443,7 +1443,7 @@ $(document).on('DOMContentLoaded', function () {
           const increaseInEmploymentByPercent = ((CurrentEmployment - PreviousEmployment) / PreviousEmployment) * 100;
           increaseInEmploymentRow
             .find('.totalEmployment_percent')
-            .text(`${increaseInEmploymentByPercent.toFixed(2)}%`);
+            .val(`${increaseInEmploymentByPercent.toFixed(2)}%`);
 
         };
 
