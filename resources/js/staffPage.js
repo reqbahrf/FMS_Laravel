@@ -1501,14 +1501,7 @@ $(document).on('DOMContentLoaded', function () {
             PIS: GenerateSheetsRoute.generateProjectInformationSheet,
             PDS: GenerateSheetsRoute.generateDataSheetReport,
           }[ExportPDF_BUTTON_DATA_VALUE];
-          let data = await
-            ExportPDF_BUTTON_DATA_VALUE === 'PIS'
-              ? $('#projectInfoForm').serialize() +
-                '&' +
-                $('#PIS_checklistsForm').serialize()
-              : ExportPDF_BUTTON_DATA_VALUE === 'PDS'
-              ? $('#projectDataForm').serialize()
-              : null;
+          const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
         const response = await $.ajax({
           type: 'POST',
           url: route_url,
@@ -1530,6 +1523,23 @@ $(document).on('DOMContentLoaded', function () {
           console.log(error);
         }
       });
+
+      const requestDATA = async (ExportPDF_BUTTON_DATA_VALUE) => {
+        const formDATAToBESent = {
+            PIS: function () {
+             return (
+               $('#projectInfoForm').serialize() +
+               '&' +
+               $('#PIS_checklistsForm').serialize()
+             );
+           },
+
+            PDS: function () {
+             return $('#projectDataForm').serialize();
+           },
+        }; return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
+
+      };
   };
 
   //Project Tab JS
