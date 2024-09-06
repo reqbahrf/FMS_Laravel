@@ -327,18 +327,13 @@ $(document).on('DOMContentLoaded', function () {
     $(inputSelector).on('input', function () {
       let value = $(this)
         .val()
-        .replace(/[^0-9.]/g, ''); // Include decimal point in regex
-      // Ensure two decimal places
+        .replace(/[^0-9.]/g, '');
       if (value.includes('.')) {
         let parts = value.split('.');
-        parts[1] = parts[1].substring(0, 2); // Limit to two decimal places
+        parts[1] = parts[1].substring(0, 2);
         value = parts.join('.');
       }
-
-      // Add commas every three digits
       let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-      // Set the new value to the input field
       $(this).val(formattedValue);
     });
   }
@@ -1238,36 +1233,103 @@ $(document).on('DOMContentLoaded', function () {
       formTypeEventListeners();
     });
 
+    function inputsToCurrencyFormatter(thisInput) {
+        let value = thisInput.val().replace(/[^0-9.]/g, '');
+
+        if ((value.match(/\./g) || []).length > 1) {
+          value =
+            value.substring(0, value.indexOf('.') + 1) +
+            value.substring(value.indexOf('.') + 1).replace(/\./g, '');
+        }
+        let [integerPart, decimalPart] = value.split('.');
+
+        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+        if (decimalPart !== undefined) decimalPart = decimalPart.slice(0, 2);
+
+        thisInput.val(
+          decimalPart !== undefined
+            ? `${integerPart}.${decimalPart}`
+            : integerPart
+        );
+      }
+
+      const parseValue = (value) => {
+        return parseFloat(value?.replace(/,/g, '')) || 0;
+    }
+
+
     function PISFormEvents() {
         console.log("Project Information Sheet Form Events Loaded");
+
+        function caculateTotalAssests() {
+
+            const landAssets = parseValue($('#land').val());
+            const buildingAssets = parseValue($('#building').val());
+            const equipmentAssets = parseValue($('#equipment').val());
+            const workingCapital = parseValue($('#workingCapital').val());
+            const totalAssests = landAssets + buildingAssets + equipmentAssets + workingCapital;
+            $('#totalAssests').val(totalAssests.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+            }));
+        }
+
+        $('#land, #building, #equipment, #workingCapital').on('input', function () {
+            const thisInput = $(this);
+            inputsToCurrencyFormatter(thisInput);
+            caculateTotalAssests();
+        });
+
+        const calculateTotalEmploymentGenerated = () =>{
+            let manMonthTotal = 0;
+
+            $('#totalEmploymentContainer tr').each(function () {
+                const thisTableRow = $(this);
+
+                const male = parseValue(thisTableRow.find('.maleInput').val());
+                const female = parseValue(thisTableRow.find('.femaleInput').val());
+                const subtotal = male + female;
+                thisTableRow.find('.thisRowSubtotal').val(subtotal.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                }));
+
+                manMonthTotal += subtotal;
+            });
+            $('#TotalmanMonths').val(manMonthTotal.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+            }))
+        }
+
+        $('#totalEmploymentContainer').on('input', 'td input.maleInput, td input.femaleInput', function () {
+            console.log("Input Changed");
+            const thisInput = $(this);
+            inputsToCurrencyFormatter(thisInput);
+            calculateTotalEmploymentGenerated();
+        })
+
+        const calculateTotalGrossSales = () => {
+            console.log("Input Changed");
+
+            const localProduct = parseValue($('#localProduct_Val').val());
+            const exportProduct = parseValue($('#exportProduct_Val').val());
+            const totalGrossSales = localProduct + exportProduct;
+            $('#totalGrossSales').val(totalGrossSales.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+            }));
+
+            console.log(totalGrossSales);
+        }
+
+        $('#localProduct_Val, #exportProduct_Val').on('input', function () {
+            const thisInput = $(this);
+            inputsToCurrencyFormatter(thisInput);
+            calculateTotalGrossSales();
+        })
 
     }
 
     function PDSFormEvents() {
         console.log("Data Sheet Form Events Loaded");
-
-        function inputsFormatter(thisInput){
-              let value = thisInput.val().replace(/[^0-9.]/g, '');
-
-              if ((value.match(/\./g) || []).length > 1) {
-                value =
-                  value.substring(0, value.indexOf('.') + 1) +
-                  value.substring(value.indexOf('.') + 1).replace(/\./g, '');
-              }
-              let [integerPart, decimalPart] = value.split('.');
-
-              integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-              if (decimalPart !== undefined)
-                decimalPart = decimalPart.slice(0, 2);
-
-              thisInput.val(
-                decimalPart !== undefined
-                  ? `${integerPart}.${decimalPart}`
-                  : integerPart
-              );
-        }
-
        const calculateTotalEmployment = () => {
          let totalNumPersonel = 0;
          let totalManMonth = 0;
@@ -1297,7 +1359,7 @@ $(document).on('DOMContentLoaded', function () {
           'td input.maleInput, td input.femaleInput, td input.workdayInput',
           function () {
             const thisEmployeeRow = $(this);
-            inputsFormatter(thisEmployeeRow);
+            inputsToCurrencyFormatter(thisEmployeeRow);
 
             const employeeRow = thisEmployeeRow.closest('tr');
             const maleVal = parseValue(employeeRow.find('.maleInput').val());
@@ -1310,11 +1372,6 @@ $(document).on('DOMContentLoaded', function () {
             calculateTotalEmployment();
           }
         );
-
-        const parseValue = (value) => {
-            return parseFloat(value?.replace(/,/g, '')) || 0;
-        }
-
         const calculateTotals = () => {
           let totalGrossSales = 0;
           let totalProductionCost = 0;
@@ -1363,7 +1420,7 @@ $(document).on('DOMContentLoaded', function () {
           'td input.grossSales_val, td input.productionCost_val',
           function () {
             const thisInput = $(this);
-            inputsFormatter(thisInput);
+            inputsToCurrencyFormatter(thisInput);
 
             const $productRow = thisInput.closest('tr');
             const grossSales = parseValue($productRow.find('.grossSales_val').val());
@@ -1452,7 +1509,7 @@ $(document).on('DOMContentLoaded', function () {
           'td .CurrentEmployment_val , td .PreviousEmployment_val',
           function () {
             const thisInput = $(this);
-            inputsFormatter(thisInput);
+            inputsToCurrencyFormatter(thisInput);
 
             const thisRow = thisInput.closest('tr');
             const CurrentEmployment = parseValue(

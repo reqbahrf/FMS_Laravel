@@ -79,185 +79,223 @@
                                  <input type="text" class="bottom_border ms-2" name="email" id="email"
                                      value="{{ $projectData->email }}">
                              </div>
-                             <div class="col-12 mt-3">
-                                 <h6>
-                                     Total Assets:
-                                 </h6>
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="land" class="form-label">Land:</label>
-                                 <input type="text" class="bottom_border ms-2" id="land" name="land">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="building" class="form-label">Building:</label>
-                                 <input type="text" class="bottom_border ms-2" id="building" name="building">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="equipment" class="form-label">Equipment:</label>
-                                 <input type="text" class="bottom_border ms-2" id="equipment" name="equipment">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="workingCapital" class="form-label">Working Capital:</label>
-                                 <input type="text" class="bottom_border ms-2" id="workingCapital"
-                                     name="workingCapital">
-                             </div>
-                             <div class="col-12  mt-3">
-                                 <h6>
-                                     Total Employment Generated
-                                 </h6>
-                             </div>
-                             <div class="col-12">
-                                 <span class="fw-semibold">Company Hire:</span>
-                             </div>
-                             <div class="col-2">
-                                 <span class="fw-light">Regular:</span>
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="maleInput" class="form-label">Male</label>
-                                 <input type="text" class="bottom_border ms-2" id="Regular_male" name="Regular_male">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="femaleInput" class="form-label">Female</label>
-                                 <input type="text" class="bottom_border ms-2" id="Regular_female"
-                                     name="Regular_female">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="subtotalInput" class="form-label">Sub-total</label>
-                                 <input type="text" class="bottom_border ms-2" id="Regular_subtotal"
-                                     name="Regular_subtotal">
-                             </div>
-                             <div class="col-2">
-                                 <span class="fw-light">Part-time</span>
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="maleInput" class="form-label">Male</label>
-                                 <input type="text" class="bottom_border ms-2" id="Parttime_male"
-                                     name="Parttime_male">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="femaleInput" class="form-label">Female</label>
-                                 <input type="text" class="bottom_border ms-2" id="Parttime_female"
-                                     name="Parttime_female">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="subtotalInput" class="form-label">Sub-total</label>
-                                 <input type="text" class="bottom_border ms-2" id="Parttime_subtotal"
-                                     name="Parttime_subtotal">
-                             </div>
-                             <div class="col-12">
-                                 <span class="fw-semibold">Sub-contractor Hire:</span>
-                             </div>
-                             <div class="col-2">
-                                 <span class="fw-light">Regular:</span>
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="maleInput" class="form-label">Male</label>
-                                 <input type="text" class="bottom_border ms-2" id="Regu_Subcont_male"
-                                     name="Regu_Subcont_male">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="femaleInput" class="form-label">Female</label>
-                                 <input type="text" class="bottom_border ms-2" id="Regu_Subcont_female"
-                                     name="Regu_Subcont_female">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="subtotalInput" class="form-label">Sub-total</label>
-                                 <input type="text" class="bottom_border ms-2" id="Regu_Subcont_subtotal"
-                                     name="Regu_Subcont_subtotal">
-                             </div>
-                             <div class="col-2">
-                                 <span class="fw-light">Part-time:</span>
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="maleInput" class="form-label">Male</label>
-                                 <input type="text" class="bottom_border ms-2" id="Subcont_Parttime_male"
-                                     name="Subcont_Parttime_male">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="femaleInput" class="form-label">Female</label>
-                                 <input type="text" class="bottom_border ms-2" id="Subcont_Parttime_female"
-                                     name="Subcont_Parttime_female">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="subtotalInput" class="form-label">Sub-total</label>
-                                 <input type="text" class="bottom_border ms-2" id="Subcont_Parttime_subtotal"
-                                     name="Subcont_Parttime_subtotal">
-                             </div>
-                             <div class="col-12">
-                                 <h6>
-                                     Indirect Employment
-                                 </h6>
-                             </div>
-                             <div class="col-2">
-                                 <span class="fw-light">Regular:</span>
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="maleInput" class="form-label">Male</label>
-                                 <input type="text" class="bottom_border ms-2" id="Indirect_Regular_male"
-                                     name="Indirect_Regular_male">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="femaleInput" class="form-label">Female</label>
-                                 <input type="text" class="bottom_border ms-2" id="Indirect_Regular_female"
-                                     name="Indirect_Regular_female">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="subtotalInput" class="form-label">Sub-total</label>
-                                 <input type="text" class="bottom_border ms-2" id="Indirect_Regular_subtotal"
-                                     name="Indirect_Regular_subtotal">
-                             </div>
-                             <div class="col-2">
-                                 <span class="fw-light">Part-time:</span>
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="maleInput" class="form-label">Male</label>
-                                 <input type="text" class="bottom_border ms-2" id="Indirect_Parttime_male"
-                                     name="Indirect_Parttime_male">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="femaleInput" class="form-label">Female</label>
-                                 <input type="text" class="bottom_border ms-2" id="Indirect_Parttime_female"
-                                     name="Indirect_Parttime_female">
-                             </div>
-                             <div class="col-12 col-md-3">
-                                 <label for="subtotalInput" class="form-label">Sub-total</label>
-                                 <input type="text" class="bottom_border ms-2" id="Indirect_Parttime_subtotal"
-                                     name="Indirect_Parttime_subtotal">
-                             </div>
-                             <div class="col-12">
-                                 <h6>Production Volume</h6>
-                             </div>
-                             <div class="col-12 col-md-6">
-                                 <div class="mb-3">
-                                     <label for="exportProduct" class="form-label">Export Product</label>
-                                     <input type="text" class="form-control" id="exportProduct"
-                                         name="exportProduct">
-                                 </div>
-                             </div>
-                             <div class="col-12 col-md-6">
-                                 <div class="mb-3">
-                                     <label for="localProduct" class="form-label">Local Product</label>
-                                     <input type="text" class="form-control" id="localProduct"
-                                         name="localProduct">
-                                 </div>
-                             </div>
-                             <div class="col-12">
-                                 <h6>Total Gross Sales ₱</h6>
-                             </div>
-                             <div class="col-12 col-md-6">
-                                 <label for="localProductValue">Local</label>
-                                 <input type="text" class="form-control" id="localProductValue"
-                                     name="localProductValue">
-                             </div>
-                             <div class="col-12 col-md-6">
-                                 <label for="exportProductValue">Export</label>
-                                 <input type="text" class="form-control" id="exportProductValue"
-                                     name="exportProductValue">
-                             </div>
                          </div>
                      </form>
                  </div>
              </div>
+         </div>
+         <div class="col-12">
+            <div class="card p-0">
+                <div class="card-body">
+                    <div class="row" id="totalAssetsContainer">
+                        <div class="col-12 mt-3">
+                            <h6>
+                                Total Assets:
+                                <input type="text" class="bottom_border ms-2" id="totalAssests" name="totalAssets" style="width: 15%;" readonly>
+                            </h6>
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="land" class="form-label">Land:</label>
+                            <input type="text" class="bottom_border ms-2" id="land" name="land">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="building" class="form-label">Building:</label>
+                            <input type="text" class="bottom_border ms-2" id="building" name="building">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="equipment" class="form-label">Equipment:</label>
+                            <input type="text" class="bottom_border ms-2" id="equipment" name="equipment">
+                        </div>
+                        <div class="col-12 col-md-3">
+                            <label for="workingCapital" class="form-label">Working Capital:</label>
+                            <input type="text" class="bottom_border ms-2" id="workingCapital"
+                                name="workingCapital">
+                        </div>
+                </div>
+                </div>
+            </div>
+         </div>
+         <div class="col-12">
+            <div class="card p-0">
+                <div class="card-body">
+                        <div class="col-12  mt-3">
+                            <h6>
+                                Total Employment Generated
+                            </h6>
+                        </div>
+                        <div class="col-12">
+                            Man Months:<input type="text" class="bottom_border ms-2" id="TotalmanMonths" name="manMonths" style="width: 15%;" readonly>
+                        </div>
+                        <div class="col-12 col-md-12">
+                               <table class="table w-50">
+                                   <thead>
+                                       <tr>
+                                           <th width="10%">Direct Employment:</th>
+                                           <th class="text-center"  width="10%">Male</th>
+                                           <th class="text-center"  width="10%">Female</th>
+                                           <th class="text-center"  width="10%">Sub-total</th>
+                                       </tr>
+                                   </thead>
+                                   <tbody id="totalEmploymentContainer">
+                                       <tr>
+                                           <td colspan="4">
+                                            <span class="ps-2">Company Hire:</span>
+                                        </td>
+                                       </tr>
+                                       <tr>
+                                           <td><span class="ps-3">Regular:</span></td>
+                                           <td>
+                                            <input type="text" class="bottom_border ms-2 maleInput" id="Regular_male" name="Regular_male">
+                                        </td>
+                                           <td><input type="text" class="bottom_border ms-2 femaleInput" id="Regular_female" name="Regular_female">
+                                        </td>
+                                           <td><input type="text" class="bottom_border ms-2 thisRowSubtotal" id="Regular_subtotal" name="Regular_subtotal">
+                                        </td>
+                                       </tr>
+                                       <tr>
+                                           <td><span class="ps-3">Part-time:</span></td>
+                                           <td>
+                                            <input type="text" class="bottom_border ms-2 maleInput" id="Parttime_male" name="Parttime_male">
+                                            </td>
+                                           <td>
+                                            <input type="text" class="bottom_border ms-2 femaleInput" id="Parttime_female" name="Parttime_female">
+                                        </td>
+                                           <td>
+                                            <input type="text" class="bottom_border ms-2 thisRowSubtotal" id="Parttime_subtotal" name="Parttime_subtotal">
+                                        </td>
+                                       </tr>
+                                       <tr>
+                                           <td colspan="4">
+                                               <span class="ps-2">Sub-contractor Hire:</span>
+                                           </td>
+                                       </tr>
+                                       <tr>
+                                           <td><span class="ps-3">Regular:</span></td>
+                                           <td>
+                                               <input type="text" class="bottom_border ms-2 maleInput" id="Regu_Subcont_male"
+                                               name="Regu_Subcont_male">
+                                           </td>
+                                           <td>
+                                               <input type="text" class="bottom_border ms-2 femaleInput" id="Regu_Subcont_female"
+                                               name="Regu_Subcont_female">
+                                           </td>
+                                           <td>
+                                               <input type="text" class="bottom_border ms-2 thisRowSubtotal" id="Regu_Subcont_subtotal"
+                                               name="Regu_Subcont_subtotal">
+                                           </td>
+                                       </tr>
+                                       <tr>
+                                           <td><span class="ps-3">Part-time:</span></td>
+                                           <td>
+                                               <input type="text" class="bottom_border ms-2 maleInput" id="Subcont_Parttime_male"
+                                                   name="Subcont_Parttime_male">
+                                           </td>
+                                           <td>
+                                               <input type="text" class="bottom_border ms-2 femaleInput" id="Subcont_Parttime_female"
+                                                   name="Subcont_Parttime_female">
+                                           </td>
+                                           <td>
+                                               <input type="text" class="bottom_border ms-2 thisRowSubtotal" id="Subcont_Parttime_subtotal"
+                                                   name="Subcont_Parttime_subtotal">
+                                           </td>
+                                       </tr>
+                                       <tr>
+                                           <td colspan="4">
+                                               <span class="fw-semibold"> Indirect Employment:</span>
+                                           </td>
+                                       </tr>
+                                       <tr>
+                                           <td>
+                                               <span class="ps-3">Regular:</span>
+                                           </td>
+                                           <td>
+
+                                               <input type="text" class="bottom_border ms-2 maleInput" id="Indirect_Regular_male"
+                                                   name="Indirect_Regular_male">
+                                           </td>
+                                           <td>
+
+                                               <input type="text" class="bottom_border ms-2 femaleInput" id="Indirect_Regular_female"
+                                                   name="Indirect_Regular_female">
+                                           </td>
+                                           <td>
+
+                                               <input type="text" class="bottom_border ms-2 thisRowSubtotal" id="Indirect_Regular_subtotal"
+                                                   name="Indirect_Regular_subtotal">
+                                           </td>
+                                       </tr>
+                                       <tr>
+                                           <td><span class="ps-3">Part-time:</span></td>
+                                           <td>
+
+                                               <input type="text" class="bottom_border ms-2 maleInput" id="Indirect_Parttime_male"
+                                                   name="Indirect_Parttime_male">
+                                           </td>
+                                           <td>
+
+                                               <input type="text" class="bottom_border ms-2 femaleInput" id="Indirect_Parttime_female"
+                                                   name="Indirect_Parttime_female">
+                                           </td>
+                                           <td>
+
+                                               <input type="text" class="bottom_border ms-2 thisRowSubtotal" id="Indirect_Parttime_subtotal"
+                                                   name="Indirect_Parttime_subtotal">
+                                           </td>
+                                       </tr>
+                                   </tbody>
+                               </table>
+                        </div>
+                </div>
+            </div>
+         </div>
+         <div class="col-12">
+             <div class="card p-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>Production Volume</h6>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label for="localProduct" class="form-label">Local Product</label>
+                                <input type="text" class="form-control" id="localProduct"
+                                    name="localProduct">
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <div class="mb-3">
+                                <label for="exportProduct" class="form-label">Export Product</label>
+                                <input type="text" class="form-control" id="exportProduct"
+                                    name="exportProduct">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+             </div>
+         </div>
+         <div class="col-12">
+            <div class="card p-0">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-12">
+                            <h6>
+                                Total Gross Sales ₱
+                                <input type="text" class="bottom_border ms-2" id="totalGrossSales" name="totalGrossSales" style="width: 15%;" readonly>
+                            </h6>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="localProductValue">Local</label>
+                            <input type="text" class="form-control" id="localProduct_Val"
+                                name="localProductValue">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="exportProductValue">Export</label>
+                            <input type="text" class="form-control" id="exportProduct_Val"
+                                name="exportProductValue">
+                        </div>
+                    </div>
+                </div>
+            </div>
          </div>
          <div class="col-12">
              <div class="card p-0">
