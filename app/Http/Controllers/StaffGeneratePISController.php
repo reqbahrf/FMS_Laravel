@@ -12,24 +12,11 @@ class StaffGeneratePISController extends Controller
     {
 
 
-        $validated = $request->validated();
+        $validatedData = $request->validated();
 
-        $PISdata = [
-            'projectTitle' => $validated['projectTitle'],
-            'firmName' => $validated['firmName'],
-            'name' => $validated['name'],
-            'gender' => $validated['gender'],
-            'age' => $validated['age'],
-            'typeOfOrganization' => $validated['typeOfOrganization'],
-            'businessAddress' => $validated['businessAddress'],
-            'landline' => $validated['landline'],
-            'fax' => $validated['fax'],
-            'mobile_phone' => $validated['mobile_phone'],
-            'email' => $validated['email'],
-        ];
 
         // TODO: change some of the content text alignment on this view InformationSheet
-        $html = view('staffView.outputs.InformationSheetTable', compact('PISdata'))->render();
+        $html = view('staffView.outputs.InformationSheetTable', $validatedData)->render();
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',

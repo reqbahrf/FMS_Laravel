@@ -1264,17 +1264,17 @@ $(document).on('DOMContentLoaded', function () {
 
         function caculateTotalAssests() {
 
-            const landAssets = parseValue($('#land').val());
-            const buildingAssets = parseValue($('#building').val());
-            const equipmentAssets = parseValue($('#equipment').val());
-            const workingCapital = parseValue($('#workingCapital').val());
+            const landAssets = parseValue($('#land_val').val());
+            const buildingAssets = parseValue($('#building_val').val());
+            const equipmentAssets = parseValue($('#equipment_val').val());
+            const workingCapital = parseValue($('#workingCapital_val').val());
             const totalAssests = landAssets + buildingAssets + equipmentAssets + workingCapital;
             $('#totalAssests').val(totalAssests.toLocaleString('en-US', {
                 minimumFractionDigits: 2,
             }));
         }
 
-        $('#land, #building, #equipment, #workingCapital').on('input', function () {
+        $('#land_val, #building_val, #equipment_val, #workingCapital_val').on('input', function () {
             const thisInput = $(this);
             inputsToCurrencyFormatter(thisInput);
             caculateTotalAssests();

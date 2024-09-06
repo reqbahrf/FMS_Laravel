@@ -6,13 +6,13 @@
          </ol>
      </nav>
      <div class="row gy-3 p-0">
+   <form id="projectInfoForm">
          <div class="col-12">
              <div class="card p-0">
                  <div class="card-header">
                      Project Information
                  </div>
                  <div class="card-body">
-                     <form id="projectInfoForm">
                          <div class="row gy-2">
                              <div class="col-12">
                                  <label for="projectTitle" class="form-label">Project Title</label>
@@ -80,7 +80,6 @@
                                      value="{{ $projectData->email }}">
                              </div>
                          </div>
-                     </form>
                  </div>
              </div>
          </div>
@@ -96,19 +95,19 @@
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="land" class="form-label">Land:</label>
-                            <input type="text" class="bottom_border ms-2" id="land" name="land">
+                            <input type="text" class="bottom_border ms-2" id="land_val" name="land">
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="building" class="form-label">Building:</label>
-                            <input type="text" class="bottom_border ms-2" id="building" name="building">
+                            <input type="text" class="bottom_border ms-2" id="building_val" name="building">
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="equipment" class="form-label">Equipment:</label>
-                            <input type="text" class="bottom_border ms-2" id="equipment" name="equipment">
+                            <input type="text" class="bottom_border ms-2" id="equipment_val" name="equipment">
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="workingCapital" class="form-label">Working Capital:</label>
-                            <input type="text" class="bottom_border ms-2" id="workingCapital"
+                            <input type="text" class="bottom_border ms-2" id="workingCapital_val"
                                 name="workingCapital">
                         </div>
                 </div>
@@ -124,7 +123,7 @@
                             </h6>
                         </div>
                         <div class="col-12">
-                            Man Months:<input type="text" class="bottom_border ms-2" id="TotalmanMonths" name="manMonths" style="width: 15%;" readonly>
+                            Man Months:<input type="text" class="bottom_border ms-2" id="TotalmanMonths" name="TotalmanMonths" style="width: 15%;" readonly>
                         </div>
                         <div class="col-12 col-md-12">
                                <table class="table w-50">
@@ -286,17 +285,18 @@
                         <div class="col-12 col-md-6">
                             <label for="localProductValue">Local</label>
                             <input type="text" class="form-control" id="localProduct_Val"
-                                name="localProductValue">
+                                name="localProduct_Val">
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="exportProductValue">Export</label>
                             <input type="text" class="form-control" id="exportProduct_Val"
-                                name="exportProductValue">
+                                name="exportProduct_Val">
                         </div>
                     </div>
                 </div>
             </div>
          </div>
+         </form>
          <div class="col-12">
              <div class="card p-0">
                  <div class="card-header">
@@ -307,7 +307,7 @@
                          <div class="row">
                              <div class="col-12 ps-1">
                                  <div class="form-check">
-                                     <input class="form-check-input" type="checkbox" id="productionTechnology" name="productionTechnology">
+                                     <input class="form-check-input" type="checkbox" id="productionTechnology" name="productionTechnology_checkbox">
                                      <label class="form-check-label" for="productionTechnology">
                                          A1 Production Technology
                                      </label>
@@ -315,7 +315,7 @@
                              </div>
                              <div class="col-12 col-md-3 ps-3">
                                  <div class="form-check">
-                                     <input class="form-check-input" type="checkbox" id="process" name="process">
+                                     <input class="form-check-input" type="checkbox" id="process" name="process_checkbox">
                                      <label class="form-check-label " for="process">
                                          A.1.1 Process
                                      </label>
@@ -327,40 +327,41 @@
                              <div class="col-12 col-md-3 ps-3">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="equipment"
-                                         name="equipment">
+                                         name="equipment_checkbox">
                                      <label class="form-check-label " for="equipment">
                                          A.1.2 Equipment
                                      </label>
                                  </div>
                                 </div>
                                 <div class="col-md-9 ps-4">
-                                    <input type="text" class="bottom_border ms-2" name="processDefinition">
+                                    <input type="text" class="bottom_border ms-2" name="equipmentDefinition">
                                 </div>
-                             <div class="col-12 ps-3">
+                             <div class="col-12 col-md-3 ps-3">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="qualityControl"
-                                         name="qualityControl">
+                                         name="qualityControl_checkbox">
                                      <label class="form-check-label " for="qualityControl">
                                          A.1.3 Quality Control/Laboratory Testing/Analysis
                                      </label>
                                  </div>
                              </div>
-                             <div class="col-12 col-md-3  ps-4">
+                             <div class="col-md-9 ps-4">
+                                <input type="text" class="bottom_border ms-2" name="qualityControlDefinition">
+                            </div>
+                             <div class="col-12 ps-4">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="productionTechnology1"
-                                         name="productionTechnology1">
+                                         name="productionTechnology1_checkbox">
                                      <label class="form-check-label " for="productionTechnology1">
                                          1.3.1 Production Technology
                                      </label>
                                  </div>
                                 </div>
-                                <div class="col-md-9 ps-4">
-                                    <input type="text" class="bottom_border ms-2" name="qualityControlDefinition">
-                                </div>
+
                              <div class="col-12 col-md-3  ps-1">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="packagingLabeling"
-                                         name="packagingLabeling">
+                                         name="packagingLabeling_checkbox">
                                      <label class="form-check-label" for="packagingLabeling">
                                          A2 Packaging/Labeling
                                      </label>
@@ -372,7 +373,7 @@
                              <div class="col-12 col-md-3 ps-1">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="postHarvest"
-                                         name="postHarvest">
+                                         name="postHarvest_checkbox">
                                      <label class="form-check-label" for="postHarvest">
                                          A3 Post-Harvest
                                      </label>
@@ -384,7 +385,7 @@
                              <div class="col-12 col-md-3  ps-1">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="marketAssistance"
-                                         name="marketAssistance">
+                                         name="marketAssistance_checkbox">
                                      <label class="form-check-label" for="marketAssistance">
                                          A4 Market Assistance
                                      </label>
@@ -396,7 +397,7 @@
                              <div class="col-12 col-md-3  ps-1">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="humanResourceTraining"
-                                         name="humanResourceTraining">
+                                         name="humanResourceTraining_checkbox">
                                      <label class="form-check-label" for="humanResourceTraining">
                                          A5 Human Resource training
                                      </label>
@@ -409,7 +410,7 @@
                              <div class="col-12 col-md-3  ps-1">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="consultanceServices"
-                                         name="consultanceServices">
+                                         name="consultanceServices_checkbox">
                                      <label class="form-check-label" for="consultanceServices">
                                          A6 Consultance Services
                                      </label>
@@ -422,7 +423,7 @@
                              <div class="col-12 col-md-3  ps-1">
                                  <div class="form-check">
                                      <input class="form-check-input" type="checkbox" id="otherServices"
-                                         name="otherServices">
+                                         name="otherServices_checkbox">
                                      <label class="form-check-label" for="otherServices">
                                          A7 other Services (FDA Permit, LGU Registration,
                                          Barcoding)
@@ -431,7 +432,7 @@
                                 </div>
                                 <div class="col-md-9 ps-4 ">
                                     <input type="text" class="bottom_border ms-2"
-                                        name="consultanceServicesDefinition">
+                                        name="otherServicesDefinition">
                                 </div>
                          </div>
                      </form>

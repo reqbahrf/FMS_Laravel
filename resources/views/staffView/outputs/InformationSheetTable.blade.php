@@ -186,11 +186,11 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="tg-8d8j" colspan="5">{{ $PISdata['projectTitle'] }} &nbsp;&nbsp;&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="5">{{ $projectTitle }} &nbsp;&nbsp;&nbsp;&nbsp;</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-j6zm" colspan="5">Name of Firm:{{ $PISdata['firmName'] }}</td>
+                        <td class="tg-j6zm" colspan="5">Name of Firm:{{ $firmName }}</td>
                         <td class="tg-7zrl"></td>
                     </tr>
                     <tr>
@@ -199,9 +199,9 @@
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="3">Name: {{ $PISdata['name'] }}</td>
-                        <td class="tg-7zrl">Gender: {{ $PISdata['gender'] }}</td>
-                        <td class="tg-7zrl">Age: {{ $PISdata['age']  }}</td>
+                        <td class="tg-7zrl" colspan="3">Name: {{ $name }}</td>
+                        <td class="tg-7zrl">Gender: {{ $gender }}</td>
+                        <td class="tg-7zrl">Age: {{ $age  }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -209,7 +209,7 @@
                         <td class="tg-7zrl">  </td>
                     </tr>
                     <tr>
-                        <td class="tg-8d8j" colspan="5"> {{ $PISdata['typeOfOrganization'] }}</td>
+                        <td class="tg-8d8j" colspan="5"> {{ $typeOfOrganization }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -217,52 +217,52 @@
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-8d8j" colspan="4">{{ $PISdata['businessAddress'] }}</td>
+                        <td class="tg-8d8j" colspan="4">{{ $businessAddress }}</td>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td class="tg-j6zm">Contact&nbsp;&nbsp;&nbsp;Details: </td>
-                        <td class="tg-7zrl">Landline: {{ $PISdata['landline'] }}</td>
-                        <td class="tg-7zrl" colspan="3">Fax: </td>
+                        <td class="tg-7zrl">Landline: {{ $landline ?? ' ' }}</td>
+                        <td class="tg-7zrl" colspan="3">Fax: {{ $fax ?? ' ' }} </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="2">Mobile Phone: {{ $PISdata['mobile_phone'] }}</td>
+                        <td class="tg-7zrl" colspan="2">Mobile Phone: {{ $mobile_phone }}</td>
                         <td class="tg-7zrl" colspan="3">Email Address:
-                            {{ $PISdata['email'] }}
+                            {{ $email }}
                         </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td class="tg-j6zm" colspan="2">Total Assets</td>
-                        <td class="tg-bobw" colspan="3"> &nbsp;&nbsp;</td>
+                        <td class="tg-bobw" colspan="3"> &nbsp;&nbsp;{{ $totalAssets }}</td>
                         <td class="tg-8d8j" rowspan="5"> <br><br><br><br></td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl">Land</td>
-                        <td class="tg-8d8j" colspan="3"> &nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3"> &nbsp;&nbsp;{{ $land }}</td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl">Building </td>
-                        <td class="tg-8d8j" colspan="3"> &nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3"> &nbsp;&nbsp;{{ $building }}</td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl">Equiment </td>
-                        <td class="tg-8d8j" colspan="3"> &nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3"> &nbsp;&nbsp;{{ $equipment }}</td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl">Working Capital</td>
-                        <td class="tg-8d8j" colspan="3">&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3">&nbsp;&nbsp;{{ $workingCapital }}</td>
                     </tr>
                     <tr>
                         <td class="tg-wa1i" colspan="2" >Total&nbsp;&nbsp;&nbsp;Employment Generated
                         </td>
-                        <td class="tg-wa1i" colspan="3" >man-mouth</td>
+                        <td class="tg-wa1i" colspan="3" >{{ $TotalmanMonths }}&nbsp;&nbsp;man-mouth</td>
                         <td class="tg-8d8j" colspan="1" ><br /><br /></td>
                     </tr>
                     <tr>
@@ -278,17 +278,17 @@
                     </tr>
                     <tr>
                         <td class="tg-0lax" colspan="2">Regular</td>
-                        <td class="tg-7zrl"></td>
-                        <td class="tg-7zrl"></td>
-                        <td class="tg-7zrl"></td>
+                        <td class="tg-7zrl">{{ $Regular_male ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Regular_female ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Regular_subtotal ?? ' ' }}</td>
                         <td class="tg-7zrl"></td>
                     </tr>
 
                     <tr>
                         <td class="tg-0lax" colspan="2"> Part-Time</td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl">{{ $Parttime_male ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Parttime_female ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Parttime_subtotal ?? ' ' }} </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -300,16 +300,16 @@
                     </tr>
                     <tr>
                         <td class="tg-0lax" colspan="2"> Regular</td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl">{{ $Regu_Subcont_male ?? ' ' }} </td>
+                        <td class="tg-7zrl">{{ $Regu_Subcont_female ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Regu_Subcont_subtotal ?? ' ' }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td class="tg-0lax" colspan="2"> Part-Time</td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl">{{ $Subcont_Parttime_male ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Subcont_Parttime_female ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Subcont_Parttime_subtotal ?? ' ' }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -321,16 +321,16 @@
                     </tr>
                     <tr>
                         <td class="tg-7zrl" colspan="2">*Regular </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl">{{ $Indirect_Regular_male ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Indirect_Regular_female ?? ' ' }}</td>
+                        <td class="tg-7zrl"> {{ $Indirect_Regular_subtotal ?? ' ' }} </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl" colspan="2">*Part-time</td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl">{{ $Indirect_Parttime_male ?? ' ' }} </td>
+                        <td class="tg-7zrl">{{ $Indirect_Parttime_female ?? ' ' }}</td>
+                        <td class="tg-7zrl">{{ $Indirect_Parttime_subtotal ?? ' ' }} </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -349,7 +349,7 @@
                     </tr>
                     <tr>
                         <td class="tg-cly1" colspan="2" rowspan="2">*Local</td>
-                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;{{ $localProduct ?? ' ' }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -357,7 +357,7 @@
                     </tr>
                     <tr>
                         <td class="tg-cly1" colspan="2" rowspan="2">*Export</td>
-                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;{{ $exportProduct ?? ' ' }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -365,7 +365,7 @@
                     </tr>
                     <tr>
                         <td class="tg-wa1i" colspan="2" rowspan="2">Total&nbsp;&nbsp;&nbsp;Gross Sales(P):</td>
-                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>{{ $totalGrossSales }}&nbsp;&nbsp;</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -373,7 +373,7 @@
                     </tr>
                     <tr>
                         <td class="tg-cly1" colspan="2" rowspan="2">*Local(P)</td>
-                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;{{ $localProduct_Val }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -381,7 +381,7 @@
                     </tr>
                     <tr>
                         <td class="tg-cly1" colspan="2" rowspan="2">*Export(P)</td>
-                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;</td>
+                        <td class="tg-8d8j" colspan="3" rowspan="2"> &nbsp;&nbsp;<br>&nbsp;&nbsp;{{ $exportProduct_Val }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
@@ -398,55 +398,52 @@
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="5">A.1 Production&nbsp;&nbsp;&nbsp;Technology</td>
+                        <td class="tg-7zrl" colspan="5">A.1 Production&nbsp;&nbsp;&nbsp;Technology{{ $productionTechnology_checkbox == 'on' ? '✓' : ' ' }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="5">A.1.1 Process</td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl" colspan="5">A.1.1 Process{{ $process_checkbox == 'on' ? '✓' : ' ' }}</td>
+                        <td class="tg-7zrl">{{ $processDefinition ?? ' ' }}</td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="5">A.1.2 Equiment</td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl" colspan="5">A.1.2 Equiment{{ $equipment_checkbox == 'on' ? '✓' : ' ' }}</td>
+                        <td class="tg-7zrl">{{ $equipmentDefinition ?? ' ' }}</td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl" colspan="5">A.1.3Quality&nbsp;&nbsp;&nbsp;Control/Laboratory
-                            Testing/Analysis</td>
+                            Testing/Analysis{{ $qualityControl_checkbox == 'on' ? '✓' : ' ' }}</td>
+                        <td class="tg-7zrl">{{ $qualityControlDefinition ?? ' ' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="tg-7zrl" colspan="5">1.3.1 Production&nbsp;&nbsp;&nbsp;Technology{{ $productionTechnology1_checkbox == 'on' ? '✓' : ' ' }}</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="5">1.3.1 Production&nbsp;&nbsp;&nbsp;Technology</td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl" colspan="5">A2&nbsp;&nbsp;&nbsp;Packaging/Labeling{{ $packagingLabeling_checkbox == 'on' ? '✓' : ' ' }}</td>
+                        <td class="tg-7zrl"> {{ $packagingLabelingDefinition ?? ' ' }}</td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="5">A2&nbsp;&nbsp;&nbsp;Packaging/Labeling</td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl" colspan="5">A3 Post-harvest{{ $postHarvest_checkbox == 'on' ? '✓' : ' ' }}</td>
+                        <td class="tg-7zrl">{{ $postHarvestDefinition ?? ' ' }}</td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="5">A3 Post-harvest </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl" colspan="5">A4 Marketing&nbsp;&nbsp;&nbsp;Assistance{{ $marketAssistance_checkbox == 'on' ? '✓' : ' ' }}</td>
+                        <td class="tg-7zrl">{{ $marketAssistanceDefinition ?? ' ' }} </td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="5">A4 Marketing&nbsp;&nbsp;&nbsp;Assistance</td>
-                        <td class="tg-7zrl"> </td>
-                    </tr>
-                    <tr>
-                        <td class="tg-7zrl" colspan="5">A5 Human Resource&nbsp;&nbsp;&nbsp;Training(Please specify)
+                        <td class="tg-7zrl" colspan="5">A5 Human Resource&nbsp;&nbsp;&nbsp;Training(Please specify){{ $humanResourceTraining_checkbox == 'on' ? '✓' : ' ' }}
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl">{{ $humanResourceTrainingDefinition ?? ' ' }}</td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl" colspan="5">A6 Consultancy&nbsp;&nbsp;&nbsp;Services(Please specify)
+                        <td class="tg-7zrl" colspan="5">A6 Consultancy&nbsp;&nbsp;&nbsp;Services(Please specify){{ $consultanceServices_checkbox == 'on' ? '✓' : ' ' }}
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl">{{ $consultanceServicesDefinition }}</td>
                     </tr>
                     <tr>
                         <td class="tg-cly1" colspan="5" rowspan="2">A7 Other&nbsp;&nbsp;&nbsp;Services (FDA
-                            Permit, LGU Registration, Bar Coding)</td>
-                        <td class="tg-7zrl"> </td>
-                    </tr>
-                    <tr>
-                        <td class="tg-7zrl"> </td>
+                            Permit, LGU Registration, Bar Coding){{ $otherServices_checkbox == 'on' ? '✓' : ' ' }}</td>
+                        <td class="tg-7zrl">{{ $otherServicesDefinition ?? ' ' }}</td>
                     </tr>
                 </tbody>
             </table>
