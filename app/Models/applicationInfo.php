@@ -12,6 +12,7 @@ class applicationInfo extends Model
     protected $table = 'application_info';
 
     protected $fillable = [
+        'Project_id',
         'business_id',
         'date_applied',
         'application_status',
@@ -21,5 +22,10 @@ class applicationInfo extends Model
     public function businessInfo()
     {
         return $this->belongsTo(businessInfo::class, 'business_id', 'id');
+    }
+
+    public function projectInfo()
+    {
+        return $this->belongsTo(projectInfo::class, 'Project_id', 'Project_id');
     }
 }

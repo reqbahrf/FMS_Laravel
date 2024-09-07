@@ -1234,304 +1234,349 @@ $(document).on('DOMContentLoaded', function () {
     });
 
     function inputsToCurrencyFormatter(thisInput) {
-        let value = thisInput.val().replace(/[^0-9.]/g, '');
+      let value = thisInput.val().replace(/[^0-9.]/g, '');
 
-        if ((value.match(/\./g) || []).length > 1) {
-          value =
-            value.substring(0, value.indexOf('.') + 1) +
-            value.substring(value.indexOf('.') + 1).replace(/\./g, '');
-        }
-        let [integerPart, decimalPart] = value.split('.');
+      if ((value.match(/\./g) || []).length > 1) {
+        value =
+          value.substring(0, value.indexOf('.') + 1) +
+          value.substring(value.indexOf('.') + 1).replace(/\./g, '');
+      }
+      let [integerPart, decimalPart] = value.split('.');
 
-        integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-        if (decimalPart !== undefined) decimalPart = decimalPart.slice(0, 2);
+      if (decimalPart !== undefined) decimalPart = decimalPart.slice(0, 2);
 
-        thisInput.val(
-          decimalPart !== undefined
-            ? `${integerPart}.${decimalPart}`
-            : integerPart
+      thisInput.val(
+        decimalPart !== undefined
+          ? `${integerPart}.${decimalPart}`
+          : integerPart
+      );
+    }
+
+    const parseValue = (value) => {
+      return parseFloat(value?.replace(/,/g, '')) || 0;
+    };
+
+    function PISFormEvents() {
+      console.log('Project Information Sheet Form Events Loaded');
+
+      function caculateTotalAssests() {
+        const landAssets = parseValue($('#land_val').val());
+        const buildingAssets = parseValue($('#building_val').val());
+        const equipmentAssets = parseValue($('#equipment_val').val());
+        const workingCapital = parseValue($('#workingCapital_val').val());
+        const totalAssests =
+          landAssets + buildingAssets + equipmentAssets + workingCapital;
+        $('#totalAssests').val(
+          totalAssests.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })
         );
       }
 
-      const parseValue = (value) => {
-        return parseFloat(value?.replace(/,/g, '')) || 0;
-    }
-
-
-    function PISFormEvents() {
-        console.log("Project Information Sheet Form Events Loaded");
-
-        function caculateTotalAssests() {
-
-            const landAssets = parseValue($('#land_val').val());
-            const buildingAssets = parseValue($('#building_val').val());
-            const equipmentAssets = parseValue($('#equipment_val').val());
-            const workingCapital = parseValue($('#workingCapital_val').val());
-            const totalAssests = landAssets + buildingAssets + equipmentAssets + workingCapital;
-            $('#totalAssests').val(totalAssests.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-            }));
+      $('#land_val, #building_val, #equipment_val, #workingCapital_val').on(
+        'input',
+        function () {
+          const thisInput = $(this);
+          inputsToCurrencyFormatter(thisInput);
+          caculateTotalAssests();
         }
+      );
 
-        $('#land_val, #building_val, #equipment_val, #workingCapital_val').on('input', function () {
-            const thisInput = $(this);
-            inputsToCurrencyFormatter(thisInput);
-            caculateTotalAssests();
+      const calculateTotalEmploymentGenerated = () => {
+        let manMonthTotal = 0;
+
+        $('#totalEmploymentContainer tr').each(function () {
+          const thisTableRow = $(this);
+
+          const male = parseValue(thisTableRow.find('.maleInput').val());
+          const female = parseValue(thisTableRow.find('.femaleInput').val());
+          const subtotal = male + female;
+          thisTableRow.find('.thisRowSubtotal').val(
+            subtotal.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+
+          manMonthTotal += subtotal;
         });
+        $('#TotalmanMonths').val(
+          manMonthTotal.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })
+        );
+      };
 
-        const calculateTotalEmploymentGenerated = () =>{
-            let manMonthTotal = 0;
-
-            $('#totalEmploymentContainer tr').each(function () {
-                const thisTableRow = $(this);
-
-                const male = parseValue(thisTableRow.find('.maleInput').val());
-                const female = parseValue(thisTableRow.find('.femaleInput').val());
-                const subtotal = male + female;
-                thisTableRow.find('.thisRowSubtotal').val(subtotal.toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                }));
-
-                manMonthTotal += subtotal;
-            });
-            $('#TotalmanMonths').val(manMonthTotal.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-            }))
+      $('#totalEmploymentContainer').on(
+        'input',
+        'td input.maleInput, td input.femaleInput',
+        function () {
+          console.log('Input Changed');
+          const thisInput = $(this);
+          inputsToCurrencyFormatter(thisInput);
+          calculateTotalEmploymentGenerated();
         }
+      );
 
-        $('#totalEmploymentContainer').on('input', 'td input.maleInput, td input.femaleInput', function () {
-            console.log("Input Changed");
-            const thisInput = $(this);
-            inputsToCurrencyFormatter(thisInput);
-            calculateTotalEmploymentGenerated();
-        })
+      const calculateTotalGrossSales = () => {
+        console.log('Input Changed');
 
-        const calculateTotalGrossSales = () => {
-            console.log("Input Changed");
+        const localProduct = parseValue($('#localProduct_Val').val());
+        const exportProduct = parseValue($('#exportProduct_Val').val());
+        const totalGrossSales = localProduct + exportProduct;
+        $('#totalGrossSales').val(
+          totalGrossSales.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })
+        );
 
-            const localProduct = parseValue($('#localProduct_Val').val());
-            const exportProduct = parseValue($('#exportProduct_Val').val());
-            const totalGrossSales = localProduct + exportProduct;
-            $('#totalGrossSales').val(totalGrossSales.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-            }));
+        console.log(totalGrossSales);
+      };
 
-            console.log(totalGrossSales);
-        }
-
-        $('#localProduct_Val, #exportProduct_Val').on('input', function () {
-            const thisInput = $(this);
-            inputsToCurrencyFormatter(thisInput);
-            calculateTotalGrossSales();
-        })
-
+      $('#localProduct_Val, #exportProduct_Val').on('input', function () {
+        const thisInput = $(this);
+        inputsToCurrencyFormatter(thisInput);
+        calculateTotalGrossSales();
+      });
     }
 
     function PDSFormEvents() {
-        console.log("Data Sheet Form Events Loaded");
-       const calculateTotalEmployment = () => {
-         let totalNumPersonel = 0;
-         let totalManMonth = 0;
-         $('#totalEmployment tr').each(function () {
-          const totalMalePersonel = parseValue($(this).find('.maleInput').val());
-          const totalFemalePersonel = parseValue($(this).find('.femaleInput').val());
+      console.log('Data Sheet Form Events Loaded');
+      const calculateTotalEmployment = () => {
+        let totalNumPersonel = 0;
+        let totalManMonth = 0;
+        $('#totalEmployment tr').each(function () {
+          const totalMalePersonel = parseValue(
+            $(this).find('.maleInput').val()
+          );
+          const totalFemalePersonel = parseValue(
+            $(this).find('.femaleInput').val()
+          );
           const workDays = parseValue($(this).find('.workdayInput').val());
-          const thisRowManMonth = (totalMalePersonel + totalFemalePersonel) * (workDays/20);
-          $(this).find('.totalManMonth').val(thisRowManMonth.toLocaleString('en-US', {
+          const thisRowManMonth =
+            (totalMalePersonel + totalFemalePersonel) * (workDays / 20);
+          $(this)
+            .find('.totalManMonth')
+            .val(
+              thisRowManMonth.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+              })
+            );
+
+          totalNumPersonel += totalMalePersonel + totalFemalePersonel;
+
+          totalManMonth += parseValue($(this).find('.totalManMonth').val());
+        });
+        $('#TotalManMonth').val(
+          totalManMonth.toLocaleString('en-US', {
             minimumFractionDigits: 2,
-          }));
-
-           totalNumPersonel += totalMalePersonel + totalFemalePersonel;
-
-           totalManMonth += parseValue($(this).find('.totalManMonth').val());
-         });
-         $('#TotalManMonth').val(totalManMonth.toLocaleString('en-US', {
-           minimumFractionDigits: 2,
-         }));
-         $('#TotalEmployment').val(totalNumPersonel.toLocaleString('en-US', {
-           minimumFractionDigits: 2,
-         }));
-       };
-
-        $('#totalEmployment').on(
-          'input',
-          'td input.maleInput, td input.femaleInput, td input.workdayInput',
-          function () {
-            const thisEmployeeRow = $(this);
-            inputsToCurrencyFormatter(thisEmployeeRow);
-
-            const employeeRow = thisEmployeeRow.closest('tr');
-            const maleVal = parseValue(employeeRow.find('.maleInput').val());
-            const femaleVal = parseValue(employeeRow.find('.femaleInput').val());
-            const workDays = parseValue(employeeRow.find('.workdayInput').val());
-
-            const totalManMonth = (workDays/20) * (maleVal + femaleVal);
-            employeeRow.find('.totalManMonth').val(totalManMonth);
-
-            calculateTotalEmployment();
-          }
+          })
         );
-        const calculateTotals = () => {
-          let totalGrossSales = 0;
-          let totalProductionCost = 0;
-          let totalNetSales = 0;
+        $('#TotalEmployment').val(
+          totalNumPersonel.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })
+        );
+      };
 
-         $('#localProducts tr, #exportProducts tr').each(function () {
-           const tableRow = $(this);
-           let grossSales = parseValue(tableRow.find('.grossSales_val').val());
-           let productionCost = parseValue(
-             tableRow.find('.productionCost_val').val()
-           );
+      $('#totalEmployment').on(
+        'input',
+        'td input.maleInput, td input.femaleInput, td input.workdayInput',
+        function () {
+          const thisEmployeeRow = $(this);
+          inputsToCurrencyFormatter(thisEmployeeRow);
 
-           let netSales = grossSales - productionCost;
+          const employeeRow = thisEmployeeRow.closest('tr');
+          const maleVal = parseValue(employeeRow.find('.maleInput').val());
+          const femaleVal = parseValue(employeeRow.find('.femaleInput').val());
+          const workDays = parseValue(employeeRow.find('.workdayInput').val());
 
-           let FormattedNetSales = netSales.toLocaleString('en-US', {
-             minimumFractionDigits: 2,
-           });
+          const totalManMonth = (workDays / 20) * (maleVal + femaleVal);
+          employeeRow.find('.totalManMonth').val(totalManMonth);
 
-           tableRow.find('.netSales_val').val(FormattedNetSales);
+          calculateTotalEmployment();
+        }
+      );
+      const calculateTotals = () => {
+        let totalGrossSales = 0;
+        let totalProductionCost = 0;
+        let totalNetSales = 0;
 
-           totalGrossSales += grossSales;
-           totalProductionCost += productionCost;
-           totalNetSales += netSales;
-
-         });
-
-          $('#totalGrossSales').val(
-            `₱ ${totalGrossSales.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })}`
+        $('#localProducts tr, #exportProducts tr').each(function () {
+          const tableRow = $(this);
+          let grossSales = parseValue(tableRow.find('.grossSales_val').val());
+          let productionCost = parseValue(
+            tableRow.find('.productionCost_val').val()
           );
-          $('#totalProductionCost').val(
-            `₱ ${totalProductionCost.toLocaleString('en-US', {
-               minimumFractionDigits: 2,
+
+          let netSales = grossSales - productionCost;
+
+          let FormattedNetSales = netSales.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          });
+
+          tableRow.find('.netSales_val').val(FormattedNetSales);
+
+          totalGrossSales += grossSales;
+          totalProductionCost += productionCost;
+          totalNetSales += netSales;
+        });
+
+        $('#totalGrossSales').val(
+          `₱ ${totalGrossSales.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
           })}`
+        );
+        $('#totalProductionCost').val(
+          `₱ ${totalProductionCost.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })}`
+        );
+        $('#totalNetSales').val(
+          `₱ ${totalNetSales.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })}`
+        );
+      };
+
+      $('#localProducts, #exportProducts').on(
+        'input',
+        'td input.grossSales_val, td input.productionCost_val',
+        function () {
+          const thisInput = $(this);
+          inputsToCurrencyFormatter(thisInput);
+
+          const $productRow = thisInput.closest('tr');
+          const grossSales = parseValue(
+            $productRow.find('.grossSales_val').val()
           );
-          $('#totalNetSales').val(
-            `₱ ${totalNetSales.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })}`
+          const estimatedProductionCost = parseValue(
+            $productRow.find('.productionCost_val').val()
           );
-        };
+          const netSales = grossSales - estimatedProductionCost;
 
-        $('#localProducts, #exportProducts').on(
-          'input',
-          'td input.grossSales_val, td input.productionCost_val',
-          function () {
-            const thisInput = $(this);
-            inputsToCurrencyFormatter(thisInput);
+          $productRow
+            .find('.netSales_val')
+            .val(
+              netSales.toLocaleString('en-US', { minimumFractionDigits: 2 })
+            );
 
-            const $productRow = thisInput.closest('tr');
-            const grossSales = parseValue($productRow.find('.grossSales_val').val());
-            const estimatedProductionCost = parseValue($productRow.find('.productionCost_val').val());
-            const netSales = grossSales - estimatedProductionCost;
+          calculateTotals();
+        }
+      );
 
-            $productRow.find('.netSales_val').val(netSales.toLocaleString('en-US', { minimumFractionDigits: 2 }));
-
-            calculateTotals();
-          }
+      const calculateToBeAccomplishedProductivity = (
+        CurrentgrossSales,
+        PreviousgrossSales
+      ) => {
+        const increaseInProductivityRow = $(
+          '#ToBeAccomplished .increaseInProductivity'
         );
 
-        const calculateToBeAccomplishedProductivity = (CurrentgrossSales, PreviousgrossSales) => {
-          const increaseInProductivityRow = $(
-            '#ToBeAccomplished .increaseInProductivity'
-          );
-
-          increaseInProductivityRow.find('.CurrentgrossSales_val_cal').text(
-            CurrentgrossSales.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })
-          );
-          increaseInProductivityRow.find('.PreviousgrossSales_val_cal').text(
-            PreviousgrossSales.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })
-          );
-
-          const increaseInProductivityByPercent = ((CurrentgrossSales - PreviousgrossSales) / PreviousgrossSales) * 100;
-          console.log(increaseInProductivityByPercent);
-          increaseInProductivityRow
-            .find('.totalgrossSales_percent')
-            .val(`${increaseInProductivityByPercent.toFixed(2)}%`);
-        };
-
-        $('#ToBeAccomplished').on(
-          'input',
-          'td .CurrentgrossSales_val, td .PreviousgrossSales_val',
-          function () {
-            const thisInput = $(this);
-            inputsFormatter(thisInput);
-
-            const thisRow = thisInput.closest('tr');
-            const CurrentgrossSales = parseValue(
-              thisRow.find('.CurrentgrossSales_val').val()
-            );
-            const PreviousgrossSales = parseValue(
-              thisRow.find('.PreviousgrossSales_val').val()
-            );
-
-            const TotalgrossSales = CurrentgrossSales - PreviousgrossSales;
-            thisRow.find('.TotalgrossSales_val').val(
-              TotalgrossSales.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })
-            );
-            calculateToBeAccomplishedProductivity(CurrentgrossSales, PreviousgrossSales);
-          }
+        increaseInProductivityRow.find('.CurrentgrossSales_val_cal').text(
+          CurrentgrossSales.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })
+        );
+        increaseInProductivityRow.find('.PreviousgrossSales_val_cal').text(
+          PreviousgrossSales.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })
         );
 
-        const calculateToBeAccomplishedEmployment = (CurrentEmployment, PreviousEmployment) => {
-          const increaseInEmploymentRow = $(
-            '#ToBeAccomplished .increaseInEmployment'
+        const increaseInProductivityByPercent =
+          ((CurrentgrossSales - PreviousgrossSales) / PreviousgrossSales) * 100;
+        console.log(increaseInProductivityByPercent);
+        increaseInProductivityRow
+          .find('.totalgrossSales_percent')
+          .val(`${increaseInProductivityByPercent.toFixed(2)}%`);
+      };
+
+      $('#ToBeAccomplished').on(
+        'input',
+        'td .CurrentgrossSales_val, td .PreviousgrossSales_val',
+        function () {
+          const thisInput = $(this);
+          inputsFormatter(thisInput);
+
+          const thisRow = thisInput.closest('tr');
+          const CurrentgrossSales = parseValue(
+            thisRow.find('.CurrentgrossSales_val').val()
+          );
+          const PreviousgrossSales = parseValue(
+            thisRow.find('.PreviousgrossSales_val').val()
           );
 
-          increaseInEmploymentRow.find('.CurrentEmployment_val_cal').text(
-            CurrentEmployment.toLocaleString('en-US', {
+          const TotalgrossSales = CurrentgrossSales - PreviousgrossSales;
+          thisRow.find('.TotalgrossSales_val').val(
+            TotalgrossSales.toLocaleString('en-US', {
               minimumFractionDigits: 2,
             })
           );
-          increaseInEmploymentRow.find('.PreviousEmployment_val_cal').text(
-            PreviousEmployment.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })
+          calculateToBeAccomplishedProductivity(
+            CurrentgrossSales,
+            PreviousgrossSales
           );
+        }
+      );
 
-          const increaseInEmploymentByPercent = ((CurrentEmployment - PreviousEmployment) / PreviousEmployment) * 100;
-          increaseInEmploymentRow
-            .find('.totalEmployment_percent')
-            .val(`${increaseInEmploymentByPercent.toFixed(2)}%`);
-
-        };
-
-        $('#ToBeAccomplished').on(
-          'input',
-          'td .CurrentEmployment_val , td .PreviousEmployment_val',
-          function () {
-            const thisInput = $(this);
-            inputsToCurrencyFormatter(thisInput);
-
-            const thisRow = thisInput.closest('tr');
-            const CurrentEmployment = parseValue(
-              thisRow.find('.CurrentEmployment_val').val()
-            );
-            const PreviousEmployment = parseValue(
-              thisRow.find('.PreviousEmployment_val').val()
-            );
-            const TotalEmployment = CurrentEmployment - PreviousEmployment;
-            thisRow.find('.TotalEmployment_val').val(
-              TotalEmployment.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })
-            );
-            calculateToBeAccomplishedEmployment(CurrentEmployment, PreviousEmployment);
-          }
+      const calculateToBeAccomplishedEmployment = (
+        CurrentEmployment,
+        PreviousEmployment
+      ) => {
+        const increaseInEmploymentRow = $(
+          '#ToBeAccomplished .increaseInEmployment'
         );
 
-        calculateTotalEmployment();
-        calculateTotals();
+        increaseInEmploymentRow.find('.CurrentEmployment_val_cal').text(
+          CurrentEmployment.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })
+        );
+        increaseInEmploymentRow.find('.PreviousEmployment_val_cal').text(
+          PreviousEmployment.toLocaleString('en-US', {
+            minimumFractionDigits: 2,
+          })
+        );
+
+        const increaseInEmploymentByPercent =
+          ((CurrentEmployment - PreviousEmployment) / PreviousEmployment) * 100;
+        increaseInEmploymentRow
+          .find('.totalEmployment_percent')
+          .val(`${increaseInEmploymentByPercent.toFixed(2)}%`);
+      };
+
+      $('#ToBeAccomplished').on(
+        'input',
+        'td .CurrentEmployment_val , td .PreviousEmployment_val',
+        function () {
+          const thisInput = $(this);
+          inputsToCurrencyFormatter(thisInput);
+
+          const thisRow = thisInput.closest('tr');
+          const CurrentEmployment = parseValue(
+            thisRow.find('.CurrentEmployment_val').val()
+          );
+          const PreviousEmployment = parseValue(
+            thisRow.find('.PreviousEmployment_val').val()
+          );
+          const TotalEmployment = CurrentEmployment - PreviousEmployment;
+          thisRow.find('.TotalEmployment_val').val(
+            TotalEmployment.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+          calculateToBeAccomplishedEmployment(
+            CurrentEmployment,
+            PreviousEmployment
+          );
+        }
+      );
+
+      calculateTotalEmployment();
+      calculateTotals();
     }
-
 
     //TODO: Make this reusable and efficient
     //Breadcrumb for Project Information Sheets and Project Data Sheets
@@ -1559,86 +1604,89 @@ $(document).on('DOMContentLoaded', function () {
             PDS: GenerateSheetsRoute.generateDataSheetReport,
           }[ExportPDF_BUTTON_DATA_VALUE];
           const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
-        const response = await $.ajax({
-          type: 'POST',
-          url: route_url,
-          data: data,
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          },
-          xhrFields: {
-            responseType: 'blob',
-          },
-        });
+          const response = await $.ajax({
+            type: 'POST',
+            url: route_url,
+            data: data,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            xhrFields: {
+              responseType: 'blob',
+            },
+          });
 
-         const blob = new Blob([response], { type: 'application/pdf' });
-         const url = window.URL.createObjectURL(blob);
-         window.open(url, '_blank'); // Open the PDF in a new browser tab
+          const blob = new Blob([response], { type: 'application/pdf' });
+          const url = window.URL.createObjectURL(blob);
+          window.open(url, '_blank'); // Open the PDF in a new browser tab
 
-         console.log('PDF successfully generated and opened in a new tab.');
+          console.log('PDF successfully generated and opened in a new tab.');
         } catch (error) {
           console.log(error);
         }
       });
 
-      const requestDATA = async (ExportPDF_BUTTON_DATA_VALUE) => {
-        const formDATAToBESent = {
-            PIS: function () {
-             return (
-               $('#projectInfoForm').serialize() +
-               '&' +
-               $('#PIS_checklistsForm').serialize()
-             );
-           },
+    const requestDATA = async (ExportPDF_BUTTON_DATA_VALUE) => {
+      const formDATAToBESent = {
+        PIS: function () {
+          return (
+            $('#projectInfoForm').serialize() +
+            '&' +
+            $('#PIS_checklistsForm').serialize()
+          );
+        },
 
-            PDS: function () {
-             const thisFormData =$('#projectDataForm').serializeArray();
-             let thisFormObject = {};
-             $.each(thisFormData, function(i, v) {
-               thisFormObject[v.name] = v.value;
-             });
+        PDS: function () {
+          const thisFormData = $('#projectDataForm').serializeArray();
+          let thisFormObject = {};
+          $.each(thisFormData, function (i, v) {
+            thisFormObject[v.name] = v.value;
+          });
 
-            const localProductsRow = $('#localProducts tr');
-            const exportProductsRow = $('#exportProducts tr');
-            const localProductData = [];
-            const exportProductData = [];
+          const localProductsRow = $('#localProducts tr');
+          const exportProductsRow = $('#exportProducts tr');
+          const localProductData = [];
+          const exportProductData = [];
 
-            localProductsRow.each(function() {
-              const tableRow = $(this);
-              const localProductDetails = {
-                productName: tableRow.find('.productName').val(),
-                packingDetails: tableRow.find('.packingDetails').val(),
-                volumeOfProduction: tableRow.find('.volumeOfProduction_val').val(),
-                grossSales: tableRow.find('.grossSales_val').val(),
-                productionCost: tableRow.find('.productionCost_val').val(),
-                netSales: tableRow.find('.netSales_val').val(),
-              };
-              localProductData.push(localProductDetails);
-            });
+          localProductsRow.each(function () {
+            const tableRow = $(this);
+            const localProductDetails = {
+              productName: tableRow.find('.productName').val(),
+              packingDetails: tableRow.find('.packingDetails').val(),
+              volumeOfProduction: tableRow
+                .find('.volumeOfProduction_val')
+                .val(),
+              grossSales: tableRow.find('.grossSales_val').val(),
+              productionCost: tableRow.find('.productionCost_val').val(),
+              netSales: tableRow.find('.netSales_val').val(),
+            };
+            localProductData.push(localProductDetails);
+          });
 
-            thisFormObject.localProduct = localProductData;
+          thisFormObject.localProduct = localProductData;
 
-            exportProductsRow.each(function() {
-              const tableRow = $(this);
-              const exportProductDetails = {
-                productName: tableRow.find('.productName').val(),
-                packingDetails: tableRow.find('.packingDetails').val(),
-                volumeOfProduction: tableRow.find('.volumeOfProduction_val').val(),
-                grossSales: tableRow.find('.grossSales_val').val(),
-                productionCost: tableRow.find('.productionCost_val').val(),
-                netSales: tableRow.find('.netSales_val').val(),
-              };
-              exportProductData.push(exportProductDetails);
-            });
+          exportProductsRow.each(function () {
+            const tableRow = $(this);
+            const exportProductDetails = {
+              productName: tableRow.find('.productName').val(),
+              packingDetails: tableRow.find('.packingDetails').val(),
+              volumeOfProduction: tableRow
+                .find('.volumeOfProduction_val')
+                .val(),
+              grossSales: tableRow.find('.grossSales_val').val(),
+              productionCost: tableRow.find('.productionCost_val').val(),
+              netSales: tableRow.find('.netSales_val').val(),
+            };
+            exportProductData.push(exportProductDetails);
+          });
 
-            thisFormObject.exportProduct = exportProductData;
+          thisFormObject.exportProduct = exportProductData;
 
-            return thisFormObject;
-
-           },
-        }; return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
-
+          return thisFormObject;
+        },
       };
+      return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
+    };
   };
 
   //Project Tab JS
@@ -1923,7 +1971,7 @@ $(document).on('DOMContentLoaded', function () {
 
     formatCurrency('#fundAmount');
 
-    $('.applicantDetailsBtn').on('click', function () {
+    $('.applicantDetailsBtn').on('click', async function () {
       const row = $(this).closest('tr');
 
       const fullName = row.find('td:nth-child(1)').text().trim();
@@ -1967,22 +2015,21 @@ $(document).on('DOMContentLoaded', function () {
       notifDatePopulate(businessID);
 
       // Get requirement and call the populateReqTable function
-      $.ajax({
-        type: 'GET',
-        url: ApplicantTabRoute.getApplicantRequirementsLink,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-        data: {
-          selected_businessID: $('#selected_businessID').val(),
-        },
-        success: function (response) {
-          populateReqTable(response);
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
+      try {
+        const response = await $.ajax({
+          type: 'GET',
+          url: ApplicantTabRoute.getApplicantRequirementsLink,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          },
+          data: {
+            selected_businessID: $('#selected_businessID').val(),
+          },
+        });
+        populateReqTable(response);
+      } catch (error) {
+        console.log(error);
+      }
     });
 
     function notifDatePopulate(businessID) {
@@ -2084,51 +2131,51 @@ $(document).on('DOMContentLoaded', function () {
     });
 
     //retrieve and display file function as base64 format for both pdf and img type
-    function retrieveAndDisplayFile(fileUrl, fileType) {
-      $.ajax({
-        url: ApplicantTabRoute.getRequirementFiles,
-        method: 'GET',
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-        data: {
-          file_url: fileUrl,
-        },
-        success: function (data) {
-          const fileContent = $('#fileContent');
-          fileContent.empty(); // Clear any previous content
+    async function retrieveAndDisplayFile(fileUrl, fileType) {
+      try {
+        const response = await $.ajax({
+          url: ApplicantTabRoute.getRequirementFiles,
+          method: 'GET',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          },
+          data: {
+            file_url: fileUrl,
+          },
+        });
 
-          if (fileType === 'pdf') {
-            // Display PDF in an iframe
-            const base64PDF =
-              'data:application/pdf;base64,' + data.base64File + '';
-            const embed = $('<iframe>', {
-              src: base64PDF,
-              type: 'application/pdf',
-              width: '100%',
-              height: '100%',
-              frameborder: '0',
-              allow: 'fullscreen',
-            });
-            fileContent.append(embed);
-          } else {
-            // Display Image
-            const img = $('<img>', {
-              src: `data:${fileType};base64,${data.base64File}`,
-              class: 'img-fluid',
-            });
-            fileContent.append(img);
-          }
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
+        const fileContent = $('#fileContent');
+        fileContent.empty(); // Clear any previous content
 
-      const reviewFileModal = new bootstrap.Modal(
-        document.getElementById('reviewFileModal')
-      );
-      reviewFileModal.show();
+        if (fileType === 'pdf') {
+          // Display PDF in an iframe
+          const base64PDF =
+            'data:application/pdf;base64,' + response.base64File + '';
+          const embed = $('<iframe>', {
+            src: base64PDF,
+            type: 'application/pdf',
+            width: '100%',
+            height: '100%',
+            frameborder: '0',
+            allow: 'fullscreen',
+          });
+          fileContent.append(embed);
+        } else {
+          // Display Image
+          const img = $('<img>', {
+            src: `data:${fileType};base64,${response.base64File}`,
+            class: 'img-fluid',
+          });
+          fileContent.append(img);
+        }
+      } catch (error) {
+        console.log(error);
+      } finally {
+        const reviewFileModal = new bootstrap.Modal(
+          document.getElementById('reviewFileModal')
+        );
+        reviewFileModal.show();
+      }
     }
 
     //set evaluation date
@@ -2161,31 +2208,31 @@ $(document).on('DOMContentLoaded', function () {
     });
 
     //submit project proposal
-    $('#submitProjectProposal').on('click', function () {
+    $('#submitProjectProposal').on('click', async function (event) {
       event.preventDefault();
 
       let b_id = $('#selected_businessID').val();
       let formdata = $('#projectProposal').serialize() + '&business_id=' + b_id;
 
-      $.ajax({
-        type: 'POST',
-        url: ApplicantTabRoute.submitProjectProposal,
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-        data: formdata,
-        success: function (response) {
-          if (response.success == 'true') {
-            closeOffcanvasInstances('#applicantDetails');
-            setTimeout(() => {
-              showToastFeedback('text-bg-success', response.message);
-            }, 500);
-          }
-        },
-        error: function (error) {
-          console.log(error);
-        },
-      });
+      try {
+        const response = await $.ajax({
+          type: 'POST',
+          url: ApplicantTabRoute.submitProjectProposal,
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          },
+          data: formdata,
+        });
+
+        if (response.success == 'true') {
+          closeOffcanvasInstances('#applicantDetails');
+          setTimeout(() => {
+            showToastFeedback('text-bg-success', response.message);
+          }, 500);
+        }
+      } catch (error) {
+        showToastFeedback('text-bg-danger', error.responseJSON.message);
+      }
     });
   };
 });

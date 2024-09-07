@@ -314,6 +314,7 @@ class StaffViewController extends Controller
         $TestStaffId = 1;
 
         $fundAmountFormatted = number_format(str_replace(',', '', $validated['fundAmount']), 2, '.', '');
+        $Actual_fund_toBeRefund = number_format($fundAmountFormatted + $fundAmountFormatted * 0.05, 2, '.', '');
 
         try{
             $project = ProjectInfo::where('project_id', $validated['projectID'])->first();
@@ -327,12 +328,16 @@ class StaffViewController extends Controller
                     'business_id' => $validated['business_id'],
                     'evaluated_by_id' => $TestStaffId,
                     'project_title' => $validated['projectTitle'],
-                    'fund_amount' => $fundAmountFormatted
+                    'fund_amount' => $fundAmountFormatted,
+                    'actual_amount_to_be_refund' => $Actual_fund_toBeRefund,
                 ]
             );
 
             ApplicationInfo::where('business_id', $validated['business_id'])
-                ->update(['application_status' => 'pending']);
+                ->update([
+                    'Project_id' => $validated['projectID'],
+                    'application_status' => 'pending'
+                ]);
 
 
             return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);

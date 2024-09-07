@@ -24,6 +24,7 @@ class projectInfo extends Model
         'handled_by_id',
         'project_title',
         'fund_amount',
+        'actual_amount_to_be_refund',
         'refund_amout'
     ];
 
