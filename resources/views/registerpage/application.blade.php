@@ -254,7 +254,7 @@
                         <div class="row mb-3 gy-3">
                             <div class="col-12 col-md-2">
                                 <label for="prefix">Prefix:</label>
-                                <input list="prefixOptions" class="form-select" name="prefix" id="prefix">
+                                <input list="prefixOptions" class="form-control" name="prefix" id="prefix">
                                 <datalist id="prefixOptions">
                                     <option value="none">None</option>
                                     <option value="Mr.">Mr.</option>
@@ -294,7 +294,7 @@
                             </div>
                             <div class="col-12 col-md-2">
                                 <label for="suffix">Suffix: </label>
-                                <input list="suffixList" class="form-select" name="suffix" id="suffix"
+                                <input list="suffixList" class="form-control" name="suffix" id="suffix"
                                     value="{{ old('suffix') }}">
                                 <datalist id="suffixList">
                                     <option value="none">None</option>
@@ -363,7 +363,7 @@
                                     <div class="col-12 col-md-6">
                                         <label for="Mobile_no">Mobile Number: <span class="requiredFields">
                                                 *</span></label>
-                                        <input type="text" name="Mobile_no" value="{{ old('Mobile_no') }}"
+                                        <input type="tel" name="Mobile_no"
                                             id="Mobile_no" class="form-control" placeholder="0965-453-5432"
                                             pattern="\d{4}-\d{3}-\d{4}"
                                             title="Please enter a valid mobile number in the format XXXX-XXX-XXXX"
@@ -375,7 +375,7 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label for="landline">Landline:</label>
-                                        <input type="text" name="landline" id="landline"
+                                        <input type="tel" name="landline" id="landline"
                                             value="{{ old('landline') }}" class="form-control"
                                             placeholder="(XX) YYY ZZZZ">
                                         <div class="invalid-feedback">
@@ -771,8 +771,8 @@
                                 <label for="IntentFile" class="form-label">Letter of Intent:<span
                                         class="requiredFields">
                                         *</span></label>
-                                <input class="fileUploads" type="file" name="IntentFile" id="IntentFile">
-                                <div class="form-text">Accepted formats: .pdf.</div>
+                                <input class="fileUploads" type="file" name="IntentFile" id="IntentFile" accept="application/pdf">
+                                <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
                                 <div class="invalid-feedback">
                                     Please upload the Letter of Intent.
                                 </div>
@@ -802,7 +802,7 @@
                                             id="DtiSecCdafile">
                                     </div>
                                 </div>
-                                <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf.
+                                <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf. Maximum file size: 10MB
                                 </div>
                                 <div class="invalid-feedback">
                                     Please upload the DTI/SEC/CDA document.
@@ -841,7 +841,7 @@
                                         <input class="fileUploads" type="file" name="fdaLtoFile" id="fdaLtoFile">
                                     </div>
                                 </div>
-                                <div class="form-text">Choose 1 out of 2 documents above. the accepted formats: .pdf
+                                <div class="form-text">Choose 1 out of 2 documents above. the accepted formats: .pdf Maximum file size: 10MB
                                 </div>
                             </div>
                             <div class="mb-3">
@@ -870,7 +870,7 @@
                                         </div>
                                         <div class="col-10">
                                             <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
-                                            <div class="form-text">Accepted formats: .jpg, .png.</div>
+                                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size: 10MB</div>
                                         </div>
                                 </div>
                                 <div class="invalid-feedback">
@@ -888,7 +888,7 @@
                                     </span>
                                 </label>
                                 <input class="fileUploads" type="file" name="BIRFile" id="BIRFile">
-                                <div class="form-text">Accepted formats: .pdf.</div>
+                                <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
                                 <div class="invalid-feedback">
                                     Please upload the BIR.
                                 </div>
@@ -1330,8 +1330,11 @@
             let IntentFile = document.getElementById('IntentFile');
             FilePond.create(IntentFile, {
                 allowMultiple: false,
+                allowFileTypeValidation: true,
+                allowFileSizeValidation: true,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
+                maxFileSize: '10MB',
                 server: {
                     process: {
                         url: '/requirements/submit',
@@ -1404,8 +1407,11 @@
             console.log(DTI_SEC_CDA_File);
             let DTI_SEC_CDA_instance = FilePond.create(DTI_SEC_CDA_File, {
                 allowMultiple: false,
+                allowFileTypeValidation: true,
+                allowFileSizeValidation: true,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
+                maxFileSize: '10MB',
                 server: {
                     process: {
                         url: '/requirements/submit',
@@ -1496,8 +1502,11 @@
             let businessPermitFile = document.getElementById('businessPermitFile');
             FilePond.create(businessPermitFile, {
                 allowMultiple: false,
+                allowFileTypeValidation: true,
+                allowFileSizeValidation: true,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
+                maxFileSize: '10MB',
                 server: {
                     process: {
                         url: '/requirements/submit',
@@ -1571,8 +1580,11 @@
             let fdaLtoFile = document.getElementById('fdaLtoFile');
             let fdaLto_instance = FilePond.create(fdaLtoFile, {
                 allowMultiple: false,
+                allowFileTypeValidation: true,
+                allowFileSizeValidation: true,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
+                maxFileSize: '10MB',
                 server: {
                     process: {
                         url: '/requirements/submit',
@@ -1663,8 +1675,11 @@
             let receiptFile = document.getElementById('receiptFile');
             FilePond.create(receiptFile, {
                 allowMultiple: false,
+                allowFileTypeValidation: true,
+                allowFileSizeValidation: true,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
+                maxFileSize: '10MB',
                 server: {
                     process: {
                         url: '/requirements/submit',
@@ -1736,11 +1751,14 @@
             let govIdFile = document.getElementById('govIdFile');
             let govId_instance = FilePond.create(govIdFile, {
                 allowMultiple: false,
-                acceptedFileTypes: ['application/pdf'],
+                allowFileTypeValidation: true,
+                allowFileSizeValidation: true,
+                acceptedFileTypes: ['image/png', 'image/jpeg'],
                 allowRevert: true,
                 onremovefile: () => {
                     adjustSmartWizardHeight();
                 },
+                maxFileSize: '10MB',
                 server: {
                     process: {
                         url: '/requirements/submit',
@@ -1827,8 +1845,11 @@
             let BIR = document.getElementById('BIRFile');
             FilePond.create(BIR, {
                 allowMultiple: false,
+                allowFileTypeValidation: true,
+                allowFileSizeValidation: true,
                 acceptedFileTypes: ['application/pdf'],
                 allowRevert: true,
+                maxFileSize: '10MB',
                 server: {
                     process: {
                         url: '/requirements/submit',
@@ -1944,9 +1965,6 @@
 
             $('#smartwizard').on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
                 var totalSteps = $('#smartwizard').find('ul li').length;
-                console.log("Total Steps:", totalSteps);
-
-                console.log(stepIndex, totalSteps, stepPosition);
 
                 if (stepPosition != "Last") {
                     $('.btn-success, .btn-secondary').hide();
@@ -1961,9 +1979,6 @@
                 }
                 if (stepIndex === 3) { // Since stepIndex is 0-based, step-4 corresponds to index 3
                     $('.btn-success, .btn-secondary').show();
-                    console.log("Arriving at Last Step - Transferring Values");
-
-                    // Personal Info
 
                     let fullName = $('#prefix').val() + ' ' + $('#f_name').val() + ' ' + $('#middle_name')
                         .val() + ' ' + $('#l_name').val() + ' ' + $('#suffix').val();
@@ -1977,11 +1992,11 @@
                     // Business Info
                     $('#re_firm_name').val($('#firm_name').val());
                     $('#re_type_enterprise').val($('#enterpriseType').val());
-                    let landMark = $('#Landmark').val();
-                    let Barangay = 'Barangay ' + $('#barangay').val();
-                    let City = $('#city').val();
-                    let Province = $('#province').val();
-                    let Region = $('#region').val();
+                    const landMark = $('#Landmark').val();
+                    const Barangay = 'Barangay ' + $('#barangay').val();
+                    const City = $('#city').val();
+                    const Province = $('#province').val();
+                    const Region = $('#region').val();
 
                     $('#re_Address').val(landMark + ', ' + Barangay + ', ' + City + ', ' + Province + ', ' +
                         Region);
@@ -2160,8 +2175,7 @@
                 }
             });
         });
-    </script>
-    <script type="module">
+
             const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
             document.addEventListener("DOMContentLoaded", function() {
