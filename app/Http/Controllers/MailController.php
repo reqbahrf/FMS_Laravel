@@ -23,7 +23,8 @@ class MailController extends Controller
 
             // Send the email
             Mail::to($user->email)->send(new verifyEmail($user));
-            return back()->with('status', 'A email has been sent to <strong>' . e($user->email) . ' </strong> Please check your gmail to verify.');
+            return back()->with('status', 'An email has been sent to <strong>' . e($user->email) . ' </strong> Please check your Gmail to verify. <br> If you did not receive the email, please check your spam folder. <br> <span class
+            ="fw-light text-muted">verification link will expire in 30 minutes.</span>');
         } else {
             return redirect('/login')->withErrors(['Invalid verification link']);
         }
