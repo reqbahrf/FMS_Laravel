@@ -17,11 +17,14 @@ return new class extends Migration
         Schema::create('application_info', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('business_id')->unsigned();
+            $table->char('Project_id', 15)->collation('utf8mb4_bin');
             $table->string('application_status', 15)->default('waiting');
             $table->timestamp('Evaluation_date')->nullable();
+            $table->string('Evaluation_status', 15)->nullable();
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('Project_id')->references('Project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

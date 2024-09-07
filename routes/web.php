@@ -140,6 +140,6 @@ Route::get('/email/verify', function () {
     return view('auth.verifyEmail');
 })->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [MailController::class, 'sendEmailVerify'])->name('verification.verify');
-Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'verifyEmail'])->name('verifyEmail');
+Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'verifyEmail'])->name('verifyEmail')->middleware('signed');
 
 

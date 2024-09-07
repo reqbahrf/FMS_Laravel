@@ -7,6 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 
 
 class verifyEmail extends Mailable
@@ -33,7 +34,7 @@ class verifyEmail extends Mailable
         return $this->markdown('emailContent.confirmEmail')
             ->with([
                 'userName' => $this->user->user_name,
-                'verificationUrl' => route('verifyEmail', [
+                'verificationUrl' =>URL::signedRoute('verifyEmail', [
                     'id' => $this->user->id,
                     'hash' => hash('sha256', $this->user->email),
                     'timestamp' => $timestamp,

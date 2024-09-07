@@ -133,8 +133,10 @@ class AuthController extends Controller
             return redirect()->route('home')->with('error', 'Verification link expired.');
         }
 
-        $user->email_verified_at = now();
-        $user->save();
+        if (!$user->email_verified_at) {
+            $user->email_verified_at = now();
+            $user->save();
+        }
 
         return redirect()->route('home')->with('success', 'Email verified successfully.');
     }
