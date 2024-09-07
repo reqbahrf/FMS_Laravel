@@ -177,7 +177,6 @@ class ApplicationController extends Controller
             // Requirements table
             DB::table('application_info')->insert([
                 'business_id' => $businessId,
-                'Project_id' => 'NULL',
             ]);
             $successful_inserts++;
 
