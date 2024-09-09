@@ -586,8 +586,8 @@
                                                                         </label>
                                                                         <input type="text" name="m_personnelDiRe"
                                                                             value="{{ old('m_personnelDiRe') }}"
-                                                                            id="m_personnelDiRe" class="form-control"
-                                                                            placeholder="No. Male Regular">
+                                                                            id="m_personnelDiRe" class="form-control num_only"
+                                                                            placeholder="No. Male Regular" pattern="[0-9]">
 
                                                                     </div>
                                                                     <div class="col-12">
@@ -595,8 +595,8 @@
                                                                         </label>
                                                                         <input type="text" name="f_personnelDiRe"
                                                                             value="{{ old('f_personnelDiRe') }}"
-                                                                            id="f_personnelDiRe" class="form-control"
-                                                                            placeholder="No. Female Regular">
+                                                                            id="f_personnelDiRe" class="form-control num_only"
+                                                                            placeholder="No. Female Regular" pattern="[0-9]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -613,8 +613,8 @@
                                                                         <input type="text" name="m_personnelDiPart"
                                                                             value="{{ old('m_personnelDiPart') }}"
                                                                             id="m_personnelDiPart"
-                                                                            class="form-control"
-                                                                            placeholder="No. Male Part-time">
+                                                                            class="form-control num_only"
+                                                                            placeholder="No. Male Part-time" pattern="[0-9]">
                                                                     </div>
                                                                     <div class="col-12">
                                                                         <label for="f_personnelDiPart">Female:
@@ -622,8 +622,8 @@
                                                                         <input type="text" name="f_personnelDiPart"
                                                                             value="{{ old('f_personnelDiPart') }}"
                                                                             id="f_personnelDiPart"
-                                                                            class="form-control"
-                                                                            placeholder="No. Female Part-time">
+                                                                            class="form-control num_only"
+                                                                            placeholder="No. Female Part-time" pattern="[0-9]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -667,8 +667,8 @@
                                                                         </label>
                                                                         <input type="text" name="m_personnelIndRe"
                                                                             value="{{ old('m_personnelIndRe') }}"
-                                                                            id="m_personnelIndRe" class="form-control"
-                                                                            placeholder="No. Male Regular">
+                                                                            id="m_personnelIndRe" class="form-control num_only"
+                                                                            placeholder="No. Male Regular" pattern="[0-9]">
 
                                                                     </div>
                                                                     <div class="col-12">
@@ -676,8 +676,8 @@
                                                                         </label>
                                                                         <input type="text" name="f_personnelIndRe"
                                                                             value="{{ old('f_personnelIndRe') }}"
-                                                                            id="f_personnelIndRe" class="form-control"
-                                                                            placeholder="No. Female Regular">
+                                                                            id="f_personnelIndRe" class="form-control num_only"
+                                                                            placeholder="No. Female Regular" pattern="[0-9]">
 
                                                                     </div>
                                                                 </div>
@@ -696,8 +696,8 @@
                                                                             name="m_personnelIndPart"
                                                                             value="{{ old('m_personnelIndPart') }}"
                                                                             id="m_personnelIndPart"
-                                                                            class="form-control"
-                                                                            placeholder="No. Male Part-time">
+                                                                            class="form-control num_only"
+                                                                            placeholder="No. Male Part-time" pattern="[0-9]">
 
                                                                     </div>
                                                                     <div class="col-12">
@@ -707,8 +707,8 @@
                                                                             name="f_personnelIndPart"
                                                                             value="{{ old('f_personnelIndPart') }}"
                                                                             id="f_personnelIndPart"
-                                                                            class="form-control"
-                                                                            placeholder="Number of Female Part-time">
+                                                                            class="form-control num_only"
+                                                                            placeholder="Number of Female Part-time" pattern="[0-9]">
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2118,8 +2118,7 @@
                     }
                 });
 
-                function updateEnterpriseLevel() {
-                    const formatNumber = (input) => {
+                const formatNumber = (input) => {
                         let value = input.value.replace(/,/g, ''); // Remove existing commas
                         value = value.replace(/[^\d.]/g,
                             ''); // Remove non-numeric characters except for decimal point
@@ -2131,9 +2130,17 @@
                         input.value = value;
                     };
 
-                    formatNumber(document.getElementById('buildings'));
-                    formatNumber(document.getElementById('equipments'));
-                    formatNumber(document.getElementById('working_capital'));
+                $('.num_only').on('input', function() {
+                    const input = $(this);
+                    const value = input.val().replace(/[^0-9.]/g, '');
+                    input.val(value);
+                });
+
+                function updateEnterpriseLevel() {
+
+                    $('#buildings, #equipments, #working_capital').each(function() {
+                        formatNumber($(this)[0]);
+                    });
 
                     var buildingsValue = parseFloat($('#buildings').val().replace(/,/g, '')) || 0;
                     var equipmentsValue = parseFloat($('#equipments').val().replace(/,/g, '')) || 0;
