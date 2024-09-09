@@ -7,6 +7,10 @@
         margin-top: 0 !important;
     }
 
+    #applicant_wrapper>div:nth-child(2) {
+        overflow: auto;
+    }
+
     #applicantDetails {
         width: 70vw;
         max-width: 100%;
@@ -205,7 +209,7 @@
 
 <div class="card m-0 m-md-3">
     <div class="card-body">
-        <div class="m-3 table-responsive">
+        <div class="m-3">
             <!-- Where the applicant table start -->
             <table id="applicant" class="table table-hover" style="width:100%">
                 <thead>

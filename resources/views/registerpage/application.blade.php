@@ -243,7 +243,7 @@
             <form action="{{ route('applicationFormSubmit') }}" id="applicationForm" method="post" class="g-3 p-5"
                 enctype="multipart/form-data" novalidate>
                 @csrf
-                <div class="tab-content">
+                <div class="tab-content h-auto" style="height: auto;" >
                     <div class="alert alert-primary m-0" role="alert">
                         <i class="ri-information-2-fill ri-lg"></i>
                         Please fill out all the <span class="requiredFields">*</span> required fields
@@ -764,7 +764,7 @@
                         </div>
                     </div>
                     <div id="step-3" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-3"
-                        style="position: static; left: 0px; display: none;">
+                        style="position: static; left: 0px; display: none; ">
                         <h3>Upload the Following Requirements:</h3>
                         <div class="row mb-12 p-5">
                             <div class="mb-3">
@@ -1755,9 +1755,6 @@
                 allowFileSizeValidation: true,
                 acceptedFileTypes: ['image/png', 'image/jpeg'],
                 allowRevert: true,
-                onremovefile: () => {
-                    adjustSmartWizardHeight();
-                },
                 maxFileSize: '10MB',
                 server: {
                     process: {
@@ -1785,7 +1782,6 @@
                                     govIdFile.setAttribute('data-file-path', govIdFilePath);
                                     console.log(govIdFilePath);
                                     document.getElementById('GovIdSelector').classList.add('disabled');
-                                    adjustSmartWizardHeight();
                                 }
                             }
 
@@ -1928,15 +1924,12 @@
                 }
             });
 
-            window.adjustSmartWizardHeight = function() {
-                $('#smartwizard').smartWizard("fixHeight");
-            }
             $('#smartwizard').smartWizard({
                 selected: 0,
                 theme: 'dots',
-                autoAdjustHeight: true,
+                autoAdjustHeight: false,
                 transition: {
-                    animation: 'slideHorizontal'
+                    animation: 'fade'
                 },
                 toolbar: {
                     showNextButton: true,
