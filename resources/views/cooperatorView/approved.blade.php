@@ -400,7 +400,7 @@
                     <td class="img-Content">${receiptImage}</td>
                     <td>${value.created_at}</td>
                     <td>${value.remark}</td>
-                    <td></td> <!-- You can add comment logic here if needed -->
+                    <td></td>
                 </tr>`;
 
                 tableBody.append(row);

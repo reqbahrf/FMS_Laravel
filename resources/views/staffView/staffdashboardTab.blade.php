@@ -420,33 +420,34 @@
             <p class="fw-bold fs-5 m-0 text-center">Handled Project</p>
         </div>
         <div class="card-body">
-            <table id="handledProject" class="table table-hover" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Project ID</th>
-                        <th>Project Title</th>
-                        <th>Firm Name</th>
-                        <th>Owner Name</th>
-                        <th>Refund Progress</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody id="handledProjectTableBody">
-
-                </tbody>
-                <tfoot>
-                    <tr>
-                        <th>ID</th>
-                        <th>Project Title</th>
-                        <th>Firm Info</th>
-                        <th>Owner Info</th>
-                        <th>Refund Progress</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
-            </table>
+            <div class="table-responsive">
+                <table id="handledProject" class="table table-hover" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Project ID</th>
+                            <th>Project Title</th>
+                            <th>Firm Name</th>
+                            <th>Owner Name</th>
+                            <th>Refund Progress</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="handledProjectTableBody">
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>ID</th>
+                            <th>Project Title</th>
+                            <th>Firm Info</th>
+                            <th>Owner Info</th>
+                            <th>Refund Progress</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
 </div>

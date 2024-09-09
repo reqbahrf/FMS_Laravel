@@ -205,12 +205,11 @@
 
 <div class="card m-0 m-md-3">
     <div class="card-body">
-        <div class="m-3 table-responsive-sm">
+        <div class="m-3 table-responsive">
             <!-- Where the applicant table start -->
             <table id="applicant" class="table table-hover" style="width:100%">
                 <thead>
                     <tr>
-
                         <th>Client Name</th>
                         <th>Designation</th>
                         <th>Business Info</th>

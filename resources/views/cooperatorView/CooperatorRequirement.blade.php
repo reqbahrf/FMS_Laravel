@@ -158,28 +158,30 @@
                     Expense Receipt
                 </div>
                 <div class="card-body">
-                    <table class="table">
-                        <thead class="thead-dark">
-                            <tr>
-                                <th scope="col">Receipt Name</th>
-                                <th scope="col">Description</th>
-                                <th scope="col">Receipt File</th>
-                                <th scope="col">Date Uploaded</th>
-                                <th scope="col">Remark</th>
-                                <th scope="col">Comment</th>
-                            </tr>
-                        </thead>
-                        <tbody id="expenseReceipt_tbody">
-                            <tr>
-                                <td></td>
-                                <td></td>
-                                <td>Where the receipt infomation are displayed</td>
-                                <td></td>
-                                <td></td>
-                            </tr>
-                            <!-- Add more rows as needed -->
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Receipt Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Receipt File</th>
+                                    <th scope="col">Date Uploaded</th>
+                                    <th scope="col">Remark</th>
+                                    <th scope="col">Comment</th>
+                                </tr>
+                            </thead>
+                            <tbody id="expenseReceipt_tbody">
+                                <tr>
+                                    <td></td>
+                                    <td></td>
+                                    <td>Where the receipt infomation are displayed</td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
                     <div class="text-end">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                             data-bs-target="#receiptModal">Upload Receipt</button>
