@@ -13,6 +13,7 @@ use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
+use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\StaffPaymentRecordController;
 use App\Http\Controllers\StaffProjectLinkController;
 use App\Http\Middleware\CheckCooperatorUser;
@@ -141,5 +142,10 @@ Route::get('/email/verify', function () {
 })->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [MailController::class, 'sendEmailVerify'])->name('verification.verify');
 Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'verifyEmail'])->name('verifyEmail')->middleware('signed');
+
+//test route
+
+Route::get('/SR', [staffGenerateSRController::class, 'index']);
+Route::get('/viewSR', fn () => view('staffView.outputs.StatusReport'));
 
 

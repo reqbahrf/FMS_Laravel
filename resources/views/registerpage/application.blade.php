@@ -1975,7 +1975,7 @@
 
                     let fullName = $('#prefix').val() + ' ' + $('#f_name').val() + ' ' + $('#middle_name')
                         .val() + ' ' + $('#l_name').val() + ' ' + $('#suffix').val();
-                    console.log(fullName);
+
                     $('#re_Full_name').val(fullName);
                     $('#re_b_Date').val($('#b_date').val());
                     $('#re_designa').val($('#designation').val());
