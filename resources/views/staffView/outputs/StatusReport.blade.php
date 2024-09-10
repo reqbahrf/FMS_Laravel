@@ -7,15 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <style type="text/css">
-    @import url(https://themes.googleusercontent.com/fonts/css?kit=soa_V42eXREs8LDkwBiWS64fnxpW6PVRuPCJ3776g6XxuCJtJc4slrSJJ5sgpX1n);
 
-    .lst-kix_list_1-3>li:before {
-      content: "\0025cf   "
-    }
-
-    .lst-kix_list_1-4>li:before {
-      content: "o  "
-    }
 
     ul.lst-kix_list_1-0 {
       list-style-type: none
@@ -2177,11 +2169,8 @@
               <td class="c37" colspan="1" rowspan="1">
                 <p class="c9"><span class="c2">Project Title</span></p>
               </td>
-              <td class="c25" colspan="1" rowspan="1">
+              <td class="c25" colspan="1" rowspan="2">
                 <p class="c9"><span class="c2">:</span></p>
-              </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
               </td>
             </tr>
             <tr class="c20">
@@ -2191,11 +2180,8 @@
               <td class="c37" colspan="1" rowspan="1">
                 <p class="c7"><span class="c2"></span></p>
               </td>
-              <td class="c25" colspan="1" rowspan="1">
+              <td class="c25" colspan="1" rowspan="2">
                 <p class="c7"><span class="c2"></span></p>
-              </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
               </td>
             </tr>
             <tr class="c20">
@@ -2208,9 +2194,6 @@
               <td class="c25" colspan="1" rowspan="1">
                 <p class="c9"><span class="c2">:</span></p>
               </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
-              </td>
             </tr>
             <tr class="c20">
               <td class="c18" colspan="1" rowspan="1">
@@ -2222,36 +2205,16 @@
               <td class="c25" colspan="1" rowspan="1">
                 <p class="c9"><span class="c2">:</span></p>
               </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
-              </td>
             </tr>
             <tr class="c20">
               <td class="c18" colspan="1" rowspan="1">
                 <p class="c9"><span class="c2">IV.</span></p>
               </td>
               <td class="c37" colspan="1" rowspan="1">
-                <p class="c9"><span class="c2">Amount of SETUP </span></p>
+                <p class="c9"><span class="c2">Amount of SETUP Assistance</span></p>
               </td>
               <td class="c25" colspan="1" rowspan="1">
                 <p class="c9"><span class="c2">:</span></p>
-              </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
-              </td>
-            </tr>
-            <tr class="c20">
-              <td class="c18" colspan="1" rowspan="1">
-                <p class="c7"><span class="c2"></span></p>
-              </td>
-              <td class="c37" colspan="1" rowspan="1">
-                <p class="c9"><span class="c2">Assistance</span></p>
-              </td>
-              <td class="c25" colspan="1" rowspan="1">
-                <p class="c7"><span class="c2"></span></p>
-              </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
               </td>
             </tr>
             <tr class="c20">
@@ -2259,27 +2222,10 @@
                 <p class="c9"><span class="c2">V.</span></p>
               </td>
               <td class="c37" colspan="1" rowspan="1">
-                <p class="c9"><span class="c2">Date Funds Released </span></p>
+                <p class="c9"><span class="c2">Date Funds Released to the Cooperator</span></p>
               </td>
               <td class="c25" colspan="1" rowspan="1">
                 <p class="c9"><span class="c2">:</span></p>
-              </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
-              </td>
-            </tr>
-            <tr class="c20">
-              <td class="c18" colspan="1" rowspan="1">
-                <p class="c7"><span class="c2"></span></p>
-              </td>
-              <td class="c37" colspan="1" rowspan="1">
-                <p class="c9"><span class="c2">to the Cooperator</span></p>
-              </td>
-              <td class="c25" colspan="1" rowspan="1">
-                <p class="c7"><span class="c2"></span></p>
-              </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
               </td>
             </tr>
             <tr class="c20">
@@ -2291,9 +2237,6 @@
               </td>
               <td class="c25" colspan="1" rowspan="1">
                 <p class="c9"><span class="c2">:</span></p>
-              </td>
-              <td class="c90" colspan="1" rowspan="1">
-                <p class="c7"><span class="c13"></span></p>
               </td>
             </tr>
           </tbody>

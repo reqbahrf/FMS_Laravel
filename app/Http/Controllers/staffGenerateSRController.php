@@ -13,10 +13,10 @@ class staffGenerateSRController extends Controller
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',
-            'orientation' => 'P',
+            'orientation' => 'P'
         ]);
 
-        $mpdf->WriteHTML($html);
+        $mpdf->WriteHTML($html, 0);
         return response($mpdf->Output('SRsample.pdf', 'D'));
 
     }
