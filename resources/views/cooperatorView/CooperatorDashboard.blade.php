@@ -191,8 +191,35 @@
             }
         }
 
+        @media (max-width: 768px) {
 
-        .sidenav {
+            .sideNavButtonLargeScreen{
+                display: none;
+            }
+            .sidenav {
+                display: none;
+            }
+
+            #MobileNavOffcanvas{
+                max-width: 70vw;
+            }
+
+            .MobileSideBar{
+               background-color: var(--bs-sidenav-color);
+            }
+
+            .MobileSideBar a{
+                color: #f1f1f1;
+                text-decoration: none;
+            }
+        }
+
+        @media (min-width: 768px) {
+
+            .sideNavButtonSmallScreen{
+                display: none;
+            }
+            .sidenav {
             display: inline-flex;
             flex-direction: column;
             justify-content: flex-start;
@@ -208,6 +235,34 @@
             overflow-x: hidden;
             overflow-y: hidden;
             animation: minimizeNav 0.5s ease;
+        }
+
+        .sidenav a:hover {
+            filter: grayscale(0%) opacity(1);
+            color: #318791;
+            border-right: #f1f1f1 4px solid;
+        }
+
+        .navExpanded {
+            margin-left: calc(var(--nav-width-max) * 1);
+            animation: container-right-margin-Expanded-state 0.5s ease;
+
+        }
+
+        .navMinimized {
+            margin-left: calc(var(--nav-width-min) * 1);
+            animation: container-right-margin-Minimized-state 0.5s ease;
+        }
+
+        .sidenav.expanded {
+            width: calc(var(--nav-width-max) * 1);
+            animation: expandNav 0.5s ease;
+        }
+
+        .sidenav.Minimized {
+            width: calc(var(--nav-width-min) * 1);
+        }
+
         }
 
         .nav-item.main-Nav a.active {
@@ -232,11 +287,8 @@
 
         }
 
-        .sidenav a:hover {
-            filter: grayscale(0%) opacity(1);
-            color: #318791;
-            border-right: #f1f1f1 4px solid;
-        }
+
+
 
         .topNav {
             display: flex;
@@ -306,30 +358,11 @@
 
         .sideTextSec::after {
             content: "Fund Monitoring System";
-
             opacity: 0;
             animation: navLogo-text-sec-expand 3s forwards;
         }
 
-        .navExpanded {
-            margin-left: calc(var(--nav-width-max) * 1);
-            animation: container-right-margin-Expanded-state 0.5s ease;
 
-        }
-
-        .navMinimized {
-            margin-left: calc(var(--nav-width-min) * 1);
-            animation: container-right-margin-Minimized-state 0.5s ease;
-        }
-
-        .sidenav.expanded {
-            width: calc(var(--nav-width-max) * 1);
-            animation: expandNav 0.5s ease;
-        }
-
-        .sidenav.Minimized {
-            width: calc(var(--nav-width-min) * 1);
-        }
 
 
         /* notification */

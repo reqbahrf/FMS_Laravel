@@ -41,7 +41,7 @@
                                 </g>
                             </g>
                         </svg>
-                        <div id="logoTitle" class="row position-relative h-100 w-75">
+                        <div class="logoTitleLScreen row position-relative h-100 w-75">
                             <div class="position-absolute top-50">
                                 <p class="sideTextMain text-white m-0 w-100"></p>
                             </div>
@@ -68,7 +68,7 @@
                     </a>
                 </li>
                 <li class="nav-item mb-2">
-                    <a href="#" id="querterlyReportTab" class="mb-2 d-flex align-items-center">
+                    <a href="#" class="mb-2 d-flex align-items-center querterlyReportTab">
                         <i class="ri-draft-fill ri-2x"></i>
                         <span class="nav-text ml-2">Quarterly Report</span>
                         <span class="ms-auto" id="dropDown_arrow">
@@ -76,7 +76,7 @@
                             <i class="ri-arrow-down-s-line ri-lg d-none"></i>
                         </span>
                     </a>
-                    <div class="d-none" id="sidebarTasks">
+                    <div class="d-none sidebarTasks">
                         <ul class="list-unstyled ps-5">
                             <li>
                                 <a href="#" id="querterlyReportTab1" onclick="loadPage('/Cooperator/QuarterlyReport/create','querterlyReportTab1');">
@@ -126,13 +126,158 @@
                 </li>
             </ul>
         </nav>
+        <div
+    class="offcanvas offcanvas-start MobileSideBar"
+    data-bs-scroll="true"
+    tabindex="-1"
+    id="MobileNavOffcanvas"
+    aria-labelledby="Enable both scrolling & backdrop"
+>
+    <div class="offcanvas-header p-0">
+        <div class="nav-item mb-2 minimize w-75">
+            <div class="navlogo d-flex justify-content-center align-items-center">
+                <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                    xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px"
+                    viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079" xml:space="preserve"
+                    class="m-1 logo">
+                    <g>
+                        <rect x="19.235" y="19.699" width="36" height="36" />
+                        <circle fill="#48C4D3" cx="19.235" cy="19.699" r="18" />
+                        <g>
+                            <circle fill="#48C4D3" cx="19.195" cy="19.648" r="18" />
+                            <path fill="#FFFFFF"
+                                d="M19.323,37.598c9.918-0.027,17.953-8.071,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L19.323,37.598z" />
+                            <path
+                                d="M37.192,19.601C37.166,9.682,29.12,1.648,19.195,1.648S1.224,9.682,1.198,19.601H37.192z" />
+                        </g>
+                        <g>
+                            <circle fill="#48C4D3" cx="55.315" cy="19.651" r="18" />
+                            <path fill="#FFFFFF"
+                                d="M37.319,19.651c0.027,9.918,8.07,17.952,17.996,17.952c9.925,0,17.972-8.034,17.998-17.952L37.319,19.651z" />
+                            <path
+                                d="M55.315,37.648c9.919-0.027,17.953-8.072,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L55.315,37.648z" />
+                        </g>
+                        <g>
+                            <circle fill="#48C4D3" cx="55.315" cy="55.649" r="18" />
+                            <path fill="#FFFFFF"
+                                d="M55.269,37.605c-9.918,0.027-17.953,8.072-17.953,17.997s8.035,17.972,17.953,17.999V37.605z" />
+                            <path
+                                d="M37.317,55.649c0.028,9.919,8.073,17.952,17.999,17.952c9.923,0,17.97-8.033,17.997-17.952H37.317z" />
+                        </g>
+                        <g>
+                            <circle fill="#48C4D3" cx="19.315" cy="55.725" r="18" />
+                            <path fill="#FFFFFF"
+                                d="M37.313,55.628c-0.027-9.919-8.072-17.953-17.997-17.953c-9.926,0-17.972,8.034-17.999,17.952L37.313,55.628z" />
+                            <path
+                                d="M19.268,37.682C9.349,37.709,1.315,45.754,1.315,55.679S9.349,73.65,19.268,73.677V37.682z" />
+                        </g>
+                    </g>
+                </svg>
+                <div class="logoTitle row position-relative h-100 w-75">
+                    <div class="position-absolute top-50">
+                        <p class="sideTextMain text-white m-0 w-100"></p>
+                    </div>
+                    <div class="position-absolute bottom-50">
+                        <p class="sideTextSec text-white m-0 w-100"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button
+            type="button"
+            class="btn-close me-3 btn-close-white"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+        ></button>
+    </div>
+    <div class="offcanvas-body">
+       <ul class="navbar-nav">
+        <li class="nav-item main-Nav mb-2">
+            <a href="#" id="InformationTab"
+                onclick="loadPage('{{ route('Cooperator.dashboard') }}','InformationTab');"
+                class="mb-2 d-flex align-items-center">
+                <i class="ri-dashboard-3-fill ri-2x"></i>
+                <span class="nav-text ml-2">Dashboard</span>
+            </a>
+        </li>
+        <li class="nav-item main-Nav mb-2">
+            <a href="#" id="requirementTab"
+                onclick="loadPage('{{ route('Cooperator.Requirements') }}','requirementTab');"
+                class="mb-2 d-flex align-items-center">
+                <i class="ri-file-list-2-fill ri-2x"></i>
+                <span class="nav-text ml-2">Requirements</span>
+            </a>
+        </li>
+        <li class="nav-item mb-2">
+            <a href="#" class="mb-2 d-flex align-items-center querterlyReportTab">
+                <i class="ri-draft-fill ri-2x"></i>
+                <span class="nav-text ml-2">Quarterly Report</span>
+                <span class="ms-auto" id="dropDown_arrow">
+                    <i class="ri-arrow-right-s-line  ri-lg d-block"></i>
+                    <i class="ri-arrow-down-s-line ri-lg d-none"></i>
+                </span>
+            </a>
+            <div class="d-none sidebarTasks">
+                <ul class="list-unstyled ps-5">
+                    <li>
+                        <a href="#" id="querterlyReportTab1" onclick="loadPage('/Cooperator/QuarterlyReport/create','querterlyReportTab1');">
+                            <span class="position-relative">
+                                Quarter 1
+
+                            </span>
+                        <span class="badge rounded-pill text-bg-success">Open</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="disabled-li-report">
+                            <span class="position-relative">
+                                Quarter 2
+
+                            </span>
+                            <span
+                                class="badge rounded-pill text-bg-secondary">
+                                Close
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="disabled-li-report">
+                            <span class="position-relative">
+                                Quarter 3
+
+                            </span>
+                            <span
+                                class="badge rounded-pill text-bg-secondary">
+                                Close
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="disabled-li-report">
+                            <span class="position-relative">
+                                Quarter 4
+                            </span>
+                            <span
+                                class="badge rounded-pill text-bg-secondary">Close
+                            </span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </li>
+       </ul>
+    </div>
+</div>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
             @csrf
         </form>
         <div id="toggle-left-margin" class="content-row navExpanded">
             <div class="topNav shadow-sm px-3 container-fluid">
                 <div class="d-flex align-items-center justify-content-between">
-                    <button onclick="toggleSidebar()" class="btn">
+                    <button type="button" class="btn sideNavButtonLargeScreen">
+                        <i class="ri-menu-unfold-fill ri-2x"></i>
+                    </button>
+                    <button type="button" class="btn sideNavButtonSmallScreen">
                         <i class="ri-menu-unfold-fill ri-2x"></i>
                     </button>
                 </div>
@@ -542,52 +687,43 @@
             var chart = new ApexCharts(document.querySelector("#ProgressPer"), options);
             chart.render();
         }
-    </script>
-    <script type="module">
-        window.toggleSidebar = function() {
-            const sidebar = document.querySelector('.sidenav');
-            const logoDescription = document.querySelector('#logoTitle');
-            logoDescription.classList.toggle('d-none');
 
-            sidebar.classList.toggle('expanded');
-            sidebar.classList.toggle('minimized');
-            const container = $('#toggle-left-margin');
-            if (container.hasClass('navExpanded')) {
-                container.removeClass('navExpanded').addClass('navMinimized');
-            } else {
-                container.removeClass('navMinimized').addClass('navExpanded');
-            };
-            //side bar minimize
-            $('.sidenav a span').each(function() {
-                $(this).toggleClass('d-none');
+        $(document).ready(function() {
+
+            $('.sideNavButtonSmallScreen').on('click', function() {
+                new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
+            })
+
+            $('.sideNavButtonLargeScreen').on('click', function() {
+                $('.sidenav').toggleClass('expanded minimized');
+                $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
+                $('.logoTitleLScreen').toggle();
+                //side bar minimize
+                $('.sidenav a span').each(function() {
+                    $(this).toggleClass('d-none');
+                });
+
+                $('.sidenav a').each(function() {
+                    $(this).toggleClass('justify-content-center');
+                });
+                //size bar minimize rotation
+                $('#hover-link').toggleClass('rotate-icon');
             });
 
-            $('.sidenav a').each(function() {
-                $(this).toggleClass('justify-content-center');
+            window.setActiveLink = function(activeLink) {
+                $('.nav-item a').removeClass('active');
+                var defaultLink = 'dashboardLink';
+                var linkToActivate = $('#' + (activeLink || defaultLink));
+                linkToActivate.addClass('active');
+            }
+
+            //  Sidebar dropdown
+
+            $('.querterlyReportTab').click(function() {
+                const $activeNav = $(this).closest('li');
+                const $sideBarTasks = $activeNav.find('.sidebarTasks').toggleClass('d-none');
+                $activeNav.find('.ri-arrow-right-s-line, .ri-arrow-down-s-line').toggleClass('d-block d-none');
             });
-            //size bar minimize rotation
-            $('#hover-link').toggleClass('rotate-icon');
-
-        }
-
-        window.setActiveLink = function(activeLink) {
-            $('.nav-item a').removeClass('active');
-            var defaultLink = 'dashboardLink';
-            var linkToActivate = $('#' + (activeLink || defaultLink));
-            linkToActivate.addClass('active');
-        }
-
-        //  Sidebar dropdown
-
-        $('#querterlyReportTab').click(function() {
-          $('#sidebarTasks').toggleClass('d-none');
-          if ($('#sidebarTasks').hasClass('d-none')) {
-            $('.ri-arrow-right-s-line').removeClass('d-none').addClass('d-block');
-            $('.ri-arrow-down-s-line').removeClass('d-block').addClass('d-none');
-          }else{
-            $('.ri-arrow-right-s-line').removeClass('d-block').addClass('d-none');
-            $('.ri-arrow-down-s-line').removeClass('d-none').addClass('d-block');
-          }
-        });
+        })
     </script>
 </body>
