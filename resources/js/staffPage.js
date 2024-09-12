@@ -431,9 +431,14 @@ $(document).on('DOMContentLoaded', function () {
       $('.GeneratedSheetsTabMenu').removeClass('d-none');
     });
 
-    fetchHandleProject();
+    getHandleProject();
 
-    function fetchHandleProject() {
+    /**
+     * Fetches handled projects from the server and updates the handled project table.
+     *
+     * @return {void}
+     */
+    function getHandleProject() {
       fetch(DashboardTabRoute.getHandledProjects, {
         method: 'GET',
         headers: {
@@ -527,6 +532,12 @@ $(document).on('DOMContentLoaded', function () {
         });
     }
 
+    /**
+     * Handles the content of the project offcanvas based on the project status.
+     *
+     * @param {string} project_status - The status of the project (approved, ongoing, completed)
+     * @return {Promise<void>} A promise that resolves when the offcanvas content has been updated
+     */
     async function handleProjectOffcanvasContent(project_status) {
       const handleProjectOffcanvas = $('#handleProjectOff');
       const content = {
@@ -595,6 +606,13 @@ $(document).on('DOMContentLoaded', function () {
       return paymentHistoryTable;
     };
 
+
+        /**
+     * Stores payment records for a project by sending a POST request to the server.
+     *
+     * @param {number} project_id - The ID of the project for which payment records are being stored.
+     * @return {void}
+     */
     async function storePaymentRecords(project_id) {
       const formData =
         $('#paymentForm').serialize() + '&project_id=' + project_id;
@@ -619,6 +637,12 @@ $(document).on('DOMContentLoaded', function () {
       }
     }
 
+
+        /**
+     * Updates the payment records for a project by sending a PUT request to the server.
+     *
+     * @return {void}
+     */
     async function update_payment_records() {
       const project_id = $('#ProjectID').val();
       const transaction_id = $('#TransactionID').val();
@@ -646,6 +670,15 @@ $(document).on('DOMContentLoaded', function () {
       }
     }
 
+    /**
+     * Event listener for the submit payment button click event.
+     *
+     * Handles the submission of payment records based on the submission method.
+     * If the submission method is 'add', it calls the storePaymentRecords function.
+     * If the submission method is 'update', it calls the update_payment_records function.
+     *
+     * @param {Event} event - The click event triggered by the submit payment button.
+     */
     $('#submitPayment').on('click', function () {
       const submissionMethod = $(this).data('submissionmethod');
 
@@ -663,7 +696,14 @@ $(document).on('DOMContentLoaded', function () {
       }
     });
 
-    async function fetchPaymentHistory(projectId) {
+    /**
+     * Fetches payment history for a given project ID and populates the payment history table.
+     *
+     * @param {string} projectId - The ID of the project to fetch payment history for.
+     * @return {Promise} A promise that resolves when the payment history table has been populated.
+     * @throws {Error} If there is an error fetching the payment history.
+     */
+    async function getPaymentHistory(projectId) {
       try {
         const response = await $.ajax({
           type: 'GET',
@@ -741,7 +781,6 @@ $(document).on('DOMContentLoaded', function () {
       $('#paymentStatus').val(selected_payment_status);
     }
 
-    //TODO: Implove the this event listener for the Offcanvas handled project
     $('#handledProjectTableBody').on('click', '.handleProjectbtn', function () {
       const handledProjectRow = $(this).closest('tr');
       const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
@@ -808,7 +847,7 @@ $(document).on('DOMContentLoaded', function () {
     });
 
     const getPaymentHistoryAndCalculation = async (project_id) => {
-      await fetchPaymentHistory(project_id)
+      await getPaymentHistory(project_id)
         .then((totalAmount) => {
           const amount = $('#amount').val();
           const fundedAmount = parseFloat(amount.replace(/,/g, ''));

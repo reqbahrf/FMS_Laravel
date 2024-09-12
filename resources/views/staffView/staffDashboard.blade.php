@@ -774,8 +774,6 @@
         // $(window).on('beforeunload', function() {
         //     return 'Are you sure you want to leave?';
         // });
-
-
         $(document).ready(() => {
 
             let lastUrl = sessionStorage.getItem('StafflastUrl')
@@ -787,64 +785,63 @@
             }
         });
 
-           function setActiveLink(activeLink) {
+           const setActiveLink = (activeLink) => {
                 $(".nav-item a").removeClass("active");
                 const defaultLink = "dashboardLink";
                 const linkToActivate = $("#" + (activeLink || defaultLink));
                 linkToActivate.addClass("active");
             };
 
-            window.loadPage = (url, activeLink) => {
-                // Check if the response is already cached
-                let cachedPage = sessionStorage.getItem(url);
-                if (cachedPage) {
-                    // If cached, use the cached response
-                    handleAjaxSuccess(cachedPage, activeLink, url);
-                } else {
-                    // If not cached, make the AJAX request
-                    $.ajax({
-                        url: url,
-                        type: 'GET',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        success: function(response) {
-                            // Cache the response
-                            //sessionStorage.setItem(url, response);
-                            handleAjaxSuccess(response, activeLink, url);
-                        },
-                        error: function(error) {
-                            console.log('Error: ' + error);
-                        }
-                    });
+            window.loadPage = async (url, activeLink) => {
+                try {
+                    // Check if the response is already cached
+                    const cachedPage = sessionStorage.getItem(url);
+                    if (cachedPage) {
+                        // If cached, use the cached response
+                        handleAjaxSuccess(cachedPage, activeLink, url);
+                    } else {
+                        // If not cached, make the AJAX request
+                        const response = await $.ajax({
+                            url,
+                            type: 'GET',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        // Cache the response
+                        //sessionStorage.setItem(url, response);
+                        handleAjaxSuccess(response, activeLink, url);
+                    }
+                } catch (error) {
+                    console.log('Error: ', error);
                 }
             };
 
-           function handleAjaxSuccess(response, activeLink, url) {
+           const handleAjaxSuccess = async (response, activeLink, url) => {
                 $('#main-content').html(response);
                 setActiveLink(activeLink);
-                history.pushState(null, '', url);
+                await history.pushState(null, '', url);
 
                 if (url === '{{ route('staff.dashboard') }}') {
-                    InitdashboardChar();
-                    initializeDashboardTabEvents();
+                    await InitdashboardChar();
+                    await initializeDashboardTabEvents();
                 }
 
                 if (url === '/org-access/viewCooperatorInfo.php') {
-                    InitializeviewCooperatorProgress();
+                    await InitializeviewCooperatorProgress();
                 }
 
                 if (url === '{{ route('staff.Project') }}') {
-                    initializeProjectTabEvents();
-                    attachProjectInformationSheetEvents();
+                    await initializeProjectTabEvents();
+                    await attachProjectInformationSheetEvents();
                 }
 
                 if (url === '{{ route('staff.Applicant') }}') {
-                    InitializeApplicantTabEvents();
+                    await InitializeApplicantTabEvents();
                 }
 
-                sessionStorage.setItem('StafflastUrl', url);
-                sessionStorage.setItem('StafflastActive', activeLink);
+                await sessionStorage.setItem('StafflastUrl', url);
+                await sessionStorage.setItem('StafflastActive', activeLink);
             }
 
 
