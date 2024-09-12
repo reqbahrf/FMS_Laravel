@@ -610,7 +610,7 @@ $(document).on('DOMContentLoaded', function () {
         });
 
         closeModal('#paymentModal');
-        await fetchPaymentHistoryAndCalculation(project_id);
+        await getPaymentHistoryAndCalculation(project_id);
         setTimeout(() => {
           showToastFeedback('text-bg-success', response.message);
         }, 500);
@@ -637,7 +637,7 @@ $(document).on('DOMContentLoaded', function () {
         });
 
         closeModal('#paymentModal');
-        await fetchPaymentHistoryAndCalculation($('#ProjectID').val());
+        await getPaymentHistoryAndCalculation($('#ProjectID').val());
         setTimeout(() => {
           showToastFeedback('text-bg-success', response.message);
         }, 500);
@@ -761,8 +761,8 @@ $(document).on('DOMContentLoaded', function () {
         .trim();
 
       handleProjectOffcanvasContent(project_status);
-      fetchPaymentHistoryAndCalculation(project_id);
-      fetchProjectLinks(project_id);
+      getPaymentHistoryAndCalculation(project_id);
+      getProjectLinks(project_id);
 
       // Cache hidden input values
       const business_id = hiddenInputs.filter('.business_id').val();
@@ -807,7 +807,7 @@ $(document).on('DOMContentLoaded', function () {
       $('#workingCapitalAsset').val(workingCapitalAsset);
     });
 
-    const fetchPaymentHistoryAndCalculation = async (project_id) => {
+    const getPaymentHistoryAndCalculation = async (project_id) => {
       await fetchPaymentHistory(project_id)
         .then((totalAmount) => {
           const amount = $('#amount').val();
@@ -972,7 +972,7 @@ $(document).on('DOMContentLoaded', function () {
       }
     });
 
-    async function fetchProjectLinks(Project_id) {
+    async function getProjectLinks(Project_id) {
       try {
         const response = await $.ajax({
           type: 'GET',
@@ -1078,9 +1078,9 @@ $(document).on('DOMContentLoaded', function () {
             closeModal('#deleteRecordModal');
             modal.hide();
             recordToDelete === 'projectLinkRecord'
-              ? await fetchProjectLinks($('#ProjectID').val())
+              ? await getProjectLinks($('#ProjectID').val())
               : recordToDelete === 'paymentRecord'
-              ? await fetchPaymentHistoryAndCalculation($('#ProjectID').val())
+              ? await getPaymentHistoryAndCalculation($('#ProjectID').val())
               : null;
           } catch (error) {
             console.log(error);
@@ -2005,7 +2005,7 @@ $(document).on('DOMContentLoaded', function () {
       $('#mobile_phone').val(mobilePhone);
       $('#email').val(emailAddress);
 
-      notifDatePopulate(businessID);
+      getEvaluationScheduledDate(businessID);
 
       // Get requirement and call the populateReqTable function
       try {
@@ -2025,7 +2025,7 @@ $(document).on('DOMContentLoaded', function () {
       }
     });
 
-    function notifDatePopulate(businessID) {
+    function getEvaluationScheduledDate(businessID) {
       $.ajax({
         type: 'GET',
         url: ApplicantTabRoute.getEvaluationScheduleDate,
@@ -2191,7 +2191,7 @@ $(document).on('DOMContentLoaded', function () {
         success: function (response) {
           console.log(response);
           if (response.success == true) {
-            notifDatePopulate(business_id);
+            getEvaluationScheduledDate(business_id);
           }
         },
         error: function (error) {
