@@ -345,19 +345,14 @@ $(document).on('DOMContentLoaded', function () {
 
   //Side Nav toggle
 
-  $('#sidebar_toggle').on('click', function () {
-    const sidebar = document.querySelector('.sidenav');
-    const logoDescription = document.querySelector('#logoTitle');
-    logoDescription.classList.toggle('d-none');
+  $('.sideNavButtonSmallScreen').on('click', function () {
+    new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
+  });
 
-    sidebar.classList.toggle('expanded');
-    sidebar.classList.toggle('minimized');
-    const container = $('#toggle-left-margin');
-    if (container.hasClass('navExpanded')) {
-      container.removeClass('navExpanded').addClass('navMinimized');
-    } else {
-      container.removeClass('navMinimized').addClass('navExpanded');
-    }
+  $('.sideNavButtonLargeScreen').on('click', function () {
+    $('.sidenav').toggleClass('expanded minimized');
+    $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
+    $('.logoTitleLScreen').toggle();
     //side bar minimize
     $('.sidenav a span').each(function () {
       $(this).toggleClass('d-none');
@@ -1957,8 +1952,6 @@ $(document).on('DOMContentLoaded', function () {
     checkboxes.forEach((checkbox, index) => {
       checkbox.addEventListener('change', function () {
         if (this.checked) {
-          // Show confirmation modal
-          // You can customize the modal content and appearance based on your requirements
           $('#myModal').modal('show');
 
           // Show 'Reviewed' span if checkbox is checked
