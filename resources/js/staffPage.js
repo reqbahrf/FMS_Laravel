@@ -1053,10 +1053,45 @@ $(document).on('DOMContentLoaded', function () {
       modal.find('textarea#projectLink').val(projectLink);
     });
 
+    /**
+     * Event listener for showing the delete confirmation modal.
+     *
+     * This listener triggers when the '#deleteRecordModal' modal is shown. It dynamically updates
+     * the modal's content based on the type of record that is being deleted (e.g., project payment,
+     * project link, or quarterly report). Once confirmed, it sends an AJAX DELETE request to the
+     * appropriate endpoint to delete the specified record.
+     *
+     * @event show.bs.modal
+     * @param {Event} event - The event object triggered when the modal is shown.
+     * @listens show.bs.modal
+     *
+     * @property {jQuery} triggeredDeleteButton - The button element that triggered the modal, containing data attributes used for determining the record type and details.
+     * @property {string} action - The type of record to delete (e.g., 'projectPayment', 'projectLink', or 'quarterlyRecord').
+     * @property {jQuery} recordRow - The table row (`<tr>`) element closest to the triggered button, used to extract record details from the table.
+     *
+     * @property {string} paymentTransactionID - The transaction ID of the payment record to delete (if `action === 'projectPayment'`).
+     * @property {string} paymentAmount - The amount of the payment to delete (if `action === 'projectPayment'`).
+     *
+     * @property {string} projectName - The name of the project link record to delete (if `action === 'projectLink'`).
+     * @property {string} projectLink - The URL of the project link to delete (if `action === 'projectLink'`).
+     *
+     * @property {string} quarterlyRecord_id - The ID of the quarterly report record to delete (if `action === 'quarterlyRecord'`).
+     * @property {string} quarterPeriod - The quarter period of the quarterly report record to delete (if `action === 'quarterlyRecord'`).
+     *
+     * @fires $.ajax DELETE - Sends a DELETE request to the server to delete the specified record.
+     *
+     * @function handleDeleteClick - Handles the click event on the delete button within the modal.
+     *   This sends the appropriate DELETE request and updates the UI accordingly.
+     *
+     * @returns {void}
+     */
     $('#deleteRecordModal').on('show.bs.modal', function (event) {
       const triggeredDeleteButton = $(event.relatedTarget);
       const action = triggeredDeleteButton.data('delete-record-type');
       const recordRow = triggeredDeleteButton.closest('tr');
+
+      console.log(triggeredDeleteButton.data('record-to-delete'));
+      console.log(action);
 
       const modal = $(this);
 
@@ -1086,6 +1121,19 @@ $(document).on('DOMContentLoaded', function () {
           .find('#deleteRecord')
           .attr('data-record-to-delete', 'projectLinkRecord')
           .attr('data-unique-val', projectName);
+      } else if (action === 'quarterlyRecord') {
+        const quarterlyRecord_id = triggeredDeleteButton.data('record-id');
+        const quarterPeriod = recordRow.find('td:eq(0)').text();
+        console.log(quarterPeriod, quarterlyRecord_id);
+        modal
+          .find('.modal-body')
+          .html(
+            `Are you sure you want to delete this quarterly record <strong>${quarterPeriod}</strong>?`
+          );
+        modal
+          .find('#deleteRecord')
+          .attr('data-record-to-delete', 'quarterlyRecord')
+          .attr('data-unique-val', quarterlyRecord_id);
       }
       modal
         .find('#deleteRecord')
@@ -1103,6 +1151,11 @@ $(document).on('DOMContentLoaded', function () {
               : recordToDelete === 'projectLinkRecord'
               ? DashboardTabRoute.DELETE_PROJECT_LINK.replace(
                   ':project_link_name',
+                  uniqueVal
+                )
+              : recordToDelete === 'quarterlyRecord'
+              ? DashboardTabRoute.DELETE_QUARTERLY_REPORT.replace(
+                  ':record_id',
                   uniqueVal
                 )
               : '';
@@ -1376,7 +1429,7 @@ $(document).on('DOMContentLoaded', function () {
       });
     }
 
-        /**
+    /**
      * Initializes and sets up event listeners for the PDS form, handling calculations and updates for employment and sales data.
      *
      * @return {void}
@@ -1901,7 +1954,9 @@ $(document).on('DOMContentLoaded', function () {
           </td>
           <td class="text-center">
           <button type="button" class="btn btn-primary btn-sm"><i class="ri-file-edit-fill"></i></button>
-          <button type="button" class="btn btn-danger btn-sm"><i class="ri-delete-bin-fill"></i></button>
+          <button type="button" class="btn btn-danger btn-sm deleteQuarterlyRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-record-id="${
+            report.id
+          }" data-delete-record-type="quarterlyRecord"><i class="ri-delete-bin-fill"></i></button>
           </td>
         </tr>
       `;

@@ -19,6 +19,7 @@ class StaffQuarterlyReportController extends Controller
 
         try{
             $ongoingReports = OngoingQuarterlyReport::Select(
+                'id',
                 'quarter',
                 'report_file',
                 'open_until',
@@ -125,6 +126,17 @@ class StaffQuarterlyReportController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+            OngoingQuarterlyReport::where('id', $id)->delete();
+            return response()->json([
+                'message' => 'Report deleted successfully',
+                'status' => 'success'
+            ], 200);
+        }catch(\Exception $e){
+            return response()->json([
+                'message' => $e->getMessage(),
+                'status' => 'error'
+            ], 500);
+        }
     }
 }
