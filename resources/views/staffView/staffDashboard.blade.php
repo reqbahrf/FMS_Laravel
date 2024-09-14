@@ -742,6 +742,7 @@
             DELETE_PROJECT_LINK: '{{ route('ProjectLink.destroy', ':project_link_name') }}',
             STORE_NEW_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.store') }}',
             GET_QUARTERLY_REPORT_RECORDS: '{{ route('Manage-QuarterlyReport.index') }}',
+            UPDATE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.update',':record_id') }}',
             DELETE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.destroy',':record_id') }}',
 
         }

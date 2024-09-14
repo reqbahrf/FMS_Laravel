@@ -92,7 +92,6 @@
 </div>
 {{-- Payment modal end --}}
 {{-- Project Links Record Modal Start --}}
-
 <div class="modal fade" id="projectLinkModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-labelledby="projectLinkModalLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -145,6 +144,70 @@
     </div>
 </div>
 {{-- Delete record Modal End --}}
+
+{{-- Update Quarterly Record Modal Start --}}
+
+
+<!-- Modal Body -->
+<div
+    class="modal fade"
+    id="updateQuarterlyRecordModal"
+    tabindex="-1"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    role="dialog"
+    aria-labelledby="UpdateQuarterlyRecordModalLabel"
+    aria-hidden="true"
+>
+    <div
+        class="modal-dialog"
+        role="document"
+    >
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="modalTitleId">
+                   Update Quarterly Record
+                </h5>
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                ></button>
+            </div>
+            <div class="modal-body">
+                <form id="updateQuarterlyRecordForm">
+                    <div class="row">
+                        <div class="col-12 col-md-4">
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" role="switch" id="toogleReport" checked>
+                                <label class="form-check-label" for="flexSwitchCheckChecked">Toggle Report Open/Close
+                                </label>
+                              </div>
+                        </div>
+                        <div class="col-12 col-md-8">
+                            <label for="updateOpenDays" class="form-label">New Days Open:</label>
+                            <input type="text" name="updateOpenDays" id="updateOpenDays" class="form-control">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    class="btn"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+                <button type="button" class="btn btn-primary" id="updateQuarterlyRecord">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Update Quarterly Record Modal End --}}
+
+
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="handleProjectOff"
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary">

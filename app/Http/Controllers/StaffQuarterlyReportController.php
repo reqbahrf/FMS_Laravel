@@ -118,7 +118,33 @@ class StaffQuarterlyReportController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+         try{
+             $validated = $request->validate([
+                 'report_status' => 'required|in:open,close',
+                 'updateOpenDays' => 'nullable|integer|min_digits:1',
+             ]);
+
+             $report = OngoingQuarterlyReport::where('id', $id)->first();
+             if(!$report){
+                 return response()->json([
+                     'message' => 'Report not found',
+                     'status' => 'error'
+                 ], 404);
+             }
+
+             $report->report_status = $validated['report_status'];
+             $report->open_until = isset($validated['updateOpenDays']) ? now()->addDays((int) $validated['updateOpenDays']) : null;
+             $report->save();
+             return response()->json([
+                 'message' => 'Report updated successfully',
+                 'status' => 'success'
+             ], 200);
+         }catch(\Exception $e){
+             return response()->json([
+                 'message' => $e->getMessage(),
+                 'status' => 'error'
+             ], 500);
+         }
     }
 
     /**

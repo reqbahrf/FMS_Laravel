@@ -1953,7 +1953,9 @@ $(document).on('DOMContentLoaded', function () {
           </span>
           </td>
           <td class="text-center">
-          <button type="button" class="btn btn-primary btn-sm"><i class="ri-file-edit-fill"></i></button>
+          <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateQuarterlyRecordModal" data-record-id="${
+            report.id
+          }"><i class="ri-file-edit-fill"></i></button>
           <button type="button" class="btn btn-danger btn-sm deleteQuarterlyRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-record-id="${
             report.id
           }" data-delete-record-type="quarterlyRecord"><i class="ri-delete-bin-fill"></i></button>
@@ -1965,6 +1967,72 @@ $(document).on('DOMContentLoaded', function () {
         });
       } catch (error) {
         console.log(error);
+        showToastFeedback('text-bg-danger', error.responseJSON.message);
+      }
+    };
+
+    /**
+     * Event listener for when the #updateQuarterlyRecordModal modal is shown.
+     *
+     * @event show.bs.modal
+     * @memberof #updateQuarterlyRecordModal
+     * @param {Object} event - The event object.
+     * @param {HTMLElement} event.relatedTarget - The element that triggered the modal.
+     *
+     * @description Sets up the modal with the record ID and report status from the triggered button.
+     *              Also sets up a click event listener for the #updateQuarterlyRecord button.
+     */
+    $('#updateQuarterlyRecordModal').on('show.bs.modal', function (event) {
+      const triggeredbutton = $(event.relatedTarget);
+      const record = triggeredbutton.data('record-id');
+      const triggeredButtonRow = triggeredbutton.closest('tr');
+
+      const modal = $(this);
+      const reportStatus =
+        triggeredButtonRow.find('span.badge:contains("open")').length > 0
+          ? 'open'
+          : 'close';
+      modal.find('#updateQuarterlyRecord').attr('data-record-id', record);
+
+      modal
+        .find('#toogleReport')
+        .prop('checked', reportStatus === 'open' ? true : false);
+      modal.find('#updateQuarterlyRecord').attr('data-record-id', record);
+
+      $('#updateQuarterlyRecord').on('click', function () {
+        const record_id = $(this).data('record-id');
+        updateQuarterlyReport(record_id);
+      });
+    });
+
+    /**
+     * Updates a quarterly report by sending a PUT request to the server.
+     *
+     * @param {number} report_id - The ID of the quarterly report to be updated.
+     * @return {Promise} A promise that resolves when the update is successful, or rejects with an error message.
+     */
+    const updateQuarterlyReport = async (report_id) => {
+      const form = $('#updateQuarterlyRecordForm').serialize();
+      const report_status = $('#toogleReport').prop('checked')
+        ? 'open'
+        : 'close';
+
+      try {
+        const response = await $.ajax({
+          type: 'PUT',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          },
+          url: DashboardTabRoute.UPDATE_QUARTERLY_REPORT.replace(
+            ':record_id',
+            report_id
+          ),
+          data: form + '&report_status=' + report_status,
+        });
+
+        closeModal('#updateQuarterlyRecordModal');
+        showToastFeedback('text-bg-success', response.message);
+      } catch (error) {
         showToastFeedback('text-bg-danger', error.responseJSON.message);
       }
     };
