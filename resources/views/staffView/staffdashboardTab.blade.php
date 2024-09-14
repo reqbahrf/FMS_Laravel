@@ -360,9 +360,8 @@
                                         <tr>
                                             <th width="10%" class="text-center">Quarter</th>
                                             <th width="20%" class="text-center">Cooperator Response</th>
-                                            <th width="10%" class="text-center">Report Status</th>
+                                            <th width="15%" class="text-center">Report Status</th>
                                             <th width="25%" class="text-center">Open Until</th>
-                                            <th width="15%" class="text-center">Review Status</th>
                                             <th width="20%" class="text-center">Action</th>
                                         </tr>
                                     </thead>

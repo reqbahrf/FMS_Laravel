@@ -23,7 +23,6 @@ class StaffQuarterlyReportController extends Controller
                 'report_file',
                 'open_until',
                 'report_status',
-                'review_status'
             )->where('ongoing_project_id', $validated['project_id'])->get();
 
             $ongoingReports->each(function($report) {

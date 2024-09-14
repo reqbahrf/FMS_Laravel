@@ -1376,6 +1376,11 @@ $(document).on('DOMContentLoaded', function () {
       });
     }
 
+        /**
+     * Initializes and sets up event listeners for the PDS form, handling calculations and updates for employment and sales data.
+     *
+     * @return {void}
+     */
     function PDSFormEvents() {
       console.log('Data Sheet Form Events Loaded');
       const calculateTotalEmployment = () => {
@@ -1415,6 +1420,19 @@ $(document).on('DOMContentLoaded', function () {
         );
       };
 
+      /**
+       * Event listener for input changes on employee data table cells.
+       *
+       * Listens for changes on 'maleInput', 'femaleInput', and 'workdayInput' cells within the '#totalEmployment' table.
+       * When a change occurs, updates the corresponding 'totalManMonth' cell and recalculates the overall total employment values.
+       *
+       * @event input
+       * @param {Object} event - The input event object.
+       * @param {HTMLElement} event.target - The input element that triggered the event.
+       * @param {Object} event.delegateTarget - The element that the event was delegated to.
+       *
+       * @fires calculateTotalEmployment
+       */
       $('#totalEmployment').on(
         'input',
         'td input.maleInput, td input.femaleInput, td input.workdayInput',
@@ -1433,6 +1451,13 @@ $(document).on('DOMContentLoaded', function () {
           calculateTotalEmployment();
         }
       );
+
+      /**
+       * Calculates the total gross sales, production cost, and net sales
+       * from the local and export products tables.
+       *
+       * @return {void}
+       */
       const calculateTotals = () => {
         let totalGrossSales = 0;
         let totalProductionCost = 0;
@@ -1475,6 +1500,18 @@ $(document).on('DOMContentLoaded', function () {
         );
       };
 
+      /**
+       * Event listener for input changes on gross sales and production cost fields.
+       *
+       * Calculates the net sales by subtracting the estimated production cost from the gross sales,
+       * updates the corresponding net sales field, and recalculates totals.
+       *
+       * @event input
+       * @listener
+       * @param {object} event - The input event object.
+       * @param {object} thisInput - The input element that triggered the event.
+       * @fires calculateTotals
+       */
       $('#localProducts, #exportProducts').on(
         'input',
         'td input.grossSales_val, td input.productionCost_val',
@@ -1501,6 +1538,13 @@ $(document).on('DOMContentLoaded', function () {
         }
       );
 
+      /**
+       * Calculates the productivity increase percentage based on current and previous gross sales.
+       *
+       * @param {number} CurrentgrossSales - The current gross sales value.
+       * @param {number} PreviousgrossSales - The previous gross sales value.
+       * @return {void}
+       */
       const calculateToBeAccomplishedProductivity = (
         CurrentgrossSales,
         PreviousgrossSales
@@ -1528,6 +1572,19 @@ $(document).on('DOMContentLoaded', function () {
           .val(`${increaseInProductivityByPercent.toFixed(2)}%`);
       };
 
+      /**
+       * Event listener for input changes on table cells containing current and previous gross sales values.
+       *
+       * @event input
+       * @memberof #ToBeAccomplished
+       * @param {object} event - The input event object.
+       * @param {HTMLElement} event.target - The table cell that triggered the event.
+       *
+       * @description Formats the input value, calculates the difference between current and previous gross sales,
+       * updates the total gross sales value, and recalculates productivity metrics.
+       *
+       * @fires calculateToBeAccomplishedProductivity
+       */
       $('#ToBeAccomplished').on(
         'input',
         'td .CurrentgrossSales_val, td .PreviousgrossSales_val',
@@ -1556,6 +1613,13 @@ $(document).on('DOMContentLoaded', function () {
         }
       );
 
+      /**
+       * Calculates the percentage increase in employment.
+       *
+       * @param {number} CurrentEmployment - The current employment value.
+       * @param {number} PreviousEmployment - The previous employment value.
+       * @return {void}
+       */
       const calculateToBeAccomplishedEmployment = (
         CurrentEmployment,
         PreviousEmployment
@@ -1614,7 +1678,18 @@ $(document).on('DOMContentLoaded', function () {
     }
 
     //TODO: Make this reusable and efficient
-    //Breadcrumb for Project Information Sheets and Project Data Sheets
+
+    /**
+     * Attaches a click event listener to non-active breadcrumb items within the #SheetFormDocumentContainer element.
+     * When a non-active breadcrumb item is clicked, it removes the #PISFormContainer and #PDSFormContainer elements
+     * and toggles the visibility of the document selector element (#selectDOC_toGenerate).
+     *
+     * @function
+     * @name clickBreadcrumbItem
+     * @memberof jQuery
+     * @param {Event} event - The click event object.
+     * @return {void}
+     */
     $('#SheetFormDocumentContainer').on(
       'click',
       '.breadcrumb-item:not(.active) a',
@@ -1627,6 +1702,20 @@ $(document).on('DOMContentLoaded', function () {
     const toggleDocumentSelector = () =>
       $('#selectDOC_toGenerate').toggleClass('d-none');
 
+    /**
+     * Attaches a click event listener to elements with the class `ExportPDF` within the `#SheetFormDocumentContainer` element.
+     *
+     * @event click
+     * @param {HTMLElement} element - The element that triggered the event.
+     * @param {Event} e - The click event object.
+     *
+     * @description When clicked, this event listener generates a PDF based on the selected export type and opens it in a new browser tab.
+     *
+     * @fires requestDATA
+     * @fires $.ajax
+     *
+     * @throws {Error} If there is an error generating the PDF.
+     */
     $('#SheetFormDocumentContainer')
       .off('click', '.ExportPDF')
       .on('click', '.ExportPDF', async function (e) {
@@ -1661,6 +1750,12 @@ $(document).on('DOMContentLoaded', function () {
         }
       });
 
+    /**
+     * Prepares and returns the required data for the specified export type.
+     *
+     * @param {string} ExportPDF_BUTTON_DATA_VALUE - The type of export (PIS or PDS)
+     * @return {object|string} The prepared data for the specified export type
+     */
     const requestDATA = async (ExportPDF_BUTTON_DATA_VALUE) => {
       const formDATAToBESent = {
         PIS: function () {
@@ -1723,6 +1818,14 @@ $(document).on('DOMContentLoaded', function () {
       return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
     };
 
+    /**
+     * Handles the submission of the Create Quarterly Report form.
+     *
+     * @event submit
+     * @memberof $('#CreateQuarterlyReportForm')
+     * @param {Event} e - The submit event.
+     * @description Prevents default form submission behavior and sends a POST request to the server to create a new quarterly report.
+     */
     $('#CreateQuarterlyReportForm').on('submit', function (e) {
       e.preventDefault();
       const project_id = $('#ProjectID').val();
@@ -1763,7 +1866,7 @@ $(document).on('DOMContentLoaded', function () {
             '?project_id=' +
             project_id,
         });
-        TableContainer.empty();
+        response !== null && TableContainer.empty();
         response.forEach((report) => {
           const newRow = `
         <tr>
@@ -1791,16 +1894,9 @@ $(document).on('DOMContentLoaded', function () {
           </span><br/>
           <span class="text-secondary fst-italic">  ${
             report.open_until
-              ? 'Open Until ' + report.remaining_days + ' Day/s'
+              ? 'will close in ' + report.remaining_days + ' Day/s'
               : ' '
           }
-          </span>
-          </td>
-          <td class="text-center">
-          <span class="badge rounded-pill ${
-            report.review_status === 'pending' ? 'text-bg-secondary' : ''
-          } ${report.review_status === 'reviewed' ? 'text-bg-success' : ''}">
-          ${report.review_status}
           </span>
           </td>
           <td class="text-center">
@@ -1809,7 +1905,6 @@ $(document).on('DOMContentLoaded', function () {
           </td>
         </tr>
       `;
-
           // Append the new row to the table body
           TableContainer.append(newRow);
         });
