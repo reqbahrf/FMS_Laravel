@@ -439,7 +439,7 @@ $(document).on('DOMContentLoaded', function () {
      * @return {void}
      */
     function getHandleProject() {
-      fetch(DashboardTabRoute.getHandledProjects, {
+      fetch(DashboardTabRoute.GET_HANDLED_PROJECTS, {
         method: 'GET',
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -606,8 +606,7 @@ $(document).on('DOMContentLoaded', function () {
       return paymentHistoryTable;
     };
 
-
-        /**
+    /**
      * Stores payment records for a project by sending a POST request to the server.
      *
      * @param {number} project_id - The ID of the project for which payment records are being stored.
@@ -620,7 +619,7 @@ $(document).on('DOMContentLoaded', function () {
       try {
         const response = await $.ajax({
           type: 'POST',
-          url: DashboardTabRoute.storePaymentRecords,
+          url: DashboardTabRoute.STORE_PAYMENT_RECORDS,
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
           },
@@ -637,8 +636,7 @@ $(document).on('DOMContentLoaded', function () {
       }
     }
 
-
-        /**
+    /**
      * Updates the payment records for a project by sending a PUT request to the server.
      *
      * @return {void}
@@ -650,7 +648,7 @@ $(document).on('DOMContentLoaded', function () {
       try {
         const response = await $.ajax({
           type: 'PUT',
-          url: DashboardTabRoute.updatePaymentRecord.replace(
+          url: DashboardTabRoute.UPDATE_PAYMENT_RECORDS.replace(
             ':transaction_id',
             transaction_id
           ),
@@ -707,7 +705,8 @@ $(document).on('DOMContentLoaded', function () {
       try {
         const response = await $.ajax({
           type: 'GET',
-          url: DashboardTabRoute.getPaymentRecords + '?project_id=' + projectId,
+          url:
+            DashboardTabRoute.GET_PAYMENT_RECORDS + '?project_id=' + projectId,
         });
 
         const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
@@ -802,6 +801,7 @@ $(document).on('DOMContentLoaded', function () {
       handleProjectOffcanvasContent(project_status);
       getPaymentHistoryAndCalculation(project_id);
       getProjectLinks(project_id);
+      getQuarterlyReports(project_id);
 
       // Cache hidden input values
       const business_id = hiddenInputs.filter('.business_id').val();
@@ -970,7 +970,7 @@ $(document).on('DOMContentLoaded', function () {
       try {
         const response = await $.ajax({
           type: 'POST',
-          url: DashboardTabRoute.storeProjectLinks,
+          url: DashboardTabRoute.STORE_PAYMENT_LINKS,
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
           },
@@ -994,7 +994,7 @@ $(document).on('DOMContentLoaded', function () {
 
         const response = await $.ajax({
           type: 'PUT',
-          url: DashboardTabRoute.updateProjectLink.replace(
+          url: DashboardTabRoute.UPDATE_PROJECT_LINKS.replace(
             ':project_link_name',
             projectName
           ),
@@ -1015,7 +1015,8 @@ $(document).on('DOMContentLoaded', function () {
       try {
         const response = await $.ajax({
           type: 'GET',
-          url: DashboardTabRoute.getProjectLinks + '?project_id=' + Project_id,
+          url:
+            DashboardTabRoute.GET_PROJECT_LINKS + '?project_id=' + Project_id,
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
           },
@@ -1095,12 +1096,12 @@ $(document).on('DOMContentLoaded', function () {
           console.log(recordToDelete, uniqueVal);
           const deleteRoute =
             recordToDelete === 'paymentRecord'
-              ? DashboardTabRoute.deletePaymentRecord.replace(
+              ? DashboardTabRoute.DELETE_PAYMENT_RECORDS.replace(
                   ':transaction_id',
                   uniqueVal
                 )
               : recordToDelete === 'projectLinkRecord'
-              ? DashboardTabRoute.deleteProjectLink.replace(
+              ? DashboardTabRoute.DELETE_PROJECT_LINK.replace(
                   ':project_link_name',
                   uniqueVal
                 )
@@ -1131,7 +1132,7 @@ $(document).on('DOMContentLoaded', function () {
     $('#MarkhandleProjectBtn').on('click', function () {
       $.ajax({
         type: 'PUT',
-        url: DashboardTabRoute.setProjectToOngoing,
+        url: DashboardTabRoute.SET_PROJECT_TO_ONGOING,
         headers: {
           'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
         },
@@ -1720,6 +1721,102 @@ $(document).on('DOMContentLoaded', function () {
         },
       };
       return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
+    };
+
+    $('#CreateQuarterlyReportForm').on('submit', function (e) {
+      e.preventDefault();
+      const project_id = $('#ProjectID').val();
+      const formData = $(this).serialize() + '&project_id=' + project_id;
+      $.ajax({
+        type: 'POST',
+        url: DashboardTabRoute.STORE_NEW_QUARTERLY_REPORT,
+        data: formData,
+        headers: {
+          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+        success: function (response) {
+          showToastFeedback('text-bg-success', response.message);
+        },
+        error: function (error) {
+          showToastFeedback('text-bg-danger', error.responseJSON.message);
+        },
+      });
+    });
+
+    /**
+     * Retrieves quarterly reports for a given project ID and populates the quarterly table body with the response data.
+     *
+     * @param {number} project_id - The ID of the project for which to retrieve quarterly reports
+     * @return {void}
+     */
+    const getQuarterlyReports = async (project_id) => {
+      const TableContainer = $('#quarterlyTableBody');
+
+      try {
+        const response = await $.ajax({
+          type: 'GET',
+          headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+          },
+          url:
+            DashboardTabRoute.GET_QUARTERLY_REPORT_RECORDS +
+            '?project_id=' +
+            project_id,
+        });
+        TableContainer.empty();
+        response.forEach((report) => {
+          const newRow = `
+        <tr>
+          <td class="text-center">
+          ${report.quarter}
+          </td>
+          <td class="text-center">
+          <span class="badge rounded-pill ${
+            report.Coop_Response === 'submitted'
+              ? 'bg-success'
+              : 'text-bg-secondary'
+          }">${report.Coop_Response}
+          </span>
+          </td>
+          <td class="text-center">
+          <span class="badge rounded-pill ${
+            report.report_status === 'open' ? 'bg-primary' : 'text-bg-secondary'
+          }">
+          ${report.report_status}
+          </span>
+          </td>
+          <td class="text-center">
+          <span>
+          ${report.open_until ?? 'Not set'}
+          </span><br/>
+          <span class="text-secondary fst-italic">  ${
+            report.open_until
+              ? 'Open Until ' + report.remaining_days + ' Day/s'
+              : ' '
+          }
+          </span>
+          </td>
+          <td class="text-center">
+          <span class="badge rounded-pill ${
+            report.review_status === 'pending' ? 'text-bg-secondary' : ''
+          } ${report.review_status === 'reviewed' ? 'text-bg-success' : ''}">
+          ${report.review_status}
+          </span>
+          </td>
+          <td class="text-center">
+          <button type="button" class="btn btn-primary btn-sm"><i class="ri-file-edit-fill"></i></button>
+          <button type="button" class="btn btn-danger btn-sm"><i class="ri-delete-bin-fill"></i></button>
+          </td>
+        </tr>
+      `;
+
+          // Append the new row to the table body
+          TableContainer.append(newRow);
+        });
+      } catch (error) {
+        console.log(error);
+        showToastFeedback('text-bg-danger', error.responseJSON.message);
+      }
     };
   };
 

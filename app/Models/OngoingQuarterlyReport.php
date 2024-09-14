@@ -17,7 +17,9 @@ class OngoingQuarterlyReport extends Model
         'ongoing_project_id',
         'quarter',
         'report_file',
-        'can_edit'
+        'open_until',
+        'report_status',
+        'review_status'
     ];
 
     protected $casts = [

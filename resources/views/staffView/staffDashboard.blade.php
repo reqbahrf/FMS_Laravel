@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="dark">
+<html lang="en" data-bs-theme="light">
 
 <head>
     <meta charset="UTF-8">
@@ -232,22 +232,23 @@
 
         @media (max-width: 768px) {
 
-            .sideNavButtonLargeScreen{
+            .sideNavButtonLargeScreen {
                 display: none;
             }
+
             .sidenav {
                 display: none;
             }
 
-            #MobileNavOffcanvas{
+            #MobileNavOffcanvas {
                 max-width: 70vw;
             }
 
-            .MobileSideBar{
-               background-color: var(--bs-sidenav-color);
+            .MobileSideBar {
+                background-color: var(--bs-sidenav-color);
             }
 
-            .MobileSideBar a{
+            .MobileSideBar a {
                 color: #f1f1f1;
                 text-decoration: none;
             }
@@ -255,9 +256,10 @@
 
         @media (min-width: 768px) {
 
-            .sideNavButtonSmallScreen{
+            .sideNavButtonSmallScreen {
                 display: none;
             }
+
             .sidenav {
                 display: inline-flex;
                 flex-direction: column;
@@ -277,29 +279,29 @@
             }
 
             .sidenav a:hover {
-            filter: grayscale(0%) opacity(1);
-            color: #318791;
-            border-right: #f1f1f1 4px solid;
-        }
+                filter: grayscale(0%) opacity(1);
+                color: #318791;
+                border-right: #f1f1f1 4px solid;
+            }
 
-        .navExpanded {
-            margin-left: calc(var(--nav-width-max) * 1);
-            animation: container-right-margin-Expanded-state 0.5s ease;
-        }
+            .navExpanded {
+                margin-left: calc(var(--nav-width-max) * 1);
+                animation: container-right-margin-Expanded-state 0.5s ease;
+            }
 
-        .navMinimized {
-            margin-left: calc(var(--nav-width-min) * 1);
-            animation: container-right-margin-Minimized-state 0.5s ease;
-        }
+            .navMinimized {
+                margin-left: calc(var(--nav-width-min) * 1);
+                animation: container-right-margin-Minimized-state 0.5s ease;
+            }
 
-        .sidenav.expanded {
-            width: calc(var(--nav-width-max) * 1);
-            animation: expandNav 0.5s ease;
-        }
+            .sidenav.expanded {
+                width: calc(var(--nav-width-max) * 1);
+                animation: expandNav 0.5s ease;
+            }
 
-        .sidenav.Minimized {
-            width: calc(var(--nav-width-min) * 1);
-        }
+            .sidenav.Minimized {
+                width: calc(var(--nav-width-min) * 1);
+            }
         }
 
 
@@ -537,99 +539,90 @@
         </nav>
 
         {{-- Side Name for Small Screens --}}
-        <div
-        class="offcanvas offcanvas-start MobileSideBar"
-        data-bs-scroll="true"
-        tabindex="-1"
-        id="MobileNavOffcanvas"
-        aria-labelledby="Enable both scrolling & backdrop"
-    >
-        <div class="offcanvas-header p-0">
-            <div class="nav-item mb-2 minimize w-75">
-                <div class="navlogo d-flex justify-content-center align-items-center">
-                    <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                        xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px"
-                        viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079" xml:space="preserve"
-                        class="m-1 logo">
-                        <g>
-                            <rect x="19.235" y="19.699" width="36" height="36" />
-                            <circle fill="#48C4D3" cx="19.235" cy="19.699" r="18" />
+        <div class="offcanvas offcanvas-start MobileSideBar" data-bs-scroll="true" tabindex="-1"
+            id="MobileNavOffcanvas" aria-labelledby="Enable both scrolling & backdrop">
+            <div class="offcanvas-header p-0">
+                <div class="nav-item mb-2 minimize w-75">
+                    <div class="navlogo d-flex justify-content-center align-items-center">
+                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="50px" height="50px"
+                            viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079"
+                            xml:space="preserve" class="m-1 logo">
                             <g>
-                                <circle fill="#48C4D3" cx="19.195" cy="19.648" r="18" />
-                                <path fill="#FFFFFF"
-                                    d="M19.323,37.598c9.918-0.027,17.953-8.071,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L19.323,37.598z" />
-                                <path
-                                    d="M37.192,19.601C37.166,9.682,29.12,1.648,19.195,1.648S1.224,9.682,1.198,19.601H37.192z" />
+                                <rect x="19.235" y="19.699" width="36" height="36" />
+                                <circle fill="#48C4D3" cx="19.235" cy="19.699" r="18" />
+                                <g>
+                                    <circle fill="#48C4D3" cx="19.195" cy="19.648" r="18" />
+                                    <path fill="#FFFFFF"
+                                        d="M19.323,37.598c9.918-0.027,17.953-8.071,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L19.323,37.598z" />
+                                    <path
+                                        d="M37.192,19.601C37.166,9.682,29.12,1.648,19.195,1.648S1.224,9.682,1.198,19.601H37.192z" />
+                                </g>
+                                <g>
+                                    <circle fill="#48C4D3" cx="55.315" cy="19.651" r="18" />
+                                    <path fill="#FFFFFF"
+                                        d="M37.319,19.651c0.027,9.918,8.07,17.952,17.996,17.952c9.925,0,17.972-8.034,17.998-17.952L37.319,19.651z" />
+                                    <path
+                                        d="M55.315,37.648c9.919-0.027,17.953-8.072,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L55.315,37.648z" />
+                                </g>
+                                <g>
+                                    <circle fill="#48C4D3" cx="55.315" cy="55.649" r="18" />
+                                    <path fill="#FFFFFF"
+                                        d="M55.269,37.605c-9.918,0.027-17.953,8.072-17.953,17.997s8.035,17.972,17.953,17.999V37.605z" />
+                                    <path
+                                        d="M37.317,55.649c0.028,9.919,8.073,17.952,17.999,17.952c9.923,0,17.97-8.033,17.997-17.952H37.317z" />
+                                </g>
+                                <g>
+                                    <circle fill="#48C4D3" cx="19.315" cy="55.725" r="18" />
+                                    <path fill="#FFFFFF"
+                                        d="M37.313,55.628c-0.027-9.919-8.072-17.953-17.997-17.953c-9.926,0-17.972,8.034-17.999,17.952L37.313,55.628z" />
+                                    <path
+                                        d="M19.268,37.682C9.349,37.709,1.315,45.754,1.315,55.679S9.349,73.65,19.268,73.677V37.682z" />
+                                </g>
                             </g>
-                            <g>
-                                <circle fill="#48C4D3" cx="55.315" cy="19.651" r="18" />
-                                <path fill="#FFFFFF"
-                                    d="M37.319,19.651c0.027,9.918,8.07,17.952,17.996,17.952c9.925,0,17.972-8.034,17.998-17.952L37.319,19.651z" />
-                                <path
-                                    d="M55.315,37.648c9.919-0.027,17.953-8.072,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L55.315,37.648z" />
-                            </g>
-                            <g>
-                                <circle fill="#48C4D3" cx="55.315" cy="55.649" r="18" />
-                                <path fill="#FFFFFF"
-                                    d="M55.269,37.605c-9.918,0.027-17.953,8.072-17.953,17.997s8.035,17.972,17.953,17.999V37.605z" />
-                                <path
-                                    d="M37.317,55.649c0.028,9.919,8.073,17.952,17.999,17.952c9.923,0,17.97-8.033,17.997-17.952H37.317z" />
-                            </g>
-                            <g>
-                                <circle fill="#48C4D3" cx="19.315" cy="55.725" r="18" />
-                                <path fill="#FFFFFF"
-                                    d="M37.313,55.628c-0.027-9.919-8.072-17.953-17.997-17.953c-9.926,0-17.972,8.034-17.999,17.952L37.313,55.628z" />
-                                <path
-                                    d="M19.268,37.682C9.349,37.709,1.315,45.754,1.315,55.679S9.349,73.65,19.268,73.677V37.682z" />
-                            </g>
-                        </g>
-                    </svg>
-                    <div class="logoTitle row position-relative h-100 w-75">
-                        <div class="position-absolute top-50">
-                            <p class="sideTextMain text-white m-0 w-100"></p>
-                        </div>
-                        <div class="position-absolute bottom-50">
-                            <p class="sideTextSec text-white m-0 w-100"></p>
+                        </svg>
+                        <div class="logoTitle row position-relative h-100 w-75">
+                            <div class="position-absolute top-50">
+                                <p class="sideTextMain text-white m-0 w-100"></p>
+                            </div>
+                            <div class="position-absolute bottom-50">
+                                <p class="sideTextSec text-white m-0 w-100"></p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <button type="button" class="btn-close me-3 btn-close-white" data-bs-dismiss="offcanvas"
+                    aria-label="Close"></button>
             </div>
-            <button
-                type="button"
-                class="btn-close me-3 btn-close-white"
-                data-bs-dismiss="offcanvas"
-                aria-label="Close"
-            ></button>
+            <div class="offcanvas-body">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a href="#" id="dashboardLink"
+                            onclick="loadPage('{{ route('staff.dashboard') }}','dashboardLink');"
+                            class="mb-2 d-flex align-items-center">
+                            <i class="ri-dashboard-3-fill ri-2x"></i>
+                            <span class="nav-text ml-2">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="projectLink"
+                            onclick="loadPage('{{ route('staff.Project') }}','projectLink');"
+                            class="mb-2 d-flex align-items-center">
+                            <i class="ri-file-list-3-fill ri-2x"></i>
+                            <span class="nav-text ml-2">Projects</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="#" id="Applicationlink"
+                            onclick="loadPage('{{ route('staff.Applicant') }}', 'Applicationlink');"
+                            class="mb-2 d-flex align-items-center">
+                            <i class="ri-id-card-fill ri-2x"></i>
+                            <span class="nav-text ml-2">Applicant</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="offcanvas-body">
-           <ul class="navbar-nav">
-            <li class="nav-item">
-                <a href="#" id="dashboardLink"
-                    onclick="loadPage('{{ route('staff.dashboard') }}','dashboardLink');"
-                    class="mb-2 d-flex align-items-center">
-                    <i class="ri-dashboard-3-fill ri-2x"></i>
-                    <span class="nav-text ml-2">Dashboard</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" id="projectLink"
-                    onclick="loadPage('{{ route('staff.Project') }}','projectLink');"
-                    class="mb-2 d-flex align-items-center">
-                    <i class="ri-file-list-3-fill ri-2x"></i>
-                    <span class="nav-text ml-2">Projects</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a href="#" id="Applicationlink"
-                    onclick="loadPage('{{ route('staff.Applicant') }}', 'Applicationlink');"
-                    class="mb-2 d-flex align-items-center">
-                    <i class="ri-id-card-fill ri-2x"></i>
-                    <span class="nav-text ml-2">Applicant</span>
-                </a>
-            </li>
-           </ul>
-        </div>
-    </div>
         <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
             @csrf
         </form>
@@ -737,16 +730,18 @@
         //Global Route Variables for the Navigation Tabs
         //Dashboard Tab
         const DashboardTabRoute = {
-            getHandledProjects: '{{ route('staff.Dashboard.getHandledProjects') }}',
-            setProjectToOngoing: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
-            storePaymentRecords: '{{ route('PaymentRecord.store') }}',
-            getPaymentRecords: '{{ route('PaymentRecord.index') }}',
-            updatePaymentRecord: '{{ route('PaymentRecord.update',':transaction_id') }}',
-            deletePaymentRecord: '{{ route('PaymentRecord.destroy',':transaction_id') }}',
-            storeProjectLinks: '{{ route('ProjectLink.store') }}',
-            getProjectLinks: '{{ route('ProjectLink.index') }}',
-            updateProjectLink: '{{ route('ProjectLink.update',':project_link_name') }}',
-            deleteProjectLink: '{{ route('ProjectLink.destroy',':project_link_name') }}'
+            GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',
+            SET_PROJECT_TO_ONGOING: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
+            STORE_PAYMENT_RECORDS: '{{ route('PaymentRecord.store') }}',
+            GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}',
+            UPDATE_PAYMENT_RECORDS: '{{ route('PaymentRecord.update', ':transaction_id') }}',
+            DELETE_PAYMENT_RECORDS: '{{ route('PaymentRecord.destroy', ':transaction_id') }}',
+            STORE_PAYMENT_LINKS: '{{ route('ProjectLink.store') }}',
+            GET_PROJECT_LINKS: '{{ route('ProjectLink.index') }}',
+            UPDATE_PROJECT_LINKS: '{{ route('ProjectLink.update', ':project_link_name') }}',
+            DELETE_PROJECT_LINK: '{{ route('ProjectLink.destroy', ':project_link_name') }}',
+            STORE_NEW_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.store') }}',
+            GET_QUARTERLY_REPORT_RECORDS: '{{ route('Manage-QuarterlyReport.index') }}',
 
         }
 
@@ -785,64 +780,64 @@
             }
         });
 
-           const setActiveLink = (activeLink) => {
-                $(".nav-item a").removeClass("active");
-                const defaultLink = "dashboardLink";
-                const linkToActivate = $("#" + (activeLink || defaultLink));
-                linkToActivate.addClass("active");
-            };
+        const setActiveLink = (activeLink) => {
+            $(".nav-item a").removeClass("active");
+            const defaultLink = "dashboardLink";
+            const linkToActivate = $("#" + (activeLink || defaultLink));
+            linkToActivate.addClass("active");
+        };
 
-            window.loadPage = async (url, activeLink) => {
-                try {
-                    // Check if the response is already cached
-                    const cachedPage = sessionStorage.getItem(url);
-                    if (cachedPage) {
-                        // If cached, use the cached response
-                        handleAjaxSuccess(cachedPage, activeLink, url);
-                    } else {
-                        // If not cached, make the AJAX request
-                        const response = await $.ajax({
-                            url,
-                            type: 'GET',
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
-                        // Cache the response
-                        //sessionStorage.setItem(url, response);
-                        handleAjaxSuccess(response, activeLink, url);
-                    }
-                } catch (error) {
-                    console.log('Error: ', error);
+        window.loadPage = async (url, activeLink) => {
+            try {
+                // Check if the response is already cached
+                const cachedPage = sessionStorage.getItem(url);
+                if (cachedPage) {
+                    // If cached, use the cached response
+                    handleAjaxSuccess(cachedPage, activeLink, url);
+                } else {
+                    // If not cached, make the AJAX request
+                    const response = await $.ajax({
+                        url,
+                        type: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    // Cache the response
+                    //sessionStorage.setItem(url, response);
+                    handleAjaxSuccess(response, activeLink, url);
                 }
-            };
-
-           const handleAjaxSuccess = async (response, activeLink, url) => {
-                $('#main-content').html(response);
-                setActiveLink(activeLink);
-                await history.pushState(null, '', url);
-
-                if (url === '{{ route('staff.dashboard') }}') {
-                    await InitdashboardChar();
-                    await initializeDashboardTabEvents();
-                }
-
-                if (url === '/org-access/viewCooperatorInfo.php') {
-                    await InitializeviewCooperatorProgress();
-                }
-
-                if (url === '{{ route('staff.Project') }}') {
-                    await initializeProjectTabEvents();
-                    await attachProjectInformationSheetEvents();
-                }
-
-                if (url === '{{ route('staff.Applicant') }}') {
-                    await InitializeApplicantTabEvents();
-                }
-
-                await sessionStorage.setItem('StafflastUrl', url);
-                await sessionStorage.setItem('StafflastActive', activeLink);
+            } catch (error) {
+                console.log('Error: ', error);
             }
+        };
+
+        const handleAjaxSuccess = async (response, activeLink, url) => {
+            $('#main-content').html(response);
+            setActiveLink(activeLink);
+            await history.pushState(null, '', url);
+
+            if (url === '{{ route('staff.dashboard') }}') {
+                await InitdashboardChar();
+                await initializeDashboardTabEvents();
+            }
+
+            if (url === '/org-access/viewCooperatorInfo.php') {
+                await InitializeviewCooperatorProgress();
+            }
+
+            if (url === '{{ route('staff.Project') }}') {
+                await initializeProjectTabEvents();
+                await attachProjectInformationSheetEvents();
+            }
+
+            if (url === '{{ route('staff.Applicant') }}') {
+                await InitializeApplicantTabEvents();
+            }
+
+            await sessionStorage.setItem('StafflastUrl', url);
+            await sessionStorage.setItem('StafflastActive', activeLink);
+        }
 
 
         function attachProjectInformationSheetEvents() {

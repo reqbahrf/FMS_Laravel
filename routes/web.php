@@ -16,6 +16,7 @@ use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\StaffPaymentRecordController;
 use App\Http\Controllers\StaffProjectLinkController;
+use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Middleware\checkAdminUser;
@@ -113,6 +114,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::resource('/Staff/Project/PaymentRecord', StaffPaymentRecordController::class);
 
     Route::resource('/Staff/Project/ProjectLink', StaffProjectLinkController::class);
+    Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class);
     Route::get('/proxy', [ProxyController::class, 'proxy']);
 });
 

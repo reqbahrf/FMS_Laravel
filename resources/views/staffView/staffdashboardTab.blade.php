@@ -154,20 +154,27 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body overflow-x-hidden">
+        {{-- Project Navigation Tabs --}}
         <nav>
             <div class="nav nav-tabs" id="nav-tab" role="tablist">
                 <button class="nav-link active" id="nav-details-tab" data-bs-toggle="tab" data-bs-target="#nav-details"
                     type="button" role="tab" aria-controls="nav-details" aria-selected="true">Project
-                    Details</button>
+                    Details
+                </button>
                 <button class="nav-link" id="nav-link-tab" data-bs-toggle="tab" data-bs-target="#nav-link"
                     type="button" role="tab" aria-controls="nav-link" aria-selected="false">Attach File
                     Link
                 </button>
+                <button class="nav-link" id="nav-Quarterly-tab" data-bs-toggle="tab" data-bs-target="#nav-Quarterly" type="button" role="tab" aria-controls="nav-Quarterly" aria-selected="false">Quarterly Report
+                </button>
                 <button class="nav-link" id="nav-GeneratedSheets-tab" data-bs-toggle="tab" data-bs-target="#nav-Sheets"
                     type="button" role="tab" aria-controls="nav-sheets" aria-selected="false">Generated
-                    Sheets</button>
+                    Sheets
+                </button>
             </div>
         </nav>
+
+        {{-- Project Navigation Tabs Contents --}}
         <div class="tab-content h-100" id="nav-tabContent">
             <div class="tab-pane fade show active" id="nav-details" role="tabpanel" aria-labelledby="nav-home-tab"
                 tabindex="0">
@@ -336,6 +343,75 @@
                             <label for="requirements_link" class="input-group-text"><i
                                     class="ri-links-fill"></i></label>
                             <input type="text" name="requirements_link" class="form-control">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="nav-Quarterly" role="tabpanel" aria-labelledby="nav-Quarterly-tab">
+                <div class="row mt-3">
+                    <div class="col-12 col-md-8">
+                        <div class="card p-0">
+                            <div class="card-header">
+                                <h5 class="card-title">Quarterly Report List</h5>
+                            </div>
+                            <div class="card-body">
+                                <table class="table table-hover table-sm" id="quarterlyTable">
+                                    <thead>
+                                        <tr>
+                                            <th width="10%" class="text-center">Quarter</th>
+                                            <th width="20%" class="text-center">Cooperator Response</th>
+                                            <th width="10%" class="text-center">Report Status</th>
+                                            <th width="25%" class="text-center">Open Until</th>
+                                            <th width="15%" class="text-center">Review Status</th>
+                                            <th width="20%" class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="quarterlyTableBody">
+                                        <tr>
+                                            <td colspan="6" class="text-center">No Quarterly Report available</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card p-0">
+                            <div class="card-header">
+                                <h5 class="card-title">Open Quarterly Report</h5>
+                            </div>
+                            <div class="card-body">
+                                <form id="CreateQuarterlyReportForm">
+                                    @csrf
+                                    <div class="row gy-3">
+                                        <div class="col-12">
+                                            <label for="quarter">Quarter and Period:</label>
+                                                <div class="input-group">
+                                                    <select name="quarter" class="form-select" id="quarter">
+                                                        <option value="Q1">Q1</option>
+                                                        <option value="Q2">Q2</option>
+                                                        <option value="Q3">Q3</option>
+                                                        <option value="Q4">Q4</option>
+                                                    </select>
+                                                    <select name="year" class="form-select"  id="year">
+                                                        <option value="2022">2022</option>
+                                                        <option value="2023">2023</option>
+                                                        <option value="2024">2024</option>
+                                                        <option value="2025">2025</option>
+                                                    </select>
+                                                </div>
+                                        </div>
+                                        <div class="col-12">
+                                                <label for="days_open">Number of days to keep report open (optional):</label>
+                                                <input type="number" name="days_open" id="days_open" class="form-control" placeholder="Enter number of days">
+                                        </div>
+                                    </div>
+                                    <div class="d-flex justify-content-end mt-3">
+                                        <button type="submit" class="btn btn-primary">Create Quarterly Report</button>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
