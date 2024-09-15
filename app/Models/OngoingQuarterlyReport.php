@@ -19,7 +19,6 @@ class OngoingQuarterlyReport extends Model
         'report_file',
         'open_until',
         'report_status',
-        'review_status'
     ];
 
     protected $casts = [

@@ -2,7 +2,7 @@
 
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\CooperatorController;
+use App\Http\Controllers\CooperatorViewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\MailController;
@@ -60,14 +60,18 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 
 Route::middleware([CheckCooperatorUser::class])->group(function () {
 
-    Route::get('/Cooperator/Home', [CooperatorController::class, 'index'])->name('Cooperator.home');
-    Route::get('/Cooperator/Dashboard', [CooperatorController::class, 'dashboard'])->name('Cooperator.dashboard');
-    Route::get('/Cooperator/Requirements', [CooperatorController::class, 'requirementsGet'])->name('Cooperator.Requirements');
+    Route::get('/Cooperator/Home', [CooperatorViewController::class, 'index'])
+        ->name('Cooperator.home');
+    Route::get('/Cooperator/Dashboard', [CooperatorViewController::class, 'dashboard'])
+        ->name('Cooperator.dashboard');
+    Route::get('/Cooperator/Requirements', [CooperatorViewController::class, 'requirementsGet'])
+        ->name('Cooperator.Requirements');
+    Route::get('/Cooperator/QuarterlyReport/{id}/{ProjectId}/{QuarterlyPeriod}/{ReportStatus}', [Coop_QuarterlyReportController::class, 'getQuarterlyForm'])->name('CooperatorViewController')
+    ->middleware('signed');
     Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);
     Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
     Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
     Route::resource('receipts', ReceiptController::class);
-
 });
 
 
@@ -103,7 +107,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
     //Staff Evaluation Schedule Set date
     Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])
-    ->name('staff.set.EvaluationSchedule');
+        ->name('staff.set.EvaluationSchedule');
 
     //Get evaluation schedule
     Route::get('/staff/Applicant/Evaluation-Schedule', [StaffViewController::class, 'getScheduledDate'])->name('staff.get.EvaluationSchedule');
@@ -148,6 +152,4 @@ Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'ver
 //test route
 
 Route::get('/SR', [staffGenerateSRController::class, 'index']);
-Route::get('/viewSR', fn () => view('staffView.outputs.StatusReport'));
-
-
+Route::get('/viewSR', fn() => view('staffView.outputs.StatusReport'));

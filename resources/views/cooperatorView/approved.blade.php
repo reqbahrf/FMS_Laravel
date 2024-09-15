@@ -77,48 +77,8 @@
                         </span>
                     </a>
                     <div class="d-none sidebarTasks">
-                        <ul class="list-unstyled ps-5">
-                            <li>
-                                <a href="#" id="querterlyReportTab1"
-                                    onclick="loadPage('/Cooperator/QuarterlyReport/create','querterlyReportTab1');">
-                                    <span class="position-relative">
-                                        Quarter 1
+                        <ul class="list-unstyled ps-5" id="quarterlyReportContainerLargeScreen">
 
-                                    </span>
-                                    <span class="badge rounded-pill text-bg-success">Open</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="disabled-li-report">
-                                    <span class="position-relative">
-                                        Quarter 2
-
-                                    </span>
-                                    <span class="badge rounded-pill text-bg-secondary">
-                                        Close
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="disabled-li-report">
-                                    <span class="position-relative">
-                                        Quarter 3
-
-                                    </span>
-                                    <span class="badge rounded-pill text-bg-secondary">
-                                        Close
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="#" class="disabled-li-report">
-                                    <span class="position-relative">
-                                        Quarter 4
-                                    </span>
-                                    <span class="badge rounded-pill text-bg-secondary">Close
-                                    </span>
-                                </a>
-                            </li>
                         </ul>
                     </div>
                 </li>
@@ -207,48 +167,8 @@
                             </span>
                         </a>
                         <div class="d-none sidebarTasks">
-                            <ul class="list-unstyled ps-5">
-                                <li>
-                                    <a href="#" id="querterlyReportTab1"
-                                        onclick="loadPage('/Cooperator/QuarterlyReport/create','querterlyReportTab1');">
-                                        <span class="position-relative">
-                                            Quarter 1
+                            <ul class="list-unstyled ps-5" id="quarterlyReportContainerMobileScreen">
 
-                                        </span>
-                                        <span class="badge rounded-pill text-bg-success">Open</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="disabled-li-report">
-                                        <span class="position-relative">
-                                            Quarter 2
-
-                                        </span>
-                                        <span class="badge rounded-pill text-bg-secondary">
-                                            Close
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="disabled-li-report">
-                                        <span class="position-relative">
-                                            Quarter 3
-
-                                        </span>
-                                        <span class="badge rounded-pill text-bg-secondary">
-                                            Close
-                                        </span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#" class="disabled-li-report">
-                                        <span class="position-relative">
-                                            Quarter 4
-                                        </span>
-                                        <span class="badge rounded-pill text-bg-secondary">Close
-                                        </span>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </li>
@@ -418,6 +338,28 @@
             sessionStorage.setItem('CoopLastUrl', url);
             sessionStorage.setItem('CoopLastActive', activeLink);
         }
+
+        const getQuarterlyReportLinks = async () => {
+
+            try{
+                const response = await $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    type: 'GET',
+                    url: '{{ route('QuarterlyReport.index') }}',
+                });
+
+                const QuarterlyReportContainer = $('#quarterlyReportContainerLargeScreen, #quarterlyReportContainerMobileScreen');
+                QuarterlyReportContainer.html(response ? response.html : '<li>No quarterly report</li>');
+
+            }catch(error){
+
+            }
+
+        }
+
+        getQuarterlyReportLinks();
 
         function initializeFilePond() {
             console.log('DOM is fully loaded');

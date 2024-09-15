@@ -36,7 +36,7 @@
     </div>
     <div class="card-body">
         <div class="quarterly-Report-wrapper">
-            <form id="quarterlyForm" action="/Cooperator/QuarterlyReport" method="post">
+            <form id="quarterlyForm" data-quarter-id="{{ $id }}" data-quarter-project="{{ $projectId }}" data-quarter-period="{{ $quarterlyPeriod }}" data-quarter-status="{{ $reportStatus }}">
                 <div id="smartwizard" class="my-4">
                     <ul class="nav nav-progress">
                         <li class="nav-item">
@@ -729,8 +729,6 @@
         </div>
     </div>
 </div>
-
-
 <script type="module">
     $(document).ready(function() {
         // Select the input fields
@@ -950,7 +948,12 @@
 
         function submitQuarterlyForm() {
 
-            let formData = $('#quarterlyForm').serializeArray();
+            const formData = $('#quarterlyForm').serializeArray();
+            const quarterId = $('#quarterlyForm').data('quarter-id');
+            const quarterProject = $('#quarterlyForm').data('quarter-project');
+            const quarterPeriod = $('#quarterlyForm').data('quarter-period');
+            const quarterStatus = $('#quarterlyForm').data('quarter-status');
+
             let dataObject = {};
             $.each(formData, function(i, v) {
                 dataObject[v.name] = v.value;
@@ -999,10 +1002,13 @@
             // Send form data using AJAX
             $.ajax({
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'X-Quarter-Project': quarterProject,
+                    'X-Quarter-Period': quarterPeriod,
+                    'X-Quarter-Status': quarterStatus
                 },
-                type: 'POST',
-                url: '/Cooperator/QuarterlyReport',
+                type: 'PUT',
+                url: '{{ route('QuarterlyReport.update', ':quarterId') }}'.replace(':quarterId', quarterId),
                 data: JSON.stringify(dataObject), // Send the new data object
                 contentType: 'application/json', // Set content type to JSON
                 success: function(response) {
