@@ -19,7 +19,6 @@ return new class extends Migration
             $table->longText('report_file')->nullable();
             $table->date('open_until')->nullable();
             $table->enum('report_status', ['open', 'closed'])->default('open');
-            $table->enum('review_status', ['pending', 'reviewed'])->default('pending');
             $table->timestamps();
             $table->foreign('ongoing_project_id')->references('project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });

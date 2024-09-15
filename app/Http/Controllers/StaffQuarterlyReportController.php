@@ -120,7 +120,7 @@ class StaffQuarterlyReportController extends Controller
     {
          try{
              $validated = $request->validate([
-                 'report_status' => 'required|in:open,close',
+                 'report_status' => 'required|in:open,closed',
                  'updateOpenDays' => 'nullable|integer|min_digits:1',
              ]);
 

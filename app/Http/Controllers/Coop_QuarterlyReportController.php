@@ -6,7 +6,6 @@ use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 
 class Coop_QuarterlyReportController extends Controller
@@ -35,7 +34,7 @@ class Coop_QuarterlyReportController extends Controller
                 $reportStatusClass = $report->report_status == 'open' ? 'success' : 'secondary';
                 $html .= '<li>';
                 $html .= '<a href="#" id="querterlyReportTab' . ($index + 1) . '" ';
-                $html .= ($report->report_status == 'close') ? 'class="disabled" onclick="return false;"' : 'onclick="loadPage(\'' . $signedUrl . '\', \'querterlyReportTab' . ($index + 1) . '\');">';
+                $html .= ($report->report_status == 'closed') ? 'class="disabled" onclick="return false;"' : 'onclick="loadPage(\'' . $signedUrl . '\', \'querterlyReportTab' . ($index + 1) . '\');">';
                 $html .= '<span class="position-relative">' . $report->quarter . '</span>';
                 $html .= '<span class="badge rounded-pill text-bg-' . $reportStatusClass . '">';
                 $html .= ucfirst($report->report_status);

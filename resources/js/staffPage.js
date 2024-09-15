@@ -1991,7 +1991,7 @@ $(document).on('DOMContentLoaded', function () {
       const reportStatus =
         triggeredButtonRow.find('span.badge:contains("open")').length > 0
           ? 'open'
-          : 'close';
+          : 'closed';
       modal.find('#updateQuarterlyRecord').attr('data-record-id', record);
 
       modal
@@ -2015,7 +2015,7 @@ $(document).on('DOMContentLoaded', function () {
       const form = $('#updateQuarterlyRecordForm').serialize();
       const report_status = $('#toogleReport').prop('checked')
         ? 'open'
-        : 'close';
+        : 'closed';
 
       try {
         const response = await $.ajax({
