@@ -56,7 +56,7 @@ Route::post('/login', [AuthController::class, 'login'])->name('login.submit');
 Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->name('logout');
 //Logout Routes End
 
-//Cooperator Routes
+//Cooperator Route
 
 Route::middleware([CheckCooperatorUser::class])->group(function () {
 

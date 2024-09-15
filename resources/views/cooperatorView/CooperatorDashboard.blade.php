@@ -418,6 +418,11 @@
             justify-content: center;
             min-width: 150px;
         }
+
+        a.disabled {
+            pointer-events: none;
+            cursor: default;
+        }
     </style>
 </head>
 

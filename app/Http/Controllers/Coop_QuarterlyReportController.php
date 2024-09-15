@@ -35,7 +35,7 @@ class Coop_QuarterlyReportController extends Controller
                 $reportStatusClass = $report->report_status == 'open' ? 'success' : 'secondary';
                 $html .= '<li>';
                 $html .= '<a href="#" id="querterlyReportTab' . ($index + 1) . '" ';
-                $html .= 'onclick="loadPage(\'' . $signedUrl . '\', \'querterlyReportTab' . ($index + 1) . '\');">';
+                $html .= ($report->report_status == 'close') ? 'class="disabled" onclick="return false;"' : 'onclick="loadPage(\'' . $signedUrl . '\', \'querterlyReportTab' . ($index + 1) . '\');">';
                 $html .= '<span class="position-relative">' . $report->quarter . '</span>';
                 $html .= '<span class="badge rounded-pill text-bg-' . $reportStatusClass . '">';
                 $html .= ucfirst($report->report_status);
@@ -68,13 +68,18 @@ class Coop_QuarterlyReportController extends Controller
 
     public function getQuarterlyForm(Request $request)
     {
-        $id = $request->route('id');
-        $projectId = $request->route('ProjectId');
-        $quarterlyPeriod = $request->route('QuarterlyPeriod');
-        $reportStatus = $request->route('ReportStatus');
-        Log::info('Quarterly Report id: ' . $id . ' Project Id: ' . $projectId . ' Quarterly Period: ' . $quarterlyPeriod . ' Report Status: ' . $reportStatus);
 
-        return view('cooperatorView.outputs.quarterlyReport', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
+        if($request->ajax()){
+            $id = $request->route('id');
+            $projectId = $request->route('ProjectId');
+            $quarterlyPeriod = $request->route('QuarterlyPeriod');
+            $reportStatus = $request->route('ReportStatus');
+            Log::info('Quarterly Report id: ' . $id . ' Project Id: ' . $projectId . ' Quarterly Period: ' . $quarterlyPeriod . ' Report Status: ' . $reportStatus);
+
+            return view('cooperatorView.outputs.quarterlyReport', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
+        }else{
+            return view('cooperatorView.CooperatorDashboard');
+        }
     }
 
     /**

@@ -28,12 +28,9 @@
     }
 </style>
 <div class="p-3">
-    <h4>Quarterly Report</h4>
+    <h4>Quarterly Report for {{ $quarterlyPeriod }}</h4>
 </div>
 <div class="card m-0 m-md-3">
-    <div class="card-header">
-        <p class=" m-0">Quarterly Report for Quarter 1</p>
-    </div>
     <div class="card-body">
         <div class="quarterly-Report-wrapper">
             <form id="quarterlyForm" data-quarter-id="{{ $id }}" data-quarter-project="{{ $projectId }}" data-quarter-period="{{ $quarterlyPeriod }}" data-quarter-status="{{ $reportStatus }}">
@@ -151,17 +148,17 @@
                                                                 <div class="col-12">
                                                                     <label for="maleInput">Male:</label>
                                                                     <input type="text" name="male_Dir_Regular"
-                                                                        class="form-control" id="maleInput">
+                                                                        class="form-control number_input_only" id="maleInput">
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="maleInput">Female:</label>
                                                                     <input type="text" name="female_Dir_Regular"
-                                                                        class="form-control" id="femaleInput">
+                                                                        class="form-control number_input_only" id="femaleInput">
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="maleInput">Workday:</label>
                                                                     <input type="text" name="workday_Dir_Regular"
-                                                                        class="form-control" id="workdayInput">
+                                                                        class="form-control number_input_only" id="workdayInput">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -177,17 +174,17 @@
                                                                 <div class="col-12">
                                                                     <label for="maleInput">Male:</label>
                                                                     <input type="text" name="male_Dir_PartT"
-                                                                        class="form-control" id="parttimeMaleInput">
+                                                                        class="form-control number_input_only" id="parttimeMaleInput">
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="maleInput">Female:</label>
                                                                     <input type="text" name="female_Dir_PartT"
-                                                                        class="form-control" id="parttimeFemaleInput">
+                                                                        class="form-control number_input_only" id="parttimeFemaleInput">
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="maleInput">workday:</label>
+                                                                    <label for="maleInput">Workday:</label>
                                                                     <input type="text" name="workday_Dir_PartT"
-                                                                        class="form-control"
+                                                                        class="form-control number_input_only"
                                                                         id="parttimeWorkdayInput">
                                                                 </div>
                                                             </div>
@@ -238,17 +235,17 @@
                                                                 <div class="col-12">
                                                                     <label for="regularMaleInput">Male:</label>
                                                                     <input type="text" name="male_Indir_Regular"
-                                                                        class="form-control" id="regularMaleInput">
+                                                                        class="form-control number_input_only" id="regularMaleInput">
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="regularFemaleInput">Female:</label>
                                                                     <input type="text" name="female_Indir_Regular"
-                                                                        class="form-control" id="regularFemaleInput">
+                                                                        class="form-control number_input_only" id="regularFemaleInput">
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="regularWorkdayInput">Workday:</label>
                                                                     <input type="text" name="workday_Indir_Regular"
-                                                                        class="form-control" id="regularWorkdayInput">
+                                                                        class="form-control number_input_only" id="regularWorkdayInput">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -264,19 +261,19 @@
                                                                 <div class="col-12">
                                                                     <label for="parttimeMaleInput">Male: </label>
                                                                     <input type="text" name="male_Indir_PartT"
-                                                                        class="form-control" id="parttimeMaleInput">
+                                                                        class="form-control number_input_only" id="parttimeMaleInput">
 
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="parttimeFemaleInput">Female: </label>
                                                                     <input type="text" name="female_Indir_PartT"
-                                                                        class="form-control" id="parttimeFemaleInput">
+                                                                        class="form-control number_input_only" id="parttimeFemaleInput">
 
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="parttimeWorkdayInput">Workday: </label>
                                                                     <input type="text" name="workday_Indir_PartT"
-                                                                        class="form-control"
+                                                                        class="form-control number_input_only"
                                                                         id="parttimeWorkdayInput">
 
                                                                 </div>
@@ -944,6 +941,10 @@
         confirmButton.addEventListener('click', function() {
             submitQuarterlyForm();
         });
+
+        $('.number_input_only').on('input', function() {
+            this.value = this.value.replace(/[^0-9]/g, '');
+        })
 
 
         function submitQuarterlyForm() {
