@@ -704,13 +704,41 @@
             </div>
         </div>
     </div>
+    <script>
+        const NAV_ROUTE = {
+            DASHBOARD: '{{ route('admin.Dashboard') }}',
+            PROJECTS: '{{ route('admin.Project') }}',
+            APPLICATIONS: '{{ route('admin.Applicant') }}',
+            USERS: '{{ route('admin.Users-list') }}',
+        }
+        const DASHBOARD_ROUTE = {
+
+        };
+
+        const PROJECT_LIST_ROUTE = {
+            GET_STAFFLIST: '{{ route('admin.Stafflist') }}',
+            GET_APPROVED_PROJECTS: '{{ route('admin.Project.PendingProject') }}',
+            GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails') }}',
+            APPROVED_PROJECT: '{{ route('admin.Project.ApprovedProjectProposal') }}',
+
+
+        };
+
+        const APPLICATION_LIST_ROUTE = {
+
+        };
+
+        const USERS_LIST_ROUTE = {
+
+        };
+    </script>
     <script type="module">
-        // if (unsavedChangesExist()) {
+          // if (unsavedChangesExist()) {
         $(window).on('beforeunload', function() {
             return 'Are you sure you want to leave?';
         });
         // }
-        $(document).ready(function() {
+        $(document).ready(() => {
             let lastUrl = sessionStorage.getItem('AdminlastUrl');
             let lastActive = sessionStorage.getItem('AdminLastActive');
             if (lastUrl && lastActive) {
@@ -720,231 +748,69 @@
             }
         });
 
-        window.loadPage = function(url, activeLink) {
-            // Check if the response is already cached
-            let cachePage = sessionStorage.getItem(url);
-            if (cachePage) {
-                // If cached, use the cached response
-                handleAjaxSuccess(cachePage, activeLink, url);
-            } else {
-                // If not cached, make the AJAX request
-                $.ajax({
-                    url: url,
-                    type: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        // Cache the response
-                        //sessionStorage.setItem(url, response);
-                        handleAjaxSuccess(response, activeLink, url);
-                    },
-                    error: function(error) {
-                        console.log('Error: ' + error);
-                    },
-                });
+        const setActiveLink = (activeLink) => {
+            $('.nav-item a').removeClass('active');
+            const defaultLink = 'dashboardLink';
+            const linkToActivate = $('#' + (activeLink || defaultLink));
+            linkToActivate.addClass('active');
+        };
+
+        window.loadPage = async (url, activeLink) => {
+            try {
+                // Check if the response is already cached
+                const cachePage = sessionStorage.getItem(url);
+                if (cachePage) {
+                    // If cached, use the cached response
+                    handleAjaxSuccess(cachePage, activeLink, url);
+                } else {
+                    // If not cached, make the AJAX request
+                    const response = await $.ajax({
+                        url: url,
+                        type: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    // Cache the response
+                    //sessionStorage.setItem(url, response);
+                    handleAjaxSuccess(response, activeLink, url);
+                }
+            } catch (error) {
+                console.log('Error: ' + error);
             }
         };
 
-        function handleAjaxSuccess(response, activeLink, url) {
-            $('#main-content').html(response);
-            setActiveLink(activeLink);
-            history.pushState(null, '', url);
-            if (url === '{{ route('admin.Dashboard') }}') {
-                InitdashboardChar();
-                $(document).trigger('DocLoaded');
+        const handleAjaxSuccess = async (response, activeLink, url) => {
+            try {
+                await $('#main-content').html(response);
+                setActiveLink(activeLink);
+                history.pushState(null, '', url);
+
+                const functions = await initializeAdminPageJs();
+
+                const urlMapFunction = {
+                    [NAV_ROUTE.DASHBOARD]: functions.Dashboard,
+                    [NAV_ROUTE.PROJECTS]: functions.ProjectList,
+                    [NAV_ROUTE.APPLICATIONS]: functions.ApplicantList,
+                    [NAV_ROUTE.USERS]: functions.Users,
+                };
+                if (urlMapFunction[url]) {
+                    await urlMapFunction[url]();
+                }
+
+                // if (url === '/org-access/viewCooperatorInfo.php') {
+                //     InitializeviewCooperatorProgress();
+                // }
+                sessionStorage.setItem('AdminlastUrl', url);
+                sessionStorage.setItem('AdminLastActive', activeLink);
+            } catch (error) {
+                console.log('Error: ' + error);
             }
-            if (url === '/org-access/viewCooperatorInfo.php') {
-                InitializeviewCooperatorProgress();
-            }
-            sessionStorage.setItem('AdminlastUrl', url);
-            sessionStorage.setItem('AdminLastActive', activeLink);
         }
 
         // Optionally reinitialize the charts or perform other cleanup
 
         //TODO: Charts for Applicant, Ongoing and Completed Projects
-
-        function InitdashboardChar() {
-            var overallProject = {
-                theme: {
-                    mode: 'light',
-                },
-                series: [{
-                    name: 'Applicant',
-                    data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60]
-                }, {
-                    name: 'Ongoing',
-                    data: [5, 10, 7, 12, 9, 15, 11, 18, 13, 20]
-                }, {
-                    name: 'Completed',
-                    data: [2, 4, 3, 6, 5, 8, 7, 10, 9, 12]
-                }],
-                chart: {
-                    height: 350,
-                    type: 'bar'
-                },
-                stroke: {
-                    width: [6, 6, 6],
-                    curve: 'smooth',
-                    dashArray: [0, 0, 0]
-                },
-                markers: {
-                    size: 0
-                },
-                xaxis: {
-                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct']
-                },
-                yaxis: {
-                    title: {
-                        text: 'Count',
-                    },
-                },
-                legend: {
-                    tooltipHoverFormatter: function(val, opts) {
-                        return val + ' - ' + opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] + ''
-                    }
-                }
-            };
-
-            var overallProjectGraph = new ApexCharts(document.querySelector("#overallProjectGraph"), overallProject);
-            overallProjectGraph.render();
-
-            // staff handled projects chart
-            var handledBusiness = {
-                theme: {
-                    mode: 'light',
-                },
-                series: [{
-                    name: 'Micro Enterprise',
-                    data: [21, 22, 10, 28, 16]
-                }, {
-                    name: 'Small Enterprise',
-                    data: [15, 25, 11, 19, 14]
-                }, {
-                    name: 'Medium Enterprise',
-                    data: [10, 20, 15, 24, 10]
-                }],
-                chart: {
-                    height: 350,
-                    type: 'bar',
-                    stacked: true,
-                    events: {
-                        click: function(chart, w, e) {
-                            // console.log(chart, w, e)
-                        }
-                    }
-                },
-                colors: ['#008ffb', '#00e396', '#feb019'],
-                plotOptions: {
-                    bar: {
-                        columnWidth: '45%',
-                        distributed: false,
-                        borderRadius: 10,
-                        borderRadiusApplication: 'end',
-                        borderRadiusWhenStacked: 'last',
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                legend: {
-                    show: true,
-                    position: 'bottom'
-                },
-                xaxis: {
-                    categories: [
-                        'Staff1',
-                        'Staff2',
-                        'Staff3',
-                        'Staff4',
-                        'Staff5',
-                    ],
-                    labels: {
-                        style: {
-                            colors: ['#111111'],
-                            fontSize: '12px'
-                        }
-                    }
-                }
-            };
-
-            new ApexCharts(document.querySelector("#staffHandledB"), handledBusiness).render();
-
-            var options = {
-                theme: {
-                    mode: 'light',
-                    palette: 'palette2',
-                },
-                series: [77, 58, 50],
-                labels: ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'],
-                chart: {
-                    width: 300,
-                    type: 'pie',
-                },
-                legend: {
-                    show: false
-                },
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        chart: {
-                            width: 200
-                        },
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }]
-            };
-
-            var pieChart = new ApexCharts(document.querySelector("#enterpriseLevelChart"), options);
-            pieChart.render();
-
-
-            var options = {
-                theme: {
-                    mode: 'light',
-                    palette: 'palette2',
-                },
-                series: [{
-                    name: 'Micro Enterprise',
-                    data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]
-                }, {
-                    name: 'Small Enterprise',
-                    data: [300, 330, 348, 370, 440, 480, 590, 1000, 1100, 1280]
-                }, {
-                    name: 'Medium Enterprise',
-                    data: [200, 230, 248, 270, 340, 380, 490, 900, 1000, 1180]
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    stacked: true
-                },
-                plotOptions: {
-                    bar: {
-                        borderRadius: 4,
-                        borderRadiusApplication: 'end',
-                        horizontal: true,
-                        columnWidth: '45%',
-                        distributed: false,
-                        endingShape: 'rounded'
-                    }
-                },
-                dataLabels: {
-                    enabled: false
-                },
-                xaxis: {
-                    categories: ['Tagum City', 'Panabo City', 'Island Garden City of Samal', 'Braulio E. Dujali',
-                        'Carmen', 'Kapalong', 'New Corella', 'San Isidro', 'Santo Tomas', 'Talaingod'
-                    ],
-                }
-            };
-
-            var localeChart = new ApexCharts(document.querySelector("#localeChart"), options);
-            localeChart.render();
-        }
 
 
         function InitializeviewCooperatorProgress() {
@@ -1160,15 +1026,8 @@
 
             });
         });
-
-        function setActiveLink(activeLink) {
-            $('.nav-item a').removeClass('active');
-            var defaultLink = 'dashboardLink';
-            var linkToActivate = $('#' + (activeLink || defaultLink));
-            linkToActivate.addClass('active');
-        }
     </script>
-
+    @vite('resources/js/adminPage.js')
 </body>
 
 

@@ -1,5 +1,5 @@
 <style>
-    #applicantDetails{
+    #applicantDetails {
         width: 50vw;
         max-width: 100%;
     }
@@ -104,11 +104,12 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody id="tableBody" class="table-group-divider">
+                    <tbody id="ApplicanttableBody" class="table-group-divider">
                         @if (isset($applicants) && $applicants->isNotEmpty())
                             @foreach ($applicants as $applicantInfo)
                                 <tr>
-                                    <input type="hidden" name="user_Id" class="user_Id" value="{{ $applicantInfo->user_id }}">
+                                    <input type="hidden" name="user_Id" class="user_Id"
+                                        value="{{ $applicantInfo->user_id }}">
                                     <td>{{ $applicantInfo->prefix . ' ' . $applicantInfo->f_name . ' ' . $applicantInfo->mid_name . ' ' . $applicantInfo->l_name . ' ' . $applicantInfo->suffix }}
                                     </td>
                                     <td>{{ $applicantInfo->designation }}</td>
@@ -132,7 +133,8 @@
                                             <Strong>Assets:</Strong> <br>
                                             <span class="ps-2">
                                                 Building:
-                                                <span class="building">{{ number_format($applicantInfo->building_value, 2) }}</span>
+                                                <span
+                                                    class="building">{{ number_format($applicantInfo->building_value, 2) }}</span>
                                             </span><br>
                                             <span class="ps-2">Equipment:
                                                 <span
@@ -158,8 +160,9 @@
                                     <td>{{ $applicantInfo->date_applied }}</td>
                                     <td>To be reviewed</td>
                                     <td>
-                                        <button class="btn btn-primary viewApplicant" type="button" data-bs-toggle="offcanvas"
-                                            data-bs-target="#applicantDetails" aria-controls="applicantDetails">
+                                        <button class="btn btn-primary viewApplicant" type="button"
+                                            data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
+                                            aria-controls="applicantDetails">
                                             <i class="ri-menu-unfold-4-line ri-1x"></i>
                                         </button>
                                     </td>
@@ -182,26 +185,3 @@
         </div>
     </div>
 </div>
-<script type="module">
-    $(document).ready(function() {
-          $('#applicant').DataTable();
-
-           $('.viewApplicant').on('click', function() {
-            let row = $(this).closest('tr');
-
-            $('#cooperatorName').val(row.find('td:nth-child(2)').text().trim());
-            $('#designation').val(row.find('td:nth-child(3)').text().trim());
-            $('#b_id').val(row.find('#business_id').val());
-            $('#businessAddress').val(row.find('.business_Address').text().trim());
-            $('#typeOfEnterprise').val(row.find('.Type_Enterprise').text().trim());
-            $('#landline').val(row.find('.landline').text().trim());
-            $('#mobilePhone').val(row.find('.MobileNum').text().trim());
-            $('#email').val(row.find('.Email').text().trim());
-            $('#building').val(row.find('.building').text().trim());
-            $('#equipment').val(row.find('.Equipment').text().trim());
-            $('#workingCapital').val(row.find('.Working_C').text().trim());
-
-        });
-    });
-
-</script>

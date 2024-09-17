@@ -1,4 +1,3 @@
-
 <style>
     ul#myTab li.nav-item button.tab-Nav.active {
         background-color: #318791 !important;
@@ -36,7 +35,7 @@
         margin-top: 0 !important;
     }
 
-    #approvalDetails{
+    #approvalDetails {
         width: 45%;
         max-width: 100%;
     }
@@ -328,8 +327,8 @@
             <ul class="nav nav-tabs ps-3" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
                     <button class="nav-link tab-Nav active" id="home-tab" data-bs-toggle="tab"
-                        data-bs-target="#approval-tab-pane" type="button" role="tab" aria-controls="home-tab-pane"
-                        aria-selected="true">
+                        data-bs-target="#approval-tab-pane" type="button" role="tab"
+                        aria-controls="home-tab-pane" aria-selected="true">
                         <i class="ri-id-card-fill ri-lg"></i>
                         For Approval
                     </button>
@@ -352,8 +351,8 @@
                 </li>
             </ul>
             <div class="tab-content bg-white" id="myTabContent">
-                <div class="tab-pane fade show active" id="approval-tab-pane" role="tabpanel" aria-labelledby="approval-tab"
-                    tabindex="0">
+                <div class="tab-pane fade show active" id="approval-tab-pane" role="tabpanel"
+                    aria-labelledby="approval-tab" tabindex="0">
                     <!-- Where the applicant is displayed -->
                     <div class="mx-2 table-responsive-xl">
                         <table id="forApproval" class="table table-hover mx-2" style="width:100%">
@@ -526,182 +525,4 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() { // Populate the table first
-        $('#forApproval').DataTable({
-            columnDefs: [
-                {targets: 2, width: '30%'},
-                {targets: 3, width: '15%'},
-                {targets: 4, width: '8%'},
-                {targets: 5, width: '5%'},
-            ]
-        }); // Then initialize DataTables
-        $('#ongoing').DataTable();
-        $('#completed').DataTable();
 
-        $('#ApprovaltableBody').on('click', '.viewApproval', function() {
-            const row = $(this).closest('tr');
-            const inputs = row.find('input');
-
-            $('#cooperatorName').val(row.find('td:eq(0)').text().trim());
-            $('#designation').val(inputs.filter('.designation').val());
-            $('#b_id').val(inputs.filter('.business_id').val());
-            $('#businessAddress').val(inputs.filter('.business_address').val());
-            $('#typeOfEnterprise').val(inputs.filter('.type_of_enterprise').val());
-            $('#landline').val(inputs.filter('.landline').val());
-            $('#mobilePhone').val(inputs.filter('.mobile_number').val());
-            $('#email').val(inputs.filter('.email').val());
-            $('#building').val(parseFloat(inputs.filter('.building_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }));
-            $('#equipment').val(parseFloat(inputs.filter('.equipment_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }));
-            $('#workingCapital').val(parseFloat(inputs.filter('.working_capital_Assets').val().replace(/,/g, '')).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }));
-
-            getProjectProposal($('#b_id').val());
-            getStafflist();
-        });
-
-        function getStafflist()
-        {
-            fetch('{{ route('admin.Stafflist') }}', {
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                dataType: 'json',
-            })
-                .then(response => response.json())
-                .then(data => {
-                    let staffList = $('#Assigned_to');
-                    staffList.empty();
-                    data.forEach(staff => {
-                        staffList.append(`<option value="${staff.staff_id}">${staff.full_name}</option>`);
-                    });
-
-                }).catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-
-        function getforApprovalProject()
-        {
-            fetch('{{ route('admin.Project.PendingProject') }}', {
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                dataType: 'json',
-            })
-                .then(response => response.json())
-                .then(data => {
-                    let table = $('#forApproval').DataTable();
-                    table.clear().draw();
-                    data.forEach(project => {
-                        table.row.add([
-                            `${project.f_name} ${project.mid_name}. ${project.l_name} ${project.suffix}
-                            <input type="hidden" class="designation" value="${project.designation}">
-                            <input type="hidden" class="mobile_number" value="${project.mobile_number}">
-                            <input type="hidden" class="email" value="${project.email}">
-                            <input type="hidden" class="landline" value="${project.landline ?? ''}">`,
-                            `${project.firm_name} <input type="hidden" class="business_id" value="${project.id}">
-                            <input type="hidden" class="business_address" value=" ${project.landMark} ${project.barangay}, ${project.city}, ${project.province}, ${project.region}, ${project.zip_code}">
-                            <input type="hidden" class="type_of_enterprise" value="${project.enterprise_type}">
-                            <input type="hidden" class="Enterpriselevel" value="${project.enterprise_level}">
-                            <input type="hidden" class="building_Assets" value="${project.building_value}">
-                            <input type="hidden" class="equipment_Assets" value="${project.equipment_value}">
-                            <input type="hidden" class="working_capital_Assets" value="${project.working_capital}">`,
-                           `${project.project_title}
-                            <input type="hidden" class="project_title" value="${project.Project_id}">
-                            <input type="hidden" class="date_proposed" value="${project.evaluated_by_id}">
-                            <input type="hidden" class="assigned_to" value="${project.full_name}">
-                            <input type="hidden" class="application_status" value="${project.fund_amount}">`,
-                            `${project.date_proposed}`,
-                            `<span class="badge bg-primary">${project.application_status}</span>`,
-                            `<button class="btn btn-primary viewApproval" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#approvalDetails" aria-controls="approvalDetails">
-                                <i class="ri-menu-unfold-4-line ri-1x"></i>
-                            </button>`
-                        ]).draw(false);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-
-        }
-        getforApprovalProject();
-    });
-</script>
-<script>
-    $(document).ready(function() {
-
-        //Get Proposal Details
-         window.getProjectProposal = function(businessId){
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '{{ route('admin.Project.GetProposalDetails') }}',
-                type: 'POST',
-                data: {
-                    business_id: businessId
-                },
-                dataType: 'json', // Expect a JSON response
-                success: function(response) {
-                        $('#ProjectId_fetch').val(response.Project_id);
-                        $('#ProjectTitle_fetch').val(response.project_title);
-                        $('#Amount_fetch').val(parseFloat(response.fund_amount)
-                            .toLocaleString('en-US', {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2
-                            }));
-                        $('#Applied_fetch').val(response.date_applied);
-                        $('#evaluated_fetch').val(response.name);
-                },
-                error: function(xhr, status, error) {
-                    $('#ProjectTitle_fetch').val('');
-                    $('#Amount_fetch').val('');
-                    $('#Applied_fetch').val('');
-                    $('#evaluated_fetch').val('');
-                }
-            });
-        }
-
-        //Approved the Proposed Project
-        window.approvedProjectProposal = function(businessId, projectId, assignedStaff_Id){
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                url: '{{ route('admin.Project.ApprovedProjectProposal') }}',
-                type: 'POST',
-                data: {
-                    business_id: businessId,
-                    project_id: projectId,
-                    assigned_staff_id: assignedStaff_Id
-                },
-                success: function(response) {
-                   window.loadPage('{{ route('admin.Project') }}', 'projectList');
-                },
-                error: function(xhr, status, error) {
-                    console.log(error);
-                }
-            });
-        }
-
-        //Submit the Approved Proposal
-        $('#approvedButton').on('click', function() {
-            if (typeof $('#b_id').val() !== 'undefined' && typeof $('#ProjectId_fetch').val() !== 'undefined' && typeof $('#Assigned_to').val() !== 'undefined')
-            {
-                approvedProjectProposal($('#b_id').val(), $('#ProjectId_fetch').val(), $('#Assigned_to').val());
-            }
-        })
-    });
-</script>

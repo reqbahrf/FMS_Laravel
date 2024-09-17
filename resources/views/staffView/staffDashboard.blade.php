@@ -815,7 +815,7 @@
         };
 
         const handleAjaxSuccess = async (response, activeLink, url) => {
-            $('#main-content').html(response);
+           await $('#main-content').html(response);
             setActiveLink(activeLink);
             await history.pushState(null, '', url);
 

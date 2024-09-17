@@ -12,6 +12,7 @@ export default defineConfig({
             input: ['resources/css/app.scss',
                     'resources/js/app.js',
                     'resources/js/staffPage.js',
+                    'resources/js/adminPage.js',
                     ],
             refresh: true,
         }),
