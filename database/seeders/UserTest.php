@@ -18,7 +18,7 @@ class UserTest extends Seeder
             'user_name' => 'Staff101',
             'email' => 'Staff@example.com',
             'email_verified_at' => now(),
-            'password' => Hash::make('password123'), // You can use bcrypt instead if you prefer
+            'password' => Hash::make('password123'),
             'remember_token' => Str::random(10),
             'created_at' => now(),
             'updated_at' => now(),
@@ -27,7 +27,13 @@ class UserTest extends Seeder
 
         DB::table('org_users_info')->insert([
             'user_name' => 'Staff101',
-            'full_name' => 'User A. Staff',
+            'profile_pic' => null,
+            'prefix' => '',
+            'f_name' => 'User',
+            'mid_name' => 'A.',
+            'l_name' => 'Staff',
+            'suffix' => '',
+            'gender' => 'Male',
             'birthdate' => '2000-01-01',
             'access_to' => 'Allowed',
         ]);

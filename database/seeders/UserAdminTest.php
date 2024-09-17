@@ -28,7 +28,13 @@ class UserAdminTest extends Seeder
 
         DB::table('org_users_info')->insert([
             'user_name' => 'Admin101',
-            'full_name' => 'User A. Admin',
+            'profile_pic' => null,
+            'prefix' => '',
+            'f_name' => 'Admin',
+            'mid_name' => 'A.',
+            'l_name' => 'Admin',
+            'suffix' => '',
+            'gender' => 'Male',
             'birthdate' => '2000-01-01',
             'access_to' => 'Allowed',
         ]);

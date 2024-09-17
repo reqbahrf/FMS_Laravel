@@ -17,13 +17,13 @@ return new class extends Migration
             $table->char('ongoing_project_id', 15)->unique()->collation('utf8mb4_bin');
             $table->string('receipt_name', 30);
             $table->string('receipt_description', 255);
+            $table->string('receipt_file_link' , 500);
             $table->string('can_edit', 30);
             $table->string('remark', 30)->nullable();
             $table->string('comment', 255)->nullable();
             $table->timestamps();
             $table->foreign('ongoing_project_id')->references('project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });
-        DB::statement("ALTER TABLE `receipt_upload` ADD `receipt_file` MEDIUMBLOB AFTER `receipt_description`");
     }
 
     /**
