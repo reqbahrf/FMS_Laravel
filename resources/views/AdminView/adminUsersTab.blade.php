@@ -240,10 +240,4 @@
         </div>
     </div>
 </div>
-<script>
-    $(document).ready(function() {
-      // Then initialize DataTables
-    });
 
-   
-</script>

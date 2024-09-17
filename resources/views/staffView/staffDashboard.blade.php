@@ -729,6 +729,13 @@
     <script>
         //Global Route Variables for the Navigation Tabs
         //Dashboard Tab
+        const NAV_ROUTES = {
+            DASHBOARD: '{{ route('staff.dashboard') }}',
+            PROJECT: '{{ route('staff.Project') }}',
+            APPLICANT: '{{ route('staff.Applicant') }}',
+
+
+        };
         const DashboardTabRoute = {
             GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',
             SET_PROJECT_TO_ONGOING: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
@@ -815,30 +822,32 @@
         };
 
         const handleAjaxSuccess = async (response, activeLink, url) => {
-           await $('#main-content').html(response);
-            setActiveLink(activeLink);
-            await history.pushState(null, '', url);
+            try{
+                await $('#main-content').html(response);
+                 setActiveLink(activeLink);
+                 await history.pushState(null, '', url);
 
-            if (url === '{{ route('staff.dashboard') }}') {
-                await InitdashboardChar();
-                await initializeDashboardTabEvents();
+                 const functions = await initializeStaffPageJs();
+
+                 const urlMapFunctions = {
+                     [NAV_ROUTES.DASHBOARD]:functions.Dashboard,
+                     [NAV_ROUTES.PROJECT]:functions.Projects,
+                     [NAV_ROUTES.APPLICANT]:functions.Applicant,
+                 };
+
+                 if(urlMapFunctions[url]){
+                    urlMapFunctions[url]();
+                 }
+
+                //  if (url === '/org-access/viewCooperatorInfo.php') {
+                //      await InitializeviewCooperatorProgress();
+                //  }
+
+                 await sessionStorage.setItem('StafflastUrl', url);
+                 await sessionStorage.setItem('StafflastActive', activeLink);
+            }catch(error){
+
             }
-
-            if (url === '/org-access/viewCooperatorInfo.php') {
-                await InitializeviewCooperatorProgress();
-            }
-
-            if (url === '{{ route('staff.Project') }}') {
-                await initializeProjectTabEvents();
-                await attachProjectInformationSheetEvents();
-            }
-
-            if (url === '{{ route('staff.Applicant') }}') {
-                await InitializeApplicantTabEvents();
-            }
-
-            await sessionStorage.setItem('StafflastUrl', url);
-            await sessionStorage.setItem('StafflastActive', activeLink);
         }
 
 
