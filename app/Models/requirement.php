@@ -14,7 +14,7 @@ class requirement extends Model
     protected $fillable = [
         'business_id',
         'file_name',
-        'files',
+        'file_link',
         'file_type',
         'can_edit',
         'remark',

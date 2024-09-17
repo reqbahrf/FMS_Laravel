@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\applicationInfo;
-use App\Models\businessInfo;
 use Illuminate\Support\Facades\DB;
 use App\Models\requirement;
 use App\Models\User;
@@ -12,6 +11,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\projectInfo;
+use Exception;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -189,38 +189,41 @@ class StaffViewController extends Controller
 
     public function applicantGetRequirements(Request $request)
     {
-        $validated = $request->validate([
-            'selected_businessID' => 'required|string'
-        ]);
 
-        $applicantUploadedFiles = requirement::where('business_id', $validated['selected_businessID'])
-            ->select('file_name', 'files', 'file_type', 'can_edit', 'remarks', 'created_at', 'updated_at')
-            ->get();
+        try{
 
-        $result = [];
+            $validated = $request->validate([
+                'selected_businessID' => 'required|string'
+            ]);
 
-        foreach ($applicantUploadedFiles as $applicantUploadedFile) {
+            $applicantUploadedFiles = requirement::where('business_id', $validated['selected_businessID'])
+                ->select('file_name', 'file_link', 'file_type', 'can_edit', 'remarks', 'created_at', 'updated_at')
+                ->get();
 
-            $storagePath = 'viewRequirementsTemp/'. $validated['selected_businessID'] . '/' . $applicantUploadedFile->file_name;
+            $result = [];
 
+            foreach ($applicantUploadedFiles as $applicantUploadedFile) {
 
-            if (!storage::disk('public')->exists($storagePath)) {
-                Storage::disk('public')->put($storagePath, $applicantUploadedFile->files);
+                if (!storage::disk('private')->exists($applicantUploadedFile->file_link)) {
+                    return response()->json(['message' => 'File not found'], 404);
+                }
+
+                $result[] = [
+                    'file_name' => $applicantUploadedFile->file_name,
+                    'full_url' => $applicantUploadedFile->file_link,
+                    'file_type' => $applicantUploadedFile->file_type,
+                    'can_edit' => $applicantUploadedFile->can_edit,
+                    'remarks' => $applicantUploadedFile->remarks,
+                    'created_at' => $applicantUploadedFile->created_at->format('Y-m-d H:i:s'),
+                    'updated_at' => $applicantUploadedFile->updated_at->format('Y-m-d H:i:s'),
+                ];
             }
-            $fileUrl = $storagePath;
 
-            $result[] = [
-                'file_name' => $applicantUploadedFile->file_name,
-                'full_url' => $fileUrl,
-                'file_type' => $applicantUploadedFile->file_type,
-                'can_edit' => $applicantUploadedFile->can_edit,
-                'remarks' => $applicantUploadedFile->remarks,
-                'created_at' => $applicantUploadedFile->created_at->format('Y-m-d H:i:s'),
-                'updated_at' => $applicantUploadedFile->updated_at->format('Y-m-d H:i:s'),
-            ];
+            return response()->json($result, 200);
+        }catch(Exception $e){
+            return response()->json(['message' => $e->getMessage()], 500);
+
         }
-
-        return response()->json($result, 200);
     }
 
     public function getScheduledDate(Request $request)
@@ -267,11 +270,11 @@ class StaffViewController extends Controller
         ]);
         $fileUrl = $validate['file_url'];
 
-        if(!Storage::disk('public')->exists($fileUrl)){
+        if(!Storage::disk('private')->exists($fileUrl)){
             return response()->json(['error' => 'File not found'], 404);
         }
 
-        $fileContent = Storage::disk('public')->get($fileUrl);
+        $fileContent = Storage::disk('private')->get($fileUrl);
 
         $base64File = base64_encode($fileContent);
         return response()->json([

@@ -693,7 +693,7 @@
                                     width="32" height="32"
                                     class="object-fit-cover rounded-circle border border-1 border-black"
                                     alt="">
-                                <p class="m-0 fw-bold">{{ Auth::user()->orgusername->full_name }}</p>
+                                <p class="m-0 fw-bold">{{ Auth::user()->orgusername->prefix . ' ' . Auth::user()->orgusername->f_name . ' ' . (Auth::user()->orgusername->mid_name ? substr(Auth::user()->orgusername->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgusername->l_name . ' ' . Auth::user()->orgusername->suffix }}</p>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"

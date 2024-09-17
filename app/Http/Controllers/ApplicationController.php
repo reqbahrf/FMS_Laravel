@@ -80,6 +80,7 @@ class ApplicationController extends Controller
                 'Export_Mkt_Outlet' => $export_market,
                 'Local_Mkt_Outlet' => $local_market,
             ]);
+
             $successful_inserts++;
 
             // Assets table
@@ -156,15 +157,18 @@ class ApplicationController extends Controller
             foreach($file_to_insert as $filekey => $filePath){
                 $fileContents = Storage::disk('public')->get($filePath);
 
-                log::info($fileContents);
+                $directoryPath = $firm_name . '-' . now()->format('Y-m-d');
 
                 $fileName = $fileNames[$filekey];
                 $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
+                $final_Directory =  $directoryPath . '/' . 'Application-Requirements' . '/' . $fileName . '.' . $fileExtension;
+                Storage::disk('private')->put($final_Directory, $fileContents);
+
                 DB::table('requirements')->insert([
                     'business_id' => $businessId,
                     'file_name' => $fileName,
-                    'files' => $fileContents,
+                    'file_link' => $final_Directory,
                     'file_type' => $fileExtension,
                     'created_at' => now(),
                     'updated_at' => now(),

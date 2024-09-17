@@ -263,6 +263,7 @@ window.initializeAdminPageJs = async () => {
             },
             dataType: 'json', // Expect a JSON response
           });
+          console.log(response);
           $('#ProjectId_fetch').val(response.Project_id);
           $('#ProjectTitle_fetch').val(response.project_title);
           $('#Amount_fetch').val(
@@ -272,13 +273,13 @@ window.initializeAdminPageJs = async () => {
             })
           );
           $('#Applied_fetch').val(response.date_applied);
-          $('#evaluated_fetch').val(response.name);
+          $('#evaluated_fetch').val(`${response?.prefix} ${response.f_name} ${response.mid_name} ${response.l_name} ${response?.suffix}`);
 
-          $('#ProjectTitle_fetch').val('');
-          $('#Amount_fetch').val('');
-          $('#Applied_fetch').val('');
-          $('#evaluated_fetch').val('');
         } catch (error) {
+            $('#ProjectTitle_fetch').val('');
+            $('#Amount_fetch').val('');
+            $('#Applied_fetch').val('');
+            $('#evaluated_fetch').val('');
           console.log('Error: ' + error);
         }
       };
@@ -340,7 +341,7 @@ window.initializeAdminPageJs = async () => {
           staffList.empty();
           data.forEach((staff) => {
             staffList.append(
-              `<option value="${staff.staff_id}">${staff.full_name}</option>`
+              `<option value="${staff.staff_id}">${staff?.prefix } ${staff.f_name} ${staff.mid_name} ${staff.l_name} ${staff?.suffix}</option>`
             );
           });
         } catch (error) {

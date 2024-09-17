@@ -78,7 +78,7 @@
                                 <div class="col-md-4">
                                     <label for="enterpriseType" class="form-label">Type Of Enterprise:</label>
                                     <input type="text" class="form-control form-control-sm" id="enterpriseType"
-                                        value="Sole Proprietorship" readonly>
+                                     readonly>
                                 </div>
                                 <div class="col-12">
                                     Contact Details:
@@ -222,7 +222,7 @@
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody" class="table-group-divider">
+                <tbody id="ApplicantTableBody" class="table-group-divider">
                     @if (isset($applicants) && count($applicants) > 0)
                         @foreach ($applicants as $item)
                             <tr>

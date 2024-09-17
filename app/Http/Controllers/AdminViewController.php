@@ -66,7 +66,11 @@ class AdminViewController extends Controller
                 'project_info.evaluated_by_id',
                 'project_info.fund_amount',
                 'project_info.created_at as date_proposed',
-                'org_users_info.full_name',
+                'org_users_info.prefix',
+                'org_users_info.f_name',
+                'org_users_info.mid_name',
+                'org_users_info.l_name',
+                'org_users_info.suffix',
                 'coop_users_info.f_name',
                 'coop_users_info.mid_name',
                 'coop_users_info.l_name',
@@ -159,7 +163,11 @@ class AdminViewController extends Controller
             'users.user_name',
             'users.role',
             'org_users_info.id as staff_id',
-            'org_users_info.full_name',
+            'org_users_info.prefix',
+            'org_users_info.f_name',
+            'org_users_info.mid_name',
+            'org_users_info.l_name',
+            'org_users_info.suffix',
         ])
         ->join('org_users_info', 'users.user_name', '=', 'org_users_info.user_name')
         ->where('users.role', '=', 'Staff')
@@ -186,7 +194,11 @@ class AdminViewController extends Controller
             'project_info.project_title',
             'project_info.fund_amount',
             'application_info.created_at as date_applied',
-            'org_users_info.full_name as name'
+            'org_users_info.prefix',
+            'org_users_info.f_name',
+            'org_users_info.mid_name',
+            'org_users_info.l_name',
+            'org_users_info.suffix',
 
         ])
         ->join('project_info', 'project_info.business_id', '=', 'business_info.id')

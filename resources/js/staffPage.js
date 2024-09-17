@@ -1,3 +1,91 @@
+function showToastFeedback(status, message) {
+    const toast = $('#ActionFeedbackToast');
+    const toastInstance = new bootstrap.Toast(toast);
+
+    toast
+      .find('.toast-header')
+      .removeClass([
+        'text-bg-danger',
+        'text-bg-success',
+        'text-bg-warning',
+        'text-bg-info',
+        'text-bg-primary',
+        'text-bg-light',
+        'text-bg-dark',
+      ]);
+
+    toast.find('.toast-body').text('');
+    toast.find('.toast-header').addClass(status);
+    toast.find('.toast-body').text(message);
+
+    toastInstance.show();
+  }
+
+  //close offcanvas
+  function closeOffcanvasInstances(offcanva_id) {
+    const offcanvasElement = $(offcanva_id).get(0);
+    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+    offcanvasInstance.hide();
+  }
+
+  //format currency
+
+  function formatCurrency(inputSelector) {
+    $(inputSelector).on('input', function () {
+      let value = $(this)
+        .val()
+        .replace(/[^0-9.]/g, '');
+      if (value.includes('.')) {
+        let parts = value.split('.');
+        parts[1] = parts[1].substring(0, 2);
+        value = parts.join('.');
+      }
+      let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      $(this).val(formattedValue);
+    });
+  }
+
+  function closeModal(modelId) {
+    const model = bootstrap.Modal.getInstance(modelId);
+    model.hide();
+  }
+
+$(document).on('DOMContentLoaded', function () {
+    function makeData() {
+      var data = [];
+      for (var i = 0; i < 10; i++) {
+        data.push(Math.floor(Math.random() * 100)); // Generates random numbers between 0 and 99
+      }
+      console.log(data);
+      return data;
+    }
+
+    // Line chart
+    //toast feedback
+
+
+    //Side Nav toggle
+
+    $('.sideNavButtonSmallScreen').on('click', function () {
+      new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
+    });
+
+    $('.sideNavButtonLargeScreen').on('click', function () {
+      $('.sidenav').toggleClass('expanded minimized');
+      $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
+      $('.logoTitleLScreen').toggle();
+      //side bar minimize
+      $('.sidenav a span').each(function () {
+        $(this).toggleClass('d-none');
+      });
+
+      $('.sidenav a').each(function () {
+        $(this).toggleClass('justify-content-center');
+      });
+      //size bar minimize rotation
+      $('#hover-link').toggleClass('rotate-icon');
+    });
+  });
 window.initializeStaffPageJs = async () => {
   const functions = {
     Dashboard: () => {
@@ -2011,32 +2099,13 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
-      // Get all checkboxes and their corresponding 'Reviewed' spans
-      const checkboxes = document.querySelectorAll('.form-check-input');
-      const reviewedSpans = document.querySelectorAll('.badge.bg-success');
-
-      // Hide all 'Reviewed' spans initially
-      reviewedSpans.forEach((span) => {
-        span.style.display = 'none';
-      });
-
-      // Add event listener to each checkbox
-      checkboxes.forEach((checkbox, index) => {
-        checkbox.addEventListener('change', function () {
-          if (this.checked) {
-            $('#myModal').modal('show');
-
-            // Show 'Reviewed' span if checkbox is checked
-            reviewedSpans[index].style.display = 'inline';
-          } else {
-            reviewedSpans[index].style.display = 'none'; // Hide 'Reviewed' span if checkbox is unchecked
-          }
-        });
-      });
+      console.log("this line in executed")
 
       formatCurrency('#fundAmount');
 
-      $('.applicantDetailsBtn').on('click', async function () {
+      console.log('this event is triggered')
+      $('#ApplicantTableBody').on('click', '.applicantDetailsBtn', async function () {
+        console.log('This is clicked')
         const row = $(this).closest('tr');
 
         const fullName = row.find('td:nth-child(1)').text().trim();
@@ -2310,90 +2379,3 @@ window.initializeStaffPageJs = async () => {
   };
   return functions;
 };
-
-$(document).on('DOMContentLoaded', function () {
-  function makeData() {
-    var data = [];
-    for (var i = 0; i < 10; i++) {
-      data.push(Math.floor(Math.random() * 100)); // Generates random numbers between 0 and 99
-    }
-    console.log(data);
-    return data;
-  }
-
-  // Line chart
-  //toast feedback
-  function showToastFeedback(status, message) {
-    const toast = $('#ActionFeedbackToast');
-    const toastInstance = new bootstrap.Toast(toast);
-
-    toast
-      .find('.toast-header')
-      .removeClass([
-        'text-bg-danger',
-        'text-bg-success',
-        'text-bg-warning',
-        'text-bg-info',
-        'text-bg-primary',
-        'text-bg-light',
-        'text-bg-dark',
-      ]);
-
-    toast.find('.toast-body').text('');
-    toast.find('.toast-header').addClass(status);
-    toast.find('.toast-body').text(message);
-
-    toastInstance.show();
-  }
-
-  //close offcanvas
-  function closeOffcanvasInstances(offcanva_id) {
-    const offcanvasElement = $(offcanva_id).get(0);
-    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-    offcanvasInstance.hide();
-  }
-
-  //format currency
-
-  function formatCurrency(inputSelector) {
-    $(inputSelector).on('input', function () {
-      let value = $(this)
-        .val()
-        .replace(/[^0-9.]/g, '');
-      if (value.includes('.')) {
-        let parts = value.split('.');
-        parts[1] = parts[1].substring(0, 2);
-        value = parts.join('.');
-      }
-      let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      $(this).val(formattedValue);
-    });
-  }
-
-  function closeModal(modelId) {
-    const model = bootstrap.Modal.getInstance(modelId);
-    model.hide();
-  }
-
-  //Side Nav toggle
-
-  $('.sideNavButtonSmallScreen').on('click', function () {
-    new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
-  });
-
-  $('.sideNavButtonLargeScreen').on('click', function () {
-    $('.sidenav').toggleClass('expanded minimized');
-    $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
-    $('.logoTitleLScreen').toggle();
-    //side bar minimize
-    $('.sidenav a span').each(function () {
-      $(this).toggleClass('d-none');
-    });
-
-    $('.sidenav a').each(function () {
-      $(this).toggleClass('justify-content-center');
-    });
-    //size bar minimize rotation
-    $('#hover-link').toggleClass('rotate-icon');
-  });
-});
