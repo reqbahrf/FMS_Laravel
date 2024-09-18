@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class OrgUserInfo extends Model
 {
@@ -23,7 +24,13 @@ class OrgUserInfo extends Model
     // The attributes that are mass assignable
     protected $fillable = [
         'user_name',
-        'full_name',
+        'profile_pic',
+        'prefix',
+        'f_name',
+        'mid_name',
+        'l_name',
+        'suffix',
+        'gender',
         'birthdate',
         'access_to',
     ];
@@ -34,7 +41,7 @@ class OrgUserInfo extends Model
     ];
 
     // Define the relationship with the User model, assuming it exists
-    public function user()
+    public function user() : BelongsTo
     {
         return $this->belongsTo(User::class, 'user_name', 'user_name');
     }

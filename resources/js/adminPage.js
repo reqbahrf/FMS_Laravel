@@ -1,3 +1,37 @@
+function showToastFeedback(status, message) {
+  const toast = $('#ActionFeedbackToast');
+  const toastInstance = new bootstrap.Toast(toast);
+
+  toast
+    .find('.toast-header')
+    .removeClass([
+      'text-bg-danger',
+      'text-bg-success',
+      'text-bg-warning',
+      'text-bg-info',
+      'text-bg-primary',
+      'text-bg-light',
+      'text-bg-dark',
+    ]);
+
+  toast.find('.toast-body').text('');
+  toast.find('.toast-header').addClass(status);
+  toast.find('.toast-body').text(message);
+
+  toastInstance.show();
+}
+
+//close offcanvas
+function closeOffcanvasInstances(offcanva_id) {
+  const offcanvasElement = $(offcanva_id).get(0);
+  const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+  offcanvasInstance.hide();
+}
+
+function closeModal(modelId) {
+  const model = bootstrap.Modal.getInstance(modelId);
+  model.hide();
+}
 window.initializeAdminPageJs = async () => {
   const functions = {
     Dashboard: () => {
@@ -273,13 +307,14 @@ window.initializeAdminPageJs = async () => {
             })
           );
           $('#Applied_fetch').val(response.date_applied);
-          $('#evaluated_fetch').val(`${response?.prefix} ${response.f_name} ${response.mid_name} ${response.l_name} ${response?.suffix}`);
-
+          $('#evaluated_fetch').val(
+            `${response?.prefix} ${response.f_name} ${response.mid_name} ${response.l_name} ${response?.suffix}`
+          );
         } catch (error) {
-            $('#ProjectTitle_fetch').val('');
-            $('#Amount_fetch').val('');
-            $('#Applied_fetch').val('');
-            $('#evaluated_fetch').val('');
+          $('#ProjectTitle_fetch').val('');
+          $('#Amount_fetch').val('');
+          $('#Applied_fetch').val('');
+          $('#evaluated_fetch').val('');
           console.log('Error: ' + error);
         }
       };
@@ -341,7 +376,7 @@ window.initializeAdminPageJs = async () => {
           staffList.empty();
           data.forEach((staff) => {
             staffList.append(
-              `<option value="${staff.staff_id}">${staff?.prefix } ${staff.f_name} ${staff.mid_name} ${staff.l_name} ${staff?.suffix}</option>`
+              `<option value="${staff.staff_id}">${staff?.prefix} ${staff.f_name} ${staff.mid_name} ${staff.l_name} ${staff?.suffix}</option>`
             );
           });
         } catch (error) {
@@ -481,25 +516,149 @@ window.initializeAdminPageJs = async () => {
     },
 
     Users: () => {
-        $('#user_staff').DataTable();
-        (() => {
-               'use strict'
+        $('#user_staff').DataTable({
+            autoWidth: false,
+            responsive: true,
+            columns: [
+                { title: '#' },
+                { title: 'Name' },
+                { title: 'Email' },
+                { title: 'Username' },
+                { title: 'Access Status' },
+                { title: 'Action' },
+            ],
+            columnDefs: [
+                {
+                    targets: 0,
+                    width: '5%',
+                    className: 'text-center'
+                },
+                {
+                    targets: 1,
+                    width: '30%',
+                },
+                {
+                    targets: 2,
+                    width: '20%',
+                },
+                {
+                    targets: 3,
+                    width: '20%',
+                },
+                {
+                    targets: 4,
+                    width: '15%',
+                },
+                {
+                    targets: 5,
+                    width: '10%',
+                }
+            ],
+       });
 
-               // Fetch all the forms we want to apply custom Bootstrap validation styles to
-               const forms = document.querySelectorAll('.needs-validation')
+      const getStaffUserLists = async () => {
+        try {
+          const response = await $.ajax({
+            type: 'GET',
+            url: USERS_LIST_ROUTE.GET_STAFF_USER_LISTS,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          });
 
-               // Loop over them and prevent submission
-               Array.from(forms).forEach(form => {
-                   form.addEventListener('submit', event => {
-                       if (!form.checkValidity()) {
-                           event.preventDefault()
-                           event.stopPropagation()
-                       }
+          const staffUserTable = $('#user_staff').DataTable()
 
-                       form.classList.add('was-validated')
-                   }, false)
-               })
-           })();
+          staffUserTable.clear();
+
+          staffUserTable.rows.add(
+            response.map((staff) => [
+              staff.id,
+              `${staff?.prefix || ''} ${staff.f_name || ''} ${
+                staff?.mid_name || ''
+              } ${staff.l_name || ''} ${staff?.suffix || ''}`,
+              staff.email,
+              staff.user_name,
+              `<span class="badge ${staff.access_to === "Restricted" ? "bg-danger" : "bg-success" }">${staff.access_to}</span>`,
+              ` <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#viewUserOffcanvas" aria-controls="viewUserOffcanvas">
+                                    <i class="ri-eye-fill"></i>
+                                </button>
+                <button class="btn btn-primary btn-sm" type="button"><i class="ri-pencil-fill"></i></button>
+                <button class="btn btn-danger btn-sm" type="button"><i class="ri-delete-bin-6-fill"></i></button>`
+                                ,
+            ])
+          );
+
+          staffUserTable.draw();
+        } catch (error) {
+          showToastFeedback('text-bg-danger', error.responseJSON.message);
+        }
+      };
+
+      getStaffUserLists();
+
+      (() => {
+        'use strict';
+
+        // Fetch all forms that need validation
+        const NewUsersForms = document.querySelectorAll('.needs-validation');
+
+        // Attach form validation and submission to the submit button click event
+        $('#submitNewUser').on('click', function(event){
+            // Prevent default button action
+            event.preventDefault();
+
+            // Loop through each form with 'needs-validation'
+            Array.from(NewUsersForms).forEach((form) => {
+                // Check if the form is valid
+                if (!form.checkValidity()) {
+                    event.stopPropagation();
+                    form.classList.add('was-validated');
+                } else {
+                    // If valid, trigger the AJAX form submission
+                    addStaffUser(form);
+                }
+            });
+        });
+    })();
+
+    const addStaffUser = async (form) => {
+        try {
+            // Create FormData object from the form element
+            const formData = new FormData(form);
+
+            const response = await $.ajax({
+                type: 'POST',
+                url: USERS_LIST_ROUTE.GET_STAFF_USER_LISTS,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                processData: false, // Don't process the data
+                contentType: false, // Let jQuery set the content type based on formData
+                data: formData,
+            });
+
+            // Handle successful response (you can add your success logic here)
+            console.log(response);
+        } catch (error) {
+            // Handle error (you can add your error handling logic here)
+            console.error(error);
+        }
+    };
+
+
+
+      $('#viewUserOffcanvas').on('show.bs.offcanvas', function (e) {
+         const triggerdButton = $(e.relatedTarget);
+         const buttonRow = triggerdButton.closest('tr');
+         const StaffName = buttonRow.find('td:nth-child(2)').text().trim();
+         const Email = buttonRow.find('td:nth-child(3)').text().trim();
+         const UserName = buttonRow.find('td:nth-child(4)').text().trim();
+
+         const offcanvas = $(this);
+
+         offcanvas.find('#StaffName').text(StaffName);
+      });
     },
   };
   return functions;

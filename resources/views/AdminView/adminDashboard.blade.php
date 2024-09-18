@@ -729,6 +729,8 @@
         };
 
         const USERS_LIST_ROUTE = {
+             STORE_NEW_STAFF_USER : '{{ route('Users.store') }}',
+             GET_STAFF_USER_LISTS : '{{ route('Users.index') }}'
 
         };
     </script>

@@ -186,7 +186,7 @@ window.initializeStaffPageJs = async () => {
           },
           {
             targets: 1,
-            width: '40%',
+            width: '30%',
           },
           {
             targets: 2,
@@ -194,7 +194,7 @@ window.initializeStaffPageJs = async () => {
           },
           {
             targets: 3,
-            width: '10%',
+            width: '20%',
           },
         ],
       });

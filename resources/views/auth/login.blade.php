@@ -200,7 +200,7 @@
                         </div>
                         <div class="form-floating my-4">
                             <input type="text" name="username" value="{{ old('username') }}" id="username"
-                                class="form-control" maxlength="20" placeholder="Username" required>
+                                class="form-control" maxlength="30" placeholder="Username" required>
                             <div class="invalid-feedback">
                                 Please enter a username.
                             </div>
@@ -209,7 +209,7 @@
                         <div class="input-group my-4">
                             <div class="form-floating">
                                 <input type="password" name="password" value="{{ old('password') }}" id="password"
-                                    class="form-control" maxlength="15" placeholder="Password" required>
+                                    class="form-control" maxlength="30" placeholder="Password" required>
                                 <label for="password">Password</label>
                             </div>
                             <button type="button" class="input-group-text" id="passwordtoggle">

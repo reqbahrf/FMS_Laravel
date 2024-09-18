@@ -22,9 +22,9 @@ class CheckStaffUser
             return redirect()->route('login.Form');
         }
 
-        if(Auth::user()->role != 'Staff')
+        if(Auth::user()->role != 'Staff' || Auth::user()->orgusername->access_to != 'Allowed')
         {
-            return redirect()->route('home');
+            abort(Response::HTTP_UNAUTHORIZED);
         }
         return $next($request);
     }
