@@ -204,7 +204,7 @@ class StaffViewController extends Controller
 
             foreach ($applicantUploadedFiles as $applicantUploadedFile) {
 
-                if (!storage::disk('private')->exists($applicantUploadedFile->file_link)) {
+                if (!storage::disk('public')->exists($applicantUploadedFile->file_link)) {
                     return response()->json(['message' => 'File not found'], 404);
                 }
 
@@ -270,11 +270,11 @@ class StaffViewController extends Controller
         ]);
         $fileUrl = $validate['file_url'];
 
-        if(!Storage::disk('private')->exists($fileUrl)){
+        if(!Storage::disk('public')->exists($fileUrl)){
             return response()->json(['error' => 'File not found'], 404);
         }
 
-        $fileContent = Storage::disk('private')->get($fileUrl);
+        $fileContent = Storage::disk('public')->get($fileUrl);
 
         $base64File = base64_encode($fileContent);
         return response()->json([

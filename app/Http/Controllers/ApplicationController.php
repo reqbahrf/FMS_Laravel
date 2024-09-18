@@ -155,24 +155,27 @@ class ApplicationController extends Controller
             $fileNames['govFilePath'] = $govId_Selector;
 
             foreach($file_to_insert as $filekey => $filePath){
-                $fileContents = Storage::disk('public')->get($filePath);
+                if(Storage::disk('public')->exists($filePath))
+                {
+                    // $directoryUniquePath = $firm_name . '-' . now()->format('Y-m-d');
+                    $fileName = $fileNames[$filekey];
+                    $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
-                $directoryPath = $firm_name . '-' . now()->format('Y-m-d');
+                    // $final_Directory = 'File_Requirements' . '/'. $directoryUniquePath .'/' . $fileName . '.' . $fileExtension;
+                    // Storage::disk('public')->move($filePath, Storage::disk('private')->path($final_Directory));
 
-                $fileName = $fileNames[$filekey];
-                $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+                    DB::table('requirements')->insert([
+                        'business_id' => $businessId,
+                        'file_name' => $fileName,
+                        'file_link' => $filePath,
+                        'file_type' => $fileExtension,
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+                }else{
+                    return response()->json(['error' => "This file $fileNames[$filekey] does not exist"], 404);
+                };
 
-                $final_Directory =  $directoryPath . '/' . 'Application-Requirements' . '/' . $fileName . '.' . $fileExtension;
-                Storage::disk('private')->put($final_Directory, $fileContents);
-
-                DB::table('requirements')->insert([
-                    'business_id' => $businessId,
-                    'file_name' => $fileName,
-                    'file_link' => $final_Directory,
-                    'file_type' => $fileExtension,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
             }
 
             $successful_inserts++;
@@ -191,7 +194,7 @@ class ApplicationController extends Controller
                 return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.home')]);
             } else {
                 DB::rollBack();
-                return response()->json(['error' => 'Data insertion failed.']);
+                return response()->json(['error' => 'Data insertion failed.'], 500);
             }
         } catch (\Exception $e) {
             DB::rollBack();
