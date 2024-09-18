@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('gender', 10);
             $table->date('birthdate');
             $table->enum('access_to', ['Allowed', 'Restricted']);
+            $table->timestamps();
             $table->foreign('user_name')->references('user_name')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
     }
