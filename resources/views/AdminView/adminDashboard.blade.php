@@ -422,7 +422,21 @@
 
 <body class="overflow-hidden">
     <div class="wrapper">
+         {{-- Toast Container start --}}
+         <div class="toast-container position-fixed top-0 end-0 p-3" id="toastFeedbackContainer" style="z-index: 1200;">
+            <div id="ActionFeedbackToast" class="toast align-items-center" role="alert" aria-live="assertive"
+                aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Message</strong>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                        aria-label="Close"></button>
+                </div>
+                <div class="toast-body" id="ToastBody">
 
+                </div>
+            </div>
+        </div>
+        {{-- Toast Container end --}}
         {{-- Side Nav for large screens --}}
         <nav class="sidenav expanded">
             <ul class="navbar-nav">
@@ -730,7 +744,9 @@
 
         const USERS_LIST_ROUTE = {
              STORE_NEW_STAFF_USER : '{{ route('Users.store') }}',
-             GET_STAFF_USER_LISTS : '{{ route('Users.index') }}'
+             GET_STAFF_USER_LISTS : '{{ route('Users.index') }}',
+             UPDATE_STAFF_USER : '{{ route('Users.update', ':user_name') }}',
+             DELETE_STAFF_USER : '{{ route('Users.destroy', ':user_name') }}',
 
         };
     </script>

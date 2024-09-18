@@ -1,37 +1,39 @@
 function showToastFeedback(status, message) {
-  const toast = $('#ActionFeedbackToast');
-  const toastInstance = new bootstrap.Toast(toast);
+    const toast = $('#ActionFeedbackToast');
+    const toastInstance = new bootstrap.Toast(toast);
 
-  toast
-    .find('.toast-header')
-    .removeClass([
-      'text-bg-danger',
-      'text-bg-success',
-      'text-bg-warning',
-      'text-bg-info',
-      'text-bg-primary',
-      'text-bg-light',
-      'text-bg-dark',
-    ]);
+    toast
+      .find('.toast-header')
+      .removeClass([
+        'text-bg-danger',
+        'text-bg-success',
+        'text-bg-warning',
+        'text-bg-info',
+        'text-bg-primary',
+        'text-bg-light',
+        'text-bg-dark',
+      ]);
 
-  toast.find('.toast-body').text('');
-  toast.find('.toast-header').addClass(status);
-  toast.find('.toast-body').text(message);
+    toast.find('.toast-body').text('');
+    toast.find('.toast-header').addClass(status);
+    toast.find('.toast-body').text(message);
 
-  toastInstance.show();
-}
+    toastInstance.show();
+  }
 
-//close offcanvas
-function closeOffcanvasInstances(offcanva_id) {
-  const offcanvasElement = $(offcanva_id).get(0);
-  const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-  offcanvasInstance.hide();
-}
+  //close offcanvas
+  function closeOffcanvasInstances(offcanva_id) {
+    const offcanvasElement = $(offcanva_id).get(0);
+    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+    offcanvasInstance.hide();
+  }
 
-function closeModal(modelId) {
-  const model = bootstrap.Modal.getInstance(modelId);
-  model.hide();
-}
+  function closeModal(modelId) {
+    const model = bootstrap.Modal.getInstance(modelId);
+    model.hide();
+  }
+
+
 window.initializeAdminPageJs = async () => {
   const functions = {
     Dashboard: () => {
@@ -516,45 +518,45 @@ window.initializeAdminPageJs = async () => {
     },
 
     Users: () => {
-        $('#user_staff').DataTable({
-            autoWidth: false,
-            responsive: true,
-            columns: [
-                { title: '#' },
-                { title: 'Name' },
-                { title: 'Email' },
-                { title: 'Username' },
-                { title: 'Access Status' },
-                { title: 'Action' },
-            ],
-            columnDefs: [
-                {
-                    targets: 0,
-                    width: '5%',
-                    className: 'text-center'
-                },
-                {
-                    targets: 1,
-                    width: '30%',
-                },
-                {
-                    targets: 2,
-                    width: '20%',
-                },
-                {
-                    targets: 3,
-                    width: '20%',
-                },
-                {
-                    targets: 4,
-                    width: '15%',
-                },
-                {
-                    targets: 5,
-                    width: '10%',
-                }
-            ],
-       });
+      $('#user_staff').DataTable({
+        autoWidth: false,
+        responsive: true,
+        columns: [
+          { title: '#' },
+          { title: 'Name' },
+          { title: 'Email' },
+          { title: 'Username' },
+          { title: 'Access Status' },
+          { title: 'Action' },
+        ],
+        columnDefs: [
+          {
+            targets: 0,
+            width: '5%',
+            className: 'text-center',
+          },
+          {
+            targets: 1,
+            width: '30%',
+          },
+          {
+            targets: 2,
+            width: '20%',
+          },
+          {
+            targets: 3,
+            width: '20%',
+          },
+          {
+            targets: 4,
+            width: '15%',
+          },
+          {
+            targets: 5,
+            width: '10%',
+          },
+        ],
+      });
 
       const getStaffUserLists = async () => {
         try {
@@ -566,7 +568,7 @@ window.initializeAdminPageJs = async () => {
             },
           });
 
-          const staffUserTable = $('#user_staff').DataTable()
+          const staffUserTable = $('#user_staff').DataTable();
 
           staffUserTable.clear();
 
@@ -578,14 +580,21 @@ window.initializeAdminPageJs = async () => {
               } ${staff.l_name || ''} ${staff?.suffix || ''}`,
               staff.email,
               staff.user_name,
-              `<span class="badge ${staff.access_to === "Restricted" ? "bg-danger" : "bg-success" }">${staff.access_to}</span>`,
+              `<span class="badge ${
+                staff.access_to === 'Restricted' ? 'bg-danger' : 'bg-success'
+              }">${staff.access_to}</span>`,
               ` <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#viewUserOffcanvas" aria-controls="viewUserOffcanvas">
                                     <i class="ri-eye-fill"></i>
                                 </button>
-                <button class="btn btn-primary btn-sm" type="button"><i class="ri-pencil-fill"></i></button>
-                <button class="btn btn-danger btn-sm" type="button"><i class="ri-delete-bin-6-fill"></i></button>`
-                                ,
+                <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="modal" data-bs-target="#UpdateAndDeleteResourcesModal" data-option-type="updateUser">
+                <i class="ri-pencil-fill"></i>
+                </button>
+                <button class="btn btn-danger btn-sm"
+                data-bs-toggle="modal" data-bs-target="#UpdateAndDeleteResourcesModal" data-option-type="deleteUser"
+                type="button">
+                <i class="ri-delete-bin-6-fill"></i>
+                </button>`,
             ])
           );
 
@@ -604,60 +613,154 @@ window.initializeAdminPageJs = async () => {
         const NewUsersForms = document.querySelectorAll('.needs-validation');
 
         // Attach form validation and submission to the submit button click event
-        $('#submitNewUser').on('click', function(event){
-            // Prevent default button action
-            event.preventDefault();
+        $('#submitNewUser').on('click', function (event) {
+          // Prevent default button action
+          event.preventDefault();
 
-            // Loop through each form with 'needs-validation'
-            Array.from(NewUsersForms).forEach((form) => {
-                // Check if the form is valid
-                if (!form.checkValidity()) {
-                    event.stopPropagation();
-                    form.classList.add('was-validated');
-                } else {
-                    // If valid, trigger the AJAX form submission
-                    addStaffUser(form);
-                }
-            });
+          // Loop through each form with 'needs-validation'
+          Array.from(NewUsersForms).forEach((form) => {
+            // Check if the form is valid
+            if (!form.checkValidity()) {
+              event.stopPropagation();
+              form.classList.add('was-validated');
+            } else {
+              // If valid, trigger the AJAX form submission
+              addStaffUser(form);
+            }
+          });
         });
-    })();
+      })();
 
-    const addStaffUser = async (form) => {
+      const addStaffUser = async (form) => {
         try {
-            // Create FormData object from the form element
-            const formData = new FormData(form);
+          // Create FormData object from the form element
+          const formData = new FormData(form);
 
-            const response = await $.ajax({
-                type: 'POST',
-                url: USERS_LIST_ROUTE.GET_STAFF_USER_LISTS,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                },
-                processData: false, // Don't process the data
-                contentType: false, // Let jQuery set the content type based on formData
-                data: formData,
-            });
-
-            // Handle successful response (you can add your success logic here)
-            console.log(response);
+          const response = await $.ajax({
+            type: 'POST',
+            url: USERS_LIST_ROUTE.GET_STAFF_USER_LISTS,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            processData: false, // Don't process the data
+            contentType: false, // Let jQuery set the content type based on formData
+            data: formData,
+          });
+          showToastFeedback('text-bg-success', response.success);
         } catch (error) {
-            // Handle error (you can add your error handling logic here)
-            console.error(error);
+          // Handle error (you can add your error handling logic here)
+          console.error(error);
         }
-    };
+      };
 
+      const updateStaffUser = async (user_name) => {
+        try {
+         const toggleStaffAccess = $('#toggleStaffAccess').prop('checked') ? 'Allowed' :  'Restricted';
+          const response = await $.ajax({
+            type: 'PUT',
+            url: USERS_LIST_ROUTE.UPDATE_STAFF_USER.replace(
+              ':user_name',
+              user_name
+            ),
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: {
+              access_to: toggleStaffAccess,
+            },
+          });
+          showToastFeedback('text-bg-success', response.success);
+        } catch (error) {}
+      };
 
+      const deleteStaffUser = async (user_name) => {
+        try {
+          const response = await $.ajax({
+            type: 'DELETE',
+            url: USERS_LIST_ROUTE.DELETE_STAFF_USER.replace(
+              ':user_name',
+              user_name
+            ),
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          });
+          console.log(response);
+          showToastFeedback('text-bg-success', response.success);
+        } catch (error) {
+            console.log(error);
+        }
+      };
+
+      $('#UpdateAndDeleteResourcesModal').on('show.bs.modal', function (e) {
+        const triggerdButton = $(e.relatedTarget);
+        const buttonRow = triggerdButton.closest('tr');
+        const optionType = triggerdButton.data('option-type');
+
+        const access_to = buttonRow.find('td:nth-child(5)').text().trim();
+        const Staff_name = buttonRow.find('td:nth-child(2)').text().trim();
+        const user_name = buttonRow.find('td:nth-child(4)').text().trim();
+        const Modal = $(this);
+
+        const Modal_header_content =
+          optionType === 'updateUser'
+            ? 'Update User'
+            : optionType === 'deleteUser'
+            ? 'Delete User'
+            : '';
+
+        console.log(optionType);
+
+        Modal.find('.modal-header')
+          .removeClass('bg-danger bg-primary')
+          .addClass(optionType === 'deleteUser' ? 'bg-danger' : 'bg-primary');
+
+        Modal.find('.modal-title').text(Modal_header_content);
+
+        Modal.find('.modal-body').html(
+          optionType === 'updateUser'
+            ? `<div class="form-check form-switch">
+                 <input class="form-check-input" type="checkbox" role="switch" id="toggleStaffAccess">
+                 <label class="form-check-label" for="toogleStaffAccess">Are you sure you want to Allow Access for this user <strong>${Staff_name}?</strong></label>
+                </div>`
+            : `<p>Are you sure you want to delete <strong>${Staff_name}?</strong></p>`
+        );
+
+        Modal.find('#toggleStaffAccess').prop('checked', access_to === 'Restricted' ? false : true);
+
+        const modalActionButton = Modal.find('#actionToPerform');
+        modalActionButton
+          .removeClass('btn-danger btn-primary')
+          .addClass(optionType === 'deleteUser' ? 'btn-danger' : 'btn-primary');
+        modalActionButton.text(
+          optionType === 'deleteUser' ? 'Delete' : 'Update'
+        );
+        modalActionButton.removeData('action-type');
+        modalActionButton.removeData('unique-val');
+        modalActionButton.attr('data-action-type', optionType);
+        modalActionButton.attr('data-unique-val', user_name);
+
+        $('#actionToPerform').off('click').on('click', function () {
+          const optionType = $(this).data('action-type');
+          const uniqueVal = $(this).data('unique-val');
+
+          optionType === 'updateUser'
+            ? updateStaffUser(uniqueVal)
+            : optionType === 'deleteUser'
+            ? deleteStaffUser(uniqueVal) : null;
+        });
+      });
 
       $('#viewUserOffcanvas').on('show.bs.offcanvas', function (e) {
-         const triggerdButton = $(e.relatedTarget);
-         const buttonRow = triggerdButton.closest('tr');
-         const StaffName = buttonRow.find('td:nth-child(2)').text().trim();
-         const Email = buttonRow.find('td:nth-child(3)').text().trim();
-         const UserName = buttonRow.find('td:nth-child(4)').text().trim();
+        const triggerdButton = $(e.relatedTarget);
+        const buttonRow = triggerdButton.closest('tr');
+        const StaffName = buttonRow.find('td:nth-child(2)').text().trim();
+        const Email = buttonRow.find('td:nth-child(3)').text().trim();
+        const UserName = buttonRow.find('td:nth-child(4)').text().trim();
 
-         const offcanvas = $(this);
+        const offcanvas = $(this);
 
-         offcanvas.find('#StaffName').text(StaffName);
+        offcanvas.find('#StaffName').text(StaffName);
       });
     },
   };

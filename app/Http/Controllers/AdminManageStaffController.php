@@ -116,16 +116,33 @@ class AdminManageStaffController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $user_name)
     {
-        //
+        $validated = $request->validate([
+            'access_to' => 'required|string|in:Restricted,Allowed', // Adjust validation rules as needed
+        ]);
+
+        try{
+            OrgUserInfo::where('user_name', $user_name)->update([
+                'access_to' => $validated['access_to'],
+            ]);
+            return response()->json(['success' => 'Staff updated successfully.'], 200);
+
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $user_name)
     {
-        //
+        try{
+            User::where('user_name', $user_name)->delete();
+            return response()->json(['success' => 'Staff deleted successfully.'], 200);
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 }

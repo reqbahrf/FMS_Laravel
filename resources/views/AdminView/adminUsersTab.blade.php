@@ -23,6 +23,26 @@
     <h4>User Access</h4>
 </div>
 
+{{-- Update and Delete Modal --}}
+<div class="modal face" id="UpdateAndDeleteResourcesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="UpdateAndDeleteResourcesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-sm">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h5 class="modal-title text-white" id="UpdateAndDeleteResourcesModalLabel">
+                   Update User
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-sm " id="actionToPerform" data-bs-dismiss="modal"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap Modal -->
 <div class="modal fade" id="AddUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
