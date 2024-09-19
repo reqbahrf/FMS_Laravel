@@ -646,6 +646,7 @@ window.initializeAdminPageJs = async () => {
             contentType: false, // Let jQuery set the content type based on formData
             data: formData,
           });
+          getStaffUserLists();
           showToastFeedback('text-bg-success', response.success);
         } catch (error) {
           // Handle error (you can add your error handling logic here)
@@ -669,6 +670,7 @@ window.initializeAdminPageJs = async () => {
               access_to: toggleStaffAccess,
             },
           });
+          getStaffUserLists();
           showToastFeedback('text-bg-success', response.success);
         } catch (error) {}
       };
@@ -685,7 +687,7 @@ window.initializeAdminPageJs = async () => {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
           });
-          console.log(response);
+          getStaffUserLists();
           showToastFeedback('text-bg-success', response.success);
         } catch (error) {
             console.log(error);
@@ -697,59 +699,66 @@ window.initializeAdminPageJs = async () => {
         const buttonRow = triggerdButton.closest('tr');
         const optionType = triggerdButton.data('option-type');
 
-        const access_to = buttonRow.find('td:nth-child(5)').text().trim();
-        const Staff_name = buttonRow.find('td:nth-child(2)').text().trim();
-        const user_name = buttonRow.find('td:nth-child(4)').text().trim();
-        const Modal = $(this);
+        // Cache DOM elements
+        const accessTo = buttonRow.find('td:nth-child(5)').text().trim();
+        const staffName = buttonRow.find('td:nth-child(2)').text().trim();
+        const userName = buttonRow.find('td:nth-child(4)').text().trim();
+        const modal = $(this);
+        const modalHeader = modal.find('.modal-header');
+        const modalTitle = modal.find('.modal-title');
+        const modalBody = modal.find('.modal-body');
+        const modalActionButton = modal.find('#actionToPerform');
 
-        const Modal_header_content =
-          optionType === 'updateUser'
-            ? 'Update User'
-            : optionType === 'deleteUser'
-            ? 'Delete User'
-            : '';
+        modalActionButton.removeData('action-type').removeData('unique-val');
 
-        console.log(optionType);
+        // Update modal content
+        const modalHeaderContent = optionType === 'updateUser'
+          ? 'Update User'
+          : 'Delete User';
 
-        Modal.find('.modal-header')
+        modalHeader
           .removeClass('bg-danger bg-primary')
           .addClass(optionType === 'deleteUser' ? 'bg-danger' : 'bg-primary');
 
-        Modal.find('.modal-title').text(Modal_header_content);
+        modalTitle.text(modalHeaderContent);
 
-        Modal.find('.modal-body').html(
-          optionType === 'updateUser'
-            ? `<div class="form-check form-switch">
-                 <input class="form-check-input" type="checkbox" role="switch" id="toggleStaffAccess">
-                 <label class="form-check-label" for="toogleStaffAccess">Are you sure you want to Allow Access for this user <strong>${Staff_name}?</strong></label>
-                </div>`
-            : `<p>Are you sure you want to delete <strong>${Staff_name}?</strong></p>`
-        );
+        const modalBodyContent = optionType === 'updateUser'
+          ? `<div class="form-check form-switch">
+               <input class="form-check-input" type="checkbox" role="switch" id="toggleStaffAccess">
+               <label class="form-check-label" for="toogleStaffAccess">Are you sure you want to update Access for this user <strong>${sanitize(staffName)}?</strong></label>
+             </div>`
+          : `<p>Are you sure you want to delete <strong>${sanitize(staffName)}?</strong></p>`;
 
-        Modal.find('#toggleStaffAccess').prop('checked', access_to === 'Restricted' ? false : true);
+        modalBody.html(modalBodyContent);
 
-        const modalActionButton = Modal.find('#actionToPerform');
+        // Set toggle switch state
+        modal.find('#toggleStaffAccess').prop('checked', accessTo === 'Restricted');
+
+        // Update action button
         modalActionButton
           .removeClass('btn-danger btn-primary')
-          .addClass(optionType === 'deleteUser' ? 'btn-danger' : 'btn-primary');
-        modalActionButton.text(
-          optionType === 'deleteUser' ? 'Delete' : 'Update'
-        );
-        modalActionButton.removeData('action-type');
-        modalActionButton.removeData('unique-val');
-        modalActionButton.attr('data-action-type', optionType);
-        modalActionButton.attr('data-unique-val', user_name);
+          .addClass(optionType === 'deleteUser' ? 'btn-danger' : 'btn-primary')
+          .text(optionType === 'deleteUser' ? 'Delete' : 'Update')
+          .attr('data-action-type', optionType)
+          .attr('data-unique-val', userName);
 
-        $('#actionToPerform').off('click').on('click', function () {
-          const optionType = $(this).data('action-type');
-          const uniqueVal = $(this).data('unique-val');
+          modalActionButton.off('click').on('click', function () {
+            const optionType = $(this).data('action-type');
+            const uniqueVal = $(this).data('unique-val');
 
-          optionType === 'updateUser'
-            ? updateStaffUser(uniqueVal)
-            : optionType === 'deleteUser'
-            ? deleteStaffUser(uniqueVal) : null;
-        });
+            if (optionType === 'updateUser') {
+              updateStaffUser(uniqueVal);
+            } else if (optionType === 'deleteUser') {
+              deleteStaffUser(uniqueVal);
+            }
+          })
       });
+
+
+      // Helper function for sanitization
+      function sanitize(input) {
+        return $('<div>').text(input).html(); // Escape special characters
+      }
 
       $('#viewUserOffcanvas').on('show.bs.offcanvas', function (e) {
         const triggerdButton = $(e.relatedTarget);
