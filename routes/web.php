@@ -113,7 +113,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::get('/Staff/Project/getQuarterReport/{ProjectId}', [StaffViewController::class, 'getAvailableQuarterlyReport'])
     ->name('Staff.Project.getQuarterReport');
 
-    Route::get('/Staff/Project/getForm/{type?}/{projectId?}', [StaffViewController::class, 'getProjectSheetsForm'])
+    Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [StaffViewController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');
     Route::post('/Staff/Project/Create-InformationSheet', [StaffGeneratePISController::class, 'index'])
         ->name('staff.Create-InformationSheet');

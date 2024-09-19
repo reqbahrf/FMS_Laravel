@@ -362,15 +362,23 @@ class StaffViewController extends Controller
         }
     }
 
-    public function getProjectSheetsForm(Request $request)
+    public function getProjectSheetsForm(Request $request, $type, $projectId, $quarter = null)
     {
-        $request->validate([
-            'form_type' => 'required|string|in:PIS,PDS',
-            'project_id' => 'required|string|max:15',
-        ]);
+        $rule = [
+            'type' => 'required|string|in:PIS,PDS',
+            'projectId' => 'required|string|max:15',
+            'quarter' => 'nullable'
+        ];
 
-        $formType = $request->input('form_type');
-        $projectId = $request->input('project_id');
+        $validated = validator([
+            'type' => $type,
+            'projectId' => $projectId,
+            'quarter' => $quarter,
+        ], $rule)->validate();
+
+        $formType = $validated['type'];
+        $projectId = $validated['projectId'];
+        $quarter = $validated['quarter'];
 
         switch ($formType) {
             case 'PIS':
@@ -380,7 +388,7 @@ class StaffViewController extends Controller
                 break;
 
             case 'PDS':
-                $projectData = $this->getProjectDataSheetData($projectId);
+                $projectData = $this->getProjectDataSheetData($projectId, $quarter);
                 // $quarterlyData = json_decode($projectData->quarterlyReport, true);
 
                 $quarterlyData = $projectData->quarterlyReport->first()->report_file;
@@ -421,7 +429,7 @@ class StaffViewController extends Controller
             ->firstOrFail();
     }
 
-    private function getProjectDataSheetData(string $projectId): object
+    private function getProjectDataSheetData(string $projectId, string $quarter): object
     {
         return projectInfo::select(
             'project_info.Project_id',
@@ -445,9 +453,9 @@ class StaffViewController extends Controller
             ->join('business_info', 'project_info.business_id', '=', 'business_info.id')
             ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
             ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
-            ->with(['quarterlyReport' => function ($query) {
+            ->with(['quarterlyReport' => function ($query) use ($quarter) {
                 $query->select('ongoing_project_id', 'quarter', 'report_file')
-                    ->where('quarter', 'Q1');
+                    ->where('quarter',  $quarter);
             }])
             ->where('project_info.Project_id', $projectId)
             ->firstOrFail();

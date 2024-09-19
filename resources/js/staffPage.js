@@ -958,6 +958,7 @@ window.initializeStaffPageJs = async () => {
                   )
                 : '';
             try {
+              const project_id = $('#ProjectID').val();
               const response = await $.ajax({
                 type: 'DELETE',
                 url: deleteRoute,
@@ -969,11 +970,11 @@ window.initializeStaffPageJs = async () => {
               closeModal('#deleteRecordModal');
               modal.hide();
               recordToDelete === 'projectLinkRecord'
-                ? getProjectLinks($('#ProjectID').val())
+                ? getProjectLinks(project_id)
                 : recordToDelete === 'paymentRecord'
-                ? getPaymentHistoryAndCalculation($('#ProjectID').val())
+                ? getPaymentHistoryAndCalculation(project_id)
                 : recordToDelete === 'quarterlyRecord'
-                ? getQuarterlyReports($('#ProjectID').val()) : null;
+                ? getQuarterlyReports(project_id) : null;
             } catch (error) {
               console.log(error);
               showToastFeedback('text-bg-danger', error.responseJSON.message);
@@ -1100,16 +1101,15 @@ window.initializeStaffPageJs = async () => {
 
       //TODO: Implement spinner for the ajax request
 
-      const getProjectSheetForm = async (formType) => {
+      const getProjectSheetForm = async (formType, Project_id,  {QuartertoUsed} = {}) => {
         try {
           const response = await $.ajax({
             type: 'GET',
             url:
-              GenerateSheetsRoute.getProjectSheetForm +
-              '?form_type=' +
-              formType +
-              '&project_id=' +
-              $('#ProjectID').val(),
+              GenerateSheetsRoute.getProjectSheetForm
+               .replace(':type', formType)
+               .replace(':project_id', Project_id)
+               .replace(':quarter_of', QuartertoUsed ? QuartertoUsed : ''),
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
@@ -1124,7 +1124,9 @@ window.initializeStaffPageJs = async () => {
 
       $('button[data-form-type]').on('click', async function () {
         const formType = $(this).data('form-type');
-        await getProjectSheetForm(formType);
+        const Project_id = $('#ProjectID').val();
+        const QuartertoUsed = $('#Select_quarter_to_Generate').val();
+        await getProjectSheetForm(formType, Project_id, {QuartertoUsed: QuartertoUsed});
 
         const Form_EventListener = {
           PIS: () => {

@@ -756,7 +756,7 @@
 
         const GenerateSheetsRoute = {
             GET_AVAILABLE_QUARTERLY_REPORT: '{{ route('Staff.Project.getQuarterReport', ':project_id') }}',
-            getProjectSheetForm: '{{ route('getProjectSheetsForm') }}',
+            getProjectSheetForm: '{{ route('getProjectSheetsForm', ['type' => ':type', 'projectId' => ':project_id', 'quarter' => ':quarter_of']) }}',
             generateProjectInformationSheet: '{{ route('staff.Create-InformationSheet') }}',
             generateDataSheetReport: '{{ route('staff.Create-DataSheet') }}'
         }
