@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\NewStaffRegistered;
 use App\Models\OrgUserInfo;
 use App\Models\User;
 use Carbon\Carbon;
@@ -9,6 +10,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 
 class AdminManageStaffController extends Controller
 {
@@ -62,12 +64,14 @@ class AdminManageStaffController extends Controller
             'b_date' => 'required|date_format:Y-m-d',
         ]);
         try{
+            $user = (object) null;
+            $orgUserInfo = (object) null;
 
             $NewUser_username = 'DOST-SETUP' . '-' . strtok($validated['l_Name'], " ") .  Carbon::parse($validated['b_date'])->format('Y') . substr(md5(uniqid()), 0, 3);
 
             $NewUser_password = $validated['l_Name'] . Carbon::parse($validated['b_date'])->format('Y');
 
-            DB::transaction(function () use($validated, $NewUser_username, $NewUser_password) {
+            DB::transaction(function () use(&$user, &$orgUserInfo, $validated, $NewUser_username, $NewUser_password) {
 
                 $user = User::create([
                     'user_name' => $NewUser_username,
@@ -77,7 +81,7 @@ class AdminManageStaffController extends Controller
                     'role' => $validated['role'],
                 ]);
 
-                OrgUserInfo::create([
+                $orgUserInfo =OrgUserInfo::create([
                     'user_name' => $NewUser_username,
                     'profile_pic' => '',
                     'prefix' => '',
@@ -88,8 +92,15 @@ class AdminManageStaffController extends Controller
                     'gender' => $validated['gender'],
                     'birthdate' => $validated['b_date'],
                     'access_to' => 'Restricted',
+
                 ]);
+            }, 3);
+
+            DB::afterCommit(function () use($user, $orgUserInfo ) {
+                Mail::to($user->email)->send(new NewStaffRegistered($user, $orgUserInfo));
             });
+
+
             return response()->json(['success' => 'Staff created successfully.'], 200);
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()], 500);

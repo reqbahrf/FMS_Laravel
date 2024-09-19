@@ -22,7 +22,6 @@ class verifyEmail extends Mailable
     public function __construct($user)
     {
         $this->user = $user;
-        Log::info('User object:', ['user' => $this->user]);
     }
 
     /**

@@ -21,6 +21,10 @@ function showToastFeedback(status, message) {
     toastInstance.show();
   }
 
+  function sanitize(input) {
+    return $('<div>').text(input).html(); // Escape special characters
+  }
+
   //close offcanvas
   function closeOffcanvasInstances(offcanva_id) {
     const offcanvasElement = $(offcanva_id).get(0);
@@ -647,10 +651,10 @@ window.initializeAdminPageJs = async () => {
             data: formData,
           });
           getStaffUserLists();
+          closeModal('#AddUserModal');
           showToastFeedback('text-bg-success', response.success);
         } catch (error) {
-          // Handle error (you can add your error handling logic here)
-          console.error(error);
+          showToastFeedback('text-bg-danger', error.responseJSON.message);
         }
       };
 
@@ -672,7 +676,9 @@ window.initializeAdminPageJs = async () => {
           });
           getStaffUserLists();
           showToastFeedback('text-bg-success', response.success);
-        } catch (error) {}
+        } catch (error) {
+            showToastFeedback('text-bg-danger', error.responseJSON.message);
+        }
       };
 
       const deleteStaffUser = async (user_name) => {
@@ -756,9 +762,6 @@ window.initializeAdminPageJs = async () => {
 
 
       // Helper function for sanitization
-      function sanitize(input) {
-        return $('<div>').text(input).html(); // Escape special characters
-      }
 
       $('#viewUserOffcanvas').on('show.bs.offcanvas', function (e) {
         const triggerdButton = $(e.relatedTarget);

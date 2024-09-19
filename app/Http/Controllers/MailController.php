@@ -19,7 +19,6 @@ class MailController extends Controller
         if ($userId && $userId == $id && hash('sha256', $email) == $hash) {
             // Create a user object
             $user = (object) ['id' => $userId, 'user_name' => $userName, 'email' => $email];
-            Log::alert("message", ['user' => $user]);
 
             // Send the email
             Mail::to($user->email)->send(new verifyEmail($user));
