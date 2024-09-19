@@ -137,7 +137,8 @@ class StaffQuarterlyReportController extends Controller
              $report->save();
              return response()->json([
                  'message' => 'Report updated successfully',
-                 'status' => 'success'
+                 'status' => 'success',
+                 'project_id' => $report->ongoing_project_id
              ], 200);
          }catch(\Exception $e){
              return response()->json([

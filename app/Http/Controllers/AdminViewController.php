@@ -7,6 +7,7 @@ use App\Models\projectInfo;
 use App\Models\businessInfo;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -97,7 +98,6 @@ class AdminViewController extends Controller
             }
         }catch (\Exception $e)
         {
-            Log::error($e->getMessage());
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -159,25 +159,30 @@ class AdminViewController extends Controller
 
     public function staffGet(Request $request)
     {
-        $stafflist = User::select([
-            'users.user_name',
-            'users.role',
-            'org_users_info.id as staff_id',
-            'org_users_info.prefix',
-            'org_users_info.f_name',
-            'org_users_info.mid_name',
-            'org_users_info.l_name',
-            'org_users_info.suffix',
-        ])
-        ->join('org_users_info', 'users.user_name', '=', 'org_users_info.user_name')
-        ->where('users.role', '=', 'Staff')
-        ->get();
+        try{
 
-        if($stafflist){
-            return response()->json($stafflist);
-        }else{
-            return response()->json(['error' => 'No Registered Staff'], 404);
-        }
+            $stafflist = User::select([
+                'users.user_name',
+                'users.role',
+                'org_users_info.id as staff_id',
+                'org_users_info.prefix',
+                'org_users_info.f_name',
+                'org_users_info.mid_name',
+                'org_users_info.l_name',
+                'org_users_info.suffix',
+            ])
+            ->join('org_users_info', 'users.user_name', '=', 'org_users_info.user_name')
+            ->where('users.role', '=', 'Staff')
+            ->get();
+
+            if($stafflist){
+                return response()->json($stafflist);
+            }else{
+                return response()->json(['error' => 'No Registered Staff'], 404);
+            }
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()]);
+        };
 
     }
 

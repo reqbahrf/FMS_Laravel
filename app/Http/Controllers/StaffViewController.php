@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\applicationInfo;
+use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\DB;
 use App\Models\requirement;
 use App\Models\User;
@@ -30,12 +31,12 @@ class StaffViewController extends Controller
 
     public function getHandledProjects(Request $request)
     {
-         $org_userId = Auth::user()->orgusername->id;
+        $org_userId = Auth::user()->orgusername->id;
 
-         $handledProjects = DB::table('project_info')
+        $handledProjects = DB::table('project_info')
             ->join('business_info', 'business_info.id', '=', 'project_info.business_id')
             ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
-            ->join('users' , 'users.user_name' , '=' , 'coop_users_info.user_name')
+            ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
             ->join('assets', 'assets.id', '=', 'business_info.id')
             ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
             ->where('handled_by_id', $org_userId)
@@ -75,11 +76,11 @@ class StaffViewController extends Controller
 
             )->get();
 
-            if($handledProjects){
-                return response()->json($handledProjects);
-            }else{
-                return response()->json(['message' => 'No projects found'], 404);
-            }
+        if ($handledProjects) {
+            return response()->json($handledProjects);
+        } else {
+            return response()->json(['message' => 'No projects found'], 404);
+        }
     }
 
     public function getProjectsView(Request $request)
@@ -94,55 +95,54 @@ class StaffViewController extends Controller
     public function getApprovedProjects()
     {
 
-         $approved = User::join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
-                ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
-                ->join('assets', 'assets.id', '=', 'business_info.id')
-                ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
+        $approved = User::join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
+            ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
+            ->join('assets', 'assets.id', '=', 'business_info.id')
+            ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
             ->leftJoin('org_users_info as handled_by', function ($join) {
                 $join->on('pi.handled_by_id', '=', 'handled_by.id');
             })->leftJoin('org_users_info as evaluated_by', function ($join) {
                 $join->on('pi.evaluated_by_id', '=', 'evaluated_by.id');
             })
-                ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-                ->where('pi.handled_by_id', '!=', null)
-                ->where('pi.evaluated_by_id', '!=', null)
-                ->where('application_info.application_status', 'approved')
-                ->where('users.role', 'Cooperator')
-                ->select(
-                    'users.user_name',
-                    'users.email',
-                    'users.role',
-                    'coop_users_info.f_name',
-                    'coop_users_info.l_name',
-                    'coop_users_info.designation',
-                    'coop_users_info.mobile_number',
-                    'coop_users_info.landline',
-                    'business_info.id as business_id',
-                    'business_info.firm_name',
-                    'business_info.landmark',
-                    'business_info.barangay',
-                    'business_info.city',
-                    'business_info.province',
-                    'business_info.region',
-                    'business_info.enterprise_type',
-                    'business_info.enterprise_level',
-                    'assets.building_value',
-                    'assets.equipment_value',
-                    'assets.working_capital',
-                    'pi.Project_id',
-                    'pi.project_title',
-                    'pi.fund_amount',
-                    'pi.created_at as date_approved',
-                    'evaluated_by.full_name As evaluated_by',
-                    'handled_by.full_name As assinged_to',
-                    'handled_by.user_name as staffUserName',
-                    'application_info.created_at as date_applied',
-                    'application_info.application_status'
-                )
-                ->get();
+            ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
+            ->where('pi.handled_by_id', '!=', null)
+            ->where('pi.evaluated_by_id', '!=', null)
+            ->where('application_info.application_status', 'approved')
+            ->where('users.role', 'Cooperator')
+            ->select(
+                'users.user_name',
+                'users.email',
+                'users.role',
+                'coop_users_info.f_name',
+                'coop_users_info.l_name',
+                'coop_users_info.designation',
+                'coop_users_info.mobile_number',
+                'coop_users_info.landline',
+                'business_info.id as business_id',
+                'business_info.firm_name',
+                'business_info.landmark',
+                'business_info.barangay',
+                'business_info.city',
+                'business_info.province',
+                'business_info.region',
+                'business_info.enterprise_type',
+                'business_info.enterprise_level',
+                'assets.building_value',
+                'assets.equipment_value',
+                'assets.working_capital',
+                'pi.Project_id',
+                'pi.project_title',
+                'pi.fund_amount',
+                'pi.created_at as date_approved',
+                'evaluated_by.full_name As evaluated_by',
+                'handled_by.full_name As assinged_to',
+                'handled_by.user_name as staffUserName',
+                'application_info.created_at as date_applied',
+                'application_info.application_status'
+            )
+            ->get();
 
-                return response()->json($approved);
-
+        return response()->json($approved);
     }
 
 
@@ -190,7 +190,7 @@ class StaffViewController extends Controller
     public function applicantGetRequirements(Request $request)
     {
 
-        try{
+        try {
 
             $validated = $request->validate([
                 'selected_businessID' => 'required|string'
@@ -220,9 +220,8 @@ class StaffViewController extends Controller
             }
 
             return response()->json($result, 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
-
         }
     }
 
@@ -239,7 +238,7 @@ class StaffViewController extends Controller
                 ->select('Evaluation_date')
                 ->first();
 
-                log::info($scheduled_date);
+            log::info($scheduled_date);
 
 
             if ($scheduled_date->Evaluation_date !== null) {
@@ -249,14 +248,10 @@ class StaffViewController extends Controller
                 return response()->json([
                     'Scheduled_date' => $evaluation_date
                 ], 200);
-
-            }else{
+            } else {
 
                 return response()->json(['message' => 'Not Scheduled yet']);
             }
-
-
-
         } catch (\Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['message' => 'Not Scheduled yet']);
@@ -270,7 +265,7 @@ class StaffViewController extends Controller
         ]);
         $fileUrl = $validate['file_url'];
 
-        if(!Storage::disk('public')->exists($fileUrl)){
+        if (!Storage::disk('public')->exists($fileUrl)) {
             return response()->json(['error' => 'File not found'], 404);
         }
 
@@ -280,8 +275,6 @@ class StaffViewController extends Controller
         return response()->json([
             'base64File' =>  $base64File,
         ], 200);
-
-
     }
 
     public function updateProjectStatusToOngoing(Request $request)
@@ -319,9 +312,9 @@ class StaffViewController extends Controller
         $fundAmountFormatted = number_format(str_replace(',', '', $validated['fundAmount']), 2, '.', '');
         $Actual_fund_toBeRefund = number_format($fundAmountFormatted + $fundAmountFormatted * 0.05, 2, '.', '');
 
-        try{
+        try {
             $project = ProjectInfo::where('project_id', $validated['projectID'])->first();
-            if($project){
+            if ($project) {
                 return response()->json(['error' => 'Project Id already exist'], 400);
             }
 
@@ -344,8 +337,28 @@ class StaffViewController extends Controller
 
 
             return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
-        }catch (\Exception $e){
+        } catch (\Exception $e) {
             Log::error($e->getMessage());
+        }
+    }
+
+    public function getAvailableQuarterlyReport(Request $request, $ProjectID)
+    {
+        try {
+
+            $OngoingQuarterlyReport = OngoingQuarterlyReport::where('ongoing_project_id', $ProjectID)
+                ->whereNotNull('report_file')
+                ->select('quarter')
+                ->get();
+
+            $html = '';
+            foreach ($OngoingQuarterlyReport as $report) {
+                $html .= '<option value="' . $report->quarter . '">' . $report->quarter . '</option>';
+            }
+
+            return response()->json(['html' => $html], 200);
+        } catch (Exception $e) {
+            response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
@@ -367,7 +380,6 @@ class StaffViewController extends Controller
                 break;
 
             case 'PDS':
-
                 $projectData = $this->getProjectDataSheetData($projectId);
                 // $quarterlyData = json_decode($projectData->quarterlyReport, true);
 
@@ -411,7 +423,7 @@ class StaffViewController extends Controller
 
     private function getProjectDataSheetData(string $projectId): object
     {
-       return projectInfo::select(
+        return projectInfo::select(
             'project_info.Project_id',
             'project_info.project_title',
             'business_info.firm_name',
@@ -439,6 +451,5 @@ class StaffViewController extends Controller
             }])
             ->where('project_info.Project_id', $projectId)
             ->firstOrFail();
-
     }
 }

@@ -1,91 +1,90 @@
 function showToastFeedback(status, message) {
-    const toast = $('#ActionFeedbackToast');
-    const toastInstance = new bootstrap.Toast(toast);
+  const toast = $('#ActionFeedbackToast');
+  const toastInstance = new bootstrap.Toast(toast);
 
-    toast
-      .find('.toast-header')
-      .removeClass([
-        'text-bg-danger',
-        'text-bg-success',
-        'text-bg-warning',
-        'text-bg-info',
-        'text-bg-primary',
-        'text-bg-light',
-        'text-bg-dark',
-      ]);
+  toast
+    .find('.toast-header')
+    .removeClass([
+      'text-bg-danger',
+      'text-bg-success',
+      'text-bg-warning',
+      'text-bg-info',
+      'text-bg-primary',
+      'text-bg-light',
+      'text-bg-dark',
+    ]);
 
-    toast.find('.toast-body').text('');
-    toast.find('.toast-header').addClass(status);
-    toast.find('.toast-body').text(message);
+  toast.find('.toast-body').text('');
+  toast.find('.toast-header').addClass(status);
+  toast.find('.toast-body').text(message);
 
-    toastInstance.show();
-  }
+  toastInstance.show();
+}
 
-  //close offcanvas
-  function closeOffcanvasInstances(offcanva_id) {
-    const offcanvasElement = $(offcanva_id).get(0);
-    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-    offcanvasInstance.hide();
-  }
+//close offcanvas
+function closeOffcanvasInstances(offcanva_id) {
+  const offcanvasElement = $(offcanva_id).get(0);
+  const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+  offcanvasInstance.hide();
+}
 
-  //format currency
+//format currency
 
-  function formatCurrency(inputSelector) {
-    $(inputSelector).on('input', function () {
-      let value = $(this)
-        .val()
-        .replace(/[^0-9.]/g, '');
-      if (value.includes('.')) {
-        let parts = value.split('.');
-        parts[1] = parts[1].substring(0, 2);
-        value = parts.join('.');
-      }
-      let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-      $(this).val(formattedValue);
-    });
-  }
+function formatCurrency(inputSelector) {
+  $(inputSelector).on('input', function () {
+    let value = $(this)
+      .val()
+      .replace(/[^0-9.]/g, '');
+    if (value.includes('.')) {
+      let parts = value.split('.');
+      parts[1] = parts[1].substring(0, 2);
+      value = parts.join('.');
+    }
+    let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    $(this).val(formattedValue);
+  });
+}
 
-  function closeModal(modelId) {
-    const model = bootstrap.Modal.getInstance(modelId);
-    model.hide();
-  }
+function closeModal(modelId) {
+  const model = bootstrap.Modal.getInstance(modelId);
+  model.hide();
+}
 
 $(document).on('DOMContentLoaded', function () {
-    function makeData() {
-      var data = [];
-      for (var i = 0; i < 10; i++) {
-        data.push(Math.floor(Math.random() * 100)); // Generates random numbers between 0 and 99
-      }
-      console.log(data);
-      return data;
+  function makeData() {
+    var data = [];
+    for (var i = 0; i < 10; i++) {
+      data.push(Math.floor(Math.random() * 100)); // Generates random numbers between 0 and 99
     }
+    console.log(data);
+    return data;
+  }
 
-    // Line chart
-    //toast feedback
+  // Line chart
+  //toast feedback
 
+  //Side Nav toggle
 
-    //Side Nav toggle
-
-    $('.sideNavButtonSmallScreen').on('click', function () {
-      new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
-    });
-
-    $('.sideNavButtonLargeScreen').on('click', function () {
-      $('.sidenav').toggleClass('expanded minimized');
-      $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
-      $('.logoTitleLScreen').toggle();
-      //side bar minimize
-      $('.sidenav a span').each(function () {
-        $(this).toggleClass('d-none');
-      });
-
-      $('.sidenav a').each(function () {
-        $(this).toggleClass('justify-content-center');
-      });
-      //size bar minimize rotation
-      $('#hover-link').toggleClass('rotate-icon');
-    });
+  $('.sideNavButtonSmallScreen').on('click', function () {
+    new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
   });
+
+  $('.sideNavButtonLargeScreen').on('click', function () {
+    $('.sidenav').toggleClass('expanded minimized');
+    $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
+    $('.logoTitleLScreen').toggle();
+    //side bar minimize
+    $('.sidenav a span').each(function () {
+      $(this).toggleClass('d-none');
+    });
+
+    $('.sidenav a').each(function () {
+      $(this).toggleClass('justify-content-center');
+    });
+    //size bar minimize rotation
+    $('#hover-link').toggleClass('rotate-icon');
+  });
+});
 window.initializeStaffPageJs = async () => {
   const functions = {
     Dashboard: () => {
@@ -224,106 +223,100 @@ window.initializeStaffPageJs = async () => {
         $('.GeneratedSheetsTabMenu').removeClass('d-none');
       });
 
-      getHandleProject();
-
       /**
        * Fetches handled projects from the server and updates the handled project table.
        *
        * @return {void}
        */
-      function getHandleProject() {
-        fetch(DashboardTabRoute.GET_HANDLED_PROJECTS, {
+      const getHandleProject = async () => {
+        const response = await fetch(DashboardTabRoute.GET_HANDLED_PROJECTS, {
           method: 'GET',
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
           },
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            const handledProjectTable = $('#handledProject').DataTable();
-            handledProjectTable.clear();
-            handledProjectTable.rows.add(
-              data.map((project) => [
-                project.Project_id,
-                project.project_title,
-                `<p class="firm_name">${project.firm_name}</p>
-                    <input type="hidden" class="business_id" value="${
-                      project.business_id
-                    }">
-                    <input type="hidden" class="business_enterprise_type" value="${
-                      project.enterprise_type
-                    }">
-                    <input type="hidden" class="business_enterprise_level" value="${
-                      project.enterprise_level
-                    }">
-                    <input type="hidden" class="business_address" value="${
-                      project.landMark +
-                      ', ' +
-                      project.barangay +
-                      ', ' +
-                      project.city +
-                      ', ' +
-                      project.province +
-                      ', ' +
-                      project.region
-                    }">
-                    <input type="hidden" class="dateApplied" value="${
-                      project.date_applied
-                    }">
-                    <input type="hidden" class="building_value" value="${parseFloat(
-                      project.building_value
-                    ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">
-                    <input type="hidden" class="equipment_value" value="${parseFloat(
-                      project.equipment_value
-                    ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">
-                    <input type="hidden" class="working_capital" value="${parseFloat(
-                      project.working_capital
-                    ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">`,
-                `<p class="owner_name">${
-                  project.prefix +
-                  ' ' +
-                  project.f_name +
-                  ' ' +
-                  project.l_name +
-                  ' ' +
-                  project.suffix
-                }</p>
-                    <input type="hidden" class="gender" value="${
-                      project.gender
-                    }">
-                    <input type="hidden" class="birth_date" value="${
-                      project.birth_date
-                    }">
-                    <input type="hidden" class="landline" value="${
-                      project.landline ?? ''
-                    }">
-                    <input type="hidden" class="mobile_phone" value="${
-                      project.mobile_number
-                    }">
-                    <input type="hidden" class="email" value="${
-                      project.email
-                    }">`,
-                `${parseFloat(project.fund_amount).toLocaleString('en-US', {
-                  minimumFractionDigits: 2,
-                })}`,
-                `<span class="badge ${
-                  project.application_status === 'approved'
-                    ? 'bg-warning'
-                    : project.application_status === 'ongoing'
-                    ? 'bg-primary'
-                    : project.application_status === 'completed'
-                    ? 'bg-sucesss'
-                    : 'bg-danger'
-                }">${project.application_status}</span>`,
-                `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
-                        <i class="ri-menu-unfold-4-line ri-1x"></i>
-                    </button>`,
-              ])
-            );
-            handledProjectTable.draw();
-          });
-      }
+        });
+        const data = await response.json();
+        const handledProjectTable = $('#handledProject').DataTable();
+        handledProjectTable.clear();
+        handledProjectTable.rows.add(
+          data.map((project) => [
+            project.Project_id,
+            project.project_title,
+            `<p class="firm_name">${project.firm_name}</p>
+                <input type="hidden" class="business_id" value="${
+                  project.business_id
+                }">
+                <input type="hidden" class="business_enterprise_type" value="${
+                  project.enterprise_type
+                }">
+                <input type="hidden" class="business_enterprise_level" value="${
+                  project.enterprise_level
+                }">
+                <input type="hidden" class="business_address" value="${
+                  project.landMark +
+                  ', ' +
+                  project.barangay +
+                  ', ' +
+                  project.city +
+                  ', ' +
+                  project.province +
+                  ', ' +
+                  project.region
+                }">
+                <input type="hidden" class="dateApplied" value="${
+                  project.date_applied
+                }">
+                <input type="hidden" class="building_value" value="${parseFloat(
+                  project.building_value
+                ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">
+                <input type="hidden" class="equipment_value" value="${parseFloat(
+                  project.equipment_value
+                ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">
+                <input type="hidden" class="working_capital" value="${parseFloat(
+                  project.working_capital
+                ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">`,
+            `<p class="owner_name">${
+              project.prefix +
+              ' ' +
+              project.f_name +
+              ' ' +
+              project.l_name +
+              ' ' +
+              project.suffix
+            }</p>
+                <input type="hidden" class="gender" value="${project.gender}">
+                <input type="hidden" class="birth_date" value="${
+                  project.birth_date
+                }">
+                <input type="hidden" class="landline" value="${
+                  project.landline ?? ''
+                }">
+                <input type="hidden" class="mobile_phone" value="${
+                  project.mobile_number
+                }">
+                <input type="hidden" class="email" value="${project.email}">`,
+            `${parseFloat(project.fund_amount).toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })}`,
+            `<span class="badge ${
+              project.application_status === 'approved'
+                ? 'bg-warning'
+                : project.application_status === 'ongoing'
+                ? 'bg-primary'
+                : project.application_status === 'completed'
+                ? 'bg-sucesss'
+                : 'bg-danger'
+            }">${project.application_status}</span>`,
+            `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
+                    data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
+                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                </button>`,
+          ])
+        );
+        handledProjectTable.draw();
+      };
+
+      getHandleProject();
 
       /**
        * Handles the content of the project offcanvas based on the project status.
@@ -435,10 +428,10 @@ window.initializeStaffPageJs = async () => {
        * @return {void}
        */
       async function update_payment_records() {
-        const project_id = $('#ProjectID').val();
-        const transaction_id = $('#TransactionID').val();
-        const formData = $('#paymentForm').serialize();
         try {
+          const project_id = $('#ProjectID').val();
+          const transaction_id = $('#TransactionID').val();
+          const formData = $('#paymentForm').serialize();
           const response = await $.ajax({
             type: 'PUT',
             url: DashboardTabRoute.UPDATE_PAYMENT_RECORDS.replace(
@@ -603,6 +596,7 @@ window.initializeStaffPageJs = async () => {
           getPaymentHistoryAndCalculation(project_id);
           getProjectLinks(project_id);
           getQuarterlyReports(project_id);
+          getAvailableQuarterlyReports(project_id);
 
           // Cache hidden input values
           const business_id = hiddenInputs.filter('.business_id').val();
@@ -651,35 +645,34 @@ window.initializeStaffPageJs = async () => {
       );
 
       const getPaymentHistoryAndCalculation = async (project_id) => {
-        await getPaymentHistory(project_id)
-          .then((totalAmount) => {
-            const amount = $('#amount').val();
-            const fundedAmount = parseFloat(amount.replace(/,/g, ''));
-            const remainingAmount = fundedAmount - totalAmount;
-            const percentage = Math.round((totalAmount / fundedAmount) * 100);
-            $('#totalPaid').text(
-              totalAmount.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })
-            );
-            $('#FundedAmount').text(
-              fundedAmount.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })
-            );
-            $('#remainingBalance').text(
-              remainingAmount.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })
-            );
+        try {
+          const totalAmount = await getPaymentHistory(project_id);
+          const amount = $('#amount').val();
+          const fundedAmount = parseFloat(amount.replace(/,/g, ''));
+          const remainingAmount = fundedAmount - totalAmount;
+          const percentage = Math.round((totalAmount / fundedAmount) * 100);
+          $('#totalPaid').text(
+            totalAmount.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+          $('#FundedAmount').text(
+            fundedAmount.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+          $('#remainingBalance').text(
+            remainingAmount.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
 
-            setTimeout(() => {
-              InitializeviewCooperatorProgress(percentage);
-            }, 500);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
+          setTimeout(() => {
+            InitializeviewCooperatorProgress(percentage);
+          }, 500);
+        } catch (error) {
+          console.log(error);
+        }
       };
 
       $('#addRequirement').on('click', function () {
@@ -731,13 +724,11 @@ window.initializeStaffPageJs = async () => {
               .then((response) => response.json())
               .then((data) => {
                 if (data.status === 200) {
-                  console.log('Link is valid:', data.status);
                   linkConstInstance
                     .find('input[name="requirements_link"]')
                     .addClass('is-valid')
                     .removeClass('is-invalid');
                 } else {
-                  console.log('Link is invalid:', data.status);
                   linkConstInstance
                     .find('input[name="requirements_link"]')
                     .addClass('is-invalid')
@@ -762,60 +753,7 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
-      //Save the inputted links to the database
-      $('.SaveLinkProjectBtn').on('click', async function () {
-        let requirementLinks = {};
-        $('.linkConstInstance').each(function () {
-          let name = $(this).find('input[name="requirements_name"]').val();
-          let link = $(this).find('input[name="requirements_link"]').val();
-          requirementLinks[name] = link;
-        });
-
-        try {
-          const response = await $.ajax({
-            type: 'POST',
-            url: DashboardTabRoute.STORE_PAYMENT_LINKS,
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-            data: {
-              project_id: $('#ProjectID').val(),
-              linklist: requirementLinks,
-            },
-          });
-
-          showToastFeedback('text-bg-success', 'Links added successfully');
-        } catch (error) {
-          showToastFeedback('text-bg-danger', error.responseJSON.message);
-        }
-      });
-
-      $('#UpdateProjectLink').on('click', async () => {
-        try {
-          const project_id = $('#ProjectID').val();
-          const updatedProjectLinks = $('#projectLinkForm').serialize();
-          const projectName = $('#HiddenProjectNameToUpdate').val();
-
-          const response = await $.ajax({
-            type: 'PUT',
-            url: DashboardTabRoute.UPDATE_PROJECT_LINKS.replace(
-              ':project_link_name',
-              projectName
-            ),
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-            data: updatedProjectLinks + '&project_id=' + project_id,
-          });
-
-          closeModal('#projectLinkModal');
-          showToastFeedback('text-bg-success', response.message);
-        } catch (error) {
-          showToastFeedback('text-bg-danger', error);
-        }
-      });
-
-      async function getProjectLinks(Project_id) {
+      const getProjectLinks = async (Project_id) => {
         try {
           const response = await $.ajax({
             type: 'GET',
@@ -842,7 +780,62 @@ window.initializeStaffPageJs = async () => {
         } catch (error) {
           showToastFeedback('text-bg-danger', error.responseJSON.message);
         }
-      }
+      };
+
+      //Save the inputted links to the database
+      $('.SaveLinkProjectBtn').on('click', async function () {
+        try {
+          const projectID = $('#ProjectID').val();
+          let requirementLinks = {};
+          $('.linkConstInstance').each(function () {
+            let name = $(this).find('input[name="requirements_name"]').val();
+            let link = $(this).find('input[name="requirements_link"]').val();
+            requirementLinks[name] = link;
+          });
+          const response = await $.ajax({
+            type: 'POST',
+            url: DashboardTabRoute.STORE_PAYMENT_LINKS,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: {
+              project_id: projectID,
+              linklist: requirementLinks,
+            },
+          });
+
+          getProjectLinks(projectID);
+          showToastFeedback('text-bg-success', response.message);
+        } catch (error) {
+          showToastFeedback('text-bg-danger', error.responseJSON.message);
+        }
+      });
+
+      $('#UpdateProjectLink').on('click', async () => {
+        try {
+          const projectID = $('#ProjectID').val();
+          const updatedProjectLinks = $('#projectLinkForm').serialize();
+          const projectName = $('#HiddenProjectNameToUpdate').val();
+
+          const response = await $.ajax({
+            type: 'PUT',
+            url: DashboardTabRoute.UPDATE_PROJECT_LINKS.replace(
+              ':project_link_name',
+              projectName
+            ),
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: updatedProjectLinks + '&project_id=' + projectID,
+          });
+
+          getProjectLinks(projectID);
+          closeModal('#projectLinkModal');
+          showToastFeedback('text-bg-success', response.message);
+        } catch (error) {
+          showToastFeedback('text-bg-danger', error);
+        }
+      });
 
       $('#projectLinkModal').on('show.bs.modal', function (event) {
         const triggeredbutton = $(event.relatedTarget);
@@ -889,6 +882,7 @@ window.initializeStaffPageJs = async () => {
        *
        * @returns {void}
        */
+      //TODO: Refrash the Record once the request is successful
       $('#deleteRecordModal').on('show.bs.modal', function (event) {
         const triggeredDeleteButton = $(event.relatedTarget);
         const action = triggeredDeleteButton.data('delete-record-type');
@@ -975,10 +969,11 @@ window.initializeStaffPageJs = async () => {
               closeModal('#deleteRecordModal');
               modal.hide();
               recordToDelete === 'projectLinkRecord'
-                ? await getProjectLinks($('#ProjectID').val())
+                ? getProjectLinks($('#ProjectID').val())
                 : recordToDelete === 'paymentRecord'
-                ? await getPaymentHistoryAndCalculation($('#ProjectID').val())
-                : null;
+                ? getPaymentHistoryAndCalculation($('#ProjectID').val())
+                : recordToDelete === 'quarterlyRecord'
+                ? getQuarterlyReports($('#ProjectID').val()) : null;
             } catch (error) {
               console.log(error);
               showToastFeedback('text-bg-danger', error.responseJSON.message);
@@ -1086,6 +1081,23 @@ window.initializeStaffPageJs = async () => {
         paymentProgress.render();
       }
 
+      const getAvailableQuarterlyReports = async (Project_id) => {
+        try {
+            const response = await $.ajax({
+                type: 'GET',
+                url: GenerateSheetsRoute.GET_AVAILABLE_QUARTERLY_REPORT.replace(':project_id', Project_id),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+            });
+            $('#Select_quarter_to_Generate').append(response.html);
+        } catch (error) {
+            console.log(error);
+        }
+      }
+
+
+
       //TODO: Implement spinner for the ajax request
 
       const getProjectSheetForm = async (formType) => {
@@ -1114,7 +1126,7 @@ window.initializeStaffPageJs = async () => {
         const formType = $(this).data('form-type');
         await getProjectSheetForm(formType);
 
-        const formTypeEventListeners = {
+        const Form_EventListener = {
           PIS: () => {
             PISFormEvents();
           },
@@ -1122,7 +1134,7 @@ window.initializeStaffPageJs = async () => {
             PDSFormEvents();
           },
         }[formType];
-        formTypeEventListeners();
+        Form_EventListener();
       });
 
       function inputsToCurrencyFormatter(thisInput) {
@@ -1151,7 +1163,6 @@ window.initializeStaffPageJs = async () => {
       };
 
       function PISFormEvents() {
-        console.log('Project Information Sheet Form Events Loaded');
 
         function caculateTotalAssests() {
           const landAssets = parseValue($('#land_val').val());
@@ -1840,6 +1851,7 @@ window.initializeStaffPageJs = async () => {
             data: form + '&report_status=' + report_status,
           });
 
+          getQuarterlyReports(response.project_id);
           closeModal('#updateQuarterlyRecordModal');
           showToastFeedback('text-bg-success', response.message);
         } catch (error) {
@@ -2099,78 +2111,82 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
-      console.log("this line in executed")
+      console.log('this line in executed');
 
       formatCurrency('#fundAmount');
 
-      console.log('this event is triggered')
-      $('#ApplicantTableBody').on('click', '.applicantDetailsBtn', async function () {
-        console.log('This is clicked')
-        const row = $(this).closest('tr');
+      console.log('this event is triggered');
+      $('#ApplicantTableBody').on(
+        'click',
+        '.applicantDetailsBtn',
+        async function () {
+          console.log('This is clicked');
+          const row = $(this).closest('tr');
 
-        const fullName = row.find('td:nth-child(1)').text().trim();
-        const designation = row.find('td:nth-child(2)').text().trim();
-        const firmName = row
-          .find('td:nth-child(3) span.firm_name')
-          .text()
-          .trim();
-        const userID = row.find('td:nth-child(3) input[name="userID"]').val();
-        const businessID = row
-          .find('td:nth-child(3) input[name="businessID"]')
-          .val();
-        const businessAddress = row
-          .find('td:nth-child(3) span.b_address')
-          .text()
-          .trim();
-        const enterpriseType = row
-          .find('td:nth-child(3) span.enterprise_l')
-          .text()
-          .trim();
-        const landline = row
-          .find('td:nth-child(3) span.landline')
-          .text()
-          .trim();
-        const mobilePhone = row
-          .find('td:nth-child(3) span.mobile_num')
-          .text()
-          .trim();
-        const emailAddress = row
-          .find('td:nth-child(3) span.email_add')
-          .text()
-          .trim();
-        // Add more fields as needed
-        console.log(businessID);
+          const fullName = row.find('td:nth-child(1)').text().trim();
+          const designation = row.find('td:nth-child(2)').text().trim();
+          const firmName = row
+            .find('td:nth-child(3) span.firm_name')
+            .text()
+            .trim();
+          const userID = row.find('td:nth-child(3) input[name="userID"]').val();
+          const businessID = row
+            .find('td:nth-child(3) input[name="businessID"]')
+            .val();
+          const businessAddress = row
+            .find('td:nth-child(3) span.b_address')
+            .text()
+            .trim();
+          const enterpriseType = row
+            .find('td:nth-child(3) span.enterprise_l')
+            .text()
+            .trim();
+          const landline = row
+            .find('td:nth-child(3) span.landline')
+            .text()
+            .trim();
+          const mobilePhone = row
+            .find('td:nth-child(3) span.mobile_num')
+            .text()
+            .trim();
+          const emailAddress = row
+            .find('td:nth-child(3) span.email_add')
+            .text()
+            .trim();
+          // Add more fields as needed
+          console.log(businessID);
 
-        $('#firm_name').val(firmName);
-        $('#selected_userId').val(userID);
-        $('#selected_businessID').val(businessID);
-        $('#address').val(businessAddress);
-        $('#contact_person').val(fullName); // Add corresponding value
-        $('#designation').val(designation);
-        $('#enterpriseType').val(enterpriseType);
-        $('#landline').val(landline);
-        $('#mobile_phone').val(mobilePhone);
-        $('#email').val(emailAddress);
+          $('#firm_name').val(firmName);
+          $('#selected_userId').val(userID);
+          $('#selected_businessID').val(businessID);
+          $('#address').val(businessAddress);
+          $('#contact_person').val(fullName); // Add corresponding value
+          $('#designation').val(designation);
+          $('#enterpriseType').val(enterpriseType);
+          $('#landline').val(landline);
+          $('#mobile_phone').val(mobilePhone);
+          $('#email').val(emailAddress);
 
-        getEvaluationScheduledDate(businessID);
+          getEvaluationScheduledDate(businessID);
 
-        // Get requirement and call the populateReqTable function
-        try {
-          const response = await $.ajax({
-            type: 'GET',
-            url: ApplicantTabRoute.getApplicantRequirementsLink,
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-            data: {
-              selected_businessID: $('#selected_businessID').val(),
-            },
-          });
-          populateReqTable(response);
-        } catch (error) {
-          console.log(error);
+          // Get requirement and call the populateReqTable function
+          try {
+            const response = await $.ajax({
+              type: 'GET',
+              url: ApplicantTabRoute.getApplicantRequirementsLink,
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+              },
+              data: {
+                selected_businessID: $('#selected_businessID').val(),
+              },
+            });
+            populateReqTable(response);
+          } catch (error) {
+            console.log(error);
+          }
         }
-      });
+      );
 
       function getEvaluationScheduledDate(businessID) {
         $.ajax({
