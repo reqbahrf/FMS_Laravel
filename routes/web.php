@@ -53,7 +53,8 @@ Route::get('/login', function () {
 })->name('login.Form');
 
 Route::post('/login', [AuthController::class, 'login'])
-    ->name('login.submit');
+    ->name('login.submit')
+    ->middleware('loginRateLimit');
 
 //Login Routes End
 //Logout routes
