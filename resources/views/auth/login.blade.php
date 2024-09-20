@@ -243,7 +243,7 @@
                             <button type="submit" class="btn btn-primary w-100">Login</Button>
                         </div>
                         <div class="text-center mt-3">
-                            <a href="" class="text-decoration-none">Forgot Password?
+                            <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot Password?
                             </a>
                         </div>
                     </form>

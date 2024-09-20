@@ -7,6 +7,7 @@ use App\Http\Controllers\CooperatorViewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProxyController;
 use App\Http\Controllers\StaffViewController;
 use Illuminate\Support\Facades\Route;
@@ -21,7 +22,7 @@ use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Middleware\checkAdminUser;
-
+use Illuminate\Auth\Events\PasswordResetLinkSent;
 
 //Applicant routes
 
@@ -57,6 +58,19 @@ Route::post('/login', [AuthController::class, 'login'])
     ->middleware('loginRateLimit');
 
 //Login Routes End
+
+Route::get('/password/reset', fn () => view('auth.passwordReset.resetRequest'))
+->name('password.request');
+
+Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])
+->name('password.email');
+
+Route::get('/password/reset/{token}', fn ($token) => view('auth.passwordReset.resetForm', ['token' => $token]))
+->name('password.reset');
+
+Route::post('/password/reset', [PasswordResetController::class, 'reset'])
+->name('password.update');
+
 //Logout routes
 Route::post('/logout', [AuthController::class, 'logout'])
     ->middleware('auth')
