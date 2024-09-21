@@ -143,6 +143,11 @@
                         {!! session('status') !!}
                     </div>
                     @endif
+                    @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
                     <div class="col-12">
                         <a href="{{ route('verification.verify', ['id' => session('user_id'), 'hash' => hash('sha256', session('email'))]) }}" class="btn btn-primary">Send Email</a>
                     </div>

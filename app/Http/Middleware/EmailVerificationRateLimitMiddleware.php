@@ -37,7 +37,7 @@ class EmailVerificationRateLimitMiddleware
         // Check if the user has exceeded the rate limit
         if ($limiter->tooManyAttempts($throttleKey, $maxAttempts)) {
             $retryAfter = ceil($limiter->availableIn($throttleKey) / 60);
-            return response()->json(['error' => "Too many email verification attempts. Please try again in {$retryAfter} minutes."], 429);
+            return back()->with('error', "Too many email verification attempts. Please try again in {$retryAfter} minutes.");
         }
 
         // Proceed to the next middleware/controller
