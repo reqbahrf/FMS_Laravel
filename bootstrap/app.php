@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\EmailVerificationRateLimitMiddleware;
 use App\Http\Middleware\LoginAttemptRateLimitMiddleware;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -13,7 +14,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'loginRateLimit' => LoginAttemptRateLimitMiddleware::class
+            'loginRateLimit' => LoginAttemptRateLimitMiddleware::class,
+            'EmailRateLimit' => EmailVerificationRateLimitMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
