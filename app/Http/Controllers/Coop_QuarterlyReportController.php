@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubmitQuarterlyReportRequest;
 use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
@@ -76,11 +77,9 @@ class Coop_QuarterlyReportController extends Controller
             $reportStatus = $request->route('ReportStatus');
             $reportSubmitted = $request->route('ReportSubmitted');
 
-            if($reportSubmitted == 'true'){
-                
+            if($reportSubmitted === 'true' ||  $reportStatus === 'closed'){
                 return view('readonlyForms.coopQuarterly', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
-            }else if($reportStatus == 'closed'){
-
+            }else if($reportSubmitted === 'false' && $reportStatus === 'open'){
                 return view('cooperatorView.outputs.quarterlyReport', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
             }
         }else{
@@ -122,7 +121,7 @@ class Coop_QuarterlyReportController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SubmitQuarterlyReportRequest $request, string $id)
     {
         $quarterProject = $request->header('X-Quarter-Project');
         $quarterPeriod = $request->header('X-Quarter-Period');

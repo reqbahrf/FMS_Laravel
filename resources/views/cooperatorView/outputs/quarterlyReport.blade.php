@@ -961,9 +961,9 @@
             });
 
             const ExportTable_row = $('.ExportData .table_row');
-            const localTable_row = $('.LocalData .table_row');
+            const LocalTable_row = $('.LocalData .table_row');
             const ExportTable_data = [];
-            const localTable_data = [];
+            const LocalTable_data = [];
 
 
         ExportTable_row.each(function() {
@@ -976,14 +976,16 @@
                 estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
                 netSales: row.find('.netSales_val').val()
             };
-            ExportTable_data.push(exporttable_row);
+            ExportTable_data.ProductName !== null && ExportTable_data.ProductName !== ""
+            ? ExportTable_data.push(exporttable_row) 
+            : null;
         });
 
         // const ExportwrappedData = {ExportProductInfo: ExportTable_data};
        dataObject.ExportProduct = ExportTable_data;
 
 
-        localTable_row.each(function() {
+        LocalTable_row.each(function() {
             const row = $(this); // Wrap `this` with jQuery to use jQuery methods
             const localtable_row = {
                 ProductName: row.find('.productName').val(),
@@ -993,11 +995,13 @@
                 estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
                 netSales: row.find('.netSales_val').val()
             };
-            localTable_data.push(localtable_row);
+            LocalTable_row.ProductName && LocalTable_row.ProductName.trim() !== ""
+            ? LocalTable_data.push(localtable_row)
+            : null;
         });
 
         // const LocalwrappedData = {LocalProductInfo: localTable_data};
-        dataObject.LocalProduct = localTable_data;
+        dataObject.LocalProduct = LocalTable_data;
 
 
             // Send form data using AJAX
