@@ -20,7 +20,7 @@
     }
 </style>
 <div class="p-3">
-    <h4>Quarterly Report for {{ $quarterlyPeriod }}</h4>
+    <h4>Quarterly Report for {{ $quarter }}</h4>
 </div>
 <div class="m-2 m-md-3">
     <form action="">
@@ -43,19 +43,18 @@
                                 ₱
                             </span>
                             <input type="text" class="form-control" id="BuildingAsset" name="Building"
-                                placeholder="500,000" readonly>
+                                placeholder="500,000" readonly  value="{{ $reportData['Building'] }}">
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
                         <Label for="Equipment">Equipment <span class="requiredFields">
                                 *</span></Label>
                         <div class="input-group">
-
                             <span class="input-group-text">
                                 ₱
                             </span>
                             <input type="text" class="form-control" id="Equipment" name="Equipment"
-                                placeholder="500,000" readonly>
+                                placeholder="500,000" readonly value="{{ $reportData['Equipment'] }}">
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -67,7 +66,7 @@
                                 ₱
                             </span>
                             <input type="text" class="form-control" id="WorkingCapital" name="WorkingCapital"
-                                placeholder="500,000" readonly>
+                                placeholder="500,000" readonly value="{{ $reportData['WorkingCapital'] }}">
                         </div>
                     </div>
                 </div>
@@ -115,17 +114,17 @@
                                                     <div class="col-12">
                                                         <label for="maleInput">Male:</label>
                                                         <input type="text" name="male_Dir_Regular"
-                                                            class="form-control number_input_only" id="maleInput" readonly>
+                                                            class="form-control number_input_only" id="maleInput" readonly value="{{ $reportData['male_Dir_Regular'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Female:</label>
                                                         <input type="text" name="female_Dir_Regular"
-                                                            class="form-control number_input_only" id="femaleInput" readonly>
+                                                            class="form-control number_input_only" id="femaleInput" readonly value="{{ $reportData['female_Dir_Regular'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Workday:</label>
                                                         <input type="text" name="workday_Dir_Regular"
-                                                            class="form-control number_input_only" id="workdayInput" readonly>
+                                                            class="form-control number_input_only" id="workdayInput" readonly value="{{ $reportData['workday_Dir_Regular'] ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -141,18 +140,18 @@
                                                     <div class="col-12">
                                                         <label for="maleInput">Male:</label>
                                                         <input type="text" name="male_Dir_PartT"
-                                                            class="form-control number_input_only" id="parttimeMaleInput" readonly>
+                                                            class="form-control number_input_only" id="parttimeMaleInput" readonly value="{{ $reportData['male_Dir_PartT'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Female:</label>
                                                         <input type="text" name="female_Dir_PartT"
-                                                            class="form-control number_input_only" id="parttimeFemaleInput" readonly>
+                                                            class="form-control number_input_only" id="parttimeFemaleInput" readonly value="{{ $reportData['female_Dir_PartT'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Workday:</label>
                                                         <input type="text" name="workday_Dir_PartT"
                                                             class="form-control number_input_only"
-                                                            id="parttimeWorkdayInput" readonly>
+                                                            id="parttimeWorkdayInput" readonly value="{{ $reportData['workday_Dir_PartT'] ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -202,19 +201,19 @@
                                                     <div class="col-12">
                                                         <label for="regularMaleInput">Male:</label>
                                                         <input type="text" name="male_Indir_Regular"
-                                                            class="form-control number_input_only" id="regularMaleInput" readonly>
+                                                            class="form-control number_input_only" id="regularMaleInput" readonly value="{{ $reportData['male_Indir_Regular'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="regularFemaleInput">Female:</label>
                                                         <input type="text" name="female_Indir_Regular"
                                                             class="form-control number_input_only"
-                                                            id="regularFemaleInput" readonly>
+                                                            id="regularFemaleInput" readonly value="{{ $reportData['female_Indir_Regular'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="regularWorkdayInput">Workday:</label>
                                                         <input type="text" name="workday_Indir_Regular"
                                                             class="form-control number_input_only"
-                                                            id="regularWorkdayInput" readonly>
+                                                            id="regularWorkdayInput" readonly value="{{ $reportData['workday_Indir_Regular'] ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -230,21 +229,21 @@
                                                     <div class="col-12">
                                                         <label for="parttimeMaleInput">Male: </label>
                                                         <input type="text" name="male_Indir_PartT"
-                                                            class="form-control number_input_only" id="parttimeMaleInput" readonly>
+                                                            class="form-control number_input_only" id="parttimeMaleInput" readonly value="{{ $reportData['male_Indir_PartT'] ?? '' }}">
 
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="parttimeFemaleInput">Female: </label>
                                                         <input type="text" name="female_Indir_PartT"
                                                             class="form-control number_input_only"
-                                                            id="parttimeFemaleInput"  readonly>
+                                                            id="parttimeFemaleInput"  readonly value="{{ $reportData['female_Indir_PartT'] ?? '' }}">
 
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="parttimeWorkdayInput">Workday: </label>
                                                         <input type="text" name="workday_Indir_PartT"
                                                             class="form-control number_input_only"
-                                                            id="parttimeWorkdayInput" readonly>
+                                                            id="parttimeWorkdayInput" readonly value="{{ $reportData['workday_Indir_PartT'] ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -316,17 +315,18 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="ExportData table-group-divider">
+                                                @forelse ($reportData['ExportProduct'] as $product)
                                                 <tr class="table_row">
                                                     <td>
-                                                        <input type="text" class="form-control productName" readonly>
+                                                        <input type="text" class="form-control productName" readonly value="{{ $product['ProductName'] ?? '' }}">
                                                     </td>
                                                     <td>
-                                                        <textarea class="form-control w-100 packingDetails" readonly></textarea>
+                                                        <textarea class="form-control w-100 packingDetails" readonly >{{ $product['PackingDetails'] ?? '' }} </textarea>
                                                     </td>
                                                     <td>
                                                         <div class="input-group">
                                                             <input type="text"
-                                                                class="form-control productionVolume_val" readonly>
+                                                                class="form-control productionVolume_val" readonly value="{{ $product['volumeOfProduction'] ?? '' }}">
                                                             <select class="form-select volumeUnit" readonly>
                                                                 <!-- Volume Units -->
                                                                 <optgroup label="Volume">
@@ -374,7 +374,7 @@
                                                             <span class="input-group-text">
                                                                 ₱
                                                             </span>
-                                                            <input type="text" class="form-control grossSales_val" readonly>
+                                                            <input type="text" class="form-control grossSales_val" readonly value="{{ $product['grossSales'] ?? '' }}">
                                                         </div>
                                                     </td>
                                                     <td>
@@ -383,7 +383,7 @@
                                                                 ₱
                                                             </span>
                                                             <input type="text"
-                                                                class="form-control estimatedCostOfProduction_val" readonly>
+                                                                class="form-control estimatedCostOfProduction_val" readonly value="{{ $product['estimatedCostOfProduction'] ?? '' }}">
                                                         </div>
                                                     </td>
                                                     <td>
@@ -391,10 +391,91 @@
                                                             <span class="input-group-text">
                                                                 ₱
                                                             </span>
-                                                            <input type="text" class="form-control netSales_val" readonly>
+                                                            <input type="text" class="form-control netSales_val" readonly value="{{ $product['netSales'] ?? '' }}">
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                @empty
+                                                <tr class="table_row">
+                                                    <td>
+                                                        <input type="text" class="form-control productName" readonly >
+                                                    </td>
+                                                    <td>
+                                                        <textarea class="form-control w-100 packingDetails" readonly > </textarea>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                class="form-control productionVolume_val" readonly >
+                                                            <select class="form-select volumeUnit" readonly>
+                                                                <!-- Volume Units -->
+                                                                <optgroup label="Volume">
+                                                                    <option value="mL">Milliliters
+                                                                        (mL)</option>
+                                                                    <option value="cm³">Cubic
+                                                                        Centimeters (cm³)</option>
+                                                                    <option value="fl oz">Fluid
+                                                                        Ounces (fl oz)</option>
+                                                                    <option value="cup">Cups (cup)
+                                                                    </option>
+                                                                    <option value="pt">Pints (pt)
+                                                                    </option>
+                                                                    <option value="qt">Quarts (qt)
+                                                                    </option>
+                                                                    <option value="L">Liters (L)
+                                                                    </option>
+                                                                    <option value="gal">Gallons (gal)
+                                                                    </option>
+                                                                    <option value="in³">Cubic
+                                                                        Inches (in³)
+                                                                    </option>
+                                                                    <option value="ft³">Cubic Feet
+                                                                        (ft³)</option>
+                                                                    <option value="m³">Cubic
+                                                                        Meters (m³)
+                                                                    </option>
+                                                                </optgroup>
+                                                                <!-- Weight Units -->
+                                                                <optgroup label="Weight">
+                                                                    <option value="g">Grams (g)
+                                                                    </option>
+                                                                    <option value="oz">Ounces (oz)
+                                                                    </option>
+                                                                    <option value="lb">Pounds (lb)
+                                                                    </option>
+                                                                    <option value="kg">Kilograms
+                                                                        (kg)</option>
+                                                                </optgroup>
+                                                            </select>
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">
+                                                                ₱
+                                                            </span>
+                                                            <input type="text" class="form-control grossSales_val" readonly >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">
+                                                                ₱
+                                                            </span>
+                                                            <input type="text"
+                                                                class="form-control estimatedCostOfProduction_val" readonly >
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">
+                                                                ₱
+                                                            </span>
+                                                            <input type="text" class="form-control netSales_val" readonly >
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>
@@ -433,6 +514,79 @@
                                                 </tr>
                                             </thead>
                                             <tbody class="LocalData table-group-divider">
+                                                @forelse($reportData['LocalProduct'] as $product)
+                                                <tr class="table_row">
+                                                    <td><input type="text" class="form-control productName" readonly value="{{ $product['ProductName'] ?? '' }}"></td>
+                                                    <td>
+                                                        <textarea class="form-control packingDetails" readonly>{{ $product['PackingDetails'] ?? '' }}</textarea>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <input type="text"
+                                                                class="form-control productionVolume_val" readonly value="{{ $product['volumeOfProduction'] ?? '' }}">
+                                                            <select class="form-select volumeUnit">
+                                                                <!-- Volume Units -->
+                                                                <optgroup label="Volume">
+                                                                    <option value="mL">Milliliters
+                                                                        (mL)</option>
+                                                                    <option value="cm³">Cubic
+                                                                        Centimeters (cm³)</option>
+                                                                    <option value="fl oz">Fluid
+                                                                        Ounces (fl oz)</option>
+                                                                    <option value="cup">Cups (cup)
+                                                                    </option>
+                                                                    <option value="pt">Pints (pt)
+                                                                    </option>
+                                                                    <option value="qt">Quarts (qt)
+                                                                    </option>
+                                                                    <option value="L">Liters (L)
+                                                                    </option>
+                                                                    <option value="gal">Gallons (gal)
+                                                                    </option>
+                                                                    <option value="in³">Cubic
+                                                                        Inches (in³)</option>
+                                                                    <option value="ft³">Cubic Feet
+                                                                        (ft³)</option>
+                                                                    <option value="cubic-meters">Cubic
+                                                                        Meters (m³)</option>
+                                                                </optgroup>
+                                                                <!-- Weight Units -->
+                                                                <optgroup label="Weight">
+                                                                    <option value="g">Grams (g)
+                                                                    </option>
+                                                                    <option value="oz">Ounces (oz)
+                                                                    </option>
+                                                                    <option value="lb">Pounds (lb)
+                                                                    </option>
+                                                                    <option value="kg">Kilograms
+                                                                        (kg)</option>
+                                                                </optgroup>
+                                                            </select>
+                                                        </div>
+
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">₱</span>
+                                                            <input type="text" class="form-control grossSales_val" readonly value="{{ $product['grossSales'] ?? '' }}">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">₱</span>
+                                                            <input type="text"
+                                                                class="form-control estimatedCostOfProduction_val" readonly
+                                                                value="{{ $product['estimatedCostOfProduction'] ?? '' }}">
+                                                        </div>
+                                                    </td>
+                                                    <td>
+                                                        <div class="input-group">
+                                                            <span class="input-group-text">₱</span>
+                                                            <input type="text" class="form-control netSales_val" readonly value="{{ $product['netSales'] ?? '' }}">
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @empty
                                                 <tr class="table_row">
                                                     <td><input type="text" class="form-control productName" readonly></td>
                                                     <td>
@@ -503,6 +657,7 @@
                                                         </div>
                                                     </td>
                                                 </tr>
+                                                @endforelse
                                             </tbody>
                                         </table>
                                     </div>
@@ -543,13 +698,13 @@
                     <div class="col-md-6 col-sm-6">
                         <strong class="ms-2">4.1 Export</strong>
                         <div class="ms-4">
-                            <textarea class="form-control h-100" name="Market_Export" placeholder="Export" id="exportTextarea"></textarea>
+                            <textarea class="form-control h-100" name="Market_Export" placeholder="Export" id="exportTextarea">{{ $reportData['Market_Export'] ?? '' }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6">
                         <strong class="ms-2">4.2 Local</strong>
                         <div class="ms-4">
-                            <textarea class="form-control h-100" name="Market_local" placeholder="Local" id="localTextarea"></textarea>
+                            <textarea class="form-control h-100" name="Market_local" placeholder="Local" id="localTextarea">{{ $reportData['Market_local'] ?? '' }}</textarea>
                         </div>
                     </div>
                 </div>

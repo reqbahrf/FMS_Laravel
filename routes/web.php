@@ -87,7 +87,7 @@ Route::middleware([CheckCooperatorUser::class])->group(function () {
         ->name('Cooperator.dashboard');
     Route::get('/Cooperator/Requirements', [CooperatorViewController::class, 'requirementsGet'])
         ->name('Cooperator.Requirements');
-    Route::get('/Cooperator/QuarterlyReport/{id}/{ProjectId}/{QuarterlyPeriod}/{ReportStatus}/{ReportSubmitted}', [Coop_QuarterlyReportController::class, 'getQuarterlyForm'])
+    Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', [Coop_QuarterlyReportController::class, 'getQuarterlyForm'])
         ->name('CooperatorViewController')
         ->middleware('signed');
     Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);

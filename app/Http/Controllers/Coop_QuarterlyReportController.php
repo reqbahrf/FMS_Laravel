@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Log;
+use Ramsey\Uuid\Type\Integer;
 
 class Coop_QuarterlyReportController extends Controller
 {
@@ -27,10 +28,10 @@ class Coop_QuarterlyReportController extends Controller
             foreach ($quarterlyReportsLinks as $index => $report) {
                 $signedUrl = URL::signedRoute('CooperatorViewController', [
                     'id' => hash('sha256', $report->id),
-                    'ProjectId' => hash('sha256', $report->ongoing_project_id),
-                    'QuarterlyPeriod' => $report->quarter,
-                    'ReportStatus' => $report->report_status,
-                    'ReportSubmitted' => $report->report_file_state,
+                    'projectId' => hash('sha256', $report->ongoing_project_id),
+                    'quarter' => $report->quarter,
+                    'reportStatus' => $report->report_status,
+                    'reportSubmitted' => $report->report_file_state,
                 ]);
 
                 $reportStatusClass = $report->report_status == 'open' ? 'success' : 'secondary';
@@ -71,16 +72,24 @@ class Coop_QuarterlyReportController extends Controller
     {
 
         if($request->ajax()){
-            $id = $request->route('id');
-            $projectId = $request->route('ProjectId');
-            $quarterlyPeriod = $request->route('QuarterlyPeriod');
-            $reportStatus = $request->route('ReportStatus');
-            $reportSubmitted = $request->route('ReportSubmitted');
+            $reportId = $request->route('id');
+            $projectId = $request->route('projectId');
+            $quarter = $request->route('quarter');
+            $reportStatus = $request->route('reportStatus');
+            $reportSubmitted = $request->route('reportSubmitted');
 
-            if($reportSubmitted === 'true' ||  $reportStatus === 'closed'){
-                return view('readonlyForms.coopQuarterly', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
-            }else if($reportSubmitted === 'false' && $reportStatus === 'open'){
-                return view('cooperatorView.outputs.quarterlyReport', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
+            Log::info($reportId);
+
+            if($reportSubmitted === 'true' && $reportStatus === 'open')
+            {
+                $Data = $this->getQuaterlyReport($reportId, $projectId, $quarter);
+
+                $reportData = $Data->first()->report_file;
+
+                return view('readonlyForms.coopQuarterly', compact('reportId', 'projectId', 'quarter', 'reportStatus', 'reportData'));
+            }else if($reportSubmitted === 'false' && $reportStatus === 'open')
+            {
+                return view('cooperatorView.outputs.quarterlyReport', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
             }
         }else{
             return view('cooperatorView.CooperatorDashboard');
@@ -147,5 +156,14 @@ class Coop_QuarterlyReportController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    private function getQuaterlyReport(string $reportId, String $projectId, String $quarter)
+    {
+       return OngoingQuarterlyReport::whereRaw('SHA2(id, 256) = ?', $reportId)
+        ->whereRaw('SHA2(ongoing_project_id, 256) = ?', $projectId)
+        ->where('quarter', $quarter)
+        ->select(['report_file'])
+        ->get();
     }
 }

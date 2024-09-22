@@ -28,12 +28,12 @@
     }
 </style>
 <div class="p-3">
-    <h4>Quarterly Report for {{ $quarterlyPeriod }}</h4>
+    <h4>Quarterly Report for {{ $quarter }}</h4>
 </div>
 <div class="card m-0 m-md-3">
     <div class="card-body">
         <div class="quarterly-Report-wrapper">
-            <form id="quarterlyForm" data-quarter-id="{{ $id }}" data-quarter-project="{{ $projectId }}" data-quarter-period="{{ $quarterlyPeriod }}" data-quarter-status="{{ $reportStatus }}">
+            <form id="quarterlyForm" data-quarter-id="{{ $reportId }}" data-quarter-project="{{ $projectId }}" data-quarter-period="{{ $quarter }}" data-quarter-status="{{ $reportStatus }}">
                 <div id="smartwizard" class="my-4">
                     <ul class="nav nav-progress">
                         <li class="nav-item">
@@ -79,7 +79,7 @@
                                             ₱
                                         </span>
                                         <input type="text" class="form-control" id="BuildingAsset" name="Building"
-                                            placeholder="500,000">
+                                            placeholder="500,000" >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4">
@@ -91,7 +91,7 @@
                                             ₱
                                         </span>
                                         <input type="text" class="form-control" id="Equipment" name="Equipment"
-                                            placeholder="500,000">
+                                            placeholder="500,000" >
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4">
@@ -103,7 +103,7 @@
                                             ₱
                                         </span>
                                         <input type="text" class="form-control" id="WorkingCapital"
-                                            name="WorkingCapital" placeholder="500,000">
+                                            name="WorkingCapital" placeholder="500,000" >
                                     </div>
                                 </div>
                             </div>
@@ -977,7 +977,7 @@
                 netSales: row.find('.netSales_val').val()
             };
             ExportTable_data.ProductName !== null && ExportTable_data.ProductName !== ""
-            ? ExportTable_data.push(exporttable_row) 
+            ? ExportTable_data.push(exporttable_row)
             : null;
         });
 
