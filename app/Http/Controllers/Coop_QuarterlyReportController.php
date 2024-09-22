@@ -19,7 +19,7 @@ class Coop_QuarterlyReportController extends Controller
         try {
             $project_id = Session::get('project_id');
             $quarterlyReportsLinks = OngoingQuarterlyReport::where('ongoing_project_id', $project_id)
-                ->select('id', 'ongoing_project_id', 'quarter', 'report_status')
+                ->select('id', 'ongoing_project_id', 'quarter', 'report_file', 'report_status')
                 ->get();
 
             $html = '';
@@ -28,7 +28,8 @@ class Coop_QuarterlyReportController extends Controller
                     'id' => hash('sha256', $report->id),
                     'ProjectId' => hash('sha256', $report->ongoing_project_id),
                     'QuarterlyPeriod' => $report->quarter,
-                    'ReportStatus' => $report->report_status
+                    'ReportStatus' => $report->report_status,
+                    'ReportSubmitted' => $report->report_file_state,
                 ]);
 
                 $reportStatusClass = $report->report_status == 'open' ? 'success' : 'secondary';
@@ -73,9 +74,15 @@ class Coop_QuarterlyReportController extends Controller
             $projectId = $request->route('ProjectId');
             $quarterlyPeriod = $request->route('QuarterlyPeriod');
             $reportStatus = $request->route('ReportStatus');
-            Log::info('Quarterly Report id: ' . $id . ' Project Id: ' . $projectId . ' Quarterly Period: ' . $quarterlyPeriod . ' Report Status: ' . $reportStatus);
+            $reportSubmitted = $request->route('ReportSubmitted');
 
-            return view('cooperatorView.outputs.quarterlyReport', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
+            if($reportSubmitted == 'true'){
+                
+                return view('readonlyForms.coopQuarterly', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
+            }else if($reportStatus == 'closed'){
+
+                return view('cooperatorView.outputs.quarterlyReport', compact('id', 'projectId', 'quarterlyPeriod', 'reportStatus'));
+            }
         }else{
             return view('cooperatorView.CooperatorDashboard');
         }

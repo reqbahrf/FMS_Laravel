@@ -311,7 +311,7 @@ class StaffViewController extends Controller
     {
         $validated = $request->validate([
             'business_id' => 'required|integer',
-            'project_id' => 'required|string|max:10',
+            'project_id' => 'required|string|max:15',
         ]);
 
         try {

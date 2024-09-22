@@ -16,21 +16,21 @@ class LoginAttemptRateLimitMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        
+
         $maxAttempts = 3;
         $decayMinutes = 60 * 15;
 
         $limiter = app(RateLimiter::class);
 
-        
+
         if ($limiter->tooManyAttempts($this->throttleKey($request), $maxAttempts)) {
-            $retryAfter = round($limiter->availableIn($this->throttleKey($request)) / 60);
+            $retryAfter = ceil($limiter->availableIn($this->throttleKey($request)) / 60);
             return response()->json(['error' => 'Too many login attempts. Please try again in ' . $retryAfter . ' minutes.'], 429);
         }
 
         $response = $next($request);
 
-      
+
         if ($response->getStatusCode() === 401) {
             $limiter->hit($this->throttleKey($request), $decayMinutes);
             $remainingAttempts = $limiter->retriesLeft($this->throttleKey($request), $maxAttempts);
@@ -39,7 +39,7 @@ class LoginAttemptRateLimitMiddleware
             $response = response()->json($responseData, $response->getStatusCode(), $response->headers->all());
         }
 
-        
+
         if ($response->getStatusCode() === 200) {
             $limiter->clear($this->throttleKey($request));
         }

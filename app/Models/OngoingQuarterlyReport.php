@@ -25,8 +25,15 @@ class OngoingQuarterlyReport extends Model
         'report_file' => 'array'
     ];
 
+    protected $appends = ['report_file_state'];
+
     public function projectInfo() : BelongsTo
     {
         return $this->BelongsTo(projectInfo::class, 'ongoing_project_id', 'Project_id');
+    }
+
+    public function getReportFileStateAttribute() : string
+    {
+        return !empty($this->report_file) ? 'true' : 'false';
     }
 }
