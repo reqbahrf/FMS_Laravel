@@ -12,7 +12,7 @@ class StaffGeneratePDSController extends Controller
     {
        $validatedData = $request->validated();
 
-        $html = view('staffView.outputs.DataSheetTable', $validatedData)->render();
+        $html = view('staffView.outputs.ProjectDataSheet', $validatedData)->render();
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',

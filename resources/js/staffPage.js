@@ -1465,7 +1465,7 @@ window.initializeStaffPageJs = async () => {
           'td .CurrentgrossSales_val, td .PreviousgrossSales_val',
           function () {
             const thisInput = $(this);
-            inputsFormatter(thisInput);
+            inputsToCurrencyFormatter(thisInput);
 
             const thisRow = thisInput.closest('tr');
             const CurrentgrossSales = parseValue(
