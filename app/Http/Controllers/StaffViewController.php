@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\applicationInfo;
+use App\Models\ApplicationInfo;
 use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\DB;
-use App\Models\requirement;
+use App\Models\Requirement;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
-use App\Models\projectInfo;
+use App\Models\ProjectInfo;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -32,12 +32,12 @@ class StaffViewController extends Controller
     public function getHandledProjects(Request $request)
     {
 
-        try{
+        try {
             $org_userId = Auth::user()->orgusername->id;
-            if(Cache::has('handled_projects' . $org_userId)){
-                $handledProjects = Cache::get('handled_projects'. $org_userId);
-            }else{
-            $handledProjects =  DB::table('project_info')
+            if (Cache::has('handled_projects' . $org_userId)) {
+                $handledProjects = Cache::get('handled_projects' . $org_userId);
+            } else {
+                $handledProjects =  DB::table('project_info')
                     ->join('business_info', 'business_info.id', '=', 'project_info.business_id')
                     ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
                     ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
@@ -80,16 +80,15 @@ class StaffViewController extends Controller
 
                     )->get();
 
-                    Cache::put('handled_projects'. $org_userId, $handledProjects, 60);
-        }
+                Cache::put('handled_projects' . $org_userId, $handledProjects, 60);
+            }
 
             if ($handledProjects) {
                 return response()->json($handledProjects);
             } else {
                 return response()->json(['message' => 'No projects found'], 404);
             }
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -106,63 +105,63 @@ class StaffViewController extends Controller
     public function getApprovedProjects()
     {
 
-        try{
-            if(Cache::has('approved_projects')){
+        try {
+            if (Cache::has('approved_projects')) {
                 $approvedProjects = Cache::get('approved_projects');
-            }else{
+            } else {
                 $approvedProjects =  DB::table('users')->join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
-                         ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
-                         ->join('assets', 'assets.id', '=', 'business_info.id')
-                         ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
-                         ->leftJoin('org_users_info as handled_by', function ($join) {
-                             $join->on('pi.handled_by_id', '=', 'handled_by.id');
-                         })->leftJoin('org_users_info as evaluated_by', function ($join) {
-                             $join->on('pi.evaluated_by_id', '=', 'evaluated_by.id');
-                         })
-                         ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-                         ->where('pi.handled_by_id', '!=', null)
-                         ->where('pi.evaluated_by_id', '!=', null)
-                         ->where('application_info.application_status', 'approved')
-                         ->where('users.role', 'Cooperator')
-                         ->select(
-                             'users.user_name',
-                             'users.email',
-                             'users.role',
-                             'coop_users_info.f_name',
-                             'coop_users_info.l_name',
-                             'coop_users_info.designation',
-                             'coop_users_info.mobile_number',
-                             'coop_users_info.landline',
-                             'business_info.id as business_id',
-                             'business_info.firm_name',
-                             'business_info.landmark',
-                             'business_info.barangay',
-                             'business_info.city',
-                             'business_info.province',
-                             'business_info.region',
-                             'business_info.enterprise_type',
-                             'business_info.enterprise_level',
-                             'assets.building_value',
-                             'assets.equipment_value',
-                             'assets.working_capital',
-                             'pi.Project_id',
-                             'pi.project_title',
-                             'pi.fund_amount',
-                             'pi.created_at as date_approved',
-                             'evaluated_by.full_name As evaluated_by',
-                             'handled_by.full_name As assinged_to',
-                             'handled_by.user_name as staffUserName',
-                             'application_info.created_at as date_applied',
-                             'application_info.application_status'
-                         )
-                         ->get();
+                    ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
+                    ->join('assets', 'assets.id', '=', 'business_info.id')
+                    ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
+                    ->leftJoin('org_users_info as handled_by', function ($join) {
+                        $join->on('pi.handled_by_id', '=', 'handled_by.id');
+                    })->leftJoin('org_users_info as evaluated_by', function ($join) {
+                        $join->on('pi.evaluated_by_id', '=', 'evaluated_by.id');
+                    })
+                    ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
+                    ->where('pi.handled_by_id', '!=', null)
+                    ->where('pi.evaluated_by_id', '!=', null)
+                    ->where('application_info.application_status', 'approved')
+                    ->where('users.role', 'Cooperator')
+                    ->select(
+                        'users.user_name',
+                        'users.email',
+                        'users.role',
+                        'coop_users_info.f_name',
+                        'coop_users_info.l_name',
+                        'coop_users_info.designation',
+                        'coop_users_info.mobile_number',
+                        'coop_users_info.landline',
+                        'business_info.id as business_id',
+                        'business_info.firm_name',
+                        'business_info.landmark',
+                        'business_info.barangay',
+                        'business_info.city',
+                        'business_info.province',
+                        'business_info.region',
+                        'business_info.enterprise_type',
+                        'business_info.enterprise_level',
+                        'assets.building_value',
+                        'assets.equipment_value',
+                        'assets.working_capital',
+                        'pi.Project_id',
+                        'pi.project_title',
+                        'pi.fund_amount',
+                        'pi.created_at as date_approved',
+                        'evaluated_by.full_name As evaluated_by',
+                        'handled_by.full_name As assinged_to',
+                        'handled_by.user_name as staffUserName',
+                        'application_info.created_at as date_applied',
+                        'application_info.application_status'
+                    )
+                    ->get();
 
                 Cache::put('approved_projects', $approvedProjects, 60);
             }
 
 
             return response()->json($approvedProjects);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
@@ -171,45 +170,45 @@ class StaffViewController extends Controller
     public function applicantGet(Request $request)
     {
         if ($request->ajax()) {
-            try{
-                if(Cache::has('applicants')){
+            try {
+                if (Cache::has('applicants')) {
                     $applicants = Cache::get('applicants');
-                }else{
+                } else {
                     $applicants = DB::table('users')->join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
                         ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
-                            ->join('assets', 'assets.id', '=', 'business_info.id')
-                            ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-                            ->where('application_info.application_status', 'waiting')
-                            ->select(
-                                'users.id as user_id',
-                                'users.email',
-                                'coop_users_info.prefix',
-                                'coop_users_info.f_name',
-                                'coop_users_info.mid_name',
-                                'coop_users_info.l_name',
-                                'coop_users_info.suffix',
-                                'coop_users_info.designation',
-                                'coop_users_info.mobile_number',
-                                'coop_users_info.landline',
-                                'business_info.firm_name',
-                                'business_info.enterprise_type',
-                                'business_info.landMark',
-                                'business_info.barangay',
-                                'business_info.city',
-                                'business_info.province',
-                                'business_info.region',
-                                'assets.building_value',
-                                'assets.equipment_value',
-                                'assets.working_capital',
-                                'application_info.created_at as date_applied',
-                                'application_info.application_status',
-                                'business_info.id as business_id'
-                            )
-                            ->get();
-                            Cache::put('applicants', $applicants, 60);
+                        ->join('assets', 'assets.id', '=', 'business_info.id')
+                        ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
+                        ->where('application_info.application_status', 'waiting')
+                        ->select(
+                            'users.id as user_id',
+                            'users.email',
+                            'coop_users_info.prefix',
+                            'coop_users_info.f_name',
+                            'coop_users_info.mid_name',
+                            'coop_users_info.l_name',
+                            'coop_users_info.suffix',
+                            'coop_users_info.designation',
+                            'coop_users_info.mobile_number',
+                            'coop_users_info.landline',
+                            'business_info.firm_name',
+                            'business_info.enterprise_type',
+                            'business_info.landMark',
+                            'business_info.barangay',
+                            'business_info.city',
+                            'business_info.province',
+                            'business_info.region',
+                            'assets.building_value',
+                            'assets.equipment_value',
+                            'assets.working_capital',
+                            'application_info.created_at as date_applied',
+                            'application_info.application_status',
+                            'business_info.id as business_id'
+                        )
+                        ->get();
+                    Cache::put('applicants', $applicants, 60);
                 }
                 return view('staffView.staffApplicantTab', compact('applicants'));
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
         } else {
@@ -226,7 +225,7 @@ class StaffViewController extends Controller
                 'selected_businessID' => 'required|string'
             ]);
 
-            $applicantUploadedFiles = requirement::where('business_id', $validated['selected_businessID'])
+            $applicantUploadedFiles = Requirement::where('business_id', $validated['selected_businessID'])
                 ->select('file_name', 'file_link', 'file_type', 'can_edit', 'remarks', 'created_at', 'updated_at')
                 ->get();
 
@@ -264,7 +263,7 @@ class StaffViewController extends Controller
 
         try {
 
-            $scheduled_date = applicationInfo::where('business_id', $validated['business_id'])
+            $scheduled_date = ApplicationInfo::where('business_id', $validated['business_id'])
                 ->select('Evaluation_date')
                 ->first();
 
@@ -315,8 +314,8 @@ class StaffViewController extends Controller
         ]);
 
         try {
-            applicationInfo::where('business_id', $validated['business_id'])
-                ->whereHas('businessInfo.projectInfo', function ($query) use ($validated) {
+            ApplicationInfo::where('business_id', $validated['business_id'])
+                ->whereHas('BusinessInfo.ProjectInfo', function ($query) use ($validated) {
                     $query->where('project_id', $validated['project_id']);
                 })
                 ->update(['application_status' => 'ongoing']);
@@ -430,7 +429,7 @@ class StaffViewController extends Controller
 
     private function getProjectInfomationSheetData(string $projectId): object
     {
-        return projectInfo::select(
+        return ProjectInfo::select(
             'Project_id',
             'project_title',
             'business_id',
@@ -461,7 +460,7 @@ class StaffViewController extends Controller
 
     private function getProjectDataSheetData(string $projectId, string $quarter): object
     {
-        return projectInfo::select(
+        return ProjectInfo::select(
             'project_info.Project_id',
             'project_info.project_title',
             'business_info.firm_name',

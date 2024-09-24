@@ -17,10 +17,10 @@ class PaymentRecord extends Model
         'transaction_id',
         'amount',
         'payment_status',
-        'payment_method'];
-        public function Project_id(): BelongsTo
-        {
-            return $this->belongsTo(projectInfo::class, 'Project_id', 'Project_id');
-        }
+        'payment_method'
+    ];
+    public function Project_id(): BelongsTo
+    {
+        return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
+    }
 }
-

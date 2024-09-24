@@ -20,6 +20,6 @@ class ProjectFileLink extends Model
 
     public function Project_id(): BelongsTo
     {
-        return $this->belongsTo(projectInfo::class, 'Project_id', 'Project_id');
+        return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
     }
 }

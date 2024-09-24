@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class applicationInfo extends Model
+class ApplicationInfo extends Model
 {
     use HasFactory;
 
@@ -19,13 +19,13 @@ class applicationInfo extends Model
         'Evaluation_date',
     ];
 
-    public function businessInfo()
+    public function BusinessInfo()
     {
-        return $this->belongsTo(businessInfo::class, 'business_id', 'id');
+        return $this->belongsTo(BusinessInfo::class, 'business_id', 'id');
     }
 
-    public function projectInfo()
+    public function ProjectInfo()
     {
-        return $this->belongsTo(projectInfo::class, 'Project_id', 'Project_id');
+        return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
     }
 }

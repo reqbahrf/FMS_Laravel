@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class requirement extends Model
+class Requirement extends Model
 {
     use HasFactory;
 
@@ -19,4 +20,9 @@ class requirement extends Model
         'can_edit',
         'remark',
     ];
+
+    public function business() : BelongsTo
+    {
+        return $this->belongsTo(BusinessInfo::class, 'business_id', 'id');
+    }
 }

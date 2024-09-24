@@ -8,11 +8,13 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class businessInfo extends Model
+class BusinessInfo extends Model
 {
     use HasFactory;
 
     protected $table = 'business_info';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'user_info_id',
@@ -29,18 +31,18 @@ class businessInfo extends Model
         'Local_Mkt_Outlet',
     ];
 
-    public function userInfo() : BelongsTo
+    public function userInfo(): BelongsTo
     {
-        return $this->BelongsTo(coopUserInfo::class, 'user_info_id', 'id');
+        return $this->BelongsTo(CoopUserInfo::class, 'user_info_id', 'id');
     }
 
-    public function applicationInfo() : HasMany
+    public function ApplicationInfo(): HasMany
     {
-        return $this->HasMany(applicationInfo::class, 'business_id', 'id');
+        return $this->HasMany(ApplicationInfo::class, 'business_id', 'id');
     }
 
-    public function projectInfo() : HasMany
+    public function ProjectInfo(): HasMany
     {
-        return $this->HasMany(projectInfo::class, 'business_id', 'id');
+        return $this->HasMany(ProjectInfo::class, 'business_id', 'id');
     }
 }

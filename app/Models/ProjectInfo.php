@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class projectInfo extends Model
+class ProjectInfo extends Model
 {
     use HasFactory;
 
@@ -32,12 +32,12 @@ class projectInfo extends Model
         'Project_id' => 'string',
     ];
 
-    public function businessInfo() : BelongsTo
+    public function BusinessInfo(): BelongsTo
     {
-        return $this->BelongsTo(businessInfo::class, 'business_id', 'id');
+        return $this->BelongsTo(BusinessInfo::class, 'business_id', 'id');
     }
 
-    public function quarterlyReport() : HasMany
+    public function quarterlyReport(): HasMany
     {
         return $this->HasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
     }

@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
-use App\Models\coopUserInfo;
+use App\Models\CoopUserInfo;
 use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\Log;
 
@@ -21,21 +21,21 @@ class CooperatorViewController extends Controller
         $user = Auth::user();
         $notifications = $user->notifications;
 
-        $result = coopUserInfo::where('user_name', $userName)
-            ->with('businessInfo.applicationInfo')
+        $result = CoopUserInfo::where('user_name', $userName)
+            ->with('BusinessInfo.ApplicationInfo')
             ->first();
 
         if (!$result) {
             return redirect()->route('login.Form');
         }
 
-        $applicationStatus = $result->businessInfo->first()->applicationInfo->first()->application_status;
+        $applicationStatus = $result->BusinessInfo->first()->ApplicationInfo->first()->application_status;
         Session::put('application_status', $applicationStatus);
 
         if (in_array($applicationStatus, ['approved', 'ongoing'])) {
-            $projectInfo = $result->businessInfo->first()->projectInfo->first();
-            Session::put('project_id', $projectInfo->Project_id ?? null);
-            Session::put('business_id', $projectInfo->business_id ?? null);
+            $ProjectInfo = $result->BusinessInfo->first()->ProjectInfo->first();
+            Session::put('project_id', $ProjectInfo->Project_id ?? null);
+            Session::put('business_id', $ProjectInfo->business_id ?? null);
         }
 
         return view('cooperatorView.CooperatorDashboard', compact('notifications'), [

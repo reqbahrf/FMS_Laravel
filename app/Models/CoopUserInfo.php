@@ -7,10 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class coopUserInfo extends Model
+class CoopUserInfo extends Model
 {
     use HasFactory;
     protected $table = 'coop_users_info';
+
+    public $timestamps = false;
 
     protected $fillable = [
         'user_name',
@@ -35,8 +37,8 @@ class coopUserInfo extends Model
         return $this->belongsTo(User::class, 'user_name', 'user_name');
     }
 
-    public function businessInfo() : HasMany
+    public function BusinessInfo(): HasMany
     {
-        return $this->hasMany(businessInfo::class, 'user_info_id', 'id');
+        return $this->hasMany(BusinessInfo::class, 'user_info_id', 'id');
     }
 }

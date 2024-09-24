@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\OrgUserInfo;
-use App\Models\coopUserInfo;
+use App\Models\CoopUserInfo;
 use App\Models\User;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
@@ -55,8 +55,6 @@ class AuthController extends Controller
                 'error' => 'An unexpected error occurred. Please try again later.'
             ], 500);
         }
-
-
     }
 
     public function login(Request $request)
@@ -80,7 +78,7 @@ class AuthController extends Controller
 
             switch ($user->role) {
                 case 'Cooperator':
-                    $coop_userInfo = coopUserInfo::where('user_name', $user->user_name)->first();
+                    $coop_userInfo = CoopUserInfo::where('user_name', $user->user_name)->first();
 
                     if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
 
@@ -97,11 +95,11 @@ class AuthController extends Controller
                         session(['name' => $orgUserInfo->full_name]);
                         session(['org_userId' => $orgUserInfo->id]);
                         session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
-                        return response()->json(['success' => 'Login successful, user is a '. $user->role .' with matching B_date.', 'redirect' => route($user->role . '.home')], 200);
+                        return response()->json(['success' => 'Login successful, user is a ' . $user->role . ' with matching B_date.', 'redirect' => route($user->role . '.home')], 200);
                     } else {
                         return response()->json(['error' => 'Invalid credentials.'], 401);
                     }
-                break;
+                    break;
             }
         }
 
@@ -129,7 +127,7 @@ class AuthController extends Controller
         $currentTime = now()->timestamp;
         $timeDiffence = $currentTime - $timestamp;
 
-        if($timeDiffence > 1800) {
+        if ($timeDiffence > 1800) {
             return redirect()->route('home')->with('error', 'Verification link expired.');
         }
 

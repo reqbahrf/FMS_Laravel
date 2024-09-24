@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
- use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -59,6 +59,6 @@ class User extends Authenticatable  implements MustVerifyEmail
 
     public function coopusername(): HasOne
     {
-        return $this->hasOne(coopUserInfo::class, 'user_name', 'user_name');
+        return $this->hasOne(CoopUserInfo::class, 'user_name', 'user_name');
     }
 }

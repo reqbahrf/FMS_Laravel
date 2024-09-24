@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\applicationInfo;
-use App\Models\businessInfo;
+use App\Models\ApplicationInfo;
+use App\Models\BusinessInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Notifications\EvaluationScheduleNotification;
@@ -20,7 +20,7 @@ class ScheduleController extends Controller
 
         $applicant = User::findOrFail($validated['user_id']);
 
-        $schedule = applicationInfo::updateOrCreate(
+        $schedule = ApplicationInfo::updateOrCreate(
             ['business_id' => $validated['business_id']],
             ['Evaluation_date' => $validated['evaluation_date']]
         );
@@ -45,9 +45,9 @@ class ScheduleController extends Controller
         }
 
         return response()
-        ->json([
-            'success' => true,
-            'message' => 'Evaluation schedule set successfully',]);
-
+            ->json([
+                'success' => true,
+                'message' => 'Evaluation schedule set successfully',
+            ]);
     }
 }
