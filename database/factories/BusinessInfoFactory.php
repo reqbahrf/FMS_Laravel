@@ -19,16 +19,16 @@ class BusinessInfoFactory extends Factory
         $products = ['Electronics', 'Furniture', 'Clothing', 'Food', 'Toys'];
         return [
             'firm_name' => fake()->unique(true)->company(),
-            'enterprise_type' => fake()->randomElement(['Micro', 'Small', 'Medium', 'Large']),
-            'enterprise_level' => fake()->randomElement(['Small', 'Medium', 'National', 'International']),
+            'enterprise_type' => fake()->randomElement(['Sole Proprietorship', 'Partnership', 'Corporation']),
+            'enterprise_level' => fake()->randomElement(['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise']),
             'zip_code' => fake()->postcode(),
             'landmark' => fake()->streetAddress(),
             'barangay' => fake()->streetName(),
             'city' => fake()->city(),
             'province' => fake()->state(),
             'region' => fake()->state(),
-            'Export_Mkt_Outlet' => implode(', ', fake()->randomElements( $products, 5)),
-            'Local_Mkt_Outlet' => implode(', ', fake()->randomElements( $products, 5)),
+            'Export_Mkt_Outlet' => implode(', ', fake()->randomElements($products, 5)),
+            'Local_Mkt_Outlet' => implode(', ', fake()->randomElements($products, 5)),
         ];
     }
 }

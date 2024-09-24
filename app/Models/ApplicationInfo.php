@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Events\NewApplicant;
 
 class ApplicationInfo extends Model
 {
@@ -28,4 +29,5 @@ class ApplicationInfo extends Model
     {
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
     }
+
 }

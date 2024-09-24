@@ -45,6 +45,7 @@ class ApplicationSeeder extends Seeder
             ApplicationInfo::factory()->create([
                 'business_id' => $businessInfo->id
             ]);
+
         }
     }
 }

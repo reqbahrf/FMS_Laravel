@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NewApplicant;
 use App\Http\Requests\StoreApplicationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -191,6 +192,7 @@ class ApplicationController extends Controller
 
             if ($successful_inserts == 6) {
                 DB::commit();
+                event(new NewApplicant($businessId, $enterprise_type, $enterprise_level, $city));
                 return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.home')]);
             } else {
                 DB::rollBack();

@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('charts_cache', function (Blueprint $table) {
+        Schema::create('charts_cache_year_of', function (Blueprint $table) {
             $table->char('id', 36)->primary();
             $table->year('year_of');
-            $table->json('mounth_project_categories');
-            $table->json('project_local_categories');
-            $table->json('staff_handled_projects_categories');
+            $table->json('mouthly_project_categories')->nullable();
+            $table->json('project_local_categories')->nullable();
+            $table->json('staff_handle_Projects_categories')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        //
+        Schema::dropIfExists('charts_cache_year_of');
     }
 };
