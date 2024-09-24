@@ -172,6 +172,9 @@ Route::middleware([CheckAdminUser::class])->group(function () {
     Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])
         ->name('admin.Dashboard');
 
+    Route::get('/Admin/Dashboard/chartData', [AdminViewController::class, 'getDashboardChartData'])
+        ->name('admin.Dashboard.chartData');
+
     Route::get('/Admin/Project', [AdminViewController::class, 'projectTabGet'])
         ->name('admin.Project');
 

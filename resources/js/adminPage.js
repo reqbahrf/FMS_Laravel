@@ -1,42 +1,41 @@
 function showToastFeedback(status, message) {
-    const toast = $('#ActionFeedbackToast');
-    const toastInstance = new bootstrap.Toast(toast);
+  const toast = $('#ActionFeedbackToast');
+  const toastInstance = new bootstrap.Toast(toast);
 
-    toast
-      .find('.toast-header')
-      .removeClass([
-        'text-bg-danger',
-        'text-bg-success',
-        'text-bg-warning',
-        'text-bg-info',
-        'text-bg-primary',
-        'text-bg-light',
-        'text-bg-dark',
-      ]);
+  toast
+    .find('.toast-header')
+    .removeClass([
+      'text-bg-danger',
+      'text-bg-success',
+      'text-bg-warning',
+      'text-bg-info',
+      'text-bg-primary',
+      'text-bg-light',
+      'text-bg-dark',
+    ]);
 
-    toast.find('.toast-body').text('');
-    toast.find('.toast-header').addClass(status);
-    toast.find('.toast-body').text(message);
+  toast.find('.toast-body').text('');
+  toast.find('.toast-header').addClass(status);
+  toast.find('.toast-body').text(message);
 
-    toastInstance.show();
-  }
+  toastInstance.show();
+}
 
-  function sanitize(input) {
-    return $('<div>').text(input).html(); // Escape special characters
-  }
+function sanitize(input) {
+  return $('<div>').text(input).html(); // Escape special characters
+}
 
-  //close offcanvas
-  function closeOffcanvasInstances(offcanva_id) {
-    const offcanvasElement = $(offcanva_id).get(0);
-    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-    offcanvasInstance.hide();
-  }
+//close offcanvas
+function closeOffcanvasInstances(offcanva_id) {
+  const offcanvasElement = $(offcanva_id).get(0);
+  const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+  offcanvasInstance.hide();
+}
 
-  function closeModal(modelId) {
-    const model = bootstrap.Modal.getInstance(modelId);
-    model.hide();
-  }
-
+function closeModal(modelId) {
+  const model = bootstrap.Modal.getInstance(modelId);
+  model.hide();
+}
 
 window.initializeAdminPageJs = async () => {
   const functions = {
@@ -47,16 +46,16 @@ window.initializeAdminPageJs = async () => {
         },
         series: [
           {
-            name: 'Applicant',
-            data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60],
+            name: 'Applicants',
+            data: new Array(12).fill(0),
           },
           {
             name: 'Ongoing',
-            data: [5, 10, 7, 12, 9, 15, 11, 18, 13, 20],
+            data: new Array(12).fill(0),
           },
           {
             name: 'Completed',
-            data: [2, 4, 3, 6, 5, 8, 7, 10, 9, 12],
+            data: new Array(12).fill(0),
           },
         ],
         chart: {
@@ -83,6 +82,8 @@ window.initializeAdminPageJs = async () => {
             'Aug',
             'Sep',
             'Oct',
+            'Nov',
+            'Dec',
           ],
         },
         yaxis: {
@@ -107,6 +108,137 @@ window.initializeAdminPageJs = async () => {
         overallProject
       );
       overallProjectGraph.render();
+
+      const TotalEnterpriseLocalOptions = {
+        theme: {
+          mode: 'light',
+          palette: 'palette2',
+        },
+
+        series: [
+          {
+            name: 'Micro Enterprise',
+            data: [],
+          },
+          {
+            name: 'Small Enterprise',
+            data: [],
+          },
+          {
+            name: 'Medium Enterprise',
+            data: [],
+          },
+        ],
+        chart: {
+          type: 'bar',
+          height: 350,
+          stacked: true,
+          zoom: {
+            enabled: true,
+          },
+          toolbar: {
+            show: true,
+        }
+        },
+        plotOptions: {
+          bar: {
+            borderRadius: 4,
+            borderRadiusApplication: 'end',
+            horizontal: true,
+            columnWidth: '45%',
+            distributed: false,
+            endingShape: 'rounded',
+          },
+        },
+        dataLabels: {
+          enabled: false,
+        },
+        xaxis: {
+          categories: [],
+        },
+      };
+
+      const localeChart = new ApexCharts(
+        document.querySelector('#localeChart'),
+        TotalEnterpriseLocalOptions
+      );
+      localeChart.render();
+
+      const getoverallProjectGraphData = async () => {
+        try {
+          const response = await $.ajax({
+            type: 'GET',
+            url: DASHBOARD_ROUTE.GET_DASHBOARD_CHARTS_DATA,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          });
+
+          // Parse the JSON response if it's a string
+          const monthlyData = await JSON.parse(response.monthlyData[0]);
+          const localData = await JSON.parse(response.localData); // Assumes it's a valid JSON string
+
+          console.log(monthlyData);
+          console.log(localData);
+
+          // Loop through the data and populate the chart
+          Object.keys(monthlyData).forEach((month) => {
+            const data = monthlyData[month];
+
+            // Assuming 'month' matches 'Sep', 'Oct' etc.
+            const monthIndex = overallProject.xaxis.categories.indexOf(
+              month.substr(0, 3)
+            );
+
+            // For each series, push the respective data
+            overallProject.series[0].data[monthIndex] = data.Applicants || 0;
+            overallProject.series[1].data[monthIndex] = data.Ongoing || 0;
+            overallProject.series[2].data[monthIndex] = data.Completed || 0;
+          });
+
+          overallProjectGraph.updateSeries(overallProject.series);
+
+          const categories = [];
+          const microData = [];
+          const smallData = [];
+          const mediumData = [];
+
+          for (const location in localData) {
+            if (localData.hasOwnProperty(location)) {
+              const data = localData[location];
+              categories.push(location);
+              microData.push(data['Micro Enterprise']); // Use 'data' instead of 'entry'
+              smallData.push(data['Small Enterprise']); // Use 'data' instead of 'entry'
+              mediumData.push(data['Medium Enterprise']); // Use 'data' instead of 'entry'
+            }
+          }
+
+          // Update the chart with the new data (assuming you're using ApexCharts)
+          localeChart.updateOptions({
+            xaxis: {
+              categories: categories,
+            },
+            series: [
+              {
+                name: 'Micro Enterprise',
+                data: microData,
+              },
+              {
+                name: 'Small Enterprise',
+                data: smallData,
+              },
+              {
+                name: 'Medium Enterprise',
+                data: mediumData,
+              },
+            ],
+          });
+        } catch (error) {
+          console.error('Error fetching chart data:', error);
+        }
+      };
+
+      getoverallProjectGraphData();
 
       // staff handled projects chart
       const handledBusiness = {
@@ -204,67 +336,6 @@ window.initializeAdminPageJs = async () => {
         EnterpriseLevelOptions
       );
       pieChart.render();
-
-      const TotalEnterpriseLocalOptions = {
-        theme: {
-          mode: 'light',
-          palette: 'palette2',
-        },
-        series: [
-          {
-            name: 'Micro Enterprise',
-            data: [400, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380],
-          },
-          {
-            name: 'Small Enterprise',
-            data: [300, 330, 348, 370, 440, 480, 590, 1000, 1100, 1280],
-          },
-          {
-            name: 'Medium Enterprise',
-            data: [200, 230, 248, 270, 340, 380, 490, 900, 1000, 1180],
-          },
-        ],
-        chart: {
-          type: 'bar',
-          height: 350,
-          stacked: true,
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 4,
-            borderRadiusApplication: 'end',
-            horizontal: true,
-            columnWidth: '45%',
-            distributed: false,
-            endingShape: 'rounded',
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        xaxis: {
-          categories: [
-            'Tagum City',
-            'Panabo City',
-            'Island Garden City of Samal',
-            'Braulio E. Dujali',
-            'Carmen',
-            'Kapalong',
-            'New Corella',
-            'San Isidro',
-            'Santo Tomas',
-            'Talaingod',
-          ],
-        },
-      };
-
-      const localeChart = new ApexCharts(
-        document.querySelector('#localeChart'),
-        TotalEnterpriseLocalOptions
-      );
-      localeChart.render();
-      {
-      }
     },
     ProjectList: () => {
       $('#forApproval').DataTable({
@@ -660,7 +731,9 @@ window.initializeAdminPageJs = async () => {
 
       const updateStaffUser = async (user_name) => {
         try {
-         const toggleStaffAccess = $('#toggleStaffAccess').prop('checked') ? 'Allowed' :  'Restricted';
+          const toggleStaffAccess = $('#toggleStaffAccess').prop('checked')
+            ? 'Allowed'
+            : 'Restricted';
           const response = await $.ajax({
             type: 'PUT',
             url: USERS_LIST_ROUTE.UPDATE_STAFF_USER.replace(
@@ -677,7 +750,7 @@ window.initializeAdminPageJs = async () => {
           getStaffUserLists();
           showToastFeedback('text-bg-success', response.success);
         } catch (error) {
-            showToastFeedback('text-bg-danger', error.responseJSON.message);
+          showToastFeedback('text-bg-danger', error.responseJSON.message);
         }
       };
 
@@ -696,7 +769,7 @@ window.initializeAdminPageJs = async () => {
           getStaffUserLists();
           showToastFeedback('text-bg-success', response.success);
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
       };
 
@@ -718,9 +791,8 @@ window.initializeAdminPageJs = async () => {
         modalActionButton.removeData('action-type').removeData('unique-val');
 
         // Update modal content
-        const modalHeaderContent = optionType === 'updateUser'
-          ? 'Update User'
-          : 'Delete User';
+        const modalHeaderContent =
+          optionType === 'updateUser' ? 'Update User' : 'Delete User';
 
         modalHeader
           .removeClass('bg-danger bg-primary')
@@ -728,17 +800,24 @@ window.initializeAdminPageJs = async () => {
 
         modalTitle.text(modalHeaderContent);
 
-        const modalBodyContent = optionType === 'updateUser'
-          ? `<div class="form-check form-switch">
+        const modalBodyContent =
+          optionType === 'updateUser'
+            ? `<div class="form-check form-switch">
                <input class="form-check-input" type="checkbox" role="switch" id="toggleStaffAccess">
-               <label class="form-check-label" for="toogleStaffAccess">Are you sure you want to update Access for this user <strong>${sanitize(staffName)}?</strong></label>
+               <label class="form-check-label" for="toogleStaffAccess">Are you sure you want to update Access for this user <strong>${sanitize(
+                 staffName
+               )}?</strong></label>
              </div>`
-          : `<p>Are you sure you want to delete <strong>${sanitize(staffName)}?</strong></p>`;
+            : `<p>Are you sure you want to delete <strong>${sanitize(
+                staffName
+              )}?</strong></p>`;
 
         modalBody.html(modalBodyContent);
 
         // Set toggle switch state
-        modal.find('#toggleStaffAccess').prop('checked', accessTo === 'Restricted');
+        modal
+          .find('#toggleStaffAccess')
+          .prop('checked', accessTo === 'Restricted');
 
         // Update action button
         modalActionButton
@@ -748,18 +827,17 @@ window.initializeAdminPageJs = async () => {
           .attr('data-action-type', optionType)
           .attr('data-unique-val', userName);
 
-          modalActionButton.off('click').on('click', function () {
-            const optionType = $(this).data('action-type');
-            const uniqueVal = $(this).data('unique-val');
+        modalActionButton.off('click').on('click', function () {
+          const optionType = $(this).data('action-type');
+          const uniqueVal = $(this).data('unique-val');
 
-            if (optionType === 'updateUser') {
-              updateStaffUser(uniqueVal);
-            } else if (optionType === 'deleteUser') {
-              deleteStaffUser(uniqueVal);
-            }
-          })
+          if (optionType === 'updateUser') {
+            updateStaffUser(uniqueVal);
+          } else if (optionType === 'deleteUser') {
+            deleteStaffUser(uniqueVal);
+          }
+        });
       });
-
 
       // Helper function for sanitization
 

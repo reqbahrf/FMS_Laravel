@@ -726,6 +726,7 @@
             USERS: '{{ route('admin.Users-list') }}',
         }
         const DASHBOARD_ROUTE = {
+            GET_DASHBOARD_CHARTS_DATA: '{{ route('admin.Dashboard.chartData') }}'
 
         };
 

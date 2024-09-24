@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\ApplicationInfo;
 use App\Models\ProjectInfo;
 use App\Models\BusinessInfo;
+use App\Models\ChartCache;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Exception;
@@ -31,6 +32,25 @@ class AdminViewController extends Controller
         } else {
             return view('AdminView.adminDashboard');
         }
+    }
+
+    public function getDashboardChartData(Request $request)
+    {
+        try{
+          $chartData = ChartCache::select('mouthly_project_categories', 'project_local_categories')->where('year_of', '=', date('Y'))->get();
+
+         $monthlyData = $chartData->pluck('mouthly_project_categories');
+         $localData = $chartData->pluck('project_local_categories');
+
+          return response()->json([
+            'monthlyData' => $monthlyData,
+            'localData' => $localData
+        ]);
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()]);
+
+        }
+
     }
 
 
