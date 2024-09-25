@@ -1,3 +1,5 @@
+import { Tooltip } from "bootstrap";
+
 function showToastFeedback(status, message) {
   const toast = $('#ActionFeedbackToast');
   const toastInstance = new bootstrap.Toast(toast);
@@ -40,129 +42,7 @@ function closeModal(modelId) {
 window.initializeAdminPageJs = async () => {
   const functions = {
     Dashboard: () => {
-      const overallProject = {
-        theme: {
-          mode: 'light',
-        },
-        series: [
-          {
-            name: 'Applicants',
-            data: new Array(12).fill(0),
-          },
-          {
-            name: 'Ongoing',
-            data: new Array(12).fill(0),
-          },
-          {
-            name: 'Completed',
-            data: new Array(12).fill(0),
-          },
-        ],
-        chart: {
-          height: 350,
-          type: 'bar',
-        },
-        stroke: {
-          width: [6, 6, 6],
-          curve: 'smooth',
-          dashArray: [0, 0, 0],
-        },
-        markers: {
-          size: 0,
-        },
-        xaxis: {
-          categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
-            'Nov',
-            'Dec',
-          ],
-        },
-        yaxis: {
-          title: {
-            text: 'Count',
-          },
-        },
-        legend: {
-          tooltipHoverFormatter: function (val, opts) {
-            return (
-              val +
-              ' - ' +
-              opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-              ''
-            );
-          },
-        },
-      };
 
-      const overallProjectGraph = new ApexCharts(
-        document.querySelector('#overallProjectGraph'),
-        overallProject
-      );
-      overallProjectGraph.render();
-
-      const TotalEnterpriseLocalOptions = {
-        theme: {
-          mode: 'light',
-          palette: 'palette2',
-        },
-
-        series: [
-          {
-            name: 'Micro Enterprise',
-            data: [],
-          },
-          {
-            name: 'Small Enterprise',
-            data: [],
-          },
-          {
-            name: 'Medium Enterprise',
-            data: [],
-          },
-        ],
-        chart: {
-          type: 'bar',
-          height: 350,
-          stacked: true,
-          zoom: {
-            enabled: true,
-          },
-          toolbar: {
-            show: true,
-        }
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 4,
-            borderRadiusApplication: 'end',
-            horizontal: true,
-            columnWidth: '45%',
-            distributed: false,
-            endingShape: 'rounded',
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        xaxis: {
-          categories: [],
-        },
-      };
-
-      const localeChart = new ApexCharts(
-        document.querySelector('#localeChart'),
-        TotalEnterpriseLocalOptions
-      );
-      localeChart.render();
 
       const getoverallProjectGraphData = async () => {
         try {
@@ -177,68 +57,213 @@ window.initializeAdminPageJs = async () => {
           // Parse the JSON response if it's a string
           const monthlyData = await JSON.parse(response.monthlyData[0]);
           const localData = await JSON.parse(response.localData); // Assumes it's a valid JSON string
-
-          console.log(monthlyData);
-          console.log(localData);
-
-          // Loop through the data and populate the chart
-          Object.keys(monthlyData).forEach((month) => {
-            const data = monthlyData[month];
-
-            // Assuming 'month' matches 'Sep', 'Oct' etc.
-            const monthIndex = overallProject.xaxis.categories.indexOf(
-              month.substr(0, 3)
-            );
-
-            // For each series, push the respective data
-            overallProject.series[0].data[monthIndex] = data.Applicants || 0;
-            overallProject.series[1].data[monthIndex] = data.Ongoing || 0;
-            overallProject.series[2].data[monthIndex] = data.Completed || 0;
-          });
-
-          overallProjectGraph.updateSeries(overallProject.series);
-
-          const categories = [];
-          const microData = [];
-          const smallData = [];
-          const mediumData = [];
-
-          for (const location in localData) {
-            if (localData.hasOwnProperty(location)) {
-              const data = localData[location];
-              categories.push(location);
-              microData.push(data['Micro Enterprise']); // Use 'data' instead of 'entry'
-              smallData.push(data['Small Enterprise']); // Use 'data' instead of 'entry'
-              mediumData.push(data['Medium Enterprise']); // Use 'data' instead of 'entry'
-            }
-          }
-
-          // Update the chart with the new data (assuming you're using ApexCharts)
-          localeChart.updateOptions({
-            xaxis: {
-              categories: categories,
-            },
-            series: [
-              {
-                name: 'Micro Enterprise',
-                data: microData,
-              },
-              {
-                name: 'Small Enterprise',
-                data: smallData,
-              },
-              {
-                name: 'Medium Enterprise',
-                data: mediumData,
-              },
-            ],
-          });
+         await processMonthlyDataChart(monthlyData);
+         await processLocalDataChart(localData);
         } catch (error) {
           console.error('Error fetching chart data:', error);
         }
       };
 
       getoverallProjectGraphData();
+
+      const processMonthlyDataChart = async (monthlyData) => {
+          let applicants = Array(12).fill(0);
+          let ongoing = Array(12).fill(0);
+          let completed = Array(12).fill(0);
+
+          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+
+       await Promise.all(Object.keys(monthlyData).map(async (month) => {
+            const data = monthlyData[month];
+
+            // Assuming 'month' matches 'Sep', 'Oct' etc.
+            const monthIndex = months.indexOf(
+              month.slice(0, 3)
+            );
+
+            // For each series, push the respective data
+
+            if (monthIndex !== -1) {
+                // Update the arrays for the respective data
+                applicants[monthIndex] = data.Applicants || 0;
+                ongoing[monthIndex] = data.Ongoing || 0;
+                completed[monthIndex] = data.Completed || 0;
+              }
+          }));
+          createMonthlyDataChart(applicants, ongoing, completed);
+      };
+
+      const processLocalDataChart = async (localData) => {
+        let cities = [];
+        let microCounts = [];
+        let smallCounts = [];
+        let mediumCounts = [];
+
+        for (const city in localData) {
+          if (localData.hasOwnProperty(city)) {
+            cities.push(city);
+            microCounts.push(localData[city]['Micro Enterprise']);
+            smallCounts.push(localData[city]['Small Enterprise']);
+            mediumCounts.push(localData[city]['Medium Enterprise']);
+          }
+        }
+
+        createLocalDataChart(cities, microCounts, smallCounts, mediumCounts);
+      };
+
+      const createMonthlyDataChart = async (applicants, ongoing, completed) => {
+
+        const overallProject = {
+          theme: {
+            mode: 'light',
+          },
+          series: [
+            {
+              name: 'Applicants',
+              data: applicants,
+            },
+            {
+              name: 'Ongoing',
+              data: ongoing,
+            },
+            {
+              name: 'Completed',
+              data: completed,
+            },
+          ],
+          chart: {
+            height: 350,
+            type: 'bar',
+          },
+          stroke: {
+            width: [6, 6, 6],
+            curve: 'smooth',
+            dashArray: [0, 0, 0],
+          },
+          markers: {
+            size: 0,
+          },
+          xaxis: {
+            categories: [
+              'Jan',
+              'Feb',
+              'Mar',
+              'Apr',
+              'May',
+              'Jun',
+              'Jul',
+              'Aug',
+              'Sep',
+              'Oct',
+              'Nov',
+              'Dec',
+            ],
+          },
+          yaxis: {
+            title: {
+              text: 'Count',
+            },
+          },
+          legend: {
+            tooltipHoverFormatter: function (val, opts) {
+              return (
+                val +
+                ' - ' +
+                opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+                ''
+              );
+            },
+          },
+        };
+        const overallProjectGraph = new ApexCharts(
+          document.querySelector('#overallProjectGraph'),
+          overallProject
+        );
+        overallProjectGraph.render();
+    }
+      const createLocalDataChart = async (
+        cities,
+        microCounts,
+        smallCounts,
+        mediumCounts
+      ) => {
+        const options = {
+          chart: {
+            type: 'bar',
+            height: 350,
+            stacked: true,
+            toolbar: {
+              show: true,
+              offsetX: 0,
+              offsetY: 0,
+              tools: {
+                download: false,
+                selection: true,
+                zoom: true,
+                zoomin: true,
+                zoomout: true,
+                pan: true,
+                reset: false,
+              },
+            },
+          },
+          series: [
+            {
+              name: 'Micro Enterprises',
+              data: microCounts,
+            },
+            {
+              name: 'Small Enterprises',
+              data: smallCounts,
+            },
+            {
+              name: 'Medium Enterprises',
+              data: mediumCounts,
+            },
+          ],
+          dataLabels: {
+            enabled: false,
+          },
+          yaxis: {
+            title: {
+              text: 'Count',
+            },
+          },
+          xaxis: {
+            labels: {
+              show: false,
+            },
+            tickPlacement: 'on',
+            type: 'category',
+            categories: cities,
+            title: {
+              text: 'Cities',
+            },
+           Tooltip: {
+               enabled: true,
+               formatter: function (val, opts) {
+                   return  opts.w.globals.labels[opts.dataPointIndex];
+               }
+           }
+          },
+          title: {
+            text: 'Number of Micro, Small, and Medium Enterprises by City',
+          },
+          plotOptions: {
+            bar: {
+              horizontal: false,
+                dataLabels: {
+                    enabled: false // Disable data labels
+                }
+            }
+        },
+        };
+        const chart = new ApexCharts(
+          document.querySelector('#localeChart'),
+          options
+        );
+        chart.render();
+      };
 
       // staff handled projects chart
       const handledBusiness = {

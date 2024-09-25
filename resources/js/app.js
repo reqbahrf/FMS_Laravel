@@ -19,6 +19,9 @@ FilePond.registerPlugin(FilePondPluginFileValidateType);
 FilePond.registerPlugin(FilePondPluginFileValidateSize);
 FilePond.registerPlugin(FilePondPluginImagePreview);
 
+import ApexCharts from 'apexcharts';
+window.ApexCharts = ApexCharts;
+
 
 $(document).ready(function() {
     console.log('jQuery is working');
