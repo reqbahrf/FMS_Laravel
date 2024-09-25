@@ -1,5 +1,3 @@
-import { Tooltip } from "bootstrap";
-
 function showToastFeedback(status, message) {
   const toast = $('#ActionFeedbackToast');
   const toastInstance = new bootstrap.Toast(toast);
@@ -41,58 +39,60 @@ function closeModal(modelId) {
 
 window.initializeAdminPageJs = async () => {
   const functions = {
-    Dashboard: () => {
+    Dashboard: async () => {
 
-
-      const getoverallProjectGraphData = async () => {
-        try {
-          const response = await $.ajax({
-            type: 'GET',
-            url: DASHBOARD_ROUTE.GET_DASHBOARD_CHARTS_DATA,
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-          });
-
-          // Parse the JSON response if it's a string
-          const monthlyData = await JSON.parse(response.monthlyData[0]);
-          const localData = await JSON.parse(response.localData); // Assumes it's a valid JSON string
-         await processMonthlyDataChart(monthlyData);
-         await processLocalDataChart(localData);
-        } catch (error) {
-          console.error('Error fetching chart data:', error);
-        }
-      };
-
-      getoverallProjectGraphData();
-
+      /**
+       * Processes monthly data for chart creation.
+       *
+       * @param {object} monthlyData - An object containing monthly data for chart creation.
+       * @return {Promise<void>} A promise that resolves when the data is processed.
+       */
       const processMonthlyDataChart = async (monthlyData) => {
-          let applicants = Array(12).fill(0);
-          let ongoing = Array(12).fill(0);
-          let completed = Array(12).fill(0);
+        let applicants = Array(12).fill(0);
+        let ongoing = Array(12).fill(0);
+        let completed = Array(12).fill(0);
 
-          const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        const months = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ];
 
-       await Promise.all(Object.keys(monthlyData).map(async (month) => {
+        await Promise.all(
+          Object.keys(monthlyData).map(async (month) => {
             const data = monthlyData[month];
 
             // Assuming 'month' matches 'Sep', 'Oct' etc.
-            const monthIndex = months.indexOf(
-              month.slice(0, 3)
-            );
+            const monthIndex = months.indexOf(month.slice(0, 3));
 
             // For each series, push the respective data
 
             if (monthIndex !== -1) {
-                // Update the arrays for the respective data
-                applicants[monthIndex] = data.Applicants || 0;
-                ongoing[monthIndex] = data.Ongoing || 0;
-                completed[monthIndex] = data.Completed || 0;
-              }
-          }));
-          createMonthlyDataChart(applicants, ongoing, completed);
+              // Update the arrays for the respective data
+              applicants[monthIndex] = data.Applicants || 0;
+              ongoing[monthIndex] = data.Ongoing || 0;
+              completed[monthIndex] = data.Completed || 0;
+            }
+          })
+        );
+        await createMonthlyDataChart(applicants, ongoing, completed);
       };
 
+      /**
+       * Processes local data for chart creation, calculating total enterprise levels and creating a local data chart.
+       *
+       * @param {object} localData - An object containing local data for chart creation, with city names as keys and enterprise data as values.
+       * @return {Promise<void>} A promise that resolves when the data is processed and charts are created.
+       */
       const processLocalDataChart = async (localData) => {
         let cities = [];
         let microCounts = [];
@@ -108,11 +108,25 @@ window.initializeAdminPageJs = async () => {
           }
         }
 
-        createLocalDataChart(cities, microCounts, smallCounts, mediumCounts);
+        let totalMicro = microCounts.reduce((a, b) => a + b, 0);
+        let totalSmall = smallCounts.reduce((a, b) => a + b, 0);
+        let totalMedium = mediumCounts.reduce((a, b) => a + b, 0);
+
+        return Promise.all([
+          createLocalDataChart(cities, microCounts, smallCounts, mediumCounts),
+          createEnterpriseLevels(totalMicro, totalSmall, totalMedium),
+        ]);
       };
 
+      /**
+       * Creates a monthly data chart with the provided applicants, ongoing, and completed data.
+       *
+       * @param {number[]} applicants - An array of applicant data for each month.
+       * @param {number[]} ongoing - An array of ongoing data for each month.
+       * @param {number[]} completed - An array of completed data for each month.
+       * @return {Promise<void>} A promise that resolves when the chart is rendered.
+       */
       const createMonthlyDataChart = async (applicants, ongoing, completed) => {
-
         const overallProject = {
           theme: {
             mode: 'light',
@@ -175,12 +189,25 @@ window.initializeAdminPageJs = async () => {
             },
           },
         };
-        const overallProjectGraph = new ApexCharts(
-          document.querySelector('#overallProjectGraph'),
-          overallProject
-        );
-        overallProjectGraph.render();
-    }
+        return new Promise((resolve) => {
+          const overallProjectGraph = new ApexCharts(
+            document.querySelector('#overallProjectGraph'),
+            overallProject
+          );
+          overallProjectGraph.render();
+          resolve();
+        });
+      };
+
+      /**
+       * Creates a local data chart with the provided cities and enterprise counts.
+       *
+       * @param {string[]} cities - An array of city names.
+       * @param {number[]} microCounts - An array of micro enterprise counts.
+       * @param {number[]} smallCounts - An array of small enterprise counts.
+       * @param {number[]} mediumCounts - An array of medium enterprise counts.
+       * @return {void}
+       */
       const createLocalDataChart = async (
         cities,
         microCounts,
@@ -239,12 +266,12 @@ window.initializeAdminPageJs = async () => {
             title: {
               text: 'Cities',
             },
-           Tooltip: {
-               enabled: true,
-               formatter: function (val, opts) {
-                   return  opts.w.globals.labels[opts.dataPointIndex];
-               }
-           }
+            Tooltip: {
+              enabled: true,
+              formatter: function (val, opts) {
+                return opts.w.globals.labels[opts.dataPointIndex];
+              },
+            },
           },
           title: {
             text: 'Number of Micro, Small, and Medium Enterprises by City',
@@ -252,116 +279,175 @@ window.initializeAdminPageJs = async () => {
           plotOptions: {
             bar: {
               horizontal: false,
-                dataLabels: {
-                    enabled: false // Disable data labels
-                }
-            }
-        },
+              dataLabels: {
+                enabled: false, // Disable data labels
+              },
+            },
+          },
         };
-        const chart = new ApexCharts(
-          document.querySelector('#localeChart'),
-          options
-        );
-        chart.render();
+        return new Promise((resolve) => {
+          const chart = new ApexCharts(
+            document.querySelector('#localeChart'),
+            options
+          );
+          chart.render();
+          resolve();
+        });
       };
 
-      // staff handled projects chart
-      const handledBusiness = {
-        theme: {
-          mode: 'light',
-        },
-        series: [
-          {
-            name: 'Micro Enterprise',
-            data: [21, 22, 10, 28, 16],
+      const createEnterpriseLevels = async (
+        totalMicro,
+        totalSmall,
+        totalMedium
+      ) => {
+        const EnterpriseLevelOptions = {
+          theme: {
+            mode: 'light',
+            palette: 'palette2',
           },
-          {
-            name: 'Small Enterprise',
-            data: [15, 25, 11, 19, 14],
+          series: [totalMicro, totalSmall, totalMedium],
+          labels: ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'],
+          chart: {
+            width: 300,
+            type: 'pie',
           },
-          {
-            name: 'Medium Enterprise',
-            data: [10, 20, 15, 24, 10],
+          legend: {
+            show: false,
           },
-        ],
-        chart: {
-          height: 350,
-          type: 'bar',
-          stacked: true,
-          events: {
-            click: function (chart, w, e) {
-              // console.log(chart, w, e)
-            },
-          },
-        },
-        colors: ['#008ffb', '#00e396', '#feb019'],
-        plotOptions: {
-          bar: {
-            columnWidth: '45%',
-            distributed: false,
-            borderRadius: 10,
-            borderRadiusApplication: 'end',
-            borderRadiusWhenStacked: 'last',
-          },
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        legend: {
-          show: true,
-          position: 'bottom',
-        },
-        xaxis: {
-          categories: ['Staff1', 'Staff2', 'Staff3', 'Staff4', 'Staff5'],
-          labels: {
-            style: {
-              colors: ['#111111'],
-              fontSize: '12px',
-            },
-          },
-        },
-      };
-
-      new ApexCharts(
-        document.querySelector('#staffHandledB'),
-        handledBusiness
-      ).render();
-
-      const EnterpriseLevelOptions = {
-        theme: {
-          mode: 'light',
-          palette: 'palette2',
-        },
-        series: [77, 58, 50],
-        labels: ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'],
-        chart: {
-          width: 300,
-          type: 'pie',
-        },
-        legend: {
-          show: false,
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
+          responsive: [
+            {
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200,
+                },
+                legend: {
+                  position: 'bottom',
+                },
               },
-              legend: {
-                position: 'bottom',
+            },
+          ],
+        };
+
+        return new Promise((resolve) => {
+          const pieChart = new ApexCharts(
+            document.querySelector('#enterpriseLevelChart'),
+            EnterpriseLevelOptions
+          );
+          pieChart.render();
+          resolve();
+        });
+      };
+      const createhandledProjectsChart = async () => {
+        const handledBusiness = {
+          theme: {
+            mode: 'light',
+          },
+          series: [
+            {
+              name: 'Micro Enterprise',
+              data: [21, 22, 10, 28, 16],
+            },
+            {
+              name: 'Small Enterprise',
+              data: [15, 25, 11, 19, 14],
+            },
+            {
+              name: 'Medium Enterprise',
+              data: [10, 20, 15, 24, 10],
+            },
+          ],
+          chart: {
+            height: 350,
+            type: 'bar',
+            stacked: true,
+            events: {
+              click: function (chart, w, e) {
+                // console.log(chart, w, e)
               },
             },
           },
-        ],
+          colors: ['#008ffb', '#00e396', '#feb019'],
+          plotOptions: {
+            bar: {
+              columnWidth: '45%',
+              distributed: false,
+              borderRadius: 10,
+              borderRadiusApplication: 'end',
+              borderRadiusWhenStacked: 'last',
+            },
+          },
+          dataLabels: {
+            enabled: false,
+          },
+          legend: {
+            show: true,
+            position: 'bottom',
+          },
+          xaxis: {
+            categories: ['Staff1', 'Staff2', 'Staff3', 'Staff4', 'Staff5'],
+            labels: {
+              style: {
+                colors: ['#111111'],
+                fontSize: '12px',
+              },
+            },
+          },
+        };
+        return new Promise((resolve) => {
+          new ApexCharts(
+            document.querySelector('#staffHandledB'),
+            handledBusiness
+          ).render();
+          resolve();
+        });
       };
 
-      const pieChart = new ApexCharts(
-        document.querySelector('#enterpriseLevelChart'),
-        EnterpriseLevelOptions
-      );
-      pieChart.render();
+      /**
+       * Retrieves dashboard chart data from the server and processes it.
+       *
+       * @return {Promise<void>} A promise that resolves when the data is fetched and processed.
+       */
+      const getDashboardChartData = async () => {
+        try {
+          const response = await $.ajax({
+            type: 'GET',
+            url: DASHBOARD_ROUTE.GET_DASHBOARD_CHARTS_DATA,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          });
+
+          // Parse the JSON response if it's a string
+          const monthlyData = await JSON.parse(response.monthlyData[0]);
+          const localData = await JSON.parse(response.localData); // Assumes it's a valid JSON string
+          return Promise.all([
+            processMonthlyDataChart(monthlyData),
+            processLocalDataChart(localData)
+          ]);
+        } catch (error) {
+          console.error('Error fetching chart data:', error);
+        }
+      };
+
+      const loadAllCharts = async () => {
+        await Promise.all([
+            (() => {
+                getDashboardChartData();
+            })(),
+          createhandledProjectsChart(),
+        ]);
+      };
+
+      await loadAllCharts();
     },
+
+    /**
+     * Initializes the project list view by setting up DataTables and event listeners.
+     * It also defines several helper functions for fetching project proposals, staff lists, and approved projects.
+     *
+     * @return {void}
+     */
     ProjectList: () => {
       $('#forApproval').DataTable({
         columnDefs: [
@@ -386,6 +472,12 @@ window.initializeAdminPageJs = async () => {
       $('#ongoing').DataTable();
       $('#completed').DataTable();
 
+      /**
+       * Fetches a project proposal for a given business ID and updates the form fields with the response data.
+       *
+       * @param {number} businessId - The ID of the business.
+       * @return {Promise<void>} - A promise that resolves when the form fields are updated.
+       */
       const getProjectProposal = async (businessId) => {
         try {
           const response = await $.ajax({
@@ -421,6 +513,16 @@ window.initializeAdminPageJs = async () => {
         }
       };
 
+      /**
+       * Event listener for the click event on the .viewApproval button.
+       * Retrieves the input values from the clicked table row and updates the form fields.
+       * Triggers additional actions such as fetching the project proposal and staff list.
+       *
+       * @event click
+       * @memberof #ApprovaltableBody
+       * @param {Event} event - The click event object.
+       * @return {void}
+       */
       $('#ApprovaltableBody').on('click', '.viewApproval', function () {
         const row = $(this).closest('tr');
         const inputs = row.find('input');
@@ -465,7 +567,12 @@ window.initializeAdminPageJs = async () => {
         getStafflist();
       });
 
-      async function getStafflist() {
+      /**
+       * Retrieves a list of staff members and populates the Assigned_to dropdown.
+       *
+       * @return {void}
+       */
+      const getStafflist = async () => {
         try {
           const response = await fetch(PROJECT_LIST_ROUTE.GET_STAFFLIST, {
             headers: {
@@ -484,7 +591,7 @@ window.initializeAdminPageJs = async () => {
         } catch (error) {
           console.error('Error:', error);
         }
-      }
+      };
 
       async function getforApprovalProject() {
         try {

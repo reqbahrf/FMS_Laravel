@@ -301,6 +301,10 @@
 
         }
 
+        .main-content{
+            height: calc(100vh - var(--top-header-height));
+        }
+
         .topNav {
             display: flex;
             justify-content: space-between;
@@ -710,6 +714,11 @@
                 </ul>
             </div>
             <div class="main-content">
+                <div  class="spinner d-flex justify-content-center align-items-center h-100 d-none" >
+                    <div  class="spinner spinner-border" style="width: 50px; height: 50px;" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                      </div>
+                </div>
                 <main class="main-column scrollable-main" id="main-content">
                 </main>
             </div>
@@ -749,6 +758,7 @@
         };
     </script>
     <script type="module">
+
           // if (unsavedChangesExist()) {
         $(window).on('beforeunload', function() {
             return 'Are you sure you want to leave?';
@@ -772,7 +782,11 @@
         };
 
         window.loadPage = async (url, activeLink) => {
+
             try {
+
+                $('.spinner').removeClass('d-none');
+                $('#main-content').hide();
                 // Check if the response is already cached
                 const cachePage = sessionStorage.getItem(url);
                 if (cachePage) {
@@ -789,10 +803,13 @@
                     });
                     // Cache the response
                     //sessionStorage.setItem(url, response);
-                    handleAjaxSuccess(response, activeLink, url);
+                  await handleAjaxSuccess(response, activeLink, url);
                 }
             } catch (error) {
-                console.log('Error: ' + error);
+                console.error(error);
+            } finally {
+                $('.spinner').addClass('d-none');
+                $('#main-content').show();
             }
         };
 
@@ -813,14 +830,16 @@
                 if (urlMapFunction[url]) {
                     await urlMapFunction[url]();
                 }
-
                 // if (url === '/org-access/viewCooperatorInfo.php') {
                 //     InitializeviewCooperatorProgress();
                 // }
                 sessionStorage.setItem('AdminlastUrl', url);
                 sessionStorage.setItem('AdminLastActive', activeLink);
             } catch (error) {
-                console.log('Error: ' + error);
+                console.error(error);
+            }finally {
+                $('.spinner').addClass('d-none');
+                $('#main-content').show();
             }
         }
 
