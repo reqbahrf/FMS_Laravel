@@ -118,6 +118,21 @@ window.initializeAdminPageJs = async () => {
         ]);
       };
 
+      const processHandleStaffProjectChart = async (handleProject) => {
+
+        const staffNames = handleProject.map(item => item.Staff_Name);
+        const microEnterprisData = handleProject
+        .map(item => item['Micro Enterprise']);
+        const smallEnterpriseData = handleProject
+        .map(item => item['Small Enterprise']);
+        const mediumEnterpriseData = handleProject
+        .map(item => item['Medium Enterprise']);
+        return Promise.all([
+            createhandledProjectsChart(staffNames, microEnterprisData, smallEnterpriseData, mediumEnterpriseData),
+        ]);
+
+      }
+
       /**
        * Creates a monthly data chart with the provided applicants, ongoing, and completed data.
        *
@@ -338,7 +353,7 @@ window.initializeAdminPageJs = async () => {
           resolve();
         });
       };
-      const createhandledProjectsChart = async () => {
+      const createhandledProjectsChart = async (staffNames, microEnterprisData, smallEnterpriseData, mediumEnterpriseData) => {
         const handledBusiness = {
           theme: {
             mode: 'light',
@@ -346,15 +361,15 @@ window.initializeAdminPageJs = async () => {
           series: [
             {
               name: 'Micro Enterprise',
-              data: [21, 22, 10, 28, 16],
+              data: microEnterprisData,
             },
             {
               name: 'Small Enterprise',
-              data: [15, 25, 11, 19, 14],
+              data: smallEnterpriseData,
             },
             {
               name: 'Medium Enterprise',
-              data: [10, 20, 15, 24, 10],
+              data: mediumEnterpriseData,
             },
           ],
           chart: {
@@ -385,7 +400,7 @@ window.initializeAdminPageJs = async () => {
             position: 'bottom',
           },
           xaxis: {
-            categories: ['Staff1', 'Staff2', 'Staff3', 'Staff4', 'Staff5'],
+            categories: staffNames,
             labels: {
               style: {
                 colors: ['#111111'],
@@ -421,9 +436,11 @@ window.initializeAdminPageJs = async () => {
           // Parse the JSON response if it's a string
           const monthlyData = await JSON.parse(response.monthlyData[0]);
           const localData = await JSON.parse(response.localData); // Assumes it's a valid JSON string
+          const handleProject = await response.staffhandledProjects;
           return Promise.all([
             processMonthlyDataChart(monthlyData),
-            processLocalDataChart(localData)
+            processLocalDataChart(localData),
+            processHandleStaffProjectChart(handleProject),
           ]);
         } catch (error) {
           console.error('Error fetching chart data:', error);
@@ -435,7 +452,6 @@ window.initializeAdminPageJs = async () => {
             (() => {
                 getDashboardChartData();
             })(),
-          createhandledProjectsChart(),
         ]);
       };
 

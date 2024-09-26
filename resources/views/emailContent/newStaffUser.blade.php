@@ -16,7 +16,7 @@ Please make sure to change your password after logging in for the first time.
 
 Please also note that upon logging in, you might encounter a **401 Unauthorized**. If this is the case, you may contact the System Administrator to get authorized.
 
-@component('mail::button', ['/login'])
+@component('mail::button', ['url' => '/login'])
 Login Now
 @endcomponent
 

@@ -60,7 +60,6 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Staff Handle Projects</h5>
-                    <p class="card-text">Text</p>
                     <div id="staffHandledB"></div>
                 </div>
             </div>
