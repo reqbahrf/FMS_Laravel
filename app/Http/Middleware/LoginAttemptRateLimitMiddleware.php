@@ -48,6 +48,6 @@ class LoginAttemptRateLimitMiddleware
     }
     private function throttleKey($request)
     {
-        return mb_strtolower($request->input('username')) . '|' . $request->ip();
+        return mb_strtolower($request->input('login')) . '|' . $request->ip();
     }
 }

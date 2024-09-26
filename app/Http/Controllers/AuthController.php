@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class AuthController extends Controller
 {
@@ -46,7 +47,7 @@ class AuthController extends Controller
                     'error' => 'Account creation failed.'
                 ], 422);
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log the exception message for debugging
             Log::error('Signup failed: ' . $e->getMessage());
 
@@ -60,50 +61,68 @@ class AuthController extends Controller
     public function login(Request $request)
     {
         $request->validate([
-            'username' => 'required',
+            'login' => 'required',
             'password' => 'required',
             'B_date' => 'required|date',
             'remember' => 'in:on,off',
         ]);
 
-        $credentials = ['user_name' => $request->username, 'password' => $request->password];
-        $bDate = new DateTime($request->B_date);
+        try{
 
-        if (Auth::attempt($credentials, $request->has('remember'))) {
-            $user = Auth::user();
+            $credentials = [
+                $this->username() => $request->login,
+                'password' => $request->password];
 
-            session(['user_id' => $user->id]);
-            session(['user_name' => $user->user_name]);
-            session(['role' => $user->role]);
+            $bDate = new DateTime($request->B_date);
 
-            switch ($user->role) {
-                case 'Cooperator':
-                    $coop_userInfo = CoopUserInfo::where('user_name', $user->user_name)->first();
+            if (Auth::attempt($credentials, $request->has('remember'))) {
+                $user = Auth::user();
 
-                    if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                session(['user_id' => $user->id]);
+                session(['user_name' => $user->user_name]);
+                session(['role' => $user->role]);
 
-                        return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.home')]);
-                    } else if (is_null($coop_userInfo)) {
-                        return response()->json(['no_record' => 'User is a Cooperator match but does not have Application info.', 'redirect' => route('registrationForm')]);
-                    }
-                    break;
-                case 'Staff':
-                case 'Admin':
-                    $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
+                switch ($user->role) {
+                    case 'Cooperator':
+                        $coop_userInfo = CoopUserInfo::where('user_name', $user->user_name)->first();
 
-                    if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                        session(['name' => $orgUserInfo->full_name]);
-                        session(['org_userId' => $orgUserInfo->id]);
-                        session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
-                        return response()->json(['success' => 'Login successful, user is a ' . $user->role . ' with matching B_date.', 'redirect' => route($user->role . '.home')], 200);
-                    } else {
-                        return response()->json(['error' => 'Invalid credentials.'], 401);
-                    }
-                    break;
+                        if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
+
+                            return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.home')]);
+                        } else if (is_null($coop_userInfo)) {
+                            return response()->json(['no_record' => 'User is a Cooperator match but does not have Application info.', 'redirect' => route('registrationForm')]);
+                        }
+                        break;
+                    case 'Staff':
+                    case 'Admin':
+                        $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
+
+                        if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                            session(['name' => $orgUserInfo->full_name]);
+                            session(['org_userId' => $orgUserInfo->id]);
+                            session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
+                            return response()->json(['success' => 'Login successful, user is a ' . $user->role . ' with matching B_date.', 'redirect' => route($user->role . '.home')], 200);
+                        } else {
+                            return response()->json(['error' => 'Invalid credentials.'], 401);
+                        }
+                        break;
+                }
             }
+            return response()->json(['error' => 'The provided credentials do not match our records.'], 401);
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 401);
         }
 
-        return response()->json(['error' => 'Invalid credentials.'], 401);
+    }
+
+    protected function username()
+    {
+        $input = request()->input('login');
+
+        if(filter_var($input, FILTER_VALIDATE_EMAIL)){
+            return 'email';
+        }
+        return 'user_name';
     }
 
     public function logout(Request $request)

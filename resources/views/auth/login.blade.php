@@ -199,12 +199,12 @@
 
                         </div>
                         <div class="form-floating my-4">
-                            <input type="text" name="username" value="{{ old('username') }}" id="username"
+                            <input type="text" name="login" value="{{ old('login') }}" id="login"
                                 class="form-control" maxlength="30" placeholder="Username" required>
                             <div class="invalid-feedback">
-                                Please enter a username.
+                                Please enter a username or email.
                             </div>
-                            <label for="username">Username</label>
+                            <label for="username">Username or Email</label>
                         </div>
                         <div class="input-group my-4">
                             <div class="form-floating">
@@ -369,11 +369,11 @@
     </script>
     <script type="module">
          window.validateForm = function() {
-            let usernameInput = document.getElementById('username');
+            let loginInput = document.getElementById('login');
             let passwordInput = document.getElementById('password');
             let birthDateInput = document.getElementById('datepicker');
 
-            let inputs = [usernameInput, passwordInput, birthDateInput];
+            let inputs = [loginInput, passwordInput, birthDateInput];
             inputs.forEach(input => {
                 input.addEventListener('focus', function() {
                     this.classList.remove('is-invalid');
@@ -381,13 +381,13 @@
             });
 
             // Reset validation feedback
-            usernameInput.classList.remove('is-invalid');
+            loginInput.classList.remove('is-invalid');
             passwordInput.classList.remove('is-invalid');
             birthDateInput.classList.remove('is-invalid');
 
-            if (usernameInput.value === '') {
-                usernameInput.classList.add('is-invalid');
-                usernameInput.nextElementSibling.textContent = 'Please enter a username.';
+            if (loginInput.value === '') {
+                loginInput.classList.add('is-invalid');
+                loginInput.nextElementSibling.textContent = 'Please enter a username.';
                 return false;
             }
 
