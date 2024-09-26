@@ -37,7 +37,7 @@ class CoopUserInfo extends Model
         return $this->belongsTo(User::class, 'user_name', 'user_name');
     }
 
-    public function BusinessInfo(): HasMany
+    public function businessInfo(): HasMany
     {
         return $this->hasMany(BusinessInfo::class, 'user_info_id', 'id');
     }

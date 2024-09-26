@@ -6,6 +6,7 @@ use App\Models\ApplicationInfo;
 use App\Models\ProjectInfo;
 use App\Models\BusinessInfo;
 use App\Models\ChartCache;
+use App\Models\OrgUserInfo;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Exception;
@@ -36,21 +37,62 @@ class AdminViewController extends Controller
 
     public function getDashboardChartData(Request $request)
     {
-        try{
-          $chartData = ChartCache::select('mouthly_project_categories', 'project_local_categories')->where('year_of', '=', date('Y'))->get();
+        try {
+            $chartData = ChartCache::select('mouthly_project_categories', 'project_local_categories')->where('year_of', '=', date('Y'))->get();
 
-         $monthlyData = $chartData->pluck('mouthly_project_categories');
-         $localData = $chartData->pluck('project_local_categories');
+            $monthlyData = $chartData->pluck('mouthly_project_categories');
+            $localData = $chartData->pluck('project_local_categories');
+            $staffhandledProjects = $this->getStaffHandledProjects();
 
-          return response()->json([
-            'monthlyData' => $monthlyData,
-            'localData' => $localData
-        ]);
-        }catch(Exception $e){
+            return response()->json([
+                'monthlyData' => $monthlyData,
+                'localData' => $localData,
+                'staffhandledProjects' => $staffhandledProjects
+            ]);
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
-
         }
+    }
 
+    private function getStaffHandledProjects()
+    {
+        try {
+
+            return OrgUserInfo::whereHas('user', function ($query) {
+                $query->where('role', 'Staff');
+            })
+                ->with(['handledProjects.businessInfo'])
+                ->get()
+                ->map(function ($staff) {
+
+                    $enterpriseCount = [
+                        'Micro Enterprise' => 0,
+                        'Small Enterprise' => 0,
+                        'Medium Enterprise' => 0,
+                    ];
+
+                    $groupedEnterpriseLevels = $staff->handledProjects->groupBy('businessInfo.enterprise_level')
+                        ->map(function ($projects) {
+                            return $projects->count();
+                        });
+
+                    foreach ($groupedEnterpriseLevels as $level => $count) {
+                        if (array_key_exists($level, $enterpriseCount)) {
+                            $enterpriseCount[$level] = $count;
+                        }
+                    }
+
+                    return (object) [
+                        'Staff_Name' => $staff->prefix . ' ' . $staff->f_name . ' ' . $staff->mid_name . ' ' . $staff->l_name . ' ' . $staff->suffix,
+                        'Micro Enterprise' => $enterpriseCount['Micro Enterprise'],
+                        'Small Enterprise' => $enterpriseCount['Small Enterprise'],
+                        'Medium Enterprise' => $enterpriseCount['Medium Enterprise'],
+                    ];
+                });
+
+        } catch (Exception $e) {
+            return response()->json(['error' => $e->getMessage()]);
+        }
     }
 
 
@@ -255,10 +297,9 @@ class AdminViewController extends Controller
             ], 200);
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error($e->getMessage());
 
             return response()->json([
-                'message' => 'Failed to approve project proposal.',
+                'message' => $e->getMessage(),
                 'status' => 'error',
             ], 500);
         }

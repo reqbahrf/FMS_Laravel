@@ -20,7 +20,7 @@ class ApplicationInfo extends Model
         'Evaluation_date',
     ];
 
-    public function BusinessInfo()
+    public function businessInfo()
     {
         return $this->belongsTo(BusinessInfo::class, 'business_id', 'id');
     }
@@ -29,5 +29,4 @@ class ApplicationInfo extends Model
     {
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
     }
-
 }

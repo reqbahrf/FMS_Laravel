@@ -733,7 +733,6 @@
         }
         const DASHBOARD_ROUTE = {
             GET_DASHBOARD_CHARTS_DATA: '{{ route('admin.Dashboard.chartData') }}'
-
         };
 
         const PROJECT_LIST_ROUTE = {

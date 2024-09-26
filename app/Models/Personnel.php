@@ -25,7 +25,7 @@ class Personnel extends Model
         'female_indirect_part',
     ];
 
-    public function BusinessInfo(): BelongsTo
+    public function businessInfo(): BelongsTo
     {
         return $this->belongsTo(BusinessInfo::class, 'id', 'id');
     }

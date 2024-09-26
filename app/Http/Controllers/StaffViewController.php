@@ -336,12 +336,13 @@ class StaffViewController extends Controller
             'fundAmount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
         ]);
 
-        $TestStaffId = 1;
-
-        $fundAmountFormatted = number_format(str_replace(',', '', $validated['fundAmount']), 2, '.', '');
-        $Actual_fund_toBeRefund = number_format($fundAmountFormatted + $fundAmountFormatted * 0.05, 2, '.', '');
 
         try {
+            $StaffId = Auth::user()->orgusername->id;
+
+            $fundAmountFormatted = number_format(str_replace(',', '', $validated['fundAmount']), 2, '.', '');
+            $Actual_fund_toBeRefund = number_format($fundAmountFormatted + $fundAmountFormatted * 0.05, 2, '.', '');
+
             $project = ProjectInfo::where('project_id', $validated['projectID'])->first();
             if ($project) {
                 return response()->json(['error' => 'Project Id already exist'], 400);
@@ -351,7 +352,7 @@ class StaffViewController extends Controller
                 ['Project_id' => $validated['projectID']],
                 [
                     'business_id' => $validated['business_id'],
-                    'evaluated_by_id' => $TestStaffId,
+                    'evaluated_by_id' => $StaffId,
                     'project_title' => $validated['projectTitle'],
                     'fund_amount' => $fundAmountFormatted,
                     'actual_amount_to_be_refund' => $Actual_fund_toBeRefund,
@@ -367,7 +368,7 @@ class StaffViewController extends Controller
 
             return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 

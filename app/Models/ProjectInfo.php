@@ -32,7 +32,7 @@ class ProjectInfo extends Model
         'Project_id' => 'string',
     ];
 
-    public function BusinessInfo(): BelongsTo
+    public function businessInfo(): BelongsTo
     {
         return $this->BelongsTo(BusinessInfo::class, 'business_id', 'id');
     }

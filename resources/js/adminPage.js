@@ -652,7 +652,7 @@ window.initializeAdminPageJs = async () => {
       }
       getforApprovalProject();
 
-      const approvedProjectProposal = (
+      const approvedProjectProposal = async (
         businessId,
         projectId,
         assignedStaff_Id
@@ -669,25 +669,32 @@ window.initializeAdminPageJs = async () => {
             assigned_staff_id: assignedStaff_Id,
           },
           success: function (response) {
-            //window.loadPage('{{ route('admin.Project') }}', 'projectList');
+            if (response.status === 'success') {
+                showToastFeedback('text-bg-success', response.message);
+                getforApprovalProject();
+                closeOffcanvasInstances('#approvalDetails');
+            }
           },
           error: function (xhr, status, error) {
-            console.log(error);
+            showToastFeedback('text-bg-danger', error);
           },
         });
       };
 
       //Submit the Approved Proposal
       $('#approvedButton').on('click', function () {
+        const businessId = $('#b_id').val();
+        const projectId = $('#ProjectId_fetch').val();
+        const assignedStaff_Id = $('#Assigned_to').val();
         if (
-          typeof $('#b_id').val() !== 'undefined' &&
-          typeof $('#ProjectId_fetch').val() !== 'undefined' &&
-          typeof $('#Assigned_to').val() !== 'undefined'
+          typeof businessId !== 'undefined' &&
+          typeof projectId !== 'undefined' &&
+          typeof assignedStaff_Id !== 'undefined'
         ) {
           approvedProjectProposal(
-            $('#b_id').val(),
-            $('#ProjectId_fetch').val(),
-            $('#Assigned_to').val()
+            businessId,
+            projectId,
+            assignedStaff_Id
           );
         }
       });

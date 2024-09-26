@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class OrgUserInfo extends Model
 {
@@ -41,8 +42,18 @@ class OrgUserInfo extends Model
     ];
 
     // Define the relationship with the User model, assuming it exists
-    public function user() : BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_name', 'user_name');
+    }
+
+    public function handledProjects(): HasMany
+    {
+        return $this->hasMany(ProjectInfo::class, 'handled_by_id');
+    }
+
+    public function evaluatedProjects(): HasMany
+    {
+        return $this->hasMany(ProjectInfo::class, 'evaluated_by_id');
     }
 }
