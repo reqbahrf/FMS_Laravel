@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\ApplicationInfo;
+use App\Models\ChartCache;
 use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\DB;
 use App\Models\Requirement;
@@ -15,6 +16,7 @@ use App\Models\ProjectInfo;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
+use PhpParser\Node\Stmt\TryCatch;
 
 class StaffViewController extends Controller
 {
@@ -29,6 +31,22 @@ class StaffViewController extends Controller
         }
     }
 
+    public function getDashboardChartData(Request $request)
+    {
+        try {
+            $chartData = ChartCache::select('mouthly_project_categories')->where('year_of', '=', date('Y'))->get();
+
+            return response()->json([
+                'monthlyData' => $chartData
+            ], 200);
+
+        } catch (Exception $e) {
+            return response()->json([
+                'error' => $e->getMessage()
+            ], 500);
+        }
+
+    }
     public function getHandledProjects(Request $request)
     {
 

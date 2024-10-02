@@ -736,7 +736,8 @@
 
 
         };
-        const DashboardTabRoute = {
+        const DASHBBOARD_TAB_ROUTE = {
+            GET_MONTHLY_PROJECTS_CHARTDATA: '{{ route('staff.Dashboard.chartData') }}',
             GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',
             SET_PROJECT_TO_ONGOING: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
             STORE_PAYMENT_RECORDS: '{{ route('PaymentRecord.store') }}',

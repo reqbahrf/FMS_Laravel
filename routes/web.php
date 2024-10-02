@@ -59,17 +59,17 @@ Route::post('/login', [AuthController::class, 'login'])
 
 //Login Routes End
 
-Route::get('/password/reset', fn () => view('auth.passwordReset.resetRequest'))
-->name('password.request');
+Route::get('/password/reset', fn() => view('auth.passwordReset.resetRequest'))
+    ->name('password.request');
 
 Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])
-->name('password.email');
+    ->name('password.email');
 
-Route::get('/password/reset/{token}', fn ($token) => view('auth.passwordReset.resetForm', ['token' => $token]))
-->name('password.reset');
+Route::get('/password/reset/{token}', fn($token) => view('auth.passwordReset.resetForm', ['token' => $token]))
+    ->name('password.reset');
 
 Route::post('/password/reset', [PasswordResetController::class, 'reset'])
-->name('password.update');
+    ->name('password.update');
 
 //Logout routes
 Route::post('/logout', [AuthController::class, 'logout'])
@@ -109,6 +109,9 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::get('/Staff/dashboard', [StaffViewController::class, 'dashboard'])
         ->name('staff.dashboard');
 
+    Route::get('/Staff/Dashboard/chartData', [StaffViewController::class, 'getDashboardChartData'])
+        ->name('staff.Dashboard.chartData');
+
     Route::get('/Staff/Project', [StaffViewController::class, 'getProjectsView'])
         ->name('staff.Project');
     Route::post('/Staff/Project/Approved-Project', [StaffViewController::class, 'getApprovedProjects'])
@@ -126,7 +129,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     })->name('staff.Create-Project');
 
     Route::get('/Staff/Project/getQuarterReport/{ProjectId}', [StaffViewController::class, 'getAvailableQuarterlyReport'])
-    ->name('Staff.Project.getQuarterReport');
+        ->name('Staff.Project.getQuarterReport');
 
     Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [StaffViewController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');

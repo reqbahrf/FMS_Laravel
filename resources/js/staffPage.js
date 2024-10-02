@@ -88,72 +88,151 @@ $(document).on('DOMContentLoaded', function () {
 window.initializeStaffPageJs = async () => {
   const functions = {
     Dashboard: () => {
-      const lineChartOptions = {
-        theme: {
-          mode: 'light',
-        },
-        series: [
-          {
-            name: 'Applicant',
-            data: [10, 20, 15, 30, 25, 40, 35, 50, 45, 60],
+      /**
+       * Creates a monthly data chart with the provided data for applicants, ongoing, and completed items.
+       *
+       * @param {Array} applicant - Data for the 'Applicant' category.
+       * @param {Array} ongoing - Data for the 'Ongoing' category.
+       * @param {Array} completed - Data for the 'Completed' category.
+       * @returns {Promise} A promise that resolves after rendering the monthly data chart.
+       */
+      const createMonthlyDataChart = async (applicant, ongoing, completed) => {
+        const monthlyDataChart = {
+          theme: {
+            mode: 'light',
           },
-          {
-            name: 'Ongoing',
-            data: [5, 10, 7, 12, 9, 15, 11, 18, 13, 20],
-          },
-          {
-            name: 'Completed',
-            data: [2, 4, 3, 6, 5, 8, 7, 10, 9, 12],
-          },
-        ],
-        chart: {
-          height: 350,
-          type: 'bar',
-        },
-        stroke: {
-          width: [6, 6, 6],
-          curve: 'smooth',
-          dashArray: [0, 0, 0],
-        },
-        markers: {
-          size: 0,
-        },
-        xaxis: {
-          categories: [
-            'Jan',
-            'Feb',
-            'Mar',
-            'Apr',
-            'May',
-            'Jun',
-            'Jul',
-            'Aug',
-            'Sep',
-            'Oct',
+          series: [
+            {
+              name: 'Applicant',
+              data: applicant,
+            },
+            {
+              name: 'Ongoing',
+              data: ongoing,
+            },
+            {
+              name: 'Completed',
+              data: completed,
+            },
           ],
-        },
-        yaxis: {
-          title: {
-            text: 'Count',
+          chart: {
+            height: 350,
+            type: 'bar',
           },
-        },
-        legend: {
-          tooltipHoverFormatter: function (val, opts) {
-            return (
-              val +
-              ' - ' +
-              opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
-              ''
-            );
+          stroke: {
+            width: [6, 6, 6],
+            curve: 'smooth',
+            dashArray: [0, 0, 0],
           },
-        },
+          markers: {
+            size: 0,
+          },
+          xaxis: {
+            categories: [
+              'Jan',
+              'Feb',
+              'Mar',
+              'Apr',
+              'May',
+              'Jun',
+              'Jul',
+              'Aug',
+              'Sep',
+              'Oct',
+              'Nov',
+              'Dec',
+            ],
+          },
+          yaxis: {
+            title: {
+              text: 'Count',
+            },
+          },
+          legend: {
+            tooltipHoverFormatter: function (val, opts) {
+              return (
+                val +
+                ' - ' +
+                opts.w.globals.series[opts.seriesIndex][opts.dataPointIndex] +
+                ''
+              );
+            },
+          },
+        };
+
+        return new Promise((resolve) => {
+          const lineChart = new ApexCharts(
+            document.querySelector('#lineChart'),
+            monthlyDataChart
+          );
+          lineChart.render();
+          resolve();
+        });
       };
 
-      const lineChart = new ApexCharts(
-        document.querySelector('#lineChart'),
-        lineChartOptions
-      );
-      lineChart.render();
+      /**
+       * Processes monthly data and generates a chart with applicant, ongoing, and completed data.
+       *
+       * @param {Object} monthlyData - An object containing the data for each month.
+       * @param {Object[]} monthlyData[].Applicants - The number of applicants for the month.
+       * @param {Object[]} monthlyData[].Ongoing - The number of ongoing processes for the month.
+       * @param {Object[]} monthlyData[].Completed - The number of completed processes for the month.
+       * @returns {Promise<void>} - A promise that resolves when the chart has been created.
+       */
+      const processMonthlyDataChart = async (monthlyData) => {
+        let applicant = Array(12).fill(0);
+        let ongoing = Array(12).fill(0);
+        let completed = Array(12).fill(0);
+        const months = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ];
+
+        await Promise.all(
+          Object.keys(monthlyData).map(async (month) => {
+            const data = monthlyData[month];
+
+            const monthIndex = months.indexOf(month.slice(0, 3));
+
+            if (monthIndex !== -1) {
+              applicant[monthIndex] = data.Applicants || 0;
+              ongoing[monthIndex] = data.Ongoing || 0;
+              completed[monthIndex] = data.Completed || 0;
+            }
+          })
+        );
+        await createMonthlyDataChart(applicant, ongoing, completed);
+      };
+
+      const getDashboardChartData = async () => {
+        try {
+          const response = await $.ajax({
+            type: 'GET',
+            url: DASHBBOARD_TAB_ROUTE.GET_MONTHLY_PROJECTS_CHARTDATA,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          });
+          const monthlyData = await JSON.parse(
+            response.monthlyData[0].mouthly_project_categories
+          );
+          processMonthlyDataChart(monthlyData);
+        } catch (error) {
+          console.error(error);
+        }
+      };
+
+      getDashboardChartData();
 
       // initialize datatable
       new DataTable('#handledProject');
@@ -229,12 +308,15 @@ window.initializeStaffPageJs = async () => {
        * @return {void}
        */
       const getHandleProject = async () => {
-        const response = await fetch(DashboardTabRoute.GET_HANDLED_PROJECTS, {
-          method: 'GET',
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          },
-        });
+        const response = await fetch(
+          DASHBBOARD_TAB_ROUTE.GET_HANDLED_PROJECTS,
+          {
+            method: 'GET',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          }
+        );
         const data = await response.json();
         const handledProjectTable = $('#handledProject').DataTable();
         handledProjectTable.clear();
@@ -405,7 +487,7 @@ window.initializeStaffPageJs = async () => {
         try {
           const response = await $.ajax({
             type: 'POST',
-            url: DashboardTabRoute.STORE_PAYMENT_RECORDS,
+            url: DASHBBOARD_TAB_ROUTE.STORE_PAYMENT_RECORDS,
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
@@ -434,7 +516,7 @@ window.initializeStaffPageJs = async () => {
           const formData = $('#paymentForm').serialize();
           const response = await $.ajax({
             type: 'PUT',
-            url: DashboardTabRoute.UPDATE_PAYMENT_RECORDS.replace(
+            url: DASHBBOARD_TAB_ROUTE.UPDATE_PAYMENT_RECORDS.replace(
               ':transaction_id',
               transaction_id
             ),
@@ -492,7 +574,7 @@ window.initializeStaffPageJs = async () => {
           const response = await $.ajax({
             type: 'GET',
             url:
-              DashboardTabRoute.GET_PAYMENT_RECORDS +
+              DASHBBOARD_TAB_ROUTE.GET_PAYMENT_RECORDS +
               '?project_id=' +
               projectId,
           });
@@ -758,7 +840,9 @@ window.initializeStaffPageJs = async () => {
           const response = await $.ajax({
             type: 'GET',
             url:
-              DashboardTabRoute.GET_PROJECT_LINKS + '?project_id=' + Project_id,
+              DASHBBOARD_TAB_ROUTE.GET_PROJECT_LINKS +
+              '?project_id=' +
+              Project_id,
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
@@ -794,7 +878,7 @@ window.initializeStaffPageJs = async () => {
           });
           const response = await $.ajax({
             type: 'POST',
-            url: DashboardTabRoute.STORE_PAYMENT_LINKS,
+            url: DASHBBOARD_TAB_ROUTE.STORE_PAYMENT_LINKS,
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
@@ -819,7 +903,7 @@ window.initializeStaffPageJs = async () => {
 
           const response = await $.ajax({
             type: 'PUT',
-            url: DashboardTabRoute.UPDATE_PROJECT_LINKS.replace(
+            url: DASHBBOARD_TAB_ROUTE.UPDATE_PROJECT_LINKS.replace(
               ':project_link_name',
               projectName
             ),
@@ -942,17 +1026,17 @@ window.initializeStaffPageJs = async () => {
             console.log(recordToDelete, uniqueVal);
             const deleteRoute =
               recordToDelete === 'paymentRecord'
-                ? DashboardTabRoute.DELETE_PAYMENT_RECORDS.replace(
+                ? DASHBBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
                     ':transaction_id',
                     uniqueVal
                   )
                 : recordToDelete === 'projectLinkRecord'
-                ? DashboardTabRoute.DELETE_PROJECT_LINK.replace(
+                ? DASHBBOARD_TAB_ROUTE.DELETE_PROJECT_LINK.replace(
                     ':project_link_name',
                     uniqueVal
                   )
                 : recordToDelete === 'quarterlyRecord'
-                ? DashboardTabRoute.DELETE_QUARTERLY_REPORT.replace(
+                ? DASHBBOARD_TAB_ROUTE.DELETE_QUARTERLY_REPORT.replace(
                     ':record_id',
                     uniqueVal
                   )
@@ -974,7 +1058,8 @@ window.initializeStaffPageJs = async () => {
                 : recordToDelete === 'paymentRecord'
                 ? getPaymentHistoryAndCalculation(project_id)
                 : recordToDelete === 'quarterlyRecord'
-                ? getQuarterlyReports(project_id) : null;
+                ? getQuarterlyReports(project_id)
+                : null;
             } catch (error) {
               console.log(error);
               showToastFeedback('text-bg-danger', error.responseJSON.message);
@@ -985,7 +1070,7 @@ window.initializeStaffPageJs = async () => {
       $('#MarkhandleProjectBtn').on('click', function () {
         $.ajax({
           type: 'PUT',
-          url: DashboardTabRoute.SET_PROJECT_TO_ONGOING,
+          url: DASHBBOARD_TAB_ROUTE.SET_PROJECT_TO_ONGOING,
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
           },
@@ -1084,32 +1169,36 @@ window.initializeStaffPageJs = async () => {
 
       const getAvailableQuarterlyReports = async (Project_id) => {
         try {
-            const response = await $.ajax({
-                type: 'GET',
-                url: GenerateSheetsRoute.GET_AVAILABLE_QUARTERLY_REPORT.replace(':project_id', Project_id),
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                },
-            });
-            $('#Select_quarter_to_Generate').append(response.html);
+          const response = await $.ajax({
+            type: 'GET',
+            url: GenerateSheetsRoute.GET_AVAILABLE_QUARTERLY_REPORT.replace(
+              ':project_id',
+              Project_id
+            ),
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          });
+          $('#Select_quarter_to_Generate').append(response.html);
         } catch (error) {
-            console.log(error);
+          console.log(error);
         }
-      }
-
-
+      };
 
       //TODO: Implement spinner for the ajax request
 
-      const getProjectSheetForm = async (formType, Project_id,  {QuartertoUsed} = {}) => {
+      const getProjectSheetForm = async (
+        formType,
+        Project_id,
+        { QuartertoUsed } = {}
+      ) => {
         try {
           const response = await $.ajax({
             type: 'GET',
-            url:
-              GenerateSheetsRoute.getProjectSheetForm
-               .replace(':type', formType)
-               .replace(':project_id', Project_id)
-               .replace(':quarter_of', QuartertoUsed ? QuartertoUsed : ''),
+            url: GenerateSheetsRoute.getProjectSheetForm
+              .replace(':type', formType)
+              .replace(':project_id', Project_id)
+              .replace(':quarter_of', QuartertoUsed ? QuartertoUsed : ''),
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
@@ -1126,7 +1215,9 @@ window.initializeStaffPageJs = async () => {
         const formType = $(this).data('form-type');
         const Project_id = $('#ProjectID').val();
         const QuartertoUsed = $('#Select_quarter_to_Generate').val();
-        await getProjectSheetForm(formType, Project_id, {QuartertoUsed: QuartertoUsed});
+        await getProjectSheetForm(formType, Project_id, {
+          QuartertoUsed: QuartertoUsed,
+        });
 
         const Form_EventListener = {
           PIS: () => {
@@ -1165,7 +1256,6 @@ window.initializeStaffPageJs = async () => {
       };
 
       function PISFormEvents() {
-
         function caculateTotalAssests() {
           const landAssets = parseValue($('#land_val').val());
           const buildingAssets = parseValue($('#building_val').val());
@@ -1708,7 +1798,7 @@ window.initializeStaffPageJs = async () => {
         const formData = $(this).serialize() + '&project_id=' + project_id;
         $.ajax({
           type: 'POST',
-          url: DashboardTabRoute.STORE_NEW_QUARTERLY_REPORT,
+          url: DASHBBOARD_TAB_ROUTE.STORE_NEW_QUARTERLY_REPORT,
           data: formData,
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -1738,7 +1828,7 @@ window.initializeStaffPageJs = async () => {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
             url:
-              DashboardTabRoute.GET_QUARTERLY_REPORT_RECORDS +
+              DASHBBOARD_TAB_ROUTE.GET_QUARTERLY_REPORT_RECORDS +
               '?project_id=' +
               project_id,
           });
@@ -1846,7 +1936,7 @@ window.initializeStaffPageJs = async () => {
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
-            url: DashboardTabRoute.UPDATE_QUARTERLY_REPORT.replace(
+            url: DASHBBOARD_TAB_ROUTE.UPDATE_QUARTERLY_REPORT.replace(
               ':record_id',
               report_id
             ),
