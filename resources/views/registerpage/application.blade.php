@@ -1327,7 +1327,7 @@
     <script type="module">
         document.addEventListener('DOMContentLoaded', () => {
             //IntentFile upload pond
-            let IntentFile = document.getElementById('IntentFile');
+            const IntentFile = document.getElementById('IntentFile');
             FilePond.create(IntentFile, {
                 allowMultiple: false,
                 allowFileTypeValidation: true,
@@ -1403,9 +1403,9 @@
             });
 
             //DTI File upload
-            let DTI_SEC_CDA_File = document.getElementById('DtiSecCdafile');
+            const DTI_SEC_CDA_File = document.getElementById('DtiSecCdafile');
             console.log(DTI_SEC_CDA_File);
-            let DTI_SEC_CDA_instance = FilePond.create(DTI_SEC_CDA_File, {
+            const DTI_SEC_CDA_instance = FilePond.create(DTI_SEC_CDA_File, {
                 allowMultiple: false,
                 allowFileTypeValidation: true,
                 allowFileSizeValidation: true,
@@ -1487,7 +1487,7 @@
 
             })
 
-            let DTI_SEC_CDA_file_Selector = document.getElementById('DtiSecCdaSelector');
+            const DTI_SEC_CDA_file_Selector = document.getElementById('DtiSecCdaSelector');
 
             function checkDTI_SEC_CDA_fileValue() {
                 if (DTI_SEC_CDA_file_Selector.value === '') {
@@ -1499,7 +1499,7 @@
             checkDTI_SEC_CDA_fileValue();
             DTI_SEC_CDA_file_Selector.addEventListener('change', checkDTI_SEC_CDA_fileValue);
 
-            let businessPermitFile = document.getElementById('businessPermitFile');
+            const businessPermitFile = document.getElementById('businessPermitFile');
             FilePond.create(businessPermitFile, {
                 allowMultiple: false,
                 allowFileTypeValidation: true,
@@ -1577,8 +1577,8 @@
                 }
             })
 
-            let fdaLtoFile = document.getElementById('fdaLtoFile');
-            let fdaLto_instance = FilePond.create(fdaLtoFile, {
+            const fdaLtoFile = document.getElementById('fdaLtoFile');
+            const fdaLto_instance = FilePond.create(fdaLtoFile, {
                 allowMultiple: false,
                 allowFileTypeValidation: true,
                 allowFileSizeValidation: true,
@@ -1660,7 +1660,7 @@
             })
 
 
-            let fda_lto_select = document.getElementById('fdaLtoSelector');
+            const fda_lto_select = document.getElementById('fdaLtoSelector');
 
             function checkFdalto() {
                 if (fda_lto_select.value === '') {
@@ -1672,7 +1672,7 @@
             checkFdalto()
             fda_lto_select.addEventListener('change', checkFdalto);
 
-            let receiptFile = document.getElementById('receiptFile');
+            const receiptFile = document.getElementById('receiptFile');
             FilePond.create(receiptFile, {
                 allowMultiple: false,
                 allowFileTypeValidation: true,
@@ -1748,8 +1748,8 @@
 
             })
 
-            let govIdFile = document.getElementById('govIdFile');
-            let govId_instance = FilePond.create(govIdFile, {
+            const govIdFile = document.getElementById('govIdFile');
+            const govId_instance = FilePond.create(govIdFile, {
                 allowMultiple: false,
                 allowFileTypeValidation: true,
                 allowFileSizeValidation: true,
@@ -1827,7 +1827,7 @@
 
             })
 
-            let govId_select = document.getElementById('GovIdSelector');
+            const govId_select = document.getElementById('GovIdSelector');
             function checkGovId(){
                 if(govId_select.value === ''){
                     govId_instance.disabled = true;
@@ -1838,7 +1838,7 @@
             checkGovId()
             govId_select.addEventListener('change', checkGovId);
 
-            let BIR = document.getElementById('BIRFile');
+            const BIR = document.getElementById('BIRFile');
             FilePond.create(BIR, {
                 allowMultiple: false,
                 allowFileTypeValidation: true,
@@ -1957,7 +1957,7 @@
             });
 
             $('#smartwizard').on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
-                var totalSteps = $('#smartwizard').find('ul li').length;
+                const totalSteps = $('#smartwizard').find('ul li').length;
 
                 if (stepPosition != "Last") {
                     $('.btn-success, .btn-secondary').hide();
@@ -2020,8 +2020,8 @@
 
             });
             function validateCurrentStep(stepIndex) {
-                var isValid = true;
-                var currentStep = $('#step-' + (stepIndex + 1)); // stepIndex is 0-based
+                const isValid = true;
+                const currentStep = $('#step-' + (stepIndex + 1)); // stepIndex is 0-based
 
                 currentStep.find('input, select, textarea').each(function() {
                     if (!this.checkValidity()) {
@@ -2094,13 +2094,13 @@
                 window.location.href = 'some_cancel_url'; // Redirect to a specific URL
             }
                 $('#Mobile_no').on('keypress', function(e) {
-                    var charCode = (e.which) ? e.which : e.keyCode;
+                    const charCode = (e.which) ? e.which : e.keyCode;
                     if (charCode > 31 && (charCode < 48 || charCode > 57)) {
                         return false;
                     }
                     return true;
                 }).on('input', function() {
-                    var number = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
+                    const number = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
                     if (number.length > 0) {
                         var formattedNumber = number.match(/(\d{0,4})(\d{0,3})(\d{0,4})/);
                         var formatted = '';
@@ -2135,10 +2135,10 @@
                         formatNumber($(this)[0]);
                     });
 
-                    var buildingsValue = parseFloat($('#buildings').val().replace(/,/g, '')) || 0;
-                    var equipmentsValue = parseFloat($('#equipments').val().replace(/,/g, '')) || 0;
-                    var workingCapitalValue = parseFloat($('#working_capital').val().replace(/,/g, '')) || 0;
-                    var total = buildingsValue + equipmentsValue + workingCapitalValue;
+                    const buildingsValue = parseFloat($('#buildings').val().replace(/,/g, '')) || 0;
+                    const equipmentsValue = parseFloat($('#equipments').val().replace(/,/g, '')) || 0;
+                    const workingCapitalValue = parseFloat($('#working_capital').val().replace(/,/g, '')) || 0;
+                    const total = buildingsValue + equipmentsValue + workingCapitalValue;
                     $('#to_Assets').text(total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,'));
                     if (total === 0) {
                         $('#Enterprise_Level').text('');
