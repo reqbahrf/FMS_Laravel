@@ -51,14 +51,6 @@ function closeModal(modelId) {
 }
 
 $(document).on('DOMContentLoaded', function () {
-  function makeData() {
-    var data = [];
-    for (var i = 0; i < 10; i++) {
-      data.push(Math.floor(Math.random() * 100)); // Generates random numbers between 0 and 99
-    }
-    console.log(data);
-    return data;
-  }
 
   // Line chart
   //toast feedback
@@ -2119,6 +2111,7 @@ window.initializeStaffPageJs = async () => {
         $('#' + sectionId).toggle();
       });
 
+      //TODO: Put this inside a function
       fetch(ProjectTabRoute.projectApprovalLink, {
         method: 'POST',
         headers: {

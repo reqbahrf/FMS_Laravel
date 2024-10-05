@@ -98,7 +98,7 @@ class StaffViewController extends Controller
 
                     )->get();
 
-                Cache::put('handled_projects' . $org_userId, $handledProjects, 60);
+                Cache::put('handled_projects' . $org_userId, $handledProjects, 1800);
             }
 
             if ($handledProjects) {
@@ -174,7 +174,7 @@ class StaffViewController extends Controller
                     )
                     ->get();
 
-                Cache::put('approved_projects', $approvedProjects, 60);
+                Cache::put('approved_projects', $approvedProjects, 1800);
             }
 
 
@@ -223,7 +223,7 @@ class StaffViewController extends Controller
                             'business_info.id as business_id'
                         )
                         ->get();
-                    Cache::put('applicants', $applicants, 60);
+                    Cache::put('applicants', $applicants, 1800);
                 }
                 return view('staffView.staffApplicantTab', compact('applicants'));
             } catch (Exception $e) {
