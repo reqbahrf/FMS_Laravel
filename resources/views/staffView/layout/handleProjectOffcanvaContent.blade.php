@@ -37,7 +37,10 @@
                             </div>
                             <div class="col-12 col-md-8">
                                 <label for="amount">Amount:</label>
-                                <input type="text" class="form-control" id="amount" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text" class="form-control" id="ApprovedAmount" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="appliedDate">Approved Date:</label>

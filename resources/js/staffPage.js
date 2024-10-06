@@ -327,8 +327,13 @@ window.initializeStaffPageJs = async () => {
         const data = await response.json();
         const handledProjectTable = $('#handledProject').DataTable();
         handledProjectTable.clear();
-        handledProjectTable.rows.add(
-          data.map((project) => [
+
+        data.forEach((project) => {
+            const refunded_amount = parseFloat(project.Refunded_Amount) || 0;
+            const Actual_Amount = parseFloat(project.Actual_Amount) || 0;
+
+            const percentage = Math.ceil((refunded_amount / Actual_Amount) * 100);
+          handledProjectTable.row.add([
             project.Project_id,
             project.project_title,
             `<p class="firm_name">${project.firm_name}</p>
@@ -355,15 +360,15 @@ window.initializeStaffPageJs = async () => {
                 <input type="hidden" class="dateApplied" value="${
                   project.date_applied
                 }">
-                <input type="hidden" class="building_value" value="${parseFloat(
+                <input type="hidden" class="building_value" value="${
                   project.building_value
-                ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">
-                <input type="hidden" class="equipment_value" value="${parseFloat(
+                }">
+                <input type="hidden" class="equipment_value" value="${
                   project.equipment_value
-                ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">
-                <input type="hidden" class="working_capital" value="${parseFloat(
+               }">
+                <input type="hidden" class="working_capital" value="${
                   project.working_capital
-                ).toLocaleString('en-US', { minimumFractionDigits: 2 })}">`,
+               }">`,
             `<p class="owner_name">${
               project.prefix +
               ' ' +
@@ -384,9 +389,9 @@ window.initializeStaffPageJs = async () => {
                   project.mobile_number
                 }">
                 <input type="hidden" class="email" value="${project.email}">`,
-            `${parseFloat(project.fund_amount).toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })}`,
+            `${formatToString(refunded_amount) + '/' + formatToString(Actual_Amount)}<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
+            <input type="hidden" class="approved_amount" value="${project.Approved_Amount}">
+            <input type="hidden" class="actual_amount" value="${Actual_Amount}">`,
             `<span class="badge ${
               project.application_status === 'approved'
                 ? 'bg-warning'
@@ -400,8 +405,8 @@ window.initializeStaffPageJs = async () => {
                     data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
                     <i class="ri-menu-unfold-4-line ri-1x"></i>
                 </button>`,
-          ])
-        );
+          ]);
+        });
         handledProjectTable.draw();
       };
 
@@ -591,9 +596,7 @@ window.initializeStaffPageJs = async () => {
           paymentHistoryTable.rows.add(
             response.map((payment) => [
               payment.transaction_id,
-              parseFloat(payment.amount).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              }),
+              formatToString(parseFloat(payment.amount)),
               payment.payment_method,
               payment.payment_status,
               payment.created_at,
@@ -663,6 +666,7 @@ window.initializeStaffPageJs = async () => {
         function () {
           const handledProjectRow = $(this).closest('tr');
           const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
+          const offCanvaReadonlyInputs = $('#handleProjectOff').find('input')
 
           // Cache values from the row
           const project_status = handledProjectRow
@@ -671,7 +675,6 @@ window.initializeStaffPageJs = async () => {
             .trim();
           const project_id = handledProjectRow.find('td:eq(0)').text().trim();
           const projectTitle = handledProjectRow.find('td:eq(1)').text().trim();
-          const amount = handledProjectRow.find('td:eq(4)').text().trim();
           const firmName = handledProjectRow
             .find('td:eq(2) p.firm_name')
             .text()
@@ -681,12 +684,6 @@ window.initializeStaffPageJs = async () => {
             .text()
             .trim();
 
-          handleProjectOffcanvasContent(project_status);
-          getPaymentHistoryAndCalculation(project_id);
-          getProjectLinks(project_id);
-          getQuarterlyReports(project_id);
-          getAvailableQuarterlyReports(project_id);
-
           // Cache hidden input values
           const business_id = hiddenInputs.filter('.business_id').val();
           const birthDate = new Date(hiddenInputs.filter('.birth_date').val());
@@ -695,17 +692,13 @@ window.initializeStaffPageJs = async () => {
           const landline = hiddenInputs.filter('.landline').val();
           const mobilePhone = hiddenInputs.filter('.mobile_phone').val();
           const email = hiddenInputs.filter('.email').val();
-          const enterpriseType = hiddenInputs
-            .filter('.business_enterprise_type')
-            .val();
-          const enterpriseLevel = hiddenInputs
-            .filter('.business_enterprise_level')
-            .val();
+          const enterpriseType = hiddenInputs.filter('.business_enterprise_type').val();
+          const enterpriseLevel = hiddenInputs.filter('.business_enterprise_level').val();
           const buildingAsset = hiddenInputs.filter('.building_value').val();
           const equipmentAsset = hiddenInputs.filter('.equipment_value').val();
-          const workingCapitalAsset = hiddenInputs
-            .filter('.working_capital')
-            .val();
+          const workingCapitalAsset = hiddenInputs.filter('.working_capital').val();
+          const approved_amount = hiddenInputs.filter('.approved_amount').val(); 
+          const actual_amount = hiddenInputs.filter('.actual_amount').val();
 
           // Calculate age
           const age = Math.floor(
@@ -713,48 +706,42 @@ window.initializeStaffPageJs = async () => {
           );
 
           // Update form fields
-          $('#hiddenbusiness_id').val(business_id);
-          $('#age').val(age);
-          $('#ProjectID').val(project_id);
-          $('#ProjectTitle').val(projectTitle);
-          $('#amount').val(amount);
-          $('#appliedDate').val(dateApplied);
-          $('#FirmName').val(firmName);
-          $('#CooperatorName').val(cooperatorName);
-          $('#Gender').val(gender);
-          $('#landline').val(landline);
-          $('#mobilePhone').val(mobilePhone);
-          $('#email').val(email);
-          $('#enterpriseType').val(enterpriseType);
-          $('#EnterpriseLevel').val(enterpriseLevel);
-          $('#buildingAsset').val(buildingAsset);
-          $('#equipmentAsset').val(equipmentAsset);
-          $('#workingCapitalAsset').val(workingCapitalAsset);
+          offCanvaReadonlyInputs.filter('#hiddenbusiness_id').val(business_id);
+          offCanvaReadonlyInputs.filter('#age').val(age);
+          offCanvaReadonlyInputs.filter('#ProjectID').val(project_id);
+          offCanvaReadonlyInputs.filter('#ProjectTitle').val(projectTitle);
+          offCanvaReadonlyInputs.filter('#ApprovedAmount').val(formatToString(parseFloat(approved_amount)));
+          offCanvaReadonlyInputs.filter('#appliedDate').val(dateApplied);
+          offCanvaReadonlyInputs.filter('#FirmName').val(firmName);
+          offCanvaReadonlyInputs.filter('#CooperatorName').val(cooperatorName);
+          offCanvaReadonlyInputs.filter('#Gender').val(gender);
+          offCanvaReadonlyInputs.filter('#landline').val(landline);
+          offCanvaReadonlyInputs.filter('#mobilePhone').val(mobilePhone);
+          offCanvaReadonlyInputs.filter('#email').val(email);
+          offCanvaReadonlyInputs.filter('#enterpriseType').val(enterpriseType);
+          offCanvaReadonlyInputs.filter('#EnterpriseLevel').val(enterpriseLevel);
+          offCanvaReadonlyInputs.filter('#buildingAsset').val(buildingAsset);
+          offCanvaReadonlyInputs.filter('#equipmentAsset').val(equipmentAsset);
+          offCanvaReadonlyInputs.filter('#workingCapitalAsset').val(workingCapitalAsset);
+
+          handleProjectOffcanvasContent(project_status);
+          getPaymentHistoryAndCalculation(project_id, actual_amount);
+          getProjectLinks(project_id);
+          getQuarterlyReports(project_id);
+          getAvailableQuarterlyReports(project_id);
         }
       );
 
-      const getPaymentHistoryAndCalculation = async (project_id) => {
+      const getPaymentHistoryAndCalculation = async (project_id, actual_amount = 0) => {
         try {
           const totalAmount = await getPaymentHistory(project_id);
-          const amount = $('#amount').val();
-          const fundedAmount = parseFloat(amount.replace(/,/g, ''));
+         
+          const fundedAmount = parseFloat(actual_amount.replace(/,/g, ''));
           const remainingAmount = fundedAmount - totalAmount;
           const percentage = Math.round((totalAmount / fundedAmount) * 100);
-          $('#totalPaid').text(
-            totalAmount.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })
-          );
-          $('#FundedAmount').text(
-            fundedAmount.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })
-          );
-          $('#remainingBalance').text(
-            remainingAmount.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })
-          );
+          $('#totalPaid').text(formatToString(totalAmount));
+          $('#FundedAmount').text(formatToString(fundedAmount));
+          $('#remainingBalance').text(formatToString(remainingAmount));
 
           setTimeout(() => {
             InitializeviewCooperatorProgress(percentage);
@@ -2366,7 +2353,7 @@ window.initializeStaffPageJs = async () => {
             const amount_refunded = parseFloat(Ongoing.amount_refunded);
             const to_be_refunded = parseFloat(Ongoing.to_be_refunded);
 
-            const percentage = (amount_refunded / to_be_refunded) * 100;
+            const percentage = Math.ceil((amount_refunded / to_be_refunded) * 100);
             OngoingDatatable.row
               .add([
                 `${Ongoing.Project_id}`,
