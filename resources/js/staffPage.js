@@ -2230,24 +2230,18 @@ window.initializeStaffPageJs = async () => {
         const projectDetails = {
           project_id: inputs.filter('.project_id').val(),
           project_title: row.find('td:nth-child(2)').text().trim(),
-          project_fund_amount: inputs.filter('.project_fund_amount').val(),
-          project_amount_to_be_refunded: inputs
-            .filter('.amount_to_be_refunded')
-            .val(),
-          project_refunded_amount: inputs.filter('.amount_refunded').val(),
+          project_fund_amount: parseFloat(inputs.filter('.project_fund_amount').val()),
+          project_amount_to_be_refunded: parseFloat(inputs.filter('.amount_to_be_refunded').val()),
+          project_refunded_amount: parseFloat(inputs.filter('.amount_refunded').val()),
           date_applied: inputs.filter('.date_applied').val(),
           project_date_approved: inputs.filter('.date_approved').val(),
           evaluated_by: inputs.filter('.evaluated_by').val(),
           handle_by: inputs.filter('.handle_by').val(),
         };
 
-        readonlyInputs
-          .filter('.cooperatorName')
-          .val(personalDetails.cooperName);
+        readonlyInputs.filter('.cooperatorName').val(personalDetails.cooperName);
         readonlyInputs.filter('.designation').val(personalDetails.designaition);
-        readonlyInputs
-          .filter('.mobile_number')
-          .val(personalDetails.mobile_number);
+        readonlyInputs.filter('.mobile_number').val(personalDetails.mobile_number);
         readonlyInputs.filter('.email').val(personalDetails.email);
         readonlyInputs.filter('.landline').val(personalDetails.landline);
 
@@ -2259,6 +2253,15 @@ window.initializeStaffPageJs = async () => {
         readonlyInputs.filter('.building').val(formatToString(businessDetails.building_assets));
         readonlyInputs.filter('.equipment').val(formatToString(businessDetails.equipment_assets));
         readonlyInputs.filter('.workingCapital').val(formatToString(businessDetails.working_capital_assets));
+
+        readonlyInputs.filter('.ProjectId').val(projectDetails.project_id);
+        readonlyInputs.filter('.ProjectTitle').val(projectDetails.project_title);
+        readonlyInputs.filter('.funded_amount').val(formatToString(projectDetails.project_fund_amount));
+        readonlyInputs.filter('.amount_to_be_refunded').val(formatToString(projectDetails.project_amount_to_be_refunded));
+        readonlyInputs.filter('.refunded').val(formatToString(projectDetails.project_refunded_amount));
+        readonlyInputs.filter('.date_applied').val(projectDetails.date_applied);
+        readonlyInputs.filter('.evaluated_by').val(projectDetails.evaluated_by);
+        readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
       });
       async function getApprovedProjects() {
         try {

@@ -546,24 +546,32 @@
                                     <input type="text" id="" class="form-control ProjectTitle" readonly
                                         value="">
                                 </div>
-                                <div class="col-12 col-md-8">
-                                    <label for="Amount_fetch">Amount:</label>
-                                    <input type="text" id="" class="form-control Amount" readonly
+                                <div class="col-12 col-md-4">
+                                    <label for="Amount_fetch">Approved Amount:</label>
+                                    <input type="text" id="" class="form-control funded_amount" readonly
                                         value="">
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <label for="Applied_fetch">Date Applied:</label>
-                                    <input type="text" id="" class="form-control Applied" readonly
+                                    <label for="amount_to_be_refunded">Amount to be refunded:</label>
+                                    <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="amount_to_be_refunded">Refunded:</label>
+                                    <input type="text" id="" class="form-control refunded" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="date_applied">Date Applied:</label>
+                                    <input type="text" id="" class="form-control date_applied" readonly
                                         value="">
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label for="evaluated_fetch">Evaluated by:</label>
-                                    <input type="text" id="" class="form-control evaluated" readonly
+                                    <input type="text" id="" class="form-control evaluated_by" readonly
                                         value="">
                                 </div>
                                 <div class="col-12 col-md-6">
-                                    <label for="Assigned_to">Assigned to:</label>
-                                    <input type="text" id="" class="form-control Assigned_to" readonly
+                                    <label for="handle_by">Assigned to:</label>
+                                    <input type="text" id="" class="form-control handle_by" readonly
                                         value="">
                                 </div>
                             </div>
