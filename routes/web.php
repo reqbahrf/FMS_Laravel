@@ -114,8 +114,11 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
     Route::get('/Staff/Project', [StaffViewController::class, 'getProjectsView'])
         ->name('staff.Project');
-    Route::post('/Staff/Project/Approved-Project', [StaffViewController::class, 'getApprovedProjects'])
+    Route::get('/Staff/Project/getApproved-Project', [StaffViewController::class, 'getApprovedProjects'])
         ->name('staff.Project.ApprovedProjectProposal');
+
+    Route::get('/Staff/Project/getOngoingProjects', [StaffViewController::class, 'getOngoingProjects'])
+        ->name('staff.Project.getOngoingProjects');
 
     Route::get('/Staff/Applicant', [StaffViewController::class, 'applicantGet'])
         ->name('staff.Applicant');
@@ -220,3 +223,5 @@ Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'ver
 Route::get('/SR', [staffGenerateSRController::class, 'index']);
 Route::get('/viewSR', fn() => view('staffView.outputs.StatusReport'));
 Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
+
+

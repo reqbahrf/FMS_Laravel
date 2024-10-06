@@ -1,3 +1,6 @@
+if (import.meta.hot) {
+  import.meta.hot.accept();
+}
 function showToastFeedback(status, message) {
   const toast = $('#ActionFeedbackToast');
   const toastInstance = new bootstrap.Toast(toast);
@@ -51,7 +54,6 @@ function closeModal(modelId) {
 }
 
 $(document).on('DOMContentLoaded', function () {
-
   // Line chart
   //toast feedback
 
@@ -1960,7 +1962,7 @@ window.initializeStaffPageJs = async () => {
           },
           {
             targets: 3,
-            width: '20%',
+            width: '30%',
           },
           {
             targets: 4,
@@ -1968,11 +1970,71 @@ window.initializeStaffPageJs = async () => {
           },
           {
             targets: 5,
-            width: '5%',
+            width: '2%',
           },
         ],
       });
-      $('#ongoingTable').DataTable();
+      $('#ongoingTable').DataTable({
+        responsive: true,
+        autoWidth: false,
+        fixedColumns: true,
+        columns: [
+            {
+                title: 'Project #',
+            },
+            {
+                title: 'Project Title'
+            },
+            {
+                title: 'Firm'
+            },
+            {
+                title: 'Cooperator Name'
+            },
+            {
+                title: 'Designation',
+            },
+            {
+                title: 'Status',
+            },
+            {
+                title: 'Action'
+            }
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                width: '15%',
+                className: 'text-center',
+            },
+            {
+                targets: 1,
+                width: '30%',
+            },
+            {
+                targets: 2,
+                width: '15%',
+            },
+            {
+                targets: 3,
+                width: '20%',
+            },
+            {
+                targets: 4,
+                width: '15%',
+            },
+            {
+                targets: 5,
+                width: '10%',
+            },
+            {
+                targets: 6,
+                width: '10%',
+                orderable: false,
+                className: 'text-center',
+            },
+        ],
+      });
       $('#completed').DataTable();
 
       $('#ApprovedtableBody').on('click', '.approvedProjectInfo', function () {
@@ -2071,7 +2133,6 @@ window.initializeStaffPageJs = async () => {
 
       $('#addRequirement').on('click', function () {
         let RequirementLinkContent = $('#linkContainer');
-
         RequirementLinkContent.append(`
                             <div class="col-12 linkConstInstance">
                                         <div class="row">
@@ -2110,17 +2171,19 @@ window.initializeStaffPageJs = async () => {
         // Toggle the display of the selected section
         $('#' + sectionId).toggle();
       });
-
-      //TODO: Put this inside a function
-      fetch(ProjectTabRoute.projectApprovalLink, {
-        method: 'POST',
-        headers: {
-          'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-        dataType: 'json',
-      })
-        .then((response) => response.json())
-        .then((data) => {
+      async function getApprovedProjects() {
+        try {
+          const response = await fetch(
+            PROJECT_TAB_ROUTE.GET_APPROVED_PROJECTS,
+            {
+              method: 'GET',
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+              },
+              dataType: 'json',
+            }
+          );
+          const data = await response.json();
           let ApprovedDatatable = $('#approvedTable').DataTable();
           ApprovedDatatable.clear().draw();
           data.forEach((Approved) => {
@@ -2128,45 +2191,105 @@ window.initializeStaffPageJs = async () => {
               .add([
                 `${Approved.Project_id}`,
                 `${Approved.f_name} ${Approved.l_name}
-                                      <input type="hidden" class="designation" value="${
-                                        Approved.designation
-                                      }">
-                                      <input type="hidden" class="mobile_number" value="${
-                                        Approved.mobile_number
-                                      }">
-                                      <input type="hidden" class="email" value="${
-                                        Approved.email
-                                      }">
-                                      <input type="hidden" class="landline" value="${
-                                        Approved.landline ?? ''
-                                      }">`,
+                                        <input type="hidden" class="designation" value="${
+                                          Approved.designation
+                                        }">
+                                        <input type="hidden" class="mobile_number" value="${
+                                          Approved.mobile_number
+                                        }">
+                                        <input type="hidden" class="email" value="${
+                                          Approved.email
+                                        }">
+                                        <input type="hidden" class="landline" value="${
+                                          Approved.landline ?? ''
+                                        }">`,
                 `${Approved.firm_name}
-                                      <input type="hidden" class="business_id" value="${Approved.business_id}">
-                                      <input type="hidden" class="enterprise_type" value="${Approved.enterprise_type}">
-                                      <input type="hidden" class="enterprise_level" value="${Approved.enterprise_level}">
-                                      <input type="hidden" class="building_Assets" value="${Approved.building_value}">
-                                      <input type="hidden" class="equipment_Assets" value="${Approved.equipment_value}">
-                                      <input type="hidden" class="working_capital_Assets" value="${Approved.working_capital}">
-                                      <input type="hidden" class="business_address" value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}">`,
+                                        <input type="hidden" class="business_id" value="${Approved.business_id}">
+                                        <input type="hidden" class="enterprise_type" value="${Approved.enterprise_type}">
+                                        <input type="hidden" class="enterprise_level" value="${Approved.enterprise_level}">
+                                        <input type="hidden" class="building_Assets" value="${Approved.building_value}">
+                                        <input type="hidden" class="equipment_Assets" value="${Approved.equipment_value}">
+                                        <input type="hidden" class="working_capital_Assets" value="${Approved.working_capital}">
+                                        <input type="hidden" class="business_address" value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}">`,
                 `${Approved.project_title}
-                                      <input type="hidden" class="fund_amount" value="${Approved.fund_amount}">
-                                      <input type="hidden" class="dateApplied" value="${Approved.date_applied}">
-                                      <input type="hidden" class="staffUserName" value="${Approved.staffUserName}">
-                                      <input type="hidden" class="evaluated_by" value="${Approved.evaluated_by}">
-                                      <input type="hidden" class="assigned_to" value="${Approved.assinged_to}">`,
+                                        <input type="hidden" class="fund_amount" value="${
+                                          Approved.fund_amount
+                                        }">
+                                        <input type="hidden" class="dateApplied" value="${
+                                          Approved.date_applied
+                                        }">
+                                        <input type="hidden" class="staffUserName" value="${
+                                          Approved.staffUserName
+                                        }">
+                                        <input type="hidden" class="evaluated_by" value="${
+                                          Approved?.evaluated_by_prefix +
+                                          '' +
+                                          Approved.evaluated_by_f_name +
+                                          ' ' +
+                                          Approved?.evaluated_by_mid_name +
+                                          ' ' +
+                                          Approved?.evaluated_by_l_name +
+                                          ' ' +
+                                          Approved?.evaluated_by_suffix
+                                        }">
+                                        <input type="hidden" class="assigned_to" value="${
+                                          Approved?.handled_by_prefix +
+                                          '' +
+                                          Approved.handled_by_f_name +
+                                          ' ' +
+                                          Approved?.handled_by_mid_name +
+                                          ' ' +
+                                          Approved?.handled_by_l_name +
+                                          ' ' +
+                                          Approved?.handled_by_suffix
+                                        }">`,
                 `${Approved.date_approved}`,
                 ` <button class="btn btn-primary approvedProjectInfo" type="button"
-                                                              data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
-                                                              aria-controls="approvedDetails">
-                                                              <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                                          </button>`,
+                                                                data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
+                                                                aria-controls="approvedDetails">
+                                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                                            </button>`,
               ])
               .draw(false);
           });
-        })
-        .catch((error) => {
+        } catch (error) {
           console.error('Error:', error);
-        });
+        }
+      }
+
+      async function getOngoingProjects() {
+        try {
+            const response = await fetch(PROJECT_TAB_ROUTE.GET_ONGOING_PROJECTS, {
+                method: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                dataType: 'json',
+            });
+            const data = await response.json();
+            let OngoingDatatable = $('#ongoingTable').DataTable();
+            OngoingDatatable.clear().draw();
+            data.forEach((Ongoing) => {
+                OngoingDatatable.row.add([
+                    Ongoing.Project_id,
+                    Ongoing.project_title,
+                    Ongoing.firm_name,
+                    Ongoing?.f_name + ' ' + Ongoing?.l_name,
+                    Ongoing.designation,
+                    Ongoing.application_status,
+                    ` <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
+                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
+                    </button>`
+                ]).draw();
+            })
+        } catch (error) {
+            console.error('Error:', error);
+        }
+      }
+
+      getApprovedProjects();
+      getOngoingProjects();
     },
     Applicant: () => {
       new DataTable('#applicant'); // Then initialize DataTables

@@ -27,6 +27,9 @@
 
     /* Off canvas style */
 
+    #approvedTable, #ongoingTable {
+    table-layout: fixed;
+}
     #ongoingTable_wrapper>div:first-child,
     #approvedTable_wrapper>div:first-child,
     #completed_wrapper>div:first-child {
@@ -1113,7 +1116,7 @@
                     <div class="tab-pane fade show active" id="Approved-tab-pane" role="tabpanel"
                         aria-labelledby="Approved-tab" tabindex="0">
                         <!-- Where the applicant table start -->
-                        <div class=" table-responsive-sm">
+                        <div class="table-responsive-sm">
                             <table id="approvedTable" class="table table-hover" style="width:100%">
                                 <thead>
                                     <tr>
@@ -1200,54 +1203,12 @@
                     <div class="tab-pane fade" id="Ongoing-tab-pane" role="tabpanel" aria-labelledby="Ongoing-tab"
                         tabindex="0">
                         <!-- Where the Ongoing Table Start -->
-                        <div class=" table-responsive-sm">
-                            <table id="ongoingTable" class="table table-hover" style="width:100%;">
+                        <div class="table-responsive-sm">
+                            <table id="ongoingTable" class="table table-hover" style="width:100%">
                                 <thead>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Project Title</th>
-                                        <th>Firm Name</th>
-                                        <th>Client Name</th>
-                                        <th>Designation</th>
-                                        <th>Status</th>
-                                        <th>Additional Info</th>
-                                        <th>Action</th>
-                                    </tr>
                                 </thead>
-                                <tbody id="tableBody" class="table-group-divider">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Improvent the business 1</td>
-                                        <td>MNS company</td>
-                                        <td>John Doe</td>
-                                        <td>Manager</td>
-                                        <td>Active</td>
-                                        <td>
-                                            <p><strong>Business Address:</strong>tagum, Davao Del Norte</p>
-                                            <strong>Contact Details:</strong>
-                                            <p><strong>Landline:</strong> 1234567 <br><Strong>Mobile Phone:</Strong>
-                                                09123456789</p>
-                                        </td>
-                                        <td>
-                                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                                data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
-                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
+                                <tbody id="OngoingTableBody" class="table-group-divider">
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>Id</th>
-                                        <th>Project Title</th>
-                                        <th>Firm Name</th>
-                                        <th>Client Name</th>
-                                        <th>Designation</th>
-                                        <th>Status</th>
-                                        <th>Additional Info</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                         <!-- Where the Ongoing Table End -->

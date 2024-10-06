@@ -693,7 +693,9 @@
                                     width="32" height="32"
                                     class="object-fit-cover rounded-circle border border-1 border-black"
                                     alt="">
-                                <p class="m-0 fw-bold">{{ Auth::user()->orgusername->prefix . ' ' . Auth::user()->orgusername->f_name . ' ' . (Auth::user()->orgusername->mid_name ? substr(Auth::user()->orgusername->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgusername->l_name . ' ' . Auth::user()->orgusername->suffix }}</p>
+                                <p class="m-0 fw-bold">
+                                    {{ Auth::user()->orgusername->prefix . ' ' . Auth::user()->orgusername->f_name . ' ' . (Auth::user()->orgusername->mid_name ? substr(Auth::user()->orgusername->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgusername->l_name . ' ' . Auth::user()->orgusername->suffix }}
+                                </p>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"
@@ -750,8 +752,8 @@
             DELETE_PROJECT_LINK: '{{ route('ProjectLink.destroy', ':project_link_name') }}',
             STORE_NEW_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.store') }}',
             GET_QUARTERLY_REPORT_RECORDS: '{{ route('Manage-QuarterlyReport.index') }}',
-            UPDATE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.update',':record_id') }}',
-            DELETE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.destroy',':record_id') }}',
+            UPDATE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.update', ':record_id') }}',
+            DELETE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.destroy', ':record_id') }}',
 
         }
 
@@ -763,8 +765,10 @@
         }
 
         //Project Tab
-        const ProjectTabRoute = {
-            projectApprovalLink: '{{ route('staff.Project.ApprovedProjectProposal') }}',
+        const PROJECT_TAB_ROUTE = {
+            GET_APPROVED_PROJECTS: '{{ route('staff.Project.ApprovedProjectProposal') }}',
+            GET_ONGOING_PROJECTS: '{{ route('staff.Project.getOngoingProjects') }}'
+
         }
 
         //Application Tab
@@ -824,30 +828,30 @@
         };
 
         const handleAjaxSuccess = async (response, activeLink, url) => {
-            try{
+            try {
                 await $('#main-content').html(response);
-                 setActiveLink(activeLink);
-                 await history.pushState(null, '', url);
+                setActiveLink(activeLink);
+                await history.pushState(null, '', url);
 
-                 const functions = await initializeStaffPageJs();
+                const functions = await initializeStaffPageJs();
 
-                 const urlMapFunctions = {
-                     [NAV_ROUTES.DASHBOARD]:functions.Dashboard,
-                     [NAV_ROUTES.PROJECT]:functions.Projects,
-                     [NAV_ROUTES.APPLICANT]:functions.Applicant,
-                 };
+                const urlMapFunctions = {
+                    [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
+                    [NAV_ROUTES.PROJECT]: functions.Projects,
+                    [NAV_ROUTES.APPLICANT]: functions.Applicant,
+                };
 
-                 if(urlMapFunctions[url]){
+                if (urlMapFunctions[url]) {
                     urlMapFunctions[url]();
-                 }
+                }
 
                 //  if (url === '/org-access/viewCooperatorInfo.php') {
                 //      await InitializeviewCooperatorProgress();
                 //  }
 
-                 await sessionStorage.setItem('StafflastUrl', url);
-                 await sessionStorage.setItem('StafflastActive', activeLink);
-            }catch(error){
+                await sessionStorage.setItem('StafflastUrl', url);
+                await sessionStorage.setItem('StafflastActive', activeLink);
+            } catch (error) {
 
             }
         }
