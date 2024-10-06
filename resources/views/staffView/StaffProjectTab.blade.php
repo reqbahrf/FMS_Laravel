@@ -475,7 +475,7 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="mobilePhone">Mobile Phone:</label>
-                                    <input type="text" class="form-control mobilePhone" readonly>
+                                    <input type="text" class="form-control mobile_number" readonly>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="email">Email:</label>
@@ -495,29 +495,35 @@
                             <div class="row gy-2">
                                 <input type="hidden" name="b_id" class="b_id">
                                 <div class="col-12">
+                                    <label for="firmName">
+                                        Firm Name:
+                                    </label>
+                                    <input type="text" class="form-control firmName" readonly>
+                                </div>
+                                <div class="col-12">
                                     <label for="businessAddress">Business Address:</label>
-                                    <input type="text" id="" class="form-control businessAddress" readonly>
+                                    <input type="text"  class="form-control businessAddress" readonly>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label for="typeOfEnterprise">Type of Enterprise:</label>
-                                    <input type="text" id="" class="form-control typeOfEnterprise" readonly>
+                                    <input type="text"  class="form-control typeOfEnterprise" readonly>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label for="enterpriseLevel">Enterprise Level:</label>
-                                    <input type="text" id="" class="form-control enterpriseLevel" readonly>
+                                    <input type="text"  class="form-control enterpriseLevel" readonly>
                                 </div>
                                 <h6>Assets:</h6>
                                 <div class="col-12 col-md-4">
                                     <label for="building" class="ps-2">Building:</label>
-                                    <input type="text" id="" class="form-control building" readonly>
+                                    <input type="text"  class="form-control building" readonly>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="equipment" class="ps-2">Equipment:</label>
-                                    <input type="text" id="" class="form-control equipment" readonly>
+                                    <input type="text"  class="form-control equipment" readonly>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="land" class="ps-2">Working Capital:</label>
-                                    <input type="text" id="" class="form-control workingCapital" readonly>
+                                    <input type="text"  class="form-control workingCapital" readonly>
                                 </div>
                             </div>
                         </div>
