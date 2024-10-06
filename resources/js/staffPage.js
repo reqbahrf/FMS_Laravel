@@ -1992,7 +1992,7 @@ window.initializeStaffPageJs = async () => {
                 title: 'Cooperator Name'
             },
             {
-                title: 'Designation',
+                title: 'Progress',
             },
             {
                 title: 'Status',
@@ -2021,7 +2021,7 @@ window.initializeStaffPageJs = async () => {
             },
             {
                 targets: 4,
-                width: '15%',
+                width: '20%',
             },
             {
                 targets: 5,
@@ -2041,50 +2041,69 @@ window.initializeStaffPageJs = async () => {
         const row = $(this).closest('tr');
         const inputs = row.find('input');
 
-        $('#cooperatorName').val(row.find('td:eq(1)').text().trim());
-        $('#designation').val(inputs.filter('.designation').val());
-        $('#b_id').val(inputs.filter('.business_id').val());
-        $('#businessAddress').val(inputs.filter('.business_address').val());
-        $('#typeOfEnterprise').val(inputs.filter('.enterprise_type').val());
-        $('#enterpriseLevel').val(inputs.filter('.enterprise_level').val());
-        $('#landline').val(inputs.filter('.landline').val());
-        $('#mobilePhone').val(inputs.filter('.mobile_number').val());
-        $('#email').val(inputs.filter('.email').val());
-        $('#ProjectId').val(row.find('td:eq(0)').text().trim());
-        $('#ProjectTitle').val(row.find('td:eq(3)').text().trim());
-        $('#Amount').val(
-          parseFloat(
+        const values = {
+          cooperatorName: row.find('td:eq(1)').text().trim(),
+          designation: inputs.filter('.designation').val(),
+          b_id: inputs.filter('.business_id').val(),
+          businessAddress: inputs.filter('.business_address').val(),
+          typeOfEnterprise: inputs.filter('.enterprise_type').val(),
+          enterpriseLevel: inputs.filter('.enterprise_level').val(),
+          landline: inputs.filter('.landline').val(),
+          mobilePhone: inputs.filter('.mobile_number').val(),
+          email: inputs.filter('.email').val(),
+          ProjectId: row.find('td:eq(0)').text().trim(),
+          ProjectTitle: row.find('td:eq(3)').text().trim(),
+          Amount: parseFloat(
             inputs.filter('.fund_amount').val().replace(/,/g, '')
-          ).toLocaleString('en-US', {
+          ),
+          Applied: inputs.filter('.dateApplied').val(),
+          evaluated: inputs.filter('.evaluated_by').val(),
+          Assigned_to: inputs.filter('.assigned_to').val(),
+          building: parseFloat(
+            inputs.filter('.building_Assets').val().replace(/,/g, '')
+          ),
+          equipment: parseFloat(
+            inputs.filter('.equipment_Assets').val().replace(/,/g, '')
+          ),
+          workingCapital: parseFloat(
+            inputs.filter('.working_capital_Assets').val().replace(/,/g, '')
+          ),
+        };
+
+        $('#cooperatorName').val(values.cooperatorName);
+        $('#designation').val(values.designation);
+        $('#b_id').val(values.b_id);
+        $('#businessAddress').val(values.businessAddress);
+        $('#typeOfEnterprise').val(values.typeOfEnterprise);
+        $('#enterpriseLevel').val(values.enterpriseLevel);
+        $('#landline').val(values.landline);
+        $('#mobilePhone').val(values.mobilePhone);
+        $('#email').val(values.email);
+        $('#ProjectId').val(values.ProjectId);
+        $('#ProjectTitle').val(values.ProjectTitle);
+        $('#Amount').val(
+          values.Amount.toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })
         );
-        const dateAppliedValue = inputs.filter('.dateApplied').val();
-        console.log(dateAppliedValue);
-        $('#Applied').val(inputs.filter('.dateApplied').val());
-        $('#evaluated').val(inputs.filter('.evaluated_by').val());
-        $('#Assigned_to').val(inputs.filter('.assigned_to').val());
+        $('#Applied').val(values.Applied);
+        $('#evaluated').val(values.evaluated);
+        $('#Assigned_to').val(values.Assigned_to);
         $('#building').val(
-          parseFloat(
-            inputs.filter('.building_Assets').val().replace(/,/g, '')
-          ).toLocaleString('en-US', {
+          values.building.toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })
         );
         $('#equipment').val(
-          parseFloat(
-            inputs.filter('.equipment_Assets').val().replace(/,/g, '')
-          ).toLocaleString('en-US', {
+          values.equipment.toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })
         );
         $('#workingCapital').val(
-          parseFloat(
-            inputs.filter('.working_capital_Assets').val().replace(/,/g, '')
-          ).toLocaleString('en-US', {
+          values.workingCapital.toLocaleString('en-US', {
             minimumFractionDigits: 2,
             maximumFractionDigits: 2,
           })
@@ -2093,7 +2112,6 @@ window.initializeStaffPageJs = async () => {
         const approvedProjectOffcanvas = $('#approvedDetails');
         const userName = inputs.filter('.staffUserName').val();
         const authUserName = '{{ Auth::user()->user_name }}';
-        console.log(userName);
         if (
           userName !== undefined &&
           userName !== null &&
@@ -2171,6 +2189,11 @@ window.initializeStaffPageJs = async () => {
         // Toggle the display of the selected section
         $('#' + sectionId).toggle();
       });
+
+      $('#OngoingTableBody').on('click', '.ongoingProjectInfo', function() {
+        const row = $(this).closest('tr');
+        const inputs = row.find('input');
+      })
       async function getApprovedProjects() {
         try {
           const response = await fetch(
@@ -2267,17 +2290,40 @@ window.initializeStaffPageJs = async () => {
                 dataType: 'json',
             });
             const data = await response.json();
-            let OngoingDatatable = $('#ongoingTable').DataTable();
+            const OngoingDatatable = $('#ongoingTable').DataTable();
             OngoingDatatable.clear().draw();
             data.forEach((Ongoing) => {
+                const fund_amount = parseFloat(Ongoing.fund_amount);
+                const amount_refunded = parseFloat(Ongoing.amount_refunded);
+                const to_be_refunded = parseFloat(Ongoing.to_be_refunded);
+
+                const percentage = (amount_refunded / to_be_refunded) * 100;
                 OngoingDatatable.row.add([
-                    Ongoing.Project_id,
-                    Ongoing.project_title,
-                    Ongoing.firm_name,
-                    Ongoing?.f_name + ' ' + Ongoing?.l_name,
-                    Ongoing.designation,
-                    Ongoing.application_status,
-                    ` <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    `${Ongoing.Project_id}`,
+                    `${Ongoing.project_title}
+                    <input type="hidden" class="project_id" value="${Ongoing.Project_id}">
+                    <input type="hidden" class="project_fund_amount" value="${fund_amount}">
+                    <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
+                    <input type="hidden" class="amount_refunded" value="${amount_refunded}">
+                    <input type="hidden" class="data_approved" value="${Ongoing.date_approved}">`,
+                    `${Ongoing.firm_name}
+                    <input type="hidden" class="Address" value="${Ongoing.landmark + ', ' + Ongoing.barangay + ', ' + Ongoing.city + ', ' + Ongoing.province + ', ' + Ongoing.region}">
+                    <input type="hidden" class="enterprise_type value="${Ongoing.enterprise_type}">
+                    <input type="hidden" class="enterprise_level" value="${Ongoing.enterprise_level}">`,
+                    `${Ongoing.f_name + ' ' + Ongoing.l_name}
+                    <input type="hidden" class="designation" value="${Ongoing.designation}">
+                    <input type="hidden" class="mobile_number" value="${Ongoing.mobile_number}">
+                    <input type="hidden" class="email" value="${Ongoing.email}">
+                    <input type="hidden" class="landline" value="${Ongoing.landline  ?? ''}">`,
+                    `${amount_refunded.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }) + ' / ' + to_be_refunded.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    })} <span class="badge text-white bg-primary">${percentage}%</span>`,
+                    `${Ongoing.application_status}`,
+                    ` <button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
                                                 data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
                                                 <i class="ri-menu-unfold-4-line ri-1x"></i>
                     </button>`

@@ -449,7 +449,149 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div>Need More Info for the content</div>
+            <div class="m-2">
+                <div class="row gy-3">
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <h5>
+                                <i class="ri-contacts-fill"></i>
+                                Personal Info
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <div class="col-12 col-md-8">
+                                    <label for="cooperatorName">Cooperator Name:</label>
+                                    <input type="text" class="form-control cooperatorName" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="designation">Designation:</label>
+                                    <input type="text" class="form-control designation" readonly>
+                                </div>
+                                <h6>Contact Details:</h6>
+                                <div class="col-12 col-md-4">
+                                    <label for="landline">Landline:</label>
+                                    <input type="text" class="form-control landline" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="mobilePhone">Mobile Phone:</label>
+                                    <input type="text" class="form-control mobilePhone" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="email">Email:</label>
+                                    <input type="text" class="form-control email" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-briefcase-fill"></i>
+                                Business Info
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <input type="hidden" name="b_id" class="b_id">
+                                <div class="col-12">
+                                    <label for="businessAddress">Business Address:</label>
+                                    <input type="text" id="" class="form-control businessAddress" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="typeOfEnterprise">Type of Enterprise:</label>
+                                    <input type="text" id="" class="form-control typeOfEnterprise" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="enterpriseLevel">Enterprise Level:</label>
+                                    <input type="text" id="" class="form-control enterpriseLevel" readonly>
+                                </div>
+                                <h6>Assets:</h6>
+                                <div class="col-12 col-md-4">
+                                    <label for="building" class="ps-2">Building:</label>
+                                    <input type="text" id="" class="form-control building" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="equipment" class="ps-2">Equipment:</label>
+                                    <input type="text" id="" class="form-control equipment" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="land" class="ps-2">Working Capital:</label>
+                                    <input type="text" id="" class="form-control workingCapital" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-file-text-fill"></i>
+                                Project Details
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <div class="col-12 col-md-3">
+                                    <label for="ProjectId_fetch">Project Id:</label>
+                                    <input type="text" id="" class="form-control ProjectId" readonly value="">
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <label for="ProjectTitle_fetch">Project Title:</label>
+                                    <input type="text" id="" class="form-control ProjectTitle" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-8">
+                                    <label for="Amount_fetch">Amount:</label>
+                                    <input type="text" id="" class="form-control Amount" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="Applied_fetch">Date Applied:</label>
+                                    <input type="text" id="" class="form-control Applied" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="evaluated_fetch">Evaluated by:</label>
+                                    <input type="text" id="" class="form-control evaluated" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="Assigned_to">Assigned to:</label>
+                                    <input type="text" id="" class="form-control Assigned_to" readonly
+                                        value="">
+                                </div>
+                            </div>
+        
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-file-text-fill"></i>
+                                Payment History
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <table id="paymentTable" class="table table-hover">
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-file-text-fill"></i>
+                                Requirements list
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <table id="requirementsTable" class="table table-hover">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {{-- Offcanva Ongoing End --}}
