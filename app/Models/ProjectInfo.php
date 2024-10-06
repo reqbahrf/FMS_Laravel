@@ -25,7 +25,7 @@ class ProjectInfo extends Model
         'project_title',
         'fund_amount',
         'actual_amount_to_be_refund',
-        'refund_amout'
+        'refunded_amount'
     ];
 
     protected $casts = [
