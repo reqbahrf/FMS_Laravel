@@ -976,7 +976,7 @@
                 estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
                 netSales: row.find('.netSales_val').val()
             };
-            ExportTable_data.ProductName !== null && ExportTable_data.ProductName !== ""
+            exporttable_row.ProductName && exporttable_row.ProductName !== null
             ? ExportTable_data.push(exporttable_row)
             : null;
         });
@@ -995,7 +995,7 @@
                 estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
                 netSales: row.find('.netSales_val').val()
             };
-            LocalTable_row.ProductName && LocalTable_row.ProductName.trim() !== ""
+            localtable_row.ProductName && localtable_row.ProductName.trim() !== null
             ? LocalTable_data.push(localtable_row)
             : null;
         });
