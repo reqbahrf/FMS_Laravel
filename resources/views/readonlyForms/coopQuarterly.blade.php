@@ -26,7 +26,15 @@
     <form action="">
         <div class="card mb-3">
             <div class="card-body" id="AssetsInputs">
-                <h5>1.0 Assets</h5>
+                <div class="d-flex align-items-center p-3">
+                    <h5>1.0 Assets</h5>
+                    <div class="ms-auto">
+                        <button type="button" class="btn btn-primary btn-sm editButton"><i
+                                class="ri-edit-2-fill"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
+                                class="ri-arrow-go-back-fill"></i></button>
+                    </div>
+                </div>
                 <div class="row ms-md-4 ms-sm-2 my-4">
                     <div class="col-12 my-3">
                         <div class="alert alert-primary m-0 d-none" role="alert">
@@ -43,7 +51,7 @@
                                 ₱
                             </span>
                             <input type="text" class="form-control" id="BuildingAsset" name="Building"
-                                placeholder="500,000" readonly  value="{{ $reportData['Building'] }}">
+                                placeholder="500,000" readonly value="{{ $reportData['Building'] }}">
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -74,7 +82,15 @@
         </div>
         <div class="card mb-3">
             <div class="card-body" id="EmploymentInputs">
-                <h5>2.0 Total Employment</h5>
+                <div class="d-flex align-items-center p-3">
+                    <h5>2.0 Total Employment</h5>
+                    <div class="ms-auto">
+                        <button type="button" class="btn btn-primary btn-sm editButton"><i
+                                class="ri-edit-2-fill"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
+                                class="ri-arrow-go-back-fill"></i></button>
+                    </div>
+                </div>
                 <div class="card mb-0 mb-md-3">
                     <div class="card-header">
                         2.1 Direct Labor(Production)
@@ -114,17 +130,23 @@
                                                     <div class="col-12">
                                                         <label for="maleInput">Male:</label>
                                                         <input type="text" name="male_Dir_Regular"
-                                                            class="form-control number_input_only" id="maleInput" readonly value="{{ $reportData['male_Dir_Regular'] ?? '' }}">
+                                                            class="form-control number_input_only" id="maleInput"
+                                                            readonly
+                                                            value="{{ $reportData['male_Dir_Regular'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Female:</label>
                                                         <input type="text" name="female_Dir_Regular"
-                                                            class="form-control number_input_only" id="femaleInput" readonly value="{{ $reportData['female_Dir_Regular'] ?? '' }}">
+                                                            class="form-control number_input_only" id="femaleInput"
+                                                            readonly
+                                                            value="{{ $reportData['female_Dir_Regular'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Workday:</label>
                                                         <input type="text" name="workday_Dir_Regular"
-                                                            class="form-control number_input_only" id="workdayInput" readonly value="{{ $reportData['workday_Dir_Regular'] ?? '' }}">
+                                                            class="form-control number_input_only" id="workdayInput"
+                                                            readonly
+                                                            value="{{ $reportData['workday_Dir_Regular'] ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -140,18 +162,23 @@
                                                     <div class="col-12">
                                                         <label for="maleInput">Male:</label>
                                                         <input type="text" name="male_Dir_PartT"
-                                                            class="form-control number_input_only" id="parttimeMaleInput" readonly value="{{ $reportData['male_Dir_PartT'] ?? '' }}">
+                                                            class="form-control number_input_only"
+                                                            id="parttimeMaleInput" readonly
+                                                            value="{{ $reportData['male_Dir_PartT'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Female:</label>
                                                         <input type="text" name="female_Dir_PartT"
-                                                            class="form-control number_input_only" id="parttimeFemaleInput" readonly value="{{ $reportData['female_Dir_PartT'] ?? '' }}">
+                                                            class="form-control number_input_only"
+                                                            id="parttimeFemaleInput" readonly
+                                                            value="{{ $reportData['female_Dir_PartT'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Workday:</label>
                                                         <input type="text" name="workday_Dir_PartT"
                                                             class="form-control number_input_only"
-                                                            id="parttimeWorkdayInput" readonly value="{{ $reportData['workday_Dir_PartT'] ?? '' }}">
+                                                            id="parttimeWorkdayInput" readonly
+                                                            value="{{ $reportData['workday_Dir_PartT'] ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -170,14 +197,16 @@
                         <div class="row">
                             <div class="col-12 col-md-8 d-none">
                                 <div class="alert alert-primary h-100 " role="alert">
-                                    <h5 class="alert-heading"> <i class="ri-information-2-fill"></i> Indirect Personnel
+                                    <h5 class="alert-heading"> <i class="ri-information-2-fill"></i> Indirect
+                                        Personnel
                                     </h5>
                                     <p>Indirect personnel are those who are not actively involved in
                                         the production process of the products, such as
                                         Administrative staff, Managers, and Maintenance workers.
                                         <br>
                                     <ul>
-                                        <li>Please provide the number of regular and part-time indirect employees for both
+                                        <li>Please provide the number of regular and part-time indirect employees for
+                                            both
                                             male
                                             and female.</li>
                                         <li>Please also provide the total number of workdays for this quarter.</li>
@@ -201,19 +230,23 @@
                                                     <div class="col-12">
                                                         <label for="regularMaleInput">Male:</label>
                                                         <input type="text" name="male_Indir_Regular"
-                                                            class="form-control number_input_only" id="regularMaleInput" readonly value="{{ $reportData['male_Indir_Regular'] ?? '' }}">
+                                                            class="form-control number_input_only"
+                                                            id="regularMaleInput" readonly
+                                                            value="{{ $reportData['male_Indir_Regular'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="regularFemaleInput">Female:</label>
                                                         <input type="text" name="female_Indir_Regular"
                                                             class="form-control number_input_only"
-                                                            id="regularFemaleInput" readonly value="{{ $reportData['female_Indir_Regular'] ?? '' }}">
+                                                            id="regularFemaleInput" readonly
+                                                            value="{{ $reportData['female_Indir_Regular'] ?? '' }}">
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="regularWorkdayInput">Workday:</label>
                                                         <input type="text" name="workday_Indir_Regular"
                                                             class="form-control number_input_only"
-                                                            id="regularWorkdayInput" readonly value="{{ $reportData['workday_Indir_Regular'] ?? '' }}">
+                                                            id="regularWorkdayInput" readonly
+                                                            value="{{ $reportData['workday_Indir_Regular'] ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -229,21 +262,25 @@
                                                     <div class="col-12">
                                                         <label for="parttimeMaleInput">Male: </label>
                                                         <input type="text" name="male_Indir_PartT"
-                                                            class="form-control number_input_only" id="parttimeMaleInput" readonly value="{{ $reportData['male_Indir_PartT'] ?? '' }}">
+                                                            class="form-control number_input_only"
+                                                            id="parttimeMaleInput" readonly
+                                                            value="{{ $reportData['male_Indir_PartT'] ?? '' }}">
 
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="parttimeFemaleInput">Female: </label>
                                                         <input type="text" name="female_Indir_PartT"
                                                             class="form-control number_input_only"
-                                                            id="parttimeFemaleInput"  readonly value="{{ $reportData['female_Indir_PartT'] ?? '' }}">
+                                                            id="parttimeFemaleInput" readonly
+                                                            value="{{ $reportData['female_Indir_PartT'] ?? '' }}">
 
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="parttimeWorkdayInput">Workday: </label>
                                                         <input type="text" name="workday_Indir_PartT"
                                                             class="form-control number_input_only"
-                                                            id="parttimeWorkdayInput" readonly value="{{ $reportData['workday_Indir_PartT'] ?? '' }}">
+                                                            id="parttimeWorkdayInput" readonly
+                                                            value="{{ $reportData['workday_Indir_PartT'] ?? '' }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -257,8 +294,16 @@
             </div>
         </div>
         <div class="card mb-3">
-            <div class="card-body">
-                <h5>3.0 PRODUCTION AND SALES DATA FOR THE QUARTER</h5>
+            <div class="card-body" id="ProductionAndSalesInputs">
+                <div class="d-flex align-items-center p-3">
+                    <h5>3.0 PRODUCTION AND SALES DATA FOR THE QUARTER</h5>
+                    <div class="ms-auto">
+                        <button type="button" class="btn btn-primary btn-sm editButton"><i
+                                class="ri-edit-2-fill"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
+                                class="ri-arrow-go-back-fill"></i></button>
+                    </div>
+                </div>
                 <div class="row align-items-center">
                     <div class="col-12">
                         <div class="alert alert-primary h-100 d-none" role="alert">
@@ -290,10 +335,9 @@
                                 <div class="mb-3">
                                     <div class="mt-2">
                                         <div class="d-flex justify-content-end p-2">
-                                            <button type="button" id="addExportRow" class="btn btn-primary"
-                                                data-toggle="tooltip" title="Add a new row">
+                                            <button type="button" id="addExportRow" class="btn btn-primary AddProductRow"
+                                                data-toggle="tooltip" title="Add a new row" disabled>
                                                 <i class="ri-add-box-fill"></i>
-
                                             </button>
                                             <button type="button" class="btn btn-danger deleteExportRow mx-2"
                                                 data-toggle="tooltip" title="Delete row">
@@ -316,165 +360,178 @@
                                             </thead>
                                             <tbody class="ExportData table-group-divider">
                                                 @forelse ($reportData['ExportProduct'] as $product)
-                                                <tr class="table_row">
-                                                    <td>
-                                                        <input type="text" class="form-control productName" readonly value="{{ $product['ProductName'] ?? '' }}">
-                                                    </td>
-                                                    <td>
-                                                        <textarea class="form-control w-100 packingDetails" readonly >{{ $product['PackingDetails'] ?? '' }} </textarea>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <input type="text"
-                                                                class="form-control productionVolume_val" readonly value="{{ $product['volumeOfProduction'] ?? '' }}">
-                                                            <select class="form-select volumeUnit" readonly>
-                                                                <!-- Volume Units -->
-                                                                <optgroup label="Volume">
-                                                                    <option value="mL">Milliliters
-                                                                        (mL)</option>
-                                                                    <option value="cm³">Cubic
-                                                                        Centimeters (cm³)</option>
-                                                                    <option value="fl oz">Fluid
-                                                                        Ounces (fl oz)</option>
-                                                                    <option value="cup">Cups (cup)
-                                                                    </option>
-                                                                    <option value="pt">Pints (pt)
-                                                                    </option>
-                                                                    <option value="qt">Quarts (qt)
-                                                                    </option>
-                                                                    <option value="L">Liters (L)
-                                                                    </option>
-                                                                    <option value="gal">Gallons (gal)
-                                                                    </option>
-                                                                    <option value="in³">Cubic
-                                                                        Inches (in³)
-                                                                    </option>
-                                                                    <option value="ft³">Cubic Feet
-                                                                        (ft³)</option>
-                                                                    <option value="m³">Cubic
-                                                                        Meters (m³)
-                                                                    </option>
-                                                                </optgroup>
-                                                                <!-- Weight Units -->
-                                                                <optgroup label="Weight">
-                                                                    <option value="g">Grams (g)
-                                                                    </option>
-                                                                    <option value="oz">Ounces (oz)
-                                                                    </option>
-                                                                    <option value="lb">Pounds (lb)
-                                                                    </option>
-                                                                    <option value="kg">Kilograms
-                                                                        (kg)</option>
-                                                                </optgroup>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">
-                                                                ₱
-                                                            </span>
-                                                            <input type="text" class="form-control grossSales_val" readonly value="{{ $product['grossSales'] ?? '' }}">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">
-                                                                ₱
-                                                            </span>
-                                                            <input type="text"
-                                                                class="form-control estimatedCostOfProduction_val" readonly value="{{ $product['estimatedCostOfProduction'] ?? '' }}">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">
-                                                                ₱
-                                                            </span>
-                                                            <input type="text" class="form-control netSales_val" readonly value="{{ $product['netSales'] ?? '' }}">
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                    <tr class="table_row">
+                                                        <td>
+                                                            <input type="text" class="form-control productName"
+                                                                readonly value="{{ $product['ProductName'] ?? '' }}">
+                                                        </td>
+                                                        <td>
+                                                            <textarea class="form-control w-100 packingDetails" readonly>{{ $product['PackingDetails'] ?? '' }} </textarea>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                    class="form-control productionVolume_val" readonly
+                                                                    value="{{ $product['volumeOfProduction'] ?? '' }}">
+                                                                <select class="form-select volumeUnit" readonly>
+                                                                    <!-- Volume Units -->
+                                                                    <optgroup label="Volume">
+                                                                        <option value="mL">Milliliters
+                                                                            (mL)
+                                                                        </option>
+                                                                        <option value="cm³">Cubic
+                                                                            Centimeters (cm³)</option>
+                                                                        <option value="fl oz">Fluid
+                                                                            Ounces (fl oz)</option>
+                                                                        <option value="cup">Cups (cup)
+                                                                        </option>
+                                                                        <option value="pt">Pints (pt)
+                                                                        </option>
+                                                                        <option value="qt">Quarts (qt)
+                                                                        </option>
+                                                                        <option value="L">Liters (L)
+                                                                        </option>
+                                                                        <option value="gal">Gallons (gal)
+                                                                        </option>
+                                                                        <option value="in³">Cubic
+                                                                            Inches (in³)
+                                                                        </option>
+                                                                        <option value="ft³">Cubic Feet
+                                                                            (ft³)</option>
+                                                                        <option value="m³">Cubic
+                                                                            Meters (m³)
+                                                                        </option>
+                                                                    </optgroup>
+                                                                    <!-- Weight Units -->
+                                                                    <optgroup label="Weight">
+                                                                        <option value="g">Grams (g)
+                                                                        </option>
+                                                                        <option value="oz">Ounces (oz)
+                                                                        </option>
+                                                                        <option value="lb">Pounds (lb)
+                                                                        </option>
+                                                                        <option value="kg">Kilograms
+                                                                            (kg)</option>
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">
+                                                                    ₱
+                                                                </span>
+                                                                <input type="text"
+                                                                    class="form-control grossSales_val" readonly
+                                                                    value="{{ $product['grossSales'] ?? '' }}">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">
+                                                                    ₱
+                                                                </span>
+                                                                <input type="text"
+                                                                    class="form-control estimatedCostOfProduction_val"
+                                                                    readonly
+                                                                    value="{{ $product['estimatedCostOfProduction'] ?? '' }}">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">
+                                                                    ₱
+                                                                </span>
+                                                                <input type="text"
+                                                                    class="form-control netSales_val" readonly
+                                                                    value="{{ $product['netSales'] ?? '' }}">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 @empty
-                                                <tr class="table_row">
-                                                    <td>
-                                                        <input type="text" class="form-control productName" readonly >
-                                                    </td>
-                                                    <td>
-                                                        <textarea class="form-control w-100 packingDetails" readonly > </textarea>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <input type="text"
-                                                                class="form-control productionVolume_val" readonly >
-                                                            <select class="form-select volumeUnit" readonly>
-                                                                <!-- Volume Units -->
-                                                                <optgroup label="Volume">
-                                                                    <option value="mL">Milliliters
-                                                                        (mL)</option>
-                                                                    <option value="cm³">Cubic
-                                                                        Centimeters (cm³)</option>
-                                                                    <option value="fl oz">Fluid
-                                                                        Ounces (fl oz)</option>
-                                                                    <option value="cup">Cups (cup)
-                                                                    </option>
-                                                                    <option value="pt">Pints (pt)
-                                                                    </option>
-                                                                    <option value="qt">Quarts (qt)
-                                                                    </option>
-                                                                    <option value="L">Liters (L)
-                                                                    </option>
-                                                                    <option value="gal">Gallons (gal)
-                                                                    </option>
-                                                                    <option value="in³">Cubic
-                                                                        Inches (in³)
-                                                                    </option>
-                                                                    <option value="ft³">Cubic Feet
-                                                                        (ft³)</option>
-                                                                    <option value="m³">Cubic
-                                                                        Meters (m³)
-                                                                    </option>
-                                                                </optgroup>
-                                                                <!-- Weight Units -->
-                                                                <optgroup label="Weight">
-                                                                    <option value="g">Grams (g)
-                                                                    </option>
-                                                                    <option value="oz">Ounces (oz)
-                                                                    </option>
-                                                                    <option value="lb">Pounds (lb)
-                                                                    </option>
-                                                                    <option value="kg">Kilograms
-                                                                        (kg)</option>
-                                                                </optgroup>
-                                                            </select>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">
-                                                                ₱
-                                                            </span>
-                                                            <input type="text" class="form-control grossSales_val" readonly >
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">
-                                                                ₱
-                                                            </span>
-                                                            <input type="text"
-                                                                class="form-control estimatedCostOfProduction_val" readonly >
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">
-                                                                ₱
-                                                            </span>
-                                                            <input type="text" class="form-control netSales_val" readonly >
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                    <tr class="table_row">
+                                                        <td>
+                                                            <input type="text" class="form-control productName"
+                                                                readonly>
+                                                        </td>
+                                                        <td>
+                                                            <textarea class="form-control w-100 packingDetails" readonly> </textarea>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                    class="form-control productionVolume_val" readonly>
+                                                                <select class="form-select volumeUnit" readonly>
+                                                                    <!-- Volume Units -->
+                                                                    <optgroup label="Volume">
+                                                                        <option value="mL">Milliliters
+                                                                            (mL)</option>
+                                                                        <option value="cm³">Cubic
+                                                                            Centimeters (cm³)</option>
+                                                                        <option value="fl oz">Fluid
+                                                                            Ounces (fl oz)</option>
+                                                                        <option value="cup">Cups (cup)
+                                                                        </option>
+                                                                        <option value="pt">Pints (pt)
+                                                                        </option>
+                                                                        <option value="qt">Quarts (qt)
+                                                                        </option>
+                                                                        <option value="L">Liters (L)
+                                                                        </option>
+                                                                        <option value="gal">Gallons (gal)
+                                                                        </option>
+                                                                        <option value="in³">Cubic
+                                                                            Inches (in³)
+                                                                        </option>
+                                                                        <option value="ft³">Cubic Feet
+                                                                            (ft³)</option>
+                                                                        <option value="m³">Cubic
+                                                                            Meters (m³)
+                                                                        </option>
+                                                                    </optgroup>
+                                                                    <!-- Weight Units -->
+                                                                    <optgroup label="Weight">
+                                                                        <option value="g">Grams (g)
+                                                                        </option>
+                                                                        <option value="oz">Ounces (oz)
+                                                                        </option>
+                                                                        <option value="lb">Pounds (lb)
+                                                                        </option>
+                                                                        <option value="kg">Kilograms
+                                                                            (kg)</option>
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">
+                                                                    ₱
+                                                                </span>
+                                                                <input type="text"
+                                                                    class="form-control grossSales_val" readonly>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">
+                                                                    ₱
+                                                                </span>
+                                                                <input type="text"
+                                                                    class="form-control estimatedCostOfProduction_val"
+                                                                    readonly>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">
+                                                                    ₱
+                                                                </span>
+                                                                <input type="text"
+                                                                    class="form-control netSales_val" readonly>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 @endforelse
                                             </tbody>
                                         </table>
@@ -490,8 +547,8 @@
                                 <div class="col-12">
                                     <div class="mt-2">
                                         <div class="d-flex justify-content-end p-2">
-                                            <button type="button" id="addLocalRow" class="btn btn-primary"
-                                                data-toggle="tooltip" title="Add a new row">
+                                            <button type="button" id="addLocalRow" class="btn btn-primary AddProductRow"
+                                                data-toggle="tooltip" title="Add a new row" disabled>
                                                 <i class="ri-add-box-fill"></i>
                                             </button>
                                             <button type="button" class="btn btn-danger mx-2 deleteLocalRow"
@@ -501,7 +558,7 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table local-Outlet">
+                                        <table class="table Local-Outlet">
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Name of Product</th>
@@ -515,148 +572,161 @@
                                             </thead>
                                             <tbody class="LocalData table-group-divider">
                                                 @forelse($reportData['LocalProduct'] as $product)
-                                                <tr class="table_row">
-                                                    <td><input type="text" class="form-control productName" readonly value="{{ $product['ProductName'] ?? '' }}"></td>
-                                                    <td>
-                                                        <textarea class="form-control packingDetails" readonly>{{ $product['PackingDetails'] ?? '' }}</textarea>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <input type="text"
-                                                                class="form-control productionVolume_val" readonly value="{{ $product['volumeOfProduction'] ?? '' }}">
-                                                            <select class="form-select volumeUnit">
-                                                                <!-- Volume Units -->
-                                                                <optgroup label="Volume">
-                                                                    <option value="mL">Milliliters
-                                                                        (mL)</option>
-                                                                    <option value="cm³">Cubic
-                                                                        Centimeters (cm³)</option>
-                                                                    <option value="fl oz">Fluid
-                                                                        Ounces (fl oz)</option>
-                                                                    <option value="cup">Cups (cup)
-                                                                    </option>
-                                                                    <option value="pt">Pints (pt)
-                                                                    </option>
-                                                                    <option value="qt">Quarts (qt)
-                                                                    </option>
-                                                                    <option value="L">Liters (L)
-                                                                    </option>
-                                                                    <option value="gal">Gallons (gal)
-                                                                    </option>
-                                                                    <option value="in³">Cubic
-                                                                        Inches (in³)</option>
-                                                                    <option value="ft³">Cubic Feet
-                                                                        (ft³)</option>
-                                                                    <option value="cubic-meters">Cubic
-                                                                        Meters (m³)</option>
-                                                                </optgroup>
-                                                                <!-- Weight Units -->
-                                                                <optgroup label="Weight">
-                                                                    <option value="g">Grams (g)
-                                                                    </option>
-                                                                    <option value="oz">Ounces (oz)
-                                                                    </option>
-                                                                    <option value="lb">Pounds (lb)
-                                                                    </option>
-                                                                    <option value="kg">Kilograms
-                                                                        (kg)</option>
-                                                                </optgroup>
-                                                            </select>
-                                                        </div>
+                                                    <tr class="table_row">
+                                                        <td><input type="text" class="form-control productName"
+                                                                readonly value="{{ $product['ProductName'] ?? '' }}">
+                                                        </td>
+                                                        <td>
+                                                            <textarea class="form-control packingDetails" readonly>{{ $product['PackingDetails'] ?? '' }}</textarea>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                    class="form-control productionVolume_val" readonly
+                                                                    value="{{ $product['volumeOfProduction'] ?? '' }}">
+                                                                <select class="form-select volumeUnit">
+                                                                    <!-- Volume Units -->
+                                                                    <optgroup label="Volume">
+                                                                        <option value="mL">Milliliters
+                                                                            (mL)
+                                                                        </option>
+                                                                        <option value="cm³">Cubic
+                                                                            Centimeters (cm³)</option>
+                                                                        <option value="fl oz">Fluid
+                                                                            Ounces (fl oz)</option>
+                                                                        <option value="cup">Cups (cup)
+                                                                        </option>
+                                                                        <option value="pt">Pints (pt)
+                                                                        </option>
+                                                                        <option value="qt">Quarts (qt)
+                                                                        </option>
+                                                                        <option value="L">Liters (L)
+                                                                        </option>
+                                                                        <option value="gal">Gallons (gal)
+                                                                        </option>
+                                                                        <option value="in³">Cubic
+                                                                            Inches (in³)</option>
+                                                                        <option value="ft³">Cubic Feet
+                                                                            (ft³)</option>
+                                                                        <option value="cubic-meters">Cubic
+                                                                            Meters (m³)</option>
+                                                                    </optgroup>
+                                                                    <!-- Weight Units -->
+                                                                    <optgroup label="Weight">
+                                                                        <option value="g">Grams (g)
+                                                                        </option>
+                                                                        <option value="oz">Ounces (oz)
+                                                                        </option>
+                                                                        <option value="lb">Pounds (lb)
+                                                                        </option>
+                                                                        <option value="kg">Kilograms
+                                                                            (kg)</option>
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div>
 
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">₱</span>
-                                                            <input type="text" class="form-control grossSales_val" readonly value="{{ $product['grossSales'] ?? '' }}">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">₱</span>
-                                                            <input type="text"
-                                                                class="form-control estimatedCostOfProduction_val" readonly
-                                                                value="{{ $product['estimatedCostOfProduction'] ?? '' }}">
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">₱</span>
-                                                            <input type="text" class="form-control netSales_val" readonly value="{{ $product['netSales'] ?? '' }}">
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">₱</span>
+                                                                <input type="text"
+                                                                    class="form-control grossSales_val" readonly
+                                                                    value="{{ $product['grossSales'] ?? '' }}">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">₱</span>
+                                                                <input type="text"
+                                                                    class="form-control estimatedCostOfProduction_val"
+                                                                    readonly
+                                                                    value="{{ $product['estimatedCostOfProduction'] ?? '' }}">
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">₱</span>
+                                                                <input type="text"
+                                                                    class="form-control netSales_val" readonly
+                                                                    value="{{ $product['netSales'] ?? '' }}">
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 @empty
-                                                <tr class="table_row">
-                                                    <td><input type="text" class="form-control productName" readonly></td>
-                                                    <td>
-                                                        <textarea class="form-control packingDetails" readonly></textarea>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <input type="text"
-                                                                class="form-control productionVolume_val" readonly>
-                                                            <select class="form-select volumeUnit">
-                                                                <!-- Volume Units -->
-                                                                <optgroup label="Volume">
-                                                                    <option value="mL">Milliliters
-                                                                        (mL)</option>
-                                                                    <option value="cm³">Cubic
-                                                                        Centimeters (cm³)</option>
-                                                                    <option value="fl oz">Fluid
-                                                                        Ounces (fl oz)</option>
-                                                                    <option value="cup">Cups (cup)
-                                                                    </option>
-                                                                    <option value="pt">Pints (pt)
-                                                                    </option>
-                                                                    <option value="qt">Quarts (qt)
-                                                                    </option>
-                                                                    <option value="L">Liters (L)
-                                                                    </option>
-                                                                    <option value="gal">Gallons (gal)
-                                                                    </option>
-                                                                    <option value="in³">Cubic
-                                                                        Inches (in³)</option>
-                                                                    <option value="ft³">Cubic Feet
-                                                                        (ft³)</option>
-                                                                    <option value="cubic-meters">Cubic
-                                                                        Meters (m³)</option>
-                                                                </optgroup>
-                                                                <!-- Weight Units -->
-                                                                <optgroup label="Weight">
-                                                                    <option value="g">Grams (g)
-                                                                    </option>
-                                                                    <option value="oz">Ounces (oz)
-                                                                    </option>
-                                                                    <option value="lb">Pounds (lb)
-                                                                    </option>
-                                                                    <option value="kg">Kilograms
-                                                                        (kg)</option>
-                                                                </optgroup>
-                                                            </select>
-                                                        </div>
+                                                    <tr class="table_row">
+                                                        <td><input type="text" class="form-control productName"
+                                                                readonly></td>
+                                                        <td>
+                                                            <textarea class="form-control packingDetails" readonly></textarea>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <input type="text"
+                                                                    class="form-control productionVolume_val" readonly>
+                                                                <select class="form-select volumeUnit">
+                                                                    <!-- Volume Units -->
+                                                                    <optgroup label="Volume">
+                                                                        <option value="mL">Milliliters
+                                                                            (mL)</option>
+                                                                        <option value="cm³">Cubic
+                                                                            Centimeters (cm³)</option>
+                                                                        <option value="fl oz">Fluid
+                                                                            Ounces (fl oz)</option>
+                                                                        <option value="cup">Cups (cup)
+                                                                        </option>
+                                                                        <option value="pt">Pints (pt)
+                                                                        </option>
+                                                                        <option value="qt">Quarts (qt)
+                                                                        </option>
+                                                                        <option value="L">Liters (L)
+                                                                        </option>
+                                                                        <option value="gal">Gallons (gal)
+                                                                        </option>
+                                                                        <option value="in³">Cubic
+                                                                            Inches (in³)</option>
+                                                                        <option value="ft³">Cubic Feet
+                                                                            (ft³)</option>
+                                                                        <option value="cubic-meters">Cubic
+                                                                            Meters (m³)</option>
+                                                                    </optgroup>
+                                                                    <!-- Weight Units -->
+                                                                    <optgroup label="Weight">
+                                                                        <option value="g">Grams (g)
+                                                                        </option>
+                                                                        <option value="oz">Ounces (oz)
+                                                                        </option>
+                                                                        <option value="lb">Pounds (lb)
+                                                                        </option>
+                                                                        <option value="kg">Kilograms
+                                                                            (kg)</option>
+                                                                    </optgroup>
+                                                                </select>
+                                                            </div>
 
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">₱</span>
-                                                            <input type="text" class="form-control grossSales_val" readonly>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">₱</span>
-                                                            <input type="text"
-                                                                class="form-control estimatedCostOfProduction_val" readonly>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <div class="input-group">
-                                                            <span class="input-group-text">₱</span>
-                                                            <input type="text" class="form-control netSales_val" readonly>
-                                                        </div>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">₱</span>
+                                                                <input type="text"
+                                                                    class="form-control grossSales_val" readonly>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">₱</span>
+                                                                <input type="text"
+                                                                    class="form-control estimatedCostOfProduction_val"
+                                                                    readonly>
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">₱</span>
+                                                                <input type="text"
+                                                                    class="form-control netSales_val" readonly>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
                                                 @endforelse
                                             </tbody>
                                         </table>
@@ -670,8 +740,16 @@
 
         </div>
         <div class="card mb-3">
-            <div class="card-body">
-                <h5>4.0 MARKET OUTLETS</h5>
+            <div class="card-body" id="marketOutletInputs">
+                <div class="d-flex align-items-center p-3">
+                    <h5>4.0 MARKET OUTLETS</h5>
+                    <div class="ms-auto">
+                        <button type="button" class="btn btn-primary btn-sm editButton"><i
+                                class="ri-edit-2-fill"></i></button>
+                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
+                                class="ri-arrow-go-back-fill"></i></button>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-12 my-3">
                         <div class="alert alert-primary h-100 d-none" role="alert">
@@ -679,7 +757,8 @@
                                 <i class="ri-information-2-fill"></i> Export and Local Market
                             </h5>
                             <p>
-                                Kindly provide the necessary information for this Export and Local Market Outlet. The following
+                                Kindly provide the necessary information for this Export and Local Market Outlet. The
+                                following
                                 details are needed.
                             <ul>
                                 <li>
@@ -691,20 +770,21 @@
                             </ul>
                             </p>
                             <hr>
-                            <p class="mb-0 text-secondary text-small">You may enter none or leave blank if not applicable.
+                            <p class="mb-0 text-secondary text-small">You may enter none or leave blank if not
+                                applicable.
                             </p>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6">
                         <strong class="ms-2">4.1 Export</strong>
                         <div class="ms-4">
-                            <textarea class="form-control h-100" name="Market_Export" placeholder="Export" id="exportTextarea">{{ $reportData['Market_Export'] ?? '' }}</textarea>
+                            <textarea class="form-control h-100" name="Market_Export" placeholder="Export" id="exportTextarea" readonly>{{ $reportData['Market_Export'] ?? '' }}</textarea>
                         </div>
                     </div>
                     <div class="col-md-6 col-sm-6">
                         <strong class="ms-2">4.2 Local</strong>
                         <div class="ms-4">
-                            <textarea class="form-control h-100" name="Market_local" placeholder="Local" id="localTextarea">{{ $reportData['Market_local'] ?? '' }}</textarea>
+                            <textarea class="form-control h-100" name="Market_local" placeholder="Local" id="localTextarea" readonly>{{ $reportData['Market_local'] ?? '' }}</textarea>
                         </div>
                     </div>
                 </div>
@@ -745,7 +825,7 @@
                 $(this).val(value);
             });
 
-            function parseValue(value){
+            function parseValue(value) {
                 return parseFloat(value.replace(/,/g, '')) || 0;
             }
 
@@ -753,9 +833,13 @@
             $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+4):nth-child(-n+5) input', function() {
                 let row = $(this).closest('tr');
                 let grossSales = parseValue(row.find('.grossSales_val').val());
-                let estimatedCostOfProduction = parseValue(row.find('.estimatedCostOfProduction_val').val());
+                let estimatedCostOfProduction = parseValue(row.find('.estimatedCostOfProduction_val')
+                    .val());
                 let netSales = grossSales - estimatedCostOfProduction;
-                let formattedNetSales = netSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                let formattedNetSales = netSales.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
                 console.log(grossSales, estimatedCostOfProduction, formattedNetSales);
                 row.find('.netSales_val').val(formattedNetSales);
             });
@@ -854,8 +938,9 @@
 
             const updateDeleteButtonState = () => {
                 ['.deleteExportRow', '.deleteLocalRow'].forEach(function(buttonSelector) {
-                    let tableSelector = buttonSelector === '.deleteExportRow' ? '.Export-Outlet tbody' :
-                        '.local-Outlet tbody';
+                    let tableSelector = buttonSelector === '.deleteExportRow' ?
+                        '.Export-Outlet tbody' :
+                        '.Local-Outlet tbody';
                     if ($(tableSelector + ' tr').length <= 1) {
                         $(buttonSelector).prop('disabled', true);
                     } else {
@@ -867,18 +952,196 @@
             addRow('#addExportRow', '.Export-Outlet tbody', 'export');
             deleteRow('.deleteExportRow', 'export', '.Export-Outlet tbody');
 
-            addRow('#addLocalRow', '.local-Outlet tbody', 'local');
-            deleteRow('.deleteLocalRow', 'local', '.local-Outlet tbody');
+            addRow('#addLocalRow', '.Local-Outlet tbody', 'local');
+            deleteRow('.deleteLocalRow', 'local', '.Local-Outlet tbody');
 
             updateDeleteButtonState();
 
-            const inputs = $('#AssetsInputs, #EmploymentInputs').find('input');
-            const initialData = {};
+            const inputContainers = $('#AssetsInputs, #EmploymentInputs, #marketOutletInputs');
+            const ProductAndSalesContainer = $('#ProductionAndSalesInputs')
 
-            inputs.each((index, input) => {
-                initialData[input.name] = $(input).val();
+            const Products = {
+                exportProduct: ProductAndSalesContainer.find('.productExport'),
+                localProduct: ProductAndSalesContainer.find('.productLocal')
+            }
+
+
+            function storeInitialValues(container) {
+                const containerData = {};
+                container.find('input, textarea').each(function(index, input) {
+                    containerData[input.name] = $(input).val();
+                });
+                return containerData;
+            }
+
+            const initialData = {};
+            inputContainers.each(function() {
+                const container = $(this);
+                initialData[container.attr('id')] = storeInitialValues(container);
             });
 
+            const storeInitialProductData = function() {
+                const ExportTable_data = [];
+                const LocalTable_data = [];
+
+                Products.exportProduct.find('.ExportData .table_row').each(function() {
+                    const row = $(this);
+                    const exportData = {
+                        productName: row.find('.productName').val(),
+                        packingDetails: row.find('.packingDetails').val(),
+                        volumeOfProduction: row.find('.volumeOfProduction_val').val(),
+                        grossSales: row.find('.grossSales_val').val(),
+                        productionCost: row.find('.estimatedCostOfProduction_val').val(),
+                        netSales: row.find('.netSales_val').val(),
+                    };
+                    exportData.productName && exportData.productName !== null ?
+                        ExportTable_data.push(exportData) :
+                        null;
+                });
+
+                initialData.ExportProduct = ExportTable_data;
+
+                Products.localProduct.find('.LocalData .table_row').each(function() {
+                    const row = $(this);
+                    const localData = {
+                        productName: row.find('.productName').val(),
+                        packingDetails: row.find('.packingDetails').val(),
+                        volumeOfProduction: row.find('.productionVolume_val').val(),
+                        grossSales: row.find('.grossSales_val').val(),
+                        productionCost: row.find('.estimatedCostOfProduction_val').val(),
+                        netSales: row.find('.netSales_val').val(),
+                    };
+                    localData.productName && localData.productName !== null ?
+                        LocalTable_data.push(localData) :
+                        null;
+                });
+                return {
+                    ExportProduct: ExportTable_data,
+                    LocalProduct: LocalTable_data
+                };
+            }
+
+            initialData['ProductionAndSalesInputs'] = storeInitialProductData();
+
+            console.log(initialData);
+
+            inputContainers.on('click', '.editButton', function() {
+                // Get the specific card-body container where the button was clicked
+                const cardBody = $(this).closest('div.card-body');
+
+                // Toggle the readonly state for all input and textarea elements within the card-body
+                cardBody.find('input, textarea').prop('readonly', function(i, val) {
+                    return !val; // Toggle the current readonly value (true/false)
+                });
+
+                // Enable or disable the Revert button based on the readonly state
+                const isReadonly = cardBody.find('input, textarea').prop(
+                    'readonly'); // Check if inputs are readonly
+                if (!isReadonly) {
+                    cardBody.find('.revertButton').prop('disabled',
+                        false); // Enable Revert if inputs are editable
+                } else {
+                    cardBody.find('.revertButton').prop('disabled',
+                        true); // Disable Revert if inputs are readonly again
+                }
+            });
+
+            inputContainers.on('click', '.revertButton', function() {
+                console.log('revert');
+                const cardBody = $(this).closest('div.card-body');
+
+                console.log(cardBody);
+                const containerId = cardBody.attr('id');
+                console.log(containerId);
+
+                // Revert inputs back to initial values within this container
+                cardBody.find('input, textarea').each(function(index, input) {
+                    $(input).val(initialData[containerId][input.name]);
+                });
+
+                // Disable Revert button after reverting within this container
+                cardBody.find('input, textarea').prop('readonly', true);
+                cardBody.find('.revertButton').prop('disabled', true);
+            });
+
+            ProductAndSalesContainer.on('click', '.editButton', function() {
+                const cardBody = $(this).closest('div.card-body');
+                cardBody.find('input, textarea').prop('readonly', function(i, val) {
+                    return !val;
+                });
+
+                const isReadonly = cardBody.find('input, textarea').prop('readonly');
+                if (!isReadonly) {
+                    cardBody.find('.revertButton').prop('disabled', false);
+                    cardBody.find('.AddProductRow').prop('disabled', false);
+                } else {
+                    cardBody.find('.revertButton').prop('disabled', true);
+                    cardBody.find('.AddProductRow').prop('disabled', true);
+                }
+            });
+
+            ProductAndSalesContainer.on('click', '.revertButton', function() {
+                const initialProductData = initialData['ProductionAndSalesInputs'];
+
+                // Revert export product table
+                Products.exportProduct.find('.ExportData .table_row').each(function(index, row) {
+                    if (initialProductData.ExportProduct[index]) {
+                        $(row).find('.productName').val(initialProductData.ExportProduct[index]
+                            .productName);
+                        $(row).find('.packingDetails').val(initialProductData.ExportProduct[
+                            index].packingDetails);
+                        $(row).find('.productionVolume_val').val(initialProductData
+                            .ExportProduct[index].volumeOfProduction);
+                        $(row).find('.grossSales_val').val(initialProductData.ExportProduct[
+                            index].grossSales);
+                        $(row).find('.estimatedCostOfProduction_val').val(initialProductData
+                            .ExportProduct[index].productionCost);
+                        $(row).find('.netSales_val').val(initialProductData.ExportProduct[index]
+                            .netSales);
+                    } else {
+                        // If no initial data exists, clear the inputs
+                        console.log("No initial data for export row, clearing inputs:", index);
+                        $(row).find('.productName').val('');
+                        $(row).find('.packingDetails').val('');
+                        $(row).find('.productionVolume_val').val('');
+                        $(row).find('.grossSales_val').val('');
+                        $(row).find('.estimatedCostOfProduction_val').val('');
+                        $(row).find('.netSales_val').val('');
+                    }
+                });
+
+                // Revert local product table
+                Products.localProduct.find('.LocalData .table_row').each(function(index, row) {
+                    if (initialProductData.LocalProduct[index]) {
+                        $(row).find('.productName').val(initialProductData.LocalProduct[index]
+                            .productName);
+                        $(row).find('.packingDetails').val(initialProductData.LocalProduct[
+                            index].packingDetails);
+                        $(row).find('.productionVolume_val').val(initialProductData
+                            .LocalProduct[index].volumeOfProduction);
+                        $(row).find('.grossSales_val').val(initialProductData.LocalProduct[
+                            index].grossSales);
+                        $(row).find('.estimatedCostOfProduction_val').val(initialProductData
+                            .LocalProduct[index].productionCost);
+                        $(row).find('.netSales_val').val(initialProductData.LocalProduct[index]
+                            .netSales);
+                    } else {
+                        // Clear the inputs if no initial data for local product
+                        console.log("No initial data for local row, clearing inputs:", index);
+                        $(row).find('.productName').val('');
+                        $(row).find('.packingDetails').val('');
+                        $(row).find('.productionVolume_val').val('');
+                        $(row).find('.grossSales_val').val('');
+                        $(row).find('.estimatedCostOfProduction_val').val('');
+                        $(row).find('.netSales_val').val('');
+                    }
+                });
+
+                // Disable Revert button after reverting
+                ProductAndSalesContainer.find('.AddProductRow').prop('disabled', true);
+                ProductAndSalesContainer.find('input, textarea').prop('readonly', true);
+                ProductAndSalesContainer.find('.revertButton').prop('disabled', true);
+            });
         }
     }
 
