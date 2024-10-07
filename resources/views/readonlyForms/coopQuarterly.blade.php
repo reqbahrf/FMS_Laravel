@@ -25,7 +25,7 @@
 <div class="m-2 m-md-3">
     <form action="">
         <div class="card mb-3">
-            <div class="card-body">
+            <div class="card-body" id="AssetsInputs">
                 <h5>1.0 Assets</h5>
                 <div class="row ms-md-4 ms-sm-2 my-4">
                     <div class="col-12 my-3">
@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="card mb-3">
-            <div class="card-body">
+            <div class="card-body" id="EmploymentInputs">
                 <h5>2.0 Total Employment</h5>
                 <div class="card mb-0 mb-md-3">
                     <div class="card-header">
@@ -871,6 +871,14 @@
             deleteRow('.deleteLocalRow', 'local', '.local-Outlet tbody');
 
             updateDeleteButtonState();
+
+            const inputs = $('#AssetsInputs, #EmploymentInputs').find('input');
+            const initialData = {};
+
+            inputs.each((index, input) => {
+                initialData[input.name] = $(input).val();
+            });
+
         }
     }
 
