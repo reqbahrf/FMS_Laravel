@@ -23,7 +23,7 @@
     <h4>Quarterly Report for {{ $quarter }}</h4>
 </div>
 <div class="m-2 m-md-3">
-    <form action="">
+    <form id="updateQuarterlyData"  data-quarter-id="{{ $reportId }}" data-quarter-project="{{ $projectId }}" data-quarter-period="{{ $quarter }}" data-quarter-status="{{ $reportStatus }}">
         <div class="card mb-3">
             <div class="card-body" id="AssetsInputs">
                 <div class="d-flex align-items-center p-3">
@@ -790,6 +790,13 @@
                 </div>
             </div>
         </div>
+        <div class="card mb-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-end p-1">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </div>
+        </div>
     </form>
 </div>
 <script>
@@ -980,7 +987,7 @@
                 initialData[container.attr('id')] = storeInitialValues(container);
             });
 
-            const storeInitialProductData = function() {
+            const storeProductsData = function() {
                 const ExportTable_data = [];
                 const LocalTable_data = [];
 
@@ -1021,7 +1028,7 @@
                 };
             }
 
-            initialData['ProductionAndSalesInputs'] = storeInitialProductData();
+            initialData['ProductionAndSalesInputs'] = storeProductsData();
 
             console.log(initialData);
 
@@ -1142,6 +1149,54 @@
                 ProductAndSalesContainer.find('input, textarea').prop('readonly', true);
                 ProductAndSalesContainer.find('.revertButton').prop('disabled', true);
             });
+
+            //TODO: Implove the form Update functionalities
+            $('#updateQuarterlyData').on('submit', function(e) {
+                e.preventDefault();
+                const form = $(this);
+                form.find('button[type="submit"]').prop('disabled', true);
+                form.find('input, textarea').prop('readonly', true);
+                const quarterId = form.data('quarter-id');
+                const quarterProject = form.data('quarter-project');
+                const quarterPeriod = form.data('quarter-period');
+                const quarterStatus = form.data('quarter-status');
+
+                let formDataObject = {};
+                const updatedFormData = form.serializeArray();
+
+                $.each(updatedFormData, function(i, v) {
+                    formDataObject[v.name] = v.value;
+                });
+
+                formDataObject = { ...formDataObject, ...storeProductsData()};
+
+                $.ajax({
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'X-Quarter-Project': quarterProject,
+                    'X-Quarter-Period': quarterPeriod,
+                    'X-Quarter-Status': quarterStatus
+                },
+                    type: 'PUT',
+                    url: '{{ route('QuarterlyReport.update', ':quarterId') }}'.replace(':quarterId', quarterId),
+                    data: JSON.stringify(formDataObject),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        setTimeout(() => {
+                            const toastElement = document.getElementById('successToast');
+                            const toast = new bootstrap.Toast(toastElement);
+                            toast.show();
+                        })
+                    },
+                    error: function(error) {
+                        form.find('button[type="submit"]').prop('disabled', false);
+                        form.find('input, textarea').prop('readonly', false);
+                        console.log(error);
+                    }
+
+                })
+
+            })
         }
     }
 
