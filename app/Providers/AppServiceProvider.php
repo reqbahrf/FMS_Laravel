@@ -2,10 +2,12 @@
 
 namespace App\Providers;
 
+use App\Models\ApplicationInfo;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Telescope\Telescope;
 use App\Models\PaymentRecord;
 use App\Observers\PaymentRecordObserver;
+use App\Observers\ApplicationInfoObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,5 +29,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         PaymentRecord::observe(PaymentRecordObserver::class);
+        ApplicationInfo::observe(ApplicationInfoObserver::class);
     }
 }

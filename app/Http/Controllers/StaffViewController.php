@@ -412,11 +412,15 @@ class StaffViewController extends Controller
         ]);
 
         try {
-            ApplicationInfo::where('business_id', $validated['business_id'])
-                ->whereHas('BusinessInfo.ProjectInfo', function ($query) use ($validated) {
-                    $query->where('project_id', $validated['project_id']);
-                })
-                ->update(['application_status' => 'ongoing']);
+            $applicationInfo = ApplicationInfo::where('business_id', $validated['business_id'])
+            ->whereHas('BusinessInfo.ProjectInfo', function ($query) use ($validated) {
+                $query->where('project_id', $validated['project_id']);
+            })->first(); // Fetch the model
+
+        if ($applicationInfo) {
+            $applicationInfo->application_status = 'ongoing';
+            $applicationInfo->save(); // Save to trigger the updated event
+        }
 
             return response()->json(['message' => 'Application status updated successfully'], 200);
         } catch (\Exception $e) {
