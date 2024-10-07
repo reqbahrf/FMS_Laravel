@@ -241,7 +241,7 @@
                                 </div>
                                 <div class="col-12">
                                         <label for="days_open">Number of days to keep report open (optional):</label>
-                                        <input type="number" name="days_open" id="days_open" class="form-control" placeholder="Enter number of days">
+                                        <input type="text" name="days_open" id="days_open" class="form-control" placeholder="Enter number of days">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end mt-3">

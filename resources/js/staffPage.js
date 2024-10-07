@@ -46,7 +46,7 @@ function closeOffcanvasInstances(offcanva_id) {
 
 //format currency
 
-function formatCurrency(inputSelector) {
+function formatToNumber(inputSelector) {
   $(inputSelector).on('input', function () {
     let value = $(this)
       .val()
@@ -95,6 +95,8 @@ $(document).on('DOMContentLoaded', function () {
 window.initializeStaffPageJs = async () => {
   const functions = {
     Dashboard: () => {
+        formatToNumber('#days_open');
+        formatToNumber('#updateOpenDays');
       /**
        * Creates a monthly data chart with the provided data for applicants, ongoing, and completed items.
        *
@@ -245,7 +247,7 @@ window.initializeStaffPageJs = async () => {
       new DataTable('#handledProject');
 
       //Foramt Input with Id paymentAmount
-      formatCurrency('#paymentAmount');
+      formatToNumber('#paymentAmount');
 
       $('#linkTable').DataTable({
         autoWidth: false,
@@ -697,7 +699,7 @@ window.initializeStaffPageJs = async () => {
           const buildingAsset = hiddenInputs.filter('.building_value').val();
           const equipmentAsset = hiddenInputs.filter('.equipment_value').val();
           const workingCapitalAsset = hiddenInputs.filter('.working_capital').val();
-          const approved_amount = hiddenInputs.filter('.approved_amount').val(); 
+          const approved_amount = hiddenInputs.filter('.approved_amount').val();
           const actual_amount = hiddenInputs.filter('.actual_amount').val();
 
           // Calculate age
@@ -735,7 +737,7 @@ window.initializeStaffPageJs = async () => {
       const getPaymentHistoryAndCalculation = async (project_id, actual_amount = 0) => {
         try {
           const totalAmount = await getPaymentHistory(project_id);
-         
+
           const fundedAmount = parseFloat(actual_amount.replace(/,/g, ''));
           const remainingAmount = fundedAmount - totalAmount;
           const percentage = Math.round((totalAmount / fundedAmount) * 100);
@@ -1161,6 +1163,17 @@ window.initializeStaffPageJs = async () => {
         paymentProgress.render();
       }
 
+      /**
+       * This function sends an AJAX request to the server to get the available
+       * quarterly reports for the given project_id. The server will return a
+       * list of available quarterly reports in the form of a select field. The
+       * function will then append the received response to the appropriate
+       * element on the page.
+       *
+       * @param {string} Project_id - the id of the project
+       *
+       * @returns {Promise<void>}
+       */
       const getAvailableQuarterlyReports = async (Project_id) => {
         try {
           const response = await $.ajax({
@@ -1778,6 +1791,7 @@ window.initializeStaffPageJs = async () => {
         return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
       };
 
+
       /**
        * Handles the submission of the Create Quarterly Report form.
        *
@@ -1798,6 +1812,7 @@ window.initializeStaffPageJs = async () => {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
           },
           success: function (response) {
+            getQuarterlyReports(project_id);
             showToastFeedback('text-bg-success', response.message);
           },
           error: function (error) {
@@ -2484,7 +2499,7 @@ window.initializeStaffPageJs = async () => {
 
       console.log('this line in executed');
 
-      formatCurrency('#fundAmount');
+      formatToNumber('#fundAmount');
 
       console.log('this event is triggered');
       $('#ApplicantTableBody').on(
