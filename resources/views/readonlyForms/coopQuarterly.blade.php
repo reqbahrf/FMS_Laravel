@@ -994,11 +994,11 @@
                 Products.exportProduct.find('.ExportData .table_row').each(function() {
                     const row = $(this);
                     const exportData = {
-                        productName: row.find('.productName').val(),
-                        packingDetails: row.find('.packingDetails').val(),
-                        volumeOfProduction: row.find('.volumeOfProduction_val').val(),
+                        ProductName: row.find('.productName').val(),
+                        PackingDetails: row.find('.packingDetails').val(),
+                        volumeOfProduction: row.find('.volumeOfProduction_val').val() + ' ' + row.find('.volumeUnit').val(),
                         grossSales: row.find('.grossSales_val').val(),
-                        productionCost: row.find('.estimatedCostOfProduction_val').val(),
+                        estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
                         netSales: row.find('.netSales_val').val(),
                     };
                     exportData.productName && exportData.productName !== null ?
@@ -1011,11 +1011,11 @@
                 Products.localProduct.find('.LocalData .table_row').each(function() {
                     const row = $(this);
                     const localData = {
-                        productName: row.find('.productName').val(),
-                        packingDetails: row.find('.packingDetails').val(),
-                        volumeOfProduction: row.find('.productionVolume_val').val(),
+                        ProductName: row.find('.productName').val(),
+                        PackingDetails: row.find('.packingDetails').val(),
+                        volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
                         grossSales: row.find('.grossSales_val').val(),
-                        productionCost: row.find('.estimatedCostOfProduction_val').val(),
+                        estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
                         netSales: row.find('.netSales_val').val(),
                     };
                     localData.productName && localData.productName !== null ?
