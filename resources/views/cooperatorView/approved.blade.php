@@ -246,7 +246,7 @@
                                     class="object-fit-cover rounded-circle border border-1 border-black"
                                     alt="">
                                 <p class="m-0 fw-bold">
-                                    {{ Auth::user()->coopusername->f_name . ' ' . (Auth::user()->coopusername->mid_name ? substr(Auth::user()->coopusername->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->coopusername->l_name }}
+                                    {{ Auth::user()->coopUserInfo->f_name . ' ' . (Auth::user()->coopUserInfo->mid_name ? substr(Auth::user()->coopUserInfo->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->coopUserInfo->l_name }}
                                 </p>
                             </span>
                         </a>
@@ -341,7 +341,7 @@
 
         const getQuarterlyReportLinks = async () => {
 
-            try{
+            try {
                 const response = await $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -350,10 +350,11 @@
                     url: '{{ route('QuarterlyReport.index') }}',
                 });
 
-                const QuarterlyReportContainer = $('#quarterlyReportContainerLargeScreen, #quarterlyReportContainerMobileScreen');
+                const QuarterlyReportContainer = $(
+                    '#quarterlyReportContainerLargeScreen, #quarterlyReportContainerMobileScreen');
                 QuarterlyReportContainer.html(response ? response.html : '<li>No quarterly report</li>');
 
-            }catch(error){
+            } catch (error) {
 
             }
 
@@ -463,18 +464,22 @@
         }
 
         function getReceipt() {
-            fetch('{{ route('receipts.index') }}')
+            fetch('{{ route('receipts.index') }}', {
+                method: 'GET',
+                dataType: 'json',
+                headers: {
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                }
+            })
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data);
                     let tableBody = $('#expenseReceipt_tbody');
                     tableBody.empty(); // Clear the existing rows
 
                     $.each(data, function(key, value) {
-                        let receiptImage =
-                            `<img src="data:image/png;base64,${value.receipt_file}" alt="${value.receipt_name}" style="max-width: 200px; max-height: 200px;" />`;
-
-                        let row = `<tr>
+                        const receiptImage =
+                            `<img src="data:image/png;base64,${value.receipt_image}" alt="${value.receipt_name}" style="max-width: 200px; max-height: 200px;" />`;
+                        const row = `<tr>
                     <td>${value.receipt_name}</td>
                     <td>${value.receipt_description}</td>
                     <td class="img-Content">${receiptImage}</td>

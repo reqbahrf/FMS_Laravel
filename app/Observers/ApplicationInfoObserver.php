@@ -22,8 +22,8 @@ class ApplicationInfoObserver
      */
     public function updated(ApplicationInfo $applicationInfo): void
     {
-      Log::info('ApplicationInfoObserver updated');
-      $this->ApplicationStatusChanged($applicationInfo);
+        Log::info('ApplicationInfoObserver updated');
+        $this->ApplicationStatusChanged($applicationInfo);
     }
 
     /**
@@ -52,8 +52,8 @@ class ApplicationInfoObserver
 
     protected function ApplicationStatusChanged(ApplicationInfo $applicationInfo)
     {
-        $org_userId = Auth::user()->orgusername->id;
-        if($applicationInfo->wasChanged('application_status')){
+        $org_userId = Auth::user()->orgUserInfo->id;
+        if ($applicationInfo->wasChanged('application_status')) {
             Cache::forget('handledProject' . $org_userId);
         }
     }

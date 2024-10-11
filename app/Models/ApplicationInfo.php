@@ -25,7 +25,7 @@ class ApplicationInfo extends Model
         return $this->belongsTo(BusinessInfo::class, 'business_id', 'id');
     }
 
-    public function ProjectInfo()
+    public function projectInfo()
     {
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
     }

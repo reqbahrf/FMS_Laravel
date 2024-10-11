@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
 use App\Models\ReceiptUpload;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 class ReceiptController extends Controller
 {
@@ -53,27 +55,31 @@ class ReceiptController extends Controller
      * Display a listing of the resource.
      */
 
+     //TODO: adjust the Foreign key to accept multiple ongoing_project_id
     public function index()
     {
         $projectId = Session::get('project_id');
 
         $receiptUploads = ReceiptUpload::where('ongoing_project_id', $projectId)
-            ->select('ongoing_project_id','receipt_name', 'receipt_description', 'receipt_file', 'remark', 'created_at')
+            ->select('ongoing_project_id','receipt_name', 'receipt_description', 'receipt_file_link', 'remark', 'created_at')
             ->get();
 
-        $result = [];
+        $receiptData = [];
         foreach ($receiptUploads as $receiptUpload) {
-            $result[] = [
+            $fileContent = Storage::disk('public')->get($receiptUpload->receipt_file_link);
+            $base64File = base64_encode($fileContent);
+
+            $receiptData[] = [
                 'ongoing_project_id' => $receiptUpload->ongoing_project_id,
-                'receipt_name' => ($receiptUpload->receipt_name),
-                'receipt_description' => ($receiptUpload->receipt_description),
-                'receipt_file' => base64_encode($receiptUpload->receipt_file),
-                'remark' => ($receiptUpload->remark),
+                'receipt_name' => $receiptUpload->receipt_name,
+                'receipt_description' => $receiptUpload->receipt_description,
+                'receipt_image' => $base64File,
+                'remark' => $receiptUpload->remark,
                 'created_at' => $receiptUpload->created_at->format('Y-m-d H:i:s'),
             ];
         }
 
-        return response()->json($result);
+        return response()->json($receiptData);
     }
 
 
@@ -84,44 +90,47 @@ class ReceiptController extends Controller
     {
 
         // Validate the request
-      $validated = $request->validate([
-            'receiptName' => 'required|string|max:30',
-            'receiptShortDescription' => 'required|string|max:255',
-            'unique_id' => 'required|string'
-        ]);
+        $validated = $request->validate([
+              'receiptName' => 'required|string|max:30',
+              'receiptShortDescription' => 'required|string|max:255',
+              'unique_id' => 'required|string'
+          ]);
+        try {
 
-        // Retrieve project_id from session
-        $project_id = Session::get('project_id');
-        if (!$project_id) {
-            return redirect()->back()->withErrors(['error' => 'Project ID not found.']);
+            // Retrieve project_id from session
+            $project_id = Session::get('project_id');
+            if (!$project_id) {
+                return redirect()->back()->withErrors(['error' => 'Project ID not found.']);
+            }
+
+            // Generate the unique file name based on unique_id
+            $uniqueId = $request->input('unique_id');
+            $filePaths = Storage::disk('public')->files('tmp', $uniqueId);
+            if (empty($filePaths)) {
+                return redirect()->back()->withErrors(['error' => 'File not found in temporary storage.']);
+            }
+
+            $filePath = $filePaths[0]; // Assume there's only one matching file
+            if(Storage::disk('public')->exists($filePath)){
+
+                ReceiptUpload::create([
+                    'ongoing_project_id' => $project_id,
+                    'receipt_name' => $validated['receiptName'],
+                    'receipt_description' => $validated['receiptShortDescription'],
+                    'receipt_file_link' => $filePath,
+                    'can_edit' => 'yes',
+                    'remark' => null,
+                    'comment' => null
+                ]);
+            }
+
+            // Insert into the database
+
+            // Return success response
+            return response()->json(['success' => 'Receipt uploaded and saved successfully.']);
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        // Generate the unique file name based on unique_id
-        $uniqueId = $request->input('unique_id');
-        $filePaths = Storage::disk('public')->files('tmp', $uniqueId);
-        if (empty($filePaths)) {
-            return redirect()->back()->withErrors(['error' => 'File not found in temporary storage.']);
-        }
-
-        $filePath = $filePaths[0]; // Assume there's only one matching file
-        $fileContent = Storage::disk('public')->get($filePath);
-
-        // Insert into the database
-        ReceiptUpload::create([
-            'ongoing_project_id' => $project_id,
-            'receipt_name' => $validated['receiptName'],
-            'receipt_description' => $validated['receiptShortDescription'],
-            'receipt_file' => $fileContent, // Store the file content as a BLOB
-            'can_edit' => 'yes', // Or whatever default value you prefer
-            'remark' => null,
-            'comment' => null
-        ]);
-
-        // Optionally, delete the temporary file after processing
-        Storage::disk('public')->delete($filePath);
-
-        // Return success response
-        return response()->json(['success' => 'Receipt uploaded and saved successfully.']);
     }
 
     /**

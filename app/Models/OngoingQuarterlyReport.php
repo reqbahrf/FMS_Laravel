@@ -27,7 +27,7 @@ class OngoingQuarterlyReport extends Model
 
     protected $appends = ['report_file_state'];
 
-    public function ProjectInfo(): BelongsTo
+    public function projectInfo(): BelongsTo
     {
         return $this->BelongsTo(ProjectInfo::class, 'ongoing_project_id', 'Project_id');
     }

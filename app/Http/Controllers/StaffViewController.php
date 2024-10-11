@@ -39,19 +39,17 @@ class StaffViewController extends Controller
             return response()->json([
                 'monthlyData' => $chartData
             ], 200);
-
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], 500);
         }
-
     }
     public function getHandledProjects(Request $request)
     {
 
         try {
-            $org_userId = Auth::user()->orgusername->id;
+            $org_userId = Auth::user()->orgUserInfo->id;
             if (Cache::has('handled_projects' . $org_userId)) {
                 $handledProjects = Cache::get('handled_projects' . $org_userId);
             } else {
@@ -193,11 +191,12 @@ class StaffViewController extends Controller
         }
     }
 
-    public function getOngoingProjects(){
+    public function getOngoingProjects()
+    {
         try {
-            if(Cache::has('ongoing_projects')){
+            if (Cache::has('ongoing_projects')) {
                 $ongoingProjects = Cache::get('ongoing_projects');
-            }else{
+            } else {
                 $ongoingProjects = DB::table('users')
                     ->join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
                     ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
@@ -255,12 +254,11 @@ class StaffViewController extends Controller
                         'application_info.application_status'
                     )->get();
 
-                    Cache::put('ongoing_projects', $ongoingProjects, 1800);
+                Cache::put('ongoing_projects', $ongoingProjects, 1800);
             }
             return response()->json($ongoingProjects);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
-
         }
     }
 
@@ -413,14 +411,14 @@ class StaffViewController extends Controller
 
         try {
             $applicationInfo = ApplicationInfo::where('business_id', $validated['business_id'])
-            ->whereHas('BusinessInfo.ProjectInfo', function ($query) use ($validated) {
-                $query->where('project_id', $validated['project_id']);
-            })->first(); // Fetch the model
+                ->whereHas('BusinessInfo.projectInfo', function ($query) use ($validated) {
+                    $query->where('project_id', $validated['project_id']);
+                })->first(); // Fetch the model
 
-        if ($applicationInfo) {
-            $applicationInfo->application_status = 'ongoing';
-            $applicationInfo->save(); // Save to trigger the updated event
-        }
+            if ($applicationInfo) {
+                $applicationInfo->application_status = 'ongoing';
+                $applicationInfo->save(); // Save to trigger the updated event
+            }
 
             return response()->json(['message' => 'Application status updated successfully'], 200);
         } catch (\Exception $e) {
@@ -440,7 +438,7 @@ class StaffViewController extends Controller
 
 
         try {
-            $StaffId = Auth::user()->orgusername->id;
+            $StaffId = Auth::user()->orgUserInfo->id;
 
             $fundAmountFormatted = number_format(str_replace(',', '', $validated['fundAmount']), 2, '.', '');
             $Actual_fund_toBeRefund = number_format($fundAmountFormatted + $fundAmountFormatted * 0.05, 2, '.', '');

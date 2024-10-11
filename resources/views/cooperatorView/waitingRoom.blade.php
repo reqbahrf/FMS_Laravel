@@ -190,7 +190,9 @@
                                 <img src="{{ asset('sampleProfile/raf,360x360,075,t,fafafa_ca443f4786.jpg') }}"
                                     width="32" height="32"
                                     class="object-fit-cover rounded-circle border border-1 border-black" alt="">
-                                <p class="m-0 fw-bold">{{ Auth::user()->coopusername->f_name . ' '. (Auth::user()->coopusername->mid_name ? substr(Auth::user()->coopusername->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->coopusername->l_name }}</p>
+                                <p class="m-0 fw-bold">
+                                    {{ Auth::user()->coopUserInfo->f_name . ' ' . (Auth::user()->coopUserInfo->mid_name ? substr(Auth::user()->coopUserInfo->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->coopUserInfo->l_name }}
+                                </p>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"
@@ -206,7 +208,8 @@
                                 <a href="#" class="dropdown-item py-2">
                                     <p><i class="ri-user-3-line me-2"></i>My Account</p>
                                 </a>
-                                <a href="{{ route('logout') }}" class="dropdown-item py-2" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                <a href="{{ route('logout') }}" class="dropdown-item py-2"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <p><i class="ri-logout-box-line me-2"></i>Logout</p>
                                 </a>
                             </div>

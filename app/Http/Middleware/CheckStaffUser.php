@@ -17,13 +17,11 @@ class CheckStaffUser
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(!Auth::check())
-        {
+        if (!Auth::check()) {
             return redirect()->route('login.Form');
         }
 
-        if(Auth::user()->role != 'Staff' || Auth::user()->orgusername->access_to != 'Allowed')
-        {
+        if (Auth::user()->role != 'Staff' || Auth::user()->orgUserInfo->access_to != 'Allowed') {
             abort(Response::HTTP_UNAUTHORIZED);
         }
         return $next($request);

@@ -22,20 +22,20 @@ class CooperatorViewController extends Controller
         $notifications = $user->notifications;
 
         $result = CoopUserInfo::where('user_name', $userName)
-            ->with('BusinessInfo.ApplicationInfo')
+            ->with('BusinessInfo.applicationInfo')
             ->first();
 
         if (!$result) {
             return redirect()->route('login.Form');
         }
 
-        $applicationStatus = $result->BusinessInfo->first()->ApplicationInfo->first()->application_status;
+        $applicationStatus = $result->BusinessInfo->first()->applicationInfo->first()->application_status;
         Session::put('application_status', $applicationStatus);
 
         if (in_array($applicationStatus, ['approved', 'ongoing'])) {
-            $ProjectInfo = $result->BusinessInfo->first()->ProjectInfo->first();
-            Session::put('project_id', $ProjectInfo->Project_id ?? null);
-            Session::put('business_id', $ProjectInfo->business_id ?? null);
+            $projectInfo = $result->BusinessInfo->first()->projectInfo->first();
+            Session::put('project_id', $projectInfo->Project_id ?? null);
+            Session::put('business_id', $projectInfo->business_id ?? null);
         }
 
         return view('cooperatorView.CooperatorDashboard', compact('notifications'), [

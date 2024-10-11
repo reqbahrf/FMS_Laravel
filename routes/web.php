@@ -93,7 +93,7 @@ Route::middleware([CheckCooperatorUser::class])->group(function () {
     Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);
     Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
     Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
-    Route::resource('receipts', ReceiptController::class);
+    Route::resource('/receipts', ReceiptController::class);
 });
 
 

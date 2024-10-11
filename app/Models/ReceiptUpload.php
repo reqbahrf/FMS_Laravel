@@ -14,8 +14,7 @@ class ReceiptUpload extends Model
         'ongoing_project_id',
         'receipt_name',
         'receipt_description',
-        'receipt_file',
-        'date_uploaded',
+        'receipt_file_link',
         'can_edit',
         'remark',
         'comment'

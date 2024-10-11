@@ -37,12 +37,12 @@ class BusinessInfo extends Model
         return $this->BelongsTo(CoopUserInfo::class, 'user_info_id', 'id');
     }
 
-    public function ApplicationInfo(): HasMany
+    public function applicationInfo(): HasMany
     {
         return $this->HasMany(ApplicationInfo::class, 'business_id', 'id');
     }
 
-    public function ProjectInfo(): HasMany
+    public function projectInfo(): HasMany
     {
         return $this->HasMany(ProjectInfo::class, 'business_id', 'id');
     }

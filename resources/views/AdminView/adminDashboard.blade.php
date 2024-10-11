@@ -301,7 +301,7 @@
 
         }
 
-        .main-content{
+        .main-content {
             height: calc(100vh - var(--top-header-height));
         }
 
@@ -423,8 +423,8 @@
 
 <body class="overflow-hidden">
     <div class="wrapper">
-         {{-- Toast Container start --}}
-         <div class="toast-container position-fixed top-0 end-0 p-3" id="toastFeedbackContainer" style="z-index: 1200;">
+        {{-- Toast Container start --}}
+        <div class="toast-container position-fixed top-0 end-0 p-3" id="toastFeedbackContainer" style="z-index: 1200;">
             <div id="ActionFeedbackToast" class="toast align-items-center" role="alert" aria-live="assertive"
                 aria-atomic="true">
                 <div class="toast-header">
@@ -688,7 +688,9 @@
                                     width="32" height="32"
                                     class="object-fit-cover rounded-circle border border-1 border-black"
                                     alt="">
-                                <p class="m-0 fw-bold">{{ Auth::user()->orgusername->prefix . ' ' . Auth::user()->orgusername->f_name . ' ' . (Auth::user()->orgusername->mid_name ? substr(Auth::user()->orgusername->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgusername->l_name . ' ' . Auth::user()->orgusername->suffix }}</p>
+                                <p class="m-0 fw-bold">
+                                    {{ Auth::user()->orgUserInfo->prefix . ' ' . Auth::user()->orgUserInfo->f_name . ' ' . (Auth::user()->orgUserInfo->mid_name ? substr(Auth::user()->orgUserInfo->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgUserInfo->l_name . ' ' . Auth::user()->orgUserInfo->suffix }}
+                                </p>
                             </span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"
@@ -714,10 +716,10 @@
                 </ul>
             </div>
             <div class="main-content">
-                <div  class="spinner d-flex justify-content-center align-items-center h-100 d-none" >
-                    <div  class="spinner spinner-border" style="width: 50px; height: 50px;" role="status">
+                <div class="spinner d-flex justify-content-center align-items-center h-100 d-none">
+                    <div class="spinner spinner-border" style="width: 50px; height: 50px;" role="status">
                         <span class="visually-hidden">Loading...</span>
-                      </div>
+                    </div>
                 </div>
                 <main class="main-column scrollable-main" id="main-content">
                 </main>
@@ -749,16 +751,15 @@
         };
 
         const USERS_LIST_ROUTE = {
-             STORE_NEW_STAFF_USER : '{{ route('Users.store') }}',
-             GET_STAFF_USER_LISTS : '{{ route('Users.index') }}',
-             UPDATE_STAFF_USER : '{{ route('Users.update', ':user_name') }}',
-             DELETE_STAFF_USER : '{{ route('Users.destroy', ':user_name') }}',
+            STORE_NEW_STAFF_USER: '{{ route('Users.store') }}',
+            GET_STAFF_USER_LISTS: '{{ route('Users.index') }}',
+            UPDATE_STAFF_USER: '{{ route('Users.update', ':user_name') }}',
+            DELETE_STAFF_USER: '{{ route('Users.destroy', ':user_name') }}',
 
         };
     </script>
     <script type="module">
-
-          // if (unsavedChangesExist()) {
+        // if (unsavedChangesExist()) {
         $(window).on('beforeunload', function() {
             return 'Are you sure you want to leave?';
         });
@@ -802,7 +803,7 @@
                     });
                     // Cache the response
                     //sessionStorage.setItem(url, response);
-                  await handleAjaxSuccess(response, activeLink, url);
+                    await handleAjaxSuccess(response, activeLink, url);
                 }
             } catch (error) {
                 console.error(error);
@@ -836,7 +837,7 @@
                 sessionStorage.setItem('AdminLastActive', activeLink);
             } catch (error) {
                 console.error(error);
-            }finally {
+            } finally {
                 $('.spinner').addClass('d-none');
                 $('#main-content').show();
             }

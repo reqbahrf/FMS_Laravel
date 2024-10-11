@@ -694,7 +694,7 @@
                                     class="object-fit-cover rounded-circle border border-1 border-black"
                                     alt="">
                                 <p class="m-0 fw-bold">
-                                    {{ Auth::user()->orgusername->prefix . ' ' . Auth::user()->orgusername->f_name . ' ' . (Auth::user()->orgusername->mid_name ? substr(Auth::user()->orgusername->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgusername->l_name . ' ' . Auth::user()->orgusername->suffix }}
+                                    {{ Auth::user()->orgUserInfo->prefix . ' ' . Auth::user()->orgUserInfo->f_name . ' ' . (Auth::user()->orgUserInfo->mid_name ? substr(Auth::user()->orgUserInfo->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgUserInfo->l_name . ' ' . Auth::user()->orgUserInfo->suffix }}
                                 </p>
                             </span>
                         </a>
