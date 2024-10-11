@@ -186,89 +186,162 @@
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
-        <div class="container">
-            <div>
-                <div class="card">
+        <div class="m-2">
+            <div class="row gy-3">
+                <div class="card p-0">
                     <div class="card-header">
-                        <span class="fw-bold fs-5">
-                            <i class="ri-file-list-3-fill"></i>
-                            Project Information
-                        </span>
+                        <h5>
+                            <i class="ri-contacts-fill"></i>
+                            Personal Info
+                        </h5>
                     </div>
                     <div class="card-body">
-                        <div class="col-12 col-md-6">
-                            <label for="projectTitle">Project Title:</label>
-                            <input type="text" id="projectTitle" class="form-control"
-                                value="Improving the Business....." readonly><br>
-                            <label for="firmName">Firm Name:</label>
-                            <input type="text" id="firmName" class="form-control" value="XYZ Company"
-                                readonly><br>
-                            <label for="refundProgress">Refund Progress:</label>
-                            <input type="text" id="refundProgress" class="form-control" value="500,000/1,000,000"
-                                readonly>
+                        <div class="row gy-2">
+                            <div class="col-12 col-md-8">
+                                <label for="cooperatorName">Cooperator Name:</label>
+                                <input type="text" class="form-control cooperatorName" readonly>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="designation">Designation:</label>
+                                <input type="text" class="form-control designation" readonly>
+                            </div>
+                            <h6>Contact Details:</h6>
+                            <div class="col-12 col-md-4">
+                                <label for="landline">Landline:</label>
+                                <input type="text" class="form-control landline" readonly>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="mobilePhone">Mobile Phone:</label>
+                                <input type="text" class="form-control mobile_number" readonly>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="email">Email:</label>
+                                <input type="text" class="form-control email" readonly>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class=" card-header">
+                <div class="card p-0">
+                    <div class="card-header">
                         <span class="fw-bold fs-5">
                             <i class="ri-briefcase-fill"></i>
                             Business Info
                         </span>
                     </div>
                     <div class="card-body">
-                        <div class="col-12 col-md-6">
-                            <div>
-                                <label for="businessAddress">Business Address:</label>
-                                <input type="text" id="businessAddress" class="form-control"
-                                    value="tagum, Davao Del Norte" readonly><br>
-                                <label for="typeOfEnterprise">Type of Enterprise:</label>
-                                <input type="text" id="typeOfEnterprise" class="form-control"
-                                    value="Sole Proprietorship" readonly>
+                        <div class="row gy-2">
+                            <input type="hidden" name="b_id" class="b_id">
+                            <div class="col-12">
+                                <label for="firmName">
+                                    Firm Name:
+                                </label>
+                                <input type="text" class="form-control firmName" readonly>
                             </div>
-                            <div>
-                                <Strong>
-                                    Assets:
-                                </Strong> <br>
+                            <div class="col-12">
+                                <label for="businessAddress">Business Address:</label>
+                                <input type="text"  class="form-control businessAddress" readonly>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="typeOfEnterprise">Type of Enterprise:</label>
+                                <input type="text"  class="form-control typeOfEnterprise" readonly>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="enterpriseLevel">Enterprise Level:</label>
+                                <input type="text"  class="form-control enterpriseLevel" readonly>
+                            </div>
+                            <h6>Assets:</h6>
+                            <div class="col-12 col-md-4">
                                 <label for="building" class="ps-2">Building:</label>
-                                <input type="text" id="building" class="form-control" value="100,000" readonly>
+                                <input type="text"  class="form-control building" readonly>
+                            </div>
+                            <div class="col-12 col-md-4">
                                 <label for="equipment" class="ps-2">Equipment:</label>
-                                <input type="text" id="equipment" class="form-control" value="100,000" readonly>
-                                <label for="workingCapital" class="ps-2">Working Capital:</label>
-                                <input type="text" id="workingCapital" class="form-control" value="100,000"
-                                    readonly>
+                                <input type="text"  class="form-control equipment" readonly>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="land" class="ps-2">Working Capital:</label>
+                                <input type="text"  class="form-control workingCapital" readonly>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
+                <div class="card p-0">
                     <div class="card-header">
                         <span class="fw-bold fs-5">
-                            <i class="ri-user-fill"></i>
-                            Owner Info
+                            <i class="ri-file-text-fill"></i>
+                            Project Details
                         </span>
                     </div>
                     <div class="card-body">
-                        <div>
-                            <strong>Name:</strong>
-                            <input type="text" class="form-control" value="Jorge Walt" readonly>
+                        <div class="row gy-2">
+                            <div class="col-12 col-md-3">
+                                <label for="ProjectId_fetch">Project Id:</label>
+                                <input type="text" id="" class="form-control ProjectId" readonly value="">
+                            </div>
+                            <div class="col-12 col-md-9">
+                                <label for="ProjectTitle_fetch">Project Title:</label>
+                                <input type="text" id="" class="form-control ProjectTitle" readonly
+                                    value="">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="Amount_fetch">Approved Amount:</label>
+                                <input type="text" id="" class="form-control funded_amount" readonly
+                                    value="">
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="amount_to_be_refunded">Amount to be refunded:</label>
+                                <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="amount_to_be_refunded">Refunded:</label>
+                                <input type="text" id="" class="form-control refunded" readonly>
+                            </div>
+                            <div class="col-12 col-md-4">
+                                <label for="date_applied">Date Applied:</label>
+                                <input type="text" id="" class="form-control date_applied" readonly
+                                    value="">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="evaluated_fetch">Evaluated by:</label>
+                                <input type="text" id="" class="form-control evaluated_by" readonly
+                                    value="">
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="handle_by">Assigned to:</label>
+                                <input type="text" id="" class="form-control handle_by" readonly
+                                    value="">
+                            </div>
                         </div>
-                        <div>
-                            <br>
-                            <strong>Contact Details:</strong>
-                            <br>
-                            <label for="mobilePhone" class="p-2">Mobile Phone:</label>
-                            <input type="text" id="mobilePhone" class="form-control" value="09123456789"
-                                readonly>
-                            <label for="email" class="p-2">Email:</label>
-                            <input type="text" id="email" class="form-control" value="Jorge@gmail.com"
-                                readonly>
-                            <label for="landline" class="p-2">Landline:</label>
-                            <input type="text" id="landline" class="form-control" value="1234567" readonly>
-                        </div>
+
                     </div>
                 </div>
-                <div class="card">
+                <div class="card p-0">
+                    <div class="card-header">
+                        <span class="fw-bold fs-5">
+                            <i class="ri-file-text-fill"></i>
+                            Payment History
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <table id="paymentTable" class="table table-hover">
+
+                        </table>
+                    </div>
+                </div>
+                <div class="card p-0">
+                    <div class="card-header">
+                        <span class="fw-bold fs-5">
+                            <i class="ri-file-text-fill"></i>
+                            Requirements list
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <table id="requirementsTable" class="table table-hover">
+
+                        </table>
+                    </div>
+                </div>
+                <div class="card p-0">
                     <div class="card-header">
                         <span class="fw-bold fs-5">
                             <i class="ri-user-2-fill"></i>
@@ -378,7 +451,9 @@
                     <!-- Where the ongoing project are displayed -->
                     <div class="mx-2 table-responsive-xl">
                         <table id="ongoing" class="table table-hover mx-2" style="width:100%">
-                          
+                          <tbody id="OngoingTableBody">
+
+                          </tbody>
                         </table>
                     </div>
                     <!-- Where the ongoing table end -->
