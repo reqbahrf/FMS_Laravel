@@ -378,69 +378,7 @@
                     <!-- Where the ongoing project are displayed -->
                     <div class="mx-2 table-responsive-xl">
                         <table id="ongoing" class="table table-hover mx-2" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Project Title</th>
-                                    <th>Firm Name</th>
-                                    <th>Firm Info</th>
-                                    <th>Owner Info</th>
-                                    <th>Refund Progress</th>
-                                    <th>Handled by</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tableBody" class="table-group-divider">
-                                <tr>
-                                    <td>1</td>
-                                    <td>Imploving the Business.....</td>
-                                    <td>XYZ Company</td>
-                                    <td>
-                                        <p><strong>Business Address:</strong> tagum, Davao Del Norte <br>
-                                            <strong>Type
-                                                of
-                                                Enterprise:</strong> Sole Proprietorship
-                                        </p>
-                                        <p>
-                                            <Strong>
-                                                Assets:
-                                            </Strong> <br>
-                                            <span class="ps-2">Land: 100,000</span><br>
-                                            <span class="ps-2">Building: 100,000</span> <br>
-                                            <span class="ps-2">Equipment: 100,000</span>
-                                        </p>
-
-                                    </td>
-                                    <td>
-                                        <p><strong>Name:</strong> Jorge Walt</p>
-                                        <strong>Contact Details:</strong>
-                                        <p><strong class="p-2">Landline:</strong> 1234567 <br><Strong
-                                                class="p-2">Mobile
-                                                Phone:</Strong> 09123456789</p>
-                                    </td>
-                                    <td>500,000/1,000,000</td>
-
-                                    <td>John Smitty</td>
-                                    <td>
-                                        <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                            data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
-                                            <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>Project Title</th>
-                                    <th>Firm Name</th>
-                                    <th>Firm Info</th>
-                                    <th>Owner Info</th>
-                                    <th>Refund Progress</th>
-                                    <th>Handled by</th>
-                                    <th>Action</th>
-                                </tr>
-                            </tfoot>
+                          
                         </table>
                     </div>
                     <!-- Where the ongoing table end -->

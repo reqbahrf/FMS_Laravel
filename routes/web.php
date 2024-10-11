@@ -190,6 +190,9 @@ Route::middleware([CheckAdminUser::class])->group(function () {
     Route::get('/Admin/Applicant', [AdminViewController::class, 'applicantTabGet'])
         ->name('admin.Applicant');
 
+    Route::get('/Admin/Project/getOngoingProjects', [AdminViewController::class, 'getOngoingProjects'])
+        ->name('admin.Project.getOngoingProjects');
+
     Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])
         ->name('admin.Users-list');
 

@@ -37,6 +37,19 @@ function closeModal(modelId) {
   model.hide();
 }
 
+/**
+ * Formats a number value to a string with a fixed number of decimal places.
+ *
+ * @param {number} value - The number to be formatted.
+ * @returns {string} The formatted number as a string with exactly 2 decimal places.
+ */
+const formatToString = (value) => {
+    return value.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
 window.initializeAdminPageJs = async () => {
   const functions = {
     Dashboard: async () => {
@@ -485,7 +498,67 @@ window.initializeAdminPageJs = async () => {
           },
         ],
       }); // Then initialize DataTables
-      $('#ongoing').DataTable();
+      $('#ongoing').DataTable({
+        responsive: true,
+        autoWidth: false,
+        fixedColumns: true,
+        columns: [
+          {
+            title: 'Project #',
+          },
+          {
+            title: 'Project Title',
+          },
+          {
+            title: 'Firm',
+          },
+          {
+            title: 'Cooperator Name',
+          },
+          {
+            title: 'Progress',
+          },
+          {
+            title: 'Status',
+          },
+          {
+            title: 'Action',
+          },
+        ],
+        columnDefs: [
+          {
+            targets: 0,
+            width: '15%',
+            className: 'text-center',
+          },
+          {
+            targets: 1,
+            width: '30%',
+          },
+          {
+            targets: 2,
+            width: '15%',
+          },
+          {
+            targets: 3,
+            width: '20%',
+          },
+          {
+            targets: 4,
+            width: '20%',
+          },
+          {
+            targets: 5,
+            width: '10%',
+          },
+          {
+            targets: 6,
+            width: '10%',
+            orderable: false,
+            className: 'text-center',
+          },
+        ],
+      });
       $('#completed').DataTable();
 
       /**
@@ -714,7 +787,127 @@ window.initializeAdminPageJs = async () => {
           );
         }
       });
+
+      async function getOngoingProjects() {
+        try {
+          const response = await fetch(PROJECT_LIST_ROUTE.GET_ONGOING_PROJECTS, {
+            method: 'GET',
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            dataType: 'json',
+          });
+          const data = await response.json();
+          console.log(data);
+          const OngoingDatatable = $('#ongoing').DataTable();
+          OngoingDatatable.clear().draw();
+          data.forEach((Ongoing) => {
+            const fund_amount = parseFloat(Ongoing.fund_amount);
+            const amount_refunded = parseFloat(Ongoing.amount_refunded);
+            const to_be_refunded = parseFloat(Ongoing.to_be_refunded);
+
+            const percentage = Math.ceil((amount_refunded / to_be_refunded) * 100);
+            OngoingDatatable.row
+              .add([
+                `${Ongoing.Project_id}`,
+                `${Ongoing.project_title}
+                    <input type="hidden" class="project_id" value="${
+                      Ongoing.Project_id
+                    }">
+                    <input type="hidden" class="project_fund_amount" value="${fund_amount}">
+                    <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
+                    <input type="hidden" class="amount_refunded" value="${amount_refunded}">
+                    <input type="hidden" class="date_applied" value="${
+                      Ongoing.date_applied
+                    }">
+                    <input type="hidden" class="date_approved" value="${
+                      Ongoing.date_approved
+                    }">
+                    <input type="hidden" class="evaluated_by" value="${
+                      Ongoing?.evaluated_by_prefix +
+                      ' ' +
+                      Ongoing.evaluated_by_f_name +
+                      ' ' +
+                      Ongoing?.evaluated_by_mid_name +
+                      ' ' +
+                      Ongoing.evaluated_by_l_name +
+                      ' ' +
+                      Ongoing?.evaluated_by_suffix
+                    }">
+                    <input type="hidden" class="handled_by" value="${
+                      Ongoing?.handled_by_prefix +
+                      ' ' +
+                      Ongoing.handled_by_f_name +
+                      ' ' +
+                      Ongoing?.handled_by_mid_name +
+                      ' ' +
+                      Ongoing.handled_by_l_name +
+                      ' ' +
+                      Ongoing?.handled_by_suffix
+                    }">`,
+                `${Ongoing.firm_name}
+                    <input type="hidden" class="business_id" value="${
+                      Ongoing.business_id
+                    }">
+                    <input type="hidden" class="address" value="${
+                      Ongoing.landmark +
+                      ', ' +
+                      Ongoing.barangay +
+                      ', ' +
+                      Ongoing.city +
+                      ', ' +
+                      Ongoing.province +
+                      ', ' +
+                      Ongoing.region
+                    }">
+                    <input type="hidden" class="enterprise_type" value="${
+                      Ongoing.enterprise_type
+                    }">
+                    <input type="hidden" class="enterprise_level" value="${
+                      Ongoing.enterprise_level
+                    }">
+                    <input type="hidden" class="building_assets" value="${
+                      Ongoing.building_value
+                    }">
+                    <input type="hidden" class="equipment_assets" value="${
+                      Ongoing.equipment_value
+                    }">
+                    <input type="hidden" class="working_capital_assets" value="${
+                      Ongoing.working_capital
+                    }">`,
+                `${Ongoing.f_name + ' ' + Ongoing.l_name}
+                    <input type="hidden" class="designation" value="${
+                      Ongoing.designation
+                    }">
+                    <input type="hidden" class="mobile_number" value="${
+                      Ongoing.mobile_number
+                    }">
+                    <input type="hidden" class="email" value="${Ongoing.email}">
+                    <input type="hidden" class="landline" value="${
+                      Ongoing.landline ?? ''
+                    }">`,
+                `${
+                  formatToString(amount_refunded) +
+                  ' / ' +
+                  formatToString(to_be_refunded)
+                } <span class="badge text-white bg-primary">${percentage}%</span>`,
+                `${Ongoing.application_status}`,
+                ` <button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
+                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
+                    </button>`,
+              ])
+              .draw();
+          });
+        } catch (error) {
+          console.error('Error:', error);
+        }
+      }
+
+      getOngoingProjects();
     },
+
+
     ApplicantList: () => {
       $('#applicant').DataTable();
 
