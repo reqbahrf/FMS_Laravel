@@ -1,4 +1,9 @@
 <style type="text/css">
+
+body{
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
     .tg {
         border-collapse: collapse;
         border-spacing: 0;
@@ -163,89 +168,124 @@
     */
 
     .form-container {
-        font-family: Arial, sans-serif;
-        width: 100%;
-        max-width: 800px;
-        margin: 0 auto;
-        line-height: 1.5;
-        font-size: 14px;
-    }
+    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+    line-height: 1.5;
+    font-size: 12px;
+}
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
 
-    td {
-        padding: 5px 0;
-    }
+td {
+    padding: 5px 0;
+}
 
-    .label {
-        width: 20%;
-        font-weight: bold;
-        vertical-align: top;
-    }
+.label {
+    width: 20%;
+    font-weight: bold;
+    vertical-align: top;
+}
 
-    .input {
-        width: 80%;
-        border-bottom: 1px solid #000;
-        padding-bottom: 5px;
-    }
+.input {
+    width: 60%;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+}
 
-    .small-input {
-        width: 30%;
-        border-bottom: 1px solid #000;
-        padding-bottom: 5px;
-    }
+.small-label {
+    width: 10%;
+    font-weight: bold;
+    vertical-align: top;
+}
 
-    .small-label {
-        width: 10%;
-        font-weight: bold;
-        vertical-align: top;
-    }
+.small-input {
+    width: 30%;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+}
 
-    .bottomBorder {
-        width: 100%;
-        border: 0px;
-    }
+input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.bottomBorder {
+    width: 100%;
+    border: 0px;
+}
+
+.contact-details {
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Space between each label and its input */
+    flex-wrap: wrap; /* Ensures wrapping if screen size is small */
+}
+
+.contact-label {
+    font-weight: bold;
+    margin-right: 5px;
+}
+
+
+.contactData {
+    display: flex;
+    flex-direction: column;
+}
+
+
 </style>
 <div id="containerSize">
     <div class="form-container">
         <table>
             <tr>
                 <td class="label">Project Title:</td>
-                <td class="input">{{ $projectTitle }}</td>
+                <td class="input" colspan="3">{{ $projectTitle }}</td>
             </tr>
             <tr>
                 <td class="label">Name of Firm:</td>
-                <td class="input">{{ $firmName }}</td>
+                <td class="input" colspan="3">{{ $firmName }}</td>
             </tr>
             <tr>
                 <td class="label">Address:</td>
-                <td class="input">{{ $address }}</td>
+                <td class="input" colspan="3">{{ $address }}</td>
             </tr>
             <tr>
                 <td class="label">Contact Person:</td>
                 <td class="input">{{ $ContactPerson }}</td>
+                <td class="label">Designation:</td>
+                <td class="input">{{ $Designation }}</td>
             </tr>
             <tr>
-                <td class="small-label">Designation:</td>
-                <td class="small-input">{{ $Designation }}</td>
+                <td class="label">Contact Details:</td>
+                <td class="contactData" colspan="3">
+                    <div class="contact-details">
+                        <span class="contact-label">Landline:&nbsp;&nbsp;</span>
+                        <span class="input">{{ $landline ?? 'None' }}</span>
+                        <span class="contact-label">Mobile Phone:&nbsp;&nbsp;</span>
+                        <span class="input">{{ $mobile }}</span>
+                        <span class="contact-label">Email Address:&nbsp;&nbsp;</span>&nbsp;&nbsp;
+                        <span class="input">{{ $email }}</span>
+                    </div>
+                </td>
             </tr>
+
+
             <tr>
-                <td class="label">Landline:</td>
-                <td class="small-input">{{ $landline ?? 'none' }}</td>
-            </tr>
-            <tr>
-                <td class="small-label">Mobile Phone:</td>
-                <td class="small-input">{{ $mobile }}</td>
-            </tr>
-            <tr>
-                <td class="small-label">Email Address:</td>
-                <td class="small-input">{{ $email }}</td>
+                <td class="label">Period Covered:</td>
+                <td colspan="3">
+                    <label><input type="checkbox"> 1st Quarter </label> &nbsp;&nbsp;
+                    <label><input type="checkbox"> 2nd Quarter </label> &nbsp;&nbsp;
+                    <label><input type="checkbox"> 3rd Quarter </label> &nbsp;&nbsp;
+                    <label><input type="checkbox"> 4th Quarter </label>
+                </td>
             </tr>
         </table>
     </div>
+
     <div class="tg-wrap">
         <table class="tg">
             <!-- <thead>
@@ -254,6 +294,9 @@
     </tr>
   </thead> -->
             <tbody>
+                <tr>
+                    <td class="tg-yla0" colspan="8">1.0 ASSETS</td>
+                </tr>
                 <tr>
                     <td class="tg-7zrl">1.1 Building</td>
                     <td class="tg-8d8j" colspan="4"> &nbsp;&nbsp;&nbsp;{{ $buildingAsset }}</td>
@@ -274,7 +317,7 @@
                     <td class="tg-nrix" colspan="3">Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)</td>
                 </tr>
                 <tr>
-                    <td class="tg-j6zm" colspan="6">2.0 Total Employment&nbsp;&nbsp;&nbsp;For The Quarter </td>
+                    <td class="tg-j6zm" colspan="6">2.0 TOTAL EMPLOYMENT FOR THE QUARTER</td>
                     <td class="tg-7zrl" colspan="2"> </td>
                 </tr>
                 <tr>
@@ -345,7 +388,7 @@
                     <td class="tg-cly1" colspan="3">No. of Man-Months: {{ $TotalManMonth }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-1wig" colspan="8">3.0&nbsp;&nbsp;&nbsp;Production And Sales Data For The Quanter
+                    <td class="tg-1wig" colspan="8">3.0 PRODUCTION AND SALES DATA FOR THE QUARTER
                     </td>
                 </tr>
                 <tr>
