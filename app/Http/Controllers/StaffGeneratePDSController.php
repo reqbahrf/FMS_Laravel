@@ -13,15 +13,17 @@ class StaffGeneratePDSController extends Controller
        $validatedData = $request->validated();
 
         $html = view('staffView.outputs.ProjectDataSheet', $validatedData)->render();
+        $DocHeader = view('staffView.outputs.DocHeader')->render();
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',
             'orientation' => 'P',
-            'margin_top' => 5,
+            'margin_top' => 20,
             'margin_bottom' => 5,
             'margin_left' => 5,
             'margin_right' => 5
         ]);
+        $mpdf->SetHTMLHeader($DocHeader);
         $mpdf->WriteHTML($html);
 
         return response($mpdf->Output('PDSsample.pdf', 'S'), 200, [
