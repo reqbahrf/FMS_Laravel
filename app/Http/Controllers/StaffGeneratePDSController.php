@@ -18,7 +18,7 @@ class StaffGeneratePDSController extends Controller
             'mode' => 'utf-8',
             'format' => 'A4',
             'orientation' => 'P',
-            'margin_top' => 20,
+            'margin_top' => 35,
             'margin_bottom' => 5,
             'margin_left' => 5,
             'margin_right' => 5
