@@ -24,7 +24,7 @@ class StaffGeneratePDSController extends Controller
             'margin_right' => 5
         ]);
         $mpdf->SetHTMLHeader($DocHeader);
-        $mpdf->shrink_tables_to_fit = 0;
+        $mpdf->shrink_tables_to_fit = 1;
         $mpdf->WriteHTML($html);
 
         return response($mpdf->Output('PDSsample.pdf', 'S'), 200, [

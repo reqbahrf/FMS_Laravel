@@ -115,7 +115,7 @@ body{
 .form-container {
     font-family: Arial, sans-serif;
     width: 100%;
-    max-width: 800px;
+    max-width: 794px;
     margin: 0 auto;
     line-height: 1.5;
 }
@@ -125,11 +125,19 @@ table .ProjectInfo {
     border-collapse: collapse;
     border-spacing: 0;
     table-layout: fixed;
-    overflow: wrap;
 }
 
+.ProjectInfo td:nth-child(1) {
+    width: 20%;
+}
+
+.ProjectInfo td:nth-child(2) {
+    width: 80%;
+}
 .ProjectInfo td {
-    padding: 2px 0;
+    border-color: black;
+        border-style: solid;
+        border-width: 1px;
 }
 
 .ProjectInfo tr {
@@ -138,17 +146,16 @@ table .ProjectInfo {
 
 .label {
     width: 10%;
-    font-size: 10px;
+    font-size: 12px;
     font-weight: normal;
     vertical-align: top;
 }
 
 .input {
-    width: 60%;
     font-weight: bold;
     border-bottom: 1px solid #000;
     padding-bottom: 5px;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .small-label {
@@ -172,12 +179,7 @@ input[type="checkbox"] {
     border: 0px;
 }
 
-.contact-details {
-    display: flex;
-    align-items: center;
-    gap: 12px; /* Space between each label and its input */
-    flex-wrap: wrap; /* Ensures wrapping if screen size is small */
-}
+
 
 .contact-label {
     font-weight: normal;
@@ -186,16 +188,16 @@ input[type="checkbox"] {
 }
 
 
-.contactData {
+/* .contactData {
     display: flex;
     flex-direction: column;
-}
+} */
 
 
 </style>
 <div id="containerSize">
     <div class="form-container">
-        <table class="ProjectInfo">
+        <table class="ProjectInfo" style="overflow: hidden" autosize="1">
             <tr>
                 <td class="label">Project Title:</td>
                 <td class="input" colspan="3">{{ $projectTitle }}</td>
