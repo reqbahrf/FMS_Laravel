@@ -8,16 +8,16 @@ body{
         border-collapse: collapse;
         border-spacing: 0;
         margin: 0px auto;
+        width: 100%;
+        table-layout: fixed;
     }
 
     .tg td {
         border-color: black;
         border-style: solid;
         border-width: 1px;
-        font-family: Arial, sans-serif;
-        font-size: 12px;
         overflow: hidden;
-        padding: 10px 5px;
+        padding: 2px 6px;
         word-break: normal;
     }
 
@@ -74,11 +74,14 @@ body{
     }
 
     .tg .tg-8d8j {
-        text-align: center;
+        font-size: 12px;
+        font-family: Arial, sans-serif;
+        text-align: left;
         vertical-align: bottom
     }
 
     .tg .tg-nrix {
+        font-family: arial, sans-serif;
         text-align: center;
         vertical-align: middle
     }
@@ -104,97 +107,48 @@ body{
         height: auto;
     }
 
-    /* @media screen and (max-width: 767px) {
-    .tg {
-      width: auto !important;
-    }
-
-    .tg col {
-      width: auto !important;
-    }
-
-    .tg-wrap {
-      overflow-x: auto;
-      -webkit-overflow-scrolling: touch;
-      margin: auto 0px;
-    }
-  } */
 
     #containerSize {
         width: 794px;
-        margin: auto;
-        padding: 5%;
-
     }
 
-    /*
-   @media print {
-    body * {
-      visibility: hidden;
-    }
-
-    .tg-vkv7 {
-      background-color: #FF0;
-    }
-
-    #containerSize,
-    #containerSize * {
-      visibility: visible;
-    }
-
-    #containerSize {
-      position: absolute;
-      left: 0;
-      top: 0;
-    }
-
-    .tg {
-      width: 100%;
-
-      box-sizing: border-box;
-
-      max-width: 100%;
-
-      font-size: 10px;
-
-    }
-
-    .tg td,
-    .tg th {
-      padding: 5px;
-    }
-
-  }
-    */
-
-    .form-container {
+.form-container {
     font-family: Arial, sans-serif;
     width: 100%;
     max-width: 800px;
     margin: 0 auto;
     line-height: 1.5;
-    font-size: 12px;
 }
 
-table {
+table .ProjectInfo {
     width: 100%;
     border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+    overflow: wrap;
 }
 
-td {
-    padding: 5px 0;
+.ProjectInfo td {
+    padding: 2px 0;
+}
+
+.ProjectInfo tr {
+    margin-bottom: 10px;
 }
 
 .label {
-    width: 20%;
-    font-weight: bold;
+    width: 10%;
+    font-size: 10px;
+    font-weight: normal;
     vertical-align: top;
 }
 
 .input {
     width: 60%;
+    font-weight: bold;
     border-bottom: 1px solid #000;
     padding-bottom: 5px;
+    font-size: 10px;
 }
 
 .small-label {
@@ -221,13 +175,14 @@ input[type="checkbox"] {
 .contact-details {
     display: flex;
     align-items: center;
-    gap: 20px; /* Space between each label and its input */
+    gap: 12px; /* Space between each label and its input */
     flex-wrap: wrap; /* Ensures wrapping if screen size is small */
 }
 
 .contact-label {
-    font-weight: bold;
-    margin-right: 5px;
+    font-weight: normal;
+    font-size: 10px;
+    margin-right: 2px;
 }
 
 
@@ -240,7 +195,7 @@ input[type="checkbox"] {
 </style>
 <div id="containerSize">
     <div class="form-container">
-        <table>
+        <table class="ProjectInfo">
             <tr>
                 <td class="label">Project Title:</td>
                 <td class="input" colspan="3">{{ $projectTitle }}</td>
@@ -272,8 +227,6 @@ input[type="checkbox"] {
                     </div>
                 </td>
             </tr>
-
-
             <tr>
                 <td class="label">Period Covered:</td>
                 <td colspan="3">
@@ -288,27 +241,32 @@ input[type="checkbox"] {
 
     <div class="tg-wrap">
         <table class="tg">
-            <!-- <thead>
-    <tr>
-      <th class="tg-j6zm" colspan="8">1.0&nbsp;&nbsp;&nbsp;ASSETS</th>
-    </tr>
-  </thead> -->
             <tbody>
+                <tr>
+                    <td style="width: 20%;"></td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 10%;"></td>
+                    <td style="width: 15%;"></td>
+                </tr>
                 <tr>
                     <td class="tg-yla0" colspan="8">1.0 ASSETS</td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl">1.1 Building</td>
-                    <td class="tg-8d8j" colspan="4"> &nbsp;&nbsp;&nbsp;{{ $buildingAsset }}</td>
+                    <td class="tg-8d8j" colspan="4"> {{ '₱ ' . $buildingAsset }}</td>
                     <td class="tg-8d8j" colspan="3" rowspan="3"> &nbsp;&nbsp;<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl">1.2 Equipment</td>
-                    <td class="tg-8d8j" colspan="4"> &nbsp;&nbsp;&nbsp;{{ $EquipmentAsset }}</td>
+                    <td class="tg-8d8j" colspan="4"> {{ '₱ ' . $EquipmentAsset }}</td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl">1.3 Working&nbsp;&nbsp;&nbsp;Capital</td>
-                    <td class="tg-8d8j" colspan="4"> &nbsp;&nbsp;&nbsp;{{ $workingCapitalAsset }}</td>
+                    <td class="tg-8d8j" colspan="4"> {{ '₱ ' . $workingCapitalAsset }}</td>
                 </tr>
                 <tr>
                     <td class="tg-wa1i">Classification of Enterprise: </td>
