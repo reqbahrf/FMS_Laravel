@@ -238,48 +238,52 @@ input[type="checkbox"] {
             <tbody>
                 <tr>
                     <td style="width: 20%;"></td>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 10%;"></td>
-                    <td style="width: 15%;"></td>
+                    <td style="width: 8.88%;"></td>
+                    <td style="width: 8.88%;"></td>
+                    <td style="width: 8.88%;"></td>
+                    <td style="width: 8.88%;"></td>
+                    <td style="width: 8.88%;"></td>
+                    <td style="width: 8.88%;"></td>
+                    <td style="width: 8.88%;"></td>
+                    <td style="width: 8.88%;"></td>
+                    <td style="width: 8.88%;"></td>
                 </tr>
                 <tr>
-                    <td class="tg-yla0" colspan="8">1.0 ASSETS</td>
+                    <td class="tg-yla0" colspan="10">1.0 ASSETS</td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl">&nbsp;&nbsp;1.1 Building</td>
-                    <td class="tg-8d8j" colspan="4"> {{ '₱ ' . $buildingAsset }}</td>
+                    <td class="tg-8d8j" colspan="6"> {{ '₱ ' . $buildingAsset }}</td>
                     <td class="tg-8d8j" colspan="3" rowspan="3"> &nbsp;&nbsp;<br>&nbsp;&nbsp;<br>&nbsp;&nbsp;</td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl">&nbsp;&nbsp;1.2 Equipment</td>
-                    <td class="tg-8d8j" colspan="4"> {{ '₱ ' . $EquipmentAsset }}</td>
+                    <td class="tg-8d8j" colspan="6"> {{ '₱ ' . $EquipmentAsset }}</td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl">&nbsp;&nbsp;1.3 Working Capital</td>
-                    <td class="tg-8d8j" colspan="4"> {{ '₱ ' . $workingCapitalAsset }}</td>
+                    <td class="tg-8d8j" colspan="6"> {{ '₱ ' . $workingCapitalAsset }}</td>
                 </tr>
                 <tr>
                     <td class="tg-wa1i">Classification of Enterprise: </td>
-                    <td class="tg-nrix" colspan="2">Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)</td>
-                    <td class="tg-nrix" colspan="2">Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)</td>
-                    <td class="tg-nrix" colspan="3">Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)</td>
+                    <td class="tg-nrix" colspan="9">
+                        Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)
+                        Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)
+                        Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)
+                    </td>
                 </tr>
                 <tr>
-                    <td class="tg-j6zm" colspan="6">2.0 TOTAL EMPLOYMENT FOR THE QUARTER</td>
-                    <td class="tg-7zrl" colspan="2"> </td>
+                    <td class="tg-j6zm" colspan="7">2.0 TOTAL EMPLOYMENT FOR THE QUARTER</td>
+                    <td class="tg-7zrl" colspan="3"> </td>
                 </tr>
                 <tr>
                     <td class="tg-8d8j"> <br><br></td>
                     <td class="tg-baqh" colspan="2">No. of Personnel </td>
-                    <td class="tg-baqh" rowspan="2">Total Work Days of the Personnel for the Quarter
+                    <td class="tg-baqh" colspan="2" rowspan="2">Total Work Days of the Personnel for the Quarter
                     </td>
                     <td class="tg-baqh" colspan="2" rowspan="2">Total Man-Month=no. of Work
                         Days/20 x no Personnel)</td>
-                    <td class="tg-baqh" colspan="2" rowspan="2">Remarks</td>
+                    <td class="tg-baqh" colspan="3" rowspan="2">Remarks</td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl"> </td>
@@ -290,57 +294,57 @@ input[type="checkbox"] {
                     <td class="tg-7zrl">&nbsp;&nbsp;2.1 Direct Labor Force(Production)</td>
                     <td class="tg-8d8j"> <br></td>
                     <td class="tg-8d8j"> <br></td>
-                    <td class="tg-8d8j"> <br></td>
+                    <td class="tg-8d8j" colspan="2"> <br></td>
                     <td class="tg-8d8j" colspan="2"> <br> </td>
-                    <td class="tg-8d8j" colspan="2"> <br> </td>
+                    <td class="tg-8d8j" colspan="3"> <br> </td>
                 </tr>
                 <tr>
                     <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.1a Regular</td>
                     <td class="tg-8d8j">{{ $DireRegularMale }} <br></td>
                     <td class="tg-8d8j">{{ $DireRegularFemale }} <br></td>
-                    <td class="tg-8d8j">{{ $DireRegularTotalWorkday }} <br></td>
+                    <td class="tg-8d8j" colspan="2">{{ $DireRegularTotalWorkday }} <br></td>
                     <td class="tg-8d8j" colspan="2">{{ $DireRegularTotalManMonth }} <br> </td>
-                    <td class="tg-8d8j" colspan="2">{{ $RemarkDirectLabor }} <br> </td>
+                    <td class="tg-8d8j" colspan="3">{{ $RemarkDirectLabor }} <br> </td>
                 </tr>
                 <tr>
                     <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.1b Part-time </td>
                     <td class="tg-8d8j"> <br>{{ $ParttimeMale }}</td>
                     <td class="tg-8d8j"> <br>{{ $ParttimeFemale }}</td>
-                    <td class="tg-8d8j"> <br>{{ $ParttimeTotalWorkday }}</td>
+                    <td class="tg-8d8j" colspan="2"> <br>{{ $ParttimeTotalWorkday }}</td>
                     <td class="tg-8d8j" colspan="2"> <br>{{ $ParttimeTotalManMonth }} </td>
-                    <td class="tg-8d8j" colspan="2"> <br>{{ $RemarkParttime }} </td>
+                    <td class="tg-8d8j" colspan="3"> <br>{{ $RemarkParttime }} </td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl">&nbsp;&nbsp;2.2 Indirect Labor Force(Admin and Marketing)</td>
                     <td class="tg-8d8j"> <br><br></td>
                     <td class="tg-8d8j"> <br><br></td>
-                    <td class="tg-8d8j"> <br><br></td>
+                    <td class="tg-8d8j" colspan="2"> <br><br></td>
                     <td class="tg-8d8j" colspan="2"> <br> <br> </td>
-                    <td class="tg-8d8j" colspan="2"> <br> <br> </td>
+                    <td class="tg-8d8j" colspan="3"> <br> <br> </td>
                 </tr>
                 <tr>
                     <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.2a Regular </td>
                     <td class="tg-8d8j"> <br>{{ $IndiRegularMale }}</td>
                     <td class="tg-8d8j"> <br>{{ $IndiRegularFemale }}</td>
-                    <td class="tg-8d8j"> <br>{{ $IndiRegularTotalWorkday }}</td>
+                    <td class="tg-8d8j" colspan="2"> <br>{{ $IndiRegularTotalWorkday }}</td>
                     <td class="tg-8d8j" colspan="2"> <br> {{ $IndiRegularTotalManMonth }}</td>
-                    <td class="tg-8d8j" colspan="2"> <br> {{ $IndiRegularRemark }}</td>
+                    <td class="tg-8d8j" colspan="3"> <br> {{ $IndiRegularRemark }}</td>
                 </tr>
                 <tr>
                     <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.2bPart-time</td>
                     <td class="tg-8d8j"> <br>{{ $IndiParttimeMale }}</td>
                     <td class="tg-8d8j"> <br>{{ $IndiParttimeFemale }}</td>
-                    <td class="tg-8d8j"> <br>{{ $IndiParttimeTotalWorkday }}</td>
+                    <td class="tg-8d8j" colspan="2"> <br>{{ $IndiParttimeTotalWorkday }}</td>
                     <td class="tg-8d8j" colspan="2"> <br> {{ $IndiParttimeTotalManMonth }}</td>
-                    <td class="tg-8d8j" colspan="2"> <br> {{ $IndiParttimeRemark }}</td>
+                    <td class="tg-8d8j" colspan="3"> <br> {{ $IndiParttimeRemark }}</td>
                 </tr>
                 <tr>
                     <td class="tg-0lax" colspan="3">Total Employment for this Quarter: </td>
-                    <td class="tg-cly1" colspan="2">No. of Personnel: {{ $TotalEmployment }}</td>
-                    <td class="tg-cly1" colspan="3">No. of Man-Months: {{ $TotalManMonth }}</td>
+                    <td class="tg-cly1" colspan="3">No. of Personnel: {{ $TotalEmployment }}</td>
+                    <td class="tg-cly1" colspan="4">No. of Man-Months: {{ $TotalManMonth }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-1wig" colspan="8">3.0 PRODUCTION AND SALES DATA FOR THE QUARTER
+                    <td class="tg-1wig" colspan="10">3.0 PRODUCTION AND SALES DATA FOR THE QUARTER
                     </td>
                 </tr>
                 <tr>
@@ -349,8 +353,8 @@ input[type="checkbox"] {
                     <td class="tg-baqh">Packaging Details</td>
                     <td class="tg-baqh">Volume of Production</td>
                     <td class="tg-baqh" colspan="2">Gross Sales </td>
-                    <td class="tg-baqh">Estimated Cost of Production</td>
-                    <td class="tg-baqh">Net Sales</td>
+                    <td class="tg-baqh" colspan="2">Estimated Cost of Production</td>
+                    <td class="tg-baqh" colspan="2">Net Sales</td>
                 </tr>
                 @foreach ($exportProduct as $index => $product)
                     <tr>
@@ -361,8 +365,8 @@ input[type="checkbox"] {
                         <td class="tg-8d8j">{{ $product['packingDetails'] }}</td>
                         <td class="tg-8d8j">{{ $product['volumeOfProduction'] }}</td>
                         <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['grossSales'] }}</td>
-                        <td class="tg-8d8j">{{ "₱ " . $product['productionCost'] }}</td>
-                        <td class="tg-8d8j">{{ "₱ " . $product['netSales'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['productionCost'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['netSales'] }}</td>
                     </tr>
                 @endforeach
                 @foreach ($localProduct as $index => $product)
@@ -374,30 +378,30 @@ input[type="checkbox"] {
                         <td class="tg-8d8j">{{ $product['packingDetails'] }}</td>
                         <td class="tg-8d8j">{{ $product['volumeOfProduction'] }}</td>
                         <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['grossSales'] }}</td>
-                        <td class="tg-8d8j">{{ "₱ " . $product['productionCost'] }}</td>
-                        <td class="tg-8d8j">{{ "₱ " . $product['netSales'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['productionCost'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['netSales'] }}</td>
                     </tr>
                 @endforeach
                 <tr>
                     <td class="tg-cly1" colspan="4">TOTAL </td>
                     <td class="tg-8d8j" colspan="2"> <br>{{ $totalGrossSales }} </td>
-                    <td class="tg-8d8j"> <br>{{ $totalProductionCost }}</td>
-                    <td class="tg-8d8j"> <br>{{ $totalNetSales }}</td>
+                    <td class="tg-8d8j" colspan="2"> <br>{{ $totalProductionCost }}</td>
+                    <td class="tg-8d8j" colspan="2"> <br>{{ $totalNetSales }}</td>
                 </tr>
 
                 <tr>
-                    <td class="tg-yla0" colspan="8">4.0 MARKET OUTLETS</td>
+                    <td class="tg-yla0" colspan="10">4.0 MARKET OUTLETS</td>
                 </tr>
 
                 <tr>
                     <td class="tg-cly1">&nbsp;&nbsp;4.1 Export</td>
-                    <td class="tg-8d8j" colspan="7">
+                    <td class="tg-8d8j" colspan="9">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $ExportOutlet }}</td>
                 </tr>
 
                 <tr>
                     <td class="tg-cly1">&nbsp;&nbsp;4.2 Local</td>
-                    <td class="tg-8d8j" colspan="7">
+                    <td class="tg-8d8j" colspan="9">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $LocalOutlet }}</td>
                 </tr>
                 <br>
@@ -405,11 +409,11 @@ input[type="checkbox"] {
                     <td colspan="8" style="height: 10px; border-left: none; border-right: none;">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td class="tg-vkv7" colspan="8">TO BE ACCOMPLISHED BY DOST XI</td>
+                    <td class="tg-vkv7" colspan="10">TO BE ACCOMPLISHED BY DOST XI</td>
                 </tr>
 
                 <tr>
-                    <td class="tg-baqh" colspan="2" rowspan="2">Gross Sales Generated = Gross Sales Q4 - Gross
+                    <td class="tg-baqh" colspan="4" rowspan="2">Gross Sales Generated = Gross Sales Q4 - Gross
                         Sales Q3</td>
                     <td class="tg-baqh" colspan="2">Gross Sales&nbsp;&nbsp;&nbsp;Q4(for the reporting period)</td>
                     <td class="tg-baqh" colspan="2">Cross Sales&nbsp;&nbsp;&nbsp;Q3(Previous Quarter)</td>
@@ -421,7 +425,7 @@ input[type="checkbox"] {
                     <td class="tg-8d8j" colspan="2">{{ $TotalgrossSales }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-0lax" colspan="2">% Increase in Productivity Generated =
+                    <td class="tg-0lax" colspan="4">% Increase in Productivity Generated =
                         Gross Sales current-Gross Sales previous&nbsp;&nbsp;&nbsp;/ Gross Sales previous X 100 =  %</td>
                     <td class="tg-8d8j" colspan="6">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
@@ -430,7 +434,7 @@ input[type="checkbox"] {
                     </td>
                 </tr>
                 <tr>
-                    <td class="tg-0lax" colspan="2" rowspan="2">Employment Generated = Employment Q4 -
+                    <td class="tg-0lax" colspan="4" rowspan="2">Employment Generated = Employment Q4 -
                         Employment Q3</td>
                     <td class="tg-8d8j" colspan="2">Total&nbsp;&nbsp;&nbsp;Employment Q4(For the reporting period)
                     </td>
@@ -443,7 +447,7 @@ input[type="checkbox"] {
                     <td class="tg-8d8j" colspan="2"> {{ $TotalEmploymentGenerated }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-8d8j" colspan="2">% Increase in Employment Generated =
+                    <td class="tg-8d8j" colspan="4">% Increase in Employment Generated =
                         -&nbsp;&nbsp;&nbsp;/ X 100 = </td>
                     <td class="tg-8d8j" colspan="6">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
