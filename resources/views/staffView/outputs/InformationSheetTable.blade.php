@@ -92,25 +92,6 @@
             vertical-align: top
         }
 
-        /* @media screen and (max-width: 767px) {
-            .tg {
-                width: auto !important;
-            }
-
-            .tg col {
-                width: auto !important;
-            }
-
-            .tg-wrap {
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                margin: auto 0px;
-            }
-        } */
-
-        /* @page {
-    size: A4;
-  } */
 
         #dataSheetTable {
             width: 100%;
@@ -128,29 +109,8 @@
         }
 
 
-        /* #pageSize {
-            width: 794px;
-            margin: auto;
-            padding: 5%;
-
-        }
-        */
 
         @media print {
-            /* body * {
-      visibility: hidden;
-    } */
-
-            #pageSize,
-            #pageSize * {
-                visibility: visible;
-            }
-
-            #pageSize {
-                position: absolute;
-                left: 0;
-                top: 0;
-            }
 
             .tg {
                 width: 100%;
