@@ -360,9 +360,9 @@ input[type="checkbox"] {
                         <td class="tg-8d8j">{{ $product['productName'] }}</td>
                         <td class="tg-8d8j">{{ $product['packingDetails'] }}</td>
                         <td class="tg-8d8j">{{ $product['volumeOfProduction'] }}</td>
-                        <td class="tg-8d8j" colspan="2">{{ $product['grossSales'] }}</td>
-                        <td class="tg-8d8j">{{ $product['productionCost'] }}</td>
-                        <td class="tg-8d8j">{{ $product['netSales'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['grossSales'] }}</td>
+                        <td class="tg-8d8j">{{ "₱ " . $product['productionCost'] }}</td>
+                        <td class="tg-8d8j">{{ "₱ " . $product['netSales'] }}</td>
                     </tr>
                 @endforeach
                 @foreach ($localProduct as $index => $product)
@@ -373,9 +373,9 @@ input[type="checkbox"] {
                         <td class="tg-8d8j">{{ $product['productName'] }}</td>
                         <td class="tg-8d8j">{{ $product['packingDetails'] }}</td>
                         <td class="tg-8d8j">{{ $product['volumeOfProduction'] }}</td>
-                        <td class="tg-8d8j" colspan="2">{{ $product['grossSales'] }}</td>
-                        <td class="tg-8d8j">{{ $product['productionCost'] }}</td>
-                        <td class="tg-8d8j">{{ $product['netSales'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['grossSales'] }}</td>
+                        <td class="tg-8d8j">{{ "₱ " . $product['productionCost'] }}</td>
+                        <td class="tg-8d8j">{{ "₱ " . $product['netSales'] }}</td>
                     </tr>
                 @endforeach
                 <tr>
