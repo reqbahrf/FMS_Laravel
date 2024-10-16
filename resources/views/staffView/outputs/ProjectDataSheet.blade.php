@@ -118,6 +118,7 @@ body{
     max-width: 794px;
     margin: 0 auto;
     line-height: 1.5;
+    padding-bottom: 20px;
 }
 
 table .ProjectInfo {
@@ -128,11 +129,11 @@ table .ProjectInfo {
 }
 
 .ProjectInfo td:nth-child(1) {
-    width: 20%;
+    width: 15%;
 }
 
 .ProjectInfo td:nth-child(2) {
-    width: 80%;
+    width: 85%;
 }
 .ProjectInfo td {
     border-color: black;
@@ -140,9 +141,6 @@ table .ProjectInfo {
         border-width: 1px;
 }
 
-.ProjectInfo tr {
-    margin-bottom: 10px;
-}
 
 .label {
     width: 10%;
@@ -188,11 +186,6 @@ input[type="checkbox"] {
 }
 
 
-/* .contactData {
-    display: flex;
-    flex-direction: column;
-} */
-
 
 </style>
 <div id="containerSize">
@@ -219,14 +212,12 @@ input[type="checkbox"] {
             <tr>
                 <td class="label">Contact Details:</td>
                 <td class="contactData" colspan="3">
-                    <div class="contact-details">
                         <span class="contact-label">Landline:&nbsp;&nbsp;</span>
                         <span class="input">{{ $landline ?? 'None' }}</span>
                         <span class="contact-label">Mobile Phone:&nbsp;&nbsp;</span>
                         <span class="input">{{ $mobile }}</span>
                         <span class="contact-label">Email Address:&nbsp;&nbsp;</span>&nbsp;&nbsp;
                         <span class="input">{{ $email }}</span>
-                    </div>
                 </td>
             </tr>
             <tr>
