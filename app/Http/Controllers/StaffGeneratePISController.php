@@ -28,6 +28,7 @@ class StaffGeneratePISController extends Controller
             'margin_right' => 5
         ]);
         $mpdf->SetHTMLHeader($DocHeader);
+        $mpdf->shrink_tables_to_fit = 1;
         $mpdf->WriteHTML($html);
         return response($mpdf->Output('PISsample.pdf', 'S'), 200, [
             'Content-Type' => 'application/pdf',
