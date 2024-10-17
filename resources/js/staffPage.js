@@ -1233,6 +1233,9 @@ window.initializeStaffPageJs = async () => {
           PDS: () => {
             PDSFormEvents();
           },
+          SR: () => {
+            SRFormEvents();
+          },
         }[formType];
         Form_EventListener();
       });
@@ -1650,6 +1653,10 @@ window.initializeStaffPageJs = async () => {
         calculateTotals();
       }
 
+      function SRFormEvents(){
+
+      }
+
       //TODO: Make this reusable and efficient
 
       /**
@@ -1667,7 +1674,7 @@ window.initializeStaffPageJs = async () => {
         'click',
         '.breadcrumb-item:not(.active) a',
         function () {
-          $('#PISFormContainer , #PDSFormContainer').remove();
+          $('#PISFormContainer , #PDSFormContainer, #SRFormContainer').remove();
           toggleDocumentSelector();
         }
       );

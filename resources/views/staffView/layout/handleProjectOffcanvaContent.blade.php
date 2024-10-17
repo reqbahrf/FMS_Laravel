@@ -277,6 +277,9 @@
                                 </button>
                             </div>
                         </div>
+                        <div class="col-12 text-center">
+                                <button class="btn btn-primary text-center " data-form-type="SR" id="SRbtn">Status Report Sheet</button>
+                        </div>
                     </div>
             </div>
         </div>

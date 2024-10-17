@@ -495,7 +495,7 @@ class StaffViewController extends Controller
     public function getProjectSheetsForm(Request $request, $type, $projectId, $quarter = null)
     {
         $rule = [
-            'type' => 'required|string|in:PIS,PDS',
+            'type' => 'required|string|in:PIS,PDS,SR',
             'projectId' => 'required|string|max:15',
             'quarter' => 'nullable'
         ];
@@ -524,6 +524,9 @@ class StaffViewController extends Controller
                 $quarterlyData = $projectData->quarterlyReport->first()->report_file;
 
                 return view('staffView.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'quarterlyData'));
+                break;
+            case 'SR':
+                return view('staffView.SheetFormTemplete.SRForm');
                 break;
         }
     }
