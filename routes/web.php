@@ -136,14 +136,22 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
     Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [StaffViewController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');
+
     Route::post('/Staff/Project/Create-InformationSheet', [StaffGeneratePISController::class, 'index'])
         ->name('staff.Create-InformationSheet');
+
     Route::post('/Staff/Project/Create-DataSheet', [StaffGeneratePDSController::class, 'index'])
         ->name('staff.Create-DataSheet');
+
+    Route::post('/Staff/Project/Create-StatusReport', [staffGenerateSRController::class, 'index'])
+        ->name('staff.Create-StatusReport');
+
     Route::get('/Staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])
         ->name('staff.Applicant.Requirement');
+
     Route::get('/Staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])
         ->name('staff.Applicant.Requirement.View');
+
     Route::put('/Staff/Dashboard/updateProjectStatusToOngoing', [StaffViewController::class, 'updateProjectStatusToOngoing'])
         ->name('staff.Dashboard.updateProjectStatusToOngoing');
 
@@ -223,7 +231,7 @@ Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'ver
 
 //test route
 
-Route::get('/SR', [staffGenerateSRController::class, 'index']);
+
 Route::get('/viewSR', fn() => view('staffView.outputs.StatusReport'));
 Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
 

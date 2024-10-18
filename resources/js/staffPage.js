@@ -95,8 +95,8 @@ $(document).on('DOMContentLoaded', function () {
 window.initializeStaffPageJs = async () => {
   const functions = {
     Dashboard: () => {
-        formatToNumber('#days_open');
-        formatToNumber('#updateOpenDays');
+      formatToNumber('#days_open');
+      formatToNumber('#updateOpenDays');
       /**
        * Creates a monthly data chart with the provided data for applicants, ongoing, and completed items.
        *
@@ -331,10 +331,10 @@ window.initializeStaffPageJs = async () => {
         handledProjectTable.clear();
 
         data.forEach((project) => {
-            const refunded_amount = parseFloat(project.Refunded_Amount) || 0;
-            const Actual_Amount = parseFloat(project.Actual_Amount) || 0;
+          const refunded_amount = parseFloat(project.Refunded_Amount) || 0;
+          const Actual_Amount = parseFloat(project.Actual_Amount) || 0;
 
-            const percentage = Math.ceil((refunded_amount / Actual_Amount) * 100);
+          const percentage = Math.ceil((refunded_amount / Actual_Amount) * 100);
           handledProjectTable.row.add([
             project.Project_id,
             project.project_title,
@@ -367,10 +367,10 @@ window.initializeStaffPageJs = async () => {
                 }">
                 <input type="hidden" class="equipment_value" value="${
                   project.equipment_value
-               }">
+                }">
                 <input type="hidden" class="working_capital" value="${
                   project.working_capital
-               }">`,
+                }">`,
             `<p class="owner_name">${
               project.prefix +
               ' ' +
@@ -391,8 +391,14 @@ window.initializeStaffPageJs = async () => {
                   project.mobile_number
                 }">
                 <input type="hidden" class="email" value="${project.email}">`,
-            `${formatToString(refunded_amount) + '/' + formatToString(Actual_Amount)}<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
-            <input type="hidden" class="approved_amount" value="${project.Approved_Amount}">
+            `${
+              formatToString(refunded_amount) +
+              '/' +
+              formatToString(Actual_Amount)
+            }<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
+            <input type="hidden" class="approved_amount" value="${
+              project.Approved_Amount
+            }">
             <input type="hidden" class="actual_amount" value="${Actual_Amount}">`,
             `<span class="badge ${
               project.application_status === 'approved'
@@ -668,7 +674,7 @@ window.initializeStaffPageJs = async () => {
         function () {
           const handledProjectRow = $(this).closest('tr');
           const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
-          const offCanvaReadonlyInputs = $('#handleProjectOff').find('input')
+          const offCanvaReadonlyInputs = $('#handleProjectOff').find('input');
 
           // Cache values from the row
           const project_status = handledProjectRow
@@ -694,11 +700,17 @@ window.initializeStaffPageJs = async () => {
           const landline = hiddenInputs.filter('.landline').val();
           const mobilePhone = hiddenInputs.filter('.mobile_phone').val();
           const email = hiddenInputs.filter('.email').val();
-          const enterpriseType = hiddenInputs.filter('.business_enterprise_type').val();
-          const enterpriseLevel = hiddenInputs.filter('.business_enterprise_level').val();
+          const enterpriseType = hiddenInputs
+            .filter('.business_enterprise_type')
+            .val();
+          const enterpriseLevel = hiddenInputs
+            .filter('.business_enterprise_level')
+            .val();
           const buildingAsset = hiddenInputs.filter('.building_value').val();
           const equipmentAsset = hiddenInputs.filter('.equipment_value').val();
-          const workingCapitalAsset = hiddenInputs.filter('.working_capital').val();
+          const workingCapitalAsset = hiddenInputs
+            .filter('.working_capital')
+            .val();
           const approved_amount = hiddenInputs.filter('.approved_amount').val();
           const actual_amount = hiddenInputs.filter('.actual_amount').val();
 
@@ -712,7 +724,9 @@ window.initializeStaffPageJs = async () => {
           offCanvaReadonlyInputs.filter('#age').val(age);
           offCanvaReadonlyInputs.filter('#ProjectID').val(project_id);
           offCanvaReadonlyInputs.filter('#ProjectTitle').val(projectTitle);
-          offCanvaReadonlyInputs.filter('#ApprovedAmount').val(formatToString(parseFloat(approved_amount)));
+          offCanvaReadonlyInputs
+            .filter('#ApprovedAmount')
+            .val(formatToString(parseFloat(approved_amount)));
           offCanvaReadonlyInputs.filter('#appliedDate').val(dateApplied);
           offCanvaReadonlyInputs.filter('#FirmName').val(firmName);
           offCanvaReadonlyInputs.filter('#CooperatorName').val(cooperatorName);
@@ -721,10 +735,14 @@ window.initializeStaffPageJs = async () => {
           offCanvaReadonlyInputs.filter('#mobilePhone').val(mobilePhone);
           offCanvaReadonlyInputs.filter('#email').val(email);
           offCanvaReadonlyInputs.filter('#enterpriseType').val(enterpriseType);
-          offCanvaReadonlyInputs.filter('#EnterpriseLevel').val(enterpriseLevel);
+          offCanvaReadonlyInputs
+            .filter('#EnterpriseLevel')
+            .val(enterpriseLevel);
           offCanvaReadonlyInputs.filter('#buildingAsset').val(buildingAsset);
           offCanvaReadonlyInputs.filter('#equipmentAsset').val(equipmentAsset);
-          offCanvaReadonlyInputs.filter('#workingCapitalAsset').val(workingCapitalAsset);
+          offCanvaReadonlyInputs
+            .filter('#workingCapitalAsset')
+            .val(workingCapitalAsset);
 
           handleProjectOffcanvasContent(project_status);
           getPaymentHistoryAndCalculation(project_id, actual_amount);
@@ -734,7 +752,10 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
-      const getPaymentHistoryAndCalculation = async (project_id, actual_amount = 0) => {
+      const getPaymentHistoryAndCalculation = async (
+        project_id,
+        actual_amount = 0
+      ) => {
         try {
           const totalAmount = await getPaymentHistory(project_id);
 
@@ -1178,7 +1199,7 @@ window.initializeStaffPageJs = async () => {
         try {
           const response = await $.ajax({
             type: 'GET',
-            url: GenerateSheetsRoute.GET_AVAILABLE_QUARTERLY_REPORT.replace(
+            url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
               ':project_id',
               Project_id
             ),
@@ -1194,7 +1215,7 @@ window.initializeStaffPageJs = async () => {
 
       //TODO: Implement spinner for the ajax request
 
-      const getProjectSheetForm = async (
+      const GET_PROJECT_SHEET_FORM = async (
         formType,
         Project_id,
         { QuartertoUsed } = {}
@@ -1202,8 +1223,10 @@ window.initializeStaffPageJs = async () => {
         try {
           const response = await $.ajax({
             type: 'GET',
-            url: GenerateSheetsRoute.getProjectSheetForm
-              .replace(':type', formType)
+            url: GENERATE_SHEETS_ROUTE.GET_PROJECT_SHEET_FORM.replace(
+              ':type',
+              formType
+            )
               .replace(':project_id', Project_id)
               .replace(':quarter_of', QuartertoUsed ? QuartertoUsed : ''),
             headers: {
@@ -1222,7 +1245,7 @@ window.initializeStaffPageJs = async () => {
         const formType = $(this).data('form-type');
         const Project_id = $('#ProjectID').val();
         const QuartertoUsed = $('#Select_quarter_to_Generate').val();
-        await getProjectSheetForm(formType, Project_id, {
+        await GET_PROJECT_SHEET_FORM(formType, Project_id, {
           QuartertoUsed: QuartertoUsed,
         });
 
@@ -1653,8 +1676,66 @@ window.initializeStaffPageJs = async () => {
         calculateTotals();
       }
 
-      function SRFormEvents(){
+      function SRFormEvents() {
 
+        const toggleDeleteRowButton = (container, elementSelector) => {
+            const element = container.find(elementSelector);
+            const deleteRowButton = container.children('.addAndRemoveButton_Container').find('.removeRowButton');
+            element.length === 1
+            ? deleteRowButton.prop('disabled', true)
+            : deleteRowButton.prop('disabled', false);
+
+        }
+        // Add event listener to the add row button
+        $('.addNewRowButton').on('click', function () {
+          const container = $(this).closest('.card-body');
+
+          const table = container.find('table');
+          if(table.length){
+            const lastRow = table.find('tbody tr:last-child');
+            const newRow = lastRow.clone();
+            newRow.find('input, textarea').val('');
+            table.find('tbody').append(newRow);
+            toggleDeleteRowButton(container, 'tbody tr');
+          }
+          else{
+            const divContainer = container.find('.input_list')
+            const newDiv = divContainer.last().clone();
+            newDiv.find('input, textarea').val('');
+            container.append(newDiv);
+            toggleDeleteRowButton(container, '.input_list');
+          }
+
+        });
+
+        // Add event listener to the delete row button
+        $('.removeRowButton').on('click', function () {
+          const container = $(this).closest('.card-body');
+
+          const table = container.find('table');
+          if(table.length){
+            const lastRow = table.find('tbody tr:last-child');
+            lastRow.remove();
+            toggleDeleteRowButton(container, 'tbody tr');
+          }
+          else{
+            const divContainer = container.find('.input_list')
+            divContainer.last().remove();
+            toggleDeleteRowButton(container, '.input_list');
+          }
+
+        });
+
+        $('#StatusReportForm .card-body').each(function(){
+          const container = $(this);
+
+          const table = container.find('table');
+          if(table.length){
+            toggleDeleteRowButton(container, 'tbody tr');
+          }else{
+            toggleDeleteRowButton(container, '.input_list');
+          }
+        });
       }
 
       //TODO: Make this reusable and efficient
@@ -1703,9 +1784,10 @@ window.initializeStaffPageJs = async () => {
 
           try {
             const ExportPDF_BUTTON_DATA_VALUE = $(this).data('to-export');
-            let route_url = await {
-              PIS: GenerateSheetsRoute.generateProjectInformationSheet,
-              PDS: GenerateSheetsRoute.generateDataSheetReport,
+            const route_url = await {
+              PIS: GENERATE_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
+              PDS: GENERATE_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
+              SR: GENERATE_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
             }[ExportPDF_BUTTON_DATA_VALUE];
             const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
             const response = await $.ajax({
@@ -1794,10 +1876,14 @@ window.initializeStaffPageJs = async () => {
 
             return thisFormObject;
           },
+
+          SR: function () {
+            const thisFormData = $('#StatusReportForm').serialize();
+            return thisFormData;
+          },
         };
         return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
       };
-
 
       /**
        * Handles the submission of the Create Quarterly Report form.
@@ -2232,42 +2318,74 @@ window.initializeStaffPageJs = async () => {
           enterprise_type: inputs.filter('.enterprise_type').val(),
           enterprise_level: inputs.filter('.enterprise_level').val(),
           building_assets: parseFloat(inputs.filter('.building_assets').val()),
-          equipment_assets: parseFloat(inputs.filter('.equipment_assets').val()),
-          working_capital_assets: parseFloat(inputs.filter('.working_capital_assets').val()),
+          equipment_assets: parseFloat(
+            inputs.filter('.equipment_assets').val()
+          ),
+          working_capital_assets: parseFloat(
+            inputs.filter('.working_capital_assets').val()
+          ),
         };
 
         const projectDetails = {
           project_id: inputs.filter('.project_id').val(),
           project_title: row.find('td:nth-child(2)').text().trim(),
-          project_fund_amount: parseFloat(inputs.filter('.project_fund_amount').val()),
-          project_amount_to_be_refunded: parseFloat(inputs.filter('.amount_to_be_refunded').val()),
-          project_refunded_amount: parseFloat(inputs.filter('.amount_refunded').val()),
+          project_fund_amount: parseFloat(
+            inputs.filter('.project_fund_amount').val()
+          ),
+          project_amount_to_be_refunded: parseFloat(
+            inputs.filter('.amount_to_be_refunded').val()
+          ),
+          project_refunded_amount: parseFloat(
+            inputs.filter('.amount_refunded').val()
+          ),
           date_applied: inputs.filter('.date_applied').val(),
           project_date_approved: inputs.filter('.date_approved').val(),
           evaluated_by: inputs.filter('.evaluated_by').val(),
           handle_by: inputs.filter('.handle_by').val(),
         };
 
-        readonlyInputs.filter('.cooperatorName').val(personalDetails.cooperName);
+        readonlyInputs
+          .filter('.cooperatorName')
+          .val(personalDetails.cooperName);
         readonlyInputs.filter('.designation').val(personalDetails.designaition);
-        readonlyInputs.filter('.mobile_number').val(personalDetails.mobile_number);
+        readonlyInputs
+          .filter('.mobile_number')
+          .val(personalDetails.mobile_number);
         readonlyInputs.filter('.email').val(personalDetails.email);
         readonlyInputs.filter('.landline').val(personalDetails.landline);
 
         readonlyInputs.filter('.b_id').val(businessDetails.business_id);
         readonlyInputs.filter('.firmName').val(businessDetails.firmName);
         readonlyInputs.filter('.businessAddress').val(businessDetails.address);
-        readonlyInputs.filter('.typeOfEnterprise').val(businessDetails.enterprise_type);
-        readonlyInputs.filter('.enterpriseLevel').val(businessDetails.enterprise_level);
-        readonlyInputs.filter('.building').val(formatToString(businessDetails.building_assets));
-        readonlyInputs.filter('.equipment').val(formatToString(businessDetails.equipment_assets));
-        readonlyInputs.filter('.workingCapital').val(formatToString(businessDetails.working_capital_assets));
+        readonlyInputs
+          .filter('.typeOfEnterprise')
+          .val(businessDetails.enterprise_type);
+        readonlyInputs
+          .filter('.enterpriseLevel')
+          .val(businessDetails.enterprise_level);
+        readonlyInputs
+          .filter('.building')
+          .val(formatToString(businessDetails.building_assets));
+        readonlyInputs
+          .filter('.equipment')
+          .val(formatToString(businessDetails.equipment_assets));
+        readonlyInputs
+          .filter('.workingCapital')
+          .val(formatToString(businessDetails.working_capital_assets));
 
         readonlyInputs.filter('.ProjectId').val(projectDetails.project_id);
-        readonlyInputs.filter('.ProjectTitle').val(projectDetails.project_title);
-        readonlyInputs.filter('.funded_amount').val(formatToString(projectDetails.project_fund_amount));
-        readonlyInputs.filter('.amount_to_be_refunded').val(formatToString(projectDetails.project_amount_to_be_refunded));
-        readonlyInputs.filter('.refunded').val(formatToString(projectDetails.project_refunded_amount));
+        readonlyInputs
+          .filter('.ProjectTitle')
+          .val(projectDetails.project_title);
+        readonlyInputs
+          .filter('.funded_amount')
+          .val(formatToString(projectDetails.project_fund_amount));
+        readonlyInputs
+          .filter('.amount_to_be_refunded')
+          .val(formatToString(projectDetails.project_amount_to_be_refunded));
+        readonlyInputs
+          .filter('.refunded')
+          .val(formatToString(projectDetails.project_refunded_amount));
         readonlyInputs.filter('.date_applied').val(projectDetails.date_applied);
         readonlyInputs.filter('.evaluated_by').val(projectDetails.evaluated_by);
         readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
@@ -2375,7 +2493,9 @@ window.initializeStaffPageJs = async () => {
             const amount_refunded = parseFloat(Ongoing.amount_refunded);
             const to_be_refunded = parseFloat(Ongoing.to_be_refunded);
 
-            const percentage = Math.ceil((amount_refunded / to_be_refunded) * 100);
+            const percentage = Math.ceil(
+              (amount_refunded / to_be_refunded) * 100
+            );
             OngoingDatatable.row
               .add([
                 `${Ongoing.Project_id}`,

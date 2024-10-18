@@ -45,7 +45,16 @@
             <div class="col-12 mb-3">
                 <div class="card p-0">
                     <div class="card-body">
-                        <h6>Expected Output vs. Actual Accomplishment (include training and consultancy service/s to be provided):</h6>
+                        <h6>Expected Output vs. Actual Accomplishment (include training and consultancy service/s to be
+                            provided):</h6>
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -54,11 +63,17 @@
                                     <th scope="col">Remarks/Justification</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="expectedAndActual_tableRow">
                                 <tr>
-                                    <td><textarea type="text" class="bottom_border" name="expectedOutput[]"></textarea></td>
-                                    <td><textarea type="text" class="bottom_border" name="actualAccomplishment[]"></textarea></td>
-                                    <td><textarea type="text" class="bottom_border" name="remarksJustification[]"></textarea></td>
+                                    <td>
+                                        <textarea type="text" class="bottom_border expectedOutput"></textarea>
+                                    </td>
+                                    <td>
+                                        <textarea type="text" class="bottom_border actualAccomplishment"></textarea>
+                                    </td>
+                                    <td>
+                                        <textarea type="text" class="bottom_border remarksJustification"></textarea>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -70,12 +85,23 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <h6>List of equipment/facilities purchased/fabricated with corresponding cost/value:</h6>
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
                         <table class="table table-bordered">
                             <thead class="table-white">
                                 <tr>
-                                    <th colspan="3" class="text-center">Approved S&T Intervention Related Equipment</th>
-                                    <th colspan="3" class="text-center">Actual S&T Intervention Related Equipment Acquired</th>
-                                    <th rowspan="2" class="text-center align-middle">Indicate if with Acknowledgement Receipt of Equipment</th>
+                                    <th colspan="3" class="text-center">Approved S&T Intervention Related Equipment
+                                    </th>
+                                    <th colspan="3" class="text-center">Actual S&T Intervention Related Equipment
+                                        Acquired</th>
+                                    <th rowspan="2" class="text-center align-middle">Indicate if with Acknowledgement
+                                        Receipt of Equipment</th>
                                     <th rowspan="2" class="text-center align-middle">Remarks/ Justification</th>
                                 </tr>
                                 <tr>
@@ -87,18 +113,22 @@
                                     <th class="text-center">Cost</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="equipment_tableRow">
                                 <tr>
-                                    <td><input type="number" class="bottom_border" name="approved_qty[]" ></td>
-                                    <td><input type="text" class="bottom_border" name="approved_particulars[]" ></td>
-                                    <td><input type="number" class="bottom_border" name="approved_cost_2[]" ></td>
-                                    <td><input type="number" class="bottom_border" name="actual_qty[]" ></td>
-                                    <td><input type="text" class="bottom_border" name="actual_particulars[]" ></td>
-                                    <td><input type="number" class="bottom_border" name="actual_cost[]"></td>
-                                    <td>
-                                        <input type="text" class="bottom_border" name="acknowledgement[]" >
+                                    <td><input type="text" class="bottom_border approved_qty"></td>
+                                    <td><input type="text" class="bottom_border approved_particulars"></td>
+                                    <td><input type="number"
+                                            class="bottom_border
+                                        approved_cost">
                                     </td>
-                                    <td><textarea type="text" class="bottom_border" name="remarks[]" ></textarea>
+                                    <td><input type="text" class="bottom_border actual_qty"></td>
+                                    <td><input type="text" class="bottom_border actual_particulars"></td>
+                                    <td><input type="text" class="bottom_border actual_cost"></td>
+                                    <td>
+                                        <input type="text" class="bottom_border acknowledgement">
+                                    </td>
+                                    <td>
+                                        <textarea type="text" class="bottom_border remarks"></textarea>
                                     </td>
                                 </tr>
                             </tbody>
@@ -110,6 +140,14 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <h6>Non-equipment items provided (packaging, etc.):</h6>
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
                         <table class="table table-bordered">
                             <thead class="table-white">
                                 <tr>
@@ -126,28 +164,29 @@
                                     <th class="text-center">Cost</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="non_equipment_tableRow">
                                 <tr>
                                     <td>
-                                        <input type="number" class="bottom_border" name="non_equipment_approved_qty[]" >
+                                        <input type="number" class="bottom_border non_equipment_approved_qty">
                                     </td>
                                     <td>
-                                        <input type="text" class="bottom_border" name="non_equipment_approved_particulars[]" >
+                                        <input type="text"
+                                            class="bottom_border non_equipment_approved_particulars">
                                     </td>
                                     <td>
-                                        <input type="number" class="bottom_border" name="non_equipment_approved_cost[]" >
+                                        <input type="number" class="bottom_border non_equipment_approved_cost">
                                     </td>
                                     <td>
-                                        <input type="number" class="bottom_border" name="non_equipment_actual_qty[]" >
+                                        <input type="number" class="bottom_border non_equipment_actual_qty">
                                     </td>
                                     <td>
-                                        <input type="text" class="bottom_border" name="non_equipment_actual_particulars[]" >
+                                        <input type="text" class="bottom_border non_equipment_actual_particulars">
                                     </td>
                                     <td>
-                                        <input type="number" class="bottom_border" name="non_equipment_actual_cost[]" >
+                                        <input type="number" class="bottom_border non_equipment_actual_cost">
                                     </td>
                                     <td>
-                                        <textarea type="text" class="bottom_border" name="non_equipment_remarks[]" >
+                                        <textarea type="text" class="bottom_border non_equipment_remarks">
                                         </textarea>
                                     </td>
                                 </tr>
@@ -161,30 +200,30 @@
                     <div class="card-body">
                         <div class="row">
                             <h6>Status of Fund Utilization:</h6>
-                                <div class="col-12">
-                                    2015
-                                </div>
-                                <div class="col-8">
-                                    Total Appproved Project Cost
-                                </div>
-                                <div class="col-4 d-flex justify-content-between">
-                                    <span>:</span>
-                                    <input type="text" class="bottom_border" name="total_approved_project_cost" >
-                                </div>
-                                <div class="col-8">
-                                    Amount Utilized per Financial Report (as of June 2024)
-                                </div>
-                                <div class="col-4 d-flex justify-content-between">
-                                    <span>:&nbsp;</span>
-                                    <input type="text" class="bottom_border" name="amount_utilized" >
-                                </div>
-                                <div class="col-8">
-                                    Remarks on Status of Utilization
-                                </div>
-                                <div class="col-4 d-flex justify-content-between">
-                                    <span>:&nbsp;</span>
-                                    <input type="text" class="bottom_border" name="remarks_on_status_of_utilization" >
-                                </div>
+                            <div class="col-12">
+                                2015
+                            </div>
+                            <div class="col-8">
+                                Total Appproved Project Cost
+                            </div>
+                            <div class="col-4 d-flex justify-content-between">
+                                <span>:</span>
+                                <input type="text" class="bottom_border" name="total_approved_project_cost">
+                            </div>
+                            <div class="col-8">
+                                Amount Utilized per Financial Report (as of June 2024)
+                            </div>
+                            <div class="col-4 d-flex justify-content-between">
+                                <span>:&nbsp;</span>
+                                <input type="text" class="bottom_border" name="amount_utilized">
+                            </div>
+                            <div class="col-8">
+                                Remarks on Status of Utilization
+                            </div>
+                            <div class="col-4 d-flex justify-content-between">
+                                <span>:&nbsp;</span>
+                                <input type="text" class="bottom_border" name="remarks_on_status_of_utilization">
+                            </div>
 
                         </div>
                     </div>
@@ -247,7 +286,15 @@
             <div class="col-12 mb-3">
                 <div class="card p-0">
                     <div class="card-body">
-                        <h6 >Volume and value of production including sales generated:</h6>
+                        <h6>Volume and value of production including sales generated:</h6>
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -259,9 +306,12 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><input type="text" class="bottom_border" name="sales_product_service[]"></td>
-                                    <td><input type="text" class="bottom_border" name="sales_volume_production[]"></td>
-                                    <td><input type="text" class="bottom_border" name="sales_quarter_specify[]"></td>
+                                    <td><input type="text" class="bottom_border" name="sales_product_service[]">
+                                    </td>
+                                    <td><input type="text" class="bottom_border" name="sales_volume_production[]">
+                                    </td>
+                                    <td><input type="text" class="bottom_border" name="sales_quarter_specify[]">
+                                    </td>
                                     <td><input type="text" class="bottom_border" name="sales_cross_sales[]"></td>
                                 </tr>
                             </tbody>
@@ -278,8 +328,15 @@
             <div class="col-12 mb-3">
                 <div class="card p-0">
                     <div class="card-body">
-
-                           <h6>No. of new employment generated from the project:</h6>
+                        <h6>No. of new employment generated from the project:</h6>
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -306,10 +363,19 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <h6>No. of new indirect employment from the project:</h6>
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    <th rowspan="2" colspan="1" class="text-center align-middle" width="50%">No. of Indirect Employment</th>
+                                    <th rowspan="2" colspan="1" class="text-center align-middle"
+                                        width="50%">No. of Indirect Employment</th>
                                     <th colspan="3" class="text-center" width="25%">Forward</th>
                                     <th colspan="3" class="text-center" width="25%">Backward</th>
                                 </tr>
@@ -324,13 +390,20 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td ><input type="text" class="bottom_border" name="indirect_employment_total[]"></td>
-                                    <td><input type="text" class="bottom_border" name="indirect_employment_forward_male[]"></td>
-                                    <td><input type="text" class="bottom_border" name="indirect_employment_forward_female[]"></td>
-                                    <td><input type="text" class="bottom_border" name="indirect_employment_forward_total[]"></td>
-                                    <td><input type="text" class="bottom_border" name="indirect_employment_backward_male[]"></td>
-                                    <td><input type="text" class="bottom_border" name="indirect_employment_backward_female[]"></td>
-                                    <td><input type="text" class="bottom_border" name="indirect_employment_backward_total[]"></td>
+                                    <td><input type="text" class="bottom_border"
+                                            name="indirect_employment_total[]"></td>
+                                    <td><input type="text" class="bottom_border"
+                                            name="indirect_employment_forward_male[]"></td>
+                                    <td><input type="text" class="bottom_border"
+                                            name="indirect_employment_forward_female[]"></td>
+                                    <td><input type="text" class="bottom_border"
+                                            name="indirect_employment_forward_total[]"></td>
+                                    <td><input type="text" class="bottom_border"
+                                            name="indirect_employment_backward_male[]"></td>
+                                    <td><input type="text" class="bottom_border"
+                                            name="indirect_employment_backward_female[]"></td>
+                                    <td><input type="text" class="bottom_border"
+                                            name="indirect_employment_backward_total[]"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -341,6 +414,14 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <h6>List of market penetrated:</h6>
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
@@ -349,8 +430,8 @@
                                 </tr>
                                 <tr>
                                     <th></th>
-                                    <th class="text-center" >Specific Place</th>
-                                    <th class="text-center" >Effective Date</th>
+                                    <th class="text-center">Specific Place</th>
+                                    <th class="text-center">Effective Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -358,8 +439,12 @@
                                     <td style="vertical-align: top;">
                                         <textarea class="bottom_border" name="existing_market" style="width: 100%; height: 100px;"></textarea>
                                     </td>
-                                    <td><textarea class="bottom_border" name="new_market_specific_place[]" style="width: 100%; height: 100px;"></textarea></td>
-                                    <td><textarea class="bottom_border" name="new_market_effective_date[]" style="width: 100%; height: 100px;"></textarea></td>
+                                    <td>
+                                        <textarea class="bottom_border" name="new_market_specific_place[]" style="width: 100%; height: 100px;"></textarea>
+                                    </td>
+                                    <td>
+                                        <textarea class="bottom_border" name="new_market_effective_date[]" style="width: 100%; height: 100px;"></textarea>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -369,9 +454,11 @@
             <div class="col-12 mb-3">
                 <div class="card p-0">
                     <div class="card-body">
-                        <h6>Improvement in production efficiency (includes quantitative indicators on improvement in number
-                            and quality of materials, number and value of produce, waste minimization, reject reduction, etc.)
-                            </h6>
+                        <h6>Improvement in production efficiency (includes quantitative indicators on improvement in
+                            number
+                            and quality of materials, number and value of produce, waste minimization, reject reduction,
+                            etc.)
+                        </h6>
                         <textarea name="improvement_in_production" class="bottom_border"></textarea>
                     </div>
                 </div>
@@ -380,9 +467,19 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <h6>Problems met & actions taken during project implementation</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>-&nbsp;</span>
-                            <input type="text" class="bottom_border" name="problems_met[]">
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
+                        <div class="input_list">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>-&nbsp;</span>
+                                <input type="text" class="bottom_border" name="problems_met[]">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -391,9 +488,19 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <h6>Action/ plan for the improvement of project’s operation</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>-&nbsp;</span>
-                            <input type="text" class="bottom_border" name="action_and_plan[]">
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
+                        <div class="input_list">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>-&nbsp;</span>
+                                <input type="text" class="bottom_border" name="action_and_plan[]">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -402,13 +509,26 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <h6>Linkages/Promotional Plan</h6>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <span>-&nbsp;</span>
-                            <input type="text" class="bottom_border" name="linkages_promotional_plan[]">
+                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                <i class="ri-add-fill"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
+                        <div class="input_list">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <span>-&nbsp;</span>
+                                <input type="text" class="bottom_border" name="linkages_promotional_plan[]">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </form>
+        <div class="d-flex justify-content-end p-3">
+            <button type="button" data-to-export="SR" class="btn btn-primary ExportPDF">Export as PDF</button>
+        </div>
     </div>
 </div>

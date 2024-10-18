@@ -757,11 +757,12 @@
 
         }
 
-        const GenerateSheetsRoute = {
+        const GENERATE_SHEETS_ROUTE = {
             GET_AVAILABLE_QUARTERLY_REPORT: '{{ route('Staff.Project.getQuarterReport', ':project_id') }}',
-            getProjectSheetForm: '{{ route('getProjectSheetsForm', ['type' => ':type', 'projectId' => ':project_id', 'quarter' => ':quarter_of']) }}',
-            generateProjectInformationSheet: '{{ route('staff.Create-InformationSheet') }}',
-            generateDataSheetReport: '{{ route('staff.Create-DataSheet') }}'
+            GET_PROJECT_SHEET_FORM: '{{ route('getProjectSheetsForm', ['type' => ':type', 'projectId' => ':project_id', 'quarter' => ':quarter_of']) }}',
+            GENERATE_PROJECT_INFORMATION_SHEET: '{{ route('staff.Create-InformationSheet') }}',
+            GENERATE_DATA_SHEET_REPORT: '{{ route('staff.Create-DataSheet') }}',
+            GENERATE_STATUS_REPORT: '{{ route('staff.Create-StatusReport') }}'
         }
 
         //Project Tab
