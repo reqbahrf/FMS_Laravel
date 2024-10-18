@@ -113,17 +113,28 @@
                                     <th class="text-center">Cost</th>
                                 </tr>
                             </thead>
-                            <tbody id="equipment_tableRow">
+                            <tbody class="equipment_tableRow">
                                 <tr>
-                                    <td><input type="text" class="bottom_border approved_qty"></td>
-                                    <td><input type="text" class="bottom_border approved_particulars"></td>
-                                    <td><input type="number"
+                                    <td>
+                                        <input type="text" class="bottom_border approved_qty">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="bottom_border approved_particulars">
+                                    </td>
+                                    <td>
+                                        <input type="text"
                                             class="bottom_border
                                         approved_cost">
                                     </td>
-                                    <td><input type="text" class="bottom_border actual_qty"></td>
-                                    <td><input type="text" class="bottom_border actual_particulars"></td>
-                                    <td><input type="text" class="bottom_border actual_cost"></td>
+                                    <td>
+                                        <input type="text" class="bottom_border actual_qty">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="bottom_border actual_particulars">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="bottom_border actual_cost">
+                                    </td>
                                     <td>
                                         <input type="text" class="bottom_border acknowledgement">
                                     </td>
@@ -164,7 +175,7 @@
                                     <th class="text-center">Cost</th>
                                 </tr>
                             </thead>
-                            <tbody id="non_equipment_tableRow">
+                            <tbody class="non_equipment_tableRow">
                                 <tr>
                                     <td>
                                         <input type="number" class="bottom_border non_equipment_approved_qty">
@@ -304,15 +315,20 @@
                                     <th>Cross Sales</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="sales_tableRow">
                                 <tr>
-                                    <td><input type="text" class="bottom_border" name="sales_product_service[]">
+                                    <td>
+                                        <input type="text" class="bottom_border sales_product_service">
                                     </td>
-                                    <td><input type="text" class="bottom_border" name="sales_volume_production[]">
+                                    <td>
+                                        <input type="text" class="bottom_border sales_volume_production">
                                     </td>
-                                    <td><input type="text" class="bottom_border" name="sales_quarter_specify[]">
+                                    <td>
+                                        <input type="text" class="bottom_border sales_quarter_specify">
                                     </td>
-                                    <td><input type="text" class="bottom_border" name="sales_cross_sales[]"></td>
+                                    <td>
+                                        <input type="text" class="bottom_border sales_gross_sales">
+                                    </td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -346,12 +362,12 @@
                                     <th>No. of Person with Disability</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="employment_generated_tableRow">
                                 <tr>
-                                    <td><input type="text" class="bottom_border" name="employment_total[]"></td>
-                                    <td><input type="text" class="bottom_border" name="employment_male[]"></td>
-                                    <td><input type="text" class="bottom_border" name="employment_female[]"></td>
-                                    <td><input type="text" class="bottom_border" name="employment_pwd[]"></td>
+                                    <td><input type="text" class="bottom_border employment_total"></td>
+                                    <td><input type="text" class="bottom_border employment_male"></td>
+                                    <td><input type="text" class="bottom_border employment_female"></td>
+                                    <td><input type="text" class="bottom_border employment_pwd"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -388,22 +404,29 @@
                                     <th class="text-center">Total</th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody class="indirect_employment_tableRow">
                                 <tr>
-                                    <td><input type="text" class="bottom_border"
-                                            name="indirect_employment_total[]"></td>
-                                    <td><input type="text" class="bottom_border"
-                                            name="indirect_employment_forward_male[]"></td>
-                                    <td><input type="text" class="bottom_border"
-                                            name="indirect_employment_forward_female[]"></td>
-                                    <td><input type="text" class="bottom_border"
-                                            name="indirect_employment_forward_total[]"></td>
-                                    <td><input type="text" class="bottom_border"
-                                            name="indirect_employment_backward_male[]"></td>
-                                    <td><input type="text" class="bottom_border"
-                                            name="indirect_employment_backward_female[]"></td>
-                                    <td><input type="text" class="bottom_border"
-                                            name="indirect_employment_backward_total[]"></td>
+                                    <td>
+                                        <input type="text" class="bottom_border indirect_employment_total">
+                                        </td>
+                                    <td>
+                                        <input type="text" class="bottom_border indirect_employment_forward_male">
+                                        </td>
+                                    <td>
+                                        <input type="text" class="bottom_border indirect_employment_forward_female">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="bottom_border indirect_employment_forward_total">
+                                        </td>
+                                    <td>
+                                        <input type="text" class="bottom_border indirect_employment_backward_male">
+                                    </td>
+                                    <td>
+                                        <input type="text" class="bottom_border indirect_employment_backward_female">
+                                        </td>
+                                    <td>
+                                        <input type="text" class="bottom_border indirect_employment_backward_total">
+                                        </td>
                                 </tr>
                             </tbody>
                         </table>
@@ -440,10 +463,10 @@
                                         <textarea class="bottom_border" name="existing_market" style="width: 100%; height: 100px;"></textarea>
                                     </td>
                                     <td>
-                                        <textarea class="bottom_border" name="new_market_specific_place[]" style="width: 100%; height: 100px;"></textarea>
+                                        <textarea class="bottom_border" name="new_market_specific_place" style="width: 100%; height: 100px;"></textarea>
                                     </td>
                                     <td>
-                                        <textarea class="bottom_border" name="new_market_effective_date[]" style="width: 100%; height: 100px;"></textarea>
+                                        <textarea class="bottom_border" name="new_market_effective_date" style="width: 100%; height: 100px;"></textarea>
                                     </td>
                                 </tr>
                             </tbody>

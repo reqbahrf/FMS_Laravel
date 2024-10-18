@@ -1878,8 +1878,107 @@ window.initializeStaffPageJs = async () => {
           },
 
           SR: function () {
-            const thisFormData = $('#StatusReportForm').serialize();
-            return thisFormData;
+            const FormContainer = $('#StatusReportForm')
+            const thisFormData = FormContainer.serializeArray();
+            console.log(thisFormData);
+            let thisFormObject = {};
+            $.each(thisFormData, function (i, v) {
+                if (v.name.includes('[]')) {
+                    thisFormObject[v.name] = thisFormObject[v.name] ? [...thisFormObject[v.name], v.value] : [v.value];
+                  } else {
+                    thisFormObject[v.name] = v.value;
+                  }
+            });
+            const equipmentTableRow = FormContainer.find('.equipment_tableRow tr');
+            const nonEquipmentTableRow = FormContainer.find('.non_equipment_tableRow tr');
+            const salesTableRow = FormContainer.find('.sales_tableRow tr');
+            const employmentGeneratedTableRow = FormContainer.find('.employment_generated_tableRow tr');
+            const indirectEmploymentTableRow = FormContainer.find('.indirect_employment_tableRow tr');
+
+            const TableData = () => {
+                const equipmentData = [];
+                const nonEquipmentData = [];
+                const salesData = [];
+                const employmentGeneratedData = [];
+                const indirectEmploymentData = [];
+                
+                equipmentTableRow.each(function () {
+                    const tableRowInputs = $(this);
+                    const equipmentDetails = {
+                        Approved_qty: tableRowInputs.find('.approved_qty').val(),
+                        Approved_Particulars: tableRowInputs.find('.approved_particulars').val(),
+                        Approved_cost: tableRowInputs.find('.approved_cost').val(),
+                        Actual_qty: tableRowInputs.find('.actual_qty').val(),
+                        Actual_Particulars: tableRowInputs.find('.actual_particulars').val(),
+                        Actual_cost: tableRowInputs.find('.actual_cost').val(),
+                        acknowledgement: tableRowInputs.find('.acknowledgement').val(),
+                        remarks: tableRowInputs.find('.remarks').val(),
+                    };
+                    equipmentData.push(equipmentDetails);
+                });
+
+                nonEquipmentTableRow.each(function () {
+                    const tableRowInputs = $(this);
+                    const nonEquipmentDetails = {
+                        Approved_qty: tableRowInputs.find('.non_equipment_approved_qty').val(),
+                        Approved_Particulars: tableRowInputs.find('.non_equipment_approved_particulars').val(),
+                        Approved_cost: tableRowInputs.find('.non_equipment_approved_cost').val(),
+                        Actual_qty: tableRowInputs.find('.non_equipment_actual_qty').val(),
+                        Actual_Particulars: tableRowInputs.find('.non_equipment_actual_particulars').val(),
+                        Actual_cost: tableRowInputs.find('.non_equipment_actual_cost').val(),
+                        remarks: tableRowInputs.find('.non_equipment_remarks').val(),
+                    }
+                    nonEquipmentData.push(nonEquipmentDetails);
+                });
+
+                salesTableRow.each(function () {
+                    const tableRowInputs = $(this);
+                    const salesDetails = {
+                        ProductService: tableRowInputs.find('.sales_product_service').val(),
+                        SalesVolumeProduction: tableRowInputs.find('.sales_volume_production').val(),
+                        SalesQuarter: tableRowInputs.find('.sales_quarter_specify').val(),
+                        GrossSales: tableRowInputs.find('.sales_gross_sales').val(),
+                    }
+                    salesData.push(salesDetails);
+                })
+                employmentGeneratedTableRow.each(function () {
+                    const tableRowInputs = $(this);
+                    const employmentGeneratedDetails = {
+                        Employment_total: tableRowInputs.find('.employment_total').val(),
+                        Employment_Male: tableRowInputs.find('.employment_male').val(),
+                        Employment_Female: tableRowInputs.find('.employment_female').val(),
+                        Employment_PWD: tableRowInputs.find('.employment_pwd').val(),
+                    }
+                    employmentGeneratedData.push(employmentGeneratedDetails);
+                });
+
+                indirectEmploymentTableRow.each(function () {
+                    const tableRowInputs = $(this);
+                    const indirectEmploymentDetails = {
+                        IndirectEmployment_total: tableRowInputs.find('.indirect_employment_total').val(),
+                        IndirectEmployment_ForwardMale: tableRowInputs.find('.indirect_employment_forward_male').val(),
+                        IndirectEmployment_ForwardFemale: tableRowInputs.find('.indirect_employment_forward_female').val(),
+                        InderectEmplyment_ForwardTotal: tableRowInputs.find('.indirect_employment_forward_total').val(),
+                        IndirectEmployment_BackwardMale: tableRowInputs.find('.indirect_employment_backward_male').val(),
+                        IndirectEmployment_BackwardFemale: tableRowInputs.find('.indirect_employment_backward_female').val(),
+                        IndirectEmployment_BackwardTotal: tableRowInputs.find('.indirect_employment_backward_total').val(),
+                    }
+                    indirectEmploymentData.push(indirectEmploymentDetails);
+                })
+
+                return {
+                    EquipmentData: equipmentData,
+                    NonEquipmentData: nonEquipmentData,
+                    SalesData: salesData,
+                    EmploymentGeneratedData: employmentGeneratedData,
+                    IndirectEmploymentData: indirectEmploymentData
+                }
+            }
+
+            console.log(TableData());
+
+            return thisFormObject = {...thisFormObject, ...TableData()};
+            
           },
         };
         return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
