@@ -1676,35 +1676,33 @@ window.initializeStaffPageJs = async () => {
       }
 
       function SRFormEvents() {
-
         const toggleDeleteRowButton = (container, elementSelector) => {
-            const element = container.find(elementSelector);
-            const deleteRowButton = container.children('.addAndRemoveButton_Container').find('.removeRowButton');
-            element.length === 1
+          const element = container.find(elementSelector);
+          const deleteRowButton = container
+            .children('.addAndRemoveButton_Container')
+            .find('.removeRowButton');
+          element.length === 1
             ? deleteRowButton.prop('disabled', true)
             : deleteRowButton.prop('disabled', false);
-
-        }
+        };
         // Add event listener to the add row button
         $('.addNewRowButton').on('click', function () {
           const container = $(this).closest('.card-body');
 
           const table = container.find('table');
-          if(table.length){
+          if (table.length) {
             const lastRow = table.find('tbody tr:last-child');
             const newRow = lastRow.clone();
             newRow.find('input, textarea').val('');
             table.find('tbody').append(newRow);
             toggleDeleteRowButton(container, 'tbody tr');
-          }
-          else{
-            const divContainer = container.find('.input_list')
+          } else {
+            const divContainer = container.find('.input_list');
             const newDiv = divContainer.last().clone();
             newDiv.find('input, textarea').val('');
             container.append(newDiv);
             toggleDeleteRowButton(container, '.input_list');
           }
-
         });
 
         // Add event listener to the delete row button
@@ -1712,39 +1710,39 @@ window.initializeStaffPageJs = async () => {
           const container = $(this).closest('.card-body');
 
           const table = container.find('table');
-          if(table.length){
+          if (table.length) {
             const lastRow = table.find('tbody tr:last-child');
             lastRow.remove();
             toggleDeleteRowButton(container, 'tbody tr');
-          }
-          else{
-            const divContainer = container.find('.input_list')
+          } else {
+            const divContainer = container.find('.input_list');
             divContainer.last().remove();
             toggleDeleteRowButton(container, '.input_list');
           }
-
         });
 
-        $('#StatusReportForm .card-body').each(function(){
+        $('#StatusReportForm .card-body').each(function () {
           const container = $(this);
 
           const table = container.find('table');
-          if(table.length){
+          if (table.length) {
             toggleDeleteRowButton(container, 'tbody tr');
-          }else{
+          } else {
             toggleDeleteRowButton(container, '.input_list');
           }
         });
 
         $('.number_input_only').on('input', function () {
-            this.value = this.value.replace(/[^0-9.]/g, '');
-        })
+          this.value = this.value.replace(/[^0-9.]/g, '');
+        });
 
-        const CurrencyInputs = $('#StatusReportForm table td input.approved_cost, #StatusReportForm table td input.actual_cost, #StatusReportForm table td input.non_equipment_approved_cost, #StatusReportForm table td input.non_equipment_actual_cost, #StatusReportForm input.total_approved_project_cost, #StatusReportForm input.amount_utilized, #StatusReportForm input.total_amount_to_be_refunded, #StatusReportForm input.total_amount_already_due, #StatusReportForm input.total_amount_refunded, #StatusReportForm input.unsetted_refund, #StatusReportForm table td input.sales_gross_sales');
+        const CurrencyInputs = $(
+          '#StatusReportForm table td input.approved_cost, #StatusReportForm table td input.actual_cost, #StatusReportForm table td input.non_equipment_approved_cost, #StatusReportForm table td input.non_equipment_actual_cost, #StatusReportForm input.total_approved_project_cost, #StatusReportForm input.amount_utilized, #StatusReportForm input.total_amount_to_be_refunded, #StatusReportForm input.total_amount_already_due, #StatusReportForm input.total_amount_refunded, #StatusReportForm input.unsetted_refund, #StatusReportForm table td input.sales_gross_sales'
+        );
 
-        CurrencyInputs.on('input', function(){
-            inputsToCurrencyFormatter($(this));
-        })
+        CurrencyInputs.on('input', function () {
+          inputsToCurrencyFormatter($(this));
+        });
       }
 
       //TODO: Make this reusable and efficient
@@ -1887,120 +1885,179 @@ window.initializeStaffPageJs = async () => {
           },
 
           SR: function () {
-            const FormContainer = $('#StatusReportForm')
+            const FormContainer = $('#StatusReportForm');
             const thisFormData = FormContainer.serializeArray();
             console.log(thisFormData);
             let thisFormObject = {};
             $.each(thisFormData, function (i, v) {
-                if (v.name.includes('[]')) {
-                    thisFormObject[v.name] = thisFormObject[v.name] ? [...thisFormObject[v.name], v.value] : [v.value];
-                  } else {
-                    thisFormObject[v.name] = v.value;
-                  }
+              if (v.name.includes('[]')) {
+                thisFormObject[v.name] = thisFormObject[v.name]
+                  ? [...thisFormObject[v.name], v.value]
+                  : [v.value];
+              } else {
+                thisFormObject[v.name] = v.value;
+              }
             });
-            const expectedAndActualTableRow = FormContainer.find('.expectedAndActual_tableRow tr');
-            const equipmentTableRow = FormContainer.find('.equipment_tableRow tr');
-            const nonEquipmentTableRow = FormContainer.find('.non_equipment_tableRow tr');
+            const expectedAndActualTableRow = FormContainer.find(
+              '.expectedAndActual_tableRow tr'
+            );
+            const equipmentTableRow = FormContainer.find(
+              '.equipment_tableRow tr'
+            );
+            const nonEquipmentTableRow = FormContainer.find(
+              '.non_equipment_tableRow tr'
+            );
             const salesTableRow = FormContainer.find('.sales_tableRow tr');
-            const employmentGeneratedTableRow = FormContainer.find('.employment_generated_tableRow tr');
-            const indirectEmploymentTableRow = FormContainer.find('.indirect_employment_tableRow tr');
+            const employmentGeneratedTableRow = FormContainer.find(
+              '.employment_generated_tableRow tr'
+            );
+            const indirectEmploymentTableRow = FormContainer.find(
+              '.indirect_employment_tableRow tr'
+            );
 
             const TableData = () => {
-                const expectedAndActualData = [];
-                const equipmentData = [];
-                const nonEquipmentData = [];
-                const salesData = [];
-                const employmentGeneratedData = [];
-                const indirectEmploymentData = [];
+              const expectedAndActualData = [];
+              const equipmentData = [];
+              const nonEquipmentData = [];
+              const salesData = [];
+              const employmentGeneratedData = [];
+              const indirectEmploymentData = [];
 
-                expectedAndActualTableRow.each(function () {
-                    const tableRowInputs = $(this);
-                    const expectedAndActualDetails = {
-                        Expected_Output: tableRowInputs.find('.expectedOutput').val(),
-                        Actual_Accomplishment: tableRowInputs.find('.actualAccomplishment').val(),
-                        Remarks_Justification: tableRowInputs.find('.remarksJustification').val(),
-                    }
-                    expectedAndActualData.push(expectedAndActualDetails);
-                })
+              expectedAndActualTableRow.each(function () {
+                const tableRowInputs = $(this);
+                const expectedAndActualDetails = {
+                  Expected_Output: tableRowInputs.find('.expectedOutput').val(),
+                  Actual_Accomplishment: tableRowInputs
+                    .find('.actualAccomplishment')
+                    .val(),
+                  Remarks_Justification: tableRowInputs
+                    .find('.remarksJustification')
+                    .val(),
+                };
+                expectedAndActualData.push(expectedAndActualDetails);
+              });
 
-                equipmentTableRow.each(function () {
-                    const tableRowInputs = $(this);
-                    const equipmentDetails = {
-                        Approved_qty: tableRowInputs.find('.approved_qty').val(),
-                        Approved_Particulars: tableRowInputs.find('.approved_particulars').val(),
-                        Approved_cost: tableRowInputs.find('.approved_cost').val(),
-                        Actual_qty: tableRowInputs.find('.actual_qty').val(),
-                        Actual_Particulars: tableRowInputs.find('.actual_particulars').val(),
-                        Actual_cost: tableRowInputs.find('.actual_cost').val(),
-                        acknowledgement: tableRowInputs.find('.acknowledgement').val(),
-                        remarks: tableRowInputs.find('.remarks').val(),
-                    };
-                    equipmentData.push(equipmentDetails);
-                });
+              equipmentTableRow.each(function () {
+                const tableRowInputs = $(this);
+                const equipmentDetails = {
+                  Approved_qty: tableRowInputs.find('.approved_qty').val(),
+                  Approved_Particulars: tableRowInputs
+                    .find('.approved_particulars')
+                    .val(),
+                  Approved_cost: tableRowInputs.find('.approved_cost').val(),
+                  Actual_qty: tableRowInputs.find('.actual_qty').val(),
+                  Actual_Particulars: tableRowInputs
+                    .find('.actual_particulars')
+                    .val(),
+                  Actual_cost: tableRowInputs.find('.actual_cost').val(),
+                  acknowledgement: tableRowInputs
+                    .find('.acknowledgement')
+                    .val(),
+                  remarks: tableRowInputs.find('.remarks').val(),
+                };
+                equipmentData.push(equipmentDetails);
+              });
 
-                nonEquipmentTableRow.each(function () {
-                    const tableRowInputs = $(this);
-                    const nonEquipmentDetails = {
-                        Approved_qty: tableRowInputs.find('.non_equipment_approved_qty').val(),
-                        Approved_Particulars: tableRowInputs.find('.non_equipment_approved_particulars').val(),
-                        Approved_cost: tableRowInputs.find('.non_equipment_approved_cost').val(),
-                        Actual_qty: tableRowInputs.find('.non_equipment_actual_qty').val(),
-                        Actual_Particulars: tableRowInputs.find('.non_equipment_actual_particulars').val(),
-                        Actual_cost: tableRowInputs.find('.non_equipment_actual_cost').val(),
-                        remarks: tableRowInputs.find('.non_equipment_remarks').val(),
-                    }
-                    nonEquipmentData.push(nonEquipmentDetails);
-                });
+              nonEquipmentTableRow.each(function () {
+                const tableRowInputs = $(this);
+                const nonEquipmentDetails = {
+                  Approved_qty: tableRowInputs
+                    .find('.non_equipment_approved_qty')
+                    .val(),
+                  Approved_Particulars: tableRowInputs
+                    .find('.non_equipment_approved_particulars')
+                    .val(),
+                  Approved_cost: tableRowInputs
+                    .find('.non_equipment_approved_cost')
+                    .val(),
+                  Actual_qty: tableRowInputs
+                    .find('.non_equipment_actual_qty')
+                    .val(),
+                  Actual_Particulars: tableRowInputs
+                    .find('.non_equipment_actual_particulars')
+                    .val(),
+                  Actual_cost: tableRowInputs
+                    .find('.non_equipment_actual_cost')
+                    .val(),
+                  remarks: tableRowInputs.find('.non_equipment_remarks').val(),
+                };
+                nonEquipmentData.push(nonEquipmentDetails);
+              });
 
-                salesTableRow.each(function () {
-                    const tableRowInputs = $(this);
-                    const salesDetails = {
-                        ProductService: tableRowInputs.find('.sales_product_service').val(),
-                        SalesVolumeProduction: tableRowInputs.find('.sales_volume_production').val(),
-                        SalesQuarter: tableRowInputs.find('.sales_quarter_specify').val(),
-                        GrossSales: tableRowInputs.find('.sales_gross_sales').val(),
-                    }
-                    salesData.push(salesDetails);
-                })
-                employmentGeneratedTableRow.each(function () {
-                    const tableRowInputs = $(this);
-                    const employmentGeneratedDetails = {
-                        Employment_total: tableRowInputs.find('.employment_total').val(),
-                        Employment_Male: tableRowInputs.find('.employment_male').val(),
-                        Employment_Female: tableRowInputs.find('.employment_female').val(),
-                        Employment_PWD: tableRowInputs.find('.employment_pwd').val(),
-                    }
-                    employmentGeneratedData.push(employmentGeneratedDetails);
-                });
+              salesTableRow.each(function () {
+                const tableRowInputs = $(this);
+                const salesDetails = {
+                  ProductService: tableRowInputs
+                    .find('.sales_product_service')
+                    .val(),
+                  SalesVolumeProduction: tableRowInputs
+                    .find('.sales_volume_production')
+                    .val(),
+                  SalesQuarter: tableRowInputs
+                    .find('.sales_quarter_specify')
+                    .val(),
+                  GrossSales: tableRowInputs.find('.sales_gross_sales').val(),
+                };
+                salesData.push(salesDetails);
+              });
+              employmentGeneratedTableRow.each(function () {
+                const tableRowInputs = $(this);
+                const employmentGeneratedDetails = {
+                  Employment_total: tableRowInputs
+                    .find('.employment_total')
+                    .val(),
+                  Employment_Male: tableRowInputs
+                    .find('.employment_male')
+                    .val(),
+                  Employment_Female: tableRowInputs
+                    .find('.employment_female')
+                    .val(),
+                  Employment_PWD: tableRowInputs.find('.employment_pwd').val(),
+                };
+                employmentGeneratedData.push(employmentGeneratedDetails);
+              });
 
-                indirectEmploymentTableRow.each(function () {
-                    const tableRowInputs = $(this);
-                    const indirectEmploymentDetails = {
-                        IndirectEmployment_total: tableRowInputs.find('.indirect_employment_total').val(),
-                        IndirectEmployment_ForwardMale: tableRowInputs.find('.indirect_employment_forward_male').val(),
-                        IndirectEmployment_ForwardFemale: tableRowInputs.find('.indirect_employment_forward_female').val(),
-                        InderectEmplyment_ForwardTotal: tableRowInputs.find('.indirect_employment_forward_total').val(),
-                        IndirectEmployment_BackwardMale: tableRowInputs.find('.indirect_employment_backward_male').val(),
-                        IndirectEmployment_BackwardFemale: tableRowInputs.find('.indirect_employment_backward_female').val(),
-                        IndirectEmployment_BackwardTotal: tableRowInputs.find('.indirect_employment_backward_total').val(),
-                    }
-                    indirectEmploymentData.push(indirectEmploymentDetails);
-                })
+              indirectEmploymentTableRow.each(function () {
+                const tableRowInputs = $(this);
+                const indirectEmploymentDetails = {
+                  IndirectEmployment_total: tableRowInputs
+                    .find('.indirect_employment_total')
+                    .val(),
+                  IndirectEmployment_ForwardMale: tableRowInputs
+                    .find('.indirect_employment_forward_male')
+                    .val(),
+                  IndirectEmployment_ForwardFemale: tableRowInputs
+                    .find('.indirect_employment_forward_female')
+                    .val(),
+                  InderectEmplyment_ForwardTotal: tableRowInputs
+                    .find('.indirect_employment_forward_total')
+                    .val(),
+                  IndirectEmployment_BackwardMale: tableRowInputs
+                    .find('.indirect_employment_backward_male')
+                    .val(),
+                  IndirectEmployment_BackwardFemale: tableRowInputs
+                    .find('.indirect_employment_backward_female')
+                    .val(),
+                  IndirectEmployment_BackwardTotal: tableRowInputs
+                    .find('.indirect_employment_backward_total')
+                    .val(),
+                };
+                indirectEmploymentData.push(indirectEmploymentDetails);
+              });
 
-                return {
-                    ExpectedAndActualData: expectedAndActualData,
-                    EquipmentData: equipmentData,
-                    NonEquipmentData: nonEquipmentData,
-                    SalesData: salesData,
-                    EmploymentGeneratedData: employmentGeneratedData,
-                    IndirectEmploymentData: indirectEmploymentData
-                }
-            }
+              return {
+                ExpectedAndActualData: expectedAndActualData,
+                EquipmentData: equipmentData,
+                NonEquipmentData: nonEquipmentData,
+                SalesData: salesData,
+                EmploymentGeneratedData: employmentGeneratedData,
+                IndirectEmploymentData: indirectEmploymentData,
+              };
+            };
 
             console.log(TableData());
 
-            return thisFormObject = {...thisFormObject, ...TableData()};
-
+            return (thisFormObject = { ...thisFormObject, ...TableData() });
           },
         };
         return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
@@ -2056,6 +2113,21 @@ window.initializeStaffPageJs = async () => {
               project_id,
           });
           response !== null && TableContainer.empty();
+
+          response.sort((a, b) => {
+            const quarterA = a.quarter.split(' ')[0];
+            const yearA = a.quarter.split(' ')[1];
+            const quarterB = b.quarter.split(' ')[0];
+            const yearB = b.quarter.split(' ')[1];
+
+            if (yearA < yearB) return -1;
+            if (yearA > yearB) return 1;
+
+            const quarterOrder = ['Q1', 'Q2', 'Q3', 'Q4'];
+            return (
+              quarterOrder.indexOf(quarterA) - quarterOrder.indexOf(quarterB)
+            );
+          });
           response.forEach((report) => {
             const newRow = `
         <tr>
