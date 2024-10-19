@@ -479,7 +479,11 @@ class StaffViewController extends Controller
             $OngoingQuarterlyReport = OngoingQuarterlyReport::where('ongoing_project_id', $ProjectID)
                 ->whereNotNull('report_file')
                 ->select('quarter')
-                ->get();
+                ->get()
+                ->sortBy(function ($report) {
+                    list($quarter, $year) = explode(' ', $report->quarter);
+                    return sprintf('%04d%02d', $year, array_search($quarter, ['Q1', 'Q2', 'Q3', 'Q4']));
+                });
 
             $html = '';
             foreach ($OngoingQuarterlyReport as $report) {

@@ -12,6 +12,10 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <div class="row gy-2">
+                            <input type="hidden" name="currentQuarterReport"
+                                value="{{ $CurrentQuarterlyData['quarter'] }}">
+                            <input type="hidden" name="previousQuarterReport"
+                                value="{{ $PreviousQuarterlyData['quarter'] ?? '' }}">
                             <div class="col-12">
                                 <label for="projectTitle" class="form-label">Project Title</label>
                                 <input type="text" class="bottom_border ms-2" name="projectTitle" id="projectTitle"
@@ -88,17 +92,17 @@
                             <div class="col-12 col-md-4">
                                 <label for="buildingAsset">1.1 Building</label>
                                 <input type="text" class="bottom_border ms-2" name="buildingAsset"
-                                    id="buildingAsset" value="{{ $quarterlyData['Building'] }}">
+                                    id="buildingAsset" value="{{ $CurrentQuarterlyData['Building'] }}">
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="EquipmentAsset">1.2 Equipment</label>
                                 <input type="text" class="bottom_border ms-2" name="EquipmentAsset"
-                                    id="EquipmentAsset" value="{{ $quarterlyData['Equipment'] }}">
+                                    id="EquipmentAsset" value="{{ $CurrentQuarterlyData['Equipment'] }}">
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="workingCapitalAsset">1.3 Working Capital</label>
                                 <input type="text" class="bottom_border ms-2" name="workingCapitalAsset"
-                                    id="workingCapitalAsset" value="{{ $quarterlyData['WorkingCapital'] }}">
+                                    id="workingCapitalAsset" value="{{ $CurrentQuarterlyData['WorkingCapital'] }}">
                             </div>
                             <div class="col-12 my-2">
                                 <span class="fw-semibold">Classification of Enterprise</span>
@@ -150,17 +154,17 @@
                                         <td>
                                             <input type="text" class="bottom_border ms-2 maleInput"
                                                 name="DireRegularMale" id="DireRegularMale"
-                                                value="{{ $quarterlyData['male_Dir_Regular'] }}">
+                                                value="{{ $CurrentQuarterlyData['male_Dir_Regular'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 femaleInput"
                                                 name="DireRegularFemale" id="DireRegularFemale"
-                                                value="{{ $quarterlyData['female_Dir_Regular'] }}">
+                                                value="{{ $CurrentQuarterlyData['female_Dir_Regular'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 workdayInput"
                                                 name="DireRegularTotalWorkday" id="DireRegularTotalWorkday"
-                                                value="{{ $quarterlyData['workday_Dir_Regular'] }}">
+                                                value="{{ $CurrentQuarterlyData['workday_Dir_Regular'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 totalManMonth"
@@ -179,17 +183,17 @@
                                         <td>
                                             <input type="text" class="bottom_border ms-2 maleInput"
                                                 name="ParttimeMale" id="ParttimeMale"
-                                                value="{{ $quarterlyData['male_Dir_PartT'] }}">
+                                                value="{{ $CurrentQuarterlyData['male_Dir_PartT'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 femaleInput"
                                                 name="ParttimeFemale" id="ParttimeFemale"
-                                                value="{{ $quarterlyData['female_Dir_PartT'] }}">
+                                                value="{{ $CurrentQuarterlyData['female_Dir_PartT'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 workdayInput"
                                                 name="ParttimeTotalWorkday" id="ParttimeTotalWorkday"
-                                                value="{{ $quarterlyData['workday_Dir_PartT'] }}">
+                                                value="{{ $CurrentQuarterlyData['workday_Dir_PartT'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 totalManMonth"
@@ -210,19 +214,19 @@
 
                                             <input type="text" class="bottom_border ms-2 maleInput"
                                                 name="IndiRegularMale" id="IndiRegularMale"
-                                                value="{{ $quarterlyData['male_Indir_Regular'] }}">
+                                                value="{{ $CurrentQuarterlyData['male_Indir_Regular'] }}">
                                         </td>
                                         <td>
 
                                             <input type="text" class="bottom_border ms-2 femaleInput"
                                                 name="IndiRegularFemale" id="IndiRegularFemale"
-                                                value="{{ $quarterlyData['female_Indir_Regular'] }}">
+                                                value="{{ $CurrentQuarterlyData['female_Indir_Regular'] }}">
                                         </td>
                                         <td>
 
                                             <input type="text" class="bottom_border ms-2 workdayInput"
                                                 name="IndiRegularTotalWorkday" id="IndiRegularTotalWorkday"
-                                                value="{{ $quarterlyData['workday_Indir_Regular'] }}">
+                                                value="{{ $CurrentQuarterlyData['workday_Indir_Regular'] }}">
                                         </td>
                                         <td>
 
@@ -241,17 +245,17 @@
                                         <td>
                                             <input type="text" class="bottom_border maleInput ms-2"
                                                 name="IndiParttimeMale" id="IndiParttimeMale"
-                                                value="{{ $quarterlyData['male_Indir_PartT'] }}">
+                                                value="{{ $CurrentQuarterlyData['male_Indir_PartT'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border femaleInput ms-2"
                                                 name="IndiParttimeFemale" id="IndiParttimeFemale"
-                                                value="{{ $quarterlyData['female_Indir_PartT'] }}">
+                                                value="{{ $CurrentQuarterlyData['female_Indir_PartT'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border workdayInput ms-2"
                                                 name="IndiParttimeTotalWorkday" id="IndiParttimeTotalWorkday"
-                                                value="{{ $quarterlyData['workday_Indir_PartT'] }}">
+                                                value="{{ $CurrentQuarterlyData['workday_Indir_PartT'] }}">
                                         </td>
                                         <td>
                                             <input type="text" class="bottom_border ms-2 totalManMonth"
@@ -289,48 +293,48 @@
                             <h6>3.0 Production and Sales Data for the Quarter</h6>
                         </div>
                         <div class="container mt-2">
-                                <table class="table table-bordered">
-                                    <thead>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="4">3.1 Export Market</th>
+                                        <th>Name of Product</th>
+                                        <th>Packaging Details</th>
+                                        <th>Volume of Production</th>
+                                        <th>Gross Sales</th>
+                                        <th>Estimated Cost of Production</th>
+                                        <th>Net Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="localProducts">
+                                    @forelse ($CurrentQuarterlyData['LocalProduct'] as $LocalProduct)
                                         <tr>
-                                            <th rowspan="4">3.1 Export Market</th>
-                                            <th>Name of Product</th>
-                                            <th>Packaging Details</th>
-                                            <th>Volume of Production</th>
-                                            <th>Gross Sales</th>
-                                            <th>Estimated Cost of Production</th>
-                                            <th>Net Sales</th>
+                                            <td></td>
+                                            <td>
+                                                <input class="bottom_border productName" type="text"
+                                                    value="{{ $LocalProduct['ProductName'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border packingDetails"
+                                                    value="{{ $LocalProduct['PackingDetails'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border volumeOfProduction_val"
+                                                    value="{{ $LocalProduct['volumeOfProduction'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border grossSales_val"
+                                                    value="{{ $LocalProduct['grossSales'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border productionCost_val"
+                                                    value="{{ $LocalProduct['estimatedCostOfProduction'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border netSales_val"
+                                                    value="{{ $LocalProduct['netSales'] ?? '' }}">
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody id="localProducts">
-                                        @forelse ($quarterlyData['LocalProduct'] as $LocalProduct)
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    <input class="bottom_border productName" type="text"
-                                                        value="{{ $LocalProduct['ProductName'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border packingDetails"
-                                                        value="{{ $LocalProduct['PackingDetails'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border volumeOfProduction_val"
-                                                        value="{{ $LocalProduct['volumeOfProduction'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border grossSales_val"
-                                                        value="{{ $LocalProduct['grossSales'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border productionCost_val"
-                                                        value="{{ $LocalProduct['estimatedCostOfProduction'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border netSales_val"
-                                                        value="{{ $LocalProduct['netSales'] ?? '' }}">
-                                                </td>
-                                            </tr>
-                                        @empty
+                                    @empty
                                         <tr>
                                             <td></td>
                                             <td>
@@ -394,53 +398,53 @@
                                                 <input type="text" class="bottom_border netSales_val">
                                             </td>
                                         </tr>
-                                        @endforelse
-                                    </tbody>
-                                </table>
+                                    @endforelse
+                                </tbody>
+                            </table>
                         </div>
                         <div class="container mb-2">
-                                <table class="table table-bordered">
-                                    <thead>
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th rowspan="2">3.2 Local Market</th>
+                                        <th>Name of Product</th>
+                                        <th>Packaging Details</th>
+                                        <th>Volume of Production</th>
+                                        <th>Gross Sales</th>
+                                        <th>Estimated Cost of Production</th>
+                                        <th>Net Sales</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="exportProducts">
+                                    @forelse ($CurrentQuarterlyData['ExportProduct'] as $ExportProduct)
                                         <tr>
-                                            <th rowspan="2">3.2 Local Market</th>
-                                            <th>Name of Product</th>
-                                            <th>Packaging Details</th>
-                                            <th>Volume of Production</th>
-                                            <th>Gross Sales</th>
-                                            <th>Estimated Cost of Production</th>
-                                            <th>Net Sales</th>
+                                            <td></td>
+                                            <td>
+                                                <input type="text" class="bottom_border productName"
+                                                    value="{{ $ExportProduct['ProductName'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border packingDetails"
+                                                    value="{{ $ExportProduct['PackingDetails'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border volumeOfProduction_val"
+                                                    value="{{ $ExportProduct['volumeOfProduction'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border grossSales_val"
+                                                    value="{{ $ExportProduct['grossSales'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border productionCost_val"
+                                                    value="{{ $ExportProduct['estimatedCostOfProduction'] ?? '' }}">
+                                            </td>
+                                            <td>
+                                                <input type="text" class="bottom_border netSales_val"
+                                                    value="{{ $ExportProduct['netSales'] ?? '' }}">
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody id="exportProducts">
-                                        @forelse ($quarterlyData['ExportProduct'] as $ExportProduct)
-                                            <tr>
-                                                <td></td>
-                                                <td>
-                                                    <input type="text" class="bottom_border productName"
-                                                        value="{{ $ExportProduct['ProductName'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border packingDetails"
-                                                        value="{{ $ExportProduct['PackingDetails'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border volumeOfProduction_val"
-                                                        value="{{ $ExportProduct['volumeOfProduction'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border grossSales_val"
-                                                        value="{{ $ExportProduct['grossSales'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border productionCost_val"
-                                                        value="{{ $ExportProduct['estimatedCostOfProduction'] ?? '' }}">
-                                                </td>
-                                                <td>
-                                                    <input type="text" class="bottom_border netSales_val"
-                                                        value="{{ $ExportProduct['netSales'] ?? '' }}">
-                                                </td>
-                                            </tr>
-                                        @empty
+                                    @empty
                                         <tr>
                                             <td></td>
                                             <td>
@@ -504,26 +508,26 @@
                                                 <input type="text" class="bottom_border netSales_val">
                                             </td>
                                         </tr>
-                                        @endforelse
-                                        <tr id="totalRow">
-                                            <td colspan="4">Total</td>
-                                            <td>
-                                                <input name="totalGrossSales" type="text"
-                                                    class="bottom_border totalGrossSales_val" id="totalGrossSales">
-                                            </td>
-                                            <td>
-                                                <input name="totalProductionCost" type="text"
-                                                    class="bottom_border totalProductionCost_val"
-                                                    id="totalProductionCost">
-                                            </td>
-                                            <td>
-                                                <input name="totalNetSales" type="text"
-                                                    class="bottom_border totalNetSales_val" id="totalNetSales">
-                                            </td>
-                                        </tr>
-                                    </tbody>
+                                    @endforelse
+                                    <tr id="totalRow">
+                                        <td colspan="4">Total</td>
+                                        <td>
+                                            <input name="totalGrossSales" type="text"
+                                                class="bottom_border totalGrossSales_val" id="totalGrossSales">
+                                        </td>
+                                        <td>
+                                            <input name="totalProductionCost" type="text"
+                                                class="bottom_border totalProductionCost_val"
+                                                id="totalProductionCost">
+                                        </td>
+                                        <td>
+                                            <input name="totalNetSales" type="text"
+                                                class="bottom_border totalNetSales_val" id="totalNetSales">
+                                        </td>
+                                    </tr>
+                                </tbody>
 
-                                </table>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -538,12 +542,12 @@
                             <div class="col-12">
                                 <label for="Export">4.1 Export</label>
                                 <input type="text" class="bottom_border ms-2" name="ExportOutlet" id="Export"
-                                    value="{{ $quarterlyData['Market_Export'] }}">
+                                    value="{{ $CurrentQuarterlyData['Market_Export'] }}">
                             </div>
                             <div class="col-12">
                                 <label for="Local">4.2 Local</label>
                                 <input type="text" class="bottom_border ms-2" name="LocalOutlet" id="Local"
-                                    value="{{ $quarterlyData['Market_local'] }}">
+                                    value="{{ $CurrentQuarterlyData['Market_local'] }}">
                             </div>
                         </div>
                     </div>
@@ -553,6 +557,7 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <div class="container my-4">
+                            <!-- TODO: Automatically Provide the data from the Current and Previous Quarter -->
                             <table class="table table-bordered">
                                 <thead>
                                     <tr>
@@ -562,16 +567,19 @@
                                 <tbody id="ToBeAccomplished">
                                     <tr>
                                         <td class="highlight-text" rowspan="2">Gross Sales Generated =<br>Gross
-                                            Sales Q2 - Gross Sales Q1</td>
-                                        <td class="table-subheader">Gross Sales Q2 <br> (for the reporting period)</td>
-                                        <td class="table-subheader">Gross Sales Q1 <br> (previous quarter)</td>
+                                            Sales {{ $CurrentQuarterlyData['quarter'] }} - Gross Sales
+                                            {{ $PreviousQuarterlyData['quarter'] ?? '' }}</td>
+                                        <td class="table-subheader">Gross Sales {{ $CurrentQuarterlyData['quarter'] }}
+                                            <br> (for the reporting period)</td>
+                                        <td class="table-subheader">Gross Sales
+                                            {{ $PreviousQuarterlyData['quarter'] ?? '' }} <br> (previous quarter)</td>
                                         <td class="table-subheader">TOTAL GROSS SALES GENERATED</td>
                                     </tr>
                                     <tr class="grossSalesGenerated">
                                         <td class="table-data">
                                             ₱1,600,000.00
                                             <input type="text" class="bottom_border CurrentgrossSales_val"
-                                                name="CurrentgrossSales">
+                                                name="CurrentgrossSales" value="">
                                         </td>
                                         <td class="table-data">
                                             ₱1,556,709.00
@@ -586,8 +594,9 @@
                                     <tr class="increaseInProductivity">
                                         <td class="highlight-text">% Increase in Productivity Generated =<br>
                                             <div style="text-align: center;">
-                                                Gross Sales Q2 - Gross Sales Q1 x 100<br>
-                                                Gross Sales Q1
+                                                Gross Sales {{ $CurrentQuarterlyData['quarter'] }} - Gross Sales
+                                                {{ $PreviousQuarterlyData['quarter'] ?? '' }} x 100<br>
+                                                Gross Sales {{ $PreviousQuarterlyData['quarter'] ?? '' }}
                                             </div>
                                         </td>
                                         <td colspan="3" class="table-data nowrap" width="50%">1,600,000.00 -
@@ -604,10 +613,13 @@
                                     </tr>
                                     <tr>
                                         <td class="highlight-text" rowspan="2">Employees Generated =<br>Employement
-                                            Q2 - Employement Q1</td>
-                                        <td class="table-subheader">Total Employment Q2 <br> (for the reporting period)
+                                            {{ $CurrentQuarterlyData['quarter'] }} - Employement
+                                            {{ $PreviousQuarterlyData['quarter'] ?? '' }}</td>
+                                        <td class="table-subheader">Total Employment
+                                            {{ $CurrentQuarterlyData['quarter'] }} <br> (for the reporting period)
                                         </td>
-                                        <td class="table-subheader">Total Employment Q1 <br> (previous quarter)</td>
+                                        <td class="table-subheader">Total Employment
+                                            {{ $PreviousQuarterlyData['quarter'] ?? '' }} <br> (previous quarter)</td>
                                         <td class="table-subheader">TOTAL EMPLOYMENT GENERATED</td>
                                     </tr>
                                     <tr class="EmploymentGenerated">
@@ -629,8 +641,9 @@
                                     <tr class="increaseInEmployment">
                                         <td class="highlight-text">% Increase in Employment Generated =<br>
                                             <div style="text-align: center;">
-                                                Employment Q2 - Employment Q1 x 100<br>
-                                                Employment Q1
+                                                Employment {{ $CurrentQuarterlyData['quarter'] }} - Employment
+                                                {{ $PreviousQuarterlyData['quarter'] ?? '' }} x 100<br>
+                                                Employment {{ $PreviousQuarterlyData['quarter'] ?? '' }}
                                             </div>
                                         </td>
                                         <td colspan="3" class="table-data nowrap" width="50%">10 - 10 x 100 /

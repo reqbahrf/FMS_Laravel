@@ -22,6 +22,8 @@ class GeneratePDSRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'currentQuarterReport' => 'required',
+            'previousQuarterReport' => 'nullable',
             'projectTitle' => 'required|string|max:100',
             'firmName' => 'required|string|max:64',
             'address' => 'required|string',

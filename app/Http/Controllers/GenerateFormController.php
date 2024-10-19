@@ -35,9 +35,15 @@ class GenerateFormController extends Controller
             case 'PDS':
                 $projectData = $this->getProjectDataSheetData($projectId, $quarter);
 
-                $quarterlyData = $projectData->quarterlyReport->first()->report_file;
+                $CurrentQuarterlyData = $projectData->quarterlyReport->first()->report_file ?? null;
+                $PreviousQuarterlyData = $projectData->previousQuarterlyReport->first()->report_file ?? null;
 
-                return view('staffView.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'quarterlyData'));
+                $CurrentQuarterlyData = array_merge(['quarter' => $quarter], $CurrentQuarterlyData);
+                $PreviousQuarterlyData = $PreviousQuarterlyData != null
+                ? array_merge(['quarter' => $this->getPreviousQuarter($quarter)], $PreviousQuarterlyData)
+                : null;
+
+                return view('staffView.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'CurrentQuarterlyData', 'PreviousQuarterlyData'));
                 break;
             case 'SR':
                 return view('staffView.SheetFormTemplete.SRForm');
@@ -78,6 +84,8 @@ class GenerateFormController extends Controller
 
     private function getProjectDataSheetData(string $projectId, string $quarter): object
     {
+        $previousQuarter = $this->getPreviousQuarter($quarter);
+
         return ProjectInfo::select(
             'project_info.Project_id',
             'project_info.project_title',
@@ -100,11 +108,31 @@ class GenerateFormController extends Controller
             ->join('business_info', 'project_info.business_id', '=', 'business_info.id')
             ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
             ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
-            ->with(['quarterlyReport' => function ($query) use ($quarter) {
-                $query->select('ongoing_project_id', 'quarter', 'report_file')
-                    ->where('quarter',  $quarter);
-            }])
+            ->with([
+                'quarterlyReport' => function ($query) use ($quarter) {
+                    $query->select('ongoing_project_id', 'quarter', 'report_file')
+                        ->where('quarter',  $quarter);
+                },
+                'previousQuarterlyReport' => function ($query) use ($previousQuarter) {
+                    $query->select('ongoing_project_id', 'quarter', 'report_file')
+                        ->where('quarter',  $previousQuarter);
+                }
+            ])
             ->where('project_info.Project_id', $projectId)
             ->firstOrFail();
+    }
+
+    protected function getPreviousQuarter(String $quarter): string
+    {
+        list($currentQuarter, $currentYear) = explode(' ', $quarter);
+        $currentQuarterNumber = (int) substr($currentQuarter, 1);
+        $previousQuarterNumber = $currentQuarterNumber - 1;
+        $previousYear = $currentYear;
+
+        if ($previousQuarterNumber < 1) {
+            $previousQuarterNumber = 4;
+            $previousYear -= 1;
+        }
+        return "Q{$previousQuarterNumber} {$previousYear}";
     }
 }

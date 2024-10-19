@@ -41,4 +41,9 @@ class ProjectInfo extends Model
     {
         return $this->HasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
     }
+
+    public function previousQuarterlyReport(): HasMany
+    {
+        return $this->hasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
+    }
 }
