@@ -6,6 +6,7 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\CooperatorViewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProxyController;
@@ -134,7 +135,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::get('/Staff/Project/getQuarterReport/{ProjectId}', [StaffViewController::class, 'getAvailableQuarterlyReport'])
         ->name('Staff.Project.getQuarterReport');
 
-    Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [StaffViewController::class, 'getProjectSheetsForm'])
+    Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [GenerateFormController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');
 
     Route::post('/Staff/Project/Create-InformationSheet', [StaffGeneratePISController::class, 'index'])
