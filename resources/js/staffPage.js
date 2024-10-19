@@ -48,15 +48,15 @@ function closeOffcanvasInstances(offcanva_id) {
 
 function formatToNumber(inputSelector) {
   $(inputSelector).on('input', function () {
-    let value = $(this)
+    const value = $(this)
       .val()
       .replace(/[^0-9.]/g, '');
     if (value.includes('.')) {
-      let parts = value.split('.');
+      const parts = value.split('.');
       parts[1] = parts[1].substring(0, 2);
       value = parts.join('.');
     }
-    let formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     $(this).val(formattedValue);
   });
 }
@@ -1264,7 +1264,7 @@ window.initializeStaffPageJs = async () => {
       });
 
       function inputsToCurrencyFormatter(thisInput) {
-        let value = thisInput.val().replace(/[^0-9.]/g, '');
+        const value = thisInput.val().replace(/[^0-9.]/g, '');
 
         if ((value.match(/\./g) || []).length > 1) {
           value =
@@ -1375,7 +1375,6 @@ window.initializeStaffPageJs = async () => {
        * @return {void}
        */
       function PDSFormEvents() {
-        console.log('Data Sheet Form Events Loaded');
         const calculateTotalEmployment = () => {
           let totalNumPersonel = 0;
           let totalManMonth = 0;
@@ -1736,6 +1735,16 @@ window.initializeStaffPageJs = async () => {
             toggleDeleteRowButton(container, '.input_list');
           }
         });
+
+        $('.number_input_only').on('input', function () {
+            this.value = this.value.replace(/[^0-9.]/g, '');
+        })
+
+        const CurrencyInputs = $('#StatusReportForm table td input.approved_cost, #StatusReportForm table td input.actual_cost, #StatusReportForm table td input.non_equipment_approved_cost, #StatusReportForm table td input.non_equipment_actual_cost, #StatusReportForm input.total_approved_project_cost, #StatusReportForm input.amount_utilized, #StatusReportForm input.total_amount_to_be_refunded, #StatusReportForm input.total_amount_already_due, #StatusReportForm input.total_amount_refunded, #StatusReportForm input.unsetted_refund, #StatusReportForm table td input.sales_gross_sales');
+
+        CurrencyInputs.on('input', function(){
+            inputsToCurrencyFormatter($(this));
+        })
       }
 
       //TODO: Make this reusable and efficient

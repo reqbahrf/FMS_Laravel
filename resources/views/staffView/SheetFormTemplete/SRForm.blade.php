@@ -107,16 +107,16 @@
                                 <tr>
                                     <th class="text-center">Qty.</th>
                                     <th class="text-center">Particulars</th>
-                                    <th class="text-center">Cost</th>
+                                    <th class="text-center">(₱)&nbsp;Cost</th>
                                     <th class="text-center">Qty.</th>
                                     <th class="text-center">Particulars</th>
-                                    <th class="text-center">Cost</th>
+                                    <th class="text-center">(₱)&nbsp;Cost</th>
                                 </tr>
                             </thead>
                             <tbody class="equipment_tableRow">
                                 <tr>
                                     <td>
-                                        <input type="text" class="bottom_border approved_qty">
+                                        <input type="number" class="bottom_border number_input_only approved_qty">
                                     </td>
                                     <td>
                                         <input type="text" class="bottom_border approved_particulars">
@@ -127,7 +127,7 @@
                                         approved_cost">
                                     </td>
                                     <td>
-                                        <input type="text" class="bottom_border actual_qty">
+                                        <input type="number" class="bottom_border number_input_only actual_qty">
                                     </td>
                                     <td>
                                         <input type="text" class="bottom_border actual_particulars">
@@ -169,32 +169,32 @@
                                 <tr>
                                     <th class="text-center">Qty.</th>
                                     <th class="text-center">Particulars</th>
-                                    <th class="text-center">Cost</th>
+                                    <th class="text-center">(₱)&nbsp;Cost</th>
                                     <th class="text-center">Qty.</th>
                                     <th class="text-center">Particulars</th>
-                                    <th class="text-center">Cost</th>
+                                    <th class="text-center">(₱)&nbsp;Cost</th>
                                 </tr>
                             </thead>
                             <tbody class="non_equipment_tableRow">
                                 <tr>
                                     <td>
-                                        <input type="number" class="bottom_border non_equipment_approved_qty">
+                                        <input type="number" class="bottom_border number_input_only non_equipment_approved_qty">
                                     </td>
                                     <td>
                                         <input type="text"
                                             class="bottom_border non_equipment_approved_particulars">
                                     </td>
                                     <td>
-                                        <input type="number" class="bottom_border non_equipment_approved_cost">
+                                        <input type="text" class="bottom_border non_equipment_approved_cost">
                                     </td>
                                     <td>
-                                        <input type="number" class="bottom_border non_equipment_actual_qty">
+                                        <input type="number" class="bottom_border number_input_only non_equipment_actual_qty">
                                     </td>
                                     <td>
                                         <input type="text" class="bottom_border non_equipment_actual_particulars">
                                     </td>
                                     <td>
-                                        <input type="number" class="bottom_border non_equipment_actual_cost">
+                                        <input type="text" class="bottom_border non_equipment_actual_cost">
                                     </td>
                                     <td>
                                         <textarea type="text" class="bottom_border non_equipment_remarks">
@@ -218,15 +218,15 @@
                                 Total Appproved Project Cost
                             </div>
                             <div class="col-4 d-flex justify-content-between">
-                                <span>:</span>
-                                <input type="text" class="bottom_border" name="total_approved_project_cost">
+                                <span>:&nbsp;₱</span>
+                                <input type="text" class="bottom_border total_approved_project_cost" name="total_approved_project_cost">
                             </div>
                             <div class="col-8">
                                 Amount Utilized per Financial Report (as of June 2024)
                             </div>
                             <div class="col-4 d-flex justify-content-between">
-                                <span>:&nbsp;</span>
-                                <input type="text" class="bottom_border" name="amount_utilized">
+                                <span>:&nbsp;₱</span>
+                                <input type="text" class="bottom_border amount_utilized" name="amount_utilized">
                             </div>
                             <div class="col-8">
                                 Remarks on Status of Utilization
@@ -252,8 +252,8 @@
                                 Total amount to be refunded
                             </div>
                             <div class="col-4 d-flex justify-content-between">
-                                <span>:</span>
-                                <input type="text" class="bottom_border" name="total_amount_to_be_refunded">
+                                <span>:&nbsp;₱</span>
+                                <input type="text" class="bottom_border total_amount_to_be_refunded" name="total_amount_to_be_refunded">
                             </div>
                             <div class="col-8">
                                 Approved Refund schedule
@@ -266,22 +266,22 @@
                                 Total amount already due (as of June 2024)
                             </div>
                             <div class="col-4 d-flex justify-content-between">
-                                <span>:&nbsp;</span>
-                                <input type="text" class="bottom_border" name="total_amount_already_due">
+                                <span>:&nbsp;₱</span>
+                                <input type="text" class="bottom_border total_amount_already_due" name="total_amount_already_due">
                             </div>
                             <div class="col-8">
                                 Total Amount refunded
                             </div>
                             <div class="col-4 d-flex justify-content-between">
-                                <span>:&nbsp;</span>
-                                <input type="text" class="bottom_border" name="total_amount_refunded">
+                                <span>:&nbsp;₱</span>
+                                <input type="text" class="bottom_border total_amount_refunded" name="total_amount_refunded">
                             </div>
                             <div class="col-8">
                                 Unsetted refund
                             </div>
                             <div class="col-4 d-flex justify-content-between">
-                                <span>:&nbsp;</span>
-                                <input type="text" class="bottom_border" name="unsetted_refund">
+                                <span>:&nbsp;₱</span>
+                                <input type="text" class="bottom_border unsetted_refund" name="unsetted_refund">
                             </div>
                             <div class="col-8">
                                 Refund delayed since
@@ -312,7 +312,7 @@
                                     <th>Name of Product/Service</th>
                                     <th>Volume of Production</th>
                                     <th>Quarter (Specify)</th>
-                                    <th>Cross Sales</th>
+                                    <th>(₱)&nbsp;Gross Sales</th>
                                 </tr>
                             </thead>
                             <tbody class="sales_tableRow">
@@ -327,7 +327,7 @@
                                         <input type="text" class="bottom_border sales_quarter_specify">
                                     </td>
                                     <td>
-                                        <input type="text" class="bottom_border sales_gross_sales">
+                                       <input type="text" class="bottom_border sales_gross_sales">
                                     </td>
                                 </tr>
                             </tbody>
@@ -364,10 +364,10 @@
                             </thead>
                             <tbody class="employment_generated_tableRow">
                                 <tr>
-                                    <td><input type="text" class="bottom_border employment_total"></td>
-                                    <td><input type="text" class="bottom_border employment_male"></td>
-                                    <td><input type="text" class="bottom_border employment_female"></td>
-                                    <td><input type="text" class="bottom_border employment_pwd"></td>
+                                    <td><input type="number" class="bottom_border number_input_only employment_total"></td>
+                                    <td><input type="number" class="bottom_border number_input_only employment_male"></td>
+                                    <td><input type="number" class="bottom_border number_input_only employment_female"></td>
+                                    <td><input type="number" class="bottom_border number_input_only employment_pwd"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -410,22 +410,22 @@
                                         <input type="text" class="bottom_border indirect_employment_total">
                                         </td>
                                     <td>
-                                        <input type="text" class="bottom_border indirect_employment_forward_male">
+                                        <input type="number" class="bottom_border number_input_only indirect_employment_forward_male">
                                         </td>
                                     <td>
-                                        <input type="text" class="bottom_border indirect_employment_forward_female">
+                                        <input type="number" class="bottom_border number_input_only indirect_employment_forward_female">
                                     </td>
                                     <td>
-                                        <input type="text" class="bottom_border indirect_employment_forward_total">
+                                        <input type="number" class="bottom_border number_input_only indirect_employment_forward_total">
                                         </td>
                                     <td>
-                                        <input type="text" class="bottom_border indirect_employment_backward_male">
+                                        <input type="number" class="bottom_border number_input_only indirect_employment_backward_male">
                                     </td>
                                     <td>
-                                        <input type="text" class="bottom_border indirect_employment_backward_female">
+                                        <input type="number" class="bottom_border number_input_only indirect_employment_backward_female">
                                         </td>
                                     <td>
-                                        <input type="text" class="bottom_border indirect_employment_backward_total">
+                                        <input type="number" class="bottom_border number_input_only indirect_employment_backward_total">
                                         </td>
                                 </tr>
                             </tbody>
@@ -437,14 +437,6 @@
                 <div class="card p-0">
                     <div class="card-body">
                         <h6>List of market penetrated:</h6>
-                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
-                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
-                                <i class="ri-add-fill"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
-                                <i class="ri-subtract-fill"></i>
-                            </button>
-                        </div>
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
