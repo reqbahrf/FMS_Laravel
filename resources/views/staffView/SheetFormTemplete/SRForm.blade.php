@@ -63,7 +63,7 @@
                                     <th scope="col">Remarks/Justification</th>
                                 </tr>
                             </thead>
-                            <tbody id="expectedAndActual_tableRow">
+                            <tbody class="expectedAndActual_tableRow">
                                 <tr>
                                     <td>
                                         <textarea type="text" class="bottom_border expectedOutput"></textarea>
@@ -501,7 +501,7 @@
                         <div class="input_list">
                             <div class="d-flex justify-content-between align-items-center">
                                 <span>-&nbsp;</span>
-                                <input type="text" class="bottom_border" name="problems_met[]">
+                                <input type="text" class="bottom_border" name="problems_meet[]">
                             </div>
                         </div>
                     </div>

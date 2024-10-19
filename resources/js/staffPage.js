@@ -1889,6 +1889,7 @@ window.initializeStaffPageJs = async () => {
                     thisFormObject[v.name] = v.value;
                   }
             });
+            const expectedAndActualTableRow = FormContainer.find('.expectedAndActual_tableRow tr');
             const equipmentTableRow = FormContainer.find('.equipment_tableRow tr');
             const nonEquipmentTableRow = FormContainer.find('.non_equipment_tableRow tr');
             const salesTableRow = FormContainer.find('.sales_tableRow tr');
@@ -1896,12 +1897,23 @@ window.initializeStaffPageJs = async () => {
             const indirectEmploymentTableRow = FormContainer.find('.indirect_employment_tableRow tr');
 
             const TableData = () => {
+                const expectedAndActualData = [];
                 const equipmentData = [];
                 const nonEquipmentData = [];
                 const salesData = [];
                 const employmentGeneratedData = [];
                 const indirectEmploymentData = [];
-                
+
+                expectedAndActualTableRow.each(function () {
+                    const tableRowInputs = $(this);
+                    const expectedAndActualDetails = {
+                        Expected_Output: tableRowInputs.find('.expectedOutput').val(),
+                        Actual_Accomplishment: tableRowInputs.find('.actualAccomplishment').val(),
+                        Remarks_Justification: tableRowInputs.find('.remarksJustification').val(),
+                    }
+                    expectedAndActualData.push(expectedAndActualDetails);
+                })
+
                 equipmentTableRow.each(function () {
                     const tableRowInputs = $(this);
                     const equipmentDetails = {
@@ -1967,6 +1979,7 @@ window.initializeStaffPageJs = async () => {
                 })
 
                 return {
+                    ExpectedAndActualData: expectedAndActualData,
                     EquipmentData: equipmentData,
                     NonEquipmentData: nonEquipmentData,
                     SalesData: salesData,
@@ -1978,7 +1991,7 @@ window.initializeStaffPageJs = async () => {
             console.log(TableData());
 
             return thisFormObject = {...thisFormObject, ...TableData()};
-            
+
           },
         };
         return formDATAToBESent[ExportPDF_BUTTON_DATA_VALUE]();
