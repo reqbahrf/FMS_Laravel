@@ -880,642 +880,7 @@
                     </p>
                 </td>
             </tr>
-
             @endforelse
-        </tbody>
-    </table>
-    <p style="line-height: 100%; margin-bottom: 0cm"><br>
-
-    </p>
-    <p style="line-height: 100%; margin-bottom: 0cm"><br>
-
-    </p>
-    <p style="line-height: 100%; margin-bottom: 0cm; page-break-after: avoid;">
-        <font face="Arial, sans-serif">
-            <font size="2" style="font-size: 11pt">2022</font>
-        </font>
-    </p>
-    <table width="738" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
-        <colgroup>
-            <col width="24">
-            <col width="115">
-            <col width="82">
-            <col width="28">
-            <col width="112">
-            <col width="82">
-            <col width="88">
-            <col width="93">
-        </colgroup>
-        <tbody>
-            <tr>
-                <td colspan="3" width="249" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 9pt"><b>Approved
-                                            S&amp;T Intervention Related Equipment</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td colspan="3" width="250" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 9pt"><b>Actual
-                                            S&amp;T Intervention Related Equipment Acquired</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td rowspan="2" width="88" valign="top"
-                    style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial Narrow, sans-serif">
-                                    <font size="2" style="font-size: 9pt"><b>Indicate
-                                            if with Acknowledgement Receipt of Equipment</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td rowspan="2" width="93" valign="top"
-                    style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 9pt"><b>Remarks/
-                                            Justification</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>Qty.</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="115" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>Particulars</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>Cost</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="28" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>Qty.</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="112" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>Particulars</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>Cost</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="115" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Dough
-                                        divider</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">220,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="28" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="112" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Dough
-                                        divider</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">220,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="88" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Inspected</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="93" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="115" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Dough
-                                        mixer</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">310,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="28" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">2</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="112" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Dough
-                                        Mixer</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">620,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="88" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Inspected</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="93" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="115" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Sealing
-                                        machine</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">580,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="28" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="112" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Sealing
-                                        machine</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">580,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="88" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="93" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Procurement
-                                        is still on-going</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="115" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Oven</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1,400,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="28" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">2</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="112" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Oven</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">700,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="88" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Inspected</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="93" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="115" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="28" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="112" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Loaf
-                                        Molder Machine</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">150,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="88" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Inspected</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="93" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="115" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="28" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="112" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Climatic
-                                        Proofing Machine</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="82" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">240,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="88" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Inspected</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="93" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
         </tbody>
     </table>
     <p style="line-height: 100%; margin-bottom: 0cm"><br>
@@ -1531,7 +896,7 @@
             </p>
         </li>
     </ul>
-    <table width="735" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
+    <table width="735" cellpadding="7" cellspacing="0" style="page-break-inside: avoid; border-collapse: collapse;">
         <colgroup>
             <col width="24">
             <col width="157">
@@ -1654,11 +1019,11 @@
                     </p>
                 </td>
             </tr>
+            @forelse ($NonEquipmentData as $row)
             <tr valign="top">
                 <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
+                       {{ $row['Approved_qty'] ?? '' }}
                     </p>
                 </td>
                 <td width="157" style="border: 1px solid #000000; padding: 0cm 0.19cm">
@@ -1666,8 +1031,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">OHS
-                                        Training</font>
+                                    <font size="2" style="font-size: 10pt">{{ $row['Approved_Particulars'] ?? '' }}</font>
                                 </font>
                             </font>
                         </font>
@@ -1675,13 +1039,13 @@
                 </td>
                 <td width="91" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
+                        {{ $row['Approved_cost'] ?? '' }}
 
                     </p>
                 </td>
                 <td width="25" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
+                        {{ $row['Actual_qty'] ?? '' }}
 
                     </p>
                 </td>
@@ -1690,8 +1054,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">OHS
-                                        Training</font>
+                                    <font size="2" style="font-size: 10pt">{{ $row['Actual_Particulars'] ?? '' }}</font>
                                 </font>
                             </font>
                         </font>
@@ -1699,21 +1062,19 @@
                 </td>
                 <td width="84" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
+                        {{ $row['Actual_cost'] ?? '' }}
                     </p>
                 </td>
                 <td width="97" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
+                        {{ $row['remarks'] ?? '' }}
                     </p>
                 </td>
             </tr>
+            @empty
             <tr valign="top">
                 <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
 
                     </p>
                 </td>
@@ -1722,8 +1083,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">5s
-                                        Training</font>
+                                    <font size="2" style="font-size: 10pt"></font>
                                 </font>
                             </font>
                         </font>
@@ -1731,14 +1091,10 @@
                 </td>
                 <td width="91" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
                     </p>
                 </td>
                 <td width="25" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
                     </p>
                 </td>
                 <td width="157" style="border: 1px solid #000000; padding: 0cm 0.19cm">
@@ -1746,8 +1102,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">5s
-                                        Training</font>
+                                    <font size="2" style="font-size: 10pt"></font>
                                 </font>
                             </font>
                         </font>
@@ -1755,83 +1110,14 @@
                 </td>
                 <td width="84" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
                     </p>
                 </td>
                 <td width="97" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
                     </p>
                 </td>
             </tr>
-            <tr valign="top">
-                <td width="24" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="157" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">GMP
-                                        Assessment</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="91" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">12,500.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="25" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="157" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">GMP
-                                        Assessment</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="84" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">12,500.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="97" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
+            @endforelse
         </tbody>
     </table>
     <p style="line-height: 100%; margin-bottom: 0cm"><br>
@@ -1888,7 +1174,7 @@
                         ₱ <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">523,700.00</font>
+                                    <font size="2" style="font-size: 11pt">{{ $total_approved_project_cost }}</font>
                                 </font>
                             </font>
                         </font>
@@ -1931,7 +1217,7 @@
                         ₱ <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">526,300.00</font>
+                                    <font size="2" style="font-size: 11pt">{{ $amount_utilized }}</font>
                                 </font>
                             </font>
                         </font>
@@ -1967,8 +1253,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Excess
-                                        amounting to ₱2,600.00 was shouldered by the cooperator.</font>
+                                    <font size="2" style="font-size: 11pt">{{ $remarks_on_status_of_utilization }}</font>
                                 </font>
                             </font>
                         </font>
@@ -1980,137 +1265,6 @@
     <p style="line-height: 100%; margin-bottom: 0cm"><br>
 
     </p>
-    <p style="line-height: 100%; margin-bottom: 0cm">
-        <font face="Arial, sans-serif">
-            <font size="2" style="font-size: 11pt">2022</font>
-        </font>
-    </p>
-    <table width="736" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
-        <colgroup>
-            <col width="401">
-            <col width="5">
-            <col width="289">
-        </colgroup>
-        <tbody>
-            <tr valign="top">
-                <td width="401" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Total
-                                        Approved Project Cost</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="289" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        ₱ <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">2,510,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="401" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Amount
-                                        Utilized per Financial Report (as of </font>
-                                </font>
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt"><u>June
-                                            2024</u></font>
-                                </font>
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">)</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="289" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Procurement
-                                        is still on-going</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="401" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Remarks
-                                        on Status of Utilization</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="289" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Procurement
-                                        is still on-going</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
     <p style="line-height: 100%; margin-bottom: 0cm"><br>
 
     </p>
@@ -2166,7 +1320,7 @@
                         ₱ <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">526,318.50</font>
+                                    <font size="2" style="font-size: 11pt">{{ $total_amount_to_be_refunded }}</font>
                                 </font>
                             </font>
                         </font>
@@ -2208,8 +1362,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">March
-                                        2017 to May 2021</font>
+                                    <font size="2" style="font-size: 11pt">{{ $approved_refund_schedule }}</font>
                                 </font>
                             </font>
                         </font>
@@ -2252,7 +1405,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">None</font>
+                                    <font size="2" style="font-size: 11pt">{{ $total_amount_already_due }}</font>
                                 </font>
                             </font>
                         </font>
@@ -2294,7 +1447,7 @@
                         ₱ <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">526,318.50</font>
+                                    <font size="2" style="font-size: 11pt">{{ $total_amount_refunded }}</font>
                                 </font>
                             </font>
                         </font>
@@ -2336,7 +1489,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">None</font>
+                                    <font size="2" style="font-size: 11pt">{{ $unsetted_refund }}</font>
                                 </font>
                             </font>
                         </font>
@@ -2378,280 +1531,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">N/A</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <p style="line-height: 100%; margin-bottom: 0cm"><br>
-
-    </p>
-    <p style="line-height: 100%; margin-bottom: 0cm">
-        <font face="Arial, sans-serif">
-            <font size="2" style="font-size: 11pt">2021</font>
-        </font>
-    </p>
-    <table width="714" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
-        <colgroup>
-            <col width="341">
-            <col width="5">
-            <col width="69">
-            <col width="82">
-            <col width="147">
-        </colgroup>
-        <tbody>
-            <tr valign="top">
-                <td width="341" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Total
-                                        amount to be refunded</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td colspan="2" width="166" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        ₱ <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">2,552,550.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="147" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="341" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Approved
-                                        refund schedule</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td colspan="3" width="326" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">June
-                                        2024 to June 2027</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="341" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Total
-                                        amount already due (as of </font>
-                                </font>
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt"><u>June
-                                            2024</u></font>
-                                </font>
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">)</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td colspan="2" width="166" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        ₱ <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">69,723.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="147" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="341" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Total
-                                        amount refunded</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="69" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        ₱ <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">0.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td colspan="2" width="243" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">(Based
-                                        on RPMO ledger)</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="341" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Unsettled
-                                        refund</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td colspan="2" width="166" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">None</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="147" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="341" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Refund
-                                        delayed since</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="5" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">:</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td colspan="3" width="326" style="border: none; padding: 0cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">N/A</font>
+                                    <font size="2" style="font-size: 11pt">{{ $refund_delayed_since }}</font>
                                 </font>
                             </font>
                         </font>
@@ -2673,7 +1553,7 @@
             </p>
         </li>
     </ul>
-    <table width="735" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
+    <table width="735" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid; border-collapse: collapse;">
         <colgroup>
             <col width="237">
             <col width="148">
@@ -2731,14 +1611,14 @@
                     </p>
                 </td>
             </tr>
+            @forelse ($SalesData as $row)
             <tr valign="top">
                 <td width="237" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Assorted
-                                        bread, pastries and short orders</font>
+                                    <font size="2" style="font-size: 10pt">{{ $row['ProductService'] ?? '' }}</font>
                                 </font>
                             </font>
                         </font>
@@ -2746,7 +1626,7 @@
                 </td>
                 <td width="148" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
-                        <br>
+                        {{ $row['SalesVolumeProduction'] }}
 
                     </p>
                 </td>
@@ -2763,7 +1643,7 @@
                                 </sup>
                                 <font face="Arial, sans-serif">
                                     <font size="2" style="font-size: 10pt">
-                                        Quarter 2023</font>
+                                        {{ $row['SalesQuarter'] ?? ''}}</font>
                                 </font>
                             </font>
                         </font>
@@ -2774,46 +1654,42 @@
                         ₱ <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">2,457,000.00</font>
+                                    <font size="2" style="font-size: 10pt">{{ $row['GrossSales'] ?? '' }}</font>
                                 </font>
                             </font>
                         </font>
                     </p>
                 </td>
             </tr>
+            @empty
             <tr valign="top">
                 <td width="237" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Assorted
-                                        bread, pastries and short orders</font>
+                                    <font size="2" style="font-size: 10pt"></font>
                                 </font>
                             </font>
                         </font>
                     </p>
                 </td>
                 <td width="148" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
+                    <p align="left" style="orphans: 2; widows: 2"></p>
                 </td>
                 <td width="142" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="center" style="orphans: 2; widows: 2">
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">4</font>
+                                    <font size="2" style="font-size: 10pt">3</font>
                                 </font><sup>
                                     <font face="Arial, sans-serif">
-                                        <font size="2" style="font-size: 10pt">th</font>
+                                        <font size="2" style="font-size: 10pt">rd</font>
                                     </font>
                                 </sup>
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">
-                                        Quarter 2023</font>
+                                    <font size="2" style="font-size: 10pt"></font>
                                 </font>
                             </font>
                         </font>
@@ -2824,13 +1700,14 @@
                         ₱ <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1,116,000.00</font>
+                                    <font size="2" style="font-size: 10pt"></font>
                                 </font>
                             </font>
                         </font>
                     </p>
                 </td>
             </tr>
+            @endforelse
             <tr valign="top">
                 <td colspan="3" width="555" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
@@ -2855,134 +1732,9 @@
                     </p>
                 </td>
             </tr>
-            <tr valign="top">
-                <td width="237" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Assorted
-                                        bread, pastries and short orders</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="148" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="142" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1</font>
-                                </font><sup>
-                                    <font face="Arial, sans-serif">
-                                        <font size="2" style="font-size: 10pt">st</font>
-                                    </font>
-                                </sup>
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">
-                                        Quarter 2024</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="151" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        ₱ <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1,556,709.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td width="237" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Assorted
-                                        bread, pastries and short orders</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="148" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="142" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">2</font>
-                                </font><sup>
-                                    <font face="Arial, sans-serif">
-                                        <font size="2" style="font-size: 10pt">nd</font>
-                                    </font>
-                                </sup>
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">
-                                        Quarter 2024</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="151" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        ₱ <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">1,600,000.00</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
-            <tr valign="top">
-                <td colspan="3" width="555" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>Total</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="151" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="right" style="orphans: 2; widows: 2">
-                        ₱ <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>3,156,709.00</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
         </tbody>
     </table>
     <p style="line-height: 100%; margin-bottom: 0cm"><br>
-
     </p>
     <ul>
         <li>
@@ -3007,7 +1759,7 @@
                 Quarter</font>
         </font>
     </p>
-    <table width="738" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
+    <table width="738" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid; border-collapse: collapse;">
         <colgroup>
             <col width="169">
             <col width="159">
@@ -3065,13 +1817,14 @@
                     </p>
                 </td>
             </tr>
+            @forelse ($EmploymentGeneratedData as $row )
             <tr valign="top">
                 <td width="169" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="center" style="orphans: 2; widows: 2">
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">6</font>
+                                    <font size="2" style="font-size: 11pt">{{ $row['Employment_total'] ?? 0 }}</font>
                                 </font>
                             </font>
                         </font>
@@ -3082,7 +1835,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">2</font>
+                                    <font size="2" style="font-size: 11pt">{{ $row['Employment_Male'] ?? 0 }}</font>
                                 </font>
                             </font>
                         </font>
@@ -3093,7 +1846,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">4</font>
+                                    <font size="2" style="font-size: 11pt">{{ $row['Employment_Female'] ?? 0 }}</font>
                                 </font>
                             </font>
                         </font>
@@ -3104,86 +1857,14 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">0</font>
+                                    <font size="2" style="font-size: 11pt">{{ $row['Employment_PWD'] ?? 0 }}</font>
                                 </font>
                             </font>
                         </font>
                     </p>
                 </td>
             </tr>
-        </tbody>
-    </table>
-    <p style="line-height: 100%; margin-bottom: 0cm">
-        <font face="Arial, sans-serif">
-            <font size="2" style="font-size: 11pt">2</font>
-        </font><sup>
-            <font face="Arial, sans-serif">
-                <font size="2" style="font-size: 11pt">nd</font>
-            </font>
-        </sup>
-        <font face="Arial, sans-serif">
-            <font size="2" style="font-size: 11pt">
-                Quarter</font>
-        </font>
-    </p>
-    <table width="738" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
-        <colgroup>
-            <col width="169">
-            <col width="159">
-            <col width="159">
-            <col width="193">
-        </colgroup>
-        <tbody>
-            <tr valign="top">
-                <td width="169" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>No.
-                                            of Employees</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="159" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>No.
-                                            of Male</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="159" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>No.
-                                            of Female</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="193" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt"><b>No.
-                                            of Person with Disability</b></font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-            </tr>
+            @empty
             <tr valign="top">
                 <td width="169" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="center" style="orphans: 2; widows: 2">
@@ -3230,6 +1911,7 @@
                     </p>
                 </td>
             </tr>
+            @endforelse
         </tbody>
     </table>
     <p style="line-height: 100%; margin-bottom: 0cm"><br>
@@ -3245,7 +1927,7 @@
             </p>
         </li>
     </ul>
-    <table width="735" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
+    <table width="735" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid; border-collapse: collapse;">
         <colgroup>
             <col width="345">
             <col width="52">
@@ -3366,23 +2048,69 @@
                     </p>
                 </td>
             </tr>
+            @forelse ($IndirectEmploymentData as $row)
             <tr>
                 <td width="345" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">1</font>
-                                </font><sup>
-                                    <font face="Arial, sans-serif">
-                                        <font size="2" style="font-size: 11pt">st</font>
-                                    </font>
-                                </sup>
-                                <font face="Arial, sans-serif">
                                     <font size="2" style="font-size: 11pt">
-                                        Quarter</font>
+                                       {{ $row['IndirectEmployment_total'] ?? '' }}</font>
                                 </font>
                             </font>
+                        </font>
+                    </p>
+                </td>
+                <td width="52" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
+                    <p align="center" style="orphans: 2; widows: 2">
+                        <br>
+                        {{ $row['IndirectEmployment_ForwardMale'] ?? 0 }}
+
+                    </p>
+                </td>
+                <td width="52" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
+                    <p align="center" style="orphans: 2; widows: 2">
+                        <br>
+                        {{ $row['IndirectEmployment_ForwardFemale'] ?? 0 }}
+
+                    </p>
+                </td>
+                <td width="46" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
+                    <p align="center" style="orphans: 2; widows: 2">
+                        <br>
+                        {{ $row['InderectEmplyment_ForwardTotal'] ?? 0 }}
+
+                    </p>
+                </td>
+                <td width="49" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
+                    <p align="center" style="orphans: 2; widows: 2">
+                        <br>
+                        {{ $row['IndirectEmployment_BackwardMale'] ?? 0 }}
+
+                    </p>
+                </td>
+                <td width="49" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
+                    <p align="center" style="orphans: 2; widows: 2">
+                        <br>
+                        {{ $row['IndirectEmployment_BackwardFemale'] ?? 0 }}
+
+                    </p>
+                </td>
+                <td width="42" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
+                    <p align="center" style="orphans: 2; widows: 2">
+                        <br>
+                        {{ $row['IndirectEmployment_BackwardTotal'] ?? 0 }}
+
+                    </p>
+                </td>
+            </tr>
+            @empty
+            <tr>
+                <td width="345" style="border: 1px solid #000000; padding: 0cm 0.19cm">
+                    <p align="left" style="orphans: 2; widows: 2">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt"></font>
                         </font>
                     </p>
                 </td>
@@ -3423,63 +2151,7 @@
                     </p>
                 </td>
             </tr>
-            <tr>
-                <td width="345" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="left" style="orphans: 2; widows: 2">
-                        <font face="Aptos, sans-serif">
-                            <font size="3" style="font-size: 12pt">
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">2</font>
-                                </font><sup>
-                                    <font face="Arial, sans-serif">
-                                        <font size="2" style="font-size: 11pt">nd</font>
-                                    </font>
-                                </sup>
-                                <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">
-                                        Quarter</font>
-                                </font>
-                            </font>
-                        </font>
-                    </p>
-                </td>
-                <td width="52" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="52" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="46" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="49" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="49" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-                <td width="42" valign="top" style="border: 1px solid #000000; padding: 0cm 0.19cm">
-                    <p align="center" style="orphans: 2; widows: 2">
-                        <br>
-
-                    </p>
-                </td>
-            </tr>
+            @endforelse
             <tr>
                 <td width="345" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
@@ -3544,7 +2216,7 @@
             </p>
         </li>
     </ul>
-    <table width="735" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
+    <table width="735" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid; border-collapse: collapse;">
         <colgroup>
             <col width="255">
             <col width="274">
@@ -3583,10 +2255,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 10pt">Walk-in
-                                        customers; Kooperatiba ng Sto. Tomas; Tea Barrel Coffee Shop (Sto.
-                                        Tomas); DepEd schools in East and West Districts of Sto. Tomas,
-                                        Carmen, West Kapalong, and Talaingod, Davao del Norte</font>
+                                    <font size="2" style="font-size: 10pt">{{ $existing_market }}</font>
                                 </font>
                             </font>
                         </font>
@@ -3621,12 +2290,14 @@
                 <td width="274" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
                         <br>
+                        {{ $new_market_specific_place ?? '' }}
 
                     </p>
                 </td>
                 <td width="163" style="border: 1px solid #000000; padding: 0cm 0.19cm">
                     <p align="left" style="orphans: 2; widows: 2">
                         <br>
+                        {{ $new_market_effective_date ?? '' }}
 
                     </p>
                 </td>
@@ -3693,6 +2364,7 @@
                     </p>
                 </td>
             </tr>
+            @forelse ($improvement_in_production as $improvement)
             <tr valign="top">
                 <td width="28" style="border: none; padding: 0cm">
                     <p align="right" style="orphans: 2; widows: 2">
@@ -3710,20 +2382,39 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">Total
-                                        gross sales generated in this semester amounting to Php
-                                        3,156,709.00 is slightly lower than the total gross sales in the
-                                        previous semester amounting to Php 3, 573,500.00. This resulted in
-                                        11.66% decrease in productivity which is mainly due to the
-                                        non-production of enhanced nutribun as there is no School-Based
-                                        Feeding Program at the moment following the end of classes at the
-                                        elementary and secondary levels.</font>
+                                    <font size="2" style="font-size: 11pt">{{ $improvement ?? '' }}</font>
                                 </font>
                             </font>
                         </font>
                     </p>
                 </td>
             </tr>
+            @empty
+            <tr valign="top">
+                <td width="28" style="border: none; padding: 0cm">
+                    <p align="right" style="orphans: 2; widows: 2">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt">
+                                <font face="Arial, sans-serif">
+                                    <font size="2" style="font-size: 11pt">-</font>
+                                </font>
+                            </font>
+                        </font>
+                    </p>
+                </td>
+                <td width="641" style="border: none; padding: 0cm">
+                    <p align="justify" style="orphans: 2; widows: 2">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt">
+                                <font face="Arial, sans-serif">
+                                    <font size="2" style="font-size: 11pt">none</font>
+                                </font>
+                            </font>
+                        </font>
+                    </p>
+                </td>
+            </tr>
+            @endforelse
             <tr>
                 <td colspan="2" width="683" valign="top" style="border: none; padding: 0cm">
                     <p align="left" style="orphans: 2; widows: 2">
@@ -3765,6 +2456,7 @@
                     </p>
                 </td>
             </tr>
+            @forelse ($problems_meet as $problem)
             <tr valign="top">
                 <td width="28" style="border: none; padding: 0cm">
                     <p align="right" style="orphans: 2; widows: 2">
@@ -3782,15 +2474,39 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">The
-                                        cooperator did not encounter equipment-related issues throughout
-                                        the semester.</font>
+                                    <font size="2" style="font-size: 11pt">{{$problem ?? ''}}</font>
                                 </font>
                             </font>
                         </font>
                     </p>
                 </td>
             </tr>
+            @empty
+            <tr valign="top">
+                <td width="28" style="border: none; padding: 0cm">
+                    <p align="right" style="orphans: 2; widows: 2">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt">
+                                <font face="Arial, sans-serif">
+                                    <font size="2" style="font-size: 11pt">-</font>
+                                </font>
+                            </font>
+                        </font>
+                    </p>
+                </td>
+                <td width="641" style="border: none; padding: 0cm">
+                    <p align="justify" style="orphans: 2; widows: 2">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt">
+                                <font face="Arial, sans-serif">
+                                    <font size="2" style="font-size: 11pt">none</font>
+                                </font>
+                            </font>
+                        </font>
+                    </p>
+                </td>
+            </tr>
+            @endforelse
             <tr>
                 <td colspan="2" width="683" valign="top" style="border: none; padding: 0cm">
                     <p align="left" style="orphans: 2; widows: 2">
@@ -3832,6 +2548,7 @@
                     </p>
                 </td>
             </tr>
+            @forelse ($action_and_plan as $action)
             <tr valign="top">
                 <td width="28" style="border: none; padding: 0cm">
                     <p align="right" style="orphans: 2; widows: 2">
@@ -3849,12 +2566,7 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">The
-                                        cooperator underwent face-to-face technology training on the
-                                        production of New Enhanced Nutribun, Nutribunnet, and
-                                        Nutricocokies last April 23-25, 2024 to provide more options to
-                                        its customers. The enterprise also obtained FDA License to Operate
-                                        last May 2024.</font>
+                                    <font size="2" style="font-size: 11pt">{{$action ?? ''}}</font>
                                 </font>
                             </font>
                         </font>
@@ -3864,6 +2576,35 @@
                     </p>
                 </td>
             </tr>
+            @empty
+            <tr valign="top">
+                <td width="28" style="border: none; padding: 0cm">
+                    <p align="right" style="orphans: 2; widows: 2">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt">
+                                <font face="Arial, sans-serif">
+                                    <font size="2" style="font-size: 11pt">-</font>
+                                </font>
+                            </font>
+                        </font>
+                    </p>
+                </td>
+                <td width="641" style="border: none; padding: 0cm">
+                    <p align="justify" style="orphans: 2; widows: 2; margin-bottom: 0cm">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt">
+                                <font face="Arial, sans-serif">
+                                    <font size="2" style="font-size: 11pt">none</font>
+                                </font>
+                            </font>
+                        </font>
+                    </p>
+                    <p align="justify" style="orphans: 2; widows: 2"><br>
+
+                    </p>
+                </td>
+            </tr>
+            @endforelse
             <tr>
                 <td width="28" style="border: none; padding: 0cm">
                     <p align="left" style="orphans: 2; widows: 2">
@@ -3897,6 +2638,7 @@
                     </p>
                 </td>
             </tr>
+            @forelse ($linkages_promotional_plan as $linkage)
             <tr valign="top">
                 <td width="28" style="border: none; padding: 0cm">
                     <p align="right" style="orphans: 2; widows: 2">
@@ -3914,15 +2656,39 @@
                         <font face="Aptos, sans-serif">
                             <font size="3" style="font-size: 12pt">
                                 <font face="Arial, sans-serif">
-                                    <font size="2" style="font-size: 11pt">The
-                                        cooperator plans to collaborate with local cafes to supply baked
-                                        goods for their menus to expanding the enterprise’s reach.</font>
+                                    <font size="2" style="font-size: 11pt">{{ $linkage ?? '' }}</font>
                                 </font>
                             </font>
                         </font>
                     </p>
                 </td>
             </tr>
+            @empty
+            <tr valign="top">
+                <td width="28" style="border: none; padding: 0cm">
+                    <p align="right" style="orphans: 2; widows: 2">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt">
+                                <font face="Arial, sans-serif">
+                                    <font size="2" style="font-size: 11pt">-</font>
+                                </font>
+                            </font>
+                        </font>
+                    </p>
+                </td>
+                <td width="641" style="border: none; padding: 0cm">
+                    <p align="justify" style="orphans: 2; widows: 2">
+                        <font face="Aptos, sans-serif">
+                            <font size="3" style="font-size: 12pt">
+                                <font face="Arial, sans-serif">
+                                    <font size="2" style="font-size: 11pt">none</font>
+                                </font>
+                            </font>
+                        </font>
+                    </p>
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
     <p style="line-height: 100%; margin-bottom: 0cm"><br>

@@ -39,7 +39,7 @@ class GenerateSRRequest extends FormRequest
             'refund_delayed_since' => 'required',
             'existing_market' => 'required',
             'new_market_specific_place' => 'required',
-            'improvement_in_production' => 'required',
+            'improvement_in_production' => 'nullable|array',
             'problems_meet' => 'nullable|array',
             'action_and_plan' => 'nullable|array',
             'linkages_promotional_plan' => 'nullable|array',

@@ -482,7 +482,7 @@
                             and quality of materials, number and value of produce, waste minimization, reject reduction,
                             etc.)
                         </h6>
-                        <textarea name="improvement_in_production" class="bottom_border"></textarea>
+                        <textarea name="improvement_in_production[]" class="bottom_border"></textarea>
                     </div>
                 </div>
             </div>
