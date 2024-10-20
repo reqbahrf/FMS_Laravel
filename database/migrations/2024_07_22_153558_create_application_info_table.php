@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('business_id')->unsigned();
             $table->char('Project_id', 15)->nullable()->collation('utf8mb4_bin');
             $table->string('application_status', 15)->default('waiting');
-            $table->timestamp('Evaluation_date')->nullable();
+            $table->dateTime('Evaluation_date')->nullable();
             $table->string('Evaluation_status', 15)->nullable();
             $table->timestamps();
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
