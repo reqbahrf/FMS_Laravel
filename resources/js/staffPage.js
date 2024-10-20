@@ -706,11 +706,11 @@ window.initializeStaffPageJs = async () => {
           const enterpriseLevel = hiddenInputs
             .filter('.business_enterprise_level')
             .val();
-          const buildingAsset = hiddenInputs.filter('.building_value').val();
-          const equipmentAsset = hiddenInputs.filter('.equipment_value').val();
-          const workingCapitalAsset = hiddenInputs
+          const buildingAsset = parseFloat(hiddenInputs.filter('.building_value').val());
+          const equipmentAsset = parseFloat(hiddenInputs.filter('.equipment_value').val());
+          const workingCapitalAsset = parseFloat(hiddenInputs
             .filter('.working_capital')
-            .val();
+            .val());
           const approved_amount = hiddenInputs.filter('.approved_amount').val();
           const actual_amount = hiddenInputs.filter('.actual_amount').val();
 
@@ -738,11 +738,9 @@ window.initializeStaffPageJs = async () => {
           offCanvaReadonlyInputs
             .filter('#EnterpriseLevel')
             .val(enterpriseLevel);
-          offCanvaReadonlyInputs.filter('#buildingAsset').val(buildingAsset);
-          offCanvaReadonlyInputs.filter('#equipmentAsset').val(equipmentAsset);
-          offCanvaReadonlyInputs
-            .filter('#workingCapitalAsset')
-            .val(workingCapitalAsset);
+          offCanvaReadonlyInputs.filter('#buildingAsset').val(formatToString(buildingAsset));
+          offCanvaReadonlyInputs.filter('#equipmentAsset').val(formatToString(equipmentAsset));
+          offCanvaReadonlyInputs.filter('#workingCapitalAsset').val(formatToString(workingCapitalAsset));
 
           handleProjectOffcanvasContent(project_status);
           getPaymentHistoryAndCalculation(project_id, actual_amount);
@@ -2794,7 +2792,6 @@ window.initializeStaffPageJs = async () => {
       $('#evaluationSchedule-datepicker').on('change', function(){
         const selectedDate = new Date(this.value);
         const currentDate = new Date();
-        const minDate = new Date(this.min);
 
         if (selectedDate < currentDate) {
             this.value = this.min;
