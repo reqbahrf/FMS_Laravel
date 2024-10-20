@@ -139,13 +139,8 @@
                         <div class="card-body">
                             <div class="row align-content-between h-100">
                                 <div class="col-9">
-                                    <div class="input-group date" data-date-format="mm-dd-yyyy">
-                                        <input type="text" id="evaluationSchedule-datepicker"
-                                            class="form-control">
-                                        <div class="input-group-append">
-                                            <i class="ri-calendar-schedule-fill input-group-text"></i>
-                                        </div>
-                                    </div>
+                                        <input type="datetime-local" id="evaluationSchedule-datepicker"
+                                            class="form-control" min="{{ date('Y-m-d\TH:i') }}">
                                 </div>
                                 <div class="col-3">
                                     <button type="button" class="btn btn-primary mx-auto" id="setEvaluationDate">

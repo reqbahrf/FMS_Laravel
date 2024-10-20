@@ -8,12 +8,14 @@ use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class EvaluationScheduleNotification extends Notification
 {
     use Queueable;
 
-    protected $schedule;
+    public $schedule;
+    public $evaluationDate;
 
 
     /**
@@ -22,6 +24,7 @@ class EvaluationScheduleNotification extends Notification
     public function __construct($schedule)
     {
         $this->schedule = $schedule;
+        $this->evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i:s A');
     }
 
     /**
@@ -39,10 +42,9 @@ class EvaluationScheduleNotification extends Notification
      */
     public function toMail(object $notifiable): MailMessage
     {
-        $evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i A');
         return (new MailMessage)
                     ->line('Your evaluation is scheduled on ')
-                    ->line('**' . $evaluationDate . '**')
+                    ->line('**' . $this->evaluationDate . '**')
                     ->line('Thank you for using our application!');
     }
 
@@ -53,18 +55,18 @@ class EvaluationScheduleNotification extends Notification
      */
     public function toArray(object $notifiable): array
     {
-        $evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i A');
+
         return [
-            'message' => 'Your evaluation is scheduled on ' .  $evaluationDate,
+            'message' => 'Your evaluation is scheduled on ' . $this->evaluationDate,
             'schedule_id' => $this->schedule->id,
         ];
     }
 
     public function toBroadcast($notifiable)
     {
-        $evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i A');
+
         return new BroadcastMessage([
-            'message' => 'Your evaluation is scheduled on ' .  $evaluationDate,
+            'message' => 'Your evaluation is scheduled on ' . $this->evaluationDate,
             'schedule_id' => $this->schedule->id,
         ]);
     }

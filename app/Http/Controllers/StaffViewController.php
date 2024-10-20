@@ -378,8 +378,7 @@ class StaffViewController extends Controller
                 return response()->json(['message' => 'Not Scheduled yet']);
             }
         } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json(['message' => 'Not Scheduled yet']);
+            return response()->json(['message' => $e->getMessage()]);
         }
     }
 

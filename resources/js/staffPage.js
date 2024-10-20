@@ -2791,34 +2791,16 @@ window.initializeStaffPageJs = async () => {
     },
     Applicant: () => {
       new DataTable('#applicant'); // Then initialize DataTables
-      $('#evaluationSchedule-datepicker').daterangepicker({
-        singleDatePicker: true,
-        showDropdowns: true,
-        opens: 'center',
-        drops: 'up',
-        autoUpdateInput: false,
-        timePicker: true,
-        locale: {
-          format: 'MM/DD/YYYY h:mm A',
-        },
+      $('#evaluationSchedule-datepicker').on('change', function(){
+        const selectedDate = new Date(this.value);
+        const currentDate = new Date();
+        const minDate = new Date(this.min);
+
+        if (selectedDate < currentDate) {
+            this.value = this.min;
+        }
+
       });
-
-      $('#evaluationSchedule-datepicker').on(
-        'apply.daterangepicker',
-        function (ev, picker) {
-          $(this).val(picker.startDate.format('YYYY-MM-DD HH:mm'));
-        }
-      );
-
-      $('#evaluationSchedule-datepicker').on(
-        'cancel.daterangepicker',
-        function (ev, picker) {
-          $(this).val('');
-        }
-      );
-
-      console.log('this line in executed');
-
       formatToNumber('#fundAmount');
 
       console.log('this event is triggered');

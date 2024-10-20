@@ -7,6 +7,10 @@ use App\Models\BusinessInfo;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Notifications\EvaluationScheduleNotification;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
+
+
 
 class ScheduleController extends Controller
 {
@@ -18,11 +22,13 @@ class ScheduleController extends Controller
             'evaluation_date' => 'required|date',
         ]);
 
-        $applicant = User::findOrFail($validated['user_id']);
+        $evaluationDate = Carbon::parse($validated['evaluation_date'])
+                        ->toDateTimeString();
 
+        $applicant = User::findOrFail($validated['user_id']);
         $schedule = ApplicationInfo::updateOrCreate(
             ['business_id' => $validated['business_id']],
-            ['Evaluation_date' => $validated['evaluation_date']]
+            ['Evaluation_date' =>  $evaluationDate]
         );
 
         // Instantiate the notification
