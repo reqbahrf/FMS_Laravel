@@ -575,20 +575,40 @@
                                             {{ $PreviousQuarterlyData['quarter'] ?? '' }} <br> (previous quarter)</td>
                                         <td class="table-subheader">TOTAL GROSS SALES GENERATED</td>
                                     </tr>
+                                    @php
+                                    if($PreviousQuarterlyData != null){
+                                        $PreviousGrossSalesTotal = 0;
+                                        foreach ($PreviousQuarterlyData['ExportProduct'] as $ExportProduct) {
+                                            $PreviousGrossSalesTotal += (float) str_replace(',', '', $ExportProduct['grossSales']);
+                                        }
+                                        foreach($PreviousQuarterlyData['LocalProduct'] as $LocalProduct){
+                                            $PreviousGrossSalesTotal += (float) str_replace(',', '', $LocalProduct['grossSales']);
+                                        }
+                                    }
+                                    @endphp
                                     <tr class="grossSalesGenerated">
                                         <td class="table-data">
                                             ₱1,600,000.00
-                                            <input type="text" class="bottom_border CurrentgrossSales_val"
-                                                name="CurrentgrossSales" value="">
+                                            <div class="d-flex">
+                                                ₱
+                                                <input type="text" class="bottom_border CurrentgrossSales_val"
+                                                    name="CurrentgrossSales" value="">
+                                            </div>
                                         </td>
                                         <td class="table-data">
                                             ₱1,556,709.00
-                                            <input type="text" class="bottom_border PreviousgrossSales_val"
-                                                name="PreviousgrossSales">
+                                            <div class="d-flex">
+                                                ₱
+                                                <input type="text" class="bottom_border PreviousgrossSales_val"
+                                                    name="PreviousgrossSales" value="{{ number_format($PreviousGrossSalesTotal ?? null, 2) ?? '' }}">
+                                            </div>
                                         </td>
                                         <td class="table-data">₱43,291.00
-                                            <input type="text" class="bottom_border TotalgrossSales_val"
-                                                name="TotalgrossSales">
+                                            <div class="d-flex">
+                                                ₱
+                                                <input type="text" class="bottom_border TotalgrossSales_val"
+                                                    name="TotalgrossSales" readonly>
+ </div>
                                         </td>
                                     </tr>
                                     <tr class="increaseInProductivity">
@@ -607,7 +627,7 @@
                                             x 100 / <span class="PreviousgrossSales_val_cal"></span> =
                                             <span class="totalgrossSales_percent"></span>
                                             <input type="text" name="totalgrossSales_percent"
-                                                class="bottom_border totalgrossSales_percent" style="width:10%;">
+                                                class="bottom_border totalgrossSales_percent" style="width:10%;" readonly>
 
                                         </td>
                                     </tr>
@@ -635,7 +655,7 @@
                                         </td>
                                         <td class="table-data">0
                                             <input type="text" name="TotalEmploymentGenerated"
-                                                class="bottom_border TotalEmployment_val">
+                                                class="bottom_border TotalEmployment_val" readonly>
                                         </td>
                                     </tr>
                                     <tr class="increaseInEmployment">
@@ -653,7 +673,7 @@
                                             <span class="PreviousEmployment_val_cal"></span>
                                             x 100 / <span class="PreviousEmployment_val_cal"></span> =
                                             <input type="text" name="totalEmployment_percent"
-                                                class="bottom_border totalEmployment_percent" style="width:10%;">
+                                                class="bottom_border totalEmployment_percent" style="width:10%;" readonly>
                                         </td>
                                     </tr>
                                 </tbody>

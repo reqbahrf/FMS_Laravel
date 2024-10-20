@@ -1373,6 +1373,7 @@ window.initializeStaffPageJs = async () => {
        * @return {void}
        */
       function PDSFormEvents() {
+        //TODO: Update the Js docs of this PDS events
         const calculateTotalEmployment = () => {
           let totalNumPersonel = 0;
           let totalManMonth = 0;
@@ -1492,6 +1493,12 @@ window.initializeStaffPageJs = async () => {
               minimumFractionDigits: 2,
             })}`
           );
+
+          $('.CurrentgrossSales_val').val(
+            totalGrossSales.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+              })
+          )
         };
 
         /**
@@ -1539,13 +1546,20 @@ window.initializeStaffPageJs = async () => {
          * @param {number} PreviousgrossSales - The previous gross sales value.
          * @return {void}
          */
-        const calculateToBeAccomplishedProductivity = (
-          CurrentgrossSales,
-          PreviousgrossSales
-        ) => {
+        const calculateToBeAccomplishedProductivity = () => {
           const increaseInProductivityRow = $(
             '#ToBeAccomplished .increaseInProductivity'
           );
+
+          const CurrentAndPreviousgrossSales = $('#ToBeAccomplished td .CurrentgrossSales_val, td .PreviousgrossSales_val, td .TotalgrossSales_val').closest('tr');
+
+          const CurrentgrossSales = parseValue(CurrentAndPreviousgrossSales
+            .find('.CurrentgrossSales_val')
+            .val());
+          const PreviousgrossSales = parseValue(CurrentAndPreviousgrossSales
+            .find('.PreviousgrossSales_val')
+            .val());
+
 
           increaseInProductivityRow.find('.CurrentgrossSales_val_cal').text(
             CurrentgrossSales.toLocaleString('en-US', {
@@ -1558,10 +1572,16 @@ window.initializeStaffPageJs = async () => {
             })
           );
 
+          const TotalgrossSales = CurrentgrossSales - PreviousgrossSales;
+          CurrentAndPreviousgrossSales.find('.TotalgrossSales_val').val(
+            TotalgrossSales.toLocaleString('en-US', {
+              minimumFractionDigits: 2,
+            })
+          );
+
           const increaseInProductivityByPercent =
             ((CurrentgrossSales - PreviousgrossSales) / PreviousgrossSales) *
             100;
-          console.log(increaseInProductivityByPercent);
           increaseInProductivityRow
             .find('.totalgrossSales_percent')
             .val(`${increaseInProductivityByPercent.toFixed(2)}%`);
@@ -1586,25 +1606,7 @@ window.initializeStaffPageJs = async () => {
           function () {
             const thisInput = $(this);
             inputsToCurrencyFormatter(thisInput);
-
-            const thisRow = thisInput.closest('tr');
-            const CurrentgrossSales = parseValue(
-              thisRow.find('.CurrentgrossSales_val').val()
-            );
-            const PreviousgrossSales = parseValue(
-              thisRow.find('.PreviousgrossSales_val').val()
-            );
-
-            const TotalgrossSales = CurrentgrossSales - PreviousgrossSales;
-            thisRow.find('.TotalgrossSales_val').val(
-              TotalgrossSales.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })
-            );
-            calculateToBeAccomplishedProductivity(
-              CurrentgrossSales,
-              PreviousgrossSales
-            );
+            calculateToBeAccomplishedProductivity();
           }
         );
 
@@ -1615,23 +1617,29 @@ window.initializeStaffPageJs = async () => {
          * @param {number} PreviousEmployment - The previous employment value.
          * @return {void}
          */
-        const calculateToBeAccomplishedEmployment = (
-          CurrentEmployment,
-          PreviousEmployment
-        ) => {
+        const calculateToBeAccomplishedEmployment = () => {
           const increaseInEmploymentRow = $(
             '#ToBeAccomplished .increaseInEmployment'
           );
 
+          const CurrentAndPreviousEmployment = $('#ToBeAccomplished td .CurrentEmployment_val, td .PreviousEmployment_val, td .TotalEmployment_val').closest('tr');
+
+          const CurrentEmployment = parseInt(CurrentAndPreviousEmployment
+            .find('.CurrentEmployment_val').val());
+
+          const PreviousEmployment = parseInt(CurrentAndPreviousEmployment
+            .find('.PreviousEmployment_val').val());
+
           increaseInEmploymentRow.find('.CurrentEmployment_val_cal').text(
-            CurrentEmployment.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })
+            CurrentEmployment
           );
           increaseInEmploymentRow.find('.PreviousEmployment_val_cal').text(
-            PreviousEmployment.toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-            })
+            PreviousEmployment
+          );
+
+          const TotalEmployment = CurrentEmployment - PreviousEmployment;
+          CurrentAndPreviousEmployment.find('.TotalEmployment_val').val(
+            TotalEmployment
           );
 
           const increaseInEmploymentByPercent =
@@ -1649,28 +1657,14 @@ window.initializeStaffPageJs = async () => {
             const thisInput = $(this);
             inputsToCurrencyFormatter(thisInput);
 
-            const thisRow = thisInput.closest('tr');
-            const CurrentEmployment = parseValue(
-              thisRow.find('.CurrentEmployment_val').val()
-            );
-            const PreviousEmployment = parseValue(
-              thisRow.find('.PreviousEmployment_val').val()
-            );
-            const TotalEmployment = CurrentEmployment - PreviousEmployment;
-            thisRow.find('.TotalEmployment_val').val(
-              TotalEmployment.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })
-            );
-            calculateToBeAccomplishedEmployment(
-              CurrentEmployment,
-              PreviousEmployment
-            );
+            calculateToBeAccomplishedEmployment();
           }
         );
 
         calculateTotalEmployment();
         calculateTotals();
+        calculateToBeAccomplishedProductivity();
+        calculateToBeAccomplishedEmployment();
       }
 
       function SRFormEvents() {
