@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Events\NewApplicant;
+use App\Events\ProjectEvent;
 
 class BusinessInfo extends Model
 {
@@ -52,11 +53,12 @@ class BusinessInfo extends Model
         // Listen to the "created" event
         static::created(function ($business) {
             // Dispatch the NewApplicant event
-            event(new NewApplicant(
+            event(new ProjectEvent(
                 $business->id,
                 $business->enterprise_type,
                 $business->enterprise_level,
-                $business->city
+                $business->city,
+                'NEW_APPLICANT'
             ));
         });
     }

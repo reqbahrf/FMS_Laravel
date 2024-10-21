@@ -21,6 +21,7 @@ class NewCompleteListener
      */
     public function handle(ProjectEvent $event): void
     {
-        //
+        if ($event->event_type == 'NEW_COMPLETE') {
+        }
     }
 }

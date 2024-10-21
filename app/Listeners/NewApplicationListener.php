@@ -22,7 +22,7 @@ class NewApplicationListener
      */
     public function handle(ProjectEvent $event): void
     {
-        if($event->event_type == 'new_applicant') {
+        if($event->event_type == 'NEW_APPLICANT') {
 
             $businessId = $event->businessId;
             $enterprise_type = $event->enterprise_type;

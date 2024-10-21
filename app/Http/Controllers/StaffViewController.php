@@ -421,7 +421,7 @@ class StaffViewController extends Controller
                 $applicationInfo->save(); // Save to trigger the updated event
             }
 
-            event(new ProjectEvent(null,null ,null, null ,'new_ongoing'));
+            event(new ProjectEvent(null,null ,null, null ,'NEW_ONGOING'));
             return response()->json(['message' => 'Application status updated successfully'], 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());
