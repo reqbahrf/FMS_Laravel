@@ -64,9 +64,9 @@ window.initializeAdminPageJs = async () => {
        * @return {Promise<void>} A promise that resolves when the data is processed.
        */
       const processMonthlyDataChart = async (monthlyData) => {
-        let applicants = Array(12).fill(0);
-        let ongoing = Array(12).fill(0);
-        let completed = Array(12).fill(0);
+        let applicants = Array(12).fill(null);
+        let ongoing = Array(12).fill(null);
+        let completed = Array(12).fill(null);
 
         const months = [
           'Jan',
@@ -94,9 +94,9 @@ window.initializeAdminPageJs = async () => {
 
             if (monthIndex !== -1) {
               // Update the arrays for the respective data
-              applicants[monthIndex] = data.Applicants || 0;
-              ongoing[monthIndex] = data.Ongoing || 0;
-              completed[monthIndex] = data.Completed || 0;
+              applicants[monthIndex] = data.Applicants || null;
+              ongoing[monthIndex] = data.Ongoing || null;
+              completed[monthIndex] = data.Completed || null;
             }
           })
         );

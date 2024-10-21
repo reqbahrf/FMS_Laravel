@@ -189,9 +189,9 @@ window.initializeStaffPageJs = async () => {
        * @returns {Promise<void>} - A promise that resolves when the chart has been created.
        */
       const processMonthlyDataChart = async (monthlyData) => {
-        let applicant = Array(12).fill(0);
-        let ongoing = Array(12).fill(0);
-        let completed = Array(12).fill(0);
+        let applicant = Array(12).fill(null);
+        let ongoing = Array(12).fill(null);
+        let completed = Array(12).fill(null);
         const months = [
           'Jan',
           'Feb',
@@ -214,9 +214,9 @@ window.initializeStaffPageJs = async () => {
             const monthIndex = months.indexOf(month.slice(0, 3));
 
             if (monthIndex !== -1) {
-              applicant[monthIndex] = data.Applicants || 0;
-              ongoing[monthIndex] = data.Ongoing || 0;
-              completed[monthIndex] = data.Completed || 0;
+              applicant[monthIndex] = data.Applicants || null;
+              ongoing[monthIndex] = data.Ongoing || null;
+              completed[monthIndex] = data.Completed || null;
             }
           })
         );
