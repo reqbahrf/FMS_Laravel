@@ -10,7 +10,7 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class NewApplicant
+class ProjectEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -18,15 +18,18 @@ class NewApplicant
     public $enterprise_type;
     public $enterprise_level;
     public $city;
+    public $event_type;
+
     /**
      * Create a new event instance.
      */
-    public function __construct($businessId, $enterprise_type, $enterprise_level, $city)
+    public function __construct($businessId = null, $enterprise_type = null, $enterprise_level = null, $city = null, $event_type)
     {
         $this->businessId = $businessId;
         $this->enterprise_type = $enterprise_type;
         $this->enterprise_level = $enterprise_level;
         $this->city = $city;
+        $this->event_type = $event_type;
     }
 
     /**

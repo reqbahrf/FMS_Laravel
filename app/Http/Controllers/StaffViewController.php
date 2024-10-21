@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\ProjectEvent;
 use App\Models\ApplicationInfo;
 use App\Models\ChartCache;
 use App\Models\OngoingQuarterlyReport;
@@ -17,6 +18,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use PhpParser\Node\Stmt\TryCatch;
+
 
 class StaffViewController extends Controller
 {
@@ -419,6 +421,7 @@ class StaffViewController extends Controller
                 $applicationInfo->save(); // Save to trigger the updated event
             }
 
+            event(new ProjectEvent(null,null ,null, null ,'new_ongoing'));
             return response()->json(['message' => 'Application status updated successfully'], 200);
         } catch (\Exception $e) {
             Log::error($e->getMessage());

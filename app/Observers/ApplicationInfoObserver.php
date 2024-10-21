@@ -54,7 +54,7 @@ class ApplicationInfoObserver
     {
         $org_userId = Auth::user()->orgUserInfo->id;
         if ($applicationInfo->wasChanged('application_status')) {
-            Cache::forget('handledProject' . $org_userId);
+            Cache::forget('handled_projects' . $org_userId);
         }
     }
 }
