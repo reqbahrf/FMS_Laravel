@@ -323,8 +323,7 @@
                         </span>
                     </div>
                     <div class="card-body">
-                        <table id="paymentTable" class="table table-hover">
-
+                        <table id="paymentHistoryTable" class="table table-hover" width="100%">
                         </table>
                     </div>
                 </div>
@@ -360,20 +359,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="py-3 d-flex justify-content-end gap-2">
-                    <button class="btn btn-primary">
-                        <i class="ri-article-fill"></i>
-                        View Project
-                    </button>
-                    <button class="btn btn-success">
-                        <i class="ri-save-fill"></i>
-                        Save
-                    </button>
-                    <button class="btn btn-danger me-2">
-                        <i class="ri-delete-bin-6-fill"></i>
-                        Delete
-                    </button>
                 </div>
             </div>
         </div>

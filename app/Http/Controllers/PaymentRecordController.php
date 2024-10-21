@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class StaffPaymentRecordController extends Controller
+class PaymentRecordController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -66,7 +66,6 @@ class StaffPaymentRecordController extends Controller
             ]);
 
             return response()->json(['success' => true, 'message' => 'Payment record created successfully'], 200);
-
         } catch (\Exception $e) {
             Log::error('Error creating payment record: ' . $e->getMessage());
 
@@ -77,10 +76,7 @@ class StaffPaymentRecordController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.

@@ -17,7 +17,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\staffGenerateSRController;
-use App\Http\Controllers\StaffPaymentRecordController;
+use App\Http\Controllers\PaymentRecordController;
 use App\Http\Controllers\StaffProjectLinkController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Middleware\CheckCooperatorUser;
@@ -168,7 +168,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])
         ->name('staff.Applicant.Submit-Project-Proposal');
 
-    Route::resource('/Staff/Project/PaymentRecord', StaffPaymentRecordController::class);
+    //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
     Route::resource('/Staff/Project/ProjectLink', StaffProjectLinkController::class);
     Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class);
@@ -218,6 +218,13 @@ Route::middleware([CheckAdminUser::class])->group(function () {
 });
 
 //Admin Route End
+
+//OrgUserAccess
+Route::middleware('OrgUser')->group(function () {
+
+    Route::resource('/Project/PaymentRecord', PaymentRecordController::class);
+
+});
 //Email Verification
 
 Route::get('/email/verify', function () {
@@ -235,5 +242,3 @@ Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'ver
 
 Route::get('/viewSR', fn() => view('staffView.outputs.StatusReport'));
 Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
-
-

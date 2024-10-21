@@ -556,6 +556,27 @@ window.initializeAdminPageJs = async () => {
         ],
       });
       $('#completed').DataTable();
+      $('#paymentHistoryTable').DataTable({
+        autoWidth: true,
+        responsive: true,
+        columns: [
+          {
+            title: 'Transaction #',
+          },
+          {
+            title: 'Amount',
+          },
+          {
+            title: 'Payment Method',
+          },
+          {
+            title: 'Status',
+          },
+          {
+            title: 'Date Created',
+          },
+        ],
+      });
 
       /**
        * Fetches a project proposal for a given business ID and updates the form fields with the response data.
@@ -712,7 +733,54 @@ window.initializeAdminPageJs = async () => {
         readonlyInputs.filter('.date_applied').val(projectDetails.date_applied);
         readonlyInputs.filter('.evaluated_by').val(projectDetails.evaluated_by);
         readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
+
+        getPaymentHistory(projectDetails.project_id);
       });
+
+       // TODO: Add Js docs and reuse the data formatter object
+       async function getPaymentHistory(projectId) {
+        try {
+          const response = await $.ajax({
+            type: 'GET',
+            url:
+            PROJECT_LIST_ROUTE.GET_PAYMENT_RECORDS +
+              '?project_id=' +
+              projectId,
+          });
+
+          const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
+          paymentHistoryTable.clear();
+          paymentHistoryTable.rows.add(
+            response.map((payment) => {
+                const createdAtDate = new Date(payment.created_at);
+                const formattedDate = createdAtDate.toLocaleString('en-US', {
+                  month: '2-digit',
+                  day: '2-digit',
+                  year: '2-digit',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  hour12: true
+                });
+                return [
+                  payment.transaction_id,
+                  formatToString(parseFloat(payment.amount)),
+                  payment.payment_method,
+                  payment.payment_status,
+                  formattedDate
+                ];
+              })
+          );
+          paymentHistoryTable.draw();
+
+          let totalAmount = 0;
+          response.forEach((payment) => {
+            totalAmount += parseFloat(payment.amount);
+          });
+        //   return totalAmount;
+        } catch (error) {
+          console.log(error)
+        }
+      }
 
       /**
        * Retrieves a list of staff members and populates the Assigned_to dropdown.
