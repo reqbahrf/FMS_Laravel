@@ -459,6 +459,10 @@
         </div>
         {{-- Toast Container end --}}
 
+        {{-- MyAccount Modal --}}
+
+        @include('pagesComponents.myAccount')
+
         {{-- Side Navbar for large screen --}}
         <nav class="sidenav expanded">
             <ul class="navbar-nav">
@@ -708,9 +712,9 @@
                                 </div>
                             </div>
                             <div class="px-2">
-                                <a href="#" class="dropdown-item py-2">
+                                <button type="button" class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#myAccountModal">
                                     <p><i class="ri-user-3-line me-2"></i>My Account</p>
-                                </a>
+                                </button>
                                 <a href="{{ route('logout') }}" class="dropdown-item py-2"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                     <p><i class="ri-logout-box-line me-2"></i>Logout</p>
@@ -769,7 +773,7 @@
         const PROJECT_TAB_ROUTE = {
             GET_APPROVED_PROJECTS: '{{ route('staff.Project.ApprovedProjectProposal') }}',
             GET_ONGOING_PROJECTS: '{{ route('staff.Project.getOngoingProjects') }}',
-         
+
 
         }
 
