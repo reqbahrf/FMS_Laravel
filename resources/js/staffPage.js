@@ -37,6 +37,19 @@ const formatToString = (value) => {
   });
 };
 
+const dateFormatter = (date) => {
+    const dateObj = new Date(date)
+
+    return dateObj.toLocaleString('en-US', {
+        month: '2-digit',
+        day: '2-digit',
+        year: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: true
+})
+}
+
 //close offcanvas
 function closeOffcanvasInstances(offcanva_id) {
   const offcanvasElement = $(offcanva_id).get(0);
@@ -609,7 +622,7 @@ window.initializeStaffPageJs = async () => {
               formatToString(parseFloat(payment.amount)),
               payment.payment_method,
               payment.payment_status,
-              payment.created_at,
+              dateFormatter(payment.created_at),
               `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#paymentModal"
                                         data-action="Update"><i class="ri-file-edit-fill"></i></button>
@@ -620,7 +633,9 @@ window.initializeStaffPageJs = async () => {
 
           let totalAmount = 0;
           response.forEach((payment) => {
-            totalAmount += parseFloat(payment.amount);
+            payment.payment_status === 'Paid'
+            ? totalAmount += parseFloat(payment.amount)
+            : totalAmount += 0;
           });
           return totalAmount;
         } catch (error) {
