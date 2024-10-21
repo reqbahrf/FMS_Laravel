@@ -21,11 +21,17 @@ class OrgUserMiddleware
         {
             return redirect()->route('login.Form');
         }
-
-        if(Auth::user()->role != 'Staff' && Auth::user()->orgUserInfo->access_to != 'Allowed' || Auth::user()->role != 'Admin')
+        if(Auth::user()->role == 'Admin')
         {
-            abort(Response::HTTP_UNAUTHORIZED);
+            return $next($request);
         }
-        return $next($request);
+
+        if(Auth::user()->role == 'Staff' && Auth::user()->orgUserInfo->access_to == 'Allowed')
+        {
+            return $next($request);
+        }
+
+
+            abort(Response::HTTP_UNAUTHORIZED);
     }
 }

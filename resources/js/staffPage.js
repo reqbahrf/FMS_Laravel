@@ -520,7 +520,7 @@ window.initializeStaffPageJs = async () => {
             showToastFeedback('text-bg-success', response.message);
           }, 500);
         } catch (error) {
-          showToastFeedback('text-bg-danger', error.responseJSON.message);
+          console.log(error)
         }
       }
 
@@ -566,7 +566,9 @@ window.initializeStaffPageJs = async () => {
        * @param {Event} event - The click event triggered by the submit payment button.
        */
       $('#submitPayment').on('click', function () {
-        const submissionMethod = $(this).data('submissionmethod');
+        const submissionMethod = $(this).attr('data-submissionmethod');
+
+        console.log(submissionMethod)
 
         if (submissionMethod === 'add') {
           const project_id = $('#ProjectID').val();
@@ -622,8 +624,7 @@ window.initializeStaffPageJs = async () => {
           });
           return totalAmount;
         } catch (error) {
-          showToastFeedback('text-bg-danger', error.responseJSON.message);
-          throw error;
+          console.log(error);
         }
       }
 
