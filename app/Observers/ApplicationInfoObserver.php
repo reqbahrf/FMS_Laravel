@@ -14,7 +14,7 @@ class ApplicationInfoObserver
      */
     public function created(ApplicationInfo $applicationInfo): void
     {
-        $this->ApplicationStatusChanged($applicationInfo);
+        $this->forgetCache($applicationInfo);
     }
 
     /**
@@ -23,7 +23,7 @@ class ApplicationInfoObserver
     public function updated(ApplicationInfo $applicationInfo): void
     {
         Log::info('ApplicationInfoObserver updated');
-        $this->ApplicationStatusChanged($applicationInfo);
+        $this->forgetCache($applicationInfo);
     }
 
     /**
@@ -31,7 +31,7 @@ class ApplicationInfoObserver
      */
     public function deleted(ApplicationInfo $applicationInfo): void
     {
-        $this->ApplicationStatusChanged($applicationInfo);
+        $this->forgetCache($applicationInfo);
     }
 
     /**
@@ -39,7 +39,7 @@ class ApplicationInfoObserver
      */
     public function restored(ApplicationInfo $applicationInfo): void
     {
-        $this->ApplicationStatusChanged($applicationInfo);
+        $this->forgetCache($applicationInfo);
     }
 
     /**
@@ -47,14 +47,12 @@ class ApplicationInfoObserver
      */
     public function forceDeleted(ApplicationInfo $applicationInfo): void
     {
-        $this->ApplicationStatusChanged($applicationInfo);
+        $this->forgetCache($applicationInfo);
     }
 
-    protected function ApplicationStatusChanged(ApplicationInfo $applicationInfo)
+    protected function forgetCache(ApplicationInfo $applicationInfo)
     {
         $org_userId = Auth::user()->orgUserInfo->id;
-        if ($applicationInfo->wasChanged('application_status')) {
-            Cache::forget('handled_projects' . $org_userId);
-        }
+        Cache::forget('handled_projects' . $org_userId);
     }
 }

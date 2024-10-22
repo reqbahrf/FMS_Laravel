@@ -4,6 +4,8 @@ namespace App\Observers;
 
 use App\Models\PaymentRecord;
 use App\Models\ProjectInfo;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 
 class PaymentRecordObserver
 {
@@ -12,6 +14,7 @@ class PaymentRecordObserver
      */
     public function created(PaymentRecord $paymentRecord): void
     {
+        $this->forgetCache($paymentRecord);
         $this->updateRefundedAmount($paymentRecord);
     }
 
@@ -20,6 +23,7 @@ class PaymentRecordObserver
      */
     public function updated(PaymentRecord $paymentRecord): void
     {
+        $this->forgetCache($paymentRecord);
         $this->updateRefundedAmount($paymentRecord);
     }
 
@@ -28,6 +32,7 @@ class PaymentRecordObserver
      */
     public function deleted(PaymentRecord $paymentRecord): void
     {
+        $this->forgetCache($paymentRecord);
         $this->updateRefundedAmount($paymentRecord);
     }
 
@@ -36,6 +41,7 @@ class PaymentRecordObserver
      */
     public function restored(PaymentRecord $paymentRecord): void
     {
+        $this->forgetCache($paymentRecord);
         $this->updateRefundedAmount($paymentRecord);
     }
 
@@ -44,6 +50,7 @@ class PaymentRecordObserver
      */
     public function forceDeleted(PaymentRecord $paymentRecord): void
     {
+        $this->forgetCache($paymentRecord);
         $this->updateRefundedAmount($paymentRecord);
     }
 
@@ -58,5 +65,11 @@ class PaymentRecordObserver
              ->update([
             'refunded_amount' => $totalAmount
         ]);
+    }
+
+    protected function forgetCache(PaymentRecord $paymentRecord)
+    {
+        $org_userId = Auth::user()->orgUserInfo->id;
+        Cache::forget('handled_projects' . $org_userId);
     }
 }

@@ -2306,9 +2306,6 @@ window.initializeStaffPageJs = async () => {
             title: 'Progress',
           },
           {
-            title: 'Status',
-          },
-          {
             title: 'Action',
           },
         ],
@@ -2332,14 +2329,10 @@ window.initializeStaffPageJs = async () => {
           },
           {
             targets: 4,
-            width: '20%',
+            width: '30%',
           },
           {
             targets: 5,
-            width: '10%',
-          },
-          {
-            targets: 6,
             width: '10%',
             orderable: false,
             className: 'text-center',
@@ -2783,7 +2776,6 @@ window.initializeStaffPageJs = async () => {
                   ' / ' +
                   formatToString(to_be_refunded)
                 } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                `${Ongoing.application_status}`,
                 ` <button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
                                                 data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
                                                 <i class="ri-menu-unfold-4-line ri-1x"></i>
