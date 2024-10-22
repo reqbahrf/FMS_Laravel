@@ -278,30 +278,10 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table id="handledProject" class="table table-hover" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Project Title</th>
-                            <th>Firm Name</th>
-                            <th>Owner Name</th>
-                            <th>Refund Progress</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
+
                     <tbody id="handledProjectTableBody">
                     </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>ID</th>
-                            <th>Project Title</th>
-                            <th>Firm Info</th>
-                            <th>Owner Info</th>
-                            <th>Refund Progress</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
+                   
                 </table>
             </div>
         </div>

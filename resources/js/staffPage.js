@@ -257,7 +257,67 @@ window.initializeStaffPageJs = async () => {
       getDashboardChartData();
 
       // initialize datatable
-      new DataTable('#handledProject');
+      $('#handledProject').DataTable({
+        autoWidth: false,
+        responsive: true,
+        columns: [
+            {
+                title: 'ID',
+            },
+            {
+                title: 'Project Title'
+            },
+            {
+                title: 'Firm Name'
+            },
+            {
+                title: 'Owner Name'
+            },
+            {
+                title: 'Refund Progress'
+            },
+            {
+                title: 'Status'
+            },
+            {
+                title: 'Action'
+            }
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                width: '5%',
+            },
+            {
+                targets: 1,
+                width: '20%',
+            },
+            {
+                targets: 2,
+                width: '15%',
+            },
+            {
+                targets: 3,
+                width: '15%',
+            },
+            {
+                targets: 4,
+                width: '15%',
+                className: 'text-end'
+            },
+            {
+                targets: 5,
+                width: '5%',
+                className: 'text-center',
+            },
+            {
+                targets: 6,
+                width: '5%',
+                orderable: false,
+                className: 'text-center',
+            },
+        ],
+      });
 
       //Foramt Input with Id paymentAmount
       formatToNumber('#paymentAmount');
@@ -2330,6 +2390,7 @@ window.initializeStaffPageJs = async () => {
           {
             targets: 4,
             width: '30%',
+            className: 'text-end'
           },
           {
             targets: 5,

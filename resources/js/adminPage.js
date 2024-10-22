@@ -546,6 +546,7 @@ window.initializeAdminPageJs = async () => {
           {
             targets: 4,
             width: '20%',
+            className: 'text-end',
           },
           {
             targets: 5,
