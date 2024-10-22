@@ -745,7 +745,7 @@
         const DASHBBOARD_TAB_ROUTE = {
             GET_MONTHLY_PROJECTS_CHARTDATA: '{{ route('staff.Dashboard.chartData') }}',
             GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',
-            SET_PROJECT_TO_ONGOING: '{{ route('staff.Dashboard.updateProjectStatusToOngoing') }}',
+            UPDATE_PROJECT_STATE: '{{ route('staff.Dashboard.updateProjectState') }}',
             STORE_PAYMENT_RECORDS: '{{ route('PaymentRecord.store') }}',
             GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}',
             UPDATE_PAYMENT_RECORDS: '{{ route('PaymentRecord.update', ':transaction_id') }}',

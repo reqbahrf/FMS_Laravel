@@ -20,6 +20,7 @@ use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\PaymentRecordController;
 use App\Http\Controllers\StaffProjectLinkController;
 use App\Http\Controllers\StaffQuarterlyReportController;
+use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Middleware\checkAdminUser;
@@ -113,8 +114,12 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::get('/Staff/Dashboard/chartData', [StaffViewController::class, 'getDashboardChartData'])
         ->name('staff.Dashboard.chartData');
 
+    Route::put('/Staff/Dashboard/updateProjectState', [UpdateProjectStateController::class, 'updateProjectState'])
+        ->name('staff.Dashboard.updateProjectState');
+
     Route::get('/Staff/Project', [StaffViewController::class, 'getProjectsView'])
         ->name('staff.Project');
+
     Route::get('/Staff/Project/getApproved-Project', [StaffViewController::class, 'getApprovedProjects'])
         ->name('staff.Project.ApprovedProjectProposal');
 
@@ -153,8 +158,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::get('/Staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])
         ->name('staff.Applicant.Requirement.View');
 
-    Route::put('/Staff/Dashboard/updateProjectStatusToOngoing', [StaffViewController::class, 'updateProjectStatusToOngoing'])
-        ->name('staff.Dashboard.updateProjectStatusToOngoing');
+
 
     //Staff Evaluation Schedule Set date
     Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])

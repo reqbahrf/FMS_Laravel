@@ -490,8 +490,8 @@ window.initializeStaffPageJs = async () => {
                 : project.application_status === 'ongoing'
                 ? 'bg-primary'
                 : project.application_status === 'completed'
-                ? 'bg-sucesss'
-                : 'bg-danger'
+                ? 'bg-success'
+                : null
             }">${project.application_status}</span>`,
             `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
                     data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
@@ -1198,8 +1198,32 @@ window.initializeStaffPageJs = async () => {
         });
       });
 
+      const projectStateBtn = $('.updateProjectState');
+
       //Cooperator Payment Progress
-      let paymentProgress;
+      projectStateBtn.on('click', async function () {
+        const action = $(this).data('project-state');
+        const projectID = $('#ProjectID').val();
+        const businessID = $('#hiddenbusiness_id').val();
+       try {
+        const response = $.ajax({
+            type: 'PUT',
+            url: DASHBBOARD_TAB_ROUTE.UPDATE_PROJECT_STATE,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: {
+                action: action,
+                project_id: projectID,
+                business_id: businessID
+            },
+        })
+        const data = await response;
+            showToastFeedback('text-bg-success', data.message);
+        } catch (error) {
+            showToastFeedback('text-bg-danger', error.responseJSON.message);
+        }
+      })
 
       function InitializeviewCooperatorProgress(percentage) {
         const options = {

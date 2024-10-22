@@ -403,31 +403,31 @@ class StaffViewController extends Controller
         ], 200);
     }
 
-    public function updateProjectStatusToOngoing(Request $request)
-    {
-        $validated = $request->validate([
-            'business_id' => 'required|integer',
-            'project_id' => 'required|string|max:15',
-        ]);
+    // public function updateProjectStatusToOngoing(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'business_id' => 'required|integer',
+    //         'project_id' => 'required|string|max:15',
+    //     ]);
 
-        try {
-            $applicationInfo = ApplicationInfo::where('business_id', $validated['business_id'])
-                ->whereHas('BusinessInfo.projectInfo', function ($query) use ($validated) {
-                    $query->where('project_id', $validated['project_id']);
-                })->first(); // Fetch the model
+    //     try {
+    //         $applicationInfo = ApplicationInfo::where('business_id', $validated['business_id'])
+    //             ->whereHas('BusinessInfo.projectInfo', function ($query) use ($validated) {
+    //                 $query->where('project_id', $validated['project_id']);
+    //             })->first(); // Fetch the model
 
-            if ($applicationInfo) {
-                $applicationInfo->application_status = 'ongoing';
-                $applicationInfo->save(); // Save to trigger the updated event
-            }
+    //         if ($applicationInfo) {
+    //             $applicationInfo->application_status = 'ongoing';
+    //             $applicationInfo->save(); // Save to trigger the updated event
+    //         }
 
-            event(new ProjectEvent(null,null ,null, null ,'NEW_ONGOING'));
-            return response()->json(['message' => 'Application status updated successfully'], 200);
-        } catch (\Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json(['error' => 'Failed to update application status'], 500);
-        }
-    }
+    //         event(new ProjectEvent(null, null ,null, null ,'NEW_ONGOING'));
+    //         return response()->json(['message' => 'Application status updated successfully'], 200);
+    //     } catch (\Exception $e) {
+    //         Log::error($e->getMessage());
+    //         return response()->json(['error' => 'Failed to update application status'], 500);
+    //     }
+    // }
 
     public function submitProjectProposal(Request $request)
     {
