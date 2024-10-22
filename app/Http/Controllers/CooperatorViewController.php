@@ -81,6 +81,44 @@ class CooperatorViewController extends Controller
         }
     }
 
+    public function CoopProgress()
+{
+    $user = Auth::user();
+
+    if ($user) {
+        // Eager load the necessary relationships to reduce queries
+        $projectInfo = $user->coopUserInfo->businessInfo->first()->projectInfo->first();
+
+        if ($projectInfo) {
+            $paymentInfo = $projectInfo->paymentInfo; // Remove ->first() to get all payment records
+
+            if ($paymentInfo->isNotEmpty()) { // Check if there are payment records
+                $paymentList = $paymentInfo->map(function ($payment) {
+                    return [
+                        'amount' => $payment->amount,
+                        'payment_status' => $payment->payment_status,
+                        'payment_method' => $payment->payment_method
+                    ];
+                });
+
+                return response()->json([
+                    'progress' => [
+                        'actual_amount_to_be_refund' => $projectInfo->actual_amount_to_be_refund,
+                        'refunded_amount' => $projectInfo->refunded_amount
+                    ],
+                    'paymentList' => $paymentList
+                ]);
+            }
+        }
+    }
+
+
+    // Return a default response if no user, project, or payment info is found
+    return response()->json([
+        'progress' => null,
+        'paymentList' => null
+    ], 404);  // Return 404 if the necessary data is not found
+}
     public function requirementsGet(Request $request)
     {
         if ($request->ajax()) {

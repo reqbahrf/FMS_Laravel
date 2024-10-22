@@ -19,6 +19,11 @@ class PaymentRecord extends Model
         'payment_status',
         'payment_method'
     ];
+    protected $casts = [
+        'amount' => 'float',
+        'payment_status' => 'string',
+        'payment_method' => 'string'
+    ];
     public function projectInfo(): BelongsTo
     {
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');

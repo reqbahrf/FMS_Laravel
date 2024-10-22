@@ -426,7 +426,7 @@
     </style>
 </head>
 
-@if (in_array(session('application_status'), ['approved','ongoing']))
+@if (in_array(session('application_status'), ['approved','ongoing','completed']))
     @include('cooperatorView.approved')
 @elseif(in_array(session('application_status'), ['waiting', 'pending']))
     @include('cooperatorView.waitingRoom')

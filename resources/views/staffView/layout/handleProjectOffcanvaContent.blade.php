@@ -154,7 +154,6 @@
                                 <table class="table table-hover table-sm" id="paymentHistoryTable" style="width:100%">
 
                                 </table>
-
                             </div>
                         </div>
                     </div>

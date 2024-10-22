@@ -558,7 +558,7 @@ window.initializeStaffPageJs = async () => {
             handleProjectOffcanvas
               .find('.approvedProjectContent, .completedProjectContent')
               .addClass('d-none');
-          
+
           },
           completed: async () => {
             handleProjectOffcanvas
@@ -567,7 +567,7 @@ window.initializeStaffPageJs = async () => {
             handleProjectOffcanvas
               .find('.approvedProjectContent, .ongoingProjectContent')
               .addClass('d-none');
-           
+
           },
         };
 

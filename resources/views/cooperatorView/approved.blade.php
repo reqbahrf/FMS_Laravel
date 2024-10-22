@@ -261,7 +261,8 @@
                                 </div>
                             </div>
                             <div class="px-2">
-                                <button type="button" class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#myAccountModal">
+                                <button type="button" class="dropdown-item py-2" data-bs-toggle="modal"
+                                    data-bs-target="#myAccountModal">
                                     <p><i class="ri-user-3-line me-2"></i>My Account</p>
                                 </button>
                                 <a href="{{ route('logout') }}" class="dropdown-item py-2"
@@ -327,7 +328,6 @@
             history.pushState(null, '', url);
 
             if (url === '{{ route('Cooperator.dashboard') }}') {
-                initializeStackedChartPer();
                 initializeProgressPer();
             }
 
@@ -466,12 +466,12 @@
 
         function getReceipt() {
             fetch('{{ route('receipts.index') }}', {
-                method: 'GET',
-                dataType: 'json',
-                headers: {
-                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                }
-            })
+                    method: 'GET',
+                    dataType: 'json',
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
                 .then(response => response.json())
                 .then(data => {
                     let tableBody = $('#expenseReceipt_tbody');
@@ -496,137 +496,147 @@
         }
 
 
-        function initializeStackedChartPer() {
-            var options = {
-                series: [{
-                    name: 'Building',
-                    data: [500, 55, 41, 67, 22, 43, 21, 49]
-                }, {
-                    name: 'Equipment',
-                    data: [13, 23, 20, 8, 13, 27, 33, 12]
-                }, {
-                    name: 'Working Capital',
-                    data: [11, 17, 15, 15, 21, 14, 15, 13]
-                }],
-                chart: {
-                    type: 'bar',
-                    height: 350,
-                    stacked: true,
-                    stackType: '100%'
-                },
-                responsive: [{
-                    breakpoint: 480,
-                    options: {
-                        legend: {
-                            position: 'bottom',
-                            offsetX: -10,
-                            offsetY: 0
-                        }
-                    }
-                }],
-                xaxis: {
-                    categories: ['2011 Q1', '2011 Q2', '2011 Q3', '2011 Q4', '2012 Q1', '2012 Q2',
-                        '2012 Q3', '2012 Q4'
-                    ],
-                },
-                fill: {
-                    opacity: 1
-                },
-                legend: {
-                    position: 'right',
-                    offsetX: 0,
-                    offsetY: 50
-                },
-            };
-
-            var chart = new ApexCharts(document.querySelector("#stackColumnChartPercent"), options);
-            chart.render();
-        }
-
         function initializeProgressPer() {
-            var options = {
-                series: [75],
-                chart: {
-                    height: 250,
-                    width: 250,
-                    type: 'radialBar',
-                    toolbar: {
-                        show: true
-                    }
-                },
-                plotOptions: {
-                    radialBar: {
-                        startAngle: -135,
-                        endAngle: 225,
-                        hollow: {
-                            margin: 0,
-                            size: '70%',
-                            background: '#fff',
-                            image: undefined,
-                            imageOffsetX: 0,
-                            imageOffsetY: 0,
-                            position: 'front',
-                            dropShadow: {
-                                enabled: true,
-                                top: 3,
-                                left: 0,
-                                blur: 4,
-                                opacity: 0.24
-                            }
-                        },
-                        track: {
-                            background: '#fff',
-                            strokeWidth: '50%',
-                            margin: 0, // margin is in pixels
-                            dropShadow: {
-                                enabled: true,
-                                top: -3,
-                                left: 0,
-                                blur: 4,
-                                opacity: 0.35
-                            }
-                        },
 
-                        dataLabels: {
-                            show: true,
-                            name: {
-                                offsetY: -10,
-                                show: true,
-                                color: '#888',
-                                fontSize: '17px'
-                            },
-                            value: {
-                                formatter: function(val) {
-                                    return parseInt(val);
-                                },
-                                color: '#111',
-                                fontSize: '36px',
-                                show: true,
+
+                const progressPercentage = (percentage) => {
+                    const options = {
+                        series: [percentage],
+                        chart: {
+                            height: 250,
+                            width: 250,
+                            type: 'radialBar',
+                            toolbar: {
+                                show: true
                             }
-                        }
-                    }
-                },
-                fill: {
-                    type: 'gradient',
-                    gradient: {
-                        shade: 'dark',
-                        type: 'horizontal',
-                        shadeIntensity: 0.5,
-                        gradientToColors: ['#ABE5A1'],
-                        inverseColors: true,
-                        opacityFrom: 1,
-                        opacityTo: 1,
-                        stops: [0, 100]
-                    }
-                },
-                stroke: {
-                    lineCap: 'round'
-                },
-                labels: ['Percent'],
+                        },
+                        plotOptions: {
+                            radialBar: {
+                                startAngle: -135,
+                                endAngle: 225,
+                                hollow: {
+                                    margin: 0,
+                                    size: '70%',
+                                    background: '#fff',
+                                    image: undefined,
+                                    imageOffsetX: 0,
+                                    imageOffsetY: 0,
+                                    position: 'front',
+                                    dropShadow: {
+                                        enabled: true,
+                                        top: 3,
+                                        left: 0,
+                                        blur: 4,
+                                        opacity: 0.24
+                                    }
+                                },
+                                track: {
+                                    background: '#fff',
+                                    strokeWidth: '50%',
+                                    margin: 0, // margin is in pixels
+                                    dropShadow: {
+                                        enabled: true,
+                                        top: -3,
+                                        left: 0,
+                                        blur: 4,
+                                        opacity: 0.35
+                                    }
+                                },
+
+                                dataLabels: {
+                                    show: true,
+                                    name: {
+                                        offsetY: -10,
+                                        show: true,
+                                        color: '#888',
+                                        fontSize: '17px'
+                                    },
+                                    value: {
+                                        formatter: function(val) {
+                                            return parseInt(val);
+                                        },
+                                        color: '#111',
+                                        fontSize: '36px',
+                                        show: true,
+                                    }
+                                }
+                            }
+                        },
+                        fill: {
+                            type: 'gradient',
+                            gradient: {
+                                shade: 'dark',
+                                type: 'horizontal',
+                                shadeIntensity: 0.5,
+                                gradientToColors: ['#ABE5A1'],
+                                inverseColors: true,
+                                opacityFrom: 1,
+                                opacityTo: 1,
+                                stops: [0, 100]
+                            }
+                        },
+                        stroke: {
+                            lineCap: 'round'
+                        },
+                        labels: ['Percent'],
+                    };
+
+                    const chart = new ApexCharts(document.querySelector("#ProgressPer"), options).render();
+                  ;
+                }
+
+
+                const formatToString = (value) => {
+                return value.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                });
             };
 
-            var chart = new ApexCharts(document.querySelector("#ProgressPer"), options);
-            chart.render();
+            const getProgress = async () => {
+                const paymentTextPer = $('#ProgressPerText')
+                try {
+                    const response = await fetch('{{ route('Cooperator.Progress') }}', {
+                        method: 'GET',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        dataType: 'json'
+                    });
+                    const data = await response.json();
+                    paymentTableProcess(data.paymentList);
+
+                     const actual_amount = parseFloat(data.progress.actual_amount_to_be_refund) || 0;
+                     const refunded_amount = parseFloat(data.progress.refunded_amount) || 0;
+                     const percentage = Math.ceil((refunded_amount / actual_amount) * 100);
+
+                     paymentTextPer.html(`<h5>${formatToString(refunded_amount)} / ${formatToString(actual_amount)}</h5>`);
+                    progressPercentage(percentage);
+
+
+                } catch (error) {
+                    console.error(error)
+
+                }
+            }
+
+
+
+            const paymentTableProcess = (data) => {
+                const paymentTable = $('#PaymentTable').find('tbody');
+                paymentTable.empty();
+                $.each(data, function(key, value) {
+                    const statusClass = value.payment_status === "Paid" ? "bg-success" : "bg-danger";
+                    const row = `<tr>
+                      <td class="text-center">${formatToString(value.amount)}</td>
+                      <td class="text-center">${value.payment_method}</td>
+                      <td class="text-center"><span class="badge rounded-pill ${statusClass}">${value.payment_status}</span></td>
+                     </tr>`;
+                    paymentTable.append(row);
+                });
+            }
+
+            getProgress();
         }
 
         $(document).ready(function() {

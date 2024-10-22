@@ -86,16 +86,26 @@ Route::middleware([CheckCooperatorUser::class])->group(function () {
 
     Route::get('/Cooperator/Home', [CooperatorViewController::class, 'index'])
         ->name('Cooperator.home');
+
     Route::get('/Cooperator/Dashboard', [CooperatorViewController::class, 'dashboard'])
         ->name('Cooperator.dashboard');
+
+    Route::get('/Cooperator/Progress', [CooperatorViewController::class, 'CoopProgress'])
+        ->name('Cooperator.Progress');
+        
     Route::get('/Cooperator/Requirements', [CooperatorViewController::class, 'requirementsGet'])
         ->name('Cooperator.Requirements');
+
     Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', [Coop_QuarterlyReportController::class, 'getQuarterlyForm'])
         ->name('CooperatorViewController')
         ->middleware('signed');
+
     Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);
+
     Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
+
     Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
+
     Route::resource('/receipts', ReceiptController::class);
 });
 

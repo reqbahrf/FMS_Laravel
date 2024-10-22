@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
+
 class ProjectInfo extends Model
 {
     use HasFactory;
@@ -33,6 +34,11 @@ class ProjectInfo extends Model
         'actual_amount_to_be_refund' => 'float',
         'refunded_amount' => 'float'
     ];
+
+    public function paymentInfo() : HasMany
+    {
+        return $this->hasMany(PaymentRecord::class, 'Project_id', 'Project_id');
+    }
 
     public function businessInfo(): BelongsTo
     {
