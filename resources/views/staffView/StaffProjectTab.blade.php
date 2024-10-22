@@ -620,7 +620,163 @@
             <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div>Need More Info for the content</div>
+            <div class="m-2">
+                <div class="row gy-3">
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <h5>
+                                <i class="ri-contacts-fill"></i>
+                                Personal Info
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <div class="col-12 col-md-8">
+                                    <label for="cooperatorName">Cooperator Name:</label>
+                                    <input type="text" class="form-control cooperatorName" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="designation">Designation:</label>
+                                    <input type="text" class="form-control designation" readonly>
+                                </div>
+                                <h6>Contact Details:</h6>
+                                <div class="col-12 col-md-4">
+                                    <label for="landline">Landline:</label>
+                                    <input type="text" class="form-control landline" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="mobilePhone">Mobile Phone:</label>
+                                    <input type="text" class="form-control mobile_number" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="email">Email:</label>
+                                    <input type="text" class="form-control email" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-briefcase-fill"></i>
+                                Business Info
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <input type="hidden" name="b_id" class="b_id">
+                                <div class="col-12">
+                                    <label for="firmName">
+                                        Firm Name:
+                                    </label>
+                                    <input type="text" class="form-control firmName" readonly>
+                                </div>
+                                <div class="col-12">
+                                    <label for="businessAddress">Business Address:</label>
+                                    <input type="text"  class="form-control businessAddress" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="typeOfEnterprise">Type of Enterprise:</label>
+                                    <input type="text"  class="form-control typeOfEnterprise" readonly>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="enterpriseLevel">Enterprise Level:</label>
+                                    <input type="text"  class="form-control enterpriseLevel" readonly>
+                                </div>
+                                <h6>Assets:</h6>
+                                <div class="col-12 col-md-4">
+                                    <label for="building" class="ps-2">Building:</label>
+                                    <input type="text"  class="form-control building" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="equipment" class="ps-2">Equipment:</label>
+                                    <input type="text"  class="form-control equipment" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="land" class="ps-2">Working Capital:</label>
+                                    <input type="text"  class="form-control workingCapital" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-file-text-fill"></i>
+                                Project Details
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <div class="row gy-2">
+                                <div class="col-12 col-md-3">
+                                    <label for="ProjectId_fetch">Project Id:</label>
+                                    <input type="text" id="" class="form-control ProjectId" readonly value="">
+                                </div>
+                                <div class="col-12 col-md-9">
+                                    <label for="ProjectTitle_fetch">Project Title:</label>
+                                    <input type="text" id="" class="form-control ProjectTitle" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="Amount_fetch">Approved Amount:</label>
+                                    <input type="text" id="" class="form-control funded_amount" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="amount_to_be_refunded">Amount to be refunded:</label>
+                                    <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="amount_to_be_refunded">Refunded:</label>
+                                    <input type="text" id="" class="form-control refunded" readonly>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label for="date_applied">Date Applied:</label>
+                                    <input type="text" id="" class="form-control date_applied" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="evaluated_fetch">Evaluated by:</label>
+                                    <input type="text" id="" class="form-control evaluated_by" readonly
+                                        value="">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label for="handle_by">Assigned to:</label>
+                                    <input type="text" id="" class="form-control handle_by" readonly
+                                        value="">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-file-text-fill"></i>
+                                Payment History
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <table id="paymentTable" class="table table-hover">
+
+                            </table>
+                        </div>
+                    </div>
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <span class="fw-bold fs-5">
+                                <i class="ri-file-text-fill"></i>
+                                Requirements list
+                            </span>
+                        </div>
+                        <div class="card-body">
+                            <table id="requirementsTable" class="table table-hover">
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -1181,51 +1337,7 @@
     {{-- offcanva Add existing Project end  --}}
     <div class="">
         <!--Project Information sheet Modal start-->
-        <div class="modal fade" id="PISModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true" data-bs-backdrop="static">
-            <div class="modal-dialog modal-fullscreen">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Project Information Sheet</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <div id="PIS_Modal_container">
-
-                      </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <!-- Ongoing Modal end-->
-        <div class="modal fade" id="OngoingModal" tabindex="-1" aria-labelledby="OngoingModalLabel"
-            aria-hidden="true" data-bs-backdrop="static">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="OngoingModalLabel">Ongoing Project</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!-- Modal content goes here -->
-                        <div>
-                            <h6>Project Title:</h6>
-                            <p class="ps-2">"Improvent the business 1"</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button class="btn btn-primary" data-bs-dismiss="modal" id="dashboardLink"
-                            onclick="loadPage('/org-access/viewCooperatorInfo.php','projectLink');">View</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
 
         <div class="card m-0 m-md-3">
             <div class="card-body">
@@ -1371,7 +1483,7 @@
                         aria-labelledby="Complete-tab" tabindex="0">
                         <div class=" table-responsive-sm">
                             <table id="completedTable" class="table table-hover mx-2" style="width:100%">
-                                <tbody id="tableBody" class=" table-responsive-sm">
+                                <tbody id="CompletedTableBody" class=" table-responsive-sm">
                                 </tbody>
                             </table>
                         </div>

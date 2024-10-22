@@ -359,6 +359,36 @@ window.initializeStaffPageJs = async () => {
         ],
       });
 
+      $('#paymentHistoryTable').DataTable({
+        responsive: true,
+        columns: [
+          {
+            title: 'Transaction #',
+          },
+          {
+            title: 'Amount',
+          },
+          {
+            title: 'Payment Method',
+          },
+          {
+            title: 'Status',
+          },
+          {
+            title: 'Date Created',
+          },
+          {
+            title: 'Action',
+          },
+        ],
+        columnDefs: [
+          {
+            targets: 5,
+            width: '8%',
+          },
+        ],
+      });
+
       //Handled Project Offcanvas Button Events
 
 
@@ -518,65 +548,32 @@ window.initializeStaffPageJs = async () => {
               .find('.approvedProjectContent')
               .removeClass('d-none');
             handleProjectOffcanvas
-              .find('.ongoingProjectContent')
+              .find('.ongoingProjectContent, .completedProjectContent, .paymentProjectContent')
               .addClass('d-none');
           },
           ongoing: async () => {
             handleProjectOffcanvas
-              .find('.ongoingProjectContent')
+              .find('.ongoingProjectContent, .paymentProjectContent')
               .removeClass('d-none');
             handleProjectOffcanvas
-              .find('.approvedProjectContent')
+              .find('.approvedProjectContent, .completedProjectContent')
               .addClass('d-none');
-            handleProjectOffcanvas
-              .find('#paymentHistoryContainer')
-              .html(await paymentHistoryTable());
-
-            $('#paymentHistoryTable').DataTable({
-              responsive: true,
-              columns: [
-                {
-                  title: 'Transaction #',
-                },
-                {
-                  title: 'Amount',
-                },
-                {
-                  title: 'Payment Method',
-                },
-                {
-                  title: 'Status',
-                },
-                {
-                  title: 'Date Created',
-                },
-                {
-                  title: 'Action',
-                },
-              ],
-              columnDefs: [
-                {
-                  targets: 5,
-                  width: '8%',
-                },
-              ],
-            });
+          
           },
-          completed: () => {},
+          completed: async () => {
+            handleProjectOffcanvas
+              .find('.completedProjectContent, .paymentProjectContent')
+              .removeClass('d-none');
+            handleProjectOffcanvas
+              .find('.approvedProjectContent, .ongoingProjectContent')
+              .addClass('d-none');
+           
+          },
         };
 
         await content[project_status]();
       }
 
-      //Generate payment history datatable
-      const paymentHistoryTable = async () => {
-        const paymentHistoryTable = `
-                <table class="table table-hover table-sm" id="paymentHistoryTable" syle="width:100%">
-
-                </table>
-            `;
-        return paymentHistoryTable;
-      };
 
       /**
        * Stores payment records for a project by sending a POST request to the server.
@@ -802,6 +799,7 @@ window.initializeStaffPageJs = async () => {
             .val());
           const approved_amount = hiddenInputs.filter('.approved_amount').val();
           const actual_amount = hiddenInputs.filter('.actual_amount').val();
+          console.log(actual_amount);
 
           // Calculate age
           const age = Math.floor(
@@ -1172,31 +1170,6 @@ window.initializeStaffPageJs = async () => {
           });
       });
 
-      $('#MarkOngoingProjectBtn').on('click', function () {
-        $.ajax({
-          type: 'PUT',
-          url: DASHBBOARD_TAB_ROUTE.SET_PROJECT_TO_ONGOING,
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          },
-          data: {
-            project_id: $('#ProjectID').val(),
-            business_id: $('#hiddenbusiness_id').val(),
-          },
-          success: function (response) {
-            closeOffcanvasInstances('#handleProjectOff');
-            setTimeout(() => {
-              showToastFeedback(
-                'text-bg-success',
-                'Project is now move to ongoing'
-              );
-            }, 500);
-          },
-          error: function (error) {
-            showToastFeedback('text-bg-danger', error.responseJSON.message);
-          },
-        });
-      });
 
       const projectStateBtn = $('.updateProjectState');
 
@@ -1224,6 +1197,8 @@ window.initializeStaffPageJs = async () => {
             showToastFeedback('text-bg-danger', error.responseJSON.message);
         }
       })
+
+      let paymentProgress;
 
       function InitializeviewCooperatorProgress(percentage) {
         const options = {
@@ -1285,7 +1260,6 @@ window.initializeStaffPageJs = async () => {
         };
 
         if (paymentProgress) {
-          console.log(paymentProgress);
           paymentProgress.destroy();
         }
 
@@ -2737,6 +2711,100 @@ window.initializeStaffPageJs = async () => {
         readonlyInputs.filter('.evaluated_by').val(projectDetails.evaluated_by);
         readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
       });
+
+      $('#CompletedTableBody').on('click', '.completedProjectInfo', function() {
+        const row = $(this).closest('tr');
+        const inputs = row.find('input');
+        const readonlyInputs = $('#completedDetails').find('input');
+
+        const personalDetails = {
+          cooperName: row.find('td:nth-child(4)').text().trim(),
+          designaition: inputs.filter('.designation').val(),
+          email: inputs.filter('.email').val(),
+          mobile_number: inputs.filter('.mobile_number').val(),
+          landline: inputs.filter('.landline').val(),
+        };
+
+        const businessDetails = {
+          business_id: inputs.filter('.business_id').val(),
+          firmName: row.find('td:nth-child(3)').text().trim(),
+          address: inputs.filter('.address').val(),
+          enterprise_type: inputs.filter('.enterprise_type').val(),
+          enterprise_level: inputs.filter('.enterprise_level').val(),
+          building_assets: parseFloat(inputs.filter('.building_assets').val()),
+          equipment_assets: parseFloat(
+            inputs.filter('.equipment_assets').val()
+          ),
+          working_capital_assets: parseFloat(
+            inputs.filter('.working_capital_assets').val()
+          ),
+        };
+
+        const projectDetails = {
+          project_id: inputs.filter('.project_id').val(),
+          project_title: row.find('td:nth-child(2)').text().trim(),
+          project_fund_amount: parseFloat(
+            inputs.filter('.project_fund_amount').val()
+          ),
+          project_amount_to_be_refunded: parseFloat(
+            inputs.filter('.amount_to_be_refunded').val()
+          ),
+          project_refunded_amount: parseFloat(
+            inputs.filter('.amount_refunded').val()
+          ),
+          date_applied: inputs.filter('.date_applied').val(),
+          project_date_approved: inputs.filter('.date_approved').val(),
+          evaluated_by: inputs.filter('.evaluated_by').val(),
+          handle_by: inputs.filter('.handle_by').val(),
+        };
+
+        readonlyInputs
+        .filter('.cooperatorName')
+        .val(personalDetails.cooperName);
+      readonlyInputs.filter('.designation').val(personalDetails.designaition);
+      readonlyInputs
+        .filter('.mobile_number')
+        .val(personalDetails.mobile_number);
+      readonlyInputs.filter('.email').val(personalDetails.email);
+      readonlyInputs.filter('.landline').val(personalDetails.landline);
+
+      readonlyInputs.filter('.b_id').val(businessDetails.business_id);
+      readonlyInputs.filter('.firmName').val(businessDetails.firmName);
+      readonlyInputs.filter('.businessAddress').val(businessDetails.address);
+      readonlyInputs
+        .filter('.typeOfEnterprise')
+        .val(businessDetails.enterprise_type);
+      readonlyInputs
+        .filter('.enterpriseLevel')
+        .val(businessDetails.enterprise_level);
+      readonlyInputs
+        .filter('.building')
+        .val(formatToString(businessDetails.building_assets));
+      readonlyInputs
+        .filter('.equipment')
+        .val(formatToString(businessDetails.equipment_assets));
+      readonlyInputs
+        .filter('.workingCapital')
+        .val(formatToString(businessDetails.working_capital_assets));
+
+      readonlyInputs.filter('.ProjectId').val(projectDetails.project_id);
+      readonlyInputs
+        .filter('.ProjectTitle')
+        .val(projectDetails.project_title);
+      readonlyInputs
+        .filter('.funded_amount')
+        .val(formatToString(projectDetails.project_fund_amount));
+      readonlyInputs
+        .filter('.amount_to_be_refunded')
+        .val(formatToString(projectDetails.project_amount_to_be_refunded));
+      readonlyInputs
+        .filter('.refunded')
+        .val(formatToString(projectDetails.project_refunded_amount));
+      readonlyInputs.filter('.date_applied').val(projectDetails.date_applied);
+      readonlyInputs.filter('.evaluated_by').val(projectDetails.evaluated_by);
+      readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
+
+      })
       async function getApprovedProjects() {
         try {
           const response = await fetch(
@@ -3043,7 +3111,7 @@ window.initializeStaffPageJs = async () => {
                       ' / ' +
                       formatToString(to_be_refunded)
                     } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                    `<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                    `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
                                                 data-bs-target="#completedDetails" aria-controls="completedDetails">
                                                 <i class="ri-menu-unfold-4-line ri-1x"></i>
                                             </button>`,

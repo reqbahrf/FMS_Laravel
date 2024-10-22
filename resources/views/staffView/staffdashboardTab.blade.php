@@ -232,35 +232,19 @@
     </div>
     <div class="ongoingProjectContent">
         <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
-            <button class="btn btn-primary updateProjectState"  data-project-state="MarkCompleted">Mark as Completed</button>
+            <button class="btn btn-primary updateProjectState"  data-project-state="MarkCompleted" id="MarkCompletedProjectBtn">Mark as Completed</button>
         </div>
+        <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
+            <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
+        </div>
+    </div>
+    <div class="completedProjectContent">
         <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
             <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
         </div>
     </div>
 </div>
 
-<div class="modal fade" id="handleProjectModal" tabindex="-1" aria-labelledby="handleProjectModalLabel"
-    aria-hidden="true" data-bs-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white" id="handleProjectModalLabel">Handled Project</h5>
-                <button type="button" class="btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <h6>Project title:</h6>
-                <p class="ps-2">Imploving the Business.....</p>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-primary" id="dashboardLink"
-                    onclick="loadPage('/org-access/viewCooperatorInfo.php','projectLink');"
-                    data-bs-dismiss="modal">View</button>
-                <button class="btn btn-secondary">Edit</button>
-            </div>
-        </div>
-    </div>
-</div>
 <div>
     <h4 class="p-3">Dashboard</h4>
 </div>

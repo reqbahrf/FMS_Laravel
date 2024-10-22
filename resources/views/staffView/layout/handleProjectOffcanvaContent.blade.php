@@ -138,7 +138,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 ongoingProjectContent">
+            <div class="col-12 paymentProjectContent">
                 <div class="card p-0">
                     <div class="d-flex align-items-center">
                         <h5 class="card-title me-auto p-3">Payment History</h5>
@@ -151,6 +151,9 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12" id="paymentHistoryContainer">
+                                <table class="table table-hover table-sm" id="paymentHistoryTable" style="width:100%">
+
+                                </table>
 
                             </div>
                         </div>
