@@ -9,9 +9,6 @@
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
     @vite('resources/js/app.js')
-    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}" defer></script>
-    <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}" defer></script>
-    <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
 
@@ -220,19 +217,15 @@
                                 Please enter a password.
                             </div>
                         </div>
-                        <div class="input-group my-4">
                             <div class="form-floating">
-                                <input type="text" name="B_date" value="{{ old('B_date') }}"
+                                <input type="date" name="B_date" value="{{ old('B_date') }}"
                                     class="form-control" id="datepicker" placeholder="Select Date" required>
                                 <label for="datepicker">Select Birth Date</label>
+                                <div class="invalid-feedback">
+                                    Please select a date.
+                                </div>
                             </div>
-                            <span class=" input-group-text">
-                                <i class="ri-calendar-event-fill ri-lg"></i>
-                            </span>
-                            <div class="invalid-feedback">
-                                Please select a date.
-                            </div>
-                        </div>
+
                         <div class="d-flex justify-content-end">
                             <div class="form-check">
                                 <input type="checkbox" name="remember" id="rememberMe" class="form-check-input">
@@ -344,26 +337,6 @@
                     });
                 }
 
-            });
-        });
-    </script>
-
-    <script type="module">
-        $(document).ready(function() {
-            $('#datepicker').daterangepicker({
-                "singleDatePicker": true,
-                "showDropdowns": true,
-                "opens": "center",
-                "drops": "up",
-                "autoUpdateInput": false
-            });
-
-            $('#datepicker').on('apply.daterangepicker', function(ev, picker) {
-                $(this).val(picker.startDate.format('MM/DD/YYYY'));
-            });
-
-            $('#datepicker').on('cancel.daterangepicker', function(ev, picker) {
-                $(this).val('');
             });
         });
     </script>
