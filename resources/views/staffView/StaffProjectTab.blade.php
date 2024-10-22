@@ -27,12 +27,12 @@
 
     /* Off canvas style */
 
-    #approvedTable, #ongoingTable {
+    #approvedTable, #ongoingTable, #completedTable {
     table-layout: fixed;
 }
     #ongoingTable_wrapper>div:first-child,
     #approvedTable_wrapper>div:first-child,
-    #completed_wrapper>div:first-child {
+    #completedTable_wrapper>div:first-child {
         background-color: #318791;
         padding-top: 1rem;
         padding-bottom: 1rem;
@@ -575,7 +575,7 @@
                                         value="">
                                 </div>
                             </div>
-        
+
                         </div>
                     </div>
                     <div class="card p-0">
@@ -626,8 +626,6 @@
 
     {{-- offcanva Complete End --}}
     {{-- Offcanva Add existing Project Start --}}
-
-
     <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="addExistingProject"
         aria-labelledby="staticBackdropLabel">
         <div class="offcanvas-header bg-primary">
@@ -1372,73 +1370,9 @@
                     <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel"
                         aria-labelledby="Complete-tab" tabindex="0">
                         <div class=" table-responsive-sm">
-                            <table id="completed" class="table table-hover mx-2" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Project Title</th>
-                                        <th>Firm Name</th>
-                                        <th>Firm Info</th>
-                                        <th>Owner Info</th>
-                                        <th>Refund Progress</th>
-                                        <th>Status</th>
-                                        <th>Handled by</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
+                            <table id="completedTable" class="table table-hover mx-2" style="width:100%">
                                 <tbody id="tableBody" class=" table-responsive-sm">
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Imploving the Business.....</td>
-                                        <td>XYZ Company</td>
-                                        <td>
-                                            <p><strong>Business Address:</strong> tagum, Davao Del Norte <br>
-                                                <strong>Type
-                                                    of
-                                                    Enterprise:</strong> Sole Proprietorship
-                                            </p>
-                                            <p>
-                                                <Strong>
-                                                    Assets:
-                                                </Strong> <br>
-                                                <span class="ps-2">Land: 100,000</span><br>
-                                                <span class="ps-2">Building: 100,000</span> <br>
-                                                <span class="ps-2">Equipment: 100,000</span>
-                                            </p>
-
-                                        </td>
-                                        <td>
-                                            <p><strong>Name:</strong> Jorge Walt</p>
-                                            <strong>Contact Details:</strong>
-                                            <p><strong class="p-2">Landline:</strong> 1234567 <br><Strong
-                                                    class="p-2">Mobile
-                                                    Phone:</Strong> 09123456789</p>
-                                        </td>
-                                        <td>1,000,000/1,000,000</td>
-                                        <td>Completed</td>
-                                        <td>John Smitty</td>
-                                        <td>
-
-                                            <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                                                data-bs-target="#completedDetails" aria-controls="completedDetails">
-                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                            </button>
-                                        </td>
-                                    </tr>
                                 </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Project Title</th>
-                                        <th>Firm Name</th>
-                                        <th>Firm Info</th>
-                                        <th>Owner Info</th>
-                                        <th>Refund Progress</th>
-                                        <th>Status</th>
-                                        <th>Handled by</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </tfoot>
                             </table>
                         </div>
                     </div>

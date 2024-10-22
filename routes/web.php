@@ -7,6 +7,7 @@ use App\Http\Controllers\CooperatorViewController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\GenerateFormController;
+use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\ProxyController;
@@ -227,6 +228,8 @@ Route::middleware([CheckAdminUser::class])->group(function () {
 Route::middleware('OrgUser')->group(function () {
 
     Route::resource('/Project/PaymentRecord', PaymentRecordController::class);
+    Route::get('/Project/Completed-Project', GetCompletedProjectController::class)
+        ->name('getCompletedProject');
 
 });
 //Email Verification

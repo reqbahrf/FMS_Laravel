@@ -2436,7 +2436,61 @@ window.initializeStaffPageJs = async () => {
           },
         ],
       });
-      $('#completed').DataTable();
+      $('#completedTable').DataTable({
+        responsive: true,
+        autoWidth: false,
+        fixedColumns: true,
+        columns: [
+          {
+            title: 'Project #',
+          },
+          {
+            title: 'Project Title',
+          },
+          {
+            title: 'Firm',
+          },
+          {
+            title: 'Cooperator Name',
+          },
+          {
+            title: 'Progress',
+          },
+          {
+            title: 'Action',
+          },
+        ],
+        columnDefs: [
+          {
+            targets: 0,
+            width: '15%',
+            className: 'text-center',
+          },
+          {
+            targets: 1,
+            width: '30%',
+          },
+          {
+            targets: 2,
+            width: '15%',
+          },
+          {
+            targets: 3,
+            width: '20%',
+          },
+          {
+            targets: 4,
+            width: '30%',
+            className: 'text-end'
+          },
+          {
+            targets: 5,
+            width: '10%',
+            orderable: false,
+            className: 'text-center',
+          },
+        ],
+      });
 
       $('#ApprovedtableBody').on('click', '.approvedProjectInfo', function () {
         const row = $(this).closest('tr');
@@ -2696,7 +2750,7 @@ window.initializeStaffPageJs = async () => {
             }
           );
           const data = await response.json();
-          let ApprovedDatatable = $('#approvedTable').DataTable();
+          const ApprovedDatatable = $('#approvedTable').DataTable();
           ApprovedDatatable.clear().draw();
           data.forEach((Approved) => {
             ApprovedDatatable.row
@@ -2885,8 +2939,126 @@ window.initializeStaffPageJs = async () => {
         }
       }
 
+      async function getCompletedProjects() {
+        try {
+            const response = await fetch(PROJECT_TAB_ROUTE.GET_COMPLETED_PROJECTS, {
+                method: 'GET',
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                dataType: 'json',
+              });
+              const data = await response.json();
+              const completedDatatable = $('#completedTable').DataTable();
+              completedDatatable.clear().draw();
+              data.forEach((completed) => {
+                const fund_amount = parseFloat(completed.fund_amount);
+                const amount_refunded = parseFloat(completed.amount_refunded);
+                const to_be_refunded = parseFloat(completed.to_be_refunded);
+
+                const percentage = Math.ceil(
+                  (amount_refunded / to_be_refunded) * 100
+                );
+                completedDatatable.row
+                  .add([
+                    `${completed.Project_id}`,
+                    `${completed.project_title}
+                        <input type="hidden" class="project_id" value="${
+                          completed.Project_id
+                        }">
+                        <input type="hidden" class="project_fund_amount" value="${fund_amount}">
+                        <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
+                        <input type="hidden" class="amount_refunded" value="${amount_refunded}">
+                        <input type="hidden" class="date_applied" value="${
+                          completed.date_applied
+                        }">
+                        <input type="hidden" class="date_approved" value="${
+                          completed.date_approved
+                        }">
+                        <input type="hidden" class="evaluated_by" value="${
+                          completed?.evaluated_by_prefix +
+                          ' ' +
+                          completed.evaluated_by_f_name +
+                          ' ' +
+                          completed?.evaluated_by_mid_name +
+                          ' ' +
+                          completed.evaluated_by_l_name +
+                          ' ' +
+                          completed?.evaluated_by_suffix
+                        }">
+                        <input type="hidden" class="handled_by" value="${
+                          completed?.handled_by_prefix +
+                          ' ' +
+                          completed.handled_by_f_name +
+                          ' ' +
+                          completed?.handled_by_mid_name +
+                          ' ' +
+                          completed.handled_by_l_name +
+                          ' ' +
+                          completed?.handled_by_suffix
+                        }">`,
+                    `${completed.firm_name}
+                        <input type="hidden" class="business_id" value="${
+                          completed.business_id
+                        }">
+                        <input type="hidden" class="address" value="${
+                          completed.landmark +
+                          ', ' +
+                          completed.barangay +
+                          ', ' +
+                          completed.city +
+                          ', ' +
+                          completed.province +
+                          ', ' +
+                          completed.region
+                        }">
+                        <input type="hidden" class="enterprise_type" value="${
+                          completed.enterprise_type
+                        }">
+                        <input type="hidden" class="enterprise_level" value="${
+                          completed.enterprise_level
+                        }">
+                        <input type="hidden" class="building_assets" value="${
+                          completed.building_value
+                        }">
+                        <input type="hidden" class="equipment_assets" value="${
+                          completed.equipment_value
+                        }">
+                        <input type="hidden" class="working_capital_assets" value="${
+                          completed.working_capital
+                        }">`,
+                    `${completed.f_name + ' ' + completed.l_name}
+                        <input type="hidden" class="designation" value="${
+                          completed.designation
+                        }">
+                        <input type="hidden" class="mobile_number" value="${
+                          completed.mobile_number
+                        }">
+                        <input type="hidden" class="email" value="${completed.email}">
+                        <input type="hidden" class="landline" value="${
+                          completed.landline ?? ''
+                        }">`,
+                    `${
+                      formatToString(amount_refunded) +
+                      ' / ' +
+                      formatToString(to_be_refunded)
+                    } <span class="badge text-white bg-primary">${percentage}%</span>`,
+                    `<button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#completedDetails" aria-controls="completedDetails">
+                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                            </button>`,
+                  ])
+                  .draw();
+              });
+        }catch(error){
+            console.error('Error:', error);
+
+        }
+      }
+
       getApprovedProjects();
       getOngoingProjects();
+      getCompletedProjects();
     },
     Applicant: () => {
       new DataTable('#applicant'); // Then initialize DataTables
