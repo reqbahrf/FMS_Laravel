@@ -360,29 +360,40 @@ window.initializeStaffPageJs = async () => {
       });
 
       //Handled Project Offcanvas Button Events
-      $('#nav-GeneratedSheets-tab').on('shown.bs.tab', () => {
-        $('.GeneratedSheetsTabMenu').removeClass('d-none');
-        $('.AttachlinkTabMenu').addClass('d-none');
-      });
-      $('#nav-GeneratedSheets-tab').on('hidden.bs.tab', () => {
-        $('.GeneratedSheetsTabMenu').addClass('d-none');
-        $('.AttachlinkTabMenu').removeClass('d-none');
-      });
 
-      $('#nav-link-tab').on('shown.bs.tab', () =>
-        $('.GeneratedSheetsTabMenu').addClass('d-none')
-      );
-      $('#nav-link-tab').on('hidden.bs.tab', () =>
-        $('.GeneratedSheetsTabMenu').removeClass('d-none')
-      );
-      $('#nav-details-tab').on('shown.bs.tab', () => {
-        $('.AttachlinkTabMenu').addClass('d-none');
-        $('.GeneratedSheetsTabMenu').addClass('d-none');
-      });
-      $('#nav-details-tab').on('hidden.bs.tab', () => {
-        $('.AttachlinkTabMenu').removeClass('d-none');
-        $('.GeneratedSheetsTabMenu').removeClass('d-none');
-      });
+
+      function toggleMenu(tab, addClassMenu, removeClassMenu) {
+        $(tab).on('shown.bs.tab', () => {
+          $(addClassMenu).addClass('d-none');
+          $(removeClassMenu).removeClass('d-none');
+        });
+        $(tab).on('hidden.bs.tab', () => {
+          $(addClassMenu).removeClass('d-none');
+          $(removeClassMenu).addClass('d-none');
+        });
+      }
+
+
+      // Tab: nav-details-tab
+      toggleMenu('#nav-details-tab', '.AttachlinkTabMenu, .GeneratedSheetsTabMenu', null);
+
+      // Tab: nav-link-tab
+      toggleMenu('#nav-link-tab', '.GeneratedSheetsTabMenu', '.AttachlinkTabMenu');
+
+      // Tab: nav-Quarterly-tab
+      toggleMenu('#nav-Quarterly-tab', '.AttachlinkTabMenu, .GeneratedSheetsTabMenu', null);
+
+      // Tab: nav-GeneratedSheets-tab
+      toggleMenu('#nav-GeneratedSheets-tab', '.AttachlinkTabMenu', '.GeneratedSheetsTabMenu');
+
+
+      const isRefundCompleted = (boolean) => {
+        const completedButton = $('#MarkCompletedProjectBtn');
+        boolean
+        ? completedButton.prop('disabled', false).show()
+        : completedButton.prop('disabled', true).hide();
+
+      }
 
       /**
        * Fetches handled projects from the server and updates the handled project table.
@@ -842,6 +853,7 @@ window.initializeStaffPageJs = async () => {
           $('#FundedAmount').text(formatToString(fundedAmount));
           $('#remainingBalance').text(formatToString(remainingAmount));
 
+          percentage == 100 ? isRefundCompleted(true) : isRefundCompleted(false);
           setTimeout(() => {
             InitializeviewCooperatorProgress(percentage);
           }, 500);
@@ -1160,7 +1172,7 @@ window.initializeStaffPageJs = async () => {
           });
       });
 
-      $('#MarkhandleProjectBtn').on('click', function () {
+      $('#MarkOngoingProjectBtn').on('click', function () {
         $.ajax({
           type: 'PUT',
           url: DASHBBOARD_TAB_ROUTE.SET_PROJECT_TO_ONGOING,
