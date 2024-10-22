@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentRecord;
+use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -53,23 +54,32 @@ class PaymentRecordController extends Controller
             $exists = PaymentRecord::where('transaction_id', $validated['TransactionID'])->exists();
 
             if ($exists) {
-                return response()->json(['message' => 'Transaction ID already exists'], 409);
+                return response()->json(['success' => false, 'message' => 'Transaction ID already exists'], 409);
             }
 
-            // Use mass assignment to create the record
-            PaymentRecord::create([
-                'Project_id' => $validated['project_id'],
-                'transaction_id' => $validated['TransactionID'],
-                'amount' => number_format(str_replace(',', '', $validated['amount']), 2, '.', ''),
-                'payment_status' => $validated['paymentStatus'],
-                'payment_method' => $validated['paymentMethod'],
-            ]);
+
+            $paymentRecord = new PaymentRecord();
+            $paymentRecord->Project_id = $validated['project_id'];
+            $paymentRecord->transaction_id = $validated['TransactionID'];
+            $paymentRecord->amount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
+            $paymentRecord->payment_status = $validated['paymentStatus'];
+            $paymentRecord->payment_method = $validated['paymentMethod'];
+
+            $ActualRefundAmount = $paymentRecord->projectInfo->actual_amount_to_be_refund;
+            $RefundedAmount = $paymentRecord->projectInfo->refunded_amount;
+
+
+            if ($ActualRefundAmount < $paymentRecord->amount + $RefundedAmount) {
+                return response()->json(['success' => false, 'message' => 'Enter Payment Amount Exceed with the Total Refund Amount'], 422);
+            }
+
+            $paymentRecord->save();
 
             return response()->json(['success' => true, 'message' => 'Payment record created successfully'], 200);
         } catch (\Exception $e) {
             Log::error('Error creating payment record: ' . $e->getMessage());
 
-            return response()->json(['message' => 'Error creating payment record'], 500);
+            return response()->json(['success' => false, 'message' => 'Error creating payment record'], 500);
         }
     }
 

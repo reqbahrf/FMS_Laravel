@@ -50,7 +50,7 @@ class PaymentRecordObserver
     protected function updateRefundedAmount(PaymentRecord $paymentRecord)
     {
         $totalAmount = PaymentRecord::where('Project_id', $paymentRecord->Project_id)
-            ->where('payment_status', 'paid')
+            ->where('payment_status', 'Paid')
             ->sum('amount');
 
 

@@ -533,7 +533,9 @@ window.initializeStaffPageJs = async () => {
             showToastFeedback('text-bg-success', response.message);
           }, 500);
         } catch (error) {
-          console.log(error)
+            setTimeout(() => {
+                showToastFeedback('text-bg-danger', error.responseJSON.message);
+              }, 200);
         }
       }
 

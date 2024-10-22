@@ -30,6 +30,8 @@ class ProjectInfo extends Model
 
     protected $casts = [
         'Project_id' => 'string',
+        'actual_amount_to_be_refund' => 'float',
+        'refunded_amount' => 'float'
     ];
 
     public function businessInfo(): BelongsTo
