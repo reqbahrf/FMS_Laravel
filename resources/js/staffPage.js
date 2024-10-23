@@ -3550,51 +3550,116 @@ window.initializeStaffPageJs = async () => {
         return (FormDataObjects = { ...FormDataObjects, ...TableData() });
       }
 
-      const populateProjectProposalForm = (draft) => {
+      const initialFormValues = {};
+      const revertbutton = $('.revertButton');
 
-        $('#projectID').val(draft.projectID);
-        $('#projectTitle').val(draft.projectTitle);
-        $('#dateOfFundRelease').val(draft.dateOfFundRelease);
-        $('#fundAmount').val(draft.fundAmount);
+      const populateProjectProposalForm = (draftData) => {
 
-        // Populate Expected Outputs
+        storeInitialValues('projectID', draftData.projectID);
+        storeInitialValues('projectTitle', draftData.projectTitle);
+        storeInitialValues('dateOfFundRelease', draftData.dateOfFundRelease);
+        storeInitialValues('fundAmount', draftData.fundAmount);
+
+        $('#projectID').val(draftData.projectID);
+        $('#projectTitle').val(draftData.projectTitle);
+        $('#dateOfFundRelease').val(draftData.dateOfFundRelease);
+        $('#fundAmount').val(draftData.fundAmount);
+
+        // Populate expected outputs
         const expectedOutputsContainer = $('#ExpectedOutputTextareaContainer .input_list');
-        expectedOutputsContainer.empty(); // Clear existing fields
-        draft.expectedOutputs.forEach(output => {
+        expectedOutputsContainer.empty();
+        draftData.expectedOutputs.forEach((output, index) => {
+            const outputKey = `expectedOutputs[${index}]`;
+            storeInitialValues(outputKey, output);
             expectedOutputsContainer.append(`
                 <div class="col-12 mb-2">
-                    <textarea class="form-control" name="expectedOutputs[]" rows="3">${output}</textarea>
+                    <textarea class="form-control" name="expectedOutputs[]" rows="3" data-initial-key="${outputKey}">${output}</textarea>
                 </div>
             `);
         });
 
-        // Populate Equipment Details
+        // Populate equipment details
         const equipmentTableBody = $('#EquipmentTableBody');
-        equipmentTableBody.empty(); // Clear existing rows
-        draft.equipmentDetails.forEach(equipment => {
+        equipmentTableBody.empty();
+        draftData.equipmentDetails.forEach((equipment, index) => {
+            const qtyKey = `equipmentQty[${index}]`;
+            const particularsKey = `equipmentParticulars[${index}]`;
+            const costKey = `equipmentCost[${index}]`;
+
+            storeInitialValues(qtyKey, equipment.Qty);
+            storeInitialValues(particularsKey, equipment.Actual_Particulars);
+            storeInitialValues(costKey, equipment.Cost || '');
+
             equipmentTableBody.append(`
                 <tr>
-                    <td><input type="number" class="form-control EquipmentQTY" value="${equipment.Qty}" /></td>
-                    <td><input type="text" class="form-control Particulars" value="${equipment.Actual_Particulars}" /></td>
-                    <td><input type="text" class="form-control EquipmentCost" value="${equipment.Cost || ''}" /></td>
+                    <td><input type="number" class="form-control EquipmentQTY" data-initial-key="${qtyKey}" value="${equipment.Qty}"/></td>
+                    <td><input type="text" class="form-control Particulars" data-initial-key="${particularsKey}" value="${equipment.Actual_Particulars}"/></td>
+                    <td><input type="text" class="form-control EquipmentCost" data-initial-key="${costKey}" value="${equipment.Cost || ''}"/></td>
                 </tr>
             `);
         });
 
-        // Populate Non-Equipment Details
+        // Populate non-equipment details
         const nonEquipmentTableBody = $('#NonEquipmentTableBody');
-        nonEquipmentTableBody.empty(); // Clear existing rows
-        draft.nonEquipmentDetails.forEach(nonEquipment => {
+        nonEquipmentTableBody.empty();
+        draftData.nonEquipmentDetails.forEach((nonEquipment, index) => {
+            const qtyKey = `nonEquipmentQty[${index}]`;
+            const particularsKey = `nonEquipmentParticulars[${index}]`;
+            const costKey = `nonEquipmentCost[${index}]`;
+
+            storeInitialValues(qtyKey, nonEquipment.Qty);
+            storeInitialValues(particularsKey, nonEquipment.Actual_Particulars);
+            storeInitialValues(costKey, nonEquipment.Cost || '');
+
             nonEquipmentTableBody.append(`
                 <tr>
-                    <td><input type="number" class="form-control NonEquipmentQTY" value="${nonEquipment.Qty}" /></td>
-                    <td><input type="text" class="form-control NonParticulars" value="${nonEquipment.Actual_Particulars}" /></td>
-                    <td><input type="text" class="form-control NonEquipmentCost" value="${nonEquipment.Cost || ''}" /></td>
+                    <td><input type="number" class="form-control NonEquipmentQTY" data-initial-key="${qtyKey}" value="${nonEquipment.Qty}"/></td>
+                    <td><input type="text" class="form-control NonParticulars" data-initial-key="${particularsKey}" value="${nonEquipment.Actual_Particulars}"/></td>
+                    <td><input type="text" class="form-control NonEquipmentCost" data-initial-key="${costKey}" value="${nonEquipment.Cost || ''}"/></td>
                 </tr>
             `);
         });
+        trackChanges();
 
       }
+      function storeInitialValues(key, value) {
+        initialFormValues[key] = value;
+    }
+
+    // Function to track changes in form inputs
+    function trackChanges() {
+        $('#projectProposal').on('input', 'input, textarea', function () {
+            let isModified = false;
+
+            // Check if any field has been modified
+            $('#projectProposal').find('input, textarea').each(function () {
+                const key = $(this).data('initial-key');
+                const currentValue = $(this).val();
+                const initialValue = initialFormValues[key];
+
+                if (currentValue !== initialValue) {
+                    isModified = true;
+                    return false; // Exit loop if a modification is found
+                }
+            });
+
+            // Enable or disable the revert button based on whether there are changes
+            revertbutton.prop('disabled', !isModified);
+        });
+    }
+
+        // Handle revert button click
+        revertbutton.on('click', function () {
+            // Revert all fields to their initial values
+            $('#projectProposal').find('input, textarea').each(function () {
+                const key = $(this).data('initial-key');
+                const initialValue = initialFormValues[key];
+                $(this).val(initialValue);
+            });
+
+            // Disable the revert button again after reverting
+            revertbutton.prop('disabled', true);
+        });
 
       const getProposalDraft = async (applicationID) => {
         console.log(applicationID);

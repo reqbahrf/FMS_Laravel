@@ -214,12 +214,12 @@
                                     <div class="col-12 col-md-3">
                                         <label for="projectID">Project ID:</label>
                                         <input type="text" class="form-control" id="projectID" name="projectID"
-                                        placeholder="Project ID" required>
+                                        placeholder="Project ID" required data-initial-key="projectID">
                                     </div>
                                     <div class="col-12 col-md-9">
                                             <label for="projectTitle">Project Title:</label>
                                             <input type="text" class="form-control" id="projectTitle" name="projectTitle"
-                                                placeholder="Project Title" required>
+                                                placeholder="Project Title" required data-initial-key="projectTitle">
                                     </div>
                                 </div>
                                 <div class="card p-0 mb-3">
@@ -331,13 +331,13 @@
                                             <div class="col-12 col-md-3">
                                                 <label for="dateOfFundRelease">Date of Fund Release:</label>
                                                 <input type="date" class="form-control" id="dateOfFundRelease"
-                                                    name="dateOfFundRelease" placeholder="Date of Fund Release" required>
+                                                    name="dateOfFundRelease" placeholder="Date of Fund Release" required data-initial-key="dateOfFundRelease">
                                             </div>
 
                                             <div class="col-12 col-md-3">
                                                 <label for="fundAmount">Fund Amount:</label>
                                                 <input type="text" class="form-control" id="fundAmount"
-                                                    name="fundAmount" placeholder="Fund Amount" required>
+                                                    name="fundAmount" placeholder="Fund Amount" required data-initial-key="fundAmount">
                                              </div>
                                         </div>
                                     </div>
