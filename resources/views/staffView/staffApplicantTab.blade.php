@@ -340,7 +340,7 @@
                                 <div class="row">
                                     <div class="col-12 d-flex justify-content-end">
                                         <button type="button" class="btn btn-success m-2" data-action="DraftForm" id="DraftProjectProposal">Draft</button>
-                                        <button type="button" class="btn btn-primary m-2" data-Submit="SubmitForm" id="submitProjectProposal">Submit</button>
+                                        <button type="button" class="btn btn-primary m-2" data-action="SubmitForm" id="submitProjectProposal">Submit</button>
                                     </div>
                                 </div>
                             </form>

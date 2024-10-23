@@ -3558,10 +3558,12 @@ window.initializeStaffPageJs = async () => {
 
 
           const application_Id = $('#selected_applicationId').val();
+          const business_id = $('#selected_businessID').val();
 
           const formdata = projectProposalFormData();
           formdata.action = action;
           formdata.application_id = application_Id;
+          formdata.business_id = business_id;
 
           try {
             const response = await $.ajax({
@@ -3573,7 +3575,7 @@ window.initializeStaffPageJs = async () => {
               data: formdata,
             });
 
-            if (response.success == 'true') {
+            if (response.success === 'true') {
               closeOffcanvasInstances('#applicantDetails');
               setTimeout(() => {
                 showToastFeedback('text-bg-success', response.message);

@@ -2,7 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ApplicationInfo;
+use App\Models\ProjectInfo;
+use App\Models\ProjectProposal;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ProjectProposalController extends Controller
 {
@@ -27,6 +33,7 @@ class ProjectProposalController extends Controller
      */
     public function store(Request $request)
     {
+        $StaffID = Auth::user()->orgUserInfo->id;
         $validated = $request->validate([
             'projectID' => 'required|string',
             'projectTitle' => 'required|string',
@@ -35,36 +42,49 @@ class ProjectProposalController extends Controller
             'expectedOutputs' => 'required|array',
             'equipmentDetails' => 'required|array',
             'nonEquipmentDetails' => 'required|array',
-            'action' => 'required|string',
+            'action' => 'required|in:DraftForm,SubmitForm',
             'application_id' => 'required|numeric',
+            'business_id' => 'required|numeric',
         ]);
-
-        $proposalData = [
-            'projectID' => $validated['projectID'],
-            'projectTitle' => $validated['projectTitle'],
-            'dateOfFundRelease' => $validated['dateOfFundRelease'],
-            'fundAmount' => $validated['fundAmount'],
-        ];
-
-        $proposalData['equipmentDetails'] = array_map(function ($equipmentDetail) {
-            return [
-                'Qty' => $equipmentDetail['Qty'],
-                'Actual_Particulars' => $equipmentDetail['Actual_Particulars'],
-                'Cost' => $equipmentDetail['Cost'],
+        try {
+            $proposalData = [
+                'projectID' => $validated['projectID'],
+                'projectTitle' => $validated['projectTitle'],
+                'dateOfFundRelease' => $validated['dateOfFundRelease'],
+                'fundAmount' => $validated['fundAmount'],
+                'business_id' => $validated['business_id'],
+                'staffId' => $StaffID
             ];
-        }, $validated['equipmentDetails']);
 
-        $proposalData['nonEquipmentDetails'] = array_map(function ($nonEquipmentDetail) {
-            return [
-                'Qty' => $nonEquipmentDetail['Qty'],
-                'Actual_Particulars' => $nonEquipmentDetail['Actual_Particulars'],
-                'Cost' => $nonEquipmentDetail['Cost'],
-            ];
-        }, $validated['nonEquipmentDetails']);
+            $proposalData['equipmentDetails'] = array_map(function ($equipmentDetail) {
+                return [
+                    'Qty' => $equipmentDetail['Qty'],
+                    'Actual_Particulars' => $equipmentDetail['Actual_Particulars'],
+                    'Cost' => $equipmentDetail['Cost'],
+                ];
+            }, $validated['equipmentDetails']);
 
-        $proposalData['expectedOutputs'] = $validated['expectedOutputs'];
+            $proposalData['nonEquipmentDetails'] = array_map(function ($nonEquipmentDetail) {
+                return [
+                    'Qty' => $nonEquipmentDetail['Qty'],
+                    'Actual_Particulars' => $nonEquipmentDetail['Actual_Particulars'],
+                    'Cost' => $nonEquipmentDetail['Cost'],
+                ];
+            }, $validated['nonEquipmentDetails']);
 
-        return dd($proposalData);
+            $proposalData['expectedOutputs'] = $validated['expectedOutputs'];
+            switch ($validated['action']) {
+                case 'SubmitForm':
+                    return $this->submitProjectProposal($validated['application_id'], $proposalData);
+                    break;
+                case 'DraftForm':
+                    return $this->draftProjectProposal($validated['application_id'], $proposalData);
+                    break;
+            }
+        }catch (Exception $e) {
+            return response()->json(['message' => $e->getMessage()]);
+        }
+
     }
 
     /**
@@ -97,5 +117,75 @@ class ProjectProposalController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    protected function submitProjectProposal($ApplicationID, $proposalData)
+    {
+         // Format fund amount and calculate actual fund to be refunded
+    $fundAmount = str_replace(',', '', $proposalData['fundAmount']);
+    $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
+    $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
+
+    // Find the project proposal
+    $ProjectProposal = ProjectProposal::where('application_id', $ApplicationID)->first();
+
+    if (!$ProjectProposal) {
+        return response()->json(['error' => 'Project Proposal not found'], 404);
+    }
+
+    // Begin a transaction for database consistency
+    DB::beginTransaction();
+
+    try {
+        // Update submission status
+        $ProjectProposal->update(['Submission_status' => 'Submitted']);
+
+        // Create or update ProjectInfo
+        ProjectInfo::updateOrCreate(
+            ['Project_id' => $proposalData['projectID']],
+            [
+                'business_id' => $proposalData['business_id'],
+                'evaluated_by_id' => $proposalData['staffId'],
+                'project_title' => $proposalData['projectTitle'],
+                'fund_amount' => $fundAmountFormatted,
+                'actual_amount_to_be_refund' => $actualFundToRefund,
+            ]
+        );
+
+        // Update ApplicationInfo
+        ApplicationInfo::where('business_id', $proposalData['business_id'])
+            ->update([
+                'Project_id' => $proposalData['projectID'],
+                'application_status' => 'pending',
+            ]);
+
+        // Commit the transaction
+        DB::commit();
+
+        return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
+
+    } catch (\Exception $e) {
+        // Rollback transaction if something goes wrong
+        DB::rollBack();
+        return response()->json(['error' => $e->getMessage()], 500);
+    }
+
+    }
+
+    protected function draftProjectProposal($ApplicationID, $proposalData)
+    {
+        try{
+            ProjectProposal::updateOrCreate(
+               ['application_id' => $ApplicationID],
+               [
+                 'data' => json_encode($proposalData),
+                 'Submission_status' => 'Draft'
+               ]);
+
+            return response()->json(['success' => 'true', 'message' => 'Project Proposal Drafted'], 200);
+        }catch(Exception $e){
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+
     }
 }

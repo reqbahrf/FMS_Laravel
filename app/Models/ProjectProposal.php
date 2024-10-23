@@ -14,7 +14,7 @@ class ProjectProposal extends Model
 
     protected $fillable = [
         'Project_id',
-        'business_id',
+        'application_id',
         'data',
         'submission_status'
     ];
