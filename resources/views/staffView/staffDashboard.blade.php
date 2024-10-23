@@ -784,7 +784,8 @@
             setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
             getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
             getRequirementFiles: '{{ route('staff.Applicant.Requirement.View') }}',
-            STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}'
+            STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}',
+            GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}'
         }
     </script>
     <script type="module">

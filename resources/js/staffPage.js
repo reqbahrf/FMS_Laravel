@@ -3246,6 +3246,7 @@ window.initializeStaffPageJs = async () => {
           ApplicantDetails.filter('#email').val(emailAddress);
 
           getEvaluationScheduledDate(businessID);
+          getProposalDraft(ApplicationID);
 
 
 
@@ -3547,6 +3548,70 @@ window.initializeStaffPageJs = async () => {
           };
         };
         return (FormDataObjects = { ...FormDataObjects, ...TableData() });
+      }
+
+      const populateProjectProposalForm = (draft) => {
+
+        $('#projectID').val(draft.projectID);
+        $('#projectTitle').val(draft.projectTitle);
+        $('#dateOfFundRelease').val(draft.dateOfFundRelease);
+        $('#fundAmount').val(draft.fundAmount);
+
+        // Populate Expected Outputs
+        const expectedOutputsContainer = $('#ExpectedOutputTextareaContainer .input_list');
+        expectedOutputsContainer.empty(); // Clear existing fields
+        draft.expectedOutputs.forEach(output => {
+            expectedOutputsContainer.append(`
+                <div class="col-12 mb-2">
+                    <textarea class="form-control" name="expectedOutputs[]" rows="3">${output}</textarea>
+                </div>
+            `);
+        });
+
+        // Populate Equipment Details
+        const equipmentTableBody = $('#EquipmentTableBody');
+        equipmentTableBody.empty(); // Clear existing rows
+        draft.equipmentDetails.forEach(equipment => {
+            equipmentTableBody.append(`
+                <tr>
+                    <td><input type="number" class="form-control EquipmentQTY" value="${equipment.Qty}" /></td>
+                    <td><input type="text" class="form-control Particulars" value="${equipment.Actual_Particulars}" /></td>
+                    <td><input type="text" class="form-control EquipmentCost" value="${equipment.Cost || ''}" /></td>
+                </tr>
+            `);
+        });
+
+        // Populate Non-Equipment Details
+        const nonEquipmentTableBody = $('#NonEquipmentTableBody');
+        nonEquipmentTableBody.empty(); // Clear existing rows
+        draft.nonEquipmentDetails.forEach(nonEquipment => {
+            nonEquipmentTableBody.append(`
+                <tr>
+                    <td><input type="number" class="form-control NonEquipmentQTY" value="${nonEquipment.Qty}" /></td>
+                    <td><input type="text" class="form-control NonParticulars" value="${nonEquipment.Actual_Particulars}" /></td>
+                    <td><input type="text" class="form-control NonEquipmentCost" value="${nonEquipment.Cost || ''}" /></td>
+                </tr>
+            `);
+        });
+
+      }
+
+      const getProposalDraft = async (applicationID) => {
+        console.log(applicationID);
+        try {
+            const response = await $.ajax({
+                type: 'GET',
+                url: APPLICANT_TAB_ROUTE.GET_PROJECT_PROPOSAL_DRAFT.replace(':ApplicationId', applicationID),
+                headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            populateProjectProposalForm(response);
+        } catch (error) {
+            console.error(error);
+        }
+
       }
 
       //submit project proposal

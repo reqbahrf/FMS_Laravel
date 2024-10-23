@@ -205,7 +205,12 @@
                         </div>
                         <div class="card-body">
                             <form method="post" id="projectProposal">
-                                <div class="row mb-3">
+                                <div class="row mb-3 ">
+                                    <div class="d-flex justify-content-end p-2">
+                                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
+                                                class="ri-arrow-go-back-fill"></i>
+                                        </button>
+                                    </div>
                                     <div class="col-12 col-md-3">
                                         <label for="projectID">Project ID:</label>
                                         <input type="text" class="form-control" id="projectID" name="projectID"

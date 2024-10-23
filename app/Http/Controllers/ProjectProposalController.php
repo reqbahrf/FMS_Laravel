@@ -92,7 +92,7 @@ class ProjectProposalController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return $this->getDraftedData($id);
     }
 
     /**
@@ -100,7 +100,7 @@ class ProjectProposalController extends Controller
      */
     public function edit(string $id)
     {
-        //
+
     }
 
     /**
@@ -187,5 +187,15 @@ class ProjectProposalController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
 
+    }
+
+    protected function getDraftedData($ApplicationID)
+    {
+        $draftedData = ProjectProposal::where('Submission_status', 'Draft')
+            ->where('application_id', '!=', $ApplicationID)
+            ->first();
+
+        $data =json_decode($draftedData->data, true);
+            return $data;
     }
 }
