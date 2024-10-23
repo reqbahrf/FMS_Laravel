@@ -55,6 +55,7 @@
                         <div class="card-body">
                             <div class="row g-3 businessInfo">
                                 <input type="hidden" id="selected_userId">
+                                <input type="hidden" id="selected_applicationId">
                                 <input type="hidden" id="selected_businessID">
                                 <div class="col-md-6">
                                     <label for="firm_name" class="form-label">Name of Firm</label>
@@ -380,6 +381,7 @@
                                             class="firm_name">{{ $item->firm_name }}</span><br>
                                         <strong>Business Address:</strong>
                                         <input type="hidden" name="userID" value="{{ $item->user_id }}">
+                                        <input type="hidden" name="applicationID" value="{{ $item->Application_ID }}">
                                         <input type="hidden" name="businessID" value="{{ $item->business_id }}">
                                         <span
                                             class="b_address text-nowrap">{{ $item->landMark . ', ' . $item->barangay . ', ' . $item->city . ', ' . $item->province . ', ' . $item->region }}

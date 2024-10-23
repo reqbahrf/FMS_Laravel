@@ -3197,6 +3197,9 @@ window.initializeStaffPageJs = async () => {
             .text()
             .trim();
           const userID = row.find('td:nth-child(3) input[name="userID"]').val();
+          const ApplicationID = row
+            .find('td:nth-child(3) input[name="applicationID"]')
+            .val();
           const businessID = row
             .find('td:nth-child(3) input[name="businessID"]')
             .val();
@@ -3227,11 +3230,13 @@ window.initializeStaffPageJs = async () => {
             'input'
           );
 
-          console.log(ApplicantDetails);
 
           ApplicantDetails.filter('#firm_name').val(firmName);
           ApplicantDetails.filter('#selected_userId').val(userID);
           ApplicantDetails.filter('#selected_businessID').val(businessID);
+          ApplicantDetails.filter('#selected_applicationId').val(
+            ApplicationID
+          );
           ApplicantDetails.filter('#address').val(businessAddress);
           ApplicantDetails.filter('#contact_person').val(fullName); // Add corresponding value
           ApplicantDetails.filter('#designation').val(designation);
@@ -3241,6 +3246,8 @@ window.initializeStaffPageJs = async () => {
           ApplicantDetails.filter('#email').val(emailAddress);
 
           getEvaluationScheduledDate(businessID);
+
+
 
           // Get requirement and call the populateReqTable function
           try {
@@ -3543,33 +3550,40 @@ window.initializeStaffPageJs = async () => {
       }
 
       //submit project proposal
-      $('#submitProjectProposal').on('click', async function (event) {
-        event.preventDefault();
-        console.log(projectProposalFormData());
+      $('#DraftProjectProposal, #submitProjectProposal').on(
+        'click',
+        async function (event) {
+          const action = $(this).data('action');
+          event.preventDefault();
 
-        const b_id = $('#selected_businessID').val();
-        const formdata = projectProposalFormData() + '&business_id=' + b_id;
 
-        try {
-          const response = await $.ajax({
-            type: 'POST',
-            url: APPLICANT_TAB_ROUTE.submitProjectProposal,
-            headers: {
-              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-            data: formdata,
-          });
+          const application_Id = $('#selected_applicationId').val();
 
-          if (response.success == 'true') {
-            closeOffcanvasInstances('#applicantDetails');
-            setTimeout(() => {
-              showToastFeedback('text-bg-success', response.message);
-            }, 500);
+          const formdata = projectProposalFormData();
+          formdata.action = action;
+          formdata.application_id = application_Id;
+
+          try {
+            const response = await $.ajax({
+              type: 'POST',
+              url: APPLICANT_TAB_ROUTE.STORE_PROJECT_PROPOSAL,
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+              },
+              data: formdata,
+            });
+
+            if (response.success == 'true') {
+              closeOffcanvasInstances('#applicantDetails');
+              setTimeout(() => {
+                showToastFeedback('text-bg-success', response.message);
+              }, 500);
+            }
+          } catch (error) {
+            showToastFeedback('text-bg-danger', error.responseJSON.message);
           }
-        } catch (error) {
-          showToastFeedback('text-bg-danger', error.responseJSON.message);
         }
-      });
+      );
     },
   };
   return functions;

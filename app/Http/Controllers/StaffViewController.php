@@ -298,6 +298,7 @@ class StaffViewController extends Controller
                             'assets.building_value',
                             'assets.equipment_value',
                             'assets.working_capital',
+                            'application_info.id as Application_ID',
                             'application_info.created_at as date_applied',
                             'application_info.application_status',
                             'business_info.id as business_id'

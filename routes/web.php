@@ -19,6 +19,7 @@ use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\PaymentRecordController;
+use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\StaffProjectLinkController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Controllers\UpdateProjectStateController;
@@ -240,6 +241,8 @@ Route::middleware('OrgUser')->group(function () {
     Route::resource('/Project/PaymentRecord', PaymentRecordController::class);
     Route::get('/Project/Completed-Project', GetCompletedProjectController::class)
         ->name('getCompletedProject');
+
+    Route::resource('/Project/ProjectProposal', ProjectProposalController::class);
 
 });
 //Email Verification
