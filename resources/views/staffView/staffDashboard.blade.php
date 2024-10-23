@@ -779,12 +779,12 @@
         }
 
         //Application Tab
-        const ApplicantTabRoute = {
+        const APPLICANT_TAB_ROUTE = {
             getApplicantRequirementsLink: '{{ route('staff.Applicant.Requirement') }}',
             setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
             getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
             getRequirementFiles: '{{ route('staff.Applicant.Requirement.View') }}',
-            submitProjectProposal: '{{ route('staff.Applicant.Submit-Project-Proposal') }}'
+            PROJECT_PROPOSAL: '{{ route('staff.Applicant.ProjectProposal') }}'
         }
     </script>
     <script type="module">

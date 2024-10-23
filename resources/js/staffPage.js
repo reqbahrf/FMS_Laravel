@@ -38,17 +38,17 @@ const formatToString = (value) => {
 };
 
 const dateFormatter = (date) => {
-    const dateObj = new Date(date)
+  const dateObj = new Date(date);
 
-    return dateObj.toLocaleString('en-US', {
-        month: '2-digit',
-        day: '2-digit',
-        year: '2-digit',
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: true
-})
-}
+  return dateObj.toLocaleString('en-US', {
+    month: '2-digit',
+    day: '2-digit',
+    year: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: true,
+  });
+};
 
 //close offcanvas
 function closeOffcanvasInstances(offcanva_id) {
@@ -261,61 +261,61 @@ window.initializeStaffPageJs = async () => {
         autoWidth: false,
         responsive: true,
         columns: [
-            {
-                title: 'ID',
-            },
-            {
-                title: 'Project Title'
-            },
-            {
-                title: 'Firm Name'
-            },
-            {
-                title: 'Owner Name'
-            },
-            {
-                title: 'Refund Progress'
-            },
-            {
-                title: 'Status'
-            },
-            {
-                title: 'Action'
-            }
+          {
+            title: 'ID',
+          },
+          {
+            title: 'Project Title',
+          },
+          {
+            title: 'Firm Name',
+          },
+          {
+            title: 'Owner Name',
+          },
+          {
+            title: 'Refund Progress',
+          },
+          {
+            title: 'Status',
+          },
+          {
+            title: 'Action',
+          },
         ],
         columnDefs: [
-            {
-                targets: 0,
-                width: '5%',
-            },
-            {
-                targets: 1,
-                width: '20%',
-            },
-            {
-                targets: 2,
-                width: '15%',
-            },
-            {
-                targets: 3,
-                width: '15%',
-            },
-            {
-                targets: 4,
-                width: '15%',
-                className: 'text-end'
-            },
-            {
-                targets: 5,
-                width: '5%',
-                className: 'text-center',
-            },
-            {
-                targets: 6,
-                width: '5%',
-                orderable: false,
-                className: 'text-center',
-            },
+          {
+            targets: 0,
+            width: '5%',
+          },
+          {
+            targets: 1,
+            width: '20%',
+          },
+          {
+            targets: 2,
+            width: '15%',
+          },
+          {
+            targets: 3,
+            width: '15%',
+          },
+          {
+            targets: 4,
+            width: '15%',
+            className: 'text-end',
+          },
+          {
+            targets: 5,
+            width: '5%',
+            className: 'text-center',
+          },
+          {
+            targets: 6,
+            width: '5%',
+            orderable: false,
+            className: 'text-center',
+          },
         ],
       });
 
@@ -391,7 +391,6 @@ window.initializeStaffPageJs = async () => {
 
       //Handled Project Offcanvas Button Events
 
-
       function toggleMenu(tab, addClassMenu, removeClassMenu) {
         $(tab).on('shown.bs.tab', () => {
           $(addClassMenu).addClass('d-none');
@@ -403,27 +402,40 @@ window.initializeStaffPageJs = async () => {
         });
       }
 
-
       // Tab: nav-details-tab
-      toggleMenu('#nav-details-tab', '.AttachlinkTabMenu, .GeneratedSheetsTabMenu', null);
+      toggleMenu(
+        '#nav-details-tab',
+        '.AttachlinkTabMenu, .GeneratedSheetsTabMenu',
+        null
+      );
 
       // Tab: nav-link-tab
-      toggleMenu('#nav-link-tab', '.GeneratedSheetsTabMenu', '.AttachlinkTabMenu');
+      toggleMenu(
+        '#nav-link-tab',
+        '.GeneratedSheetsTabMenu',
+        '.AttachlinkTabMenu'
+      );
 
       // Tab: nav-Quarterly-tab
-      toggleMenu('#nav-Quarterly-tab', '.AttachlinkTabMenu, .GeneratedSheetsTabMenu', null);
+      toggleMenu(
+        '#nav-Quarterly-tab',
+        '.AttachlinkTabMenu, .GeneratedSheetsTabMenu',
+        null
+      );
 
       // Tab: nav-GeneratedSheets-tab
-      toggleMenu('#nav-GeneratedSheets-tab', '.AttachlinkTabMenu', '.GeneratedSheetsTabMenu');
-
+      toggleMenu(
+        '#nav-GeneratedSheets-tab',
+        '.AttachlinkTabMenu',
+        '.GeneratedSheetsTabMenu'
+      );
 
       const isRefundCompleted = (boolean) => {
         const completedButton = $('#MarkCompletedProjectBtn');
         boolean
-        ? completedButton.prop('disabled', false).show()
-        : completedButton.prop('disabled', true).hide();
-
-      }
+          ? completedButton.prop('disabled', false).show()
+          : completedButton.prop('disabled', true).hide();
+      };
 
       /**
        * Fetches handled projects from the server and updates the handled project table.
@@ -548,7 +560,9 @@ window.initializeStaffPageJs = async () => {
               .find('.approvedProjectContent')
               .removeClass('d-none');
             handleProjectOffcanvas
-              .find('.ongoingProjectContent, .completedProjectContent, .paymentProjectContent')
+              .find(
+                '.ongoingProjectContent, .completedProjectContent, .paymentProjectContent'
+              )
               .addClass('d-none');
           },
           ongoing: async () => {
@@ -558,7 +572,6 @@ window.initializeStaffPageJs = async () => {
             handleProjectOffcanvas
               .find('.approvedProjectContent, .completedProjectContent')
               .addClass('d-none');
-
           },
           completed: async () => {
             handleProjectOffcanvas
@@ -567,13 +580,11 @@ window.initializeStaffPageJs = async () => {
             handleProjectOffcanvas
               .find('.approvedProjectContent, .ongoingProjectContent')
               .addClass('d-none');
-
           },
         };
 
         await content[project_status]();
       }
-
 
       /**
        * Stores payment records for a project by sending a POST request to the server.
@@ -601,9 +612,9 @@ window.initializeStaffPageJs = async () => {
             showToastFeedback('text-bg-success', response.message);
           }, 500);
         } catch (error) {
-            setTimeout(() => {
-                showToastFeedback('text-bg-danger', error.responseJSON.message);
-              }, 200);
+          setTimeout(() => {
+            showToastFeedback('text-bg-danger', error.responseJSON.message);
+          }, 200);
         }
       }
 
@@ -651,7 +662,7 @@ window.initializeStaffPageJs = async () => {
       $('#submitPayment').on('click', function () {
         const submissionMethod = $(this).attr('data-submissionmethod');
 
-        console.log(submissionMethod)
+        console.log(submissionMethod);
 
         if (submissionMethod === 'add') {
           const project_id = $('#ProjectID').val();
@@ -704,8 +715,8 @@ window.initializeStaffPageJs = async () => {
           let totalAmount = 0;
           response.forEach((payment) => {
             payment.payment_status === 'Paid'
-            ? totalAmount += parseFloat(payment.amount)
-            : totalAmount += 0;
+              ? (totalAmount += parseFloat(payment.amount))
+              : (totalAmount += 0);
           });
           return totalAmount;
         } catch (error) {
@@ -792,11 +803,15 @@ window.initializeStaffPageJs = async () => {
           const enterpriseLevel = hiddenInputs
             .filter('.business_enterprise_level')
             .val();
-          const buildingAsset = parseFloat(hiddenInputs.filter('.building_value').val());
-          const equipmentAsset = parseFloat(hiddenInputs.filter('.equipment_value').val());
-          const workingCapitalAsset = parseFloat(hiddenInputs
-            .filter('.working_capital')
-            .val());
+          const buildingAsset = parseFloat(
+            hiddenInputs.filter('.building_value').val()
+          );
+          const equipmentAsset = parseFloat(
+            hiddenInputs.filter('.equipment_value').val()
+          );
+          const workingCapitalAsset = parseFloat(
+            hiddenInputs.filter('.working_capital').val()
+          );
           const approved_amount = hiddenInputs.filter('.approved_amount').val();
           const actual_amount = hiddenInputs.filter('.actual_amount').val();
           console.log(actual_amount);
@@ -825,9 +840,15 @@ window.initializeStaffPageJs = async () => {
           offCanvaReadonlyInputs
             .filter('#EnterpriseLevel')
             .val(enterpriseLevel);
-          offCanvaReadonlyInputs.filter('#buildingAsset').val(formatToString(buildingAsset));
-          offCanvaReadonlyInputs.filter('#equipmentAsset').val(formatToString(equipmentAsset));
-          offCanvaReadonlyInputs.filter('#workingCapitalAsset').val(formatToString(workingCapitalAsset));
+          offCanvaReadonlyInputs
+            .filter('#buildingAsset')
+            .val(formatToString(buildingAsset));
+          offCanvaReadonlyInputs
+            .filter('#equipmentAsset')
+            .val(formatToString(equipmentAsset));
+          offCanvaReadonlyInputs
+            .filter('#workingCapitalAsset')
+            .val(formatToString(workingCapitalAsset));
 
           handleProjectOffcanvasContent(project_status);
           getPaymentHistoryAndCalculation(project_id, actual_amount);
@@ -851,7 +872,9 @@ window.initializeStaffPageJs = async () => {
           $('#FundedAmount').text(formatToString(fundedAmount));
           $('#remainingBalance').text(formatToString(remainingAmount));
 
-          percentage == 100 ? isRefundCompleted(true) : isRefundCompleted(false);
+          percentage == 100
+            ? isRefundCompleted(true)
+            : isRefundCompleted(false);
           setTimeout(() => {
             InitializeviewCooperatorProgress(percentage);
           }, 500);
@@ -1170,7 +1193,6 @@ window.initializeStaffPageJs = async () => {
           });
       });
 
-
       const projectStateBtn = $('.updateProjectState');
 
       //Cooperator Payment Progress
@@ -1178,25 +1200,25 @@ window.initializeStaffPageJs = async () => {
         const action = $(this).data('project-state');
         const projectID = $('#ProjectID').val();
         const businessID = $('#hiddenbusiness_id').val();
-       try {
-        const response = $.ajax({
+        try {
+          const response = $.ajax({
             type: 'PUT',
             url: DASHBBOARD_TAB_ROUTE.UPDATE_PROJECT_STATE,
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
             data: {
-                action: action,
-                project_id: projectID,
-                business_id: businessID
+              action: action,
+              project_id: projectID,
+              business_id: businessID,
             },
-        })
-        const data = await response;
-            showToastFeedback('text-bg-success', data.message);
+          });
+          const data = await response;
+          showToastFeedback('text-bg-success', data.message);
         } catch (error) {
-            showToastFeedback('text-bg-danger', error.responseJSON.message);
+          showToastFeedback('text-bg-danger', error.responseJSON.message);
         }
-      })
+      });
 
       let paymentProgress;
 
@@ -1584,9 +1606,9 @@ window.initializeStaffPageJs = async () => {
 
           $('.CurrentgrossSales_val').val(
             totalGrossSales.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-              })
-          )
+              minimumFractionDigits: 2,
+            })
+          );
         };
 
         /**
@@ -1639,15 +1661,16 @@ window.initializeStaffPageJs = async () => {
             '#ToBeAccomplished .increaseInProductivity'
           );
 
-          const CurrentAndPreviousgrossSales = $('#ToBeAccomplished td .CurrentgrossSales_val, td .PreviousgrossSales_val, td .TotalgrossSales_val').closest('tr');
+          const CurrentAndPreviousgrossSales = $(
+            '#ToBeAccomplished td .CurrentgrossSales_val, td .PreviousgrossSales_val, td .TotalgrossSales_val'
+          ).closest('tr');
 
-          const CurrentgrossSales = parseValue(CurrentAndPreviousgrossSales
-            .find('.CurrentgrossSales_val')
-            .val());
-          const PreviousgrossSales = parseValue(CurrentAndPreviousgrossSales
-            .find('.PreviousgrossSales_val')
-            .val());
-
+          const CurrentgrossSales = parseValue(
+            CurrentAndPreviousgrossSales.find('.CurrentgrossSales_val').val()
+          );
+          const PreviousgrossSales = parseValue(
+            CurrentAndPreviousgrossSales.find('.PreviousgrossSales_val').val()
+          );
 
           increaseInProductivityRow.find('.CurrentgrossSales_val_cal').text(
             CurrentgrossSales.toLocaleString('en-US', {
@@ -1710,20 +1733,24 @@ window.initializeStaffPageJs = async () => {
             '#ToBeAccomplished .increaseInEmployment'
           );
 
-          const CurrentAndPreviousEmployment = $('#ToBeAccomplished td .CurrentEmployment_val, td .PreviousEmployment_val, td .TotalEmployment_val').closest('tr');
+          const CurrentAndPreviousEmployment = $(
+            '#ToBeAccomplished td .CurrentEmployment_val, td .PreviousEmployment_val, td .TotalEmployment_val'
+          ).closest('tr');
 
-          const CurrentEmployment = parseInt(CurrentAndPreviousEmployment
-            .find('.CurrentEmployment_val').val());
-
-          const PreviousEmployment = parseInt(CurrentAndPreviousEmployment
-            .find('.PreviousEmployment_val').val());
-
-          increaseInEmploymentRow.find('.CurrentEmployment_val_cal').text(
-            CurrentEmployment
+          const CurrentEmployment = parseInt(
+            CurrentAndPreviousEmployment.find('.CurrentEmployment_val').val()
           );
-          increaseInEmploymentRow.find('.PreviousEmployment_val_cal').text(
-            PreviousEmployment
+
+          const PreviousEmployment = parseInt(
+            CurrentAndPreviousEmployment.find('.PreviousEmployment_val').val()
           );
+
+          increaseInEmploymentRow
+            .find('.CurrentEmployment_val_cal')
+            .text(CurrentEmployment);
+          increaseInEmploymentRow
+            .find('.PreviousEmployment_val_cal')
+            .text(PreviousEmployment);
 
           const TotalEmployment = CurrentEmployment - PreviousEmployment;
           CurrentAndPreviousEmployment.find('.TotalEmployment_val').val(
@@ -2135,8 +2162,6 @@ window.initializeStaffPageJs = async () => {
               };
             };
 
-            console.log(TableData());
-
             return (thisFormObject = { ...thisFormObject, ...TableData() });
           },
         };
@@ -2400,7 +2425,7 @@ window.initializeStaffPageJs = async () => {
           {
             targets: 4,
             width: '30%',
-            className: 'text-end'
+            className: 'text-end',
           },
           {
             targets: 5,
@@ -2455,7 +2480,7 @@ window.initializeStaffPageJs = async () => {
           {
             targets: 4,
             width: '30%',
-            className: 'text-end'
+            className: 'text-end',
           },
           {
             targets: 5,
@@ -2712,100 +2737,113 @@ window.initializeStaffPageJs = async () => {
         readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
       });
 
-      $('#CompletedTableBody').on('click', '.completedProjectInfo', function() {
-        const row = $(this).closest('tr');
-        const inputs = row.find('input');
-        const readonlyInputs = $('#completedDetails').find('input');
-        console.log(readonlyInputs);
+      $('#CompletedTableBody').on(
+        'click',
+        '.completedProjectInfo',
+        function () {
+          const row = $(this).closest('tr');
+          const inputs = row.find('input');
+          const readonlyInputs = $('#completedDetails').find('input');
+          console.log(readonlyInputs);
 
-        const personalDetails = {
-          cooperName: row.find('td:nth-child(4)').text().trim(),
-          designaition: inputs.filter('.designation').val(),
-          email: inputs.filter('.email').val(),
-          mobile_number: inputs.filter('.mobile_number').val(),
-          landline: inputs.filter('.landline').val(),
-        };
+          const personalDetails = {
+            cooperName: row.find('td:nth-child(4)').text().trim(),
+            designaition: inputs.filter('.designation').val(),
+            email: inputs.filter('.email').val(),
+            mobile_number: inputs.filter('.mobile_number').val(),
+            landline: inputs.filter('.landline').val(),
+          };
 
-        const businessDetails = {
-          business_id: inputs.filter('.business_id').val(),
-          firmName: row.find('td:nth-child(3)').text().trim(),
-          address: inputs.filter('.address').val(),
-          enterprise_type: inputs.filter('.enterprise_type').val(),
-          enterprise_level: inputs.filter('.enterprise_level').val(),
-          building_assets: parseFloat(inputs.filter('.building_assets').val()),
-          equipment_assets: parseFloat(
-            inputs.filter('.equipment_assets').val()
-          ),
-          working_capital_assets: parseFloat(
-            inputs.filter('.working_capital_assets').val()
-          ),
-        };
+          const businessDetails = {
+            business_id: inputs.filter('.business_id').val(),
+            firmName: row.find('td:nth-child(3)').text().trim(),
+            address: inputs.filter('.address').val(),
+            enterprise_type: inputs.filter('.enterprise_type').val(),
+            enterprise_level: inputs.filter('.enterprise_level').val(),
+            building_assets: parseFloat(
+              inputs.filter('.building_assets').val()
+            ),
+            equipment_assets: parseFloat(
+              inputs.filter('.equipment_assets').val()
+            ),
+            working_capital_assets: parseFloat(
+              inputs.filter('.working_capital_assets').val()
+            ),
+          };
 
-        const projectDetails = {
-          project_id: inputs.filter('.project_id').val(),
-          project_title: row.find('td:nth-child(2)').text().trim(),
-          project_fund_amount: parseFloat(
-            inputs.filter('.project_fund_amount').val()
-          ),
-          project_amount_to_be_refunded: parseFloat(
-            inputs.filter('.amount_to_be_refunded').val()
-          ),
-          project_refunded_amount: parseFloat(
-            inputs.filter('.amount_refunded').val()
-          ),
-          date_applied: inputs.filter('.date_applied').val(),
-          project_date_approved: inputs.filter('.date_approved').val(),
-          evaluated_by: inputs.filter('.evaluated_by').val(),
-          handle_by: inputs.filter('.handle_by').val(),
-        };
+          const projectDetails = {
+            project_id: inputs.filter('.project_id').val(),
+            project_title: row.find('td:nth-child(2)').text().trim(),
+            project_fund_amount: parseFloat(
+              inputs.filter('.project_fund_amount').val()
+            ),
+            project_amount_to_be_refunded: parseFloat(
+              inputs.filter('.amount_to_be_refunded').val()
+            ),
+            project_refunded_amount: parseFloat(
+              inputs.filter('.amount_refunded').val()
+            ),
+            date_applied: inputs.filter('.date_applied').val(),
+            project_date_approved: inputs.filter('.date_approved').val(),
+            evaluated_by: inputs.filter('.evaluated_by').val(),
+            handle_by: inputs.filter('.handle_by').val(),
+          };
 
-        readonlyInputs
-        .filter('.cooperatorName')
-        .val(personalDetails.cooperName);
-      readonlyInputs.filter('.designation').val(personalDetails.designaition);
-      readonlyInputs
-        .filter('.mobile_number')
-        .val(personalDetails.mobile_number);
-      readonlyInputs.filter('.email').val(personalDetails.email);
-      readonlyInputs.filter('.landline').val(personalDetails.landline);
+          readonlyInputs
+            .filter('.cooperatorName')
+            .val(personalDetails.cooperName);
+          readonlyInputs
+            .filter('.designation')
+            .val(personalDetails.designaition);
+          readonlyInputs
+            .filter('.mobile_number')
+            .val(personalDetails.mobile_number);
+          readonlyInputs.filter('.email').val(personalDetails.email);
+          readonlyInputs.filter('.landline').val(personalDetails.landline);
 
-      readonlyInputs.filter('.b_id').val(businessDetails.business_id);
-      readonlyInputs.filter('.firmName').val(businessDetails.firmName);
-      readonlyInputs.filter('.businessAddress').val(businessDetails.address);
-      readonlyInputs
-        .filter('.typeOfEnterprise')
-        .val(businessDetails.enterprise_type);
-      readonlyInputs
-        .filter('.enterpriseLevel')
-        .val(businessDetails.enterprise_level);
-      readonlyInputs
-        .filter('.building')
-        .val(formatToString(businessDetails.building_assets));
-      readonlyInputs
-        .filter('.equipment')
-        .val(formatToString(businessDetails.equipment_assets));
-      readonlyInputs
-        .filter('.workingCapital')
-        .val(formatToString(businessDetails.working_capital_assets));
+          readonlyInputs.filter('.b_id').val(businessDetails.business_id);
+          readonlyInputs.filter('.firmName').val(businessDetails.firmName);
+          readonlyInputs
+            .filter('.businessAddress')
+            .val(businessDetails.address);
+          readonlyInputs
+            .filter('.typeOfEnterprise')
+            .val(businessDetails.enterprise_type);
+          readonlyInputs
+            .filter('.enterpriseLevel')
+            .val(businessDetails.enterprise_level);
+          readonlyInputs
+            .filter('.building')
+            .val(formatToString(businessDetails.building_assets));
+          readonlyInputs
+            .filter('.equipment')
+            .val(formatToString(businessDetails.equipment_assets));
+          readonlyInputs
+            .filter('.workingCapital')
+            .val(formatToString(businessDetails.working_capital_assets));
 
-      readonlyInputs.filter('.ProjectId').val(projectDetails.project_id);
-      readonlyInputs
-        .filter('.ProjectTitle')
-        .val(projectDetails.project_title);
-      readonlyInputs
-        .filter('.funded_amount')
-        .val(formatToString(projectDetails.project_fund_amount));
-      readonlyInputs
-        .filter('.amount_to_be_refunded')
-        .val(formatToString(projectDetails.project_amount_to_be_refunded));
-      readonlyInputs
-        .filter('.refunded')
-        .val(formatToString(projectDetails.project_refunded_amount));
-      readonlyInputs.filter('.date_applied').val(projectDetails.date_applied);
-      readonlyInputs.filter('.evaluated_by').val(projectDetails.evaluated_by);
-      readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
-
-      })
+          readonlyInputs.filter('.ProjectId').val(projectDetails.project_id);
+          readonlyInputs
+            .filter('.ProjectTitle')
+            .val(projectDetails.project_title);
+          readonlyInputs
+            .filter('.funded_amount')
+            .val(formatToString(projectDetails.project_fund_amount));
+          readonlyInputs
+            .filter('.amount_to_be_refunded')
+            .val(formatToString(projectDetails.project_amount_to_be_refunded));
+          readonlyInputs
+            .filter('.refunded')
+            .val(formatToString(projectDetails.project_refunded_amount));
+          readonlyInputs
+            .filter('.date_applied')
+            .val(projectDetails.date_applied);
+          readonlyInputs
+            .filter('.evaluated_by')
+            .val(projectDetails.evaluated_by);
+          readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
+        }
+      );
       async function getApprovedProjects() {
         try {
           const response = await fetch(
@@ -3010,28 +3048,31 @@ window.initializeStaffPageJs = async () => {
 
       async function getCompletedProjects() {
         try {
-            const response = await fetch(PROJECT_TAB_ROUTE.GET_COMPLETED_PROJECTS, {
-                method: 'GET',
-                headers: {
-                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                },
-                dataType: 'json',
-              });
-              const data = await response.json();
-              const completedDatatable = $('#completedTable').DataTable();
-              completedDatatable.clear().draw();
-              data.forEach((completed) => {
-                const fund_amount = parseFloat(completed.fund_amount);
-                const amount_refunded = parseFloat(completed.amount_refunded);
-                const to_be_refunded = parseFloat(completed.to_be_refunded);
+          const response = await fetch(
+            PROJECT_TAB_ROUTE.GET_COMPLETED_PROJECTS,
+            {
+              method: 'GET',
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+              },
+              dataType: 'json',
+            }
+          );
+          const data = await response.json();
+          const completedDatatable = $('#completedTable').DataTable();
+          completedDatatable.clear().draw();
+          data.forEach((completed) => {
+            const fund_amount = parseFloat(completed.fund_amount);
+            const amount_refunded = parseFloat(completed.amount_refunded);
+            const to_be_refunded = parseFloat(completed.to_be_refunded);
 
-                const percentage = Math.ceil(
-                  (amount_refunded / to_be_refunded) * 100
-                );
-                completedDatatable.row
-                  .add([
-                    `${completed.Project_id}`,
-                    `${completed.project_title}
+            const percentage = Math.ceil(
+              (amount_refunded / to_be_refunded) * 100
+            );
+            completedDatatable.row
+              .add([
+                `${completed.Project_id}`,
+                `${completed.project_title}
                         <input type="hidden" class="project_id" value="${
                           completed.Project_id
                         }">
@@ -3066,7 +3107,7 @@ window.initializeStaffPageJs = async () => {
                           ' ' +
                           completed?.handled_by_suffix
                         }">`,
-                    `${completed.firm_name}
+                `${completed.firm_name}
                         <input type="hidden" class="business_id" value="${
                           completed.business_id
                         }">
@@ -3096,32 +3137,33 @@ window.initializeStaffPageJs = async () => {
                         <input type="hidden" class="working_capital_assets" value="${
                           completed.working_capital
                         }">`,
-                    `${completed.f_name + ' ' + completed.l_name}
+                `${completed.f_name + ' ' + completed.l_name}
                         <input type="hidden" class="designation" value="${
                           completed.designation
                         }">
                         <input type="hidden" class="mobile_number" value="${
                           completed.mobile_number
                         }">
-                        <input type="hidden" class="email" value="${completed.email}">
+                        <input type="hidden" class="email" value="${
+                          completed.email
+                        }">
                         <input type="hidden" class="landline" value="${
                           completed.landline ?? ''
                         }">`,
-                    `${
-                      formatToString(amount_refunded) +
-                      ' / ' +
-                      formatToString(to_be_refunded)
-                    } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                    `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
+                `${
+                  formatToString(amount_refunded) +
+                  ' / ' +
+                  formatToString(to_be_refunded)
+                } <span class="badge text-white bg-primary">${percentage}%</span>`,
+                `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
                                                 data-bs-target="#completedDetails" aria-controls="completedDetails">
                                                 <i class="ri-menu-unfold-4-line ri-1x"></i>
                                             </button>`,
-                  ])
-                  .draw();
-              });
-        }catch(error){
-            console.error('Error:', error);
-
+              ])
+              .draw();
+          });
+        } catch (error) {
+          console.error('Error:', error);
         }
       }
 
@@ -3131,14 +3173,13 @@ window.initializeStaffPageJs = async () => {
     },
     Applicant: () => {
       new DataTable('#applicant'); // Then initialize DataTables
-      $('#evaluationSchedule-datepicker').on('change', function(){
+      $('#evaluationSchedule-datepicker').on('change', function () {
         const selectedDate = new Date(this.value);
         const currentDate = new Date();
 
         if (selectedDate < currentDate) {
-            this.value = this.min;
+          this.value = this.min;
         }
-
       });
       formatToNumber('#fundAmount, .EquipmentCost');
 
@@ -3182,7 +3223,9 @@ window.initializeStaffPageJs = async () => {
           // Add more fields as needed
           console.log(businessID);
 
-          const ApplicantDetails = $('#applicantDetails .businessInfo').find('input');
+          const ApplicantDetails = $('#applicantDetails .businessInfo').find(
+            'input'
+          );
 
           console.log(ApplicantDetails);
 
@@ -3203,7 +3246,7 @@ window.initializeStaffPageJs = async () => {
           try {
             const response = await $.ajax({
               type: 'GET',
-              url: ApplicantTabRoute.getApplicantRequirementsLink,
+              url: APPLICANT_TAB_ROUTE.getApplicantRequirementsLink,
               headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
               },
@@ -3218,37 +3261,37 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
-    async function getEvaluationScheduledDate(businessID) {
-      try {
-        const response = await $.ajax({
-          type: 'GET',
-          url: ApplicantTabRoute.getEvaluationScheduleDate,
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          },
-          data: {
-            business_id: businessID,
-          },
-        });
-        const nofi_dateCont = $('#nofi_ScheduleCont');
-        const setAndUpdateBtn = $('#setEvaluationDate');
-        nofi_dateCont.empty();
-        if (response.Scheduled_date) {
-          nofi_dateCont.append(
-            '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
-              response.Scheduled_date +
-              '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
-          );
-          setAndUpdateBtn.text('Update');
-        } else {
-          nofi_dateCont.append(
-            '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>'
-          );
+      async function getEvaluationScheduledDate(businessID) {
+        try {
+          const response = await $.ajax({
+            type: 'GET',
+            url: APPLICANT_TAB_ROUTE.getEvaluationScheduleDate,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: {
+              business_id: businessID,
+            },
+          });
+          const nofi_dateCont = $('#nofi_ScheduleCont');
+          const setAndUpdateBtn = $('#setEvaluationDate');
+          nofi_dateCont.empty();
+          if (response.Scheduled_date) {
+            nofi_dateCont.append(
+              '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
+                response.Scheduled_date +
+                '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
+            );
+            setAndUpdateBtn.text('Update');
+          } else {
+            nofi_dateCont.append(
+              '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>'
+            );
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
       }
-    }
       //Get applicant requirements to populate the requirements table
       function populateReqTable(response) {
         const requimentTableBody = $('#requirementsTables');
@@ -3319,7 +3362,7 @@ window.initializeStaffPageJs = async () => {
       async function retrieveAndDisplayFile(fileUrl, fileType) {
         try {
           const response = await $.ajax({
-            url: ApplicantTabRoute.getRequirementFiles,
+            url: APPLICANT_TAB_ROUTE.getRequirementFiles,
             method: 'GET',
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -3371,7 +3414,7 @@ window.initializeStaffPageJs = async () => {
 
         $.ajax({
           type: 'PUT',
-          url: ApplicantTabRoute.setEvaluationScheduleDate,
+          url: APPLICANT_TAB_ROUTE.setEvaluationScheduleDate,
           headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
           },
@@ -3402,7 +3445,7 @@ window.initializeStaffPageJs = async () => {
           : deleteRowButton.prop('disabled', false);
       };
 
-     $('.addNewRowButton').on('click', function() {
+      $('.addNewRowButton').on('click', function () {
         const container = $(this).closest('.card-body');
 
         const table = container.find('table');
@@ -3419,9 +3462,9 @@ window.initializeStaffPageJs = async () => {
           container.append(newDiv);
           toggleDeleteRowButton(container, '.input_list');
         }
-     })
+      });
 
-     $('.removeRowButton').on('click', function () {
+      $('.removeRowButton').on('click', function () {
         const container = $(this).closest('.card-body');
 
         const table = container.find('table');
@@ -3447,18 +3490,70 @@ window.initializeStaffPageJs = async () => {
         }
       });
 
+      function projectProposalFormData() {
+        const FormContainer = $('#projectProposal');
+        const FormData = FormContainer.serializeArray();
+        let FormDataObjects = {};
+
+        $.each(FormData, function (i, v) {
+          if (v.name.includes('[]')) {
+            FormDataObjects[v.name] = FormDataObjects[v.name]
+              ? [...FormDataObjects[v.name], v.value]
+              : [v.value];
+          } else {
+            FormDataObjects[v.name] = v.value;
+          }
+        });
+
+        const equipmentFacilities = FormContainer.find(
+          '#EquipmentTableBody tr'
+        );
+        const nonEquipment = FormContainer.find('#NonEquipmentTableBody tr');
+        const TableData = () => {
+          const EquipmentObject = [];
+          const NonEquipmentObject = [];
+
+          equipmentFacilities.each(function () {
+            const tableRowInputs = $(this).find('input');
+            const equipmentDetails = {
+              Qty: tableRowInputs[0].value,
+              Actual_Particulars: tableRowInputs[1].value,
+              Cost: tableRowInputs[2].value,
+            };
+
+            EquipmentObject.push(equipmentDetails);
+          });
+
+          nonEquipment.each(function () {
+            const tableRowInputs = $(this).find('input');
+            const nonEquipmentDetails = {
+              Qty: tableRowInputs[0].value,
+              Actual_Particulars: tableRowInputs[1].value,
+              Cost: tableRowInputs[2].value,
+            };
+            NonEquipmentObject.push(nonEquipmentDetails);
+          });
+
+          return {
+            equipmentDetails: EquipmentObject,
+            nonEquipmentDetails: NonEquipmentObject,
+          };
+        };
+        return (FormDataObjects = { ...FormDataObjects, ...TableData() });
+      }
+
       //submit project proposal
       $('#submitProjectProposal').on('click', async function (event) {
         event.preventDefault();
+        console.log(projectProposalFormData());
 
-        let b_id = $('#selected_businessID').val();
-        let formdata =
-          $('#projectProposal').serialize() + '&business_id=' + b_id;
+        const b_id = $('#selected_businessID').val();
+        const formdata = projectProposalFormData() + '&business_id=' + b_id;
 
         try {
           const response = await $.ajax({
             type: 'POST',
-            url: ApplicantTabRoute.submitProjectProposal,
+            url: APPLICANT_TAB_ROUTE.submitProjectProposal,
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },

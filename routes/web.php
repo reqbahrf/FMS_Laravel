@@ -92,7 +92,7 @@ Route::middleware([CheckCooperatorUser::class])->group(function () {
 
     Route::get('/Cooperator/Progress', [CooperatorViewController::class, 'CoopProgress'])
         ->name('Cooperator.Progress');
-        
+
     Route::get('/Cooperator/Requirements', [CooperatorViewController::class, 'requirementsGet'])
         ->name('Cooperator.Requirements');
 
@@ -180,8 +180,8 @@ Route::middleware([CheckStaffUser::class])->group(function () {
         ->name('staff.get.EvaluationSchedule');
 
     //Staff Submit Project Proposal
-    Route::post('/staff/Applicant/Submit-Project', [StaffViewController::class, 'submitProjectProposal'])
-        ->name('staff.Applicant.Submit-Project-Proposal');
+    Route::post('/staff/Applicant/ProjectProposal', [StaffViewController::class, 'submitProjectProposal'])
+        ->name('staff.Applicant.ProjectProposal');
 
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 

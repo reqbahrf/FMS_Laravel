@@ -259,7 +259,7 @@
                                                                 <th width="30%">(₱)&nbsp;Cost</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="EquipmentTableBody">
                                                             <tr>
                                                                 <td>
                                                                     <input type="number" class="form-control EquipmentQTY">
@@ -300,16 +300,16 @@
                                                                 <th width="30%">(₱)&nbsp;Cost</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody>
+                                                        <tbody id="NonEquipmentTableBody">
                                                             <tr>
                                                                 <td>
-                                                                    <input type="number" class="form-control EquipmentQTY">
+                                                                    <input type="number" class="form-control NonEquipmentQTY">
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control Particulars" >
+                                                                    <input type="text" class="form-control NonParticulars" >
                                                                 </td>
                                                                 <td>
-                                                                    <input type="text" class="form-control EquipmentCost" >
+                                                                    <input type="text" class="form-control NonEquipmentCost" >
                                                                 </td>
                                                             </tr>
                                                         </tbody>
@@ -338,7 +338,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 d-flex justify-content-end">
-                                        <button type="button" class="btn btn-primary m-2" id="submitProjectProposal">Submit</button>
+                                        <button type="button" class="btn btn-success m-2" data-action="DraftForm" id="DraftProjectProposal">Draft</button>
+                                        <button type="button" class="btn btn-primary m-2" data-Submit="SubmitForm" id="submitProjectProposal">Submit</button>
                                     </div>
                                 </div>
                             </form>
