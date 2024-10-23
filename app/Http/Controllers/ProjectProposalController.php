@@ -27,7 +27,44 @@ class ProjectProposalController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'projectID' => 'required|string',
+            'projectTitle' => 'required|string',
+            'dateOfFundRelease' => 'required|date',
+            'fundAmount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
+            'expectedOutputs' => 'required|array',
+            'equipmentDetails' => 'required|array',
+            'nonEquipmentDetails' => 'required|array',
+            'action' => 'required|string',
+            'application_id' => 'required|numeric',
+        ]);
+
+        $proposalData = [
+            'projectID' => $validated['projectID'],
+            'projectTitle' => $validated['projectTitle'],
+            'dateOfFundRelease' => $validated['dateOfFundRelease'],
+            'fundAmount' => $validated['fundAmount'],
+        ];
+
+        $proposalData['equipmentDetails'] = array_map(function ($equipmentDetail) {
+            return [
+                'Qty' => $equipmentDetail['Qty'],
+                'Actual_Particulars' => $equipmentDetail['Actual_Particulars'],
+                'Cost' => $equipmentDetail['Cost'],
+            ];
+        }, $validated['equipmentDetails']);
+
+        $proposalData['nonEquipmentDetails'] = array_map(function ($nonEquipmentDetail) {
+            return [
+                'Qty' => $nonEquipmentDetail['Qty'],
+                'Actual_Particulars' => $nonEquipmentDetail['Actual_Particulars'],
+                'Cost' => $nonEquipmentDetail['Cost'],
+            ];
+        }, $validated['nonEquipmentDetails']);
+
+        $proposalData['expectedOutputs'] = $validated['expectedOutputs'];
+
+        return dd($proposalData);
     }
 
     /**
