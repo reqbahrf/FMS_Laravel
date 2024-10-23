@@ -2716,6 +2716,7 @@ window.initializeStaffPageJs = async () => {
         const row = $(this).closest('tr');
         const inputs = row.find('input');
         const readonlyInputs = $('#completedDetails').find('input');
+        console.log(readonlyInputs);
 
         const personalDetails = {
           cooperName: row.find('td:nth-child(4)').text().trim(),

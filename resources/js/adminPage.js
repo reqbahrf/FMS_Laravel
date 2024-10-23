@@ -556,7 +556,61 @@ window.initializeAdminPageJs = async () => {
           },
         ],
       });
-      $('#completed').DataTable();
+      $('#completedTable').DataTable({
+        responsive: true,
+        autoWidth: false,
+        fixedColumns: true,
+        columns: [
+          {
+            title: 'Project #',
+          },
+          {
+            title: 'Project Title',
+          },
+          {
+            title: 'Firm',
+          },
+          {
+            title: 'Cooperator Name',
+          },
+          {
+            title: 'Progress',
+          },
+          {
+            title: 'Action',
+          },
+        ],
+        columnDefs: [
+          {
+            targets: 0,
+            width: '15%',
+            className: 'text-center',
+          },
+          {
+            targets: 1,
+            width: '30%',
+          },
+          {
+            targets: 2,
+            width: '15%',
+          },
+          {
+            targets: 3,
+            width: '20%',
+          },
+          {
+            targets: 4,
+            width: '30%',
+            className: 'text-end'
+          },
+          {
+            targets: 5,
+            width: '10%',
+            orderable: false,
+            className: 'text-center',
+          },
+        ],
+      });
       $('#paymentHistoryTable').DataTable({
         autoWidth: true,
         responsive: true,
@@ -737,6 +791,100 @@ window.initializeAdminPageJs = async () => {
 
         getPaymentHistory(projectDetails.project_id);
       });
+
+      $('#CompletedTableBody').on('click', '.completedProjectInfo', function() {
+        const row = $(this).closest('tr');
+        const inputs = row.find('input');
+        const readonlyInputs = $('#completedDetails').find('input');
+
+        const personalDetails = {
+          cooperName: row.find('td:nth-child(4)').text().trim(),
+          designaition: inputs.filter('.designation').val(),
+          email: inputs.filter('.email').val(),
+          mobile_number: inputs.filter('.mobile_number').val(),
+          landline: inputs.filter('.landline').val(),
+        };
+
+        const businessDetails = {
+          business_id: inputs.filter('.business_id').val(),
+          firmName: row.find('td:nth-child(3)').text().trim(),
+          address: inputs.filter('.address').val(),
+          enterprise_type: inputs.filter('.enterprise_type').val(),
+          enterprise_level: inputs.filter('.enterprise_level').val(),
+          building_assets: parseFloat(inputs.filter('.building_assets').val()),
+          equipment_assets: parseFloat(
+            inputs.filter('.equipment_assets').val()
+          ),
+          working_capital_assets: parseFloat(
+            inputs.filter('.working_capital_assets').val()
+          ),
+        };
+
+        const projectDetails = {
+          project_id: inputs.filter('.project_id').val(),
+          project_title: row.find('td:nth-child(2)').text().trim(),
+          project_fund_amount: parseFloat(
+            inputs.filter('.project_fund_amount').val()
+          ),
+          project_amount_to_be_refunded: parseFloat(
+            inputs.filter('.amount_to_be_refunded').val()
+          ),
+          project_refunded_amount: parseFloat(
+            inputs.filter('.amount_refunded').val()
+          ),
+          date_applied: inputs.filter('.date_applied').val(),
+          project_date_approved: inputs.filter('.date_approved').val(),
+          evaluated_by: inputs.filter('.evaluated_by').val(),
+          handle_by: inputs.filter('.handle_by').val(),
+        };
+
+        readonlyInputs
+        .filter('.cooperatorName')
+        .val(personalDetails.cooperName);
+      readonlyInputs.filter('.designation').val(personalDetails.designaition);
+      readonlyInputs
+        .filter('.mobile_number')
+        .val(personalDetails.mobile_number);
+      readonlyInputs.filter('.email').val(personalDetails.email);
+      readonlyInputs.filter('.landline').val(personalDetails.landline);
+
+      readonlyInputs.filter('.b_id').val(businessDetails.business_id);
+      readonlyInputs.filter('.firmName').val(businessDetails.firmName);
+      readonlyInputs.filter('.businessAddress').val(businessDetails.address);
+      readonlyInputs
+        .filter('.typeOfEnterprise')
+        .val(businessDetails.enterprise_type);
+      readonlyInputs
+        .filter('.enterpriseLevel')
+        .val(businessDetails.enterprise_level);
+      readonlyInputs
+        .filter('.building')
+        .val(formatToString(businessDetails.building_assets));
+      readonlyInputs
+        .filter('.equipment')
+        .val(formatToString(businessDetails.equipment_assets));
+      readonlyInputs
+        .filter('.workingCapital')
+        .val(formatToString(businessDetails.working_capital_assets));
+
+      readonlyInputs.filter('.ProjectId').val(projectDetails.project_id);
+      readonlyInputs
+        .filter('.ProjectTitle')
+        .val(projectDetails.project_title);
+      readonlyInputs
+        .filter('.funded_amount')
+        .val(formatToString(projectDetails.project_fund_amount));
+      readonlyInputs
+        .filter('.amount_to_be_refunded')
+        .val(formatToString(projectDetails.project_amount_to_be_refunded));
+      readonlyInputs
+        .filter('.refunded')
+        .val(formatToString(projectDetails.project_refunded_amount));
+      readonlyInputs.filter('.date_applied').val(projectDetails.date_applied);
+      readonlyInputs.filter('.evaluated_by').val(projectDetails.evaluated_by);
+      readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
+
+      })
 
        // TODO: Add Js docs and reuse the data formatter object
        async function getPaymentHistory(projectId) {
@@ -1032,7 +1180,125 @@ window.initializeAdminPageJs = async () => {
         }
       }
 
+      async function getCompletedProjects() {
+        try {
+            const response = await fetch(PROJECT_LIST_ROUTE.GET_COMPLETED_PROJECTS, {
+                method: 'GET',
+                headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                dataType: 'json',
+              });
+              const data = await response.json();
+              const completedDatatable = $('#completedTable').DataTable();
+              completedDatatable.clear().draw();
+              data.forEach((completed) => {
+                const fund_amount = parseFloat(completed.fund_amount);
+                const amount_refunded = parseFloat(completed.amount_refunded);
+                const to_be_refunded = parseFloat(completed.to_be_refunded);
+
+                const percentage = Math.ceil(
+                  (amount_refunded / to_be_refunded) * 100
+                );
+                completedDatatable.row
+                  .add([
+                    `${completed.Project_id}`,
+                    `${completed.project_title}
+                        <input type="hidden" class="project_id" value="${
+                          completed.Project_id
+                        }">
+                        <input type="hidden" class="project_fund_amount" value="${fund_amount}">
+                        <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
+                        <input type="hidden" class="amount_refunded" value="${amount_refunded}">
+                        <input type="hidden" class="date_applied" value="${
+                          completed.date_applied
+                        }">
+                        <input type="hidden" class="date_approved" value="${
+                          completed.date_approved
+                        }">
+                        <input type="hidden" class="evaluated_by" value="${
+                          completed?.evaluated_by_prefix +
+                          ' ' +
+                          completed.evaluated_by_f_name +
+                          ' ' +
+                          completed?.evaluated_by_mid_name +
+                          ' ' +
+                          completed.evaluated_by_l_name +
+                          ' ' +
+                          completed?.evaluated_by_suffix
+                        }">
+                        <input type="hidden" class="handled_by" value="${
+                          completed?.handled_by_prefix +
+                          ' ' +
+                          completed.handled_by_f_name +
+                          ' ' +
+                          completed?.handled_by_mid_name +
+                          ' ' +
+                          completed.handled_by_l_name +
+                          ' ' +
+                          completed?.handled_by_suffix
+                        }">`,
+                    `${completed.firm_name}
+                        <input type="hidden" class="business_id" value="${
+                          completed.business_id
+                        }">
+                        <input type="hidden" class="address" value="${
+                          completed.landmark +
+                          ', ' +
+                          completed.barangay +
+                          ', ' +
+                          completed.city +
+                          ', ' +
+                          completed.province +
+                          ', ' +
+                          completed.region
+                        }">
+                        <input type="hidden" class="enterprise_type" value="${
+                          completed.enterprise_type
+                        }">
+                        <input type="hidden" class="enterprise_level" value="${
+                          completed.enterprise_level
+                        }">
+                        <input type="hidden" class="building_assets" value="${
+                          completed.building_value
+                        }">
+                        <input type="hidden" class="equipment_assets" value="${
+                          completed.equipment_value
+                        }">
+                        <input type="hidden" class="working_capital_assets" value="${
+                          completed.working_capital
+                        }">`,
+                    `${completed.f_name + ' ' + completed.l_name}
+                        <input type="hidden" class="designation" value="${
+                          completed.designation
+                        }">
+                        <input type="hidden" class="mobile_number" value="${
+                          completed.mobile_number
+                        }">
+                        <input type="hidden" class="email" value="${completed.email}">
+                        <input type="hidden" class="landline" value="${
+                          completed.landline ?? ''
+                        }">`,
+                    `${
+                      formatToString(amount_refunded) +
+                      ' / ' +
+                      formatToString(to_be_refunded)
+                    } <span class="badge text-white bg-primary">${percentage}%</span>`,
+                    `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
+                                                data-bs-target="#completedDetails" aria-controls="completedDetails">
+                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                            </button>`,
+                  ])
+                  .draw();
+              });
+        }catch(error){
+            console.error('Error:', error);
+
+        }
+      }
+
       getOngoingProjects();
+      getCompletedProjects();
     },
 
 

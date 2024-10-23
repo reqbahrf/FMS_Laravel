@@ -747,7 +747,8 @@
             GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails') }}',
             GET_ONGOING_PROJECTS: '{{ route('admin.Project.getOngoingProjects') }}',
             APPROVED_PROJECT: '{{ route('admin.Project.ApprovedProjectProposal') }}',
-            GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}'
+            GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}',
+            GET_COMPLETED_PROJECTS: '{{ route('getCompletedProject') }}',
 
 
         };
