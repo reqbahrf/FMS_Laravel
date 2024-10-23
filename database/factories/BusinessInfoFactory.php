@@ -24,7 +24,7 @@ class BusinessInfoFactory extends Factory
             'zip_code' => fake()->postcode(),
             'landmark' => fake()->streetAddress(),
             'barangay' => fake()->streetName(),
-            'city' => fake()->city(),
+            'city' => fake()->randomElement(['Tagum', 'Panabo', 'Carmin', 'Santo Tomas', 'Davao City', 'Compostela', 'Davao de oro']),
             'province' => fake()->state(),
             'region' => fake()->state(),
             'Export_Mkt_Outlet' => implode(', ', fake()->randomElements($products, 5)),
