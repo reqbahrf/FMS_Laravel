@@ -53,7 +53,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row g-3">
+                            <div class="row g-3 businessInfo">
                                 <input type="hidden" id="selected_userId">
                                 <input type="hidden" id="selected_businessID">
                                 <div class="col-md-6">
@@ -122,9 +122,6 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <div class="d-flex justify-content-end">
-                                <button class="btn btn-success btn-sm" id="markAsDone">Mark as Done</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -148,16 +145,52 @@
                                     </button>
                                 </div>
                                 <div class="col-12 my-auto">
-                                    <div id="nofi_ScheduleCont">
+                                    <div id="nofi_ScheduleCont" class="mt-3">
 
                                     </div>
                                 </div>
-                                <div class="col-12">
-                                    <div class="d-flex justify-content-end">
-                                        <button class="btn btn-success btn-sm" id="markAsDone">Mark as Done</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="card p-0">
+                        <div class="card-header">
+                            <div class="fw-bold fs-6">
+                                <i class="ri-file-list-3-fill"></i>
+                                    Requirements Checklist
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <form id="requirementChecklist">
+                                <div class="p-3">
+                                    <div class="form-check form-check-lg">
+                                        <input class="form-check-input" type="checkbox" name="requirements[]" value="TNA"
+                                            id="tna">
+                                        <label class="form-check-label" for="tna">TNA</label>
+                                    </div>
+                                    <div class="form-check form-check-lg">
+                                        <input class="form-check-input" type="checkbox" name="requirements[]"
+                                            value="Project Deliberation Approval" id="pda">
+                                        <label class="form-check-label" for="pda">Project Deliberation Approval</label>
+                                    </div>
+                                    <div class="form-check form-check-lg">
+                                        <input class="form-check-input" type="checkbox" name="requirements[]"
+                                            value="PDC-post Dated Cheque" id="pdc">
+                                        <label class="form-check-label" for="pdc">PDC-post Dated Cheque</label>
+                                    </div>
+                                    <div class="form-check form-check-lg">
+                                        <input class="form-check-input" type="checkbox" name="requirements[]" value="Fund release"
+                                            id="fr">
+                                        <label class="form-check-label" for="fr">Fund release</label>
                                     </div>
                                 </div>
-                            </div>
+                                <div class="row">
+                                    <div class="col-12 d-flex justify-content-end">
+                                        <button type="button" class="btn btn-primary m-2" id="saveChecklist">Save</button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -171,21 +204,136 @@
                         </div>
                         <div class="card-body">
                             <form method="post" id="projectProposal">
-                                <div class="row">
+                                <div class="row mb-3">
                                     <div class="col-12 col-md-3">
                                         <label for="projectID">Project ID:</label>
                                         <input type="text" class="form-control" id="projectID" name="projectID"
                                         placeholder="Project ID" required>
                                     </div>
-                                    <div class="col-12 col-md-6">
+                                    <div class="col-12 col-md-9">
                                             <label for="projectTitle">Project Title:</label>
                                             <input type="text" class="form-control" id="projectTitle" name="projectTitle"
                                                 placeholder="Project Title" required>
                                     </div>
-                                    <div class="col-12 col-md-3">
-                                            <label for="fundAmount">Fund Amount:</label>
-                                            <input type="text" class="form-control" id="fundAmount"
-                                                name="fundAmount" placeholder="Fund Amount" required>
+                                </div>
+                                <div class="card p-0 mb-3">
+                                    <div class="card-body" id="ExpectedOutputTextareaContainer">
+                                            <h6>Expected Outputs</h6>
+                                            <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                                                <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                                    <i class="ri-add-fill"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                                    <i class="ri-subtract-fill"></i>
+                                                </button>
+                                            </div>
+                                        <div class="row input_list">
+                                                <div class="col-12">
+                                                    <textarea class="form-control"
+                                                    name="expectedOutputs[]"
+                                                    rows="3"></textarea>
+                                                </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card p-0 mb-3">
+                                    <div class="card-body" id="ApprovedEquipmentContainer">
+                                                <h6>Approved S&T Intervention Related
+                                                    Equipment</h6>
+                                                    <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                                                        <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                                            <i class="ri-add-fill"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                                            <i class="ri-subtract-fill"></i>
+                                                        </button>
+                                                    </div>
+                                        <div class="row">
+                                            <div>
+                                                <div class="col-12">
+                                                    <table class="table" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="10%">Qty</th>
+                                                                <th width="60%">Particulars</th>
+                                                                <th width="30%">(₱)&nbsp;Cost</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="number" class="form-control EquipmentQTY">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control Particulars" >
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control EquipmentCost" >
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card p-0 mb-3">
+                                    <div class="card-body" id="ApprovedNonEquipmentContainer">
+                                        <h6>Approved Items of Expenditure(Non-Equipment)</h6>
+                                            <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                                                <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
+                                                    <i class="ri-add-fill"></i>
+                                                </button>
+                                                <button type="button" class="btn btn-danger btn-sm removeRowButton">
+                                                    <i class="ri-subtract-fill"></i>
+                                                </button>
+                                            </div>
+                                        <div class="row">
+                                            <div>
+                                                <div class="col-12">
+                                                    <table class="table" style="width:100%">
+                                                        <thead>
+                                                            <tr>
+                                                                <th width="10%">Qty</th>
+                                                                <th width="60%">Particulars</th>
+                                                                <th width="30%">(₱)&nbsp;Cost</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="number" class="form-control EquipmentQTY">
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control Particulars" >
+                                                                </td>
+                                                                <td>
+                                                                    <input type="text" class="form-control EquipmentCost" >
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <div class="row justify-content-md-end">
+                                            <div class="col-12 col-md-3">
+                                                <label for="dateOfFundRelease">Date of Fund Release:</label>
+                                                <input type="date" class="form-control" id="dateOfFundRelease"
+                                                    name="dateOfFundRelease" placeholder="Date of Fund Release" required>
+                                            </div>
+
+                                            <div class="col-12 col-md-3">
+                                                <label for="fundAmount">Fund Amount:</label>
+                                                <input type="text" class="form-control" id="fundAmount"
+                                                    name="fundAmount" placeholder="Fund Amount" required>
+                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="row">

@@ -3140,9 +3140,8 @@ window.initializeStaffPageJs = async () => {
         }
 
       });
-      formatToNumber('#fundAmount');
+      formatToNumber('#fundAmount, .EquipmentCost');
 
-      console.log('this event is triggered');
       $('#ApplicantTableBody').on(
         'click',
         '.applicantDetailsBtn',
@@ -3183,16 +3182,20 @@ window.initializeStaffPageJs = async () => {
           // Add more fields as needed
           console.log(businessID);
 
-          $('#firm_name').val(firmName);
-          $('#selected_userId').val(userID);
-          $('#selected_businessID').val(businessID);
-          $('#address').val(businessAddress);
-          $('#contact_person').val(fullName); // Add corresponding value
-          $('#designation').val(designation);
-          $('#enterpriseType').val(enterpriseType);
-          $('#landline').val(landline);
-          $('#mobile_phone').val(mobilePhone);
-          $('#email').val(emailAddress);
+          const ApplicantDetails = $('#applicantDetails .businessInfo').find('input');
+
+          console.log(ApplicantDetails);
+
+          ApplicantDetails.filter('#firm_name').val(firmName);
+          ApplicantDetails.filter('#selected_userId').val(userID);
+          ApplicantDetails.filter('#selected_businessID').val(businessID);
+          ApplicantDetails.filter('#address').val(businessAddress);
+          ApplicantDetails.filter('#contact_person').val(fullName); // Add corresponding value
+          ApplicantDetails.filter('#designation').val(designation);
+          ApplicantDetails.filter('#enterpriseType').val(enterpriseType);
+          ApplicantDetails.filter('#landline').val(landline);
+          ApplicantDetails.filter('#mobile_phone').val(mobilePhone);
+          ApplicantDetails.filter('#email').val(emailAddress);
 
           getEvaluationScheduledDate(businessID);
 
@@ -3215,8 +3218,9 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
-      function getEvaluationScheduledDate(businessID) {
-        $.ajax({
+    async function getEvaluationScheduledDate(businessID) {
+      try {
+        const response = await $.ajax({
           type: 'GET',
           url: ApplicantTabRoute.getEvaluationScheduleDate,
           headers: {
@@ -3225,31 +3229,29 @@ window.initializeStaffPageJs = async () => {
           data: {
             business_id: businessID,
           },
-          success: function (response) {
-            let nofi_dateCont = $('#nofi_ScheduleCont');
-            let setAndUpdateBtn = $('#setEvaluationDate');
-            nofi_dateCont.empty();
-            if (response.Scheduled_date) {
-              nofi_dateCont.append(
-                '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
-                  response.Scheduled_date +
-                  '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
-              );
-              setAndUpdateBtn.text('Update');
-            } else {
-              nofi_dateCont.append(
-                '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>'
-              );
-            }
-          },
-          error: function (error) {
-            console.log(error);
-          },
         });
+        const nofi_dateCont = $('#nofi_ScheduleCont');
+        const setAndUpdateBtn = $('#setEvaluationDate');
+        nofi_dateCont.empty();
+        if (response.Scheduled_date) {
+          nofi_dateCont.append(
+            '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
+              response.Scheduled_date +
+              '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
+          );
+          setAndUpdateBtn.text('Update');
+        } else {
+          nofi_dateCont.append(
+            '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>'
+          );
+        }
+      } catch (error) {
+        console.log(error);
       }
+    }
       //Get applicant requirements to populate the requirements table
       function populateReqTable(response) {
-        let requimentTableBody = $('#requirementsTables');
+        const requimentTableBody = $('#requirementsTables');
 
         requimentTableBody.empty();
 
@@ -3363,9 +3365,9 @@ window.initializeStaffPageJs = async () => {
 
       //set evaluation date
       $('#setEvaluationDate').on('click', function () {
-        let user_id = $('#selected_userId').val();
-        let business_id = $('#selected_businessID').val();
-        let Scheduledate = $('#evaluationSchedule-datepicker').val();
+        const user_id = $('#selected_userId').val();
+        const business_id = $('#selected_businessID').val();
+        const Scheduledate = $('#evaluationSchedule-datepicker').val();
 
         $.ajax({
           type: 'PUT',
@@ -3388,6 +3390,61 @@ window.initializeStaffPageJs = async () => {
             console.log(error);
           },
         });
+      });
+
+      const toggleDeleteRowButton = (container, elementSelector) => {
+        const element = container.find(elementSelector);
+        const deleteRowButton = container
+          .children('.addAndRemoveButton_Container')
+          .find('.removeRowButton');
+        element.length === 1
+          ? deleteRowButton.prop('disabled', true)
+          : deleteRowButton.prop('disabled', false);
+      };
+
+     $('.addNewRowButton').on('click', function() {
+        const container = $(this).closest('.card-body');
+
+        const table = container.find('table');
+        if (table.length) {
+          const lastRow = table.find('tbody tr:last-child');
+          const newRow = lastRow.clone();
+          newRow.find('input, textarea').val('');
+          table.find('tbody').append(newRow);
+          toggleDeleteRowButton(container, 'tbody tr');
+        } else {
+          const divContainer = container.find('.input_list');
+          const newDiv = divContainer.last().clone();
+          newDiv.find('input, textarea').val('');
+          container.append(newDiv);
+          toggleDeleteRowButton(container, '.input_list');
+        }
+     })
+
+     $('.removeRowButton').on('click', function () {
+        const container = $(this).closest('.card-body');
+
+        const table = container.find('table');
+        if (table.length) {
+          const lastRow = table.find('tbody tr:last-child');
+          lastRow.remove();
+          toggleDeleteRowButton(container, 'tbody tr');
+        } else {
+          const divContainer = container.find('.input_list');
+          divContainer.last().remove();
+          toggleDeleteRowButton(container, '.input_list');
+        }
+      });
+
+      $('#projectProposal .card-body').each(function () {
+        const container = $(this);
+
+        const table = container.find('table');
+        if (table.length) {
+          toggleDeleteRowButton(container, 'tbody tr');
+        } else {
+          toggleDeleteRowButton(container, '.input_list');
+        }
       });
 
       //submit project proposal
