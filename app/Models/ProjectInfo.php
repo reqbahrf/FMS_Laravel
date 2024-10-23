@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 
 class ProjectInfo extends Model
@@ -53,5 +54,10 @@ class ProjectInfo extends Model
     public function previousQuarterlyReport(): HasMany
     {
         return $this->hasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
+    }
+
+    public function projectProposalInfo() : HasOne
+    {
+        return $this->HasOne(ProjectProposal::class, 'Project_id', 'Project_id');
     }
 }

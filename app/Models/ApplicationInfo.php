@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Events\NewApplicant;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class ApplicationInfo extends Model
 {
@@ -28,5 +29,10 @@ class ApplicationInfo extends Model
     public function projectInfo()
     {
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
+    }
+
+    public function projectProposalInfo() : HasOne
+    {
+        return $this->hasOne(ProjectProposal::class, 'application_id', 'id');
     }
 }
