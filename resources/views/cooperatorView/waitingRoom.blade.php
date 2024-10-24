@@ -256,7 +256,7 @@
                             </svg>
                         </div>
                         <div class="w-auto">
-                            <h4>Please Wait for the approval</h4>
+                            <h5 class="text-muted">Please Wait for the approval within 7 working days</h5>
                         </div>
                     </div>
                 </div>

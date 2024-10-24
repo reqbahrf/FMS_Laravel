@@ -127,18 +127,18 @@ class ProjectProposalController extends Controller
     $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
 
     // Find the project proposal
-    $ProjectProposal = ProjectProposal::where('application_id', $ApplicationID)->first();
+    // $ProjectProposal = ProjectProposal::where('application_id', $ApplicationID)->first();
 
-    if (!$ProjectProposal) {
-        return response()->json(['error' => 'Project Proposal not found'], 404);
-    }
+    // if (!$ProjectProposal) {
+    //     return response()->json(['error' => 'Project Proposal not found'], 404);
+    // }
 
     // Begin a transaction for database consistency
     DB::beginTransaction();
 
     try {
         // Update submission status
-        $ProjectProposal->update(['Submission_status' => 'Submitted']);
+        // $ProjectProposal->update(['Submission_status' => 'Submitted']);
 
         // Create or update ProjectInfo
         ProjectInfo::updateOrCreate(
@@ -192,7 +192,7 @@ class ProjectProposalController extends Controller
     protected function getDraftedData($ApplicationID)
     {
         $draftedData = ProjectProposal::where('Submission_status', 'Draft')
-            ->where('application_id', '!=', $ApplicationID)
+            ->where('application_id', '=', $ApplicationID)
             ->first();
 
         $data =json_decode($draftedData->data, true);
