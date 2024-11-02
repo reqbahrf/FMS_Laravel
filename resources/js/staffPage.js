@@ -3172,6 +3172,7 @@ window.initializeStaffPageJs = async () => {
       getCompletedProjects();
     },
     Applicant: () => {
+      let ProjectProposalFormInitialValue = {};
       new DataTable('#applicant'); // Then initialize DataTables
       $('#evaluationSchedule-datepicker').on('change', function () {
         const selectedDate = new Date(this.value);
@@ -3187,7 +3188,6 @@ window.initializeStaffPageJs = async () => {
         'click',
         '.applicantDetailsBtn',
         async function () {
-          console.log('This is clicked');
           const row = $(this).closest('tr');
 
           const fullName = row.find('td:nth-child(1)').text().trim();
@@ -3270,12 +3270,12 @@ window.initializeStaffPageJs = async () => {
       );
 
       $('#applicantDetails').on('hidden.bs.offcanvas', function () {
-
-         const formInputValues = $('#projectProposal').find('input, textarea');
-         console.log(formInputValues);
-         formInputValues.each(function () {
-            $(this).val('');
-         })
+         const FormContainer = $('#projectProposal');
+         FormContainer.find('input, textarea').val('');
+         FormContainer.find('.input_list, #EquipmentTableBody, #NonEquipmentTableBody').each(function () {
+             $(this).children().slice(1).remove();
+            })
+         clearInitialValues();
       })
 
       async function getEvaluationScheduledDate(businessID) {
@@ -3559,7 +3559,7 @@ window.initializeStaffPageJs = async () => {
         return (FormDataObjects = { ...FormDataObjects, ...TableData() });
       }
 
-      const initialFormValues = {};
+
       const revertbutton = $('.revertButton');
 
       const populateProjectProposalForm = (draftData) => {
@@ -3632,11 +3632,11 @@ window.initializeStaffPageJs = async () => {
 
       }
       const storeInitialValues = (key, value) => {
-        initialFormValues[key] = value;
+        ProjectProposalFormInitialValue[key] = value;
     }
 
     const clearInitialValues = () => {
-        initialFormValues = {};
+        ProjectProposalFormInitialValue = {};
     }
 
     // Function to track changes in form inputs
@@ -3648,7 +3648,7 @@ window.initializeStaffPageJs = async () => {
             $('#projectProposal').find('input, textarea').each(function () {
                 const key = $(this).data('initial-key');
                 const currentValue = $(this).val();
-                const initialValue = initialFormValues[key];
+                const initialValue = ProjectProposalFormInitialValue[key];
 
                 if (currentValue !== initialValue) {
                     isModified = true;
@@ -3666,7 +3666,7 @@ window.initializeStaffPageJs = async () => {
             // Revert all fields to their initial values
             $('#projectProposal').find('input, textarea').each(function () {
                 const key = $(this).data('initial-key');
-                const initialValue = initialFormValues[key];
+                const initialValue = ProjectProposalFormInitialValue[key];
                 $(this).val(initialValue);
             });
 
