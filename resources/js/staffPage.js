@@ -607,7 +607,7 @@ window.initializeStaffPageJs = async () => {
           });
 
           closeModal('#paymentModal');
-          await getPaymentHistoryAndCalculation(project_id);
+          await getPaymentHistoryAndCalculation(project_id, getAmountRefund());
           setTimeout(() => {
             showToastFeedback('text-bg-success', response.message);
           }, 500);
@@ -641,7 +641,7 @@ window.initializeStaffPageJs = async () => {
           });
 
           closeModal('#paymentModal');
-          await getPaymentHistoryAndCalculation($('#ProjectID').val());
+          await getPaymentHistoryAndCalculation(project_id, getAmountRefund());
           setTimeout(() => {
             showToastFeedback('text-bg-success', response.message);
           }, 500);
@@ -702,7 +702,7 @@ window.initializeStaffPageJs = async () => {
               payment.transaction_id,
               formatToString(parseFloat(payment.amount)),
               payment.payment_method,
-              payment.payment_status,
+              `<span class="badge bg-${payment.payment_status === 'Paid' ? 'success' : payment.payment_status === 'Pending' ? 'warning' : 'danger'} ">${payment.payment_status}</span>`,
               dateFormatter(payment.created_at),
               `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#paymentModal"
@@ -771,7 +771,9 @@ window.initializeStaffPageJs = async () => {
         function () {
           const handledProjectRow = $(this).closest('tr');
           const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
-          const offCanvaReadonlyInputs = $('#handleProjectOff').find('input');
+          const offCanvaReadonlyInputs = $('#handleProjectOff').find('input, #FundedAmount');
+
+
 
           // Cache values from the row
           const project_status = handledProjectRow
@@ -814,7 +816,6 @@ window.initializeStaffPageJs = async () => {
           );
           const approved_amount = hiddenInputs.filter('.approved_amount').val();
           const actual_amount = hiddenInputs.filter('.actual_amount').val();
-          console.log(actual_amount);
 
           // Calculate age
           const age = Math.floor(
@@ -850,6 +851,10 @@ window.initializeStaffPageJs = async () => {
             .filter('#workingCapitalAsset')
             .val(formatToString(workingCapitalAsset));
 
+
+          offCanvaReadonlyInputs.filter('#FundedAmount').text(formatToString(parseFloat(actual_amount)));
+
+
           handleProjectOffcanvasContent(project_status);
           getPaymentHistoryAndCalculation(project_id, actual_amount);
           getProjectLinks(project_id);
@@ -858,9 +863,15 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
+      const getAmountRefund = () => {
+        const actual_amount = $('#FundedAmount').text();
+
+        return actual_amount;
+      }
+
       const getPaymentHistoryAndCalculation = async (
         project_id,
-        actual_amount = 0
+        actual_amount
       ) => {
         try {
           const totalAmount = await getPaymentHistory(project_id);
@@ -869,7 +880,6 @@ window.initializeStaffPageJs = async () => {
           const remainingAmount = fundedAmount - totalAmount;
           const percentage = Math.round((totalAmount / fundedAmount) * 100);
           $('#totalPaid').text(formatToString(totalAmount));
-          $('#FundedAmount').text(formatToString(fundedAmount));
           $('#remainingBalance').text(formatToString(remainingAmount));
 
           percentage == 100
@@ -1182,7 +1192,7 @@ window.initializeStaffPageJs = async () => {
               recordToDelete === 'projectLinkRecord'
                 ? getProjectLinks(project_id)
                 : recordToDelete === 'paymentRecord'
-                ? getPaymentHistoryAndCalculation(project_id)
+                ? getPaymentHistoryAndCalculation(project_id, getAmountRefund())
                 : recordToDelete === 'quarterlyRecord'
                 ? getQuarterlyReports(project_id)
                 : null;
