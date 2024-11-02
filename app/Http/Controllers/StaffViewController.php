@@ -311,7 +311,7 @@ class StaffViewController extends Controller
                 return response()->json(['error' => $e->getMessage()], 500);
             }
         } else {
-            return view('StaffView.staffDashboard');
+            return view('StaffView.Staff_Index');
         }
     }
 

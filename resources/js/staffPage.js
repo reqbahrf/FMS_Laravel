@@ -3269,6 +3269,15 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
+      $('#applicantDetails').on('hidden.bs.offcanvas', function () {
+
+         const formInputValues = $('#projectProposal').find('input, textarea');
+         console.log(formInputValues);
+         formInputValues.each(function () {
+            $(this).val('');
+         })
+      })
+
       async function getEvaluationScheduledDate(businessID) {
         try {
           const response = await $.ajax({
@@ -3622,8 +3631,12 @@ window.initializeStaffPageJs = async () => {
         trackChanges();
 
       }
-      function storeInitialValues(key, value) {
+      const storeInitialValues = (key, value) => {
         initialFormValues[key] = value;
+    }
+
+    const clearInitialValues = () => {
+        initialFormValues = {};
     }
 
     // Function to track changes in form inputs
@@ -3662,7 +3675,6 @@ window.initializeStaffPageJs = async () => {
         });
 
       const getProposalDraft = async (applicationID) => {
-        console.log(applicationID);
         try {
             const response = await $.ajax({
                 type: 'GET',
@@ -3672,7 +3684,7 @@ window.initializeStaffPageJs = async () => {
                 }
             });
 
-            populateProjectProposalForm(response);
+            response ? populateProjectProposalForm(response) : null;
         } catch (error) {
             console.error(error);
         }
