@@ -8,15 +8,13 @@
     <title>Admin dashboard</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
-    @vite('resources/js/app.js')
+
     <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
         type="text/css" />
-    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
-    </script>
+
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
-    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js" defer></script>
-    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js" defer></script>
+
 
     <style>
         html {
@@ -730,6 +728,7 @@
             </div>
         </div>
     </div>
+    @vite('resources/js/app.js')
     <script>
         const NAV_ROUTE = {
             DASHBOARD: '{{ route('admin.Dashboard') }}',
@@ -1069,6 +1068,11 @@
             });
         });
     </script>
+
+     <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
+        </script>
+    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js" defer></script>
+        <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js" defer></script>
     @vite('resources/js/adminPage.js')
 </body>
 

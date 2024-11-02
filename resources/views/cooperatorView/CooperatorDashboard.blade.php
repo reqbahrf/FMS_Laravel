@@ -14,16 +14,10 @@
         type="text/css" />
     <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
     </script>
-    <link rel="stylesheet" href="{{ asset('other_assets/apexChart/apexcharts.css') }}">
-    <script src="{{ asset('other_assets/apexChart/apexcharts.min.js') }}" defer></script>
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
-
     <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js" defer></script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js" defer></script>
-    <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">
-    <script src="{{ asset('other_assets/date-picker-assets/moment.min.js') }}" defer></script>
-    <script src="{{ asset('other_assets/date-picker-assets/daterangepicker.js') }}" defer></script>
 
     <style>
         html {
