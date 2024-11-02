@@ -65,8 +65,8 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="paymentMethod">Payment Method:</label>
-                            <input type="text" name="paymentMethod" class="form-control" list="paymentMethodList" id="paymentMethod"
-                                placeholder="Select Payment Method">
+                            <input type="text" name="paymentMethod" class="form-control" list="paymentMethodList"
+                                id="paymentMethod" placeholder="Select Payment Method">
                             <datalist id="paymentMethodList">
                                 <option value="Cash">
                                 <option value="Check">
@@ -76,8 +76,8 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="paymentStatus">Payment Status:</label>
-                            <input type="text" name="paymentStatus" class="form-control" list="paymentStatusList" id="paymentStatus"
-                                placeholder="Select Payment Status">
+                            <input type="text" name="paymentStatus" class="form-control" list="paymentStatusList"
+                                id="paymentStatus" placeholder="Select Payment Status">
                             <datalist id="paymentStatusList">
                                 <option value="Paid"></option>
                                 <option value="Pending"></option>
@@ -89,7 +89,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="submitPayment" data-submissionMethod="" >Save</button>
+                <button type="button" class="btn btn-primary" id="submitPayment" data-submissionMethod="">Save</button>
             </div>
         </div>
     </div>
@@ -110,12 +110,13 @@
                         <div class="col-12">
                             <input type="hidden" id="HiddenProjectNameToUpdate">
                             <label for="projectNameToUpdated" class="form-label">File Name</label>
-                            <input type="text" name="projectNameUpdated" id="projectNameUpdated" class="form-control">
+                            <input type="text" name="projectNameUpdated" id="projectNameUpdated"
+                                class="form-control">
                         </div>
                         <div class="col-12">
                             <label for="projectLink" class="form-label">Project Link</label>
                             <textarea type="text" name="projectLink" id="projectLink" class="form-control"></textarea>
-                        </label>
+                            </label>
                         </div>
                     </div>
                 </form>
@@ -130,19 +131,21 @@
 {{-- Project Links Record End --}}
 
 {{-- Delete record Modal Start --}}
-<div class="modal fade" id="deleteRecordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="deleteRecordModalLabel" aria-hidden="true">
+<div class="modal fade" id="deleteRecordModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="deleteRecordModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-danger">
                 <h1 class="modal-title fs-5 text-white" id="deleteRecordModalLabel">
-                   Are you sure you want to this Delete Record?</h1>
+                    Are you sure you want to this Delete Record?</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-danger" id="deleteRecord" data-record-to-delete=""> <i class="ri-delete-bin-2-fill"></i>Delete</button>
+                <button type="button" class="btn btn-danger" id="deleteRecord" data-record-to-delete=""> <i
+                        class="ri-delete-bin-2-fill"></i>Delete</button>
             </div>
         </div>
     </div>
@@ -151,41 +154,26 @@
 
 {{-- Update Quarterly Record Modal Start --}}
 
-<div
-    class="modal fade"
-    id="updateQuarterlyRecordModal"
-    tabindex="-1"
-    data-bs-backdrop="static"
-    data-bs-keyboard="false"
-    role="dialog"
-    aria-labelledby="UpdateQuarterlyRecordModalLabel"
-    aria-hidden="true"
->
-    <div
-        class="modal-dialog"
-        role="document"
-    >
+<div class="modal fade" id="updateQuarterlyRecordModal" tabindex="-1" data-bs-backdrop="static"
+    data-bs-keyboard="false" role="dialog" aria-labelledby="UpdateQuarterlyRecordModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h5 class="modal-title text-white" id="modalTitleId">
-                   Update Quarterly Record
+                    Update Quarterly Record
                 </h5>
-                <button
-                    type="button"
-                    class="btn-close"
-                    data-bs-dismiss="modal"
-                    aria-label="Close"
-                ></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <form id="updateQuarterlyRecordForm">
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="toogleReport" checked>
+                                <input class="form-check-input" type="checkbox" role="switch" id="toogleReport"
+                                    checked>
                                 <label class="form-check-label" for="flexSwitchCheckChecked">Toggle Report Open/Close
                                 </label>
-                              </div>
+                            </div>
                         </div>
                         <div class="col-12 col-md-8">
                             <label for="updateOpenDays" class="form-label">New Days Open:</label>
@@ -195,11 +183,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button
-                    type="button"
-                    class="btn"
-                    data-bs-dismiss="modal"
-                >
+                <button type="button" class="btn" data-bs-dismiss="modal">
                     Close
                 </button>
                 <button type="button" class="btn btn-primary" id="updateQuarterlyRecord">Save</button>
@@ -216,15 +200,17 @@
         <h5 class="offcanvas-title text-white" id="staticBackdropLabel">
             Handled Project
         </h5>
-        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="offcanvas"
+            aria-label="Close"></button>
     </div>
     <div class="offcanvas-body overflow-x-hidden">
         {{-- Project Navigation Tabs --}}
-       @include('staffView.layout.handleProjectOffcanvaContent')
+        @include('StaffView.layout.handleProjectOffcanvaContent')
     </div>
     <div class="approvedProjectContent">
         <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
-            <button class="btn btn-primary updateProjectState" data-project-state="MarkOngoing">Mark as Ongoing</button>
+            <button class="btn btn-primary updateProjectState" data-project-state="MarkOngoing">Mark as
+                Ongoing</button>
         </div>
         <div class="d-flex justify-content-end p-3 d-none AttachlinkTabMenu">
             <button class="btn btn-primary SaveLinkProjectBtn">Save</button>
@@ -232,7 +218,8 @@
     </div>
     <div class="ongoingProjectContent">
         <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
-            <button class="btn btn-primary updateProjectState"  data-project-state="MarkCompleted" id="MarkCompletedProjectBtn">Mark as Completed</button>
+            <button class="btn btn-primary updateProjectState" data-project-state="MarkCompleted"
+                id="MarkCompletedProjectBtn">Mark as Completed</button>
         </div>
         <div class="d-flex justify-content-end d-none p-3 AttachlinkTabMenu">
             <button class="btn btn-primary SaveLinkProjectBtn">Save</button>

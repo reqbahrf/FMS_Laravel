@@ -16,8 +16,8 @@ class StaffGeneratePISController extends Controller
 
 
         // TODO: change some of the content text alignment on this view InformationSheet
-        $html = view('staffView.outputs.InformationSheetTable', $validatedData)->render();
-        $DocHeader = view('staffView.outputs.DocHeader')->render();
+        $html = view('StaffView.outputs.InformationSheetTable', $validatedData)->render();
+        $DocHeader = view('StaffView.outputs.DocHeader')->render();
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -34,8 +34,5 @@ class StaffGeneratePISController extends Controller
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="PISsample.pdf"',
         ]);
-
-
     }
-
 }

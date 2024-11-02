@@ -86,7 +86,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
 Route::middleware([CheckCooperatorUser::class])->group(function () {
 
     Route::get('/Cooperator/Home', [CooperatorViewController::class, 'index'])
-        ->name('Cooperator.home');
+        ->name('Cooperator.index');
 
     Route::get('/Cooperator/Dashboard', [CooperatorViewController::class, 'dashboard'])
         ->name('Cooperator.dashboard');
@@ -117,8 +117,8 @@ Route::middleware([CheckCooperatorUser::class])->group(function () {
 Route::middleware([CheckStaffUser::class])->group(function () {
 
     Route::get('/Staff/Home', function () {
-        return view('staffView.staffDashboard');
-    })->name('Staff.home');
+        return view('StaffView.Staff_Index');
+    })->name('Staff.index');
 
     Route::get('/Staff/dashboard', [StaffViewController::class, 'dashboard'])
         ->name('staff.dashboard');
@@ -146,7 +146,7 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
 
     Route::get('/Staff/Project/Create-Project', function () {
-        return view('staffView.staffProjectCreateTab');
+        return view('StaffView.staffProjectCreateTab');
     })->name('staff.Create-Project');
 
     Route::get('/Staff/Project/getQuarterReport/{ProjectId}', [StaffViewController::class, 'getAvailableQuarterlyReport'])
@@ -197,8 +197,8 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
 Route::middleware([CheckAdminUser::class])->group(function () {
     Route::get('/Admin/Home', function () {
-        return view('AdminView.adminDashboard');
-    })->name('Admin.home');
+        return view('AdminView.Admin_Index');
+    })->name('Admin.index');
 
     Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])
         ->name('admin.Dashboard');
@@ -243,7 +243,6 @@ Route::middleware('OrgUser')->group(function () {
         ->name('getCompletedProject');
 
     Route::resource('/Project/ProjectProposal', ProjectProposalController::class);
-
 });
 //Email Verification
 
@@ -260,5 +259,5 @@ Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'ver
 //test route
 
 
-Route::get('/viewSR', fn() => view('staffView.outputs.StatusReport'));
+Route::get('/viewSR', fn() => view('StaffView.outputs.StatusReport'));
 Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);

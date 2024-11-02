@@ -62,16 +62,16 @@ class Coop_QuarterlyReportController extends Controller
     {
         if ($request->ajax()) {
 
-            return view('cooperatorView.outputs.quarterlyReport');
+            return view('CooperatorView.outputs.quarterlyReport');
         } else {
-            return view('cooperatorView.CooperatorDashboard');
+            return view('CooperatorView.CooperatorDashboard');
         }
     }
 
     public function getQuarterlyForm(Request $request)
     {
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             $reportId = $request->route('id');
             $projectId = $request->route('projectId');
             $quarter = $request->route('quarter');
@@ -80,19 +80,17 @@ class Coop_QuarterlyReportController extends Controller
 
             Log::info($reportId);
 
-            if($reportSubmitted === 'true' && $reportStatus === 'open')
-            {
+            if ($reportSubmitted === 'true' && $reportStatus === 'open') {
                 $Data = $this->getQuaterlyReport($reportId, $projectId, $quarter);
 
                 $reportData = $Data->first()->report_file;
 
                 return view('readonlyForms.coopQuarterly', compact('reportId', 'projectId', 'quarter', 'reportStatus', 'reportData'));
-            }else if($reportSubmitted === 'false' && $reportStatus === 'open')
-            {
-                return view('cooperatorView.outputs.quarterlyReport', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
+            } else if ($reportSubmitted === 'false' && $reportStatus === 'open') {
+                return view('CooperatorView.outputs.quarterlyReport', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
             }
-        }else{
-            return view('cooperatorView.CooperatorDashboard');
+        } else {
+            return view('CooperatorView.CooperatorDashboard');
         }
     }
 
@@ -160,10 +158,10 @@ class Coop_QuarterlyReportController extends Controller
 
     private function getQuaterlyReport(string $reportId, String $projectId, String $quarter)
     {
-       return OngoingQuarterlyReport::whereRaw('SHA2(id, 256) = ?', $reportId)
-        ->whereRaw('SHA2(ongoing_project_id, 256) = ?', $projectId)
-        ->where('quarter', $quarter)
-        ->select(['report_file'])
-        ->get();
+        return OngoingQuarterlyReport::whereRaw('SHA2(id, 256) = ?', $reportId)
+            ->whereRaw('SHA2(ongoing_project_id, 256) = ?', $projectId)
+            ->where('quarter', $quarter)
+            ->select(['report_file'])
+            ->get();
     }
 }

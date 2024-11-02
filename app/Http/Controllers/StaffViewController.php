@@ -27,9 +27,9 @@ class StaffViewController extends Controller
         //dashboard logic here
         if ($request->ajax()) {
 
-            return view('staffView.staffdashboardTab');
+            return view('StaffView.StaffdashboardTab');
         } else {
-            return view('staffView.staffDashboard');
+            return view('StaffView.Staff_Index');
         }
     }
 
@@ -116,9 +116,9 @@ class StaffViewController extends Controller
     public function getProjectsView(Request $request)
     {
         if ($request->ajax()) {
-            return view('staffView.StaffProjectTab');
+            return view('StaffView.StaffProjectTab');
         } else {
-            return view('staffView.staffDashboard');
+            return view('StaffView.Staff_Index');
         }
     }
 
@@ -306,12 +306,12 @@ class StaffViewController extends Controller
                         ->get();
                     Cache::put('applicants', $applicants, 1800);
                 }
-                return view('staffView.staffApplicantTab', compact('applicants'));
+                return view('StaffView.StaffApplicantTab', compact('applicants'));
             } catch (Exception $e) {
                 return response()->json(['error' => $e->getMessage()], 500);
             }
         } else {
-            return view('staffView.staffDashboard');
+            return view('StaffView.staffDashboard');
         }
     }
 
@@ -472,5 +472,4 @@ class StaffViewController extends Controller
             response()->json(['error' => $e->getMessage()], 500);
         }
     }
-
 }

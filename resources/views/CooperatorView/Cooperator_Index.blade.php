@@ -187,22 +187,23 @@
 
         @media (max-width: 768px) {
 
-            .sideNavButtonLargeScreen{
+            .sideNavButtonLargeScreen {
                 display: none;
             }
+
             .sidenav {
                 display: none;
             }
 
-            #MobileNavOffcanvas{
+            #MobileNavOffcanvas {
                 max-width: 70vw;
             }
 
-            .MobileSideBar{
-               background-color: var(--bs-sidenav-color);
+            .MobileSideBar {
+                background-color: var(--bs-sidenav-color);
             }
 
-            .MobileSideBar a{
+            .MobileSideBar a {
                 color: #f1f1f1;
                 text-decoration: none;
             }
@@ -210,52 +211,53 @@
 
         @media (min-width: 768px) {
 
-            .sideNavButtonSmallScreen{
+            .sideNavButtonSmallScreen {
                 display: none;
             }
+
             .sidenav {
-            display: inline-flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            height: 100vh;
-            width: auto;
-            min-width: calc(var(--nav-width-min) * 1);
-            max-width: calc(var(--nav-width-max) * 1);
-            position: absolute;
-            z-index: 1;
-            top: 0;
-            left: 0;
-            background-color: var(--bs-sidenav-color);
-            overflow-x: hidden;
-            overflow-y: hidden;
-            animation: minimizeNav 0.5s ease;
-        }
+                display: inline-flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                height: 100vh;
+                width: auto;
+                min-width: calc(var(--nav-width-min) * 1);
+                max-width: calc(var(--nav-width-max) * 1);
+                position: absolute;
+                z-index: 1;
+                top: 0;
+                left: 0;
+                background-color: var(--bs-sidenav-color);
+                overflow-x: hidden;
+                overflow-y: hidden;
+                animation: minimizeNav 0.5s ease;
+            }
 
-        .sidenav a:hover {
-            filter: grayscale(0%) opacity(1);
-            color: #318791;
-            border-right: #f1f1f1 4px solid;
-        }
+            .sidenav a:hover {
+                filter: grayscale(0%) opacity(1);
+                color: #318791;
+                border-right: #f1f1f1 4px solid;
+            }
 
-        .navExpanded {
-            margin-left: calc(var(--nav-width-max) * 1);
-            animation: container-right-margin-Expanded-state 0.5s ease;
+            .navExpanded {
+                margin-left: calc(var(--nav-width-max) * 1);
+                animation: container-right-margin-Expanded-state 0.5s ease;
 
-        }
+            }
 
-        .navMinimized {
-            margin-left: calc(var(--nav-width-min) * 1);
-            animation: container-right-margin-Minimized-state 0.5s ease;
-        }
+            .navMinimized {
+                margin-left: calc(var(--nav-width-min) * 1);
+                animation: container-right-margin-Minimized-state 0.5s ease;
+            }
 
-        .sidenav.expanded {
-            width: calc(var(--nav-width-max) * 1);
-            animation: expandNav 0.5s ease;
-        }
+            .sidenav.expanded {
+                width: calc(var(--nav-width-max) * 1);
+                animation: expandNav 0.5s ease;
+            }
 
-        .sidenav.Minimized {
-            width: calc(var(--nav-width-min) * 1);
-        }
+            .sidenav.Minimized {
+                width: calc(var(--nav-width-min) * 1);
+            }
 
         }
 
@@ -401,12 +403,13 @@
 
         /* Quarter link */
 
-        .disabled-li-report{
-            pointer-events: none;;
+        .disabled-li-report {
+            pointer-events: none;
+            ;
             cursor: default;
         }
 
-        .img-Content{
+        .img-Content {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -420,10 +423,10 @@
     </style>
 </head>
 
-@if (in_array(session('application_status'), ['approved','ongoing','completed']))
-    @include('cooperatorView.approved')
+@if (in_array(session('application_status'), ['approved', 'ongoing', 'completed']))
+    @include('CooperatorView.approved')
 @elseif(in_array(session('application_status'), ['waiting', 'pending']))
-    @include('cooperatorView.waitingRoom')
+    @include('CooperatorView.waitingRoom')
 @endif
 
 </html>

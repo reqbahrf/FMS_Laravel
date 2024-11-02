@@ -12,8 +12,8 @@ class staffGenerateSRController extends Controller
     {
         $ValidatedData = $request->validated();
 
-        $html = view('staffView.outputs.StatusReport', $ValidatedData)->render();
-        $DocHeader = view('staffView.outputs.DocHeader')->render();
+        $html = view('StaffView.outputs.StatusReport', $ValidatedData)->render();
+        $DocHeader = view('StaffView.outputs.DocHeader')->render();
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',
@@ -30,6 +30,5 @@ class staffGenerateSRController extends Controller
             'Content-Type' => 'application/pdf',
             'Content-Disposition' => 'attachment; filename="SRsample.pdf"',
         ]);
-
     }
 }

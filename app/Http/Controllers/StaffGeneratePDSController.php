@@ -10,10 +10,10 @@ class StaffGeneratePDSController extends Controller
 {
     public function index(GeneratePDSRequest $request)
     {
-       $validatedData = $request->validated();
+        $validatedData = $request->validated();
 
-        $html = view('staffView.outputs.ProjectDataSheet', $validatedData)->render();
-        $DocHeader = view('staffView.outputs.DocHeader')->render();
+        $html = view('StaffView.outputs.ProjectDataSheet', $validatedData)->render();
+        $DocHeader = view('StaffView.outputs.DocHeader')->render();
         $mpdf = new Mpdf([
             'mode' => 'utf-8',
             'format' => 'A4',

@@ -29,7 +29,7 @@ class GenerateFormController extends Controller
             case 'PIS':
                 $projectData = $this->getProjectInfomationSheetData($projectId);
 
-                return view('staffView.SheetFormTemplete.PISFormTemplete', compact('projectData'));
+                return view('StaffView.SheetFormTemplete.PISFormTemplete', compact('projectData'));
                 break;
 
             case 'PDS':
@@ -40,13 +40,13 @@ class GenerateFormController extends Controller
 
                 $CurrentQuarterlyData = array_merge(['quarter' => $quarter], $CurrentQuarterlyData);
                 $PreviousQuarterlyData = $PreviousQuarterlyData != null
-                ? array_merge(['quarter' => $this->getPreviousQuarter($quarter)], $PreviousQuarterlyData)
-                : null;
+                    ? array_merge(['quarter' => $this->getPreviousQuarter($quarter)], $PreviousQuarterlyData)
+                    : null;
 
-                return view('staffView.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'CurrentQuarterlyData', 'PreviousQuarterlyData'));
+                return view('StaffView.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'CurrentQuarterlyData', 'PreviousQuarterlyData'));
                 break;
             case 'SR':
-                return view('staffView.SheetFormTemplete.SRForm');
+                return view('StaffView.SheetFormTemplete.SRForm');
                 break;
         }
     }

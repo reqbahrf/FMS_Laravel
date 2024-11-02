@@ -38,7 +38,7 @@ class CooperatorViewController extends Controller
             Session::put('business_id', $projectInfo->business_id ?? null);
         }
 
-        return view('cooperatorView.CooperatorDashboard', compact('notifications'), [
+        return view('CooperatorView.Cooperator_Index', compact('notifications'), [
             'application_status' => $applicationStatus
         ]);
     }
@@ -75,56 +75,56 @@ class CooperatorViewController extends Controller
                 ->where('coop_users_info.user_name', $username)
                 ->first();
 
-            return view('cooperatorView.CooperatorInformationTab', compact('row'));
+            return view('CooperatorView.CooperatorInformationTab', compact('row'));
         } else {
-            return view('cooperatorView.CooperatorDashboard');
+            return view('CooperatorView.Cooperator_Index');
         }
     }
 
     public function CoopProgress()
-{
-    $user = Auth::user();
+    {
+        $user = Auth::user();
 
-    if ($user) {
-        // Eager load the necessary relationships to reduce queries
-        $projectInfo = $user->coopUserInfo->businessInfo->first()->projectInfo->first();
+        if ($user) {
+            // Eager load the necessary relationships to reduce queries
+            $projectInfo = $user->coopUserInfo->businessInfo->first()->projectInfo->first();
 
-        if ($projectInfo) {
-            $paymentInfo = $projectInfo->paymentInfo; // Remove ->first() to get all payment records
+            if ($projectInfo) {
+                $paymentInfo = $projectInfo->paymentInfo; // Remove ->first() to get all payment records
 
-            if ($paymentInfo->isNotEmpty()) { // Check if there are payment records
-                $paymentList = $paymentInfo->map(function ($payment) {
-                    return [
-                        'amount' => $payment->amount,
-                        'payment_status' => $payment->payment_status,
-                        'payment_method' => $payment->payment_method
-                    ];
-                });
+                if ($paymentInfo->isNotEmpty()) { // Check if there are payment records
+                    $paymentList = $paymentInfo->map(function ($payment) {
+                        return [
+                            'amount' => $payment->amount,
+                            'payment_status' => $payment->payment_status,
+                            'payment_method' => $payment->payment_method
+                        ];
+                    });
 
-                return response()->json([
-                    'progress' => [
-                        'actual_amount_to_be_refund' => $projectInfo->actual_amount_to_be_refund,
-                        'refunded_amount' => $projectInfo->refunded_amount
-                    ],
-                    'paymentList' => $paymentList
-                ]);
+                    return response()->json([
+                        'progress' => [
+                            'actual_amount_to_be_refund' => $projectInfo->actual_amount_to_be_refund,
+                            'refunded_amount' => $projectInfo->refunded_amount
+                        ],
+                        'paymentList' => $paymentList
+                    ]);
+                }
             }
         }
+
+
+        // Return a default response if no user, project, or payment info is found
+        return response()->json([
+            'progress' => null,
+            'paymentList' => null
+        ], 404);  // Return 404 if the necessary data is not found
     }
-
-
-    // Return a default response if no user, project, or payment info is found
-    return response()->json([
-        'progress' => null,
-        'paymentList' => null
-    ], 404);  // Return 404 if the necessary data is not found
-}
     public function requirementsGet(Request $request)
     {
         if ($request->ajax()) {
-            return view('cooperatorView.CooperatorRequirement');
+            return view('CooperatorView.CooperatorRequirement');
         } else {
-            return view('cooperatorView.CooperatorDashboard');
+            return view('CooperatorView.Cooperator_Index');
         }
     }
 }

@@ -20,9 +20,9 @@ class AdminViewController extends Controller
     public function index(Request $request)
     {
         if ($request->ajax()) {
-            return view('AdminView.adminDashboardTab');
+            return view('AdminView.AdminDashboardTab');
         } else {
-            return view('AdminView.adminDashboard');
+            return view('AdminView.Admin_Index');
         }
     }
 
@@ -30,9 +30,9 @@ class AdminViewController extends Controller
     {
 
         if ($request->ajax()) {
-            return view('AdminView.adminProjectlistTab');
+            return view('AdminView.AdminProjectlistTab');
         } else {
-            return view('AdminView.adminDashboard');
+            return view('AdminView.Admin_Index');
         }
     }
 
@@ -188,9 +188,9 @@ class AdminViewController extends Controller
                 ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
                 ->where('application_info.application_status', 'waiting')
                 ->get();
-            return view('AdminView.adminApplicantlistTab', compact('applicants'));
+            return view('AdminView.AdminApplicantlistTab', compact('applicants'));
         } else {
-            return view('AdminView.adminDashboard');
+            return view('AdminView.Admin_Index');
         }
     }
 
@@ -198,9 +198,9 @@ class AdminViewController extends Controller
     {
 
         if ($request->ajax()) {
-            return view('AdminView.adminUsersTab');
+            return view('AdminView.AdminUsersTab');
         } else {
-            return view('AdminView.adminDashboard');
+            return view('AdminView.Admin_Index');
         }
     }
 
