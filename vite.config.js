@@ -14,6 +14,7 @@ export default defineConfig({
         laravel({
             input: ['resources/css/app.scss',
                     'resources/js/app.js',
+                    'resources/js/coopPage.js',
                     'resources/js/staffPage.js',
                     'resources/js/adminPage.js',
                     ],

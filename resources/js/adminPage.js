@@ -1,6 +1,4 @@
-if(import.meta.hot){
-    import.meta.hot.accept();
-}
+
 function showToastFeedback(status, message) {
   const toast = $('#ActionFeedbackToast');
   const toastInstance = new bootstrap.Toast(toast);

@@ -105,7 +105,7 @@
         }
 
         .main-column {
-            width: 100;
+            width: 100%;
         }
 
         .wrapper {
@@ -281,6 +281,10 @@
             display: block;
 
 
+        }
+
+        .main-content {
+            height: calc(100vh - var(--top-header-height));
         }
 
 

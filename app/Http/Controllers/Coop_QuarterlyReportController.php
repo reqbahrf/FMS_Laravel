@@ -64,7 +64,7 @@ class Coop_QuarterlyReportController extends Controller
 
             return view('CooperatorView.outputs.quarterlyReport');
         } else {
-            return view('CooperatorView.CooperatorDashboard');
+            return view('CooperatorView.Cooperator_Index');
         }
     }
 
@@ -90,7 +90,7 @@ class Coop_QuarterlyReportController extends Controller
                 return view('CooperatorView.outputs.quarterlyReport', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
             }
         } else {
-            return view('CooperatorView.CooperatorDashboard');
+            return view('CooperatorView.Cooperator_Index');
         }
     }
 
