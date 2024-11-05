@@ -586,7 +586,7 @@
                             </span>
                         </div>
                         <div class="card-body">
-                            <table id="paymentTable" class="table table-hover">
+                            <table id="paymentHistoryTable" class="table table-hover">
 
                             </table>
                         </div>

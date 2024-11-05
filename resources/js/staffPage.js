@@ -1,6 +1,4 @@
-if (import.meta.hot) {
-  import.meta.hot.accept();
-}
+
 function showToastFeedback(status, message) {
   const toast = $('#ActionFeedbackToast');
   const toastInstance = new bootstrap.Toast(toast);
@@ -2501,6 +2499,28 @@ window.initializeStaffPageJs = async () => {
         ],
       });
 
+      $('#paymentHistoryTable').DataTable({
+        autoWidth: true,
+        responsive: true,
+        columns: [
+          {
+            title: 'Transaction #',
+          },
+          {
+            title: 'Amount',
+          },
+          {
+            title: 'Payment Method',
+          },
+          {
+            title: 'Status',
+          },
+          {
+            title: 'Date Created',
+          },
+        ],
+      })
+
       $('#ApprovedtableBody').on('click', '.approvedProjectInfo', function () {
         const row = $(this).closest('tr');
         const inputs = row.find('input');
@@ -2658,6 +2678,7 @@ window.initializeStaffPageJs = async () => {
         const row = $(this).closest('tr');
         const inputs = row.find('input');
         const readonlyInputs = $('#ongoingDetails').find('input');
+        console.log(inputs);
 
         const personalDetails = {
           cooperName: row.find('td:nth-child(4)').text().trim(),
@@ -2697,8 +2718,9 @@ window.initializeStaffPageJs = async () => {
           date_applied: inputs.filter('.date_applied').val(),
           project_date_approved: inputs.filter('.date_approved').val(),
           evaluated_by: inputs.filter('.evaluated_by').val(),
-          handle_by: inputs.filter('.handle_by').val(),
+          handle_by: inputs.filter('.handled_by').val(),
         };
+
 
         readonlyInputs
           .filter('.cooperatorName')
@@ -2745,6 +2767,8 @@ window.initializeStaffPageJs = async () => {
         readonlyInputs.filter('.date_applied').val(projectDetails.date_applied);
         readonlyInputs.filter('.evaluated_by').val(projectDetails.evaluated_by);
         readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
+
+        getPaymentHistory(projectDetails.project_id);
       });
 
       $('#CompletedTableBody').on(
@@ -2854,6 +2878,50 @@ window.initializeStaffPageJs = async () => {
           readonlyInputs.filter('.handle_by').val(projectDetails.handle_by);
         }
       );
+
+      async function getPaymentHistory(projectId){
+        try {
+            const response = await $.ajax({
+                type: 'GET',
+                url: PROJECT_TAB_ROUTE.GET_PAYMENT_RECORDS + '?project_id=' + projectId,
+            })
+
+            const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
+            paymentHistoryTable.clear();
+            paymentHistoryTable.rows.add(
+              response.map((payment) => {
+                  const createdAtDate = new Date(payment.created_at);
+                  const formattedDate = createdAtDate.toLocaleString('en-US', {
+                    month: '2-digit',
+                    day: '2-digit',
+                    year: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    hour12: true
+                  });
+                  return [
+                    payment.transaction_id,
+                    formatToString(parseFloat(payment.amount)),
+                    payment.payment_method,
+                    `<span class="badge bg-${payment.payment_status === 'Paid'
+                        ? 'success'
+                        : payment.payment_status === 'Pending'
+                        ? 'warning' : 'danger'} ">${payment.payment_status}</span>`,
+                    formattedDate
+                  ];
+                })
+            );
+            paymentHistoryTable.draw();
+
+            let totalAmount = 0;
+            response.forEach((payment) => {
+              totalAmount += parseFloat(payment.amount);
+            });
+          //   return totalAmount;
+        } catch (error) {
+
+        }
+      }
       async function getApprovedProjects() {
         try {
           const response = await fetch(
