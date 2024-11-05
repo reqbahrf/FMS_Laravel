@@ -36,8 +36,6 @@ class ApplicationController extends Controller
             $name_suffix = $validatedInputs['suffix'];
             $gender = $validatedInputs['gender'];
             $b_date = $validatedInputs['b_date'];
-            $date = \DateTime::createFromFormat('Y/m/d', $b_date);
-            $formatted_date = $date->format('Y-m-d');
             $designation = $validatedInputs['designation'];
             $mobile_number = $validatedInputs['Mobile_no'];
             $landline = $validatedInputs['landline'];
@@ -49,7 +47,7 @@ class ApplicationController extends Controller
                 'l_name' => $l_name,
                 'suffix' => $name_suffix,
                 'gender' => $gender,
-                'birth_date' => $formatted_date,
+                'birth_date' => $b_date,
                 'designation' => $designation,
                 'mobile_number' => $mobile_number,
                 'landline' => $landline,
