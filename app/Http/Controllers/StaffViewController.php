@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
 use Carbon\Carbon;
 use App\Models\ProjectInfo;
+use App\Notifications\ProjectProposal;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -425,7 +426,7 @@ class StaffViewController extends Controller
                 return response()->json(['error' => 'Project Id already exist'], 400);
             }
 
-            ProjectInfo::updateOrCreate(
+          $ProjectProposal = ProjectInfo::updateOrCreate(
                 ['Project_id' => $validated['projectID']],
                 [
                     'business_id' => $validated['business_id'],

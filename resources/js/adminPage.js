@@ -1,3 +1,48 @@
+import './echo'
+
+function updateNoNotificationsMessage() {
+    // Check if there are any notification items
+    const hasNotifications = $('.notify-item').length > 1;
+
+    // Show or hide the "No Notifications" message based on the presence of notifications
+    $('#no-notifications-message').toggle(!hasNotifications);
+}
+
+Echo.private('admin-notifications')
+    .listen('ProjectProposalNotification', (e) => {
+        consolog.log(e);
+        const notificationHtml = `
+        <a href="#"
+            class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
+            <div class="card-body">
+                <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
+                <div class="d-flex align-items-center">
+                    <div class="flex-shrink-0">
+                        <div class="notify-icon bg-primary">
+                            <i class="mdi mdi-comment-account-outline"></i>
+                        </div>
+                    </div>
+                    <div class="flex-grow-1 text-truncate ms-2">
+                        <p class="m-0">${e.message}</p>
+                        <p class="m-0 text-muted">Just now</p>
+                    </div>
+                </div>
+            </div>
+        </a>
+    `;
+
+    // Append the new notification to the container
+      // Append the new notification
+      $('.px-2').prepend(notificationHtml);
+
+      // Update the notification badge to make it visible
+      $('.notifi-bagde').show();
+
+      // Update the "No Notifications" message visibility
+      updateNoNotificationsMessage();
+    });
+
+    updateNoNotificationsMessage();
 
 function showToastFeedback(status, message) {
   const toast = $('#ActionFeedbackToast');

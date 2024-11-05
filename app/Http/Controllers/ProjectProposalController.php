@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\ApplicationInfo;
 use App\Models\ProjectInfo;
 use App\Models\ProjectProposal;
+use App\Notifications\ProjectProposalNotification;
+use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -141,7 +143,7 @@ class ProjectProposalController extends Controller
         // $ProjectProposal->update(['Submission_status' => 'Submitted']);
 
         // Create or update ProjectInfo
-        ProjectInfo::updateOrCreate(
+      $ProposalInfo = ProjectInfo::updateOrCreate(
             ['Project_id' => $proposalData['projectID']],
             [
                 'business_id' => $proposalData['business_id'],
@@ -159,8 +161,12 @@ class ProjectProposalController extends Controller
                 'application_status' => 'pending',
             ]);
 
-        // Commit the transaction
-        DB::commit();
+
+            DB::commit();
+            $Admin = User::where('role', 'Admin')->first();
+            $notification = new ProjectProposalNotification($ProposalInfo);
+            $Admin->notify($notification);
+
 
         return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
 

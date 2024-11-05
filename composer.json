@@ -8,6 +8,7 @@
         "php": "^8.2",
         "carlos-meneses/laravel-mpdf": "^2.1",
         "laravel/framework": "^11.9",
+        "laravel/reverb": "@beta",
         "laravel/tinker": "^2.9",
         "predis/predis": "^2.2"
     },

@@ -655,26 +655,8 @@
                             </div>
                             <div class="px-2" style="max-height: 300px; width:20vw; overflow-y: auto;">
                                 <h5 class="text-muted font-13 fw-normal mt-2">Today</h5>
-                                <a href="#"
-                                    class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
-                                    <div class="card-body">
-                                        <span class="float-end noti-close-btn text-muted"><i
-                                                class="mdi mdi-close"></i></span>
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0">
-                                                <div class="notify-icon bg-primary">
-                                                    <i class="mdi mdi-comment-account-outline"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1 text-truncate ms-2">
-                                                <p class="m-0">New user registered</p>
-                                                <p class="m-0 text-muted">2 min ago</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="text-center">
-                                </div>
+                                <p id="no-notifications-message" class="text-center text-muted my-3">No Notifications</p>
+
                             </div>
                             <a href="#"
                                 class="dropdown-item text-center text-primary notify-item border-top py-2">
