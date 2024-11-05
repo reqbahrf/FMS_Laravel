@@ -237,18 +237,14 @@
 </div>
 <div class="">
     <div class="card m-3">
-        <div class="card-header">
-            <p class="fw-bold fs-5 m-0 text-center"> Projects</p>
-        </div>
+        <p class="fw-bold fs-5 m-0 text-center mt-3"> Projects</p>
         <div class="card-body">
             <div id="lineChart">
             </div>
         </div>
     </div>
     <div class="card m-3">
-        <div class="card-header">
-            <p class="fw-bold fs-5 m-0 text-center">Handled Project</p>
-        </div>
+        <p class="fw-bold fs-5 m-0 text-center mt-3">Handled Project</p>
         <div class="card-body">
             <div class="table-responsive">
                 <table id="handledProject" class="table table-hover" style="width:100%">
