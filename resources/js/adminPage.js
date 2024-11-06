@@ -1,11 +1,7 @@
 import './echo'
 import Notification from './Notification';
+import NotificationContainer from './NotificationContainer';
 
-function updateNoNotificationsMessage() {
-
-    const hasNotifications = $('.notify-item').length > 1;
-    $('#no-notifications-message').toggle(!hasNotifications);
-}
 
 Echo.private('admin-notifications')
     .listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (e) => {
@@ -20,7 +16,9 @@ Echo.private('admin-notifications')
                 throw new Error('Notification data is undefined');
             }
 
-        updateNoNotificationsMessage();
+            NotificationContainer(NotificationData);
+
+
         } catch (error) {
             console.error('Error parsing notification data:', error);
             console.log('Raw data:', e.data);
@@ -31,7 +29,6 @@ Echo.private('admin-notifications')
     });
 
     Notification();
-    updateNoNotificationsMessage();
 
 function showToastFeedback(status, message) {
   const toast = $('#ActionFeedbackToast');

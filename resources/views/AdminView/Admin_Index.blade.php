@@ -646,7 +646,7 @@
                         <a class="position-relative text-decoration-none nav-link" data-bs-toggle="dropdown"
                             href="#" role="button" aria-haspopup="false" aria-expanded="false">
                             <i class="ri-notification-3-line ri-2x"></i>
-                            <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle"></span>
+                            <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle" style="display: none;"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
                             <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -662,8 +662,6 @@
                                 </div>
                             </div>
                             <div class="px-2" id="notification--container" style="max-height: 300px; overflow-y: auto;">
-                                <h5 class="text-muted font-13 fw-normal mt-2">Today</h5>
-                                <p id="no-notifications-message" class="text-center text-muted my-3">No Notifications</p>
 
                             </div>
                             <a href="#"

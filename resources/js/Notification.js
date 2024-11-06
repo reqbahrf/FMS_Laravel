@@ -21,9 +21,8 @@ export default async function Notification(){
             }
 
             console.log(notificationData);
-          const notificationHtml = NotificationContainer(notificationData);
-          $('#notification--container').prepend(notificationHtml);
-          $('.notifi-bagde').show();
+        NotificationContainer(notificationData);
+
         });
 
     } catch (error) {

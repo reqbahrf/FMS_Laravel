@@ -1,4 +1,8 @@
+const NotifContainer = $('#notification--container');
+const BadgeAlert = $('.notifi-bagde');
 export default function NotificationContainer(NotificationData) {
+
+
     const notificationHtml = `
     <a href="#"
         class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
@@ -20,7 +24,12 @@ export default function NotificationContainer(NotificationData) {
     </a>
 `;
 
-return notificationHtml;
+const noNotificationsHtml = !NotificationData ? `
+    <p id="no-notifications-message" class="text-center text-muted my-3">No Notifications</p>
+` : '';
+
+ !NotificationData ? BadgeAlert.hide() : BadgeAlert.show();
+ NotifContainer.prepend(noNotificationsHtml + notificationHtml);
 }
 
 function formatTimeAgo(time) {
