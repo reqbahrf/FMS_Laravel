@@ -83,10 +83,9 @@ class ProjectProposalController extends Controller
                     return $this->draftProjectProposal($validated['application_id'], $proposalData);
                     break;
             }
-        }catch (Exception $e) {
+        } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage()]);
         }
-
     }
 
     /**
@@ -100,10 +99,7 @@ class ProjectProposalController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
-    {
-
-    }
+    public function edit(string $id) {}
 
     /**
      * Update the specified resource in storage.
@@ -123,77 +119,76 @@ class ProjectProposalController extends Controller
 
     protected function submitProjectProposal($ApplicationID, $proposalData)
     {
-         // Format fund amount and calculate actual fund to be refunded
-    $fundAmount = str_replace(',', '', $proposalData['fundAmount']);
-    $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
-    $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
+        // Format fund amount and calculate actual fund to be refunded
+        $fundAmount = str_replace(',', '', $proposalData['fundAmount']);
+        $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
+        $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
 
-    // Find the project proposal
-    // $ProjectProposal = ProjectProposal::where('application_id', $ApplicationID)->first();
+        // Find the project proposal
+        // $ProjectProposal = ProjectProposal::where('application_id', $ApplicationID)->first();
 
-    // if (!$ProjectProposal) {
-    //     return response()->json(['error' => 'Project Proposal not found'], 404);
-    // }
+        // if (!$ProjectProposal) {
+        //     return response()->json(['error' => 'Project Proposal not found'], 404);
+        // }
 
-    // Begin a transaction for database consistency
-    DB::beginTransaction();
+        // Begin a transaction for database consistency
+        DB::beginTransaction();
 
-    try {
-        // Update submission status
-        // $ProjectProposal->update(['Submission_status' => 'Submitted']);
+        try {
+            // Update submission status
+            // $ProjectProposal->update(['Submission_status' => 'Submitted']);
 
-        // Create or update ProjectInfo
-      $ProposalInfo = ProjectInfo::updateOrCreate(
-            ['Project_id' => $proposalData['projectID']],
-            [
-                'business_id' => $proposalData['business_id'],
-                'evaluated_by_id' => $proposalData['staffId'],
-                'project_title' => $proposalData['projectTitle'],
-                'fund_amount' => $fundAmountFormatted,
-                'actual_amount_to_be_refund' => $actualFundToRefund,
-            ]
-        );
+            // Create or update ProjectInfo
+            $ProposalInfo = ProjectInfo::updateOrCreate(
+                ['Project_id' => $proposalData['projectID']],
+                [
+                    'business_id' => $proposalData['business_id'],
+                    'evaluated_by_id' => $proposalData['staffId'],
+                    'project_title' => $proposalData['projectTitle'],
+                    'fund_amount' => $fundAmountFormatted,
+                    'actual_amount_to_be_refund' => $actualFundToRefund,
+                ]
+            );
 
-        // Update ApplicationInfo
-        ApplicationInfo::where('business_id', $proposalData['business_id'])
-            ->update([
-                'Project_id' => $proposalData['projectID'],
-                'application_status' => 'pending',
-            ]);
+            // Update ApplicationInfo
+            ApplicationInfo::where('business_id', $proposalData['business_id'])
+                ->update([
+                    'Project_id' => $proposalData['projectID'],
+                    'application_status' => 'pending',
+                ]);
 
 
             DB::commit();
             $Evaluated_by = Auth::user()->email;
-            $Admin = User::where('role', 'Admin')->first();
-            $notification = new ProjectProposalNotification($ProposalInfo, $Evaluated_by);
-            $Admin->notify($notification);
+            User::where('role', 'Admin')->get()->each(function ($Admin) use ($ProposalInfo, $Evaluated_by) {
+                $notification = new ProjectProposalNotification($ProposalInfo, $Evaluated_by);
+                $Admin->notify($notification);
+            });
 
 
-        return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
-
-    } catch (\Exception $e) {
-        // Rollback transaction if something goes wrong
-        DB::rollBack();
-        return response()->json(['error' => $e->getMessage()], 500);
-    }
-
+            return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
+        } catch (\Exception $e) {
+            // Rollback transaction if something goes wrong
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
     }
 
     protected function draftProjectProposal($ApplicationID, $proposalData)
     {
-        try{
+        try {
             ProjectProposal::updateOrCreate(
-               ['application_id' => $ApplicationID],
-               [
-                 'data' => json_encode($proposalData),
-                 'Submission_status' => 'Draft'
-               ]);
+                ['application_id' => $ApplicationID],
+                [
+                    'data' => json_encode($proposalData),
+                    'Submission_status' => 'Draft'
+                ]
+            );
 
             return response()->json(['success' => 'true', 'message' => 'Project Proposal Drafted'], 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-
     }
 
     protected function getDraftedData($ApplicationID)
@@ -202,7 +197,7 @@ class ProjectProposalController extends Controller
             ->where('application_id', '=', $ApplicationID)
             ->first();
 
-        $data =json_decode($draftedData->data, true);
-            return $data;
+        $data = json_decode($draftedData->data, true);
+        return $data;
     }
 }
