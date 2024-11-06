@@ -23,10 +23,12 @@ use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\StaffProjectLinkController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Controllers\UpdateProjectStateController;
+use App\Http\Controllers\UserNotificationController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Middleware\checkAdminUser;
 use Illuminate\Auth\Events\PasswordResetLinkSent;
+
 
 //Applicant routes
 
@@ -51,6 +53,12 @@ Route::post('/requirements/submit', [ApplicationController::class, 'upload_requi
 Route::delete('/delete/file/{uniqueId}', [ApplicationController::class, 'revertFile']);
 
 //Applicant Routes End
+
+Route::get('/notification', [UserNotificationController::class, 'getUserNotifications'])
+    ->middleware('auth')
+    ->name('notification.get');
+
+
 //Login routes
 
 Route::get('/login', function () {

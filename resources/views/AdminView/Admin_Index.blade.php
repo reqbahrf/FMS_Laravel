@@ -720,6 +720,9 @@
     </div>
     @vite('resources/js/app.js')
     <script>
+
+        const USER_ID = {{ Auth::user()->id }};
+        const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
         const NAV_ROUTE = {
             DASHBOARD: '{{ route('admin.Dashboard') }}',
             PROJECTS: '{{ route('admin.Project') }}',

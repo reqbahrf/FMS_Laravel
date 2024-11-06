@@ -1,10 +1,9 @@
 import './echo'
+import Notification from './Notification';
 
 function updateNoNotificationsMessage() {
-    // Check if there are any notification items
-    const hasNotifications = $('.notify-item').length > 1;
 
-    // Show or hide the "No Notifications" message based on the presence of notifications
+    const hasNotifications = $('.notify-item').length > 1;
     $('#no-notifications-message').toggle(!hasNotifications);
 }
 
@@ -21,35 +20,6 @@ Echo.private('admin-notifications')
                 throw new Error('Notification data is undefined');
             }
 
-
-            const notificationHtml = `
-            <a href="#"
-                class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
-                <div class="card-body">
-                    <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
-                    <div class="d-flex align-items-center">
-                        <div class="flex-shrink-0">
-                            <div class="notify-icon bg-primary">
-                                <i class="mdi mdi-comment-account-outline"></i>
-                            </div>
-                        </div>
-                        <div class="flex-grow-1 ms-2 text-wrap text-break">
-                            <p class="m-0 fs-5">${NotificationData.title}</p>
-                            <p class="m-0 text-muted fs-6">${NotificationData.message}</p>
-                            <p class="m-0 text-muted fs-6">Just now</p>
-                        </div>
-                    </div>
-                </div>
-            </a>
-        `;
-
-
-        $('#notification--container').prepend(notificationHtml);
-
-
-        $('.notifi-bagde').show();
-
-
         updateNoNotificationsMessage();
         } catch (error) {
             console.error('Error parsing notification data:', error);
@@ -60,6 +30,7 @@ Echo.private('admin-notifications')
 
     });
 
+    Notification();
     updateNoNotificationsMessage();
 
 function showToastFeedback(status, message) {
