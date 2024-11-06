@@ -163,8 +163,9 @@ class ProjectProposalController extends Controller
 
 
             DB::commit();
+            $Evaluated_by = Auth::user()->email;
             $Admin = User::where('role', 'Admin')->first();
-            $notification = new ProjectProposalNotification($ProposalInfo);
+            $notification = new ProjectProposalNotification($ProposalInfo, $Evaluated_by);
             $Admin->notify($notification);
 
 

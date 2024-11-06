@@ -242,6 +242,10 @@
                 color: #f1f1f1;
                 text-decoration: none;
             }
+
+            #notification--container {
+                width: 100vw;
+            }
         }
 
         @media (min-width: 768px) {
@@ -291,6 +295,9 @@
 
             .sidenav.Minimized {
                 width: calc(var(--nav-width-min) * 1);
+            }
+            #notification--container {
+                width: 40vw;
             }
         }
 
@@ -652,7 +659,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="px-2" style="max-height: 300px; width:20vw; overflow-y: auto;">
+                            <div class="px-2" id="notification--container" style="max-height: 300px; overflow-y: auto;">
                                 <h5 class="text-muted font-13 fw-normal mt-2">Today</h5>
                                 <a href="#"
                                     class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
@@ -666,7 +673,8 @@
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 text-truncate ms-2">
-                                                <p class="m-0">New user registered</p>
+                                                <p class="m-0 fs-5">Notification Title</p>
+                                                <p class="m-0 text-muted fs-6">Notification Message will be display here</p>
                                                 <p class="m-0 text-muted">2 min ago</p>
                                             </div>
                                         </div>
@@ -675,10 +683,11 @@
                                 <div class="text-center">
                                 </div>
                             </div>
-                            <a href="#"
+                            <button
+                            type="button"
                                 class="dropdown-item text-center text-primary notify-item border-top py-2">
                                 View All
-                            </a>
+                            </button>
                         </div>
                     </li>
                     <li class="avatar-li">

@@ -18,15 +18,17 @@ class ProjectProposalNotification extends Notification implements ShouldBroadcas
     private $ProposalInfo;
     private $Evaluated_By;
     private $ProjectTitle;
+    private $Project_id;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($ProposalInfo)
+    public function __construct($ProposalInfo, $Evaluated_by)
     {
         $this->ProposalInfo = $ProposalInfo;
-        $this->Evaluated_By = $this->ProposalInfo->evaluated_by_id;
+        $this->Evaluated_By = $Evaluated_by;
         $this->ProjectTitle = $this->ProposalInfo->project_title;
+        $this->Project_id = $this->ProposalInfo->Project_id;
     }
 
     /**
@@ -46,25 +48,21 @@ class ProjectProposalNotification extends Notification implements ShouldBroadcas
     public function toArray(object $notifiable): array
     {
         return [
-            'message' => 'New project proposal from ' . $this->Evaluated_By . ' with title ' . $this->ProjectTitle,
+            'title' => 'New project proposal',
+            'message' => ' Project proposal from ' . $this->Evaluated_By . ' Entitled ' . ' <strong> '. '"' . $this->ProjectTitle . '"' .' </strong>' . ' with Project id ' . ' <strong> ' . $this->Project_id . ' </strong>' . 'has been submitted.',
         ];
     }
 
     public function toBroadcast($notifiable)
     {
         return new BroadcastMessage([
-            'message' => 'New project proposal from ' . $this->Evaluated_By . ' with title ' . $this->ProjectTitle,
-            'evaluated_by' => $this->Evaluated_By,
-            'project_title' => $this->ProjectTitle,
-            'proposal_info' => [
-                'id' => $this->ProposalInfo->id,
-                'project_id' => $this->ProposalInfo->project_id,
-            ],
+            'title' => 'New project proposal',
+            'message' => ' Project proposal from ' . $this->Evaluated_By . ' Entitled ' . ' <strong> '. '"' . $this->ProjectTitle . '"' .' </strong>' . ' with Project id ' . ' <strong> ' . $this->Project_id . ' </strong>' . 'has been submitted.',
         ]);
     }
 
     public function broadcastOn()
-{
-    return new PrivateChannel('admin-notifications');
-}
+    {
+        return new PrivateChannel('admin-notifications');
+    }
 }

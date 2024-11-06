@@ -33,9 +33,10 @@ Echo.private('admin-notifications')
                                 <i class="mdi mdi-comment-account-outline"></i>
                             </div>
                         </div>
-                        <div class="flex-grow-1 text-truncate ms-2">
-                            <p class="m-0">${NotificationData.message}</p>
-                            <p class="m-0 text-muted">Just now</p>
+                        <div class="flex-grow-1 ms-2 text-wrap text-break">
+                            <p class="m-0 fs-5">${NotificationData.title}</p>
+                            <p class="m-0 text-muted fs-6">${NotificationData.message}</p>
+                            <p class="m-0 text-muted fs-6">Just now</p>
                         </div>
                     </div>
                 </div>
