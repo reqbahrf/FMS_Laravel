@@ -653,7 +653,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="px-2" style="max-height: 300px; width:20vw; overflow-y: auto;">
+                            <div class="px-2" id="notification--container" style="max-height: 300px; width:20vw; overflow-y: auto;">
                                 <h5 class="text-muted font-13 fw-normal mt-2">Today</h5>
                                 <p id="no-notifications-message" class="text-center text-muted my-3">No Notifications</p>
 

@@ -9,37 +9,54 @@ function updateNoNotificationsMessage() {
 }
 
 Echo.private('admin-notifications')
-    .listen('ProjectProposalNotification', (e) => {
-        consolog.log(e);
-        const notificationHtml = `
-        <a href="#"
-            class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
-            <div class="card-body">
-                <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
-                <div class="d-flex align-items-center">
-                    <div class="flex-shrink-0">
-                        <div class="notify-icon bg-primary">
-                            <i class="mdi mdi-comment-account-outline"></i>
+    .listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (e) => {
+        try {
+
+            console.log('Raw event:', e);
+
+            // The data might be directly in the event object, not in e.data
+            const NotificationData = e;
+
+            if (!NotificationData) {
+                throw new Error('Notification data is undefined');
+            }
+
+
+            const notificationHtml = `
+            <a href="#"
+                class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
+                <div class="card-body">
+                    <span class="float-end noti-close-btn text-muted"><i class="mdi mdi-close"></i></span>
+                    <div class="d-flex align-items-center">
+                        <div class="flex-shrink-0">
+                            <div class="notify-icon bg-primary">
+                                <i class="mdi mdi-comment-account-outline"></i>
+                            </div>
+                        </div>
+                        <div class="flex-grow-1 text-truncate ms-2">
+                            <p class="m-0">${NotificationData.message}</p>
+                            <p class="m-0 text-muted">Just now</p>
                         </div>
                     </div>
-                    <div class="flex-grow-1 text-truncate ms-2">
-                        <p class="m-0">${e.message}</p>
-                        <p class="m-0 text-muted">Just now</p>
-                    </div>
                 </div>
-            </div>
-        </a>
-    `;
+            </a>
+        `;
 
-    // Append the new notification to the container
-      // Append the new notification
-      $('.px-2').prepend(notificationHtml);
 
-      // Update the notification badge to make it visible
-      $('.notifi-bagde').show();
+        $('#notification--container').prepend(notificationHtml);
 
-      // Update the "No Notifications" message visibility
-      updateNoNotificationsMessage();
+
+        $('.notifi-bagde').show();
+
+
+        updateNoNotificationsMessage();
+        } catch (error) {
+            console.error('Error parsing notification data:', error);
+            console.log('Raw data:', e.data);
+        }
+
+
+
     });
 
     updateNoNotificationsMessage();
