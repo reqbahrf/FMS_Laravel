@@ -1,3 +1,28 @@
+import './echo';
+import Notification from './Notification';
+import NotificationContainer from './NotificationContainer';
+
+Echo.private(`staff-notifications.${USER_ID}`).listen(
+  '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
+  (e) => {
+    try {
+
+      console.log('Raw event:', e);
+      const NotificationData = e;
+
+      if (!NotificationData) {
+        throw new Error('Notification data is undefined');
+      }
+
+      NotificationContainer(NotificationData);
+    } catch (error) {
+        console.error('Error parsing notification data:', error);
+        console.log('Raw data:', e.data);
+    }
+  }
+);
+
+Notification();
 
 function showToastFeedback(status, message) {
   const toast = $('#ActionFeedbackToast');
@@ -700,7 +725,13 @@ window.initializeStaffPageJs = async () => {
               payment.transaction_id,
               formatToString(parseFloat(payment.amount)),
               payment.payment_method,
-              `<span class="badge bg-${payment.payment_status === 'Paid' ? 'success' : payment.payment_status === 'Pending' ? 'warning' : 'danger'} ">${payment.payment_status}</span>`,
+              `<span class="badge bg-${
+                payment.payment_status === 'Paid'
+                  ? 'success'
+                  : payment.payment_status === 'Pending'
+                  ? 'warning'
+                  : 'danger'
+              } ">${payment.payment_status}</span>`,
               dateFormatter(payment.created_at),
               `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#paymentModal"
@@ -769,9 +800,9 @@ window.initializeStaffPageJs = async () => {
         function () {
           const handledProjectRow = $(this).closest('tr');
           const hiddenInputs = handledProjectRow.find('input[type="hidden"]');
-          const offCanvaReadonlyInputs = $('#handleProjectOff').find('input, #FundedAmount');
-
-
+          const offCanvaReadonlyInputs = $('#handleProjectOff').find(
+            'input, #FundedAmount'
+          );
 
           // Cache values from the row
           const project_status = handledProjectRow
@@ -849,9 +880,9 @@ window.initializeStaffPageJs = async () => {
             .filter('#workingCapitalAsset')
             .val(formatToString(workingCapitalAsset));
 
-
-          offCanvaReadonlyInputs.filter('#FundedAmount').text(formatToString(parseFloat(actual_amount)));
-
+          offCanvaReadonlyInputs
+            .filter('#FundedAmount')
+            .text(formatToString(parseFloat(actual_amount)));
 
           handleProjectOffcanvasContent(project_status);
           getPaymentHistoryAndCalculation(project_id, actual_amount);
@@ -865,7 +896,7 @@ window.initializeStaffPageJs = async () => {
         const actual_amount = $('#FundedAmount').text();
 
         return actual_amount;
-      }
+      };
 
       const getPaymentHistoryAndCalculation = async (
         project_id,
@@ -2519,7 +2550,7 @@ window.initializeStaffPageJs = async () => {
             title: 'Date Created',
           },
         ],
-      })
+      });
 
       $('#ApprovedtableBody').on('click', '.approvedProjectInfo', function () {
         const row = $(this).closest('tr');
@@ -2721,7 +2752,6 @@ window.initializeStaffPageJs = async () => {
           handle_by: inputs.filter('.handled_by').val(),
         };
 
-
         readonlyInputs
           .filter('.cooperatorName')
           .val(personalDetails.cooperName);
@@ -2879,48 +2909,52 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
-      async function getPaymentHistory(projectId){
+      async function getPaymentHistory(projectId) {
         try {
-            const response = await $.ajax({
-                type: 'GET',
-                url: PROJECT_TAB_ROUTE.GET_PAYMENT_RECORDS + '?project_id=' + projectId,
+          const response = await $.ajax({
+            type: 'GET',
+            url:
+              PROJECT_TAB_ROUTE.GET_PAYMENT_RECORDS +
+              '?project_id=' +
+              projectId,
+          });
+
+          const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
+          paymentHistoryTable.clear();
+          paymentHistoryTable.rows.add(
+            response.map((payment) => {
+              const createdAtDate = new Date(payment.created_at);
+              const formattedDate = createdAtDate.toLocaleString('en-US', {
+                month: '2-digit',
+                day: '2-digit',
+                year: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true,
+              });
+              return [
+                payment.transaction_id,
+                formatToString(parseFloat(payment.amount)),
+                payment.payment_method,
+                `<span class="badge bg-${
+                  payment.payment_status === 'Paid'
+                    ? 'success'
+                    : payment.payment_status === 'Pending'
+                    ? 'warning'
+                    : 'danger'
+                } ">${payment.payment_status}</span>`,
+                formattedDate,
+              ];
             })
+          );
+          paymentHistoryTable.draw();
 
-            const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
-            paymentHistoryTable.clear();
-            paymentHistoryTable.rows.add(
-              response.map((payment) => {
-                  const createdAtDate = new Date(payment.created_at);
-                  const formattedDate = createdAtDate.toLocaleString('en-US', {
-                    month: '2-digit',
-                    day: '2-digit',
-                    year: '2-digit',
-                    hour: '2-digit',
-                    minute: '2-digit',
-                    hour12: true
-                  });
-                  return [
-                    payment.transaction_id,
-                    formatToString(parseFloat(payment.amount)),
-                    payment.payment_method,
-                    `<span class="badge bg-${payment.payment_status === 'Paid'
-                        ? 'success'
-                        : payment.payment_status === 'Pending'
-                        ? 'warning' : 'danger'} ">${payment.payment_status}</span>`,
-                    formattedDate
-                  ];
-                })
-            );
-            paymentHistoryTable.draw();
-
-            let totalAmount = 0;
-            response.forEach((payment) => {
-              totalAmount += parseFloat(payment.amount);
-            });
+          let totalAmount = 0;
+          response.forEach((payment) => {
+            totalAmount += parseFloat(payment.amount);
+          });
           //   return totalAmount;
-        } catch (error) {
-
-        }
+        } catch (error) {}
       }
       async function getApprovedProjects() {
         try {
@@ -3308,13 +3342,10 @@ window.initializeStaffPageJs = async () => {
             'input'
           );
 
-
           ApplicantDetails.filter('#firm_name').val(firmName);
           ApplicantDetails.filter('#selected_userId').val(userID);
           ApplicantDetails.filter('#selected_businessID').val(businessID);
-          ApplicantDetails.filter('#selected_applicationId').val(
-            ApplicationID
-          );
+          ApplicantDetails.filter('#selected_applicationId').val(ApplicationID);
           ApplicantDetails.filter('#address').val(businessAddress);
           ApplicantDetails.filter('#contact_person').val(fullName); // Add corresponding value
           ApplicantDetails.filter('#designation').val(designation);
@@ -3325,8 +3356,6 @@ window.initializeStaffPageJs = async () => {
 
           getEvaluationScheduledDate(businessID);
           getProposalDraft(ApplicationID);
-
-
 
           // Get requirement and call the populateReqTable function
           try {
@@ -3348,13 +3377,15 @@ window.initializeStaffPageJs = async () => {
       );
 
       $('#applicantDetails').on('hidden.bs.offcanvas', function () {
-         const FormContainer = $('#projectProposal');
-         FormContainer.find('input, textarea').val('');
-         FormContainer.find('.input_list, #EquipmentTableBody, #NonEquipmentTableBody').each(function () {
-             $(this).children().slice(1).remove();
-            })
-         clearInitialValues();
-      })
+        const FormContainer = $('#projectProposal');
+        FormContainer.find('input, textarea').val('');
+        FormContainer.find(
+          '.input_list, #EquipmentTableBody, #NonEquipmentTableBody'
+        ).each(function () {
+          $(this).children().slice(1).remove();
+        });
+        clearInitialValues();
+      });
 
       async function getEvaluationScheduledDate(businessID) {
         try {
@@ -3637,11 +3668,9 @@ window.initializeStaffPageJs = async () => {
         return (FormDataObjects = { ...FormDataObjects, ...TableData() });
       }
 
-
       const revertbutton = $('.revertButton');
 
       const populateProjectProposalForm = (draftData) => {
-
         storeInitialValues('projectID', draftData.projectID);
         storeInitialValues('projectTitle', draftData.projectTitle);
         storeInitialValues('dateOfFundRelease', draftData.dateOfFundRelease);
@@ -3653,12 +3682,14 @@ window.initializeStaffPageJs = async () => {
         $('#fundAmount').val(draftData.fundAmount);
 
         // Populate expected outputs
-        const expectedOutputsContainer = $('#ExpectedOutputTextareaContainer .input_list');
+        const expectedOutputsContainer = $(
+          '#ExpectedOutputTextareaContainer .input_list'
+        );
         expectedOutputsContainer.empty();
         draftData.expectedOutputs.forEach((output, index) => {
-            const outputKey = `expectedOutputs[${index}]`;
-            storeInitialValues(outputKey, output);
-            expectedOutputsContainer.append(`
+          const outputKey = `expectedOutputs[${index}]`;
+          storeInitialValues(outputKey, output);
+          expectedOutputsContainer.append(`
                 <div class="col-12 mb-2">
                     <textarea class="form-control" name="expectedOutputs[]" rows="3" data-initial-key="${outputKey}">${output}</textarea>
                 </div>
@@ -3669,19 +3700,25 @@ window.initializeStaffPageJs = async () => {
         const equipmentTableBody = $('#EquipmentTableBody');
         equipmentTableBody.empty();
         draftData.equipmentDetails.forEach((equipment, index) => {
-            const qtyKey = `equipmentQty[${index}]`;
-            const particularsKey = `equipmentParticulars[${index}]`;
-            const costKey = `equipmentCost[${index}]`;
+          const qtyKey = `equipmentQty[${index}]`;
+          const particularsKey = `equipmentParticulars[${index}]`;
+          const costKey = `equipmentCost[${index}]`;
 
-            storeInitialValues(qtyKey, equipment.Qty);
-            storeInitialValues(particularsKey, equipment.Actual_Particulars);
-            storeInitialValues(costKey, equipment.Cost || '');
+          storeInitialValues(qtyKey, equipment.Qty);
+          storeInitialValues(particularsKey, equipment.Actual_Particulars);
+          storeInitialValues(costKey, equipment.Cost || '');
 
-            equipmentTableBody.append(`
+          equipmentTableBody.append(`
                 <tr>
-                    <td><input type="number" class="form-control EquipmentQTY" data-initial-key="${qtyKey}" value="${equipment.Qty}"/></td>
-                    <td><input type="text" class="form-control Particulars" data-initial-key="${particularsKey}" value="${equipment.Actual_Particulars}"/></td>
-                    <td><input type="text" class="form-control EquipmentCost" data-initial-key="${costKey}" value="${equipment.Cost || ''}"/></td>
+                    <td><input type="number" class="form-control EquipmentQTY" data-initial-key="${qtyKey}" value="${
+            equipment.Qty
+          }"/></td>
+                    <td><input type="text" class="form-control Particulars" data-initial-key="${particularsKey}" value="${
+            equipment.Actual_Particulars
+          }"/></td>
+                    <td><input type="text" class="form-control EquipmentCost" data-initial-key="${costKey}" value="${
+            equipment.Cost || ''
+          }"/></td>
                 </tr>
             `);
         });
@@ -3690,84 +3727,95 @@ window.initializeStaffPageJs = async () => {
         const nonEquipmentTableBody = $('#NonEquipmentTableBody');
         nonEquipmentTableBody.empty();
         draftData.nonEquipmentDetails.forEach((nonEquipment, index) => {
-            const qtyKey = `nonEquipmentQty[${index}]`;
-            const particularsKey = `nonEquipmentParticulars[${index}]`;
-            const costKey = `nonEquipmentCost[${index}]`;
+          const qtyKey = `nonEquipmentQty[${index}]`;
+          const particularsKey = `nonEquipmentParticulars[${index}]`;
+          const costKey = `nonEquipmentCost[${index}]`;
 
-            storeInitialValues(qtyKey, nonEquipment.Qty);
-            storeInitialValues(particularsKey, nonEquipment.Actual_Particulars);
-            storeInitialValues(costKey, nonEquipment.Cost || '');
+          storeInitialValues(qtyKey, nonEquipment.Qty);
+          storeInitialValues(particularsKey, nonEquipment.Actual_Particulars);
+          storeInitialValues(costKey, nonEquipment.Cost || '');
 
-            nonEquipmentTableBody.append(`
+          nonEquipmentTableBody.append(`
                 <tr>
-                    <td><input type="number" class="form-control NonEquipmentQTY" data-initial-key="${qtyKey}" value="${nonEquipment.Qty}"/></td>
-                    <td><input type="text" class="form-control NonParticulars" data-initial-key="${particularsKey}" value="${nonEquipment.Actual_Particulars}"/></td>
-                    <td><input type="text" class="form-control NonEquipmentCost" data-initial-key="${costKey}" value="${nonEquipment.Cost || ''}"/></td>
+                    <td><input type="number" class="form-control NonEquipmentQTY" data-initial-key="${qtyKey}" value="${
+            nonEquipment.Qty
+          }"/></td>
+                    <td><input type="text" class="form-control NonParticulars" data-initial-key="${particularsKey}" value="${
+            nonEquipment.Actual_Particulars
+          }"/></td>
+                    <td><input type="text" class="form-control NonEquipmentCost" data-initial-key="${costKey}" value="${
+            nonEquipment.Cost || ''
+          }"/></td>
                 </tr>
             `);
         });
         trackChanges();
-
-      }
+      };
       const storeInitialValues = (key, value) => {
         ProjectProposalFormInitialValue[key] = value;
-    }
+      };
 
-    const clearInitialValues = () => {
+      const clearInitialValues = () => {
         ProjectProposalFormInitialValue = {};
-    }
+      };
 
-    // Function to track changes in form inputs
-    function trackChanges() {
+      // Function to track changes in form inputs
+      function trackChanges() {
         $('#projectProposal').on('input', 'input, textarea', function () {
-            let isModified = false;
+          let isModified = false;
 
-            // Check if any field has been modified
-            $('#projectProposal').find('input, textarea').each(function () {
-                const key = $(this).data('initial-key');
-                const currentValue = $(this).val();
-                const initialValue = ProjectProposalFormInitialValue[key];
+          // Check if any field has been modified
+          $('#projectProposal')
+            .find('input, textarea')
+            .each(function () {
+              const key = $(this).data('initial-key');
+              const currentValue = $(this).val();
+              const initialValue = ProjectProposalFormInitialValue[key];
 
-                if (currentValue !== initialValue) {
-                    isModified = true;
-                    return false; // Exit loop if a modification is found
-                }
+              if (currentValue !== initialValue) {
+                isModified = true;
+                return false; // Exit loop if a modification is found
+              }
             });
 
-            // Enable or disable the revert button based on whether there are changes
-            revertbutton.prop('disabled', !isModified);
+          // Enable or disable the revert button based on whether there are changes
+          revertbutton.prop('disabled', !isModified);
         });
-    }
+      }
 
-        // Handle revert button click
-        revertbutton.on('click', function () {
-            // Revert all fields to their initial values
-            $('#projectProposal').find('input, textarea').each(function () {
-                const key = $(this).data('initial-key');
-                const initialValue = ProjectProposalFormInitialValue[key];
-                $(this).val(initialValue);
-            });
+      // Handle revert button click
+      revertbutton.on('click', function () {
+        // Revert all fields to their initial values
+        $('#projectProposal')
+          .find('input, textarea')
+          .each(function () {
+            const key = $(this).data('initial-key');
+            const initialValue = ProjectProposalFormInitialValue[key];
+            $(this).val(initialValue);
+          });
 
-            // Disable the revert button again after reverting
-            revertbutton.prop('disabled', true);
-        });
+        // Disable the revert button again after reverting
+        revertbutton.prop('disabled', true);
+      });
 
       const getProposalDraft = async (applicationID) => {
         try {
-            const response = await $.ajax({
-                type: 'GET',
-                url: APPLICANT_TAB_ROUTE.GET_PROJECT_PROPOSAL_DRAFT.replace(':ApplicationId', applicationID),
-                headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
+          const response = await $.ajax({
+            type: 'GET',
+            url: APPLICANT_TAB_ROUTE.GET_PROJECT_PROPOSAL_DRAFT.replace(
+              ':ApplicationId',
+              applicationID
+            ),
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          });
 
-            response ? populateProjectProposalForm(response) : null;
+          response ? populateProjectProposalForm(response) : null;
         } catch (error) {
-            console.error(error);
+          console.error(error);
         }
-
-      }
+      };
 
       //submit project proposal
       $('#DraftProjectProposal, #submitProjectProposal').on(
@@ -3775,7 +3823,6 @@ window.initializeStaffPageJs = async () => {
         async function (event) {
           const action = $(this).data('action');
           event.preventDefault();
-
 
           const application_Id = $('#selected_applicationId').val();
           const business_id = $('#selected_businessID').val();

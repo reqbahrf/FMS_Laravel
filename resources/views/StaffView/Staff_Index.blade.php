@@ -644,7 +644,7 @@
                         <a class="position-relative text-decoration-none nav-link" data-bs-toggle="dropdown"
                             href="#" role="button" aria-haspopup="false" aria-expanded="false">
                             <i class="ri-notification-3-line ri-2x"></i>
-                            <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle"></span>
+                            <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle" style="display: none;"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
                             <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -660,28 +660,7 @@
                                 </div>
                             </div>
                             <div class="px-2" id="notification--container" style="max-height: 300px; overflow-y: auto;">
-                                <h5 class="text-muted font-13 fw-normal mt-2">Today</h5>
-                                <a href="#"
-                                    class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
-                                    <div class="card-body">
-                                        <span class="float-end noti-close-btn text-muted"><i
-                                                class="mdi mdi-close"></i></span>
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-shrink-0">
-                                                <div class="notify-icon bg-primary">
-                                                    <i class="mdi mdi-comment-account-outline"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1 text-truncate ms-2">
-                                                <p class="m-0 fs-5">Notification Title</p>
-                                                <p class="m-0 text-muted fs-6">Notification Message will be display here</p>
-                                                <p class="m-0 text-muted">2 min ago</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </a>
-                                <div class="text-center">
-                                </div>
+
                             </div>
                             <button
                             type="button"
@@ -739,7 +718,11 @@
 
     </div>
     @vite('resources/js/app.js')
+    @vite('resources/js/staffPage.js')
     <script>
+
+        const USER_ID = '{{ Auth::user()->id }}';
+        const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
         //Global Route Variables for the Navigation Tabs
         //Dashboard Tab
         const NAV_ROUTES = {
@@ -901,7 +884,6 @@
             })
         }
     </script>
-    @vite('resources/js/staffPage.js')
     <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
     </script>
     <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js" defer></script>

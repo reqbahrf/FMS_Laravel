@@ -3,7 +3,7 @@ const BadgeAlert = $('.notifi-bagde');
 export default function NotificationContainer(NotificationData) {
 
 
-    const notificationHtml = `
+    const notificationHtml = NotificationData ? `
     <a href="#"
         class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
         <div class="card-body">
@@ -22,7 +22,7 @@ export default function NotificationContainer(NotificationData) {
             </div>
         </div>
     </a>
-`;
+` : '';
 
 const noNotificationsHtml = !NotificationData ? `
     <p id="no-notifications-message" class="text-center text-muted my-3">No Notifications</p>
