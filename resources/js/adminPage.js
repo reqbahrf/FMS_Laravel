@@ -8,8 +8,6 @@ Echo.private(`admin-notifications.${USER_ID}`)
         try {
 
             console.log('Raw event:', e);
-
-            // The data might be directly in the event object, not in e.data
             const NotificationData = e;
 
             if (!NotificationData) {
