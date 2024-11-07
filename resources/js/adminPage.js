@@ -3,7 +3,7 @@ import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
 
 
-Echo.private('admin-notifications')
+Echo.private(`admin-notifications.${USER_ID}`)
     .listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (e) => {
         try {
 
