@@ -22,7 +22,7 @@
     }
 
     .headerText {
-        font-size: 30px;
+        font-size: 1.875rem;
         font-weight: 700;
         display: flex;
         align-items: center;
@@ -60,7 +60,7 @@
 
     .navlogo {
         height: 13vh;
-        width: 15vw;
+        width: 40vw;
     }
 
     .logo {
@@ -73,7 +73,7 @@
     .sideTextMain {
         position: absolute;
         bottom: 50%;
-        font-size: 20px;
+        font-size: 1.25rem;
         font-weight: 700;
     }
 
@@ -86,7 +86,7 @@
     .sideTextSec {
         position: absolute;
         top: 50%;
-        font-size: 15px;
+        font-size: 0.9375rem;
         font-weight: 400;
     }
 

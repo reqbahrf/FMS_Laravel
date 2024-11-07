@@ -15,8 +15,7 @@
 
     <style>
         html {
-            font-size: clamp(12px, 1vw, 24px);
-            /* Adjusts between 10px and 18px according to viewport width */
+            font-size: clamp(0.75rem, 1vw, 1.5rem);
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');

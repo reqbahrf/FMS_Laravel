@@ -13,8 +13,8 @@
 
 
     <style>
-        html {
-            font-size: clamp(12px, 1vw, 24px);
+         html {
+            font-size: clamp(0.75rem, 1vw, 1.5rem);
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
@@ -99,7 +99,7 @@
         #hero .btn-apply {
             font-family: "Poppins", sans-serif;
             font-weight: 700;
-            font-size: 13px;
+            font-size: 0.8125rem;
             letter-spacing: 2px;
             display: inline-block;
             padding: 12px 28px;
@@ -957,19 +957,14 @@
 
             $('body').on('scroll', function() {
                 scrollPosition = $(this).scrollTop();
-                console.log('Scroll position:', scrollPosition);
                 if (scrollPosition !== previousScrollPosition) {
-                    if (scrollPosition > previousScrollPosition) {
-                        console.log('Scrolling down');
-                    } else {
-                        console.log('Scrolling up');
-                    }
+
                     previousScrollPosition = scrollPosition;
                     isScrolling = true;
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(function() {
                         isScrolling = false;
-                        console.log('User stopped scrolling');
+                      
                         $('.header-cont').addClass('show').removeClass('hide');
                     }, 400); // adjust the timeout value as needed
                 }

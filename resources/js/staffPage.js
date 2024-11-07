@@ -2392,6 +2392,9 @@ window.initializeStaffPageJs = async () => {
     },
     Projects: () => {
       $('#approvedTable').DataTable({
+        responsive: true,
+        autoWidth: true,
+        fixedColumns: true,
         columnDefs: [
           {
             targets: 0,
@@ -2422,7 +2425,7 @@ window.initializeStaffPageJs = async () => {
       $('#ongoingTable').DataTable({
         responsive: true,
         autoWidth: false,
-        fixedColumns: true,
+        fixedColumns: false,
         columns: [
           {
             title: 'Project #',
@@ -3285,7 +3288,14 @@ window.initializeStaffPageJs = async () => {
     },
     Applicant: () => {
       let ProjectProposalFormInitialValue = {};
-      new DataTable('#applicant'); // Then initialize DataTables
+    const applicant = $('#applicant').DataTable({
+        responsive: true,
+        autoWidth: true,
+        fixedColumns: false,
+    }); // Then initialize DataTables
+
+
+
       $('#evaluationSchedule-datepicker').on('change', function () {
         const selectedDate = new Date(this.value);
         const currentDate = new Date();

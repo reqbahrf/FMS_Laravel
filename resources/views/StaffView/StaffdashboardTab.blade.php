@@ -5,8 +5,12 @@
         height: 15rem
     }
 
-    .offcanvas-body {
+    #handleProjectOff.offcanvas-body {
         background-color: #f5f5f5;
+    }
+
+    #handledProject_wrapper>div:nth-child(2) {
+        overflow: auto;
     }
 
     .cards {
@@ -246,14 +250,12 @@
     <div class="card m-3">
         <p class="fw-bold fs-5 m-0 text-center mt-3">Handled Project</p>
         <div class="card-body">
-            <div class="table-responsive">
                 <table id="handledProject" class="table table-hover" style="width:100%">
 
                     <tbody id="handledProjectTableBody">
                     </tbody>
 
                 </table>
-            </div>
         </div>
     </div>
 </div>

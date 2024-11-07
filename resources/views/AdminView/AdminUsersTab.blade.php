@@ -6,6 +6,10 @@
         /* color: white; */
     }
 
+    #user_staff_wrapper>div:nth-child(2) {
+        overflow: auto;
+    }
+
     #AddUserOffcanvas {
         /* Adjust the width as needed */
         width: 30vw;
@@ -232,7 +236,6 @@
                     </button>
                 </div>
             </div>
-            <div class="table-responsive-xl">
                 <table id="user_staff" class="table table-hover mx-2 w-100">
                     <thead>
                         <tr>
@@ -258,7 +261,6 @@
                         </tr>
                     </tfoot>
                 </table>
-            </div>
         </div>
     </div>
 </div>

@@ -12,15 +12,15 @@
 
     <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
         type="text/css" />
-    <link rel="stylesheet" href="https://cdn.datatables.net/2.0.5/css/dataTables.bootstrap5.css">
+    <link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/fc-5.0.4/fh-4.0.1/r-3.0.3/sc-2.4.3/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
 
     <style>
-        html {
-            font-size: clamp(12px, 1vw, 24px);
-            /* Adjusts between 10px and 18px according to viewport width */
-        }
+     html {
+         font-size: clamp(0.75rem, 1vw, 1.5rem);
+         /* Adjusts between 0.75rem and 1.5rem according to viewport width */
+     }
 
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
 
@@ -111,11 +111,11 @@
         }
 
         th {
-            font-size: 14px;
+            font-size: 0.875rem;
         }
 
         td {
-            font-size: 15px;
+            font-size: 0.938rem;
         }
 
         .dt-paging .page-item .page-link {
@@ -886,8 +886,7 @@
     </script>
     <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
     </script>
-    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.js" defer></script>
-    <script src="https://cdn.datatables.net/2.0.5/js/dataTables.bootstrap5.js" defer></script>
+   <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/fc-5.0.4/fh-4.0.1/r-3.0.3/sc-2.4.3/datatables.min.js" defer></script>
 </body>
 
 </html>

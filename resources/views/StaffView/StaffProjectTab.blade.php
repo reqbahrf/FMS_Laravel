@@ -28,7 +28,7 @@
     /* Off canvas style */
 
     #approvedTable, #ongoingTable, #completedTable {
-    table-layout: fixed;
+    table-layout: auto;
 }
     #ongoingTable_wrapper>div:first-child,
     #approvedTable_wrapper>div:first-child,
@@ -40,6 +40,12 @@
         margin-top: 0 !important;
     }
 
+    #ongoingTable_wrapper>div:nth-child(2),
+    #approvedTable_wrapper>div:nth-child(2),
+    #completedTable_wrapper>div:nth-child(2) {
+        overflow: auto;
+    }
+
     #approvedDetails,
     #ongoingDetails,
     #completedDetails {
@@ -48,7 +54,7 @@
     }
 
     #sw-AddProject th {
-        font-size: 12px;
+        font-size: 0.75rem;
     }
 
     /* Off canvas style end */
@@ -1382,7 +1388,6 @@
                     <div class="tab-pane fade show active" id="Approved-tab-pane" role="tabpanel"
                         aria-labelledby="Approved-tab" tabindex="0">
                         <!-- Where the applicant table start -->
-                        <div class="table-responsive-sm">
                             <table id="approvedTable" class="table table-hover" style="width:100%">
                                 <thead>
                                     <tr>
@@ -1460,33 +1465,28 @@
                                     @endif
                                 </tbody>
                             </table>
-
-                        </div>
-
                         <!-- Where the applicant table end -->
                     </div>
                     <!-- second tab here -->
                     <div class="tab-pane fade" id="Ongoing-tab-pane" role="tabpanel" aria-labelledby="Ongoing-tab"
                         tabindex="0">
                         <!-- Where the Ongoing Table Start -->
-                        <div class="table-responsive-sm">
                             <table id="ongoingTable" class="table table-hover" style="width:100%">
                                 <thead>
                                 </thead>
                                 <tbody id="OngoingTableBody" class="table-group-divider">
                                 </tbody>
                             </table>
-                        </div>
                         <!-- Where the Ongoing Table End -->
                     </div>
                     <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel"
                         aria-labelledby="Complete-tab" tabindex="0">
-                        <div class=" table-responsive-sm">
-                            <table id="completedTable" class="table table-hover mx-2" style="width:100%">
-                                <tbody id="CompletedTableBody" class=" table-responsive-sm">
+                        <!-- Where the Ongoing Table Start -->
+                            <table id="completedTable" class="table table-hover" style="width:100%">
+                                <tbody id="CompletedTableBody" class=" table-group-divider">
                                 </tbody>
                             </table>
-                        </div>
+                        <!-- Where the Ongoing Table End -->
                     </div>
                 </div>
             </div>

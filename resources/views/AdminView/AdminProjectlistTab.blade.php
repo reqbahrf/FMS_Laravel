@@ -35,6 +35,12 @@
         margin-top: 0 !important;
     }
 
+    #ongoing_wrapper>div:nth-child(2),
+    #forApproval_wrapper>div:nth-child(2),
+    #completedTable_wrapper>div:nth-child(2) {
+        overflow: auto;
+    }
+
     #approvalDetails {
         width: 45%;
         max-width: 100%;
@@ -568,7 +574,6 @@
                 <div class="tab-pane fade show active" id="approval-tab-pane" role="tabpanel"
                     aria-labelledby="approval-tab" tabindex="0">
                     <!-- Where the applicant is displayed -->
-                    <div class="mx-2 table-responsive-xl">
                         <table id="forApproval" class="table table-hover mx-2" style="width:100%">
                             <thead>
                                 <tr>
@@ -584,30 +589,25 @@
 
                             </tbody>
                         </table>
-                    </div>
                     <!-- Where the applicant table end -->
                 </div>
                 <div class="tab-pane fade" id="ongoing-tab-pane" role="tabpanel" aria-labelledby="ongoing-tab"
                     tabindex="0">
                     <!-- Where the ongoing project are displayed -->
-                    <div class="mx-2 table-responsive-xl">
                         <table id="ongoing" class="table table-hover mx-2" style="width:100%">
                           <tbody id="OngoingTableBody">
 
                           </tbody>
                         </table>
-                    </div>
                     <!-- Where the ongoing table end -->
                 </div>
                 <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab"
                     tabindex="0">
                     <!-- Where the Complete Table is displayed -->
-                    <div class="mx-2 table-responsive-xl">
                         <table id="completedTable" class="table table-hover mx-2" style="width:100%">
                             <tbody id="CompletedTableBody" class="table-group-divider">
                             </tbody>
                         </table>
-                    </div>
                     <!-- Where the Complete Table end -->
                 </div>
             </div>
