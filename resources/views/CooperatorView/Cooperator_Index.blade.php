@@ -428,9 +428,9 @@
 </head>
 
 @if (in_array(session('application_status'), ['approved', 'ongoing', 'completed']))
-    @include('CooperatorView.approved')
+    @include('CooperatorView.CooperatorApprovedPage')
 @elseif(in_array(session('application_status'), ['waiting', 'pending']))
-    @include('CooperatorView.waitingRoom')
+    @include('CooperatorView.ApplicationWaitingPage')
 @endif
 
 </html>
