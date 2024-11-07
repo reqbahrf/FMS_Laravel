@@ -207,6 +207,10 @@
                 color: #f1f1f1;
                 text-decoration: none;
             }
+
+            #notification--container {
+                width: 100vw;
+            }
         }
 
         @media (min-width: 768px) {
@@ -257,6 +261,10 @@
 
             .sidenav.Minimized {
                 width: calc(var(--nav-width-min) * 1);
+            }
+
+            #notification--container {
+                width: 40vw;
             }
 
         }

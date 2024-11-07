@@ -1,3 +1,29 @@
+
+import "./echo"
+import Notification from './Notification';
+import NotificationContainer from './NotificationContainer';
+
+Echo.private(`coop-notifications.${USER_ID}`)
+    .listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (e) => {
+        try {
+            console.log('Raw event:', e);
+            const NotificationData = e;
+
+            if (!NotificationData) {
+                throw new Error('Notification data is undefined');
+            }
+
+            NotificationContainer(NotificationData);
+
+        }
+        catch (error) {
+            console.error('Error parsing notification data:', error);
+            console.log('Raw data:', e.data);
+        }
+    });
+
+    Notification();
+
 window.initilizeCoopPageJs = async () => {
     const functions = {
         Dashboard: () => {
