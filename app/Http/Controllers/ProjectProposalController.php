@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class ProjectProposalController extends Controller
 {
@@ -93,7 +94,17 @@ class ProjectProposalController extends Controller
      */
     public function show(string $id)
     {
-        return $this->getDraftedData($id);
+        try {
+            $draftedData = ProjectProposal::where('Submission_status', 'Draft')
+                ->where('application_id', '=', $id)
+                ->first();
+
+            $data = json_decode($draftedData->data, true);
+            return response()->json($data, 200);
+        } catch (Exception $e) {
+            Log::alert('Error fetching project proposal:',$e->getMessage());
+            return response()->json(['error' => 'Server error'], 500);
+        }
     }
 
     /**
@@ -146,14 +157,16 @@ class ProjectProposalController extends Controller
                     'application_status' => 'pending',
                 ]);
 
-            ProjectProposal::updateOrCreate([
-                'application_id' => $ApplicationID
-            ],
-            [
-                'Project_id' => $proposalData['projectID'],
-                'data' => $proposalData,
-                'Submission_status' => 'Submitted'
-            ]);
+            ProjectProposal::updateOrCreate(
+                [
+                    'application_id' => $ApplicationID
+                ],
+                [
+                    'Project_id' => $proposalData['projectID'],
+                    'data' => $proposalData,
+                    'Submission_status' => 'Submitted'
+                ]
+            );
             DB::commit();
             $Evaluated_by = Auth::user()->email;
             User::where('role', 'Admin')->get()->each(function ($Admin) use ($ProposalInfo, $Evaluated_by) {
@@ -185,15 +198,5 @@ class ProjectProposalController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
-    }
-
-    protected function getDraftedData($ApplicationID)
-    {
-        $draftedData = ProjectProposal::where('Submission_status', 'Draft')
-            ->where('application_id', '=', $ApplicationID)
-            ->first();
-
-        $data = json_decode($draftedData->data, true);
-        return $data;
     }
 }
