@@ -3838,6 +3838,7 @@ window.initializeStaffPageJs = async () => {
           const business_id = $('#selected_businessID').val();
 
           const formdata = projectProposalFormData();
+          console.log(formdata);
           formdata.action = action;
           formdata.application_id = application_Id;
           formdata.business_id = business_id;

@@ -124,21 +124,12 @@ class ProjectProposalController extends Controller
         $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
         $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
 
-        // Find the project proposal
-        // $ProjectProposal = ProjectProposal::where('application_id', $ApplicationID)->first();
-
-        // if (!$ProjectProposal) {
-        //     return response()->json(['error' => 'Project Proposal not found'], 404);
-        // }
 
         // Begin a transaction for database consistency
         DB::beginTransaction();
 
         try {
             // Update submission status
-            // $ProjectProposal->update(['Submission_status' => 'Submitted']);
-
-            // Create or update ProjectInfo
             $ProposalInfo = ProjectInfo::updateOrCreate(
                 ['Project_id' => $proposalData['projectID']],
                 [
@@ -149,15 +140,20 @@ class ProjectProposalController extends Controller
                     'actual_amount_to_be_refund' => $actualFundToRefund,
                 ]
             );
-
-            // Update ApplicationInfo
             ApplicationInfo::where('business_id', $proposalData['business_id'])
                 ->update([
                     'Project_id' => $proposalData['projectID'],
                     'application_status' => 'pending',
                 ]);
 
-
+            ProjectProposal::updateOrCreate([
+                'application_id' => $ApplicationID
+            ],
+            [
+                'Project_id' => $proposalData['projectID'],
+                'data' => $proposalData,
+                'Submission_status' => 'Submitted'
+            ]);
             DB::commit();
             $Evaluated_by = Auth::user()->email;
             User::where('role', 'Admin')->get()->each(function ($Admin) use ($ProposalInfo, $Evaluated_by) {
@@ -180,7 +176,7 @@ class ProjectProposalController extends Controller
             ProjectProposal::updateOrCreate(
                 ['application_id' => $ApplicationID],
                 [
-                    'data' => json_encode($proposalData),
+                    'data' => $proposalData,
                     'Submission_status' => 'Draft'
                 ]
             );
