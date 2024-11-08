@@ -2,18 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ApplicationInfo;
-use App\Models\ProjectInfo;
-use App\Models\BusinessInfo;
+use Exception;
+use App\Models\User;
 use App\Models\ChartCache;
 use App\Models\OrgUserInfo;
+use App\Models\ProjectInfo;
+use App\Models\BusinessInfo;
 use Illuminate\Http\Request;
-use App\Models\User;
-use Exception;
+use App\Models\ApplicationInfo;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Validator;
 
 class AdminViewController extends Controller
 {
@@ -232,39 +232,7 @@ class AdminViewController extends Controller
         };
     }
 
-    public function projectProposalGet(Request $request)
-    {
 
-        $validated = $request->validate([
-            'business_id' => 'required|integer',
-        ]);
-
-        $projectProposal = BusinessInfo::select([
-            'business_info.id as business_id',
-            'project_info.Project_id',
-            'project_info.project_title',
-            'project_info.fund_amount',
-            'application_info.created_at as date_applied',
-            'org_users_info.prefix',
-            'org_users_info.f_name',
-            'org_users_info.mid_name',
-            'org_users_info.l_name',
-            'org_users_info.suffix',
-
-        ])
-            ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
-            ->join('org_users_info', 'project_info.evaluated_by_id', '=', 'org_users_info.id')
-            ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-            ->where('application_info.application_status', 'pending')
-            ->where('business_info.id', '=', $validated['business_id'])
-            ->first();
-
-        if ($projectProposal) {
-            return response()->json($projectProposal);
-        } else {
-            return response()->json(['error' => 'No data found.'], 404);
-        }
-    }
     public function approvedProjectProposal(Request $request)
     {
 

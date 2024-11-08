@@ -673,22 +673,24 @@ window.initializeAdminPageJs = async () => {
       });
 
       /**
-       * Fetches a project proposal for a given business ID and updates the form fields with the response data.
+       * Fetches a project proposal for a given business ID and project ID and updates the form fields with the response data.
        *
        * @param {number} businessId - The ID of the business.
+       * @param {number} projectId - The ID of the project.
        * @return {Promise<void>} - A promise that resolves when the form fields are updated.
        */
-      const getProjectProposal = async (businessId) => {
+      const getProjectProposal = async (businessId, projectId) => {
+        console.log(PROJECT_LIST_ROUTE.GET_PROJECTS_PROPOSAL)
         try {
           const response = await $.ajax({
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
-            url: PROJECT_LIST_ROUTE.GET_PROJECTS_PROPOSAL,
-            type: 'POST',
-            data: {
-              business_id: businessId,
-            },
+            url: PROJECT_LIST_ROUTE.GET_PROJECTS_PROPOSAL.replace(
+              ':business_id',
+              businessId
+            ).replace(':project_id', projectId),
+            type: 'GET',
             dataType: 'json', // Expect a JSON response
           });
           console.log(response);
@@ -738,6 +740,7 @@ window.initializeAdminPageJs = async () => {
         const cooperatorName = row.find('td:eq(0)').text().trim();
         const designation = inputs.filter('.designation').val();
         const businessId = inputs.filter('.business_id').val();
+        const Project_id = inputs.filter('.Project_id').val();
         const businessAddress = inputs.filter('.business_address').val();
         const typeOfEnterprise = inputs.filter('.type_of_enterprise').val();
         const landline = inputs.filter('.landline').val();
@@ -763,7 +766,7 @@ window.initializeAdminPageJs = async () => {
         $('#workingCapital').val(formatCurrency(workingCapitalAssets));
 
         // Trigger additional actions
-        getProjectProposal(businessId);
+        getProjectProposal(businessId, Project_id);
         getStafflist();
       });
 
@@ -1036,6 +1039,7 @@ window.initializeAdminPageJs = async () => {
                             <input type="hidden" class="equipment_Assets" value="${project.equipment_value}">
                             <input type="hidden" class="working_capital_Assets" value="${project.working_capital}">`,
                 `${project.project_title}
+                            <input type="hidden" class="Project_id" value="${project.Project_id}">
                             <input type="hidden" class="project_title" value="${project.Project_id}">
                             <input type="hidden" class="date_proposed" value="${project.evaluated_by_id}">
                             <input type="hidden" class="assigned_to" value="${project.full_name}">

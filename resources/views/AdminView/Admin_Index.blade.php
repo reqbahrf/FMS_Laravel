@@ -733,7 +733,7 @@
         const PROJECT_LIST_ROUTE = {
             GET_STAFFLIST: '{{ route('admin.Stafflist') }}',
             GET_APPROVED_PROJECTS: '{{ route('admin.Project.PendingProject') }}',
-            GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails') }}',
+            GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails', ['business_id' => ':business_id', 'project_id' => ':project_id']) }}',
             GET_ONGOING_PROJECTS: '{{ route('admin.Project.getOngoingProjects') }}',
             APPROVED_PROJECT: '{{ route('admin.Project.ApprovedProjectProposal') }}',
             GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}',

@@ -1,33 +1,34 @@
 <?php
 
-use App\Http\Controllers\AdminManageStaffController;
-use App\Http\Controllers\AdminViewController;
-use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\CooperatorViewController;
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\Coop_QuarterlyReportController;
-use App\Http\Controllers\GenerateFormController;
-use App\Http\Controllers\GetCompletedProjectController;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\ProxyController;
-use App\Http\Controllers\StaffViewController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\checkAdminUser;
+use App\Http\Middleware\CheckStaffUser;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\MailController;
+use App\Http\Controllers\ProxyController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
+use App\Http\Middleware\CheckCooperatorUser;
+use App\Http\Controllers\AdminViewController;
+use App\Http\Controllers\StaffViewController;
+use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\GenerateFormController;
+use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\PaymentRecordController;
+use Illuminate\Auth\Events\PasswordResetLinkSent;
+use App\Http\Controllers\CooperatorViewController;
+use App\Http\Controllers\ProjectProposalController;
+use App\Http\Controllers\staffGenerateSRController;
+use App\Http\Controllers\AdminManageStaffController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
-use App\Http\Controllers\staffGenerateSRController;
-use App\Http\Controllers\PaymentRecordController;
-use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\StaffProjectLinkController;
-use App\Http\Controllers\StaffQuarterlyReportController;
-use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\UserNotificationController;
-use App\Http\Middleware\CheckCooperatorUser;
-use App\Http\Middleware\CheckStaffUser;
-use App\Http\Middleware\checkAdminUser;
-use Illuminate\Auth\Events\PasswordResetLinkSent;
+use App\Http\Controllers\GetProjectProposalController;
+use App\Http\Controllers\UpdateProjectStateController;
+use App\Http\Controllers\GetCompletedProjectController;
+use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\StaffQuarterlyReportController;
 
 
 //Applicant routes
@@ -229,7 +230,7 @@ Route::middleware([CheckAdminUser::class])->group(function () {
     Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])
         ->name('admin.Users-list');
 
-    Route::post('/Admin/Project/ProposalDetails', [AdminViewController::class, 'projectProposalGet'])
+    Route::get('/Admin/Project/ProposalDetails/{business_id}/{project_id}', GetProjectProposalController::class)
         ->name('admin.Project.GetProposalDetails');
 
     Route::post('/Admin/Project/Approved-Project', [AdminViewController::class, 'approvedProjectProposal'])
