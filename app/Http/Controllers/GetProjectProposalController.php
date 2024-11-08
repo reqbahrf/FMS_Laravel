@@ -32,10 +32,7 @@ class GetProjectProposalController extends Controller
         try {
 
             $projectProposal = BusinessInfo::select([
-                'business_info.id as business_id',
-                'project_info.Project_id',
-                'project_info.project_title',
-                'project_info.fund_amount',
+                'project_info.actual_amount_to_be_refund as To_Be_Refunded',
                 'application_info.created_at as date_applied',
                 'org_users_info.prefix',
                 'org_users_info.f_name',

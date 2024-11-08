@@ -142,31 +142,80 @@
                         Project Proposal
                     </span>
                 </div>
-                <div class="card-body">
+                <div class="card-body" id="projectProposalContainer">
                     <div class="row gy-2">
                         <div class="col-12 col-md-3">
-                            <label for="ProjectId_fetch">Project Id:</label>
-                            <input type="text" id="ProjectId_fetch" class="form-control" readonly value="">
+                            <label for="ProjectId">Project Id:</label>
+                            <input type="text" id="ProjectId" class="form-control" readonly value="">
                         </div>
                         <div class="col-12 col-md-9">
-                            <label for="ProjectTitle_fetch">Project Title:</label>
-                            <input type="text" id="ProjectTitle_fetch" class="form-control" readonly value="">
-                        </div>
-                        <div class="col-12 col-md-8">
-                            <label for="Amount_fetch">Amount:</label>
-                            <input type="text" id="Amount_fetch" class="form-control" readonly value="">
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <label for="Applied_fetch">Date Applied:</label>
-                            <input type="text" id="Applied_fetch" class="form-control" readonly value="">
+                            <label for="ProjectTitle">Project Title:</label>
+                            <input type="text" id="ProjectTitle" class="form-control" readonly value="">
                         </div>
                         <div class="col-12 col-md-6">
-                            <label for="evaluated_fetch">Evaluated by:</label>
-                            <input type="text" id="evaluated_fetch" class="form-control" readonly value="">
+                            <label for="Amount">Approved Amount:</label>
+                            <input type="text" id="funded_Amount" class="form-control" readonly value="">
+
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="To_Be_Refunded">Amount: <span class="text-muted">with 5%</span></label>
+                            <input type="text" id="To_Be_Refunded" class="form-control" readonly value="">
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <h6>Expected Outputs</h6>
+                            <ul id="ExpectedOutputContainer">
+
+                            </ul>
+                        </div>
+                        <div class="col-12">
+                            <h6>Approved Equipment</h6>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" width="10%">Qty</th>
+                                        <th scope="col" width="70%">Particular</th>
+                                        <th scope="col" width="20%">Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ApprovedEquipmentContainer">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="col-12">
+                            <h6>Approved Non-Equipment</h6>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col" width="10%">Qty</th>
+                                        <th scope="col" width="70%">Particular</th>
+                                        <th scope="col" width="20%">Cost</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="ApprovedNonEquipmentContainer">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <hr>
+                        <div class="col-12 col-md-6">
+                            <label for="Applied">Date Applied:</label>
+                            <input type="text" id="Applied" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="Date_FundRelease">Fund Released:</label>
+                            <input type="text" id="Date_FundRelease" class="form-control" readonly value="">
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="evaluated">Evaluated by:</label>
+                            <input type="text" id="evaluated" class="form-control" readonly value="">
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="Assigned_to">Assigned to:</label>
                             <select name="Assigned_to" id="Assigned_to" class="form-select">
+                                <option value="">Select Staff to Assign</option>
 
                             </select>
                         </div>
@@ -281,7 +330,7 @@
                     <div class="card-body">
                         <div class="row gy-2">
                             <div class="col-12 col-md-3">
-                                <label for="ProjectId_fetch">Project Id:</label>
+                                <label for="ProjectId">Project Id:</label>
                                 <input type="text" id="" class="form-control ProjectId" readonly value="">
                             </div>
                             <div class="col-12 col-md-9">

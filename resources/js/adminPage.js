@@ -672,6 +672,42 @@ window.initializeAdminPageJs = async () => {
         ],
       });
 
+      const populateProjectProposalContainer = (data) => {
+        const ProjectProposalContainer = $('#projectProposalContainer');
+
+        ProjectProposalContainer.find('#ProjectId').val(data.proposal_data.projectID);
+        ProjectProposalContainer.find('#ProjectTitle').val(data.proposal_data.projectTitle);
+        ProjectProposalContainer.find('#funded_Amount').val(data.proposal_data.fundAmount);
+
+        ProjectProposalContainer.find('#ExpectedOutputContainer').append(data.proposal_data.expectedOutputs.map(item =>
+            `<li>${item}</li>`
+        ));
+
+        ProjectProposalContainer.find('#ApprovedEquipmentContainer').append(data.proposal_data.equipmentDetails.map(item => {
+          return `<tr>
+                <td>${item.Qty}</td>
+                <td>${item.Actual_Particulars}</td>
+                <td>${item.Cost}</td>
+            </tr>`
+        }));
+
+        ProjectProposalContainer.find('#ApprovedNonEquipmentContainer').append(data.proposal_data.nonEquipmentDetails.map(item => {
+            return `<tr>
+                <td>${item.Qty}</td>
+                <td>${item.Actual_Particulars}</td>
+                <td>${item.Cost}</td>
+            </tr>`
+        }))
+        ProjectProposalContainer.find('#To_Be_Refunded').val(
+          formatToString(parseFloat(data.To_Be_Refunded))
+        );
+        ProjectProposalContainer.find('#Date_FundRelease').val(data.proposal_data.dateOfFundRelease)
+        ProjectProposalContainer.find('#Applied').val(data.date_applied);
+        ProjectProposalContainer.find('#evaluated').val(
+          `${data?.prefix} ${data.f_name} ${data.mid_name} ${data.l_name} ${data?.suffix}`
+        );
+      }
+
       /**
        * Fetches a project proposal for a given business ID and project ID and updates the form fields with the response data.
        *
@@ -680,7 +716,6 @@ window.initializeAdminPageJs = async () => {
        * @return {Promise<void>} - A promise that resolves when the form fields are updated.
        */
       const getProjectProposal = async (businessId, projectId) => {
-        console.log(PROJECT_LIST_ROUTE.GET_PROJECTS_PROPOSAL)
         try {
           const response = await $.ajax({
             headers: {
@@ -693,24 +728,10 @@ window.initializeAdminPageJs = async () => {
             type: 'GET',
             dataType: 'json', // Expect a JSON response
           });
-          console.log(response);
-          $('#ProjectId_fetch').val(response.Project_id);
-          $('#ProjectTitle_fetch').val(response.project_title);
-          $('#Amount_fetch').val(
-            parseFloat(response.fund_amount).toLocaleString('en-US', {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            })
-          );
-          $('#Applied_fetch').val(response.date_applied);
-          $('#evaluated_fetch').val(
-            `${response?.prefix} ${response.f_name} ${response.mid_name} ${response.l_name} ${response?.suffix}`
-          );
+
+          populateProjectProposalContainer(response);
+
         } catch (error) {
-          $('#ProjectTitle_fetch').val('');
-          $('#Amount_fetch').val('');
-          $('#Applied_fetch').val('');
-          $('#evaluated_fetch').val('');
           console.log('Error: ' + error);
         }
       };
@@ -988,7 +1009,7 @@ window.initializeAdminPageJs = async () => {
           });
           const data = await response.json();
           const staffList = $('#Assigned_to');
-          staffList.empty();
+          staffList.children().slice(1).empty();
           data.forEach((staff) => {
             staffList.append(
               `<option value="${staff.staff_id}">${staff?.prefix} ${staff.f_name} ${staff.mid_name} ${staff.l_name} ${staff?.suffix}</option>`
