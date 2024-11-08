@@ -510,8 +510,8 @@ window.initializeAdminPageJs = async () => {
     ProjectList: () => {
       $('#forApproval').DataTable({
         responsive: true,
-        autoWidth: true,
-        fixedColumns: false,
+        autoWidth: false,
+        fixedColumns: true,
         columnDefs: [
             {
               targets: 0,
