@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Bus\Queueable;
@@ -63,6 +64,8 @@ class ProjectProposalNotification extends Notification implements ShouldBroadcas
 
     public function broadcastOn()
     {
-        return new PrivateChannel('admin-notifications');
+        return User::where('role', 'Admin')->get()->map(function ($user) {
+            return new PrivateChannel('admin-notifications.' . $user->id);
+        })->toArray();
     }
 }
