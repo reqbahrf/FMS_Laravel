@@ -135,7 +135,7 @@
                             </div>
                         </div>
                         <div class="card-body">
-                            <div class="row align-content-between h-100">
+                            <div class="row align-items-between h-100">
                                 <div class="col-9">
                                         <input type="datetime-local" id="evaluationSchedule-datepicker"
                                             class="form-control" min="{{ date('Y-m-d\TH:i') }}">
@@ -145,7 +145,7 @@
                                         SET
                                     </button>
                                 </div>
-                                <div class="col-12 my-auto">
+                                <div class="col-12 mb-auto">
                                     <div id="nofi_ScheduleCont" class="mt-3">
 
                                     </div>

@@ -3461,14 +3461,17 @@ window.initializeStaffPageJs = async () => {
         }
       );
 
-      $('#applicantDetails').on('hidden.bs.offcanvas', function () {
-        const FormContainer = $('#projectProposal');
+      const ApplicantDetailsContainer = $('#applicantDetails');
+
+       ApplicantDetailsContainer.on('hidden.bs.offcanvas', function () {
+        const FormContainer = ApplicantDetailsContainer.find('#projectProposal');
         FormContainer.find('input, textarea').val('');
         FormContainer.find(
           '.input_list, #EquipmentTableBody, #NonEquipmentTableBody'
         ).each(function () {
           $(this).children().slice(1).remove();
         });
+        ApplicantDetailsContainer.find('#requirementsTables').empty();
         clearInitialValues();
       });
 
@@ -3489,7 +3492,7 @@ window.initializeStaffPageJs = async () => {
           nofi_dateCont.empty();
           if (response.Scheduled_date) {
             nofi_dateCont.append(
-              '<div class="alert alert-primary my-auto" role="alert">An evaluation date of <strong>' +
+              '<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>' +
                 response.Scheduled_date +
                 '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
             );
