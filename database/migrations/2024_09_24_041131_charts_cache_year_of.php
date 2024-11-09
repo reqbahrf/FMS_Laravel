@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('charts_cache_year_of', function (Blueprint $table) {
-            $table->char('id', 36)->primary();
+            $table->uuid('id')->primary();
             $table->year('year_of');
             $table->json('mouthly_project_categories')->nullable();
             $table->json('project_local_categories')->nullable();

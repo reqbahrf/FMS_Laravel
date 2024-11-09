@@ -12,9 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('business_info', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('user_info_id')->unsigned();
-            $table->string('firm_name', 40)->unique();
+            $table->id();
+            $table->bigInteger('user_info_id')->unsigned();
+            $table->string('firm_name', 40);
             $table->enum('enterprise_type', ['Sole Proprietorship', 'Partnership', 'Corporation']);
             $table->enum('enterprise_level', ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise' ]);
             $table->string('zip_code', 10);

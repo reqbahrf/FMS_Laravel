@@ -14,15 +14,14 @@ return new class extends Migration
     {
         Schema::create('project_info', function (Blueprint $table) {
             $table->char('Project_id', 15)->primary()->unique()->collation('utf8mb4_bin');
-            $table->integer('business_id')->unsigned();
-            $table->integer('evaluated_by_id')->unsigned()->nullable();
-            $table->integer('handled_by_id')->unsigned()->nullable();
+            $table->bigInteger('business_id')->unsigned();
+            $table->bigInteger('evaluated_by_id')->unsigned()->nullable();
+            $table->bigInteger('handled_by_id')->unsigned()->nullable();
             $table->string('project_title', 255)->default('still in evaluation');
             $table->decimal('fund_amount', 10, 2)->default(0.00);
             $table->decimal('actual_amount_to_be_refund', 10, 2)->default(0.00);
             $table->decimal('refunded_amount', 10, 2)->default(0.00);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+            $table->timestamps();
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('evaluated_by_id')->references('id')->on('org_users_info')->onUpdate('cascade');
             $table->foreign('handled_by_id')->references('id')->on('org_users_info')->onUpdate('cascade');

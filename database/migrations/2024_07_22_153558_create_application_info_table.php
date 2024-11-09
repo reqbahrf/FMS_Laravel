@@ -15,8 +15,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('application_info', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('business_id')->unsigned();
+            $table->id();
+            $table->bigInteger('business_id')->unsigned();
             $table->char('Project_id', 15)->nullable()->collation('utf8mb4_bin');
             $table->string('application_status', 15)->default('waiting');
             $table->dateTime('Evaluation_date')->nullable();

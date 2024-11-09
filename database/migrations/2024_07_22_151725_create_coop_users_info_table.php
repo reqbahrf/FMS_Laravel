@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('coop_users_info', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->string('user_name', 64)->unique();
             $table->string('prefix', 15)->nullable();
             $table->string('f_name', 30);

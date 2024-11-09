@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('receipt_upload', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->char('ongoing_project_id', 15)->unique()->collation('utf8mb4_bin');
             $table->string('receipt_name', 30);
             $table->string('receipt_description', 255);

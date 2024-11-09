@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('completed_project_info', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('business_id')->unsigned();
+            $table->id();
+            $table->bigInteger('business_id')->unsigned();
             $table->date('date_completed');
             $table->double('refunded_amount');
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');

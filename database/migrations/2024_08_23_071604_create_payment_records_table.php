@@ -19,8 +19,7 @@ return new class extends Migration
             $table->decimal('amount', 10, 2);
             $table->string('payment_status', 64);
             $table->string('payment_method', 64);
-            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
+            $table->timestamps();
             $table->foreign('Project_id')->references('Project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });
     }

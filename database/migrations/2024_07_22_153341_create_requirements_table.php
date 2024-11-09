@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('requirements', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('business_id')->unsigned();
+            $table->id();
+            $table->bigInteger('business_id')->unsigned();
             $table->string('file_name', 32);
             $table->string('file_link', 500);
             $table->string('file_type', 20);

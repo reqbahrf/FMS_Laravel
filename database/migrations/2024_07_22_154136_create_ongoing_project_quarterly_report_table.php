@@ -13,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('ongoing_project_quarterly_report', function (Blueprint $table) {
-            $table->increments('id');
+            $table->id();
             $table->char('ongoing_project_id', 15)->collation('utf8mb4_bin');
             $table->char('quarter', 15);
             $table->longText('report_file')->nullable();
