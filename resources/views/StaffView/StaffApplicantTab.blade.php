@@ -420,11 +420,12 @@
                                 </div>
                                 <form id="reviewFileForm">
                                     <div class="mb-3">
+                                        <input type="hidden" name="file_url" id="file_url">
                                         <textarea name="remark" id="remark" cols="30" rows="3" placeholder="Enter your remark here..." class="form-control"></textarea>
                                     </div>
                                     <div class="d-flex justify-content-end gap-2">
-                                        <button type="button" class="btn btn-success" name="action" value="Approved">Approved</button>
-                                        <button type="button" class="btn btn-danger" name="action" value="Reject">Reject</button>
+                                        <button type="submit" class="btn btn-success" name="action" value="Approved">Approved</button>
+                                        <button type="submit" class="btn btn-danger" name="action" value="Reject">Reject</button>
                                     </div>
                                 </form>
                             </div>

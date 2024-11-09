@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Requirement;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
+use Illuminate\Support\Facades\Log;
+
 
 class ApplicantRequirementController extends Controller
 {
@@ -102,9 +104,26 @@ class ApplicantRequirementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Requirement $requirement)
+    public function update(Request $request)
     {
-        //
+        $userRole = Auth::user()->role;
+        try {
+            switch ($userRole) {
+                case 'Staff':
+                    $validated = $request->validate([
+                        'action' => 'required|string|in:Approve,Reject',
+                        'file_url' => 'required|string',
+                        'remarks' => 'nullable|string',
+                    ]);
+                   return $this->updateReviewedFile($validated);
+                break;
+                case 'Cooperator':
+                break;
+            }
+        }catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['error' => 'Something went wrong'], 500);
+        }
     }
 
     /**
@@ -113,5 +132,23 @@ class ApplicantRequirementController extends Controller
     public function destroy(Requirement $requirement)
     {
         //
+    }
+
+    protected function updateReviewedFile($validated) 
+    {
+        try {
+
+
+
+        }catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['error' => 'Something went wrong'], 500);
+        }
+
+    }
+
+    protected function uploadNewFile()
+    {
+
     }
 }

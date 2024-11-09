@@ -3615,6 +3615,29 @@ window.initializeStaffPageJs = async () => {
         }
       }
 
+      const reviewFileFormContainer = $('#reviewFileForm');
+
+      //TODO: need some working
+      reviewFileFormContainer.on('submit', async function (e) {
+          e.preventDefault();
+          const formData = new FormData(this);
+          const fileUrl = encodeURIComponent(formData.get('file_url'));
+          try{
+            const response = $.ajax({
+                method: 'PUT',
+                url: APPLICANT_TAB_ROUTE.UPDATE_APPLICANT_REQUIREMENTS.replace(':fileName'),
+                data : formData,
+                processData: false,
+                contentType: false,
+            });
+
+
+
+          } catch(error){
+            console.error(error)
+          }
+      })
+
       //set evaluation date
       $('#setEvaluationDate').on('click', function () {
         const user_id = $('#selected_userId').val();
