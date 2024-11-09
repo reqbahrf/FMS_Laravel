@@ -88,9 +88,9 @@ class AuthController extends Controller
 
                         if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
 
-                            return response()->json(['success' => 'Login successful, user is a Cooperator with matching B_date.', 'redirect' => route('Cooperator.index')]);
+                            return response()->json(['success' => 'Login successfully', 'redirect' => route('Cooperator.index')]);
                         } else if (is_null($coop_userInfo)) {
-                            return response()->json(['no_record' => 'User is a Cooperator match but does not have Application info.', 'redirect' => route('registrationForm')]);
+                            return response()->json(['no_record' => 'No Application Record found.', 'redirect' => route('registrationForm')]);
                         }
                         break;
                     case 'Staff':
@@ -98,12 +98,7 @@ class AuthController extends Controller
                         $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
 
                         if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                            session(['name' => $orgUserInfo->full_name]);
-                            session(['org_userId' => $orgUserInfo->id]);
-                            session(['birth_date' => $orgUserInfo->birthdate->format('Y-m-d')]);
-                            return response()->json(['success' => 'Login successful, user is a ' . $user->role . ' with matching B_date.', 'redirect' => route($user->role . '.index')], 200);
-                        } else {
-                            return response()->json(['error' => 'Invalid credentials.'], 401);
+                            return response()->json(['success' => 'Login successfully', 'redirect' => route($user->role . '.index')], 200);
                         }
                         break;
                 }

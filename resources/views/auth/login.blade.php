@@ -301,24 +301,20 @@
                             const server_feedback = $('#server_feedback');
                             server_feedback.empty();
                             // Log the entire response object to the console
-                            if (response?.success) {
-
-
+                            if (response.success) {
                                     server_feedback.append(
-                                        '<div class="alert alert-success text-center" role="alert">Login successfully</div>'
+                                        `<div class="alert alert-success text-center" role="alert">${response.success}</div>`
                                     );
                                     setTimeout(() => {
                                         if (response?.redirect) {
                                             window.location.href = response.redirect;
                                         }
                                     }, 1000);
-                            }
-                            if (response?.no_record) {
-                                const server_feedback = $('#server_feedback');
+                            }else if (response?.no_record) {
                                 server_feedback.empty();
 
                                     server_feedback.append(
-                                        '<div class="alert alert-info text-center" role="alert">No Record Information Found</div>'
+                                        `<div class="alert alert-info text-center" role="alert">${response.no_record}</div>`
                                     );
                                     setTimeout(() => {
                                         if (response?.redirect) {
@@ -328,8 +324,8 @@
                             }
                         },
                         error: function(xhr , status, error) {
-                            let errorResponse = xhr.responseJSON;
-                            let server_feedback = $('#server_feedback');
+                            const errorResponse = xhr.responseJSON;
+                            const server_feedback = $('#server_feedback');
                             server_feedback.empty();
                             server_feedback.append('<div class="alert alert-danger text-center" role="alert">' + errorResponse.error + '</div>');
                         }
