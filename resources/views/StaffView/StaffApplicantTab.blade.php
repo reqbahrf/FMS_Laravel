@@ -362,29 +362,8 @@
         <div class="m-3">
             <!-- Where the applicant table start -->
             <table id="applicant" class="table table-hover" style="width:100%">
-                <thead>
-                    <tr>
-                        <th>Client Name</th>
-                        <th>Designation</th>
-                        <th>Business Info</th>
-                        <th>Date Applied</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
                 <tbody id="ApplicantTableBody" class="table-group-divider">
                 </tbody>
-                <tfoot>
-                    <tr>
-
-                        <th>Client Name</th>
-                        <th>Designation</th>
-                        <th>Business Info</th>
-                        <th>Date Applied</th>
-                        <th>Status</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
             </table>
         </div>
     </div>

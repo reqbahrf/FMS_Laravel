@@ -64,10 +64,10 @@ const dateFormatter = (date) => {
   const dateObj = new Date(date);
 
   return dateObj.toLocaleString('en-US', {
-    month: '2-digit',
+    month: 'short',
     day: '2-digit',
     year: '2-digit',
-    hour: '2-digit',
+    hour: 'numeric',
     minute: '2-digit',
     hour12: true,
   });
@@ -3290,8 +3290,37 @@ window.initializeStaffPageJs = async () => {
       let ProjectProposalFormInitialValue = {};
     const applicantDataTable = $('#applicant').DataTable({
         responsive: true,
-        autoWidth: true,
-        fixedColumns: false,
+        autoWidth: false,
+        fixedColumns: true,
+        columns: [
+            {
+                title: 'Applicant',
+                width: '25%'
+            },
+            {
+                title: 'Designation',
+                width: '10%'
+            },
+            {
+                title: 'Business Info',
+                width: '35%',
+                orderable: false
+            },
+            {
+                title: 'Date Applied',
+                width: '15%',
+                type: 'date'
+            },
+            {
+                title: 'Status',
+                width: '10%'
+            },
+            {
+                title: 'Action',
+                width: '5%',
+                orderable: false
+            },
+        ]
     });
 
     const getApplicants = async () => {
@@ -3312,7 +3341,7 @@ window.initializeStaffPageJs = async () => {
                     <input type="hidden" name="userID" value="${item.user_id}">
                     <input type="hidden" name="applicationID" value="${item.Application_ID}">
                     <input type="hidden" name="businessID" value="${item.business_id}">
-                    <span class="b_address text-nowrap">${item.landMark}, ${item.barangay}, ${item.city}, ${item.province}, ${item.region}</span><br>
+                    <span class="b_address text-truncate">${item.landMark}, ${item.barangay}, ${item.city}, ${item.province}, ${item.region}</span><br>
                     <strong>Type of Enterprise:</strong> <span class="enterprise_l">${item.enterprise_type}</span>
                     <p>
                         <strong>Assets:</strong> <br>
@@ -3327,7 +3356,7 @@ window.initializeStaffPageJs = async () => {
                         <strong class="p-2">Email:</strong> <span class="email_add">${item.email}</span>
                     </p>
                 </div>`,
-                `${item.date_applied}`,
+                `${dateFormatter(item.date_applied)}`,
                 `To be reviewed`,
                 ` <button class="btn btn-primary applicantDetailsBtn" type="button"
                                         data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
