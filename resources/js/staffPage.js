@@ -3420,8 +3420,6 @@ window.initializeStaffPageJs = async () => {
             .find('td:nth-child(3) span.email_add')
             .text()
             .trim();
-          // Add more fields as needed
-          console.log(businessID);
 
           const ApplicantDetails = $('#applicantDetails .businessInfo').find(
             'input'
@@ -3446,12 +3444,9 @@ window.initializeStaffPageJs = async () => {
           try {
             const response = await $.ajax({
               type: 'GET',
-              url: APPLICANT_TAB_ROUTE.getApplicantRequirementsLink,
+              url: APPLICANT_TAB_ROUTE.GET_APPLICANT_REQUIREMENTS.replace(':id', businessID),
               headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              },
-              data: {
-                selected_businessID: $('#selected_businessID').val(),
               },
             });
             populateReqTable(response);
@@ -3576,7 +3571,7 @@ window.initializeStaffPageJs = async () => {
       async function retrieveAndDisplayFile(fileUrl, fileType) {
         try {
           const response = await $.ajax({
-            url: APPLICANT_TAB_ROUTE.getRequirementFiles,
+            url: APPLICANT_TAB_ROUTE.SHOW_REQUIREMENT_FILE,
             method: 'GET',
             headers: {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),

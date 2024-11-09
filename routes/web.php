@@ -13,6 +13,7 @@ use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\GenerateFormController;
+use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PaymentRecordController;
 use Illuminate\Auth\Events\PasswordResetLinkSent;
@@ -27,8 +28,8 @@ use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
+use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
-use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 
 
@@ -177,12 +178,6 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::post('/Staff/Project/Create-StatusReport', [staffGenerateSRController::class, 'index'])
         ->name('staff.Create-StatusReport');
 
-    Route::get('/Staff/Applicant/Requirement', [StaffViewController::class, 'applicantGetRequirements'])
-        ->name('staff.Applicant.Requirement');
-
-    Route::get('/Staff/Applicant/Requirement/View', [StaffViewController::class, 'reviewFileFromUrl'])
-        ->name('staff.Applicant.Requirement.View');
-
 
 
     //Staff Evaluation Schedule Set date
@@ -270,7 +265,10 @@ Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'ver
     ->middleware('signed');
 
 //test route
-
-
+Route::get('/Applicant-Requirements/{business_id}', [ApplicantRequirementController::class, 'index'])
+    ->name('Requirements.index');
+Route::get('/Applicant-Requirement/view', [ApplicantRequirementController::class, 'show'])
+    ->name('Requirements.view');
+Route::resource('/Applicant-Requirements', ApplicantRequirementController::class);
 Route::get('/viewSR', fn() => view('StaffView.outputs.StatusReport'));
 Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);

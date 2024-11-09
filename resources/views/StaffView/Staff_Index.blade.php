@@ -772,10 +772,10 @@
         //Application Tab
         const APPLICANT_TAB_ROUTE = {
             GET_APPLICANTS: '{{ route('staff.Applicant.getApplicants') }}',
-            getApplicantRequirementsLink: '{{ route('staff.Applicant.Requirement') }}',
+            GET_APPLICANT_REQUIREMENTS: '{{ route('Requirements.index', ['business_id' => ':id']) }}',
             setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
             getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
-            getRequirementFiles: '{{ route('staff.Applicant.Requirement.View') }}',
+            SHOW_REQUIREMENT_FILE: '{{ route('Requirements.view') }}',
             STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}',
             GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}'
         }
