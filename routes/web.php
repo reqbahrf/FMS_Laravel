@@ -28,6 +28,7 @@ use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 
 
@@ -147,8 +148,11 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::get('/Staff/Project/getOngoingProjects', [StaffViewController::class, 'getOngoingProjects'])
         ->name('staff.Project.getOngoingProjects');
 
-    Route::get('/Staff/Applicant', [StaffViewController::class, 'applicantGet'])
+    Route::get('/Staff/Applicant', [StaffViewController::class, 'getApplicantView'])
         ->name('staff.Applicant');
+
+    Route::get('/Staff/Applicant/getApplicants', GetApplicantController::class)
+        ->name('staff.Applicant.getApplicants');
 
     Route::get('/Staff/Dashboard/getHandledProjects', [StaffViewController::class, 'getHandledProjects'])
         ->name('staff.Dashboard.getHandledProjects');

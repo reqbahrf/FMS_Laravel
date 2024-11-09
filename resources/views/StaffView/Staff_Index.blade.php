@@ -771,6 +771,7 @@
 
         //Application Tab
         const APPLICANT_TAB_ROUTE = {
+            GET_APPLICANTS: '{{ route('staff.Applicant.getApplicants') }}',
             getApplicantRequirementsLink: '{{ route('staff.Applicant.Requirement') }}',
             setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
             getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',

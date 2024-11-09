@@ -3288,12 +3288,58 @@ window.initializeStaffPageJs = async () => {
     },
     Applicant: () => {
       let ProjectProposalFormInitialValue = {};
-    const applicant = $('#applicant').DataTable({
+    const applicantDataTable = $('#applicant').DataTable({
         responsive: true,
         autoWidth: true,
         fixedColumns: false,
-    }); // Then initialize DataTables
+    });
 
+    const getApplicants = async () => {
+
+        const response = await fetch(APPLICANT_TAB_ROUTE.GET_APPLICANTS, {
+            method: 'GET',
+            dataType: 'json',
+        });
+        const data = await response.json();
+        applicantDataTable.clear();
+        applicantDataTable.rows.add(data.map(item => {
+            return [
+                `${item.prefix + ' ' + item.f_name + ' ' + item.mid_name + ' ' + item.suffix}`,
+                `${item.designation}`,
+                `<div>
+                    <strong>Firm Name:</strong> <span class="firm_name">${item.firm_name}</span><br>
+                    <strong>Business Address:</strong>
+                    <input type="hidden" name="userID" value="${item.user_id}">
+                    <input type="hidden" name="applicationID" value="${item.Application_ID}">
+                    <input type="hidden" name="businessID" value="${item.business_id}">
+                    <span class="b_address text-nowrap">${item.landMark}, ${item.barangay}, ${item.city}, ${item.province}, ${item.region}</span><br>
+                    <strong>Type of Enterprise:</strong> <span class="enterprise_l">${item.enterprise_type}</span>
+                    <p>
+                        <strong>Assets:</strong> <br>
+                        <span class="ps-2">Building: ${formatToString(parseFloat(item.building_value))}</span><br>
+                        <span class="ps-2">Equipment: ${formatToString(parseFloat(item.equipment_value))}</span> <br>
+                        <span class="ps-2">Working Capital: ${formatToString(parseFloat(item.working_capital))}</span>
+                    </p>
+                    <strong>Contact Details:</strong>
+                    <p>
+                        <strong class="p-2">Landline:</strong> <span class="landline">${item.landline}</span> <br>
+                        <strong class="p-2">Mobile Phone:</strong> <span class="mobile_num">${item.mobile_number}</span> <br>
+                        <strong class="p-2">Email:</strong> <span class="email_add">${item.email}</span>
+                    </p>
+                </div>`,
+                `${item.date_applied}`,
+                `To be reviewed`,
+                ` <button class="btn btn-primary applicantDetailsBtn" type="button"
+                                        data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
+                                        aria-controls="applicantDetails">
+                                        <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                    </button>`
+            ]
+        })).draw()
+
+    }
+
+    getApplicants();
 
 
       $('#evaluationSchedule-datepicker').on('change', function () {

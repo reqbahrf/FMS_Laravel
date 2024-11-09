@@ -373,58 +373,6 @@
                     </tr>
                 </thead>
                 <tbody id="ApplicantTableBody" class="table-group-divider">
-                    @if (isset($applicants) && count($applicants) > 0)
-                        @foreach ($applicants as $item)
-                            <tr>
-                                <td>
-                                    {{ $item->prefix . ' ' . $item->f_name . ' ' . $item->mid_name . ' ' . $item->l_name . ' ' . $item->suffix }}
-                                </td>
-                                <td>{{ $item->designation }}</td>
-                                <td>
-                                    <div>
-                                        <strong>Firm Name:</strong> <span
-                                            class="firm_name">{{ $item->firm_name }}</span><br>
-                                        <strong>Business Address:</strong>
-                                        <input type="hidden" name="userID" value="{{ $item->user_id }}">
-                                        <input type="hidden" name="applicationID" value="{{ $item->Application_ID }}">
-                                        <input type="hidden" name="businessID" value="{{ $item->business_id }}">
-                                        <span
-                                            class="b_address text-nowrap">{{ $item->landMark . ', ' . $item->barangay . ', ' . $item->city . ', ' . $item->province . ', ' . $item->region }}
-                                        </span><br>
-                                        <strong>Type of Enterprise:</strong> <span
-                                            class="enterprise_l">{{ $item->enterprise_type }}</span>
-                                        <p>
-                                            <strong>Assets:</strong> <br>
-                                            <span class="ps-2">Building:
-                                                {{ number_format($item->building_value, 2) }}</span><br>
-                                            <span class="ps-2">Equipment:
-                                                {{ number_format($item->equipment_value, 2) }}</span> <br>
-                                            <span class="ps-2">Working Capital:
-                                                {{ number_format($item->working_capital, 2) }}</span>
-                                        </p>
-                                        <strong>Contact Details:</strong>
-                                        <p>
-                                            <strong class="p-2">Landline:</strong> <span
-                                                class="landline">{{ $item->landline }}</span> <br>
-                                            <strong class="p-2">Mobile Phone:</strong> <span
-                                                class="mobile_num">{{ $item->mobile_number }}</span> <br>
-                                            <strong class="p-2">Email:</strong> <span
-                                                class="email_add">{{ $item->email }}</span>
-                                        </p>
-                                    </div>
-                                </td>
-                                <td>{{ $item->date_applied }}</td>
-                                <td>To be reviewed</td>
-                                <td>
-                                    <button class="btn btn-primary applicantDetailsBtn" type="button"
-                                        data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
-                                        aria-controls="applicantDetails">
-                                        <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        @endforeach
-                    @endif
                 </tbody>
                 <tfoot>
                     <tr>

@@ -22,7 +22,6 @@ class ApplicationInfoObserver
      */
     public function updated(ApplicationInfo $applicationInfo): void
     {
-        Log::info('ApplicationInfoObserver updated');
         $this->forgetCache($applicationInfo);
     }
 
