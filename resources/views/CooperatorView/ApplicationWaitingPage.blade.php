@@ -21,7 +21,7 @@
             justify-content: center;
             align-items: center;
             width: 50%;
-            height: calc(100vh - 100px);
+            height: 50%;
         }
 
 
@@ -218,8 +218,8 @@
                 </ul>
             </div>
         </div>
-        <main class="overflow-hidden vh-100 backgroundColor">
-            <div class="d-flex justify-content-center align-items-center m-0 h-100">
+        <main class="overflow-y-auto vh-100 backgroundColor">
+            <div class="d-flex flex-column justify-content-center align-items-center m-0 h-100">
                 @foreach ($notifications as $notification)
                     @if ($notification['type'] === 'App\Notifications\EvaluationScheduleNotification')
                         <div class="alert alert-success alert-dismissible notification-banner" role="alert">
@@ -260,6 +260,10 @@
                         </div>
                     </div>
                 </div>
+                @php
+                    $businessId = Auth::user()->coopUserInfo->businessInfo()->first()->id;
+                @endphp
+                <x-applicant-requirements :business-id="$businessId" />
             </div>
         </main>
 
