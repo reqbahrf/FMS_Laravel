@@ -21,11 +21,13 @@ class ApplicantRequirementController extends Controller
         try {
             $applicantUploadedFiles = Requirement::where('business_id', $business_id)
                 ->select([
+                    'id',
                     'file_name',
                     'file_link',
                     'file_type',
                     'can_edit',
                     'remarks',
+                    'remark_comments',
                     'created_at',
                     'updated_at'
                 ])
@@ -37,11 +39,13 @@ class ApplicantRequirementController extends Controller
                 }
 
                 return [
+                    'id' => $file->id,
                     'file_name' => $file->file_name,
                     'full_url' => $file->file_link,
                     'file_type' => $file->file_type,
                     'can_edit' => $file->can_edit,
                     'remarks' => $file->remarks,
+                    'remark_comments' => $file->remarks_comments,
                     'created_at' => $file->created_at->format('Y-m-d H:i:s'),
                     'updated_at' => $file->updated_at->format('Y-m-d H:i:s'),
                 ];
@@ -104,18 +108,18 @@ class ApplicantRequirementController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $userRole = Auth::user()->role;
+        $validated = $request->validate([
+            'action' => 'required|string|in:Approved,Reject',
+            'file_url' => 'required|string',
+            'remark_comments' => 'nullable|string',
+        ]);
         try {
             switch ($userRole) {
                 case 'Staff':
-                    $validated = $request->validate([
-                        'action' => 'required|string|in:Approve,Reject',
-                        'file_url' => 'required|string',
-                        'remarks' => 'nullable|string',
-                    ]);
-                   return $this->updateReviewedFile($validated);
+                   return $this->updateReviewedFile($validated, $id);
                 break;
                 case 'Cooperator':
                 break;
@@ -134,12 +138,20 @@ class ApplicantRequirementController extends Controller
         //
     }
 
-    protected function updateReviewedFile($validated) 
+    protected function updateReviewedFile($validated, $id)
     {
         try {
+            $ReviewFile = Requirement::where('id', $id)->first();
 
+            $canEdit = $validated['action'] === 'Approved' ? 'Restricted' : 'Allowed';
 
-
+            $ReviewFile->update([
+                'can_edit' => $canEdit,
+                'remarks' => $validated['action'],
+                'remark_comments' => $validated['remark_comments'],
+                'updated_at' => now(),
+            ]);
+            return response()->json(['success' => 'File Reviewed'], 200);
         }catch (Exception $e) {
             Log::error($e->getMessage());
             return response()->json(['error' => 'Something went wrong'], 500);

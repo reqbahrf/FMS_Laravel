@@ -6,7 +6,6 @@ Echo.private(`staff-notifications.${USER_ID}`).listen(
   '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
   (e) => {
     try {
-
       console.log('Raw event:', e);
       const NotificationData = e;
 
@@ -16,8 +15,8 @@ Echo.private(`staff-notifications.${USER_ID}`).listen(
 
       NotificationContainer(NotificationData);
     } catch (error) {
-        console.error('Error parsing notification data:', error);
-        console.log('Raw data:', e.data);
+      console.error('Error parsing notification data:', error);
+      console.log('Raw data:', e.data);
     }
   }
 );
@@ -3288,72 +3287,103 @@ window.initializeStaffPageJs = async () => {
     },
     Applicant: () => {
       let ProjectProposalFormInitialValue = {};
-    const applicantDataTable = $('#applicant').DataTable({
+      const applicantDataTable = $('#applicant').DataTable({
         responsive: true,
         autoWidth: false,
         fixedColumns: true,
         columns: [
-            {
-                title: 'Applicant',
-                width: '25%'
-            },
-            {
-                title: 'Designation',
-                width: '10%'
-            },
-            {
-                title: 'Business Info',
-                width: '35%',
-                orderable: false
-            },
-            {
-                title: 'Date Applied',
-                width: '15%',
-                type: 'date'
-            },
-            {
-                title: 'Status',
-                width: '10%'
-            },
-            {
-                title: 'Action',
-                width: '5%',
-                orderable: false
-            },
-        ]
-    });
+          {
+            title: 'Applicant',
+            width: '25%',
+          },
+          {
+            title: 'Designation',
+            width: '10%',
+          },
+          {
+            title: 'Business Info',
+            width: '35%',
+            orderable: false,
+          },
+          {
+            title: 'Date Applied',
+            width: '15%',
+            type: 'date',
+          },
+          {
+            title: 'Status',
+            width: '10%',
+          },
+          {
+            title: 'Action',
+            width: '5%',
+            orderable: false,
+          },
+        ],
+      });
 
-    const getApplicants = async () => {
-
+      const getApplicants = async () => {
         const response = await fetch(APPLICANT_TAB_ROUTE.GET_APPLICANTS, {
-            method: 'GET',
-            dataType: 'json',
+          method: 'GET',
+          dataType: 'json',
         });
         const data = await response.json();
         applicantDataTable.clear();
-        applicantDataTable.rows.add(data.map(item => {
-            return [
-                `${item.prefix + ' ' + item.f_name + ' ' + item.mid_name + ' ' + item.suffix}`,
+        applicantDataTable.rows
+          .add(
+            data.map((item) => {
+              return [
+                `${
+                  item.prefix +
+                  ' ' +
+                  item.f_name +
+                  ' ' +
+                  item.mid_name +
+                  ' ' +
+                  item.suffix
+                }`,
                 `${item.designation}`,
                 `<div>
-                    <strong>Firm Name:</strong> <span class="firm_name">${item.firm_name}</span><br>
+                    <strong>Firm Name:</strong> <span class="firm_name">${
+                      item.firm_name
+                    }</span><br>
                     <strong>Business Address:</strong>
                     <input type="hidden" name="userID" value="${item.user_id}">
-                    <input type="hidden" name="applicationID" value="${item.Application_ID}">
-                    <input type="hidden" name="businessID" value="${item.business_id}">
-                    <span class="b_address text-truncate">${item.landMark}, ${item.barangay}, ${item.city}, ${item.province}, ${item.region}</span><br>
-                    <strong>Type of Enterprise:</strong> <span class="enterprise_l">${item.enterprise_type}</span>
+                    <input type="hidden" name="applicationID" value="${
+                      item.Application_ID
+                    }">
+                    <input type="hidden" name="businessID" value="${
+                      item.business_id
+                    }">
+                    <span class="b_address text-truncate">${item.landMark}, ${
+                  item.barangay
+                }, ${item.city}, ${item.province}, ${item.region}</span><br>
+                    <strong>Type of Enterprise:</strong> <span class="enterprise_l">${
+                      item.enterprise_type
+                    }</span>
                     <p>
                         <strong>Assets:</strong> <br>
-                        <span class="ps-2">Building: ${formatToString(parseFloat(item.building_value))}</span><br>
-                        <span class="ps-2">Equipment: ${formatToString(parseFloat(item.equipment_value))}</span> <br>
-                        <span class="ps-2">Working Capital: ${formatToString(parseFloat(item.working_capital))}</span>
+                        <span class="ps-2">Building: ${formatToString(
+                          parseFloat(item.building_value)
+                        )}</span><br>
+                        <span class="ps-2">Equipment: ${formatToString(
+                          parseFloat(item.equipment_value)
+                        )}</span> <br>
+                        <span class="ps-2">Working Capital: ${formatToString(
+                          parseFloat(item.working_capital)
+                        )}</span>
                     </p>
                     <strong>Contact Details:</strong>
                     <p>
-                        <strong class="p-2">Landline:</strong> <span class="landline">${item.landline}</span> <br>
-                        <strong class="p-2">Mobile Phone:</strong> <span class="mobile_num">${item.mobile_number}</span> <br>
-                        <strong class="p-2">Email:</strong> <span class="email_add">${item.email}</span>
+                        <strong class="p-2">Landline:</strong> <span class="landline">${
+                          item.landline
+                        }</span> <br>
+                        <strong class="p-2">Mobile Phone:</strong> <span class="mobile_num">${
+                          item.mobile_number
+                        }</span> <br>
+                        <strong class="p-2">Email:</strong> <span class="email_add">${
+                          item.email
+                        }</span>
                     </p>
                 </div>`,
                 `${dateFormatter(item.date_applied)}`,
@@ -3362,14 +3392,14 @@ window.initializeStaffPageJs = async () => {
                                         data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
                                         aria-controls="applicantDetails">
                                         <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                    </button>`
-            ]
-        })).draw()
+                                    </button>`,
+              ];
+            })
+          )
+          .draw();
+      };
 
-    }
-
-    getApplicants();
-
+      getApplicants();
 
       $('#evaluationSchedule-datepicker').on('change', function () {
         const selectedDate = new Date(this.value);
@@ -3444,7 +3474,10 @@ window.initializeStaffPageJs = async () => {
           try {
             const response = await $.ajax({
               type: 'GET',
-              url: APPLICANT_TAB_ROUTE.GET_APPLICANT_REQUIREMENTS.replace(':id', businessID),
+              url: APPLICANT_TAB_ROUTE.GET_APPLICANT_REQUIREMENTS.replace(
+                ':id',
+                businessID
+              ),
               headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
               },
@@ -3458,8 +3491,9 @@ window.initializeStaffPageJs = async () => {
 
       const ApplicantDetailsContainer = $('#applicantDetails');
 
-       ApplicantDetailsContainer.on('hidden.bs.offcanvas', function () {
-        const FormContainer = ApplicantDetailsContainer.find('#projectProposal');
+      ApplicantDetailsContainer.on('hidden.bs.offcanvas', function () {
+        const FormContainer =
+          ApplicantDetailsContainer.find('#projectProposal');
         FormContainer.find('input, textarea').val('');
         FormContainer.find(
           '.input_list, #EquipmentTableBody, #NonEquipmentTableBody'
@@ -3517,6 +3551,11 @@ window.initializeStaffPageJs = async () => {
               '</td>'
           );
           row.append(
+            '<input type="hidden"  name="file_id" value="' +
+              requirement.id +
+              '">'
+          );
+          row.append(
             '<input type="hidden"  name="file_url" value="' +
               requirement.full_url +
               '">'
@@ -3548,6 +3587,7 @@ window.initializeStaffPageJs = async () => {
       //View applicant requirements
       $('#requirementsTables').on('click', '.viewReq', function () {
         const row = $(this).closest('tr');
+        const fileID = row.find('input[type="hidden"][name="file_id"]').val();
         const file_Name = row.find('td:nth-child(1)').text();
         const fileUrl = row.find('input[type="hidden"][name="file_url"]').val();
         const fileType = row.find('td:nth-child(2)').text();
@@ -3559,8 +3599,10 @@ window.initializeStaffPageJs = async () => {
           .val();
         const uploader = $('#contact_person').val();
 
+        $('#selectedFile_ID').val(fileID);
         $('#fileName').val(file_Name);
         $('#filetype').val(fileType);
+        $('#file_url').val(fileUrl);
         $('#fileUploaded').val(uploadedDate);
         $('#fileUploadedBy').val(updatedDate);
         $('#fileUploadedBy').val(uploader);
@@ -3619,24 +3661,31 @@ window.initializeStaffPageJs = async () => {
 
       //TODO: need some working
       reviewFileFormContainer.on('submit', async function (e) {
-          e.preventDefault();
-          const formData = new FormData(this);
-          const fileUrl = encodeURIComponent(formData.get('file_url'));
-          try{
-            const response = $.ajax({
-                method: 'PUT',
-                url: APPLICANT_TAB_ROUTE.UPDATE_APPLICANT_REQUIREMENTS.replace(':fileName'),
-                data : formData,
-                processData: false,
-                contentType: false,
-            });
-
-
-
-          } catch(error){
-            console.error(error)
-          }
-      })
+        e.preventDefault();
+        const action = $(e.originalEvent.submitter).val();
+        console.log(action);
+        const formData = $(this).serialize() + '&action=' + action;
+        try {
+          console.log(APPLICANT_TAB_ROUTE.UPDATE_APPLICANT_REQUIREMENTS);
+          const response = await $.ajax({
+            method: 'PUT',
+            url: APPLICANT_TAB_ROUTE.UPDATE_APPLICANT_REQUIREMENTS.replace(
+              ':id',
+              $('#selectedFile_ID').val()
+            ),
+            data: formData,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            processData: false,
+          });
+          setTimeout(() => {
+            showToastFeedback('text-bg-success', response.success);
+          }, 500);
+        } catch (error) {
+          showToastFeedback('text-bg-danger', error.responseJSON.error);
+        }
+      });
 
       //set evaluation date
       $('#setEvaluationDate').on('click', function () {

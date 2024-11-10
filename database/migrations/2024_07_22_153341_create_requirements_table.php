@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('file_link', 500);
             $table->string('file_type', 20);
             $table->enum('can_edit', ['Allowed', 'Restricted'])->default('Restricted');
-            $table->string('remarks', 10)->nullable();
+            $table->enum('remarks', ['Approved', 'Rejected', 'Pending'])->default('Pending');
+            $table->string('remark_comments', 100)->nullable();
             $table->timestamps();
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
         });

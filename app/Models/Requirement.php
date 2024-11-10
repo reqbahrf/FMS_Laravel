@@ -18,7 +18,8 @@ class Requirement extends Model
         'file_link',
         'file_type',
         'can_edit',
-        'remark',
+        'remarks',
+        'remark_comments',
     ];
 
     public function business() : BelongsTo
