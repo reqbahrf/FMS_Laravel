@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('business_id')->unsigned();
             $table->char('Project_id', 15)->nullable()->collation('utf8mb4_bin');
-            $table->string('application_status', 15)->default('waiting');
+            $table->enum('application_status', ['new', 'pending', 'approved', 'ongoing', 'completed', 'rejected'])->default('new');
             $table->dateTime('Evaluation_date')->nullable();
             $table->string('Evaluation_status', 15)->nullable();
             $table->timestamps();
