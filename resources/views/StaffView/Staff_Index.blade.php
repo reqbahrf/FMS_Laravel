@@ -460,7 +460,7 @@
 
         {{-- MyAccount Modal --}}
 
-        @include('pagesComponents.myAccount')
+        <x-my-account-modal />
 
         {{-- Side Navbar for large screen --}}
         <nav class="sidenav expanded">

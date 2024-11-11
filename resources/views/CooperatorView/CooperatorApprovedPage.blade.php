@@ -1,6 +1,6 @@
 <body class="overflow-hidden">
     <div class="wrapper">
-        @include('pagesComponents.myAccount')
+        <x-my-account-modal />
         <nav class="sidenav expanded">
             <ul class="navbar-nav">
                 <li class="nav-item mb-2 minimize">

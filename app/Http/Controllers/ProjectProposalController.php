@@ -99,7 +99,7 @@ class ProjectProposalController extends Controller
                 ->where('application_id', '=', $id)
                 ->first();
 
-            $data = json_decode($draftedData->data, true);
+            $data = $draftedData->data;
             return response()->json($data, 200);
         } catch (Exception $e) {
             Log::alert('Error fetching project proposal:',$e->getMessage());

@@ -446,7 +446,7 @@
 
         {{-- My account  --}}
 
-        @include('pagesComponents.myAccount')
+       <x-my-account-modal />
         {{-- Side Nav for large screens --}}
         <nav class="sidenav expanded">
             <ul class="navbar-nav">
