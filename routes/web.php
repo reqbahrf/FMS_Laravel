@@ -35,8 +35,8 @@ use App\Http\Controllers\StaffQuarterlyReportController;
 
 //Applicant routes
 
-Route::get('/index', function () {
-    return view('mainpage.index');
+Route::get('/', function () {
+    return view('index');
 })->name('home');
 
 Route::get('/signup', function () {

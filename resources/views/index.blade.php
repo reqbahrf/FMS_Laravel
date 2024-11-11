@@ -48,6 +48,130 @@
             overflow-x: hidden;
         }
 
+    /*--------------------------------------------------------------
+    # Header
+    --------------------------------------------------------------*/
+
+    .logo {
+        width: 50%;
+        height: 50%;
+        border-radius: 25%;
+        border: 1px solid white;
+        background-color: white;
+        object-fit: cover;
+        object-position: center;
+    }
+
+    .nav-link.home:hover {
+        background-color: #48C4D3;
+        text-decoration: none;
+    }
+
+    .nav-link.login {
+        padding: 8px 16px;
+        border-radius: 20px;
+        border: 1px solid #48C4D3;
+        font-weight: bold;
+    }
+
+    .headerText {
+        font-size: 1.875rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        /* Ensure this element takes up the full height of its container */
+    }
+
+    .header-cont {
+        height: 13vh;
+        background-color: var(--bs-topnav-color);
+        transition: all 0.5s ease;
+
+    }
+
+    .hide {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    .show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .footer-cont {
+        height: auto;
+    }
+
+
+    #logoTitle {
+        right: 50px;
+        animation: logo-whole-text 1s forwards;
+    }
+
+    .navlogo {
+        height: 13vh;
+        width: 40vw;
+    }
+
+
+    .sideTextMain {
+        position: absolute;
+        bottom: 50%;
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .sideTextMain::after {
+        content: "DOST-SETUP";
+        opacity: 0.5;
+        animation: navLogo-text-main-expand 2s forwards;
+    }
+
+    .sideTextSec {
+        position: absolute;
+        top: 50%;
+        font-size: 0.9375rem;
+        font-weight: 400;
+    }
+
+    .sideTextSec::after {
+        content: "Fund Monitoring Sys";
+        opacity: 0;
+        animation: navLogo-text-sec-expand 3s forwards;
+    }
+
+    @keyframes logo-whole-text {
+        from {
+            right: 50px;
+        }
+
+        to {
+            right: 0;
+        }
+    }
+
+    @keyframes navLogo-text-main-expand {
+        from {
+            opacity: 0.5;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes navLogo-text-sec-expand {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
 
         /*--------------------------------------------------------------
     # Hero Section
@@ -379,8 +503,7 @@
 </head>
 
 <body>
-    @include('mainpage.header')
-
+    <x-header />
     <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
         <div class="container text-center text-md-left" data-aos="fade-up">
             <h1>Welcome to <span>SETUP</span></h1>
@@ -402,7 +525,8 @@
             <div class="row mb-3">
                 <div class="col-lg-4 col-md-6 d-flex align-items-stretch">
                     <div class="icon-box">
-                        <div class="icon"><svg width="64px" height="64px" viewBox="-16 -16 96.00 96.00"
+                        <div class="icon">
+                            <svg width="64px" height="64px" viewBox="-16 -16 96.00 96.00"
                                 data-name="Layer 1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" fill="#000000">
                                 <g id="SVGRepo_bgCarrier" stroke-width="0" transform="translate(0,0), scale(1)">
                                     <rect x="-16" y="-16" width="96.00" height="96.00" rx="48" fill="#7ed0ec"
@@ -921,7 +1045,7 @@
             </div>
         </div>
     </section>
-    @include('mainpage.footer')
+    <x-footer />
     @if (session('error') || session('success'))
         <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer" style="z-index: 1100;">
             <div id="emailNofiToast" class="toast align-items-center" role="alert" aria-live="assertive"
@@ -964,7 +1088,7 @@
                     clearTimeout(scrollTimeout);
                     scrollTimeout = setTimeout(function() {
                         isScrolling = false;
-                      
+
                         $('.header-cont').addClass('show').removeClass('hide');
                     }, 400); // adjust the timeout value as needed
                 }
