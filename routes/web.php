@@ -152,8 +152,6 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::get('/Staff/Applicant', [StaffViewController::class, 'getApplicantView'])
         ->name('staff.Applicant');
 
-    Route::get('/Staff/Applicant/getApplicants', GetApplicantController::class)
-        ->name('staff.Applicant.getApplicants');
 
     Route::get('/Staff/Dashboard/getHandledProjects', [StaffViewController::class, 'getHandledProjects'])
         ->name('staff.Dashboard.getHandledProjects');
@@ -249,6 +247,9 @@ Route::middleware('OrgUser')->group(function () {
     Route::resource('/Project/PaymentRecord', PaymentRecordController::class);
     Route::get('/Project/Completed-Project', GetCompletedProjectController::class)
         ->name('getCompletedProject');
+
+    Route::get('/Applicant/getApplicants', GetApplicantController::class)
+        ->name('Applicant.getApplicants');
 
     Route::resource('/Project/ProjectProposal', ProjectProposalController::class);
 });

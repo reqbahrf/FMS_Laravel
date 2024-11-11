@@ -771,7 +771,7 @@
 
         //Application Tab
         const APPLICANT_TAB_ROUTE = {
-            GET_APPLICANTS: '{{ route('staff.Applicant.getApplicants') }}',
+            GET_APPLICANTS: '{{ route('Applicant.getApplicants') }}',
             GET_APPLICANT_REQUIREMENTS: '{{ route('Requirements.index', ['business_id' => ':id']) }}',
             UPDATE_APPLICANT_REQUIREMENTS: '{{ route('Applicant-Requirements.update', ['Applicant_Requirement' => ':id']) }}',
             setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',

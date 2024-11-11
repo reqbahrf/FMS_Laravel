@@ -157,38 +157,7 @@ class AdminViewController extends Controller
     public function applicantTabGet(Request $request)
     {
         if ($request->ajax()) {
-            $applicants = DB::table('users')
-                ->select([
-                    'users.id as user_id',
-                    'users.email',
-                    'coop_users_info.prefix',
-                    'coop_users_info.f_name',
-                    'coop_users_info.mid_name',
-                    'coop_users_info.l_name',
-                    'coop_users_info.suffix',
-                    'coop_users_info.designation',
-                    'coop_users_info.mobile_number',
-                    'coop_users_info.landline',
-                    'business_info.firm_name',
-                    'business_info.enterprise_type',
-                    'business_info.landMark',
-                    'business_info.barangay',
-                    'business_info.city',
-                    'business_info.province',
-                    'business_info.region',
-                    'assets.building_value',
-                    'assets.equipment_value',
-                    'assets.working_capital',
-                    'application_info.created_at as date_applied',
-                    'business_info.id'
-                ])
-                ->join('coop_users_info', 'users.user_name', '=', 'coop_users_info.user_name')
-                ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
-                ->join('assets', 'assets.id', '=', 'business_info.id')
-                ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-                ->where('application_info.application_status', 'waiting')
-                ->get();
-            return view('AdminView.AdminApplicantlistTab', compact('applicants'));
+            return view('AdminView.AdminApplicantlistTab');
         } else {
             return view('AdminView.Admin_Index');
         }

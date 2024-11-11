@@ -742,7 +742,8 @@
 
         };
 
-        const APPLICATION_LIST_ROUTE = {
+        const APPLICANT_TAB_ROUTE = {
+            GET_APPLICANTS: '{{ route('Applicant.getApplicants') }}'
 
         };
 

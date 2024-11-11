@@ -3313,7 +3313,7 @@ window.initializeStaffPageJs = async () => {
           {
             title: 'Status',
             width: '10%',
-            className: 'text-center'
+            className: 'text-center',
           },
           {
             title: 'Action',
@@ -3388,12 +3388,16 @@ window.initializeStaffPageJs = async () => {
                     </p>
                 </div>`,
                 `${dateFormatter(item.date_applied)}`,
-                `<span class="badge ${item.application_status === 'new' ? 'bg-primary' : 'bg-success'}">${item.application_status}</span>`,
-                ` <button class="btn btn-primary applicantDetailsBtn" type="button"
-                                        data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
-                                        aria-controls="applicantDetails">
-                                        <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                    </button>`,
+                `<span class="badge ${
+                  item.application_status === 'new'
+                    ? 'bg-primary'
+                    : 'bg-success'
+                }">${item.application_status}</span>`,
+                `   <button class="btn btn-primary viewApplicant" type="button"
+                                            data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
+                                            aria-controls="applicantDetails">
+                                            <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                        </button>`,
               ];
             })
           )
@@ -3412,12 +3416,13 @@ window.initializeStaffPageJs = async () => {
       });
       formatToNumber('#fundAmount, .EquipmentCost');
 
+
+      //TODO: update this the logic of this
       $('#ApplicantTableBody').on(
         'click',
         '.applicantDetailsBtn',
         async function () {
           const row = $(this).closest('tr');
-
           const fullName = row.find('td:nth-child(1)').text().trim();
           const designation = row.find('td:nth-child(2)').text().trim();
           const firmName = row
