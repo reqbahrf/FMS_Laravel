@@ -3313,6 +3313,7 @@ window.initializeStaffPageJs = async () => {
           {
             title: 'Status',
             width: '10%',
+            className: 'text-center'
           },
           {
             title: 'Action',
@@ -3387,7 +3388,7 @@ window.initializeStaffPageJs = async () => {
                     </p>
                 </div>`,
                 `${dateFormatter(item.date_applied)}`,
-                `To be reviewed`,
+                `<span class="badge ${item.application_status === 'new' ? 'bg-primary' : 'bg-success'}">${item.application_status}</span>`,
                 ` <button class="btn btn-primary applicantDetailsBtn" type="button"
                                         data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
                                         aria-controls="applicantDetails">
