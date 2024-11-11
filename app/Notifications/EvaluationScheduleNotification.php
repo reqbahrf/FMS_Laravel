@@ -43,9 +43,9 @@ class EvaluationScheduleNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->line('Your evaluation is scheduled on ')
-                    ->line('**' . $this->evaluationDate . '**')
-                    ->line('Thank you for using our application!');
+                    ->markdown('emailContent.evaluation', [
+                        'evaluationDate' => $this->evaluationDate,
+                    ]);
     }
 
     /**
