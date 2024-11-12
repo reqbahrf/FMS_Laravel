@@ -8,18 +8,17 @@
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
     @vite('resources/css/app.scss')
-    @vite('resources/js/app.js')
+
 
 
 
     <style>
-         html {
-            font-size: clamp(0.75rem, 1vw, 1.5rem);
-        }
+
 
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
 
         :root {
+            font-size: clamp(0.75rem, 1vw, 1.5rem);
             font-family: 'Nunito', sans-serif;
         }
 
@@ -947,6 +946,7 @@
             });
         </script>
     @endif
+    @vite('resources/js/app.js')
     <script type="module">
         $(document).ready(function() {
             let previousScrollPosition = 0;
@@ -1032,6 +1032,10 @@
             }
 
             applyEffect(currentIndex);
+
+            $('#confirmModal .btn-primary').click(function() {
+                window.location.href = '/'; // Redirect after confirmation
+            });
         });
     </script>
 </body>

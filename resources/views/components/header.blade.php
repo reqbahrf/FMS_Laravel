@@ -158,10 +158,11 @@
             </a>
             <ul class="nav nav-pills align-items-center">
                 <li class="nav-item">
-                    <a href="{{ route('home') }}" id="home"
+                    <a href="#" id="home"
                         class="nav-link {{ Request::route()->getName() == 'home' ? 'active' : '' }}"
-                        onclick="confirmRedirect()" data-toggle="modal" data-target="#confirmModal">Home
+                        data-bs-toggle="modal" data-bs-target="#confirmModal">Home
                     </a>
+                </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">FAQs</a>
                 </li>
@@ -173,24 +174,8 @@
                     <a href="/login" class="nav-link login">Login</a>
                 </li>
                 @endguest
-                </li>
             </ul>
         </header>
     </div>
 </div>
-    <script type="module">
-        $(document).on('DOMContentLoaded',function() {
-            // Your jQuery code here using "$"
-            $('#home').click(function(e) {
-                e.preventDefault(); // Prevent the default behavior of the anchor tag
-                let link = $(this).attr('href');
-                $('#confirmModal').modal('show'); // Show the confirmation modal
-                $('#confirmModal .btn-primary').attr('href', link); // Set the redirection link
-            });
 
-            $('#confirmModal .btn-primary').click(function() {
-                var link = $(this).attr('href');
-                window.location.href = link; // Redirect after confirmation
-            });
-        });
-    </script>

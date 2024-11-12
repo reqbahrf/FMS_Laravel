@@ -13,15 +13,14 @@
 
 
     <style>
-     html {
-         font-size: clamp(0.75rem, 1vw, 1.5rem);
-         /* Adjusts between 0.75rem and 1.5rem according to viewport width */
-     }
+
 
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
 
+
         :root {
-            font-family: 'Nunito', sans-serif;
+            --font-family: 'Nunito', sans-serif;
+            --font-size: clamp(0.75rem, 1vw, 1.5rem);
             --sw-toolbar-btn-background-color: #318791;
             --sw-anchor-default-primary-color: #f8f9fa;
             --sw-anchor-active-primary-color: #318791;
@@ -42,12 +41,17 @@
 
         }
 
+        html {
+            font-family: var(--font-family);
+            font-size: var(--font-size);
+        }
+
         body,
         button,
         input,
         textarea,
         select {
-            font-family: 'Nunito', sans-serif;
+            font-family: var(--font-family);
             color: var(--ct-text-color);
         }
 

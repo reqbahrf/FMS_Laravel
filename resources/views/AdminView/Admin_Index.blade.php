@@ -12,17 +12,23 @@
 
 
     <style>
-        html {
-            font-size: clamp(0.75rem, 1vw, 1.5rem);
-        }
+
 
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
 
+
+
         :root {
-            font-family: 'Nunito', sans-serif;
+            --font-family: 'Nunito', sans-serif;
+            --font-size: clamp(0.75rem, 1vw, 1.5rem);
             --nav-width-min: 70px;
             --nav-width-max: 225px;
             --top-header-height: 70px;
+        }
+
+        html {
+            font-family: var(--font-family);
+            font-size: var(--font-size);
         }
 
         body,
@@ -30,7 +36,7 @@
         input,
         textarea,
         select {
-            font-family: 'Nunito', sans-serif;
+            font-family: var(--font-family);
             color: var(--ct-text-color);
         }
 
