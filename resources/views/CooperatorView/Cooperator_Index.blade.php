@@ -342,7 +342,7 @@
         .sideTextMain {
             position: absolute;
             bottom: 50%;
-            font-size: 15px;
+            font-size: 0.9375rem;
             font-weight: 700;
         }
 

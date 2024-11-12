@@ -2,7 +2,7 @@
 @component('mail::message')
 
 
-# Hello {{ $notifiable->email }},
+# Hello, {{ $notifiable->email }},
 
 We’re reaching out to let you know that your evaluation has been {{ $isRescheduled ? 'rescheduled' : 'scheduled' }}. Here are the details:
 

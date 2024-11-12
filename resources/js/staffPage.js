@@ -3482,25 +3482,10 @@ window.initializeStaffPageJs = async () => {
           ApplicantDetails.filter('#mobile_phone').val(mobilePhone);
           ApplicantDetails.filter('#email').val(emailAddress);
 
+          getApplicantRequirements(businessID);
           getEvaluationScheduledDate(businessID);
           getProposalDraft(ApplicationID);
-
-          // Get requirement and call the populateReqTable function
-          try {
-            const response = await $.ajax({
-              type: 'GET',
-              url: APPLICANT_TAB_ROUTE.GET_APPLICANT_REQUIREMENTS.replace(
-                ':id',
-                businessID
-              ),
-              headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              },
-            });
-            populateReqTable(response);
-          } catch (error) {
-            console.log(error);
-          }
+          
         }
       );
 
@@ -3518,6 +3503,25 @@ window.initializeStaffPageJs = async () => {
         ApplicantDetailsContainer.find('#requirementsTables').empty();
         clearInitialValues();
       });
+
+      const getApplicantRequirements = async (businessID) => {
+        try {
+            const response = await $.ajax({
+              type: 'GET',
+              url: APPLICANT_TAB_ROUTE.GET_APPLICANT_REQUIREMENTS.replace(
+                ':id',
+                businessID
+              ),
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+              },
+            });
+            populateReqTable(response);
+          } catch (error) {
+            console.log(error);
+          }
+
+      }
 
       async function getEvaluationScheduledDate(businessID) {
         try {
@@ -3704,9 +3708,10 @@ window.initializeStaffPageJs = async () => {
 
       //set evaluation date
       $('#setEvaluationDate').on('click', function () {
-        const user_id = $('#selected_userId').val();
-        const business_id = $('#selected_businessID').val();
-        const Scheduledate = $('#evaluationSchedule-datepicker').val();
+        const container = $('#applicantDetails .businessInfo');
+        const user_id = container.find('#selected_userId').val();
+        const business_id =  container.find('#selected_businessID').val();
+        const Scheduledate =  $('#evaluationSchedule-datepicker').val();
 
         $.ajax({
           type: 'PUT',
@@ -3723,10 +3728,11 @@ window.initializeStaffPageJs = async () => {
             console.log(response);
             if (response.success == true) {
               getEvaluationScheduledDate(business_id);
+              showToastFeedback('text-bg-success', response.message);
             }
           },
           error: function (error) {
-            console.log(error);
+            showToastFeedback('text-bg-danger', error.responseJSON.error);
           },
         });
       });

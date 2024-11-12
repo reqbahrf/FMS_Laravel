@@ -36,6 +36,7 @@ class ScheduleController extends Controller
             // Find existing notification
             $existingNotification = $notification->findExisting($applicant);
 
+
             if ($existingNotification) {
                 // Update the existing notification
                 $existingNotification->delete();
@@ -48,10 +49,12 @@ class ScheduleController extends Controller
                 $applicant->notify($notification);
             }
 
+            $status = $notification->isRescheduled ? 'rescheduled' : 'scheduled';
+
             return response()
                 ->json([
                     'success' => true,
-                    'message' => 'Evaluation schedule set successfully',
+                    'message' => 'Evaluation ' . $status . ' set successfully',
                 ]);
         } catch (Exception $e) {
            return response()->json([
