@@ -63,7 +63,7 @@ class EvaluationScheduleNotification extends Notification
 
         return [
             'message' => 'Your evaluation is' . ($this->isRescheduled ? ' rescheduled' : ' scheduled') . ' on ' . $this->evaluationDate,
-            'schedule_id' => $this->schedule->id,
+            'schedule_id' => $this->schedule->id,   
         ];
     }
 
