@@ -113,8 +113,8 @@ function closeModal(modelId) {
 $(document).on('DOMContentLoaded', function () {
   // Line chart
   //toast feedback
-
-  //Side Nav toggle
+    
+  //Side Nav toggle     
 
   $('.sideNavButtonSmallScreen').on('click', function () {
     new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();

@@ -111,17 +111,14 @@ class ApplicantRequirementController extends Controller
     public function update(Request $request, $id)
     {
         $userRole = Auth::user()->role;
-        $validated = $request->validate([
-            'action' => 'required|string|in:Approved,Reject',
-            'file_url' => 'required|string',
-            'remark_comments' => 'nullable|string',
-        ]);
+      
         try {
             switch ($userRole) {
                 case 'Staff':
-                   return $this->updateReviewedFile($validated, $id);
+                   return $this->updateReviewedFile($request, $id);
                 break;
                 case 'Cooperator':
+                    return $this->uploadNewFile($request, $id);
                 break;
             }
         }catch (Exception $e) {
@@ -138,8 +135,14 @@ class ApplicantRequirementController extends Controller
         //
     }
 
-    protected function updateReviewedFile($validated, $id)
+    protected function updateReviewedFile($request, $id)
     {
+
+        $validated = $request->validate([
+            'action' => 'required|string|in:Approved,Reject',
+            'file_url' => 'required|string',
+            'remark_comments' => 'nullable|string',
+        ]);
         try {
             $ReviewFile = Requirement::where('id', $id)->first();
 
@@ -159,8 +162,53 @@ class ApplicantRequirementController extends Controller
 
     }
 
-    protected function uploadNewFile()
+    protected function uploadNewFile($request, $id)
     {
+
+        $validated = $request->validate([
+            'file_link' => 'required|string',
+            'file' => 'required|mimetypes:application/pdf,image/jpeg,image/png|max:10240',
+        ]);
+
+        try {
+            $filePath = Storage::disk('public')->exists($validated['file_link']);
+    
+            if(!$filePath)
+            {
+                return response()->json(['message' => 'File does not exist'], 500);
+            }
+            
+            $ToBeUpdatedFile = Requirement::where('id', $id)
+                 ->where('file_link', $validated['file_link'])
+                 ->where('remarks', 'Reject')
+                 ->where('can_edit', "Allowed")
+                 ->first();
+            if(!$ToBeUpdatedFile){
+                     return response()->json(['message' => 'Action is not allowed'], 500);
+            }
+
+            if(Storage::disk('public')->delete($validated['file_link']))
+            {
+
+                $validated['file']->storeAs('public', $validated['file_link']);
+                $ToBeUpdatedFile->update([
+                    'can_edit' => 'Restricted',
+                    'remarks' => 'Pending',
+                ]);
+                return response()->json(['success' => 'File Uploaded'], 200);
+            }else {
+
+                return response()->json(['error' => 'Something went wrong'], 500);
+            }
+
+            
+    
+
+
+        } catch (Exception $e) {
+            Log::error($e->getMessage());
+            return response()->json(['error' => 'Something went wrong'], 500);
+        }
 
     }
 }
