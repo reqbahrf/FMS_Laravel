@@ -430,9 +430,9 @@
     </style>
 </head>
 
-@if (in_array(session('application_status'), ['approved', 'ongoing', 'completed']))
+@if (in_array($application_status, ['approved', 'ongoing', 'completed']))
     @include('CooperatorView.CooperatorApprovedPage')
-@elseif(in_array(session('application_status'), ['new', 'pending']))
+@elseif(in_array($application_status, ['new', 'pending']))
     @include('CooperatorView.ApplicationWaitingPage')
 @endif
 

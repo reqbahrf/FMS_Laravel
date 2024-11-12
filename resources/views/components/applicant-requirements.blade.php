@@ -1,6 +1,6 @@
-<div class="w-75 mt-3">
+<div class="w-md-75 p-3 mt-3">
     <h6>Application Requirements:</h6>
-    <table class="table table-hover" width="100%">
+    <table class="table table-hover overflow-auto" width="100%">
         <thead>
             <tr>
                 <th scope="col">File Name</th>
@@ -14,24 +14,28 @@
         </thead>
         <tbody id="requirementsTableBody">
             @forelse ($Requirements as $Requirement)
-             <tr>
-                <td>{{ $Requirement->file_name }}</td>
-                <td>{{ $Requirement->file_type }}</td>
-                <td>
-                    <span class="badge {{ $Requirement->remarks == 'Pending'
-                    ? 'bg-info'
-                    : ($Requirement->remarks == 'Approved'
-                    ? 'bg-success' : 'bg-danger') }}">{{ $Requirement->remarks }}</span>
-                </td>
-                <td>{{ $Requirement->remark_comments }}</td>
-                <td>{{ $Requirement->created_at->format('M d, Y h:i A') }}</td>
-                <td>{{ $Requirement->updated_at->format('M d, Y h:i A') }}</td>
-                <td>
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#reviewFileModal" data-id="{{ $Requirement->id }}">edit</button>
-                </td>
-             </tr>
+                <tr>
+                    <td>{{ $Requirement->file_name }}</td>
+                    <td>{{ $Requirement->file_type }}</td>
+                    <td>
+                        <span
+                            class="badge {{ $Requirement->remarks == 'Pending'
+                                ? 'bg-info'
+                                : ($Requirement->remarks == 'Approved'
+                                    ? 'bg-success'
+                                    : 'bg-danger') }}">{{ $Requirement->remarks }}</span>
+                    </td>
+                    <td>{{ $Requirement->remark_comments }}</td>
+                    <td>{{ $Requirement->created_at->format('M d, Y h:i A') }}</td>
+                    <td>{{ $Requirement->updated_at->format('M d, Y h:i A') }}</td>
+                    <td>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                            data-bs-target="#reviewFileModal" @if ($Requirement->remarks != 'Reject') disabled @endif
+                            @if ($Requirement->remarks == 'Reject') data-id="{{ $Requirement->id }}" @endif>edit
+                        </button>
+                    </td>
+                </tr>
             @empty
-
             @endforelse
 
         </tbody>
