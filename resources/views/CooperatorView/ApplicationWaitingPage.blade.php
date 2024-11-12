@@ -18,6 +18,7 @@
     @media (min-width: 768px) {
         .waiting-clock {
             display: flex;
+            margin-top: 40vh;
             justify-content: center;
             align-items: center;
             width: 50%;
@@ -30,6 +31,7 @@
     @media (max-width: 768px) {
         .waiting-clock {
             display: flex;
+            margin-top: 10vh;
             justify-content: center;
             align-items: center;
             width: 90%;
@@ -77,7 +79,7 @@
         <x-my-account-modal />
         <x-toast-alert />
         <div class="topNav shadow-sm position-fixed container-fluid">
-            <div class="d-flex justify-content-between align-items-center h-100 w-25">
+            <div class="d-flex justify-content-between align-items-center h-100 w-75">
                 <img src="{{ asset('DOST_ICON.svg') }}" class="pe-2">
                 <div id="logoTitle" class="row position-relative h-100 w-100">
                     <div class="position-absolute top-50 ">
