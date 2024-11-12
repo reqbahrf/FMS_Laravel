@@ -10,17 +10,12 @@
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
     @vite('resources/js/app.js')
-    <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
     </script>
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
-    <link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/fc-5.0.4/fh-4.0.1/r-3.0.3/sc-2.4.3/datatables.min.css" rel="stylesheet">
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/fc-5.0.4/fh-4.0.1/r-3.0.3/sc-2.4.3/datatables.min.js"></script>
 
     <style>
         html {
-            font-size: clamp(12px, 1vw, 24px);
+            font-size: clamp(0.75rem, 1vw, 1.5rem);
             /* Adjusts between 10px and 18px according to viewport width */
         }
 
@@ -359,7 +354,7 @@
         .sideTextSec {
             position: absolute;
             top: 50%;
-            font-size: 12px;
+            font-size: 0.75rem;
             font-weight: 400;
         }
 
@@ -416,7 +411,6 @@
 
         .disabled-li-report {
             pointer-events: none;
-            ;
             cursor: default;
         }
 

@@ -3,6 +3,7 @@ import "./echo"
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
 
+
 Echo.private(`coop-notifications.${USER_ID}`)
     .listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (e) => {
         try {

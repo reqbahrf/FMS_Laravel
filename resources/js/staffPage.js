@@ -2,6 +2,15 @@ import './echo';
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
 
+import DataTable from 'datatables.net-bs5';
+window.DataTable = DataTable;
+import 'datatables.net-buttons-bs5';
+import 'datatables.net-buttons/js/buttons.html5.mjs';
+import 'datatables.net-fixedcolumns-bs5';
+import 'datatables.net-fixedheader-bs5';
+import 'datatables.net-responsive-bs5';
+import 'datatables.net-scroller-bs5';
+
 Echo.private(`staff-notifications.${USER_ID}`).listen(
   '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
   (e) => {

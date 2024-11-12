@@ -8,9 +8,6 @@
     <title>Application Form</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
-    <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
-        type="text/css" />
-    <link rel="stylesheet" href="{{ asset('other_assets/date-picker-assets/daterangepicker.css') }}">
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
     <style>
@@ -108,18 +105,18 @@
         }
 
         :root {
-            --sw-toolbar-btn-background-color: #318791;
+            --sw-toolbar-btn-background-color: #318791 !important;
             --sw-anchor-default-primary-color: #f8f9fa;
-            --sw-anchor-active-primary-color: #318791;
+            --sw-anchor-active-primary-color: #318791 !important;
             --sw-anchor-active-secondary-color: #ffffff;
-            --sw-anchor-done-primary-color: #48C4D3;
+            --sw-anchor-done-primary-color: #48C4D3 !important;
             --sw-anchor-error-primary-color: #dc3545;
             --sw-anchor-error-secondary-color: #ffffff;
             --sw-anchor-warning-primary-color: #ffc107;
             --sw-anchor-warning-secondary-color: #ffffff;
-            --sw-progress-color: #318791;
+            --sw-progress-color: #318791 !important;
             --sw-progress-background-color: #f8f9fa;
-            --sw-loader-color: #318791;
+            --sw-loader-color: #318791 !important;
             --sw-loader-background-color: #f8f9fa;
             --sw-loader-background-wrapper-color: rgba(255, 255, 255, 0.7);
         }
@@ -157,7 +154,7 @@
 </head>
 
 <body>
-    @include('mainpage.header')
+   <x-header />
     <div class="container mt-5 shadow">
         <div id="smartwizard">
             <ul class="nav nav-progress">
@@ -1269,12 +1266,10 @@
             </div>
         </div>
     </div>
-    @include('mainpage.footer')
+   <x-footer />
     @vite('resources/js/app.js')
     <script type="text/javascript">
         const APPLICATION_SUBMISSION_ROUTE = "{{ route('applicationFormSubmit') }}"
-    </script>
-    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
     </script>
     @vite('resources/js/applicationPage.js')
 </body>

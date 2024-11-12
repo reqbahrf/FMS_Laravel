@@ -8,12 +8,7 @@
     <title>Admin dashboard</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
-
-    <link href="{{ asset('other_assets/dist-smartWizard/css/smart_wizard_all.min.css') }}" rel="stylesheet"
-        type="text/css" />
-
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
-    <link href="https://cdn.datatables.net/v/bs5/dt-2.1.8/fc-5.0.4/fh-4.0.1/r-3.0.3/sc-2.4.3/datatables.min.css" rel="stylesheet">
 
 
     <style>
@@ -1059,10 +1054,6 @@
             });
         });
     </script>
-
-    <script type="text/javascript" src="{{ asset('other_assets/dist-smartWizard/js/jquery.smartWizard.min.js') }}" defer>
-        </script>
-    <script src="https://cdn.datatables.net/v/bs5/dt-2.1.8/fc-5.0.4/fh-4.0.1/r-3.0.3/sc-2.4.3/datatables.min.js" defer></script>
     @vite('resources/js/adminPage.js')
 </body>
 

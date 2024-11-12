@@ -1,4 +1,12 @@
-document.addEventListener('DOMContentLoaded', () => {
+
+import "smartwizard/dist/css/smart_wizard_all.css";
+import smartWizard from 'smartwizard';
+window.smartWizard = smartWizard;
+
+
+$(() => {
+
+    new smartWizard();
 
     const API_BASE_URL = 'https://psgc.gitlab.io/api';
     //IntentFile upload pond
@@ -79,7 +87,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     //DTI File upload
     const DTI_SEC_CDA_File = document.getElementById('DtiSecCdafile');
-    console.log(DTI_SEC_CDA_File);
     const DTI_SEC_CDA_instance = FilePond.create(DTI_SEC_CDA_File, {
         allowMultiple: false,
         allowFileTypeValidation: true,

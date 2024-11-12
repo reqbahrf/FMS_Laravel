@@ -24,7 +24,17 @@ import ApexCharts from 'apexcharts';
 window.ApexCharts = ApexCharts;
 
 
-$(document).ready(function() {
+// import DataTable from 'datatables.net-bs5';
+// window.DataTable = DataTable;
+// import 'datatables.net-buttons-bs5';
+// import 'datatables.net-buttons/js/buttons.html5.mjs';
+// import 'datatables.net-fixedcolumns-bs5';
+// import 'datatables.net-fixedheader-bs5';
+// import 'datatables.net-responsive-bs5';
+// import 'datatables.net-scroller-bs5';
+
+
+$(document).on('DOMContentLoaded',function() {
     console.log('jQuery is working');
     // Initialize tooltips for Bootstrap 5
     const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));

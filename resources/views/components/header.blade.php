@@ -1,4 +1,125 @@
+<style>
+     .logo {
+        width: 50%;
+        height: 50%;
+        border-radius: 25%;
+        border: 1px solid white;
+        background-color: white;
+        object-fit: cover;
+        object-position: center;
+    }
 
+    .nav-link.home:hover {
+        background-color: #48C4D3;
+        text-decoration: none;
+    }
+
+    .nav-link.login {
+        padding: 8px 16px;
+        border-radius: 20px;
+        border: 1px solid #48C4D3;
+        font-weight: bold;
+    }
+
+    .headerText {
+        font-size: 1.875rem;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        /* Ensure this element takes up the full height of its container */
+    }
+
+    .header-cont {
+        height: 13vh;
+        background-color: var(--bs-topnav-color);
+        transition: all 0.5s ease;
+
+    }
+
+    .hide {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    .show {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .footer-cont {
+        height: auto;
+    }
+
+
+    #logoTitle {
+        right: 50px;
+        animation: logo-whole-text 1s forwards;
+    }
+
+    .navlogo {
+        height: 13vh;
+        width: 40vw;
+    }
+
+
+    .sideTextMain {
+        position: absolute;
+        bottom: 50%;
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+
+    .sideTextMain::after {
+        content: "DOST-SETUP";
+        opacity: 0.5;
+        animation: navLogo-text-main-expand 2s forwards;
+    }
+
+    .sideTextSec {
+        position: absolute;
+        top: 50%;
+        font-size: 0.9375rem;
+        font-weight: 400;
+    }
+
+    .sideTextSec::after {
+        content: "Fund Monitoring Sys";
+        opacity: 0;
+        animation: navLogo-text-sec-expand 3s forwards;
+    }
+
+    @keyframes logo-whole-text {
+        from {
+            right: 50px;
+        }
+
+        to {
+            right: 0;
+        }
+    }
+
+    @keyframes navLogo-text-main-expand {
+        from {
+            opacity: 0.5;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+
+    @keyframes navLogo-text-sec-expand {
+        from {
+            opacity: 0;
+        }
+
+        to {
+            opacity: 1;
+        }
+    }
+</style>
 <!-- Confirmation modal start -->
 <div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
     aria-hidden="true">
@@ -57,19 +178,19 @@
         </header>
     </div>
 </div>
-<script type="module">
-    $(document).ready(function($) {
-        // Your jQuery code here using "$"
-        $('#home').click(function(e) {
-            e.preventDefault(); // Prevent the default behavior of the anchor tag
-            let link = $(this).attr('href');
-            $('#confirmModal').modal('show'); // Show the confirmation modal
-            $('#confirmModal .btn-primary').attr('href', link); // Set the redirection link
-        });
+    <script type="module">
+        $(document).on('DOMContentLoaded',function() {
+            // Your jQuery code here using "$"
+            $('#home').click(function(e) {
+                e.preventDefault(); // Prevent the default behavior of the anchor tag
+                let link = $(this).attr('href');
+                $('#confirmModal').modal('show'); // Show the confirmation modal
+                $('#confirmModal .btn-primary').attr('href', link); // Set the redirection link
+            });
 
-        $('#confirmModal .btn-primary').click(function() {
-            var link = $(this).attr('href');
-            window.location.href = link; // Redirect after confirmation
+            $('#confirmModal .btn-primary').click(function() {
+                var link = $(this).attr('href');
+                window.location.href = link; // Redirect after confirmation
+            });
         });
-    });
-</script>
+    </script>
