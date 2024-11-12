@@ -139,14 +139,14 @@ class ApplicantRequirementController extends Controller
     {
 
         $validated = $request->validate([
-            'action' => 'required|string|in:Approved,Reject',
+            'action' => 'required|string|in:Approved,Rejected',
             'file_url' => 'required|string',
             'remark_comments' => 'nullable|string',
         ]);
         try {
             $ReviewFile = Requirement::where('id', $id)->first();
 
-            $canEdit = $validated['action'] === 'Approved' ? 'Restricted' : 'Allowed';
+            $canEdit = $validated['action'] === 'Approved' ? false : true;
 
             $ReviewFile->update([
                 'can_edit' => $canEdit,
@@ -181,7 +181,7 @@ class ApplicantRequirementController extends Controller
             $ToBeUpdatedFile = Requirement::where('id', $id)
                  ->where('file_link', $validated['file_link'])
                  ->where('remarks', 'Reject')
-                 ->where('can_edit', "Allowed")
+                 ->where('can_edit', true)
                  ->first();
             if(!$ToBeUpdatedFile){
                      return response()->json(['message' => 'Action is not allowed'], 500);
@@ -192,7 +192,7 @@ class ApplicantRequirementController extends Controller
 
                 $validated['file']->storeAs('public', $validated['file_link']);
                 $ToBeUpdatedFile->update([
-                    'can_edit' => 'Restricted',
+                    'can_edit' => false,
                     'remarks' => 'Pending',
                 ]);
                 return response()->json(['success' => 'File Uploaded'], 200);
@@ -200,10 +200,6 @@ class ApplicantRequirementController extends Controller
 
                 return response()->json(['error' => 'Something went wrong'], 500);
             }
-
-            
-    
-
 
         } catch (Exception $e) {
             Log::error($e->getMessage());

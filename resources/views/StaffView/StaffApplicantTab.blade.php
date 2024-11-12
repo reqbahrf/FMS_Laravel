@@ -426,7 +426,7 @@
                                     </div>
                                     <div class="d-flex justify-content-end gap-2">
                                         <button type="submit" class="btn btn-success" name="action" value="Approved">Approved</button>
-                                        <button type="submit" class="btn btn-danger" name="action" value="Reject">Reject</button>
+                                        <button type="submit" class="btn btn-danger" name="action" value="Rejected">Reject</button>
                                     </div>
                                 </form>
                             </div>

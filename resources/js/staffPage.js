@@ -113,7 +113,7 @@ function closeModal(modelId) {
 $(document).on('DOMContentLoaded', function () {
   // Line chart
   //toast feedback
-    
+
   //Side Nav toggle     
 
   $('.sideNavButtonSmallScreen').on('click', function () {
@@ -3565,9 +3565,12 @@ window.initializeStaffPageJs = async () => {
           row.append('<td>' + requirement.file_name + '</td>');
           row.append('<td>' + requirement.file_type + '</td>');
           row.append(
-            '<td class="text-center">' +
-              '<button class="btn btn-primary viewReq">View</button>' +
-              '</td>'
+            `<td class="text-center">
+              <button class="btn btn-primary viewReq position-relative">View <span class="position-absolute top-0 start-100 translate-middle p-2 ${requirement.remarks === 'Pending' ? 'bg-info' : requirement.remarks === 'Approved' ? 'bg-primary' : 'bg-danger'} border border-light rounded-circle">
+    <span class="visually-hidden">New alerts</span>
+  </span>
+</button>
+              </td>`
           );
           row.append(
             '<input type="hidden"  name="file_id" value="' +

@@ -920,6 +920,7 @@
         </div>
     </section>
     <x-footer />
+    @vite('resources/js/app.js')
     @if (session('error') || session('success'))
         <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer" style="z-index: 1100;">
             <div id="emailNofiToast" class="toast align-items-center" role="alert" aria-live="assertive"
@@ -946,7 +947,7 @@
             });
         </script>
     @endif
-    @vite('resources/js/app.js')
+   
     <script type="module">
         $(document).ready(function() {
             let previousScrollPosition = 0;

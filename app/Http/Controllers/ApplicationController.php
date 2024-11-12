@@ -169,6 +169,8 @@ class ApplicationController extends Controller
                         'file_name' => $fileName,
                         'file_link' => $filePath,
                         'file_type' => $fileExtension,
+                        'can_edit' => false,
+                        'remarks' => 'Pending',
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
@@ -206,14 +208,13 @@ class ApplicationController extends Controller
 
     public function upload_requirments(Request $request)
     {
-        $businessId = session('business_id');
-        $uniqueId = $businessId . '_' . uniqid();
+        $uniqueId = '_' . uniqid();
 
         $filePaths = [];
 
        foreach ($request->file() as $fieldName => $file) {
 
-           $fileName = $file->getClientOriginalName();
+           $fileName = $file->hashName();
            $filePaths[$fieldName] = $file->storeAs("temp/$uniqueId", $fileName, 'public');
        }
 
