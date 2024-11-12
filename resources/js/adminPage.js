@@ -1134,8 +1134,9 @@ window.initializeAdminPageJs = async () => {
       //Submit the Approved Proposal
       $('#approvedButton').on('click', function () {
         const businessId = $('#b_id').val();
-        const projectId = $('#ProjectId_fetch').val();
+        const projectId = $('#ProjectId').val();
         const assignedStaff_Id = $('#Assigned_to').val();
+       
         if (
           typeof businessId !== 'undefined' &&
           typeof projectId !== 'undefined' &&
