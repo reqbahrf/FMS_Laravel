@@ -31,8 +31,8 @@
                     <td>{{ $Requirement->updated_at->format('M d, Y h:i A') }}</td>
                     <td>
                         <button type="button" class="btn btn-info" data-bs-toggle="modal"
-                            data-bs-target="#updateFileModal" @if ($Requirement->remarks != 'Reject') disabled @endif
-                            @if ($Requirement->remarks == 'Reject') data-id="{{ $Requirement->id }}" data-file-link="{{  $Requirement->file_link }}" @endif>edit
+                            data-bs-target="#updateFileModal" @if ($Requirement->remarks != 'Rejected') disabled @endif
+                            @if ($Requirement->remarks == 'Rejected') data-id="{{ $Requirement->id }}" data-file-link="{{  $Requirement->file_link }}" @endif>edit
                         </button>
                     </td>
                 </tr>
@@ -57,7 +57,7 @@
                         <label for="updateFile" class="form-label">Select File</label>
                         <input type="file" name="file" id="updateFile">
                         <div class="invalid-feedback">
-                           
+
                         </div>
                     </div>
                 </form>

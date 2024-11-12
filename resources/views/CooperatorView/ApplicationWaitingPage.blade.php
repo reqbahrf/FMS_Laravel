@@ -75,6 +75,7 @@
 <body class="overflow-hidden">
     <div class="wrapper-waiting">
         <x-my-account-modal />
+        <x-toast-alert />
         <div class="topNav shadow-sm position-fixed container-fluid">
             <div class="d-flex justify-content-between align-items-center h-100 w-25">
                 <img src="{{ asset('DOST_ICON.svg') }}" class="pe-2">
@@ -236,6 +237,29 @@
         </main>
         <script type="module">
             const UPDATEFILE = '{{ route('Applicant-Requirements.update', ['Applicant_Requirement' => ':id']) }}'
+
+            function showToastFeedback(status, message) {
+                const toast = $('#ActionFeedbackToast');
+                const toastInstance = new bootstrap.Toast(toast);
+
+                toast
+                    .find('.toast-header')
+                    .removeClass([
+                        'text-bg-danger',
+                        'text-bg-success',
+                        'text-bg-warning',
+                        'text-bg-info',
+                        'text-bg-primary',
+                        'text-bg-light',
+                        'text-bg-dark',
+                    ]);
+
+                toast.find('.toast-body').text('');
+                toast.find('.toast-header').addClass(status);
+                toast.find('.toast-body').text(message);
+
+                toastInstance.show();
+            }
             const newFileUpload = document.querySelector('#updateFile');
             console.log(newFileUpload)
             const pondInstance = FilePond.create(newFileUpload, {
@@ -286,12 +310,10 @@
                     processData: false,
                     contentType: false,
                     success: function(response) {
-                        if (response.status === 'success') {
-                            console.log('Response: ', response);
-                        }
+                       showToastFeedback('text-bg-success', response.success);
                     },
                     error: function(xhr, status, error) {
-                        console.error('Ajax Error: ' + error);
+                        showToastFeedback('text-bg-danger', error);
                     }
                 });
             });

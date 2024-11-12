@@ -111,7 +111,7 @@ class ApplicantRequirementController extends Controller
     public function update(Request $request, $id)
     {
         $userRole = Auth::user()->role;
-      
+
         try {
             switch ($userRole) {
                 case 'Staff':
@@ -172,17 +172,18 @@ class ApplicantRequirementController extends Controller
 
         try {
             $filePath = Storage::disk('public')->exists($validated['file_link']);
-    
+
             if(!$filePath)
             {
                 return response()->json(['message' => 'File does not exist'], 500);
             }
-            
+
             $ToBeUpdatedFile = Requirement::where('id', $id)
                  ->where('file_link', $validated['file_link'])
-                 ->where('remarks', 'Reject')
+                 ->where('remarks', 'Rejected')
                  ->where('can_edit', true)
                  ->first();
+
             if(!$ToBeUpdatedFile){
                      return response()->json(['message' => 'Action is not allowed'], 500);
             }
