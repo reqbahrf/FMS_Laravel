@@ -1,7 +1,7 @@
 @component('mail::message')
-# Hello {{ $notifiable->name }},
+# Hello {{ $notifiable->email }},
 
-We’re reaching out to let you know that your evaluation has been scheduled. Here are the details:
+We’re reaching out to let you know that your evaluation has been {{ $isRescheduled ? 'rescheduled' : 'scheduled' }}. Here are the details:
 
 @component('mail::panel')
 **Scheduled Date**: {{ $evaluationDate }}

@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Notifications\EvaluationScheduleNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
+use Exception;
 
 
 
@@ -22,38 +23,40 @@ class ScheduleController extends Controller
             'evaluation_date' => 'required|date',
         ]);
 
-        $evaluationDate = Carbon::parse($validated['evaluation_date'])
-                        ->toDateTimeString();
+        try {
+            $applicant = User::findOrFail($validated['user_id']);
+            $schedule = ApplicationInfo::updateOrCreate(
+                ['business_id' => $validated['business_id']],
+                ['Evaluation_date' =>  $validated['evaluation_date']]
+            );
 
-        $applicant = User::findOrFail($validated['user_id']);
-        $schedule = ApplicationInfo::updateOrCreate(
-            ['business_id' => $validated['business_id']],
-            ['Evaluation_date' =>  $evaluationDate]
-        );
+            // Instantiate the notification
+            $notification = new EvaluationScheduleNotification($schedule);
 
-        // Instantiate the notification
-        $notification = new EvaluationScheduleNotification($schedule);
+            // Find existing notification
+            $existingNotification = $notification->findExisting($applicant);
 
-        // Find existing notification
-        $existingNotification = $notification->findExisting($applicant);
+            if ($existingNotification) {
+                // Update the existing notification
+                $existingNotification->delete();
 
-        // Prepare the notification data
-        $notificationData = $notification->toArray($applicant);
+                $notification->setIsRescheduled(true);
+                $applicant->notify($notification);
+            } else {
+                // Send a new notification
+                $notification->setIsRescheduled(false);
+                $applicant->notify($notification);
+            }
 
-        if ($existingNotification) {
-            // Update the existing notification
-            $existingNotification->update(['data' => $notificationData]);
-
-            $applicant->notify(new EvaluationScheduleNotification($existingNotification));
-        } else {
-            // Send a new notification
-            $applicant->notify($notification);
+            return response()
+                ->json([
+                    'success' => true,
+                    'message' => 'Evaluation schedule set successfully',
+                ]);
+        } catch (Exception $e) {
+           return response()->json([
+               'message' => $e->getMessage()
+           ],500);
         }
-
-        return response()
-            ->json([
-                'success' => true,
-                'message' => 'Evaluation schedule set successfully',
-            ]);
     }
 }

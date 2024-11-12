@@ -19,7 +19,7 @@
                 <td>{{ $Requirement->file_type }}</td>
                 <td>
                     <span class="badge {{ $Requirement->remarks == 'Pending'
-                    ? 'bg-warning'
+                    ? 'bg-info'
                     : ($Requirement->remarks == 'Approved'
                     ? 'bg-success' : 'bg-danger') }}">{{ $Requirement->remarks }}</span>
                 </td>

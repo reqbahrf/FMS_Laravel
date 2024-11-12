@@ -3402,7 +3402,7 @@ window.initializeStaffPageJs = async () => {
                     ? 'bg-primary'
                     : 'bg-success'
                 }">${item.application_status}</span>`,
-                `   <button class="btn btn-primary viewApplicant" type="button"
+                `   <button class="btn btn-primary applicantDetailsBtn" type="button"
                                             data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
                                             aria-controls="applicantDetails">
                                             <i class="ri-menu-unfold-4-line ri-1x"></i>

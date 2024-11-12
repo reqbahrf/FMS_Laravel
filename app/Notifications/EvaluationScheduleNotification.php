@@ -16,6 +16,7 @@ class EvaluationScheduleNotification extends Notification
 
     public $schedule;
     public $evaluationDate;
+    public $isRescheduled;
 
 
     /**
@@ -24,7 +25,9 @@ class EvaluationScheduleNotification extends Notification
     public function __construct($schedule)
     {
         $this->schedule = $schedule;
-        $this->evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i:s A');
+        $this->evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i A');
+        Log::info('Evaluation schedule object:'. $this->schedule);
+        Log::info('Evaluation scheduled on:' . $this->evaluationDate);
     }
 
     /**
@@ -45,6 +48,8 @@ class EvaluationScheduleNotification extends Notification
         return (new MailMessage)
                     ->markdown('emailContent.evaluation', [
                         'evaluationDate' => $this->evaluationDate,
+                        'notifiable' => $notifiable,
+                        'isRescheduled' => $this->isRescheduled
                     ]);
     }
 
@@ -57,7 +62,7 @@ class EvaluationScheduleNotification extends Notification
     {
 
         return [
-            'message' => 'Your evaluation is scheduled on ' . $this->evaluationDate,
+            'message' => 'Your evaluation is' . ($this->isRescheduled ? ' rescheduled' : ' scheduled') . ' on ' . $this->evaluationDate,
             'schedule_id' => $this->schedule->id,
         ];
     }
@@ -66,7 +71,7 @@ class EvaluationScheduleNotification extends Notification
     {
 
         return new BroadcastMessage([
-            'message' => 'Your evaluation is scheduled on ' . $this->evaluationDate,
+            'message' => 'Your evaluation is' . ($this->isRescheduled ? ' rescheduled' : ' scheduled') . ' on ' . $this->evaluationDate,
             'schedule_id' => $this->schedule->id,
         ]);
     }
@@ -77,5 +82,12 @@ class EvaluationScheduleNotification extends Notification
                       ->where('type', self::class)
                       ->where('notifiable_id', $notifiable->id)
                       ->first();
+    }
+
+    public function setIsRescheduled($isRescheduled)
+    {
+
+        $this->isRescheduled = $isRescheduled;
+
     }
 }
