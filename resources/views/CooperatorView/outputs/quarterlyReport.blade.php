@@ -319,16 +319,15 @@
                                         <div class="row">
                                             <div class="mb-3">
                                                 <div class="mt-2">
-                                                    <div class="d-flex justify-content-end p-2">
-                                                        <button type="button" id="addExportRow"
-                                                            class="btn btn-primary" data-toggle="tooltip"
+                                                    <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                                        <button type="button"
+                                                            class="btn btn-primary addNewProductRow" data-toggle="tooltip"
                                                             title="Add a new row">
                                                             <i class="ri-add-box-fill"></i>
-
                                                         </button>
                                                         <button type="button"
-                                                            class="btn btn-danger deleteExportRow mx-2"
-                                                            data-toggle="tooltip" title="Delete row">
+                                                            class="btn btn-danger removeRowButton mx-2"
+                                                            data-toggle="tooltip" title="Delete row" disabled>
                                                             <i class="ri-subtract-fill"></i>
                                                         </button>
                                                     </div>
@@ -441,15 +440,15 @@
                                         <div class="row p-0">
                                             <div class="col-12">
                                                 <div class="mt-2">
-                                                    <div class="d-flex justify-content-end p-2">
-                                                        <button type="button" id="addLocalRow"
-                                                            class="btn btn-primary" data-toggle="tooltip"
+                                                    <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                                        <button type="button"
+                                                            class="btn btn-primary addNewProductRow" data-toggle="tooltip"
                                                             title="Add a new row">
                                                             <i class="ri-add-box-fill"></i>
                                                         </button>
                                                         <button type="button"
-                                                            class="btn btn-danger mx-2 deleteLocalRow"
-                                                            data-toggle="tooltip" title="Delete row">
+                                                            class="btn btn-danger removeRowButton mx-2"
+                                                            data-toggle="tooltip" title="Delete row" disabled>
                                                             <i class="ri-subtract-fill"></i>
                                                         </button>
                                                     </div>

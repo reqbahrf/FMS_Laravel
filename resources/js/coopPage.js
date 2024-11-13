@@ -345,7 +345,53 @@ window.initilizeCoopPageJs = async () => {
                 return parseFloat(value.replace(/,/g, '')) || 0;
             }
 
-            //ADD The Function for add row and delete row for the Export and Local Products here 
+            //ADD The Function for add row and delete row for the Export and Local Products here
+
+            const toggleDeleteRowButton = (container, elementSelector) => {
+                const element = container.find(elementSelector);
+                const deleteRowButton = container
+                .find('.removeRowButton');
+                element.length === 1
+                  ? deleteRowButton.prop('disabled', true)
+                  : deleteRowButton.prop('disabled', false);
+              };
+
+            const addProductBtn = $('.addNewProductRow');
+            const deleteProductBtn = $('.removeRowButton');
+
+            addProductBtn.on('click', function() {
+                const container = $(this).closest('div.productLocal, div.productExport');
+
+                const table = container.find('table');
+                if (table.length) {
+                    const lastRow = table.find('tbody tr:last-child');
+                    const newRow = lastRow.clone();
+                    newRow.find('input, textarea').val('');
+                    table.find('tbody').append(newRow);
+                    toggleDeleteRowButton(container, 'tbody tr');
+                } else {
+                    const tableRow = container.find('.table_row');
+                    const newRow = tableRow.last().clone();
+                    newRow.find('input, textarea').val('');
+                    container.append(newRow);
+                    toggleDeleteRowButton(container, '.table_row');
+                }
+            })
+
+            deleteProductBtn.on('click', function() {
+                const container = $(this).closest('div.productLocal, div.productExport');
+
+                const table = container.find('table');
+                if(table.length){
+                    const lastRow = table.find('tbody tr:last-child');
+                    lastRow.remove();
+                    toggleDeleteRowButton(container, 'tbody tr');
+                }else{
+                    const tableRow = container.find('.table_row');
+                    tableRow.last().remove();
+                    toggleDeleteRowButton(container, '.table_row');
+                }
+            })
 
 
             $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+4):nth-child(-n+5) input', function() {

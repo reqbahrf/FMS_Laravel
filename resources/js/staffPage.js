@@ -114,7 +114,7 @@ $(document).on('DOMContentLoaded', function () {
   // Line chart
   //toast feedback
 
-  //Side Nav toggle     
+  //Side Nav toggle
 
   $('.sideNavButtonSmallScreen').on('click', function () {
     new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
@@ -3485,7 +3485,7 @@ window.initializeStaffPageJs = async () => {
           getApplicantRequirements(businessID);
           getEvaluationScheduledDate(businessID);
           getProposalDraft(ApplicationID);
-          
+
         }
       );
 
