@@ -192,11 +192,14 @@
                 <main class="main-column scrollable-main" id="main-content">
                 </main>
             </div>
-
         </div>
-
     </div>
     <script>
+        const protocol = window.location.protocol;
+        const host = window.location.hostname;
+
+        const BASE_URL = protocol + '//' + host + '/';
+
         const USER_ID = {{ Auth::user()->id }};
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
         const GET_AVAILABLE_QUARTERLY_REPORT_URL = '{{ route('QuarterlyReport.index') }}'
@@ -204,7 +207,9 @@
         const NAV_ROUTES = {
             DASHBOARD: '{{ route('Cooperator.dashboard') }}',
             REQUIREMENTS: '{{ route('Cooperator.Requirements') }}',
+            QUARTERLY_REPORT: BASE_URL + 'Cooperator/QuarterlyReport',
         }
+        console.log(NAV_ROUTES.QUARTERLY_REPORT)
 
         const DASHBOARD_ROUTE = {
             GET_COOPERATOR_PROGRESS: '{{ route('Cooperator.Progress') }}',
@@ -214,6 +219,10 @@
         const REQUIREMENTS_ROUTE = {
             STORE_RECEIPTS: '{{ route('receipts.store') }}',
             GET_RECEIPTS: '{{ route('receipts.index') }}',
+        }
+
+        const QUARTERLY_REPORT_ROUTE = {
+            STORE_REPORT: '{{ route('QuarterlyReport.update', ':quarterId') }}'
         }
 
     </script>
@@ -275,23 +284,19 @@
                setActiveLink(activeLink);
                history.pushState(null, '', url);
 
-            //    if (url === '{{ route('Cooperator.dashboard') }}') {
-            //        initializeProgressPer();
-            //    }
-
-            //    if (url === '{{ route('Cooperator.Requirements') }}') {
-            //        initializeFilePond();
-            //        getReceipt();
-            //    }
-
+               const parsedUrl = new URL(url);
+               const quarterlyReportUrlPath = `${parsedUrl.origin}${parsedUrl.pathname.split('/').slice(0, 3).join('/')}`;
                const functions = await initilizeCoopPageJs();
 
                const urlMapFunction = {
                    [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
                    [NAV_ROUTES.REQUIREMENTS]: functions.Requirements,
+                   [NAV_ROUTES.QUARTERLY_REPORT]: functions.QuarterlyReport
                };
 
-               if (urlMapFunction[url]) {
+               if(quarterlyReportUrlPath === NAV_ROUTES.QUARTERLY_REPORT) {
+                   await urlMapFunction[NAV_ROUTES.QUARTERLY_REPORT]();
+               }else if (urlMapFunction[url]) {
                   await urlMapFunction[url]();
                }
 
@@ -360,5 +365,5 @@
             });
         })
     </script>
-    @vite('resources/js/coopPage.js')
+     @vite('resources/js/coopPage.js')
 </body>

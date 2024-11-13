@@ -2,6 +2,9 @@
 import "./echo"
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
+import "smartwizard/dist/css/smart_wizard_all.css";
+import smartWizard from 'smartwizard';
+window.smartWizard = smartWizard;
 
 
 Echo.private(`coop-notifications.${USER_ID}`)
@@ -307,6 +310,190 @@ window.initilizeCoopPageJs = async () => {
         },
 
         QuarterlyReport: () => {
+            new smartWizard();
+            $('#BuildingAsset, #Equipment, #WorkingCapital').on('input', function() {
+                // Remove any non-digit characters
+                let value = $(this).val().replace(/[^0-9]/g, '');
+
+                // Add commas every three digits
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                // Set the new value to the input field
+                $(this).val(value);
+            });
+
+            $('#employment input').on('input', function() {
+                // Remove any non-digit characters
+                let value = $(this).val().replace(/[^0-9]/g, '');
+
+                // Set the new value to the input field
+                $(this).val(value);
+            });
+
+            $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+3):nth-child(-n+6) input', function() {
+                // Remove any non-digit characters
+                let value = $(this).val().replace(/[^0-9]/g, '');
+
+                // Add commas every three digits
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                // Set the new value to the input field
+                $(this).val(value);
+            });
+
+            function parseValue(value){
+                return parseFloat(value.replace(/,/g, '')) || 0;
+            }
+
+            //ADD The Function for add row and delete row for the Export and Local Products here 
+
+
+            $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+4):nth-child(-n+5) input', function() {
+                let row = $(this).closest('tr');
+                let grossSales = parseValue(row.find('.grossSales_val').val());
+                let estimatedCostOfProduction = parseValue(row.find('.estimatedCostOfProduction_val').val());
+                let netSales = grossSales - estimatedCostOfProduction;
+                let formattedNetSales = netSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                console.log(grossSales, estimatedCostOfProduction, formattedNetSales);
+                row.find('.netSales_val').val(formattedNetSales);
+            });
+
+            $('#smartwizard').smartWizard({
+                selected: 0,
+                theme: 'dots',
+                transition: {
+                    animation: 'slideHorizontal'
+                },
+                toolbar: {
+                    showNextButton: true, // show/hide a Next button
+                    showPreviousButton: true, // show/hide a Previous button
+                    position: 'both buttom', // none/ top/ both bottom
+                    extraHtml: `<button type="button" class="btn btn-success" onclick="showConfirm()">Submit</button>
+                                  <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
+                },
+            });
+            $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+
+                if (stepIndex === 3 && stepPosition === 'last') {
+                    console.log("Arriving at Last Step - Showing Buttons");
+                    $('.btn-success, .btn-secondary').show();
+                } else {
+                    console.log("Not Arriving at Last Step - Hiding Buttons");
+                    $('.btn-success, .btn-secondary').hide();
+                }
+            });
+            $('#smartwizard').on('click', 'button', function() {
+                // Your function goes here
+                $('#smartwizard').smartWizard('fixHeight');
+            });
+
+            window.showConfirm = function() {
+                event.preventDefault();
+                window.confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                confirmationModal.show();
+            }
+
+            const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
+            const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
+            const confirmButton = document.getElementById('confirmButton');
+
+            confirmTrueInfo.add(confirmAgreeInfo).change(function() {
+                confirmButton.disabled = !(confirmTrueInfo.is(':checked') && confirmAgreeInfo.is(':checked'));
+            });
+
+            confirmButton.addEventListener('click', function() {
+                submitQuarterlyForm();
+            });
+
+            $('.number_input_only').on('input', function() {
+                this.value = this.value.replace(/[^0-9]/g, '');
+            })
+
+
+            function submitQuarterlyForm() {
+
+                const formData = $('#quarterlyForm').serializeArray();
+                const quarterId = $('#quarterlyForm').data('quarter-id');
+                const quarterProject = $('#quarterlyForm').data('quarter-project');
+                const quarterPeriod = $('#quarterlyForm').data('quarter-period');
+                const quarterStatus = $('#quarterlyForm').data('quarter-status');
+
+                let dataObject = {};
+                $.each(formData, function(i, v) {
+                    dataObject[v.name] = v.value;
+                });
+
+                const ExportTable_row = $('.ExportData .table_row');
+                const LocalTable_row = $('.LocalData .table_row');
+                const ExportTable_data = [];
+                const LocalTable_data = [];
+
+
+            ExportTable_row.each(function() {
+                const row = $(this); // Wrap `this` with jQuery to use jQuery methods
+                const exporttable_row = {
+                    ProductName: row.find('.productName').val(),
+                    PackingDetails: row.find('.packingDetails').val(),
+                    volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
+                    grossSales: row.find('.grossSales_val').val(),
+                    estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
+                    netSales: row.find('.netSales_val').val()
+                };
+                exporttable_row.ProductName && exporttable_row.ProductName !== null
+                ? ExportTable_data.push(exporttable_row)
+                : null;
+            });
+
+            // const ExportwrappedData = {ExportProductInfo: ExportTable_data};
+           dataObject.ExportProduct = ExportTable_data;
+
+
+            LocalTable_row.each(function() {
+                const row = $(this); // Wrap `this` with jQuery to use jQuery methods
+                const localtable_row = {
+                    ProductName: row.find('.productName').val(),
+                    PackingDetails: row.find('.packingDetails').val(),
+                    volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
+                    grossSales: row.find('.grossSales_val').val(),
+                    estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
+                    netSales: row.find('.netSales_val').val()
+                };
+                localtable_row.ProductName && localtable_row.ProductName.trim() !== null
+                ? LocalTable_data.push(localtable_row)
+                : null;
+            });
+
+            // const LocalwrappedData = {LocalProductInfo: localTable_data};
+            dataObject.LocalProduct = LocalTable_data;
+
+
+                // Send form data using AJAX
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'X-Quarter-Project': quarterProject,
+                        'X-Quarter-Period': quarterPeriod,
+                        'X-Quarter-Status': quarterStatus
+                    },
+                    type: 'PUT',
+                    url: QUARTERLY_REPORT_ROUTE.STORE_REPORT.replace(':quarterId', quarterId),
+                    data: JSON.stringify(dataObject), // Send the new data object
+                    contentType: 'application/json', // Set content type to JSON
+                    success: function(response) {
+                        // Handle the response if needed
+                        setTimeout(() => {
+                                confirmationModal.hide();
+                                const toastElement = document.getElementById('successToast');
+                                const toast = new bootstrap.Toast(toastElement);
+                                toast.show();
+                            }, 500);
+                        console.log(response);
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle any errors
+                    }
+                });
+            }
 
         }
 
