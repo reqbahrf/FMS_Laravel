@@ -28,6 +28,29 @@ Echo.private(`coop-notifications.${USER_ID}`)
 
     Notification();
 
+    function showToastFeedback(status, message) {
+        const toast = $('#ActionFeedbackToast');
+        const toastInstance = new bootstrap.Toast(toast);
+
+        toast
+          .find('.toast-header')
+          .removeClass([
+            'text-bg-danger',
+            'text-bg-success',
+            'text-bg-warning',
+            'text-bg-info',
+            'text-bg-primary',
+            'text-bg-light',
+            'text-bg-dark',
+          ]);
+
+        toast.find('.toast-body').text('');
+        toast.find('.toast-header').addClass(status);
+        toast.find('.toast-body').text(message);
+
+        toastInstance.show();
+      }
+
 window.initilizeCoopPageJs = async () => {
     const functions = {
         Dashboard: () => {
@@ -738,14 +761,14 @@ window.initilizeCoopPageJs = async () => {
                     const exportData = {
                         ProductName: row.find('.productName').val(),
                         PackingDetails: row.find('.packingDetails').val(),
-                        volumeOfProduction: row.find('.volumeOfProduction_val').val() + ' ' + row.find('.volumeUnit').val(),
+                        volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
                         grossSales: row.find('.grossSales_val').val(),
                         estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
                         netSales: row.find('.netSales_val').val(),
                     };
-                    exportData.productName && exportData.productName !== null ?
-                        ExportTable_data.push(exportData) :
-                        null;
+                    exportData.ProductName && exportData.ProductName !== null
+                    ? ExportTable_data.push(exportData)
+                    : null;
                 });
 
                 initialData.ExportProduct = ExportTable_data;
@@ -760,9 +783,9 @@ window.initilizeCoopPageJs = async () => {
                         estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
                         netSales: row.find('.netSales_val').val(),
                     };
-                    localData.productName && localData.productName !== null ?
-                        LocalTable_data.push(localData) :
-                        null;
+                    localData.ProductName && localData.ProductName !== null
+                    ? LocalTable_data.push(localData)
+                    : null;
                 });
                 return {
                     ExportProduct: ExportTable_data,
@@ -924,13 +947,10 @@ window.initilizeCoopPageJs = async () => {
                     data: JSON.stringify(formDataObject),
                     contentType: 'application/json',
                     success: function(response) {
-                        setTimeout(() => {
-                            const toastElement = document.getElementById('successToast');
-                            const toast = new bootstrap.Toast(toastElement);
-                            toast.show();
-                        })
+                        showToastFeedback('text-bg-success', response.message);
                     },
                     error: function(error) {
+                        showToastFeedback('text-bg-danger', error.responseJSON.message);
                         form.find('button[type="submit"]').prop('disabled', false);
                         form.find('input, textarea').prop('readonly', false);
                         console.log(error);
