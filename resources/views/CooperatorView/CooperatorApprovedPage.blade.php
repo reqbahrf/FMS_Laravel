@@ -222,7 +222,8 @@
         }
 
         const QUARTERLY_REPORT_ROUTE = {
-            STORE_REPORT: '{{ route('QuarterlyReport.update', ':quarterId') }}'
+            STORE_REPORT: '{{ route('QuarterlyReport.update', ':quarterId') }}',
+            UPDATE_REPORT: '{{ route('QuarterlyReport.update', ':quarterId') }}'
         }
 
     </script>
@@ -285,13 +286,16 @@
                history.pushState(null, '', url);
 
                const parsedUrl = new URL(url);
+               const urlParts = parsedUrl.pathname.split('/');
+               const reportSubmitted = urlParts[urlParts.length - 1] === 'true';
                const quarterlyReportUrlPath = `${parsedUrl.origin}${parsedUrl.pathname.split('/').slice(0, 3).join('/')}`;
                const functions = await initilizeCoopPageJs();
 
                const urlMapFunction = {
                    [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
                    [NAV_ROUTES.REQUIREMENTS]: functions.Requirements,
-                   [NAV_ROUTES.QUARTERLY_REPORT]: functions.QuarterlyReport
+                   [NAV_ROUTES.QUARTERLY_REPORT]: reportSubmitted ? functions.ReportedQuarterlyReport : functions.QuarterlyReport,
+
                };
 
                if(quarterlyReportUrlPath === NAV_ROUTES.QUARTERLY_REPORT) {

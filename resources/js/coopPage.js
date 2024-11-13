@@ -541,7 +541,408 @@ window.initilizeCoopPageJs = async () => {
                 });
             }
 
+        },
+
+        ReportedQuarterlyReport: () => {
+            $('#BuildingAsset, #Equipment, #WorkingCapital').on('input', function() {
+                // Remove any non-digit characters
+                let value = $(this).val().replace(/[^0-9]/g, '');
+
+                // Add commas every three digits
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                // Set the new value to the input field
+                $(this).val(value);
+            });
+
+            $('#employment input').on('input', function() {
+                // Remove any non-digit characters
+                let value = $(this).val().replace(/[^0-9]/g, '');
+
+                // Set the new value to the input field
+                $(this).val(value);
+            });
+
+            $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+3):nth-child(-n+6) input', function() {
+                // Remove any non-digit characters
+                let value = $(this).val().replace(/[^0-9]/g, '');
+
+                // Add commas every three digits
+                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+                // Set the new value to the input field
+                $(this).val(value);
+            });
+
+            function parseValue(value) {
+                return parseFloat(value.replace(/,/g, '')) || 0;
+            }
+
+
+            $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+4):nth-child(-n+5) input', function() {
+                let row = $(this).closest('tr');
+                let grossSales = parseValue(row.find('.grossSales_val').val());
+                let estimatedCostOfProduction = parseValue(row.find('.estimatedCostOfProduction_val')
+                    .val());
+                let netSales = grossSales - estimatedCostOfProduction;
+                let formattedNetSales = netSales.toLocaleString('en-US', {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                });
+                console.log(grossSales, estimatedCostOfProduction, formattedNetSales);
+                row.find('.netSales_val').val(formattedNetSales);
+            });
+
+            let counters = {
+                export: 0,
+                local: 0
+            };
+
+            const addRow = (buttonSelector, tableSelector, identifier) => {
+                $(buttonSelector).click(function() {
+                    counters[identifier]++;
+
+                    let newRow = `
+                <tr class="table_row">
+                    <td><input type="text" class="form-control productName"></td>
+                    <td><textarea class="form-control packingDetails"></textarea></td>
+                    <td>
+                        <div class="input-group">
+                             <input type="text" class="form-control productionVolume_val">
+                                                                           <select class="form-select volumeUnit">
+
+                                                                                    <optgroup label="Volume">
+                                                                                        <option value="mL">Milliliters
+                                                                                            (mL)</option>
+                                                                                        <option value="cm³">Cubic
+                                                                                            Centimeters (cm³)</option>
+                                                                                        <option value="fl oz">Fluid
+                                                                                            Ounces (fl oz)</option>
+                                                                                        <option value="cup">Cups (cup)
+                                                                                        </option>
+                                                                                        <option value="pt">Pints (pt)
+                                                                                        </option>
+                                                                                        <option value="qt">Quarts (qt)
+                                                                                        </option>
+                                                                                        <option value="L">Liters (L)
+                                                                                        </option>
+                                                                                        <option value="gal">Gallons (gal)
+                                                                                        </option>
+                                                                                        <option value="in³">Cubic
+                                                                                            Inches (in³)</option>
+                                                                                        <option value="ft³">Cubic Feet
+                                                                                            (ft³)</option>
+                                                                                        <option value="cubic-meters">Cubic
+                                                                                            Meters (m³)</option>
+                                                                                    </optgroup>
+
+                                                                                    <optgroup label="Weight">
+                                                                                        <option value="g">Grams (g)
+                                                                                        </option>
+                                                                                        <option value="oz">Ounces (oz)
+                                                                                        </option>
+                                                                                        <option value="lb">Pounds (lb)
+                                                                                        </option>
+                                                                                        <option value="kg">Kilograms
+                                                                                            (kg)</option>
+                                                                                    </optgroup>
+                                                                                </select>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="input-group">
+                            <span class="input-group-text">₱</span>
+                            <input type="text" class="form-control grossSales_val">
+                        </div>
+                    </td>
+                    <td>
+                         <div class="input-group">
+                            <span class="input-group-text">₱</span>
+                            <input type="text" class="form-control estimatedCostOfProduction_val">
+                        </div>
+                    </td>
+                    <td>
+                         <div class="input-group">
+                            <span class="input-group-text">₱</span>
+                            <input type="text" class="form-control netSales_val">
+                        </div>
+                    </td>
+                </tr>
+                `;
+
+                    $(tableSelector).append(newRow);
+                    updateDeleteButtonState();
+                });
+            }
+
+            const deleteRow = (buttonSelector, identifier, tableSelector) => {
+                $(document).on('click', buttonSelector, function() {
+                    if ($(tableSelector + ' tr').length > 1) {
+                        $(tableSelector + ' tr:last').remove();
+                        updateDeleteButtonState();
+                    }
+                    counters[identifier]--;
+                });
+            }
+
+            const updateDeleteButtonState = () => {
+                ['.deleteExportRow', '.deleteLocalRow'].forEach(function(buttonSelector) {
+                    let tableSelector = buttonSelector === '.deleteExportRow' ?
+                        '.Export-Outlet tbody' :
+                        '.Local-Outlet tbody';
+                    if ($(tableSelector + ' tr').length <= 1) {
+                        $(buttonSelector).prop('disabled', true);
+                    } else {
+                        $(buttonSelector).prop('disabled', false);
+                    }
+                });
+            }
+
+            addRow('#addExportRow', '.Export-Outlet tbody', 'export');
+            deleteRow('.deleteExportRow', 'export', '.Export-Outlet tbody');
+
+            addRow('#addLocalRow', '.Local-Outlet tbody', 'local');
+            deleteRow('.deleteLocalRow', 'local', '.Local-Outlet tbody');
+
+            updateDeleteButtonState();
+
+            const inputContainers = $('#AssetsInputs, #EmploymentInputs, #marketOutletInputs');
+            const ProductAndSalesContainer = $('#ProductionAndSalesInputs')
+
+            const Products = {
+                exportProduct: ProductAndSalesContainer.find('.productExport'),
+                localProduct: ProductAndSalesContainer.find('.productLocal')
+            }
+
+
+            function storeInitialValues(container) {
+                const containerData = {};
+                container.find('input, textarea').each(function(index, input) {
+                    containerData[input.name] = $(input).val();
+                });
+                return containerData;
+            }
+
+            const initialData = {};
+            inputContainers.each(function() {
+                const container = $(this);
+                initialData[container.attr('id')] = storeInitialValues(container);
+            });
+
+            const storeProductsData = function() {
+                const ExportTable_data = [];
+                const LocalTable_data = [];
+
+                Products.exportProduct.find('.ExportData .table_row').each(function() {
+                    const row = $(this);
+                    const exportData = {
+                        ProductName: row.find('.productName').val(),
+                        PackingDetails: row.find('.packingDetails').val(),
+                        volumeOfProduction: row.find('.volumeOfProduction_val').val() + ' ' + row.find('.volumeUnit').val(),
+                        grossSales: row.find('.grossSales_val').val(),
+                        estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
+                        netSales: row.find('.netSales_val').val(),
+                    };
+                    exportData.productName && exportData.productName !== null ?
+                        ExportTable_data.push(exportData) :
+                        null;
+                });
+
+                initialData.ExportProduct = ExportTable_data;
+
+                Products.localProduct.find('.LocalData .table_row').each(function() {
+                    const row = $(this);
+                    const localData = {
+                        ProductName: row.find('.productName').val(),
+                        PackingDetails: row.find('.packingDetails').val(),
+                        volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
+                        grossSales: row.find('.grossSales_val').val(),
+                        estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
+                        netSales: row.find('.netSales_val').val(),
+                    };
+                    localData.productName && localData.productName !== null ?
+                        LocalTable_data.push(localData) :
+                        null;
+                });
+                return {
+                    ExportProduct: ExportTable_data,
+                    LocalProduct: LocalTable_data
+                };
+            }
+
+            initialData['ProductionAndSalesInputs'] = storeProductsData();
+
+            console.log(initialData);
+
+            inputContainers.on('click', '.editButton', function() {
+                // Get the specific card-body container where the button was clicked
+                const cardBody = $(this).closest('div.card-body');
+
+                // Toggle the readonly state for all input and textarea elements within the card-body
+                cardBody.find('input, textarea').prop('readonly', function(i, val) {
+                    return !val; // Toggle the current readonly value (true/false)
+                });
+
+                // Enable or disable the Revert button based on the readonly state
+                const isReadonly = cardBody.find('input, textarea').prop(
+                    'readonly'); // Check if inputs are readonly
+                if (!isReadonly) {
+                    cardBody.find('.revertButton').prop('disabled',
+                        false); // Enable Revert if inputs are editable
+                } else {
+                    cardBody.find('.revertButton').prop('disabled',
+                        true); // Disable Revert if inputs are readonly again
+                }
+            });
+
+            inputContainers.on('click', '.revertButton', function() {
+                console.log('revert');
+                const cardBody = $(this).closest('div.card-body');
+
+                console.log(cardBody);
+                const containerId = cardBody.attr('id');
+                console.log(containerId);
+
+                // Revert inputs back to initial values within this container
+                cardBody.find('input, textarea').each(function(index, input) {
+                    $(input).val(initialData[containerId][input.name]);
+                });
+
+                // Disable Revert button after reverting within this container
+                cardBody.find('input, textarea').prop('readonly', true);
+                cardBody.find('.revertButton').prop('disabled', true);
+            });
+
+            ProductAndSalesContainer.on('click', '.editButton', function() {
+                const cardBody = $(this).closest('div.card-body');
+                cardBody.find('input, textarea').prop('readonly', function(i, val) {
+                    return !val;
+                });
+
+                const isReadonly = cardBody.find('input, textarea').prop('readonly');
+                if (!isReadonly) {
+                    cardBody.find('.revertButton').prop('disabled', false);
+                    cardBody.find('.AddProductRow').prop('disabled', false);
+                } else {
+                    cardBody.find('.revertButton').prop('disabled', true);
+                    cardBody.find('.AddProductRow').prop('disabled', true);
+                }
+            });
+
+            ProductAndSalesContainer.on('click', '.revertButton', function() {
+                const initialProductData = initialData['ProductionAndSalesInputs'];
+
+                // Revert export product table
+                Products.exportProduct.find('.ExportData .table_row').each(function(index, row) {
+                    if (initialProductData.ExportProduct[index]) {
+                        $(row).find('.productName').val(initialProductData.ExportProduct[index]
+                            .productName);
+                        $(row).find('.packingDetails').val(initialProductData.ExportProduct[
+                            index].packingDetails);
+                        $(row).find('.productionVolume_val').val(initialProductData
+                            .ExportProduct[index].volumeOfProduction);
+                        $(row).find('.grossSales_val').val(initialProductData.ExportProduct[
+                            index].grossSales);
+                        $(row).find('.estimatedCostOfProduction_val').val(initialProductData
+                            .ExportProduct[index].productionCost);
+                        $(row).find('.netSales_val').val(initialProductData.ExportProduct[index]
+                            .netSales);
+                    } else {
+                        // If no initial data exists, clear the inputs
+                        console.log("No initial data for export row, clearing inputs:", index);
+                        $(row).find('.productName').val('');
+                        $(row).find('.packingDetails').val('');
+                        $(row).find('.productionVolume_val').val('');
+                        $(row).find('.grossSales_val').val('');
+                        $(row).find('.estimatedCostOfProduction_val').val('');
+                        $(row).find('.netSales_val').val('');
+                    }
+                });
+
+                // Revert local product table
+                Products.localProduct.find('.LocalData .table_row').each(function(index, row) {
+                    if (initialProductData.LocalProduct[index]) {
+                        $(row).find('.productName').val(initialProductData.LocalProduct[index]
+                            .productName);
+                        $(row).find('.packingDetails').val(initialProductData.LocalProduct[
+                            index].packingDetails);
+                        $(row).find('.productionVolume_val').val(initialProductData
+                            .LocalProduct[index].volumeOfProduction);
+                        $(row).find('.grossSales_val').val(initialProductData.LocalProduct[
+                            index].grossSales);
+                        $(row).find('.estimatedCostOfProduction_val').val(initialProductData
+                            .LocalProduct[index].productionCost);
+                        $(row).find('.netSales_val').val(initialProductData.LocalProduct[index]
+                            .netSales);
+                    } else {
+                        // Clear the inputs if no initial data for local product
+                        console.log("No initial data for local row, clearing inputs:", index);
+                        $(row).find('.productName').val('');
+                        $(row).find('.packingDetails').val('');
+                        $(row).find('.productionVolume_val').val('');
+                        $(row).find('.grossSales_val').val('');
+                        $(row).find('.estimatedCostOfProduction_val').val('');
+                        $(row).find('.netSales_val').val('');
+                    }
+                });
+
+                // Disable Revert button after reverting
+                ProductAndSalesContainer.find('.AddProductRow').prop('disabled', true);
+                ProductAndSalesContainer.find('input, textarea').prop('readonly', true);
+                ProductAndSalesContainer.find('.revertButton').prop('disabled', true);
+            });
+
+            //TODO: Implove the form Update functionalities
+            $('#updateQuarterlyData').on('submit', function(e) {
+                e.preventDefault();
+                const form = $(this);
+                form.find('button[type="submit"]').prop('disabled', true);
+                form.find('input, textarea').prop('readonly', true);
+                const quarterId = form.data('quarter-id');
+                const quarterProject = form.data('quarter-project');
+                const quarterPeriod = form.data('quarter-period');
+                const quarterStatus = form.data('quarter-status');
+
+                let formDataObject = {};
+                const updatedFormData = form.serializeArray();
+
+                $.each(updatedFormData, function(i, v) {
+                    formDataObject[v.name] = v.value;
+                });
+
+                formDataObject = { ...formDataObject, ...storeProductsData()};
+
+                $.ajax({
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    'X-Quarter-Project': quarterProject,
+                    'X-Quarter-Period': quarterPeriod,
+                    'X-Quarter-Status': quarterStatus
+                },
+                    type: 'PUT',
+                    url: QUARTERLY_REPORT_ROUTE.UPDATE_REPORT.replace(':quarterId', quarterId),
+                    data: JSON.stringify(formDataObject),
+                    contentType: 'application/json',
+                    success: function(response) {
+                        setTimeout(() => {
+                            const toastElement = document.getElementById('successToast');
+                            const toast = new bootstrap.Toast(toastElement);
+                            toast.show();
+                        })
+                    },
+                    error: function(error) {
+                        form.find('button[type="submit"]').prop('disabled', false);
+                        form.find('input, textarea').prop('readonly', false);
+                        console.log(error);
+                    }
+
+                })
+
+            })
+
         }
+
+
 
     }
     return functions
