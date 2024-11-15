@@ -698,7 +698,6 @@
         window.loadPage = async (url, activeLink) => {
 
             try {
-
                 $('.spinner').removeClass('d-none');
                 $('#main-content').hide();
                 // Check if the response is already cached
@@ -751,9 +750,6 @@
                 sessionStorage.setItem('AdminLastActive', activeLink);
             } catch (error) {
                 console.error(error);
-            } finally {
-                $('.spinner').addClass('d-none');
-                $('#main-content').show();
             }
         }
 

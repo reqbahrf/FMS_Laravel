@@ -53,7 +53,7 @@
         #hero {
             width: 100%;
             height: 100vh;
-            background-image: url({{ 'herobackground.svg' }});
+            background-image: url({{ asset('hero.jpg') }});
             background-size: cover;
             background-position: center;
             position: relative;
@@ -947,7 +947,7 @@
             });
         </script>
     @endif
-   
+
     <script type="module">
         $(document).ready(function() {
             let previousScrollPosition = 0;

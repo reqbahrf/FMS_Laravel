@@ -2,6 +2,7 @@
 import "./echo"
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
+import { showToastFeedback } from "./ReusableJS/customFunctions";
 import "smartwizard/dist/css/smart_wizard_all.css";
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
@@ -27,29 +28,6 @@ Echo.private(`coop-notifications.${USER_ID}`)
     });
 
     Notification();
-
-    function showToastFeedback(status, message) {
-        const toast = $('#ActionFeedbackToast');
-        const toastInstance = new bootstrap.Toast(toast);
-
-        toast
-          .find('.toast-header')
-          .removeClass([
-            'text-bg-danger',
-            'text-bg-success',
-            'text-bg-warning',
-            'text-bg-info',
-            'text-bg-primary',
-            'text-bg-light',
-            'text-bg-dark',
-          ]);
-
-        toast.find('.toast-body').text('');
-        toast.find('.toast-header').addClass(status);
-        toast.find('.toast-body').text(message);
-
-        toastInstance.show();
-      }
 
 window.initilizeCoopPageJs = async () => {
     const functions = {

@@ -1,6 +1,7 @@
 import './echo'
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
+import {showToastFeedback, formatToString, dateFormatter, closeOffcanvasInstances, closeModal, sanitize} from './ReusableJS/customFunctions'
 
 import DataTable from 'datatables.net-bs5';
 window.DataTable = DataTable;
@@ -36,71 +37,6 @@ Echo.private(`admin-notifications.${USER_ID}`)
     });
 
     Notification();
-
-function showToastFeedback(status, message) {
-  const toast = $('#ActionFeedbackToast');
-  const toastInstance = new bootstrap.Toast(toast);
-
-  toast
-    .find('.toast-header')
-    .removeClass([
-      'text-bg-danger',
-      'text-bg-success',
-      'text-bg-warning',
-      'text-bg-info',
-      'text-bg-primary',
-      'text-bg-light',
-      'text-bg-dark',
-    ]);
-
-  toast.find('.toast-body').text('');
-  toast.find('.toast-header').addClass(status);
-  toast.find('.toast-body').text(message);
-
-  toastInstance.show();
-}
-
-function sanitize(input) {
-  return $('<div>').text(input).html(); // Escape special characters
-}
-
-//close offcanvas
-function closeOffcanvasInstances(offcanva_id) {
-  const offcanvasElement = $(offcanva_id).get(0);
-  const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-  offcanvasInstance.hide();
-}
-
-function closeModal(modelId) {
-  const model = bootstrap.Modal.getInstance(modelId);
-  model.hide();
-}
-
-const dateFormatter = (date) => {
-    const dateObj = new Date(date);
-
-    return dateObj.toLocaleString('en-US', {
-      month: 'short',
-      day: '2-digit',
-      year: '2-digit',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
-  };
-
-/**
- * Formats a number value to a string with a fixed number of decimal places.
- *
- * @param {number} value - The number to be formatted.
- * @returns {string} The formatted number as a string with exactly 2 decimal places.
- */
-const formatToString = (value) => {
-    return value.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 2,
-    });
-  };
 
 window.initializeAdminPageJs = async () => {
   const functions = {
@@ -338,7 +274,7 @@ window.initializeAdminPageJs = async () => {
           },
           xaxis: {
             labels: {
-              show: false,
+              show: true,
             },
             tickPlacement: 'on',
             type: 'category',
@@ -352,9 +288,6 @@ window.initializeAdminPageJs = async () => {
                 return opts.w.globals.labels[opts.dataPointIndex];
               },
             },
-          },
-          title: {
-            text: 'Number of Micro, Small, and Medium Enterprises by City',
           },
           plotOptions: {
             bar: {
@@ -383,7 +316,6 @@ window.initializeAdminPageJs = async () => {
         const EnterpriseLevelOptions = {
           theme: {
             mode: 'light',
-            palette: 'palette2',
           },
           series: [totalMicro, totalSmall, totalMedium],
           labels: ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'],
@@ -530,7 +462,7 @@ window.initializeAdminPageJs = async () => {
      * @return {void}
      */
     ProjectList: () => {
-      $('#forApproval').DataTable({
+     const ForApprovalDataTable = $('#forApproval').DataTable({
         responsive: true,
         autoWidth: false,
         fixedColumns: true,
@@ -562,7 +494,7 @@ window.initializeAdminPageJs = async () => {
           },
         ],
       }); // Then initialize DataTables
-      $('#ongoing').DataTable({
+     const OngoingDataTable = $('#ongoing').DataTable({
         responsive: true,
         autoWidth: false,
         fixedColumns: true,
@@ -617,7 +549,7 @@ window.initializeAdminPageJs = async () => {
           },
         ],
       });
-      $('#completedTable').DataTable({
+     const CompletedDataTable = $('#completedTable').DataTable({
         responsive: true,
         autoWidth: false,
         fixedColumns: true,
@@ -672,7 +604,7 @@ window.initializeAdminPageJs = async () => {
           },
         ],
       });
-      $('#paymentHistoryTable').DataTable({
+     const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable({
         autoWidth: true,
         responsive: true,
         columns: [
@@ -982,19 +914,10 @@ window.initializeAdminPageJs = async () => {
               projectId,
           });
 
-          const paymentHistoryTable = $('#paymentHistoryTable').DataTable();
-          paymentHistoryTable.clear();
-          paymentHistoryTable.rows.add(
+          PaymentHistoryDataTable.clear();
+          PaymentHistoryDataTable.rows.add(
             response.map((payment) => {
-                const createdAtDate = new Date(payment.created_at);
-                const formattedDate = createdAtDate.toLocaleString('en-US', {
-                  month: '2-digit',
-                  day: '2-digit',
-                  year: '2-digit',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                  hour12: true
-                });
+                const formattedDate = dateFormatter(payment.created_at);
                 return [
                   payment.transaction_id,
                   formatToString(parseFloat(payment.amount)),
@@ -1004,7 +927,7 @@ window.initializeAdminPageJs = async () => {
                 ];
               })
           );
-          paymentHistoryTable.draw();
+          PaymentHistoryDataTable.draw();
 
           let totalAmount = 0;
           response.forEach((payment) => {
@@ -1054,48 +977,51 @@ window.initializeAdminPageJs = async () => {
             }
           );
           const data = await response.json();
-          let table = $('#forApproval').DataTable();
-          table.clear().draw();
-          data.forEach((project) => {
-            table.row
-              .add([
-                `${project.f_name} ${project.mid_name}. ${project.l_name} ${
-                  project.suffix
-                }
-                            <input type="hidden" class="designation" value="${
-                              project.designation
-                            }">
-                            <input type="hidden" class="mobile_number" value="${
-                              project.mobile_number
-                            }">
-                            <input type="hidden" class="email" value="${
-                              project.email
-                            }">
-                            <input type="hidden" class="landline" value="${
-                              project.landline ?? ''
-                            }">`,
-                `${project.firm_name} <input type="hidden" class="business_id" value="${project.id}">
-                            <input type="hidden" class="business_address" value=" ${project.landMark} ${project.barangay}, ${project.city}, ${project.province}, ${project.region}, ${project.zip_code}">
-                            <input type="hidden" class="type_of_enterprise" value="${project.enterprise_type}">
-                            <input type="hidden" class="Enterpriselevel" value="${project.enterprise_level}">
-                            <input type="hidden" class="building_Assets" value="${project.building_value}">
-                            <input type="hidden" class="equipment_Assets" value="${project.equipment_value}">
-                            <input type="hidden" class="working_capital_Assets" value="${project.working_capital}">`,
-                `${project.project_title}
-                            <input type="hidden" class="Project_id" value="${project.Project_id}">
-                            <input type="hidden" class="project_title" value="${project.Project_id}">
-                            <input type="hidden" class="date_proposed" value="${project.evaluated_by_id}">
-                            <input type="hidden" class="assigned_to" value="${project.full_name}">
-                            <input type="hidden" class="application_status" value="${project.fund_amount}">`,
-                `${project.date_proposed}`,
-                `<span class="badge bg-primary">${project.application_status}</span>`,
-                `<button class="btn btn-primary viewApproval" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#approvalDetails" aria-controls="approvalDetails">
-                                <i class="ri-menu-unfold-4-line ri-1x"></i>
-                            </button>`,
-              ])
-              .draw(false);
-          });
+          ForApprovalDataTable.clear();
+            ForApprovalDataTable.rows.add(
+                data.map(project => {
+                  return [
+                    `${project.f_name} ${project.mid_name}. ${project.l_name} ${
+                      project.suffix
+                    }
+                                <input type="hidden" class="designation" value="${
+                                  project.designation
+                                }">
+                                <input type="hidden" class="mobile_number" value="${
+                                  project.mobile_number
+                                }">
+                                <input type="hidden" class="email" value="${
+                                  project.email
+                                }">
+                                <input type="hidden" class="landline" value="${
+                                  project.landline ?? ''
+                                }">`,
+                    `${project.firm_name} <input type="hidden" class="business_id" value="${project.id}">
+                                <input type="hidden" class="business_address" value=" ${project.landMark} ${project.barangay}, ${project.city}, ${project.province}, ${project.region}, ${project.zip_code}">
+                                <input type="hidden" class="type_of_enterprise" value="${project.enterprise_type}">
+                                <input type="hidden" class="Enterpriselevel" value="${project.enterprise_level}">
+                                <input type="hidden" class="building_Assets" value="${project.building_value}">
+                                <input type="hidden" class="equipment_Assets" value="${project.equipment_value}">
+                                <input type="hidden" class="working_capital_Assets" value="${project.working_capital}">`,
+                    `${project.project_title}
+                                <input type="hidden" class="Project_id" value="${project.Project_id}">
+                                <input type="hidden" class="project_title" value="${project.Project_id}">
+                                <input type="hidden" class="date_proposed" value="${project.evaluated_by_id}">
+                                <input type="hidden" class="assigned_to" value="${project.full_name}">
+                                <input type="hidden" class="application_status" value="${project.fund_amount}">`,
+                    `${project.date_proposed}`,
+                    `<span class="badge bg-primary">${project.application_status}</span>`,
+                    `<button class="btn btn-primary viewApproval" type="button" data-bs-toggle="offcanvas"
+                                    data-bs-target="#approvalDetails" aria-controls="approvalDetails">
+                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                </button>`,
+                  ]
+                })
+            );
+
+          ForApprovalDataTable.draw()
+
+
         } catch (error) {
           console.error('Error:', error);
         }
@@ -1136,7 +1062,7 @@ window.initializeAdminPageJs = async () => {
         const businessId = $('#b_id').val();
         const projectId = $('#ProjectId').val();
         const assignedStaff_Id = $('#Assigned_to').val();
-       
+
         if (
           typeof businessId !== 'undefined' &&
           typeof projectId !== 'undefined' &&
@@ -1163,105 +1089,106 @@ window.initializeAdminPageJs = async () => {
           });
           const data = await response.json();
           console.log(data);
-          const OngoingDatatable = $('#ongoing').DataTable();
-          OngoingDatatable.clear().draw();
-          data.forEach((Ongoing) => {
-            const fund_amount = parseFloat(Ongoing.fund_amount);
-            const amount_refunded = parseFloat(Ongoing.amount_refunded);
-            const to_be_refunded = parseFloat(Ongoing.to_be_refunded);
+          OngoingDataTable.clear();
+          OngoingDataTable.rows.add(
+            data.map(Ongoing => {
+                const fund_amount = parseFloat(Ongoing.fund_amount);
+                const amount_refunded = parseFloat(Ongoing.amount_refunded);
+                const to_be_refunded = parseFloat(Ongoing.to_be_refunded);
+                const percentage = Math.ceil((amount_refunded / to_be_refunded) * 100);
+                return [
+                  `${Ongoing.Project_id}`,
+                  `${Ongoing.project_title}
+                      <input type="hidden" class="project_id" value="${
+                        Ongoing.Project_id
+                      }">
+                      <input type="hidden" class="project_fund_amount" value="${fund_amount}">
+                      <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
+                      <input type="hidden" class="amount_refunded" value="${amount_refunded}">
+                      <input type="hidden" class="date_applied" value="${
+                        Ongoing.date_applied
+                      }">
+                      <input type="hidden" class="date_approved" value="${
+                        Ongoing.date_approved
+                      }">
+                      <input type="hidden" class="evaluated_by" value="${
+                        Ongoing?.evaluated_by_prefix +
+                        ' ' +
+                        Ongoing.evaluated_by_f_name +
+                        ' ' +
+                        Ongoing?.evaluated_by_mid_name +
+                        ' ' +
+                        Ongoing.evaluated_by_l_name +
+                        ' ' +
+                        Ongoing?.evaluated_by_suffix
+                      }">
+                      <input type="hidden" class="handled_by" value="${
+                        Ongoing?.handled_by_prefix +
+                        ' ' +
+                        Ongoing.handled_by_f_name +
+                        ' ' +
+                        Ongoing?.handled_by_mid_name +
+                        ' ' +
+                        Ongoing.handled_by_l_name +
+                        ' ' +
+                        Ongoing?.handled_by_suffix
+                      }">`,
+                  `${Ongoing.firm_name}
+                      <input type="hidden" class="business_id" value="${
+                        Ongoing.business_id
+                      }">
+                      <input type="hidden" class="address" value="${
+                        Ongoing.landmark +
+                        ', ' +
+                        Ongoing.barangay +
+                        ', ' +
+                        Ongoing.city +
+                        ', ' +
+                        Ongoing.province +
+                        ', ' +
+                        Ongoing.region
+                      }">
+                      <input type="hidden" class="enterprise_type" value="${
+                        Ongoing.enterprise_type
+                      }">
+                      <input type="hidden" class="enterprise_level" value="${
+                        Ongoing.enterprise_level
+                      }">
+                      <input type="hidden" class="building_assets" value="${
+                        Ongoing.building_value
+                      }">
+                      <input type="hidden" class="equipment_assets" value="${
+                        Ongoing.equipment_value
+                      }">
+                      <input type="hidden" class="working_capital_assets" value="${
+                        Ongoing.working_capital
+                      }">`,
+                  `${Ongoing.f_name + ' ' + Ongoing.l_name}
+                      <input type="hidden" class="designation" value="${
+                        Ongoing.designation
+                      }">
+                      <input type="hidden" class="mobile_number" value="${
+                        Ongoing.mobile_number
+                      }">
+                      <input type="hidden" class="email" value="${Ongoing.email}">
+                      <input type="hidden" class="landline" value="${
+                        Ongoing.landline ?? ''
+                      }">`,
+                  `${
+                    formatToString(amount_refunded) +
+                    ' / ' +
+                    formatToString(to_be_refunded)
+                  } <span class="badge text-white bg-primary">${percentage}%</span>`,
+                  `<button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
+                                                  data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
+                                                  <i class="ri-menu-unfold-4-line ri-1x"></i>
+                      </button>`,
+                ]
+            })
+          );
 
-            const percentage = Math.ceil((amount_refunded / to_be_refunded) * 100);
-            OngoingDatatable.row
-              .add([
-                `${Ongoing.Project_id}`,
-                `${Ongoing.project_title}
-                    <input type="hidden" class="project_id" value="${
-                      Ongoing.Project_id
-                    }">
-                    <input type="hidden" class="project_fund_amount" value="${fund_amount}">
-                    <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
-                    <input type="hidden" class="amount_refunded" value="${amount_refunded}">
-                    <input type="hidden" class="date_applied" value="${
-                      Ongoing.date_applied
-                    }">
-                    <input type="hidden" class="date_approved" value="${
-                      Ongoing.date_approved
-                    }">
-                    <input type="hidden" class="evaluated_by" value="${
-                      Ongoing?.evaluated_by_prefix +
-                      ' ' +
-                      Ongoing.evaluated_by_f_name +
-                      ' ' +
-                      Ongoing?.evaluated_by_mid_name +
-                      ' ' +
-                      Ongoing.evaluated_by_l_name +
-                      ' ' +
-                      Ongoing?.evaluated_by_suffix
-                    }">
-                    <input type="hidden" class="handled_by" value="${
-                      Ongoing?.handled_by_prefix +
-                      ' ' +
-                      Ongoing.handled_by_f_name +
-                      ' ' +
-                      Ongoing?.handled_by_mid_name +
-                      ' ' +
-                      Ongoing.handled_by_l_name +
-                      ' ' +
-                      Ongoing?.handled_by_suffix
-                    }">`,
-                `${Ongoing.firm_name}
-                    <input type="hidden" class="business_id" value="${
-                      Ongoing.business_id
-                    }">
-                    <input type="hidden" class="address" value="${
-                      Ongoing.landmark +
-                      ', ' +
-                      Ongoing.barangay +
-                      ', ' +
-                      Ongoing.city +
-                      ', ' +
-                      Ongoing.province +
-                      ', ' +
-                      Ongoing.region
-                    }">
-                    <input type="hidden" class="enterprise_type" value="${
-                      Ongoing.enterprise_type
-                    }">
-                    <input type="hidden" class="enterprise_level" value="${
-                      Ongoing.enterprise_level
-                    }">
-                    <input type="hidden" class="building_assets" value="${
-                      Ongoing.building_value
-                    }">
-                    <input type="hidden" class="equipment_assets" value="${
-                      Ongoing.equipment_value
-                    }">
-                    <input type="hidden" class="working_capital_assets" value="${
-                      Ongoing.working_capital
-                    }">`,
-                `${Ongoing.f_name + ' ' + Ongoing.l_name}
-                    <input type="hidden" class="designation" value="${
-                      Ongoing.designation
-                    }">
-                    <input type="hidden" class="mobile_number" value="${
-                      Ongoing.mobile_number
-                    }">
-                    <input type="hidden" class="email" value="${Ongoing.email}">
-                    <input type="hidden" class="landline" value="${
-                      Ongoing.landline ?? ''
-                    }">`,
-                `${
-                  formatToString(amount_refunded) +
-                  ' / ' +
-                  formatToString(to_be_refunded)
-                } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                `<button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
-                                                data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
-                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
-                    </button>`,
-              ])
-              .draw();
-          });
+          OngoingDataTable.draw()
+
         } catch (error) {
           console.error('Error:', error);
         }
@@ -1277,107 +1204,107 @@ window.initializeAdminPageJs = async () => {
                 dataType: 'json',
               });
               const data = await response.json();
-              const completedDatatable = $('#completedTable').DataTable();
-              completedDatatable.clear().draw();
-              data.forEach((completed) => {
-                const fund_amount = parseFloat(completed.fund_amount);
-                const amount_refunded = parseFloat(completed.amount_refunded);
-                const to_be_refunded = parseFloat(completed.to_be_refunded);
+              CompletedDataTable.clear();
+              CompletedDataTable.rows.add(
+                data.map(completed => {
+                    const fund_amount = parseFloat(completed.fund_amount);
+                    const amount_refunded = parseFloat(completed.amount_refunded);
+                    const to_be_refunded = parseFloat(completed.to_be_refunded);
+                    const percentage = Math.ceil(
+                      (amount_refunded / to_be_refunded) * 100
+                    );
+                    return [
+                           `${completed.Project_id}`,
+                           `${completed.project_title}
+                               <input type="hidden" class="project_id" value="${
+                                 completed.Project_id
+                               }">
+                               <input type="hidden" class="project_fund_amount" value="${fund_amount}">
+                               <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
+                               <input type="hidden" class="amount_refunded" value="${amount_refunded}">
+                               <input type="hidden" class="date_applied" value="${
+                                 completed.date_applied
+                               }">
+                               <input type="hidden" class="date_approved" value="${
+                                 completed.date_approved
+                               }">
+                               <input type="hidden" class="evaluated_by" value="${
+                                 completed?.evaluated_by_prefix +
+                                 ' ' +
+                                 completed.evaluated_by_f_name +
+                                 ' ' +
+                                 completed?.evaluated_by_mid_name +
+                                 ' ' +
+                                 completed.evaluated_by_l_name +
+                                 ' ' +
+                                 completed?.evaluated_by_suffix
+                               }">
+                               <input type="hidden" class="handled_by" value="${
+                                 completed?.handled_by_prefix +
+                                 ' ' +
+                                 completed.handled_by_f_name +
+                                 ' ' +
+                                 completed?.handled_by_mid_name +
+                                 ' ' +
+                                 completed.handled_by_l_name +
+                                 ' ' +
+                                 completed?.handled_by_suffix
+                               }">`,
+                           `${completed.firm_name}
+                               <input type="hidden" class="business_id" value="${
+                                 completed.business_id
+                               }">
+                               <input type="hidden" class="address" value="${
+                                 completed.landmark +
+                                 ', ' +
+                                 completed.barangay +
+                                 ', ' +
+                                 completed.city +
+                                 ', ' +
+                                 completed.province +
+                                 ', ' +
+                                 completed.region
+                               }">
+                               <input type="hidden" class="enterprise_type" value="${
+                                 completed.enterprise_type
+                               }">
+                               <input type="hidden" class="enterprise_level" value="${
+                                 completed.enterprise_level
+                               }">
+                               <input type="hidden" class="building_assets" value="${
+                                 completed.building_value
+                               }">
+                               <input type="hidden" class="equipment_assets" value="${
+                                 completed.equipment_value
+                               }">
+                               <input type="hidden" class="working_capital_assets" value="${
+                                 completed.working_capital
+                               }">`,
+                           `${completed.f_name + ' ' + completed.l_name}
+                               <input type="hidden" class="designation" value="${
+                                 completed.designation
+                               }">
+                               <input type="hidden" class="mobile_number" value="${
+                                 completed.mobile_number
+                               }">
+                               <input type="hidden" class="email" value="${completed.email}">
+                               <input type="hidden" class="landline" value="${
+                                 completed.landline ?? ''
+                               }">`,
+                           `${
+                             formatToString(amount_refunded) +
+                             ' / ' +
+                             formatToString(to_be_refunded)
+                           } <span class="badge text-white bg-primary">${percentage}%</span>`,
+                           `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
+                                                       data-bs-target="#completedDetails" aria-controls="completedDetails">
+                                                       <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                                   </button>`,
+                         ]
 
-                const percentage = Math.ceil(
-                  (amount_refunded / to_be_refunded) * 100
-                );
-                completedDatatable.row
-                  .add([
-                    `${completed.Project_id}`,
-                    `${completed.project_title}
-                        <input type="hidden" class="project_id" value="${
-                          completed.Project_id
-                        }">
-                        <input type="hidden" class="project_fund_amount" value="${fund_amount}">
-                        <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
-                        <input type="hidden" class="amount_refunded" value="${amount_refunded}">
-                        <input type="hidden" class="date_applied" value="${
-                          completed.date_applied
-                        }">
-                        <input type="hidden" class="date_approved" value="${
-                          completed.date_approved
-                        }">
-                        <input type="hidden" class="evaluated_by" value="${
-                          completed?.evaluated_by_prefix +
-                          ' ' +
-                          completed.evaluated_by_f_name +
-                          ' ' +
-                          completed?.evaluated_by_mid_name +
-                          ' ' +
-                          completed.evaluated_by_l_name +
-                          ' ' +
-                          completed?.evaluated_by_suffix
-                        }">
-                        <input type="hidden" class="handled_by" value="${
-                          completed?.handled_by_prefix +
-                          ' ' +
-                          completed.handled_by_f_name +
-                          ' ' +
-                          completed?.handled_by_mid_name +
-                          ' ' +
-                          completed.handled_by_l_name +
-                          ' ' +
-                          completed?.handled_by_suffix
-                        }">`,
-                    `${completed.firm_name}
-                        <input type="hidden" class="business_id" value="${
-                          completed.business_id
-                        }">
-                        <input type="hidden" class="address" value="${
-                          completed.landmark +
-                          ', ' +
-                          completed.barangay +
-                          ', ' +
-                          completed.city +
-                          ', ' +
-                          completed.province +
-                          ', ' +
-                          completed.region
-                        }">
-                        <input type="hidden" class="enterprise_type" value="${
-                          completed.enterprise_type
-                        }">
-                        <input type="hidden" class="enterprise_level" value="${
-                          completed.enterprise_level
-                        }">
-                        <input type="hidden" class="building_assets" value="${
-                          completed.building_value
-                        }">
-                        <input type="hidden" class="equipment_assets" value="${
-                          completed.equipment_value
-                        }">
-                        <input type="hidden" class="working_capital_assets" value="${
-                          completed.working_capital
-                        }">`,
-                    `${completed.f_name + ' ' + completed.l_name}
-                        <input type="hidden" class="designation" value="${
-                          completed.designation
-                        }">
-                        <input type="hidden" class="mobile_number" value="${
-                          completed.mobile_number
-                        }">
-                        <input type="hidden" class="email" value="${completed.email}">
-                        <input type="hidden" class="landline" value="${
-                          completed.landline ?? ''
-                        }">`,
-                    `${
-                      formatToString(amount_refunded) +
-                      ' / ' +
-                      formatToString(to_be_refunded)
-                    } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                    `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
-                                                data-bs-target="#completedDetails" aria-controls="completedDetails">
-                                                <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                            </button>`,
-                  ])
-                  .draw();
-              });
+                })
+              )
+              CompletedDataTable.draw()
         }catch(error){
             console.error('Error:', error);
 

@@ -1,0 +1,79 @@
+export function showToastFeedback(status, message) {
+    const toast = $('#ActionFeedbackToast');
+    const toastInstance = new bootstrap.Toast(toast);
+
+    toast
+      .find('.toast-header')
+      .removeClass([
+        'text-bg-danger',
+        'text-bg-success',
+        'text-bg-warning',
+        'text-bg-info',
+        'text-bg-primary',
+        'text-bg-light',
+        'text-bg-dark',
+      ]);
+
+    toast.find('.toast-body').text('');
+    toast.find('.toast-header').addClass(status);
+    toast.find('.toast-body').text(message);
+
+    toastInstance.show();
+  }
+
+  /**
+ * Formats a number value to a string with a fixed number of decimal places.
+ *
+ * @param {number} value - The number to be formatted.
+ * @returns {string} The formatted number as a string with exactly 2 decimal places.
+ */
+export const formatToString = (value) => {
+    return value.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+  };
+
+  export const dateFormatter = (date) => {
+    const dateObj = new Date(date);
+
+    return dateObj.toLocaleString('en-US', {
+      month: 'short',
+      day: '2-digit',
+      year: '2-digit',
+      hour: 'numeric',
+      minute: '2-digit',
+      hour12: true,
+    });
+  };
+
+  //close offcanvas
+  export function closeOffcanvasInstances(offcanva_id) {
+    const offcanvasElement = $(offcanva_id).get(0);
+    const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
+    offcanvasInstance.hide();
+  }
+
+  export function formatToNumber(inputSelector) {
+    $(inputSelector).on('input', function () {
+      const value = $(this)
+        .val()
+        .replace(/[^0-9.]/g, '');
+      if (value.includes('.')) {
+        const parts = value.split('.');
+        parts[1] = parts[1].substring(0, 2);
+        value = parts.join('.');
+      }
+      const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      $(this).val(formattedValue);
+    });
+  }
+
+  export function closeModal(modelId) {
+    const model = bootstrap.Modal.getInstance(modelId);
+    model.hide();
+  }
+
+ export function sanitize(input) {
+    return $('<div>').text(input).html(); // Escape special characters
+  }
