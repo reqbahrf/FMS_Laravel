@@ -1,7 +1,7 @@
 import './echo';
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
-import {showToastFeedback, formatToString, dateFormatter, closeOffcanvasInstances, formatToNumber, closeModal} from './ReusableJS/customFunctions'
+import {showToastFeedback, formatToString, dateFormatter, closeOffcanvasInstances, formatToNumber, closeModal} from './ReusableJS/utilFunctions'
 
 import DataTable from 'datatables.net-bs5';
 window.DataTable = DataTable;

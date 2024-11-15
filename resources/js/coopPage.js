@@ -2,7 +2,7 @@
 import "./echo"
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
-import { showToastFeedback } from "./ReusableJS/customFunctions";
+import { showToastFeedback } from "./ReusableJS/utilFunctions";
 import "smartwizard/dist/css/smart_wizard_all.css";
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
