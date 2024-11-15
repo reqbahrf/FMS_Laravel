@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use App\Models\CoopUserInfo;
+use App\Models\ApplicationInfo;
 use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\Log;
 
@@ -40,6 +41,8 @@ class CooperatorViewController extends Controller
 
         if ($request->ajax()) {
             $username = Session::get('user_name');
+            $session_project_id = Session::get('project_id');
+            $session_business_id = Session::get('business_id');
 
             // Query the database
             $row = DB::table('coop_users_info')
@@ -63,6 +66,8 @@ class CooperatorViewController extends Controller
                     'business_info.region',
                 )
                 ->where('coop_users_info.user_name', $username)
+                ->where('project_info.Project_id', $session_project_id)
+                ->where('business_info.id', $session_business_id)
                 ->first();
 
             return view('CooperatorView.CooperatorInformationTab', compact('row'));
@@ -74,10 +79,17 @@ class CooperatorViewController extends Controller
     public function CoopProgress()
     {
         $user = Auth::user();
+        $session_project_id = Session::get('project_id');
+        $session_business_id = Session::get('business_id');
 
         if ($user) {
             // Eager load the necessary relationships to reduce queries
-            $projectInfo = $user->coopUserInfo->businessInfo->first()->projectInfo->first();
+          $applicationInfo = ApplicationInfo::where('business_id', $session_business_id)
+              ->where('id', $session_project_id)
+              ->with('projectInfo')
+              ->first();
+
+          $projectInfo = $applicationInfo->projectInfo;
 
             if ($projectInfo) {
                 $paymentInfo = $projectInfo->paymentInfo; // Remove ->first() to get all payment records

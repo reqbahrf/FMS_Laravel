@@ -19,7 +19,9 @@ class SetProjectToLoadController extends Controller
             'application_id' => 'required|integer',
         ]);
 
-        $businessInfo = BusinessInfo::where('id', $validated['business_id'])->first();
+        $businessInfo = BusinessInfo::where('id', $validated['business_id'])
+            ->with('applicationInfo.projectInfo')
+            ->first();
 
         if (!$businessInfo) {
             return redirect()->withError('Business not found');
@@ -34,7 +36,7 @@ class SetProjectToLoadController extends Controller
         Session::put('application_status', $applicationStatus);
 
         if (in_array($applicationStatus, ['approved', 'ongoing', 'completed'])) {
-            $projectInfo = $businessInfo->BusinessInfo->first()->projectInfo->first();
+            $projectInfo = $businessInfo->applicationInfo->find($validated['application_id'])->projectInfo;
             Session::put('project_id', $projectInfo->Project_id ?? null);
             Session::put('business_id', $projectInfo->business_id ?? null);
         }
