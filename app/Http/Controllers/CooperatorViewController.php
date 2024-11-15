@@ -14,33 +14,23 @@ class CooperatorViewController extends Controller
 {
     public function index()
     {
-        $userId = Session::get('user_id');
-        $userName = Session::get('user_name');
-        $userBirthD = Session::get('birth_date');
+        $userName = Auth::user()->user_name;
 
         $user = Auth::user();
         $notifications = $user->notifications;
 
         $result = CoopUserInfo::where('user_name', $userName)
             ->with('BusinessInfo.applicationInfo')
-            ->first();
+            ->get();
 
-        if (!$result) {
-            return redirect()->route('login.Form');
-        }
+            if (!$result) {
+                 return redirect()->route('login.Form');
+             }
 
-        $applicationStatus = $result->BusinessInfo->first()->applicationInfo->first()->application_status;
-        Session::put('application_status', $applicationStatus);
+             $businessInfos = $result->flatMap->BusinessInfo;
 
-        if (in_array($applicationStatus, ['approved', 'ongoing'])) {
-            $projectInfo = $result->BusinessInfo->first()->projectInfo->first();
-            Session::put('project_id', $projectInfo->Project_id ?? null);
-            Session::put('business_id', $projectInfo->business_id ?? null);
-        }
+            return view('CooperatorView.Cooperator_Index', compact(['notifications', 'businessInfos']));
 
-        return view('CooperatorView.Cooperator_Index', compact('notifications'), [
-            'application_status' => $applicationStatus
-        ]);
     }
 
 

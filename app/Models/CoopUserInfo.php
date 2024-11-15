@@ -41,4 +41,14 @@ class CoopUserInfo extends Model
     {
         return $this->hasMany(BusinessInfo::class, 'user_info_id', 'id');
     }
+
+    public function getFullNameAttribute()
+    {
+        return
+            ($this->prefix ? $this->prefix . ' ' : '')
+            . ' ' . $this->f_name . ' ' .
+            ($this->mid_name ? substr($this->mid_name, 0, 1) . '.' : '')
+            . ' ' . $this->l_name . ' ' .
+            ($this->suffix ? $this->suffix : '');
+    }
 }

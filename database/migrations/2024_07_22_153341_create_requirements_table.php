@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('requirements', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('business_id')->unsigned();
+            $table->bigInteger('application_id');
             $table->string('file_name', 32);
             $table->string('file_link', 500);
             $table->string('file_type', 20);
@@ -22,6 +23,7 @@ return new class extends Migration
             $table->string('remark_comments', 100)->nullable();
             $table->timestamps();
             $table->foreign('business_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('application_id')->references('id')->on('application_info')->onDelete('cascade')->onUpdate('cascade');
         });
 
 

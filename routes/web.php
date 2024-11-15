@@ -30,6 +30,7 @@ use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 
 
@@ -95,6 +96,9 @@ Route::post('/logout', [AuthController::class, 'logout'])
 //Cooperator Route
 
 Route::middleware([CheckCooperatorUser::class])->group(function () {
+
+    Route::post('/Cooperator/Projects', SetProjectToLoadController::class)
+        ->name('Cooperator.Projects');
 
     Route::get('/Cooperator/Home', [CooperatorViewController::class, 'index'])
         ->name('Cooperator.index');

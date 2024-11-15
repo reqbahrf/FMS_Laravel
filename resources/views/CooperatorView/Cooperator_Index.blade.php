@@ -14,7 +14,6 @@
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
     <style>
-
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
 
         :root {
@@ -430,10 +429,91 @@
     </style>
 </head>
 
-@if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
-    @include('CooperatorView.CooperatorApprovedPage')
-@elseif(in_array(Session::get('application_status'), ['new', 'pending']))
-    @include('CooperatorView.ApplicationWaitingPage')
-@endif
+<body class="overflow-hidden">
+    @if (!Session::has('application_status'))
+        <div class="row justify-content-center align-items-center" style="height: 100vh">
+            <div class="col-12">
+                <h1 class="text-center">
+                   Welcome!
+                </h1>
+            </div>
+            <div class="col-12">
+                <div class="mx-auto"
+                    style=" width: 15rem; height: 15rem; border-radius: 50%; background-color: #318791; color: white; display: flex;align-items: center; justify-content: center; font-size: 5.5rem;
+        ">
+         {{ strtoupper(substr(trim((string)Auth::user()->coopUserInfo->f_name), 0, 1)) }}
+
+                </div>
+            </div>
+            <div class="col-12">
+                <h2 class="text-center">
+                    {{ Auth::user()->coopUserInfo->full_name }}
+                </h2>
+            </div>
+            <div class="col-md-4">
+                <form method="POST" action="{{ route('Cooperator.Projects') }}" class="w-100">
+                    @csrf
+
+                    <!-- Business Selection -->
+                    <div class="form-group mb-3">
+                        <label for="business" class="form-label">Select Business:</label>
+                        <select id="business" name="business_id" class="form-select" onchange="loadApplications(this)">
+                            <option value="">-- Choose a Business --</option>
+                            @foreach ($businessInfos as $business)
+                                <option value="{{ $business->id }}">{{ $business->firm_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <!-- Application Selection -->
+                    <div class="form-group mb-3">
+                        <label for="application" class="form-label">Select Application:</label>
+                        <select id="application" name="application_id" class="form-select" disabled>
+                            <option value="">-- Choose an Application --</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    @else
+        @if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
+            @include('CooperatorView.CooperatorApprovedPage')
+        @elseif(in_array(Session::get('application_status'), ['new', 'pending']))
+            @include('CooperatorView.ApplicationWaitingPage')
+        @endif
+    @endif
+    <script type="module">
+        // JavaScript for dynamically loading applications based on selected business
+        const businessInfos = @json($businessInfos);
+
+        $(function() {
+            $('#business').on('change', function() {
+                const businessId = $(this).val();
+                const $applicationSelect = $('#application');
+
+                // Clear existing options
+                $applicationSelect.find('option').remove().end().append(
+                    '<option value="">-- Choose an Application --</option>');
+                $applicationSelect.prop('disabled', true);
+
+                if (!businessId) return;
+
+                // Find the selected business and populate applications
+                const selectedBusiness = businessInfos.find(business => business.id == businessId);
+
+                if (selectedBusiness && selectedBusiness.application_info.length > 0) {
+                    $.each(selectedBusiness.application_info, function(index, application) {
+                        $applicationSelect.append(
+                            `<option value="${application.id}">Application ID: ${application.id} (Status: ${application.application_status})</option>`
+                            );
+                    });
+                    $applicationSelect.prop('disabled', false);
+                }
+            });
+        });
+    </script>
+</body>
 
 </html>
