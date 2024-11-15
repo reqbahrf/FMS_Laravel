@@ -21,7 +21,7 @@ class CooperatorViewController extends Controller
         $notifications = $user->notifications;
 
         $result = CoopUserInfo::where('user_name', $userName)
-            ->with('BusinessInfo.applicationInfo')
+            ->with('BusinessInfo.applicationInfo.projectInfo')
             ->get();
 
             if (!$result) {

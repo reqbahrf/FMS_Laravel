@@ -477,16 +477,10 @@
                 </form>
             </div>
         </div>
-    @else
-        @if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
-            @include('CooperatorView.CooperatorApprovedPage')
-        @elseif(in_array(Session::get('application_status'), ['new', 'pending']))
-            @include('CooperatorView.ApplicationWaitingPage')
-        @endif
-    @endif
     <script type="module">
         // JavaScript for dynamically loading applications based on selected business
         const businessInfos = @json($businessInfos);
+        console.log(businessInfos)
 
         $(function() {
             $('#business').on('change', function() {
@@ -506,7 +500,7 @@
                 if (selectedBusiness && selectedBusiness.application_info.length > 0) {
                     $.each(selectedBusiness.application_info, function(index, application) {
                         $applicationSelect.append(
-                            `<option value="${application.id}">Application ID: ${application.id} (Status: ${application.application_status})</option>`
+                           `<option value="${application.id}">Application ID: ${application.id} (Status:<span class="badge bg-${application.application_status === 'approved' ? 'success' : application.application_status === 'rejected' ? 'danger' : application.application_status === 'ongoing' ? 'primary' : application.application_status === 'completed' ? 'info' : 'warning'}"> ${application.application_status}</span>)</option>`
                             );
                     });
                     $applicationSelect.prop('disabled', false);
@@ -514,6 +508,13 @@
             });
         });
     </script>
+    @else
+        @if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
+            @include('CooperatorView.CooperatorApprovedPage')
+        @elseif(in_array(Session::get('application_status'), ['new', 'pending']))
+            @include('CooperatorView.ApplicationWaitingPage')
+        @endif
+    @endif
 </body>
 
 </html>
