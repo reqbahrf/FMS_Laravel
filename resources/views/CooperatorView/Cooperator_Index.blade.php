@@ -431,10 +431,17 @@
 
 <body class="overflow-hidden">
     @if (!Session::has('application_status'))
+        <x-logout-confirmation-modal />
         <div class="row justify-content-center align-items-center" style="height: 100vh">
+            <div class="col-12 text-end">
+                <a href="{{ route('logout') }}" class="py-2 text-decoration-none me-3 text-danger"
+                                data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">
+                                <i class="ri-logout-box-line me-2"></i>Logout
+                </a>
+            </div>
             <div class="col-12">
                 <h1 class="text-center">
-                   Welcome!
+                   Welcome to SETUP!
                 </h1>
             </div>
             <div class="col-12">

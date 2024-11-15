@@ -1,6 +1,7 @@
 <div class="wrapper">
     <x-toast-alert />
     <x-my-account-modal />
+    <x-logout-confirmation-modal />
     <nav class="sidenav expanded">
         <ul class="navbar-nav">
             <li class="nav-item mb-2 minimize">
@@ -104,9 +105,6 @@
             </ul>
         </div>
     </div>
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-        @csrf
-    </form>
     <div id="toggle-left-margin" class="content-row navExpanded">
         <div class="topNav shadow-sm px-3 container-fluid">
             <div class="d-flex align-items-center justify-content-between">
@@ -173,8 +171,8 @@
                                 data-bs-target="#myAccountModal">
                                 <p><i class="ri-user-3-line me-2"></i>My Account</p>
                             </button>
-                            <a href="{{ route('logout') }}" class="dropdown-item py-2"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <a href="#" class="dropdown-item py-2"
+                                data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">
                                 <p><i class="ri-logout-box-line me-2"></i>Logout</p>
                             </a>
                         </div>
