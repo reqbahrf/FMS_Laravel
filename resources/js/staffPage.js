@@ -726,6 +726,60 @@ window.initializeStaffPageJs = async () => {
         $('#paymentStatus').val(selected_payment_status);
       }
 
+      const ProjectLedgerInput = $('#projectLedgerLink');
+      const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');
+
+      ProjectLedgerSubmitBtn.on('click', function () {
+        const project_id = $('#ProjectID').val();
+        const ProjectLedgerLink = $('#projectLedgerLink').val();
+        const action = $(this).attr('data-action');
+        console.log(action)
+        if (action === 'edit') {
+            ProjectLedgerInput.prop('readonly', false);
+            $(this).attr('data-action', 'save').text('Save');
+          } else if (action === 'save') {
+            updateOrCreateProjectLedger(project_id, ProjectLedgerLink);
+          } else {
+            console.error('Action is not defined');
+          }
+
+    })
+
+        const updateOrCreateProjectLedger = async (project_id, ProjectLedgerLink) => {
+        try {
+            const response = await $.ajax({
+                type: 'PUT',
+                url: DASHBBOARD_TAB_ROUTE.UPDATE_OR_CREATE_PROJECT_LEDGER,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                },
+                data: {
+                    project_id: project_id,
+                    project_ledger_link: ProjectLedgerLink
+                }
+            })
+            showToastFeedback('text-bg-success', response.message);
+            getProjectLedger(project_id);
+        } catch (error) {
+            showToastFeedback('text-bg-danger', error.responseJSON.message);
+        }
+    }
+
+      const getProjectLedger = async (project_id) => {
+        try {
+            const response = await $.ajax({
+                type: 'GET',
+                url: DASHBBOARD_TAB_ROUTE.GET_PROJECT_LEDGER.replace(':project_id', project_id),
+            })
+            response
+            ? (ProjectLedgerSubmitBtn.text('Edit').attr('data-action', 'edit'),ProjectLedgerInput.prop('readonly', true))
+            : ProjectLedgerSubmitBtn.text('Save').attr('data-action', 'save');
+            ProjectLedgerInput.val(response.project_ledger_link);
+        } catch (error) {
+            console.error(error);
+        }
+      }
+
       $('#handledProjectTableBody').on(
         'click',
         '.handleProjectbtn',
@@ -818,6 +872,7 @@ window.initializeStaffPageJs = async () => {
 
           handleProjectOffcanvasContent(project_status);
           getPaymentHistoryAndCalculation(project_id, actual_amount);
+          getProjectLedger(project_id);
           getProjectLinks(project_id);
           getQuarterlyReports(project_id);
           getAvailableQuarterlyReports(project_id);

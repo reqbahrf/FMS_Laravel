@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\ProjectInfo;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\checkAdminUser;
 use App\Http\Middleware\CheckStaffUser;
@@ -16,11 +17,13 @@ use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PaymentRecordController;
+use App\Http\Controllers\ProjectLedgerController;
 use Illuminate\Auth\Events\PasswordResetLinkSent;
 use App\Http\Controllers\CooperatorViewController;
 use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\AdminManageStaffController;
+use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\StaffProjectLinkController;
@@ -30,9 +33,7 @@ use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
-use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffQuarterlyReportController;
-
 
 //Applicant routes
 
@@ -159,6 +160,12 @@ Route::middleware([CheckStaffUser::class])->group(function () {
 
     Route::get('/Staff/Dashboard/getHandledProjects', [StaffViewController::class, 'getHandledProjects'])
         ->name('staff.Dashboard.getHandledProjects');
+
+    Route::put('/Staff/Dashboard/ProjectLedger', [ProjectLedgerController::class, 'saveOrupdate'])
+        ->name('staff.Dashboard.ProjectLedger');
+
+    Route::get('/Staff/Dashboard/ProjectLedger/{ProjectId}', [ProjectLedgerController::class, 'index'])
+        ->name('staff.Dashboard.ProjectLedger.index');
 
 
     Route::get('/Staff/Project/Create-Project', function () {

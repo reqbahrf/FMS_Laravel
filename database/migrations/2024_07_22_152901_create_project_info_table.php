@@ -18,6 +18,7 @@ return new class extends Migration
             $table->bigInteger('evaluated_by_id')->unsigned()->nullable();
             $table->bigInteger('handled_by_id')->unsigned()->nullable();
             $table->string('project_title', 255)->default('still in evaluation');
+            $table->string('project_ledger_link', 255)->nullable();
             $table->decimal('fund_amount', 10, 2)->default(0.00);
             $table->decimal('actual_amount_to_be_refund', 10, 2)->default(0.00);
             $table->decimal('refunded_amount', 10, 2)->default(0.00);

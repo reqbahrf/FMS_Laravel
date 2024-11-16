@@ -660,6 +660,8 @@
             GET_QUARTERLY_REPORT_RECORDS: '{{ route('Manage-QuarterlyReport.index') }}',
             UPDATE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.update', ':record_id') }}',
             DELETE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.destroy', ':record_id') }}',
+            UPDATE_OR_CREATE_PROJECT_LEDGER: '{{ route('staff.Dashboard.ProjectLedger') }}',
+            GET_PROJECT_LEDGER: '{{ route('staff.Dashboard.ProjectLedger.index', ':project_id') }}',
 
         }
 

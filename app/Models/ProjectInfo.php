@@ -25,6 +25,7 @@ class ProjectInfo extends Model
         'evaluated_by_id',
         'handled_by_id',
         'project_title',
+        'project_ledger_link',
         'fund_amount',
         'actual_amount_to_be_refund',
         'refunded_amount'
