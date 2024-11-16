@@ -151,7 +151,8 @@ class ProjectProposalController extends Controller
                     'actual_amount_to_be_refund' => $actualFundToRefund,
                 ]
             );
-            ApplicationInfo::where('business_id', $proposalData['business_id'])
+            ApplicationInfo::where('id', $ApplicationID)
+                ->where('business_id', $proposalData['business_id'])
                 ->update([
                     'Project_id' => $proposalData['projectID'],
                     'application_status' => 'pending',

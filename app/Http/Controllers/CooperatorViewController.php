@@ -79,13 +79,13 @@ class CooperatorViewController extends Controller
     public function CoopProgress()
     {
         $user = Auth::user();
-        $session_project_id = Session::get('project_id');
+        $session_application_id = Session::get('application_id');
         $session_business_id = Session::get('business_id');
 
         if ($user) {
             // Eager load the necessary relationships to reduce queries
-          $applicationInfo = ApplicationInfo::where('business_id', $session_business_id)
-              ->where('id', $session_project_id)
+          $applicationInfo = ApplicationInfo::where('id',  $session_application_id)
+              ->where('business_id', $session_business_id)
               ->with('projectInfo')
               ->first();
 

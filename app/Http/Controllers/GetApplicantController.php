@@ -14,6 +14,7 @@ class GetApplicantController extends Controller
      */
     public function __invoke(Request $request)
     {
+        //TODO: can't retrive multiple business Info for one coop_users need to be fix
         try {
             if (Cache::has('applicants')) {
                 $applicants = Cache::get('applicants');
@@ -49,6 +50,7 @@ class GetApplicantController extends Controller
                         'application_info.application_status',
                         'business_info.id as business_id'
                     )
+                    ->distinct()
                     ->get();
                 Cache::put('applicants', $applicants, 1800);
             }
