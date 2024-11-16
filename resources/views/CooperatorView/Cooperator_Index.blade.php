@@ -435,20 +435,20 @@
         <div class="row justify-content-center align-items-center" style="height: 100vh">
             <div class="col-12 text-end">
                 <a href="{{ route('logout') }}" class="py-2 text-decoration-none me-3 text-danger"
-                                data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">
-                                <i class="ri-logout-box-line me-2"></i>Logout
+                    data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">
+                    <i class="ri-logout-box-line me-2"></i>Logout
                 </a>
             </div>
             <div class="col-12">
                 <h1 class="text-center">
-                   Welcome to SETUP!
+                    Welcome to SETUP!
                 </h1>
             </div>
             <div class="col-12">
                 <div class="mx-auto"
                     style=" width: 15rem; height: 15rem; border-radius: 50%; background-color: #318791; color: white; display: flex;align-items: center; justify-content: center; font-size: 5.5rem;
         ">
-         {{ strtoupper(substr(trim((string)Auth::user()->coopUserInfo->f_name), 0, 1)) }}
+                    {{ strtoupper(substr(trim((string) Auth::user()->coopUserInfo->f_name), 0, 1)) }}
 
                 </div>
             </div>
@@ -462,59 +462,137 @@
                     @csrf
 
                     <!-- Business Selection -->
-                    <div class="form-group mb-3">
+                    <div id="business-selection" class="form-group mb-3">
                         <label for="business" class="form-label">Select Business:</label>
-                        <select id="business" name="business_id" class="form-select" onchange="loadApplications(this)">
-                            <option value="">-- Choose a Business --</option>
-                            @foreach ($businessInfos as $business)
-                                <option value="{{ $business->id }}">{{ $business->firm_name }}</option>
-                            @endforeach
-                        </select>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle w-100" type="button" id="businessDropdown"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                -- Choose a Business --
+                            </button>
+                            <ul class="dropdown-menu w-100" aria-labelledby="businessDropdown">
+                                @foreach ($businessInfos as $business)
+                                    <li>
+                                        <a class="dropdown-item business-option" href="#"
+                                            data-id="{{ $business->id }}">{{ $business->firm_name }}</a>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
 
                     <!-- Application Selection -->
-                    <div class="form-group mb-3">
+                    <!-- Application Selection -->
+                    <div id="application-selection" class="form-group mb-3 d-none">
                         <label for="application" class="form-label">Select Application:</label>
-                        <select id="application" name="application_id" class="form-select" disabled>
-                            <option value="">-- Choose an Application --</option>
-                        </select>
+                        <div class="dropdown">
+                            <button class="btn btn-secondary dropdown-toggle w-100" type="button"
+                                id="applicationDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                -- Choose an Application --
+                            </button>
+                            <ul id="applicationDropdownMenu" class="dropdown-menu w-100"
+                                aria-labelledby="applicationDropdown">
+                                <!-- Applications will be dynamically loaded here -->
+                            </ul>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn mt-3" id="revertButton"><i class="ri-arrow-left-line"></i>Back</button>
+                        </div>
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+
+                    <button type="submit" class="btn btn-primary w-100 mt-3">Submit</button>
+                    <input type="hidden" id="business_id" name="business_id">
+                    <input type="hidden" id="application_id" name="application_id">
                 </form>
+
             </div>
         </div>
-    <script type="module">
-        // JavaScript for dynamically loading applications based on selected business
-        const businessInfos = @json($businessInfos);
-        console.log(businessInfos)
+        <script type="module">
+            // JavaScript for dynamically loading applications based on selected business
+            const businessInfos = @json($businessInfos);
 
-        $(function() {
-            $('#business').on('change', function() {
-                const businessId = $(this).val();
-                const $applicationSelect = $('#application');
+            $(document).ready(function() {
+                const $businessSelection = $('#business-selection');
+                const $applicationSelection = $('#application-selection');
+                const $businessIdInput = $('#business_id');
+                const $applicationIdInput = $('#application_id');
+                const $applicationDropdownMenu = $('#applicationDropdownMenu'); // Select the UL element
 
-                // Clear existing options
-                $applicationSelect.find('option').remove().end().append(
-                    '<option value="">-- Choose an Application --</option>');
-                $applicationSelect.prop('disabled', true);
+                // Handle business selection
+                $('.business-option').on('click', function(e) {
+                    e.preventDefault();
+                    const businessId = $(this).data('id');
+                    const businessName = $(this).text();
 
-                if (!businessId) return;
+                    // Set business ID and update UI
+                    $businessIdInput.val(businessId);
+                    $('#businessDropdown').text(businessName);
+                    loadApplications(businessId);
 
-                // Find the selected business and populate applications
-                const selectedBusiness = businessInfos.find(business => business.id == businessId);
+                    // Switch to application selection
+                    $businessSelection.addClass('d-none');
+                    $applicationSelection.removeClass('d-none');
+                });
 
-                if (selectedBusiness && selectedBusiness.application_info.length > 0) {
-                    $.each(selectedBusiness.application_info, function(index, application) {
-                        $applicationSelect.append(
-                           `<option value="${application.id}">Application ID: ${application.id} (Status:<span class="badge bg-${application.application_status === 'approved' ? 'success' : application.application_status === 'rejected' ? 'danger' : application.application_status === 'ongoing' ? 'primary' : application.application_status === 'completed' ? 'info' : 'warning'}"> ${application.application_status}</span>)</option>`
+                // Handle revert button
+                $('#revertButton').on('click', function() {
+                    // Reset state and switch back to business selection
+                    $businessIdInput.val('');
+                    $applicationIdInput.val('');
+                    $('#businessDropdown').text('-- Choose a Business --');
+                    $applicationDropdownMenu.empty().append(
+                        '<li><a class="dropdown-item" href="#">-- Choose an Application --</a></li>');
+                    $businessSelection.removeClass('d-none');
+                    $applicationSelection.addClass('d-none');
+                });
+
+                // Handle application selection
+                $applicationDropdownMenu.on('click', '.application-option', function(e) {
+                    e.preventDefault();
+                    const applicationId = $(this).data('id');
+                    const applicationName = $(this).text();
+
+                    // Set application ID and update UI
+                    $applicationIdInput.val(applicationId);
+                    $('#applicationDropdown').text(
+                    applicationName); // Update the button text with the selected application
+                });
+
+                // Load applications dynamically
+                function loadApplications(businessId) {
+                    const selectedBusiness = businessInfos.find(business => business.id == businessId);
+
+                    // Clear existing options
+                    $applicationDropdownMenu.empty();
+                    if (selectedBusiness && selectedBusiness.application_info.length > 0) {
+                        selectedBusiness.application_info.forEach(application => {
+                            const badgeClass =
+                                application.application_status === 'approved' ?
+                                'success' :
+                                application.application_status === 'rejected' ?
+                                'danger' :
+                                application.application_status === 'ongoing' ?
+                                'primary' :
+                                application.application_status === 'completed' ?
+                                'info' :
+                                'warning';
+
+                            // Append each application as a new LI in the dropdown menu
+                            $applicationDropdownMenu.append(
+                                `<li>
+                        <a class="dropdown-item application-option" href="#" data-id="${application.id}">
+                            Application ID: ${application.id} <span class="badge bg-${badgeClass}">${application.application_status}</span>
+                        </a>
+                    </li>`
                             );
-                    });
-                    $applicationSelect.prop('disabled', false);
+                        });
+                    } else {
+                        $applicationDropdownMenu.append(
+                            '<li><a class="dropdown-item" href="#">No Applications Available</a></li>');
+                    }
                 }
             });
-        });
-    </script>
+        </script>
     @else
         @if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
             @include('CooperatorView.CooperatorApprovedPage')
