@@ -33,6 +33,7 @@ class SetProjectToLoadController extends Controller
             return redirect()->withError('Application not found');
         }
 
+        Session::put('application_id', $validated['application_id']);
         Session::put('application_status', $applicationStatus);
 
         if (in_array($applicationStatus, ['approved', 'ongoing', 'completed'])) {

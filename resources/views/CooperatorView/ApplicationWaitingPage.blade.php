@@ -114,14 +114,22 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="px-2" style="max-height: 300px; width:30vw; overflow-y: auto;">
+                            <div class="px-2" id="notification--container"
+                            style="max-height: 300px; overflow-y: auto;">
                                 <h5 class="text-muted font-13 fw-normal mt-2">Today</h5>
-                                @if (count($notifications) == 0)
+                                @if ($notifications && $notifications->isNotEmpty())
+                                @php
+                                    // Filter notifications for the specific application_id
+                                    $filteredNotifications = $notifications->filter(function ($notification) {
+                                        return $notification['data']['application_id'] == Session::get('application_id');
+                                    });
+                                @endphp
+
+                                @if ($filteredNotifications->isEmpty())
                                     <p>No notifications available.</p>
                                 @else
-                                    @foreach ($notifications as $notification)
-                                        <a href="#"
-                                            class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
+                                    @foreach ($filteredNotifications as $notification)
+                                        <a href="#" class="dropdown-item p-0 notify-item card unread-noti shadow-none mb-2">
                                             <div class="card-body">
                                                 <div class="d-flex align-items-center">
                                                     <div class="flex-shrink-0">
@@ -130,16 +138,18 @@
                                                         </div>
                                                     </div>
                                                     <div class="flex-grow-1 text-truncate ms-2">
-                                                        <p>{{ $notification->data['message'] }}</p>
-
-                                                        <p><small>{{ $notification->created_at->diffForHumans() }}</small>
-                                                        </p>
+                                                        <p>{{ $notification['data']['message'] }}</p>
+                                                        <p><small>{{ $notification['created_at']->diffForHumans() }}</small></p>
                                                     </div>
                                                 </div>
                                             </div>
                                         </a>
                                     @endforeach
                                 @endif
+                            @else
+                                <p>No notifications available.</p>
+                            @endif
+
                                 <div class="text-center">
                                 </div>
                             </div>
@@ -189,46 +199,53 @@
         </div>
         <main class="overflow-y-auto vh-100 backgroundColor">
             <div class="d-flex flex-column justify-content-center align-items-center m-0 h-100">
-                @foreach ($notifications as $notification)
-                    @if ($notification['type'] === 'App\Notifications\EvaluationScheduleNotification')
-                        <div class="alert alert-success alert-dismissible notification-banner" role="alert">
-                            <div>
-                                <h6><i class="ri-information-2-fill"></i> Evaluation Schedule</h6>
-                                <p>{{ $notification['data']['message'] }}</p>
-                            </div>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert"
-                                aria-label="Close"></button>
-                        </div>
-                    @endif
-                @endforeach
+                @if ($notifications && $notifications->isNotEmpty())
+                @php
+                    // Find the first notification that matches the condition
+                    $notification = $notifications->first(function ($notification) {
+                        return $notification['type'] === 'App\Notifications\EvaluationScheduleNotification' &&
+                               $notification['data']['application_id'] == Session::get('application_id');
+                    });
+                @endphp
 
-                <div class="waiting-clock">
-                    <div
-                        class="container d-flex flex-column justify-content-center align-items-center p-4 shadow rounded-5 ">
+                @if ($notification)
+                    <div class="alert alert-success alert-dismissible notification-banner" role="alert">
                         <div>
-                            <h3>Your Application is still in the process</h3>
+                            <h6><i class="ri-information-2-fill"></i> Evaluation Schedule</h6>
+                            <p>{{ $notification['data']['message'] }}</p>
                         </div>
-                        <div class="w-auto">
-                            <!-- SVG content here -->
-                            <svg xmlns="http://www.w3.org/2000/svg" class="waitingClock" viewBox="0 0 64 64"
-                                width="256" height="256">
-                                <g id="clock" transform="scale(-1, 1) translate(-64, 0)">
-                                    <path
-                                        d="M32 6C25.563809 6 19.527204 8.3098104 14.773438 12.533203L11.175781 9.0058594L9.2421875 21.353516L21.550781 19.177734L17.634766 15.337891C21.623806 11.883136 26.650401 10 32 10C44.131 10 54 19.869 54 32C54 44.131 44.131 54 32 54C19.869 54 10 44.131 10 32C10 31.468 10.019641 30.940969 10.056641 30.417969L6.0664062 30.132812C6.0224062 30.749813 6 31.372 6 32C6 46.336 17.664 58 32 58C46.336 58 58 46.336 58 32C58 17.664 46.336 6 32 6 z M 30.5 14L31 18L33 18L33.5 14L30.5 14 z M 14 30.5L14 33.5L18 33L18 31L14 30.5 z M 50 30.5L46 31L46 33L50 33.5L50 30.5 z M 31 46L30.5 50L33.5 50L33 46L31 46 z"
-                                        fill="var(--ct-text-color)" />
-                                </g>
-                                <g id="arrow" transform="scale(-1, 1) translate(-64, 0)">
-                                    <path
-                                        d="M 44.021484 18.564453L33.25 28.203125 A 4 4 0 0 0 32 28 A 4 4 0 0 0 32 36 A 4 4 0 0 0 32.722656 35.931641L40.816406 42.638672L42.640625 40.816406L35.931641 32.720703 A 4 4 0 0 0 35.796875 30.75L45.435547 19.978516L44.021484 18.564453 z"
-                                        fill="var(--ct-text-color)" />
-                                </g>
-                            </svg>
-                        </div>
-                        <div class="w-auto">
-                            <h5 class="text-muted">Please Wait for the approval within 7 working days</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @else
+                    <div class="waiting-clock">
+                        <div class="container d-flex flex-column justify-content-center align-items-center p-4 shadow rounded-5">
+                            <div>
+                                <h3>Your Application is still in the process</h3>
+                            </div>
+                            <div class="w-auto">
+                                <!-- SVG content here -->
+                                <svg xmlns="http://www.w3.org/2000/svg" class="waitingClock" viewBox="0 0 64 64" width="256" height="256">
+                                    <g id="clock" transform="scale(-1, 1) translate(-64, 0)">
+                                        <path
+                                            d="M32 6C25.563809 6 19.527204 8.3098104 14.773438 12.533203L11.175781 9.0058594L9.2421875 21.353516L21.550781 19.177734L17.634766 15.337891C21.623806 11.883136 26.650401 10 32 10C44.131 10 54 19.869 54 32C54 44.131 44.131 54 32 54C19.869 54 10 44.131 10 32C10 31.468 10.019641 30.940969 10.056641 30.417969L6.0664062 30.132812C6.0224062 30.749813 6 31.372 6 32C6 46.336 17.664 58 32 58C46.336 58 58 46.336 58 32C58 17.664 46.336 6 32 6 z M 30.5 14L31 18L33 18L33.5 14L30.5 14 z M 14 30.5L14 33.5L18 33L18 31L14 30.5 z M 50 30.5L46 31L46 33L50 33.5L50 30.5 z M 31 46L30.5 50L33.5 50L33 46L31 46 z"
+                                            fill="var(--ct-text-color)" />
+                                    </g>
+                                    <g id="arrow" transform="scale(-1, 1) translate(-64, 0)">
+                                        <path
+                                            d="M 44.021484 18.564453L33.25 28.203125 A 4 4 0 0 0 32 28 A 4 4 0 0 0 32 36 A 4 4 0 0 0 32.722656 35.931641L40.816406 42.638672L42.640625 40.816406L35.931641 32.720703 A 4 4 0 0 0 35.796875 30.75L45.435547 19.978516L44.021484 18.564453 z"
+                                            fill="var(--ct-text-color)" />
+                                    </g>
+                                </svg>
+                            </div>
+                            <div class="w-auto">
+                                <h5 class="text-muted">Please Wait for the approval within 7 working days</h5>
+                            </div>
                         </div>
                     </div>
-                </div>
+                @endif
+            @endif
+
+
                 @php
                     $businessId = Auth::user()->coopUserInfo->businessInfo()->first()->id;
                 @endphp

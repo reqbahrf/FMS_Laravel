@@ -53,5 +53,6 @@ class ApplicationInfoObserver
     {
         $org_userId = Auth::user()->orgUserInfo->id;
         Cache::forget('handled_projects' . $org_userId);
+        Cache::forget('applicants');
     }
 }

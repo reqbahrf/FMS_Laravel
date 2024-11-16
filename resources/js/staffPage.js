@@ -3402,7 +3402,7 @@ window.initializeStaffPageJs = async () => {
           ApplicantDetails.filter('#email').val(emailAddress);
 
           getApplicantRequirements(businessID);
-          getEvaluationScheduledDate(businessID);
+          getEvaluationScheduledDate(businessID, ApplicationID);
           getProposalDraft(ApplicationID);
 
         }
@@ -3442,7 +3442,7 @@ window.initializeStaffPageJs = async () => {
 
       }
 
-      async function getEvaluationScheduledDate(businessID) {
+      async function getEvaluationScheduledDate(businessID, applicationID) {
         try {
           const response = await $.ajax({
             type: 'GET',
@@ -3452,6 +3452,7 @@ window.initializeStaffPageJs = async () => {
             },
             data: {
               business_id: businessID,
+              application_id: applicationID
             },
           });
           const nofi_dateCont = $('#nofi_ScheduleCont');
@@ -3629,34 +3630,35 @@ window.initializeStaffPageJs = async () => {
       });
 
       //set evaluation date
-      $('#setEvaluationDate').on('click', function () {
+      $('#setEvaluationDate').on('click', async function () {
         const container = $('#applicantDetails .businessInfo');
         const user_id = container.find('#selected_userId').val();
+        const application_id = container.find('#selected_applicationId').val()
         const business_id =  container.find('#selected_businessID').val();
         const Scheduledate =  $('#evaluationSchedule-datepicker').val();
 
-        $.ajax({
-          type: 'PUT',
-          url: APPLICANT_TAB_ROUTE.setEvaluationScheduleDate,
-          headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-          },
-          data: {
-            user_id: user_id,
-            business_id: business_id,
-            evaluation_date: Scheduledate,
-          },
-          success: function (response) {
-            console.log(response);
+        try {
+           const response = await $.ajax({
+              type: 'PUT',
+              url: APPLICANT_TAB_ROUTE.setEvaluationScheduleDate,
+              headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+              },
+              data: {
+                user_id: user_id,
+                application_id: application_id,
+                business_id: business_id,
+                evaluation_date: Scheduledate,
+              },
+            });
             if (response.success == true) {
-              getEvaluationScheduledDate(business_id);
+             await getEvaluationScheduledDate(business_id, application_id);
               showToastFeedback('text-bg-success', response.message);
             }
-          },
-          error: function (error) {
+        }catch(error){
             showToastFeedback('text-bg-danger', error.responseJSON.error);
-          },
-        });
+
+        }
       });
 
       const toggleDeleteRowButton = (container, elementSelector) => {

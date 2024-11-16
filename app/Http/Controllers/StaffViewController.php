@@ -279,12 +279,15 @@ class StaffViewController extends Controller
     {
 
         $validated = $request->validate([
+            'application_id' => 'required|integer',
             'business_id' => 'required|integer',
         ]);
 
         try {
 
-            $scheduled_date = ApplicationInfo::where('business_id', $validated['business_id'])
+            $scheduled_date = ApplicationInfo::
+                where('id', $validated['application_id'])
+                ->where('business_id', $validated['business_id'])
                 ->select('Evaluation_date')
                 ->first();
 

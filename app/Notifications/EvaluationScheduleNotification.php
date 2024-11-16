@@ -26,8 +26,6 @@ class EvaluationScheduleNotification extends Notification
     {
         $this->schedule = $schedule;
         $this->evaluationDate = Carbon::parse($this->schedule->Evaluation_date)->format('Y-m-d h:i A');
-        Log::info('Evaluation schedule object:'. $this->schedule);
-        Log::info('Evaluation scheduled on:' . $this->evaluationDate);
     }
 
     /**
@@ -63,7 +61,7 @@ class EvaluationScheduleNotification extends Notification
 
         return [
             'message' => 'Your evaluation is' . ($this->isRescheduled ? ' rescheduled' : ' scheduled') . ' on ' . $this->evaluationDate,
-            'schedule_id' => $this->schedule->id,   
+            'application_id' => $this->schedule->id,
         ];
     }
 
@@ -72,7 +70,7 @@ class EvaluationScheduleNotification extends Notification
 
         return new BroadcastMessage([
             'message' => 'Your evaluation is' . ($this->isRescheduled ? ' rescheduled' : ' scheduled') . ' on ' . $this->evaluationDate,
-            'schedule_id' => $this->schedule->id,
+            'application_id' => $this->schedule->id,
         ]);
     }
 

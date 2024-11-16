@@ -19,6 +19,7 @@ class ScheduleController extends Controller
     {
         $validated = $request->validate([
             'user_id' => 'required|integer',
+            'application_id' => 'required|integer',
             'business_id' => 'required|integer',
             'evaluation_date' => 'required|date',
         ]);
@@ -26,8 +27,12 @@ class ScheduleController extends Controller
         try {
             $applicant = User::findOrFail($validated['user_id']);
             $schedule = ApplicationInfo::updateOrCreate(
-                ['business_id' => $validated['business_id']],
-                ['Evaluation_date' =>  $validated['evaluation_date']]
+                ['id' => $validated['application_id']],
+                [
+                 'business_id' => $validated['business_id'],
+                 'Evaluation_date' =>  $validated['evaluation_date'],
+                 'application_status' => 'pending'
+                ]
             );
 
             // Instantiate the notification
