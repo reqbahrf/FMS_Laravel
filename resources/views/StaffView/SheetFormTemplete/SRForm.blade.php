@@ -1,3 +1,4 @@
+<x-floating-window />
 <div id="SRFormContainer" class="h-100 mt-2">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
