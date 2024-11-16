@@ -10,8 +10,10 @@
             background-color: white;
             border: 1px solid #ccc;
             z-index: 1000;
-            max-width: 100vw;  /* Maximum width is viewport width */
-            max-height: 100vh; /* Maximum height is viewport height */
+            max-width: 100vw;
+            /* Maximum width is viewport width */
+            max-height: 100vh;
+            /* Maximum height is viewport height */
         }
 
         #floating-header {
@@ -175,16 +177,33 @@
 
             $(document).on('mousemove', function(e) {
                 if (isDragging) {
+                    const viewportWidth = $(window).width();
+                    const viewportHeight = $(window).height();
+                    const windowWidth = $window.outerWidth();
+                    const windowHeight = $window.outerHeight();
+
+                    // Calculate new position
+                    let newLeft = e.clientX - startX;
+                    let newTop = e.clientY - startY;
+
+                    // Constrain to viewport boundaries
+                    newLeft = Math.max(0, Math.min(newLeft, viewportWidth - windowWidth));
+                    newTop = Math.max(0, Math.min(newTop, viewportHeight - windowHeight));
+
                     $window.css({
-                        left: e.clientX - startX,
-                        top: e.clientY - startY
+                        left: newLeft,
+                        top: newTop
                     });
                 }
                 if (isResizing) {
+                    const viewportWidth = $(window).width();
+                    const viewportHeight = $(window).height();
+                    const windowPosition = $window.offset();
+
                     let newWidth = startWidth;
                     let newHeight = startHeight;
-                    let newX = $window.offset().left;
-                    let newY = $window.offset().top;
+                    let newX = windowPosition.left;
+                    let newY = windowPosition.top;
 
                     switch (resizeType) {
                         case 'resizer-r':
@@ -221,6 +240,20 @@
                             newHeight = startHeight + (e.clientY - startY);
                             newX = e.clientX;
                             break;
+                    }
+                    if (newX < 0) {
+                        newX = 0;
+                        newWidth = windowPosition.left + $window.outerWidth() - newX;
+                    }
+                    if (newY < 0) {
+                        newY = 0;
+                        newHeight = windowPosition.top + $window.outerHeight() - newY;
+                    }
+                    if (newX + newWidth > viewportWidth) {
+                        newWidth = viewportWidth - newX;
+                    }
+                    if (newY + newHeight > viewportHeight) {
+                        newHeight = viewportHeight - newY;
                     }
 
 
