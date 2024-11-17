@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ProjectEvent;
-use App\Models\ApplicationInfo;
-use Illuminate\Http\Request;
-
 use Exception;
+use App\Events\ProjectEvent;
+use Illuminate\Http\Request;
+use App\Models\ApplicationInfo;
 
 class UpdateProjectStateController extends Controller
 {
@@ -69,6 +68,7 @@ class UpdateProjectStateController extends Controller
                 $applicationInfo->application_status = 'completed';
                 $applicationInfo->save(); // Save to trigger the updated event
                 event(new ProjectEvent(null, null, null, null, 'NEW_COMPLETED'));
+               
                 return response()->json(['message' => 'Marked as completed successfully'], 200);
             }
         }

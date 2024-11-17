@@ -56,5 +56,8 @@ class ApplicationInfoObserver
         Cache::forget('applicants');
         Cache::forget('chartData');
         Cache::forget('staffhandledProjects');
+        Cache::forget('pendingProjects');
+        Cache::forget('ongoing_projects');
+        Cache::forget('completed_projects');
     }
 }
