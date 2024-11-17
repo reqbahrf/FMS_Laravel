@@ -655,8 +655,8 @@ window.initializeAdminPageJs = async () => {
         ProjectProposalContainer.find('#To_Be_Refunded').val(
           formatToString(parseFloat(data.To_Be_Refunded))
         );
-        ProjectProposalContainer.find('#Date_FundRelease').val(data.proposal_data.dateOfFundRelease)
-        ProjectProposalContainer.find('#Applied').val(data.date_applied);
+        ProjectProposalContainer.find('#Date_FundRelease').val(dateFormatter(data.proposal_data.dateOfFundRelease))
+        ProjectProposalContainer.find('#Applied').val(dateFormatter(data.date_applied));
         ProjectProposalContainer.find('#evaluated').val(
           `${data?.prefix} ${data.f_name} ${data.mid_name} ${data.l_name} ${data?.suffix}`
         );
@@ -954,7 +954,7 @@ window.initializeAdminPageJs = async () => {
           });
           const data = await response.json();
           const staffList = $('#Assigned_to');
-          staffList.children().slice(1).empty();
+          staffList.children('option:not(:first)').remove();
           data.forEach((staff) => {
             staffList.append(
               `<option value="${staff.staff_id}">${staff?.prefix} ${staff.f_name} ${staff.mid_name} ${staff.l_name} ${staff?.suffix}</option>`
@@ -1009,7 +1009,7 @@ window.initializeAdminPageJs = async () => {
                                 <input type="hidden" class="date_proposed" value="${project.evaluated_by_id}">
                                 <input type="hidden" class="assigned_to" value="${project.full_name}">
                                 <input type="hidden" class="application_status" value="${project.fund_amount}">`,
-                    `${project.date_proposed}`,
+                    `${dateFormatter(project.date_proposed)}`,
                     `<span class="badge bg-primary">${project.application_status}</span>`,
                     `<button class="btn btn-primary viewApproval" type="button" data-bs-toggle="offcanvas"
                                     data-bs-target="#approvalDetails" aria-controls="approvalDetails">

@@ -35,16 +35,23 @@ const formatToString = (value) => {
   };
 
 const dateFormatter = (date) => {
+    
+    const hasTime = /\d{1,2}:\d{2}/.test(date);
+
     const dateObj = new Date(date);
 
-    return dateObj.toLocaleString('en-US', {
+    const dateOptions = {
       month: 'short',
       day: '2-digit',
       year: '2-digit',
-      hour: 'numeric',
-      minute: '2-digit',
-      hour12: true,
-    });
+    };
+    if (hasTime) {
+        dateOptions.hour = 'numeric';
+        dateOptions.minute = '2-digit';
+        dateOptions.hour12 = true;
+    }
+
+    return dateObj.toLocaleString('en-US', dateOptions);
   };
 
   //close offcanvas
