@@ -1,4 +1,4 @@
-<x-floating-window />
+
 <div id="SRFormContainer" class="h-100 mt-2">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
@@ -7,6 +7,7 @@
         </ol>
     </nav>
     <div class="row gy-3 p-0">
+        <x-floating-window />
         <form id="StatusReportForm">
             <div class="col-12 mb-3">
                 <div class="card p-0">
