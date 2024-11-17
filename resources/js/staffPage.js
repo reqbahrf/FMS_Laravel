@@ -3447,7 +3447,11 @@ window.initializeStaffPageJs = async () => {
                 `<span class="badge ${
                   item.application_status === 'new'
                     ? 'bg-primary'
-                    : 'bg-success'
+                    :  item.application_status === 'evaluation'
+                    ? 'bg-info'
+                    : item.application_status === 'pending'
+                    ? 'bg-primary'
+                    : 'bg-danger'
                 }">${item.application_status}</span>`,
                 `   <button class="btn btn-primary applicantDetailsBtn" type="button"
                                             data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"

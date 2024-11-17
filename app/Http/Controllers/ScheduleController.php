@@ -31,7 +31,7 @@ class ScheduleController extends Controller
                 [
                  'business_id' => $validated['business_id'],
                  'Evaluation_date' =>  $validated['evaluation_date'],
-                 'application_status' => 'pending'
+                 'application_status' => 'evaluation'
                 ]
             );
 

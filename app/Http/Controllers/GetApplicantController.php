@@ -23,7 +23,7 @@ class GetApplicantController extends Controller
                     ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
                     ->join('assets', 'assets.id', '=', 'business_info.id')
                     ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-                    ->whereIn('application_info.application_status', ['new', 'pending'])
+                    ->whereIn('application_info.application_status', ['new', 'evaluation' ,'pending'])
                     ->select(
                         'users.id as user_id',
                         'users.email',
