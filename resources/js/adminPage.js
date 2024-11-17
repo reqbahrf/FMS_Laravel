@@ -431,9 +431,9 @@ window.initializeAdminPageJs = async () => {
           });
 
           // Parse the JSON response if it's a string
-          const monthlyData = await JSON.parse(response.monthlyData[0]);
-          const localData = await JSON.parse(response.localData); // Assumes it's a valid JSON string
-          const handleProject = await response.staffhandledProjects;
+          const monthlyData = await JSON.parse(response.monthlyData) || response.monthlyData;
+          const localData = await JSON.parse(response.localData) || response.localData; // Assumes it's a valid JSON string
+          const handleProject = await  response.staffhandledProjects;
           return Promise.all([
             processMonthlyDataChart(monthlyData),
             processLocalDataChart(localData),

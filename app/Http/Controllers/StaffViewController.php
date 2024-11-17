@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\ProjectEvent;
-use App\Models\ApplicationInfo;
-use App\Models\ChartCache;
-use App\Models\OngoingQuarterlyReport;
-use Illuminate\Support\Facades\DB;
-use App\Models\Requirement;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
-use Carbon\Carbon;
-use App\Models\ProjectInfo;
-use App\Notifications\ProjectProposal;
 use Exception;
+use Carbon\Carbon;
+use App\Models\ChartYearOf;
+use App\Models\ProjectInfo;
+use Illuminate\Http\Request;
+use App\Models\ApplicationInfo;
+use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use PhpParser\Node\Stmt\TryCatch;
+use App\Models\OngoingQuarterlyReport;
+use App\Notifications\ProjectProposal;
+use Illuminate\Support\Facades\Storage;
 
 
 class StaffViewController extends Controller
@@ -34,20 +31,26 @@ class StaffViewController extends Controller
         }
     }
 
-    public function getDashboardChartData(Request $request)
-    {
-        try {
-            $chartData = ChartCache::select('mouthly_project_categories')->where('year_of', '=', date('Y'))->get();
+    public function getDashboardChartData()
+{
+    try {
+        if(Cache::has('monthly_project_categories')) {
+            $monthlyData = Cache::get('monthly_project_categories');
+        }else{
+            $chartData = ChartYearOf::select('monthly_project_categories')->where('year_of', '=', date('Y'))->first();
+            $monthlyData = json_decode($chartData->monthly_project_categories, true);
+            Cache::put('monthly_project_categories', $monthlyData, 1800);
+        }
 
-            return response()->json([
-                'monthlyData' => $chartData
-            ], 200);
+        // Return data as JSON response
+        return response()->json($monthlyData, 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
             ], 500);
         }
     }
+
     public function getHandledProjects(Request $request)
     {
 

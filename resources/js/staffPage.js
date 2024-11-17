@@ -399,10 +399,7 @@ window.initializeStaffPageJs = async () => {
               'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
           });
-          const monthlyData = await JSON.parse(
-            response.monthlyData[0].mouthly_project_categories
-          );
-          processMonthlyDataChart(monthlyData);
+          processMonthlyDataChart(response);
         } catch (error) {
           console.error(error);
         }

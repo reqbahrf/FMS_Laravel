@@ -2,13 +2,13 @@
 
 namespace App\Listeners;
 
-use App\Events\ProjectEvent;
-use App\Models\ChartCache;
 use App\Models\User;
-use App\Notifications\NewApplicantNotification;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Notification;
+use App\Models\ChartYearOf;
+use App\Events\ProjectEvent;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Notifications\Notification;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Notifications\NewApplicantNotification;
 
 class NewApplicationListener implements ShouldQueue
 {
@@ -42,12 +42,12 @@ class NewApplicationListener implements ShouldQueue
 
             $month = date('F');
 
-            $chartCache = ChartCache::updateOrCreate(
+            $chartCache = ChartYearOf::updateOrCreate(
                 ['year_of' => date('Y')],
                 []
             );
 
-            $monthlyData = json_decode($chartCache->mouthly_project_categories, true);
+            $monthlyData = json_decode($chartCache->monthly_project_categories, true);
             if (!isset($monthlyData[$month])) {
                 $monthlyData[$month] = [
                     'Applicants' => 0,
@@ -57,7 +57,7 @@ class NewApplicationListener implements ShouldQueue
             }
 
             $monthlyData[$month]['Applicants'] += 1;
-            $chartCache->mouthly_project_categories = json_encode($monthlyData);
+            $chartCache->monthly_project_categories = json_encode($monthlyData);
             $chartCache->save();
 
             $localData = json_decode($chartCache->project_local_categories, true);
@@ -75,7 +75,7 @@ class NewApplicationListener implements ShouldQueue
         }
     }
 
-    private function sendNotification(ProjectEvent $event) 
+    private function sendNotification(ProjectEvent $event)
     {
         $org_users = User::whereIn('role', ['Staff', 'Admin'])->get();
         $org_users->map(function ($user) use ($event) {

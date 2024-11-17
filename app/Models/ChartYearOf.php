@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class ChartCache extends Model
+class ChartYearOf extends Model
 {
     use HasFactory;
 
-    protected $table = 'charts_cache_year_of';
+    protected $table = 'charts_year_of';
 
     public $timestamps = false;
 
@@ -20,14 +20,14 @@ class ChartCache extends Model
 
     protected $fillable = [
         'year_of',
-        'mount_project_categories',
+        'monthly_project_categories',
         'project_local_categories',
         'staff_handled_projects_categories',
     ];
 
     protected $casts = [
         'year_of' => 'date:Y',
-        'mount_project_categories' => 'array',
+        'monthly_project_categories' => 'array',
         'project_local_categories' => 'array',
         'staff_handled_projects_categories' => 'array',
     ];
