@@ -7,6 +7,7 @@ use App\Http\Middleware\CheckStaffUser;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ProxyController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Middleware\CheckCooperatorUser;
@@ -241,7 +242,7 @@ Route::middleware([CheckAdminUser::class])->group(function () {
     Route::get('/Admin/Project/ProposalDetails/{business_id}/{project_id}', GetProjectProposalController::class)
         ->name('admin.Project.GetProposalDetails');
 
-    Route::post('/Admin/Project/Approved-Project', [AdminViewController::class, 'approvedProjectProposal'])
+    Route::post('/Admin/Project/Approved-Project', [ProjectController::class, 'approvedProjectProposal'])
         ->name('admin.Project.ApprovedProjectProposal');
 
     Route::get('/Admin/Stafflist', [AdminViewController::class, 'staffGet'])
