@@ -624,16 +624,6 @@
                     aria-labelledby="approval-tab" tabindex="0">
                     <!-- Where the applicant is displayed -->
                         <table id="forApproval" class="table table-hover mx-2" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Applicant Name</th>
-                                    <th>Firm Name</th>
-                                    <th>Project title</th>
-                                    <th>Date Applied</th>
-                                    <th>Status</th>
-                                    <th>Action</th>
-                                </tr>
-                            </thead>
                             <tbody id="ApprovaltableBody" class="table-group-divider">
 
                             </tbody>

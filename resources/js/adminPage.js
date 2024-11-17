@@ -466,6 +466,26 @@ window.initializeAdminPageJs = async () => {
         responsive: true,
         autoWidth: false,
         fixedColumns: true,
+        columns: [
+            {
+                title: 'Applicant Name'
+            },
+            {
+                title: 'Firm Name'
+            },
+            {
+                title: 'Project title'
+            },
+            {
+                title: 'Date Submitted'
+            },
+            {
+                title: 'Status'
+            },
+            {
+                title: 'Action'
+            }
+        ],
         columnDefs: [
             {
               targets: 0,
