@@ -3,7 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\ProjectEvent;
-use App\Models\ChartCache;
+use App\Models\ChartYearOf;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -25,12 +25,12 @@ class NewCompleteListener
     {
         if ($event->event_type == 'NEW_COMPLETED') {
             $month = date('F');
-            $chartCache = ChartCache::updateOrCreate(
+            $chartCache = ChartYearOf::updateOrCreate(
                  ['year_of' => date('Y')],
                  []
              );
 
-             $monthlyData = json_decode($chartCache->mouthly_project_categories, true);
+             $monthlyData = json_decode($chartCache->monthly_project_categories, true);
              if(!isset($monthlyData[$month])){
                  $monthlyData[$month] = [
                      'Applicants' => 0,
@@ -40,7 +40,7 @@ class NewCompleteListener
              }
 
              $monthlyData[$month]['Completed'] += 1;
-             $chartCache->mouthly_project_categories = json_encode($monthlyData);
+             $chartCache->monthly_project_categories = json_encode($monthlyData);
              $chartCache->save();
 
         }
