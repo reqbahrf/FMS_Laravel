@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SubmitProjectProposalRequest;
 use App\Models\ApplicationInfo;
 use App\Models\ProjectInfo;
 use App\Models\ProjectProposal;
@@ -34,21 +35,10 @@ class ProjectProposalController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SubmitProjectProposalRequest $request)
     {
         $StaffID = Auth::user()->orgUserInfo->id;
-        $validated = $request->validate([
-            'projectID' => 'required|string',
-            'projectTitle' => 'required|string',
-            'dateOfFundRelease' => 'required|date',
-            'fundAmount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
-            'expectedOutputs' => 'required|array',
-            'equipmentDetails' => 'required|array',
-            'nonEquipmentDetails' => 'required|array',
-            'action' => 'required|in:DraftForm,SubmitForm',
-            'application_id' => 'required|numeric',
-            'business_id' => 'required|numeric',
-        ]);
+        $validated = $request->validated();
         try {
             $proposalData = [
                 'projectID' => $validated['projectID'],
@@ -133,7 +123,7 @@ class ProjectProposalController extends Controller
         // Format fund amount and calculate actual fund to be refunded
         $fundAmount = str_replace(',', '', $proposalData['fundAmount']);
         $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
-        $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
+        $actualFundToRefund = number_format($fundAmountFormatted * 0.05, 2, '.', ''); // Includes the 5% addition
 
 
         // Begin a transaction for database consistency

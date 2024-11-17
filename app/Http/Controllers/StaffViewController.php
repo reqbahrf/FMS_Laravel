@@ -313,52 +313,6 @@ class StaffViewController extends Controller
         }
     }
 
-
-    public function submitProjectProposal(Request $request)
-    {
-        $validated = $request->validate([
-            'business_id' => 'required|integer',
-            'projectID' => 'required|string',
-            'projectTitle' => 'required|string',
-            'fundAmount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
-        ]);
-
-
-        try {
-            $StaffId = Auth::user()->orgUserInfo->id;
-
-            $fundAmountFormatted = number_format(str_replace(',', '', $validated['fundAmount']), 2, '.', '');
-            $Actual_fund_toBeRefund = number_format($fundAmountFormatted + $fundAmountFormatted * 0.05, 2, '.', '');
-
-            $project = ProjectInfo::where('project_id', $validated['projectID'])->first();
-            if ($project) {
-                return response()->json(['error' => 'Project Id already exist'], 400);
-            }
-
-          $ProjectProposal = ProjectInfo::updateOrCreate(
-                ['Project_id' => $validated['projectID']],
-                [
-                    'business_id' => $validated['business_id'],
-                    'evaluated_by_id' => $StaffId,
-                    'project_title' => $validated['projectTitle'],
-                    'fund_amount' => $fundAmountFormatted,
-                    'actual_amount_to_be_refund' => $Actual_fund_toBeRefund,
-                ]
-            );
-
-            ApplicationInfo::where('business_id', $validated['business_id'])
-                ->update([
-                    'Project_id' => $validated['projectID'],
-                    'application_status' => 'pending'
-                ]);
-
-
-            return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
-        }
-    }
-
     public function getAvailableQuarterlyReport(Request $request, $ProjectID)
     {
         try {
