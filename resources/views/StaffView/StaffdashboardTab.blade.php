@@ -5,6 +5,42 @@
         height: 15rem
     }
 
+    /* Stat cards css */
+    /* General styling for stat cards */
+.stat-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 10px;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon styling */
+.stat-icon {
+    font-size: 3rem;
+    color:#318791; /* Primary color for icons */
+    margin-bottom: 0.5rem;
+}
+
+/* Count styling */
+.stat-count {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #343a40; /* Darker gray for text */
+}
+
+/* Label styling */
+.stat-label {
+    font-size: 1rem;
+    color: #6c757d; /* Muted text color */
+    text-align: center;
+}
+
+    /* Stat cards css */
+
     #handleProjectOff.offcanvas-body {
         background-color: #f5f5f5;
     }
@@ -239,23 +275,64 @@
 <div>
     <h4 class="p-3">Dashboard</h4>
 </div>
-<div class="">
-    <div class="card m-3">
-        <p class="fw-bold fs-5 m-0 text-center mt-3"> Projects</p>
-        <div class="card-body">
-            <div id="lineChart">
+<div class="row gy-3 mx-2">
+    <h5 class="text-muted fw-medium">This Month Project Statistics:</h5>
+    <div class="col-12 col-md-3">
+        <div class="card stat-card shadow-sm">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <i class="ri-user-add-line stat-icon"></i>
+                <span class="stat-count" id="applicantCount">0</span>
+                <span class="stat-label">Project Applicants</span>
             </div>
         </div>
     </div>
-    <div class="card m-3">
-        <p class="fw-bold fs-5 m-0 text-center mt-3">Handled Project</p>
-        <div class="card-body">
-                <table id="handledProject" class="table table-hover" style="width:100%">
+    <div class="col-12 col-md-3">
+        <div class="card stat-card shadow-sm">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <i class="ri-timer-line stat-icon"></i>
+                <span class="stat-count" id="ongoingCount">0</span>
+                <span class="stat-label">Ongoing Projects</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-3">
+        <div class="card stat-card shadow-sm">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <i class="ri-checkbox-circle-line stat-icon"></i>
+                <span class="stat-count" id="completedCount">0</span>
+                <span class="stat-label">Completed Projects</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 col-md-3">
+        <div class="card stat-card shadow-sm">
+            <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                <i class="ri-file-list-3-line stat-icon"></i>
+                <span class="stat-count" id="overallCount">0</span>
+                <span class="stat-label">Overall Projects</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <p class="fw-bold fs-5 m-0 text-center mt-3"> Projects</p>
+            <div class="card-body">
+                <div id="lineChart">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="card">
+            <p class="fw-bold fs-5 m-0 text-center mt-3">Handled Project</p>
+            <div class="card-body">
+                    <table id="handledProject" class="table table-hover" style="width:100%">
 
-                    <tbody id="handledProjectTableBody">
-                    </tbody>
+                        <tbody id="handledProjectTableBody">
+                        </tbody>
 
-                </table>
+                    </table>
+            </div>
         </div>
     </div>
 </div>

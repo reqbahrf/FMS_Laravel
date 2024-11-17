@@ -39,11 +39,21 @@ class AdminViewController extends Controller
     public function getDashboardChartData(Request $request)
     {
         try {
-            $chartData = ChartCache::select('mouthly_project_categories', 'project_local_categories')->where('year_of', '=', date('Y'))->get();
+            if(Cache::has('chartData') && Cache::has('staffhandledProjects'))
+            {
+                $chartData = Cache::get('chartData');
+                $staffhandledProjects = Cache::get('staffhandledProjects');
 
+            }else{
+                $chartData = ChartCache::select('mouthly_project_categories', 'project_local_categories')->where('year_of', '=', date('Y'))->get();
+                $staffhandledProjects = $this->getStaffHandledProjects();
+
+                Cache::put('chartData', $chartData, 1800);
+                Cache::put('staffhandledProjects', $staffhandledProjects, 1800);
+
+            }
             $monthlyData = $chartData->pluck('mouthly_project_categories');
             $localData = $chartData->pluck('project_local_categories');
-            $staffhandledProjects = $this->getStaffHandledProjects();
 
             return response()->json([
                 'monthlyData' => $monthlyData,

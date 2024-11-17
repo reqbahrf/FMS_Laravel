@@ -10,6 +10,7 @@
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
 
     <style>

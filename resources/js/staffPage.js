@@ -1,7 +1,14 @@
 import './echo';
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
-import {showToastFeedback, formatToString, dateFormatter, closeOffcanvasInstances, formatToNumber, closeModal} from './ReusableJS/utilFunctions'
+import {
+  showToastFeedback,
+  formatToString,
+  dateFormatter,
+  closeOffcanvasInstances,
+  formatToNumber,
+  closeModal,
+} from './ReusableJS/utilFunctions';
 
 import DataTable from 'datatables.net-bs5';
 window.DataTable = DataTable;
@@ -33,8 +40,6 @@ Echo.private(`staff-notifications.${USER_ID}`).listen(
 
 Notification();
 
-
-
 $(document).on('DOMContentLoaded', function () {
   // Line chart
   //toast feedback
@@ -64,139 +69,139 @@ $(document).on('DOMContentLoaded', function () {
 window.initializeStaffPageJs = async () => {
   const functions = {
     Dashboard: () => {
-           //Foramt Input with Id paymentAmount
+      //Foramt Input with Id paymentAmount
       formatToNumber('#paymentAmount');
       formatToNumber('#days_open');
       formatToNumber('#updateOpenDays');
 
-        // initialize datatable
-        const HandledProjectDataTable = $('#handledProject').DataTable({
-            autoWidth: false,
-            responsive: true,
-            columns: [
-              {
-                title: 'ID',
-              },
-              {
-                title: 'Project Title',
-              },
-              {
-                title: 'Firm Name',
-              },
-              {
-                title: 'Owner Name',
-              },
-              {
-                title: 'Refund Progress',
-              },
-              {
-                title: 'Status',
-              },
-              {
-                title: 'Action',
-              },
-            ],
-            columnDefs: [
-              {
-                targets: 0,
-                width: '5%',
-              },
-              {
-                targets: 1,
-                width: '20%',
-              },
-              {
-                targets: 2,
-                width: '15%',
-              },
-              {
-                targets: 3,
-                width: '15%',
-              },
-              {
-                targets: 4,
-                width: '15%',
-                className: 'text-end',
-              },
-              {
-                targets: 5,
-                width: '5%',
-                className: 'text-center',
-              },
-              {
-                targets: 6,
-                width: '5%',
-                orderable: false,
-                className: 'text-center',
-              },
-            ],
-          });
-        const ProjectFileLinkDataTable =  $('#linkTable').DataTable({
-            autoWidth: false,
-            responsive: true,
-            columns: [
-              {
-                title: 'File Name',
-              },
-              {
-                title: 'Link',
-              },
-              {
-                title: 'Date Created',
-              },
-              {
-                title: 'Action',
-              },
-            ],
-            columnDefs: [
-              {
-                targets: 0,
-                width: '15%',
-              },
-              {
-                targets: 1,
-                width: '30%',
-              },
-              {
-                targets: 2,
-                width: '20%',
-              },
-              {
-                targets: 3,
-                width: '20%',
-              },
-            ],
-          });
+      // initialize datatable
+      const HandledProjectDataTable = $('#handledProject').DataTable({
+        autoWidth: false,
+        responsive: true,
+        columns: [
+          {
+            title: 'ID',
+          },
+          {
+            title: 'Project Title',
+          },
+          {
+            title: 'Firm Name',
+          },
+          {
+            title: 'Owner Name',
+          },
+          {
+            title: 'Refund Progress',
+          },
+          {
+            title: 'Status',
+          },
+          {
+            title: 'Action',
+          },
+        ],
+        columnDefs: [
+          {
+            targets: 0,
+            width: '10%',
+          },
+          {
+            targets: 1,
+            width: '20%',
+          },
+          {
+            targets: 2,
+            width: '15%',
+          },
+          {
+            targets: 3,
+            width: '15%',
+          },
+          {
+            targets: 4,
+            width: '15%',
+            className: 'text-end',
+          },
+          {
+            targets: 5,
+            width: '5%',
+            className: 'text-center',
+          },
+          {
+            targets: 6,
+            width: '5%',
+            orderable: false,
+            className: 'text-center',
+          },
+        ],
+      });
+      const ProjectFileLinkDataTable = $('#linkTable').DataTable({
+        autoWidth: false,
+        responsive: true,
+        columns: [
+          {
+            title: 'File Name',
+          },
+          {
+            title: 'Link',
+          },
+          {
+            title: 'Date Created',
+          },
+          {
+            title: 'Action',
+          },
+        ],
+        columnDefs: [
+          {
+            targets: 0,
+            width: '15%',
+          },
+          {
+            targets: 1,
+            width: '30%',
+          },
+          {
+            targets: 2,
+            width: '20%',
+          },
+          {
+            targets: 3,
+            width: '20%',
+          },
+        ],
+      });
 
-        const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable({
-            responsive: true,
-            columns: [
-              {
-                title: 'Transaction #',
-              },
-              {
-                title: 'Amount',
-              },
-              {
-                title: 'Payment Method',
-              },
-              {
-                title: 'Status',
-              },
-              {
-                title: 'Date Created',
-              },
-              {
-                title: 'Action',
-              },
-            ],
-            columnDefs: [
-              {
-                targets: 5,
-                width: '8%',
-              },
-            ],
-          });
+      const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable({
+        responsive: true,
+        columns: [
+          {
+            title: 'Transaction #',
+          },
+          {
+            title: 'Amount',
+          },
+          {
+            title: 'Payment Method',
+          },
+          {
+            title: 'Status',
+          },
+          {
+            title: 'Date Created',
+          },
+          {
+            title: 'Action',
+          },
+        ],
+        columnDefs: [
+          {
+            targets: 5,
+            width: '8%',
+          },
+        ],
+      });
       /**
        * Creates a monthly data chart with the provided data for applicants, ongoing, and completed items.
        *
@@ -279,6 +284,67 @@ window.initializeStaffPageJs = async () => {
         });
       };
 
+      const displayCurrentMonthStats = async (monthlyData) => {
+        // Get current month index (0-11)
+        const currentMonth = new Date().getMonth();
+        const months = [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ];
+
+        // Get current month's data
+        const currentMonthKey = Object.keys(monthlyData).find(
+          (month) => month.slice(0, 3) === months[currentMonth]
+        );
+
+        const currentData = currentMonthKey
+          ? monthlyData[currentMonthKey]
+          : {
+              Applicants: 0,
+              Ongoing: 0,
+              Completed: 0,
+            };
+
+        // Function to format numbers with commas
+        const formatNumber = (value) => {
+          return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        };
+
+        // Update stat counts
+        $('#applicantCount').text(formatNumber(currentData.Applicants || 0));
+        $('#ongoingCount').text(formatNumber(currentData.Ongoing || 0));
+        $('#completedCount').text(formatNumber(currentData.Completed || 0));
+
+        // Calculate and update overall projects
+        // Calculate overall total across all months
+        const overallProjects = Object.values(monthlyData).reduce((total, month) => {
+            return (
+              total +
+              (month.Applicants || 0) +
+              (month.Ongoing || 0) +
+              (month.Completed || 0)
+            );},0);
+        $('#overallCount').text(formatNumber(overallProjects));
+
+        // Add animation class to stat cards
+        $('.stat-count').each(function () {
+          $(this).addClass('animate__animated animate__heartBeat');
+          setTimeout(() => {
+            $(this).removeClass('animate__animated animate__heartBeat');
+          }, 1000);
+        });
+      };
+
       /**
        * Processes monthly data and generates a chart with applicant, ongoing, and completed data.
        *
@@ -321,6 +387,7 @@ window.initializeStaffPageJs = async () => {
           })
         );
         await createMonthlyDataChart(applicant, ongoing, completed);
+        await displayCurrentMonthStats(monthlyData);
       };
 
       const getDashboardChartData = async () => {
@@ -409,14 +476,16 @@ window.initializeStaffPageJs = async () => {
         const data = await response.json();
         HandledProjectDataTable.clear();
         HandledProjectDataTable.rows.add(
-            data.map(project => {
-                const refunded_amount = parseFloat(project.Refunded_Amount) || 0;
-                const Actual_Amount = parseFloat(project.Actual_Amount) || 0;
-                const percentage = Math.ceil((refunded_amount / Actual_Amount) * 100);
-                return [
-                    project.Project_id,
-                    project.project_title,
-                    `<p class="firm_name">${project.firm_name}</p>
+          data.map((project) => {
+            const refunded_amount = parseFloat(project.Refunded_Amount) || 0;
+            const Actual_Amount = parseFloat(project.Actual_Amount) || 0;
+            const percentage = Math.ceil(
+              (refunded_amount / Actual_Amount) * 100
+            );
+            return [
+              project.Project_id,
+              project.project_title,
+              `<p class="firm_name">${project.firm_name}</p>
                         <input type="hidden" class="business_id" value="${
                           project.business_id
                         }">
@@ -449,16 +518,18 @@ window.initializeStaffPageJs = async () => {
                         <input type="hidden" class="working_capital" value="${
                           project.working_capital
                         }">`,
-                    `<p class="owner_name">${
-                      project.prefix +
-                      ' ' +
-                      project.f_name +
-                      ' ' +
-                      project.l_name +
-                      ' ' +
-                      project.suffix
-                    }</p>
-                        <input type="hidden" class="gender" value="${project.gender}">
+              `<p class="owner_name">${
+                project.prefix +
+                ' ' +
+                project.f_name +
+                ' ' +
+                project.l_name +
+                ' ' +
+                project.suffix
+              }</p>
+                        <input type="hidden" class="gender" value="${
+                          project.gender
+                        }">
                         <input type="hidden" class="birth_date" value="${
                           project.birth_date
                         }">
@@ -468,36 +539,36 @@ window.initializeStaffPageJs = async () => {
                         <input type="hidden" class="mobile_phone" value="${
                           project.mobile_number
                         }">
-                        <input type="hidden" class="email" value="${project.email}">`,
-                    `${
-                      formatToString(refunded_amount) +
-                      '/' +
-                      formatToString(Actual_Amount)
-                    }<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
+                        <input type="hidden" class="email" value="${
+                          project.email
+                        }">`,
+              `${
+                formatToString(refunded_amount) +
+                '/' +
+                formatToString(Actual_Amount)
+              }<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
                     <input type="hidden" class="approved_amount" value="${
                       project.Approved_Amount
                     }">
                     <input type="hidden" class="actual_amount" value="${Actual_Amount}">`,
-                    `<span class="badge ${
-                      project.application_status === 'approved'
-                        ? 'bg-warning'
-                        : project.application_status === 'ongoing'
-                        ? 'bg-primary'
-                        : project.application_status === 'completed'
-                        ? 'bg-success'
-                        : null
-                    }">${project.application_status}</span>`,
-                    `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
+              `<span class="badge ${
+                project.application_status === 'approved'
+                  ? 'bg-warning'
+                  : project.application_status === 'ongoing'
+                  ? 'bg-primary'
+                  : project.application_status === 'completed'
+                  ? 'bg-success'
+                  : null
+              }">${project.application_status}</span>`,
+              `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
                             <i class="ri-menu-unfold-4-line ri-1x"></i>
                         </button>`,
-                  ]
-            })
+            ];
+          })
         );
 
-        HandledProjectDataTable.draw()
-
-
+        HandledProjectDataTable.draw();
       };
 
       getHandleProject();
@@ -733,52 +804,58 @@ window.initializeStaffPageJs = async () => {
         const project_id = $('#ProjectID').val();
         const ProjectLedgerLink = $('#projectLedgerLink').val();
         const action = $(this).attr('data-action');
-        console.log(action)
+        console.log(action);
         if (action === 'edit') {
-            ProjectLedgerInput.prop('readonly', false);
-            $(this).attr('data-action', 'save').text('Save');
-          } else if (action === 'save') {
-            updateOrCreateProjectLedger(project_id, ProjectLedgerLink);
-          } else {
-            console.error('Action is not defined');
-          }
-
-    })
-
-        const updateOrCreateProjectLedger = async (project_id, ProjectLedgerLink) => {
-        try {
-            const response = await $.ajax({
-                type: 'PUT',
-                url: DASHBBOARD_TAB_ROUTE.UPDATE_OR_CREATE_PROJECT_LEDGER,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                },
-                data: {
-                    project_id: project_id,
-                    project_ledger_link: ProjectLedgerLink
-                }
-            })
-            showToastFeedback('text-bg-success', response.message);
-            getProjectLedger(project_id);
-        } catch (error) {
-            showToastFeedback('text-bg-danger', error.responseJSON.message);
+          ProjectLedgerInput.prop('readonly', false);
+          $(this).attr('data-action', 'save').text('Save');
+        } else if (action === 'save') {
+          updateOrCreateProjectLedger(project_id, ProjectLedgerLink);
+        } else {
+          console.error('Action is not defined');
         }
-    }
+      });
+
+      const updateOrCreateProjectLedger = async (
+        project_id,
+        ProjectLedgerLink
+      ) => {
+        try {
+          const response = await $.ajax({
+            type: 'PUT',
+            url: DASHBBOARD_TAB_ROUTE.UPDATE_OR_CREATE_PROJECT_LEDGER,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: {
+              project_id: project_id,
+              project_ledger_link: ProjectLedgerLink,
+            },
+          });
+          showToastFeedback('text-bg-success', response.message);
+          getProjectLedger(project_id);
+        } catch (error) {
+          showToastFeedback('text-bg-danger', error.responseJSON.message);
+        }
+      };
 
       const getProjectLedger = async (project_id) => {
         try {
-            const response = await $.ajax({
-                type: 'GET',
-                url: DASHBBOARD_TAB_ROUTE.GET_PROJECT_LEDGER.replace(':project_id', project_id),
-            })
-            response
-            ? (ProjectLedgerSubmitBtn.text('Edit').attr('data-action', 'edit'),ProjectLedgerInput.prop('readonly', true))
+          const response = await $.ajax({
+            type: 'GET',
+            url: DASHBBOARD_TAB_ROUTE.GET_PROJECT_LEDGER.replace(
+              ':project_id',
+              project_id
+            ),
+          });
+          response
+            ? (ProjectLedgerSubmitBtn.text('Edit').attr('data-action', 'edit'),
+              ProjectLedgerInput.prop('readonly', true))
             : ProjectLedgerSubmitBtn.text('Save').attr('data-action', 'save');
-            ProjectLedgerInput.val(response.project_ledger_link);
+          ProjectLedgerInput.val(response.project_ledger_link);
         } catch (error) {
-            console.error(error);
+          console.error(error);
         }
-      }
+      };
 
       $('#handledProjectTableBody').on(
         'click',
@@ -2376,7 +2453,7 @@ window.initializeStaffPageJs = async () => {
       };
     },
     Projects: () => {
-     const ApprovedDataTable =  $('#approvedTable').DataTable({
+      const ApprovedDataTable = $('#approvedTable').DataTable({
         responsive: true,
         autoWidth: true,
         fixedColumns: true,
@@ -2407,7 +2484,7 @@ window.initializeStaffPageJs = async () => {
           },
         ],
       });
-     const OngoingDataTable = $('#ongoingTable').DataTable({
+      const OngoingDataTable = $('#ongoingTable').DataTable({
         responsive: true,
         autoWidth: false,
         fixedColumns: false,
@@ -2462,7 +2539,7 @@ window.initializeStaffPageJs = async () => {
           },
         ],
       });
-     const CompletedDataTable = $('#completedTable').DataTable({
+      const CompletedDataTable = $('#completedTable').DataTable({
         responsive: true,
         autoWidth: false,
         fixedColumns: true,
@@ -2518,7 +2595,7 @@ window.initializeStaffPageJs = async () => {
         ],
       });
 
-     const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable({
+      const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable({
         autoWidth: true,
         responsive: true,
         columns: [
@@ -2950,10 +3027,10 @@ window.initializeStaffPageJs = async () => {
           const data = await response.json();
           ApprovedDataTable.clear();
           ApprovedDataTable.rows.add(
-            data.map(Approved => {
-               return [
-                  `${Approved.Project_id}`,
-                  `${Approved.f_name} ${Approved.l_name}
+            data.map((Approved) => {
+              return [
+                `${Approved.Project_id}`,
+                `${Approved.f_name} ${Approved.l_name}
                                           <input type="hidden" class="designation" value="${
                                             Approved.designation
                                           }">
@@ -2966,7 +3043,7 @@ window.initializeStaffPageJs = async () => {
                                           <input type="hidden" class="landline" value="${
                                             Approved.landline ?? ''
                                           }">`,
-                  `${Approved.firm_name}
+                `${Approved.firm_name}
                                           <input type="hidden" class="business_id" value="${Approved.business_id}">
                                           <input type="hidden" class="enterprise_type" value="${Approved.enterprise_type}">
                                           <input type="hidden" class="enterprise_level" value="${Approved.enterprise_level}">
@@ -2974,7 +3051,7 @@ window.initializeStaffPageJs = async () => {
                                           <input type="hidden" class="equipment_Assets" value="${Approved.equipment_value}">
                                           <input type="hidden" class="working_capital_Assets" value="${Approved.working_capital}">
                                           <input type="hidden" class="business_address" value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}">`,
-                  `${Approved.project_title}
+                `${Approved.project_title}
                                           <input type="hidden" class="fund_amount" value="${
                                             Approved.fund_amount
                                           }">
@@ -3006,17 +3083,17 @@ window.initializeStaffPageJs = async () => {
                                             ' ' +
                                             Approved?.handled_by_suffix
                                           }">`,
-                  `${Approved.date_approved}`,
-                  ` <button class="btn btn-primary approvedProjectInfo" type="button"
+                `${Approved.date_approved}`,
+                ` <button class="btn btn-primary approvedProjectInfo" type="button"
                                                                   data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
                                                                   aria-controls="approvedDetails">
                                                                   <i class="ri-menu-unfold-4-line ri-1x"></i>
                                                               </button>`,
-                ]
+              ];
             })
           );
 
-          ApprovedDataTable.draw()
+          ApprovedDataTable.draw();
         } catch (error) {
           console.error('Error:', error);
         }
@@ -3035,17 +3112,17 @@ window.initializeStaffPageJs = async () => {
 
           OngoingDataTable.clear();
           OngoingDataTable.rows.add(
-            data.map(Ongoing => {
-                const fund_amount = parseFloat(Ongoing.fund_amount);
-                const amount_refunded = parseFloat(Ongoing.amount_refunded);
-                const to_be_refunded = parseFloat(Ongoing.to_be_refunded);
+            data.map((Ongoing) => {
+              const fund_amount = parseFloat(Ongoing.fund_amount);
+              const amount_refunded = parseFloat(Ongoing.amount_refunded);
+              const to_be_refunded = parseFloat(Ongoing.to_be_refunded);
 
-                const percentage = Math.ceil(
-                  (amount_refunded / to_be_refunded) * 100
-                );
-                return[
-                  `${Ongoing.Project_id}`,
-                  `${Ongoing.project_title}
+              const percentage = Math.ceil(
+                (amount_refunded / to_be_refunded) * 100
+              );
+              return [
+                `${Ongoing.Project_id}`,
+                `${Ongoing.project_title}
                       <input type="hidden" class="project_id" value="${
                         Ongoing.Project_id
                       }">
@@ -3080,7 +3157,7 @@ window.initializeStaffPageJs = async () => {
                         ' ' +
                         Ongoing?.handled_by_suffix
                       }">`,
-                  `${Ongoing.firm_name}
+                `${Ongoing.firm_name}
                       <input type="hidden" class="business_id" value="${
                         Ongoing.business_id
                       }">
@@ -3110,31 +3187,33 @@ window.initializeStaffPageJs = async () => {
                       <input type="hidden" class="working_capital_assets" value="${
                         Ongoing.working_capital
                       }">`,
-                  `${Ongoing.f_name + ' ' + Ongoing.l_name}
+                `${Ongoing.f_name + ' ' + Ongoing.l_name}
                       <input type="hidden" class="designation" value="${
                         Ongoing.designation
                       }">
                       <input type="hidden" class="mobile_number" value="${
                         Ongoing.mobile_number
                       }">
-                      <input type="hidden" class="email" value="${Ongoing.email}">
+                      <input type="hidden" class="email" value="${
+                        Ongoing.email
+                      }">
                       <input type="hidden" class="landline" value="${
                         Ongoing.landline ?? ''
                       }">`,
-                  `${
-                    formatToString(amount_refunded) +
-                    ' / ' +
-                    formatToString(to_be_refunded)
-                  } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                  ` <button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
+                `${
+                  formatToString(amount_refunded) +
+                  ' / ' +
+                  formatToString(to_be_refunded)
+                } <span class="badge text-white bg-primary">${percentage}%</span>`,
+                ` <button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
                                                   data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
                                                   <i class="ri-menu-unfold-4-line ri-1x"></i>
                       </button>`,
-                ]
+              ];
             })
-          )
+          );
 
-          OngoingDataTable.draw()
+          OngoingDataTable.draw();
         } catch (error) {
           console.error('Error:', error);
         }
@@ -3153,19 +3232,19 @@ window.initializeStaffPageJs = async () => {
             }
           );
           const data = await response.json();
-          CompletedDataTable.clear()
+          CompletedDataTable.clear();
           CompletedDataTable.rows.add(
-            data.map(completed => {
-                const fund_amount = parseFloat(completed.fund_amount);
-                const amount_refunded = parseFloat(completed.amount_refunded);
-                const to_be_refunded = parseFloat(completed.to_be_refunded);
+            data.map((completed) => {
+              const fund_amount = parseFloat(completed.fund_amount);
+              const amount_refunded = parseFloat(completed.amount_refunded);
+              const to_be_refunded = parseFloat(completed.to_be_refunded);
 
-                const percentage = Math.ceil(
-                  (amount_refunded / to_be_refunded) * 100
-                );
-                return [
-                  `${completed.Project_id}`,
-                  `${completed.project_title}
+              const percentage = Math.ceil(
+                (amount_refunded / to_be_refunded) * 100
+              );
+              return [
+                `${completed.Project_id}`,
+                `${completed.project_title}
                           <input type="hidden" class="project_id" value="${
                             completed.Project_id
                           }">
@@ -3200,7 +3279,7 @@ window.initializeStaffPageJs = async () => {
                             ' ' +
                             completed?.handled_by_suffix
                           }">`,
-                  `${completed.firm_name}
+                `${completed.firm_name}
                           <input type="hidden" class="business_id" value="${
                             completed.business_id
                           }">
@@ -3230,7 +3309,7 @@ window.initializeStaffPageJs = async () => {
                           <input type="hidden" class="working_capital_assets" value="${
                             completed.working_capital
                           }">`,
-                  `${completed.f_name + ' ' + completed.l_name}
+                `${completed.f_name + ' ' + completed.l_name}
                           <input type="hidden" class="designation" value="${
                             completed.designation
                           }">
@@ -3243,22 +3322,19 @@ window.initializeStaffPageJs = async () => {
                           <input type="hidden" class="landline" value="${
                             completed.landline ?? ''
                           }">`,
-                  `${
-                    formatToString(amount_refunded) +
-                    ' / ' +
-                    formatToString(to_be_refunded)
-                  } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                  `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
+                `${
+                  formatToString(amount_refunded) +
+                  ' / ' +
+                  formatToString(to_be_refunded)
+                } <span class="badge text-white bg-primary">${percentage}%</span>`,
+                `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
                                                   data-bs-target="#completedDetails" aria-controls="completedDetails">
                                                   <i class="ri-menu-unfold-4-line ri-1x"></i>
                                               </button>`,
-                ]
-
+              ];
             })
           );
           CompletedDataTable.draw();
-
-
         } catch (error) {
           console.error('Error:', error);
         }
@@ -3399,7 +3475,6 @@ window.initializeStaffPageJs = async () => {
       });
       formatToNumber('#fundAmount, .EquipmentCost');
 
-
       //TODO: update this the logic of this
       $('#ApplicantTableBody').on(
         'click',
@@ -3459,7 +3534,6 @@ window.initializeStaffPageJs = async () => {
           getApplicantRequirements(businessID);
           getEvaluationScheduledDate(businessID, ApplicationID);
           getProposalDraft(ApplicationID);
-
         }
       );
 
@@ -3480,22 +3554,21 @@ window.initializeStaffPageJs = async () => {
 
       const getApplicantRequirements = async (businessID) => {
         try {
-            const response = await $.ajax({
-              type: 'GET',
-              url: APPLICANT_TAB_ROUTE.GET_APPLICANT_REQUIREMENTS.replace(
-                ':id',
-                businessID
-              ),
-              headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              },
-            });
-            populateReqTable(response);
-          } catch (error) {
-            console.log(error);
-          }
-
-      }
+          const response = await $.ajax({
+            type: 'GET',
+            url: APPLICANT_TAB_ROUTE.GET_APPLICANT_REQUIREMENTS.replace(
+              ':id',
+              businessID
+            ),
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+          });
+          populateReqTable(response);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
       async function getEvaluationScheduledDate(businessID, applicationID) {
         try {
@@ -3507,7 +3580,7 @@ window.initializeStaffPageJs = async () => {
             },
             data: {
               business_id: businessID,
-              application_id: applicationID
+              application_id: applicationID,
             },
           });
           const nofi_dateCont = $('#nofi_ScheduleCont');
@@ -3541,7 +3614,13 @@ window.initializeStaffPageJs = async () => {
           row.append('<td>' + requirement.file_type + '</td>');
           row.append(
             `<td class="text-center">
-              <button class="btn btn-primary viewReq position-relative">View <span class="position-absolute top-0 start-100 translate-middle p-2 ${requirement.remarks === 'Pending' ? 'bg-info' : requirement.remarks === 'Approved' ? 'bg-primary' : 'bg-danger'} border border-light rounded-circle">
+              <button class="btn btn-primary viewReq position-relative">View <span class="position-absolute top-0 start-100 translate-middle p-2 ${
+                requirement.remarks === 'Pending'
+                  ? 'bg-info'
+                  : requirement.remarks === 'Approved'
+                  ? 'bg-primary'
+                  : 'bg-danger'
+              } border border-light rounded-circle">
     <span class="visually-hidden">New alerts</span>
   </span>
 </button>
@@ -3688,31 +3767,30 @@ window.initializeStaffPageJs = async () => {
       $('#setEvaluationDate').on('click', async function () {
         const container = $('#applicantDetails .businessInfo');
         const user_id = container.find('#selected_userId').val();
-        const application_id = container.find('#selected_applicationId').val()
-        const business_id =  container.find('#selected_businessID').val();
-        const Scheduledate =  $('#evaluationSchedule-datepicker').val();
+        const application_id = container.find('#selected_applicationId').val();
+        const business_id = container.find('#selected_businessID').val();
+        const Scheduledate = $('#evaluationSchedule-datepicker').val();
 
         try {
-           const response = await $.ajax({
-              type: 'PUT',
-              url: APPLICANT_TAB_ROUTE.setEvaluationScheduleDate,
-              headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-              },
-              data: {
-                user_id: user_id,
-                application_id: application_id,
-                business_id: business_id,
-                evaluation_date: Scheduledate,
-              },
-            });
-            if (response.success == true) {
-             await getEvaluationScheduledDate(business_id, application_id);
-              showToastFeedback('text-bg-success', response.message);
-            }
-        }catch(error){
-            showToastFeedback('text-bg-danger', error.responseJSON.error);
-
+          const response = await $.ajax({
+            type: 'PUT',
+            url: APPLICANT_TAB_ROUTE.setEvaluationScheduleDate,
+            headers: {
+              'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            data: {
+              user_id: user_id,
+              application_id: application_id,
+              business_id: business_id,
+              evaluation_date: Scheduledate,
+            },
+          });
+          if (response.success == true) {
+            await getEvaluationScheduledDate(business_id, application_id);
+            showToastFeedback('text-bg-success', response.message);
+          }
+        } catch (error) {
+          showToastFeedback('text-bg-danger', error.responseJSON.error);
         }
       });
 
