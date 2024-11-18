@@ -663,6 +663,7 @@
             DELETE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.destroy', ':record_id') }}',
             UPDATE_OR_CREATE_PROJECT_LEDGER: '{{ route('staff.Dashboard.ProjectLedger') }}',
             GET_PROJECT_LEDGER: '{{ route('staff.Dashboard.ProjectLedger.index', ':project_id') }}',
+            GET_UPLOADED_RECEIPTS: '{{ route('receipts.show', ':project_id') }}'
 
         }
 

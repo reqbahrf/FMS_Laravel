@@ -144,20 +144,18 @@ class ReceiptController extends Controller
     public function show(string $id)
     {
         $validated = validator()->make(['id' => $id], [
-            'id' => 'required|exists:receipt_uploads,ongoing_project_id',
+            'id' => 'required|string|max:32',
         ]);
 
-        if ($validated->fails()) {
-            return response()->json(['error' => $validated->errors()->first()], 400);
-        }
-
-        $receiptUploads = ReceiptUpload::where('ongoing_project_id', $id)
+        $receiptUploads = ReceiptUpload::where('ongoing_project_id', $validated->validated()['id'])
             ->select(
+                'id',
                 'ongoing_project_id',
                 'receipt_name',
                 'receipt_description',
                 'receipt_file_link',
                 'remark',
+                'comment',
                 'created_at')
             ->get();
 
@@ -167,11 +165,13 @@ class ReceiptController extends Controller
                 $base64File = base64_encode($fileContent);
 
                 $receiptData[] = [
+                    'id' => $receiptUpload->id,
                     'ongoing_project_id' => $receiptUpload->ongoing_project_id,
                     'receipt_name' => $receiptUpload->receipt_name,
                     'receipt_description' => $receiptUpload->receipt_description,
                     'receipt_image' => $base64File,
                     'remark' => $receiptUpload->remark,
+                    'comment' => $receiptUpload->comment,
                     'created_at' => $receiptUpload->created_at->format('Y-m-d H:i:s'),
                 ];
             }

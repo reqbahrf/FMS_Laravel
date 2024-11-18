@@ -202,6 +202,34 @@ window.initializeStaffPageJs = async () => {
           },
         ],
       });
+
+      const UploadedReceiptDataTable = $('#uploadedReceiptTable').DataTable({
+        autoWidth: false,
+        responsive: true,
+        columns: [
+          {
+            title: 'Receipt Name',
+            width: '20%',
+          },
+          {
+            title: 'Receipt Image',
+            width: '25%',
+          },
+          {
+            title: 'Uploaded Date',
+            width: '20%',
+          },
+          {
+            title: 'Status',
+            width: '10%',
+          },
+          {
+            title: 'Action',
+            width: '10%',
+          },
+        ],
+
+      })
       /**
        * Creates a monthly data chart with the provided data for applicants, ongoing, and completed items.
        *
@@ -753,6 +781,39 @@ window.initializeStaffPageJs = async () => {
         }
       }
 
+    async function getUploadedReceipts(projectId) {
+        try {
+            const response = await $.ajax({
+                type: 'GET',
+                url: DASHBBOARD_TAB_ROUTE.GET_UPLOADED_RECEIPTS.replace(':project_id', projectId)
+            });
+
+            UploadedReceiptDataTable.clear();
+            UploadedReceiptDataTable.rows.add(
+                response.map(receipt => [
+                    `receipt.receipt_name
+                    <input type="hidden" class="receipt_id" value="${receipt.id}">
+                    <input type="hidden" class="receipt_description" value="${receipt.receipt_description}">
+                    `,
+                    `<img src="data:image/png;base64,${receipt.receipt_image}" alt="${receipt.receipt_name}" style="max-width: 100px; max-height: 100px;">`,
+                    dateFormatter(receipt.created_at),
+                    `<span class="badge ${
+                        receipt.remark === 'Pending' ? 'bg-info' :
+                        receipt.remark === 'Approved' ? 'bg-success' :
+                        receipt.remark === 'Rejected' ? 'bg-danger' : ''
+                    }">${receipt.remark}</span>
+                      <input type="hidden" class="comment" value="${receipt.comment}">`,
+                    `<button class="btn btn-primary btn-sm viewReceipt" data-receipt-id="${receipt.ongoing_project_id}">View</button>`
+                ])
+            );
+            UploadedReceiptDataTable.draw();
+
+        } catch(error) {
+            console.error('Error fetching uploaded receipts:', error);
+            showToastFeedback('text-bg-danger', 'Failed to fetch uploaded receipts');
+        }
+    }
+
       $('#paymentModal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
         const action = button.data('action');
@@ -946,6 +1007,7 @@ window.initializeStaffPageJs = async () => {
 
           handleProjectOffcanvasContent(project_status);
           getPaymentHistoryAndCalculation(project_id, actual_amount);
+          getUploadedReceipts(project_id)
           getProjectLedger(project_id);
           getProjectLinks(project_id);
           getQuarterlyReports(project_id);

@@ -124,7 +124,7 @@ Route::middleware([CheckCooperatorUser::class])->group(function () {
 
     Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
 
-    Route::resource('/receipts', ReceiptController::class);
+
 });
 
 
@@ -278,6 +278,7 @@ Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'ver
     ->middleware('signed');
 
 //test route
+Route::resource('/receipts', ReceiptController::class);
 Route::get('/Applicant-Requirements/{business_id}', [ApplicantRequirementController::class, 'index'])
     ->name('Requirements.index');
 Route::get('/Applicant-Requirement/view', [ApplicantRequirementController::class, 'show'])

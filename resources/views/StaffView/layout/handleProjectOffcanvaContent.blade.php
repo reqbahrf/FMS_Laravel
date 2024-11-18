@@ -22,8 +22,10 @@
         tabindex="0">
         <div class="row gy-3">
             <div class="col-12 col-md-6">
-                <div class="card p-0 h-100">
-                    <h5 class="card-title p-3">Project Details</h5>
+                <div class="card shadow-sm p-0 h-100">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white p-0">Project Details</h5>
+                    </div>
                     <div class="card-body">
                         <div class="row gy-3">
                             <input type="hidden" id="hiddenbusiness_id">
@@ -73,8 +75,10 @@
                 </div>
             </div>
             <div class="col-12 col-md-6">
-                <div class="card p-0">
-                    <h5 class="card-title p-3">Business Information</h5>
+                <div class="card p-0 shadow-sm">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white p-0">Business Information</h5>
+                    </div>
                     <div class="card-body">
                         <div class="row gy-3">
                             <div class="col-12">
@@ -146,9 +150,11 @@
                 </div>
             </div>
             <div class="col-12 paymentProjectContent">
-                <div class="card p-0">
-                    <div class="d-flex align-items-center">
-                        <h5 class="card-title me-auto p-3">Payment History</h5>
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white p-0">Payment History</h5>
+                    </div>
+                    <div class="ms-auto">
                         <button class="btn btn-primary btn-sm m-3"
                             data-bs-toggle="modal"
                             data-bs-target="#paymentModal"
@@ -160,6 +166,23 @@
                             <div class="col-12" id="paymentHistoryContainer">
                                 <table class="table table-hover table-sm" id="paymentHistoryTable" style="width:100%">
 
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 uploadedReceiptContent">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white p-0">Uploaded Receipts</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <table class="table table-hover table-sm" id="uploadedReceiptTable" style="width:100%">
+                                    <tbody id="uploadedReceiptTableBody">
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -201,8 +224,10 @@
     <div class="tab-pane fade" id="nav-Quarterly" role="tabpanel" aria-labelledby="nav-Quarterly-tab">
         <div class="row mt-3">
             <div class="col-12 col-md-8">
-                <div class="card p-0">
-                    <h5 class="card-title p-3">Quarterly Report List</h5>
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white p-0">Quarterly Report List</h5>
+                    </div>
                     <div class="card-body">
                         <table class="table table-hover table-sm" id="quarterlyTable">
                             <thead>
