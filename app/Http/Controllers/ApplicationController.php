@@ -4,12 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Events\NewApplicant;
 use App\Events\ProjectEvent;
-use App\Http\Requests\StoreApplicationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Facades\Log;
+use App\Http\Requests\StoreApplicationRequest;
 
 
 
@@ -19,7 +20,7 @@ class ApplicationController extends Controller
 
     public function store(StoreApplicationRequest $request)
     {
-         $user_name = Session::get('user_name');
+         $user_name = Auth::user()->user_name;
 
         $successful_inserts = 0;
 
