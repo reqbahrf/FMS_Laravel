@@ -89,9 +89,9 @@
 <div class="m-0 m-md-3">
     <div class="row g-3">
         <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">
-                    Application Requirements Uploaded
+            <div class="card shadow-sm rounded-sm">
+                <div class="card-header bg-primary">
+                    <h6 class="text-white mb-0">Application Requirements Uploaded</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
@@ -122,9 +122,9 @@
         </div>
 
         <div class="col-md-4">
-            <div class="card">
-                <div class="card-header">
-                    Requirements Checklist
+            <div class="card shadow-sm rounded-sm">
+                <div class="card-header bg-primary">
+                    <h6 class="text-white mb-0">Requirements Checklist</h6>
                 </div>
                 <div class="card-body">
                     <div class="p-3">
@@ -153,9 +153,9 @@
             </div>
         </div>
         <div class="col-12">
-            <div class="card">
-                <div class="card-header">
-                    Expense Receipt
+            <div class="card shadow-sm rounded-sm">
+                <div class="card-header bg-primary">
+                    <h6 class="text-white mb-0">Expense Receipt</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">

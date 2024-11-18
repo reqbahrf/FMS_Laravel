@@ -17,7 +17,7 @@ class ReceiptController extends Controller
     {
         // Validate the request
         $request->validate([
-            'receipt_file' => 'required|image|mimes:jpeg,png,jpg|max:2048'
+            'receipt_file' => 'required|image|mimes:jpeg,png,jpg|max:10240'
         ]);
 
         $project_id = Session::get('project_id');
@@ -31,7 +31,7 @@ class ReceiptController extends Controller
         // Handle the file upload
         $file = $request->file('receipt_file');
         $uniqueId = $project_id . '_' . uniqid();
-        $fileName = $uniqueId . '.' . $file->getClientOriginalExtension();
+        $fileName = $uniqueId . '.' . $file->extension();
         $tempPath = $file->storeAs('tmp', $fileName, 'public');
 
         return response()->json([
@@ -61,7 +61,13 @@ class ReceiptController extends Controller
         $projectId = Session::get('project_id');
 
         $receiptUploads = ReceiptUpload::where('ongoing_project_id', $projectId)
-            ->select('ongoing_project_id','receipt_name', 'receipt_description', 'receipt_file_link', 'remark', 'created_at')
+            ->select(
+                'ongoing_project_id',
+                'receipt_name',
+                'receipt_description',
+                'receipt_file_link',
+                'remark',
+                'created_at')
             ->get();
 
         $receiptData = [];
@@ -118,9 +124,8 @@ class ReceiptController extends Controller
                     'receipt_name' => $validated['receiptName'],
                     'receipt_description' => $validated['receiptShortDescription'],
                     'receipt_file_link' => $filePath,
-                    'can_edit' => 'yes',
-                    'remark' => null,
-                    'comment' => null
+                    'can_edit' => false,
+                    'remark' => 'Pending',
                 ]);
             }
 
@@ -138,7 +143,40 @@ class ReceiptController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $validated = validator()->make(['id' => $id], [
+            'id' => 'required|exists:receipt_uploads,ongoing_project_id',
+        ]);
+
+        if ($validated->fails()) {
+            return response()->json(['error' => $validated->errors()->first()], 400);
+        }
+
+        $receiptUploads = ReceiptUpload::where('ongoing_project_id', $id)
+            ->select(
+                'ongoing_project_id',
+                'receipt_name',
+                'receipt_description',
+                'receipt_file_link',
+                'remark',
+                'created_at')
+            ->get();
+
+            $receiptData = [];
+            foreach ($receiptUploads as $receiptUpload) {
+                $fileContent = Storage::disk('public')->get($receiptUpload->receipt_file_link);
+                $base64File = base64_encode($fileContent);
+
+                $receiptData[] = [
+                    'ongoing_project_id' => $receiptUpload->ongoing_project_id,
+                    'receipt_name' => $receiptUpload->receipt_name,
+                    'receipt_description' => $receiptUpload->receipt_description,
+                    'receipt_image' => $base64File,
+                    'remark' => $receiptUpload->remark,
+                    'created_at' => $receiptUpload->created_at->format('Y-m-d H:i:s'),
+                ];
+            }
+
+            return response()->json($receiptData);
     }
 
     /**

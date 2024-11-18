@@ -2,7 +2,7 @@
 import "./echo"
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
-import { showToastFeedback } from "./ReusableJS/utilFunctions";
+import { showToastFeedback, dateFormatter } from "./ReusableJS/utilFunctions";
 import "smartwizard/dist/css/smart_wizard_all.css";
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
@@ -246,7 +246,7 @@ window.initilizeCoopPageJs = async () => {
                 const successMessage = document.getElementById('successMessage');
                 const submitBtn = document.getElementById('submitButton');
 
-                submitButton.addEventListener('click', function(event) {
+                submitBtn.addEventListener('click', function(event) {
                     event.preventDefault();
 
                     const formData = new FormData(form);
@@ -281,35 +281,48 @@ window.initilizeCoopPageJs = async () => {
                 });
             }
 
-            function getReceipt() {
-                fetch(REQUIREMENTS_ROUTE.GET_RECEIPTS, {
+            async function getReceipt() {
+                try {
+                    const response = await fetch(REQUIREMENTS_ROUTE.GET_RECEIPTS, {
                         method: 'GET',
                         dataType: 'json',
                         headers: {
                             'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        let tableBody = $('#expenseReceipt_tbody');
-                        tableBody.empty(); // Clear the existing rows
+                    });
 
-                        $.each(data, function(key, value) {
+                    const data = await response.json();
+                    const tableBody = $('#expenseReceipt_tbody');
+                    tableBody.empty(); // Clear the existing rows
+
+                    if (!data || data.length === 0) {
+                        const row = `<tr>
+                        <td colspan="6" class="text-center">No receipt uploaded yet</td>
+                    </tr>`;
+                        tableBody.append(row);
+                    } else {
+                        data.forEach(value => {
                             const receiptImage =
                                 `<img src="data:image/png;base64,${value.receipt_image}" alt="${value.receipt_name}" style="max-width: 200px; max-height: 200px;" />`;
                             const row = `<tr>
                         <td>${value.receipt_name}</td>
                         <td>${value.receipt_description}</td>
                         <td class="img-Content">${receiptImage}</td>
-                        <td>${value.created_at}</td>
-                        <td>${value.remark}</td>
+                        <td>${dateFormatter(value.created_at)}</td>
+                        <td>
+                            <span class="badge rounded-pill ${value.remark === 'Pending' ? 'bg-info' : value.remark === 'Approved' ? 'bg-success' : value.remark === 'Rejected' ? 'bg-danger' : ''}">
+                                ${value.remark}
+                            </span>
+                        </td>
                         <td></td>
                     </tr>`;
 
                             tableBody.append(row);
                         });
-                    })
-                    .catch(error => console.error('Error:', error));
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                }
             }
 
 
