@@ -1,11 +1,11 @@
 <div class="p-3">
     <h4>Dashboard</h4>
 </div>
-<div class="row m-0 m-md-2">
+<div class="row gy-3 m-0 m-md-2">
     <div class="col-12 col-md-12">
-        <div class="card p-0 ">
-            <div class="card-header">
-                Project Info
+        <div class="card shadow-sm rounded-sm ">
+            <div class="card-header bg-primary">
+                <h6 class="text-white mb-0">Project Information</h6>
             </div>
             <div class="card-body">
                 <div class="row gy-4">
@@ -55,9 +55,11 @@
     </div>
     <!-- Add more content as needed -->
     <div class="col-12 col-md-4">
-        <div class="card mt-4">
-            <div class="card-header">
-                Refund Progress
+        <div class="card shadow-sm rounded-sm">
+            <div class=" card-header bg-primary">
+                <h6 class="text-white mb-0">
+                    Refund Progress
+                </h6>
             </div>
             <div class="card-body">
                 <div class="container">
@@ -67,7 +69,7 @@
                             <!-- Assuming your ApexChart is here -->
                             <div id="ProgressPer" class="mx-auto" style="order: 1;"></div>
                             <div class="text-center" id="ProgressPerText" style="order: 2;">
-                                <h5>750,000/1,000,000</h5>
+                                <h5>0/0</h5>
                             </div>
                         </div>
                     </div>
@@ -76,9 +78,9 @@
         </div>
     </div>
     <div class="col-12 col-md-8">
-        <div class="card mt-4">
-            <div class="card-header">
-                Refund History:
+        <div class="card shadow-sm rounded-sm">
+            <div class="card-header bg-primary">
+                <h6 class="text-white mb-0">Refund History:</h6>
             </div>
             <div class="card-body">
                 <table class="table" id="PaymentTable">

@@ -138,11 +138,11 @@ window.initilizeCoopPageJs = async () => {
                     dataType: 'json'
                 });
                 const data = await response.json();
-                paymentTableProcess(data.paymentList);
+                paymentTableProcess(data.paymentList || null);
 
-                 const actual_amount = parseFloat(data.progress.actual_amount_to_be_refund) || 0;
-                 const refunded_amount = parseFloat(data.progress.refunded_amount) || 0;
-                 const percentage = Math.ceil((refunded_amount / actual_amount) * 100);
+                 const actual_amount = parseFloat(data.progress?.actual_amount_to_be_refund) || 0;
+                 const refunded_amount = parseFloat(data.progress?.refunded_amount) || 0;
+                 const percentage = actual_amount > 0 ? Math.ceil((refunded_amount / actual_amount) * 100) : 0;
 
                  paymentTextPer.html(`<h5>${formatToString(refunded_amount)} / ${formatToString(actual_amount)}</h5>`);
                 progressPercentage(percentage);
@@ -159,15 +159,22 @@ window.initilizeCoopPageJs = async () => {
         const paymentTableProcess = (data) => {
             const paymentTable = $('#PaymentTable').find('tbody');
             paymentTable.empty();
-            $.each(data, function(key, value) {
-                const statusClass = value.payment_status === "Paid" ? "bg-success" : "bg-danger";
+            if(!data){
                 const row = `<tr>
-                  <td class="text-center">${formatToString(value.amount)}</td>
-                  <td class="text-center">${value.payment_method}</td>
-                  <td class="text-center"><span class="badge rounded-pill ${statusClass}">${value.payment_status}</span></td>
+                  <td colspan="3" class="text-center">No payment yet</td>
                  </tr>`;
                 paymentTable.append(row);
-            });
+            }else{
+                $.each(data, function(key, value) {
+                    const statusClass = value.payment_status === "Paid" ? "bg-success" : "bg-danger";
+                    const row = `<tr>
+                      <td class="text-center">${formatToString(value.amount)}</td>
+                      <td class="text-center">${value.payment_method}</td>
+                      <td class="text-center"><span class="badge rounded-pill ${statusClass}">${value.payment_status}</span></td>
+                     </tr>`;
+                    paymentTable.append(row);
+                });
+            }
         }
 
         getProgress();

@@ -87,7 +87,7 @@ class CooperatorViewController extends Controller
           $applicationInfo = ApplicationInfo::where('id',  $session_application_id)
               ->where('business_id', $session_business_id)
               ->with('projectInfo')
-              ->first();
+              ->firstOrFail();
 
           $projectInfo = $applicationInfo->projectInfo;
 
