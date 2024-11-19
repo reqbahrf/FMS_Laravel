@@ -46,8 +46,8 @@
             <div class="row g-3">
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="fw-bold fs-6">
+                        <div class="card-header bg-primary">
+                            <div class="fw-bold fs-6 text-white">
                                 <i class="ri-briefcase-fill"></i>
                                 Business Info
                             </div>
@@ -97,14 +97,50 @@
                                     <label for="email" class="form-label">Email Address:</label>
                                     <input type="text" class="form-control form-control-sm" id="email" readonly>
                                 </div>
+                                <div class="col-12">
+                                    Personnel Information:
+                                </div>
+                                <div class="col-12">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th scope="col">Category</th>
+                                                <th scope="col">Male (Regular)</th>
+                                                <th scope="col">Female (Regular)</th>
+                                                <th scope="col">Male (Part-time)</th>
+                                                <th scope="col">Female (Part-time)</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">Direct Personnel</th>
+                                                <td><input type="text" class="form-control form-control-sm" id="male_direct_re" readonly></td>
+                                                <td><input type="text" class="form-control form-control-sm" id="female_direct_re" readonly></td>
+                                                <td><input type="text" class="form-control form-control-sm" id="male_direct_part" readonly></td>
+                                                <td><input type="text" class="form-control form-control-sm" id="female_direct_part" readonly></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Indirect Personnel</th>
+                                                <td><input type="text" class="form-control form-control-sm" id="male_indirect_re" readonly></td>
+                                                <td><input type="text" class="form-control form-control-sm" id="female_indirect_re" readonly></td>
+                                                <td><input type="text" class="form-control form-control-sm" id="male_indirect_part" readonly></td>
+                                                <td><input type="text" class="form-control form-control-sm" id="female_indirect_part" readonly></td>
+                                            </tr>
+                                            <tr>
+                                                <th scope="row">Total Personnel</th>
+                                                <td colspan="4"><input type="text" class="form-control form-control-sm" id="total_personnel" readonly></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="fw-bold fs-6">
+                        <div class="card-header bg-primary">
+                            <div class="fw-bold fs-6 text-white">
                                 <i class="ri-file-list-3-fill"></i>
                                 Application requirements
                             </div>
@@ -128,8 +164,8 @@
                 </div>
                 <div class="col-12 col-md-6">
                     <div class="card h-100">
-                        <div class="card-header">
-                            <div class="fw-bold fs-6">
+                        <div class="card-header bg-primary">
+                            <div class="fw-bold fs-6 text-white">
                                 <i class="ri-calendar-event-fill"></i>
                                 Schedule an Evaluation
                             </div>
@@ -156,8 +192,8 @@
                 </div>
                 <div class="col-12">
                     <div class="card p-0">
-                        <div class="card-header">
-                            <div class="fw-bold fs-6">
+                        <div class="card-header bg-primary">
+                            <div class="fw-bold fs-6 text-white">
                                 <i class="ri-file-list-3-fill"></i>
                                     Requirements Checklist
                             </div>
@@ -197,8 +233,8 @@
                 </div>
                 <div class="col-12">
                     <div class="card">
-                        <div class="card-header">
-                            <div class="fw-bold fs-6">
+                        <div class="card-header bg-primary">
+                            <div class="fw-bold fs-6 text-white">
                                 <i class="ri-file-list-3-fill"></i>
                                 Project Proposal
                             </div>
@@ -437,4 +473,3 @@
         </div>
     </div>
 </div>
-

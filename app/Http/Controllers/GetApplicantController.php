@@ -19,11 +19,13 @@ class GetApplicantController extends Controller
             if (Cache::has('applicants')) {
                 $applicants = Cache::get('applicants');
             } else {
-                $applicants = DB::table('users')->join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
+                $applicants = DB::table('users')
+                    ->join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
                     ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
                     ->join('assets', 'assets.id', '=', 'business_info.id')
                     ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-                    ->whereIn('application_info.application_status', ['new', 'evaluation' ,'pending'])
+                    ->leftJoin('personnel', 'personnel.id', '=', 'business_info.id')
+                    ->whereIn('application_info.application_status', ['new', 'evaluation', 'pending'])
                     ->select(
                         'users.id as user_id',
                         'users.email',
@@ -48,7 +50,19 @@ class GetApplicantController extends Controller
                         'application_info.id as Application_ID',
                         'application_info.created_at as date_applied',
                         'application_info.application_status',
-                        'business_info.id as business_id'
+                        'business_info.id as business_id',
+                        'personnel.male_direct_re',
+                        'personnel.female_direct_re',
+                        'personnel.male_direct_part',
+                        'personnel.female_direct_part',
+                        'personnel.male_indirect_re',
+                        'personnel.female_indirect_re',
+                        'personnel.male_indirect_part',
+                        'personnel.female_indirect_part',
+                        DB::raw('(COALESCE(male_direct_re, 0) + COALESCE(female_direct_re, 0) + 
+                                COALESCE(male_direct_part, 0) + COALESCE(female_direct_part, 0) + 
+                                COALESCE(male_indirect_re, 0) + COALESCE(female_indirect_re, 0) + 
+                                COALESCE(male_indirect_part, 0) + COALESCE(female_indirect_part, 0)) as total_personnel')
                     )
                     ->distinct()
                     ->get();
