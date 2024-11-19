@@ -723,15 +723,8 @@ window.initializeAdminPageJs = async () => {
       $('#ApprovaltableBody').on('click', '.viewApproval', function () {
         const row = $(this).closest('tr');
         const inputs = row.find('input');
+        const offCanvaReadonlyInputs = $('#approvalDetails').find('input');
 
-        const formatCurrency = (value) => {
-          return parseFloat(value.replace(/,/g, '')).toLocaleString('en-US', {
-            minimumFractionDigits: 2,
-            maximumFractionDigits: 2,
-          });
-        };
-
-        // Cache the input values
         const cooperatorName = row.find('td:eq(0)').text().trim();
         const designation = inputs.filter('.designation').val();
         const businessId = inputs.filter('.business_id').val();
@@ -747,18 +740,21 @@ window.initializeAdminPageJs = async () => {
           .filter('.working_capital_Assets')
           .val();
 
+          console.log(offCanvaReadonlyInputs);
+
+
         // Update form fields
-        $('#cooperatorName').val(cooperatorName);
-        $('#designation').val(designation);
-        $('#b_id').val(businessId);
-        $('#businessAddress').val(businessAddress);
-        $('#typeOfEnterprise').val(typeOfEnterprise);
-        $('#landline').val(landline);
-        $('#mobilePhone').val(mobilePhone);
-        $('#email').val(email);
-        $('#building').val(formatCurrency(buildingAssets));
-        $('#equipment').val(formatCurrency(equipmentAssets));
-        $('#workingCapital').val(formatCurrency(workingCapitalAssets));
+        offCanvaReadonlyInputs.filter('.cooperatorName').val(cooperatorName);
+        offCanvaReadonlyInputs.filter('.designation').val(designation);
+        offCanvaReadonlyInputs.filter('#b_id').val(businessId);
+        offCanvaReadonlyInputs.filter('#businessAddress').val(businessAddress);
+        offCanvaReadonlyInputs.filter('#typeOfEnterprise').val(typeOfEnterprise);
+        offCanvaReadonlyInputs.filter('.landline').val(landline);
+        offCanvaReadonlyInputs.filter('.mobilePhone').val(mobilePhone);
+        offCanvaReadonlyInputs.filter('.emailAddress').val(email);
+        offCanvaReadonlyInputs.filter('#building').val(formatToString(buildingAssets));
+        offCanvaReadonlyInputs.filter('#equipment').val(formatToString(equipmentAssets));
+        offCanvaReadonlyInputs.filter('#workingCapital').val(formatToString(workingCapitalAssets));
 
         // Trigger additional actions
         getProjectProposal(businessId, Project_id);
@@ -1407,21 +1403,48 @@ window.initializeAdminPageJs = async () => {
                     <input type="hidden" name="businessID" value="${
                       item.business_id
                     }">
+                    <input type="hidden" name="personnelMaleDirectRe" value="${
+                      item.male_direct_re || 0
+                    }">
+                    <input type="hidden" name="personnelFemaleDirectRe" value="${
+                      item.female_direct_re || 0
+                    }">
+                    <input type="hidden" name="personnelMaleDirectPart" value="${
+                      item.male_direct_part || 0
+                    }">
+                    <input type="hidden" name="personnelFemaleDirectPart" value="${
+                      item.female_direct_part || 0
+                    }">
+                    <input type="hidden" name="personnelMaleIndirectRe" value="${
+                      item.male_indirect_re || 0
+                    }">
+                    <input type="hidden" name="personnelFemaleIndirectRe" value="${
+                      item.female_indirect_re || 0
+                    }">
+                    <input type="hidden" name="personnelMaleIndirectPart" value="${
+                      item.male_indirect_part || 0
+                    }">
+                    <input type="hidden" name="personnelFemaleIndirectPart" value="${
+                      item.female_indirect_part || 0
+                    }">
+                    <input type="hidden" name="personnelTotal" value="${
+                      item.total_personnel || 0
+                    }">
                     <span class="b_address text-truncate">${item.landMark}, ${
-                  item.barangay
-                }, ${item.city}, ${item.province}, ${item.region}</span><br>
-                    <strong>Type of Enterprise:</strong> <span class="enterprise_l">${
+              item.barangay
+            }, ${item.city}, ${item.province}, ${item.region}</span><br>
+                    <strong>Type of Enterprise:</strong> <span class="enterprise_type">${
                       item.enterprise_type
                     }</span>
                     <p>
                         <strong>Assets:</strong> <br>
-                        <span class="ps-2">Building: ${formatToString(
+                        <span class="ps-2 building_assets">Building: ${formatToString(
                           parseFloat(item.building_value)
                         )}</span><br>
-                        <span class="ps-2">Equipment: ${formatToString(
+                        <span class="ps-2 equipment_assets">Equipment: ${formatToString(
                           parseFloat(item.equipment_value)
                         )}</span> <br>
-                        <span class="ps-2">Working Capital: ${formatToString(
+                        <span class="ps-2 working_capital_assets">Working Capital: ${formatToString(
                           parseFloat(item.working_capital)
                         )}</span>
                     </p>
@@ -1448,7 +1471,7 @@ window.initializeAdminPageJs = async () => {
                     ? 'bg-primary'
                     : 'bg-danger'
                 }">${item.application_status}</span>`,
-                ` <button class="btn btn-primary applicantDetailsBtn" type="button"
+                ` <button class="btn btn-primary viewApplicant" type="button"
                                         data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
                                         aria-controls="applicantDetails">
                                         <i class="ri-menu-unfold-4-line ri-1x"></i>
@@ -1463,30 +1486,61 @@ window.initializeAdminPageJs = async () => {
 
       $('#ApplicanttableBody').on('click', '.viewApplicant', function () {
         const row = $(this).closest('tr');
+        const offCanvaReadonlyInputs = $('#applicantDetails').find('input');
 
         const cooperatorName = row.find('td:nth-child(2)').text().trim();
         const designation = row.find('td:nth-child(3)').text().trim();
-        const businessId = row.find('#business_id').val();
-        const businessAddress = row.find('.business_Address').text().trim();
-        const typeOfEnterprise = row.find('.Type_Enterprise').text().trim();
-        const landline = row.find('.landline').text().trim();
-        const mobilePhone = row.find('.MobileNum').text().trim();
-        const email = row.find('.Email').text().trim();
-        const building = row.find('.building').text().trim();
-        const equipment = row.find('.Equipment').text().trim();
-        const workingCapital = row.find('.Working_C').text().trim();
+        const businessId = row.find('input[name="businessID"]').val();
+        const businessAddress = row.find('.b_address').text().trim();
 
-        $('#cooperatorName').val(cooperatorName);
-        $('#designation').val(designation);
-        $('#b_id').val(businessId);
-        $('#businessAddress').val(businessAddress);
-        $('#typeOfEnterprise').val(typeOfEnterprise);
-        $('#landline').val(landline);
-        $('#mobilePhone').val(mobilePhone);
-        $('#email').val(email);
-        $('#building').val(building);
-        $('#equipment').val(equipment);
-        $('#workingCapital').val(workingCapital);
+        const personnelMaleDirectRe = row.find('input[name="personnelMaleDirectRe"]').val();
+        const personnelFemaleDirectRe = row.find('input[name="personnelFemaleDirectRe"]').val();
+        const personnelMaleDirectPart = row.find('input[name="personnelMaleDirectPart"]').val();
+        const personnelFemaleDirectPart = row.find('input[name="personnelFemaleDirectPart"]').val();
+        const personnelMaleIndirectRe = row.find('input[name="personnelMaleIndirectRe"]').val();
+        const personnelFemaleIndirectRe = row.find('input[name="personnelFemaleIndirectRe"]').val();
+        const personnelMaleIndirectPart = row.find('input[name="personnelMaleIndirectPart"]').val();
+        const personnelFemaleIndirectPart = row.find('input[name="personnelFemaleIndirectPart"]').val();
+        const personnelTotal = row.find('input[name="personnelTotal"]').val();
+
+        const typeOfEnterprise = row.find('.enterprise_type').text().trim();
+        const landline = row.find('.landline').text().trim();
+        const mobilePhone = row.find('.mobile_num').text().trim();
+        const email = row.find('.email_add').text().trim();
+        const building = row.find('.building_assets').text().trim();
+        const equipment = row.find('.equipment_assets').text().trim();
+        const workingCapital = row.find('.working_capital_assets').text().trim();
+
+        console.log(offCanvaReadonlyInputs)
+        offCanvaReadonlyInputs.filter('.cooperator-name').val(cooperatorName);
+        offCanvaReadonlyInputs.filter('.designation').val(designation);
+        offCanvaReadonlyInputs.filter('.business-id').val(businessId);
+        offCanvaReadonlyInputs.filter('.business-address').val(businessAddress);
+        offCanvaReadonlyInputs.filter('.type-of-enterprise').val(typeOfEnterprise);
+        offCanvaReadonlyInputs.filter('.landline').val(landline);
+        offCanvaReadonlyInputs.filter('.mobile-phone').val(mobilePhone);
+        offCanvaReadonlyInputs.filter('.email').val(email);
+        offCanvaReadonlyInputs.filter('.building').val(building);
+        offCanvaReadonlyInputs.filter('.equipment').val(equipment);
+        offCanvaReadonlyInputs.filter('.working-capital').val(workingCapital);
+
+        offCanvaReadonlyInputs.filter('.personnel-male-direct-re').val(personnelMaleDirectRe);
+        offCanvaReadonlyInputs.filter('.personnel-female-direct-re').val(personnelFemaleDirectRe);
+        offCanvaReadonlyInputs.filter('.personnel-direct-re-total').val(parseInt(personnelMaleDirectRe || 0) + parseInt(personnelFemaleDirectRe || 0));
+
+        offCanvaReadonlyInputs.filter('.personnel-male-direct-part').val(personnelMaleDirectPart);
+        offCanvaReadonlyInputs.filter('.personnel-female-direct-part').val(personnelFemaleDirectPart);
+        offCanvaReadonlyInputs.filter('.personnel-direct-part-total').val(parseInt(personnelMaleDirectPart || 0) + parseInt(personnelFemaleDirectPart || 0));
+
+        offCanvaReadonlyInputs.filter('.personnel-male-indirect-re').val(personnelMaleIndirectRe);
+        offCanvaReadonlyInputs.filter('.personnel-female-indirect-re').val(personnelFemaleIndirectRe);
+        offCanvaReadonlyInputs.filter('.personnel-indirect-re-total').val(parseInt(personnelMaleIndirectRe || 0) + parseInt(personnelFemaleIndirectRe || 0));
+
+        offCanvaReadonlyInputs.filter('.personnel-male-indirect-part').val(personnelMaleIndirectPart);
+        offCanvaReadonlyInputs.filter('.personnel-female-indirect-part').val(personnelFemaleIndirectPart);
+        offCanvaReadonlyInputs.filter('.personnel-indirect-part-total').val(parseInt(personnelMaleIndirectPart || 0) + parseInt(personnelFemaleIndirectPart || 0));
+
+        offCanvaReadonlyInputs.filter('.personnel-total').val(personnelTotal);
       });
     },
 

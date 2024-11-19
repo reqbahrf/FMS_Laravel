@@ -123,7 +123,7 @@ class ProjectProposalController extends Controller
         // Format fund amount and calculate actual fund to be refunded
         $fundAmount = str_replace(',', '', $proposalData['fundAmount']);
         $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
-        $actualFundToRefund = number_format($fundAmountFormatted * 0.05, 2, '.', ''); // Includes the 5% addition
+        $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
 
 
         // Begin a transaction for database consistency

@@ -69,8 +69,8 @@
     <div class="offcanvas-body">
         <div class="row gy-3">
             <div class="card p-0">
-                <div class="card-header">
-                    <h5>
+                <div class="card-header bg-primary">
+                    <h5 class="text-white mb-0">
                         <i class="ri-contacts-fill"></i>
                         Personal Info
                     </h5>
@@ -79,34 +79,34 @@
                     <div class="row gy-2">
                         <div class="col-12 col-md-8">
                             <label for="cooperatorName">Cooperator Name:</label>
-                            <input type="text" id="cooperatorName" class="form-control" readonly>
+                            <input type="text"  class="form-control cooperatorName" readonly>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="designation">Designation:</label>
-                            <input type="text" id="designation" class="form-control" readonly>
+                            <input type="text"  class="form-control designation" readonly>
                         </div>
                         <h6>Contact Details:</h6>
                         <div class="col-12 col-md-4">
                             <label for="landline">Landline:</label>
-                            <input type="text" id="landline" class="form-control" readonly>
+                            <input type="text"  class="form-control landline" readonly>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="mobilePhone">Mobile Phone:</label>
-                            <input type="text" id="mobilePhone" class="form-control" readonly>
+                            <input type="text"  class="form-control mobilePhone" readonly>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="email">Email:</label>
-                            <input type="text" id="email" class="form-control" readonly>
+                            <input type="text"  class="form-control emailAddress" readonly>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="card p-0">
-                <div class="card-header">
-                    <span class="fw-bold fs-5">
+                <div class="card-header bg-primary">
+                    <h5 class="text-white mb-0">
                         <i class="ri-briefcase-fill"></i>
                         Business Info
-                    </span>
+                    </h5>
                 </div>
                 <div class="card-body">
                     <div class="row gy-2">
@@ -136,11 +136,11 @@
                 </div>
             </div>
             <div class="card p-0">
-                <div class="card-header">
-                    <span class=" fw-bold fs-5">
+                <div class="card-header bg-primary">
+                    <h5 class="text-white mb-0">
                         <i class="ri-draft-fill"></i>
                         Project Proposal
-                    </span>
+                    </h5>
                 </div>
                 <div class="card-body" id="projectProposalContainer">
                     <div class="row gy-2">
