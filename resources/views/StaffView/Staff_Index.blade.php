@@ -14,15 +14,13 @@
 
 
     <style>
-
-
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
 
 
         :root {
             --font-family: 'Nunito', sans-serif;
             --font-size: clamp(0.75rem, 1vw, 1.5rem);
-            --sw-toolbar-btn-background-color: #318791!important;
+            --sw-toolbar-btn-background-color: #318791 !important;
             --sw-anchor-default-primary-color: #f8f9fa;
             --sw-anchor-active-primary-color: #318791 !important;
             --sw-anchor-active-secondary-color: #ffffff;
@@ -70,6 +68,16 @@
             height: 50px;
             object-fit: cover;
             object-position: center;
+        }
+
+        .profile-logo {
+            width: 32px;
+            height: 32px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
         }
 
         .navlogo {
@@ -295,6 +303,7 @@
             .sidenav.Minimized {
                 width: calc(var(--nav-width-min) * 1);
             }
+
             #notification--container {
                 width: 40vw;
             }
@@ -455,7 +464,7 @@
             <ul class="navbar-nav">
                 <li class="nav-item mb-2">
                     <div class="navlogo d-flex justify-content-center align-items-center">
-                       <img src="{{ asset('DOST_ICON.svg') }}" alt="DOST logo">
+                        <img src="{{ asset('DOST_ICON.svg') }}" alt="DOST logo">
                         <div class="logoTitleLScreen row position-relative h-100 w-75">
                             <div class="position-absolute top-50">
                                 <p class="sideTextMain text-white m-0 w-100"></p>
@@ -475,8 +484,7 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="#" id="projectLink"
-                        onclick="loadPage('{{ route('staff.Project') }}','projectLink');"
+                    <a href="#" id="projectLink" onclick="loadPage('{{ route('staff.Project') }}','projectLink');"
                         class="mb-2 d-flex align-items-center">
                         <i class="ri-file-list-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Projects</span>
@@ -499,7 +507,7 @@
             <div class="offcanvas-header p-0">
                 <div class="nav-item mb-2 minimize w-75">
                     <div class="navlogo d-flex justify-content-center align-items-center">
-                       <img src="{{ asset('DOST_ICON.svg') }}" alt="DOST logo">
+                        <img src="{{ asset('DOST_ICON.svg') }}" alt="DOST logo">
                         <div class="logoTitle row position-relative h-100 w-75">
                             <div class="position-absolute top-50">
                                 <p class="sideTextMain text-white m-0 w-100"></p>
@@ -557,7 +565,8 @@
                         <a class="position-relative text-decoration-none nav-link" data-bs-toggle="dropdown"
                             href="#" role="button" aria-haspopup="false" aria-expanded="false">
                             <i class="ri-notification-3-line ri-2x"></i>
-                            <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle" style="display: none;"></span>
+                            <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle"
+                                style="display: none;"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
                             <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
@@ -572,11 +581,11 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="px-2" id="notification--container" style="max-height: 300px; overflow-y: auto;">
+                            <div class="px-2" id="notification--container"
+                                style="max-height: 300px; overflow-y: auto;">
 
                             </div>
-                            <button
-                            type="button"
+                            <button type="button"
                                 class="dropdown-item text-center text-primary notify-item border-top py-2">
                                 View All
                             </button>
@@ -585,15 +594,14 @@
                     <li class="avatar-li">
                         <a class="text-decoration-none nav-link" data-bs-toggle="dropdown" href="#"
                             role="button" aria-haspopup="false" aria-expanded="false">
-                            <span class="account-avatar d-flex align-items-center justify-content-center gap-2">
-                                <img src="{{ asset('sampleProfile/raf,360x360,075,t,fafafa_ca443f4786.jpg') }}"
-                                    width="32" height="32"
-                                    class="object-fit-cover rounded-circle border border-1 border-black"
-                                    alt="">
+                            <div class="account-avatar d-flex align-items-center justify-content-center gap-2">
+                                <div class="profile-logo rounded-circle border border-1 border-white bg-primary">
+                                    {{ strtoupper(substr(trim((string) Auth::user()->orgUserInfo->f_name), 0, 1)) }}
+                                </div>
                                 <p class="m-0 fw-bold">
                                     {{ Auth::user()->orgUserInfo->prefix . ' ' . Auth::user()->orgUserInfo->f_name . ' ' . (Auth::user()->orgUserInfo->mid_name ? substr(Auth::user()->orgUserInfo->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgUserInfo->l_name . ' ' . Auth::user()->orgUserInfo->suffix }}
                                 </p>
-                            </span>
+                            </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"
                             style="max-height: 300px; width:10vw;">
@@ -605,11 +613,12 @@
                                 </div>
                             </div>
                             <div class="px-2">
-                                <button type="button" class="dropdown-item py-2" data-bs-toggle="modal" data-bs-target="#myAccountModal">
+                                <button type="button" class="dropdown-item py-2" data-bs-toggle="modal"
+                                    data-bs-target="#myAccountModal">
                                     <p><i class="ri-user-3-line me-2"></i>My Account</p>
                                 </button>
-                                <a href="#" class="dropdown-item py-2"
-                                   data-bs-toggle="modal" data-bs-target="#logoutConfirmationModal">
+                                <a href="#" class="dropdown-item py-2" data-bs-toggle="modal"
+                                    data-bs-target="#logoutConfirmationModal">
                                     <p><i class="ri-logout-box-line me-2"></i>Logout</p>
                                 </a>
                             </div>
@@ -633,7 +642,6 @@
     @vite('resources/js/app.js')
     @vite('resources/js/staffPage.js')
     <script>
-
         const USER_ID = '{{ Auth::user()->id }}';
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
         //Global Route Variables for the Navigation Tabs
@@ -736,7 +744,7 @@
                     });
                     // Cache the response
                     //sessionStorage.setItem(url, response);
-                   await handleAjaxSuccess(response, activeLink, url);
+                    await handleAjaxSuccess(response, activeLink, url);
                 }
             } catch (error) {
                 console.log('Error: ', error);

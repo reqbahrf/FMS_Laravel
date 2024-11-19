@@ -162,14 +162,14 @@
                     <li class="avatar-li">
                         <a class="text-decoration-none nav-link" data-bs-toggle="dropdown" href="#" role="button"
                             aria-haspopup="false" aria-expanded="false">
-                            <span class="account-avatar d-flex align-items-center justify-content-center gap-2">
-                                <img src="{{ asset('sampleProfile/raf,360x360,075,t,fafafa_ca443f4786.jpg') }}"
-                                    width="32" height="32"
-                                    class="object-fit-cover rounded-circle border border-1 border-black" alt="">
+                            <div class="account-avatar d-flex align-items-center justify-content-center gap-2">
+                                <div class="profile-logo rounded-circle border border-1 border-white bg-primary">
+                                    {{ strtoupper(substr(trim((string) Auth::user()->coopUserInfo->f_name), 0, 1)) }}
+                                </div>
                                 <p class="m-0 fw-bold">
                                     {{ Auth::user()->coopUserInfo->f_name . ' ' . (Auth::user()->coopUserInfo->mid_name ? substr(Auth::user()->coopUserInfo->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->coopUserInfo->l_name }}
                                 </p>
-                            </span>
+                            </div>
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated py-0"
                             style="max-height: 300px; width:10vw;">

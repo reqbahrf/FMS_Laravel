@@ -49,7 +49,6 @@
         textarea,
         select {
             font-family: var(--font-family);
-            color: var(--ct-text-color);
         }
 
         .card-body label {
@@ -68,8 +67,6 @@
         h5,
         h6 {
             font-weight: 700;
-            color: var(--ct-text-color) !important;
-            /* Example: Set to semi-bold. Adjust the value as needed */
         }
 
         .logo {
@@ -77,6 +74,16 @@
             height: 50px;
             object-fit: cover;
             object-position: center;
+        }
+
+        .profile-logo {
+            width: 32px;
+            height: 32px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
         }
 
         .navlogo {
