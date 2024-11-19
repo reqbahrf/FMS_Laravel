@@ -252,7 +252,7 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="row">
-                                    <div class="col-12 col-md-6 mx-auto">
+                                    <div class="col-12 me-auto">
                                         <label for="gender">Gender: <span class="requiredFields">*</span></label>
                                         <select name="gender" id="gender" class="form-select" required>
                                             <option value="">Select Gender</option>
@@ -269,7 +269,7 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="row">
-                                    <div class="col-12 col-md-6 mx-auto">
+                                    <div class="col-12 mx-auto">
                                         <label for="designation">Designation: <span class="requiredFields">*</span>
                                         </label>
                                         <input type="text" name="designation" id="designation"
@@ -285,7 +285,7 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <div class="row">
-                                    <div class="col-12 col-md-6 mx-auto">
+                                    <div class="col-12 ms-auto">
                                         <label for="b_date">Birth Date: <span class="requiredFields">
                                                 *</span></label>
 
