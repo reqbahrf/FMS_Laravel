@@ -137,6 +137,7 @@ class ApplicationController extends Controller
                 'FDA_LTOFilePath' => $validatedInputs['FDA_LTO_unique_id_path'],
                 'receiptFilePath' => $validatedInputs['receipt_unique_id_path'],
                 'govFilePath' => $validatedInputs['govId_unique_id_path'],
+                'BIRFilePath' => $validatedInputs['BIR_unique_id_path']
             ];
 
             Log::info($file_to_insert);
@@ -145,6 +146,7 @@ class ApplicationController extends Controller
                 'IntentFilePath' => 'Intent File',
                 'businessPermitFilePath' => 'Business Permit',
                 'receiptFilePath' => 'Receipt',
+                'BIRFilePath' => 'BIR'
             ];
 
             $DSC_file_Name_Selector = $validatedInputs['DSC_file_Selector'];
