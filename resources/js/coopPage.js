@@ -331,6 +331,7 @@ window.initilizeCoopPageJs = async () => {
         },
 
         QuarterlyReport: () => {
+            console.log('This QuarterlyReport Function is called')
             new smartWizard();
             $('#BuildingAsset, #Equipment, #WorkingCapital').on('input', function() {
                 // Remove any non-digit characters
@@ -565,6 +566,7 @@ window.initilizeCoopPageJs = async () => {
         },
 
         ReportedQuarterlyReport: () => {
+            console.log('initilizeCoopPageJs.ReportedQuarterlyReport');
             $('#BuildingAsset, #Equipment, #WorkingCapital').on('input', function() {
                 // Remove any non-digit characters
                 let value = $(this).val().replace(/[^0-9]/g, '');

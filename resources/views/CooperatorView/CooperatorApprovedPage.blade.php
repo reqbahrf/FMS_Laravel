@@ -204,7 +204,7 @@
     const NAV_ROUTES = {
         DASHBOARD: '{{ route('Cooperator.dashboard') }}',
         REQUIREMENTS: '{{ route('Cooperator.Requirements') }}',
-        QUARTERLY_REPORT: BASE_URL + 'Cooperator/QuarterlyReport',
+        QUARTERLY_REPORT: '/Cooperator/QuarterlyReport',
     }
     console.log(NAV_ROUTES.QUARTERLY_REPORT)
 
@@ -285,8 +285,9 @@
             const urlParts = parsedUrl.pathname.split('/');
             const reportSubmitted = urlParts[urlParts.length - 1] === 'true';
             const quarterlyReportUrlPath =
-                `${parsedUrl.origin}${parsedUrl.pathname.split('/').slice(0, 3).join('/')}`;
+                `${parsedUrl.pathname.split('/').slice(0, 3).join('/')}`;
             const functions = await initilizeCoopPageJs();
+
 
             const urlMapFunction = {
                 [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
