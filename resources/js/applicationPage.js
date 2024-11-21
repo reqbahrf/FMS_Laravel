@@ -1,4 +1,3 @@
-
 import "smartwizard/dist/css/smart_wizard_all.css";
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
@@ -779,7 +778,7 @@ $(() => {
         }).on('input', function() {
             const number = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
             if (number.length > 0) {
-                var formattedNumber = number.match(/(\d{0,4})(\d{0,3})(\d{0,4})/);
+                var formattedNumber = number.match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
                 var formatted = '';
                 if (formattedNumber[1]) formatted += formattedNumber[1];
                 if (formattedNumber[2]) formatted += '-' + formattedNumber[2];

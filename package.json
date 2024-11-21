@@ -32,6 +32,7 @@
         "jquery": "^3.7.1",
         "jszip": "^3.10.1",
         "pdfmake": "^0.2.15",
-        "smartwizard": "^6.0.6"
+        "smartwizard": "^6.0.6",
+        "use-postal-ph": "^1.1.10"
     }
 }

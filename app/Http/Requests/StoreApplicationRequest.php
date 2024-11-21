@@ -30,6 +30,7 @@ class StoreApplicationRequest extends FormRequest
             'gender' => 'required',
             'b_date' => 'required|date_format:Y-m-d',
             'designation' => 'required|max:20',
+            'country_code' => 'required|max:4',
             'Mobile_no' => 'required|max:15',
             'landline' => 'nullable|max:20',
             'firm_name' => 'required|max:30',
@@ -69,6 +70,7 @@ class StoreApplicationRequest extends FormRequest
             'FDA_LTO_unique_id_path' => 'nullable|string',
             'receipt_unique_id_path' => 'required|string',
             'govId_unique_id_path' => 'required|string',
+            'BIR_unique_id_path' => 'required|string',
         ];
     }
 }

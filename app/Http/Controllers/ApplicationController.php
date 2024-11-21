@@ -38,7 +38,9 @@ class ApplicationController extends Controller
             $gender = $validatedInputs['gender'];
             $b_date = $validatedInputs['b_date'];
             $designation = $validatedInputs['designation'];
+            $country_mobile_code = $validatedInputs['country_code'];
             $mobile_number = $validatedInputs['Mobile_no'];
+            $full_mobile_number = $country_mobile_code . $mobile_number;
             $landline = $validatedInputs['landline'];
             $personalInfoId = DB::table('coop_users_info')->insertGetId([
                 'user_name' => $user_name,
@@ -50,7 +52,7 @@ class ApplicationController extends Controller
                 'gender' => $gender,
                 'birth_date' => $b_date,
                 'designation' => $designation,
-                'mobile_number' => $mobile_number,
+                'mobile_number' => $full_mobile_number,
                 'landline' => $landline,
             ]);
             $successful_inserts++;
