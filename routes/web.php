@@ -168,7 +168,6 @@ Route::middleware([CheckStaffUser::class])->group(function () {
     Route::get('/Staff/Dashboard/ProjectLedger/{ProjectId}', [ProjectLedgerController::class, 'index'])
         ->name('staff.Dashboard.ProjectLedger.index');
 
-
     Route::get('/Staff/Project/Create-Project', function () {
         return view('StaffView.staffProjectCreateTab');
     })->name('staff.Create-Project');
