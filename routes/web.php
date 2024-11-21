@@ -7,7 +7,7 @@ use App\Http\Middleware\CheckStaffUser;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ProxyController;
-use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Middleware\CheckCooperatorUser;
@@ -31,7 +31,7 @@ use App\Http\Controllers\StaffProjectLinkController;
 use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
-use App\Http\Controllers\GetCompletedProjectController;
+use App\Http\Controllers\GetCompletedAdminProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
@@ -241,7 +241,7 @@ Route::middleware([CheckAdminUser::class])->group(function () {
     Route::get('/Admin/Project/ProposalDetails/{business_id}/{project_id}', GetProjectProposalController::class)
         ->name('admin.Project.GetProposalDetails');
 
-    Route::post('/Admin/Project/Approved-Project', [ProjectController::class, 'approvedProjectProposal'])
+    Route::post('/Admin/Project/Approved-Project', [AdminProjectController::class, 'approvedProjectProposal'])
         ->name('admin.Project.ApprovedProjectProposal');
 
     Route::get('/Admin/Stafflist', [AdminViewController::class, 'staffGet'])
@@ -256,7 +256,7 @@ Route::middleware([CheckAdminUser::class])->group(function () {
 Route::middleware('OrgUser')->group(function () {
 
     Route::resource('/Project/PaymentRecord', PaymentRecordController::class);
-    Route::get('/Project/Completed-Project', GetCompletedProjectController::class)
+    Route::get('/Project/Completed-Project', GetCompletedAdminProjectController::class)
         ->name('getCompletedProject');
 
     Route::get('/Applicant/getApplicants', GetApplicantController::class)

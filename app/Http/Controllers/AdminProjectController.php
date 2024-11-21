@@ -8,7 +8,7 @@ use App\Models\ApplicationInfo;
 use Illuminate\Support\Facades\DB;
 use Exception;
 
-class ProjectController extends Controller
+class AdminProjectController extends Controller
 {
     public function approvedProjectProposal(Request $request)
     {
