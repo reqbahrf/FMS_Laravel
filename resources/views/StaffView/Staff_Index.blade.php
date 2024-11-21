@@ -310,7 +310,7 @@
         }
 
 
-        .nav-item a.active {
+        .navbar-nav .nav-item a.active {
             color: #FFFFFF;
             background-color: #318791;
             padding: 10px 20px;
@@ -318,7 +318,7 @@
             border-right: #f1f1f1 4px solid;
         }
 
-        .nav-item a.active:hover {
+        .navbar-nav .nav-item a.active:hover {
             color: #FFFFFF;
             border-right: #f1f1f1 10px solid;
         }
@@ -649,6 +649,7 @@
         const NAV_ROUTES = {
             DASHBOARD: '{{ route('staff.dashboard') }}',
             PROJECT: '{{ route('staff.Project') }}',
+            ADD_PROJECT : '{{ route('staff.Project.AddProject') }}',
             APPLICANT: '{{ route('staff.Applicant') }}',
 
 
@@ -704,112 +705,11 @@
             STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}',
             GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}'
         }
-    </script>
-    <script type="module">
         // $(window).on('beforeunload', function() {
         //     return 'Are you sure you want to leave?';
         // });
-        $(document).ready(() => {
-
-            let lastUrl = sessionStorage.getItem('StafflastUrl')
-            let lastActive = sessionStorage.getItem('StafflastActive')
-            if (lastUrl && lastActive) {
-                loadPage(lastUrl, lastActive);
-            } else {
-                loadPage('{{ route('staff.dashboard') }}', 'dashboardLink');
-            }
-        });
-
-        const setActiveLink = (activeLink) => {
-            $(".nav-item a").removeClass("active");
-            const defaultLink = "dashboardLink";
-            const linkToActivate = $("#" + (activeLink || defaultLink));
-            linkToActivate.addClass("active");
-        };
-
-        window.loadPage = async (url, activeLink) => {
-            try {
-                $('.spinner').removeClass('d-none');
-                $('#main-content').hide();
-                const cachedPage = sessionStorage.getItem(url);
-                if (cachedPage) {
-                    handleAjaxSuccess(cachedPage, activeLink, url);
-                } else {
-                    const response = await $.ajax({
-                        url,
-                        type: 'GET',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    // Cache the response
-                    //sessionStorage.setItem(url, response);
-                    await handleAjaxSuccess(response, activeLink, url);
-                }
-            } catch (error) {
-                console.log('Error: ', error);
-            } finally {
-                $('.spinner').addClass('d-none');
-                $('#main-content').show();
-            }
-        };
-
-        const handleAjaxSuccess = async (response, activeLink, url) => {
-            try {
-                await $('#main-content').html(response);
-                setActiveLink(activeLink);
-                await history.pushState(null, '', url);
-
-                const functions = await initializeStaffPageJs();
-
-                const urlMapFunctions = {
-                    [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
-                    [NAV_ROUTES.PROJECT]: functions.Projects,
-                    [NAV_ROUTES.APPLICANT]: functions.Applicant,
-                };
-
-                if (urlMapFunctions[url]) {
-                    urlMapFunctions[url]();
-                }
-
-                //  if (url === '/org-access/viewCooperatorInfo.php') {
-                //      await InitializeviewCooperatorProgress();
-                //  }
-
-                await sessionStorage.setItem('StafflastUrl', url);
-                await sessionStorage.setItem('StafflastActive', activeLink);
-            } catch (error) {
-                console.log('Error: ', error);
-
-            }
-        }
-
-
-        function attachProjectInformationSheetEvents() {
-            $('#createPISButton').on('click', function() {
-                let ProjectInformationSheetModel = new bootstrap.Modal(document.getElementById('PISModal'));
-                let project_id = $('#ProjectId').val();
-                let business_id = $('#b_id').val();
-                let form = $('#PIS_checklistsForm');
-
-                $.ajax({
-                    type: 'POST',
-                    data: form.serialize() + '&project_id=' + project_id + '&business_id=' + business_id,
-                    url: '{{ route('staff.Create-InformationSheet') }}',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    success: function(response) {
-                        $('#PIS_Modal_container').html(response);
-                        ProjectInformationSheetModel.show();
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                })
-            })
-        }
     </script>
+
 </body>
 
 </html>

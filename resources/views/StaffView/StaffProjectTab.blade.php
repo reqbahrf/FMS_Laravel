@@ -46,10 +46,6 @@
         overflow: auto;
     }
 
-    #addProjectManualy {
-        width: 80vw;
-    }
-
     #approvedDetails,
     #ongoingDetails,
     #completedDetails {
@@ -790,32 +786,11 @@
         </div>
     </div>
 
-    <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="addProjectManualy" aria-labelledby="staticBackdropLabel">
-        <div class="offcanvas-header bg-primary">
-            <h5 class="offcanvas-title text-white fs-4" id="staticBackdropLabel">
-                <i class="ri-file-add-fill ri-lg"></i>
-                Add Project
-            </h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-        </div>
-        <div class="offcanvas-body">
-            <x-applicant-info-form />
-        </div>
-
-    </div>
-
-    {{-- offcanva Complete End --}}
-    {{-- Offcanva Add existing Project Start --}}
-    {{-- offcanva Add existing Project end  --}}
     <div class="">
-        <!--Project Information sheet Modal start-->
-        <!-- Ongoing Modal end-->
-
         <div class="card m-0 m-md-3">
             <div class="card-body">
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas"
-                        data-bs-target="#addProjectManualy" aria-controls="addProjectManualy">
+                    <button class="btn btn-sm btn-primary" type="button" id="addProjectManualy">
                         <i class="ri-file-add-fill"></i>
                     </button>
                 </div>

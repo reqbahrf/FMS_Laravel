@@ -66,6 +66,81 @@ $(document).on("DOMContentLoaded", function () {
         $("#hover-link").toggleClass("rotate-icon");
     });
 });
+
+$(function() {
+
+    let lastUrl = sessionStorage.getItem('StafflastUrl')
+    let lastActive = sessionStorage.getItem('StafflastActive')
+    if (lastUrl && lastActive) {
+        loadPage(lastUrl, lastActive);
+    } else {
+        loadPage(NAV_ROUTES.DASHBOARD, 'dashboardLink');
+    }
+});
+
+const setActiveLink = (activeLink) => {
+    $(".nav-item a").removeClass("active");
+    const defaultLink = "dashboardLink";
+    const linkToActivate = $("#" + (activeLink || defaultLink));
+    linkToActivate.addClass("active");
+};
+
+window.loadPage = async (url, activeLink) => {
+    try {
+        $('.spinner').removeClass('d-none');
+        $('#main-content').hide();
+        const cachedPage = sessionStorage.getItem(url);
+        if (cachedPage) {
+            handleAjaxSuccess(cachedPage, activeLink, url);
+        } else {
+            const response = await $.ajax({
+                url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            await handleAjaxSuccess(response, activeLink, url);
+        }
+    } catch (error) {
+        console.log('Error: ', error);
+    } finally {
+        $('.spinner').addClass('d-none');
+        $('#main-content').show();
+    }
+};
+
+const handleAjaxSuccess = async (response, activeLink, url) => {
+    try {
+        $('#main-content').html(response);
+        setActiveLink(activeLink);
+         history.pushState(null, '', url);
+
+        const functions = await initializeStaffPageJs();
+
+        const urlMapFunctions = {
+            [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
+            [NAV_ROUTES.PROJECT]: functions.Projects,
+            [NAV_ROUTES.ADD_PROJECT]: functions.AddProject,
+            [NAV_ROUTES.APPLICANT]: functions.Applicant,
+        };
+
+        if (urlMapFunctions[url]) {
+            urlMapFunctions[url]();
+        }
+
+        //  if (url === '/org-access/viewCooperatorInfo.php') {
+        //      await InitializeviewCooperatorProgress();
+        //  }
+
+        sessionStorage.setItem('StafflastUrl', url);
+        sessionStorage.setItem('StafflastActive', activeLink);
+    } catch (error) {
+        console.log('Error: ', error);
+
+    }
+}
+
 window.initializeStaffPageJs = async () => {
     const functions = {
         Dashboard: () => {
@@ -2999,7 +3074,6 @@ window.initializeStaffPageJs = async () => {
                     },
                 ],
             });
-
             const PaymentHistoryDataTable = $("#paymentHistoryTable").DataTable(
                 {
                     autoWidth: true,
@@ -3023,6 +3097,13 @@ window.initializeStaffPageJs = async () => {
                     ],
                 }
             );
+
+           const addProjectBtn = $('#addProjectManualy')
+
+           addProjectBtn.on('click', async () => {
+              await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink')
+
+           })
 
             $("#ApprovedtableBody").on(
                 "click",
@@ -3880,6 +3961,14 @@ window.initializeStaffPageJs = async () => {
             getApprovedProjects();
             getOngoingProjects();
             getCompletedProjects();
+        },
+
+        AddProject: async () => {
+            const module = await import('./applicationPage');
+            // If you know specific functions that need to be called
+            if (module.initializeForm) {
+                module.initializeForm();
+            }
         },
         Applicant: () => {
             let ProjectProposalFormInitialValue = {};
