@@ -7,13 +7,13 @@ use App\Http\Middleware\CheckStaffUser;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\ProxyController;
-use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\PasswordResetController;
@@ -31,10 +31,11 @@ use App\Http\Controllers\StaffProjectLinkController;
 use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
-use App\Http\Controllers\GetCompletedAdminProjectController;
+use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
+
 
 //Applicant routes
 
@@ -256,7 +257,7 @@ Route::middleware([CheckAdminUser::class])->group(function () {
 Route::middleware('OrgUser')->group(function () {
 
     Route::resource('/Project/PaymentRecord', PaymentRecordController::class);
-    Route::get('/Project/Completed-Project', GetCompletedAdminProjectController::class)
+    Route::get('/Project/Completed-Project', GetCompletedProjectController::class)
         ->name('getCompletedProject');
 
     Route::get('/Applicant/getApplicants', GetApplicantController::class)

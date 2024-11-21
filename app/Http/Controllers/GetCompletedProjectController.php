@@ -6,7 +6,7 @@ use Exception;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class GetCompletedAdminProjectController extends Controller
+class GetCompletedProjectController extends Controller
 {
     /**
      * Handle the incoming request.
