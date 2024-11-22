@@ -41,7 +41,7 @@
 
     /* Stat cards css */
 
-    #handleProjectOff.offcanvas-body {
+    #handleProjectOff .offcanvas-body {
         background-color: #f5f5f5;
     }
 

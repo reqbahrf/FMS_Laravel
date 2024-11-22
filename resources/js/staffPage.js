@@ -308,6 +308,23 @@ window.initializeStaffPageJs = async () => {
                     },
                 ],
             });
+
+            function populateYearDropdown(selectElementId) {
+                const $select = $(`#${selectElementId}`);
+                const currentYear = new Date().getFullYear();
+            
+                $select.empty().append(
+                    $('<option>', { value: '', text: 'Select Year', disabled: true, selected: true })
+                );
+            
+                // Add current year and next 3 years
+                for (let i = 0; i < 4; i++) {
+                    const year = currentYear + i;
+                    $select.append($('<option>', { value: year, text: year }));
+                }
+            }
+            
+            populateYearDropdown('yearSelect')
             /**
              * Creates a monthly data chart with the provided data for applicants, ongoing, and completed items.
              *

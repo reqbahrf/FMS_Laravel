@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\StoreApplicationRequest;
 
@@ -162,12 +161,9 @@ class ApplicationController extends Controller
             foreach($file_to_insert as $filekey => $filePath){
                 if(Storage::disk('public')->exists($filePath))
                 {
-                    // $directoryUniquePath = $firm_name . '-' . now()->format('Y-m-d');
                     $fileName = $fileNames[$filekey];
                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
-                    // $final_Directory = 'File_Requirements' . '/'. $directoryUniquePath .'/' . $fileName . '.' . $fileExtension;
-                    // Storage::disk('public')->move($filePath, Storage::disk('private')->path($final_Directory));
 
                     DB::table('requirements')->insert([
                         'business_id' => $businessId,

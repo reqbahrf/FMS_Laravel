@@ -193,7 +193,7 @@
         </div>
     </div>
     <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab" tabindex="0">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
 
                 <div class="table-responsive my-3">
@@ -264,7 +264,7 @@
                                             <option value="Q3">Q3</option>
                                             <option value="Q4">Q4</option>
                                         </select>
-                                        <select name="year" class="form-select" id="year">
+                                        <select name="year" class="form-select" id="yearSelect">
                                             <option value="2024">2024</option>
                                             <option value="2025">2025</option>
                                             <option value="2026">2026</option>
