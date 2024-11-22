@@ -819,8 +819,7 @@ export function initializeForm() {
             return isValid;
         }
 
-        window.onFinish = function(event) {
-            event.preventDefault();
+        window.onFinish = function() {
             window.confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
             confirmationModal.show();
         }
@@ -860,7 +859,7 @@ export function initializeForm() {
                         }, 500);
 
                         setTimeout(() => {
-                            window.location.href = response.redirect;
+                            window.location.href = response?.redirect;
                         }, 3000);
                     }
 

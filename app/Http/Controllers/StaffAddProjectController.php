@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Events\NewApplicant;
 use App\Events\ProjectEvent;
+use App\Mail\NewProjectRegistered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\NewRegistrationRequest;
 
 class StaffAddProjectController extends Controller
@@ -226,8 +228,13 @@ class StaffAddProjectController extends Controller
 
             if ($successful_inserts == 6) {
                 DB::commit();
+                
+                // Send welcome email to the new user
+                $user = DB::table('users')->where('user_name', $user_name)->first();
+                Mail::to($validatedInputs['email'])->send(new NewProjectRegistered($user, $initial_password));
+                
                 event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $city, 'NEW_APPLICANT'));
-                return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.index')], 200);
+                return response()->json(['success' => 'All data successfully saved.'], 200);
             } else {
                 DB::rollBack();
                 return response()->json(['error' => 'Data insertion failed.'], 500);
