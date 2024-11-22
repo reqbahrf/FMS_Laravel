@@ -605,13 +605,13 @@ export function initializeForm() {
             transition: {
                 animation: 'fade'
             },
-            toolbarSettings: {
+            toolbar: {
                 toolbarPosition: 'bottom',
                 toolbarButtonPosition: 'right',
                 showNextButton: true,
                 showPreviousButton: true,
-                toolbarExtraHtml: `<button type="button" class="btn btn-success" onclick="onFinish()" >Submit</button>
-                    <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
+                position: 'both bottom',
+                extraHtml: `<button type="button" class="btn btn-success" onclick="onFinish()" >Submit</button> <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
             },
             anchorSettings: {
                 anchorClickable: false
