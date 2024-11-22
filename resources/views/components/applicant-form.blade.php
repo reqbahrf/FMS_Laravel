@@ -38,9 +38,8 @@
                     style="position: static; left: 0px; display: block;">
                     <!-- Where Personal Info Displayed -->
                     <div class="row mb-3 gy-3">
-                        <div class="col-md-12">
-                            @if (auth()->user()->hasRole('Staff'))
-                                <div class="col-12 col-md-6">
+                        @if (auth()->user()->hasRole('Staff'))
+                            <div class="col-12 col-md-6">
                                     <label for="email">Email: <span class="requiredFields">*</span></label>
                                     <input type="email" name="email" id="email" class="form-control"
                                         value="" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
@@ -48,9 +47,18 @@
                                     <div class="form-text text-muted">To ensure successful delivery of login
                                         credentials, please enter a valid email address for the registered user.</div>
                                     <div class="invalid-feedback">Please enter a valid email address.</div>
+                            </div>
+                            <div class="col-12 col-md-6">
+                                <label for="projectStatus">Status:</label>
+                                <select name="projectStatus" id="projectStatus" class="form-select" required>
+                                    <option value="Pending">New</option>
+                                    <option value="Approved">Ongoing</option>
+                                </select>
+                                <div class="invalid-feedback">
+                                    Please select a project status.
                                 </div>
+                            </div>
                             @endif
-                        </div>
                         <div class="col-12 col-md-2">
                             <label for="prefix">Prefix:</label>
                             <input list="prefixOptions" class="form-control" name="prefix" id="prefix">
