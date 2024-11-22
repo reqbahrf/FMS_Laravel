@@ -64,19 +64,24 @@
                                 <div class="col-md-6">
                                     <label class="form-label">Address</label>
                                     <input type="text" class="form-control form-control-sm text-nowrap"
-                                        id="address" readonly>
+                                        readonly>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-5">
                                     <label for="contact_person" class="form-label">Contact Person:</label>
                                     <input type="text" class="form-control form-control-sm" id="contact_person"
                                         readonly>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-1">
+                                    <label for="sex" class="form-label">Sex:</label>
+                                    <input type="text" class="form-control form-control-sm" id="sex"
+                                        readonly>
+                                </div>
+                                <div class="col-md-3">
                                     <label for="designation" class="form-label">Designation:</label>
                                     <input type="text" class="form-control form-control-sm" id="designation"
                                         readonly>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <label for="enterpriseType" class="form-label">Type Of Enterprise:</label>
                                     <input type="text" class="form-control form-control-sm" id="enterpriseType"
                                      readonly>

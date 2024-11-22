@@ -4025,7 +4025,10 @@ window.initializeStaffPageJs = async () => {
                                     item.mid_name +
                                     " " +
                                     item.suffix
-                                }`,
+                                }
+                                <input type="hidden" name="sex" value="${
+                                    item.sex
+                                }">`,
                                 `${item.designation}`,
                                 `<div>
                     <strong>Firm Name:</strong> <span class="firm_name">${
@@ -4147,6 +4150,8 @@ window.initializeStaffPageJs = async () => {
                 async function () {
                     const row = $(this).closest("tr");
                     const fullName = row.find("td:nth-child(1)").text().trim();
+                    const sex = row.find("td:nth-child(1) input[name='sex']").val();
+                    console.log(sex)
                     const designation = row
                         .find("td:nth-child(2)")
                         .text()
@@ -4232,6 +4237,7 @@ window.initializeStaffPageJs = async () => {
                     ApplicantDetails.filter("#address").val(businessAddress);
                     ApplicantDetails.filter("#contact_person").val(fullName); // Add corresponding value
                     ApplicantDetails.filter("#designation").val(designation);
+                    ApplicantDetails.filter("#sex").val(sex);
                     ApplicantDetails.filter("#enterpriseType").val(
                         enterpriseType
                     );

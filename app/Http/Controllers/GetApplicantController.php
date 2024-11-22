@@ -35,6 +35,7 @@ class GetApplicantController extends Controller
                         'coop_users_info.l_name',
                         'coop_users_info.suffix',
                         'coop_users_info.designation',
+                        'coop_users_info.sex',
                         'coop_users_info.mobile_number',
                         'coop_users_info.landline',
                         'business_info.firm_name',
