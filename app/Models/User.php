@@ -52,6 +52,11 @@ class User extends Authenticatable  implements MustVerifyEmail
         ];
     }
 
+    public function hasRole($role): bool
+    {
+        return $this->role === $role;
+    }
+
     public function orgUserInfo(): HasOne
     {
         return $this->hasOne(OrgUserInfo::class, 'user_name', 'user_name');
