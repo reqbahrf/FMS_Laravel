@@ -33,7 +33,7 @@ class UserTest extends Seeder
             'mid_name' => 'A.',
             'l_name' => 'Staff',
             'suffix' => '',
-            'gender' => 'Male',
+            'sex' => 'Male',
             'birthdate' => '2000-01-01',
             'access_to' => 'Allowed',
         ]);

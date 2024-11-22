@@ -28,13 +28,14 @@
 </div>
 
 {{-- Update and Delete Modal --}}
-<div class="modal face" id="UpdateAndDeleteResourcesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="UpdateAndDeleteResourcesModalLabel" aria-hidden="true">
+<div class="modal face" id="UpdateAndDeleteResourcesModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="UpdateAndDeleteResourcesModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-sm">
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
                 <h5 class="modal-title text-white" id="UpdateAndDeleteResourcesModalLabel">
-                   Update User
+                    Update User
                 </h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
@@ -48,7 +49,8 @@
 </div>
 
 <!-- Bootstrap Modal -->
-<div class="modal fade" id="AddUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="AddUserModalLabel" aria-hidden="true">
+<div class="modal fade" id="AddUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+    aria-labelledby="AddUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content">
             <!-- Modal Header -->
@@ -68,7 +70,8 @@
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <label for="validationCustom01" class="form-label">First Name:</label>
-                                        <input type="text" class="form-control" id="validationCustom01" name="f_Name" value="" required>
+                                        <input type="text" class="form-control" id="validationCustom01"
+                                            name="f_Name" value="" required>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>
@@ -78,7 +81,8 @@
                                     </div>
                                     <div class="col-12 col-md-6">
                                         <label for="validationName" class="form-label">Last Name:</label>
-                                        <input type="text" class="form-control" id="validationName" name="l_Name" value="" required>
+                                        <input type="text" class="form-control" id="validationName" name="l_Name"
+                                            value="" required>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>
@@ -90,7 +94,9 @@
                                         <label for="validationEmail" class="form-label">Email:</label>
                                         <div class="input-group has-validation">
                                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                                            <input type="text" name="email" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                                            <input type="text" name="email" class="form-control"
+                                                id="validationCustomUsername" aria-describedby="inputGroupPrepend"
+                                                required>
                                             <div class="valid-feedback">
                                                 Looks good!
                                             </div>
@@ -100,15 +106,15 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="gender">Gender: </label>
-                                        <select class="form-select" name="gender" id="gender" required>
+                                        <label for="sex">sex: </label>
+                                        <select class="form-select" name="sex" id="sex" required>
                                             <option selected disabled value="">Choose...</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Prefer not to say">Prefer not to say</option>
                                         </select>
                                         <div class="invalid-feedback">
-                                            Please select gender.
+                                            Please select sex.
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
@@ -127,7 +133,8 @@
                                     </div>
                                     <div class="col-12 col-md-4">
                                         <label for="b_date">Birthday: </label>
-                                        <input type="date" name="b_date" class="form-control" id="b_date" required>
+                                        <input type="date" name="b_date" class="form-control" id="b_date"
+                                            required>
                                         <div class="valid-feedback">
                                             Looks good!
                                         </div>
@@ -236,32 +243,31 @@
                     </button>
                 </div>
             </div>
-                <table id="user_staff" class="table table-hover mx-2 w-100">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Username</th>
-                            <th>Access</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="StaffUserstableBody" class="table-group-divider">
+            <table id="user_staff" class="table table-hover mx-2 w-100">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Username</th>
+                        <th>Access</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="StaffUserstableBody" class="table-group-divider">
 
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Username</th>
-                            <th>Access</th>
-                            <th>Action</th>
-                        </tr>
-                    </tfoot>
-                </table>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <th>#</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Username</th>
+                        <th>Access</th>
+                        <th>Action</th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </div>
-

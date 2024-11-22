@@ -22,7 +22,7 @@ class CoopUserInfoFactory extends Factory
             'mid_name' => fake()->firstName(),
             'l_name' => fake()->lastName(),
             'suffix' => fake()->suffix(),
-            'gender' => fake()->randomElement(['male', 'female']),
+            'sex' => fake()->randomElement(['male', 'female']),
             'birth_date' => fake()->date(),
             'designation' => fake()->randomElement(['Owner', 'Manager', 'Director']),
             'mobile_number' => fake()->randomElement(['0912-345-6789', '0923-456-7890']),

@@ -93,7 +93,7 @@ class StaffViewController extends Controller
                         'coop_users_info.mid_name',
                         'coop_users_info.l_name',
                         'coop_users_info.suffix',
-                        'coop_users_info.gender',
+                        'coop_users_info.sex',
                         'coop_users_info.birth_date',
                         'coop_users_info.designation',
                         'coop_users_info.mobile_number',

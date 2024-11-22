@@ -59,7 +59,7 @@ class AdminManageStaffController extends Controller
             'f_Name' => 'required',
             'l_Name' => 'required',
             'email' => 'required|unique:users|email',
-            'gender' => 'required',
+            'sex' => 'required',
             'role' => 'required',
             'b_date' => 'required|date_format:Y-m-d',
         ]);
@@ -89,7 +89,7 @@ class AdminManageStaffController extends Controller
                     'mid_name' => '',
                     'l_name' => $validated['l_Name'],
                     'suffix' => '',
-                    'gender' => $validated['gender'],
+                    'sex' => $validated['sex'],
                     'birthdate' => $validated['b_date'],
                     'access_to' => 'Restricted',
 

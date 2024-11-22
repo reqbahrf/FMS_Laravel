@@ -34,7 +34,7 @@ class UserAdminTest extends Seeder
             'mid_name' => 'A.',
             'l_name' => 'Admin',
             'suffix' => '',
-            'gender' => 'Male',
+            'sex' => 'Male',
             'birthdate' => '2000-01-01',
             'access_to' => 'Allowed',
         ]);

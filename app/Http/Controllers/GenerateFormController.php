@@ -71,7 +71,7 @@ class GenerateFormController extends Controller
             'mid_name',
             'l_name',
             'suffix',
-            'gender',
+            'sex',
             'birth_date',
             'mobile_number',
             'landline',

@@ -67,14 +67,13 @@ $(document).on("DOMContentLoaded", function () {
     });
 });
 
-$(function() {
-
-    let lastUrl = sessionStorage.getItem('StafflastUrl')
-    let lastActive = sessionStorage.getItem('StafflastActive')
+$(function () {
+    let lastUrl = sessionStorage.getItem("StafflastUrl");
+    let lastActive = sessionStorage.getItem("StafflastActive");
     if (lastUrl && lastActive) {
         loadPage(lastUrl, lastActive);
     } else {
-        loadPage(NAV_ROUTES.DASHBOARD, 'dashboardLink');
+        loadPage(NAV_ROUTES.DASHBOARD, "dashboardLink");
     }
 });
 
@@ -87,34 +86,36 @@ const setActiveLink = (activeLink) => {
 
 window.loadPage = async (url, activeLink) => {
     try {
-        $('.spinner').removeClass('d-none');
-        $('#main-content').hide();
+        $(".spinner").removeClass("d-none");
+        $("#main-content").hide();
         const cachedPage = sessionStorage.getItem(url);
         if (cachedPage) {
             handleAjaxSuccess(cachedPage, activeLink, url);
         } else {
             const response = await $.ajax({
                 url,
-                type: 'GET',
+                type: "GET",
                 headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
             });
             await handleAjaxSuccess(response, activeLink, url);
         }
     } catch (error) {
-        console.log('Error: ', error);
+        console.log("Error: ", error);
     } finally {
-        $('.spinner').addClass('d-none');
-        $('#main-content').show();
+        $(".spinner").addClass("d-none");
+        $("#main-content").show();
     }
 };
 
 const handleAjaxSuccess = async (response, activeLink, url) => {
     try {
-        $('#main-content').html(response);
+        $("#main-content").html(response);
         setActiveLink(activeLink);
-         history.pushState(null, '', url);
+        history.pushState(null, "", url);
 
         const functions = await initializeStaffPageJs();
 
@@ -133,13 +134,12 @@ const handleAjaxSuccess = async (response, activeLink, url) => {
         //      await InitializeviewCooperatorProgress();
         //  }
 
-        sessionStorage.setItem('StafflastUrl', url);
-        sessionStorage.setItem('StafflastActive', activeLink);
+        sessionStorage.setItem("StafflastUrl", url);
+        sessionStorage.setItem("StafflastActive", activeLink);
     } catch (error) {
-        console.log('Error: ', error);
-
+        console.log("Error: ", error);
     }
-}
+};
 
 window.initializeStaffPageJs = async () => {
     const functions = {
@@ -654,9 +654,7 @@ window.initializeStaffPageJs = async () => {
                                 " " +
                                 project.suffix
                             }</p>
-                        <input type="hidden" class="gender" value="${
-                            project.gender
-                        }">
+                        <input type="hidden" class="sex" value="${project.sex}">
                         <input type="hidden" class="birth_date" value="${
                             project.birth_date
                         }">
@@ -1114,7 +1112,7 @@ window.initializeStaffPageJs = async () => {
                     const dateApplied = hiddenInputs
                         .filter(".dateApplied")
                         .val();
-                    const gender = hiddenInputs.filter(".gender").val();
+                    const sex = hiddenInputs.filter(".sex").val();
                     const landline = hiddenInputs.filter(".landline").val();
                     const mobilePhone = hiddenInputs
                         .filter(".mobile_phone")
@@ -1167,7 +1165,7 @@ window.initializeStaffPageJs = async () => {
                     offCanvaReadonlyInputs
                         .filter("#CooperatorName")
                         .val(cooperatorName);
-                    offCanvaReadonlyInputs.filter("#Gender").val(gender);
+                    offCanvaReadonlyInputs.filter("#sex").val(sex);
                     offCanvaReadonlyInputs.filter("#landline").val(landline);
                     offCanvaReadonlyInputs
                         .filter("#mobilePhone")
@@ -2085,13 +2083,11 @@ window.initializeStaffPageJs = async () => {
                         );
                         const netSales = grossSales - estimatedProductionCost;
 
-                        $productRow
-                            .find(".netSales_val")
-                            .val(
-                                netSales.toLocaleString("en-US", {
-                                    minimumFractionDigits: 2,
-                                })
-                            );
+                        $productRow.find(".netSales_val").val(
+                            netSales.toLocaleString("en-US", {
+                                minimumFractionDigits: 2,
+                            })
+                        );
 
                         calculateTotals();
                     }
@@ -3098,12 +3094,11 @@ window.initializeStaffPageJs = async () => {
                 }
             );
 
-           const addProjectBtn = $('#addProjectManualy')
+            const addProjectBtn = $("#addProjectManualy");
 
-           addProjectBtn.on('click', async () => {
-              await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink')
-
-           })
+            addProjectBtn.on("click", async () => {
+                await loadPage(NAV_ROUTES.ADD_PROJECT, "projectLink");
+            });
 
             $("#ApprovedtableBody").on(
                 "click",
@@ -3964,7 +3959,7 @@ window.initializeStaffPageJs = async () => {
         },
 
         AddProject: async () => {
-            const module = await import('./applicationPage');
+            const module = await import("./applicationPage");
             // If you know specific functions that need to be called
             if (module.initializeForm) {
                 module.initializeForm();
@@ -4191,13 +4186,21 @@ window.initializeStaffPageJs = async () => {
                         .trim();
 
                     const personnel = {
-                        male_direct_re: row.find('input[name="male_direct_re"]').val(),
-                        female_direct_re: row.find('input[name="female_direct_re"]').val(),
-                        male_direct_part: row.find('input[name="male_direct_part"]').val(),
+                        male_direct_re: row
+                            .find('input[name="male_direct_re"]')
+                            .val(),
+                        female_direct_re: row
+                            .find('input[name="female_direct_re"]')
+                            .val(),
+                        male_direct_part: row
+                            .find('input[name="male_direct_part"]')
+                            .val(),
                         female_direct_part: row
                             .find('input[name="female_direct_part"]')
                             .val(),
-                        male_indirect_re: row.find('input[name="male_indirect_re"]').val(),
+                        male_indirect_re: row
+                            .find('input[name="male_indirect_re"]')
+                            .val(),
                         female_indirect_re: row
                             .find('input[name="female_indirect_re"]')
                             .val(),
@@ -4207,10 +4210,12 @@ window.initializeStaffPageJs = async () => {
                         female_indirect_part: row
                             .find('input[name="female_indirect_part"]')
                             .val(),
-                        total_personnel: row.find('input[name="total_personnel"]').val(),
+                        total_personnel: row
+                            .find('input[name="total_personnel"]')
+                            .val(),
                     };
 
-                    console.log(personnel)
+                    console.log(personnel);
 
                     const ApplicantDetails = $(
                         "#applicantDetails .businessInfo"

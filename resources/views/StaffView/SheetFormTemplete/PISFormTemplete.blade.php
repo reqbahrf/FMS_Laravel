@@ -35,9 +35,9 @@
                                      value="{{ $projectData->f_name . ' ' . $projectData->mid_name . ' ' . $projectData->l_name . ' ' . $projectData->suffix }}">
                              </div>
                              <div class="col-12 col-md-3">
-                                 <label for="projectTitle">Gender</label>
-                                 <input type="text" class="form-control" name="gender" id="gender"
-                                     value="{{ $projectData->gender }}">
+                                 <label for="projectTitle">sex</label>
+                                 <input type="text" class="form-control" name="sex" id="sex"
+                                     value="{{ $projectData->sex }}">
                              </div>
                              <div class="col-12 col-md-3">
                                  <label for="projectTitle">Age</label>
@@ -52,8 +52,7 @@
                              </div>
                              <div class="col-12">
                                  <label for="businessAddress" class="form-label">Business Address</label>
-                                 <input type="text" class="form-control" name="businessAddress"
-                                     id="businessAddress"
+                                 <input type="text" class="form-control" name="businessAddress" id="businessAddress"
                                      value="{{ $projectData->landMark . ', ' . $projectData->barangay . ', ' . $projectData->city . ', ' . $projectData->province . ', ' . $projectData->region }}">
                              </div>
                              <div class="col-12">
@@ -91,8 +90,8 @@
                              <div class="col-12 mt-3">
                                  <div class="d-flex justify-content-start">
                                      <h6>Total Assets:</h6>
-                                     <input type="text" class="form-control form-control-sm w-25" id="totalAssests"
-                                         name="totalAssets" readonly>
+                                     <input type="text" class="form-control form-control-sm w-25"
+                                         id="totalAssests" name="totalAssets" readonly>
                                  </div>
                              </div>
                              <div class="col-12 col-md-3">
@@ -110,8 +109,7 @@
                              <div class="col-12 col-md-3">
                                  <div class="form-group">
                                      <label for="equipment" class="form-label">Equipment:</label>
-                                     <input type="text" class="form-control" id="equipment_val"
-                                         name="equipment">
+                                     <input type="text" class="form-control" id="equipment_val" name="equipment">
                                  </div>
                              </div>
                              <div class="col-12 col-md-3">
@@ -126,199 +124,143 @@
                  </div>
              </div>
              <div class="col-12">
-                <div class="card shadow-sm bg-body rounded">
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12 mb-3">
-                                <h5 class="fw-bold">Total Employment Generated</h5>
-                            </div>
-                            <div class="col-12 mb-4">
-                                <label class="fw-semibold me-2">Man Months:</label>
-                                <input 
-                                    type="text" 
-                                    class="bottom_border" 
-                                    id="TotalmanMonths" 
-                                    name="TotalmanMonths" 
-                                    style="width: 15%;" 
-                                    readonly>
-                            </div>
-                            <div class="col-12">
-                                <table class="table table-bordered align-middle">
-                                    <thead class="table-light">
-                                        <tr>
-                                            <th class="text-start" width="40%">Direct Employment:</th>
-                                            <th class="text-center" width="20%">Male</th>
-                                            <th class="text-center" width="20%">Female</th>
-                                            <th class="text-center" width="20%">Sub-total</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="totalEmploymentContainer">
-                                        <tr>
-                                            <td colspan="4" class="fw-bold">Company Hire:</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="ps-4">Regular:</td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control maleInput" 
-                                                    id="Regular_male" 
-                                                    name="Regular_male">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control femaleInput" 
-                                                    id="Regular_female" 
-                                                    name="Regular_female">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control thisRowSubtotal" 
-                                                    id="Regular_subtotal" 
-                                                    name="Regular_subtotal" 
-                                                    readonly>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="ps-4">Part-time:</td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control maleInput" 
-                                                    id="Parttime_male" 
-                                                    name="Parttime_male">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control femaleInput" 
-                                                    id="Parttime_female" 
-                                                    name="Parttime_female">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control thisRowSubtotal" 
-                                                    id="Parttime_subtotal" 
-                                                    name="Parttime_subtotal" 
-                                                    readonly>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" class="fw-bold">Sub-contractor Hire:</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="ps-4">Regular:</td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control maleInput" 
-                                                    id="Regu_Subcont_male" 
-                                                    name="Regu_Subcont_male">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control femaleInput" 
-                                                    id="Regu_Subcont_female" 
-                                                    name="Regu_Subcont_female">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control thisRowSubtotal" 
-                                                    id="Regu_Subcont_subtotal" 
-                                                    name="Regu_Subcont_subtotal" 
-                                                    readonly>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="ps-4">Part-time:</td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control maleInput" 
-                                                    id="Subcont_Parttime_male" 
-                                                    name="Subcont_Parttime_male">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control femaleInput" 
-                                                    id="Subcont_Parttime_female" 
-                                                    name="Subcont_Parttime_female">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control thisRowSubtotal" 
-                                                    id="Subcont_Parttime_subtotal" 
-                                                    name="Subcont_Parttime_subtotal" 
-                                                    readonly>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="4" class="fw-bold">Indirect Employment:</td>
-                                        </tr>
-                                        <tr>
-                                            <td class="ps-4">Regular:</td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control maleInput" 
-                                                    id="Indirect_Regular_male" 
-                                                    name="Indirect_Regular_male">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control femaleInput" 
-                                                    id="Indirect_Regular_female" 
-                                                    name="Indirect_Regular_female">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control thisRowSubtotal" 
-                                                    id="Indirect_Regular_subtotal" 
-                                                    name="Indirect_Regular_subtotal" 
-                                                    readonly>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td class="ps-4">Part-time:</td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control maleInput" 
-                                                    id="Indirect_Parttime_male" 
-                                                    name="Indirect_Parttime_male">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control femaleInput" 
-                                                    id="Indirect_Parttime_female" 
-                                                    name="Indirect_Parttime_female">
-                                            </td>
-                                            <td>
-                                                <input 
-                                                    type="text" 
-                                                    class="bottom_border form-control thisRowSubtotal" 
-                                                    id="Indirect_Parttime_subtotal" 
-                                                    name="Indirect_Parttime_subtotal" 
-                                                    readonly>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+                 <div class="card shadow-sm bg-body rounded">
+                     <div class="card-body">
+                         <div class="row">
+                             <div class="col-12 mb-3">
+                                 <h5 class="fw-bold">Total Employment Generated</h5>
+                             </div>
+                             <div class="col-12 mb-4">
+                                 <label class="fw-semibold me-2">Man Months:</label>
+                                 <input type="text" class="bottom_border" id="TotalmanMonths"
+                                     name="TotalmanMonths" style="width: 15%;" readonly>
+                             </div>
+                             <div class="col-12">
+                                 <table class="table table-bordered align-middle">
+                                     <thead class="table-light">
+                                         <tr>
+                                             <th class="text-start" width="40%">Direct Employment:</th>
+                                             <th class="text-center" width="20%">Male</th>
+                                             <th class="text-center" width="20%">Female</th>
+                                             <th class="text-center" width="20%">Sub-total</th>
+                                         </tr>
+                                     </thead>
+                                     <tbody id="totalEmploymentContainer">
+                                         <tr>
+                                             <td colspan="4" class="fw-bold">Company Hire:</td>
+                                         </tr>
+                                         <tr>
+                                             <td class="ps-4">Regular:</td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control maleInput"
+                                                     id="Regular_male" name="Regular_male">
+                                             </td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control femaleInput"
+                                                     id="Regular_female" name="Regular_female">
+                                             </td>
+                                             <td>
+                                                 <input type="text"
+                                                     class="bottom_border form-control thisRowSubtotal"
+                                                     id="Regular_subtotal" name="Regular_subtotal" readonly>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td class="ps-4">Part-time:</td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control maleInput"
+                                                     id="Parttime_male" name="Parttime_male">
+                                             </td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control femaleInput"
+                                                     id="Parttime_female" name="Parttime_female">
+                                             </td>
+                                             <td>
+                                                 <input type="text"
+                                                     class="bottom_border form-control thisRowSubtotal"
+                                                     id="Parttime_subtotal" name="Parttime_subtotal" readonly>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td colspan="4" class="fw-bold">Sub-contractor Hire:</td>
+                                         </tr>
+                                         <tr>
+                                             <td class="ps-4">Regular:</td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control maleInput"
+                                                     id="Regu_Subcont_male" name="Regu_Subcont_male">
+                                             </td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control femaleInput"
+                                                     id="Regu_Subcont_female" name="Regu_Subcont_female">
+                                             </td>
+                                             <td>
+                                                 <input type="text"
+                                                     class="bottom_border form-control thisRowSubtotal"
+                                                     id="Regu_Subcont_subtotal" name="Regu_Subcont_subtotal" readonly>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td class="ps-4">Part-time:</td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control maleInput"
+                                                     id="Subcont_Parttime_male" name="Subcont_Parttime_male">
+                                             </td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control femaleInput"
+                                                     id="Subcont_Parttime_female" name="Subcont_Parttime_female">
+                                             </td>
+                                             <td>
+                                                 <input type="text"
+                                                     class="bottom_border form-control thisRowSubtotal"
+                                                     id="Subcont_Parttime_subtotal" name="Subcont_Parttime_subtotal"
+                                                     readonly>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td colspan="4" class="fw-bold">Indirect Employment:</td>
+                                         </tr>
+                                         <tr>
+                                             <td class="ps-4">Regular:</td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control maleInput"
+                                                     id="Indirect_Regular_male" name="Indirect_Regular_male">
+                                             </td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control femaleInput"
+                                                     id="Indirect_Regular_female" name="Indirect_Regular_female">
+                                             </td>
+                                             <td>
+                                                 <input type="text"
+                                                     class="bottom_border form-control thisRowSubtotal"
+                                                     id="Indirect_Regular_subtotal" name="Indirect_Regular_subtotal"
+                                                     readonly>
+                                             </td>
+                                         </tr>
+                                         <tr>
+                                             <td class="ps-4">Part-time:</td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control maleInput"
+                                                     id="Indirect_Parttime_male" name="Indirect_Parttime_male">
+                                             </td>
+                                             <td>
+                                                 <input type="text" class="bottom_border form-control femaleInput"
+                                                     id="Indirect_Parttime_female" name="Indirect_Parttime_female">
+                                             </td>
+                                             <td>
+                                                 <input type="text"
+                                                     class="bottom_border form-control thisRowSubtotal"
+                                                     id="Indirect_Parttime_subtotal" name="Indirect_Parttime_subtotal"
+                                                     readonly>
+                                             </td>
+                                         </tr>
+                                     </tbody>
+                                 </table>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
              </div>
              <div class="col-12">
                  <div class="card shadow-sm bg-body rounded">
@@ -373,10 +315,10 @@
          </form>
          <div class="col-12 mt-3">
              <div class="card shadow-sm bg-body rounded">
-                <div class="card-body">
-                    <h6>
-                        Assistance obtained from DOST (please check)
-                    </h6>
+                 <div class="card-body">
+                     <h6>
+                         Assistance obtained from DOST (please check)
+                     </h6>
                      <form id="PIS_checklistsForm">
                          <div class="row">
                              <div class="col-12 ps-1">

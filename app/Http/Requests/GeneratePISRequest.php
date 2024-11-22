@@ -25,7 +25,7 @@ class GeneratePISRequest extends FormRequest
             'projectTitle' => 'required|string|max:64',
             'firmName' => 'required|string|max:30',
             'name' => 'required|string|max:30',
-            'gender' => 'required|string|max:10',
+            'sex' => 'required|string|max:10',
             'age' => 'required|integer',
             'typeOfOrganization' => 'required|string|in:Sole Proprietorship,Partnership,Corporation',
             'businessAddress' => 'required|string',

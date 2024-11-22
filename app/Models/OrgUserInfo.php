@@ -31,7 +31,7 @@ class OrgUserInfo extends Model
         'mid_name',
         'l_name',
         'suffix',
-        'gender',
+        'sex',
         'birthdate',
         'access_to',
     ];

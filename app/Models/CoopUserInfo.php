@@ -21,7 +21,7 @@ class CoopUserInfo extends Model
         'mid_name',
         'l_name',
         'suffix',
-        'gender',
+        'sex',
         'birth_date',
         'designation',
         'mobile_number',

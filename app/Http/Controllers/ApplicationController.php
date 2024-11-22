@@ -35,7 +35,7 @@ class ApplicationController extends Controller
             $mid_name = $validatedInputs['middle_name'];
             $l_name = $validatedInputs['l_name'];
             $name_suffix = $validatedInputs['suffix'];
-            $gender = $validatedInputs['gender'];
+            $sex = $validatedInputs['sex'];
             $b_date = $validatedInputs['b_date'];
             $designation = $validatedInputs['designation'];
             $country_mobile_code = $validatedInputs['country_code'];
@@ -49,7 +49,7 @@ class ApplicationController extends Controller
                 'mid_name' => $mid_name,
                 'l_name' => $l_name,
                 'suffix' => $name_suffix,
-                'gender' => $gender,
+                'sex' => $sex,
                 'birth_date' => $b_date,
                 'designation' => $designation,
                 'mobile_number' => $full_mobile_number,

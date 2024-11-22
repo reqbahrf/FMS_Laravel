@@ -29,7 +29,7 @@
         <form action="{{ route('applicationFormSubmit') }}" id="applicationForm" method="post" class="g-3 p-5"
             enctype="multipart/form-data" novalidate>
             @csrf
-            <div class="tab-content h-auto" style="height: auto;" >
+            <div class="tab-content h-auto" style="height: auto;">
                 <div class="alert alert-primary m-0" role="alert">
                     <i class="ri-information-2-fill ri-lg"></i>
                     Please fill out all the <span class="requiredFields">*</span> required fields
@@ -43,10 +43,10 @@
                                 <div class="col-12 col-md-6">
                                     <label for="email">Email: <span class="requiredFields">*</span></label>
                                     <input type="email" name="email" id="email" class="form-control"
-                                    value="" required
-                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                    title="Please enter a valid email address">
-                                    <div class="form-text text-muted">To ensure successful delivery of login credentials, please enter a valid email address for the registered user.</div>
+                                        value="" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                        title="Please enter a valid email address">
+                                    <div class="form-text text-muted">To ensure successful delivery of login
+                                        credentials, please enter a valid email address for the registered user.</div>
                                     <div class="invalid-feedback">Please enter a valid email address.</div>
                                 </div>
                             @endif
@@ -78,8 +78,8 @@
                         </div>
                         <div class="col-12 col-md-2">
                             <label for="middle_name">Middle Name: <span class="requiredFields">*</span></label>
-                            <input type="text" name="middle_name" id="middle_name"
-                                value="{{ old('middle_name') }}" class="form-control" placeholder="Doe" required>
+                            <input type="text" name="middle_name" id="middle_name" value="{{ old('middle_name') }}"
+                                class="form-control" placeholder="Doe" required>
                             <div class="invalid-feedback">
                                 Please enter your middle name.
                             </div>
@@ -110,14 +110,14 @@
                         <div class="col-12 col-md-4">
                             <div class="row">
                                 <div class="col-12 me-auto">
-                                    <label for="gender">Gender: <span class="requiredFields">*</span></label>
-                                    <select name="gender" id="gender" class="form-select" required>
-                                        <option value="">Select Gender</option>
+                                    <label for="sex">sex: <span class="requiredFields">*</span></label>
+                                    <select name="sex" id="sex" class="form-select" required>
+                                        <option value="">Select sex</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                     </select>
                                     <div class="invalid-feedback">
-                                        Please select your gender.
+                                        Please select your sex.
                                     </div>
                                 </div>
                             </div>
@@ -144,9 +144,8 @@
                                     <label for="b_date">Birth Date: <span class="requiredFields">
                                             *</span></label>
 
-                                    <input type="date" name="b_date" id="b_date"
-                                        value="{{ old('b_date') }}" class="form-control"
-                                        placeholder="DD/MM/YYYY" required>
+                                    <input type="date" name="b_date" id="b_date" value="{{ old('b_date') }}"
+                                        class="form-control" placeholder="DD/MM/YYYY" required>
                                     <div class="invalid-feedback">
                                         Please enter your Birth Date.
                                     </div>
@@ -159,9 +158,11 @@
                             <h5>Contact Info:</h5>
                             <div class="row">
                                 <div class="col-12 col-md-6">
-                                    <label for="Mobile_no">Mobile Number: <span class="requiredFields">*</span></label>
+                                    <label for="Mobile_no">Mobile Number: <span
+                                            class="requiredFields">*</span></label>
                                     <div class="input-group">
-                                        <select class="form-select" style="max-width: 11.25rem;" name="country_code" id="country_code" required>
+                                        <select class="form-select" style="max-width: 11.25rem;" name="country_code"
+                                            id="country_code" required>
                                             <option value="+93">Afghanistan (+93)</option>
                                             <option value="+355">Albania (+355)</option>
                                             <option value="+213">Algeria (+213)</option>
@@ -360,10 +361,10 @@
                                             <option value="+263">Zimbabwe (+263)</option>
                                         </select>
                                         <input type="tel" name="Mobile_no" value="{{ old('Mobile_no') }}"
-                                        id="Mobile_no" class="form-control" placeholder="965-453-5432"
-                                        pattern="\d{3}-\d{3}-\d{4}"
-                                        title="Please enter a valid mobile number in the format XXX-XXX-XXXX"
-                                        required>
+                                            id="Mobile_no" class="form-control" placeholder="965-453-5432"
+                                            pattern="\d{3}-\d{3}-\d{4}"
+                                            title="Please enter a valid mobile number in the format XXX-XXX-XXXX"
+                                            required>
                                     </div>
                                     <div class="invalid-feedback">
                                         Please enter a valid mobile number.
@@ -390,9 +391,8 @@
                         <div class="col-12 col-md-8">
                             <label for="firm_name">Name of Firm: <span class="requiredFields">
                                     *</span></label>
-                            <input type="text" name="firm_name" id="firm_name"
-                                value="{{ old('firm_name') }}" class="form-control" placeholder="ABC Company"
-                                required>
+                            <input type="text" name="firm_name" id="firm_name" value="{{ old('firm_name') }}"
+                                class="form-control" placeholder="ABC Company" required>
                             <div class="invalid-feedback">
                                 Please enter the name of the firm.
                             </div>
@@ -431,8 +431,7 @@
                                         <div class="invalid-feedback">Please select a region</div>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <label for="province">Province:<span
-                                                class="requiredFields">*</span></label>
+                                        <label for="province">Province:<span class="requiredFields">*</span></label>
                                         <select id="province" class="form-select" name="province"
                                             onchange="updateCities()" required disabled>
                                             <option value="">Select Province</option>
@@ -448,10 +447,8 @@
                                         <div class="invalid-feedback">Please select a City</div>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <label for="barangay">Barangay:<span
-                                                class="requiredFields">*</span></label>
-                                        <select id="barangay" class="form-select" name="barangay" required
-                                            disabled>
+                                        <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
+                                        <select id="barangay" class="form-select" name="barangay" required disabled>
                                             <option value="">Select Barangay</option>
                                         </select>
                                         <div class="invalid-feedback">Please select a Barangey</div>
@@ -493,9 +490,9 @@
                                             <span class="input-group-text">
                                                 ₱
                                             </span>
-                                            <input type="text" name="buildings"
-                                                value="{{ old('buildings') }}" id="buildings"
-                                                class="form-control" placeholder="500,000.00" required>
+                                            <input type="text" name="buildings" value="{{ old('buildings') }}"
+                                                id="buildings" class="form-control" placeholder="500,000.00"
+                                                required>
                                         </div>
                                         <div class="invalid-feedback">
                                             Please enter the value of buildings.
@@ -508,17 +505,16 @@
                                             <span class="input-group-text">
                                                 ₱
                                             </span>
-                                            <input type="text" name="equipments"
-                                                value="{{ old('equipments') }}" id="equipments"
-                                                class="form-control" placeholder="500,000.00" required>
+                                            <input type="text" name="equipments" value="{{ old('equipments') }}"
+                                                id="equipments" class="form-control" placeholder="500,000.00"
+                                                required>
                                         </div>
                                         <div class="invalid-feedback">
                                             Please enter the value of equipments.
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="working_capital">Working Capital: <span
-                                                class="requiredFields">
+                                        <label for="working_capital">Working Capital: <span class="requiredFields">
                                                 *</span></label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -557,8 +553,8 @@
                                         <div class="row g-3">
                                             <div class="col-12 col-md-8">
                                                 <div class="alert alert-primary" role="alert">
-                                                    <h5 class="alert-heading"> <i
-                                                            class="ri-information-2-fill"></i> Direct Personnel
+                                                    <h5 class="alert-heading"> <i class="ri-information-2-fill"></i>
+                                                        Direct Personnel
                                                     </h5>
                                                     <p>Direct personnel are those who are actively involved in the
                                                         production process of the products, an example are
@@ -582,8 +578,10 @@
                                                                     </label>
                                                                     <input type="text" name="m_personnelDiRe"
                                                                         value="{{ old('m_personnelDiRe') }}"
-                                                                        id="m_personnelDiRe" class="form-control num_only"
-                                                                        placeholder="No. Male Regular" pattern="[0-9]">
+                                                                        id="m_personnelDiRe"
+                                                                        class="form-control num_only"
+                                                                        placeholder="No. Male Regular"
+                                                                        pattern="[0-9]">
 
                                                                 </div>
                                                                 <div class="col-12">
@@ -591,8 +589,10 @@
                                                                     </label>
                                                                     <input type="text" name="f_personnelDiRe"
                                                                         value="{{ old('f_personnelDiRe') }}"
-                                                                        id="f_personnelDiRe" class="form-control num_only"
-                                                                        placeholder="No. Female Regular" pattern="[0-9]">
+                                                                        id="f_personnelDiRe"
+                                                                        class="form-control num_only"
+                                                                        placeholder="No. Female Regular"
+                                                                        pattern="[0-9]">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -610,7 +610,8 @@
                                                                         value="{{ old('m_personnelDiPart') }}"
                                                                         id="m_personnelDiPart"
                                                                         class="form-control num_only"
-                                                                        placeholder="No. Male Part-time" pattern="[0-9]">
+                                                                        placeholder="No. Male Part-time"
+                                                                        pattern="[0-9]">
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="f_personnelDiPart">Female:
@@ -619,7 +620,8 @@
                                                                         value="{{ old('f_personnelDiPart') }}"
                                                                         id="f_personnelDiPart"
                                                                         class="form-control num_only"
-                                                                        placeholder="No. Female Part-time" pattern="[0-9]">
+                                                                        placeholder="No. Female Part-time"
+                                                                        pattern="[0-9]">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -639,8 +641,8 @@
                                         <div class="row g-3">
                                             <div class="col-12 col-md-8">
                                                 <div class="alert alert-primary" role="alert">
-                                                    <h5 class="alert-heading"> <i
-                                                            class="ri-information-2-fill"></i> Indirect Personnel
+                                                    <h5 class="alert-heading"> <i class="ri-information-2-fill"></i>
+                                                        Indirect Personnel
                                                     </h5>
                                                     <p>Indirect personnel are those who are not actively involved in
                                                         the production process of the products, such as
@@ -663,8 +665,10 @@
                                                                     </label>
                                                                     <input type="text" name="m_personnelIndRe"
                                                                         value="{{ old('m_personnelIndRe') }}"
-                                                                        id="m_personnelIndRe" class="form-control num_only"
-                                                                        placeholder="No. Male Regular" pattern="[0-9]">
+                                                                        id="m_personnelIndRe"
+                                                                        class="form-control num_only"
+                                                                        placeholder="No. Male Regular"
+                                                                        pattern="[0-9]">
 
                                                                 </div>
                                                                 <div class="col-12">
@@ -672,8 +676,10 @@
                                                                     </label>
                                                                     <input type="text" name="f_personnelIndRe"
                                                                         value="{{ old('f_personnelIndRe') }}"
-                                                                        id="f_personnelIndRe" class="form-control num_only"
-                                                                        placeholder="No. Female Regular" pattern="[0-9]">
+                                                                        id="f_personnelIndRe"
+                                                                        class="form-control num_only"
+                                                                        placeholder="No. Female Regular"
+                                                                        pattern="[0-9]">
 
                                                                 </div>
                                                             </div>
@@ -688,23 +694,23 @@
                                                                 <div class="col-12">
                                                                     <label for="">Male:
                                                                     </label>
-                                                                    <input type="text"
-                                                                        name="m_personnelIndPart"
+                                                                    <input type="text" name="m_personnelIndPart"
                                                                         value="{{ old('m_personnelIndPart') }}"
                                                                         id="m_personnelIndPart"
                                                                         class="form-control num_only"
-                                                                        placeholder="No. Male Part-time" pattern="[0-9]">
+                                                                        placeholder="No. Male Part-time"
+                                                                        pattern="[0-9]">
 
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="">Female:
                                                                     </label>
-                                                                    <input type="text"
-                                                                        name="f_personnelIndPart"
+                                                                    <input type="text" name="f_personnelIndPart"
                                                                         value="{{ old('f_personnelIndPart') }}"
                                                                         id="f_personnelIndPart"
                                                                         class="form-control num_only"
-                                                                        placeholder="Number of Female Part-time" pattern="[0-9]">
+                                                                        placeholder="Number of Female Part-time"
+                                                                        pattern="[0-9]">
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -764,10 +770,10 @@
                     <h3>Upload the Following Requirements:</h3>
                     <div class="row mb-12 p-5">
                         <div class="mb-3">
-                            <label for="IntentFile" class="form-label">Letter of Intent:<span
-                                    class="requiredFields">
+                            <label for="IntentFile" class="form-label">Letter of Intent:<span class="requiredFields">
                                     *</span></label>
-                            <input class="fileUploads" type="file" name="IntentFile" id="IntentFile" accept="application/pdf">
+                            <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
+                                accept="application/pdf">
                             <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
                             <div class="invalid-feedback">
                                 Please upload the Letter of Intent.
@@ -798,7 +804,8 @@
                                         id="DtiSecCdafile">
                                 </div>
                             </div>
-                            <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf. Maximum file size: 10MB
+                            <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf.
+                                Maximum file size: 10MB
                             </div>
                             <div class="invalid-feedback">
                                 Please upload the DTI/SEC/CDA document.
@@ -837,37 +844,38 @@
                                     <input class="fileUploads" type="file" name="fdaLtoFile" id="fdaLtoFile">
                                 </div>
                             </div>
-                            <div class="form-text">Choose 1 out of 2 documents above. the accepted formats: .pdf Maximum file size: 10MB
+                            <div class="form-text">Choose 1 out of 2 documents above. the accepted formats: .pdf
+                                Maximum file size: 10MB
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
                                     class="requiredFields"> *</span></label>
-                                    <input class="fileUploads" type="file" name="receiptFile" id="receiptFile">
-                                    <div class="form-text">Accepted formats: .pdf.</div>
+                            <input class="fileUploads" type="file" name="receiptFile" id="receiptFile">
+                            <div class="form-text">Accepted formats: .pdf.</div>
                             <div class="invalid-feedback">
                                 Please upload the Official Receipt of the Business.
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="govIdFile" class="form-label">Government Valid ID:
-                                 <span
-                                    class="requiredFields"> *</span>
+                                <span class="requiredFields"> *</span>
                             </label>
-                              <div class="row">
-                                    <div class="col-2 d-flex align-items-center justify-content-center">
-                                        <Select id="GovIdSelector" class="form-select form-select-lg" name="GovIdSelector">
-                                            <option value="">Choose...</option>
-                                            <option value="National ID">National ID</option>
-                                            <option value="SSS ID">SSS UMID</option>
-                                            <option value="GSIS ID">GSIS UMID</option>
-                                            <option value="Passport ID">Philippine Passport</option>
-                                        </Select>
-                                    </div>
-                                    <div class="col-10">
-                                        <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
-                                        <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size: 10MB</div>
-                                    </div>
+                            <div class="row">
+                                <div class="col-2 d-flex align-items-center justify-content-center">
+                                    <Select id="GovIdSelector" class="form-select form-select-lg"
+                                        name="GovIdSelector">
+                                        <option value="">Choose...</option>
+                                        <option value="National ID">National ID</option>
+                                        <option value="SSS ID">SSS UMID</option>
+                                        <option value="GSIS ID">GSIS UMID</option>
+                                        <option value="Passport ID">Philippine Passport</option>
+                                    </Select>
+                                </div>
+                                <div class="col-10">
+                                    <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
+                                    <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size: 10MB</div>
+                                </div>
                             </div>
                             <div class="invalid-feedback">
                                 Please upload the Copy of Government Valid ID.
@@ -894,16 +902,13 @@
                             Please, before you proceed to the next step, make sure you have double-checked all the
                             uploaded files.
                         </div>
-                        <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path"
-                            value="">
+                        <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path" value="">
                         <input type="hidden" name="DTI_SEC_CDA_unique_id_path" id="DtiSecCdaFileID_path"
                             value="">
                         <input type="hidden" name="BusinessPermit_unique_id_path" id="businessPermitFileID_path"
                             value="">
-                        <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path"
-                            value="">
-                        <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path"
-                            value="">
+                        <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path" value="">
+                        <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path" value="">
                         <input type="hidden" name="govId_unique_id_path" id="govIdFileID_path" value="">
                         <input type="hidden" name="BIR_unique_id_path" id="BIRFileID_path" value="">
                     </div>
@@ -999,8 +1004,7 @@
                                                             </div>
                                                             <div class="row text-center">
                                                                 <div class="col-12 col-md-6">
-                                                                    <p>Total Assets: <span
-                                                                            id="re_to_Assets"></span>
+                                                                    <p>Total Assets: <span id="re_to_Assets"></span>
                                                                     </p>
                                                                 </div>
                                                                 <div class="col-12 col-md-6">

@@ -1,14 +1,14 @@
-
 <nav>
     <div class="nav nav-tabs" id="nav-tab" role="tablist">
         <button class="nav-link active" id="nav-details-tab" data-bs-toggle="tab" data-bs-target="#nav-details"
             type="button" role="tab" aria-controls="nav-details" aria-selected="true">Project
             Details
         </button>
-        <button class="nav-link" id="nav-link-tab" data-bs-toggle="tab" data-bs-target="#nav-link"
-            type="button" role="tab" aria-controls="nav-link" aria-selected="false">File Requirements
+        <button class="nav-link" id="nav-link-tab" data-bs-toggle="tab" data-bs-target="#nav-link" type="button"
+            role="tab" aria-controls="nav-link" aria-selected="false">File Requirements
         </button>
-        <button class="nav-link" id="nav-Quarterly-tab" data-bs-toggle="tab" data-bs-target="#nav-Quarterly" type="button" role="tab" aria-controls="nav-Quarterly" aria-selected="false">Quarterly Report
+        <button class="nav-link" id="nav-Quarterly-tab" data-bs-toggle="tab" data-bs-target="#nav-Quarterly"
+            type="button" role="tab" aria-controls="nav-Quarterly" aria-selected="false">Quarterly Report
         </button>
         <button class="nav-link" id="nav-GeneratedSheets-tab" data-bs-toggle="tab" data-bs-target="#nav-Sheets"
             type="button" role="tab" aria-controls="nav-sheets" aria-selected="false">Generated
@@ -66,8 +66,10 @@
                             <div class="col-12">
                                 <label for="projectLedgerLink">Project Ledger Link:</label>
                                 <div class="input-group">
-                                    <input type="text" class="form-control" id="projectLedgerLink" aria-label="Project Ledger Link">
-                                    <button class="btn btn-outline-secondary" type="button" id="saveProjectLedgerLink">Save</button>
+                                    <input type="text" class="form-control" id="projectLedgerLink"
+                                        aria-label="Project Ledger Link">
+                                    <button class="btn btn-outline-secondary" type="button"
+                                        id="saveProjectLedgerLink">Save</button>
                                 </div>
                             </div>
                         </div>
@@ -90,8 +92,8 @@
                                 <input type="text" class="form-control" id="CooperatorName" readonly>
                             </div>
                             <div class="col-2">
-                                <label for="Gender">Gender:</label">
-                                    <input type="text" class="form-control" id="Gender" readonly>
+                                <label for="sex">sex:</label">
+                                    <input type="text" class="form-control" id="sex" readonly>
                             </div>
                             <div class="col-2">
                                 <label for="age">Age:</label">
@@ -141,8 +143,7 @@
                                 <label for="workingCapitalAsset">Working Capital:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text" class="form-control" id="workingCapitalAsset"
-                                        readonly>
+                                    <input type="text" class="form-control" id="workingCapitalAsset" readonly>
                                 </div>
                             </div>
                         </div>
@@ -155,16 +156,15 @@
                         <h5 class="text-white p-0">Payment History</h5>
                     </div>
                     <div class="ms-auto">
-                        <button class="btn btn-primary btn-sm m-3"
-                            data-bs-toggle="modal"
-                            data-bs-target="#paymentModal"
-                            data-action="Add">
+                        <button class="btn btn-primary btn-sm m-3" data-bs-toggle="modal"
+                            data-bs-target="#paymentModal" data-action="Add">
                             <i class="ri-sticky-note-add-fill"></i></button>
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12" id="paymentHistoryContainer">
-                                <table class="table table-hover table-sm" id="paymentHistoryTable" style="width:100%">
+                                <table class="table table-hover table-sm" id="paymentHistoryTable"
+                                    style="width:100%">
 
                                 </table>
                             </div>
@@ -180,7 +180,8 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12">
-                                <table class="table table-hover table-sm" id="uploadedReceiptTable" style="width:100%">
+                                <table class="table table-hover table-sm" id="uploadedReceiptTable"
+                                    style="width:100%">
                                     <tbody id="uploadedReceiptTableBody">
                                     </tbody>
                                 </table>
@@ -191,8 +192,7 @@
             </div>
         </div>
     </div>
-    <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab"
-        tabindex="0">
+    <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab" tabindex="0">
         <div class="card">
             <div class="card-body">
 
@@ -257,24 +257,25 @@
                             <div class="row gy-3">
                                 <div class="col-12">
                                     <label for="quarter">Quarter and Period:</label>
-                                        <div class="input-group">
-                                            <select name="quarter" class="form-select" id="quarter">
-                                                <option value="Q1">Q1</option>
-                                                <option value="Q2">Q2</option>
-                                                <option value="Q3">Q3</option>
-                                                <option value="Q4">Q4</option>
-                                            </select>
-                                            <select name="year" class="form-select"  id="year">
-                                                <option value="2024">2024</option>
-                                                <option value="2025">2025</option>
-                                                <option value="2026">2026</option>
-                                                <option value="2027">2027</option>
-                                            </select>
-                                        </div>
+                                    <div class="input-group">
+                                        <select name="quarter" class="form-select" id="quarter">
+                                            <option value="Q1">Q1</option>
+                                            <option value="Q2">Q2</option>
+                                            <option value="Q3">Q3</option>
+                                            <option value="Q4">Q4</option>
+                                        </select>
+                                        <select name="year" class="form-select" id="year">
+                                            <option value="2024">2024</option>
+                                            <option value="2025">2025</option>
+                                            <option value="2026">2026</option>
+                                            <option value="2027">2027</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-12">
-                                        <label for="days_open">Number of days to keep report open (optional):</label>
-                                        <input type="text" name="days_open" id="days_open" class="form-control" placeholder="Enter number of days">
+                                    <label for="days_open">Number of days to keep report open (optional):</label>
+                                    <input type="text" name="days_open" id="days_open" class="form-control"
+                                        placeholder="Enter number of days">
                                 </div>
                             </div>
                             <div class="d-flex justify-content-end mt-3">
@@ -294,28 +295,30 @@
                         <li class="breadcrumb-item active" aria-current="page">Select Document</li>
                     </ol>
                 </nav>
-                    <div class="row gy-3">
-                        <div class="col-12 text-center">
-                            <h4>Please Select a Document to Generate</h4>
-                        </div>
-                        <div class="col-12 text-center">
-                            <button class="btn btn-primary text-center" data-form-type="PIS" id="PISbtn">Project Information Sheets
+                <div class="row gy-3">
+                    <div class="col-12 text-center">
+                        <h4>Please Select a Document to Generate</h4>
+                    </div>
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary text-center" data-form-type="PIS" id="PISbtn">Project
+                            Information Sheets
+                        </button>
+                    </div>
+                    <div class="col-12 text-center">
+                        <div class="input-group mx-auto w-25">
+                            <Select class="form-select" id="Select_quarter_to_Generate">
+                            </Select>
+                            <button class="btn btn-primary text-center " data-form-type="PDS" id="PSbtn">Project
+                                Data Sheet
                             </button>
                         </div>
-                        <div class="col-12 text-center">
-                            <div class="input-group mx-auto w-25">
-                                <Select class="form-select" id="Select_quarter_to_Generate">
-                                </Select>
-                                <button class="btn btn-primary text-center " data-form-type="PDS" id="PSbtn">Project Data Sheet
-                                </button>
-                            </div>
-                        </div>
-                        <div class="col-12 text-center">
-                                <button class="btn btn-primary text-center " data-form-type="SR" id="SRbtn">Status Report Sheet</button>
-                        </div>
                     </div>
+                    <div class="col-12 text-center">
+                        <button class="btn btn-primary text-center " data-form-type="SR" id="SRbtn">Status Report
+                            Sheet</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
