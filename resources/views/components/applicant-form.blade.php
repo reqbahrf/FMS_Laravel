@@ -628,7 +628,7 @@
                                                                         value="{{ old('f_personnelDiPart') }}"
                                                                         id="f_personnelDiPart"
                                                                         class="form-control num_only"
-                                                                        placeholder="No. Female Part-time"
+                                                                        placeholder="Number of Female Part-time"
                                                                         pattern="[0-9]">
                                                                 </div>
                                                             </div>
@@ -778,24 +778,20 @@
                     <h3>Upload the Following Requirements:</h3>
                     <div class="row mb-12 p-5">
                         <div class="mb-3">
-                            <label for="IntentFile" class="form-label">Letter of Intent:<span class="requiredFields">
-                                    *</span></label>
+                            <label for="IntentFile" class="form-label">Letter of Intent:
+                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                            </label>
                             <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
-                                accept="application/pdf">
+                                accept="application/pdf" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
+                                <div class="invalid-feedback">
+                                    Please upload the Letter of Intent.
+                                </div>
                             <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
-                            <div class="invalid-feedback">
-                                Please upload the Letter of Intent.
-                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="DtiSecCdafile" class="form-label">DTI/SEC/CDA
                                 <span class="form-text">(Certificate of Registration):</span>
-                                <span class="requiredFields">
-                                    *</span>
-                                <span class="form-text text-secondary fw-lighter">Department of Trade
-                                    and Industry(DTI), Securit and Exchange Commission(SEC), and Cooperative
-                                    Development Authority(CDA) Registrations
-                                </span>
+                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
                             <div class="row">
                                 <div class="col-2 d-flex align-items-center justify-content-center">
@@ -809,25 +805,26 @@
                                 </div>
                                 <div class="col-10" id="DtiSecCdaContainer">
                                     <input class="fileUploads" type="file" name="DTI_SEC_CDA_File"
-                                        id="DtiSecCdafile">
+                                        id="DtiSecCdafile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
+                                        <div class="invalid-feedback">
+                                            Please upload the DTI/SEC/CDA document.
+                                        </div>
                                 </div>
                             </div>
                             <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf.
                                 Maximum file size: 10MB
                             </div>
-                            <div class="invalid-feedback">
-                                Please upload the DTI/SEC/CDA document.
-                            </div>
                         </div>
                         <div class="mb-3">
-                            <label for="businessPermitFile" class="form-label">Business Permit: <span
-                                    class="requiredFields"> *</span></label>
+                            <label for="businessPermitFile" class="form-label">Business Permit: 
+                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                            </label>
                             <input class="fileUploads" type="file" name="businessPermitFile"
-                                id="businessPermitFile">
+                                id="businessPermitFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
+                                <div class="invalid-feedback">
+                                    Please upload the Business Permit.
+                                </div>
                             <div class="form-text">Accepted formats: .pdf.</div>
-                            <div class="invalid-feedback">
-                                Please upload the Business Permit.
-                            </div>
                         </div>
                         <div class="mb-3">
                             <label for="fdaLtoFile" class="form-label">FDA/LTO
@@ -857,17 +854,18 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="receiptFile" class="form-label">Official Receipt of the Business: <span
-                                    class="requiredFields"> *</span></label>
-                            <input class="fileUploads" type="file" name="receiptFile" id="receiptFile">
-                            <div class="form-text">Accepted formats: .pdf.</div>
+                            <label for="receiptFile" class="form-label">Official Receipt of the Business: 
+                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                            </label>
+                            <input class="fileUploads" type="file" name="receiptFile" id="receiptFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
                             <div class="invalid-feedback">
                                 Please upload the Official Receipt of the Business.
                             </div>
+                            <div class="form-text">Accepted formats: .pdf.</div>
                         </div>
                         <div class="mb-3">
                             <label for="govIdFile" class="form-label">Government Valid ID:
-                                <span class="requiredFields"> *</span>
+                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
                             <div class="row">
                                 <div class="col-2 d-flex align-items-center justify-content-center">
@@ -881,25 +879,23 @@
                                     </Select>
                                 </div>
                                 <div class="col-10">
-                                    <input class="fileUploads" type="file" name="govIdFile" id="govIdFile">
+                                    <input class="fileUploads" type="file" name="govIdFile" id="govIdFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
+                                    <div class="invalid-feedback">
+                                        Please upload the Copy of Government Valid ID.
+                                    </div>
                                     <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size: 10MB</div>
                                 </div>
-                            </div>
-                            <div class="invalid-feedback">
-                                Please upload the Copy of Government Valid ID.
                             </div>
                         </div>
                         <div class="mb-3">
                             <label for="BIRFile" class="form-label">BIR
                                 <span class="form-text">(Certificate of Registration):</span>
-                                <span class="requiredFields">
-                                    *
-                                </span>
+                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                                 <span class="form-text text-secondary fw-lighter">
                                     Bureau of Internal Revenue(BIR) Certificate of Registration
                                 </span>
                             </label>
-                            <input class="fileUploads" type="file" name="BIRFile" id="BIRFile">
+                            <input class="fileUploads" type="file" name="BIRFile" id="BIRFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
                             <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
                             <div class="invalid-feedback">
                                 Please upload the BIR.
@@ -910,15 +906,15 @@
                             Please, before you proceed to the next step, make sure you have double-checked all the
                             uploaded files.
                         </div>
-                        <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path" value="">
+                        <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path" >
                         <input type="hidden" name="DTI_SEC_CDA_unique_id_path" id="DtiSecCdaFileID_path"
-                            value="">
+                            >
                         <input type="hidden" name="BusinessPermit_unique_id_path" id="businessPermitFileID_path"
-                            value="">
-                        <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path" value="">
-                        <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path" value="">
-                        <input type="hidden" name="govId_unique_id_path" id="govIdFileID_path" value="">
-                        <input type="hidden" name="BIR_unique_id_path" id="BIRFileID_path" value="">
+                            >
+                        <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path" >
+                        <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path" >
+                        <input type="hidden" name="govId_unique_id_path" id="govIdFileID_path" >
+                        <input type="hidden" name="BIR_unique_id_path" id="BIRFileID_path" >
                     </div>
                 </div>
                 <div id="step-4" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-4"

@@ -4,7 +4,8 @@ window.smartWizard = smartWizard;
 
 export function initializeForm() {
 
-        new smartWizard();
+     new smartWizard();
+
 
         const API_BASE_URL = 'https://psgc.gitlab.io/api';
         //IntentFile upload pond
@@ -164,7 +165,6 @@ export function initializeForm() {
                 }
 
             }
-
         })
 
         const DTI_SEC_CDA_file_Selector = document.getElementById('DtiSecCdaSelector');
@@ -425,7 +425,6 @@ export function initializeForm() {
                 }
 
             }
-
         })
 
         const govIdFile = document.getElementById('govIdFile');
@@ -599,39 +598,148 @@ export function initializeForm() {
             }
         });
 
-        $('#smartwizard').smartWizard({
+        const smartWizardInstance = $('#smartwizard').smartWizard({
             selected: 0,
             theme: 'dots',
             autoAdjustHeight: false,
             transition: {
                 animation: 'fade'
             },
-            toolbar: {
+            toolbarSettings: {
+                toolbarPosition: 'bottom',
+                toolbarButtonPosition: 'right',
                 showNextButton: true,
                 showPreviousButton: true,
-                position: 'both bottom',
-                extraHtml: `<button type="button" class="btn btn-success" onclick="onFinish()" >Submit</button>
+                toolbarExtraHtml: `<button type="button" class="btn btn-success" onclick="onFinish()" >Submit</button>
                     <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
             },
             anchorSettings: {
-                anchorClickable: false, // Anchors are not clickable
+                anchorClickable: false
             }
         });
 
-        $('#smartwizard').on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex,
-            stepDirection) {
+        function validateCurrentStep(stepIndex) {
+            const currentStep = $('#step-' + (stepIndex + 1));
+            const requiredInputs = currentStep.find('input[required], select[required], textarea[required]');
+            let isValid = true;
 
+            requiredInputs.each(function() {
+                const input = $(this);
+                const value = input.val().trim();
+                const invalidFeedback = input.next('.invalid-feedback');
+
+                if (!value) {
+                    isValid = false;
+                    input.addClass('is-invalid'); // Add invalid class for styling
+                    if (invalidFeedback.length) {
+                        invalidFeedback.show();
+                    }
+                } else {
+                    input.removeClass('is-invalid');
+                    if (invalidFeedback.length) {
+                        invalidFeedback.hide();
+                    }
+                }
+            });
+
+            return isValid;
+        }
+
+        function validateFileUploads() {
+            // Debugging step detection
+            const smartWizardElement = $('#smartwizard');
+            // Get step information
+            const stepInfo = smartWizardElement.smartWizard('getStepInfo');
+
+            // File requirement step (0-indexed)
+            const fileRequirementStepIndex = 2; // Third step
+            // Only validate on the file requirement step
+            if (stepInfo.currentStep !== fileRequirementStepIndex) {
+                return true; // Skip validation for other steps
+            }
+
+            const requiredFileInputs = [
+                'IntentFile', 
+                'DtiSecCdafile', 
+                'businessPermitFile', 
+                'receiptFile', 
+                'govIdFile', 
+                'BIRFile'
+            ];
+
+            let isValid = true;
+
+            requiredFileInputs.forEach(inputId => {
+                const fileInput = document.getElementById(inputId);
+                if (!fileInput) {
+                    console.error(`File input not found: ${inputId}`);
+                    return; // Skip this iteration
+                }
+
+                // Only validate if the input is required
+                if (!fileInput.hasAttribute('required')) {
+                    return; // Skip this iteration if not required
+                }
+
+                // More robust invalid feedback finding
+                const parentDiv = fileInput.closest('.mb-3');
+                const invalidFeedback = parentDiv ? 
+                    parentDiv.querySelector('.invalid-feedback') || 
+                    document.createElement('div') : 
+                    null;
+
+                if (!invalidFeedback) {
+                    // Create invalid feedback if it doesn't exist
+                    invalidFeedback = document.createElement('div');
+                    invalidFeedback.classList.add('invalid-feedback');
+                    invalidFeedback.textContent = `Please upload ${inputId.replace('File', '')} file`;
+                    parentDiv.appendChild(invalidFeedback);
+                }
+                
+                // Get the FilePond instance
+                const pondInstance = FilePond.find(fileInput);
+                
+                console.log(`Checking ${inputId}:`, {
+                    fileInput, 
+                    pondInstance: pondInstance ? 'exists' : 'not found', 
+                    files: pondInstance ? pondInstance.getFiles().length : 'N/A'
+                });
+
+                // Check if no files are uploaded
+                if (!pondInstance || pondInstance.getFiles().length === 0) {
+                    isValid = false;
+                    
+                    // Show invalid feedback
+                    invalidFeedback.style.display = 'block';
+                    invalidFeedback.textContent = `Please upload ${inputId.replace('File', '')} file`;
+                    fileInput.classList.add('is-invalid');
+                } else {
+                    // Hide invalid feedback
+                    invalidFeedback.style.display = 'none';
+                    fileInput.classList.remove('is-invalid');
+                }
+            });
+
+            console.log('File uploads validation result:', isValid);
+            return isValid;
+        }
+
+        smartWizardInstance.on('leaveStep', function(e, anchorObject, currentStepIndex, nextStepIndex, stepDirection) {
             console.log('Leave Step', currentStepIndex, nextStepIndex, stepDirection);
 
             if (nextStepIndex > currentStepIndex) {
+                // Combine regular input and file upload validation
+                const regularInputsValid = validateCurrentStep(currentStepIndex);
+                const fileUploadsValid = validateFileUploads();
 
-                if (!validateCurrentStep(currentStepIndex)) {
+                if (!regularInputsValid || !fileUploadsValid) {
+                    e.preventDefault();
                     return false;
                 }
             }
         });
 
-        $('#smartwizard').on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+        smartWizardInstance.on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
             const totalSteps = $('#smartwizard').find('ul li').length;
 
             if (stepPosition != "Last") {
@@ -695,7 +803,7 @@ export function initializeForm() {
 
         });
         function validateCurrentStep(stepIndex) {
-            const isValid = true;
+            let isValid = true;
             const currentStep = $('#step-' + (stepIndex + 1)); // stepIndex is 0-based
 
             currentStep.find('input, select, textarea').each(function() {
@@ -734,7 +842,7 @@ export function initializeForm() {
 
             $.ajax({
                 type: 'POST',
-                url: APPLICATION_SUBMISSION_ROUTE,
+                url: REGISTRATIONFORM_SUBMISSION_ROUTE,
                 data: $('#applicationForm').find(':input:not([readonly])').serialize(),
                 success: function(response) {
                     // Handle the response from the server
@@ -965,4 +1073,3 @@ export function initializeForm() {
 }
 
 initializeForm();
-
