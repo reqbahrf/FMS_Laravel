@@ -51,8 +51,8 @@
                             <div class="col-12 col-md-6">
                                 <label for="projectStatus">Status:</label>
                                 <select name="projectStatus" id="projectStatus" class="form-select" required>
-                                    <option value="Pending">New</option>
-                                    <option value="Approved">Ongoing</option>
+                                    <option value="pending">New</option>
+                                    <option value="approved">Ongoing</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a project status.

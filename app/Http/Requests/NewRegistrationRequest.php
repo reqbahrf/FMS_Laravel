@@ -22,6 +22,8 @@ class NewRegistrationRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'email' => 'required|email|sometimes',
+            'projectStatus' => 'required|in:pending,approved|sometimes',
             'prefix' => 'nullable',
             'f_name' => 'required|max:30',
             'middle_name' => 'nullable|max:30',

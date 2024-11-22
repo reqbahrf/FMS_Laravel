@@ -9,14 +9,45 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\NewRegistrationRequest;
 
 class StaffAddProjectController extends Controller
 {
+  /**
+   * Generate a unique and memorable username based on the first name
+   * 
+   * @param string $firstName
+   * @return string
+   */
+  private function generateUniqueUsername(string $firstName): string
+  {
+      // Sanitize the first name (remove special characters, convert to lowercase)
+      $cleanFirstName = strtolower(preg_replace('/[^a-zA-Z]/', '', $firstName));
+      
+      // Get current year
+      $currentYear = date('Y');
+      
+      // Generate a random 4-digit number
+      $randomSuffix = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
+      
+      // Combine first name, year, and random number
+      $baseUsername = "{$cleanFirstName}{$currentYear}-{$randomSuffix}";
+      
+      // Check if username already exists
+      $existingUser = DB::table('coop_users_info')
+          ->where('user_name', $baseUsername)
+          ->first();
+      
+      // If username exists, regenerate
+      if ($existingUser) {
+          return $this->generateUniqueUsername($firstName);
+      }
+      
+      return $baseUsername;
+  }
     public function store(NewRegistrationRequest $request)
     {
-        $user_name = Auth::user()->user_name;
-
         $successful_inserts = 0;
 
         $validatedInputs = $request->validated();
@@ -37,6 +68,20 @@ class StaffAddProjectController extends Controller
             $mobile_number = $validatedInputs['Mobile_no'];
             $full_mobile_number = $country_mobile_code . $mobile_number;
             $landline = $validatedInputs['landline'];
+
+            $user_name = $this->generateUniqueUsername($f_name);
+
+            // Use birthdate as initial password
+            $initial_password = str_replace('-', '', $b_date);
+
+            DB::table('users')->insert([
+                'user_name' => $user_name,
+                'email' => $validatedInputs['email'],
+                'password' => Hash::make($initial_password),
+                'role' => 'Cooperator',
+                'must_change_password' => true, // New flag to force password change
+            ]);
+
             $personalInfoId = DB::table('coop_users_info')->insertGetId([
                 'user_name' => $user_name,
                 'prefix' => $name_prefix,
