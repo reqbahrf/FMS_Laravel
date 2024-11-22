@@ -38,6 +38,6 @@ class PasswordChangeController extends Controller
         $user->must_change_password = false;
         $user->save();
 
-        return redirect()->route('dashboard')->with('success', 'Password changed successfully');
+        return redirect()->route(Auth::user()->role . '.index')->with('success', 'Password changed successfully');
     }
 }
