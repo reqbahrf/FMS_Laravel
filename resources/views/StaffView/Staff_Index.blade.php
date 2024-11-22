@@ -705,6 +705,8 @@
             STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}',
             GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}'
         }
+
+        const FORM_SUBMISSION_ROUTE = '{{ route('staff.Project.SubmitNewProject') }}'
         // $(window).on('beforeunload', function() {
         //     return 'Are you sure you want to leave?';
         // });

@@ -35,6 +35,7 @@ use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 
 //Applicant routes
@@ -147,6 +148,9 @@ Route::middleware([CheckStaffUser::class])->group(function () {
         }
         return view('StaffView.Staff_Index');
     })->name('staff.Project.AddProject');
+
+    Route::post('/Staff/Submit-New-Projects', [StaffAddProjectController::class, 'store'])
+        ->name('staff.Project.SubmitNewProject');
 
     Route::get('/Staff/Project/getQuarterReport/{ProjectId}', [StaffViewController::class, 'getAvailableQuarterlyReport'])->name('Staff.Project.getQuarterReport');
 

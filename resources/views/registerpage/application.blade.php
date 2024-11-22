@@ -172,7 +172,7 @@
    <x-footer />
     @vite('resources/js/app.js')
     <script type="text/javascript">
-        const APPLICATION_SUBMISSION_ROUTE = "{{ route('applicationFormSubmit') }}"
+        const FORM_SUBMISSION_ROUTE = "{{ route('applicationFormSubmit') }}"
     </script>
     @vite('resources/js/applicationPage.js')
     <script type="module">

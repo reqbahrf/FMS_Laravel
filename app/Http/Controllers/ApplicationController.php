@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Http\Requests\StoreApplicationRequest;
+use App\Http\Requests\NewRegistrationRequest;
 
 
 
@@ -17,7 +17,7 @@ class ApplicationController extends Controller
 {
 
 
-    public function store(StoreApplicationRequest $request)
+    public function store(NewRegistrationRequest $request)
     {
          $user_name = Auth::user()->user_name;
 
