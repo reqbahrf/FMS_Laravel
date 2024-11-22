@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class NewRegistrationRequest extends FormRequest
 {
@@ -21,6 +23,8 @@ class NewRegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
+        $user = User::find(Auth::user()->id);
+        $isCooperator = $user && $user->hasRole('Cooperator');
         return [
             'email' => 'required|email|sometimes',
             'projectStatus' => 'required|in:pending,approved|sometimes',
@@ -57,22 +61,22 @@ class NewRegistrationRequest extends FormRequest
             'f_personnelIndPart' => 'nullable|integer|min:0',
             'Export' => 'nullable|max:100',
             'Local' => 'nullable|max:100',
-            'IntentFile' => 'required|string',
-            'DSC_file_Selector' => 'required|string|in:DTI,SEC,CDA',
-            'DTI_SEC_CDA_File' => 'required|string',
-            'businessPermitFile' => 'required|string',
+            'IntentFile' =>   $isCooperator ? 'required|string' : 'nullable|string',
+            'DSC_file_Selector' => $isCooperator ? 'required|string|in:DTI,SEC,CDA' : 'nullable|string|in:DTI,SEC,CDA',
+            'DTI_SEC_CDA_File' => $isCooperator ? 'required|string' : 'nullable|string',
+            'businessPermitFile' => $isCooperator ? 'required|string' : 'nullable|string',
             'Fda_Lto_Selector' => 'nullable|string|in:FDA,LTO',
             'fdaLtoFile' => 'nullable|string',
-            'receiptFile' => 'required|string',
-            'govIdFile' => 'required|string',
-            'GovIdSelector' => 'required|string|in:National ID,SSS ID,GSIS ID,Passport ID',
-            'Intent_unique_id_path' => 'required|string',
-            'DTI_SEC_CDA_unique_id_path' => 'required|string',
-            'BusinessPermit_unique_id_path' => 'required|string',
+            'receiptFile' => $isCooperator ? 'required|string' : 'nullable|string',
+            'govIdFile' => $isCooperator ? 'required|string' : 'nullable|string',
+            'GovIdSelector' => $isCooperator ? 'required|string|in:National ID,SSS ID,GSIS ID,Passport ID' : 'nullable|string|in:National ID,SSS ID,GSIS ID,Passport ID',
+            'Intent_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
+            'DTI_SEC_CDA_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
+            'BusinessPermit_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
             'FDA_LTO_unique_id_path' => 'nullable|string',
-            'receipt_unique_id_path' => 'required|string',
-            'govId_unique_id_path' => 'required|string',
-            'BIR_unique_id_path' => 'required|string',
+            'receipt_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
+            'govId_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
+            'BIR_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
         ];
     }
 }

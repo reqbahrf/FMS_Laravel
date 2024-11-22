@@ -819,7 +819,7 @@ export function initializeForm() {
             return isValid;
         }
 
-        window.onFinish = function() {
+        window.onFinish = function(event) {
             event.preventDefault();
             window.confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
             confirmationModal.show();
@@ -834,7 +834,8 @@ export function initializeForm() {
             confirmButton.disabled = !(confirmTrueInfo.is(':checked') && confirmAgreeInfo.is(':checked'));
         });
 
-        confirmButton.addEventListener('click', function() {
+        confirmButton.addEventListener('click', function(event) {
+            event.preventDefault();
             submitForm();
         });
 

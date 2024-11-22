@@ -163,14 +163,13 @@ class StaffAddProjectController extends Controller
             $successful_inserts++;
 
             $file_to_insert = [
-
-                'IntentFilePath' => $validatedInputs['Intent_unique_id_path'],
-                'DSCFilePath' => $validatedInputs['DTI_SEC_CDA_unique_id_path'],
-                'businessPermitFilePath' => $validatedInputs['BusinessPermit_unique_id_path'],
-                'FDA_LTOFilePath' => $validatedInputs['FDA_LTO_unique_id_path'],
-                'receiptFilePath' => $validatedInputs['receipt_unique_id_path'],
-                'govFilePath' => $validatedInputs['govId_unique_id_path'],
-                'BIRFilePath' => $validatedInputs['BIR_unique_id_path']
+                'IntentFilePath' => $validatedInputs['Intent_unique_id_path'] ?? null,
+                'DSCFilePath' => $validatedInputs['DTI_SEC_CDA_unique_id_path'] ?? null,
+                'businessPermitFilePath' => $validatedInputs['BusinessPermit_unique_id_path'] ?? null,
+                'FDA_LTOFilePath' => $validatedInputs['FDA_LTO_unique_id_path'] ?? null,
+                'receiptFilePath' => $validatedInputs['receipt_unique_id_path'] ?? null,
+                'govFilePath' => $validatedInputs['govId_unique_id_path'] ?? null,
+                'BIRFilePath' => $validatedInputs['BIR_unique_id_path'] ?? null
             ];
 
             Log::info($file_to_insert);
@@ -182,20 +181,22 @@ class StaffAddProjectController extends Controller
                 'BIRFilePath' => 'BIR'
             ];
 
-            $DSC_file_Name_Selector = $validatedInputs['DSC_file_Selector'];
-            $fda_lto_Name_Selector = $validatedInputs['Fda_Lto_Selector'];
-            $govId_Selector = $validatedInputs['GovIdSelector'];
+            $DSC_file_Name_Selector = $validatedInputs['DSC_file_Selector'] ?? null;
+            $fda_lto_Name_Selector = $validatedInputs['Fda_Lto_Selector'] ?? null;
+            $govId_Selector = $validatedInputs['GovIdSelector'] ?? null;
 
             $fileNames['DSCFilePath'] = $DSC_file_Name_Selector;
             $fileNames['FDA_LTOFilePath'] = $fda_lto_Name_Selector;
             $fileNames['govFilePath'] = $govId_Selector;
 
             foreach($file_to_insert as $filekey => $filePath){
+                // Skip if filePath is null
+                if ($filePath === null) continue;
+
                 if(Storage::disk('public')->exists($filePath))
                 {
                     $fileName = $fileNames[$filekey];
                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-
 
                     DB::table('requirements')->insert([
                         'business_id' => $businessId,
@@ -208,9 +209,8 @@ class StaffAddProjectController extends Controller
                         'updated_at' => now(),
                     ]);
                 }else{
-                    return response()->json(['error' => "This file $fileNames[$filekey] does not exist"], 404);
-                };
-
+                    Log::warning("File $fileNames[$filekey] does not exist at path: $filePath");
+                }
             }
 
             $successful_inserts++;

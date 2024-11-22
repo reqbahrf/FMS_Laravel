@@ -22,7 +22,7 @@ return new class extends Migration
             $table->enum('sex', ['Male', 'Female']);
             $table->date('birth_date');
             $table->string('designation', 30);
-            $table->string('mobile_number', 15);
+            $table->string('mobile_number', 20);
             $table->string('landline', 20)->nullable();
             $table->foreign('user_name')->references('user_name')->on('users')->onDelete('cascade')->onUpdate('cascade');
         });
