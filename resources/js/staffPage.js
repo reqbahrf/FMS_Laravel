@@ -1256,6 +1256,69 @@ window.initializeStaffPageJs = async () => {
 
             const RequirementContainer =  $("#RequirementContainer");
 
+            const uploadFileRequirements = document.getElementById('requirements_file');
+
+            const FilePondInstance = FilePond.create(uploadFileRequirements, {
+                allowMultiple: false,
+                allowFileTypeValidation: true,
+                allowFileSizeValidation: true,
+                acceptedFileTypes: ['application/pdf', 'image/*'],
+                allowRevert: true,
+                maxFileSize: '10MB',
+                server: {
+                    process: {
+                        url: '/FileRequirementsUpload',
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        onload: (response) => {
+                            const data = JSON.parse(response);
+                            if(data.unique_id && data.file_path){
+                                uploadFileRequirements.setAttribute('data-unique_id', data.unique_id);
+                                uploadFileRequirements.setAttribute('data-file_path', data.file_path);
+                            }
+                            return data.unique_id;
+                        },
+                        onerror: (error) => {
+                            console.error(error);
+                        }
+
+
+                    },
+                    revert: (load, error) => {
+                        const unique_id = uploadFileRequirements.getAttribute('data-unique_id');
+                        const file_path = uploadFileRequirements.getAttribute('data-file_path');
+                        if (unique_id && file_path) {
+                           try {
+
+                               const response = fetch(`/FileRequirementsRevert/${unique_id}`, {
+                                    method: 'DELETE',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                    },
+                                    body: JSON.stringify({
+                                        unique_id: unique_id,
+                                        file_path: file_path
+                                    })
+                                });
+                                if(response.ok){
+                                    load();
+                                }else{
+                                    error();
+                                }
+                           } catch (error) {
+                               error();
+                            }
+
+                           }
+                    }
+
+                }
+
+            })
+
 
             //link validation
             RequirementContainer.on(
@@ -1346,13 +1409,12 @@ window.initializeStaffPageJs = async () => {
                 }
             };
 
-            //Save the inputted links to the database
-            $("#SaveLinkProjectBtn").on("click", async function () {
+            const SaveProjectFileLinks = async () => {
                 try {
                     const projectID = $("#ProjectID").val();
                     let requirementLinks = {};
-                   const linkContainer = RequirementContainer.find(".linkContainer")
-                   linkContainer.each(function () {
+                     const linkContainer = RequirementContainer.find(".linkContainer")
+                     linkContainer.each(function () {
                         let name = $(this)
                             .find('input[name="requirements_name"]')
                             .val();
@@ -1377,12 +1439,32 @@ window.initializeStaffPageJs = async () => {
 
                     getProjectLinks(projectID);
                     showToastFeedback("text-bg-success", response.message);
+
                 } catch (error) {
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.message
                     );
                 }
+
+            }
+            const SaveProjectFile = async () => {
+                try {
+
+                } catch (error) {
+
+                }
+            }
+
+            //Save the inputted links to the database
+            $("button[data-selected-action]").on("click", async function () {
+               const action = $(this).data("selected-action");
+
+               action === 'ProjectLink'
+               ? SaveProjectFileLinks()
+               : action === 'ProjectFile'
+               ? SaveProjectFile()
+               : null
             });
 
             $("#UpdateProjectLink").on("click", async () => {
@@ -1426,6 +1508,50 @@ window.initializeStaffPageJs = async () => {
                 modal.find("input#projectNameUpdated").val(projectName);
                 modal.find("textarea#projectLink").val(projectLink);
             });
+
+            // Function to toggle requirement upload type containers
+            function toggleRequirementUploadType() {
+                const uploadTypeRadios = $('[name="requirement_upload_type"]');
+                const linkContainer = $('.linkContainer');
+                const fileContainer = $('.FileContainer');
+                const saveButton = $('button[data-selected-action]');
+
+                uploadTypeRadios.change(function() {
+                    if (this.value === 'link') {
+                        linkContainer.show();
+                        fileContainer.hide();
+
+                        // Reset file input
+                        $('#requirements_file').val('');
+                        $('#requirements_file_name').val('');
+
+                        // Update save button action
+                        saveButton.attr('data-selected-action', 'ProjectLink');
+                    } else {
+                        linkContainer.hide();
+                        fileContainer.show();
+
+                        // Reset link inputs
+                        $('#requirements_name').val('');
+                        $('#requirements_link').val('');
+
+                        // Update save button action
+                        saveButton.attr('data-selected-action', 'ProjectFile');
+                    }
+                });
+
+                // Set initial state
+                saveButton.attr('data-selected-action', 'ProjectLink');
+
+                // Add event listener to file input to update file name
+                $('#requirements_file').change(function(e) {
+                    const fileName = e.target.files[0] ? e.target.files[0].name : '';
+                    $('#requirements_file_name').val(fileName);
+                });
+            }
+
+            toggleRequirementUploadType();
+
 
             /**
              * Event listener for showing the delete confirmation modal.

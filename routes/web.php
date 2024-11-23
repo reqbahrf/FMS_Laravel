@@ -38,6 +38,7 @@ use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Controllers\PasswordChangeController;
+use App\Http\Controllers\FileUploadController;
 
 //Applicant routes
 
@@ -200,6 +201,8 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
     Route::resource('/Staff/Project/ProjectLink', StaffProjectLinkController::class);
+    Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
+    Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
     Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class);
     Route::get('/proxy', [ProxyController::class, 'proxy']);
 });

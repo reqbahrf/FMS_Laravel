@@ -243,6 +243,21 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="RequirementContainer">
+                <div class="mb-3">
+                    <label class="form-label">Choose Upload Type:</label>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="requirement_upload_type" id="requirement_link_type" value="link" checked>
+                        <label class="form-check-label" for="requirement_link_type">
+                            Upload Link
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="requirement_upload_type" id="requirement_file_type" value="file">
+                        <label class="form-check-label" for="requirement_file_type">
+                            Upload File
+                        </label>
+                    </div>
+                </div>
                 <div class="linkContainer">
                     <div class="mb-3">
                         <label for="requirements_name" class="form-label">Name:</label>
@@ -256,19 +271,19 @@
                         </div>
                     </div>
                 </div>
-                <div class="FileContainer">
+                <div class="FileContainer" style="display: none;">
                     <label for="requirements_file" class="form-label">File:</label>
-                    <div class="input-group">
+                    <div class="input-group mb-3">
                         <span class="input-group-text"><i class="ri-file-info-fill"></i></span>
-                        <input type="text" name="requirements_file_name" class="form-control" id="requirements_file_name" placeholder="File Name">
-                        <input type="file" name="requirements_file" class="form-control" id="requirements_file">
+                        <input type="text"  class="form-control" id="requirements_file_name" placeholder="File Name">
                     </div>
+                    <input type="file" class="form-control" id="requirements_file">
+                    <input type="hidden" name="uploaded_unique_id" id="uploaded_unique_id">
                 </div>
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="SaveLinkProjectBtn">Save</button>
+                <button type="button" class="btn btn-primary" data-selected-action="" >Save</button>
             </div>
         </div>
     </div>
