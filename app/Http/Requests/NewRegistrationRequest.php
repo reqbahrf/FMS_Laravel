@@ -27,7 +27,7 @@ class NewRegistrationRequest extends FormRequest
         $isCooperator = $user && $user->hasRole('Cooperator');
         return [
             'email' => 'required|email|sometimes',
-            'projectStatus' => 'required|in:pending,approved|sometimes',
+            'projectStatus' => 'required|in:pending,ongoing|sometimes',
             'prefix' => 'nullable',
             'f_name' => 'required|max:30',
             'middle_name' => 'nullable|max:30',

@@ -52,7 +52,7 @@
                                 <label for="projectStatus">Status:</label>
                                 <select name="projectStatus" id="projectStatus" class="form-select" required>
                                     <option value="pending">New</option>
-                                    <option value="approved">Ongoing</option>
+                                    <option value="ongoing">Ongoing</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a project status.
@@ -816,7 +816,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="businessPermitFile" class="form-label">Business Permit: 
+                            <label for="businessPermitFile" class="form-label">Business Permit:
                                 <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
                             <input class="fileUploads" type="file" name="businessPermitFile"
@@ -854,7 +854,7 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="receiptFile" class="form-label">Official Receipt of the Business: 
+                            <label for="receiptFile" class="form-label">Official Receipt of the Business:
                                 <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
                             <input class="fileUploads" type="file" name="receiptFile" id="receiptFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>

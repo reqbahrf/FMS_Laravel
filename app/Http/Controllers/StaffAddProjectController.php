@@ -18,7 +18,7 @@ class StaffAddProjectController extends Controller
 {
   /**
    * Generate a unique and memorable username based on the first name
-   * 
+   *
    * @param string $firstName
    * @return string
    */
@@ -26,26 +26,26 @@ class StaffAddProjectController extends Controller
   {
       // Sanitize the first name (remove special characters, convert to lowercase)
       $cleanFirstName = strtolower(preg_replace('/[^a-zA-Z]/', '', $firstName));
-      
+
       // Get current year
       $currentYear = date('Y');
-      
+
       // Generate a random 4-digit number
       $randomSuffix = str_pad(mt_rand(1, 9999), 4, '0', STR_PAD_LEFT);
-      
+
       // Combine first name, year, and random number
       $baseUsername = "{$cleanFirstName}{$currentYear}-{$randomSuffix}";
-      
+
       // Check if username already exists
       $existingUser = DB::table('coop_users_info')
           ->where('user_name', $baseUsername)
           ->first();
-      
+
       // If username exists, regenerate
       if ($existingUser) {
           return $this->generateUniqueUsername($firstName);
       }
-      
+
       return $baseUsername;
   }
     public function store(NewRegistrationRequest $request)
@@ -217,10 +217,12 @@ class StaffAddProjectController extends Controller
 
             $successful_inserts++;
 
+            $applicationStatus = $validatedInputs['projectStatus'];
 
             // Requirements table
             DB::table('application_info')->insert([
                 'business_id' => $businessId,
+                'application_status' => $applicationStatus,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
@@ -228,11 +230,11 @@ class StaffAddProjectController extends Controller
 
             if ($successful_inserts == 6) {
                 DB::commit();
-                
+
                 // Send welcome email to the new user
                 $user = DB::table('users')->where('user_name', $user_name)->first();
                 Mail::to($validatedInputs['email'])->send(new NewProjectRegistered($user, $initial_password));
-                
+
                 event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $city, 'NEW_APPLICANT'));
                 return response()->json(['success' => 'All data successfully saved.'], 200);
             } else {
