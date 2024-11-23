@@ -238,8 +238,8 @@
   <div class="modal fade"  data-bs-backdrop="static" id="requirementModal" tabindex="-1" aria-labelledby="requirementModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="requirementModalLabel">Add Requirement</h5>
+            <div class="modal-header bg-primary">
+                <h5 class="modal-titl text-white mb-0" id="requirementModalLabel">Add Requirement</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" id="RequirementContainer">
