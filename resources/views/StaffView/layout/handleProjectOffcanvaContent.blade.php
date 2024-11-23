@@ -16,6 +16,7 @@
         </button>
     </div>
 </nav>
+
 {{-- Project Navigation Tabs Contents --}}
 <div class="tab-content h-100 mt-3" id="nav-tabContent">
     <div class="tab-pane fade show active" id="nav-details" role="tabpanel" aria-labelledby="nav-home-tab"
@@ -152,13 +153,11 @@
             </div>
             <div class="col-12 paymentProjectContent">
                 <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white p-0">Payment History</h5>
-                    </div>
-                    <div class="ms-auto">
-                        <button class="btn btn-primary btn-sm m-3" data-bs-toggle="modal"
+                    <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+                        <h5 class="text-white mb-0">Payment History</h5>
+                        <button class="btn btn-light btn-sm btn-outline-primary" data-bs-toggle="modal"
                             data-bs-target="#paymentModal" data-action="Add">
-                            <i class="ri-sticky-note-add-fill"></i></button>
+                            <i class="ri-sticky-note-add-fill ri-lg"></i></button>
                     </div>
                     <div class="card-body">
                         <div class="row">
@@ -194,29 +193,18 @@
     </div>
     <div class="tab-pane fade" id="nav-link" role="tabpanel" aria-labelledby="nav-link-tab" tabindex="0">
         <div class="card shadow-sm">
+            <div class="card-header bg-primary">
+                <div class="d-flex justify-between align-items-center">
+                    <h6 class="text-white m-0">Cooperator Requirements:</h6>
+                    <button type="button" class="btn btn-sm btn-light ms-auto" id="addRequirement" data-bs-toggle="modal" data-bs-target="#requirementModal"><i
+                            class="ri-add-fill ri-lg"></i></button>
+                </div>
+            </div>
             <div class="card-body">
 
                 <div class="table-responsive my-3">
                     <table class="table table-hover table-sm" id="linkTable" style="width: 100%;">
                     </table>
-                </div>
-                <div class="d-flex justify-between align-items-center">
-                    <h6>Cooperator Requirements:</h6>
-                    <button type="button" class="btn btn-primary ms-auto" id="addRequirement"><i
-                            class="ri-add-fill ri-lg"></i></button>
-                </div>
-                <div id="linkContainer">
-                    <div class="row linkConstInstance">
-                        <div class="col-12 m-2">
-                            <label for="requirements_name" class="">Name:</label>
-                            <input type="text" name="requirements_name" class=" bottom_border">
-                        </div>
-                        <div class="input-group">
-                            <label for="requirements_link" class="input-group-text"><i
-                                    class="ri-links-fill"></i></label>
-                            <input type="text" name="requirements_link" class="form-control">
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

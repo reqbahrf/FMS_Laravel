@@ -233,6 +233,39 @@
 </div>
 {{-- Update Quarterly Record Modal End --}}
 
+{{-- Add Requirement Modal Start --}}
+  <!-- Add Requirement Modal -->
+  <div class="modal fade"  data-bs-backdrop="static" id="requirementModal" tabindex="-1" aria-labelledby="requirementModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="requirementModalLabel">Add Requirement</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="RequirementContainer">
+                <div class="linkContainer">
+                    <div class="mb-3">
+                        <label for="requirements_name" class="form-label">Name:</label>
+                        <input type="text" name="requirements_name" class="form-control" id="requirements_name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="requirements_link" class="form-label">Link:</label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="ri-links-fill"></i></span>
+                            <input type="text" name="requirements_link" class="form-control" id="requirements_link">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary" id="saveRequirement">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Add Requirement Modal End --}}
+
 
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="handleProjectOff"
     aria-labelledby="staticBackdropLabel">

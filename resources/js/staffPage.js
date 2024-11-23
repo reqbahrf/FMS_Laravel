@@ -312,18 +312,18 @@ window.initializeStaffPageJs = async () => {
             function populateYearDropdown(selectElementId) {
                 const $select = $(`#${selectElementId}`);
                 const currentYear = new Date().getFullYear();
-            
+
                 $select.empty().append(
                     $('<option>', { value: '', text: 'Select Year', disabled: true, selected: true })
                 );
-            
+
                 // Add current year and next 3 years
                 for (let i = 0; i < 4; i++) {
                     const year = currentYear + i;
                     $select.append($('<option>', { value: year, text: year }));
                 }
             }
-            
+
             populateYearDropdown('yearSelect')
             /**
              * Creates a monthly data chart with the provided data for applicants, ongoing, and completed items.
@@ -1254,42 +1254,14 @@ window.initializeStaffPageJs = async () => {
                 }
             };
 
-            $("#addRequirement").on("click", function () {
-                let RequirementLinkContent = $("#linkContainer");
-
-                RequirementLinkContent.append(`
-                <div class="col-12 linkConstInstance">
-                            <div class="row">
-                                <div class="col-11">
-                                    <div class="col-12 m-2">
-                                        <label for="requirements_name" class="">Name:</label>
-                                        <input type="text" name="requirements_name" class=" bottom_border">
-                                    </div>
-                                    <div class="input-group">
-                                        <label for="requirements_link" class="input-group-text"><i
-                                                class="ri-links-fill"></i></label>
-                                        <input type="text" name="requirements_link" class="form-control">
-                                    </div>
-                                </div>
-                                 <div class="col-1 align-content-center">
-                                    <button class="btn removeRequirement"><i class="ri-close-large-fill"></i></button>
-                                </div>
-                            </div>
-                    </div>
-                `);
-            });
-
-            $("#linkContainer").on("click", ".removeRequirement", function () {
-                $(this).closest(".linkConstInstance").remove();
-            });
 
             //link validation
-            $("#linkContainer").on(
+            $("#RequirementContainer").on(
                 "blur",
                 'input[name="requirements_link"]',
-                function () {
+                async function () {
                     const linkConstInstance =
-                        $(this).closest(".linkConstInstance");
+                        $(this).closest(".linkContainer");
                     const inputField = $(this);
                     const inputtedLink = $(this).val();
                     const proxyUrl = `/proxy?url=${encodeURIComponent(
@@ -1302,36 +1274,34 @@ window.initializeStaffPageJs = async () => {
                     </div>`;
 
                         inputField.after(spinner);
-                        fetch(proxyUrl)
-                            .then((response) => response.json())
-                            .then((data) => {
-                                if (data.status === 200) {
-                                    linkConstInstance
-                                        .find('input[name="requirements_link"]')
-                                        .addClass("is-valid")
-                                        .removeClass("is-invalid");
-                                } else {
-                                    linkConstInstance
-                                        .find('input[name="requirements_link"]')
-                                        .addClass("is-invalid")
-                                        .removeClass("is-valid");
-                                }
-                            })
-                            .catch((error) => {
-                                console.error(
-                                    "Error fetching the link:",
-                                    error
-                                );
+                        try {
+                            const response = await fetch(proxyUrl);
+                            const data = await response.json();
+                            if (data.status === 200) {
+                                linkConstInstance
+                                    .find('input[name="requirements_link"]')
+                                    .addClass("is-valid")
+                                    .removeClass("is-invalid");
+                            } else {
                                 linkConstInstance
                                     .find('input[name="requirements_link"]')
                                     .addClass("is-invalid")
                                     .removeClass("is-valid");
-                            })
-                            .finally(() => {
-                                linkConstInstance
-                                    .find(".spinner-border")
-                                    .remove();
-                            });
+                            }
+                        } catch (error) {
+                            console.error(
+                                "Error fetching the link:",
+                                error
+                            );
+                            linkConstInstance
+                                .find('input[name="requirements_link"]')
+                                .addClass("is-invalid")
+                                .removeClass("is-valid");
+                        } finally {
+                            linkConstInstance
+                                .find(".spinner-border")
+                                .remove();
+                        }
                     } else {
                         linkConstInstance
                             .find('input[name="requirements_link"]')
