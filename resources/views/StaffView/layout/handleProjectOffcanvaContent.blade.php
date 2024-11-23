@@ -201,7 +201,6 @@
                 </div>
             </div>
             <div class="card-body">
-
                 <div class="table-responsive my-3">
                     <table class="table table-hover table-sm" id="linkTable" style="width: 100%;">
                     </table>

@@ -1254,9 +1254,11 @@ window.initializeStaffPageJs = async () => {
                 }
             };
 
+            const RequirementContainer =  $("#RequirementContainer");
+
 
             //link validation
-            $("#RequirementContainer").on(
+            RequirementContainer.on(
                 "blur",
                 'input[name="requirements_link"]',
                 async function () {
@@ -1345,11 +1347,12 @@ window.initializeStaffPageJs = async () => {
             };
 
             //Save the inputted links to the database
-            $(".SaveLinkProjectBtn").on("click", async function () {
+            $("#SaveLinkProjectBtn").on("click", async function () {
                 try {
                     const projectID = $("#ProjectID").val();
                     let requirementLinks = {};
-                    $(".linkConstInstance").each(function () {
+                   const linkContainer = RequirementContainer.find(".linkContainer")
+                   linkContainer.each(function () {
                         let name = $(this)
                             .find('input[name="requirements_name"]')
                             .val();
@@ -1360,7 +1363,7 @@ window.initializeStaffPageJs = async () => {
                     });
                     const response = await $.ajax({
                         type: "POST",
-                        url: DASHBBOARD_TAB_ROUTE.STORE_PAYMENT_LINKS,
+                        url: DASHBBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                                 "content"
@@ -1404,7 +1407,7 @@ window.initializeStaffPageJs = async () => {
                     });
 
                     getProjectLinks(projectID);
-                    closeModal("#projectLinkModal");
+                    closeModal("#requirementModal");
                     showToastFeedback("text-bg-success", response.message);
                 } catch (error) {
                     showToastFeedback("text-bg-danger", error);

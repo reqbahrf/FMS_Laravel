@@ -256,10 +256,19 @@
                         </div>
                     </div>
                 </div>
+                <div class="FileContainer">
+                    <label for="requirements_file" class="form-label">File:</label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="ri-file-info-fill"></i></span>
+                        <input type="text" name="requirements_file_name" class="form-control" id="requirements_file_name" placeholder="File Name">
+                        <input type="file" name="requirements_file" class="form-control" id="requirements_file">
+                    </div>
+                </div>
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="saveRequirement">Save</button>
+                <button type="button" class="btn btn-primary" id="SaveLinkProjectBtn">Save</button>
             </div>
         </div>
     </div>
