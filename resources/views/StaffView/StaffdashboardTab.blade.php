@@ -346,18 +346,18 @@
             </div>
         </div>
     </div>
+    <h5 class="text-muted fw-medium text-center">Projects</h5>
     <div class="col-12">
         <div class="card">
-            <p class="fw-bold fs-5 m-0 text-center mt-3"> Projects</p>
             <div class="card-body">
                 <div id="lineChart">
                 </div>
             </div>
         </div>
     </div>
+    <h5 class="text-muted fw-medium text-center">Handled Project</h5>
     <div class="col-12">
         <div class="card">
-            <p class="fw-bold fs-5 m-0 text-center mt-3">Handled Project</p>
             <div class="card-body">
                     <table id="handledProject" class="table table-hover" style="width:100%">
 
