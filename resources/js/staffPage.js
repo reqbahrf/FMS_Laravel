@@ -1507,13 +1507,13 @@ window.initializeStaffPageJs = async () => {
                     const projectID = $("#ProjectID").val();
                     const updatedProjectLinks =
                         $("#projectLinkForm").serialize();
-                    const projectName = $("#HiddenProjectNameToUpdate").val();
+                    const file_id = $("input#HiddenFileIDToUpdate").val();
 
                     const response = await $.ajax({
                         type: "PUT",
                         url: DASHBBOARD_TAB_ROUTE.UPDATE_PROJECT_LINKS.replace(
-                            ":project_link_name",
-                            projectName
+                            ":file_id",
+                            file_id
                         ),
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -1536,10 +1536,12 @@ window.initializeStaffPageJs = async () => {
                 const triggeredbutton = $(event.relatedTarget);
                 const selectedRow = triggeredbutton.closest("tr");
 
+                const file_id = selectedRow.find("input.linkID").val();
                 const projectName = selectedRow.find("td:eq(0)").text();
                 const projectLink = selectedRow.find("td:eq(1)").text();
 
                 const modal = $(this);
+                modal.find("input#HiddenFileIDToUpdate").val(file_id);
                 modal.find("input#HiddenProjectNameToUpdate").val(projectName);
                 modal.find("input#projectNameUpdated").val(projectName);
                 modal.find("textarea#projectLink").val(projectLink);
@@ -1660,6 +1662,7 @@ window.initializeStaffPageJs = async () => {
                         .attr("data-record-to-delete", "paymentRecord")
                         .attr("data-unique-val", paymentTransactionID);
                 } else if (action === "projectLink") {
+                    const fileId = recordRow.find("input.linkID").val();
                     const projectName = recordRow.find("td:eq(0)").text();
                     const projectLink = recordRow.find("td:eq(1)").text();
 
@@ -1671,7 +1674,7 @@ window.initializeStaffPageJs = async () => {
                     modal
                         .find("#deleteRecord")
                         .attr("data-record-to-delete", "projectLinkRecord")
-                        .attr("data-unique-val", projectName);
+                        .attr("data-unique-val", fileId);
                 } else if (action === "quarterlyRecord") {
                     const quarterlyRecord_id =
                         triggeredDeleteButton.data("record-id");
@@ -1704,7 +1707,7 @@ window.initializeStaffPageJs = async () => {
                                   )
                                 : recordToDelete === "projectLinkRecord"
                                 ? DASHBBOARD_TAB_ROUTE.DELETE_PROJECT_LINK.replace(
-                                      ":project_link_name",
+                                      ":file_id",
                                       uniqueVal
                                   )
                                 : recordToDelete === "quarterlyRecord"

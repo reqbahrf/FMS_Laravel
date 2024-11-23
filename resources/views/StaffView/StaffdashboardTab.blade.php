@@ -148,6 +148,7 @@
                 <form id="projectLinkForm">
                     <div class="row">
                         <div class="col-12">
+                            <input type="hidden" id="HiddenFileIDToUpdate">
                             <input type="hidden" id="HiddenProjectNameToUpdate">
                             <label for="projectNameToUpdated" class="form-label">File Name</label>
                             <input type="text" name="projectNameUpdated" id="projectNameUpdated"

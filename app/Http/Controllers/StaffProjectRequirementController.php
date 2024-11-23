@@ -120,11 +120,11 @@ class StaffProjectRequirementController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $LinkName)
+    public function destroy(string $id)
     {
         try {
             // Find the file record first
-            $fileLink = ProjectFileLink::where('file_name', $LinkName)->first();
+            $fileLink = ProjectFileLink::whereId($id)->firstOrFail();
 
             if (!$fileLink) {
                 return response()->json(['message' => 'File link not found.'], 404);
@@ -149,6 +149,7 @@ class StaffProjectRequirementController extends Controller
         }
     }
 
+    //TODO: Dynamically Apply Https protocol if the link does not have it
     private function saveProjectFileLink($request)
     {
         $validated = $request->validate([
