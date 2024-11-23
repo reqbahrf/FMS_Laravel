@@ -226,6 +226,7 @@ window.initializeStaffPageJs = async () => {
                     },
                     {
                         title: "Action",
+                        className: "text-center",
                     },
                 ],
                 columnDefs: [
@@ -235,7 +236,7 @@ window.initializeStaffPageJs = async () => {
                     },
                     {
                         targets: 1,
-                        width: "30%",
+                        width: "40%",
                     },
                     {
                         targets: 2,
@@ -243,7 +244,7 @@ window.initializeStaffPageJs = async () => {
                     },
                     {
                         targets: 3,
-                        width: "20%",
+                        width: "10%",
                     },
                 ],
             });
@@ -1394,7 +1395,7 @@ window.initializeStaffPageJs = async () => {
                         response.map((link) => [
                             link.file_name,
                             link.file_link,
-                            link.created_at,
+                            dateFormatter(link.created_at),
                             `<a class="btn btn-outline-primary btn-sm" target="_blank" href="${link.file_link}"><i class="ri-eye-fill"></i></a>
                         <button class="btn btn-primary btn-sm updateLinkRecord" data-bs-toggle="modal" data-bs-target="#projectLinkModal"><i class="ri-pencil-fill" ></i></button>
                         <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-delete-record-type="projectLink"> <i class="ri-delete-bin-6-fill"></i></button>`,
@@ -1409,9 +1410,8 @@ window.initializeStaffPageJs = async () => {
                 }
             };
 
-            const SaveProjectFileLinks = async () => {
+            const SaveProjectFileLinks = async (projectID, action) => {
                 try {
-                    const projectID = $("#ProjectID").val();
                     let requirementLinks = {};
                      const linkContainer = RequirementContainer.find(".linkContainer")
                      linkContainer.each(function () {
@@ -1432,12 +1432,14 @@ window.initializeStaffPageJs = async () => {
                             ),
                         },
                         data: {
+                            action: action,
                             project_id: projectID,
                             linklist: requirementLinks,
                         },
                     });
 
                     getProjectLinks(projectID);
+                    closeModal('#requirementModal')
                     showToastFeedback("text-bg-success", response.message);
 
                 } catch (error) {
@@ -1448,22 +1450,47 @@ window.initializeStaffPageJs = async () => {
                 }
 
             }
-            const SaveProjectFile = async () => {
+            const SaveProjectFile = async (projectID, action) => {
                 try {
+                    const name = $("#requirements_file_name").val();
+                    const file_path = uploadFileRequirements.getAttribute('data-file_path');
+                    const response = await $.ajax({
+                        type: "POST",
+                        url: DASHBBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        data: {
+                            action: action,
+                            project_id: projectID,
+                            name: name,
+                            file_path: file_path,
+                        },
+                    });
+                    getProjectLinks(projectID);
+                    closeModal('#requirementModal')
+                    showToastFeedback("text-bg-success", response.message);
+                    toggleRequirementUploadType();
 
                 } catch (error) {
-
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
                 }
             }
 
             //Save the inputted links to the database
-            $("button[data-selected-action]").on("click", async function () {
-               const action = $(this).data("selected-action");
+            $("button[data-selected-action]").off("click").on("click", async function () {
+               let action = $(this).attr("data-selected-action");
+               const projectID = $("#ProjectID").val();
 
                action === 'ProjectLink'
-               ? SaveProjectFileLinks()
+               ? SaveProjectFileLinks(projectID, action)
                : action === 'ProjectFile'
-               ? SaveProjectFile()
+               ? SaveProjectFile(projectID, action)
                : null
             });
 
@@ -1489,8 +1516,9 @@ window.initializeStaffPageJs = async () => {
                     });
 
                     getProjectLinks(projectID);
-                    closeModal("#requirementModal");
+                    closeModal("#projectLinkModal");
                     showToastFeedback("text-bg-success", response.message);
+                    toggleRequirementUploadType();
                 } catch (error) {
                     showToastFeedback("text-bg-danger", error);
                 }
@@ -1516,7 +1544,22 @@ window.initializeStaffPageJs = async () => {
                 const fileContainer = $('.FileContainer');
                 const saveButton = $('button[data-selected-action]');
 
-                uploadTypeRadios.change(function() {
+                // Remove any existing event listeners first
+                uploadTypeRadios.off('change');
+
+                // Reset containers and inputs to initial state
+                linkContainer.show();
+                fileContainer.hide();
+                saveButton.attr('data-selected-action', 'ProjectLink');
+
+                // Reset all inputs
+                $('#requirements_name').val('');
+                $('#requirements_link').val('');
+                $('#requirements_file').val('');
+                $('#requirements_file_name').val('');
+
+                // Re-add event listeners
+                uploadTypeRadios.on('change', function() {
                     if (this.value === 'link') {
                         linkContainer.show();
                         fileContainer.hide();
@@ -1540,11 +1583,8 @@ window.initializeStaffPageJs = async () => {
                     }
                 });
 
-                // Set initial state
-                saveButton.attr('data-selected-action', 'ProjectLink');
-
                 // Add event listener to file input to update file name
-                $('#requirements_file').change(function(e) {
+                $('#requirements_file').off('change').on('change', function(e) {
                     const fileName = e.target.files[0] ? e.target.files[0].name : '';
                     $('#requirements_file_name').val(fileName);
                 });

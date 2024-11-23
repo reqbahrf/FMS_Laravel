@@ -28,7 +28,7 @@ use App\Http\Controllers\AdminManageStaffController;
 use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
-use App\Http\Controllers\StaffProjectLinkController;
+use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
@@ -200,7 +200,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
 
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
-    Route::resource('/Staff/Project/ProjectLink', StaffProjectLinkController::class);
+    Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class);
     Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
     Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
     Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class);
