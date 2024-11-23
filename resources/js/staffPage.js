@@ -1391,21 +1391,29 @@ window.initializeStaffPageJs = async () => {
                         },
                     });
                     ProjectFileLinkDataTable.clear();
-                    ProjectFileLinkDataTable.rows.add(
-                        response.map((link) => [
-                            link.file_name,
-                            link.file_link,
-                            dateFormatter(link.created_at),
-                            `<a class="btn btn-outline-primary btn-sm" target="_blank" href="${link.file_link}"><i class="ri-eye-fill"></i></a>
-                        <button class="btn btn-primary btn-sm updateLinkRecord" data-bs-toggle="modal" data-bs-target="#projectLinkModal"><i class="ri-pencil-fill" ></i></button>
+            ProjectFileLinkDataTable.rows.add(
+                response.map((link) => {
+                    // For internal files, create a route to view the file using its ID
+                    const viewButton = link.is_external
+                        ? `<a class="btn btn-outline-primary btn-sm" target="_blank" href="https://${link.file_link}"><i class="ri-eye-fill"></i></a>`
+                        : `<a class="btn btn-outline-primary btn-sm" target="_blank" href="/view-project-file/${link.id}"><i class="ri-eye-fill"></i></a>`;
+
+                    return [
+                        `${link.file_name}
+                       <input type="hidden" class="linkID" value="${link.id}">`,
+                        link.file_link,
+                        dateFormatter(link.created_at),
+                        `${viewButton}
+                        <button class="btn btn-primary btn-sm updateLinkRecord" data-bs-toggle="modal" data-bs-target="#projectLinkModal"><i class="ri-pencil-fill"></i></button>
                         <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-delete-record-type="projectLink"> <i class="ri-delete-bin-6-fill"></i></button>`,
-                        ])
-                    );
+                    ];
+                })
+            )
                     ProjectFileLinkDataTable.draw();
                 } catch (error) {
                     showToastFeedback(
                         "text-bg-danger",
-                        error.responseJSON.message
+                        error?.responseJSON.message
                     );
                 }
             };

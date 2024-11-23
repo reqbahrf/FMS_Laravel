@@ -201,6 +201,8 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
     Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class);
+    Route::get('/view-project-file/{id}', [StaffProjectRequirementController::class, 'viewFile'])
+        ->name('view.project.file');
     Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
     Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
     Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class);

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ProjectFileLink;
 use Illuminate\Http\Request;
+use App\Models\ProjectFileLink;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class StaffProjectRequirementController extends Controller
@@ -20,10 +21,11 @@ class StaffProjectRequirementController extends Controller
         ]);
 
         try {
-
-            $linkRecord = DB::table('project_file_links')->where('Project_id', '=', $validated['project_id'])
-                ->select('file_name', 'file_link', 'created_at')
+            $linkRecord = DB::table('project_file_links')
+                ->where('Project_id', $validated['project_id'])
+                ->select('id', 'file_name', 'file_link', 'created_at', 'is_external')
                 ->get();
+
             return response()->json($linkRecord, 200);
         } catch (\Exception $e) {
             Log::error('Error fetching project links: ' . $e->getMessage());
@@ -55,13 +57,32 @@ class StaffProjectRequirementController extends Controller
         }
     }
 
+    public function viewFile($id)
+    {
+        // Find the file record
+        $fileLink = ProjectFileLink::findOrFail($id);
+
+        // Construct the file path
+        $filePath = storage_path('app/public/' . $fileLink->file_link);
+
+        // Check if file exists
+        if (!file_exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        // Determine mime type
+        $mimeType = mime_content_type($filePath);
+
+        // Return file for viewing
+        return response()->file($filePath, [
+            'Content-Type' => $mimeType
+        ]);
+    }
+
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
-    {
-        //
-    }
+    public function show(string $id) {}
 
     /**
      * Show the form for editing the specified resource.
@@ -102,10 +123,28 @@ class StaffProjectRequirementController extends Controller
     public function destroy(string $LinkName)
     {
         try {
-            ProjectFileLink::where('file_name', $LinkName)->delete();
+            // Find the file record first
+            $fileLink = ProjectFileLink::where('file_name', $LinkName)->first();
+
+            if (!$fileLink) {
+                return response()->json(['message' => 'File link not found.'], 404);
+            }
+
+            // If it's an internal file, delete the physical file from storage
+            if (!$fileLink->is_external) {
+                $filePath = storage_path('app/public/' . $fileLink->file_link);
+
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+            }
+
+            // Delete the database record
+            $fileLink->delete();
+
             return response()->json(['message' => 'Project link deleted successfully.'], 200);
         } catch (\Exception $e) {
-            Log::alert($e->getMessage());
+            Log::alert('Error deleting project link: ' . $e->getMessage());
             return response()->json(['message' => 'An unexpected error occurred. Please try again later.'], 500);
         }
     }
@@ -133,6 +172,7 @@ class StaffProjectRequirementController extends Controller
                     'Project_id' => $validated['project_id'],
                     'file_name' => $name,
                     'file_link' => $url,
+                    'is_external' => true,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
@@ -164,11 +204,11 @@ class StaffProjectRequirementController extends Controller
             $projectFileLink->Project_id = $validated['project_id'];
             $projectFileLink->file_name = $validated['name'];
             $projectFileLink->file_link = $validated['file_path'];
+            $projectFileLink->is_external = false;
             $projectFileLink->save();
 
             return response()->json([
                 'message' => 'Project file added successfully.',
-                'data' => $projectFileLink
             ], 200);
         } catch (\Exception $e) {
             // Log the error for debugging
