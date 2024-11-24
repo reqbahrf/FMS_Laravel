@@ -86,7 +86,7 @@ Route::post('/password/email', [PasswordResetController::class, 'sendResetLink']
 
 Route::get('/password/reset/{token}', fn($token) => view('auth.passwordReset.resetForm', ['token' => $token]))->name('password.reset');
 
-Route::post('/password/reset', [PasswordResetController::class, 'reset'])->name('password.update');
+Route::post('/password/reset', [PasswordResetController::class, 'reset'])->name('password.reset.submit');
 
 //Logout routes
 Route::post('/logout', [AuthController::class, 'logout'])

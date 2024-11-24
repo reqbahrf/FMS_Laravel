@@ -204,7 +204,7 @@
                     </div>
                 @endif
                 <div>
-                    <form method="POST" action="{{ route('password.update') }}" class="row g-3">
+                    <form method="POST" action="{{ route('password.reset.submit') }}" class="row g-3">
                         @csrf
                         <div class="col-auto">
                             <input type="hidden" name="token" value="{{ $token }}">
