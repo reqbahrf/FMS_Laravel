@@ -28,6 +28,8 @@ class NewRegistrationRequest extends FormRequest
         return [
             'email' => 'required|email|sometimes',
             'projectStatus' => 'required|in:pending,ongoing|sometimes',
+            'project_id' => 'required_if:projectStatus,ongoing|string|max:15',
+            'project_title' => 'required_if:projectStatus,ongoing|string|max:100',
             'prefix' => 'nullable',
             'f_name' => 'required|max:30',
             'middle_name' => 'nullable|max:30',
