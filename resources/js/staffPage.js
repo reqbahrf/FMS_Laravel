@@ -18,6 +18,9 @@ import "datatables.net-fixedcolumns-bs5";
 import "datatables.net-fixedheader-bs5";
 import "datatables.net-responsive-bs5";
 import "datatables.net-scroller-bs5";
+import "smartwizard/dist/css/smart_wizard_all.css";
+import smartWizard from 'smartwizard';
+window.smartWizard = smartWizard;
 
 Echo.private(`staff-notifications.${USER_ID}`).listen(
     ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
@@ -4133,6 +4136,7 @@ window.initializeStaffPageJs = async () => {
             }
         },
         Applicant: () => {
+            new smartWizard();
             let ProjectProposalFormInitialValue = {};
             const applicantDataTable = $("#applicant").DataTable({
                 responsive: true,
@@ -5059,6 +5063,21 @@ window.initializeStaffPageJs = async () => {
                     }
                 }
             );
+
+            const ApplicantProgressSmartWizard = $("#ApplicationProgress");
+
+            ApplicantProgressSmartWizard.smartWizard({
+                selected: 0,
+                theme: 'dots',
+                transition: {
+                    animation: 'slideHorizontal'
+                },
+                toolbar: {
+                    showNextButton: true, // show/hide a Next button
+                    showPreviousButton: true, // show/hide a Previous button
+                    position: 'both buttom', // none/ top/ both bottom
+                },
+            });
         },
     };
     return functions;

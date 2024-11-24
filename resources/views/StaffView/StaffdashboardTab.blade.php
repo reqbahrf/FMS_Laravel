@@ -303,7 +303,7 @@
     </div>
     <div class="offcanvas-body overflow-x-hidden">
         {{-- Project Navigation Tabs --}}
-        @include('StaffView.layout.handleProjectOffcanvaContent')
+        @include('StaffView.Included_layout.handleProjectOffcanvaContent')
     </div>
     <div class="approvedProjectContent">
         <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
