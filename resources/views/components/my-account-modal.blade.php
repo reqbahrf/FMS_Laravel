@@ -1,3 +1,5 @@
+@props(['businessInfos'])
+
 <style>
     .modal-fullscreen {
         min-height: 100vh;
@@ -35,10 +37,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="container">
+                <div class="container-lg">
                     <div class="row">
-                        <div class="col-md-3">
-                            <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist"
+                        <div class="col-md-3 shadow">
+                            <div class="nav flex-column  nav-pills me-3" id="v-pills-tab" role="tablist"
                                 aria-orientation="vertical">
 
                                 <a class="nav-link active" id="v-pills-personal-tab" data-bs-toggle="pill"
@@ -56,7 +58,7 @@
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-content mx-2" id="v-pills-tabContent" style="height: 90vh">
                                 <div class="tab-pane fade show active" id="v-pills-personal" role="tabpanel"
                                     aria-labelledby="v-pills-personal-tab">
                                     <!-- Profile Section -->
@@ -86,34 +88,56 @@
                                             <input type="email" class="form-control" id="email"
                                                 value="matthew.y@cloverlabs.com">
                                         </div>
-                                    </form>
                                 </div>
                                 @if ($userRole == 'Cooperator')
                                     <div class="tab-pane fade" id="v-pills-billing" role="tabpanel"
                                         aria-labelledby="v-pills-billing-tab">
-                                        {{ $businessInfo }}
-                                        <table class="table table-hover">
-                                            <thead>
+                                       <table class="table table-hover">
+                                           <thead>
+                                               <tr>
+                                                   <th scope="col">Firm Name</th>
+                                                   <th scope="col">Project Title</th>
+                                                   <th scope="col">Application Status</th>
+                                               </tr>
+                                           </thead>
+                                           <tbody>
+                                            @forelse ($businessInfos as $businessInfo)
+                                            @if ($businessInfo->applicationInfo && $businessInfo->applicationInfo->count() > 0)
+                                                @foreach ($businessInfo->applicationInfo as $application)
+                                                    <tr>
+                                                        <td>{{ $businessInfo->firm_name }}</td>
+                                                        <td>{{ $application->projectInfo->project_title ?? 'N/A' }}</td>
+                                                        <td>
+                                                            @php
+                                                                $badgeClass = match($application->application_status) {
+                                                                    'completed' => 'bg-success',
+                                                                    'pending' => 'bg-warning',
+                                                                    'rejected' => 'bg-danger',
+                                                                    'ongoing' => 'bg-primary',
+                                                                    'new' => 'bg-secondary',
+                                                                };
+                                                            @endphp
+                                                            <span class="badge {{ $badgeClass }}">
+                                                                {{ ucfirst($application->application_status) }}
+                                                            </span>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
                                                 <tr>
-                                                    <th scope="col">Firm Name</th>
-                                                    <th scope="col">Project Title</th>
-                                                    <th scope="col">Application Status</th>
+                                                    <td>{{ $businessInfo->firm_name }}</td>
+                                                    <td colspan="2">No applications available</td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>Sample Firm</td>
-                                                    <td>Sample Project Title</td>
-                                                    <td><span class="badge bg-success">Approved</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Sample Firm 2</td>
-                                                    <td>Sample Project Title 2</td>
-                                                    <td><span class="badge bg-warning">Pending</span></td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                            @endif
+                                        @empty
+                                            <tr>
+                                                <td colspan="3" class="text-center">No business information available</td>
+                                            </tr>
+                                        @endforelse
+                                           </tbody>
+                                       </table>
                                     </div>
+
                                 @endif
                                 <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
                                     aria-labelledby="v-pills-settings-tab">

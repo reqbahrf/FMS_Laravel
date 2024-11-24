@@ -1,6 +1,6 @@
 <div class="wrapper">
     <x-toast-alert />
-    <x-my-account-modal />
+    <x-my-account-modal :businessInfos="$businessInfos"/>
     <x-logout-confirmation-modal />
     <nav class="sidenav expanded">
         <ul class="navbar-nav">

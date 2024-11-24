@@ -602,7 +602,7 @@
         </script>
     @else
         @if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
-            @include('CooperatorView.CooperatorApprovedPage')
+            @include('CooperatorView.CooperatorApprovedPage', compact('businessInfos'))
         @elseif(in_array(Session::get('application_status'), ['new', 'evaluation','pending']))
             @include('CooperatorView.ApplicationWaitingPage', compact('businessInfos'))
         @endif
