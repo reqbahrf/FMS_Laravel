@@ -58,6 +58,23 @@
                                     Please select a project status.
                                 </div>
                             </div>
+                            <div class="col-12 col-md-3">
+                                <label for="project_id">Project ID:</label>
+                                <input type="text" class="form-control" name="project_id" id="project_id"
+                                    value=""  data-status-dependency="ongoing" required>
+                                <div class="invalid-feedback">
+                                    Please enter a valid project ID.
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-md-9">
+                                <label for="project_title">Project Title:</label>
+                                <input type="text" class="form-control" name="project_title" id="project_title" data-status-dependency="ongoing"  required>
+                                <div class="invalid-feedback" >
+                                    Please enter a valid project title.
+                                </div>
+                            </div>
+                            <hr>
                             @endif
                         <div class="col-12 col-md-2">
                             <label for="prefix">Prefix:</label>

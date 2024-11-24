@@ -4134,6 +4134,31 @@ window.initializeStaffPageJs = async () => {
             if (module.initializeForm) {
                 module.initializeForm();
             }
+
+            function toggleProjectInputs() {
+                const selectedStatus = $('#projectStatus').val();
+                const ongoingProjectInputs = $('#project_id, #project_title')
+
+                if (selectedStatus === 'ongoing') {
+                    // Disable and hide inputs when status is 'ongoing'
+                    ongoingProjectInputs
+                        .prop('disabled', true)
+                        .closest('.col-12')
+                        .hide();
+                } else {
+                    // Enable and show inputs when status is 'pending'
+                    ongoingProjectInputs
+                        .prop('disabled', false)
+                        .closest('.col-12')
+                        .show();
+                }
+            }
+
+            // Initial check on page load
+            toggleProjectInputs();
+
+            // Add event listener for status changes
+            $('#projectStatus').on('change', toggleProjectInputs);
         },
         Applicant: () => {
             new smartWizard();
