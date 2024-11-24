@@ -1,5 +1,5 @@
 <style>
-     .logo {
+    :is(header, footer) .logo {
         width: 50%;
         height: 50%;
         border-radius: 25%;
@@ -9,19 +9,19 @@
         object-position: center;
     }
 
-    .nav-link.home:hover {
+   :is(header, footer) .nav-link.home:hover {
         background-color: #48C4D3;
         text-decoration: none;
     }
 
-    .nav-link.login {
+   :is(header, footer) .nav-link.login {
         padding: 8px 16px;
         border-radius: 20px;
         border: 1px solid #48C4D3;
         font-weight: bold;
     }
 
-    .headerText {
+   :is(header, footer) .headerText {
         font-size: 1.875rem;
         font-weight: 700;
         display: flex;
@@ -31,60 +31,60 @@
         /* Ensure this element takes up the full height of its container */
     }
 
-    .header-cont {
+   :is(header, footer) .header-cont {
         height: 13vh;
         background-color: var(--bs-topnav-color);
         transition: all 0.5s ease;
 
     }
 
-    .hide {
+   :is(header, footer) .hide {
         transform: translateY(-100%);
         opacity: 0;
     }
 
-    .show {
+   :is(header, footer) .show {
         transform: translateY(0);
         opacity: 1;
     }
 
-    .footer-cont {
+   :is(header, footer) .footer-cont {
         height: auto;
     }
 
 
-    #logoTitle {
+   :is(header, footer) #logoTitle {
         right: 50px;
         animation: logo-whole-text 1s forwards;
     }
 
-    .navlogo {
+   :is(header, footer) .navlogo {
         height: 13vh;
         width: 40vw;
     }
 
 
-    .sideTextMain {
+   :is(header, footer) .sideTextMain {
         position: absolute;
         bottom: 50%;
         font-size: 1.25rem;
         font-weight: 700;
     }
 
-    .sideTextMain::after {
+   :is(header, footer) .sideTextMain::after {
         content: "DOST-SETUP";
         opacity: 0.5;
         animation: navLogo-text-main-expand 2s forwards;
     }
 
-    .sideTextSec {
+   :is(header, footer) .sideTextSec {
         position: absolute;
         top: 50%;
         font-size: 0.9375rem;
-        font-weight: 400;
+        font-weight:is(: 400;, footer)
     }
 
-    .sideTextSec::after {
+   :is(header, footer) .sideTextSec::after {
         content: "Fund Monitoring Sys";
         opacity: 0;
         animation: navLogo-text-sec-expand 3s forwards;
