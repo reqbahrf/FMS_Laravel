@@ -13,14 +13,14 @@ class MyAccountModal extends Component
     public $username;
     public $userRole;
     public $email;
-    public $businessInfo;
+    public $businessInfos;
     /**
      * Create a new component instance.
      */
-    public function __construct($businessInfo = null)
+    public function __construct($businessInfos = null)
     {
         $user = Auth::user();
-        $this->businessInfo = $businessInfo;
+        $this->businessInfos = $businessInfos;
         $this->userRole = $user->role;
         $this->email = $user->email;
 
@@ -29,7 +29,7 @@ class MyAccountModal extends Component
                 ($user->orgUserInfo->mid_name ? substr($user->orgUserInfo->mid_name, 0, 1) . '.' : '') .
                 ' ' . $user->orgUserInfo->l_name . ' ' . $user->orgUserInfo->suffix;
         } else {
-            $this->username = $user->coopUserInfo->f_name . ' ' .
+            $this->username = $user->coopUserInfo?->f_name . ' ' .
                 ($user->coopUserInfo->mid_name ? substr($user->coopUserInfo->mid_name, 0, 1) . '.' : '') .
                 ' ' . $user->coopUserInfo->l_name;
         }

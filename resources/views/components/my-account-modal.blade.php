@@ -93,52 +93,61 @@
                                 @if ($userRole == 'Cooperator')
                                     <div class="tab-pane fade" id="v-pills-billing" role="tabpanel"
                                         aria-labelledby="v-pills-billing-tab">
-                                       <table class="table table-hover">
-                                           <thead>
-                                               <tr>
-                                                   <th scope="col">Firm Name</th>
-                                                   <th scope="col">Project Title</th>
-                                                   <th scope="col">Application Status</th>
-                                               </tr>
-                                           </thead>
-                                           <tbody>
-                                            @forelse ($businessInfos as $businessInfo)
-                                            @if ($businessInfo->applicationInfo && $businessInfo->applicationInfo->count() > 0)
-                                                @foreach ($businessInfo->applicationInfo as $application)
-                                                    <tr>
-                                                        <td>{{ $businessInfo->firm_name }}</td>
-                                                        <td>{{ $application->projectInfo->project_title ?? 'N/A' }}</td>
-                                                        <td>
-                                                            @php
-                                                                $badgeClass = match($application->application_status) {
-                                                                    'completed' => 'bg-success',
-                                                                    'pending' => 'bg-warning',
-                                                                    'rejected' => 'bg-danger',
-                                                                    'ongoing' => 'bg-primary',
-                                                                    'new' => 'bg-secondary',
-                                                                };
-                                                            @endphp
-                                                            <span class="badge {{ $badgeClass }}">
-                                                                {{ ucfirst($application->application_status) }}
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                @endforeach
-                                            @else
+                                        <table class="table table-hover">
+                                            <thead>
                                                 <tr>
-                                                    <td>{{ $businessInfo->firm_name }}</td>
-                                                    <td colspan="2">No applications available</td>
+                                                    <th scope="col">Firm Name</th>
+                                                    <th scope="col">Project Title</th>
+                                                    <th scope="col">Application Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @if($businessInfos && is_array($businessInfos) || is_object($businessInfos))
+                                                @forelse ($businessInfos as $businessInfo)
+                                                    @if ($businessInfo->applicationInfo && $businessInfo->applicationInfo->count() > 0)
+                                                        @foreach ($businessInfo->applicationInfo as $application)
+                                                            <tr>
+                                                                <td>{{ $businessInfo->firm_name }}</td>
+                                                                <td>{{ $application->projectInfo->project_title ?? 'N/A' }}
+                                                                </td>
+                                                                <td>
+                                                                    @php
+                                                                        $badgeClass = match (
+                                                                            $application->application_status
+                                                                        ) {
+                                                                            'completed' => 'bg-success',
+                                                                            'pending' => 'bg-warning',
+                                                                            'rejected' => 'bg-danger',
+                                                                            'ongoing' => 'bg-primary',
+                                                                            'new' => 'bg-secondary',
+                                                                        };
+                                                                    @endphp
+                                                                    <span class="badge {{ $badgeClass }}">
+                                                                        {{ ucfirst($application->application_status) }}
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        @endforeach
+                                                    @else
+                                                        <tr>
+                                                            <td>{{ $businessInfo->firm_name }}</td>
+                                                            <td colspan="2">No applications available</td>
+                                                        </tr>
+                                                    @endif
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="3" class="text-center">No business information
+                                                            available</td>
+                                                    </tr>
+                                                @endforelse
+                                                @else
+                                                <tr>
+                                                    <td colspan="3" class="text-center">No business information available</td>
                                                 </tr>
                                             @endif
-                                        @empty
-                                            <tr>
-                                                <td colspan="3" class="text-center">No business information available</td>
-                                            </tr>
-                                        @endforelse
-                                           </tbody>
-                                       </table>
+                                            </tbody>
+                                        </table>
                                     </div>
-
                                 @endif
                                 <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
                                     aria-labelledby="v-pills-settings-tab">

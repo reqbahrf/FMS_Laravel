@@ -74,7 +74,7 @@
     }
 </style>
     <div class="wrapper-waiting">
-        <x-my-account-modal :businessInfo="$businessInfos" />
+        <x-my-account-modal :businessInfos="$businessInfos" />
         <x-toast-alert />
         <div class="topNav shadow-sm position-fixed container-fluid">
             <div class="d-flex justify-content-between align-items-center h-100 w-75">

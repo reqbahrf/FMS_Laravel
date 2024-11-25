@@ -177,7 +177,7 @@
             display: block;
             width: 40px;
             height: 3px;
-            background: #3498db;
+            background: #48C4D3;
             bottom: 0;
             left: calc(50% - 20px);
         }
@@ -855,8 +855,8 @@
                     <div class="row">
                         <div class="col-12 col-md-4">
                             <div class="card h-100">
-                                <div class="card-header">
-                                    <strong>VISION</strong>
+                                <div class="card-header bg-primary">
+                                    <strong class="text-white">VISION</strong>
                                 </div>
                                 <div class="card-body">
                                     <p class="paragraph-content">
@@ -870,8 +870,8 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <div class="card h-100">
-                                <div class="card-header">
-                                    <strong>MISSION</strong>
+                                <div class="card-header bg-primary">
+                                    <strong class="text-white">MISSION</strong>
 
                                 </div>
                                 <div class="card-body">
@@ -884,8 +884,8 @@
                         </div>
                         <div class="col-12 col-md-4">
                             <div class="card h-100">
-                                <div class="card-header">
-                                    <strong>VALUES</strong>
+                                <div class="card-header bg-primary ">
+                                    <strong class="text-white">VALUES</strong>
                                 </div>
                                 <div class="card-body">
                                     <ul class="Values-list">
