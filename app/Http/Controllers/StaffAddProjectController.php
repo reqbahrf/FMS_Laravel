@@ -81,6 +81,8 @@ class StaffAddProjectController extends Controller
                 'email' => $validatedInputs['email'],
                 'password' => Hash::make($initial_password),
                 'role' => 'Cooperator',
+                'created_at' => now(),
+                'updated_at' => now(),
                 'must_change_password' => true, // New flag to force password change
             ]);
 
@@ -111,6 +113,8 @@ class StaffAddProjectController extends Controller
             $export_market = $validatedInputs['Export'];
             $local_market = $validatedInputs['Local'];
 
+
+
             $businessId = DB::table('business_info')->insertGetId([
                 'user_info_id' => $personalInfoId,
                 'firm_name' => $firm_name,
@@ -125,6 +129,31 @@ class StaffAddProjectController extends Controller
                 'Export_Mkt_Outlet' => $export_market,
                 'Local_Mkt_Outlet' => $local_market,
             ]);
+
+              //Project Info
+
+              if($validatedInputs['projectStatus'] == "ongoing"){
+
+                $projectId = $validatedInputs['project_id'];
+                $projectTitle = $validatedInputs['project_title'];
+                $fundedAmount = $validatedInputs['funded_amount'];
+
+                $fundAmount = str_replace(',', '', $fundedAmount);
+                $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
+                $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
+
+               DB::table('project_info')->insert([
+                    'Project_id' => $projectId,
+                    'business_id' => $businessId,
+                    'project_title' => $projectTitle,
+                    'fund_amount' => $fundAmountFormatted,
+                    'actual_amount_to_be_refund' => $actualFundToRefund
+               ]);
+
+
+              }
+
+
 
             $successful_inserts++;
 

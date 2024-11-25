@@ -26,7 +26,7 @@
                 </a>
             </li>
         </ul>
-        <form action="{{ route('applicationFormSubmit') }}" id="applicationForm" method="post" class="g-3 p-5"
+        <form id="applicationForm" class="g-3 p-5"
             enctype="multipart/form-data" novalidate>
             @csrf
             <div class="tab-content h-auto" style="height: auto;">

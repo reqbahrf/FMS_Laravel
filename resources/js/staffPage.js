@@ -4152,6 +4152,8 @@ window.initializeStaffPageJs = async () => {
                 }
             }
 
+            formatToNumber('#step-1', 'input#funded_amount')
+
             // Initial check on page load
             toggleProjectInputs();
 

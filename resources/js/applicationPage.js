@@ -1,10 +1,19 @@
+import { showToastFeedback } from "./ReusableJS/utilFunctions";
 import "smartwizard/dist/css/smart_wizard_all.css";
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
 
+let is_initialized = false;
 export function initializeForm() {
 
-     new smartWizard();
+
+    new smartWizard();
+    if (!is_initialized) {
+        is_initialized = true;
+    }
+
+    const confirmButton = $('#confirmButton');
+    confirmButton.off('click');
 
 
         const API_BASE_URL = 'https://psgc.gitlab.io/api';
@@ -813,49 +822,45 @@ export function initializeForm() {
         const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
         const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
 
-        const confirmButton = document.getElementById('confirmButton');
 
-        confirmTrueInfo.add(confirmAgreeInfo).change(function() {
-            confirmButton.disabled = !(confirmTrueInfo.is(':checked') && confirmAgreeInfo.is(':checked'));
+        $(confirmTrueInfo).add(confirmAgreeInfo).change(function() {
+            confirmButton.prop('disabled', !$(confirmTrueInfo).is(':checked') || !$(confirmAgreeInfo).is(':checked'));
         });
 
-        confirmButton.addEventListener('click', function(event) {
+        confirmButton.on('click', async function(event) {
             event.preventDefault();
-            submitForm();
+            await submitForm();
         });
 
-        function submitForm() {
+        async function submitForm() {
+            try {
+                const form = $('#applicationForm');
+                const formData = form.find(':input:not([readonly])').serialize()
+                const response = await $.ajax({
+                    type: 'POST',
+                    url: REGISTRATIONFORM_SUBMISSION_ROUTE,
+                    data: formData,
+                });
 
-            $.ajax({
-                type: 'POST',
-                url: REGISTRATIONFORM_SUBMISSION_ROUTE,
-                data: $('#applicationForm').find(':input:not([readonly])').serialize(),
-                success: function(response) {
-                    // Handle the response from the server
-                    console.log('Form submitted successfully', response);
+                confirmationModal.hide();
+
+                if (response.success) {
                     const message = response.success;
 
-                    confirmationModal.hide();
+                    setTimeout(() => {
+                        showToastFeedback('text-bg-success', message);
+                    }, 500);
 
-                    if (response.success) {
+                    if (response.redirect) {
                         setTimeout(() => {
-                            const toastElement = document.getElementById('successToast');
-                            const toast = new bootstrap.Toast(toastElement);
-                            toast.show();
-                        }, 500);
-
-                        setTimeout(() => {
-                            window.location.href = response?.redirect;
+                            window.location.href = response.redirect;
                         }, 3000);
                     }
-
-                    // Display the toast
-                },
-                error: function(xhr, status, error) {
-                    // Handle any errors
-                    console.error('Error submitting form', error);
                 }
-            });
+            } catch (error) {
+                showToastFeedback('text-bg-danger', 'An error occurred while submitting the form');
+                console.error('Error submitting form:', error);
+            }
         }
 
         function onCancel() {

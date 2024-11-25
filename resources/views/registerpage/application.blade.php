@@ -156,19 +156,7 @@
 <body>
    <x-header />
     <x-applicant-form />
-    <div class="toast-container position-fixed top-0 end-0 p-3" id="toastContainer" style="z-index: 1100;">
-        <div id="successToast" class="toast align-items-center" role="alert" aria-live="assertive"
-            aria-atomic="true">
-            <div class="toast-header text-bg-success">
-                <strong class="me-auto">Success</strong>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
-                    aria-label="Close"></button>
-            </div>
-            <div class="toast-body" id="successToastBody">
-                Form submitted successfully!
-            </div>
-        </div>
-    </div>
+    <x-toast-alert />
    <x-footer />
     @vite('resources/js/app.js')
     <script type="text/javascript">

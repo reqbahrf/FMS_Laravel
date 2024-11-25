@@ -30,6 +30,8 @@ class NewRegistrationRequest extends FormRequest
             'projectStatus' => 'required|in:new,ongoing|sometimes',
             'project_id' => 'required_if:projectStatus,ongoing|string|max:15',
             'project_title' => 'required_if:projectStatus,ongoing|string|max:100',
+            'funded_amount' => 'required_if:projectStatus,ongoing|string',
+            'funded_date' => 'required_if:projectStatus,ongoing|date_format:Y-m-d',
             'prefix' => 'nullable',
             'f_name' => 'required|max:30',
             'middle_name' => 'nullable|max:30',
