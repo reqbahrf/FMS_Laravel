@@ -450,15 +450,8 @@
 
     <body class="overflow-hidden">
         <div class="wrapper">
-            {{-- Toast Container start --}}
             <x-toast-alert />
-            {{-- Toast Container end --}}
-
-            {{-- MyAccount Modal --}}
-
             <x-my-account-modal />
-
-            {{-- Side Navbar for large screen --}}
             <x-logout-confirmation-modal />
             <nav class="sidenav expanded">
                 <ul class="navbar-nav">

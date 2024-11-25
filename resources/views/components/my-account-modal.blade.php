@@ -88,6 +88,7 @@
                                             <input type="email" class="form-control" id="email"
                                                 value="matthew.y@cloverlabs.com">
                                         </div>
+                                    </form>
                                 </div>
                                 @if ($userRole == 'Cooperator')
                                     <div class="tab-pane fade" id="v-pills-billing" role="tabpanel"

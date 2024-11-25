@@ -1,4 +1,4 @@
-<!-- Logout Confirmation Modal -->
+
 <div class="modal fade" id="logoutConfirmationModal" tabindex="-1" aria-labelledby="logoutConfirmationModalLabel"
     aria-hidden="true" data-bs-backdrop="static">
     <div class="modal-dialog modal-dialog-centered">
@@ -11,9 +11,9 @@
                 Are you sure you want to logout?
             </div>
             <div class="modal-footer">
-                <form action="{{ route('logout') }}" method="POST" id="logout-form">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form action="{{ route('logout') }}" method="POST" class="">
                     @csrf
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger">Logout</button>
                 </form>
             </div>
