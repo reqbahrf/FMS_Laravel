@@ -4335,7 +4335,14 @@ window.initializeStaffPageJs = async () => {
                     this.value = this.min;
                 }
             });
-            formatToNumber("#fundAmount, .EquipmentCost");
+            formatToNumber('#EquipmentTableBody',[
+                '.EquipmentCost',
+                '.EquipmentQTY'
+            ]);
+            formatToNumber('#NonEquipmentTableBody', [
+                '.NonEquipmentQTY',
+                '.NonEquipmentCost'
+            ])
 
             //TODO: update this the logic of this
             $("#ApplicantTableBody").on(
