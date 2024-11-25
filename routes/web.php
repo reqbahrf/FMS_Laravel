@@ -56,10 +56,9 @@ Route::get('/application', function () {
     return view('registerpage.application');
 })->name('registrationForm');
 
-Route::middleware(['auth'])->group(function () {
-    Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
-    Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
-});
+Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
+Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
+
 
 Route::post('/application/submit', [ApplicationController::class, 'store'])->name('applicationFormSubmit');
 

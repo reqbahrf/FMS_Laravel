@@ -15,34 +15,40 @@ class FileUploadController extends Controller
      */
     public function upload(Request $request)
     {
-        $request->validate([
-            'filepond' => [
-                'required',
-                'file',
-                'max:10240', // 10MB max
-                'mimes:pdf,jpg,jpeg,png,webp' // allowed file types
-            ]
-        ]);
 
-        $uniqueId = '_' . uniqid();
-        $file = $request->file('filepond');
+        try {
 
-        $fileName = $file->hashName();
-        $filePath = $file->storeAs("tmp/$uniqueId", $fileName, 'public');
+            $request->validate([
+                key($request->allFiles()) => [
+                    'required',
+                    'file',
+                    'max:10240', // 10MB max
+                    'mimes:pdf,jpg,jpeg,png,webp' // allowed file types
+                    ]
+                ]);
 
-        // Store file information in the database
-        $tempFile = TemporaryFile::create([
-            'unique_id' => $uniqueId,
-            'file_name' => $fileName,
-            'file_path' => $filePath,
-            'mime_type' => $file->getMimeType(),
-            'file_size' => $file->getSize(),
-        ]);
+            $file = $request->file(key($request->allFiles()));
+            $uniqueId = '_' . uniqid();
 
-        return response()->json([
-            'unique_id' => $uniqueId,
-            'file_path' => $filePath,
-        ]);
+            $fileName = $file->hashName();
+            $filePath = $file->storeAs("tmp/$uniqueId", $fileName, 'public');
+
+            // Store file information in the database
+           TemporaryFile::create([
+                'unique_id' => $uniqueId,
+                'file_name' => $fileName,
+                'file_path' => $filePath,
+                'mime_type' => $file->getMimeType(),
+                'file_size' => $file->getSize(),
+            ]);
+
+            return response()->json([
+                'unique_id' => $uniqueId,
+                'file_path' => $filePath,
+            ]);
+        } catch (Exception $e) {
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
+        }
     }
 
     public function destroy(Request $request, $uniqueId)

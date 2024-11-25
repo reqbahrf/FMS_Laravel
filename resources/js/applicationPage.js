@@ -21,29 +21,20 @@ export function initializeForm() {
                 process: {
                     url: '/FileRequirementsUpload',
                     method: 'POST',
-                    withCredentials: false,
+                    withCredentials: true,
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
                     onload: (response) => {
                         const data = JSON.parse(response);
                         if (data.unique_id && data.file_path) {
-                            // Store unique_id in a hidden input field or as a data attribute
-                          const file = document.querySelector(
-                                    'input[name="Intent_unique_id_path"][id="IntentFileID_path"]')
-                                .value = data
-                                .file_path;
-
-                            console.log(file);
                             IntentFile.setAttribute('data-unique-id', data.unique_id);
 
                             // Update the file path for the IntentFile
-                            const IntentFilePath = data.file_paths.IntentFile;
+                            const IntentFilePath = data.file_path.IntentFile;
                             if (IntentFilePath) {
                                 // Update the file path in the file upload element
                                 IntentFile.setAttribute('data-file-path', IntentFilePath);
-                                console.log(IntentFile);
                             }
                         }
 
@@ -66,8 +57,7 @@ export function initializeForm() {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': document.querySelector(
-                                'meta[name="csrf-token"]').getAttribute('content')
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                         },
                         body: JSON.stringify({
                             file_path: IntentFilePath
@@ -99,26 +89,24 @@ export function initializeForm() {
                 process: {
                     url: '/FileRequirementsUpload',
                     method: 'POST',
-                    withCredentials: false,
+                    withCredentials: true,
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                            'content')
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
                     },
                     onload: (response) => {
                         const data = JSON.parse(response);
-                        if (data.unique_id && data.file_paths) {
+                        if (data.unique_id && data.file_path) {
                             // Store unique_id in a hidden input field or as a data attribute
                             document.querySelector(
                                     'input[name="DTI_SEC_CDA_unique_id_path"][id="DtiSecCdaFileID_path"]'
                                 )
                                 .value = data
-                                .file_paths.DTI_SEC_CDA_File;
+                                .file_path.DTI_SEC_CDA_File;
                             DTI_SEC_CDA_File.setAttribute('data-unique-id', data.unique_id);
                             console.log(DTI_SEC_CDA_File);
 
                             // Update the file path for the dtiFile
-                            const dtiSecCdaFilePath = data.file_paths.DTI_SEC_CDA_File;
-                            console.log(dtiSecCdaFilePath);
+                            const dtiSecCdaFilePath = data.file_path.DTI_SEC_CDA_File;
                             if (dtiSecCdaFilePath) {
                                 // Update the file path in the file upload element
                                 DTI_SEC_CDA_File.setAttribute('data-file-path', dtiSecCdaFilePath);
@@ -126,7 +114,6 @@ export function initializeForm() {
                                     document.getElementById('DtiSecCdaSelector').classList.add(
                                         'disabled');
                                 }
-                                console.log(dtiSecCdaFilePath);
                             }
                         }
 
@@ -200,17 +187,17 @@ export function initializeForm() {
                     },
                     onload: (response) => {
                         const data = JSON.parse(response);
-                        if (data.unique_id && data.file_paths) {
+                        if (data.unique_id && data.file_path) {
                             // Store unique_id in a hidden input field or as a data attribute
                             document.querySelector(
                                     'input[name="BusinessPermit_unique_id_path"][id="businessPermitFileID_path"]'
                                 ).value =
                                 data
-                                .file_paths.businessPermitFile;
+                                .file_path.businessPermitFile;
                             businessPermitFile.setAttribute('data-unique-id', data.unique_id);
 
                             // Update the file path for the dtiFile
-                            const BusinessPermitFilePath = data.file_paths.businessPermitFile;
+                            const BusinessPermitFilePath = data.file_path.businessPermitFile;
                             if (BusinessPermitFilePath) {
                                 // Update the file path in the file upload element
                                 businessPermitFile.setAttribute('data-file-path',
@@ -231,9 +218,6 @@ export function initializeForm() {
                     const BusinessPermitFilePath = businessPermitFile.getAttribute(
                         'data-file-path');
                     const unique_id = businessPermitFile.getAttribute('data-unique-id');
-
-                    console.log('Reverting file with path:', BusinessPermitFilePath,
-                        'and unique ID:', unique_id);
 
                     fetch(`/FileRequirementsRevert/${unique_id}`, {
                         method: 'DELETE',
@@ -278,17 +262,17 @@ export function initializeForm() {
                     },
                     onload: (response) => {
                         const data = JSON.parse(response);
-                        if (data.unique_id && data.file_paths) {
+                        if (data.unique_id && data.file_path) {
                             // Store unique_id in a hidden input field or as a data attribute
                             document.querySelector(
                                     'input[name="FDA_LTO_unique_id_path"][id="fdaLtoFileID_path"]')
                                 .value = data
-                                .file_paths.fdaLtoFile;
+                                .file_path.fdaLtoFile;
                             fdaLtoFile.setAttribute('data-unique-id', data.unique_id);
                             console.log(fdaLtoFile);
 
                             // Update the file path for the dtiFile
-                            const fdaLtoFilePath = data.file_paths.fdaLtoFile;
+                            const fdaLtoFilePath = data.file_path.fdaLtoFile;
                             console.log(fdaLtoFilePath);
                             if (fdaLtoFilePath) {
                                 // Update the file path in the file upload element
@@ -373,16 +357,16 @@ export function initializeForm() {
                     },
                     onload: (response) => {
                         const data = JSON.parse(response);
-                        if (data.unique_id && data.file_paths) {
+                        if (data.unique_id && data.file_path) {
                             // Store unique_id in a hidden input field or as a data attribute
                             document.querySelector(
                                     'input[name="receipt_unique_id_path"][id="receiptFileID_path"]')
                                 .value = data
-                                .file_paths.receiptFile;
+                                .file_path.receiptFile;
                             receiptFile.setAttribute('data-unique-id', data.unique_id);
 
                             // Update the file path for the dtiFile
-                            const receiptFilePath = data.file_paths.receiptFile;
+                            const receiptFilePath = data.file_path.receiptFile;
                             if (receiptFilePath) {
                                 // Update the file path in the file upload element
                                 receiptFile.setAttribute('data-file-path', receiptFilePath);
@@ -448,16 +432,16 @@ export function initializeForm() {
                     },
                     onload: (response) => {
                         const data = JSON.parse(response);
-                        if (data.unique_id && data.file_paths) {
+                        if (data.unique_id && data.file_path) {
                             // Store unique_id in a hidden input field or as a data attribute
                             document.querySelector(
                                     'input[name="govId_unique_id_path"][id="govIdFileID_path"]')
                                 .value = data
-                                .file_paths.govIdFile;
+                                .file_path.govIdFile;
                             govIdFile.setAttribute('data-unique-id', data.unique_id);
 
                             // Update the file path for the dtiFile
-                            const govIdFilePath = data.file_paths.govIdFile;
+                            const govIdFilePath = data.file_path.govIdFile;
                             if (govIdFilePath) {
                                 // Update the file path in the file upload element
                                 govIdFile.setAttribute('data-file-path', govIdFilePath);
@@ -538,16 +522,16 @@ export function initializeForm() {
                     },
                     onload: (response) => {
                         const data = JSON.parse(response);
-                        if (data.unique_id && data.file_paths) {
+                        if (data.unique_id && data.file_path) {
                             // Store unique_id in a hidden input field or as a data attribute
                             document.querySelector(
                                     'input[name="BIR_unique_id_path"][id="BIRFileID_path"]')
                                 .value = data
-                                .file_paths.BIRFile;
+                                .file_path.BIRFile;
                             BIR.setAttribute('data-unique-id', data.unique_id);
 
                             // Update the file path for the dtiFile
-                            const BIRFilePath = data.file_paths.BIRFile;
+                            const BIRFilePath = data.file_path.BIRFile;
                             if (BIRFilePath) {
                                 // Update the file path in the file upload element
                                 BIR.setAttribute('data-file-path', BIRFilePath);

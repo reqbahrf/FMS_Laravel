@@ -207,41 +207,5 @@ class ApplicationController extends Controller
         }
     }
 
-    public function upload_requirments(Request $request)
-    {
-        $uniqueId = '_' . uniqid();
-
-        $filePaths = [];
-
-       foreach ($request->file() as $fieldName => $file) {
-
-           $fileName = $file->hashName();
-           $filePaths[$fieldName] = $file->storeAs("temp/$uniqueId", $fileName, 'public');
-       }
-
-        return response()->json([
-            'unique_id' => $uniqueId,
-            'file_paths' => $filePaths,
-        ]);
-    }
-
-    public function revertFile($uniqueId, Request $request)
-    {
-        Log::info('revertFile called with uniqueId: ' . $uniqueId);
-
-        // Retrieve the file path from the request
-        $filePath = $request->input('file_path');
-        Log::info('File path: ' . $filePath);
-
-
-        if (Storage::disk('public')->exists($filePath)) {
-            Storage::disk('public')->delete($filePath);
-            Log::info('File deleted: ' . $filePath);
-
-            return response()->json(['status' => 'success', 'ok' => 'true'], 200);
-        }
-
-        Log::error('File not found: ' . $filePath);
-        return response()->json(['status' => 'error', 'message' => 'File not found'], 404);
-    }
+  
 }
