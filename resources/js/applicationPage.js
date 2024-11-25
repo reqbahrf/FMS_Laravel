@@ -19,7 +19,7 @@ export function initializeForm() {
             maxFileSize: '10MB',
             server: {
                 process: {
-                    url: '/requirements/submit',
+                    url: '/FileRequirementsUpload',
                     method: 'POST',
                     withCredentials: false,
                     headers: {
@@ -28,12 +28,14 @@ export function initializeForm() {
                     },
                     onload: (response) => {
                         const data = JSON.parse(response);
-                        if (data.unique_id && data.file_paths) {
+                        if (data.unique_id && data.file_path) {
                             // Store unique_id in a hidden input field or as a data attribute
-                            document.querySelector(
+                          const file = document.querySelector(
                                     'input[name="Intent_unique_id_path"][id="IntentFileID_path"]')
                                 .value = data
-                                .file_paths.IntentFile;
+                                .file_path;
+
+                            console.log(file);
                             IntentFile.setAttribute('data-unique-id', data.unique_id);
 
                             // Update the file path for the IntentFile
@@ -60,7 +62,7 @@ export function initializeForm() {
                     console.log('Reverting file with path:', IntentFilePath, 'and unique ID:',
                         unique_id);
 
-                    fetch(`/delete/file/${unique_id}`, {
+                    fetch(`/FileRequirementsRevert/${unique_id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -95,7 +97,7 @@ export function initializeForm() {
             maxFileSize: '10MB',
             server: {
                 process: {
-                    url: '/requirements/submit',
+                    url: '/FileRequirementsUpload',
                     method: 'POST',
                     withCredentials: false,
                     headers: {
@@ -143,7 +145,7 @@ export function initializeForm() {
                     console.log('Reverting file with path:', dSC_FilePath, 'and unique ID:',
                         unique_id);
 
-                    fetch(`/delete/file/${unique_id}`, {
+                    fetch(`/FileRequirementsRevert/${unique_id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -189,7 +191,7 @@ export function initializeForm() {
             maxFileSize: '10MB',
             server: {
                 process: {
-                    url: '/requirements/submit',
+                    url: '/FileRequirementsUpload',
                     method: 'POST',
                     withCredentials: false,
                     headers: {
@@ -233,7 +235,7 @@ export function initializeForm() {
                     console.log('Reverting file with path:', BusinessPermitFilePath,
                         'and unique ID:', unique_id);
 
-                    fetch(`/delete/file/${unique_id}`, {
+                    fetch(`/FileRequirementsRevert/${unique_id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -267,7 +269,7 @@ export function initializeForm() {
             maxFileSize: '10MB',
             server: {
                 process: {
-                    url: '/requirements/submit',
+                    url: '/FileRequirementsUpload',
                     method: 'POST',
                     withCredentials: false,
                     headers: {
@@ -315,7 +317,7 @@ export function initializeForm() {
                     console.log('Reverting file with path:', fdaLtoFilePath, 'and unique ID:',
                         unique_id);
 
-                    fetch(`/delete/file/${unique_id}`, {
+                    fetch(`/FileRequirementsRevert/${unique_id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -362,7 +364,7 @@ export function initializeForm() {
             maxFileSize: '10MB',
             server: {
                 process: {
-                    url: '/requirements/submit',
+                    url: '/FileRequirementsUpload',
                     method: 'POST',
                     withCredentials: false,
                     headers: {
@@ -403,7 +405,7 @@ export function initializeForm() {
                     console.log('Reverting file with path:', receiptFilePath, 'and unique ID:',
                         unique_id);
 
-                    fetch(`/delete/file/${unique_id}`, {
+                    fetch(`/FileRequirementsRevert/${unique_id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -437,7 +439,7 @@ export function initializeForm() {
             maxFileSize: '10MB',
             server: {
                 process: {
-                    url: '/requirements/submit',
+                    url: '/FileRequirementsUpload',
                     method: 'POST',
                     withCredentials: false,
                     headers: {
@@ -481,7 +483,7 @@ export function initializeForm() {
                     console.log('Reverting file with path:', govIdFilePath, 'and unique ID:',
                         unique_id);
 
-                    fetch(`/delete/file/${unique_id}`, {
+                    fetch(`/FileRequirementsRevert/${unique_id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -527,7 +529,7 @@ export function initializeForm() {
             maxFileSize: '10MB',
             server: {
                 process: {
-                    url: '/requirements/submit',
+                    url: '/FileRequirementsUpload',
                     method: 'POST',
                     withCredentials: false,
                     headers: {
@@ -567,7 +569,7 @@ export function initializeForm() {
                     console.log('Reverting file with path:', BIRFilePath, 'and unique ID:',
                         unique_id);
 
-                    fetch(`/delete/file/${unique_id}`, {
+                    fetch(`/FileRequirementsRevert/${unique_id}`, {
                         method: 'DELETE',
                         headers: {
                             'Content-Type': 'application/json',
@@ -659,11 +661,11 @@ export function initializeForm() {
             }
 
             const requiredFileInputs = [
-                'IntentFile', 
-                'DtiSecCdafile', 
-                'businessPermitFile', 
-                'receiptFile', 
-                'govIdFile', 
+                'IntentFile',
+                'DtiSecCdafile',
+                'businessPermitFile',
+                'receiptFile',
+                'govIdFile',
                 'BIRFile'
             ];
 
@@ -683,9 +685,9 @@ export function initializeForm() {
 
                 // More robust invalid feedback finding
                 const parentDiv = fileInput.closest('.mb-3');
-                const invalidFeedback = parentDiv ? 
-                    parentDiv.querySelector('.invalid-feedback') || 
-                    document.createElement('div') : 
+                const invalidFeedback = parentDiv ?
+                    parentDiv.querySelector('.invalid-feedback') ||
+                    document.createElement('div') :
                     null;
 
                 if (!invalidFeedback) {
@@ -695,20 +697,20 @@ export function initializeForm() {
                     invalidFeedback.textContent = `Please upload ${inputId.replace('File', '')} file`;
                     parentDiv.appendChild(invalidFeedback);
                 }
-                
+
                 // Get the FilePond instance
                 const pondInstance = FilePond.find(fileInput);
-                
+
                 console.log(`Checking ${inputId}:`, {
-                    fileInput, 
-                    pondInstance: pondInstance ? 'exists' : 'not found', 
+                    fileInput,
+                    pondInstance: pondInstance ? 'exists' : 'not found',
                     files: pondInstance ? pondInstance.getFiles().length : 'N/A'
                 });
 
                 // Check if no files are uploaded
                 if (!pondInstance || pondInstance.getFiles().length === 0) {
                     isValid = false;
-                    
+
                     // Show invalid feedback
                     invalidFeedback.style.display = 'block';
                     invalidFeedback.textContent = `Please upload ${inputId.replace('File', '')} file`;

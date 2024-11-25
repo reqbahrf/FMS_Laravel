@@ -56,9 +56,12 @@ Route::get('/application', function () {
     return view('registerpage.application');
 })->name('registrationForm');
 
+Route::middleware(['auth'])->group(function () {
+    Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
+    Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
+});
+
 Route::post('/application/submit', [ApplicationController::class, 'store'])->name('applicationFormSubmit');
-Route::post('/requirements/submit', [ApplicationController::class, 'upload_requirments']);
-Route::delete('/delete/file/{uniqueId}', [ApplicationController::class, 'revertFile']);
 
 //Applicant Routes End
 
@@ -205,8 +208,6 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
     Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class);
     Route::get('/view-project-file/{id}', [StaffProjectRequirementController::class, 'viewFile'])
         ->name('view.project.file');
-    Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
-    Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
     Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class);
     Route::get('/proxy', [ProxyController::class, 'proxy']);
 });

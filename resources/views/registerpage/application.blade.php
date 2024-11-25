@@ -12,7 +12,7 @@
 
     <style>
         html {
-            font-size: clamp(12px, 1vw, 24px);
+            font-size: clamp(0.75rem, 1vw, 1.5rem);
             /* Adjusts between 10px and 18px according to viewport width */
         }
 
@@ -122,7 +122,7 @@
         }
 
         #smartwizard {
-            font-size: 15px;
+            font-size: 0.9375rem;
         }
 
         textarea {
