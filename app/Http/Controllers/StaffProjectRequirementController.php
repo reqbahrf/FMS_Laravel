@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BusinessInfo;
 use Illuminate\Http\Request;
 use App\Models\ProjectFileLink;
 use Illuminate\Support\Facades\DB;
@@ -193,18 +194,47 @@ class StaffProjectRequirementController extends Controller
     {
         // Validate the incoming request
         $validated = $request->validate([
+            'business_id' => 'required|integer',
             'project_id' => 'required|string|max:15',
             'name' => 'required|string|max:255',
             'file_path' => 'required|string',
             'action' => 'required|string|in:ProjectFile'
         ]);
 
+        if (!Storage::disk('public')->exists($validated['file_path'])) {
+            return response()->json([
+                'message' => 'File not found.',
+            ], 404);
+        }
+
+        $firmName = BusinessInfo::where('id', $validated['business_id'])
+            ->select('firm_name')
+            ->firstOrFail();
+
+        $business_path = "Businesses/{$firmName->firm_name}_{$validated['business_id']}";
+        $projectFilePath = $business_path . '/project_files/' . $validated['file_path'];
+
+        if (!Storage::disk('public')->exists($projectFilePath)) {
+            Storage::disk('public')->makeDirectory($projectFilePath, 0755, true);
+        }
+
+        // Create new filename with timestamp to avoid conflicts
+        $newFileName = time() . '_' . $validated['name'];
+
+
+        // Final destination path for the file
+        $finalPath = str_replace(' ', '_', $projectFilePath . '/' . $newFileName);
+
+        // Move the file from temporary location to business directory
+        Storage::disk('public')->move($validated['file_path'], $finalPath);
+
+
         try {
             // Create a new ProjectFileLink record
             $projectFileLink = new ProjectFileLink();
             $projectFileLink->Project_id = $validated['project_id'];
             $projectFileLink->file_name = $validated['name'];
-            $projectFileLink->file_link = $validated['file_path'];
+            $projectFileLink->file_link = $finalPath;
             $projectFileLink->is_external = false;
             $projectFileLink->save();
 

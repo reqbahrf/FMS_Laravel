@@ -1461,7 +1461,7 @@ window.initializeStaffPageJs = async () => {
                 }
 
             }
-            const SaveProjectFile = async (projectID, action) => {
+            const SaveProjectFile = async (projectID, action, businesID) => {
                 try {
                     const name = $("#requirements_file_name").val();
                     const file_path = uploadFileRequirements.getAttribute('data-file_path');
@@ -1475,6 +1475,7 @@ window.initializeStaffPageJs = async () => {
                         },
                         data: {
                             action: action,
+                            business_id: businesID,
                             project_id: projectID,
                             name: name,
                             file_path: file_path,
@@ -1497,11 +1498,12 @@ window.initializeStaffPageJs = async () => {
             $("button[data-selected-action]").off("click").on("click", async function () {
                let action = $(this).attr("data-selected-action");
                const projectID = $("#ProjectID").val();
+               const businesID = $("input#hiddenbusiness_id").val();
 
                action === 'ProjectLink'
                ? SaveProjectFileLinks(projectID, action)
                : action === 'ProjectFile'
-               ? SaveProjectFile(projectID, action)
+               ? SaveProjectFile(projectID, action, businesID)
                : null
             });
 
@@ -3406,34 +3408,6 @@ window.initializeStaffPageJs = async () => {
                 }
             );
 
-            $("#addRequirement").on("click", function () {
-                const RequirementLinkContent = $("#linkContainer");
-
-                RequirementLinkContent.append(`
-                            <div class="col-12 linkConstInstance">
-                                        <div class="row">
-                                            <div class="col-11">
-                                                <div class="col-12 m-2">
-                                                    <label for="requirements_name" class="">Name:</label>
-                                                    <input type="text" name="requirements_name" class=" bottom_border">
-                                                </div>
-                                                <div class="input-group">
-                                                    <label for="requirements_link" class="input-group-text"><i
-                                                            class="ri-links-fill"></i></label>
-                                                    <input type="text" name="requirements_link" class="form-control">
-                                                </div>
-                                            </div>
-                                             <div class="col-1 align-content-center">
-                                                <button class="btn removeRequirement"><i class="ri-close-large-fill"></i></button>
-                                            </div>
-                                        </div>
-                                </div>
-                            `);
-            });
-
-            $("#linkContainer").on("click", ".removeRequirement", function () {
-                $(this).closest(".linkConstInstance").remove();
-            });
 
             $("#approvedDetails").on(
                 "click",
