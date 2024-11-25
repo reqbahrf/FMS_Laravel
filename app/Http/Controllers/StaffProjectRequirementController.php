@@ -60,24 +60,11 @@ class StaffProjectRequirementController extends Controller
 
     public function viewFile($id)
     {
-        // Find the file record
         $fileLink = ProjectFileLink::findOrFail($id);
 
-        // Construct the file path
-        $filePath = storage_path('app/public/' . $fileLink->file_link);
+        $filePath = storage_path("app/private/{$fileLink->file_link}");
 
-        // Check if file exists
-        if (!file_exists($filePath)) {
-            abort(404, 'File not found');
-        }
-
-        // Determine mime type
-        $mimeType = mime_content_type($filePath);
-
-        // Return file for viewing
-        return response()->file($filePath, [
-            'Content-Type' => $mimeType
-        ]);
+        return response()->file($filePath, ['Content-Type' => mime_content_type($filePath)]);
     }
 
     /**
@@ -133,7 +120,7 @@ class StaffProjectRequirementController extends Controller
 
             // If it's an internal file, delete the physical file from storage
             if (!$fileLink->is_external) {
-                $filePath = storage_path('app/public/' . $fileLink->file_link);
+                $filePath = storage_path("app/private/{$fileLink->file_link}");
 
                 if (file_exists($filePath)) {
                     unlink($filePath);
@@ -156,32 +143,24 @@ class StaffProjectRequirementController extends Controller
         $validated = $request->validate([
             'project_id' => 'required|string|max:15',
             'linklist' => 'required|array',
-            'linklist' => [
-                function ($attribute, $value, $fail) {
-                    foreach ($value as $key => $link) {
-                        if (!preg_match('/^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w-]*)*(\?.*)?$/', $link)) {
-                            $fail('The linklist.' . $key . ' must be a valid URL.');
-                        }
-                    }
-                },
-            ]
+            'linklist.*' => 'required|string|max:255',
         ]);
 
         try {
-            // Prepare data for batch insert
-            $data = array_map(function ($name, $url) use ($validated) {
-                return [
+            $links = [];
+            foreach ($validated['linklist'] as $name => $url) {
+                $links[] = [
                     'Project_id' => $validated['project_id'],
                     'file_name' => $name,
-                    'file_link' => $url,
+                    'file_link' => $this->ensureProtocol($url),
                     'is_external' => true,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ];
-            }, array_keys($validated['linklist']), $validated['linklist']);
+            }
 
-            // Batch insert into the database
-            ProjectFileLink::insert($data);
+            // Insert into the database
+            ProjectFileLink::insert($links);
 
             return response()->json(['message' => 'Project links added successfully.'], 200);
         } catch (\Exception $e) {
@@ -212,10 +191,10 @@ class StaffProjectRequirementController extends Controller
             ->firstOrFail();
 
         $business_path = "Businesses/{$firmName->firm_name}_{$validated['business_id']}";
-        $projectFilePath = $business_path . '/project_files/' . $validated['file_path'];
+        $projectFilePath = $business_path . '/project_files/' . $validated['project_id'];
 
         if (!Storage::disk('public')->exists($projectFilePath)) {
-            Storage::disk('public')->makeDirectory($projectFilePath, 0755, true);
+            Storage::disk('private')->makeDirectory($projectFilePath, 0755, true);
         }
 
         // Create new filename with timestamp to avoid conflicts
@@ -226,7 +205,15 @@ class StaffProjectRequirementController extends Controller
         $finalPath = str_replace(' ', '_', $projectFilePath . '/' . $newFileName);
 
         // Move the file from temporary location to business directory
-        Storage::disk('public')->move($validated['file_path'], $finalPath);
+        $sourceStream = Storage::disk('public')->readStream($validated['file_path']);
+        Storage::disk('private')->writeStream($finalPath, $sourceStream);
+
+        if (is_resource($sourceStream)) {
+            fclose($sourceStream);
+        }
+
+        // Delete the original file after successful transfer
+        Storage::disk('public')->delete($validated['file_path']);
 
 
         try {
@@ -250,5 +237,21 @@ class StaffProjectRequirementController extends Controller
                 'error' => $e->getMessage()
             ], 500);
         }
+    }
+
+    private function ensureProtocol($url) {
+        // Remove any leading/trailing whitespace
+        $url = trim($url);
+
+        // Check if URL already has a protocol
+        if (preg_match('#^https?://#i', $url)) {
+            return $url;
+        }
+
+        // Remove any leading slashes or backslashes
+        $url = ltrim($url, '/\\');
+
+        // Add https:// by default
+        return 'https://' . $url;
     }
 }

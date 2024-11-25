@@ -164,6 +164,28 @@ class ApplicationController extends Controller
                     $fileName = $fileNames[$filekey];
                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
+                    $business_path = "Businesses/{$firm_name}_{$businessId}";
+                    $projectFilePath = $business_path . '/requirements';
+
+                    if (!Storage::disk('private')->exists($projectFilePath)) {
+                        Storage::disk('private')->makeDirectory($projectFilePath, 0755, true);
+                    }
+
+                    $newFileName = uniqid(time() . '_') . '_' . $fileName;
+                    $finalPath = str_replace(' ', '_', $projectFilePath . '/' . $newFileName);
+
+                    $sourceStream = Storage::disk('public')->readStream($filePath);
+                    Storage::disk('private')->writeStream($finalPath, $sourceStream);
+
+                    if (is_resource($sourceStream)) {
+                        fclose($sourceStream);
+                    }
+
+                    // Delete the original file after successful transfer
+                    Storage::disk('public')->delete($filePath);
+
+
+
 
                     DB::table('requirements')->insert([
                         'business_id' => $businessId,
@@ -207,5 +229,5 @@ class ApplicationController extends Controller
         }
     }
 
-  
+
 }
