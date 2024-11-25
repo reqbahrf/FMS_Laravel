@@ -4137,16 +4137,16 @@ window.initializeStaffPageJs = async () => {
 
             function toggleProjectInputs() {
                 const selectedStatus = $('#projectStatus').val();
-                const ongoingProjectInputs = $('#project_id, #project_title')
+                const ongoingProjectInputs = $('input[data-status-dependency="ongoing"]')
 
-                if (selectedStatus === 'ongoing') {
-                    // Disable and hide inputs when status is 'ongoing'
+                if (selectedStatus === 'new') {
+
                     ongoingProjectInputs
                         .prop('disabled', true)
                         .closest('.col-12')
                         .hide();
                 } else {
-                    // Enable and show inputs when status is 'pending'
+
                     ongoingProjectInputs
                         .prop('disabled', false)
                         .closest('.col-12')

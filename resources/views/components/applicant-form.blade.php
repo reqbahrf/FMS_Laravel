@@ -51,27 +51,40 @@
                             <div class="col-12 col-md-6">
                                 <label for="projectStatus">Status:</label>
                                 <select name="projectStatus" id="projectStatus" class="form-select" required>
-                                    <option value="pending">New</option>
+                                    <option value="new">New</option>
                                     <option value="ongoing">Ongoing</option>
                                 </select>
                                 <div class="invalid-feedback">
                                     Please select a project status.
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3">
+                            <div class="col-12 col-md-3" style="display: none">
                                 <label for="project_id">Project ID:</label>
                                 <input type="text" class="form-control" name="project_id" id="project_id"
                                     value=""  data-status-dependency="ongoing" required>
-                                <div class="invalid-feedback">
+                                <div class="invalid-feedback" disabled>
                                     Please enter a valid project ID.
                                 </div>
                             </div>
-
-                            <div class="col-12 col-md-9">
+                            <div class="col-12 col-md-9" style="display: none">
                                 <label for="project_title">Project Title:</label>
                                 <input type="text" class="form-control" name="project_title" id="project_title" data-status-dependency="ongoing"  required>
-                                <div class="invalid-feedback" >
+                                <div class="invalid-feedback"  disabled>
                                     Please enter a valid project title.
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4" style="display: none">
+                                <label for="funded_amount">Funded Amount:</label>
+                                <input type="text" class="form-control" name="funded_amount" id="funded_amount" required data-status-dependency="ongoing">
+                                <div class="invalid-feedback" disabled>
+                                    Please enter a valid funded amount.
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-4" style="display: none">
+                                <label for="funded_date">Funded Date:</label>
+                                <input type="date" class="form-control" name="funded_date" id="funded_date" required data-status-dependency="ongoing">
+                                <div class="invalid-feedback" disabled>
+                                    Please enter a valid funded date.
                                 </div>
                             </div>
                             <hr>
