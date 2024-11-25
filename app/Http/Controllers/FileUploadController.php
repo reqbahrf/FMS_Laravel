@@ -2,52 +2,69 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TemporaryFile;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class FileUploadController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-public function upload(Request $request)
-{
-    $request->validate([
-        'filepond' => [
-            'required',
-            'file',
-            'max:10240', // 10MB max
-            'mimes:pdf,jpg,jpeg,png,webp' // allowed file types
-        ]
-    ]);
+    public function upload(Request $request)
+    {
+        $request->validate([
+            'filepond' => [
+                'required',
+                'file',
+                'max:10240', // 10MB max
+                'mimes:pdf,jpg,jpeg,png,webp' // allowed file types
+            ]
+        ]);
 
-    $uniqueId = '_' . uniqid();
-    $file = $request->file('filepond');
+        $uniqueId = '_' . uniqid();
+        $file = $request->file('filepond');
 
-    $fileName = $file->hashName();
-    $filePath = $file->storeAs("temp/$uniqueId", $fileName, 'public');
+        $fileName = $file->hashName();
+        $filePath = $file->storeAs("tmp/$uniqueId", $fileName, 'public');
 
-    return response()->json([
-        'unique_id' => $uniqueId,
-        'file_path' => $filePath,
-    ]);
-}
+        // Store file information in the database
+        $tempFile = TemporaryFile::create([
+            'unique_id' => $uniqueId,
+            'file_name' => $fileName,
+            'file_path' => $filePath,
+            'mime_type' => $file->getMimeType(),
+            'file_size' => $file->getSize(),
+        ]);
+
+        return response()->json([
+            'unique_id' => $uniqueId,
+            'file_path' => $filePath,
+        ]);
+    }
 
     public function destroy(Request $request, $uniqueId)
     {
         try {
-            //code...
-            $filePath = $request->input('file_path');
+            $tempFile = TemporaryFile::where('unique_id', $uniqueId)->first();
 
-            if (Storage::disk('public')->exists($filePath)) {
-                Storage::disk('public')->delete($filePath);
-                return response()->json(['status' => 'success'], 200);
+            if (!$tempFile) {
+                return response()->json(['status' => 'error', 'message' => 'File not found'], 404);
             }
 
-            return response()->json(['status' => 'error'], 404);
+            // Delete from storage
+            if (Storage::disk('public')->exists($tempFile->file_path)) {
+                Storage::disk('public')->delete($tempFile->file_path);
+            }
+
+            // Delete from database
+            $tempFile->delete();
+
+            return response()->json(['status' => 'success'], 200);
         } catch (Exception $e) {
-            return response()->json(['status' => $e->getMessage()], 500);
+            return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
     }
 }
