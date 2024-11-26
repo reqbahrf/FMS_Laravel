@@ -26,8 +26,7 @@
                 </a>
             </li>
         </ul>
-        <form id="applicationForm" class="g-3 p-5"
-            enctype="multipart/form-data" novalidate>
+        <form id="applicationForm" class="g-3 p-5" novalidate>
             @csrf
             <div class="tab-content h-auto" style="height: auto;">
                 <div class="alert alert-primary m-0" role="alert">
@@ -763,7 +762,7 @@
                         <div class="col-12 mb-3 p-0">
                             <div class="card">
                                 <div class="card-header">
-                                    Market Outlet Product
+                                    Market Outlet
                                 </div>
                                 <div class="card-body">
                                     <div class="row">
@@ -773,29 +772,100 @@
                                                 Please input the Products name for the Export and Local Market
                                             </div>
                                         </div>
-                                        <div class="col-12 mb-3">
-                                            <label for="Local">Local Market Products:</label>
-                                            <div class="input-group">
-                                                <textarea name="Local" id="LocalMar" class="form-control" placeholder="ex. Assorted breads, Milk, Eggs, etc"></textarea>
+                                        <div class="col-12 mb-4" id="localMarketContainer">
+                                            <h5>Local Market Products</h5>
+                                            <div class="mt-2">
+                                                <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                                    <button type="button"
+                                                        class="btn btn-primary addNewProductRow" data-toggle="tooltip"
+                                                        title="Add a new row">
+                                                        <i class="ri-add-box-fill"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-danger removeRowButton mx-2"
+                                                        data-toggle="tooltip" title="Delete row" disabled>
+                                                        <i class="ri-subtract-fill"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="form-text">
-                                                Enter N/A if not applicable
-                                            </div>
-                                            <div class="invalid-feedback">
-                                                Please enter the Local Market Outlet
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="localMarketTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Enterprise Location</th>
+                                                            <th>Sell Product</th>
+                                                            <th>Volume</th>
+                                                            <th>Unit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><input type="text" class="form-control location" placeholder="Enter location"></td>
+                                                            <td><input type="text" class="form-control product" placeholder="Enter product"></td>
+                                                            <td><input type="number" class="form-control volume" placeholder="Enter volume"></td>
+                                                            <td>
+                                                                <select class="form-select unit">
+                                                                    <option value="kg">Kilogram (kg)</option>
+                                                                    <option value="g">Gram (g)</option>
+                                                                    <option value="l">Liter (L)</option>
+                                                                    <option value="ml">Milliliter (ml)</option>
+                                                                    <option value="pcs">Pieces (pcs)</option>
+                                                                    <option value="dozen">Dozen</option>
+                                                                </select>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
                                             </div>
                                         </div>
-                                        <div class="col-12">
-                                            <label for="Export">Export Market Products:</label>
-                                            <div class="input-group">
-                                                <textarea name="Export" id="ExportMar" class="form-control" placeholder="ex. Assorted breads, Milk, Eggs, etc""></textarea>
+
+                                        <div class="col-12" id="exportMarketContainer">
+                                            <h5>Export Market Products</h5>   <div class="mt-2">
+                                                <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                                    <button type="button"
+                                                        class="btn btn-primary addNewProductRow" data-toggle="tooltip"
+                                                        title="Add a new row">
+                                                        <i class="ri-add-box-fill"></i>
+                                                    </button>
+                                                    <button type="button"
+                                                        class="btn btn-danger removeRowButton mx-2"
+                                                        data-toggle="tooltip" title="Delete row" disabled>
+                                                        <i class="ri-subtract-fill"></i>
+                                                    </button>
+                                                </div>
                                             </div>
-                                            <div class="form-text">
-                                                Enter N/A if not applicable
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered" id="exportMarketTable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Enterprise Location</th>
+                                                            <th>Sell Product</th>
+                                                            <th>Volume</th>
+                                                            <th>Unit</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><input type="text" class="form-control location" placeholder="Enter location"></td>
+                                                            <td><input type="text" class="form-control product" placeholder="Enter product"></td>
+                                                            <td><input type="number" class="form-control volume" placeholder="Enter volume"></td>
+                                                            <td>
+                                                                <select class="form-select unit">
+                                                                    <option value="kg">Kilogram (kg)</option>
+                                                                    <option value="g">Gram (g)</option>
+                                                                    <option value="l">Liter (L)</option>
+                                                                    <option value="ml">Milliliter (ml)</option>
+                                                                    <option value="pcs">Pieces (pcs)</option>
+                                                                    <option value="dozen">Dozen</option>
+                                                                </select>
+                                                            </td>
+
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
                                             </div>
-                                            <div class="invalid-feedback">
-                                                Please enter the Export Market Outlet
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
