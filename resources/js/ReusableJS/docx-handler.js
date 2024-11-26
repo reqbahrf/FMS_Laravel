@@ -101,48 +101,29 @@ class DocxHandler {
     async convertToEditor(blob) {
         try {
             const arrayBuffer = await blob.arrayBuffer();
+
             const options = {
                 styleMap: [
-                    "p => p:fresh",
-                    "h1 => h1:fresh",
-                    "h2 => h2:fresh",
-                    "h3 => h3:fresh",
                     "b => strong",
                     "i => em",
                     "u => u",
                     "strike => s",
-                    "table => table:fresh",
-                    "tr => tr:fresh",
-                    "td => td:fresh",
-                    "ul => ul:fresh",
-                    "ol => ol:fresh",
-                    "li => li:fresh",
+                    "p[style-name='center'] => p.align-center",
+                    "p[style-name='right'] => p.align-right",
+                    "p[style-name='justify'] => p.align-justify",
                 ],
                 transformDocument: (element) => {
-                    // Don't merge adjacent elements
                     element.shouldBeGrouped = false;
 
-                    // Extract alignment information
-                    if (
-                        element.type === "paragraph" ||
-                        element.type.startsWith("heading")
-                    ) {
-                        // Check the raw DOCX properties for alignment
-                        const rawElement = element._raw || {};
-                        const properties = rawElement.properties || {};
-                        const jc = properties.jc || {};
-                        const alignment = jc.val || element.alignment;
+                    if (element.type === "paragraph") {
+                        // Try to get alignment from paragraph properties
+                        const rawProps = element._raw?.properties;
+                        const jcValue = rawProps?.jc?.val;
 
-                        console.log("Raw element properties:", {
-                            type: element.type,
-                            raw: rawElement,
-                            properties: properties,
-                            jc: jc,
-                            alignment: alignment,
-                        });
+                        if (jcValue) {
+                            console.log("Found alignment:", jcValue);
 
-                        if (alignment) {
-                            // Map DOCX alignment values to CSS values
+                            // Map Word alignment values to CSS
                             const alignmentMap = {
                                 start: "left",
                                 left: "left",
@@ -153,65 +134,47 @@ class DocxHandler {
                             };
 
                             const cssAlignment =
-                                alignmentMap[alignment.toLowerCase()] ||
-                                alignment;
+                                alignmentMap[jcValue.toLowerCase()] || jcValue;
 
-                            // Add alignment as a custom property that will be transferred to HTML
-                            element.customProperties =
-                                element.customProperties || {};
-                            element.customProperties.alignment = cssAlignment;
-
-                            // Also set it as a class
-                            element.className = `align-${cssAlignment}`;
+                            // Set attributes for alignment
+                            element.attributes = element.attributes || {};
+                            element.attributes[
+                                "style"
+                            ] = `text-align: ${cssAlignment};`;
+                            element.attributes["data-alignment"] = cssAlignment;
+                            element.attributes[
+                                "class"
+                            ] = `align-${cssAlignment}`;
                         }
                     }
                     return element;
                 },
-                transformParagraph: (element) => {
-                    // Transfer custom properties to HTML attributes
-                    if (
-                        element.customProperties &&
-                        element.customProperties.alignment
-                    ) {
-                        return {
-                            ...element,
-                            attributes: {
-                                ...element.attributes,
-                                "data-alignment":
-                                    element.customProperties.alignment,
-                                class: `align-${element.customProperties.alignment}`,
-                            },
-                        };
-                    }
-                    return element;
-                },
-                preserveEmptyParagraphs: false,
-                includeDefaultStyleMap: true,
                 ignoreEmptyParagraphs: true,
             };
 
-            // Convert to HTML
+            // Convert to HTML with the options
             const result = await mammoth.convertToHtml(
                 { arrayBuffer },
                 options
             );
-            console.log("Original HTML:", result.value);
-            console.log("Warnings:", result.messages);
+            console.log("Conversion result:", result);
 
             // Create a temporary container
             const temp = document.createElement("div");
             temp.innerHTML = result.value;
 
-            // Debug: Log all paragraph elements and their classes
-            temp.querySelectorAll("p, h1, h2, h3").forEach((el) => {
-                console.log(
-                    "Element:",
-                    el.tagName,
-                    "Classes:",
-                    el.className,
-                    "HTML:",
-                    el.outerHTML
-                );
+            // Debug: Log all elements and their properties
+            temp.querySelectorAll("*").forEach((el) => {
+                console.log("HTML Element:", {
+                    tag: el.tagName,
+                    innerHTML: el.innerHTML.substring(0, 50),
+                    style: el.style.cssText,
+                    className: el.className,
+                    dataset: el.dataset,
+                    attributes: Array.from(el.attributes).map(
+                        (attr) => `${attr.name}="${attr.value}"`
+                    ),
+                });
             });
 
             // Process blocks
@@ -223,8 +186,7 @@ class DocxHandler {
                         blocks.push({
                             type: "paragraph",
                             data: {
-                                text,
-                                alignment: "left",
+                                text: text,
                             },
                             tunes: {
                                 alignment: {
@@ -254,29 +216,46 @@ class DocxHandler {
 
         // Enhanced alignment detection
         const getAlignment = (el) => {
-            // First check data-alignment attribute
+            // Log the full element for debugging
+            console.log("Processing element for alignment:", {
+                element: el,
+                style: el.style.cssText,
+                className: el.className,
+                attributes: Object.fromEntries(
+                    [...el.attributes].map((attr) => [attr.name, attr.value])
+                ),
+            });
+
+            // Check inline style first
+            if (el.style.textAlign) {
+                console.log(
+                    "Found inline style alignment:",
+                    el.style.textAlign
+                );
+                return el.style.textAlign;
+            }
+
+            // Check data-alignment attribute
             const dataAlignment = el.getAttribute("data-alignment");
             if (dataAlignment) {
                 console.log("Found data-alignment:", dataAlignment);
                 return dataAlignment;
             }
 
-            // Then check class names
-            const alignmentClass = Array.from(el.classList).find((cls) =>
-                cls.startsWith("align-")
+            // Check alignment classes
+            const alignClass = el.className.match(
+                /align-(left|center|right|justify)/
             );
-            if (alignmentClass) {
-                const alignment = alignmentClass.replace("align-", "");
-                console.log("Found alignment class:", alignment);
-                return alignment;
+            if (alignClass) {
+                console.log("Found alignment class:", alignClass[1]);
+                return alignClass[1];
             }
 
-            // Finally check style
-            const style =
-                el.style.textAlign || window.getComputedStyle(el).textAlign;
-            if (style && style !== "start") {
-                console.log("Found style alignment:", style);
-                return style;
+            // Check computed style as last resort
+            const computedStyle = window.getComputedStyle(el).textAlign;
+            if (computedStyle && computedStyle !== "start") {
+                console.log("Found computed style alignment:", computedStyle);
+                return computedStyle;
             }
 
             console.log("No alignment found, using default");
