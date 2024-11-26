@@ -4,6 +4,7 @@ import List from "@editorjs/list";
 import Table from "@editorjs/table";
 //import docx from 'docx-preview';
 import mammoth from "mammoth";
+import AlignmentTuneTool from "editorjs-text-alignment-blocktune";
 
 /**
  * DocxHandler - A class to handle DOCX file operations in the browser
@@ -36,7 +37,18 @@ class DocxHandler {
                     inlineToolbar: true,
                 },
                 table: Table,
+                alignment: {
+                    class: AlignmentTuneTool,
+                    config: {
+                        default: "left",
+                        blocks: {
+                            header: "center",
+                            list: "left",
+                        },
+                    },
+                },
             },
+            tunes: ["alignment"],
             onChange: () => {
                 // You can add auto-save functionality here
                 console.log("Content changed");
@@ -91,10 +103,10 @@ class DocxHandler {
             const arrayBuffer = await blob.arrayBuffer();
             const options = {
                 styleMap: [
-                    "p[style-name='Normal'] => p:fresh",
-                    "p[style-name='Heading 1'] => h1:fresh",
-                    "p[style-name='Heading 2'] => h2:fresh",
-                    "p[style-name='Heading 3'] => h3:fresh",
+                    "p => p:fresh",
+                    "h1 => h1:fresh",
+                    "h2 => h2:fresh",
+                    "h3 => h3:fresh",
                     "b => strong",
                     "i => em",
                     "u => u",
@@ -109,10 +121,73 @@ class DocxHandler {
                 transformDocument: (element) => {
                     // Don't merge adjacent elements
                     element.shouldBeGrouped = false;
+
+                    // Extract alignment information
+                    if (
+                        element.type === "paragraph" ||
+                        element.type.startsWith("heading")
+                    ) {
+                        // Check the raw DOCX properties for alignment
+                        const rawElement = element._raw || {};
+                        const properties = rawElement.properties || {};
+                        const jc = properties.jc || {};
+                        const alignment = jc.val || element.alignment;
+
+                        console.log("Raw element properties:", {
+                            type: element.type,
+                            raw: rawElement,
+                            properties: properties,
+                            jc: jc,
+                            alignment: alignment,
+                        });
+
+                        if (alignment) {
+                            // Map DOCX alignment values to CSS values
+                            const alignmentMap = {
+                                start: "left",
+                                left: "left",
+                                center: "center",
+                                right: "right",
+                                both: "justify",
+                                justify: "justify",
+                            };
+
+                            const cssAlignment =
+                                alignmentMap[alignment.toLowerCase()] ||
+                                alignment;
+
+                            // Add alignment as a custom property that will be transferred to HTML
+                            element.customProperties =
+                                element.customProperties || {};
+                            element.customProperties.alignment = cssAlignment;
+
+                            // Also set it as a class
+                            element.className = `align-${cssAlignment}`;
+                        }
+                    }
+                    return element;
+                },
+                transformParagraph: (element) => {
+                    // Transfer custom properties to HTML attributes
+                    if (
+                        element.customProperties &&
+                        element.customProperties.alignment
+                    ) {
+                        return {
+                            ...element,
+                            attributes: {
+                                ...element.attributes,
+                                "data-alignment":
+                                    element.customProperties.alignment,
+                                class: `align-${element.customProperties.alignment}`,
+                            },
+                        };
+                    }
                     return element;
                 },
                 preserveEmptyParagraphs: false,
                 includeDefaultStyleMap: true,
+                ignoreEmptyParagraphs: true,
             };
 
             // Convert to HTML
@@ -121,10 +196,23 @@ class DocxHandler {
                 options
             );
             console.log("Original HTML:", result.value);
+            console.log("Warnings:", result.messages);
 
             // Create a temporary container
             const temp = document.createElement("div");
             temp.innerHTML = result.value;
+
+            // Debug: Log all paragraph elements and their classes
+            temp.querySelectorAll("p, h1, h2, h3").forEach((el) => {
+                console.log(
+                    "Element:",
+                    el.tagName,
+                    "Classes:",
+                    el.className,
+                    "HTML:",
+                    el.outerHTML
+                );
+            });
 
             // Process blocks
             const blocks = [];
@@ -134,7 +222,15 @@ class DocxHandler {
                     if (text) {
                         blocks.push({
                             type: "paragraph",
-                            data: { text },
+                            data: {
+                                text,
+                                alignment: "left",
+                            },
+                            tunes: {
+                                alignment: {
+                                    alignment: "left",
+                                },
+                            },
                         });
                     }
                 } else if (node.nodeType === Node.ELEMENT_NODE) {
@@ -156,25 +252,65 @@ class DocxHandler {
     processElement(element) {
         const tagName = element.tagName.toLowerCase();
 
+        // Enhanced alignment detection
+        const getAlignment = (el) => {
+            // First check data-alignment attribute
+            const dataAlignment = el.getAttribute("data-alignment");
+            if (dataAlignment) {
+                console.log("Found data-alignment:", dataAlignment);
+                return dataAlignment;
+            }
+
+            // Then check class names
+            const alignmentClass = Array.from(el.classList).find((cls) =>
+                cls.startsWith("align-")
+            );
+            if (alignmentClass) {
+                const alignment = alignmentClass.replace("align-", "");
+                console.log("Found alignment class:", alignment);
+                return alignment;
+            }
+
+            // Finally check style
+            const style =
+                el.style.textAlign || window.getComputedStyle(el).textAlign;
+            if (style && style !== "start") {
+                console.log("Found style alignment:", style);
+                return style;
+            }
+
+            console.log("No alignment found, using default");
+            return "left";
+        };
+
+        const alignment = getAlignment(element);
+
+        // Create block with alignment
+        const createBlock = (type, data) => ({
+            type,
+            data: {
+                ...data,
+            },
+            tunes: {
+                alignment: {
+                    alignment,
+                },
+            },
+        });
+
         switch (tagName) {
             case "h1":
             case "h2":
             case "h3":
-                return {
-                    type: "header",
-                    data: {
-                        text: element.innerHTML,
-                        level: parseInt(tagName[1]),
-                    },
-                };
+                return createBlock("header", {
+                    text: element.innerHTML,
+                    level: parseInt(tagName[1]),
+                });
 
             case "p":
-                return {
-                    type: "paragraph",
-                    data: {
-                        text: element.innerHTML,
-                    },
-                };
+                return createBlock("paragraph", {
+                    text: element.innerHTML,
+                });
 
             case "ul":
             case "ol":
