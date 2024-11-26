@@ -9,7 +9,6 @@ import {
     formatToNumber,
     closeModal,
 } from "./ReusableJS/utilFunctions";
-import DocxHandler from "./ReusableJS/docx-handler";
 
 import DataTable from "datatables.net-bs5";
 window.DataTable = DataTable;
@@ -4215,13 +4214,15 @@ window.initializeStaffPageJs = async () => {
                         data.map((item) => {
                             return [
                                 `${
-                                    item.prefix +
+                                    (item?.prefix ?? '') +
                                     " " +
                                     item.f_name +
                                     " " +
-                                    item.mid_name +
+                                    (item?.mid_name ?? '') +
                                     " " +
-                                    item.suffix
+                                    item.l_name +
+                                    " " +
+                                    (item?.suffix ?? '')
                                 }
                                 <input type="hidden" name="sex" value="${
                                     item.sex
