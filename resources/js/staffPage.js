@@ -6,6 +6,7 @@ import {
     formatToString,
     dateFormatter,
     closeOffcanvasInstances,
+    createConfirmationModal,
     formatToNumber,
     closeModal,
 } from "./ReusableJS/utilFunctions";
@@ -4744,6 +4745,18 @@ window.initializeStaffPageJs = async () => {
                     .find("#selected_businessID")
                     .val();
                 const Scheduledate = $("#evaluationSchedule-datepicker").val();
+                const confirmed = await createConfirmationModal({
+                    title: "Evaluation Date",
+                    titleBg: "bg-primary",
+                    message: "Are you sure you want to set an evaluation date for this applicant?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+
+                if (!confirmed) {
+                    return;
+                }
 
                 try {
                     const response = await $.ajax({

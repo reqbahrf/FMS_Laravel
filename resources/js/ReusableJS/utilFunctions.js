@@ -98,6 +98,74 @@ function sanitize(input) {
     return $("<div>").text(input).html(); // Escape special characters
 }
 
+function createConfirmationModal(options = {}) {
+    const {
+        title = "Confirm Action",
+        titleBg = "bg-primary",
+        message = "Are you sure you want to proceed?",
+        confirmText = "Confirm",
+        cancelText = "Cancel",
+        confirmButtonClass = "btn-primary",
+        size = "",
+    } = options;
+
+    // Remove existing modal if any
+    $("#confirmationModal").remove();
+
+    // Create modal HTML
+    const modalHTML = `
+        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+            <div class="modal-dialog ${size}">
+                <div class="modal-content">
+                    <div class="modal-header ${titleBg}">
+                        <h5 class="modal-title text-white" id="confirmationModalLabel">${sanitize(
+                            title
+                        )}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        ${sanitize(message)}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn" data-bs-dismiss="modal">${sanitize(
+                            cancelText
+                        )}</button>
+                        <button type="button" class="btn ${sanitize(
+                            confirmButtonClass
+                        )}" id="confirmActionBtn">${sanitize(
+        confirmText
+    )}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Append modal to body
+    $("body").append(modalHTML);
+
+    // Create and return a promise
+    return new Promise((resolve, reject) => {
+        const modalElement = document.getElementById("confirmationModal");
+        const modal = new bootstrap.Modal(modalElement);
+
+        // Handle confirm button click
+        $("#confirmActionBtn").on("click", () => {
+            modal.hide();
+            resolve(true);
+        });
+
+        // Handle modal hidden event (including cancel button and close button)
+        modalElement.addEventListener("hidden.bs.modal", () => {
+            $("#confirmationModal").remove();
+            resolve(false);
+        });
+
+        // Show the modal
+        modal.show();
+    });
+}
+
 export {
     showToastFeedback,
     formatToString,
@@ -106,4 +174,5 @@ export {
     formatToNumber,
     closeModal,
     sanitize,
+    createConfirmationModal,
 };
