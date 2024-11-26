@@ -20,7 +20,7 @@
                 </a>
             </li>
         </ul>
-        <div class="tab-content">
+        <div class="tab-content overflow-y-visible">
             <div id="step-1" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-1">
                 <!-- Where Requirement Verification Info Displayed -->
                 <div class="card">
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div id="step-2" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-2">
+            <div id="step-2" class="tab-pane py-5 overflow-auto" role="tabpanel" aria-labelledby="step-2">
                 <!-- Where Conduct TNA Info Displayed -->
                 <div class="card h-100">
                     <div class="card-header bg-primary">
@@ -73,6 +73,23 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                </div>
+
+                <div class="example">
+                    <div class="mb-3">
+                        <label for="docxFile" class="form-label">Upload DOCX File</label>
+                        <input type="file" class="form-control" id="docxFile" accept=".docx" />
+                    </div>
+
+                    <!-- Preview Container -->
+                    <div id="docPreview" class="border rounded p-3 mb-3" style="min-height: 200px;">
+                        <!-- DOCX preview will be rendered here -->
+                    </div>
+
+                    <!-- Editor Container -->
+                    <div id="editorjs" class="border rounded p-3" style="min-height: 400px;">
+                        <!-- Editor.js will be initialized here -->
                     </div>
                 </div>
             </div>

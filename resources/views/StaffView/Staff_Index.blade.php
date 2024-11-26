@@ -445,6 +445,43 @@
                 width: 30px;
                 height: 30px;
             }
+
+            /* Docx table style */
+            #docPreview table,
+            #editorjs table {
+                border-collapse: collapse;
+                width: 100%;
+                margin-bottom: 1rem;
+            }
+
+            #docPreview table,
+            #docPreview th,
+            #docPreview td,
+            #editorjs table,
+            #editorjs th,
+            #editorjs td {
+                border: 1px solid #dee2e6;
+                padding: 8px;
+            }
+
+            #docPreview th,
+            #editorjs th {
+                background-color: #f8f9fa;
+            }
+
+            /* Editor.js specific styles */
+            .codex-editor__redactor {
+                padding-bottom: 100px !important;
+            }
+
+            .ce-block__content {
+                max-width: 100% !important;
+                margin: 0 !important;
+            }
+
+            .ce-toolbar__content {
+                max-width: 100% !important;
+            }
         </style>
     </head>
 
