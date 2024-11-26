@@ -90,23 +90,60 @@ class DocxHandler {
             const options = {
                 styleMap: [
                     "p[style-name='Normal'] => p:fresh",
-                    "table => table.table.table-bordered",
-                    "tr => tr",
-                    "td => td",
+                    "p[style-name='Heading 1'] => h1:fresh",
+                    "p[style-name='Heading 2'] => h2:fresh",
+                    "p[style-name='Heading 3'] => h3:fresh",
+                    "b => strong",
+                    "i => em",
+                    "u => u",
+                    "strike => s",
+                    "table => table:fresh",
+                    "tr => tr:fresh",
+                    "td => td:fresh",
+                    "ul => ul:fresh",
+                    "ol => ol:fresh",
+                    "li => li:fresh",
                 ],
                 transformDocument: (element) => {
-                    if (element.type === "table") {
-                        element.styleId = "table";
-                        element.styleName = "table";
-                    }
+                    // Don't merge adjacent elements
+                    element.shouldBeGrouped = false;
                     return element;
                 },
+                preserveEmptyParagraphs: false,
+                includeDefaultStyleMap: true,
             };
+
+            // Convert to HTML
             const result = await mammoth.convertToHtml(
                 { arrayBuffer },
                 options
             );
-            const blocks = this.convertHtmlToBlocks(result.value);
+            console.log("Original HTML:", result.value);
+
+            // Create a temporary container
+            const temp = document.createElement("div");
+            temp.innerHTML = result.value;
+
+            // Process blocks
+            const blocks = [];
+            temp.childNodes.forEach((node) => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    const text = node.textContent.trim();
+                    if (text) {
+                        blocks.push({
+                            type: "paragraph",
+                            data: { text },
+                        });
+                    }
+                } else if (node.nodeType === Node.ELEMENT_NODE) {
+                    const block = this.processElement(node);
+                    if (block) {
+                        blocks.push(block);
+                    }
+                }
+            });
+
+            console.log("Generated blocks:", blocks);
             await this.editor.render({ blocks });
         } catch (error) {
             console.error("Error converting document:", error);
@@ -114,19 +151,94 @@ class DocxHandler {
         }
     }
 
-    /**
-     * Convert HTML to Editor.js blocks
-     * @param {string} html - HTML content
-     * @returns {Array} Array of Editor.js blocks
-     */
+    processElement(element) {
+        const tagName = element.tagName.toLowerCase();
+
+        switch (tagName) {
+            case "h1":
+            case "h2":
+            case "h3":
+                return {
+                    type: "header",
+                    data: {
+                        text: element.innerHTML,
+                        level: parseInt(tagName[1]),
+                    },
+                };
+
+            case "p":
+                return {
+                    type: "paragraph",
+                    data: {
+                        text: element.innerHTML,
+                    },
+                };
+
+            case "ul":
+            case "ol":
+                return {
+                    type: "list",
+                    data: {
+                        style: tagName === "ul" ? "unordered" : "ordered",
+                        items: Array.from(element.children)
+                            .filter(
+                                (item) => item.tagName.toLowerCase() === "li"
+                            )
+                            .map((item) => item.innerHTML),
+                    },
+                };
+
+            case "table":
+                return {
+                    type: "table",
+                    data: {
+                        content: element.outerHTML,
+                    },
+                };
+
+            case "img":
+                return {
+                    type: "image",
+                    data: {
+                        url: element.src,
+                        caption: element.alt || "",
+                        withBorder: false,
+                        withBackground: false,
+                        stretched: false,
+                    },
+                };
+
+            default:
+                // For any other block-level element
+                if (window.getComputedStyle(element).display === "block") {
+                    return {
+                        type: "paragraph",
+                        data: {
+                            text: element.innerHTML,
+                        },
+                    };
+                }
+                return null;
+        }
+    }
+
     convertHtmlToBlocks(html) {
         const temp = document.createElement("div");
         temp.innerHTML = html;
-
         const blocks = [];
+
+        // Process each top-level element
         temp.childNodes.forEach((node) => {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-                const block = this.createBlockFromNode(node);
+            if (node.nodeType === Node.TEXT_NODE) {
+                const text = node.textContent.trim();
+                if (text) {
+                    blocks.push({
+                        type: "paragraph",
+                        data: { text },
+                    });
+                }
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                const block = this.processElement(node);
                 if (block) {
                     blocks.push(block);
                 }
@@ -134,88 +246,6 @@ class DocxHandler {
         });
 
         return blocks;
-    }
-
-    /**
-     * Create an Editor.js block from a DOM node
-     * @param {Node} node - DOM node
-     * @returns {Object|null} Editor.js block object
-     */
-    createBlockFromNode(node) {
-        switch (node.tagName.toLowerCase()) {
-            case "h1":
-            case "h2":
-            case "h3":
-                return {
-                    type: "header",
-                    data: {
-                        text: node.textContent,
-                        level: parseInt(node.tagName[1]),
-                    },
-                };
-            case "p":
-                return {
-                    type: "paragraph",
-                    data: {
-                        text: node.textContent,
-                    },
-                };
-            case "ul":
-            case "ol":
-                return {
-                    type: "list",
-                    data: {
-                        style:
-                            node.tagName.toLowerCase() === "ul"
-                                ? "unordered"
-                                : "ordered",
-                        items: Array.from(node.children).map(
-                            (li) => li.textContent
-                        ),
-                    },
-                };
-            default:
-                return null;
-        }
-    }
-
-    /**
-     * Get the edited content from Editor.js
-     * @returns {Promise<Object>} Editor.js output data
-     */
-    async getContent() {
-        try {
-            return await this.editor.save();
-        } catch (error) {
-            console.error("Error getting content:", error);
-            throw error;
-        }
-    }
-
-    /**
-     * Convert Editor.js blocks to HTML
-     * @param {Array} blocks - Editor.js blocks
-     * @returns {string} HTML content
-     */
-    convertBlocksToHtml(blocks) {
-        let html = "";
-        blocks.forEach((block) => {
-            switch (block.type) {
-                case "header":
-                    html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
-                    break;
-                case "paragraph":
-                    html += `<p>${block.data.text}</p>`;
-                    break;
-                case "list":
-                    const tag = block.data.style === "ordered" ? "ol" : "ul";
-                    html += `<${tag}>${block.data.items
-                        .map((item) => `<li>${item}</li>`)
-                        .join("")}</${tag}>`;
-                    break;
-            }
-        });
-        return html;
     }
 
     /**
@@ -279,26 +309,51 @@ class DocxHandler {
      */
     async loadDocxToEditor(file) {
         try {
-            const html = await this.convertDocxToHtml(file);
-            // Clear existing content
-            await this.editor.clear();
-
-            // Convert HTML to Editor.js blocks and set content
-            // Note: This is a simple implementation. You might need to enhance it based on your needs
-            const blocks = [
-                {
-                    type: "paragraph",
-                    data: {
-                        text: html,
-                    },
-                },
-            ];
-
-            await this.editor.render({ blocks });
+            const arrayBuffer = await file.arrayBuffer();
+            await this.convertToEditor(new Blob([arrayBuffer]));
         } catch (error) {
             console.error("Error loading DOCX to editor:", error);
             throw error;
         }
+    }
+
+    /**
+     * Get the edited content from Editor.js
+     * @returns {Promise<Object>} Editor.js output data
+     */
+    async getContent() {
+        try {
+            return await this.editor.save();
+        } catch (error) {
+            console.error("Error getting content:", error);
+            throw error;
+        }
+    }
+
+    /**
+     * Convert Editor.js blocks to HTML
+     * @param {Array} blocks - Editor.js blocks
+     * @returns {string} HTML content
+     */
+    convertBlocksToHtml(blocks) {
+        let html = "";
+        blocks.forEach((block) => {
+            switch (block.type) {
+                case "header":
+                    html += `<h${block.data.level}>${block.data.text}</h${block.data.level}>`;
+                    break;
+                case "paragraph":
+                    html += `<p>${block.data.text}</p>`;
+                    break;
+                case "list":
+                    const tag = block.data.style === "ordered" ? "ol" : "ul";
+                    html += `<${tag}>${block.data.items
+                        .map((item) => `<li>${item}</li>`)
+                        .join("")}</${tag}>`;
+                    break;
+            }
+        });
+        return html;
     }
 }
 
