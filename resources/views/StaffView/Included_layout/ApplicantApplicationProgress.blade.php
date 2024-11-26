@@ -75,23 +75,6 @@
                         </div>
                     </div>
                 </div>
-
-                <div class="example">
-                    <div class="mb-3">
-                        <label for="docxFile" class="form-label">Upload DOCX File</label>
-                        <input type="file" class="form-control" id="docxFile" accept=".docx" />
-                    </div>
-
-                    <!-- Preview Container -->
-                    <div id="docPreview" class="border rounded p-3 mb-3" style="min-height: 200px;">
-                        <!-- DOCX preview will be rendered here -->
-                    </div>
-
-                    <!-- Editor Container -->
-                    <div id="editorjs" class="border rounded p-3" style="min-height: 400px;">
-                        <!-- Editor.js will be initialized here -->
-                    </div>
-                </div>
             </div>
             <div id="step-3" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-3">
                 <!-- Where Project Proposal Info Displayed -->

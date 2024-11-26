@@ -4163,34 +4163,6 @@ window.initializeStaffPageJs = async () => {
         },
         Applicant: () => {
             new smartWizard();
-
-            const docHandler = new DocxHandler({
-                previewElement: 'docPreview',
-                editorElement: 'editorjs'
-            });
-
-            // Handle file upload
-            $('#docxFile').on('change', async function(e) {
-                const file = e.target.files[0];
-                if (file) {
-                    try {
-                        // Show loading indicator if you want
-                        // $('#loadingIndicator').show();
-
-                        // Convert and preview the file
-                        await docHandler.previewDocx(file);
-
-                        // Load into editor
-                        await docHandler.loadDocxToEditor(file);
-
-                        // Hide loading indicator
-                        // $('#loadingIndicator').hide();
-                    } catch (error) {
-                        console.error('Error handling DOCX file:', error);
-                        alert('Error processing the DOCX file. Please try again.');
-                    }
-                }
-            });
             let ProjectProposalFormInitialValue = {};
             const applicantDataTable = $("#applicant").DataTable({
                 responsive: true,
