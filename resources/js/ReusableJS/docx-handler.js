@@ -1,6 +1,7 @@
 import EditorJS from "@editorjs/editorjs";
 import Header from "@editorjs/header";
 import List from "@editorjs/list";
+import Table from "@editorjs/table";
 //import docx from 'docx-preview';
 import mammoth from "mammoth";
 
@@ -34,6 +35,7 @@ class DocxHandler {
                     class: List,
                     inlineToolbar: true,
                 },
+                table: Table,
             },
             onChange: () => {
                 // You can add auto-save functionality here
@@ -189,10 +191,41 @@ class DocxHandler {
                 };
 
             case "table":
+                // Process table rows
+                const rows = [];
+                const tableRows = element.querySelectorAll("tr");
+
+                // Check if first row contains th elements (header row)
+                const firstRow = tableRows[0];
+                const hasHeader =
+                    firstRow && firstRow.querySelectorAll("th").length > 0;
+
+                tableRows.forEach((row, rowIndex) => {
+                    const cells = Array.from(
+                        row.querySelectorAll("td, th")
+                    ).map((cell) => {
+                        // Clean up the cell content
+                        return cell.innerHTML.trim();
+                    });
+
+                    if (cells.length > 0) {
+                        rows.push(cells);
+                    }
+                });
+
+                // Ensure all rows have the same number of columns
+                const maxCols = Math.max(...rows.map((row) => row.length));
+                rows.forEach((row) => {
+                    while (row.length < maxCols) {
+                        row.push(""); // Pad with empty cells
+                    }
+                });
+
                 return {
                     type: "table",
                     data: {
-                        content: element.outerHTML,
+                        withHeadings: hasHeader,
+                        content: rows,
                     },
                 };
 
@@ -209,7 +242,6 @@ class DocxHandler {
                 };
 
             default:
-                // For any other block-level element
                 if (window.getComputedStyle(element).display === "block") {
                     return {
                         type: "paragraph",
