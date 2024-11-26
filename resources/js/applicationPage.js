@@ -42,8 +42,12 @@ export function initializeForm() {
                             data.unique_id
                         );
 
+                        document
+                            .querySelector('input[name="Intent_unique_id_path"][id="IntentFileID_path"]')
+                            .value = data.file_path;
+
                         // Update the file path for the IntentFile
-                        const IntentFilePath = data.file_path.IntentFile;
+                        const IntentFilePath = data.file_path;
                         if (IntentFilePath) {
                             // Update the file path in the file upload element
                             IntentFile.setAttribute(
@@ -122,18 +126,16 @@ export function initializeForm() {
                     const data = JSON.parse(response);
                     if (data.unique_id && data.file_path) {
                         // Store unique_id in a hidden input field or as a data attribute
-                        document.querySelector(
-                            'input[name="DTI_SEC_CDA_unique_id_path"][id="DtiSecCdaFileID_path"]'
-                        ).value = data.file_path.DTI_SEC_CDA_File;
                         DTI_SEC_CDA_File.setAttribute(
                             "data-unique-id",
                             data.unique_id
                         );
-                        console.log(DTI_SEC_CDA_File);
+                        document.querySelector(
+                            'input[name="DTI_SEC_CDA_unique_id_path"][id="DtiSecCdaFileID_path"]'
+                        ).value = data.file_path;
 
                         // Update the file path for the dtiFile
-                        const dtiSecCdaFilePath =
-                            data.file_path.DTI_SEC_CDA_File;
+                        const dtiSecCdaFilePath = data.file_path;
                         if (dtiSecCdaFilePath) {
                             // Update the file path in the file upload element
                             DTI_SEC_CDA_File.setAttribute(
@@ -233,17 +235,17 @@ export function initializeForm() {
                     const data = JSON.parse(response);
                     if (data.unique_id && data.file_path) {
                         // Store unique_id in a hidden input field or as a data attribute
-                        document.querySelector(
-                            'input[name="BusinessPermit_unique_id_path"][id="businessPermitFileID_path"]'
-                        ).value = data.file_path.businessPermitFile;
                         businessPermitFile.setAttribute(
                             "data-unique-id",
                             data.unique_id
                         );
+                        document.querySelector(
+                            'input[name="BusinessPermit_unique_id_path"][id="businessPermitFileID_path"]'
+                        ).value = data.file_path;
 
                         // Update the file path for the dtiFile
                         const BusinessPermitFilePath =
-                            data.file_path.businessPermitFile;
+                            data.file_path;
                         if (BusinessPermitFilePath) {
                             // Update the file path in the file upload element
                             businessPermitFile.setAttribute(
@@ -318,7 +320,7 @@ export function initializeForm() {
                         // Store unique_id in a hidden input field or as a data attribute
                         document.querySelector(
                             'input[name="FDA_LTO_unique_id_path"][id="fdaLtoFileID_path"]'
-                        ).value = data.file_path.fdaLtoFile;
+                        ).value = data.file_path;
                         fdaLtoFile.setAttribute(
                             "data-unique-id",
                             data.unique_id
@@ -326,7 +328,7 @@ export function initializeForm() {
                         console.log(fdaLtoFile);
 
                         // Update the file path for the dtiFile
-                        const fdaLtoFilePath = data.file_path.fdaLtoFile;
+                        const fdaLtoFilePath = data.file_path;
                         console.log(fdaLtoFilePath);
                         if (fdaLtoFilePath) {
                             // Update the file path in the file upload element
@@ -356,13 +358,6 @@ export function initializeForm() {
                 const fdaLtoFilePath =
                     fdaLtoFile.getAttribute("data-file-path");
                 const unique_id = fdaLtoFile.getAttribute("data-unique-id");
-
-                console.log(
-                    "Reverting file with path:",
-                    fdaLtoFilePath,
-                    "and unique ID:",
-                    unique_id
-                );
 
                 fetch(`/FileRequirementsRevert/${unique_id}`, {
                     method: "DELETE",
@@ -426,14 +421,14 @@ export function initializeForm() {
                         // Store unique_id in a hidden input field or as a data attribute
                         document.querySelector(
                             'input[name="receipt_unique_id_path"][id="receiptFileID_path"]'
-                        ).value = data.file_path.receiptFile;
+                        ).value = data.file_path;
                         receiptFile.setAttribute(
                             "data-unique-id",
                             data.unique_id
                         );
 
                         // Update the file path for the dtiFile
-                        const receiptFilePath = data.file_path.receiptFile;
+                        const receiptFilePath = data.file_path;
                         if (receiptFilePath) {
                             // Update the file path in the file upload element
                             receiptFile.setAttribute(
@@ -514,21 +509,20 @@ export function initializeForm() {
                         // Store unique_id in a hidden input field or as a data attribute
                         document.querySelector(
                             'input[name="govId_unique_id_path"][id="govIdFileID_path"]'
-                        ).value = data.file_path.govIdFile;
+                        ).value = data.file_path;
                         govIdFile.setAttribute(
                             "data-unique-id",
                             data.unique_id
                         );
 
                         // Update the file path for the dtiFile
-                        const govIdFilePath = data.file_path.govIdFile;
+                        const govIdFilePath = data.file_path;
                         if (govIdFilePath) {
                             // Update the file path in the file upload element
                             govIdFile.setAttribute(
                                 "data-file-path",
                                 govIdFilePath
                             );
-                            console.log(govIdFilePath);
                             document
                                 .getElementById("GovIdSelector")
                                 .classList.add("disabled");
@@ -615,15 +609,14 @@ export function initializeForm() {
                         // Store unique_id in a hidden input field or as a data attribute
                         document.querySelector(
                             'input[name="BIR_unique_id_path"][id="BIRFileID_path"]'
-                        ).value = data.file_path.BIRFile;
+                        ).value = data.file_path;
                         BIR.setAttribute("data-unique-id", data.unique_id);
 
                         // Update the file path for the dtiFile
-                        const BIRFilePath = data.file_path.BIRFile;
+                        const BIRFilePath = data.file_path;
                         if (BIRFilePath) {
                             // Update the file path in the file upload element
                             BIR.setAttribute("data-file-path", BIRFilePath);
-                            console.log(BIRFilePath);
                         }
                     }
 
