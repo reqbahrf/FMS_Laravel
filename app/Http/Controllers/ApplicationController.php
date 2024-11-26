@@ -65,8 +65,8 @@ class ApplicationController extends Controller
             $barangay = $validatedInputs['barangay'];
             $landmark = $validatedInputs['Landmark'];
             $zip_code = $validatedInputs['zipcode'];
-            $export_market = $validatedInputs['Export'];
-            $local_market = $validatedInputs['Local'];
+            $export_market = json_encode($validatedInputs['exportMarket']);
+            $local_market = json_encode($validatedInputs['localMarket']);
 
             $businessId = DB::table('business_info')->insertGetId([
                 'user_info_id' => $personalInfoId,
