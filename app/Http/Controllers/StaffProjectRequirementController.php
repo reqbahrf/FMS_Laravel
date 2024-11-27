@@ -191,7 +191,7 @@ class StaffProjectRequirementController extends Controller
             ->firstOrFail();
 
         $business_path = "Businesses/{$firmName->firm_name}_{$validated['business_id']}";
-        $projectFilePath = $business_path . '/project_files/' . $validated['project_id'];
+        $projectFilePath = $business_path . "/project_files{$validated['project_id']}";
 
         if (!Storage::disk('public')->exists($projectFilePath)) {
             Storage::disk('private')->makeDirectory($projectFilePath, 0755, true);

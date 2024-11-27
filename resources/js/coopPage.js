@@ -186,13 +186,16 @@ window.initilizeCoopPageJs = async () => {
                 const inputElement = document.querySelector('.filepond-receipt-upload');
                 const receiptFilePondInit = FilePond.create(inputElement, {
                     acceptedFileTypes: ['image/*'],
+                    allowFileTypeValidation: true,
+                    allowFileSizeValidation: true,
+                    allowRevert: true,
                     imagePreviewHeight: 170,
                     imageCropAspectRatio: '1:1',
                     imageResizeTargetWidth: 200,
                     imageResizeTargetHeight: 200,
                     server: {
                         process: {
-                            url: '/upload/Img',
+                            url: '/FileRequirementsUpload',
                             method: 'POST',
                             headers: {
                                 'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
@@ -200,12 +203,12 @@ window.initilizeCoopPageJs = async () => {
                             },
                             onload: (response) => {
                                 const data = JSON.parse(response);
-                                if (data.temp_file_path && data.unique_id) {
+                                if (data.file_path && data.unique_id) {
                                     // Store unique_id in a hidden input field or as a data attribute
                                     document.querySelector('input[name="unique_id"]').value = data.unique_id;
                                     inputElement.setAttribute('data-unique-id', data.unique_id);
-                                    if (data.temp_file_path) {
-                                        inputElement.setAttribute('data-file-path', data.temp_file_path);
+                                    if (data.file_path) {
+                                        inputElement.setAttribute('data-file-path', data.file_path);
                                     }
                                 }
                                 return data.unique_id;
@@ -217,7 +220,7 @@ window.initilizeCoopPageJs = async () => {
 
                             console.log('Reverting file with path:', receiptPath, 'and unique ID:', unique_id);
 
-                            fetch(`/delete/Img/{uniqueId}`, {
+                            fetch(`/FileRequirementsRevert/${unique_id}`, {
                                 method: 'DELETE',
                                 headers: {
                                     'Content-Type': 'application/json',
@@ -225,7 +228,7 @@ window.initilizeCoopPageJs = async () => {
                                         .getAttribute('content')
                                 },
                                 body: JSON.stringify({
-                                    receiptfilePath: receiptPath
+                                    file_path: receiptPath
                                 })
                             }).then(response => {
                                 if (response.ok) {

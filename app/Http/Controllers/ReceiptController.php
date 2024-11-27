@@ -2,55 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\Storage;
+use Exception;
+use App\Models\BusinessInfo;
 use Illuminate\Http\Request;
 use App\Models\ReceiptUpload;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
-use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class ReceiptController extends Controller
 {
 
-    public function img_upload(Request $request)
-    {
-        // Validate the request
-        $request->validate([
-            'receipt_file' => 'required|image|mimes:jpeg,png,jpg|max:10240'
-        ]);
-
-        $project_id = Session::get('project_id');
-        if (!$project_id) {
-            return response()->json(['error' => 'Project ID not found.'], 400);
-        }
-
-        // Generate a unique ID based on the project_id
-        $uniqueId = $project_id . '_' . uniqid();
-
-        // Handle the file upload
-        $file = $request->file('receipt_file');
-        $uniqueId = $project_id . '_' . uniqid();
-        $fileName = $uniqueId . '.' . $file->extension();
-        $tempPath = $file->storeAs('tmp', $fileName, 'public');
-
-        return response()->json([
-            'temp_file_path' => $tempPath,
-            'unique_id' => $uniqueId
-        ]);
-    }
-
-    public function img_revert($uniqueId, Request $request)
-    {
-        $filePath = $request->input('receiptfilePath');
-        log::info('File path: ' . $filePath);
-
-        if (Storage::disk('public')->exists($filePath)) {
-            Storage::disk('public')->delete($filePath);
-            return response()->json(['status' => 'success'], 200);
-        }
-
-    }
     /**
      * Display a listing of the resource.
      */
@@ -72,7 +35,7 @@ class ReceiptController extends Controller
 
         $receiptData = [];
         foreach ($receiptUploads as $receiptUpload) {
-            $fileContent = Storage::disk('public')->get($receiptUpload->receipt_file_link);
+            $fileContent = Storage::disk('private')->get($receiptUpload->receipt_file_link);
             $base64File = base64_encode($fileContent);
 
             $receiptData[] = [
@@ -94,48 +57,120 @@ class ReceiptController extends Controller
      */
     public function store(Request $request)
     {
-
-        // Validate the request
-        $validated = $request->validate([
-              'receiptName' => 'required|string|max:30',
-              'receiptShortDescription' => 'required|string|max:255',
-              'unique_id' => 'required|string'
-          ]);
         try {
+            $validated = $request->validate([
+                'receiptName' => 'required|string|max:30',
+                'receiptShortDescription' => 'required|string|max:255',
+                'unique_id' => 'required|string'
+            ]);
 
-            // Retrieve project_id from session
-            $project_id = Session::get('project_id');
-            if (!$project_id) {
-                return redirect()->back()->withErrors(['error' => 'Project ID not found.']);
+            // Check for required session data
+            if (!$project_id = Session::get('project_id')) {
+                return $this->errorResponse('Project ID not found.');
             }
 
-            // Generate the unique file name based on unique_id
-            $uniqueId = $request->input('unique_id');
-            $filePaths = Storage::disk('public')->files('tmp', $uniqueId);
-            if (empty($filePaths)) {
-                return redirect()->back()->withErrors(['error' => 'File not found in temporary storage.']);
+            if (!$business_id = Session::get('business_id')) {
+                return $this->errorResponse('Business ID not found.');
             }
 
-            $filePath = $filePaths[0]; // Assume there's only one matching file
-            if(Storage::disk('public')->exists($filePath)){
-
-                ReceiptUpload::create([
-                    'ongoing_project_id' => $project_id,
-                    'receipt_name' => $validated['receiptName'],
-                    'receipt_description' => $validated['receiptShortDescription'],
-                    'receipt_file_link' => $filePath,
-                    'can_edit' => false,
-                    'remark' => 'Pending',
-                ]);
+            // Find temporary file
+            $tempFilePath = $this->findTemporaryFile($validated['unique_id']);
+            if (!$tempFilePath) {
+                return $this->errorResponse('Temporary file not found.');
             }
 
-            // Insert into the database
+            // Get business info and prepare paths
+            $firmName = BusinessInfo::where('id', $business_id)
+                ->value('firm_name');
+            
+            if (!$firmName) {
+                return $this->errorResponse('Business information not found.');
+            }
 
-            // Return success response
+            // Prepare file paths
+            $paths = $this->preparePaths($firmName, $business_id, $project_id, $validated['receiptName'], $validated['unique_id']);
+            
+            // Move file from temporary to final location
+            if (!$this->moveFile($tempFilePath, $paths['finalPath'])) {
+                return $this->errorResponse('Failed to move file to final location.');
+            }
+
+            // Create receipt record
+            ReceiptUpload::create([
+                'ongoing_project_id' => $project_id,
+                'receipt_name' => $validated['receiptName'],
+                'receipt_description' => $validated['receiptShortDescription'],
+                'receipt_file_link' => $paths['finalPath'],
+                'can_edit' => false,
+                'remark' => 'Pending',
+            ]);
+
             return response()->json(['success' => 'Receipt uploaded and saved successfully.']);
-        }catch(Exception $e){
-            return response()->json(['error' => $e->getMessage()], 500);
+        } catch (Exception $e) {
+            Log::error('Receipt upload failed: ' . $e->getMessage());
+            return $this->errorResponse('Failed to process receipt upload.');
         }
+    }
+
+    private function findTemporaryFile($uniqueId)
+    {
+        $filePaths = Storage::disk('public')->files("tmp/{$uniqueId}");
+        return $filePaths[0] ?? null;
+    }
+
+    private function getFileExtension($filePath)
+    {
+        return pathinfo(Storage::disk('public')->path($filePath), PATHINFO_EXTENSION);
+    }
+
+    private function preparePaths($firmName, $businessId, $projectId, $receiptName, $uniqueId)
+    {
+        $business_path = "Businesses/{$firmName}_{$businessId}";
+        $projectFilePath = "{$business_path}/project_files{$projectId}/receipts";
+        
+        if (!Storage::disk('private')->exists($projectFilePath)) {
+            Storage::disk('private')->makeDirectory($projectFilePath, 0777, true);
+        }
+
+        // Get original file extension
+        $tempFilePath = $this->findTemporaryFile($uniqueId);
+        $extension = $this->getFileExtension($tempFilePath);
+        
+        $newFileName = uniqid(time() . '_') . '_' . $receiptName;
+        // Add the extension to the filename
+        $newFileName = $newFileName . '.' . $extension;
+        
+        $finalPath = str_replace(' ', '_', "{$projectFilePath}/{$newFileName}");
+
+        return [
+            'projectPath' => $projectFilePath,
+            'finalPath' => $finalPath
+        ];
+    }
+
+    private function moveFile($sourcePath, $destinationPath)
+    {
+        try {
+            $sourceStream = Storage::disk('public')->readStream($sourcePath);
+            $result = Storage::disk('private')->writeStream($destinationPath, $sourceStream);
+            
+            if (is_resource($sourceStream)) {
+                fclose($sourceStream);
+            }
+
+            // Clean up temporary file
+            Storage::disk('public')->delete($sourcePath);
+            
+            return $result;
+        } catch (Exception $e) {
+            Log::error('File move failed: ' . $e->getMessage());
+            return false;
+        }
+    }
+
+    private function errorResponse($message)
+    {
+        return response()->json(['error' => $message], 422);
     }
 
     /**
