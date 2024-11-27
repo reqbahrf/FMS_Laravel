@@ -20,7 +20,7 @@
                 </a>
             </li>
         </ul>
-        <div class="tab-content overflow-y-visible">
+        <div class="tab-content h-100">
             <div id="step-1" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-1">
                 <!-- Where Requirement Verification Info Displayed -->
                 <div class="card">

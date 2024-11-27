@@ -2557,6 +2557,18 @@ window.initializeStaffPageJs = async () => {
                 .off("click", ".ExportPDF")
                 .on("click", ".ExportPDF", async function (e) {
                     e.preventDefault();
+                    const isconfirmed = await createConfirmationModal({
+                        title: "Export to PDF",
+                        titleBg: "bg-primary",
+                        message: "Are you sure you want to Export this to PDF?",
+                        confirmText: "Yes",
+                        confirmButtonClass: "btn-primary",
+                        cancelText: "No",
+                    })
+
+                    if(!isconfirmed){
+                        return
+                    }
 
                     try {
                         const ExportPDF_BUTTON_DATA_VALUE =
@@ -4703,6 +4715,17 @@ window.initializeStaffPageJs = async () => {
             reviewFileFormContainer.on("submit", async function (e) {
                 e.preventDefault();
                 const action = $(e.originalEvent.submitter).val();
+                const isconfimed = await createConfirmationModal({
+                    title: "Review File",
+                    titleBg: "bg-primary",
+                    message: `Are you sure you want to ${action} this file?`,
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+                if (!isconfimed) {
+                    return;
+                }
                 console.log(action);
                 const formData = $(this).serialize() + "&action=" + action;
                 try {
@@ -5073,6 +5096,21 @@ window.initializeStaffPageJs = async () => {
                 async function (event) {
                     const action = $(this).data("action");
                     event.preventDefault();
+
+                    const thisAction = action == "DraftForm" ? "Draft" : "Submit";
+
+                    const isconfirmed = await createConfirmationModal({
+                        title: `${thisAction} Project Proposal`,
+                        titleBg: "bg-primary",
+                        message: `Are you sure you want to ${thisAction} this file?`,
+                        confirmText: "Yes",
+                        confirmButtonClass: "btn-primary",
+                        cancelText: "No",
+                    });
+
+                    if (!isconfirmed) {
+                        return;
+                    }
 
                     const application_Id = $("#selected_applicationId").val();
                     const business_id = $("#selected_businessID").val();

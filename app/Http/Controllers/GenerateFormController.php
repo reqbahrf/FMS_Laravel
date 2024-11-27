@@ -35,12 +35,12 @@ class GenerateFormController extends Controller
                 break;
 
             case 'PDS':
-                $projectData = $quarter ? $this->getProjectDataSheetData($projectId, $quarter) : null;
+                $projectData = $this->getProjectDataSheetData($projectId, $quarter);
 
-                $CurrentQuarterlyData = $quarter ? $projectData->quarterlyReport->first()->report_file : null;
-                $PreviousQuarterlyData = $quarter ? $projectData->previousQuarterlyReport->first()->report_file : null;
+                $CurrentQuarterlyData = $projectData->quarterlyReport->first()->report_file;
+                $PreviousQuarterlyData = $projectData->previousQuarterlyReport->first()->report_file;
 
-                $CurrentQuarterlyData = $quarter ? array_merge(['quarter' => $quarter], $CurrentQuarterlyData) : null;
+                $CurrentQuarterlyData = array_merge(['quarter' => $quarter], $CurrentQuarterlyData);
                 $PreviousQuarterlyData = $PreviousQuarterlyData != null
                     ? array_merge(['quarter' => $this->getPreviousQuarter($quarter)], $PreviousQuarterlyData)
                     : null;
@@ -84,10 +84,10 @@ class GenerateFormController extends Controller
             ->firstOrFail();
     }
 
-    private function getProjectDataSheetData(string $projectId, string $quarter = null): object
+    private function getProjectDataSheetData(string $projectId, string $quarter): object
     {
         try {
-            $previousQuarter = $quarter ? $this->getPreviousQuarter($quarter) : null;
+            $previousQuarter = $this->getPreviousQuarter($quarter);
 
             return ProjectInfo::select(
                 'project_info.Project_id',

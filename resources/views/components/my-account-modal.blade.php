@@ -119,7 +119,9 @@
                                                                             'pending' => 'bg-warning',
                                                                             'rejected' => 'bg-danger',
                                                                             'ongoing' => 'bg-primary',
+                                                                            'evaluation' => 'bg-info',
                                                                             'new' => 'bg-secondary',
+                                                                            default => 'bg-secondary',
                                                                         };
                                                                     @endphp
                                                                     <span class="badge {{ $badgeClass }}">

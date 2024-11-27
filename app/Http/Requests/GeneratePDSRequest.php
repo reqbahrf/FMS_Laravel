@@ -22,7 +22,7 @@ class GeneratePDSRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'currentQuarterReport' => 'required',
+            'currentQuarterReport' => 'nullable',
             'previousQuarterReport' => 'nullable',
             'projectTitle' => 'required|string|max:100',
             'firmName' => 'required|string|max:64',
@@ -66,8 +66,8 @@ class GeneratePDSRequest extends FormRequest
             'PreviousgrossSales' => 'required|max:20',
             'TotalgrossSales' => 'required|max:20',
             'totalgrossSales_percent' => 'required|max:10',
-            'CurrentEmployment' => 'required|max:10',
-            'PreviousEmployment' => 'required|max:10',
+            'CurrentEmployment' => 'nullable|max:10',
+            'PreviousEmployment' => 'nullable|max:10',
             'TotalEmploymentGenerated' => 'required|max:10',
             'totalEmployment_percent' => 'required|max:10',
             'localProduct' => 'nullable|array',
