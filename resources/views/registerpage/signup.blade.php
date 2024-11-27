@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -12,9 +10,8 @@
     @vite('resources/css/app.scss')
     @vite('resources/js/app.js')
     <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/all.min.css') }}">
 </head>
-
-
 
 <style>
     html {
@@ -26,6 +23,10 @@
 
     :root {
         font-family: 'Nunito', sans-serif;
+    }
+    body {
+        height: 100vh;
+        width: 100vw;
     }
 
     body,
@@ -65,7 +66,7 @@
 
     .card {
         height: auto;
-        width: 30vw;
+        width: 40vw;
     }
 
     @media (max-width: 768px) {
@@ -89,51 +90,15 @@
                 </g>
             </svg>
         </div>
-        <div class="card p-1 p-sm-3 rounded-5 shadow">
+        <div class="card p-1 rounded-5 shadow">
             <div class="card-body">
                 <div class="w-100 d-flex justify-content-center align-items-center">
-                    <a href="index.php">
-                        <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"
-                            xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="74.488px"
-                            height="75.079px" viewBox="0 0 74.488 75.079" enable-background="new 0 0 74.488 75.079"
-                            xml:space="preserve">
-                            <g>
-                                <rect x="19.235" y="19.699" width="36" height="36" />
-                                <circle fill="#48C4D3" cx="19.235" cy="19.699" r="18" />
-                                <g>
-                                    <circle fill="#48C4D3" cx="19.195" cy="19.648" r="18" />
-                                    <path fill="#FFFFFF"
-                                        d="M19.323,37.598c9.918-0.027,17.953-8.071,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L19.323,37.598z" />
-                                    <path
-                                        d="M37.192,19.601C37.166,9.682,29.12,1.648,19.195,1.648S1.224,9.682,1.198,19.601H37.192z" />
-                                </g>
-                                <g>
-                                    <circle fill="#48C4D3" cx="55.315" cy="19.651" r="18" />
-                                    <path fill="#FFFFFF"
-                                        d="M37.319,19.651c0.027,9.918,8.07,17.952,17.996,17.952c9.925,0,17.972-8.034,17.998-17.952L37.319,19.651z" />
-                                    <path
-                                        d="M55.315,37.648c9.919-0.027,17.953-8.072,17.953-17.997c0-9.925-8.034-17.972-17.952-17.998L55.315,37.648z" />
-                                </g>
-                                <g>
-                                    <circle fill="#48C4D3" cx="55.315" cy="55.649" r="18" />
-                                    <path fill="#FFFFFF"
-                                        d="M55.269,37.605c-9.918,0.027-17.953,8.072-17.953,17.997s8.035,17.972,17.953,17.999V37.605z" />
-                                    <path
-                                        d="M37.317,55.649c0.028,9.919,8.073,17.952,17.999,17.952c9.923,0,17.97-8.033,17.997-17.952H37.317z" />
-                                </g>
-                                <g>
-                                    <circle fill="#48C4D3" cx="19.315" cy="55.725" r="18" />
-                                    <path fill="#FFFFFF"
-                                        d="M37.313,55.628c-0.027-9.919-8.072-17.953-17.997-17.953c-9.926,0-17.972,8.034-17.999,17.952L37.313,55.628z" />
-                                    <path
-                                        d="M19.268,37.682C9.349,37.709,1.315,45.754,1.315,55.679S9.349,73.65,19.268,73.677V37.682z" />
-                                </g>
-                            </g>
-                        </svg>
+                    <a href="/">
+                       <img src="{{ asset('DOST_ICON.svg') }}" width="75px" height="75px"  alt="">
                     </a>
-                    <h3 class="mb-0 mx-auto">DOST-SETUP-SYS</h3>
+                    <h3 class="mb-0">DOST-SETUP-SYS</h3>
                 </div>
-                <h4 class="header-title my-3 text-center">Sign up</h4>
+                <h4 class="header-title mt-2 mb-3 text-center">Sign up</h4>
                 <div class="alert d-none fs-6" id="responseAlert" role="alert">
                 </div>
                 <div>
@@ -141,48 +106,66 @@
                         @csrf
                         <div class="row">
                             <div class="col-md-12 mb-4">
-                                <div class="form-floating">
+                                <label for="userName1">Username</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="ri-user-line"></i>
+                                    </span>
                                     <input type="text" class="form-control" id="userName1" name="userName"
                                         placeholder="Username" value="{{ old('userName1') }}">
-                                    <label for="userName1">Username</label>
                                     <div class="invalid-feedback">Please Enter Username</div>
                                 </div>
                             </div>
                             <div class="col-md-12 mb-4">
-                                <div class="form-floating">
+                                <label for="email">Email Address</label>
+                                <div class="input-group">
+                                    <span class="input-group-text">
+                                        <i class="ri-mail-line"></i>
+                                    </span>
                                     <input type="email" class="form-control" id="email" name="email"
                                         placeholder="Email Address" value="{{ old('email') }}">
-                                    <label for="email">Email Address</label>
                                     <div class="invalid-feedback">Please Enter Email</div>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="input-group mb-4">
-                                    <div class="form-floating">
-                                        <input type="password" id="password1" name="password1" class="form-control"
-                                            placeholder="Password">
-                                        <label for="password1">Password</label>
+                                <div class="form-group">
+                                    <label for="password1" class="form-label">Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="ri-lock-line"></i>
+                                        </span>
+                                        <input type="password" class="form-control" id="password1" name="password1" required>
+                                        <button class="btn btn-outline-secondary btn-sm" type="button" id="togglePassword">
+                                            <i class="ri-eye-off-fill"></i>
+                                        </button>
                                     </div>
-                                    <button type="button" class="input-group-text">
-                                        <i class="ri-eye-off-fill"></i>
-                                        <i class="ri-eye-fill" style="display:none"></i>
-
-                                    </button>
-                                    <div class="invalid-feedback">Please Enter Password</div>
                                 </div>
                             </div>
                             <div class="col-12">
-                                <div class="input-group mb-4">
-                                    <div class="form-floating">
-                                        <input type="password" id="confirm1" name="confirm1" class="form-control"
-                                            placeholder="Confirm Password">
-                                        <label for="confirm1">Re-enter Password</label>
+                                <div class="form-group mt-3">
+                                    <label for="password1_confirmation" class="form-label">Confirm Password</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            <i class="ri-lock-line"></i>
+                                        </span>
+                                        <input type="password" class="form-control" id="password1_confirmation" name="password1_confirmation" required>
+                                        <button class="btn btn-outline-secondary btn-sm" type="button" id="toggleConfirmPassword">
+                                            <i class="ri-eye-off-fill"></i>
+                                        </button>
                                     </div>
-                                    <button type="button" class="input-group-text">
-                                        <i class="ri-eye-off-fill"></i>
-                                        <i class="ri-eye-fill" style="display:none"></i>
-                                    </button>
-                                    <div id="Invalid-feedbackPass" class="invalid-feedback"></div>
+                                    <div id="password-match" class="invalid-feedback">
+                                        Passwords do not match
+                                    </div>
+                                </div>
+                                <div class="password-requirements mt-2 small text-muted">
+                                    Password must:
+                                    <ul class="ps-3 mb-0">
+                                        <li id="length-check"><i class="ri-close-circle-fill text-danger"></i> Be at least 8 characters long</li>
+                                        <li id="uppercase-check"><i class="ri-close-circle-fill text-danger"></i> Contain at least one uppercase letter</li>
+                                        <li id="lowercase-check"><i class="ri-close-circle-fill text-danger"></i> Contain at least one lowercase letter</li>
+                                        <li id="number-check"><i class="ri-close-circle-fill text-danger"></i> Contain at least one number</li>
+                                        <li id="special-check"><i class="ri-close-circle-fill text-danger"></i> Contain at least one special character (@$!%*?&)</li>
+                                    </ul>
                                 </div>
                             </div>
                             <div class="col-12">
@@ -258,7 +241,7 @@
                 let isValid = true;
 
                 // Validate specific input fields by their IDs
-                let fieldsToValidate = ['userName1', 'email', 'password1', 'confirm1'];
+                let fieldsToValidate = ['userName1', 'email', 'password1', 'password1_confirmation'];
 
                 fieldsToValidate.forEach(function(fieldId) {
                     let field = $('#' + fieldId);
@@ -280,23 +263,23 @@
                 });
 
                 let password = $('#password1').val();
-                let confirmPassword = $('#confirm1').val();
+                let confirmPassword = $('#password1_confirmation').val();
 
                 if (confirmPassword === '') {
-                    $('#confirm1').addClass('is-invalid');
-                    $('#Invalid-feedbackPass').text('Please enter a password');
-                    $('#Invalid-feedbackPass').show();
+                    $('#password1_confirmation').addClass('is-invalid');
+                    $('#password-match').text('Please enter a password');
+                    $('#password-match').show();
                     console.log('Confirm password is empty');
                     isValid = false;
                 } else if (password !== confirmPassword) {
-                    $('#confirm1').addClass('is-invalid');
-                    $('#Invalid-feedbackPass').text('Passwords do not match');
-                    $('#Invalid-feedbackPass').show();
+                    $('#password1_confirmation').addClass('is-invalid');
+                    $('#password-match').text('Passwords do not match');
+                    $('#password-match').show();
                     console.log('Passwords do not match');
                     isValid = false;
                 } else {
-                    $('#confirm1').removeClass('is-invalid');
-                    $('#Invalid-feedbackPass').hide();
+                    $('#password1_confirmation').removeClass('is-invalid');
+                    $('#password-match').hide();
                     console.log('Passwords match');
                 }
 
@@ -335,6 +318,78 @@
         });
     </script>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const password = document.getElementById('password1');
+            const confirmPassword = document.getElementById('password1_confirmation');
+            const togglePassword = document.getElementById('togglePassword');
+            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+
+            // Password visibility toggle
+            togglePassword.addEventListener('click', function() {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                const icon = this.querySelector('i');
+                if (type === 'text') {
+                    icon.classList.remove('ri-eye-off-fill');
+                    icon.classList.add('ri-eye-fill');
+                } else {
+                    icon.classList.remove('ri-eye-fill');
+                    icon.classList.add('ri-eye-off-fill');
+                }
+            });
+
+            toggleConfirmPassword.addEventListener('click', function() {
+                const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                confirmPassword.setAttribute('type', type);
+                const icon = this.querySelector('i');
+                if (type === 'text') {
+                    icon.classList.remove('ri-eye-off-fill');
+                    icon.classList.add('ri-eye-fill');
+                } else {
+                    icon.classList.remove('ri-eye-fill');
+                    icon.classList.add('ri-eye-off-fill');
+                }
+            });
+
+            // Real-time password validation
+            password.addEventListener('input', function() {
+                const value = this.value;
+
+                // Length check
+                document.getElementById('length-check').querySelector('i').className =
+                    value.length >= 8 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
+
+                // Uppercase check
+                document.getElementById('uppercase-check').querySelector('i').className =
+                    /[A-Z]/.test(value) ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
+
+                // Lowercase check
+                document.getElementById('lowercase-check').querySelector('i').className =
+                    /[a-z]/.test(value) ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
+
+                // Number check
+                document.getElementById('number-check').querySelector('i').className =
+                    /\d/.test(value) ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
+
+                // Special character check
+                document.getElementById('special-check').querySelector('i').className =
+                    /[@$!%*?&]/.test(value) ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
+
+                // Check password match
+                if (confirmPassword.value) {
+                    confirmPassword.dispatchEvent(new Event('input'));
+                }
+            });
+
+            // Password match validation
+            confirmPassword.addEventListener('input', function() {
+                const isMatch = this.value === password.value;
+                this.classList.toggle('is-invalid', !isMatch && this.value);
+                document.getElementById('password-match').style.display = !isMatch && this.value ? 'block' : 'none';
+            });
+        });
+    </script>
 
 </body>
 

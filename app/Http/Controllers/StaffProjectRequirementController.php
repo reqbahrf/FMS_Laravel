@@ -202,7 +202,7 @@ class StaffProjectRequirementController extends Controller
 
 
         // Final destination path for the file
-        $finalPath = str_replace(' ', '_', $projectFilePath . '/' . $newFileName);
+        $finalPath = str_replace(' ', '_', $projectFilePath . '/requirements/' . $newFileName);
 
         // Move the file from temporary location to business directory
         $sourceStream = Storage::disk('public')->readStream($validated['file_path']);

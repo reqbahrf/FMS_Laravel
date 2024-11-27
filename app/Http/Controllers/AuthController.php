@@ -19,10 +19,20 @@ class AuthController extends Controller
         Log::info('Signup method called');
 
         $request->validate([
-            'userName' => 'required|unique:users,user_name',
-            'email' => 'required|email|unique:users,email',
-            'password1' => 'required',
-            'confirm1' => 'required|same:password1',
+            'userName' => 'required|unique:users,user_name|max:30',
+            'email' => 'required|email|unique:users,email|max:255',
+            'password1' => [
+                'required',
+                'string',
+                'min:8',
+                'max:32',
+                'regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+                'confirmed'
+            ],
+        ], [
+            'password1.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'password1.min' => 'Password must be at least 8 characters long.',
+            'password1.confirmed' => 'Password confirmation does not match.'
         ]);
 
         try {
@@ -36,6 +46,9 @@ class AuthController extends Controller
                 session(['user_name' => $user->user_name]);
                 session(['email' => $user->email]);
 
+                // Send verification email
+                $user->sendEmailVerificationNotification();
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Account created successfully. Please verify your email.',
@@ -48,9 +61,7 @@ class AuthController extends Controller
                 ], 422);
             }
         } catch (Exception $e) {
-            // Log the exception message for debugging
             Log::error('Signup failed: ' . $e->getMessage());
-
             return response()->json([
                 'success' => false,
                 'error' => 'An unexpected error occurred. Please try again later.'
