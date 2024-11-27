@@ -2595,6 +2595,8 @@ window.initializeStaffPageJs = async () => {
                             },
                         });
 
+                        showToastFeedback('text-bg-success', response.message)
+
                         const blob = new Blob([response], {
                             type: "application/pdf",
                         });
@@ -2605,7 +2607,8 @@ window.initializeStaffPageJs = async () => {
                             "PDF successfully generated and opened in a new tab."
                         );
                     } catch (error) {
-                        console.log(error);
+                        console.log(error)
+                        showToastFeedback('text-bg-danger', error.message)
                     }
                 });
 

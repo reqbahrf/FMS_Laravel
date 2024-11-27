@@ -103,7 +103,7 @@ class StaffAddProjectController extends Controller
             // Business Info table
             $firm_name = $validatedInputs['firm_name'];
             $enterprise_type = $validatedInputs['enterpriseType'];
-            $enterprise_level = ($request->input('enterprise_level'));
+            $enterprise_level = $validatedInputs['enterprise_level'];
             $region = $validatedInputs['region'];
             $province = $validatedInputs['province'];
             $city = $validatedInputs['city'];
