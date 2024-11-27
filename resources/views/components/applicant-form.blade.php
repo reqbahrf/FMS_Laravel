@@ -149,7 +149,7 @@
                                 <div class="col-12 me-auto">
                                     <label for="sex">sex: <span class="requiredFields">*</span></label>
                                     <select name="sex" id="sex" class="form-select" required>
-                                        <option value="">Select sex</option>
+                                        <option value="">Select...</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
                                     </select>

@@ -34,7 +34,7 @@ class ApplicantRequirementController extends Controller
                 ->get();
 
             $result = $applicantUploadedFiles->map(function ($file) {
-                if (!Storage::disk('public')->exists($file->file_link)) {
+                if (!Storage::disk('private')->exists($file->file_link)) {
                     throw new FileNotFoundException('File not found');
                 }
 
@@ -85,11 +85,11 @@ class ApplicantRequirementController extends Controller
         ]);
 
 
-        if (!Storage::disk('public')->exists($validated['file_url'])) {
+        if (!Storage::disk('private')->exists($validated['file_url'])) {
             return response()->json(['error' => 'File not found'], 404);
         }
 
-        $fileContent = Storage::disk('public')->get($validated['file_url']);
+        $fileContent = Storage::disk('private')->get($validated['file_url']);
 
         $base64File = base64_encode($fileContent);
         return response()->json([
@@ -171,7 +171,7 @@ class ApplicantRequirementController extends Controller
         ]);
 
         try {
-            $filePath = Storage::disk('public')->exists($validated['file_link']);
+            $filePath = Storage::disk('private')->exists($validated['file_link']);
 
             if(!$filePath)
             {
@@ -188,10 +188,10 @@ class ApplicantRequirementController extends Controller
                      return response()->json(['message' => 'Action is not allowed'], 500);
             }
 
-            if(Storage::disk('public')->delete($validated['file_link']))
+            if(Storage::disk('private')->delete($validated['file_link']))
             {
 
-                $validated['file']->storeAs('public', $validated['file_link']);
+                $validated['file']->storeAs('private', $validated['file_link']);
                 $ToBeUpdatedFile->update([
                     'can_edit' => false,
                     'remarks' => 'Pending',

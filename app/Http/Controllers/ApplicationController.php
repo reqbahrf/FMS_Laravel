@@ -171,32 +171,35 @@ class ApplicationController extends Controller
                         Storage::disk('private')->makeDirectory($projectFilePath, 0755, true);
                     }
 
-                    $newFileName = uniqid(time() . '_') . '_' . $fileName;
+                    // Ensure filename has the original extension
+                    $newFileName = uniqid(time() . '_') . '_' . pathinfo($fileName, PATHINFO_FILENAME) . '.' . $fileExtension;
                     $finalPath = str_replace(' ', '_', $projectFilePath . '/' . $newFileName);
 
                     $sourceStream = Storage::disk('public')->readStream($filePath);
-                    Storage::disk('private')->writeStream($finalPath, $sourceStream);
+                    $result = Storage::disk('private')->writeStream($finalPath, $sourceStream);
 
                     if (is_resource($sourceStream)) {
                         fclose($sourceStream);
                     }
 
-                    // Delete the original file after successful transfer
-                    Storage::disk('public')->delete($filePath);
+                    // Only proceed if file was written successfully
+                    if ($result) {
+                        // Delete the original file after successful transfer
+                        Storage::disk('public')->delete($filePath);
 
-
-
-
-                    DB::table('requirements')->insert([
-                        'business_id' => $businessId,
-                        'file_name' => $fileName,
-                        'file_link' => $filePath,
-                        'file_type' => $fileExtension,
-                        'can_edit' => false,
-                        'remarks' => 'Pending',
-                        'created_at' => now(),
-                        'updated_at' => now(),
-                    ]);
+                        DB::table('requirements')->insert([
+                            'business_id' => $businessId,
+                            'file_name' => $fileName,
+                            'file_link' => $finalPath,
+                            'file_type' => $fileExtension,
+                            'can_edit' => false,
+                            'remarks' => 'Pending',
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ]);
+                    } else {
+                        return response()->json(['error' => "Failed to store file {$fileName}"], 500);
+                    }
                 }else{
                     return response()->json(['error' => "This file $fileNames[$filekey] does not exist"], 404);
                 };
