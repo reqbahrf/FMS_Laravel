@@ -439,6 +439,10 @@
                 pointer-events: none;
                 cursor: default;
             }
+
+            #confirmationModal + .modal-backdrop {
+                z-index: 1999 !important;
+            }
         </style>
     </head>
 

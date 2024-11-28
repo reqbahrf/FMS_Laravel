@@ -436,6 +436,10 @@
                 width: 30px;
                 height: 30px;
             }
+
+            #confirmationModal + .modal-backdrop {
+                z-index: 1999 !important;
+            }
         </style>
     </head>
 

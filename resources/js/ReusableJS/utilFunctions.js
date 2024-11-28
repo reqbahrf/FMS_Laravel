@@ -114,7 +114,7 @@ function createConfirmationModal(options = {}) {
 
     // Create modal HTML
     const modalHTML = `
-        <div class="modal fade" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
+        <div class="modal fade" style="z-index: 2000 !important;" data-bs-backdrop="static" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
             <div class="modal-dialog ${size}">
                 <div class="modal-content">
                     <div class="modal-header ${titleBg}">
