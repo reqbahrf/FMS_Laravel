@@ -9,10 +9,12 @@
          <form id="projectInfoForm" class="row gy-3">
              <div class="col-12">
                  <div class="card shadow-sm bg-body rounded">
+                    <div class="card-header bg-primary">
+                        <h6 class="mb-0 text-white">
+                            Project Information
+                        </h6>
+                    </div>
                      <div class="card-body">
-                         <h6 class="card-title">
-                             Project Information
-                         </h6>
                          <div class="row gy-2">
                              <div class="col-12">
                                  <label for="projectTitle" class="form-label">Project Title</label>
@@ -85,6 +87,9 @@
              </div>
              <div class="col-12">
                  <div class="card shadow-sm bg-body rounded">
+                     <div class="card-header bg-primary">
+                         <h6 class="mb-0 text-white">Assets</h6>
+                     </div>
                      <div class="card-body">
                          <div class="row">
                              <div class="col-12 mt-3">
@@ -125,11 +130,11 @@
              </div>
              <div class="col-12">
                  <div class="card shadow-sm bg-body rounded">
+                    <div class="card-header bg-primary">
+                        <h6 class="mb-0 text-white">Total Employment Generated</h6>
+                    </div>
                      <div class="card-body">
                          <div class="row">
-                             <div class="col-12 mb-3">
-                                 <h5 class="fw-bold">Total Employment Generated</h5>
-                             </div>
                              <div class="col-12 mb-4">
                                  <label class="fw-semibold me-2">Man Months:</label>
                                  <input type="text" class="bottom_border" id="TotalmanMonths"
@@ -264,23 +269,21 @@
              </div>
              <div class="col-12">
                  <div class="card shadow-sm bg-body rounded">
+                    <div class="card-header bg-primary">
+                        <h6 class="text-white mb-0">Production Volume</h6>
+                    </div>
                      <div class="card-body">
                          <div class="row">
-                             <div class="col-12">
-                                 <h6>Production Volume</h6>
-                             </div>
                              <div class="col-12 col-md-6">
                                  <div class="mb-3">
                                      <label for="localProduct" class="form-label">Local Product</label>
-                                     <input type="text" class="form-control" id="localProduct"
-                                         name="localProduct">
+                                     <textarea class="form-control" id="localProduct" name="localProduct" rows="3"></textarea>
                                  </div>
                              </div>
                              <div class="col-12 col-md-6">
                                  <div class="mb-3">
                                      <label for="exportProduct" class="form-label">Export Product</label>
-                                     <input type="text" class="form-control" id="exportProduct"
-                                         name="exportProduct">
+                                     <textarea class="form-control" id="exportProduct" name="exportProduct" rows="3"></textarea>
                                  </div>
                              </div>
                          </div>
@@ -289,6 +292,9 @@
              </div>
              <div class="col-12">
                  <div class="card shadow-sm bg-body rounded">
+                    <div class="card-header bg-primary">
+                        <h6 class="text-white mb-0">Gross Sales</h6>
+                    </div>
                      <div class="card-body">
                          <div class="row">
                              <div class="col-12">
@@ -315,10 +321,10 @@
          </form>
          <div class="col-12 mt-3">
              <div class="card shadow-sm bg-body rounded">
+                 <div class="card-header bg-primary">
+                     <h6 class="text-white mb-0"> Assistance obtained from DOST (please check)</h6>
+                 </div>
                  <div class="card-body">
-                     <h6>
-                         Assistance obtained from DOST (please check)
-                     </h6>
                      <form id="PIS_checklistsForm">
                          <div class="row">
                              <div class="col-12 ps-1">
