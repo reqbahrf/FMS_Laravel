@@ -243,9 +243,9 @@
     <div class="offcanvas-body">
         <div class="m-2">
             <div class="row gy-3">
-                <div class="card p-0">
-                    <div class="card-header">
-                        <h5>
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-contacts-fill"></i>
                             Personal Info
                         </h5>
@@ -276,12 +276,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-briefcase-fill"></i>
                             Business Info
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -320,12 +320,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-file-text-fill"></i>
                             Project Details
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -370,24 +370,24 @@
 
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-file-text-fill"></i>
                             Payment History
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <table id="paymentHistoryTable" class="table table-hover" width="100%">
                         </table>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-file-text-fill"></i>
                             Requirements list
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <table id="requirementsTable" class="table table-hover">
@@ -395,12 +395,12 @@
                         </table>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-user-2-fill"></i>
                             Handled By
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div
@@ -433,9 +433,9 @@
     <div class="offcanvas-body">
         <div class="m-2">
             <div class="row gy-3">
-                <div class="card p-0">
-                    <div class="card-header">
-                        <h5>
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-contacts-fill"></i>
                             Personal Info
                         </h5>
@@ -466,12 +466,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-briefcase-fill"></i>
                             Business Info
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -510,12 +510,12 @@
                         </div>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-file-text-fill"></i>
                             Project Details
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
@@ -560,12 +560,12 @@
 
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-file-text-fill"></i>
                             Payment History
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <table id="paymentTable" class="table table-hover">
@@ -573,12 +573,12 @@
                         </table>
                     </div>
                 </div>
-                <div class="card p-0">
-                    <div class="card-header">
-                        <span class="fw-bold fs-5">
+                <div class="card shadow-sm p-0">
+                    <div class="card-header bg-primary">
+                        <h5 class="text-white mb-0">
                             <i class="ri-file-text-fill"></i>
                             Requirements list
-                        </span>
+                        </h5>
                     </div>
                     <div class="card-body">
                         <table id="requirementsTable" class="table table-hover">
