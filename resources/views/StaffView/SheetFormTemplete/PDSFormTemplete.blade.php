@@ -65,8 +65,9 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="FirstQuarter"
-                                        name="FirstQuarter">
+                                    <input class="form-check-input" type="radio" value="Q1" id="FirstQuarter"
+                                        name="reportingQuarter"
+                                        {{ isset($CurrentQuarterlyData['quarter']) && str_starts_with($CurrentQuarterlyData['quarter'], 'Q1') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="FirstQuarter">
                                         1st Quarter
                                     </label>
@@ -74,8 +75,9 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value=""
-                                        id="SecondQuarter" name="SecondQuarter">
+                                    <input class="form-check-input" type="radio" value="Q2" id="SecondQuarter"
+                                        name="reportingQuarter"
+                                        {{ isset($CurrentQuarterlyData['quarter']) && str_starts_with($CurrentQuarterlyData['quarter'], 'Q2') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="SecondQuarter">
                                         2nd Quarter
                                     </label>
@@ -83,8 +85,9 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="ThirdQuarter"
-                                        name="ThirdQuarter">
+                                    <input class="form-check-input" type="radio" value="Q3" id="ThirdQuarter"
+                                        name="reportingQuarter"
+                                        {{ isset($CurrentQuarterlyData['quarter']) && str_starts_with($CurrentQuarterlyData['quarter'], 'Q3') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="ThirdQuarter">
                                         3rd Quarter
                                     </label>
@@ -92,8 +95,9 @@
                             </div>
                             <div class="col-12 col-md-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value=""
-                                        id="FourthQuarter" name="FourthQuarter">
+                                    <input class="form-check-input" type="radio" value="Q4" id="FourthQuarter"
+                                        name="reportingQuarter"
+                                        {{ isset($CurrentQuarterlyData['quarter']) && str_starts_with($CurrentQuarterlyData['quarter'], 'Q4') ? 'checked' : '' }}>
                                     <label class="form-check-label" for="FourthQuarter">
                                         4th Quarter
                                     </label>
@@ -134,9 +138,18 @@
                             <span class="fw-semibold">Classification of Enterprise</span>
                         </div>
                         <div class="row g-3 mt-2">
+                            @php
+                                $building = floatval(str_replace(',', '', $CurrentQuarterlyData['Building'] ?? 0));
+                                $equipment = floatval(str_replace(',', '', $CurrentQuarterlyData['Equipment'] ?? 0));
+                                $workingCapital = floatval(
+                                    str_replace(',', '', $CurrentQuarterlyData['WorkingCapital'] ?? 0),
+                                );
+                                $totalAssets = $building + $equipment + $workingCapital;
+                            @endphp
                             <div class="col-md-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Micro" id="Micro">
+                                    <input class="form-check-input" type="radio" name="EnterpriseClass"
+                                        id="Micro" value="Micro" {{ $totalAssets < 3000000 ? 'checked' : '' }}>
                                     <label class="form-check-label" for="Micro">
                                         Micro(assets less than 3M)
                                     </label>
@@ -144,7 +157,9 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Small" id="Small">
+                                    <input class="form-check-input" type="radio" name="EnterpriseClass"
+                                        id="Small" value="Small"
+                                        {{ $totalAssets >= 3000000 && $totalAssets < 15000000 ? 'checked' : '' }}>
                                     <label class="form-check-label" for="Small">
                                         Small(assets of 3M than 15M)
                                     </label>
@@ -152,8 +167,10 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" name="Large" id="m=Medium">
-                                    <label class="form-check-label" for="m=Medium">
+                                    <input class="form-check-input" type="radio" name="EnterpriseClass"
+                                        id="Medium" value="Medium"
+                                        {{ $totalAssets >= 15000000 && $totalAssets < 100000000 ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="Medium">
                                         Medium(assets of 15M than 100M)
                                     </label>
                                 </div>
@@ -446,17 +463,20 @@
                                     <table class="table table-bordered">
                                         <thead>
                                             <tr>
-                                                <th colspan="4" class="table-header">TO BE ACCOMPLISHED BY DOST XI</th>
+                                                <th colspan="4" class="table-header">TO BE ACCOMPLISHED BY DOST XI
+                                                </th>
                                             </tr>
                                         </thead>
                                         <tbody id="ToBeAccomplished">
                                             <tr>
-                                                <td class="highlight-text" rowspan="2">Gross Sales Generated =<br>Gross
+                                                <td class="highlight-text" rowspan="2">Gross Sales Generated
+                                                    =<br>Gross
                                                     Sales {{ $CurrentQuarterlyData['quarter'] ?? '' }} - Gross Sales
                                                     {{ $PreviousQuarterlyData['quarter'] ?? '' }}</td>
                                                 <td class="table-subheader">Gross Sales
-                                                    {{ $CurrentQuarterlyData['quarter'] ?? '' }}
-                                                    <br> (for the reporting period)
+                                                    {{ $CurrentQuarterlyData['quarter'] ?? '' }} <br> (for the
+                                                    reporting
+                                                    period)
                                                 </td>
                                                 <td class="table-subheader">Gross Sales
                                                     {{ $PreviousQuarterlyData['quarter'] ?? '' }} <br> (previous
@@ -466,7 +486,10 @@
                                             @php
                                                 if ($PreviousQuarterlyData != null) {
                                                     $PreviousGrossSalesTotal = 0;
-                                                    foreach ($PreviousQuarterlyData['ExportProduct'] as $ExportProduct) {
+                                                    foreach (
+                                                        $PreviousQuarterlyData['ExportProduct']
+                                                        as $ExportProduct
+                                                    ) {
                                                         $PreviousGrossSalesTotal += (float) str_replace(
                                                             ',',
                                                             '',
@@ -487,7 +510,8 @@
                                                     ₱1,600,000.00
                                                     <div class="d-flex">
                                                         ₱
-                                                        <input type="text" class="bottom_border CurrentgrossSales_val"
+                                                        <input type="text"
+                                                            class="bottom_border CurrentgrossSales_val"
                                                             name="CurrentgrossSales" value="">
                                                     </div>
                                                 </td>
@@ -495,7 +519,8 @@
                                                     ₱1,556,709.00
                                                     <div class="d-flex">
                                                         ₱
-                                                        <input type="text" class="bottom_border PreviousgrossSales_val"
+                                                        <input type="text"
+                                                            class="bottom_border PreviousgrossSales_val"
                                                             name="PreviousgrossSales"
                                                             value="{{ number_format($PreviousGrossSalesTotal ?? null, 2) ?? '' }}">
                                                     </div>
@@ -503,7 +528,8 @@
                                                 <td class="table-data">₱43,291.00
                                                     <div class="d-flex">
                                                         ₱
-                                                        <input type="text" class="bottom_border TotalgrossSales_val"
+                                                        <input type="text"
+                                                            class="bottom_border TotalgrossSales_val"
                                                             name="TotalgrossSales" readonly>
                                                     </div>
                                                 </td>
@@ -517,7 +543,8 @@
                                                         Gross Sales {{ $PreviousQuarterlyData['quarter'] ?? '' }}
                                                     </div>
                                                 </td>
-                                                <td colspan="3" class="table-data nowrap" width="50%">1,600,000.00 -
+                                                <td colspan="3" class="table-data nowrap" width="50%">
+                                                    1,600,000.00 -
                                                     1,556,709.00 x 100 / 1,556,709.00 = 2.78% <br>
                                                     <span class="CurrentgrossSales_val_cal"></span>
                                                     -
@@ -525,21 +552,24 @@
                                                     x 100 / <span class="PreviousgrossSales_val_cal"></span> =
                                                     <span class="totalgrossSales_percent"></span>
                                                     <input type="text" name="totalgrossSales_percent"
-                                                        class="bottom_border totalgrossSales_percent" style="width:10%;"
-                                                        readonly>
+                                                        class="bottom_border totalgrossSales_percent"
+                                                        style="width:10%;" readonly>
 
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td class="highlight-text" rowspan="2">Employees Generated =<br>Employement
+                                                <td class="highlight-text" rowspan="2">Employees Generated
+                                                    =<br>Employement
                                                     {{ $CurrentQuarterlyData['quarter'] ?? '' }} - Employement
                                                     {{ $PreviousQuarterlyData['quarter'] ?? '' }}</td>
                                                 <td class="table-subheader">Total Employment
-                                                    {{ $CurrentQuarterlyData['quarter'] ?? '' }} <br> (for the reporting
+                                                    {{ $CurrentQuarterlyData['quarter'] ?? '' }} <br> (for the
+                                                    reporting
                                                     period)
                                                 </td>
                                                 <td class="table-subheader">Total Employment
-                                                    {{ $PreviousQuarterlyData['quarter'] ?? '' }} <br> (previous quarter)</td>
+                                                    {{ $PreviousQuarterlyData['quarter'] ?? '' }} <br> (previous
+                                                    quarter)</td>
                                                 <td class="table-subheader">TOTAL EMPLOYMENT GENERATED</td>
                                             </tr>
                                             <tr class="EmploymentGenerated">
@@ -567,15 +597,16 @@
                                                         Employment {{ $PreviousQuarterlyData['quarter'] ?? '' }}
                                                     </div>
                                                 </td>
-                                                <td colspan="3" class="table-data nowrap" width="50%">10 - 10 x 100 /
+                                                <td colspan="3" class="table-data nowrap" width="50%">10 - 10 x
+                                                    100 /
                                                     10 = 0% <br>
                                                     <span class="CurrentEmployment_val_cal"></span>
                                                     -
                                                     <span class="PreviousEmployment_val_cal"></span>
                                                     x 100 / <span class="PreviousEmployment_val_cal"></span> =
                                                     <input type="text" name="totalEmployment_percent"
-                                                        class="bottom_border totalEmployment_percent" style="width:10%;"
-                                                        readonly>
+                                                        class="bottom_border totalEmployment_percent"
+                                                        style="width:10%;" readonly>
                                                 </td>
                                             </tr>
                                         </tbody>

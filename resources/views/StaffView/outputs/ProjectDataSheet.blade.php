@@ -155,10 +155,17 @@
             <tr>
                 <td class="label">Period Covered:</td>
                 <td colspan="3">
-                    <label><input type="checkbox"> 1st Quarter </label> &nbsp;&nbsp;
-                    <label><input type="checkbox"> 2nd Quarter </label> &nbsp;&nbsp;
-                    <label><input type="checkbox"> 3rd Quarter </label> &nbsp;&nbsp;
-                    <label><input type="checkbox"> 4th Quarter </label>
+                    <label><input type="checkbox" @if ($reportingQuarter == 'Q1') checked="checked" @endif> 1st
+                        Quarter </label>
+                    &nbsp;&nbsp;
+                    <label><input type="checkbox" @if ($reportingQuarter == 'Q2') checked="checked" @endif> 2nd
+                        Quarter </label>
+                    &nbsp;&nbsp;
+                    <label><input type="checkbox" @if ($reportingQuarter == 'Q3') checked="checked" @endif> 3rd
+                        Quarter </label>
+                    &nbsp;&nbsp;
+                    <label><input type="checkbox" @if ($reportingQuarter == 'Q4') checked="checked" @endif> 4th
+                        Quarter </label>
                 </td>
             </tr>
         </table>
@@ -198,9 +205,12 @@
                 <tr>
                     <td class="tg-wa1i">Classification of Enterprise: </td>
                     <td class="tg-nrix" colspan="9">
-                        Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)
-                        Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)
-                        Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)
+                        <label><input type="checkbox" @if ($EnterpriseClass == 'Micro') checked="checked" @endif>
+                            Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)</label>
+                        <label><input type="checkbox" @if ($EnterpriseClass == 'Small') checked="checked" @endif>
+                            Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)</label>
+                        <label><input type="checkbox" @if ($EnterpriseClass == 'Medium') checked="checked" @endif>
+                            Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)</label>
                     </td>
                 </tr>
                 <tr>
