@@ -12,20 +12,20 @@ export default async function Notification(){
         const jsonData = await response.json();
 
         if(jsonData.length > 0) {
-            jsonData.map((item) => {
-                const notificationData = {
-                    id: item.id,
-                    title: item.data.title,
-                    message: item.data.message,
-                    type: item.read_at,
-                    created_at: item.created_at
-                }
-
-            NotificationContainer(notificationData);
-            })
+            // Transform all notifications at once
+            const notifications = jsonData.map((item) => ({
+                id: item.id,
+                title: item.data.title,
+                message: item.data.message,
+                type: item.read_at,
+                created_at: item.created_at
+            }));
+            
+            // Pass all notifications at once
+            NotificationContainer(notifications);
         } else {
-            NotificationContainer(null)
-        };
+            NotificationContainer(null);
+        }
 
     } catch (error) {
         console.error('Error:', error);

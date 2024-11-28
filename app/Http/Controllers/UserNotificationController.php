@@ -12,7 +12,7 @@ class UserNotificationController extends Controller
     {
         $notifications = Auth::user()->notifications;
 
-        $notificationData = $notifications->transform(function ($notification) {
+        $notifications->transform(function ($notification) {
             return [
                 'id' => $notification->id,
                 'data' => $notification->data,

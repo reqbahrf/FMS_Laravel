@@ -120,8 +120,7 @@
                     <a class="position-relative text-decoration-none nav-link" data-bs-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <i class="ri-notification-3-line ri-2x"></i>
-                        <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle"
-                            style="display: none"></span>
+                        <div id="badge--container" style="display: none;"></div>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
                         <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">

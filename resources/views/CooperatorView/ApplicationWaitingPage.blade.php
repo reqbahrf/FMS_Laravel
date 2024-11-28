@@ -98,7 +98,9 @@
                             href="#" role="button" aria-haspopup="false" aria-expanded="false">
                             <i class="ri-notification-3-line ri-2x"></i>
                             @if ($notifications->count() > 0)
-                                <span class="notifi-bagde p-1 bg-danger border border-light rounded-circle"></span>
+                               <div id="badge--container">
+                                 <span class="badge rounded-pill bg-danger">{{ $notifications->count() }}</span>
+                               </div>
                             @endif
                         </a>
                         <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
