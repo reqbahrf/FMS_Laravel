@@ -318,16 +318,14 @@ window.initializeStaffPageJs = async () => {
                 const $select = $(`#${selectElementId}`);
                 const currentYear = new Date().getFullYear();
 
-                $select
-                    .empty()
-                    .append(
-                        $("<option>", {
-                            value: "",
-                            text: "Select Year",
-                            disabled: true,
-                            selected: true,
-                        })
-                    );
+                $select.empty().append(
+                    $("<option>", {
+                        value: "",
+                        text: "Select Year",
+                        disabled: true,
+                        selected: true,
+                    })
+                );
 
                 // Add current year and next 3 years
                 for (let i = 0; i < 4; i++) {
@@ -2510,6 +2508,38 @@ window.initializeStaffPageJs = async () => {
                 CurrencyInputs.on("input", function () {
                     inputsToCurrencyFormatter($(this));
                 });
+
+
+                const $openButton = $("#open-floating-window");
+                const $content = $("#floating-content");
+                const $input = $("#projectLedgerLink");
+                const $window = $('#floating-window');
+                const $header = $('#floating-header');
+                const $closeButton = $('#close-button');
+
+                $openButton.on("click", async function () {
+
+
+                    const module = await import('./ReusableJS/FloatingWindow')
+                    if(module.InitializeFloatingWindow){
+                        module.InitializeFloatingWindow({
+                            $content,
+                            $input,
+                            $window,
+                            $header,
+                            $closeButton,
+                        })
+                    }
+
+                    const url = $input.val().trim();
+                    if (!url) {
+                        alert("Please enter a valid URL!");
+                        return;
+                    }
+                    $content.html("<p>Loading...</p>");
+                    $content.html(`<iframe src="${url}"></iframe>`);
+                    $window.show();
+                });
             }
 
             //TODO: Make this reusable and efficient
@@ -2539,6 +2569,8 @@ window.initializeStaffPageJs = async () => {
             const toggleDocumentSelector = () =>
                 $("#selectDOC_toGenerate").toggleClass("d-none");
 
+
+
             /**
              * Attaches a click event listener to elements with the class `ExportPDF` within the `#SheetFormDocumentContainer` element.
              *
@@ -2553,101 +2585,121 @@ window.initializeStaffPageJs = async () => {
              *
              * @throws {Error} If there is an error generating the PDF.
              */
-async function handlePDFExport(e) {
-    e.preventDefault();
+            async function handlePDFExport(e) {
+                e.preventDefault();
 
-    // Show confirmation modal
-    const isconfirmed = await createConfirmationModal({
-        title: "Export to PDF",
-        titleBg: "bg-primary",
-        message: "Are you sure you want to Export this to PDF?",
-        confirmText: "Yes",
-        confirmButtonClass: "btn-primary",
-        cancelText: "No",
-    });
+                // Show confirmation modal
+                const isconfirmed = await createConfirmationModal({
+                    title: "Export to PDF",
+                    titleBg: "bg-primary",
+                    message: "Are you sure you want to Export this to PDF?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
 
-    if (!isconfirmed) {
-        return;
-    }
-
-    try {
-        // Get export type and route
-        const ExportPDF_BUTTON_DATA_VALUE = $(this).data("to-export");
-        const route_url = {
-            PIS: GENERATE_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
-            PDS: GENERATE_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
-            SR: GENERATE_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
-        }[ExportPDF_BUTTON_DATA_VALUE];
-
-        // Get form data
-        const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
-
-        // Make the request using jQuery ajax for better blob handling
-        const response = await $.ajax({
-            type: "POST",
-            url: route_url,
-            data: data,
-            headers: {
-                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
-            },
-            xhrFields: {
-                responseType: "blob"
-            },
-        });
-
-        // Check if response is JSON (error message)
-        const contentType = response.type;
-        if (contentType === 'application/json') {
-            // Read the blob as text to get error message
-            const reader = new FileReader();
-            reader.onload = function() {
-                const errorData = JSON.parse(this.result);
-                showToastFeedback('text-bg-danger', errorData.message || 'Failed to generate PDF');
-            };
-            reader.readAsText(response);
-            return;
-        }
-
-        // If we get here, it's a PDF response
-        const blob = new Blob([response], { type: 'application/pdf' });
-        const url = window.URL.createObjectURL(blob);
-
-        // Open PDF in new window
-        window.open(url, '_blank');
-
-        // Show success message
-        showToastFeedback('text-bg-success', 'PDF generated successfully');
-
-        // Clean up the blob URL after a delay to ensure the PDF loads
-        setTimeout(() => {
-            window.URL.revokeObjectURL(url);
-        }, 1000);
-
-    } catch (error) {
-        console.error('Error generating PDF:', error);
-
-        if (error.responseType === 'blob') {
-            // Handle blob error response
-            const reader = new FileReader();
-            reader.onload = function() {
-                try {
-                    const errorData = JSON.parse(this.result);
-                    showToastFeedback('text-bg-danger', errorData.message || 'Error generating PDF');
-                } catch (e) {
-                    showToastFeedback('text-bg-danger', 'An error occurred while generating the PDF');
+                if (!isconfirmed) {
+                    return;
                 }
-            };
-            reader.readAsText(error.response);
-        } else {
-            showToastFeedback('text-bg-danger', error.message || 'An error occurred while generating the PDF');
-        }
-    }
-}
 
-// Attach the event handler
-$("#SheetFormDocumentContainer")
-    .off("click", ".ExportPDF")
-    .on("click", ".ExportPDF", handlePDFExport);
+                try {
+                    // Get export type and route
+                    const ExportPDF_BUTTON_DATA_VALUE =
+                        $(this).data("to-export");
+                    const route_url = {
+                        PIS: GENERATE_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
+                        PDS: GENERATE_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
+                        SR: GENERATE_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
+                    }[ExportPDF_BUTTON_DATA_VALUE];
+
+                    // Get form data
+                    const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
+
+                    // Make the request using jQuery ajax for better blob handling
+                    const response = await $.ajax({
+                        type: "POST",
+                        url: route_url,
+                        data: data,
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        xhrFields: {
+                            responseType: "blob",
+                        },
+                    });
+
+                    // Check if response is JSON (error message)
+                    const contentType = response.type;
+                    if (contentType === "application/json") {
+                        // Read the blob as text to get error message
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                            const errorData = JSON.parse(this.result);
+                            showToastFeedback(
+                                "text-bg-danger",
+                                errorData.message || "Failed to generate PDF"
+                            );
+                        };
+                        reader.readAsText(response);
+                        return;
+                    }
+
+                    // If we get here, it's a PDF response
+                    const blob = new Blob([response], {
+                        type: "application/pdf",
+                    });
+                    const url = window.URL.createObjectURL(blob);
+
+                    // Open PDF in new window
+                    window.open(url, "_blank");
+
+                    // Show success message
+                    showToastFeedback(
+                        "text-bg-success",
+                        "PDF generated successfully"
+                    );
+
+                    // Clean up the blob URL after a delay to ensure the PDF loads
+                    setTimeout(() => {
+                        window.URL.revokeObjectURL(url);
+                    }, 1000);
+                } catch (error) {
+                    console.error("Error generating PDF:", error);
+
+                    if (error.responseType === "blob") {
+                        // Handle blob error response
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                            try {
+                                const errorData = JSON.parse(this.result);
+                                showToastFeedback(
+                                    "text-bg-danger",
+                                    errorData.message || "Error generating PDF"
+                                );
+                            } catch (e) {
+                                showToastFeedback(
+                                    "text-bg-danger",
+                                    "An error occurred while generating the PDF"
+                                );
+                            }
+                        };
+                        reader.readAsText(error.response);
+                    } else {
+                        showToastFeedback(
+                            "text-bg-danger",
+                            error.message ||
+                                "An error occurred while generating the PDF"
+                        );
+                    }
+                }
+            }
+
+            // Attach the event handler
+            $("#SheetFormDocumentContainer")
+                .off("click", ".ExportPDF")
+                .on("click", ".ExportPDF", handlePDFExport);
 
             /**
              * Prepares and returns the required data for the specified export type.
@@ -4205,7 +4257,7 @@ $("#SheetFormDocumentContainer")
                 }
             }
 
-            formatToNumber('#step-1', 'input#funded_amount')
+            formatToNumber("#step-1", "input#funded_amount");
 
             // Initial check on page load
             toggleProjectInputs();
@@ -4252,7 +4304,7 @@ $("#SheetFormDocumentContainer")
                 ],
             });
 
-            const TNArejectionModal = $('#tnaEvaluationResultModal')
+            const TNArejectionModal = $("#tnaEvaluationResultModal");
 
             const getApplicants = async () => {
                 const response = await fetch(
@@ -4269,15 +4321,15 @@ $("#SheetFormDocumentContainer")
                         data.map((item) => {
                             return [
                                 `${
-                                    (item?.prefix ?? '') +
+                                    (item?.prefix ?? "") +
                                     " " +
                                     item.f_name +
                                     " " +
-                                    (item?.mid_name ?? '') +
+                                    (item?.mid_name ?? "") +
                                     " " +
                                     item.l_name +
                                     " " +
-                                    (item?.suffix ?? '')
+                                    (item?.suffix ?? "")
                                 }
                                 <input type="hidden" name="sex" value="${
                                     item.sex
@@ -4394,16 +4446,16 @@ $("#SheetFormDocumentContainer")
                     this.value = this.min;
                 }
             });
-            formatToNumber('#EquipmentTableBody',[
-                '.EquipmentCost',
-                '.EquipmentQTY'
+            formatToNumber("#EquipmentTableBody", [
+                ".EquipmentCost",
+                ".EquipmentQTY",
             ]);
-            formatToNumber('#NonEquipmentTableBody', [
-                '.NonEquipmentQTY',
-                '.NonEquipmentCost'
-            ])
+            formatToNumber("#NonEquipmentTableBody", [
+                ".NonEquipmentQTY",
+                ".NonEquipmentCost",
+            ]);
 
-            formatToNumber('#fundAmount')
+            formatToNumber("#fundAmount");
 
             //TODO: update this the logic of this
             $("#ApplicantTableBody").on(
@@ -4815,7 +4867,8 @@ $("#SheetFormDocumentContainer")
                 const confirmed = await createConfirmationModal({
                     title: "Evaluation Date",
                     titleBg: "bg-primary",
-                    message: "Are you sure you want to set an evaluation date for this applicant?",
+                    message:
+                        "Are you sure you want to set an evaluation date for this applicant?",
                     confirmText: "Yes",
                     confirmButtonClass: "btn-primary",
                     cancelText: "No",
@@ -4856,17 +4909,25 @@ $("#SheetFormDocumentContainer")
                 }
             });
 
-            TNArejectionModal.on('show.bs.modal', function () {
-               const selectedApplicantUserId = $('#applicantDetails input[type="hidden"]#selected_userId').val();
-               const selectedApplicantApplicationId = $('#applicantDetails input[type="hidden"]#selected_applicationId').val();
-               const modalHiddenInput = $(this).find('input[type="hidden"]');
-               modalHiddenInput.filter('input[name="applicant_id"]').val(selectedApplicantUserId);
-               modalHiddenInput.filter('input[name="application_id"]').val(selectedApplicantApplicationId);
-            })
+            TNArejectionModal.on("show.bs.modal", function () {
+                const selectedApplicantUserId = $(
+                    '#applicantDetails input[type="hidden"]#selected_userId'
+                ).val();
+                const selectedApplicantApplicationId = $(
+                    '#applicantDetails input[type="hidden"]#selected_applicationId'
+                ).val();
+                const modalHiddenInput = $(this).find('input[type="hidden"]');
+                modalHiddenInput
+                    .filter('input[name="applicant_id"]')
+                    .val(selectedApplicantUserId);
+                modalHiddenInput
+                    .filter('input[name="application_id"]')
+                    .val(selectedApplicantApplicationId);
+            });
 
-            $('#TNARejectionForm').on('submit', async function (e) {
+            $("#TNARejectionForm").on("submit", async function (e) {
                 e.preventDefault();
-               const isConfirmed = await createConfirmationModal({
+                const isConfirmed = await createConfirmationModal({
                     title: "TNA Rejection",
                     titleBg: "bg-danger",
                     message: "Are you sure you want to reject this applicant?",
@@ -4895,7 +4956,7 @@ $("#SheetFormDocumentContainer")
                     });
 
                     if (response.success == true) {
-                        closeModal('#tnaEvaluationResultModal')
+                        closeModal("#tnaEvaluationResultModal");
                         showToastFeedback("text-bg-success", response.message);
                     }
                 } catch (error) {
@@ -4904,8 +4965,7 @@ $("#SheetFormDocumentContainer")
                         error.responseJSON.error
                     );
                 }
-
-            })
+            });
 
             const toggleDeleteRowButton = (container, elementSelector) => {
                 const element = container.find(elementSelector);
@@ -5192,7 +5252,8 @@ $("#SheetFormDocumentContainer")
                     const action = $(this).data("action");
                     event.preventDefault();
 
-                    const thisAction = action == "DraftForm" ? "Draft" : "Submit";
+                    const thisAction =
+                        action == "DraftForm" ? "Draft" : "Submit";
 
                     const isconfirmed = await createConfirmationModal({
                         title: `${thisAction} Project Proposal`,
