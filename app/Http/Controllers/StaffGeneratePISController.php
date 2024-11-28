@@ -14,7 +14,7 @@ class StaffGeneratePISController extends Controller
             $validatedData = $request->validated();
 
             try {
-                $html = view('StaffView.outputs.InformationSheetTable', $validatedData)->render();
+                $html = view('StaffView.outputs.ProjectInformationSheet', $validatedData)->render();
                 $DocHeader = view('StaffView.outputs.DocHeader')->render();
             } catch (Exception $e) {
                 return response()->json([
