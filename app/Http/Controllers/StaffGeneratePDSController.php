@@ -19,12 +19,13 @@ class StaffGeneratePDSController extends Controller
             'format' => 'A4',
             'orientation' => 'P',
             'margin_top' => 35,
-            'margin_bottom' => 5,
-            'margin_left' => 5,
-            'margin_right' => 5
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_bottom' => 10,
+            'default_font_size' => 9,
+            'default_font' => 'arial'
         ]);
         $mpdf->SetHTMLHeader($DocHeader);
-        $mpdf->shrink_tables_to_fit = 1;
         $mpdf->WriteHTML($html);
 
         return response($mpdf->Output('PDSsample.pdf', 'S'), 200, [

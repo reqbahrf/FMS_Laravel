@@ -5,16 +5,15 @@
         <title>Hello, World!</title>
         <style type="text/css">
             #pageSize {
-                width: 794px;
-
+                width: 100%;
+                margin: 0 auto;
             }
 
             .tg {
                 border-collapse: collapse;
                 border-spacing: 0;
-                margin: 0px;
                 width: 100%;
-                table-layout: fixed;
+                margin: 0px auto;
             }
 
             .tg td {
@@ -22,9 +21,8 @@
                 border-style: solid;
                 border-width: 1px;
                 font-family: Arial, sans-serif;
-                font-size: 10px;
-                overflow: hidden;
-                padding: 6px 5px;
+                font-size: 9pt;
+                padding: 4px;
                 word-break: normal;
             }
 
@@ -33,10 +31,9 @@
                 border-style: solid;
                 border-width: 1px;
                 font-family: Arial, sans-serif;
-                font-size: 10px;
+                font-size: 9pt;
                 font-weight: normal;
-                overflow: hidden;
-                padding: 6px 5px;
+                padding: 4px;
                 word-break: normal;
             }
 

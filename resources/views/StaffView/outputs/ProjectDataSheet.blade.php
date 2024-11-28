@@ -1,23 +1,23 @@
 <style type="text/css">
+    body {
+        font-family: Arial, sans-serif;
+        font-size: 9pt;
+    }
 
-body{
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-}
     .tg {
         border-collapse: collapse;
         border-spacing: 0;
         margin: 0px auto;
         width: 100%;
-        table-layout: fixed;
     }
 
     .tg td {
         border-color: black;
         border-style: solid;
         border-width: 1px;
-        overflow: hidden;
-        padding: 2px 6px;
+        font-family: Arial, sans-serif;
+        font-size: 9pt;
+        padding: 4px;
         word-break: normal;
     }
 
@@ -26,168 +26,99 @@ body{
         border-style: solid;
         border-width: 1px;
         font-family: Arial, sans-serif;
-        font-size: 12px;
+        font-size: 9pt;
         font-weight: normal;
-        overflow: hidden;
-        padding: 10px 5px;
+        padding: 4px;
         word-break: normal;
     }
 
-
-    .tg .tg-cly1 {
-        text-align: left;
-        vertical-align: middle
-    }
-
-    .tg .tg-1wig {
-        font-weight: bold;
-        text-align: left;
-        vertical-align: top
-    }
-
-    .tg .tg-baqh {
-        text-align: center;
-        vertical-align: top
-    }
-
-    .tg .tg-wa1i {
-        font-weight: bold;
-        text-align: center;
-        vertical-align: middle
-    }
-
-    .tg .tg-vkv7 {
-        background-color: #FF0;
-        font-weight: bold;
-        text-align: left;
-        vertical-align: middle
-    }
-
-    .tg .tg-j6zm {
-        font-weight: bold;
-        text-align: left;
-        vertical-align: bottom
-    }
-
-    .tg .tg-7zrl {
-        text-align: left;
-        vertical-align: bottom
-    }
-
-    .tg .tg-8d8j {
-        font-size: 12px;
+    .tg-8d8j {
+        font-size: 9pt;
         font-family: Arial, sans-serif;
         text-align: left;
         vertical-align: bottom
     }
 
-    .tg .tg-nrix {
-        font-family: arial, sans-serif;
-        text-align: center;
-        vertical-align: middle
-    }
-
-    .tg .tg-0lax {
-        text-align: left;
-        vertical-align: top
-    }
-
-    .tg .tg-yla0 {
-        font-weight: bold;
-        text-align: left;
-        vertical-align: middle
+    #containerSize {
+        width: 100%;
+        margin: 0 auto;
     }
 
     .form-group {
         font-family: Arial, sans-serif;
-        font-size: 12px;
+        font-size: 9pt;
     }
 
-    #dataSheetHeader img {
+    .form-container {
+        font-family: Arial, sans-serif;
         width: 100%;
-        height: auto;
+        max-width: 794px;
+        margin: 0 auto;
+        line-height: 1.5;
+        padding-bottom: 20px;
     }
 
-
-    #containerSize {
-        width: 794px;
+    table .ProjectInfo {
+        width: 100%;
+        border-collapse: collapse;
+        border-spacing: 0;
+        table-layout: fixed;
     }
 
-.form-container {
-    font-family: Arial, sans-serif;
-    width: 100%;
-    max-width: 794px;
-    margin: 0 auto;
-    line-height: 1.5;
-    padding-bottom: 20px;
-}
+    .ProjectInfo td:nth-child(1) {
+        width: 15%;
+    }
 
-table .ProjectInfo {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    table-layout: fixed;
-}
+    .ProjectInfo td:nth-child(2) {
+        width: 85%;
+    }
 
-.ProjectInfo td:nth-child(1) {
-    width: 15%;
-}
-
-.ProjectInfo td:nth-child(2) {
-    width: 85%;
-}
-.ProjectInfo td {
-    border-color: black;
+    .ProjectInfo td {
+        border-color: black;
         border-style: solid;
         border-width: 1px;
-}
+    }
 
+    .label {
+        width: 10%;
+        font-size: 9pt;
+        font-weight: normal;
+        vertical-align: top;
+    }
 
-.label {
-    width: 10%;
-    font-size: 12px;
-    font-weight: normal;
-    vertical-align: top;
-}
+    .input {
+        font-weight: bold;
+        border-bottom: 1px solid #000;
+        padding-bottom: 5px;
+        font-size: 9pt;
+    }
 
-.input {
-    font-weight: bold;
-    border-bottom: 1px solid #000;
-    padding-bottom: 5px;
-    font-size: 12px;
-}
+    .small-label {
+        width: 10%;
+        font-weight: bold;
+        vertical-align: top;
+    }
 
-.small-label {
-    width: 10%;
-    font-weight: bold;
-    vertical-align: top;
-}
+    .small-input {
+        width: 30%;
+        border-bottom: 1px solid #000;
+        padding-bottom: 5px;
+    }
 
-.small-input {
-    width: 30%;
-    border-bottom: 1px solid #000;
-    padding-bottom: 5px;
-}
+    input[type="checkbox"] {
+        margin-right: 10px;
+    }
 
-input[type="checkbox"] {
-    margin-right: 10px;
-}
+    .bottomBorder {
+        width: 100%;
+        border: 0px;
+    }
 
-.bottomBorder {
-    width: 100%;
-    border: 0px;
-}
-
-
-
-.contact-label {
-    font-weight: normal;
-    font-size: 10px;
-    margin-right: 2px;
-}
-
-
-
+    .contact-label {
+        font-weight: normal;
+        font-size: 9pt;
+        margin-right: 2px;
+    }
 </style>
 <div id="containerSize">
     <div class="form-container">
@@ -213,12 +144,12 @@ input[type="checkbox"] {
             <tr>
                 <td class="label">Contact Details:</td>
                 <td class="contactData" colspan="3">
-                        <span class="contact-label">Landline:&nbsp;&nbsp;</span>
-                        <span class="input">{{ $landline ?? 'None' }}</span>
-                        <span class="contact-label">Mobile Phone:&nbsp;&nbsp;</span>
-                        <span class="input">{{ $mobile }}</span>
-                        <span class="contact-label">Email Address:&nbsp;&nbsp;</span>&nbsp;&nbsp;
-                        <span class="input">{{ $email }}</span>
+                    <span class="contact-label">Landline:&nbsp;&nbsp;</span>
+                    <span class="input">{{ $landline ?? 'None' }}</span>
+                    <span class="contact-label">Mobile Phone:&nbsp;&nbsp;</span>
+                    <span class="input">{{ $mobile }}</span>
+                    <span class="contact-label">Email Address:&nbsp;&nbsp;</span>&nbsp;&nbsp;
+                    <span class="input">{{ $email }}</span>
                 </td>
             </tr>
             <tr>
@@ -359,27 +290,29 @@ input[type="checkbox"] {
                 @foreach ($exportProduct as $index => $product)
                     <tr>
                         @if ($index === 0)
-                            <td class="tg-0lax" rowspan="{{ count($exportProduct) }}">&nbsp;&nbsp;3.1 Export Market</td>
+                            <td class="tg-0lax" rowspan="{{ count($exportProduct) }}">&nbsp;&nbsp;3.1 Export Market
+                            </td>
                         @endif
                         <td class="tg-8d8j">{{ $product['productName'] }}</td>
                         <td class="tg-8d8j">{{ $product['packingDetails'] }}</td>
                         <td class="tg-8d8j">{{ $product['volumeOfProduction'] }}</td>
-                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['grossSales'] }}</td>
-                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['productionCost'] }}</td>
-                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['netSales'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ '₱ ' . $product['grossSales'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ '₱ ' . $product['productionCost'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ '₱ ' . $product['netSales'] }}</td>
                     </tr>
                 @endforeach
                 @foreach ($localProduct as $index => $product)
                     <tr>
                         @if ($index === 0)
-                            <td class="tg-0lax" rowspan="{{ count($localProduct) }}">&nbsp;&nbsp;3.1 Export Market</td>
+                            <td class="tg-0lax" rowspan="{{ count($localProduct) }}">&nbsp;&nbsp;3.1 Export Market
+                            </td>
                         @endif
                         <td class="tg-8d8j">{{ $product['productName'] }}</td>
                         <td class="tg-8d8j">{{ $product['packingDetails'] }}</td>
                         <td class="tg-8d8j">{{ $product['volumeOfProduction'] }}</td>
-                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['grossSales'] }}</td>
-                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['productionCost'] }}</td>
-                        <td class="tg-8d8j" colspan="2">{{ "₱ " . $product['netSales'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ '₱ ' . $product['grossSales'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ '₱ ' . $product['productionCost'] }}</td>
+                        <td class="tg-8d8j" colspan="2">{{ '₱ ' . $product['netSales'] }}</td>
                     </tr>
                 @endforeach
                 <tr>
@@ -396,13 +329,15 @@ input[type="checkbox"] {
                 <tr>
                     <td class="tg-cly1">&nbsp;&nbsp;4.1 Export</td>
                     <td class="tg-8d8j" colspan="9">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $ExportOutlet }}</td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $ExportOutlet }}
+                    </td>
                 </tr>
 
                 <tr>
                     <td class="tg-cly1">&nbsp;&nbsp;4.2 Local</td>
                     <td class="tg-8d8j" colspan="9">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $LocalOutlet }}</td>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{ $LocalOutlet }}
+                    </td>
                 </tr>
                 <br>
                 <tr>
@@ -426,10 +361,11 @@ input[type="checkbox"] {
                 </tr>
                 <tr>
                     <td class="tg-0lax" colspan="4">% Increase in Productivity Generated =
-                        Gross Sales current-Gross Sales previous&nbsp;&nbsp;&nbsp;/ Gross Sales previous X 100 =  %</td>
+                        Gross Sales current-Gross Sales previous&nbsp;&nbsp;&nbsp;/ Gross Sales previous X 100 = %</td>
                     <td class="tg-8d8j" colspan="6">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                        {{ $CurrentgrossSales }}-{{ $PreviousgrossSales }}&nbsp;&nbsp;&nbsp;/ {{ $PreviousgrossSales }} X 100 = {{ $totalgrossSales_percent }}
+                        {{ $CurrentgrossSales }}-{{ $PreviousgrossSales }}&nbsp;&nbsp;&nbsp;/
+                        {{ $PreviousgrossSales }} X 100 = {{ $totalgrossSales_percent }}
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </td>
                 </tr>
@@ -451,7 +387,8 @@ input[type="checkbox"] {
                         -&nbsp;&nbsp;&nbsp;/ X 100 = </td>
                     <td class="tg-8d8j" colspan="6">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {{ $CurrentEmployment }}-{{ $PreviousEmployment }}&nbsp;&nbsp;&nbsp;/ {{ $PreviousEmployment }} X 100 = {{ $totalEmployment_percent }}
+                        {{ $CurrentEmployment }}-{{ $PreviousEmployment }}&nbsp;&nbsp;&nbsp;/
+                        {{ $PreviousEmployment }} X 100 = {{ $totalEmployment_percent }}
                         <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </td>
                 </tr>
