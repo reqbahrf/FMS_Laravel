@@ -2553,64 +2553,101 @@ window.initializeStaffPageJs = async () => {
              *
              * @throws {Error} If there is an error generating the PDF.
              */
-            $("#SheetFormDocumentContainer")
-                .off("click", ".ExportPDF")
-                .on("click", ".ExportPDF", async function (e) {
-                    e.preventDefault();
-                    const isconfirmed = await createConfirmationModal({
-                        title: "Export to PDF",
-                        titleBg: "bg-primary",
-                        message: "Are you sure you want to Export this to PDF?",
-                        confirmText: "Yes",
-                        confirmButtonClass: "btn-primary",
-                        cancelText: "No",
-                    })
+async function handlePDFExport(e) {
+    e.preventDefault();
 
-                    if(!isconfirmed){
-                        return
-                    }
+    // Show confirmation modal
+    const isconfirmed = await createConfirmationModal({
+        title: "Export to PDF",
+        titleBg: "bg-primary",
+        message: "Are you sure you want to Export this to PDF?",
+        confirmText: "Yes",
+        confirmButtonClass: "btn-primary",
+        cancelText: "No",
+    });
 
-                    try {
-                        const ExportPDF_BUTTON_DATA_VALUE =
-                            $(this).data("to-export");
-                        const route_url = await {
-                            PIS: GENERATE_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
-                            PDS: GENERATE_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
-                            SR: GENERATE_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
-                        }[ExportPDF_BUTTON_DATA_VALUE];
-                        const data = await requestDATA(
-                            ExportPDF_BUTTON_DATA_VALUE
-                        );
-                        const response = await $.ajax({
-                            type: "POST",
-                            url: route_url,
-                            data: data,
-                            headers: {
-                                "X-CSRF-TOKEN": $(
-                                    'meta[name="csrf-token"]'
-                                ).attr("content"),
-                            },
-                            xhrFields: {
-                                responseType: "blob",
-                            },
-                        });
+    if (!isconfirmed) {
+        return;
+    }
 
-                        showToastFeedback('text-bg-success', response.message)
+    try {
+        // Get export type and route
+        const ExportPDF_BUTTON_DATA_VALUE = $(this).data("to-export");
+        const route_url = {
+            PIS: GENERATE_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
+            PDS: GENERATE_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
+            SR: GENERATE_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
+        }[ExportPDF_BUTTON_DATA_VALUE];
 
-                        const blob = new Blob([response], {
-                            type: "application/pdf",
-                        });
-                        const url = window.URL.createObjectURL(blob);
-                        window.open(url, "_blank"); // Open the PDF in a new browser tab
+        // Get form data
+        const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
 
-                        console.log(
-                            "PDF successfully generated and opened in a new tab."
-                        );
-                    } catch (error) {
-                        console.log(error)
-                        showToastFeedback('text-bg-danger', error.message)
-                    }
-                });
+        // Make the request using jQuery ajax for better blob handling
+        const response = await $.ajax({
+            type: "POST",
+            url: route_url,
+            data: data,
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            },
+            xhrFields: {
+                responseType: "blob"
+            },
+        });
+
+        // Check if response is JSON (error message)
+        const contentType = response.type;
+        if (contentType === 'application/json') {
+            // Read the blob as text to get error message
+            const reader = new FileReader();
+            reader.onload = function() {
+                const errorData = JSON.parse(this.result);
+                showToastFeedback('text-bg-danger', errorData.message || 'Failed to generate PDF');
+            };
+            reader.readAsText(response);
+            return;
+        }
+
+        // If we get here, it's a PDF response
+        const blob = new Blob([response], { type: 'application/pdf' });
+        const url = window.URL.createObjectURL(blob);
+
+        // Open PDF in new window
+        window.open(url, '_blank');
+
+        // Show success message
+        showToastFeedback('text-bg-success', 'PDF generated successfully');
+
+        // Clean up the blob URL after a delay to ensure the PDF loads
+        setTimeout(() => {
+            window.URL.revokeObjectURL(url);
+        }, 1000);
+
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+
+        if (error.responseType === 'blob') {
+            // Handle blob error response
+            const reader = new FileReader();
+            reader.onload = function() {
+                try {
+                    const errorData = JSON.parse(this.result);
+                    showToastFeedback('text-bg-danger', errorData.message || 'Error generating PDF');
+                } catch (e) {
+                    showToastFeedback('text-bg-danger', 'An error occurred while generating the PDF');
+                }
+            };
+            reader.readAsText(error.response);
+        } else {
+            showToastFeedback('text-bg-danger', error.message || 'An error occurred while generating the PDF');
+        }
+    }
+}
+
+// Attach the event handler
+$("#SheetFormDocumentContainer")
+    .off("click", ".ExportPDF")
+    .on("click", ".ExportPDF", handlePDFExport);
 
             /**
              * Prepares and returns the required data for the specified export type.
