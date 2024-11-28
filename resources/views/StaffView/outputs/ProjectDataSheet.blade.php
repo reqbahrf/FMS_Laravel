@@ -21,6 +21,10 @@
         word-break: normal;
     }
 
+    .tg td.no-border {
+        border: none;
+    }
+
     .tg th {
         border-color: black;
         border-style: solid;
@@ -73,12 +77,6 @@
         width: 85%;
     }
 
-    .ProjectInfo td {
-        border-color: black;
-        border-style: solid;
-        border-width: 1px;
-    }
-
     .label {
         width: 10%;
         font-size: 9pt;
@@ -90,6 +88,11 @@
         font-weight: bold;
         border-bottom: 1px solid #000;
         padding-bottom: 5px;
+        font-size: 9pt;
+    }
+
+    .table--headerText {
+        font-weight: bold;
         font-size: 9pt;
     }
 
@@ -175,19 +178,19 @@
         <table class="tg">
             <tbody>
                 <tr>
-                    <td style="width: 20%;"></td>
-                    <td style="width: 8.88%;"></td>
-                    <td style="width: 8.88%;"></td>
-                    <td style="width: 8.88%;"></td>
-                    <td style="width: 8.88%;"></td>
-                    <td style="width: 8.88%;"></td>
-                    <td style="width: 8.88%;"></td>
-                    <td style="width: 8.88%;"></td>
-                    <td style="width: 8.88%;"></td>
-                    <td style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 20%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
+                    <td class="no-border" style="width: 8.88%;"></td>
                 </tr>
                 <tr>
-                    <td class="tg-yla0" colspan="10">1.0 ASSETS</td>
+                    <td class="tg-yla0 table--headerText" colspan="10">1.0 ASSETS</td>
                 </tr>
                 <tr>
                     <td class="tg-7zrl">&nbsp;&nbsp;1.1 Building</td>
@@ -214,7 +217,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td class="tg-j6zm" colspan="7">2.0 TOTAL EMPLOYMENT FOR THE QUARTER</td>
+                    <td class="tg-j6zm table--headerText" colspan="7">2.0 TOTAL EMPLOYMENT FOR THE QUARTER</td>
                     <td class="tg-7zrl" colspan="3"> </td>
                 </tr>
                 <tr>
@@ -285,7 +288,7 @@
                     <td class="tg-cly1" colspan="4">No. of Man-Months: {{ $TotalManMonth }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-1wig" colspan="10">3.0 PRODUCTION AND SALES DATA FOR THE QUARTER
+                    <td class="tg-1wig table--headerText" colspan="10">3.0 PRODUCTION AND SALES DATA FOR THE QUARTER
                     </td>
                 </tr>
                 <tr>
@@ -333,7 +336,7 @@
                 </tr>
 
                 <tr>
-                    <td class="tg-yla0" colspan="10">4.0 MARKET OUTLETS</td>
+                    <td class="tg-yla0 table--headerText" colspan="10">4.0 MARKET OUTLETS</td>
                 </tr>
 
                 <tr>
@@ -354,7 +357,7 @@
                     <td colspan="8" style="height: 10px; border-left: none; border-right: none;">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td class="tg-vkv7" colspan="10">TO BE ACCOMPLISHED BY DOST XI</td>
+                    <td class="tg-vkv7 table--headerText" colspan="10">TO BE ACCOMPLISHED BY DOST XI</td>
                 </tr>
 
                 <tr>
