@@ -33,6 +33,7 @@
     <h4 class="p-3">Applicant:</h4>
 </div>
 <div>
+    @include('StaffView.Included_layout.TNA_rejectionModal')
     <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="applicantDetails"
         aria-labelledby="staticBackdropLabel">
         <div class="offcanvas-header bg-primary">
@@ -45,7 +46,7 @@
         <div class="offcanvas-body">
             <div class="row g-3">
                 <div class="col-12">
-                    <div class="card">
+                    <div class="card shadow-sm">
                         <div class="card-header bg-primary">
                             <div class="fw-bold fs-6 text-white">
                                 <i class="ri-briefcase-fill"></i>

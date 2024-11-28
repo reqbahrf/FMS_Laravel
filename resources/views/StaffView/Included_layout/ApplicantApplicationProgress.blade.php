@@ -72,6 +72,16 @@
 
                                 </div>
                             </div>
+                            <div class="col-12">
+                            <div class="col-12 mt-3 d-flex justify-content-end">
+                                <button type="button" class="btn btn-success" id="acceptEvaluation">
+                                    Accept
+                                </button>
+                                <button type="button" class="btn btn-danger mx-2" data-bs-target="#tnaEvaluationResultModal" data-bs-toggle="modal" id="rejectEvaluation">
+                                    Reject
+                                </button>
+                            </div>
+                            </div>
                         </div>
                     </div>
                 </div>

@@ -13,6 +13,7 @@ use App\Http\Controllers\ScheduleController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\StaffViewController;
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GenerateFormController;
@@ -22,23 +23,23 @@ use App\Http\Controllers\PaymentRecordController;
 use App\Http\Controllers\ProjectLedgerController;
 use Illuminate\Auth\Events\PasswordResetLinkSent;
 use App\Http\Controllers\CooperatorViewController;
+use App\Http\Controllers\PasswordChangeController;
+use App\Http\Controllers\RejectionEmailController;
 use App\Http\Controllers\ProjectProposalController;
+use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\AdminManageStaffController;
 use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
-use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
-use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\StaffQuarterlyReportController;
-use App\Http\Controllers\PasswordChangeController;
-use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\StaffProjectRequirementController;
 
 //Applicant routes
 
@@ -209,6 +210,9 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
         ->name('view.project.file');
     Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class);
     Route::get('/proxy', [ProxyController::class, 'proxy']);
+
+    Route::post('/send-rejection-email', [RejectionEmailController::class, 'sendRejectionEmail'])
+        ->name('send.rejection.email');
 });
 
 //Staff Route End

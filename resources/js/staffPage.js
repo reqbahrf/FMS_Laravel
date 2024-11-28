@@ -4215,6 +4215,8 @@ window.initializeStaffPageJs = async () => {
                 ],
             });
 
+            const TNArejectionModal = $('#tnaEvaluationResultModal')
+
             const getApplicants = async () => {
                 const response = await fetch(
                     APPLICANT_TAB_ROUTE.GET_APPLICANTS,
@@ -4363,6 +4365,8 @@ window.initializeStaffPageJs = async () => {
                 '.NonEquipmentQTY',
                 '.NonEquipmentCost'
             ])
+
+            formatToNumber('#fundAmount')
 
             //TODO: update this the logic of this
             $("#ApplicantTableBody").on(
@@ -4814,6 +4818,57 @@ window.initializeStaffPageJs = async () => {
                     );
                 }
             });
+
+            TNArejectionModal.on('show.bs.modal', function () {
+               const selectedApplicantUserId = $('#applicantDetails input[type="hidden"]#selected_userId').val();
+               const selectedApplicantApplicationId = $('#applicantDetails input[type="hidden"]#selected_applicationId').val();
+               const modalHiddenInput = $(this).find('input[type="hidden"]');
+               modalHiddenInput.filter('input[name="applicant_id"]').val(selectedApplicantUserId);
+               modalHiddenInput.filter('input[name="application_id"]').val(selectedApplicantApplicationId);
+            })
+
+            $('#TNARejectionForm').on('submit', async function (e) {
+                e.preventDefault();
+               const isConfirmed = await createConfirmationModal({
+                    title: "TNA Rejection",
+                    titleBg: "bg-danger",
+                    message: "Are you sure you want to reject this applicant?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+
+                if (!isConfirmed) {
+                    return;
+                }
+
+                const formData = new FormData(this);
+                try {
+                    const response = await $.ajax({
+                        type: "POST",
+                        url: APPLICANT_TAB_ROUTE.REJECT_APPLICATION_TNA,
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        data: formData,
+                        processData: false,
+                        contentType: false,
+                    });
+
+                    if (response.success == true) {
+                        closeModal('#tnaEvaluationResultModal')
+                        showToastFeedback("text-bg-success", response.message);
+                    }
+                } catch (error) {
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.error
+                    );
+                }
+
+            })
 
             const toggleDeleteRowButton = (container, elementSelector) => {
                 const element = container.find(elementSelector);
