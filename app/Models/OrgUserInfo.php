@@ -56,4 +56,13 @@ class OrgUserInfo extends Model
     {
         return $this->hasMany(ProjectInfo::class, 'evaluated_by_id');
     }
+
+    public function getFullNameAttribute()
+    {
+        return
+             $this->f_name . ' ' .
+            ($this->mid_name ? substr($this->mid_name, 0, 1) . '.' : '')
+            . ' ' . $this->l_name . ' ' .
+            ($this->suffix ? $this->suffix : '');
+    }
 }

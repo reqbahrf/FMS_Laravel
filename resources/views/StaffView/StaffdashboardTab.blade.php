@@ -373,7 +373,7 @@
     </div>
     <h5 class="text-muted fw-medium text-center">Projects</h5>
     <div class="col-12">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                 <div id="lineChart">
                 </div>
@@ -382,7 +382,7 @@
     </div>
     <h5 class="text-muted fw-medium text-center">Handled Project</h5>
     <div class="col-12">
-        <div class="card">
+        <div class="card shadow-sm">
             <div class="card-body">
                     <table id="handledProject" class="table table-hover" style="width:100%">
 

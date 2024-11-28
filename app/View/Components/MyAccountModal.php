@@ -25,13 +25,9 @@ class MyAccountModal extends Component
         $this->email = $user->email;
 
         if ($user->role == 'Staff' || $user->role == 'Admin') {
-            $this->username = $user->orgUserInfo->prefix . ' ' . $user->orgUserInfo->f_name . ' ' .
-                ($user->orgUserInfo->mid_name ? substr($user->orgUserInfo->mid_name, 0, 1) . '.' : '') .
-                ' ' . $user->orgUserInfo->l_name . ' ' . $user->orgUserInfo->suffix;
+            $this->username = $user->orgUserInfo->full_name;
         } else {
-            $this->username = $user->coopUserInfo?->f_name . ' ' .
-                ($user->coopUserInfo->mid_name ? substr($user->coopUserInfo->mid_name, 0, 1) . '.' : '') .
-                ' ' . $user->coopUserInfo->l_name;
+            $this->username = $user->coopUserInfo->full_name;
         }
     }
 

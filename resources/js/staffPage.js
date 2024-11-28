@@ -675,13 +675,13 @@ window.initializeStaffPageJs = async () => {
                             project.working_capital
                         }">`,
                             `<p class="owner_name">${
-                                project.prefix +
+                                (project.prefix ? project.prefix : "") +
                                 " " +
                                 project.f_name +
                                 " " +
                                 project.l_name +
                                 " " +
-                                project.suffix
+                                (project.suffix ? project.suffix : " ")
                             }</p>
                         <input type="hidden" class="sex" value="${project.sex}">
                         <input type="hidden" class="birth_date" value="${

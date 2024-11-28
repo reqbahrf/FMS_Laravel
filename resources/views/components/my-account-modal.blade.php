@@ -39,8 +39,8 @@
             <div class="modal-body">
                 <div class="container-lg">
                     <div class="row">
-                        <div class="col-md-3 shadow">
-                            <div class="nav flex-column  nav-pills me-3" id="v-pills-tab" role="tablist"
+                        <div class="col-md-3 shadow rounded">
+                            <div class="nav flex-column nav-pills mx-1 mt-3" id="v-pills-tab" role="tablist"
                                 aria-orientation="vertical">
 
                                 <a class="nav-link active" id="v-pills-personal-tab" data-bs-toggle="pill"
@@ -77,18 +77,45 @@
                                         </div>
                                     </div>
                                     <!-- Personal Information Form -->
-                                    <form>
+                                    <div class="card shadow-sm">
+                                        <div class="card-header">
+                                            Personal Information
+                                        </div>
+                                        <div class="card-body">
+                                            <form>
+                                                <div class="mb-3">
+                                                    <label for="fullName" class="form-label">Full name</label>
+                                                    <input type="text" class="form-control" id="fullName"
+                                                        value="{{ $username }}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="email" class="form-label">Email</label>
+                                                    <input type="email" class="form-control" id="email"
+                                                        value="{{ $email }}">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                   <form class="card shadow-sm mt-3">
+                                    <div class="card-header">
+                                        Reset Password
+                                    </div>
+                                    <div class="card-body">
                                         <div class="mb-3">
-                                            <label for="fullName" class="form-label">Full name</label>
-                                            <input type="text" class="form-control" id="fullName"
-                                                value="Matthew Young">
+                                            <label for="currentPassword" class="form-label">Current Password</label>
+                                            <input type="password" class="form-control" id="currentPassword" required>
                                         </div>
                                         <div class="mb-3">
-                                            <label for="email" class="form-label">Email</label>
-                                            <input type="email" class="form-control" id="email"
-                                                value="matthew.y@cloverlabs.com">
+                                            <label for="newPassword" class="form-label">New Password</label>
+                                            <input type="password" class="form-control" id="newPassword" required>
                                         </div>
-                                    </form>
+                                        <div class="mb-3">
+                                            <label for="confirmPassword" class="form-label">Confirm Password</label>
+                                            <input type="password" class="form-control" id="confirmPassword" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary me-auto">Reset Password</button>
+                                    </div>
+                                   </form>
                                 </div>
                                 @if ($userRole == 'Cooperator')
                                     <div class="tab-pane fade" id="v-pills-billing" role="tabpanel"
