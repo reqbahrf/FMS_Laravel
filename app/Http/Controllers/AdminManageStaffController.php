@@ -79,6 +79,7 @@ class AdminManageStaffController extends Controller
                     'email_verified_at' => now(),
                     'password' => Hash::make($NewUser_password),
                     'role' => $validated['role'],
+                    'must_change_password' => true,
                 ]);
 
                 $orgUserInfo =OrgUserInfo::create([

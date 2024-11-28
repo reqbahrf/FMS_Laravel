@@ -307,15 +307,24 @@
                             <h6>Assets:</h6>
                             <div class="col-12 col-md-4">
                                 <label for="building" class="ps-2">Building:</label>
-                                <input type="text"  class="form-control building" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text"  class="form-control building" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="equipment" class="ps-2">Equipment:</label>
-                                <input type="text"  class="form-control equipment" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text"  class="form-control equipment" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="land" class="ps-2">Working Capital:</label>
-                                <input type="text"  class="form-control workingCapital" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text"  class="form-control workingCapital" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -340,16 +349,25 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="Amount_fetch">Approved Amount:</label>
-                                <input type="text" id="" class="form-control funded_amount" readonly
-                                    value="">
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text" id="" class="form-control funded_amount" readonly
+                                        value="">
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="amount_to_be_refunded">Amount to be refunded:</label>
-                                <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="amount_to_be_refunded">Refunded:</label>
-                                <input type="text" id="" class="form-control refunded" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text" id="" class="form-control refunded" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="date_applied">Date Applied:</label>
@@ -464,15 +482,24 @@
                             <h6>Assets:</h6>
                             <div class="col-12 col-md-4">
                                 <label for="building" class="ps-2">Building:</label>
-                                <input type="text"  class="form-control building" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text"  class="form-control building" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="equipment" class="ps-2">Equipment:</label>
-                                <input type="text"  class="form-control equipment" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text"  class="form-control equipment" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="land" class="ps-2">Working Capital:</label>
-                                <input type="text"  class="form-control workingCapital" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text"  class="form-control workingCapital" readonly>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -497,16 +524,25 @@
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="Amount_fetch">Approved Amount:</label>
-                                <input type="text" id="" class="form-control funded_amount" readonly
-                                    value="">
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text" id="" class="form-control funded_amount" readonly
+                                        value="">
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="amount_to_be_refunded">Amount to be refunded:</label>
-                                <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="amount_to_be_refunded">Refunded:</label>
-                                <input type="text" id="" class="form-control refunded" readonly>
+                                <div class="input-group">
+                                    <span class="input-group-text">₱</span>
+                                    <input type="text" id="" class="form-control refunded" readonly>
+                                </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="date_applied">Date Applied:</label>

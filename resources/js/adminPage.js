@@ -8,6 +8,7 @@ import {
     closeOffcanvasInstances,
     closeModal,
     sanitize,
+    createConfirmationModal,
 } from "./ReusableJS/utilFunctions";
 
 import DataTable from "datatables.net-bs5";
@@ -1690,15 +1691,15 @@ window.initializeAdminPageJs = async () => {
                     }</span>
                     <p>
                         <strong>Assets:</strong> <br>
-                        <span class="ps-2 building_assets">Building: ${formatToString(
+                        <span class="ps-2 building_assets">Building: <span class="building_value">${formatToString(
                             parseFloat(item.building_value)
-                        )}</span><br>
-                        <span class="ps-2 equipment_assets">Equipment: ${formatToString(
+                        )}</span></span><br>
+                        <span class="ps-2 equipment_assets">Equipment: <span class="equipment_value">${formatToString(
                             parseFloat(item.equipment_value)
-                        )}</span> <br>
-                        <span class="ps-2 working_capital_assets">Working Capital: ${formatToString(
+                        )}</span></span> <br>
+                        <span class="ps-2 working_capital_assets">Working Capital: <span class="working_capital">${formatToString(
                             parseFloat(item.working_capital)
-                        )}</span>
+                        )}</span></span>
                     </p>
                     <strong>Contact Details:</strong>
                     <p>
@@ -1785,10 +1786,10 @@ window.initializeAdminPageJs = async () => {
                 const landline = row.find(".landline").text().trim();
                 const mobilePhone = row.find(".mobile_num").text().trim();
                 const email = row.find(".email_add").text().trim();
-                const building = row.find(".building_assets").text().trim();
-                const equipment = row.find(".equipment_assets").text().trim();
+                const building = row.find(".building_value").text().trim();
+                const equipment = row.find(".equipment_value").text().trim();
                 const workingCapital = row
-                    .find(".working_capital_assets")
+                    .find(".working_capital")
                     .text()
                     .trim();
 
@@ -1975,9 +1976,22 @@ window.initializeAdminPageJs = async () => {
                     document.querySelectorAll(".needs-validation");
 
                 // Attach form validation and submission to the submit button click event
-                $("#submitNewUser").on("click", function (event) {
+                $("#submitNewUser").on("click", async function(event) {
                     // Prevent default button action
                     event.preventDefault();
+
+                    const isConfirmed = await createConfirmationModal({
+                        title: "Add New Organization User",
+                        titleBg: "bg-primary",
+                        message: "Are you sure you want to add this user?",
+                        confirmText: "Yes",
+                        confirmButtonClass: "btn-primary",
+                        cancelText: "No",
+                    })
+
+                    if (!isConfirmed) {
+                        return;
+                    }
 
                     // Loop through each form with 'needs-validation'
                     Array.from(NewUsersForms).forEach((form) => {
