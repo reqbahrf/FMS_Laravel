@@ -382,39 +382,6 @@
                         </table>
                     </div>
                 </div>
-                <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
-                            <i class="ri-file-text-fill"></i>
-                            Requirements list
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <table id="requirementsTable" class="table table-hover">
-
-                        </table>
-                    </div>
-                </div>
-                <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
-                            <i class="ri-user-2-fill"></i>
-                            Handled By
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <div
-                            class="d-flex flex-column flex-sm-row justify-content-center justify-content-sm-evenly align-items-center">
-                            <div class="col-12 col-sm-2">
-                                <img src="" alt="Profile" width="30" class="rounded-5">
-                            </div>
-                            <div class="col-12 col-sm-10">
-                                <span><strong>Name:</strong>
-                                    John Smith</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
@@ -568,20 +535,7 @@
                         </h5>
                     </div>
                     <div class="card-body">
-                        <table id="paymentTable" class="table table-hover">
-
-                        </table>
-                    </div>
-                </div>
-                <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white mb-0">
-                            <i class="ri-file-text-fill"></i>
-                            Requirements list
-                        </h5>
-                    </div>
-                    <div class="card-body">
-                        <table id="requirementsTable" class="table table-hover">
+                        <table id="CompletedpaymentTable" class="table table-hover">
 
                         </table>
                     </div>
@@ -645,6 +599,7 @@
                     <!-- Where the Complete Table is displayed -->
                         <table id="completedTable" class="table table-hover mx-2" style="width:100%">
                             <tbody id="CompletedTableBody" class="table-group-divider">
+
                             </tbody>
                         </table>
                     <!-- Where the Complete Table end -->
