@@ -72,8 +72,8 @@ $(document).on("DOMContentLoaded", function () {
 });
 
 $(function () {
-    let lastUrl = sessionStorage.getItem("StafflastUrl");
-    let lastActive = sessionStorage.getItem("StafflastActive");
+    const lastUrl = sessionStorage.getItem("StafflastUrl");
+    const lastActive = sessionStorage.getItem("StafflastActive");
     if (lastUrl && lastActive) {
         loadPage(lastUrl, lastActive);
     } else {

@@ -42,6 +42,104 @@ Echo.private(`admin-notifications.${USER_ID}`).listen(
 
 Notification();
 
+$(function () {
+    const lastUrl = sessionStorage.getItem("AdminlastUrl");
+    const lastActive = sessionStorage.getItem("AdminLastActive");
+    if (lastUrl && lastActive) {
+        loadPage(lastUrl, lastActive);
+    } else {
+        loadPage(NAV_ROUTE.DASHBOARD, "dashboardLink");
+    }
+});
+
+const setActiveLink = (activeLink) => {
+    $(".nav-item a").removeClass("active");
+    const defaultLink = "dashboardLink";
+    const linkToActivate = $("#" + (activeLink || defaultLink));
+    linkToActivate.addClass("active");
+};
+
+window.loadPage = async (url, activeLink) => {
+    try {
+        $(".spinner").removeClass("d-none");
+        $("#main-content").hide();
+        // Check if the response is already cached
+        const cachePage = sessionStorage.getItem(url);
+        if (cachePage) {
+            // If cached, use the cached response
+            handleAjaxSuccess(cachePage, activeLink, url);
+        } else {
+            // If not cached, make the AJAX request
+            const response = await $.ajax({
+                url: url,
+                type: "GET",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+            // Cache the response
+            //sessionStorage.setItem(url, response);
+            await handleAjaxSuccess(response, activeLink, url);
+        }
+    } catch (error) {
+        console.error(error);
+    } finally {
+        $(".spinner").addClass("d-none");
+        $("#main-content").show();
+    }
+};
+
+const handleAjaxSuccess = async (response, activeLink, url) => {
+    try {
+        $("#main-content").html(response);
+        setActiveLink(activeLink);
+        history.pushState(null, "", url);
+
+        const functions = await initializeAdminPageJs();
+
+        const urlMapFunction = {
+            [NAV_ROUTE.DASHBOARD]: functions.Dashboard,
+            [NAV_ROUTE.PROJECTS]: functions.ProjectList,
+            [NAV_ROUTE.APPLICATIONS]: functions.ApplicantList,
+            [NAV_ROUTE.USERS]: functions.Users,
+        };
+        if (urlMapFunction[url]) {
+            await urlMapFunction[url]();
+        }
+        // if (url === '/org-access/viewCooperatorInfo.php') {
+        //     InitializeviewCooperatorProgress();
+        // }
+        sessionStorage.setItem("AdminlastUrl", url);
+        sessionStorage.setItem("AdminLastActive", activeLink);
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+$(function () {
+    $(".sideNavButtonSmallScreen").on("click", function () {
+        new bootstrap.Offcanvas($("#MobileNavOffcanvas")).show();
+    });
+
+    $(".sideNavButtonLargeScreen").on("click", function () {
+        $(".sidenav").toggleClass("expanded minimized");
+        $("#toggle-left-margin").toggleClass("navExpanded navMinimized");
+        $(".logoTitleLScreen").toggle();
+        //side bar minimize
+        $(".sidenav a span").each(function () {
+            $(this).toggleClass("d-none");
+        });
+
+        $(".sidenav a").each(function () {
+            $(this).toggleClass("justify-content-center");
+        });
+        //size bar minimize rotation
+        $("#hover-link").toggleClass("rotate-icon");
+    });
+});
+
 window.initializeAdminPageJs = async () => {
     const functions = {
         Dashboard: async () => {
@@ -684,9 +782,9 @@ window.initializeAdminPageJs = async () => {
             };
 
             // Initialize separate instances
-            const OngoingPaymentHistoryDataTable = $("#paymentHistoryTable").DataTable(
-                paymentTableConfig
-            );
+            const OngoingPaymentHistoryDataTable = $(
+                "#paymentHistoryTable"
+            ).DataTable(paymentTableConfig);
             const CompletedPaymentHistoryDataTable = $(
                 "#CompletedpaymentTable"
             ).DataTable(paymentTableConfig);
@@ -985,7 +1083,10 @@ window.initializeAdminPageJs = async () => {
                         .filter(".handle_by")
                         .val(projectDetails.handle_by);
 
-                    getPaymentHistory(projectDetails.project_id, OngoingPaymentHistoryDataTable);
+                    getPaymentHistory(
+                        projectDetails.project_id,
+                        OngoingPaymentHistoryDataTable
+                    );
                 }
             );
 
@@ -1127,7 +1228,10 @@ window.initializeAdminPageJs = async () => {
                         .filter(".handle_by")
                         .val(projectDetails.handle_by);
 
-                    getPaymentHistory(projectDetails.project_id, CompletedPaymentHistoryDataTable);
+                    getPaymentHistory(
+                        projectDetails.project_id,
+                        CompletedPaymentHistoryDataTable
+                    );
                 }
             );
 
@@ -1976,7 +2080,7 @@ window.initializeAdminPageJs = async () => {
                     document.querySelectorAll(".needs-validation");
 
                 // Attach form validation and submission to the submit button click event
-                $("#submitNewUser").on("click", async function(event) {
+                $("#submitNewUser").on("click", async function (event) {
                     // Prevent default button action
                     event.preventDefault();
 
@@ -1987,7 +2091,7 @@ window.initializeAdminPageJs = async () => {
                         confirmText: "Yes",
                         confirmButtonClass: "btn-primary",
                         cancelText: "No",
-                    })
+                    });
 
                     if (!isConfirmed) {
                         return;
