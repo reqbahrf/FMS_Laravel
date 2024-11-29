@@ -252,6 +252,9 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
     Route::get('/Admin/Stafflist', [AdminViewController::class, 'staffGet'])->name('admin.Stafflist');
 
     Route::resource('/Admin/Users', AdminManageStaffController::class);
+
+    Route::post('/Admin/Assign-New-Staff', [AdminProjectController::class, 'assignNewStaff'])
+        ->name('admin.AssignNewStaff');
 });
 
 //Admin Route End

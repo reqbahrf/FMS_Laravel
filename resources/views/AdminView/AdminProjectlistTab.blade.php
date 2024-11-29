@@ -1,9 +1,36 @@
-
 <div class="p-3">
     <h4>Project List</h4>
 </div>
-{{-- Offcanvas start --}}
 
+<!-- Modal -->
+<div class="modal fade" id="assignNewStaffModal" tabindex="-1" aria-labelledby="assignNewStaffModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="assignNewStaffModalLabel">Assigned New Staff</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="newStaffAssignment" class="mb-3">
+                    @csrf
+                    <label for="staff_id" class="form-label">Staff List</label>
+                    <select name="staff_id" id="AssignNewStaffSelector" class="form-select">
+
+                    </select>
+                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" Form="newStaffAssignment" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{{-- Offcanvas start --}}
 <div class="offcanvas offcanvas-end" data-bs-backdrop="static" tabindex="-1" id="approvalDetails"
     aria-labelledby="staticBackdropLabel">
     <div class="offcanvas-header bg-primary">
@@ -26,24 +53,24 @@
                     <div class="row gy-2">
                         <div class="col-12 col-md-8">
                             <label for="cooperatorName">Cooperator Name:</label>
-                            <input type="text"  class="form-control cooperatorName" readonly>
+                            <input type="text" class="form-control cooperatorName" readonly>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="designation">Designation:</label>
-                            <input type="text"  class="form-control designation" readonly>
+                            <input type="text" class="form-control designation" readonly>
                         </div>
                         <h6>Contact Details:</h6>
                         <div class="col-12 col-md-4">
                             <label for="landline">Landline:</label>
-                            <input type="text"  class="form-control landline" readonly>
+                            <input type="text" class="form-control landline" readonly>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="mobilePhone">Mobile Phone:</label>
-                            <input type="text"  class="form-control mobilePhone" readonly>
+                            <input type="text" class="form-control mobilePhone" readonly>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="email">Email:</label>
-                            <input type="text"  class="form-control emailAddress" readonly>
+                            <input type="text" class="form-control emailAddress" readonly>
                         </div>
                     </div>
                 </div>
@@ -153,7 +180,8 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="Date_FundRelease">Fund Released:</label>
-                            <input type="text" id="Date_FundRelease" class="form-control" readonly value="">
+                            <input type="text" id="Date_FundRelease" class="form-control" readonly
+                                value="">
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="evaluated">Evaluated by:</label>
@@ -232,7 +260,7 @@
                     </div>
                     <div class="card-body">
                         <div class="row gy-2">
-                            <input type="hidden" name="b_id" class="b_id">
+                            <input type="hidden" id="OngoingBusinessId" name="OngoingBusinessId" class="b_id">
                             <div class="col-12">
                                 <label for="firmName">
                                     Firm Name:
@@ -241,36 +269,36 @@
                             </div>
                             <div class="col-12">
                                 <label for="businessAddress">Business Address:</label>
-                                <input type="text"  class="form-control businessAddress" readonly>
+                                <input type="text" class="form-control businessAddress" readonly>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="typeOfEnterprise">Type of Enterprise:</label>
-                                <input type="text"  class="form-control typeOfEnterprise" readonly>
+                                <input type="text" class="form-control typeOfEnterprise" readonly>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="enterpriseLevel">Enterprise Level:</label>
-                                <input type="text"  class="form-control enterpriseLevel" readonly>
+                                <input type="text" class="form-control enterpriseLevel" readonly>
                             </div>
                             <h6>Assets:</h6>
                             <div class="col-12 col-md-4">
                                 <label for="building" class="ps-2">Building:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text"  class="form-control building" readonly>
+                                    <input type="text" class="form-control building" readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="equipment" class="ps-2">Equipment:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text"  class="form-control equipment" readonly>
+                                    <input type="text" class="form-control equipment" readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="land" class="ps-2">Working Capital:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text"  class="form-control workingCapital" readonly>
+                                    <input type="text" class="form-control workingCapital" readonly>
                                 </div>
                             </div>
                         </div>
@@ -287,7 +315,8 @@
                         <div class="row gy-2">
                             <div class="col-12 col-md-3">
                                 <label for="ProjectId">Project Id:</label>
-                                <input type="text" id="" class="form-control ProjectId" readonly value="">
+                                <input type="text" id="OngoingProjectID" class="form-control ProjectId" readonly
+                                    value="">
                             </div>
                             <div class="col-12 col-md-9">
                                 <label for="ProjectTitle_fetch">Project Title:</label>
@@ -306,7 +335,8 @@
                                 <label for="amount_to_be_refunded">Amount to be refunded:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                    <input type="text" id="" class="form-control amount_to_be_refunded"
+                                        readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
@@ -330,6 +360,13 @@
                                 <label for="handle_by">Assigned to:</label>
                                 <input type="text" id="" class="form-control handle_by" readonly
                                     value="">
+                            </div>
+                            <div class="col-12 col-md-6 mt-auto">
+                                <button class="btn btn-primary btn-sm mt-auto" type="button" data-bs-toggle="modal"
+                                    data-bs-target="#assignNewStaffModal">
+                                    <i class="ri-user-2-fill"></i>
+                                    Assign New Staff
+                                </button>
                             </div>
                         </div>
 
@@ -416,36 +453,36 @@
                             </div>
                             <div class="col-12">
                                 <label for="businessAddress">Business Address:</label>
-                                <input type="text"  class="form-control businessAddress" readonly>
+                                <input type="text" class="form-control businessAddress" readonly>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="typeOfEnterprise">Type of Enterprise:</label>
-                                <input type="text"  class="form-control typeOfEnterprise" readonly>
+                                <input type="text" class="form-control typeOfEnterprise" readonly>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="enterpriseLevel">Enterprise Level:</label>
-                                <input type="text"  class="form-control enterpriseLevel" readonly>
+                                <input type="text" class="form-control enterpriseLevel" readonly>
                             </div>
                             <h6>Assets:</h6>
                             <div class="col-12 col-md-4">
                                 <label for="building" class="ps-2">Building:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text"  class="form-control building" readonly>
+                                    <input type="text" class="form-control building" readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="equipment" class="ps-2">Equipment:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text"  class="form-control equipment" readonly>
+                                    <input type="text" class="form-control equipment" readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
                                 <label for="land" class="ps-2">Working Capital:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text"  class="form-control workingCapital" readonly>
+                                    <input type="text" class="form-control workingCapital" readonly>
                                 </div>
                             </div>
                         </div>
@@ -462,7 +499,8 @@
                         <div class="row gy-2">
                             <div class="col-12 col-md-3">
                                 <label for="ProjectId_fetch">Project Id:</label>
-                                <input type="text" id="" class="form-control ProjectId" readonly value="">
+                                <input type="text" id="" class="form-control ProjectId" readonly
+                                    value="">
                             </div>
                             <div class="col-12 col-md-9">
                                 <label for="ProjectTitle_fetch">Project Title:</label>
@@ -481,7 +519,8 @@
                                 <label for="amount_to_be_refunded">Amount to be refunded:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
-                                    <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                    <input type="text" id="" class="form-control amount_to_be_refunded"
+                                        readonly>
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
@@ -560,35 +599,34 @@
                 <div class="tab-pane fade show active" id="approval-tab-pane" role="tabpanel"
                     aria-labelledby="approval-tab" tabindex="0">
                     <!-- Where the applicant is displayed -->
-                        <table id="forApproval" class="table table-hover mx-2" style="width:100%">
-                            <tbody id="ApprovaltableBody" class="table-group-divider">
+                    <table id="forApproval" class="table table-hover mx-2" style="width:100%">
+                        <tbody id="ApprovaltableBody" class="table-group-divider">
 
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
                     <!-- Where the applicant table end -->
                 </div>
                 <div class="tab-pane fade" id="ongoing-tab-pane" role="tabpanel" aria-labelledby="ongoing-tab"
                     tabindex="0">
                     <!-- Where the ongoing project are displayed -->
-                        <table id="ongoing" class="table table-hover mx-2" style="width:100%">
-                          <tbody id="OngoingTableBody">
+                    <table id="ongoing" class="table table-hover mx-2" style="width:100%">
+                        <tbody id="OngoingTableBody">
 
-                          </tbody>
-                        </table>
+                        </tbody>
+                    </table>
                     <!-- Where the ongoing table end -->
                 </div>
                 <div class="tab-pane fade" id="completed-tab-pane" role="tabpanel" aria-labelledby="completed-tab"
                     tabindex="0">
                     <!-- Where the Complete Table is displayed -->
-                        <table id="completedTable" class="table table-hover mx-2" style="width:100%">
-                            <tbody id="CompletedTableBody" class="table-group-divider">
+                    <table id="completedTable" class="table table-hover mx-2" style="width:100%">
+                        <tbody id="CompletedTableBody" class="table-group-divider">
 
-                            </tbody>
-                        </table>
+                        </tbody>
+                    </table>
                     <!-- Where the Complete Table end -->
                 </div>
             </div>
         </div>
     </div>
 </div>
-

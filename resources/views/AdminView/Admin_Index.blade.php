@@ -236,6 +236,7 @@
                 APPROVED_PROJECT: '{{ route('admin.Project.ApprovedProjectProposal') }}',
                 GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}',
                 GET_COMPLETED_PROJECTS: '{{ route('getCompletedProject') }}',
+                ASSIGNED_NEW_STAFF: '{{ route('admin.AssignNewStaff') }}'
 
 
             };

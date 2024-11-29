@@ -940,9 +940,10 @@ window.initializeAdminPageJs = async () => {
                     .filter("#workingCapital")
                     .val(formatToString(workingCapitalAssets));
 
+                const staffListSelector = $("#Assigned_to");
                 // Trigger additional actions
                 getProjectProposal(businessId, Project_id);
-                getStafflist();
+                getStafflist(staffListSelector);
             });
 
             $("#OngoingTableBody").on(
@@ -1087,8 +1088,46 @@ window.initializeAdminPageJs = async () => {
                         projectDetails.project_id,
                         OngoingPaymentHistoryDataTable
                     );
+                    const staffListSelector = $("#AssignNewStaffSelector");
+                    getStafflist(staffListSelector);
                 }
             );
+
+            $("#newStaffAssignment").on("submit", async function (event) {
+                event.preventDefault();
+                const formdata = new FormData(this);
+                formdata.append("project_id", $("#OngoingProjectID").val());
+                formdata.append("business_id", $("#OngoingBusinessId").val());
+
+                try {
+                    const response = await $.ajax({
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        url: PROJECT_LIST_ROUTE.ASSIGNED_NEW_STAFF,
+                        type: "POST",
+                        data: formdata,
+                        contentType: false,
+                        processData: false,
+                        dataType: "json", // Expect a JSON response
+                    });
+
+                  showToastFeedback(
+                        "text-bg-success",
+                        response.message
+                    );
+                  getOngoingProjects();
+                  closeModal('#assignNewStaffModal')
+                } catch (error) {
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
+                }
+
+            });
 
             $("#CompletedTableBody").on(
                 "click",
@@ -1283,7 +1322,7 @@ window.initializeAdminPageJs = async () => {
              *
              * @return {void}
              */
-            const getStafflist = async () => {
+            const getStafflist = async (selector_element) => {
                 try {
                     const response = await fetch(
                         PROJECT_LIST_ROUTE.GET_STAFFLIST,
@@ -1297,10 +1336,9 @@ window.initializeAdminPageJs = async () => {
                         }
                     );
                     const data = await response.json();
-                    const staffList = $("#Assigned_to");
-                    staffList.children("option:not(:first)").remove();
+                    selector_element.children("option:not(:first)").remove();
                     data.forEach((staff) => {
-                        staffList.append(
+                        selector_element.append(
                             `<option value="${staff.staff_id}">${staff?.prefix} ${staff.f_name} ${staff.mid_name} ${staff.l_name} ${staff?.suffix}</option>`
                         );
                     });

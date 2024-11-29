@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Exception;
 use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
 use App\Models\ApplicationInfo;
 use Illuminate\Support\Facades\DB;
-use Exception;
+use Illuminate\Support\Facades\Cache;
 
 class AdminProjectController extends Controller
 {
@@ -56,7 +57,7 @@ class AdminProjectController extends Controller
         $validated = $request->validate([
             'project_id' => 'required|string',
             'business_id' => 'required|integer',
-            'new_assigned_staff_id' => 'required|exists:org_users_info,id|integer',
+            'staff_id' => 'required|exists:org_users_info,id|integer',
         ]);
 
         try {
@@ -65,8 +66,15 @@ class AdminProjectController extends Controller
                 ->where('business_id', $validated['business_id'])
                 ->firstOrFail();
 
-            $project->handled_by_id = $validated['new_assigned_staff_id'];
+            $project->handled_by_id = $validated['staff_id'];
             $project->save();
+
+            Cache::forget('handled_projects' . $validated['staff_id']);
+
+            if ($project->wasChanged('handled_by_id')) {
+                Cache::forget('handled_projects' . $project->getOriginal('handled_by_id'));
+                Cache::forget('ongoing_projects');
+            }
 
             return response()->json([
                 'message' => 'Project assigned successfully.',
@@ -78,6 +86,5 @@ class AdminProjectController extends Controller
                 'status' => 'error',
             ], 500);
         }
-
     }
 }

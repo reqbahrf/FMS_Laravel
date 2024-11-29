@@ -42,7 +42,7 @@ const dateFormatter = (date) => {
     const dateOptions = {
         month: "short",
         day: "2-digit",
-        year: "2-digit",
+        year: "numeric",
     };
     if (hasTime) {
         dateOptions.hour = "numeric";
