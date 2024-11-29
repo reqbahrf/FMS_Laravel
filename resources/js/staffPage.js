@@ -3757,7 +3757,7 @@ window.initializeStaffPageJs = async () => {
                             .filter(".date_approved")
                             .val(),
                         evaluated_by: inputs.filter(".evaluated_by").val(),
-                        handle_by: inputs.filter(".handle_by").val(),
+                        handled_by: inputs.filter(".handled_by").val(),
                     };
 
                     readonlyInputs
@@ -3836,7 +3836,7 @@ window.initializeStaffPageJs = async () => {
                         .val(projectDetails.evaluated_by);
                     readonlyInputs
                         .filter(".handle_by")
-                        .val(projectDetails.handle_by);
+                        .val(projectDetails.handled_by);
 
                         getPaymentHistory(projectDetails.project_id, CompletePaymentHistoryDataTable);
                 }
@@ -4028,15 +4028,15 @@ window.initializeStaffPageJs = async () => {
                           Ongoing?.evaluated_by_suffix
                       }">
                       <input type="hidden" class="handled_by" value="${
-                          Ongoing?.handled_by_prefix +
+                          (Ongoing.handled_by_prefix ? Ongoing.handled_by_prefix : "") +
                           " " +
                           Ongoing.handled_by_f_name +
                           " " +
-                          Ongoing?.handled_by_mid_name +
+                          (Ongoing?.handled_by_mid_name ? Ongoing.handled_by_mid_name : "") +
                           " " +
                           Ongoing.handled_by_l_name +
                           " " +
-                          Ongoing?.handled_by_suffix
+                          (Ongoing.handled_by_suffix ? Ongoing.handled_by_suffix : "")
                       }">`,
                                 `${Ongoing.firm_name}
                       <input type="hidden" class="business_id" value="${
