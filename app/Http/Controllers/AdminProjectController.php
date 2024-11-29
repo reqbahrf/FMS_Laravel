@@ -36,6 +36,13 @@ class AdminProjectController extends Controller
             $application->application_status = 'approved';
             $application->save();
 
+            if ($project->wasChanged('handled_by_id')) {
+                Cache::forget('handled_projects' . $validated['assigned_staff_id']);
+                Cache::forget('ongoing_projects');
+                Cache::forget('pendingProjects');
+                Cache::forget('staffhandledProjects');
+            }
+
             DB::commit();
 
             return response()->json([
@@ -74,6 +81,7 @@ class AdminProjectController extends Controller
             if ($project->wasChanged('handled_by_id')) {
                 Cache::forget('handled_projects' . $project->getOriginal('handled_by_id'));
                 Cache::forget('ongoing_projects');
+                Cache::forget('staffhandledProjects');
             }
 
             return response()->json([
