@@ -1,28 +1,4 @@
-<style>
-    #user_staff_wrapper>div:first-child {
-        /* background-color: #318791; */
-        padding-top: 1.5rem;
-        padding-bottom: 1.5rem;
-        /* color: white; */
-    }
 
-    #user_staff_wrapper>div:nth-child(2) {
-        overflow: auto;
-    }
-
-    #AddUserOffcanvas {
-        /* Adjust the width as needed */
-        width: 30vw;
-        /* Example: Set to 400px */
-        max-width: 100%;
-        /* Ensures it doesn't exceed the screen width */
-    }
-
-    #viewUserOffcanvas {
-        width: 40vw;
-        max-width: 100%;
-    }
-</style>
 <div class="p-3">
     <h4>User Access</h4>
 </div>

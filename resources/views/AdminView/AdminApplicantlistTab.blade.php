@@ -1,9 +1,4 @@
-<style>
-    #applicantDetails {
-        width: 50vw;
-        max-width: 100%;
-    }
-</style>
+
 <div class="p-3">
     <h4>Applicant</h4>
 </div>

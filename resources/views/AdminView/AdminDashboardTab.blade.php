@@ -1,19 +1,3 @@
-<style>
-    div .cards {
-        max-width: 24rem;
-        min-width: 20rem;
-        height: 15rem
-    }
-
-    .cards {
-        transition: transform 0.3s ease-in-out;
-    }
-
-    .cards:hover {
-        transform: scale(1.05);
-        font-weight: bolder;
-    }
-</style>
 
 <!-- HTML -->
 <div>
