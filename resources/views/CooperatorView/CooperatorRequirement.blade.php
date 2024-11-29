@@ -1,42 +1,4 @@
 
-
-<style>
-    .nav-tabs .nav-link.tab-Nav.active {
-        background-color: #318791 !important;
-        font-weight: bold;
-        color: white;
-        border-top: 6px solid;
-        border-top-right-radius: 10px;
-        /* Adjust the radius value as needed */
-        border-top-left-radius: 10px;
-    }
-
-    .nav-tabs .nav-link.tab-Nav {
-        background-color: white;
-        /* Your desired color */
-        color: black;
-        /* Adjust text color accordingly */
-        border: 1px solid #318791;
-        /* Adjust border color */
-        border-bottom: none;
-    }
-
-    .nav-tabs .nav-link.tab-Nav:hover {
-        background-color: #318791;
-        /* Hover state color */
-        color: white;
-    }
-
-    .nav-link.tab-Nav:disabled {
-        opacity: 0.5;
-        /* Reduce opacity for disabled buttons */
-        cursor: not-allowed;
-        /* Change cursor to not-allowed */
-        /* Add any other custom styles you want for disabled buttons */
-    }
-
-    /* Change the background color of the progress bar */
-</style>
 <div class="p-3">
     <h4>Requirements</h4>
 </div>
@@ -88,70 +50,6 @@
 {{-- end modal --}}
 <div class="m-0 m-md-3">
     <div class="row g-3">
-        <div class="col-md-8">
-            <div class="card shadow-sm rounded-sm">
-                <div class="card-header bg-primary">
-                    <h6 class="text-white mb-0">Application Requirements Uploaded</h6>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <thead class="thead-dark">
-                                <tr>
-                                    <th scope="col">File Name</th>
-                                    <th scope="col">Data Uploaded</th>
-                                    <th scope="col">Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="">
-                                    <td scope="3"></td>
-                                    <td>Where the Application requirements are disp</td>
-                                    <td></td>
-                                </tr>
-                                <tr class="">
-                                    <td scope="row">Item</td>
-                                    <td>Item</td>
-                                    <td>Item</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card shadow-sm rounded-sm">
-                <div class="card-header bg-primary">
-                    <h6 class="text-white mb-0">Requirements Checklist</h6>
-                </div>
-                <div class="card-body">
-                    <div class="p-3">
-                        <div class="form-check form-check-lg">
-                            <input class="form-check-input" type="checkbox" name="requirements[]" value="TNA"
-                                id="tna">
-                            <label class="form-check-label" for="tna">TNA</label>
-                        </div>
-                        <div class="form-check form-check-lg">
-                            <input class="form-check-input" type="checkbox" name="requirements[]"
-                                value="Project Deliberation Approval" id="pda">
-                            <label class="form-check-label" for="pda">Project Deliberation Approval</label>
-                        </div>
-                        <div class="form-check form-check-lg">
-                            <input class="form-check-input" type="checkbox" name="requirements[]"
-                                value="PDC-post Dated Cheque" id="pdc">
-                            <label class="form-check-label" for="pdc">PDC-post Dated Cheque</label>
-                        </div>
-                        <div class="form-check form-check-lg">
-                            <input class="form-check-input" type="checkbox" name="requirements[]" value="Fund release"
-                                id="fr">
-                            <label class="form-check-label" for="fr">Fund release</label>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="col-12">
             <div class="card shadow-sm rounded-sm">
                 <div class="card-header bg-primary">

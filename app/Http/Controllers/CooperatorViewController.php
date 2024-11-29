@@ -68,7 +68,7 @@ class CooperatorViewController extends Controller
                 ->first();
 
 
-                return view('CooperatorView.CooperatorInformationTab', compact('row'));
+                return view('CooperatorView.CooperatorDashboardTab', compact('row'));
             } else {
             $result = $this->getBusinessInfo();
 
