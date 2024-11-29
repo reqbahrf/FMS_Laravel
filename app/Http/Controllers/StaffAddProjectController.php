@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Events\NewApplicant;
 use App\Events\ProjectEvent;
-use App\Mail\NewProjectRegistered;
 use Illuminate\Http\Request;
+use App\Mail\NewProjectRegistered;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NewRegistrationRequest;
 
 class StaffAddProjectController extends Controller
@@ -51,6 +52,7 @@ class StaffAddProjectController extends Controller
     public function store(NewRegistrationRequest $request)
     {
         $successful_inserts = 0;
+        $Staff_ID = Auth::user()->orgUserInfo->id;
 
         $validatedInputs = $request->validated();
 
@@ -145,6 +147,8 @@ class StaffAddProjectController extends Controller
                DB::table('project_info')->insert([
                     'Project_id' => $projectId,
                     'business_id' => $businessId,
+                    'evaluated_by_id' => $Staff_ID,
+                    'handled_by_id' => $Staff_ID,
                     'project_title' => $projectTitle,
                     'fund_amount' => $fundAmountFormatted,
                     'actual_amount_to_be_refund' => $actualFundToRefund
@@ -259,6 +263,8 @@ class StaffAddProjectController extends Controller
 
             if ($successful_inserts == 6) {
                 DB::commit();
+                Cache::forget('handled_projects' . $Staff_ID);
+                Cache::forget('ongoing_projects');
 
                 // Send welcome email to the new user
                 $user = DB::table('users')->where('user_name', $user_name)->first();

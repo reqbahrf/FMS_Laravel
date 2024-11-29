@@ -16,7 +16,7 @@ class AdminProjectController extends Controller
         $validated = $request->validate([
             'project_id' => 'required|string',
             'business_id' => 'required|integer',
-            'assigned_staff_id' => 'required|integer',
+            'assigned_staff_id' => 'required|integer|exists:org_users_info,id',
         ]);
 
         try {
