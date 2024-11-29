@@ -222,15 +222,24 @@
                                 <h6>Assets:</h6>
                                 <div class="col-12 col-md-4">
                                     <label for="building" class="ps-2">Building:</label>
-                                    <input type="text" id="building" class="form-control" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="building" class="form-control" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="equipment" class="ps-2">Equipment:</label>
-                                    <input type="text" id="equipment" class="form-control" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="equipment" class="form-control" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="land" class="ps-2">Working Capital:</label>
-                                    <input type="text" id="workingCapital" class="form-control" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="workingCapital" class="form-control" readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -255,8 +264,11 @@
                                 </div>
                                 <div class="col-12 col-md-8">
                                     <label for="Amount_fetch">Amount:</label>
-                                    <input type="text" id="Amount" class="form-control" readonly
-                                        value="">
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="Amount" class="form-control" readonly
+                                            value="">
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="Applied_fetch">Date Applied:</label>
@@ -276,169 +288,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="row gy-3 section-container" id="cooperatorRequirementsLinks" style="display: none;">
-                    <div class="d-flex justify-between align-items-center">
-                        <h6>Cooperator Requirements:</h6>
-                        <button type="button" class="btn btn-primary ms-auto" id="addRequirement"><i
-                                class="ri-add-fill ri-lg"></i></button>
-                    </div>
-                    <div id="linkContainer">
-                        <div class="col-12 linkConstInstance">
-                            <div class="col-12 m-2">
-                                <label for="requirements_name" class="">Requirement Name:</label>
-                                <input type="text" name="requirements_name" class=" bottom_border">
-                            </div>
-                            <div class="input-group">
-                                <label for="requirements_link" class="input-group-text"><i
-                                        class="ri-links-fill"></i></label>
-                                <input type="text" name="requirements_link" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row gy-3 section-container" id="createPIS" style="display: none;">
-                        <div class="card p-0">
-                            <div class="card-header">
-                                Assistance obtained from DOST (please check)
-                            </div>
-                            <div class="card-body">
-                                <form action="" id="PIS_checklistsForm">
-                                    @csrf
-                                    <div class="row">
-                                        <div class="col-12 ps-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="productionTechnology">
-                                                <label class="form-check-label" for="productionTechnology">
-                                                    A1 Production Technology
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-3">
-                                            <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="process" name="process">
-                                                    <label class="form-check-label " for="process">
-                                                        A.1.1 Process
-                                                    </label>
-                                            </div>
-                                            <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="processDefinition">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-3">
-                                            <div class="form-check">
-                                                    <input class="form-check-input" type="checkbox"
-                                                        id="equipment" name="equipment">
-                                                    <label class="form-check-label " for="equipment">
-                                                        A.1.2 Equipment
-                                                    </label>
-                                            </div>
-                                            <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="processDefinition">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="qualityControl" name="qualityControl">
-                                                <label class="form-check-label " for="qualityControl">
-                                                    A.1.3 Quality Control/Laboratory Testing/Analysis
-                                                </label>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-4">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="productionTechnology1" name="productionTechnology1">
-                                                <label class="form-check-label " for="productionTechnology1">
-                                                    1.3.1 Production Technology
-                                                </label>
-                                            </div>
-                                             <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="qualityControlDefinition">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="packagingLabeling" name="packagingLabeling">
-                                                <label class="form-check-label" for="packagingLabeling">
-                                                    A2 Packaging/Labeling
-                                                </label>
-                                            </div>
-                                             <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="packagingLabelingDefinition">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="postHarvest" name="postHarvest">
-                                                <label class="form-check-label" for="postHarvest">
-                                                    A3 Post-Harvest
-                                                </label>
-                                            </div>
-                                            <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="postHarvestDefinition">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="marketAssistance" name="marketAssistance">
-                                                <label class="form-check-label" for="marketAssistance">
-                                                    A4 Market Assistance
-                                                </label>
-                                            </div>
-                                             <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="marketAssistanceDefinition">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="humanResourceTraining" name="humanResourceTraining">
-                                                <label class="form-check-label" for="humanResourceTraining">
-                                                    A5 Human Resource training
-                                                </label>
-                                            </div>
-                                             <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="humanResourceTrainingDefinition">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="consultanceServices" name="consultanceServices">
-                                                <label class="form-check-label" for="consultanceServices">
-                                                    A6 Consultance Services
-                                                </label>
-                                            </div>
-                                            <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="consultanceServicesDefinition">
-                                            </div>
-                                        </div>
-                                        <div class="col-12 ps-1">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox"
-                                                    id="otherServices" name="otherServices">
-                                                <label class="form-check-label" for="otherServices">
-                                                    A7 other Services (FDA Permit, LGU Registration, Barcoding)
-                                                </label>
-                                            </div>
-                                             <div class="ps-4">
-                                                <input type="text" class="bottom_border" name="consultanceServicesDefinition">
-                                            </div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <button type="button" class="btn btn-primary" id="createPISButton">Create Sheet</button>
-                        </div>
                 </div>
             </div>
         </div>
@@ -521,15 +370,24 @@
                                 <h6>Assets:</h6>
                                 <div class="col-12 col-md-4">
                                     <label for="building" class="ps-2">Building:</label>
-                                    <input type="text"  class="form-control building" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" class="form-control building" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="equipment" class="ps-2">Equipment:</label>
-                                    <input type="text"  class="form-control equipment" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" class="form-control equipment" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="land" class="ps-2">Working Capital:</label>
-                                    <input type="text"  class="form-control workingCapital" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" class="form-control workingCapital" readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -554,16 +412,25 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="Amount_fetch">Approved Amount:</label>
-                                    <input type="text" id="" class="form-control funded_amount" readonly
-                                        value="">
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="" class="form-control funded_amount" readonly
+                                            value="">
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="amount_to_be_refunded">Amount to be refunded:</label>
-                                    <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="amount_to_be_refunded">Refunded:</label>
-                                    <input type="text" id="" class="form-control refunded" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="" class="form-control refunded" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="date_applied">Date Applied:</label>
@@ -679,15 +546,24 @@
                                 <h6>Assets:</h6>
                                 <div class="col-12 col-md-4">
                                     <label for="building" class="ps-2">Building:</label>
-                                    <input type="text"  class="form-control building" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text"  class="form-control building" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="equipment" class="ps-2">Equipment:</label>
-                                    <input type="text"  class="form-control equipment" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text"  class="form-control equipment" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="land" class="ps-2">Working Capital:</label>
-                                    <input type="text"  class="form-control workingCapital" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text"  class="form-control workingCapital" readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -712,16 +588,25 @@
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="Amount_fetch">Approved Amount:</label>
-                                    <input type="text" id="" class="form-control funded_amount" readonly
-                                        value="">
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="" class="form-control funded_amount" readonly
+                                            value="">
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="amount_to_be_refunded">Amount to be refunded:</label>
-                                    <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="" class="form-control amount_to_be_refunded" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="amount_to_be_refunded">Refunded:</label>
-                                    <input type="text" id="" class="form-control refunded" readonly>
+                                    <div class="input-group">
+                                        <span class="input-group-text">₱</span>
+                                        <input type="text" id="" class="form-control refunded" readonly>
+                                    </div>
                                 </div>
                                 <div class="col-12 col-md-4">
                                     <label for="date_applied">Date Applied:</label>
