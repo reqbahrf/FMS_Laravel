@@ -3372,29 +3372,30 @@ window.initializeStaffPageJs = async () => {
                     },
                 ],
             });
-            const PaymentHistoryDataTable = $("#paymentHistoryTable").DataTable(
-                {
-                    autoWidth: true,
-                    responsive: true,
-                    columns: [
-                        {
-                            title: "Transaction #",
-                        },
-                        {
-                            title: "Amount",
-                        },
-                        {
-                            title: "Payment Method",
-                        },
-                        {
-                            title: "Status",
-                        },
-                        {
-                            title: "Date Created",
-                        },
-                    ],
-                }
-            );
+
+            const paymentTableConfig =   {
+                autoWidth: true,
+                responsive: true,
+                columns: [
+                    {
+                        title: "Transaction #",
+                    },
+                    {
+                        title: "Amount",
+                    },
+                    {
+                        title: "Payment Method",
+                    },
+                    {
+                        title: "Status",
+                    },
+                    {
+                        title: "Date Created",
+                    },
+                ],
+            };
+            const OngoingPaymentHistoryDataTable = $("#OngoingPaymentHistoryTable").DataTable(paymentTableConfig);
+            const CompletePaymentHistoryDataTable = $("#CompletePaymentHistoryTable").DataTable(paymentTableConfig);
 
             const addProjectBtn = $("#addProjectManualy");
 
@@ -3694,7 +3695,7 @@ window.initializeStaffPageJs = async () => {
                         .filter(".handle_by")
                         .val(projectDetails.handle_by);
 
-                    getPaymentHistory(projectDetails.project_id);
+                    getPaymentHistory(projectDetails.project_id, OngoingPaymentHistoryDataTable);
                 }
             );
 
@@ -3836,10 +3837,12 @@ window.initializeStaffPageJs = async () => {
                     readonlyInputs
                         .filter(".handle_by")
                         .val(projectDetails.handle_by);
+
+                        getPaymentHistory(projectDetails.project_id, CompletePaymentHistoryDataTable);
                 }
             );
 
-            async function getPaymentHistory(projectId) {
+            async function getPaymentHistory(projectId, dataTableObject) {
                 try {
                     const response = await $.ajax({
                         type: "GET",
@@ -3849,8 +3852,8 @@ window.initializeStaffPageJs = async () => {
                             projectId,
                     });
 
-                    PaymentHistoryDataTable.clear();
-                    PaymentHistoryDataTable.rows.add(
+                    dataTableObject.clear();
+                    dataTableObject.rows.add(
                         response.map((payment) => {
                             const formattedDate = dateFormatter(
                                 payment.created_at
@@ -3870,7 +3873,7 @@ window.initializeStaffPageJs = async () => {
                             ];
                         })
                     );
-                    PaymentHistoryDataTable.draw();
+                    dataTableObject.draw();
 
                     let totalAmount = 0;
                     response.forEach((payment) => {

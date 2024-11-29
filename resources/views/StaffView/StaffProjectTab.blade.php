@@ -592,20 +592,7 @@
                             </h5>
                         </div>
                         <div class="card-body">
-                            <table id="paymentHistoryTable" class="table table-hover" style="width: 100%";>
-
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card p-0">
-                        <div class="card-header">
-                            <span class="fw-bold fs-5">
-                                <i class="ri-file-text-fill"></i>
-                                Requirements list
-                            </span>
-                        </div>
-                        <div class="card-body">
-                            <table id="requirementsTable" class="table table-hover">
+                            <table id="OngoingPaymentHistoryTable" class="table table-hover" style="width: 100%";>
 
                             </table>
                         </div>
@@ -763,20 +750,7 @@
                             </h5>
                         </div>
                         <div class="card-body">
-                            <table id="paymentTable" class="table table-hover">
-
-                            </table>
-                        </div>
-                    </div>
-                    <div class="card p-0">
-                        <div class="card-header bg-primary">
-                            <h5 class="text-white mb-0">
-                                <i class="ri-file-text-fill"></i>
-                                Requirements list
-                            </h5>
-                        </div>
-                        <div class="card-body">
-                            <table id="requirementsTable" class="table table-hover">
+                            <table id="CompletePaymentHistoryTable" class="table table-hover">
 
                             </table>
                         </div>
