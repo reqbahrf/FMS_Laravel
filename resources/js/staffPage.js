@@ -3687,7 +3687,7 @@ window.initializeStaffPageJs = async () => {
                         );
                     readonlyInputs
                         .filter(".date_applied")
-                        .val(projectDetails.date_applied);
+                        .val(dateFormatter(projectDetails.date_applied));
                     readonlyInputs
                         .filter(".evaluated_by")
                         .val(projectDetails.evaluated_by);
@@ -3706,7 +3706,6 @@ window.initializeStaffPageJs = async () => {
                     const row = $(this).closest("tr");
                     const inputs = row.find("input");
                     const readonlyInputs = $("#completedDetails").find("input");
-                    console.log(readonlyInputs);
 
                     const personalDetails = {
                         cooperName: row.find("td:nth-child(4)").text().trim(),
@@ -3830,7 +3829,7 @@ window.initializeStaffPageJs = async () => {
                         );
                     readonlyInputs
                         .filter(".date_applied")
-                        .val(projectDetails.date_applied);
+                        .val(dateFormatter(projectDetails.date_applied));
                     readonlyInputs
                         .filter(".evaluated_by")
                         .val(projectDetails.evaluated_by);
@@ -3934,26 +3933,26 @@ window.initializeStaffPageJs = async () => {
                                               Approved.staffUserName
                                           }">
                                           <input type="hidden" class="evaluated_by" value="${
-                                              Approved?.evaluated_by_prefix +
+                                              (Approved.evaluated_by_prefix ? Approved.evaluated_by_suffix : "") +
                                               " " +
                                               Approved.evaluated_by_f_name +
                                               " " +
-                                              Approved?.evaluated_by_mid_name +
+                                              (Approved.evaluated_by_mid_name ? Approved.evaluated_by_suffix : "") +
                                               " " +
                                               Approved.evaluated_by_l_name +
                                               " " +
-                                              Approved?.evaluated_by_suffix
+                                              (Approved.evaluated_by_suffix ? Approved.evaluated_by_suffix : "")
                                           }">
                                           <input type="hidden" class="assigned_to" value="${
-                                              Approved?.handled_by_prefix +
+                                              (Approved.handled_by_prefix ? Approved.handled_by_suffix : "") +
                                               "" +
                                               Approved.handled_by_f_name +
                                               " " +
-                                              Approved?.handled_by_mid_name +
+                                              (Approved.handled_by_mid_name ? Approved.handled_by_suffix : "") +
                                               " " +
                                               Approved?.handled_by_l_name +
                                               " " +
-                                              Approved?.handled_by_suffix
+                                              (Approved.handled_by_suffix ? Approved.handled_by_suffix : "")
                                           }">`,
                                 `${Approved.date_approved}`,
                                 ` <button class="btn btn-primary approvedProjectInfo" type="button"
@@ -4017,22 +4016,22 @@ window.initializeStaffPageJs = async () => {
                           Ongoing.date_approved
                       }">
                       <input type="hidden" class="evaluated_by" value="${
-                          Ongoing?.evaluated_by_prefix +
+                          (Ongoing.evaluated_by_prefix ? Ongoing.evaluated_by_prefix : "") +
                           " " +
                           Ongoing.evaluated_by_f_name +
                           " " +
-                          Ongoing?.evaluated_by_mid_name +
+                          (Ongoing.evaluated_by_mid_name ? Ongoing.evaluated_by_mid_name : "") +
                           " " +
                           Ongoing.evaluated_by_l_name +
                           " " +
-                          Ongoing?.evaluated_by_suffix
+                          (Ongoing.evaluated_by_suffix ? Ongoing.evaluated_by_suffix : "")
                       }">
                       <input type="hidden" class="handled_by" value="${
                           (Ongoing.handled_by_prefix ? Ongoing.handled_by_prefix : "") +
                           " " +
                           Ongoing.handled_by_f_name +
                           " " +
-                          (Ongoing?.handled_by_mid_name ? Ongoing.handled_by_mid_name : "") +
+                          (Ongoing.handled_by_mid_name ? Ongoing.handled_by_mid_name : "") +
                           " " +
                           Ongoing.handled_by_l_name +
                           " " +
@@ -4147,26 +4146,26 @@ window.initializeStaffPageJs = async () => {
                               completed.date_approved
                           }">
                           <input type="hidden" class="evaluated_by" value="${
-                              completed?.evaluated_by_prefix +
+                              (completed.evaluated_by_prefix ? completed.evaluated_by_prefix : "") +
                               " " +
                               completed.evaluated_by_f_name +
                               " " +
-                              completed?.evaluated_by_mid_name +
+                              (completed.evaluated_by_mid_name ? completed?.evaluated_by_mid_name : "") +
                               " " +
                               completed.evaluated_by_l_name +
                               " " +
-                              completed?.evaluated_by_suffix
+                              (completed.evaluated_by_suffix ? completed.evaluated_by_suffix : "")
                           }">
                           <input type="hidden" class="handled_by" value="${
-                              completed?.handled_by_prefix +
+                              (completed.handled_by_prefix ? completed.handled_by_prefix : "") +
                               " " +
                               completed.handled_by_f_name +
                               " " +
-                              completed?.handled_by_mid_name +
+                              (completed.handled_by_mid_name ? completed.handled_by_mid_name : "") +
                               " " +
                               completed.handled_by_l_name +
                               " " +
-                              completed?.handled_by_suffix
+                              (completed.handled_by_suffix ? completed.handled_by_suffix : "")
                           }">`,
                                 `${completed.firm_name}
                           <input type="hidden" class="business_id" value="${
