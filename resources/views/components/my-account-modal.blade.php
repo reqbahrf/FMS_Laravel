@@ -176,6 +176,9 @@
                                             @endif
                                             </tbody>
                                         </table>
+                                        <div class="d-flex justify-content-end">
+                                            <button type="button" class="btn btn-primary" disabled>Apply New Project</button>
+                                        </div>
                                     </div>
                                 @endif
                                 <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
@@ -187,10 +190,6 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div> --}}
         </div>
     </div>
 </div>
