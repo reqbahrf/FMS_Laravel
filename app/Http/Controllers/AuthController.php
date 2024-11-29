@@ -36,27 +36,22 @@ class AuthController extends Controller
         ]);
 
         try {
-            $user = new User();
-            $user->user_name = $request->userName;
-            $user->email = $request->email;
-            $user->password = Hash::make($request->password1);
+            $user = User::create([
+                'user_name' => $request->userName,
+                'email' => $request->email,
+                'password' => Hash::make($request->password1),
+                'role' => 'Cooperator'
+            ]);
 
-            if ($user->save()) {
-                session(['user_id' => $user->id]);
-                session(['user_name' => $user->user_name]);
-                session(['email' => $user->email]);
+            Auth::login($user);
+            $user->sendEmailVerificationNotification();
 
-                return response()->json([
-                    'success' => true,
-                    'message' => 'Account created successfully. Please verify your email.',
-                    'redirect' => route('verification.notice')
-                ]);
-            } else {
-                return response()->json([
-                    'success' => false,
-                    'error' => 'Account creation failed.'
-                ], 422);
-            }
+            return response()->json([
+                'success' => true,
+                'message' => 'Account created successfully. Please verify your email.',
+                'redirect' => route('verification.notice')
+            ]);
+
         } catch (Exception $e) {
             Log::error('Signup failed: ' . $e->getMessage());
             return response()->json([
@@ -136,28 +131,5 @@ class AuthController extends Controller
         $request->session()->regenerateToken();
 
         return redirect('/login');
-    }
-
-    public function verifyEmail($id, $hash, $timestamp)
-    {
-        $user = User::find($id);
-
-        if (!$user || hash('sha256', $user->email) !== $hash) {
-            return redirect()->route('home')->with('error', 'Invalid verification link.');
-        }
-
-        $currentTime = now()->timestamp;
-        $timeDiffence = $currentTime - $timestamp;
-
-        if ($timeDiffence > 1800) {
-            return redirect()->route('home')->with('error', 'Verification link expired.');
-        }
-
-        if (!$user->email_verified_at) {
-            $user->email_verified_at = now();
-            $user->save();
-        }
-
-        return redirect()->route('home')->with('success', 'Email verified successfully.');
     }
 }

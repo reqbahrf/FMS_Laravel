@@ -39,6 +39,7 @@ use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
 
 //Applicant routes
@@ -101,7 +102,7 @@ Route::post('/logout', [AuthController::class, 'logout'])
 
 //Cooperator Route
 
-Route::middleware([CheckCooperatorUser::class, 'check.password.change'])->group(function () {
+Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verified'])->group(function () {
     Route::post('/Cooperator/Projects', SetProjectToLoadController::class)
         ->name('Cooperator.Projects');
 
@@ -272,15 +273,21 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
 });
 //Email Verification
 
-Route::get('/email/verify', function () {
-    return view('auth.verifyEmail');
-})->name('verification.notice');
-Route::get('/email/verify/{id}/{hash}', [MailController::class, 'sendEmailVerify'])
-    ->name('verification.verify')
-    ->middleware('EmailRateLimit');
-Route::get('/verify-email/{id}/{hash}/{timestamp}', [AuthController::class, 'verifyEmail'])
-    ->name('verifyEmail')
-    ->middleware('signed');
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', function () {
+        return view('auth.verifyEmail');
+    })->name('verification.notice');
+
+    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
+        $request->fulfill();
+        return redirect()->route('home')->with('success', 'Email verified successfully!');
+    })->middleware('signed')->name('verification.verify');
+
+    Route::post('/email/verification-notification', function (Request $request) {
+        $request->user()->sendEmailVerificationNotification();
+        return back()->with('status', 'An email has been sent to <strong>' . e($request->user()->email) . '</strong> Please check your Gmail to verify. <br> If you did not receive the email, please check your spam folder. <br> <span class="fw-light text-muted">verification link will expire in 30 minutes.</span>');
+    })->middleware('throttle:6,1')->name('verification.send');
+});
 
 //test route
 Route::resource('/receipts', ReceiptController::class);

@@ -147,9 +147,12 @@
                     <div class="alert alert-danger">
                         {{ session('error') }}
                     </div>
-                @endif
+                    @endif
                     <div class="col-12">
-                        <a href="{{ route('verification.verify', ['id' => session('user_id'), 'hash' => hash('sha256', session('email'))]) }}" class="btn btn-primary">Send Email</a>
+                        <form method="POST" action="{{ route('verification.send') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-primary">Resend Verification Email</button>
+                        </form>
                     </div>
                 </div>
             </div>
