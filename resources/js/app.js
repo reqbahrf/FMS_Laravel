@@ -10,7 +10,6 @@ window.bootstrap = bootstrap;
 import * as FilePond from 'filepond';
 window.FilePond = FilePond;
 
-// import './echo';
 
 import FilePondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';

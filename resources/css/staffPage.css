@@ -1,0 +1,737 @@
+/*
+--------------------------------------------------------
+    Staff Index Page CSS
+--------------------------------------------------------
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap");
+
+:root {
+    --font-family: "Nunito", sans-serif;
+    --font-size: clamp(0.75rem, 1vw, 1.5rem);
+    --sw-toolbar-btn-background-color: #318791 !important;
+    --sw-anchor-default-primary-color: #f8f9fa;
+    --sw-anchor-active-primary-color: #318791 !important;
+    --sw-anchor-active-secondary-color: #ffffff;
+    --sw-anchor-done-primary-color: #48c4d3 !important;
+    --sw-anchor-error-primary-color: #dc3545;
+    --sw-anchor-error-secondary-color: #ffffff;
+    --sw-anchor-warning-primary-color: #ffc107;
+    --sw-anchor-warning-secondary-color: #ffffff;
+    --sw-progress-color: #318791 !important;
+    --sw-progress-background-color: #f8f9fa;
+    --sw-loader-color: #318791 !important;
+    --sw-loader-background-color: #f8f9fa;
+    --sw-loader-background-wrapper-color: rgba(255, 255, 255, 0.7);
+    --nav-width-min: 70px;
+    --nav-width-max: 225px;
+    --top-header-height: 70px;
+}
+
+html {
+    font-family: var(--font-family);
+    font-size: var(--font-size);
+}
+
+body,
+button,
+input,
+textarea,
+select {
+    font-family: var(--font-family);
+    color: var(--ct-text-color);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+}
+
+.logo {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    object-position: center;
+}
+
+.profile-logo {
+    width: 32px;
+    height: 32px;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+}
+
+.navlogo {
+    height: var(--top-header-height);
+}
+
+.scrollable-main {
+    overflow-y: auto;
+    overflow-x: hidden;
+    width: 100%;
+    height: 90vh;
+}
+
+.flex-container {
+    display: flex;
+    background-color: var(--ct-body-color);
+}
+
+.nav-column {
+    width: auto;
+}
+
+.main-column {
+    width: 100%;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+}
+
+.wrapper {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--ct-body-color);
+    width: 100%;
+    height: 100%;
+}
+
+th {
+    font-size: 0.875rem;
+}
+
+td {
+    font-size: 0.938rem;
+}
+
+.dt-paging .page-item .page-link {
+    color: #318791;
+    /* Default text color */
+    background-color: #fff;
+    /* Default background color */
+    border: 1px solid #dee2e6;
+    /* Default border */
+    padding: 5px 10px;
+    /* Padding */
+    margin: 0 2px;
+    /* Margin */
+    border-radius: 4px;
+    /* Rounded corners */
+}
+
+.dt-paging .page-item .page-link:hover {
+    background-color: #e9ecef;
+    /* Background color on hover */
+    border-color: #ddd;
+    /* Border color on hover */
+}
+
+.dt-paging .page-item.active .page-link {
+    background-color: #318791 !important;
+    /* Background color for active page */
+    color: white;
+    /* Text color for active page */
+    border-color: #318791;
+    /* Border color for active page */
+}
+
+/* side bar */
+@keyframes expandNav {
+    from {
+        width: var(--nav-width-min);
+    }
+
+    to {
+        width: var(--nav-width-max);
+    }
+}
+
+@keyframes minimizeNav {
+    from {
+        width: var(--nav-width-max);
+    }
+
+    to {
+        width: var(--nav-width-min);
+    }
+}
+
+@keyframes container-right-margin-Expanded-state {
+    from {
+        margin-left: var(--nav-width-min);
+    }
+
+    to {
+        margin-left: var(--nav-width-max);
+    }
+}
+
+@keyframes container-right-margin-Minimized-state {
+    from {
+        margin-left: var(--nav-width-max);
+    }
+
+    to {
+        margin-left: var(--nav-width-min);
+    }
+}
+
+@keyframes logo-whole-text {
+    from {
+        right: 50px;
+    }
+
+    to {
+        right: 0;
+    }
+}
+
+@keyframes navLogo-text-main-expand {
+    from {
+        opacity: 0.5;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes navLogo-text-sec-expand {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
+    .sideNavButtonLargeScreen {
+        display: none;
+    }
+
+    .sidenav {
+        display: none;
+    }
+
+    #MobileNavOffcanvas {
+        max-width: 70vw;
+    }
+
+    .MobileSideBar {
+        background-color: var(--bs-sidenav-color);
+    }
+
+    .MobileSideBar a {
+        color: #f1f1f1;
+        text-decoration: none;
+    }
+
+    #notification--container {
+        width: 100vw;
+    }
+}
+
+@media (min-width: 768px) {
+    .sideNavButtonSmallScreen {
+        display: none;
+    }
+
+    .sidenav {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        height: 100vh;
+        width: auto;
+        min-width: calc(var(--nav-width-min) * 1);
+        max-width: calc(var(--nav-width-max) * 1);
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        background-color: var(--bs-sidenav-color);
+        overflow-x: hidden;
+        overflow-y: hidden;
+        animation: minimizeNav 0.5s ease;
+    }
+
+    .sidenav a:hover {
+        filter: grayscale(0%) opacity(1);
+        color: #318791;
+        border-right: #f1f1f1 4px solid;
+    }
+
+    .navExpanded {
+        margin-left: calc(var(--nav-width-max) * 1);
+        animation: container-right-margin-Expanded-state 0.5s ease;
+    }
+
+    .navMinimized {
+        margin-left: calc(var(--nav-width-min) * 1);
+        animation: container-right-margin-Minimized-state 0.5s ease;
+    }
+
+    .sidenav.expanded {
+        width: calc(var(--nav-width-max) * 1);
+        animation: expandNav 0.5s ease;
+    }
+
+    .sidenav.Minimized {
+        width: calc(var(--nav-width-min) * 1);
+    }
+
+    #notification--container {
+        width: 40vw;
+    }
+}
+
+.navbar-nav .nav-item a.active {
+    color: #ffffff;
+    background-color: #318791;
+    padding: 10px 20px;
+    font-weight: 700;
+    border-right: #f1f1f1 4px solid;
+}
+
+.navbar-nav .nav-item a.active:hover {
+    color: #ffffff;
+    border-right: #f1f1f1 10px solid;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 6px;
+    text-decoration: none;
+    color: #aaaaaa;
+    display: block;
+}
+
+.main-content {
+    height: calc(100vh - var(--top-header-height));
+}
+
+.topNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    height: var(--top-header-height);
+    background: var(--bs-topnav-color);
+}
+
+.topNav-button {
+    text-align: center;
+    color: var(--bs-topnav-icon);
+    border: none;
+    width: 60px;
+    background-color: transparent;
+    font-size: 18px;
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+}
+
+.topbar-menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 10px;
+}
+
+.topNav i {
+    color: var(--bs-topnav-icon);
+}
+
+.topNav p {
+    color: var(--ct-text-color);
+}
+
+.topNav i:hover {
+    color: var(--bs-primary);
+}
+
+#logoTitle {
+    right: 50px;
+    animation: logo-whole-text 1s forwards;
+}
+
+.sideTextMain {
+    position: absolute;
+    bottom: 50%;
+    font-size: 0.9375rem;
+    font-weight: 700;
+}
+
+.sideTextMain::after {
+    content: "DOST-SETUP";
+    opacity: 0;
+    animation: navLogo-text-main-expand 2s forwards;
+}
+
+.sideTextSec {
+    position: absolute;
+    top: 50%;
+    font-size: 0.75rem;
+    font-weight: 400;
+}
+
+.sideTextSec::after {
+    content: "Fund Monitoring System";
+    opacity: 0;
+    animation: navLogo-text-sec-expand 3s forwards;
+}
+
+.nofi-li,
+.avatar-li {
+    padding: 0;
+    position: relative;
+    height: var(--top-header-height);
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+#badge--container {
+    width: 0.9375rem;
+    height: 0.9375rem;
+    position: absolute;
+    top: 5%;
+    left: 50%;
+}
+
+#badge--container span {
+    font-size: 0.5rem;
+}
+
+.notify-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+}
+
+.notify-icon.bg-primary {
+    background-color: #007bff;
+}
+
+.notify-icon.bg-info {
+    background-color: #17a2b8;
+}
+
+.notify-icon img {
+    width: 30px;
+    height: 30px;
+}
+
+#confirmationModal + .modal-backdrop {
+    z-index: 1999 !important;
+}
+
+/*
+
+    Index Page CSS End
+--------------------------------------------------------
+
+/*
+--------------------------------------------------------
+    Staff Dashboard Tab CSS
+--------------------------------------------------------
+*/
+
+div .cards {
+    max-width: 24rem;
+    min-width: 20rem;
+    height: 15rem;
+}
+
+/* Stat cards css */
+/* General styling for stat cards */
+.stat-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    border-radius: 10px;
+}
+
+.stat-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Icon styling */
+.stat-icon {
+    font-size: 3rem;
+    color: #318791; /* Primary color for icons */
+    margin-bottom: 0.5rem;
+}
+
+/* Count styling */
+.stat-count {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #343a40; /* Darker gray for text */
+}
+
+/* Label styling */
+.stat-label {
+    font-size: 1rem;
+    color: #6c757d; /* Muted text color */
+    text-align: center;
+}
+
+/* Stat cards css */
+
+#handleProjectOff .offcanvas-body {
+    background-color: #f5f5f5;
+}
+
+#handledProject_wrapper > div:nth-child(2) {
+    overflow: auto;
+}
+
+.cards {
+    transition: transform 0.3s ease-in-out;
+}
+
+.cards:hover {
+    transform: scale(1.05);
+    font-weight: bolder;
+}
+
+/* handleproject header color change */
+#handledProject_wrapper > div:first-child {
+    background-color: #318791;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: white;
+}
+
+#handleProjectOff {
+    width: 100vw;
+    max-width: 100%;
+}
+
+.bottom_border {
+    width: 100%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #ced4da;
+}
+
+.bottom_border:focus {
+    outline: none;
+}
+
+/*
+Staff Dashboard Tab CSS End
+--------------------------------------------------------
+*/
+
+/*
+
+--------------------------------------------------------
+    Staff Project Tab CSS
+--------------------------------------------------------
+*/
+
+ul#myTab li.nav-item button.tab-Nav.active {
+    background-color: #318791 !important;
+    font-weight: bold;
+    color: white;
+    border-top: 6px solid;
+    border-top-right-radius: 10px;
+    /* Adjust the radius value as needed */
+    border-top-left-radius: 10px;
+}
+
+ul#myTab li.nav-item button.tab-Nav {
+    background-color: white;
+    /* Your desired color */
+    color: black;
+    /* Adjust text color accordingly */
+    border: 1px solid #318791;
+    /* Adjust border color */
+    border-bottom: none;
+}
+
+ul#myTab li.nav-item button.tab-Nav:hover {
+    background-color: #318791;
+    /* Hover state color */
+    color: white;
+}
+
+/* Off canvas style */
+
+#approvedTable,
+#ongoingTable,
+#completedTable {
+    table-layout: auto;
+}
+#ongoingTable_wrapper > div:first-child,
+#approvedTable_wrapper > div:first-child,
+#completedTable_wrapper > div:first-child {
+    background-color: #318791;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: white;
+    margin-top: 0 !important;
+}
+
+#ongoingTable_wrapper > div:nth-child(2),
+#approvedTable_wrapper > div:nth-child(2),
+#completedTable_wrapper > div:nth-child(2) {
+    overflow: auto;
+}
+
+#approvedDetails,
+#ongoingDetails,
+#completedDetails {
+    width: 50vw;
+    max-width: 100%;
+}
+
+#sw-AddProject th {
+    font-size: 0.75rem;
+}
+
+/* Off canvas style end */
+
+/* Menu Button on Approved Project Information  */
+
+.menu-container {
+    position: absolute;
+    right: 0;
+    bottom: 1%;
+    padding: 2rem;
+}
+
+.menu-button {
+    background-color: #318791;
+    border-radius: 100%;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 10;
+}
+
+.menu {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 0;
+    height: 0;
+    opacity: 0;
+    transition: opacity 0.3s, width 0.3s, height 0.3s;
+}
+
+.menu.open {
+    width: 100px;
+    height: 200px;
+    opacity: 1;
+}
+
+.menu-item {
+    background-color: #318791;
+    color: white;
+    position: absolute;
+    width: auto;
+    height: 40px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.menu-item:nth-child(1) {
+    transform: rotate(0deg) translate(-100px) rotate(0deg);
+}
+
+.menu-item:nth-child(2) {
+    transform: rotate(45deg) translate(-70px) rotate(-45deg);
+}
+
+.menu-item:nth-child(3) {
+    transform: rotate(90deg) translate(-100px) rotate(-90deg);
+}
+
+/* Menu Button on Approved Project Information  */
+
+.bottom_border {
+    width: 50%;
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-bottom: 1px solid #ced4da;
+}
+
+.bottom_border:focus {
+    outline: none;
+}
+
+/*
+
+    Staff Project Tab CSS End
+--------------------------------------------------------
+
+/*
+
+--------------------------------------------------------
+    Staff Applicant Tab CSS
+--------------------------------------------------------
+*/
+
+#applicant_wrapper > div:first-child {
+    background-color: #318791;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    color: white;
+    margin-top: 0 !important;
+}
+
+#applicant_wrapper > div:nth-child(2) {
+    overflow: auto;
+}
+
+#applicantDetails {
+    width: 70vw;
+    max-width: 100%;
+}
+
+.card-body label {
+    font-size: clamp(12px, 1vw, 13px);
+    font-weight: 600;
+}
+
+.fixPosition {
+    position: fixed;
+    height: 60vh;
+    top: 10%;
+    right: 0;
+}
+
+/*
+    Staff Applicant Tab CSS End
+--------------------------------------------------------
+*/

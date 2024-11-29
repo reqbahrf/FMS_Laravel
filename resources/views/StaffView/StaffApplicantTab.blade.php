@@ -1,33 +1,3 @@
-<style>
-    #applicant_wrapper>div:first-child {
-        background-color: #318791;
-        padding-top: 1rem;
-        padding-bottom: 1rem;
-        color: white;
-        margin-top: 0 !important;
-    }
-
-    #applicant_wrapper>div:nth-child(2) {
-        overflow: auto;
-    }
-
-    #applicantDetails {
-        width: 70vw;
-        max-width: 100%;
-    }
-
-    .card-body label {
-        font-size: clamp(12px, 1vw, 13px);
-        font-weight: 600;
-    }
-
-    .fixPosition {
-        position: fixed;
-        height: 60vh;
-        top: 10%;
-        right: 0;
-    }
-</style>
 
 <div>
     <h4 class="p-3">Applicant:</h4>
