@@ -46,9 +46,6 @@ class AuthController extends Controller
                 session(['user_name' => $user->user_name]);
                 session(['email' => $user->email]);
 
-                // Send verification email
-                $user->sendEmailVerificationNotification();
-
                 return response()->json([
                     'success' => true,
                     'message' => 'Account created successfully. Please verify your email.',

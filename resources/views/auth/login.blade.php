@@ -14,13 +14,11 @@
 
 
     <style>
-        html {
-            font-size: clamp(0.75rem, 1vw, 1.5rem);
-        }
 
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
 
         :root {
+            font-size: clamp(0.75rem, 1vw, 1.5rem);
             font-family: 'Nunito', sans-serif;
         }
 
@@ -232,7 +230,10 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-center mt-3">
-                            <button type="submit" class="btn btn-primary w-100">Login</Button>
+                            <button type="submit" class="btn btn-primary w-100" id="loginButton">
+                                <span class="spinner-border spinner-border-sm me-2 d-none" id="loginSpinner" role="status" aria-hidden="true"></span>
+                                <span class="button-text">Login</span>
+                            </button>
                         </div>
                         <div class="text-center mt-3">
                             <a href="{{ route('password.request') }}" class="text-decoration-none">Forgot Password?
@@ -259,7 +260,7 @@
         2018 -
         <script>
             document.write(new Date().getFullYear())
-        </script> © DOST - SETUP
+        </script> DOST - SETUP
     </footer>
     <script type="module">
         $('#passwordtoggle').on('click', function() {
@@ -297,6 +298,11 @@
                     $.post({
                         url: $(this).attr('action'),
                         data: formData,
+                        beforeSend: function() {
+                            $('#loginButton').prop('disabled', true);
+                            $('#loginSpinner').removeClass('d-none');
+                            $('.button-text').text('Logging in...');
+                        },
                         success: function(response) {
                             const server_feedback = $('#server_feedback');
                             server_feedback.empty();
@@ -328,6 +334,10 @@
                             const server_feedback = $('#server_feedback');
                             server_feedback.empty();
                             server_feedback.append('<div class="alert alert-danger text-center" role="alert">' + errorResponse.error + '</div>');
+                            // Reset button state on error
+                            $('#loginButton').prop('disabled', false);
+                            $('#loginSpinner').addClass('d-none');
+                            $('.button-text').text('Login');
                         }
                     });
                 }
@@ -336,43 +346,25 @@
         });
     </script>
     <script type="module">
-         window.validateForm = function() {
-            let loginInput = document.getElementById('login');
-            let passwordInput = document.getElementById('password');
-            let birthDateInput = document.getElementById('datepicker');
-
-            let inputs = [loginInput, passwordInput, birthDateInput];
-            inputs.forEach(input => {
-                input.addEventListener('focus', function() {
-                    this.classList.remove('is-invalid');
-                });
+        $(document).ready(function() {
+            $('#login, #password, #datepicker').on('focus', function() {
+                $(this).removeClass('is-invalid');
             });
 
-            // Reset validation feedback
-            loginInput.classList.remove('is-invalid');
-            passwordInput.classList.remove('is-invalid');
-            birthDateInput.classList.remove('is-invalid');
+            window.validateForm = function() {
+                let valid = true;
 
-            if (loginInput.value === '') {
-                loginInput.classList.add('is-invalid');
-                loginInput.nextElementSibling.textContent = 'Please enter a username.';
-                return false;
+                $('#login, #password, #datepicker').each(function() {
+                    if ($(this).val() === '') {
+                        $(this).addClass('is-invalid');
+                        $(this).next('.invalid-feedback').text(`Please enter a ${$(this).attr('id')}.`);
+                        valid = false;
+                    }
+                });
+
+                return valid;
             }
-
-            if (passwordInput.value === '') {
-                passwordInput.classList.add('is-invalid');
-                passwordInput.nextElementSibling.textContent = 'Please enter a password.';
-                return false;
-            }
-
-            if (birthDateInput.value === '') {
-                birthDateInput.classList.add('is-invalid');
-                birthDateInput.nextElementSibling.textContent = 'Please enter a birth date.';
-                return false;
-            }
-
-            return true;
-        }
+        });
     </script>
 </body>
 

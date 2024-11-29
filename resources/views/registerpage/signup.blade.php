@@ -14,14 +14,11 @@
 </head>
 
 <style>
-    html {
-        font-size: clamp(12px, 1vw, 24px);
-        /* Adjusts between 10px and 18px according to viewport width */
-    }
 
     @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
 
     :root {
+        font-size: clamp(0.75rem, 1vw, 1.5rem);
         font-family: 'Nunito', sans-serif;
     }
     body {
@@ -169,7 +166,10 @@
                                 </div>
                             </div>
                             <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100">Sign-up</button>
+                                <button type="submit" class="btn btn-primary w-100" id="signupButton">
+                                    <span class="spinner-border spinner-border-sm me-2 d-none" id="signupSpinner" role="status" aria-hidden="true"></span>
+                                    <span class="button-text">Sign-up</span>
+                                </button>
                             </div>
                             <div class="text-center col-12 py-3">
                                 <a href="{{ url('/index') }}"
@@ -235,8 +235,12 @@
             console.log('Document ready');
 
             $('#signupForm').on('submit', function(e) {
-                e.preventDefault(); // prevent the form from being submitted
+                e.preventDefault();
                 console.log('Form submit intercepted');
+
+                // Show spinner and disable button
+                const signupButton = $('#signupButton');
+                const signupSpinner = $('#signupSpinner');
 
                 let isValid = true;
 
@@ -252,12 +256,10 @@
                     }
                     if (field.val() === '') {
                         isValid = false;
-                        field.addClass(
-                            'is-invalid'); // add 'is-invalid' class to show validation feedback
+                        field.addClass('is-invalid');
                         console.log('Field ' + fieldId + ' is empty');
                     } else {
-                        field.removeClass(
-                            'is-invalid'); // remove 'is-invalid' class if the field is valid
+                        field.removeClass('is-invalid');
                         console.log('Field ' + fieldId + ' is valid');
                     }
                 });
@@ -284,6 +286,10 @@
                 }
 
                 if (isValid) {
+                    // Show spinner and disable button before AJAX call
+                    signupButton.prop('disabled', true);
+                    signupSpinner.removeClass('d-none');
+
                     console.log('Form is valid, preparing to submit via AJAX');
                     $.ajaxSetup({
                         headers: {
@@ -308,7 +314,9 @@
                             console.log(xhr);
                             $('#responseAlert').removeClass('d-none').addClass('alert-danger')
                                 .text(xhr.responseJSON.message);
-
+                            // Hide spinner and enable button on error
+                            signupButton.prop('disabled', false);
+                            signupSpinner.addClass('d-none');
                         }
                     });
                 } else {
@@ -387,6 +395,101 @@
                 const isMatch = this.value === password.value;
                 this.classList.toggle('is-invalid', !isMatch && this.value);
                 document.getElementById('password-match').style.display = !isMatch && this.value ? 'block' : 'none';
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#signupForm').on('submit', function(e) {
+                e.preventDefault();
+
+                // Show spinner and disable button
+                const signupButton = $('#signupButton');
+                const signupSpinner = $('#signupSpinner');
+                signupButton.prop('disabled', true);
+                signupSpinner.removeClass('d-none');
+
+                let isValid = true;
+
+                // Validate specific input fields by their IDs
+                let fieldsToValidate = ['userName1', 'email', 'password1', 'password1_confirmation'];
+
+                fieldsToValidate.forEach(function(fieldId) {
+                    let field = $('#' + fieldId);
+                    if (field.length === 0) {
+                        console.log('Field with ID ' + fieldId + ' not found');
+                        isValid = false;
+                        return;
+                    }
+                    if (field.val() === '') {
+                        isValid = false;
+                        field.addClass(
+                            'is-invalid'); // add 'is-invalid' class to show validation feedback
+                        console.log('Field ' + fieldId + ' is empty');
+                    } else {
+                        field.removeClass(
+                            'is-invalid'); // remove 'is-invalid' class if the field is valid
+                        console.log('Field ' + fieldId + ' is valid');
+                    }
+                });
+
+                let password = $('#password1').val();
+                let confirmPassword = $('#password1_confirmation').val();
+
+                if (confirmPassword === '') {
+                    $('#password1_confirmation').addClass('is-invalid');
+                    $('#password-match').text('Please enter a password');
+                    $('#password-match').show();
+                    console.log('Confirm password is empty');
+                    isValid = false;
+                } else if (password !== confirmPassword) {
+                    $('#password1_confirmation').addClass('is-invalid');
+                    $('#password-match').text('Passwords do not match');
+                    $('#password-match').show();
+                    console.log('Passwords do not match');
+                    isValid = false;
+                } else {
+                    $('#password1_confirmation').removeClass('is-invalid');
+                    $('#password-match').hide();
+                    console.log('Passwords match');
+                }
+
+                if (isValid) {
+                    console.log('Form is valid, preparing to submit via AJAX');
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        type: $(this).attr('method'),
+                        url: $(this).attr('action'),
+                        data: $(this).serialize(),
+                        success: function(response) {
+                            console.log('AJAX request successful', response);
+                            if (response.success) {
+                                $('#responseAlert').removeClass('d-none').addClass(
+                                    'alert-success').text(response.message);
+                                setTimeout(function() {
+                                    window.location.href = response.redirect;
+                                }, 2000);
+                            }
+                        },
+                        error: function(xhr) {
+                            console.log(xhr);
+                            $('#responseAlert').removeClass('d-none').addClass('alert-danger')
+                                .text(xhr.responseJSON.message);
+                            // Hide spinner and enable button on error
+                            signupButton.prop('disabled', false);
+                            signupSpinner.addClass('d-none');
+                        }
+                    });
+                } else {
+                    console.log('Form validation failed');
+                    signupButton.prop('disabled', false);
+                    signupSpinner.addClass('d-none');
+                }
             });
         });
     </script>
