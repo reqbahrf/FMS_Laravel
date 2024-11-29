@@ -12,7 +12,9 @@ export default defineConfig({
     },
     plugins: [
         laravel({
-            input: ['resources/css/app.scss',
+            input: [
+                    'resources/css/indexPage.css',
+                    'resources/css/app.scss',
                     'resources/css/staffPage.css',
                     'resources/css/adminPage.css',
                     'resources/css/coopPage.css',
