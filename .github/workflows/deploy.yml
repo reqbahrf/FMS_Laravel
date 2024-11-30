@@ -2,59 +2,39 @@ name: Deploy Laravel Application
 
 on:
   push:
-    branches: ["main"] # or your default branch name
+    branches: [ "main" ]  # or your default branch name
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+    - uses: actions/checkout@v3
 
-      - name: Setup PHP
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: "8.3" # Adjust this to match your VPS PHP version
+    - name: Setup PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: '8.3'  # Adjust this to match your VPS PHP version
 
-      - name: Deploy to Hostinger VPS
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.HOSTINGER_HOST }}
-          username: ${{ secrets.HOSTINGER_USERNAME }}
-          key: ${{ secrets.HOSTINGER_SSH_KEY }}
-          passphrase: ${{ secrets.HOSTINGER_SSH_PASSPHRASE }}
-          port: 22 # Default SSH port for Hostinger VPS
-          debug: true
-          script: |
-            # Create directory if it doesn't exist
-            mkdir -p /home/user/htdocs
-            cd /home/user/htdocs
-
-            # If project directory doesn't exist, clone it
-            if [ ! -d "srv656676.hstgr.cloud" ]; then
-              git clone ${{ secrets.REPO_URL }} srv656676.hstgr.cloud
-              cd srv656676.hstgr.cloud
-            else
-              cd srv656676.hstgr.cloud
-              git pull origin main
-            fi
-
-            # Set correct permissions
-            sudo chown -R user:user .
-            sudo chmod -R 755 .
-            sudo chmod -R 777 storage bootstrap/cache
-
-            # Install dependencies and build
-            composer install --no-dev --optimize-autoloader
-            npm install
-            npm run build
-
-            # Laravel deployment steps
-            php artisan down
-            php artisan migrate --force
-            php artisan config:clear
-            php artisan cache:clear
-            php artisan route:clear
-            php artisan config:cache
-            php artisan route:cache
-            php artisan view:cache
-            php artisan up
+    - name: Deploy to Hostinger VPS
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOSTINGER_HOST }}
+        username: ${{ secrets.HOSTINGER_USERNAME }}
+        key: ${{ secrets.HOSTINGER_SSH_KEY }}
+        passphrase: ${{ secrets.HOSTINGER_SSH_PASSPHRASE }}
+        port: 22  # Default SSH port for Hostinger VPS
+        debug: true
+        script: |
+          cd /home/user/htdocs/srv656676.hstgr.cloud
+          git pull origin main
+          composer install
+          php artisan down
+          php artisan migrate --force
+          php artisan config:clear
+          php artisan cache:clear
+          php artisan route:clear
+          php artisan config:cache
+          php artisan route:cache
+          php artisan view:cache
+          chown -R www-data:www-data .  # Fix permissions for Ubuntu
+          php artisan up  # Bring application back online
