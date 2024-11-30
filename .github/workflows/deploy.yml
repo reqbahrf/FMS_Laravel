@@ -22,6 +22,7 @@ jobs:
         username: ${{ secrets.HOSTINGER_USERNAME }}
         key: ${{ secrets.HOSTINGER_SSH_KEY }}  # Using SSH key instead of password for better security
         port: 22  # Default SSH port for Hostinger VPS
+        debug: true
         script: |
           cd /home/user/htdocs/srv656676.hstgr.cloud
           git pull origin main
