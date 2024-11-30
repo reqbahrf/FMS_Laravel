@@ -54,21 +54,44 @@ Route::get('/signup', function () {
 
 Route::post('/signup/submit', [AuthController::class, 'signup'])->name('signup');
 
-Route::get('/application', function () {
-    return view('registerpage.application');
-})->name('registrationForm');
-
-Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
-Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
+Route::middleware(['auth'])->group(function () {
+    Route::get('/application', function () {
+        return view('registerpage.application');
+    })->name('registrationForm');
 
 
-Route::post('/application/submit', [ApplicationController::class, 'store'])->name('applicationFormSubmit');
+    Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
+
+    Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
+
+    Route::post('/application/submit', [ApplicationController::class, 'store'])
+        ->name('applicationFormSubmit');
+
+    Route::get('/notification', [UserNotificationController::class, 'getUserNotifications'])
+        ->middleware('auth')
+        ->name('notification.get');
+
+    Route::post('/logout', [AuthController::class, 'logout'])
+        ->name('logout');
+
+    Route::resource('/receipts', ReceiptController::class);
+
+    Route::get('/Applicant-Requirements/{business_id}', [ApplicantRequirementController::class, 'index'])
+        ->name('Requirements.index');
+
+    Route::get('/Applicant-Requirement/view', [ApplicantRequirementController::class, 'show'])
+        ->name('Requirements.view');
+
+    Route::resource('/Applicant-Requirements', ApplicantRequirementController::class);
+
+    Route::get('/viewSR', fn() => view('StaffView.outputs.StatusReport'));
+
+    Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
+});
+
 
 //Applicant Routes End
 
-Route::get('/notification', [UserNotificationController::class, 'getUserNotifications'])
-    ->middleware('auth')
-    ->name('notification.get');
 
 //Login routes
 
@@ -95,12 +118,8 @@ Route::post('/password/reset', [PasswordResetController::class, 'reset'])
     ->name('password.reset.submit');
 
 //Logout routes
-Route::post('/logout', [AuthController::class, 'logout'])
-    ->middleware('auth')
-    ->name('logout');
-//Logout Routes End
 
-//Cooperator Route
+
 
 Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verified'])->group(function () {
     Route::post('/Cooperator/Projects', SetProjectToLoadController::class)
@@ -289,15 +308,6 @@ Route::middleware('auth')->group(function () {
     })->middleware('throttle:6,1')->name('verification.send');
 });
 
-//test route
-Route::resource('/receipts', ReceiptController::class);
-Route::get('/Applicant-Requirements/{business_id}', [ApplicantRequirementController::class, 'index'])
-    ->name('Requirements.index');
-Route::get('/Applicant-Requirement/view', [ApplicantRequirementController::class, 'show'])
-    ->name('Requirements.view');
-Route::resource('/Applicant-Requirements', ApplicantRequirementController::class);
-Route::get('/viewSR', fn() => view('StaffView.outputs.StatusReport'));
-Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/change-password', [PasswordChangeController::class, 'showChangePasswordForm'])
