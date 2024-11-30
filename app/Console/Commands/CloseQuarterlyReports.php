@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\OngoingQuarterlyReport;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class CloseQuarterlyReports extends Command
 {
@@ -27,12 +28,37 @@ class CloseQuarterlyReports extends Command
      */
     public function handle()
     {
-        $currentDate = Carbon::now()->toDateString();
+        $this->info('Starting to close expired quarterly reports...');
 
-        OngoingQuarterlyReport::where('open_until', '<=', $currentDate)
-        ->where('report_status', 'open')
-        ->update(['report_status' => 'closed']);
+        try {
+            $currentDate = Carbon::now()->toDateString();
 
-        $this->info('Expired Quarterly reports closed successfully');
+            // Get the count of reports that will be affected
+            $reportsToClose = OngoingQuarterlyReport::where('open_until', '<=', $currentDate)
+                ->where('report_status', 'open')
+                ->count();
+
+            if ($reportsToClose === 0) {
+                $this->info('No expired reports found to close.');
+                return Command::SUCCESS;
+            }
+
+            // Perform the update
+            OngoingQuarterlyReport::where('open_until', '<=', $currentDate)
+                ->where('report_status', 'open')
+                ->update(['report_status' => 'closed']);
+
+            $message = "{$reportsToClose} expired quarterly report(s) closed successfully";
+            $this->info($message);
+            Log::info($message);
+
+            return Command::SUCCESS;
+        } catch (\Exception $e) {
+            $errorMessage = "Error while closing quarterly reports: " . $e->getMessage();
+            $this->error($errorMessage);
+            Log::error($errorMessage);
+
+            return Command::FAILURE;
+        }
     }
 }
