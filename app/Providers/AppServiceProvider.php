@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\ApplicationInfo;
-use Illuminate\Support\ServiceProvider;
-use Laravel\Telescope\Telescope;
 use App\Models\PaymentRecord;
+use App\Models\ApplicationInfo;
+use Laravel\Telescope\Telescope;
+use Illuminate\Support\ServiceProvider;
 use App\Observers\PaymentRecordObserver;
 use App\Observers\ApplicationInfoObserver;
+use Workbench\App\Providers\TelescopeServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -16,10 +17,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        Telescope::night();
         if ($this->app->environment('local')) {
             $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
             $this->app->register(TelescopeServiceProvider::class);
+            Telescope::night();
         }
     }
 
