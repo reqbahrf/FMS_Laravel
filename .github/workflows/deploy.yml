@@ -20,7 +20,8 @@ jobs:
       with:
         host: ${{ secrets.HOSTINGER_HOST }}
         username: ${{ secrets.HOSTINGER_USERNAME }}
-        key: ${{ secrets.HOSTINGER_SSH_KEY }}  # Using SSH key instead of password for better security
+        key: ${{ secrets.HOSTINGER_SSH_KEY }}
+        passphrase: ${{ secrets.HOSTINGER_SSH_PASSPHRASE }}
         port: 22  # Default SSH port for Hostinger VPS
         debug: true
         script: |
