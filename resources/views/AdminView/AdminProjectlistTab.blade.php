@@ -16,6 +16,7 @@
                     @csrf
                     <label for="staff_id" class="form-label">Staff List</label>
                     <select name="staff_id" id="AssignNewStaffSelector" class="form-select">
+                        <option value="">Select Staff to Assign</option>
 
                     </select>
                 </form>
@@ -96,15 +97,24 @@
                         <h6>Assets:</h6>
                         <div class="col-12 col-md-4">
                             <label for="building" class="ps-2">Building:</label>
-                            <input type="text" id="building" class="form-control" readonly>
+                            <div class="input-group">
+                                <span class="input-group-text">₱</span>
+                                <input type="text" id="building" class="form-control" readonly>
+                            </div>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="equipment" class="ps-2">Equipment:</label>
-                            <input type="text" id="equipment" class="form-control" readonly>
+                            <div class="input-group">
+                                <span class="input-group-text">₱</span>
+                                <input type="text" id="equipment" class="form-control" readonly>
+                            </div>
                         </div>
                         <div class="col-12 col-md-4">
                             <label for="land" class="ps-2">Land:</label>
-                            <input type="text" id="workingCapital" class="form-control" readonly>
+                            <div class="input-group">
+                                <span class="input-group-text">₱</span>
+                                <input type="text" id="workingCapital" class="form-control" readonly>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -128,12 +138,17 @@
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="Amount">Approved Amount:</label>
-                            <input type="text" id="funded_Amount" class="form-control" readonly value="">
-
+                            <div class="input-group">
+                                <span class="input-group-text">₱</span>
+                                <input type="text" id="funded_Amount" class="form-control" readonly value="">
+                            </div>
                         </div>
                         <div class="col-12 col-md-6">
                             <label for="To_Be_Refunded">Amount: <span class="text-muted">with 5%</span></label>
-                            <input type="text" id="To_Be_Refunded" class="form-control" readonly value="">
+                            <div class="input-group">
+                                <span class="input-group-text">₱</span>
+                                <input type="text" id="To_Be_Refunded" class="form-control" readonly value="">
+                            </div>
                         </div>
                         <hr>
                         <div class="col-12">

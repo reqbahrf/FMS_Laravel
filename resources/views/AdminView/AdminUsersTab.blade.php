@@ -42,7 +42,7 @@
                 <div class="container">
                     <div class="d-flex">
                         <div class="card p-0 w-100">
-                            <form class="p-3 needs-validation" novalidate>
+                            <form class="p-3 needs-validation" id="newUserForm" novalidate>
                                 <div class="row">
                                     <div class="col-12 col-md-6">
                                         <label for="validationCustom01" class="form-label">First Name:</label>
@@ -126,7 +126,7 @@
             </div>
             <div class="modal-footer">
                 <div class="d-flex justify-content-end my-2">
-                    <button type="submit" class="btn btn-primary" id="submitNewUser">Register</button>
+                    <button type="submit" form="newUserForm" class="btn btn-primary">Register</button>
                 </div>
             </div>
         </div>

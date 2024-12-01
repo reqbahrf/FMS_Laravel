@@ -9,6 +9,8 @@ import {
     closeModal,
     sanitize,
     createConfirmationModal,
+    showProcessToast,
+    hideProcessToast,
 } from "./ReusableJS/utilFunctions";
 
 import DataTable from "datatables.net-bs5";
@@ -20,6 +22,7 @@ import "datatables.net-fixedcolumns-bs5";
 import "datatables.net-fixedheader-bs5";
 import "datatables.net-responsive-bs5";
 import "datatables.net-scroller-bs5";
+import { parse } from "filepond";
 
 Echo.private(`admin-notifications.${USER_ID}`).listen(
     ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
@@ -905,15 +908,13 @@ window.initializeAdminPageJs = async () => {
                 const landline = inputs.filter(".landline").val();
                 const mobilePhone = inputs.filter(".mobile_number").val();
                 const email = inputs.filter(".email").val();
-                const buildingAssets = inputs.filter(".building_Assets").val();
-                const equipmentAssets = inputs
+                const buildingAssets = parseFloat(inputs.filter(".building_Assets").val());
+                const equipmentAssets = parseFloat(inputs
                     .filter(".equipment_Assets")
-                    .val();
-                const workingCapitalAssets = inputs
+                    .val());
+                const workingCapitalAssets = parseFloat(inputs
                     .filter(".working_capital_Assets")
-                    .val();
-
-                console.log(offCanvaReadonlyInputs);
+                    .val());
 
                 // Update form fields
                 offCanvaReadonlyInputs
@@ -1095,6 +1096,18 @@ window.initializeAdminPageJs = async () => {
 
             $("#newStaffAssignment").on("submit", async function (event) {
                 event.preventDefault();
+                const inConfirm = await createConfirmationModal({
+                    title: "Assign New Staff",
+                    titleBg: "bg-primary",
+                    message: "Are you sure you want to this new staff?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+                if (!inConfirm) {
+                    return;
+                }
+                showProcessToast("Assigning new staff...");
                 const formdata = new FormData(this);
                 formdata.append("project_id", $("#OngoingProjectID").val());
                 formdata.append("business_id", $("#OngoingBusinessId").val());
@@ -1114,6 +1127,7 @@ window.initializeAdminPageJs = async () => {
                         dataType: "json", // Expect a JSON response
                     });
 
+                  hideProcessToast();
                   showToastFeedback(
                         "text-bg-success",
                         response.message
@@ -1121,6 +1135,7 @@ window.initializeAdminPageJs = async () => {
                   getOngoingProjects();
                   closeModal('#assignNewStaffModal')
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.message
@@ -1365,9 +1380,9 @@ window.initializeAdminPageJs = async () => {
                     ForApprovalDataTable.rows.add(
                         data.map((project) => {
                             return [
-                                `${project.f_name} ${project.mid_name}. ${
+                                `${project.prefix ? project.prefix : ""} ${project.f_name} ${project.mid_name}. ${
                                     project.l_name
-                                } ${project.suffix}
+                                } ${project.suffix ? project.suffix : ""}
                                 <input type="hidden" class="designation" value="${
                                     project.designation
                                 }">
@@ -1415,6 +1430,19 @@ window.initializeAdminPageJs = async () => {
                 projectId,
                 assignedStaff_Id
             ) => {
+                const isConfirmed = await createConfirmationModal({
+                    title: "Approve Project",
+                    titleBg: "bg-primary",
+                    message: "Are you sure you want to approve this project?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+                if (!isConfirmed) {
+                    return;
+                }
+
+                showProcessToast("Approving Project...");
                 $.ajax({
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
@@ -1430,6 +1458,7 @@ window.initializeAdminPageJs = async () => {
                     },
                     success: function (response) {
                         if (response.status === "success") {
+                            hideProcessToast();
                             showToastFeedback(
                                 "text-bg-success",
                                 response.message
@@ -1439,6 +1468,7 @@ window.initializeAdminPageJs = async () => {
                         }
                     },
                     error: function (xhr, status, error) {
+                        hideProcessToast();
                         showToastFeedback("text-bg-danger", error);
                     },
                 });
@@ -2118,31 +2148,32 @@ window.initializeAdminPageJs = async () => {
                     document.querySelectorAll(".needs-validation");
 
                 // Attach form validation and submission to the submit button click event
-                $("#submitNewUser").on("click", async function (event) {
+                $("#newUserForm").on("submit", async function (event) {
                     // Prevent default button action
                     event.preventDefault();
 
-                    const isConfirmed = await createConfirmationModal({
-                        title: "Add New Organization User",
-                        titleBg: "bg-primary",
-                        message: "Are you sure you want to add this user?",
-                        confirmText: "Yes",
-                        confirmButtonClass: "btn-primary",
-                        cancelText: "No",
-                    });
 
-                    if (!isConfirmed) {
-                        return;
-                    }
 
                     // Loop through each form with 'needs-validation'
-                    Array.from(NewUsersForms).forEach((form) => {
+                    Array.from(NewUsersForms).forEach( async(form) => {
                         // Check if the form is valid
                         if (!form.checkValidity()) {
                             event.stopPropagation();
                             form.classList.add("was-validated");
                         } else {
                             // If valid, trigger the AJAX form submission
+                            const isConfirmed = await createConfirmationModal({
+                                title: "Add New Organization User",
+                                titleBg: "bg-primary",
+                                message: "Are you sure you want to add this user?",
+                                confirmText: "Yes",
+                                confirmButtonClass: "btn-primary",
+                                cancelText: "No",
+                            });
+
+                            if (!isConfirmed) {
+                                return;
+                            }
                             addStaffUser(form);
                         }
                     });
@@ -2151,6 +2182,7 @@ window.initializeAdminPageJs = async () => {
 
             const addStaffUser = async (form) => {
                 try {
+                    showProcessToast('Adding Staff User...');
                     // Create FormData object from the form element
                     const formData = new FormData(form);
 
@@ -2167,9 +2199,11 @@ window.initializeAdminPageJs = async () => {
                         data: formData,
                     });
                     getStaffUserLists();
+                    hideProcessToast();
                     closeModal("#AddUserModal");
                     showToastFeedback("text-bg-success", response.success);
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.message
@@ -2179,6 +2213,18 @@ window.initializeAdminPageJs = async () => {
 
             const updateStaffUser = async (user_name) => {
                 try {
+                    const isConfirmed = await createConfirmationModal({
+                        title: "Update Access Status",
+                        titleBg: "bg-primary",
+                        message: "Are you sure you want to update the access status?",
+                        confirmText: "Yes",
+                        confirmButtonClass: "btn-primary",
+                        cancelText: "No",
+                    });
+                    if (!isConfirmed) {
+                        return;
+                    }
+                    showProcessToast("Updating Access Status...");
                     const toggleStaffAccess = $("#toggleStaffAccess").prop(
                         "checked"
                     )
@@ -2200,8 +2246,10 @@ window.initializeAdminPageJs = async () => {
                         },
                     });
                     getStaffUserLists();
+                    hideProcessToast();
                     showToastFeedback("text-bg-success", response.success);
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.message
@@ -2211,6 +2259,18 @@ window.initializeAdminPageJs = async () => {
 
             const deleteStaffUser = async (user_name) => {
                 try {
+                    const isConfirmed = await createConfirmationModal({
+                        title: "Delete User",
+                        titleBg: "bg-danger",
+                        message: "Are you sure you want to delete this user their might still projects handled by this user?",
+                        confirmText: "Yes",
+                        confirmButtonClass: "btn-danger",
+                        cancelText: "No",
+                    });
+                    if (!isConfirmed) {
+                        return;
+                    }
+                    showProcessToast("Deleting User...");
                     const response = await $.ajax({
                         type: "DELETE",
                         url: USERS_LIST_ROUTE.DELETE_STAFF_USER.replace(
@@ -2224,9 +2284,14 @@ window.initializeAdminPageJs = async () => {
                         },
                     });
                     getStaffUserLists();
+                    hideProcessToast();
                     showToastFeedback("text-bg-success", response.success);
                 } catch (error) {
-                    console.log(error);
+                    hideProcessToast();
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
                 }
             };
 
