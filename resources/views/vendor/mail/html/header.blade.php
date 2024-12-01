@@ -5,7 +5,8 @@
 @if (trim($slot) === 'Laravel')
 <img src="https://laravel.com/img/notification-logo.png" class="logo" alt="Laravel Logo">
 @else
-<img src="{{ $message->embed(asset('DOST_ICON.svg')) }}" alt="{{ config('app.name') }}" style="width: 60px;">
+<img src="data:image/svg+xml;base64,{{ base64_encode(file_get_contents(public_path('DOST_ICON.svg'))) }}"
+alt="{{ config('app.name') }}" style="width: 60px;">
 <span style="font-size: 30px;">{{ config('app.name') }}</span>
 @endif
 </a>
