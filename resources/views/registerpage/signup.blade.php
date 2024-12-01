@@ -172,7 +172,7 @@
                                 </button>
                             </div>
                             <div class="text-center col-12 py-3">
-                                <a href="{{ url('/index') }}"
+                                <a href="/"
                                     class="text-decoration-none text-reset text-primary">Home</a>
                             </div>
                             <div class="text-center col-12">
