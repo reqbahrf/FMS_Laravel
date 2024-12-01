@@ -22,7 +22,6 @@ import "datatables.net-fixedcolumns-bs5";
 import "datatables.net-fixedheader-bs5";
 import "datatables.net-responsive-bs5";
 import "datatables.net-scroller-bs5";
-import { parse } from "filepond";
 
 Echo.private(`admin-notifications.${USER_ID}`).listen(
     ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
@@ -1805,13 +1804,13 @@ window.initializeAdminPageJs = async () => {
                         data.map((item) => {
                             return [
                                 `${
-                                    item.prefix +
+                                    (item.prefix ? item.prefix : "") +
                                     " " +
                                     item.f_name +
                                     " " +
-                                    item.mid_name +
+                                    (item.mid_name ? item.mid_name : "") +
                                     " " +
-                                    item.suffix
+                                    (item.suffix ? item.suffix : "")
                                 }`,
                                 `${item.designation}`,
                                 `<div>

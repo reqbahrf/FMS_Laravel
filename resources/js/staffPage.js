@@ -1205,7 +1205,7 @@ window.initializeStaffPageJs = async () => {
                         .val(formatToString(parseFloat(approved_amount)));
                     offCanvaReadonlyInputs
                         .filter("#appliedDate")
-                        .val(dateApplied);
+                        .val(dateFormatter(dateApplied));
                     offCanvaReadonlyInputs.filter("#FirmName").val(firmName);
                     offCanvaReadonlyInputs
                         .filter("#CooperatorName")
