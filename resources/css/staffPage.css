@@ -678,18 +678,6 @@ ul#myTab li.nav-item button.tab-Nav:hover {
 
 /* Menu Button on Approved Project Information  */
 
-.bottom_border {
-    width: 50%;
-    border-top: 0;
-    border-left: 0;
-    border-right: 0;
-    border-bottom: 1px solid #ced4da;
-}
-
-.bottom_border:focus {
-    outline: none;
-}
-
 /*
 
     Staff Project Tab CSS End

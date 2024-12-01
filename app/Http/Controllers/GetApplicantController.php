@@ -14,7 +14,6 @@ class GetApplicantController extends Controller
      */
     public function __invoke(Request $request)
     {
-        //TODO: can't retrive multiple business Info for one coop_users need to be fix
         try {
             if (Cache::has('applicants')) {
                 $applicants = Cache::get('applicants');
@@ -25,7 +24,7 @@ class GetApplicantController extends Controller
                     ->join('assets', 'assets.id', '=', 'business_info.id')
                     ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
                     ->leftJoin('personnel', 'personnel.id', '=', 'business_info.id')
-                    ->whereIn('application_info.application_status', ['new', 'evaluation', 'pending'])
+                    ->whereIn('application_info.application_status', ['new', 'evaluation', 'pending', 'rejected'])
                     ->select(
                         'users.id as user_id',
                         'users.email',
@@ -60,9 +59,9 @@ class GetApplicantController extends Controller
                         'personnel.female_indirect_re',
                         'personnel.male_indirect_part',
                         'personnel.female_indirect_part',
-                        DB::raw('(COALESCE(male_direct_re, 0) + COALESCE(female_direct_re, 0) + 
-                                COALESCE(male_direct_part, 0) + COALESCE(female_direct_part, 0) + 
-                                COALESCE(male_indirect_re, 0) + COALESCE(female_indirect_re, 0) + 
+                        DB::raw('(COALESCE(male_direct_re, 0) + COALESCE(female_direct_re, 0) +
+                                COALESCE(male_direct_part, 0) + COALESCE(female_direct_part, 0) +
+                                COALESCE(male_indirect_re, 0) + COALESCE(female_indirect_re, 0) +
                                 COALESCE(male_indirect_part, 0) + COALESCE(female_indirect_part, 0)) as total_personnel')
                     )
                     ->distinct()

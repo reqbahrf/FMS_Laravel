@@ -15,8 +15,8 @@
             @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap');
 
             :root {
-                --primary-color: #48C4D3;
-                --secondary-color: #0056b3;
+                --primary-color: #318791;
+                --secondary-color: #48c4d3;
                 --background-color: #f8f9fa;
                 --text-color: #2d3436;
                 --error-color: #e74c3c;
@@ -117,6 +117,25 @@
                 font-size: 0.875rem;
                 margin-top: 0.25rem;
             }
+
+            .input-group .password-toggle {
+                border-top-right-radius: 0.375rem !important;
+                border-bottom-right-radius: 0.375rem !important;
+                display: flex;
+                align-items: center;
+                padding: 0.75rem;
+                margin-top: 0;
+                background-color: transparent;
+                border: 2px solid #e9ecef;
+                border-left: none;
+                color: var(--primary-color);
+                cursor: pointer;
+            }
+
+            .password-toggle i {
+                font-size: 1.2rem;
+                line-height: 1;
+            }
         </style>
     </head>
 
@@ -167,29 +186,33 @@
                     @csrf
                     <input type="hidden" name="token" value="{{ $token }}">
 
-                    <div class="form-floating mb-3">
-                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                            name="email" placeholder="name@example.com" value="{{ $email ?? old('email') }}" required
-                            autofocus>
-                        <label for="email">Email address</label>
-                        @error('email')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
+                    <div class="mb-3">
+                        <label for="password" class="form-label">New Password</label>
+                        <div class="input-group">
+                            <input id="password" type="password"
+                                class="form-control @error('password') is-invalid @enderror" name="password"
+                                placeholder="Enter your new password" required>
+                            <button type="button" class="password-toggle" onclick="togglePassword('password')">
+                                <i class="ri-eye-off-line"></i>
+                            </button>
+                            @error('password')
+                                <div class="invalid-feedback">
+                                    {{ $message }}
+                                </div>
+                            @enderror
+                        </div>
                     </div>
 
-                    <div class="form-floating mb-3">
-                        <input type="password" class="form-control @error('password') is-invalid @enderror"
-                            id="password" name="password" placeholder="New Password" required>
-                        <label for="password">New Password</label>
-                        @error('password')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-                    <div class="form-floating mb-4">
-                        <input type="password" class="form-control" id="password_confirmation"
-                            name="password_confirmation" placeholder="Confirm Password" required>
-                        <label for="password_confirmation">Confirm Password</label>
+                    <div class="mb-4">
+                        <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                        <div class="input-group">
+                            <input id="password_confirmation" type="password" class="form-control"
+                                name="password_confirmation" placeholder="Confirm your new password" required>
+                            <button type="button" class="password-toggle"
+                                onclick="togglePassword('password_confirmation')">
+                                <i class="ri-eye-off-line"></i>
+                            </button>
+                        </div>
                     </div>
 
                     <button type="submit" class="btn btn-reset">
@@ -209,6 +232,23 @@
                 document.write(new Date().getFullYear())
             </script> DOST - SETUP
         </footer>
+
+        <script>
+            function togglePassword(inputId) {
+                const input = document.getElementById(inputId);
+                const icon = input.nextElementSibling.querySelector('i');
+
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('ri-eye-off-line');
+                    icon.classList.add('ri-eye-line');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('ri-eye-line');
+                    icon.classList.add('ri-eye-off-line');
+                }
+            }
+        </script>
     </body>
 
 </html>

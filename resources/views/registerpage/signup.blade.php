@@ -15,8 +15,8 @@
             @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap');
 
             :root {
-                --primary-color: #48C4D3;
-                --secondary-color: #0056b3;
+                --primary-color: #318791;
+                --secondary-color: #48c4d3;
                 --background-color: #f8f9fa;
                 --text-color: #2d3436;
                 --error-color: #e74c3c;
