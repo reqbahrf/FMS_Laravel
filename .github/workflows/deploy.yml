@@ -2,60 +2,66 @@ name: Deploy Laravel Application
 
 on:
   push:
-    branches: [ "main" ]  # or your default branch name
+    branches: ["main"] # or your default branch name
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+      - uses: actions/checkout@v3
 
-    - name: Setup PHP
-      uses: shivammathur/setup-php@v2
-      with:
-        php-version: '8.3'  # Adjust this to match your VPS PHP version
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3" # Adjust this to match your VPS PHP version
 
-    - name: Deploy to Hostinger VPS
-      uses: appleboy/ssh-action@master
-      with:
-        host: ${{ secrets.HOSTINGER_HOST }}
-        username: ${{ secrets.HOSTINGER_USERNAME }}
-        key: ${{ secrets.HOSTINGER_SSH_KEY }}
-        passphrase: ${{ secrets.HOSTINGER_SSH_PASSPHRASE }}
-        port: 22  # Default SSH port for Hostinger VPS
-        debug: true
-        script: |
-          # Create directory if it doesn't exist
-          mkdir -p /home/user/htdocs
-          cd /home/user/htdocs
-          # If project directory doesn't exist, clone it
-          if [ ! -d "srv656676.hstgr.cloud" ]; then
-            git clone ${{ secrets.REPO_URL }} srv656676.hstgr.cloud
-            cd srv656676.hstgr.cloud
-          else
-            cd srv656676.hstgr.cloud
-            git pull origin main
-          fi
+      - name: Deploy to Hostinger VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOSTINGER_HOST }}
+          username: ${{ secrets.HOSTINGER_USERNAME }}
+          key: ${{ secrets.HOSTINGER_SSH_KEY }}
+          passphrase: ${{ secrets.HOSTINGER_SSH_PASSPHRASE }}
+          port: 22 # Default SSH port for Hostinger VPS
+          debug: true
+          script: |
+            # Create directory if it doesn't exist
+            mkdir -p /home/user/htdocs
+            cd /home/user/htdocs
+            # If project directory doesn't exist, clone it
+            if [ ! -d "srv656676.hstgr.cloud" ]; then
+              git clone ${{ secrets.REPO_URL }} srv656676.hstgr.cloud
+              cd srv656676.hstgr.cloud
+            else
+              cd srv656676.hstgr.cloud
+              # Force clean any local changes
+              git clean -fd
+              git reset --hard HEAD
+              # Fetch and reset to match remote main exactly
+              git fetch origin main
+              git reset --hard origin/main
+            fi
 
-          # Set correct permissions
-          sudo chown -R user:user .
-          sudo chmod -R 755 .
-          sudo chmod -R 777 storage bootstrap/cache
+            # Set correct permissions
+            sudo chown -R user:user .
+            sudo chmod -R 755 .
+            sudo chmod -R 777 storage bootstrap/cache
 
-          # Install dependencies and build
-          composer install
-          npm install
-          npm run build
+            # Install dependencies and build
+            export COMPOSER_ALLOW_SUPERUSER=1
+            composer install --no-interaction --no-plugins --no-scripts
+            npm install
+            npm run build
 
-          # Laravel deployment steps
-          php artisan down
-          php artisan migrate --force
-          php artisan config:clear
-          php artisan cache:clear
-          php artisan route:clear
-          php artisan config:cache
-          php artisan route:cache
-          php artisan view:cache
-          php artisan up
-          php artisan queue:restart
-          php artisan reverb:restart
+            # Laravel deployment steps
+            php artisan down
+            php artisan migrate --force
+            php artisan config:clear
+            php artisan cache:clear
+            php artisan route:clear
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            php artisan up
+            php artisan queue:restart
+            php artisan reverb:restart
