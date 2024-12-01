@@ -1,499 +1,342 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>Sign up</title>
-    <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
-    @vite('resources/css/app.scss')
-    @vite('resources/js/app.js')
-    <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
-    <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/all.min.css') }}">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <title>Sign up</title>
+        <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
+        @vite('resources/css/app.scss')
+        @vite('resources/js/app.js')
+        <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
+        <link rel="stylesheet" href="{{ asset('vendor/fontawesome/css/all.min.css') }}">
+        <style>
+            @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap');
 
-<style>
+            :root {
+                --primary-color: #48C4D3;
+                --secondary-color: #0056b3;
+                --background-color: #f8f9fa;
+                --text-color: #2d3436;
+                --error-color: #e74c3c;
+                --success-color: #2ecc71;
+            }
 
-    @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wdth,wght,YTLC@0,6..12,75..125,200..1000,440..540;1,6..12,75..125,200..1000,440..540&display=swap');
+            body {
+                font-family: 'Nunito Sans', sans-serif;
+                background-color: var(--background-color);
+                min-height: 100vh;
+            }
 
-    :root {
-        font-size: clamp(0.75rem, 1vw, 1.5rem);
-        font-family: 'Nunito', sans-serif;
-    }
-    body {
-        height: 100vh;
-        width: 100vw;
-    }
+            .signup-card {
+                max-width: 450px;
+                width: 90%;
+                padding: 2rem;
+                background: white;
+                border-radius: 20px;
+                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+                margin: 2rem auto;
+            }
 
-    body,
-    button,
-    input,
-    textarea,
-    select {
-        font-family: 'Nunito', sans-serif;
-    }
+            .logo-container {
+                margin-bottom: 1.5rem;
+            }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        font-weight: 700;
-        /* Example: Set to semi-bold. Adjust the value as needed */
-    }
+            .logo-container img {
+                width: 120px;
+                height: auto;
+            }
 
-    :root {
-        --sw-toolbar-btn-background-color: #318791;
-        --sw-anchor-default-primary-color: #f8f9fa;
-        --sw-anchor-active-primary-color: #318791;
-        --sw-anchor-active-secondary-color: #ffffff;
-        --sw-anchor-done-primary-color: #48C4D3;
-        --sw-anchor-error-primary-color: #dc3545;
-        --sw-anchor-error-secondary-color: #ffffff;
-        --sw-anchor-warning-primary-color: #ffc107;
-        --sw-anchor-warning-secondary-color: #ffffff;
-        --sw-progress-color: #318791;
-        --sw-progress-background-color: #f8f9fa;
-        --sw-loader-color: #318791;
-        --sw-loader-background-color: #f8f9fa;
-        --sw-loader-background-wrapper-color: rgba(255, 255, 255, 0.7);
-    }
+            .form-title {
+                color: var(--text-color);
+                font-size: 1.5rem;
+                font-weight: 700;
+                margin-bottom: 1.5rem;
+                text-align: center;
+            }
 
-    .card {
-        height: auto;
-        width: 40vw;
-    }
+            .form-control {
+                border: 2px solid #e9ecef;
+                border-radius: 10px;
+                padding: 0.75rem 1rem;
+                transition: all 0.3s ease;
+            }
 
-    @media (max-width: 768px) {
-        .card {
-            height: auto;
-            width: 80vw;
-        }
-    }
-</style>
+            .form-control:focus {
+                border-color: var(--primary-color);
+                box-shadow: 0 0 0 0.2rem rgba(72, 196, 211, 0.25);
+            }
 
-<body>
-    <div class="d-flex justify-content-center vh-100 align-items-center">
-        <div class="position-absolute start-0 end-0 bottom-0 w-100 h-100">
-            <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 800">
-                <g fill-opacity="0.22">
-                    <circle style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400" r="800"></circle>
-                    <circle style="fill: rgba(72, 196, 211, 0.6);" cx="400" cy="400" r="700"></circle>
-                    <circle style="fill: rgba(72, 196, 211, 0.7);" cx="400" cy="400" r="600"></circle>
-                    <circle style="fill: rgba(72, 196, 211, 0.8);" cx="400" cy="400" r="500"></circle>
-                    <circle style="fill: rgba(72, 196, 211, 0.9);" cx="400" cy="400" r="400"></circle>
-                </g>
-            </svg>
-        </div>
-        <div class="card p-1 rounded-5 shadow">
-            <div class="card-body">
-                <div class="w-100 d-flex justify-content-center align-items-center">
-                    <a href="/">
-                       <img src="{{ asset('DOST_ICON.svg') }}" width="75px" height="75px"  alt="">
-                    </a>
-                    <h3 class="mb-0">DOST-SETUP-SYS</h3>
+            .input-group-text {
+                border: 2px solid #e9ecef;
+                border-right: none;
+                background-color: white;
+                border-radius: 10px 0 0 10px;
+            }
+
+            .input-group .form-control {
+                border-left: none;
+                border-radius: 0 10px 10px 0;
+            }
+
+            .btn-signup {
+                background-color: var(--primary-color);
+                border: none;
+                border-radius: 10px;
+                color: white;
+                padding: 0.75rem 1.5rem;
+                font-weight: 600;
+                transition: all 0.3s ease;
+                width: 100%;
+            }
+
+            .btn-signup:hover:not(:disabled) {
+                background-color: var(--secondary-color);
+                transform: translateY(-1px);
+            }
+
+            .btn-signup:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
+            }
+
+            .login-link {
+                text-align: center;
+                margin-top: 1.5rem;
+            }
+
+            .login-link a {
+                color: var(--primary-color);
+                text-decoration: none;
+                font-weight: 600;
+            }
+
+            .login-link a:hover {
+                color: var(--secondary-color);
+            }
+
+            .alert {
+                border-radius: 10px;
+                padding: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .form-label {
+                color: var(--text-color);
+                font-weight: 500;
+                margin-bottom: 0.5rem;
+            }
+
+            .invalid-feedback {
+                color: var(--error-color);
+                font-size: 0.875rem;
+                margin-top: 0.25rem;
+            }
+
+            .password-toggle {
+                cursor: pointer;
+                color: #666;
+                transition: color 0.3s ease;
+                border-left: none !important;
+                border-radius: 0 10px 10px 0 !important;
+            }
+
+            .password-toggle:hover {
+                color: var(--primary-color);
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="d-flex justify-content-center align-items-center vh-100">
+            <div class="position-absolute start-0 end-0 bottom-0 w-100 h-100">
+                <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 800">
+                    <g fill-opacity="0.22">
+                        <circle style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400" r="800">
+                            <animate attributeName="r" values="400;800" dur="10s" repeatCount="indefinite" />
+                        </circle>
+                        <circle style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400" r="400">
+                            <animate attributeName="r" values="300;800" dur="10s" begin="1s"
+                                repeatCount="indefinite" />
+                        </circle>
+                        <circle style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400" r="100">
+                            <animate attributeName="r" values="200;800" dur="10s" begin="2s"
+                                repeatCount="indefinite" />
+                        </circle>
+                    </g>
+                </svg>
+            </div>
+            <div class="signup-card position-relative">
+                <div class="logo-container text-center">
+                    <img src="{{ asset('DOST_ICON.svg') }}" alt="DOST Logo" class="img-fluid">
                 </div>
-                <h4 class="header-title mt-2 mb-3 text-center">Sign up</h4>
-                <div class="alert d-none fs-6" id="responseAlert" role="alert">
-                </div>
-                <div>
-                    <form id="signupForm" action="{{ route('signup') }}" method="post">
-                        @csrf
-                        <div class="row">
-                            <div class="col-md-12 mb-4">
-                                <label for="userName1">Username</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="ri-user-line"></i>
-                                    </span>
-                                    <input type="text" class="form-control" id="userName1" name="userName"
-                                        placeholder="Username" value="{{ old('userName1') }}">
-                                    <div class="invalid-feedback">Please Enter Username</div>
-                                </div>
-                            </div>
-                            <div class="col-md-12 mb-4">
-                                <label for="email">Email Address</label>
-                                <div class="input-group">
-                                    <span class="input-group-text">
-                                        <i class="ri-mail-line"></i>
-                                    </span>
-                                    <input type="email" class="form-control" id="email" name="email"
-                                        placeholder="Email Address" value="{{ old('email') }}">
-                                    <div class="invalid-feedback">Please Enter Email</div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group">
-                                    <label for="password1" class="form-label">Password</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="ri-lock-line"></i>
-                                        </span>
-                                        <input type="password" class="form-control" id="password1" name="password1" required>
-                                        <button class="btn btn-outline-secondary btn-sm" type="button" id="togglePassword">
-                                            <i class="ri-eye-off-fill"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <div class="form-group mt-3">
-                                    <label for="password1_confirmation" class="form-label">Confirm Password</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text">
-                                            <i class="ri-lock-line"></i>
-                                        </span>
-                                        <input type="password" class="form-control" id="password1_confirmation" name="password1_confirmation" required>
-                                        <button class="btn btn-outline-secondary btn-sm" type="button" id="toggleConfirmPassword">
-                                            <i class="ri-eye-off-fill"></i>
-                                        </button>
-                                    </div>
-                                    <div id="password-match" class="invalid-feedback">
-                                        Passwords do not match
-                                    </div>
-                                </div>
-                                <div class="password-requirements mt-2 small text-muted">
-                                    Password must:
-                                    <ul class="ps-3 mb-0">
-                                        <li id="length-check"><i class="ri-close-circle-fill text-danger"></i> Be at least 8 characters long</li>
-                                        <li id="uppercase-check"><i class="ri-close-circle-fill text-danger"></i> Contain at least one uppercase letter</li>
-                                        <li id="lowercase-check"><i class="ri-close-circle-fill text-danger"></i> Contain at least one lowercase letter</li>
-                                        <li id="number-check"><i class="ri-close-circle-fill text-danger"></i> Contain at least one number</li>
-                                        <li id="special-check"><i class="ri-close-circle-fill text-danger"></i> Contain at least one special character (@$!%*?&)</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="col-12">
-                                <button type="submit" class="btn btn-primary w-100" id="signupButton">
-                                    <span class="spinner-border spinner-border-sm me-2 d-none" id="signupSpinner" role="status" aria-hidden="true"></span>
-                                    <span class="button-text">Sign-up</span>
-                                </button>
-                            </div>
-                            <div class="text-center col-12 py-3">
-                                <a href="/"
-                                    class="text-decoration-none text-reset text-primary">Home</a>
-                            </div>
-                            <div class="text-center col-12">
-                                Already have an account? <a href="{{ url('login') }}"
-                                    class="text-decoration-none text-primary">Login</a>
-                            </div>
+
+                <h2 class="form-title">Create Account</h2>
+
+                <div id="responseAlert" class="alert d-none" role="alert"></div>
+
+                <form id="signupForm" action="{{ route('signup') }}" method="post" novalidate>
+                    @csrf
+                    <div class="mb-3">
+                        <label for="userName1" class="form-label">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="ri-user-line"></i>
+                            </span>
+                            <input type="text" class="form-control" id="userName1" name="username" required>
+                            <div class="invalid-feedback">Please choose a username.</div>
                         </div>
+                    </div>
 
-                    </form>
+                    <div class="mb-3">
+                        <label for="email1" class="form-label">Email</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="ri-mail-line"></i>
+                            </span>
+                            <input type="email" class="form-control" id="email1" name="email" required>
+                            <div class="invalid-feedback">Please enter a valid email.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password1" class="form-label">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="ri-lock-line"></i>
+                            </span>
+                            <input type="password" class="form-control" id="password1" name="password" required>
+                            <span class="input-group-text password-toggle" id="togglePassword">
+                                <i class="ri-eye-line"></i>
+                            </span>
+                            <div class="invalid-feedback">Please enter a password.</div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label for="password1_confirmation" class="form-label">Confirm Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text">
+                                <i class="ri-lock-line"></i>
+                            </span>
+                            <input type="password" class="form-control" id="password1_confirmation"
+                                name="password_confirmation" required>
+                            <span class="input-group-text password-toggle" id="toggleConfirmPassword">
+                                <i class="ri-eye-line"></i>
+                            </span>
+                            <div class="invalid-feedback">Passwords do not match.</div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-signup" id="signupButton">
+                        <span class="spinner-border spinner-border-sm me-2 d-none" id="signupSpinner"
+                            role="status"></span>
+                        <span class="button-text">Create Account</span>
+                    </button>
+                </form>
+
+                <div class="login-link">
+                    Already have an account? <a href="{{ route('login.Form') }}">Login</a>
                 </div>
             </div>
         </div>
-    </div> <!-- end card-body -->
-    <div id="requirements-modal" class="modal fade" data-bs-backdrop="static" tabindex="-1" role="dialog"
-        aria-labelledby="info-header-modalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header bg-info">
-                    <h4 class="modal-title" id="info-header-modalLabel">Notice</h4>
-                </div>
-                <div class="modal-body">
-                    <p><strong>Before you process, please prepare the following files in pdf format.
-                        </strong>
-                    <ul>
-                        <li>Letter of Intent</li>
-                        <li>DTI/SEC/CDA</li>
-                        <li>Business Permit</li>
-                        <li>FDA/LTO: (Optional)</li>
-                        <li>Official Receipt of the Business</li>
-                        <li>Copy of Government Valid ID</li>
-                    </ul>
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Proceed</button>
-                </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div>
-    <script type="module">
-        $(document).ready(function() {
-            $('.input-group-text').click(function() {
-                // Toggle the input type
-                let input = $(this).siblings('.form-floating').find('input');
-                if (input.attr('type') === 'password') {
-                    input.attr('type', 'text');
-                    $(this).find('.ri-eye-fill').show();
-                    $(this).find('.ri-eye-off-fill').hide();
-                } else {
-                    input.attr('type', 'password');
-                    $(this).find('.ri-eye-fill').hide();
-                    $(this).find('.ri-eye-off-fill').show();
-                }
-            });
-        });
-    </script>
 
-    <script type="module">
-        $(document).ready(function() {
-            console.log('Document ready');
+        <script type="module">
+            $(document).ready(function() {
+                console.log('Document ready');
 
-            $('#signupForm').on('submit', function(e) {
-                e.preventDefault();
-                console.log('Form submit intercepted');
+                $('#signupForm').on('submit', function(e) {
+                    e.preventDefault();
+                    const signupButton = $('#signupButton');
+                    const signupSpinner = $('#signupSpinner');
 
-                // Show spinner and disable button
-                const signupButton = $('#signupButton');
-                const signupSpinner = $('#signupSpinner');
+                    if (validateForm()) {
+                        signupButton.prop('disabled', true);
+                        signupSpinner.removeClass('d-none');
+                        $('.button-text').text('Creating account...');
 
-                let isValid = true;
+                        $.ajax({
+                            type: 'POST',
+                            url: $(this).attr('action'),
+                            data: $(this).serialize(),
+                            success: function(response) {
+                                console.log('AJAX request successful', response);
+                                if (response.success) {
+                                    $('#responseAlert')
+                                        .removeClass('d-none alert-danger')
+                                        .addClass('alert-success')
+                                        .text(response.message);
 
-                // Validate specific input fields by their IDs
-                let fieldsToValidate = ['userName1', 'email', 'password1', 'password1_confirmation'];
+                                    setTimeout(function() {
+                                        window.location.href = response.redirect;
+                                    }, 2000);
+                                }
+                            },
+                            error: function(xhr) {
+                                console.log(xhr);
+                                $('#responseAlert')
+                                    .removeClass('d-none')
+                                    .addClass('alert-danger')
+                                    .text(xhr.responseJSON.message);
 
-                fieldsToValidate.forEach(function(fieldId) {
-                    let field = $('#' + fieldId);
-                    if (field.length === 0) {
-                        console.log('Field with ID ' + fieldId + ' not found');
-                        isValid = false;
-                        return;
-                    }
-                    if (field.val() === '') {
-                        isValid = false;
-                        field.addClass('is-invalid');
-                        console.log('Field ' + fieldId + ' is empty');
-                    } else {
-                        field.removeClass('is-invalid');
-                        console.log('Field ' + fieldId + ' is valid');
+                                signupButton.prop('disabled', false);
+                                signupSpinner.addClass('d-none');
+                                $('.button-text').text('Create Account');
+                            }
+                        });
                     }
                 });
 
-                let password = $('#password1').val();
-                let confirmPassword = $('#password1_confirmation').val();
+                function validateForm() {
+                    let valid = true;
+                    const password = $('#password1').val();
+                    const confirmPassword = $('#password1_confirmation').val();
 
-                if (confirmPassword === '') {
-                    $('#password1_confirmation').addClass('is-invalid');
-                    $('#password-match').text('Please enter a password');
-                    $('#password-match').show();
-                    console.log('Confirm password is empty');
-                    isValid = false;
-                } else if (password !== confirmPassword) {
-                    $('#password1_confirmation').addClass('is-invalid');
-                    $('#password-match').text('Passwords do not match');
-                    $('#password-match').show();
-                    console.log('Passwords do not match');
-                    isValid = false;
-                } else {
-                    $('#password1_confirmation').removeClass('is-invalid');
-                    $('#password-match').hide();
-                    console.log('Passwords match');
-                }
-
-                if (isValid) {
-                    // Show spinner and disable button before AJAX call
-                    signupButton.prop('disabled', true);
-                    signupSpinner.removeClass('d-none');
-
-                    console.log('Form is valid, preparing to submit via AJAX');
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    // Basic field validation
+                    $('#userName1, #email1, #password1, #password1_confirmation').each(function() {
+                        if (!$(this).val()) {
+                            $(this).addClass('is-invalid');
+                            valid = false;
+                        } else {
+                            $(this).removeClass('is-invalid');
                         }
                     });
-                    $.ajax({
-                        type: $(this).attr('method'),
-                        url: $(this).attr('action'),
-                        data: $(this).serialize(),
-                        success: function(response) {
-                            console.log('AJAX request successful', response);
-                            if (response.success) {
-                                $('#responseAlert').removeClass('d-none').addClass(
-                                    'alert-success').text(response.message);
-                                setTimeout(function() {
-                                    window.location.href = response.redirect;
-                                }, 2000);
-                            }
-                        },
-                        error: function(xhr) {
-                            console.log(xhr);
-                            $('#responseAlert').removeClass('d-none').addClass('alert-danger')
-                                .text(xhr.responseJSON.message);
-                            // Hide spinner and enable button on error
-                            signupButton.prop('disabled', false);
-                            signupSpinner.addClass('d-none');
-                        }
-                    });
-                } else {
-                    console.log('Form validation failed');
-                }
-            });
-        });
-    </script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const password = document.getElementById('password1');
-            const confirmPassword = document.getElementById('password1_confirmation');
-            const togglePassword = document.getElementById('togglePassword');
-            const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-
-            // Password visibility toggle
-            togglePassword.addEventListener('click', function() {
-                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
-                password.setAttribute('type', type);
-                const icon = this.querySelector('i');
-                if (type === 'text') {
-                    icon.classList.remove('ri-eye-off-fill');
-                    icon.classList.add('ri-eye-fill');
-                } else {
-                    icon.classList.remove('ri-eye-fill');
-                    icon.classList.add('ri-eye-off-fill');
-                }
-            });
-
-            toggleConfirmPassword.addEventListener('click', function() {
-                const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
-                confirmPassword.setAttribute('type', type);
-                const icon = this.querySelector('i');
-                if (type === 'text') {
-                    icon.classList.remove('ri-eye-off-fill');
-                    icon.classList.add('ri-eye-fill');
-                } else {
-                    icon.classList.remove('ri-eye-fill');
-                    icon.classList.add('ri-eye-off-fill');
-                }
-            });
-
-            // Real-time password validation
-            password.addEventListener('input', function() {
-                const value = this.value;
-
-                // Length check
-                document.getElementById('length-check').querySelector('i').className =
-                    value.length >= 8 ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
-
-                // Uppercase check
-                document.getElementById('uppercase-check').querySelector('i').className =
-                    /[A-Z]/.test(value) ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
-
-                // Lowercase check
-                document.getElementById('lowercase-check').querySelector('i').className =
-                    /[a-z]/.test(value) ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
-
-                // Number check
-                document.getElementById('number-check').querySelector('i').className =
-                    /\d/.test(value) ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
-
-                // Special character check
-                document.getElementById('special-check').querySelector('i').className =
-                    /[@$!%*?&]/.test(value) ? 'ri-checkbox-circle-fill text-success' : 'ri-close-circle-fill text-danger';
-
-                // Check password match
-                if (confirmPassword.value) {
-                    confirmPassword.dispatchEvent(new Event('input'));
-                }
-            });
-
-            // Password match validation
-            confirmPassword.addEventListener('input', function() {
-                const isMatch = this.value === password.value;
-                this.classList.toggle('is-invalid', !isMatch && this.value);
-                document.getElementById('password-match').style.display = !isMatch && this.value ? 'block' : 'none';
-            });
-        });
-    </script>
-
-    <script>
-        $(document).ready(function() {
-            $('#signupForm').on('submit', function(e) {
-                e.preventDefault();
-
-                // Show spinner and disable button
-                const signupButton = $('#signupButton');
-                const signupSpinner = $('#signupSpinner');
-                signupButton.prop('disabled', true);
-                signupSpinner.removeClass('d-none');
-
-                let isValid = true;
-
-                // Validate specific input fields by their IDs
-                let fieldsToValidate = ['userName1', 'email', 'password1', 'password1_confirmation'];
-
-                fieldsToValidate.forEach(function(fieldId) {
-                    let field = $('#' + fieldId);
-                    if (field.length === 0) {
-                        console.log('Field with ID ' + fieldId + ' not found');
-                        isValid = false;
-                        return;
+                    // Password match validation
+                    if (password !== confirmPassword) {
+                        $('#password1_confirmation').addClass('is-invalid');
+                        valid = false;
                     }
-                    if (field.val() === '') {
-                        isValid = false;
-                        field.addClass(
-                            'is-invalid'); // add 'is-invalid' class to show validation feedback
-                        console.log('Field ' + fieldId + ' is empty');
-                    } else {
-                        field.removeClass(
-                            'is-invalid'); // remove 'is-invalid' class if the field is valid
-                        console.log('Field ' + fieldId + ' is valid');
-                    }
+
+                    return valid;
+                }
+            });
+        </script>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const password = document.getElementById('password1');
+                const confirmPassword = document.getElementById('password1_confirmation');
+                const togglePassword = document.getElementById('togglePassword');
+                const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+
+                // Password visibility toggle
+                togglePassword.addEventListener('click', function() {
+                    const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                    password.setAttribute('type', type);
+                    this.querySelector('i').classList.toggle('ri-eye-line');
+                    this.querySelector('i').classList.toggle('ri-eye-off-line');
                 });
 
-                let password = $('#password1').val();
-                let confirmPassword = $('#password1_confirmation').val();
-
-                if (confirmPassword === '') {
-                    $('#password1_confirmation').addClass('is-invalid');
-                    $('#password-match').text('Please enter a password');
-                    $('#password-match').show();
-                    console.log('Confirm password is empty');
-                    isValid = false;
-                } else if (password !== confirmPassword) {
-                    $('#password1_confirmation').addClass('is-invalid');
-                    $('#password-match').text('Passwords do not match');
-                    $('#password-match').show();
-                    console.log('Passwords do not match');
-                    isValid = false;
-                } else {
-                    $('#password1_confirmation').removeClass('is-invalid');
-                    $('#password-match').hide();
-                    console.log('Passwords match');
-                }
-
-                if (isValid) {
-                    console.log('Form is valid, preparing to submit via AJAX');
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        type: $(this).attr('method'),
-                        url: $(this).attr('action'),
-                        data: $(this).serialize(),
-                        success: function(response) {
-                            console.log('AJAX request successful', response);
-                            if (response.success) {
-                                $('#responseAlert').removeClass('d-none').addClass(
-                                    'alert-success').text(response.message);
-                                setTimeout(function() {
-                                    window.location.href = response.redirect;
-                                }, 2000);
-                            }
-                        },
-                        error: function(xhr) {
-                            console.log(xhr);
-                            $('#responseAlert').removeClass('d-none').addClass('alert-danger')
-                                .text(xhr.responseJSON.message);
-                            // Hide spinner and enable button on error
-                            signupButton.prop('disabled', false);
-                            signupSpinner.addClass('d-none');
-                        }
-                    });
-                } else {
-                    console.log('Form validation failed');
-                    signupButton.prop('disabled', false);
-                    signupSpinner.addClass('d-none');
-                }
+                toggleConfirmPassword.addEventListener('click', function() {
+                    const type = confirmPassword.getAttribute('type') === 'password' ? 'text' : 'password';
+                    confirmPassword.setAttribute('type', type);
+                    this.querySelector('i').classList.toggle('ri-eye-line');
+                    this.querySelector('i').classList.toggle('ri-eye-off-line');
+                });
             });
-        });
-    </script>
-
-</body>
+        </script>
+    </body>
 
 </html>

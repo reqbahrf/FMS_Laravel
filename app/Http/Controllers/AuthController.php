@@ -19,9 +19,9 @@ class AuthController extends Controller
         Log::info('Signup method called');
 
         $request->validate([
-            'userName' => 'required|unique:users,user_name|max:30',
+            'username' => 'required|unique:users,user_name|max:30',
             'email' => 'required|email|unique:users,email|max:255',
-            'password1' => [
+            'password' => [
                 'required',
                 'string',
                 'min:8',
@@ -30,16 +30,16 @@ class AuthController extends Controller
                 'confirmed'
             ],
         ], [
-            'password1.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
-            'password1.min' => 'Password must be at least 8 characters long.',
-            'password1.confirmed' => 'Password confirmation does not match.'
+            'password.regex' => 'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
+            'password.min' => 'Password must be at least 8 characters long.',
+            'password.confirmed' => 'Password confirmation does not match.'
         ]);
 
         try {
             User::create([
-                'user_name' => $request->userName,
+                'user_name' => $request->username,
                 'email' => $request->email,
-                'password' => Hash::make($request->password1),
+                'password' => Hash::make($request->password),
                 'role' => 'Cooperator'
             ]);
 

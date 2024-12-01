@@ -125,16 +125,15 @@
             <div class="position-absolute w-100 h-100" style="z-index: 0; overflow: hidden;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 800">
                     <g fill-opacity="0.22">
-                        <circle style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400" r="600">
-                            <animate attributeName="r" from="600" to="800" dur="3s"
+                        <circle style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400" r="800">
+                            <animate attributeName="r" values="400;800" dur="10s" repeatCount="indefinite" />
+                        </circle>
+                        <circle style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400" r="400">
+                            <animate attributeName="r" values="300;800" dur="10s" begin="1s"
                                 repeatCount="indefinite" />
                         </circle>
-                        <circle style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400" r="500">
-                            <animate attributeName="r" from="500" to="700" dur="3s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400" r="400">
-                            <animate attributeName="r" from="400" to="600" dur="3s"
+                        <circle style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400" r="100">
+                            <animate attributeName="r" values="200;800" dur="10s" begin="2s"
                                 repeatCount="indefinite" />
                         </circle>
                     </g>
