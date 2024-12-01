@@ -2,10 +2,9 @@
 import "./echo"
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
-import { showToastFeedback, dateFormatter } from "./ReusableJS/utilFunctions";
+import { showToastFeedback, dateFormatter, createConfirmationModal, showProcessToast, hideProcessToast, closeModal } from "./ReusableJS/utilFunctions";
 import "smartwizard/dist/css/smart_wizard_all.css";
-import smartWizard from 'smartwizard';
-window.smartWizard = smartWizard;
+import SmartWizard from 'smartwizard';
 
 
 Echo.private(`coop-notifications.${USER_ID}`)
@@ -387,44 +386,49 @@ window.initilizeCoopPageJs = async () => {
                     }
                 })
 
-                const form = document.getElementById('uploadForm');
-                const receiptName = document.getElementById('receiptName');
-                window.submissionModal = new bootstrap.Modal(document.getElementById('receiptModal'));
-                const successMessage = document.getElementById('successMessage');
-                const submitBtn = document.getElementById('submitButton');
+                const form = $('#uploadForm');
+                const submissionModal = new bootstrap.Modal(document.getElementById('receiptModal'));
 
-                submitBtn.addEventListener('click', function(event) {
+                form.on('submit', async (event) => {
                     event.preventDefault();
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Confirm Submission',
+                        message: 'Are you sure you want to submit this receipt?',
+                    })
 
-                    const formData = new FormData(form);
+                    if (!isConfirmed) {
+                        return;
+                    }
 
-                    fetch(REQUIREMENTS_ROUTE.STORE_RECEIPTS, {
+                    showProcessToast();
+                    const formData = new FormData(form[0]);
+
+                    try {
+                        const response = await $.ajax({
+                            url: REQUIREMENTS_ROUTE.STORE_RECEIPTS,
                             method: 'POST',
-                            body: formData,
+                            data: formData,
+                            processData: false,
+                            contentType: false,
                             headers: {
-                                'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                successMessage.textContent = data.success;
-                                successMessage.style.display = 'block';
-                                successMessage.classList.add('alert', 'alert-success');
+                                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                            },
+                        });
 
-                                setTimeout(() => {
-                                    receiptName.value = '';
-                                    receiptFilePondInit.removeFile();
-                                    successMessage.style.display = 'none';
-                                    successMessage.classList.remove('alert', 'alert-success');
-                                    submissionModal.hide();
-                                    getReceipt();
-                                }, 1000);
-                            } else {
-                                console.error(data.error);
-                            }
-                        })
-                        .catch(error => console.error('Error:', error));
+                        if (response.success) {
+
+                            closeModal('#receiptModal')
+                            getReceipt();
+                            hideProcessToast();
+                            setTimeout(() => {
+                              showToastFeedback('text-bg-success', response.success);
+                            }, 500);
+                        }
+                    } catch (error) {
+                        hideProcessToast();
+                        console.error(error);
+                        showToastFeedback('text-bg-danger', error.responseJSON.error);
+                    }
                 });
             }
 
@@ -478,8 +482,7 @@ window.initilizeCoopPageJs = async () => {
         },
 
         QuarterlyReport: () => {
-            console.log('This QuarterlyReport Function is called')
-            new smartWizard();
+            new SmartWizard();
             $('#BuildingAsset, #Equipment, #WorkingCapital').on('input', function() {
                 // Remove any non-digit characters
                 let value = $(this).val().replace(/[^0-9]/g, '');
@@ -573,6 +576,8 @@ window.initilizeCoopPageJs = async () => {
                 row.find('.netSales_val').val(formattedNetSales);
             });
 
+
+
             $('#smartwizard').smartWizard({
                 selected: 0,
                 theme: 'dots',
@@ -587,7 +592,7 @@ window.initilizeCoopPageJs = async () => {
                                   <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
                 },
             });
-            $("#smartwizard").on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
+            $('#smartwizard').on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
 
                 if (stepIndex === 3 && stepPosition === 'last') {
                     console.log("Arriving at Last Step - Showing Buttons");
@@ -626,6 +631,7 @@ window.initilizeCoopPageJs = async () => {
 
 
             function submitQuarterlyForm() {
+                showProcessToast('Submitting Quarterly Report...');
 
                 const formData = $('#quarterlyForm').serializeArray();
                 const quarterId = $('#quarterlyForm').data('quarter-id');
@@ -696,16 +702,15 @@ window.initilizeCoopPageJs = async () => {
                     contentType: 'application/json', // Set content type to JSON
                     success: function(response) {
                         // Handle the response if needed
+                        hideProcessToast();
                         setTimeout(() => {
                                 confirmationModal.hide();
-                                const toastElement = document.getElementById('successToast');
-                                const toast = new bootstrap.Toast(toastElement);
-                                toast.show();
+                                showToastFeedback('text-bg-success', response.message);
                             }, 500);
-                        console.log(response);
                     },
                     error: function(xhr, status, error) {
-                        // Handle any errors
+                        hideProcessToast();
+                        showToastFeedback('text-bg-danger', 'Failed to submit quarterly report');
                     }
                 });
             }
@@ -1063,8 +1068,20 @@ window.initilizeCoopPageJs = async () => {
             });
 
             //TODO: Implove the form Update functionalities
-            $('#updateQuarterlyData').on('submit', function(e) {
+            $('#updateQuarterlyData').on('submit', async function(e) {
                 e.preventDefault();
+                const isConfirmed = await createConfirmationModal({
+                    title: 'Confirm Update',
+                    message: 'Are you sure you want to update this quarterly report?',
+                    confirmButtonText: 'Update',
+                    cancelButtonText: 'Cancel',
+                    confirmButtonClass: 'btn-primary',
+                })
+
+                if (!isConfirmed) {
+                    return;
+                }
+                showProcessToast('Updating Quarterly Report...');
                 const form = $(this);
                 form.find('button[type="submit"]').prop('disabled', true);
                 form.find('input, textarea').prop('readonly', true);
@@ -1094,9 +1111,11 @@ window.initilizeCoopPageJs = async () => {
                     data: JSON.stringify(formDataObject),
                     contentType: 'application/json',
                     success: function(response) {
+                        hideProcessToast();
                         showToastFeedback('text-bg-success', response.message);
                     },
                     error: function(error) {
+                        hideProcessToast();
                         showToastFeedback('text-bg-danger', error.responseJSON.message);
                         form.find('button[type="submit"]').prop('disabled', false);
                         form.find('input, textarea').prop('readonly', false);

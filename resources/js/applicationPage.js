@@ -1,7 +1,6 @@
 import { showToastFeedback } from "./ReusableJS/utilFunctions";
 import "smartwizard/dist/css/smart_wizard_all.css";
 import smartWizard from "smartwizard";
-import { data } from "jquery";
 window.smartWizard = smartWizard;
 
 let is_initialized = false;

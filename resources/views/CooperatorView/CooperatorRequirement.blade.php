@@ -12,7 +12,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="uploadForm" enctype="multipart/form-data">
+                <form id="uploadForm">
                     @csrf
                     <div class="row gy-3">
                         <div class="col-12">
@@ -40,7 +40,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="submit" id="submitButton" class="btn btn-primary">Save changes</button>
+                <button type="submit" form="uploadForm" class="btn btn-primary">Save changes</button>
             </div>
         </div>
     </div>

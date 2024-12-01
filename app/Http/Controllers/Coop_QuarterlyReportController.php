@@ -99,14 +99,7 @@ class Coop_QuarterlyReportController extends Controller
      */
     public function store(Request $request)
     {
-        $project_id = Session::get('project_id');
-        $quarter = 'Q1';
-        OngoingQuarterlyReport::create([
-            'ongoing_project_id' => $project_id,
-            'quarter' => $quarter,
-            'report_file' => json_encode($request->all()),
-        ]);
-        return response()->json(['success' => true, 'message' => 'File uploaded successfully.']);
+     
     }
 
     /**
@@ -142,7 +135,7 @@ class Coop_QuarterlyReportController extends Controller
                     'report_file' => json_encode($request->all()),
                 ]);
 
-            return response()->json(['success' => true, 'message' => 'File updated successfully.']);
+            return response()->json(['success' => true, 'message' => 'Quarterly report submitted successfully.']);
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }

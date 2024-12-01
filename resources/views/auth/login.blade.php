@@ -152,6 +152,32 @@
                     width: 90%;
                 }
             }
+
+            .input-group .form-floating:not(:last-child) .form-control {
+                border-top-right-radius: 0;
+                border-bottom-right-radius: 0;
+            }
+
+            .input-group .password-toggle {
+                border-top-right-radius: 0.375rem !important;
+                border-bottom-right-radius: 0.375rem !important;
+                display: flex;
+                align-items: center;
+                padding: 0.75rem;
+                margin-top: 0;
+                height: 51px;
+            }
+
+            .form-floating > .form-control:focus,
+            .form-floating > .form-control:not(:placeholder-shown) {
+                padding-top: 1.625rem;
+                padding-bottom: 0.625rem;
+            }
+
+            .password-toggle i {
+                font-size: 1.2rem;
+                line-height: 1;
+            }
         </style>
     </head>
 
@@ -195,9 +221,18 @@
                         </div>
 
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="password" name="password"
-                                placeholder="Password" required>
-                            <label for="password">Password</label>
+                            <div class="input-group">
+                                <div class="form-floating flex-grow-1">
+                                    <input type="password" class="form-control border-end-0" id="password"
+                                        name="password" placeholder="Password" required>
+                                    <label for="password">Password</label>
+                                </div>
+                                <span
+                                    class="input-group-text password-toggle border-start-0 d-flex align-items-center justify-content-center"
+                                    style="cursor: pointer; background-color: transparent;" id="togglePassword">
+                                    <i class="ri-eye-line"></i>
+                                </span>
+                            </div>
                             <div class="invalid-feedback">Please enter your password.</div>
                         </div>
 
@@ -237,6 +272,19 @@
             $(document).ready(function() {
                 $('#login, #password, #B_date').on('focus', function() {
                     $(this).removeClass('is-invalid');
+                });
+
+                $('#togglePassword').on('click', function() {
+                    const passwordInput = $('#password');
+                    const passwordToggle = $(this);
+
+                    if (passwordInput.attr('type') === 'password') {
+                        passwordInput.attr('type', 'text');
+                        passwordToggle.html('<i class="ri-eye-off-line"></i>');
+                    } else {
+                        passwordInput.attr('type', 'password');
+                        passwordToggle.html('<i class="ri-eye-line"></i>');
+                    }
                 });
 
                 $('#loginForm').on('submit', function(e) {
