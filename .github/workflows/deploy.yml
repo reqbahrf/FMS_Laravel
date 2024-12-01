@@ -38,3 +38,6 @@ jobs:
           php artisan view:cache
           chown -R www-data:www-data .  # Fix permissions for Ubuntu
           php artisan up  # Bring application back online
+          php artisan queue:restart
+          php artisan schedule:work
+          php artisan reverb:restart

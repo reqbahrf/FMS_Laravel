@@ -9,4 +9,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('reports:close')->daily();
-Schedule::command('folder:delete-temp')->daily();
+Schedule::command('app:cleanup-temporary-files')->daily();

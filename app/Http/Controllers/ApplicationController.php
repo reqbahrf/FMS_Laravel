@@ -10,8 +10,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NewRegistrationRequest;
-
-
+use Illuminate\Support\Facades\Cache;
 
 class ApplicationController extends Controller
 {
@@ -220,6 +219,7 @@ class ApplicationController extends Controller
             if ($successful_inserts == 6) {
                 DB::commit();
                 event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $city, 'NEW_APPLICANT'));
+                Cache::forget('applicants');
                 return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.index')], 200);
             } else {
                 DB::rollBack();

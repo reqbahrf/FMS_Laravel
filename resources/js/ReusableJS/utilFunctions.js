@@ -166,6 +166,26 @@ function createConfirmationModal(options = {}) {
     });
 }
 
+function showProcessToast(message = "Processing...") {
+    const toast = $("#ProcessToast");
+    const toastInstance = new bootstrap.Toast(toast);
+
+    // Set the message if provided, otherwise show default spinner
+    if (message) {
+        $("#ProcessToastBody").html(message);
+    }
+
+    toastInstance.show();
+}
+
+function hideProcessToast() {
+    const toast = $("#ProcessToast");
+    const toastInstance = bootstrap.Toast.getInstance(toast);
+    if (toastInstance) {
+        toastInstance.hide();
+    }
+}
+
 export {
     showToastFeedback,
     formatToString,
@@ -175,4 +195,6 @@ export {
     closeModal,
     sanitize,
     createConfirmationModal,
+    showProcessToast,
+    hideProcessToast,
 };

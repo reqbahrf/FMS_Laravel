@@ -9,6 +9,8 @@ import {
     createConfirmationModal,
     formatToNumber,
     closeModal,
+    showProcessToast,
+    hideProcessToast,
 } from "./ReusableJS/utilFunctions";
 
 import DataTable from "datatables.net-bs5";
@@ -795,15 +797,17 @@ window.initializeStaffPageJs = async () => {
                         data: formData,
                     });
 
-                    closeModal("#paymentModal");
+
                     await getPaymentHistoryAndCalculation(
                         project_id,
                         getAmountRefund()
                     );
+                    hideProcessToast();
                     setTimeout(() => {
                         showToastFeedback("text-bg-success", response.message);
                     }, 500);
                 } catch (error) {
+                    hideProcessToast();
                     setTimeout(() => {
                         showToastFeedback(
                             "text-bg-danger",
@@ -837,15 +841,16 @@ window.initializeStaffPageJs = async () => {
                         data: formData + "&project_id=" + project_id,
                     });
 
-                    closeModal("#paymentModal");
                     await getPaymentHistoryAndCalculation(
                         project_id,
                         getAmountRefund()
                     );
+                    hideProcessToast();
                     setTimeout(() => {
                         showToastFeedback("text-bg-success", response.message);
                     }, 500);
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.message
@@ -862,15 +867,28 @@ window.initializeStaffPageJs = async () => {
              *
              * @param {Event} event - The click event triggered by the submit payment button.
              */
-            $("#submitPayment").on("click", function () {
+            $("#submitPayment").on("click", async function () {
                 const submissionMethod = $(this).attr("data-submissionmethod");
 
-                console.log(submissionMethod);
+                closeModal("#paymentModal");
+                const isConfirmed = await createConfirmationModal({
+                    title: "Save Payment Record",
+                    titleBg: "bg-primary",
+                    message: "Are you sure you want to save this payment record?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+
+                if (!isConfirmed) {
+                    return;
+                }
+                showProcessToast();
 
                 if (submissionMethod === "add") {
                     const project_id = $("#ProjectID").val();
                     if (project_id) {
-                        storePaymentRecords(project_id);
+                       storePaymentRecords(project_id);
                     } else {
                         console.error("Project ID is null");
                     }
@@ -1438,6 +1456,7 @@ window.initializeStaffPageJs = async () => {
 
             const SaveProjectFileLinks = async (projectID, action) => {
                 try {
+                    showProcessToast('Saving Project Link...');
                     let requirementLinks = {};
                     const linkContainer =
                         RequirementContainer.find(".linkContainer");
@@ -1450,6 +1469,7 @@ window.initializeStaffPageJs = async () => {
                             .val();
                         requirementLinks[name] = link;
                     });
+
                     const response = await $.ajax({
                         type: "POST",
                         url: DASHBBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
@@ -1467,8 +1487,10 @@ window.initializeStaffPageJs = async () => {
 
                     getProjectLinks(projectID);
                     closeModal("#requirementModal");
+                    hideProcessToast();
                     showToastFeedback("text-bg-success", response.message);
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.message
@@ -1477,6 +1499,7 @@ window.initializeStaffPageJs = async () => {
             };
             const SaveProjectFile = async (projectID, action, businesID) => {
                 try {
+                    showProcessToast('Saving Project File...');
                     const name = $("#requirements_file_name").val();
                     const file_path =
                         uploadFileRequirements.getAttribute("data-file_path");
@@ -1498,9 +1521,11 @@ window.initializeStaffPageJs = async () => {
                     });
                     getProjectLinks(projectID);
                     closeModal("#requirementModal");
+                    hideProcessToast();
                     showToastFeedback("text-bg-success", response.message);
                     toggleRequirementUploadType();
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.message
@@ -1516,6 +1541,17 @@ window.initializeStaffPageJs = async () => {
                     const projectID = $("#ProjectID").val();
                     const businesID = $("input#hiddenbusiness_id").val();
 
+                   const isConfirmed = await createConfirmationModal({
+                        title: "Save Requirements",
+                        titleBg: "bg-primary",
+                        message: "Are you sure you want to save this Requirements?",
+                        confirmText: "Yes",
+                        confirmButtonClass: "btn-primary",
+                        cancelText: "No",
+                    });
+                    if (!isConfirmed) {
+                        return;
+                    }
                     action === "ProjectLink"
                         ? SaveProjectFileLinks(projectID, action)
                         : action === "ProjectFile"
@@ -1529,6 +1565,21 @@ window.initializeStaffPageJs = async () => {
                     const updatedProjectLinks =
                         $("#projectLinkForm").serialize();
                     const file_id = $("input#HiddenFileIDToUpdate").val();
+
+                    const isConfirmed = await createConfirmationModal({
+                        title: "Update Requirements",
+                        titleBg: "bg-primary",
+                        message: "Are you sure you want to update this Requirements?",
+                        confirmText: "Yes",
+                        confirmButtonClass: "btn-primary",
+                        cancelText: "No",
+                    });
+
+                    if (!isConfirmed) {
+                        return;
+                    }
+
+                    showProcessToast('Updating...')
 
                     const response = await $.ajax({
                         type: "PUT",
@@ -1546,9 +1597,11 @@ window.initializeStaffPageJs = async () => {
 
                     getProjectLinks(projectID);
                     closeModal("#projectLinkModal");
+                    hideProcessToast();
                     showToastFeedback("text-bg-success", response.message);
                     toggleRequirementUploadType();
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback("text-bg-danger", error);
                 }
             });
@@ -1726,8 +1779,8 @@ window.initializeStaffPageJs = async () => {
                         const recordToDelete = $(this).attr(
                             "data-record-to-delete"
                         );
+                        showProcessToast('Deleting Record...');
                         const uniqueVal = $(this).attr("data-unique-val");
-                        console.log(recordToDelete, uniqueVal);
                         const deleteRoute =
                             recordToDelete === "paymentRecord"
                                 ? DASHBBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
@@ -1756,6 +1809,7 @@ window.initializeStaffPageJs = async () => {
                                     ).attr("content"),
                                 },
                             });
+                            hideProcessToast();
                             showToastFeedback(
                                 "text-bg-success",
                                 response.message
@@ -1773,7 +1827,7 @@ window.initializeStaffPageJs = async () => {
                                 ? getQuarterlyReports(project_id)
                                 : null;
                         } catch (error) {
-                            console.log(error);
+                            hideProcessToast();
                             showToastFeedback(
                                 "text-bg-danger",
                                 error.responseJSON.message
@@ -1790,7 +1844,7 @@ window.initializeStaffPageJs = async () => {
                 const projectID = $("#ProjectID").val();
                 const businessID = $("#hiddenbusiness_id").val();
                 try {
-                    const response = $.ajax({
+                    const response = await $.ajax({
                         type: "PUT",
                         url: DASHBBOARD_TAB_ROUTE.UPDATE_PROJECT_STATE,
                         headers: {
@@ -1924,6 +1978,18 @@ window.initializeStaffPageJs = async () => {
                 Project_id,
                 { QuartertoUsed } = {}
             ) => {
+                const isConfirmed = await createConfirmationModal({
+                    title: "Retrieve Selected Form",
+                    titleBg: "bg-primary",
+                    message: "Are you sure you want to Retrieve this form?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+                if (!isConfirmed) {
+                    return;
+                }
+                showProcessToast("Retrieving Form...");
                 try {
                     const response = await $.ajax({
                         type: "GET",
@@ -1942,11 +2008,12 @@ window.initializeStaffPageJs = async () => {
                             ),
                         },
                     });
-
+                    hideProcessToast();
                     toggleDocumentSelector();
                     $("#SheetFormDocumentContainer").append(response);
                 } catch (error) {
-                    console.log(error);
+                    hideProcessToast();
+                    showToastFeedback("text-bg-danger", error.responseJSON.message);
                 }
             };
 
@@ -2601,11 +2668,12 @@ window.initializeStaffPageJs = async () => {
                 if (!isconfirmed) {
                     return;
                 }
+                showProcessToast("Generating PDF...");
 
                 try {
                     // Get export type and route
                     const ExportPDF_BUTTON_DATA_VALUE =
-                        $(this).data("to-export");
+                        $(this).attr("data-to-export");
                     const route_url = {
                         PIS: GENERATE_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
                         PDS: GENERATE_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
@@ -2637,6 +2705,7 @@ window.initializeStaffPageJs = async () => {
                         const reader = new FileReader();
                         reader.onload = function () {
                             const errorData = JSON.parse(this.result);
+                            hideProcessToast();
                             showToastFeedback(
                                 "text-bg-danger",
                                 errorData.message || "Failed to generate PDF"
@@ -2656,6 +2725,7 @@ window.initializeStaffPageJs = async () => {
                     window.open(url, "_blank");
 
                     // Show success message
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-success",
                         "PDF generated successfully"
@@ -2674,11 +2744,13 @@ window.initializeStaffPageJs = async () => {
                         reader.onload = function () {
                             try {
                                 const errorData = JSON.parse(this.result);
+                                hideProcessToast();
                                 showToastFeedback(
                                     "text-bg-danger",
                                     errorData.message || "Error generating PDF"
                                 );
                             } catch (e) {
+                                hideProcessToast();
                                 showToastFeedback(
                                     "text-bg-danger",
                                     "An error occurred while generating the PDF"
@@ -2687,6 +2759,7 @@ window.initializeStaffPageJs = async () => {
                         };
                         reader.readAsText(error.response);
                     } else {
+                        hideProcessToast();
                         showToastFeedback(
                             "text-bg-danger",
                             error.message ||
@@ -3025,8 +3098,22 @@ window.initializeStaffPageJs = async () => {
              * @param {Event} e - The submit event.
              * @description Prevents default form submission behavior and sends a POST request to the server to create a new quarterly report.
              */
-            $("#CreateQuarterlyReportForm").on("submit", function (e) {
+            $("#CreateQuarterlyReportForm").on("submit", async function (e) {
                 e.preventDefault();
+
+                const isConfirmed = await createConfirmationModal({
+                    title: "Create Quarterly Report",
+                    titleBg: "bg-primary",
+                    message: "Are you sure you want to Create this Quarterly Report?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                })
+
+                if (!isConfirmed) {
+                    return;
+                }
+                showProcessToast();
                 const project_id = $("#ProjectID").val();
                 const formData =
                     $(this).serialize() + "&project_id=" + project_id;
@@ -3041,9 +3128,11 @@ window.initializeStaffPageJs = async () => {
                     },
                     success: function (response) {
                         getQuarterlyReports(project_id);
+                        hideProcessToast();
                         showToastFeedback("text-bg-success", response.message);
                     },
                     error: function (error) {
+                        hideProcessToast();
                         showToastFeedback(
                             "text-bg-danger",
                             error.responseJSON.message
@@ -4727,7 +4816,8 @@ window.initializeStaffPageJs = async () => {
                 });
             }
             //View applicant requirements
-            $("#requirementsTables").on("click", ".viewReq", function () {
+            $("#requirementsTables").on("click", ".viewReq", async function () {
+                showProcessToast('Retrieving file...');
                 const row = $(this).closest("tr");
                 const fileID = row
                     .find('input[type="hidden"][name="file_id"]')
@@ -4752,7 +4842,8 @@ window.initializeStaffPageJs = async () => {
                 $("#fileUploaded").val(uploadedDate);
                 $("#fileUploadedBy").val(updatedDate);
                 $("#fileUploadedBy").val(uploader);
-                retrieveAndDisplayFile(fileUrl, fileType);
+               await retrieveAndDisplayFile(fileUrl, fileType);
+               hideProcessToast();
             });
 
             //retrieve and display file function as base64 format for both pdf and img type
@@ -4812,6 +4903,7 @@ window.initializeStaffPageJs = async () => {
             //TODO: need some working
             reviewFileFormContainer.on("submit", async function (e) {
                 e.preventDefault();
+
                 const action = $(e.originalEvent.submitter).val();
                 const isconfimed = await createConfirmationModal({
                     title: "Review File",
@@ -4824,12 +4916,9 @@ window.initializeStaffPageJs = async () => {
                 if (!isconfimed) {
                     return;
                 }
-                console.log(action);
+                showProcessToast();
                 const formData = $(this).serialize() + "&action=" + action;
                 try {
-                    console.log(
-                        APPLICANT_TAB_ROUTE.UPDATE_APPLICANT_REQUIREMENTS
-                    );
                     const response = await $.ajax({
                         method: "PUT",
                         url: APPLICANT_TAB_ROUTE.UPDATE_APPLICANT_REQUIREMENTS.replace(
@@ -4844,6 +4933,7 @@ window.initializeStaffPageJs = async () => {
                         },
                         processData: false,
                     });
+                    hideProcessToast();
                     setTimeout(() => {
                         showToastFeedback("text-bg-success", response.success);
                     }, 500);
@@ -4879,7 +4969,7 @@ window.initializeStaffPageJs = async () => {
                 if (!confirmed) {
                     return;
                 }
-
+                showProcessToast('Setting evaluation date...');
                 try {
                     const response = await $.ajax({
                         type: "PUT",
@@ -4897,6 +4987,7 @@ window.initializeStaffPageJs = async () => {
                         },
                     });
                     if (response.success == true) {
+                        hideProcessToast();
                         await getEvaluationScheduledDate(
                             business_id,
                             application_id
@@ -4904,6 +4995,7 @@ window.initializeStaffPageJs = async () => {
                         showToastFeedback("text-bg-success", response.message);
                     }
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.error
@@ -4942,6 +5034,7 @@ window.initializeStaffPageJs = async () => {
                     return;
                 }
 
+                showProcessToast('Rejecting applicant...');
                 const formData = new FormData(this);
                 try {
                     const response = await $.ajax({
@@ -4958,10 +5051,12 @@ window.initializeStaffPageJs = async () => {
                     });
 
                     if (response.success == true) {
+                        hideProcessToast();
                         closeModal("#tnaEvaluationResultModal");
                         showToastFeedback("text-bg-success", response.message);
                     }
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         "text-bg-danger",
                         error.responseJSON.error
@@ -5270,6 +5365,8 @@ window.initializeStaffPageJs = async () => {
                         return;
                     }
 
+                    showProcessToast(`${thisAction}ing Project Proposal...`);
+
                     const application_Id = $("#selected_applicationId").val();
                     const business_id = $("#selected_businessID").val();
 
@@ -5292,6 +5389,7 @@ window.initializeStaffPageJs = async () => {
                         });
 
                         if (response.success === "true") {
+                            hideProcessToast();
                             closeOffcanvasInstances("#applicantDetails");
                             setTimeout(() => {
                                 showToastFeedback(
@@ -5301,6 +5399,7 @@ window.initializeStaffPageJs = async () => {
                             }, 500);
                         }
                     } catch (error) {
+                        hideProcessToast();
                         showToastFeedback(
                             "text-bg-danger",
                             error.responseJSON.message
