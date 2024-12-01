@@ -216,7 +216,7 @@
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="login" name="login"
                                 placeholder="Username" required>
-                            <label for="login">Username</label>
+                            <label for="login">Username or Email</label>
                             <div class="invalid-feedback">Please enter your username.</div>
                         </div>
 
