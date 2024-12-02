@@ -11,6 +11,7 @@ use App\Models\User;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
@@ -166,6 +167,7 @@ class ProjectProposalController extends Controller
             });
 
 
+            Cache::forget('pendingProjects');
             return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
         } catch (\Exception $e) {
             // Rollback transaction if something goes wrong

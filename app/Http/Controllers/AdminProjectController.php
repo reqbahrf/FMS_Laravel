@@ -8,6 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\ApplicationInfo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\ProjectApprovalMail;
+use App\Models\BusinessInfo;
 
 class AdminProjectController extends Controller
 {
@@ -35,6 +38,14 @@ class AdminProjectController extends Controller
                 ->firstOrFail();
             $application->application_status = 'approved';
             $application->save();
+
+            // Get the business info and associated user
+            $business = BusinessInfo::with('userInfo.user')->findOrFail($validated['business_id']);
+
+            // Send email notification
+            if ($business->userInfo && $business->userInfo->user) {
+                Mail::to($business->userInfo->user->email)->send(new ProjectApprovalMail($project));
+            }
 
             if ($project->wasChanged('handled_by_id')) {
                 Cache::forget('handled_projects' . $validated['assigned_staff_id']);
