@@ -64,4 +64,7 @@ jobs:
             php artisan view:cache
             php artisan up
             php artisan queue:restart
-            php artisan reverb:restart
+          - name: Restart Reverb
+            run: |
+             sudo supervisorctl stop reverb:*
+             sudo supervisorctl start reverb:*
