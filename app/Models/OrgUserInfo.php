@@ -6,10 +6,11 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Notifications\Notifiable;
 
 class OrgUserInfo extends Model
 {
-    use HasFactory;
+    use HasFactory, Notifiable;
     // Specify the table name if it's not the plural form of the model name
     protected $table = 'org_users_info';
 

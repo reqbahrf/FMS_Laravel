@@ -1,4 +1,4 @@
-<div class="container mt-5 shadow">
+<div class="container pt-5 shadow-sm  border border-2">
     <div id="ApplicationProgress">
         <ul class="nav nav-progress">
             <li class="nav-item">

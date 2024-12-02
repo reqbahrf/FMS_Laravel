@@ -60,6 +60,7 @@ class EvaluationScheduleNotification extends Notification
     {
 
         return [
+            'title' => 'Evaluation Schedule',
             'message' => 'Your evaluation is' . ($this->isRescheduled ? ' rescheduled' : ' scheduled') . ' on ' . $this->evaluationDate,
             'application_id' => $this->schedule->id,
         ];
@@ -69,6 +70,7 @@ class EvaluationScheduleNotification extends Notification
     {
 
         return new BroadcastMessage([
+            'title' => 'Evaluation Schedule',
             'message' => 'Your evaluation is' . ($this->isRescheduled ? ' rescheduled' : ' scheduled') . ' on ' . $this->evaluationDate,
             'application_id' => $this->schedule->id,
         ]);

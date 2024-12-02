@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\ProjectInfo;
-use Illuminate\Http\Request;
 use App\Models\ApplicationInfo;
+use App\Models\BusinessInfo;
+use App\Models\OrgUserInfo;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProjectApprovalMail;
-use App\Models\BusinessInfo;
+use App\Notifications\ProjectAssignmentNotification;
 
 class AdminProjectController extends Controller
 {
@@ -42,9 +44,15 @@ class AdminProjectController extends Controller
             // Get the business info and associated user
             $business = BusinessInfo::with('userInfo.user')->findOrFail($validated['business_id']);
 
-            // Send email notification
+            // Send email notification to business owner
             if ($business->userInfo && $business->userInfo->user) {
                 Mail::to($business->userInfo->user->email)->send(new ProjectApprovalMail($project));
+            }
+
+            // Send notification to assigned staff's user account
+            $assignedStaff = OrgUserInfo::with('user')->findOrFail($validated['assigned_staff_id']);
+            if ($assignedStaff->user) {
+                $assignedStaff->user->notify(new ProjectAssignmentNotification($project));
             }
 
             if ($project->wasChanged('handled_by_id')) {

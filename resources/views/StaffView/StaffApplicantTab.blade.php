@@ -103,8 +103,8 @@
                                                 <td><input type="text" class="form-control form-control-sm" id="female_indirect_part" readonly></td>
                                             </tr>
                                             <tr>
-                                                <th scope="row">Total Personnel</th>
-                                                <td colspan="4"><input type="text" class="form-control form-control-sm" id="total_personnel" readonly></td>
+                                                <th scope="row" colspan="4">Total Personnel</th>
+                                                <td><input type="text" class="form-control form-control-sm" id="total_personnel" readonly></td>
                                             </tr>
                                         </tbody>
                                     </table>
