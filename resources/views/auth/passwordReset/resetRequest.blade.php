@@ -131,19 +131,45 @@
         <div class="min-vh-100 d-flex justify-content-center align-items-center position-relative">
             <div class="position-absolute w-100 h-100" style="z-index: 0; overflow: hidden;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 800">
+                    <style>
+                        .circle-1 {
+                            animation: pulse 10s ease-in-out infinite;
+                            transform-origin: center;
+                        }
+
+                        .circle-2 {
+                            animation: pulse 10s ease-in-out infinite;
+                            animation-delay: 1s;
+                            transform-origin: center;
+                        }
+
+                        .circle-3 {
+                            animation: pulse 10s ease-in-out infinite;
+                            animation-delay: 2s;
+                            transform-origin: center;
+                        }
+
+                        @keyframes pulse {
+                            0% {
+                                transform: scale(1);
+                            }
+
+                            50% {
+                                transform: scale(2);
+                            }
+
+                            100% {
+                                transform: scale(1);
+                            }
+                        }
+                    </style>
                     <g fill-opacity="0.22">
-                        <circle style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400" r="600">
-                            <animate attributeName="r" from="600" to="800" dur="3s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400" r="500">
-                            <animate attributeName="r" from="500" to="700" dur="3s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400" r="400">
-                            <animate attributeName="r" from="400" to="600" dur="3s"
-                                repeatCount="indefinite" />
-                        </circle>
+                        <circle class="circle-1" style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400"
+                            r="600" />
+                        <circle class="circle-2" style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400"
+                            r="400" />
+                        <circle class="circle-3" style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400"
+                            r="200" />
                     </g>
                 </svg>
             </div>
@@ -172,7 +198,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('password.email') }}">
+                <form method="POST" onsubmit="showSpinner()" action="{{ route('password.email') }}">
                     @csrf
                     <div class="form-floating mb-3">
                         <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
@@ -185,7 +211,9 @@
                     </div>
 
                     <button type="submit" class="btn btn-reset">
-                        Send Password Reset Link
+                        <span class="spinner-border spinner-border-sm me-2 d-none" id="btnSpinner"
+                            role="status"></span>
+                        <span class="button-text">Send Password Reset Link</span>
                     </button>
                 </form>
 
@@ -201,6 +229,13 @@
                 document.write(new Date().getFullYear())
             </script> DOST - SETUP
         </footer>
+        <script>
+            function showSpinner() {
+                $('#btnSpinner').removeClass('d-none');
+                $('.button-text').text('Sending...');
+                $('.btn-reset').attr('disabled', true);
+            }
+        </script>
     </body>
 
 </html>

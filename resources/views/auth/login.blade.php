@@ -168,8 +168,8 @@
                 height: 51px;
             }
 
-            .form-floating > .form-control:focus,
-            .form-floating > .form-control:not(:placeholder-shown) {
+            .form-floating>.form-control:focus,
+            .form-floating>.form-control:not(:placeholder-shown) {
                 padding-top: 1.625rem;
                 padding-bottom: 0.625rem;
             }
@@ -178,6 +178,37 @@
                 font-size: 1.2rem;
                 line-height: 1;
             }
+
+            .circle-1 {
+                animation: pulse 10s ease-in-out infinite;
+                transform-origin: center;
+            }
+
+            .circle-2 {
+                animation: pulse 10s ease-in-out infinite;
+                animation-delay: 1s;
+                transform-origin: center;
+            }
+
+            .circle-3 {
+                animation: pulse 10s ease-in-out infinite;
+                animation-delay: 2s;
+                transform-origin: center;
+            }
+
+            @keyframes pulse {
+                0% {
+                    transform: scale(1);
+                }
+
+                50% {
+                    transform: scale(2);
+                }
+
+                100% {
+                    transform: scale(1);
+                }
+            }
         </style>
     </head>
 
@@ -185,18 +216,45 @@
         <div class="d-flex justify-content-center vh-100 align-items-center">
             <div class="position-absolute start-0 end-0 bottom-0 w-100 h-100">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 800">
+                    <style>
+                        .circle-1 {
+                            animation: pulse 10s ease-in-out infinite;
+                            transform-origin: center;
+                        }
+
+                        .circle-2 {
+                            animation: pulse 10s ease-in-out infinite;
+                            animation-delay: 1s;
+                            transform-origin: center;
+                        }
+
+                        .circle-3 {
+                            animation: pulse 10s ease-in-out infinite;
+                            animation-delay: 2s;
+                            transform-origin: center;
+                        }
+
+                        @keyframes pulse {
+                            0% {
+                                transform: scale(1);
+                            }
+
+                            50% {
+                                transform: scale(2);
+                            }
+
+                            100% {
+                                transform: scale(1);
+                            }
+                        }
+                    </style>
                     <g fill-opacity="0.22">
-                        <circle style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400" r="800">
-                            <animate attributeName="r" values="400;800" dur="10s" repeatCount="indefinite" />
-                        </circle>
-                        <circle style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400" r="400">
-                            <animate attributeName="r" values="300;800" dur="10s" begin="1s"
-                                repeatCount="indefinite" />
-                        </circle>
-                        <circle style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400" r="100">
-                            <animate attributeName="r" values="200;800" dur="10s" begin="2s"
-                                repeatCount="indefinite" />
-                        </circle>
+                        <circle class="circle-1" style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400"
+                            r="600" />
+                        <circle class="circle-2" style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400"
+                            r="400" />
+                        <circle class="circle-3" style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400"
+                            r="200" />
                     </g>
                 </svg>
             </div>

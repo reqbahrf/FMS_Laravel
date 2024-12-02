@@ -1,13 +1,13 @@
 @props(['url'])
 <tr>
-<td class="header">
-<a href="{{ $url }}" style="display: flex; align-items: center; gap: 0.5rem; justify-content: center;">
-@if (trim($slot) === 'Laravel')
-<img src="https://laravel.com/img/notification-logo.png" class="logo" alt="Laravel Logo">
-@else
-<img src="{{ asset('images/DOST_ICON.png') }}" alt="{{ config('app.name') }}" style="width: 60px;">
-<span style="font-size: 30px;">{{ config('app.name') }}</span>
-@endif
-</a>
+<td class="header" style="text-align: center; padding: 20px 0;">
+<table style="margin: 0 auto; text-align: center;">
+<tr>
+<td style="vertical-align: middle;">
+<img src="{{ asset('images/DOST_ICON.png') }}" alt="{{ config('app.name') }}" style="width: 60px; vertical-align: middle; display: inline-block;">
+<span style="font-size: 30px; font-family: Arial, sans-serif; color: #333; font-weight: bold; vertical-align: middle; display: inline-block; margin-left: 10px;">{{ config('app.name') }}</span>
+</td>
+</tr>
+</table>
 </td>
 </tr>
