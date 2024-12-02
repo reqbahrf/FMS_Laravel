@@ -16,8 +16,6 @@
 
    :is(header, footer) .nav-link.login {
         padding: 8px 16px;
-        border-radius: 20px;
-        border: 1px solid #48C4D3;
         font-weight: bold;
     }
 
@@ -90,6 +88,18 @@
         animation: navLogo-text-sec-expand 3s forwards;
     }
 
+    .header-cont.hide {
+        transform: translateY(-100%);
+        opacity: 0;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .header-cont.show {
+        transform: translateY(0);
+        opacity: 1;
+        transition: all 0.3s ease-in-out;
+    }
+
     @keyframes logo-whole-text {
         from {
             right: 50px;
@@ -140,7 +150,7 @@
     </div>
 </div>
 <!-- Confirmation modal End -->
-<div class="p-1 shadow-lg z-3  {{ request()->is('index') ? 'position-fixed' : '' }} header-cont w-100">
+<div class="p-1 shadow-lg z-3 position-fixed bg-white header-cont w-100">
     <div class="container-flex px-0 px-md-5 px-lg-5 align-items-center mb-3 mb-md-0">
         <header class="d-flex flex-wrap justify-content-center">
             <a href="/" class="d-flex justify-content-between me-auto text-dark text-decoration-none">
@@ -169,11 +179,9 @@
                 <li class="nav-item">
                     <a href="#" class="nav-link">About</a>
                 </li>
-                @guest
                 <li class="nav-item">
                     <a href="/login" class="nav-link login">Login</a>
                 </li>
-                @endguest
             </ul>
         </header>
     </div>

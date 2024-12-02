@@ -615,6 +615,7 @@
                 let scrollTimeout = null;
 
                 $('body').on('scroll', function() {
+                    console.log("scrolling")
                     scrollPosition = $(this).scrollTop();
                     if (scrollPosition !== previousScrollPosition) {
 
