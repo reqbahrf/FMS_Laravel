@@ -9,17 +9,17 @@
         object-position: center;
     }
 
-   :is(header, footer) .nav-link.home:hover {
+    :is(header, footer) .nav-link.home:hover {
         background-color: #48C4D3;
         text-decoration: none;
     }
 
-   :is(header, footer) .nav-link.login {
+    :is(header, footer) .nav-link.login {
         padding: 8px 16px;
         font-weight: bold;
     }
 
-   :is(header, footer) .headerText {
+    :is(header, footer) .headerText {
         font-size: 1.875rem;
         font-weight: 700;
         display: flex;
@@ -29,60 +29,60 @@
         /* Ensure this element takes up the full height of its container */
     }
 
-   :is(header, footer) .header-cont {
+    :is(header, footer) .header-cont {
         height: 13vh;
         background-color: var(--bs-topnav-color);
         transition: all 0.5s ease;
 
     }
 
-   :is(header, footer) .hide {
+    :is(header, footer) .hide {
         transform: translateY(-100%);
         opacity: 0;
     }
 
-   :is(header, footer) .show {
+    :is(header, footer) .show {
         transform: translateY(0);
         opacity: 1;
     }
 
-   :is(header, footer) .footer-cont {
+    :is(header, footer) .footer-cont {
         height: auto;
     }
 
 
-   :is(header, footer) #logoTitle {
+    :is(header, footer) #logoTitle {
         right: 50px;
         animation: logo-whole-text 1s forwards;
     }
 
-   :is(header, footer) .navlogo {
+    :is(header, footer) .navlogo {
         height: 13vh;
         width: 40vw;
     }
 
 
-   :is(header, footer) .sideTextMain {
+    :is(header, footer) .sideTextMain {
         position: absolute;
         bottom: 50%;
         font-size: 1.25rem;
         font-weight: 700;
     }
 
-   :is(header, footer) .sideTextMain::after {
+    :is(header, footer) .sideTextMain::after {
         content: "DOST-SETUP";
         opacity: 0.5;
         animation: navLogo-text-main-expand 2s forwards;
     }
 
-   :is(header, footer) .sideTextSec {
+    :is(header, footer) .sideTextSec {
         position: absolute;
         top: 50%;
         font-size: 0.9375rem;
-        font-weight:is(: 400;, footer)
+        font-weight: is(: 400; , footer)
     }
 
-   :is(header, footer) .sideTextSec::after {
+    :is(header, footer) .sideTextSec::after {
         content: "Fund Monitoring Sys";
         opacity: 0;
         animation: navLogo-text-sec-expand 3s forwards;
@@ -150,7 +150,7 @@
     </div>
 </div>
 <!-- Confirmation modal End -->
-<div class="p-1 shadow-lg z-3 position-fixed bg-white header-cont w-100">
+<div class="p-1 shadow-lg z-3 {{ Request::is('/') ? 'position-fixed' : '' }} bg-white header-cont w-100">
     <div class="container-flex px-0 px-md-5 px-lg-5 align-items-center mb-3 mb-md-0">
         <header class="d-flex flex-wrap justify-content-center">
             <a href="/" class="d-flex justify-content-between me-auto text-dark text-decoration-none">
@@ -186,4 +186,3 @@
         </header>
     </div>
 </div>
-
