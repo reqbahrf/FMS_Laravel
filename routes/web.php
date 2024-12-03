@@ -97,7 +97,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
 Route::get('/login', function () {
     return view('auth.login');
-})->name('login.Form');
+})->name('login');
 
 Route::post('/login', [AuthController::class, 'login'])
     ->name('login.submit')

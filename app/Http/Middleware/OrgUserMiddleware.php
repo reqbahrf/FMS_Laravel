@@ -17,21 +17,18 @@ class OrgUserMiddleware
     public function handle(Request $request, Closure $next): Response
     {
 
-        if(!Auth::check())
-        {
-            return redirect()->route('login.Form');
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
-        if(Auth::user()->role == 'Admin')
-        {
+        if (Auth::user()->role == 'Admin') {
             return $next($request);
         }
 
-        if(Auth::user()->role == 'Staff' && Auth::user()->orgUserInfo->access_to == 'Allowed')
-        {
+        if (Auth::user()->role == 'Staff' && Auth::user()->orgUserInfo->access_to == 'Allowed') {
             return $next($request);
         }
 
 
-            abort(Response::HTTP_UNAUTHORIZED);
+        abort(Response::HTTP_UNAUTHORIZED);
     }
 }

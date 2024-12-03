@@ -169,11 +169,11 @@
                         }
                     </style>
                     <g fill-opacity="0.22">
-                        <circle class="circle-1" style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400"
+                        <circle class="circle-1" style="fill: rgba(72, 196, 211, 0.4);" cx="400" cy="400"
                             r="600" />
-                        <circle class="circle-2" style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400"
+                        <circle class="circle-2" style="fill: rgba(72, 196, 211, 0.6);" cx="400" cy="400"
                             r="400" />
-                        <circle class="circle-3" style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400"
+                        <circle class="circle-3" style="fill: rgba(72, 196, 211, 0.8);" cx="400" cy="400"
                             r="200" />
                     </g>
                 </svg>
@@ -223,7 +223,7 @@
                 </form>
 
                 <div class="login-link">
-                    Remember your password? <a href="{{ route('login.Form') }}">Login</a>
+                    Remember your password? <a href="{{ route('login') }}">Login</a>
                 </div>
             </div>
         </div>

@@ -43,7 +43,7 @@ class NewRegistrationRequest extends FormRequest
             'country_code' => 'required|max:4',
             'Mobile_no' => 'required|max:15',
             'landline' => 'nullable|max:20',
-            'firm_name' => 'required|max:30',
+            'firm_name' => 'required|string|max:30',
             'enterpriseType' => 'required|in:Sole Proprietorship,Partnership,Corporation',
             'region' => 'required',
             'province' => 'required',

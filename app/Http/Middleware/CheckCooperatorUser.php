@@ -16,13 +16,11 @@ class CheckCooperatorUser
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(!Auth::check())
-        {
-            return redirect()->route('login.Form');
+        if (!Auth::check()) {
+            return redirect()->route('login');
         }
 
-        if(Auth::user()->role != 'Cooperator')
-        {
+        if (Auth::user()->role != 'Cooperator') {
             return redirect()->route('home');
         }
         return $next($request);

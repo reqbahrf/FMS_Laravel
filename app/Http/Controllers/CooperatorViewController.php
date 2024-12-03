@@ -22,13 +22,12 @@ class CooperatorViewController extends Controller
 
         $result = $this->getBusinessInfo();
         if (!$result) {
-            return redirect()->route('login.Form');
+            return redirect()->route('login');
         }
 
         $businessInfos = $result->flatMap->BusinessInfo;
 
-            return view('CooperatorView.Cooperator_Index', compact(['notifications', 'businessInfos']));
-
+        return view('CooperatorView.Cooperator_Index', compact(['notifications', 'businessInfos']));
     }
 
 
@@ -68,8 +67,8 @@ class CooperatorViewController extends Controller
                 ->first();
 
 
-                return view('CooperatorView.CooperatorDashboardTab', compact('row'));
-            } else {
+            return view('CooperatorView.CooperatorDashboardTab', compact('row'));
+        } else {
             $result = $this->getBusinessInfo();
 
             $businessInfos = $result->flatMap->BusinessInfo;
@@ -85,12 +84,12 @@ class CooperatorViewController extends Controller
 
         if ($user) {
             // Eager load the necessary relationships to reduce queries
-          $applicationInfo = ApplicationInfo::where('id',  $session_application_id)
-              ->where('business_id', $session_business_id)
-              ->with('projectInfo')
-              ->firstOrFail();
+            $applicationInfo = ApplicationInfo::where('id',  $session_application_id)
+                ->where('business_id', $session_business_id)
+                ->with('projectInfo')
+                ->firstOrFail();
 
-          $projectInfo = $applicationInfo->projectInfo;
+            $projectInfo = $applicationInfo->projectInfo;
 
             if ($projectInfo) {
                 $paymentInfo = $projectInfo->paymentInfo; // Remove ->first() to get all payment records
@@ -138,7 +137,7 @@ class CooperatorViewController extends Controller
     private function getBusinessInfo()
     {
         $userName = Auth::user()->user_name;
-          return CoopUserInfo::where('user_name', $userName)
+        return CoopUserInfo::where('user_name', $userName)
             ->with('BusinessInfo.applicationInfo.projectInfo')
             ->get();
     }

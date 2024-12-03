@@ -18,7 +18,7 @@ class CheckStaffUser
     {
 
         if (!Auth::check()) {
-            return redirect()->route('login.Form');
+            return redirect()->route('login');
         }
 
         if (Auth::user()->role != 'Staff' || Auth::user()->orgUserInfo->access_to != 'Allowed') {
