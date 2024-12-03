@@ -36,14 +36,14 @@ class AuthController extends Controller
         ]);
 
         try {
-            User::create([
+          $user = User::create([
                 'user_name' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
                 'role' => 'Cooperator'
             ]);
 
-
+            Auth::login($user);
             return response()->json([
                 'success' => true,
                 'message' => 'Account created successfully. Please verify your email.',
