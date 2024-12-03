@@ -108,15 +108,48 @@
 
     <body>
         <x-header />
-        <div class="min-vh-100 d-flex justify-content-center align-items-center position-relative">
+        <div class="vh-100 d-flex justify-content-center align-items-center position-relative">
             <div class="position-absolute w-100 h-100" style="z-index: 0; overflow: hidden;">
                 <svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 800">
+                    <style>
+                        .circle-1 {
+                            animation: pulse 10s ease-in-out infinite;
+                            transform-origin: center;
+                        }
+
+                        .circle-2 {
+                            animation: pulse 10s ease-in-out infinite;
+                            animation-delay: 1s;
+                            transform-origin: center;
+                        }
+
+                        .circle-3 {
+                            animation: pulse 10s ease-in-out infinite;
+                            animation-delay: 2s;
+                            transform-origin: center;
+                        }
+
+                        @keyframes pulse {
+                            0% {
+                                transform: scale(1);
+                            }
+
+                            50% {
+                                transform: scale(2);
+                            }
+
+                            100% {
+                                transform: scale(1);
+                            }
+                        }
+                    </style>
                     <g fill-opacity="0.22">
-                        <circle style="fill: #318791;" cx="400" cy="400" r="600" />
-                        <circle style="fill: #48c4d3;" cx="400" cy="400" r="500" />
-                        <circle style="fill: #318791;" cx="400" cy="400" r="300" />
-                        <circle style="fill: #48c4d3;" cx="400" cy="400" r="200" />
-                        <circle style="fill: #318791;" cx="400" cy="400" r="100" />
+                        <circle class="circle-1" style="fill: rgba(72, 196, 211, 0.2);" cx="400" cy="400"
+                            r="600" />
+                        <circle class="circle-2" style="fill: rgba(72, 196, 211, 0.3);" cx="400" cy="400"
+                            r="400" />
+                        <circle class="circle-3" style="fill: rgba(72, 196, 211, 0.5);" cx="400" cy="400"
+                            r="200" />
                     </g>
                 </svg>
             </div>
