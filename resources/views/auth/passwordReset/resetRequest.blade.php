@@ -89,6 +89,11 @@
                 transform: translateY(-1px);
             }
 
+            .btn-reset:disabled {
+                opacity: 0.7;
+                cursor: not-allowed;
+            }
+
             .login-link {
                 text-align: center;
                 margin-top: 1.5rem;

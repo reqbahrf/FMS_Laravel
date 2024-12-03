@@ -54,7 +54,7 @@ Route::get('/signup', function () {
 
 Route::post('/signup/submit', [AuthController::class, 'signup'])->name('signup');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/application', function () {
         return view('registerpage.application');
     })->name('registrationForm');
