@@ -47,5 +47,12 @@
                 </div>
             </div>
         </div>
+        <div class="col-12 col-md-12">
+            <div class="card shadow-sm">
+                <div class="card-body text-end">
+                    <button type="button" class="btn btn-primary" id="generateDashboardReport">Generate Report</button>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

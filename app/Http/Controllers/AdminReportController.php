@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Mpdf\Mpdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminReportController extends Controller
 {
@@ -53,15 +54,14 @@ class AdminReportController extends Controller
             $mpdf->WriteHTML($html);
 
             // Output PDF
-            return response($mpdf->Output('dashboard-report.pdf'), 200, [
+            return response($mpdf->Output('dashboard-report.pdf', 'S'), 200, [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="dashboard-report.pdf"'
-            ]);
+                'Content-Disposition' => 'attachment; filename="dashboard-report' . date("Y") . '.pdf"'          ]);
         } catch (Exception $e) {
+            Log::error('Error generating PDF report: ' . $e->getMessage());
             return response()->json([
-                'success' => false,
-                'error' => $e->getMessage()
-            ]);
+                'message' => 'Error generating PDF report',
+            ], 500);
         }
     }
 

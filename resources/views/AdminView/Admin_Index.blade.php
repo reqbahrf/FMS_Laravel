@@ -225,7 +225,8 @@
                 USERS: '{{ route('admin.Users-list') }}',
             }
             const DASHBOARD_ROUTE = {
-                GET_DASHBOARD_CHARTS_DATA: '{{ route('admin.Dashboard.chartData') }}'
+                GET_DASHBOARD_CHARTS_DATA: '{{ route('admin.Dashboard.chartData') }}',
+                GENERATE_DASHBOARD_REPORT: '{{ route('admin.Dashboard.generateReport') }}'
             };
 
             const PROJECT_LIST_ROUTE = {

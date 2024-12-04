@@ -158,14 +158,16 @@
                 border-bottom-right-radius: 0;
             }
 
-            .input-group .password-toggle {
-                border-top-right-radius: 0.375rem !important;
-                border-bottom-right-radius: 0.375rem !important;
-                display: flex;
-                align-items: center;
-                padding: 0.75rem;
-                margin-top: 0;
-                height: 51px;
+            .password-toggle {
+                cursor: pointer;
+                color: #666;
+                transition: color 0.3s ease;
+                border-left: none !important;
+                border-radius: 0 10px 10px 0 !important;
+            }
+
+            .password-toggle:hover {
+                color: var(--primary-color);
             }
 
             .form-floating>.form-control:focus,
@@ -280,13 +282,13 @@
 
                         <div class="form-floating mb-3">
                             <div class="input-group">
-                                <div class="form-floating flex-grow-1">
+                                <div class="form-floating m-0">
                                     <input type="password" class="form-control border-end-0" id="password"
                                         name="password" placeholder="Password" required>
                                     <label for="password">Password</label>
                                 </div>
                                 <span
-                                    class="input-group-text password-toggle border-start-0 d-flex align-items-center justify-content-center"
+                                    class="input-group-text password-toggle"
                                     style="cursor: pointer; background-color: transparent;" id="togglePassword">
                                     <i class="ri-eye-line"></i>
                                 </span>

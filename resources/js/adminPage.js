@@ -618,6 +618,108 @@ window.initializeAdminPageJs = async () => {
             };
 
             await loadAllCharts();
+
+            async function generateDashboardReport(){
+
+                const isConfirmed = await createConfirmationModal({
+                    title: "Generate Report",
+                    titleBg: "bg-primary",
+                    message: "Are you sure you want to generate the report?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+
+                if (!isConfirmed) {
+                    return;
+                }
+                showProcessToast("Generating Report...");
+                try {
+                const response = await $.ajax({
+                    type: "GET",
+                    url: DASHBOARD_ROUTE.GENERATE_DASHBOARD_REPORT,
+                    headers: {
+                        "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                            "content"
+                        ),
+                    },
+                    xhrFields: {
+                        responseType: "blob",
+                    },
+                });
+
+                 // Check if response is JSON (error message)
+                 const contentType = response.type;
+                 if (contentType === "application/json") {
+                     // Read the blob as text to get error message
+                     const reader = new FileReader();
+                     reader.onload = function () {
+                         const errorData = JSON.parse(this.result);
+                         hideProcessToast();
+                         showToastFeedback(
+                             "text-bg-danger",
+                             errorData.message || "Failed to generate PDF"
+                         );
+                     };
+                     reader.readAsText(response);
+                     return;
+                 }
+
+                 // If we get here, it's a PDF response
+                 const blob = new Blob([response], {
+                     type: "application/pdf",
+                 });
+                 const url = window.URL.createObjectURL(blob);
+
+                 // Open PDF in new window
+                 window.open(url, "_blank");
+
+                 // Show success message
+                 hideProcessToast();
+                 showToastFeedback(
+                     "text-bg-success",
+                     "PDF generated successfully"
+                 );
+
+                 // Clean up the blob URL after a delay to ensure the PDF loads
+                 setTimeout(() => {
+                     window.URL.revokeObjectURL(url);
+                 }, 1000);
+             } catch (error) {
+                 console.error("Error generating PDF:", error);
+
+                 if (error.responseType === "blob") {
+                     // Handle blob error response
+                     const reader = new FileReader();
+                     reader.onload = function () {
+                         try {
+                             const errorData = JSON.parse(this.result);
+                             hideProcessToast();
+                             showToastFeedback(
+                                 "text-bg-danger",
+                                 errorData.message || "Error generating PDF"
+                             );
+                         } catch (e) {
+                             hideProcessToast();
+                             showToastFeedback(
+                                 "text-bg-danger",
+                                 "An error occurred while generating the PDF"
+                             );
+                         }
+                     };
+                     reader.readAsText(error.response);
+                 } else {
+                     hideProcessToast();
+                     showToastFeedback(
+                         "text-bg-danger",
+                         error.message ||
+                             "An error occurred while generating the PDF"
+                     );
+                 }
+             }
+            }
+
+            $('#generateDashboardReport').off('click').on('click', generateDashboardReport);
         },
 
         /**
