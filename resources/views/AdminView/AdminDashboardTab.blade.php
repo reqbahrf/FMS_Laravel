@@ -20,7 +20,7 @@
         <div class="col-12">
             <h5 class="text-muted fw-medium">Locale and Enterprise Level</h5>
         </div>
-        <div class="col-12 col-md-9">
+        <div class="col-12 col-md-8">
             <div class="card shadow-sm">
                 <div class="card-body">
                     <div id="localeChart">
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-md-3">
+        <div class="col-12 col-md-4">
             <div class="card h-100 shadow-sm">
                 <div class="card-body h-100 d-flex justify-content-center align-items-center">
                     <div id="enterpriseLevelChart">

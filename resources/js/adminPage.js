@@ -344,6 +344,9 @@ window.initializeAdminPageJs = async () => {
              * @param {number[]} mediumCounts - An array of medium enterprise counts.
              * @return {void}
              */
+            let barChart;
+            let pieChart;
+
             const createLocalDataChart = async (
                 cities,
                 microCounts,
@@ -421,11 +424,11 @@ window.initializeAdminPageJs = async () => {
                     },
                 };
                 return new Promise((resolve) => {
-                    const chart = new ApexCharts(
+                    barChart = new ApexCharts(
                         document.querySelector("#localeChart"),
                         options
                     );
-                    chart.render();
+                    barChart.render();
                     resolve();
                 });
             };
@@ -441,26 +444,51 @@ window.initializeAdminPageJs = async () => {
                     },
                     series: [totalMicro, totalSmall, totalMedium],
                     labels: [
-                        "Micro Enterprise",
-                        "Small Enterprise",
-                        "Medium Enterprise",
+                        `Micro Enterprise`,
+                        `Small Enterprise`,
+                        `Medium Enterprise`,
                     ],
                     chart: {
-                        width: 300,
                         type: "pie",
+                        width: "100%",
+                        height: 350,
                     },
                     legend: {
-                        show: false,
+                        show: true,
+                        position: "bottom",
+                        fontSize: "10px",
+                        horizontalAlign: "center",
+                        floating: false,
+                        offsetY: 0,
+                        itemMargin: {
+                            horizontal: 5,
+                            vertical: 2,
+                        },
+                    },
+                    dataLabels: {
+                        enabled: true,
+                        style: {
+                            fontSize: "12px",
+                        },
                     },
                     responsive: [
                         {
                             breakpoint: 480,
                             options: {
                                 chart: {
-                                    width: 200,
+                                    height: 300,
                                 },
                                 legend: {
-                                    position: "bottom",
+                                    fontSize: "8px",
+                                    itemMargin: {
+                                        horizontal: 2,
+                                        vertical: 1,
+                                    },
+                                },
+                                dataLabels: {
+                                    style: {
+                                        fontSize: "10px",
+                                    },
                                 },
                             },
                         },
@@ -468,7 +496,7 @@ window.initializeAdminPageJs = async () => {
                 };
 
                 return new Promise((resolve) => {
-                    const pieChart = new ApexCharts(
+                    pieChart = new ApexCharts(
                         document.querySelector("#enterpriseLevelChart"),
                         EnterpriseLevelOptions
                     );
@@ -532,7 +560,7 @@ window.initializeAdminPageJs = async () => {
                         labels: {
                             style: {
                                 colors: ["#111111"],
-                                fontSize: "12px",
+                                fontSize: "0.75rem",
                             },
                         },
                     },
@@ -907,13 +935,15 @@ window.initializeAdminPageJs = async () => {
                 const landline = inputs.filter(".landline").val();
                 const mobilePhone = inputs.filter(".mobile_number").val();
                 const email = inputs.filter(".email").val();
-                const buildingAssets = parseFloat(inputs.filter(".building_Assets").val());
-                const equipmentAssets = parseFloat(inputs
-                    .filter(".equipment_Assets")
-                    .val());
-                const workingCapitalAssets = parseFloat(inputs
-                    .filter(".working_capital_Assets")
-                    .val());
+                const buildingAssets = parseFloat(
+                    inputs.filter(".building_Assets").val()
+                );
+                const equipmentAssets = parseFloat(
+                    inputs.filter(".equipment_Assets").val()
+                );
+                const workingCapitalAssets = parseFloat(
+                    inputs.filter(".working_capital_Assets").val()
+                );
 
                 // Update form fields
                 offCanvaReadonlyInputs
@@ -1126,13 +1156,10 @@ window.initializeAdminPageJs = async () => {
                         dataType: "json", // Expect a JSON response
                     });
 
-                  hideProcessToast();
-                  showToastFeedback(
-                        "text-bg-success",
-                        response.message
-                    );
-                  getOngoingProjects();
-                  closeModal('#assignNewStaffModal')
+                    hideProcessToast();
+                    showToastFeedback("text-bg-success", response.message);
+                    getOngoingProjects();
+                    closeModal("#assignNewStaffModal");
                 } catch (error) {
                     hideProcessToast();
                     showToastFeedback(
@@ -1140,7 +1167,6 @@ window.initializeAdminPageJs = async () => {
                         error.responseJSON.message
                     );
                 }
-
             });
 
             $("#CompletedTableBody").on(
@@ -1379,9 +1405,11 @@ window.initializeAdminPageJs = async () => {
                     ForApprovalDataTable.rows.add(
                         data.map((project) => {
                             return [
-                                `${project.prefix ? project.prefix : ""} ${project.f_name} ${project.mid_name}. ${
-                                    project.l_name
-                                } ${project.suffix ? project.suffix : ""}
+                                `${project.prefix ? project.prefix : ""} ${
+                                    project.f_name
+                                } ${project.mid_name}. ${project.l_name} ${
+                                    project.suffix ? project.suffix : ""
+                                }
                                 <input type="hidden" class="designation" value="${
                                     project.designation
                                 }">
@@ -2151,10 +2179,8 @@ window.initializeAdminPageJs = async () => {
                     // Prevent default button action
                     event.preventDefault();
 
-
-
                     // Loop through each form with 'needs-validation'
-                    Array.from(NewUsersForms).forEach( async(form) => {
+                    Array.from(NewUsersForms).forEach(async (form) => {
                         // Check if the form is valid
                         if (!form.checkValidity()) {
                             event.stopPropagation();
@@ -2164,7 +2190,8 @@ window.initializeAdminPageJs = async () => {
                             const isConfirmed = await createConfirmationModal({
                                 title: "Add New Organization User",
                                 titleBg: "bg-primary",
-                                message: "Are you sure you want to add this user?",
+                                message:
+                                    "Are you sure you want to add this user?",
                                 confirmText: "Yes",
                                 confirmButtonClass: "btn-primary",
                                 cancelText: "No",
@@ -2181,7 +2208,7 @@ window.initializeAdminPageJs = async () => {
 
             const addStaffUser = async (form) => {
                 try {
-                    showProcessToast('Adding Staff User...');
+                    showProcessToast("Adding Staff User...");
                     // Create FormData object from the form element
                     const formData = new FormData(form);
 
@@ -2215,7 +2242,8 @@ window.initializeAdminPageJs = async () => {
                     const isConfirmed = await createConfirmationModal({
                         title: "Update Access Status",
                         titleBg: "bg-primary",
-                        message: "Are you sure you want to update the access status?",
+                        message:
+                            "Are you sure you want to update the access status?",
                         confirmText: "Yes",
                         confirmButtonClass: "btn-primary",
                         cancelText: "No",
@@ -2261,7 +2289,8 @@ window.initializeAdminPageJs = async () => {
                     const isConfirmed = await createConfirmationModal({
                         title: "Delete User",
                         titleBg: "bg-danger",
-                        message: "Are you sure you want to delete this user their might still projects handled by this user?",
+                        message:
+                            "Are you sure you want to delete this user their might still projects handled by this user?",
                         confirmText: "Yes",
                         confirmButtonClass: "btn-danger",
                         cancelText: "No",
