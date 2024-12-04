@@ -82,14 +82,14 @@ class ReceiptController extends Controller
             // Get business info and prepare paths
             $firmName = BusinessInfo::where('id', $business_id)
                 ->value('firm_name');
-            
+
             if (!$firmName) {
                 return $this->errorResponse('Business information not found.');
             }
 
             // Prepare file paths
             $paths = $this->preparePaths($firmName, $business_id, $project_id, $validated['receiptName'], $validated['unique_id']);
-            
+
             // Move file from temporary to final location
             if (!$this->moveFile($tempFilePath, $paths['finalPath'])) {
                 return $this->errorResponse('Failed to move file to final location.');
@@ -127,7 +127,7 @@ class ReceiptController extends Controller
     {
         $business_path = "Businesses/{$firmName}_{$businessId}";
         $projectFilePath = "{$business_path}/project_files{$projectId}/receipts";
-        
+
         if (!Storage::disk('private')->exists($projectFilePath)) {
             Storage::disk('private')->makeDirectory($projectFilePath, 0777, true);
         }
@@ -135,11 +135,11 @@ class ReceiptController extends Controller
         // Get original file extension
         $tempFilePath = $this->findTemporaryFile($uniqueId);
         $extension = $this->getFileExtension($tempFilePath);
-        
+
         $newFileName = uniqid(time() . '_') . '_' . $receiptName;
         // Add the extension to the filename
         $newFileName = $newFileName . '.' . $extension;
-        
+
         $finalPath = str_replace(' ', '_', "{$projectFilePath}/{$newFileName}");
 
         return [
@@ -153,14 +153,14 @@ class ReceiptController extends Controller
         try {
             $sourceStream = Storage::disk('public')->readStream($sourcePath);
             $result = Storage::disk('private')->writeStream($destinationPath, $sourceStream);
-            
+
             if (is_resource($sourceStream)) {
                 fclose($sourceStream);
             }
 
             // Clean up temporary file
             Storage::disk('public')->delete($sourcePath);
-            
+
             return $result;
         } catch (Exception $e) {
             Log::error('File move failed: ' . $e->getMessage());
@@ -196,7 +196,7 @@ class ReceiptController extends Controller
 
             $receiptData = [];
             foreach ($receiptUploads as $receiptUpload) {
-                $fileContent = Storage::disk('public')->get($receiptUpload->receipt_file_link);
+                $fileContent = Storage::disk('private')->get($receiptUpload->receipt_file_link);
                 $base64File = base64_encode($fileContent);
 
                 $receiptData[] = [

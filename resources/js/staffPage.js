@@ -963,7 +963,7 @@ window.initializeStaffPageJs = async () => {
                     UploadedReceiptDataTable.clear();
                     UploadedReceiptDataTable.rows.add(
                         response.map((receipt) => [
-                            `receipt.receipt_name
+                            `${receipt.receipt_name}
                     <input type="hidden" class="receipt_id" value="${receipt.id}">
                     <input type="hidden" class="receipt_description" value="${receipt.receipt_description}">
                     `,

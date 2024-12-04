@@ -100,14 +100,14 @@
             <font face="Arial, sans-serif">
                 <font size="2" style="font-size: 10pt">
                     <b>SETUP
-                        Form 003 – Status Report (as of
+                        Form 003 – Status Report (as of)
                     </b>
                 </font>
             </font>
             <font face="Arial, sans-serif">
                 <font size="2" style="font-size: 10pt">
                     <u>
-                        <b>1</b>
+                        <b></b>
                     </u>
                 </font>
             </font>
@@ -115,7 +115,7 @@
                 <font face="Arial, sans-serif">
                     <font size="2" style="font-size: 10pt">
                         <u>
-                            <b>st</b>
+                            <b></b>
                         </u>
                     </font>
                 </font>
@@ -124,14 +124,13 @@
                 <font size="2" style="font-size: 10pt">
                     <u>
                         <b>
-                            Semester 2024
                         </b>
                     </u>
                 </font>
             </font>
             <font face="Arial, sans-serif">
                 <font size="2" style="font-size: 10pt">
-                    <b>)</b>
+                    <b></b>
                 </font>
             </font>
         </p>
@@ -502,7 +501,7 @@
         </ul>
         <p style="line-height: 100%; margin-bottom: 0cm; page-break-after: avoid;">
             <font face="Arial, sans-serif">
-                <font size="2" style="font-size: 11pt">2015</font>
+                <font size="2" style="font-size: 11pt">{{-- Year--}}</font>
             </font>
         </p>
         <table autosize="1" class="content-table" cellpadding="7" cellspacing="0"
@@ -600,7 +599,7 @@
         </p>
         <p style="line-height: 100%; margin-bottom: 0cm; page-break-after: avoid;">
             <font face="Arial, sans-serif">
-                <font size="2" style="font-size: 11pt">2022</font>
+                <font size="2" style="font-size: 11pt">{{-- Year --}}</font>
             </font>
         </p>
         <p style="line-height: 100%; margin-bottom: 0cm"><br>
@@ -618,7 +617,7 @@
         </ul>
         <p style="line-height: 100%; margin-bottom: 0cm; page-break-after:avoid">
             <font face="Arial, sans-serif">
-                <font size="2" style="font-size: 11pt">2015</font>
+                <font size="2" style="font-size: 11pt">{{-- Year --}}</font>
             </font>
         </p>
         <table width="738" class="content-table" cellpadding="7" cellspacing="0"
@@ -1199,7 +1198,7 @@
         </ul>
         <p style="line-height: 100%; margin-bottom: 0cm">
             <font face="Arial, sans-serif">
-                <font size="2" style="font-size: 11pt">2015</font>
+                <font size="2" style="font-size: 11pt">{{-- year --}}</font>
             </font>
         </p>
         <table width="736" class="content-table" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
@@ -1256,8 +1255,7 @@
                                             Utilized per Financial Report (as of </font>
                                     </font>
                                     <font face="Arial, sans-serif">
-                                        <font size="2" style="font-size: 11pt"><u>June
-                                                2024</u></font>
+                                        <font size="2" style="font-size: 11pt"><u>{{-- Mounth and year --}}</u></font>
                                     </font>
                                     <font face="Arial, sans-serif">
                                         <font size="2" style="font-size: 11pt">)</font>
@@ -1343,7 +1341,7 @@
         </ul>
         <p style="line-height: 100%; margin-bottom: 0cm; page-break-after: avoid;">
             <font face="Arial, sans-serif">
-                <font size="2" style="font-size: 11pt">2015</font>
+                <font size="2" style="font-size: 11pt">{{-- year --}}</font>
             </font>
         </p>
         <table width="714" class="content-table" cellpadding="7" cellspacing="0" style=" page-break-inside: avoid;">
@@ -1444,8 +1442,7 @@
                                             amount already due (as of </font>
                                     </font>
                                     <font face="Arial, sans-serif">
-                                        <font size="2" style="font-size: 11pt"><u>June
-                                                2024</u></font>
+                                        <font size="2" style="font-size: 11pt"><u>{{-- month and year --}}</u></font>
                                     </font>
                                     <font face="Arial, sans-serif">
                                         <font size="2" style="font-size: 11pt">)</font>
