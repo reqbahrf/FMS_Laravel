@@ -29,6 +29,7 @@ use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\AdminManageStaffController;
+use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
@@ -275,6 +276,8 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
     Route::post('/Admin/Assign-New-Staff', [AdminProjectController::class, 'assignNewStaff'])
         ->name('admin.AssignNewStaff');
+
+        Route::get('/generate-pdf-report', [AdminReportController::class, 'generatePDFReport']);
 });
 
 //Admin Route End
