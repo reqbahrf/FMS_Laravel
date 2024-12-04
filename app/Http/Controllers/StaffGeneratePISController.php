@@ -40,7 +40,7 @@ class StaffGeneratePISController extends Controller
 
                 return response($mpdf->Output('PISsample.pdf', 'S'), 200, [
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'attachment; filename="PISsample.pdf"',
+                    'Content-Disposition' => 'inline; filename="PISsample.pdf"',
                 ]);
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([

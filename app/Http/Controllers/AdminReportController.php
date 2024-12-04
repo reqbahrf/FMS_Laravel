@@ -56,7 +56,7 @@ class AdminReportController extends Controller
             // Output PDF
             return response($mpdf->Output('dashboard-report.pdf', 'S'), 200, [
                 'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'attachment; filename="dashboard-report' . date("Y") . '.pdf"'          ]);
+                'Content-Disposition' => 'inline; filename="dashboard-report' . date("Y") . '.pdf"'          ]);
         } catch (Exception $e) {
             Log::error('Error generating PDF report: ' . $e->getMessage());
             return response()->json([

@@ -619,7 +619,7 @@ window.initializeAdminPageJs = async () => {
 
             await loadAllCharts();
 
-            async function generateDashboardReport(){
+            $('#generateDashboardReport').off('click').on('click', async function(){
 
                 const isConfirmed = await createConfirmationModal({
                     title: "Generate Report",
@@ -717,9 +717,8 @@ window.initializeAdminPageJs = async () => {
                      );
                  }
              }
-            }
 
-            $('#generateDashboardReport').off('click').on('click', generateDashboardReport);
+            });
         },
 
         /**

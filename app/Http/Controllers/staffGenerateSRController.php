@@ -41,7 +41,7 @@ class staffGenerateSRController extends Controller
 
                 return response($mpdf->Output('SRsample.pdf', 'S'), 200, [
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'attachment; filename="SRsample.pdf"',
+                    'Content-Disposition' => 'inline; filename="SRsample.pdf"',
                 ]);
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([

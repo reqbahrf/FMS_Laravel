@@ -41,7 +41,7 @@ class StaffGeneratePDSController extends Controller
 
                 return response($mpdf->Output('PDSsample.pdf', 'S'), 200, [
                     'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'attachment; filename="PDSsample.pdf"',
+                    'Content-Disposition' => 'inline; filename="PDSsample.pdf"',
                 ]);
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([
