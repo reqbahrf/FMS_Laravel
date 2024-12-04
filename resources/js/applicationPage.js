@@ -1,4 +1,4 @@
-import { showToastFeedback } from "./ReusableJS/utilFunctions";
+import { showToastFeedback, showProcessToast, hideProcessToast } from "./ReusableJS/utilFunctions";
 import "smartwizard/dist/css/smart_wizard_all.css";
 import smartWizard from "smartwizard";
 window.smartWizard = smartWizard;
@@ -992,6 +992,7 @@ export function initializeForm() {
     });
 
     async function submitForm() {
+        showProcessToast('Submitting form...');
         try {
             let formDataObject = {};
             const form = $("#applicationForm").find(":input:not([readonly])");
@@ -1024,6 +1025,7 @@ export function initializeForm() {
 
             if (response.success) {
                 const message = response.success;
+                hideProcessToast();
 
                 setTimeout(() => {
                     showToastFeedback("text-bg-success", message);
@@ -1036,6 +1038,7 @@ export function initializeForm() {
                 }
             }
         } catch (error) {
+            hideProcessToast();
             showToastFeedback(
                 "text-bg-danger",
                 "An error occurred while submitting the form"

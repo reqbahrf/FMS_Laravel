@@ -9,6 +9,7 @@
         <title>Change Password</title>
         <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
         @vite('resources/css/app.scss')
+        @vite('resources/js/app.js')
         <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
         <style>
@@ -167,7 +168,7 @@
                     </div>
                 @endif
 
-                <form method="POST" action="{{ route('password.update') }}">
+                <form method="POST" action="{{ route('password.update') }}" onsubmit=" showSpinner()">
                     @csrf
 
                     <div class="mb-3">
@@ -218,7 +219,11 @@
 
                     <div class="d-grid">
                         <button type="submit" class="btn btn-change-password">
-                            Change Password
+                            <span class="spinner-border spinner-border-sm me-2 d-none" id="btnSpinner"
+                            role="status"></span>
+                            <span class="button-text">
+                                Change Password
+                            </span>
                         </button>
                     </div>
                 </form>
@@ -241,6 +246,12 @@
                     icon.classList.remove('ri-eye-line');
                     icon.classList.add('ri-eye-off-line');
                 }
+            }
+
+            function showSpinner() {
+                $('#btnSpinner').removeClass('d-none');
+                $('.button-text').text('Sending...');
+                $('.btn-change-password').attr('disabled', true);
             }
         </script>
     </body>

@@ -264,6 +264,7 @@ class StaffAddProjectController extends Controller
             if ($successful_inserts == 6) {
                 DB::commit();
                 Cache::forget('handled_projects' . $Staff_ID);
+                Cache::forget('applicants');
                 Cache::forget('ongoing_projects');
 
                 // Send welcome email to the new user
