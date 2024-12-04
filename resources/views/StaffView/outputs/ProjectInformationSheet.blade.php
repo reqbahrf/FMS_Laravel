@@ -93,19 +93,16 @@
                 <table id="dataSheetTable" class="tg" style="overflow: hidden" autosize="1">
                     <tbody>
                         <tr>
-                            <td style="width: 12%;"></td>
-                            <td style="width: 12%;"></td>
-                            <td style="width: 12%;"></td>
-                            <td style="width: 12%;"></td>
-                            <td style="width: 12%;"></td>
-                            <td style="width: 40%;"></td>
+                            <td class="tg-hvke" colspan="5" style="border: none;"></td>
+                            <td class="tg-7zrl" style="text-align: left; border: none;">For the Period:
+                                {{ date('Y') }}</td>
                         </tr>
                         <tr>
                             <td class="tg-hvke" colspan="5">Project title:</td>
                             <td class="tg-j6zm ">Project Code</td>
                         </tr>
                         <tr>
-                            <td class="tg-8d8j" colspan="5">{{ $projectTitle }} </td>
+                            <td class="tg-8d8j" colspan="5"><strong>{{ $projectTitle }} </strong></td>
                             <td class="tg-7zrl"> </td>
                         </tr>
                         <tr>
@@ -285,7 +282,7 @@
                             <td class="tg-7zrl"> </td>
                         </tr>
                         <tr>
-                            <td class="tg-wa1i" colspan="2" rowspan="2">Total&nbsp;&nbsp;&nbsp;Gross Sales(P):
+                            <td class="tg-wa1i" colspan="2" rowspan="2">Total&nbsp;&nbsp;&nbsp;Gross Sales(₱):
                             </td>
                             <td class="tg-8d8j" colspan="3" rowspan="2">
                                 &nbsp;&nbsp;<br>{{ $totalGrossSales }}&nbsp;&nbsp;</td>
@@ -295,7 +292,7 @@
                             <td class="tg-7zrl"> </td>
                         </tr>
                         <tr>
-                            <td class="tg-cly1" colspan="2" rowspan="2">*Local(P)</td>
+                            <td class="tg-cly1" colspan="2" rowspan="2">*Local(₱)</td>
                             <td class="tg-8d8j" colspan="3" rowspan="2">
                                 &nbsp;&nbsp;<br>&nbsp;&nbsp;{{ $localProduct_Val }}</td>
                             <td class="tg-7zrl"> </td>
@@ -304,7 +301,7 @@
                             <td class="tg-7zrl"> </td>
                         </tr>
                         <tr>
-                            <td class="tg-cly1" colspan="2" rowspan="2">*Export(P)</td>
+                            <td class="tg-cly1" colspan="2" rowspan="2">*Export(₱)</td>
                             <td class="tg-8d8j" colspan="3" rowspan="2">
                                 &nbsp;&nbsp;<br>&nbsp;&nbsp;{{ $exportProduct_Val }}</td>
                             <td class="tg-7zrl"> </td>
