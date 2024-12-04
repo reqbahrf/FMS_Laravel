@@ -20,7 +20,7 @@ class CoopUserInfoFactory extends Factory
             'prefix' => fake()->title(),
             'f_name' => fake()->firstName(),
             'mid_name' => fake()->firstName(),
-            'l_name' => fake()->lastName(),
+            'l_name' => 'Dummny',
             'suffix' => fake()->suffix(),
             'sex' => fake()->randomElement(['male', 'female']),
             'birth_date' => fake()->date(),

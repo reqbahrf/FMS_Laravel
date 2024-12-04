@@ -51,13 +51,18 @@ class ApplicationInfoObserver
 
     protected function forgetCache(ApplicationInfo $applicationInfo)
     {
-        $org_userId = Auth::user()->orgUserInfo->id;
-        Cache::forget('handled_projects' . $org_userId);
+        // Clear general caches that don't depend on user
         Cache::forget('applicants');
         Cache::forget('chartData');
-        Cache::forget('staffhandledProjects');
         Cache::forget('pendingProjects');
         Cache::forget('ongoing_projects');
         Cache::forget('completed_projects');
+        Cache::forget('staffhandledProjects');
+
+        // Clear user-specific cache only if there's an authenticated user
+        if (Auth::check() && Auth::user()->orgUserInfo) {
+            $org_userId = Auth::user()->orgUserInfo->id;
+            Cache::forget('handled_projects' . $org_userId);
+        }
     }
 }
