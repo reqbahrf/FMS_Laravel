@@ -27,8 +27,8 @@ class BusinessInfoFactory extends Factory
             'city' => fake()->randomElement(['Tagum', 'Panabo', 'Carmin', 'Santo Tomas', 'Davao City', 'Compostela', 'Davao de oro']),
             'province' => fake()->state(),
             'region' => fake()->state(),
-            'Export_Mkt_Outlet' => implode(', ', fake()->randomElements($products, 5)),
-            'Local_Mkt_Outlet' => implode(', ', fake()->randomElements($products, 5)),
+            'Export_Mkt_Outlet' => json_encode(fake()->randomElements($products, 5)),
+            'Local_Mkt_Outlet' => json_encode(fake()->randomElements($products, 5)),
         ];
     }
 }
