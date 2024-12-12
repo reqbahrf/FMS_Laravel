@@ -2,17 +2,7 @@
     <div class="container-flex m-0 px-2">
         <footer class="row py-3">
             <div class="col-12 col-md-4">
-                <div class="navlogo d-flex justify-content-center align-items-center">
-                    <img src={{ asset('DOST_ICON.svg') }} class="pe-2">
-                    <div id="logoTitle" class="row position-relative h-100 w-75">
-                        <div class="position-absolute top-50">
-                            <p class="sideTextMain text-white m-0 w-100"></p>
-                        </div>
-                        <div class="position-absolute bottom-50">
-                            <p class="sideTextSec text-white m-0 w-100"></p>
-                        </div>
-                    </div>
-                </div>
+                <x-app-logo />
             </div>
             <div class="col-12 col-md-4">
 

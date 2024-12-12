@@ -44,8 +44,8 @@
             }
 
             .logo-container img {
-                width: 120px;
-                height: auto;
+                width: 7.5rem;
+                height: 7.5rem;
             }
 
             .form-title {
@@ -145,6 +145,12 @@
                 margin-top: 0.25rem;
             }
 
+            @media (min-width: 768px) {
+                .logo-container {
+                margin-left: 7rem;
+            }
+            }
+
             @media (max-width: 768px) {
                 .login-card {
                     margin: 1rem;
@@ -211,6 +217,67 @@
                     transform: scale(1);
                 }
             }
+
+            .logo-container .sideTextMain::after {
+                content: "DOST-SETUP";
+                position: absolute;
+                bottom: 50%;
+                font-family: 'Arial', sans-serif !important;
+                font-size: 1.25rem;
+                font-weight: 600;
+                opacity: 0;
+                animation: navLogo-text-main-expand 2s forwards;
+            }
+
+            .logo-container .sideTextSec::after {
+                content: "Fund Monitoring Sys";
+                position: absolute;
+                top: 50%;
+                font-family: 'Arial', sans-serif !important;
+                font-size: 0.9375rem;
+                font-weight: 400;
+                opacity: 0;
+                animation: navLogo-text-sec-expand 3s forwards;
+            }
+
+            #logoTitle {
+                right: 50px;
+                animation: logo-whole-text 1s forwards;
+            }
+
+            @keyframes logo-whole-text {
+                from {
+                    right: 50px;
+                }
+
+                to {
+                    right: 0;
+                }
+            }
+
+            @keyframes navLogo-text-main-expand {
+                from {
+                    opacity: 0;
+                    transform: translateX(-20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            @keyframes navLogo-text-sec-expand {
+                from {
+                    opacity: 0;
+                    transform: translateX(-20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
         </style>
     </head>
 
@@ -262,8 +329,8 @@
             </div>
             <div class="row justify-content-center">
                 <div class="login-card position-relative">
-                    <div class="logo-container text-center">
-                        <img src="{{ asset('DOST_ICON.svg') }}" alt="DOST Logo" class="img-fluid">
+                    <div class="logo-container">
+                        <x-app-logo />
                     </div>
 
                     <h2 class="form-title">Welcome Back</h2>
@@ -287,8 +354,7 @@
                                         name="password" placeholder="Password" required>
                                     <label for="password">Password</label>
                                 </div>
-                                <span
-                                    class="input-group-text password-toggle"
+                                <span class="input-group-text password-toggle"
                                     style="cursor: pointer; background-color: transparent;" id="togglePassword">
                                     <i class="ri-eye-line"></i>
                                 </span>

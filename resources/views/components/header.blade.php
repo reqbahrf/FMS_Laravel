@@ -84,6 +84,14 @@
         animation: navLogo-text-sec-expand 3s forwards;
     }
 
+    footer .sideTextMain::after {
+        color: white;
+    }
+
+    footer .sideTextSec::after {
+        color: white;
+    }
+
     @keyframes logo-whole-text {
         from {
             right: 50px;
@@ -152,17 +160,7 @@
     <div class="container-flex px-0 px-md-5 px-lg-5">
         <nav class="navbar navbar-expand-md">
             <a href="/" class="d-flex justify-content-between text-dark text-decoration-none">
-                <div class="navlogo d-flex justify-content-center align-items-center">
-                    <img src={{ asset('DOST_ICON.svg') }} class="pe-2">
-                    <div id="logoTitle" class="row position-relative h-100 w-75">
-                        <div class="position-absolute top-50">
-                            <p class="sideTextMain text-black m-0 w-100"></p>
-                        </div>
-                        <div class="position-absolute bottom-50">
-                            <p class="sideTextSec text-black m-0 w-100"></p>
-                        </div>
-                    </div>
-                </div>
+               <x-app-logo />
             </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
