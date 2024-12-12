@@ -4359,14 +4359,40 @@ window.initializeStaffPageJs = async () => {
         Applicant: () => {
             new smartWizard();
 
-            Echo.private('viewing-Applicant-events').listenForWhisper('viewing', (e) => {
-                const toDisableBtnRow = $(`#ApplicantTableBody button[data-applicant-id="${e.applicant_id}"]`);
-                toDisableBtnRow.prop('disabled', true);
-            })
-            Echo.private('viewing-Applicant-events').listenForWhisper('viewing-closed', (e) => {
-                const toEnableBtnRow = $(`#ApplicantTableBody button[data-applicant-id="${e.applicant_id}"]`);
-                toEnableBtnRow.prop('disabled', false);
-            })
+       Echo.private('viewing-Applicant-events').listenForWhisper('viewing', (e) => {
+           // Find the button for the specific applicant
+           const applicantButton = $(`#ApplicantTableBody button[data-applicant-id="${e.applicant_id}"]`);
+           
+           // Find the parent td of the button
+           const buttonParentTd = applicantButton.closest('td');
+           
+           // Store the original button HTML if needed for restoration
+           if (!buttonParentTd.data('original-content')) {
+               buttonParentTd.data('original-content', buttonParentTd.html());
+           }
+           
+           // Hide the button but keep it in the DOM
+           applicantButton.css('display', 'none');
+           
+           // Append the reviewer name next to the hidden button
+           buttonParentTd.append(`<span class="reviewer-name">${e.reviewed_by ? `${e.reviewed_by} is viewing this` : ''}</span>`)
+               .addClass('reviewer-name-cell');
+       });
+       
+       Echo.private('viewing-Applicant-events').listenForWhisper('viewing-closed', (e) => {
+           // Find the button for the specific applicant
+           const applicantButton = $(`#ApplicantTableBody button[data-applicant-id="${e.applicant_id}"]`);
+           
+           // Find the parent td of the button
+           const buttonParentTd = applicantButton.closest('td');
+           
+           // Restore the original content
+           if (buttonParentTd.data('original-content')) {
+               buttonParentTd
+                   .html(buttonParentTd.data('original-content'))
+                   .removeClass('reviewer-name-cell');
+           }
+       });
             let ProjectProposalFormInitialValue = {};
             const applicantDataTable = $("#applicant").DataTable({
                 responsive: true,
@@ -4689,7 +4715,8 @@ window.initializeStaffPageJs = async () => {
                     );
 
                     Echo.private('viewing-Applicant-events').whisper('viewing', {
-                        applicant_id: ApplicationID
+                        applicant_id: ApplicationID,
+                        reviewed_by: AUTH_USER_NAME,
                     })
 
                     getApplicantRequirements(businessID);
@@ -4708,7 +4735,7 @@ window.initializeStaffPageJs = async () => {
                 ).val();
 
                 Echo.private('viewing-Applicant-events').whisper('viewing-closed', {
-                    applicant_id: ApplicantID
+                    applicant_id: ApplicantID,
                 });
 
                 FormContainer.find("input, textarea").val("");

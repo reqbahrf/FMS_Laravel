@@ -202,6 +202,7 @@
         @vite('resources/js/staffPage.js')
         <script>
             const USER_ID = '{{ Auth::user()->id }}';
+            const AUTH_USER_NAME = '{{ Auth::user()->orgUserInfo->full_name }}';
             const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
             //Global Route Variables for the Navigation Tabs
             //Dashboard Tab
