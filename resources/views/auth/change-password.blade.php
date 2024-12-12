@@ -29,6 +29,17 @@
                 background-color: var(--background-color);
             }
 
+            .logo-container img {
+                width: 7.5rem;
+                height: 7.5rem;
+            }
+
+            @media (min-width: 768px) {
+                .logo-container {
+                    margin-left: 7rem;
+                }
+            }
+
             .change-password-card {
                 max-width: 500px;
                 width: 90%;
@@ -104,6 +115,67 @@
                 font-size: 1.2rem;
                 line-height: 1;
             }
+
+            .logo-container .sideTextMain::after {
+                content: "DOST-SETUP";
+                position: absolute;
+                bottom: 50%;
+                font-family: 'Arial', sans-serif !important;
+                font-size: 1.25rem;
+                font-weight: 600;
+                opacity: 0;
+                animation: navLogo-text-main-expand 2s forwards;
+            }
+
+            .logo-container .sideTextSec::after {
+                content: "Fund Monitoring Sys";
+                position: absolute;
+                top: 50%;
+                font-family: 'Arial', sans-serif !important;
+                font-size: 0.9375rem;
+                font-weight: 400;
+                opacity: 0;
+                animation: navLogo-text-sec-expand 3s forwards;
+            }
+
+            #logoTitle {
+                right: 50px;
+                animation: logo-whole-text 1s forwards;
+            }
+
+            @keyframes logo-whole-text {
+                from {
+                    right: 50px;
+                }
+
+                to {
+                    right: 0;
+                }
+            }
+
+            @keyframes navLogo-text-main-expand {
+                from {
+                    opacity: 0;
+                    transform: translateX(-20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+
+            @keyframes navLogo-text-sec-expand {
+                from {
+                    opacity: 0;
+                    transform: translateX(-20px);
+                }
+
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
         </style>
     </head>
 
@@ -156,8 +228,8 @@
             </div>
 
             <div class="change-password-card position-relative">
-                <div class="text-center mb-4">
-                    <img src="{{ asset('DOST_ICON.svg') }}" alt="DOST Logo" style="width: 120px; height: auto;">
+                <div class="logo-container">
+                    <x-app-logo />
                 </div>
 
                 <h2 class="form-title">Change Password</h2>
