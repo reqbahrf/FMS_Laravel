@@ -4358,6 +4358,15 @@ window.initializeStaffPageJs = async () => {
         },
         Applicant: () => {
             new smartWizard();
+
+            Echo.private('viewing-Applicant-events').listenForWhisper('viewing', (e) => {
+                const toDisableBtnRow = $(`#ApplicantTableBody button[data-applicant-id="${e.applicant_id}"]`);
+                toDisableBtnRow.prop('disabled', true);
+            })
+            Echo.private('viewing-Applicant-events').listenForWhisper('viewing-closed', (e) => {
+                const toEnableBtnRow = $(`#ApplicantTableBody button[data-applicant-id="${e.applicant_id}"]`);
+                toEnableBtnRow.prop('disabled', false);
+            })
             let ProjectProposalFormInitialValue = {};
             const applicantDataTable = $("#applicant").DataTable({
                 responsive: true,
@@ -4516,11 +4525,11 @@ window.initializeStaffPageJs = async () => {
                                         ? "bg-primary"
                                         : "bg-danger"
                                 }">${item.application_status}</span>`,
-                                `   <button class="btn btn-primary applicantDetailsBtn" type="button"
+                                `   <button class="btn btn-primary applicantDetailsBtn" data-applicant-id="${item.Application_ID}" type="button"
                                             data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
                                             aria-controls="applicantDetails">
                                             <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                        </button>`,
+                                    </button>`,
                             ];
                         })
                     )
@@ -4679,6 +4688,10 @@ window.initializeStaffPageJs = async () => {
                         personnel.total_personnel || "0"
                     );
 
+                    Echo.private('viewing-Applicant-events').whisper('viewing', {
+                        applicant_id: ApplicationID
+                    })
+
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
                     getProposalDraft(ApplicationID);
@@ -4689,7 +4702,15 @@ window.initializeStaffPageJs = async () => {
 
             ApplicantDetailsContainer.on("hidden.bs.offcanvas", function () {
                 const FormContainer =
-                    ApplicantDetailsContainer.find("#projectProposal");
+                ApplicantDetailsContainer.find("#projectProposal");
+                const ApplicantID = ApplicantDetailsContainer.find(
+                    "#selected_applicationId"
+                ).val();
+
+                Echo.private('viewing-Applicant-events').whisper('viewing-closed', {
+                    applicant_id: ApplicantID
+                });
+
                 FormContainer.find("input, textarea").val("");
                 FormContainer.find(
                     ".input_list, #EquipmentTableBody, #NonEquipmentTableBody"

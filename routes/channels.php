@@ -17,3 +17,7 @@ Broadcast::channel('staff-notifications.{id}', function ($user, $id) {
 Broadcast::channel('coop-notifications.{id}', function ($user, $id) {
     return $user->role === 'Cooperator' && (int) $user->id === (int) $id;
 });
+
+Broadcast::channel('viewing-Applicant-events', function ($user) {
+    return $user->role === 'Staff';
+});
