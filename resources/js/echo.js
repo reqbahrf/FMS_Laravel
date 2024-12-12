@@ -9,7 +9,7 @@ window.Echo = new Echo({
     wsHost: import.meta.env.VITE_REVERB_HOST,
     wsPort: import.meta.env.VITE_REVERB_PORT,
     wssPort: import.meta.env.VITE_REVERB_PORT,
-    forceTLS: true,
+    forceTLS: import.meta.env.VITE_REVERB_SCHEME === 'https',
     enabledTransports: ["ws", "wss"],
-    encrypted: true,
+    encrypted: import.meta.env.VITE_REVERB_SCHEME === 'https',
 });
