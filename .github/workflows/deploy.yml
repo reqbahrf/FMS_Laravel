@@ -58,11 +58,11 @@ jobs:
             crontab -l | grep -v "artisan schedule:run" | crontab -
             (crontab -l 2>/dev/null; echo "* * * * * cd /home/user/htdocs/srv656676.hstgr.cloud && php artisan schedule:run >> /home/user/htdocs/srv656676.hstgr.cloud/storage/logs/scheduler.log 2>&1") | crontab -
 
-            # php artisan migrate --force
+            php artisan migrate --force
             # Force refresh database and run seeders
             # php artisan migrate:fresh --force
             # php artisan db:seed --force
-            
+
             php artisan optimize:clear
             php artisan optimize
 
