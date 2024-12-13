@@ -1311,6 +1311,10 @@ export function initializeForm() {
             const fieldName = $(this).attr("name");
             const fieldValue = $(this).val();
 
+            if(!fieldName){
+                return
+            }
+
             changedFields[fieldName] = fieldValue; // Track changes locally
 
             clearTimeout(autoSaveTimeout);
@@ -1319,12 +1323,22 @@ export function initializeForm() {
         }
     );
 
+    $("#exportMarketTable tr, #localMarketTable tr").on("input change", "input", function () {
+
+        changedFields = {...storeMarketProductsData()};
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(syncDraftWithServer, saveInterval);
+        console.log("this is triggered")
+        console.log(changedFields);
+    });
+
     async function syncDraftWithServer() {
         if ($.isEmptyObject(changedFields)) return;
         const DRAFT_TYPE = "Application";
 
         const requestData = {
             ...changedFields,
+            ...storeMarketProductsData(),
             draft_type: DRAFT_TYPE,
         };
 
@@ -1478,7 +1492,6 @@ export function initializeForm() {
             <td><input type="text" class="form-control unit" value="${
                 rowData.unit || ""
             }" /></td>
-            <td><button type="button" class="btn btn-danger btn-sm remove-row">Remove</button></td>
         </tr>
     `;
         tableBody.append(newRow);
