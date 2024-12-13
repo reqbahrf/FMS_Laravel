@@ -12,8 +12,10 @@ use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Controllers\AdminViewController;
+use App\Http\Controllers\FormDraftController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GenerateFormController;
@@ -29,7 +31,6 @@ use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\AdminManageStaffController;
-use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
@@ -43,7 +44,6 @@ use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
 
-//Applicant routes
 
 Route::get('/', function () {
     return view('index');
@@ -59,7 +59,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/application', function () {
         return view('registerpage.application');
     })->name('registrationForm');
-
 
     Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
 
@@ -88,10 +87,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/viewSR', fn() => view('StaffView.outputs.StatusReport'));
 
     Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
+
+    Route::get('/get/Draft/{draft_type}', [FormDraftController::class, 'get'])
+        ->name('form.getDraft');
+
+    Route::post('/set/Draft', [FormDraftController::class, 'store'])
+        ->name('form.setDraft');
 });
 
-
-//Applicant Routes End
 
 
 //Login routes

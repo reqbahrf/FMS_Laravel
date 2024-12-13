@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('owner_id')->unsigned();
             $table->string('form_type', 64);
             $table->json('form_data');
+            $table->boolean('is_submitted')->default(false);
             $table->timestamps();
 
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');

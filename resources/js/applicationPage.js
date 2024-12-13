@@ -1,4 +1,8 @@
-import { showToastFeedback, showProcessToast, hideProcessToast } from "./ReusableJS/utilFunctions";
+import {
+    showToastFeedback,
+    showProcessToast,
+    hideProcessToast,
+} from "./ReusableJS/utilFunctions";
 import "smartwizard/dist/css/smart_wizard_all.css";
 import smartWizard from "smartwizard";
 window.smartWizard = smartWizard;
@@ -41,9 +45,9 @@ export function initializeForm() {
                             data.unique_id
                         );
 
-                        document
-                            .querySelector('input[name="Intent_unique_id_path"][id="IntentFileID_path"]')
-                            .value = data.file_path;
+                        document.querySelector(
+                            'input[name="Intent_unique_id_path"][id="IntentFileID_path"]'
+                        ).value = data.file_path;
 
                         // Update the file path for the IntentFile
                         const IntentFilePath = data.file_path;
@@ -243,8 +247,7 @@ export function initializeForm() {
                         ).value = data.file_path;
 
                         // Update the file path for the dtiFile
-                        const BusinessPermitFilePath =
-                            data.file_path;
+                        const BusinessPermitFilePath = data.file_path;
                         if (BusinessPermitFilePath) {
                             // Update the file path in the file upload element
                             businessPermitFile.setAttribute(
@@ -992,7 +995,7 @@ export function initializeForm() {
     });
 
     async function submitForm() {
-        showProcessToast('Submitting form...');
+        showProcessToast("Submitting form...");
         try {
             let formDataObject = {};
             const form = $("#applicationForm").find(":input:not([readonly])");
@@ -1017,7 +1020,6 @@ export function initializeForm() {
                     "X-XSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                         "content"
                     ),
-
                 },
             });
 
@@ -1299,6 +1301,123 @@ export function initializeForm() {
             localMarket: localMarketData,
         };
     };
+
+    let changedFields = {};
+    let autoSaveTimeout;
+    const saveInterval = 5000; // 5 seconds
+
+    $("#applicationForm :input:not([readonly])").on(
+        "input change",
+        function () {
+            const fieldName = $(this).attr("name");
+            const fieldValue = $(this).val();
+
+            changedFields[fieldName] = fieldValue; // Track changes locally
+
+            clearTimeout(autoSaveTimeout);
+            autoSaveTimeout = setTimeout(syncDraftWithServer, saveInterval);
+            console.log(changedFields);
+        }
+    );
+
+    async function syncDraftWithServer() {
+        if ($.isEmptyObject(changedFields)) return;
+        const DRAFT_TYPE = "Application";
+
+        const requestData = {
+            ...changedFields,
+            draft_type: DRAFT_TYPE,
+        };
+
+        try {
+            const response = await $.ajax({
+                type: "POST",
+                url: DRAFT_ROUTE.STORE,
+                data: JSON.stringify(requestData),
+                contentType: "application/json",
+                processData: false,
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+
+            if (response.success) {
+                console.log("Draft saved successfully:", response.message);
+                changedFields = {}; // Clear changes after saving
+            }
+        } catch (error) {
+            console.error("Error saving draft:", error);
+        }
+    }
+
+    (async () => {
+        console.log("retriving the form draft");
+        try {
+            const response = await $.ajax({
+                type: "GET",
+                url: DRAFT_ROUTE.GET.replace(":type", "Application"),
+                headers: {
+                    "X-XSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                        "content"
+                    ),
+                },
+            });
+
+            if (response.success && response.draftData) {
+                const draftData = response.draftData;
+
+                // Populate simple form fields
+                for (const [key, value] of Object.entries(draftData)) {
+                    if (key !== "exportMarket" && key !== "localMarket") {
+                        $(`[name="${key}"]`).val(value);
+                    }
+                }
+
+                // Populate export market table
+                if (draftData.exportMarket) {
+                    draftData.exportMarket.forEach((rowData) => {
+                        addRowToTable("#exportMarketTable", rowData);
+                    });
+                }
+
+                // Populate local market table
+                if (draftData.localMarket) {
+                    draftData.localMarket.forEach((rowData) => {
+                        addRowToTable("#localMarketTable", rowData);
+                    });
+                }
+
+                console.log("Draft loaded:", draftData);
+            }
+        } catch (error) {
+            console.error("Error loading draft:", error);
+        }
+    })();
+
+    // Helper function to add rows to a table
+    function addRowToTable(tableSelector, rowData) {
+        const tableBody = $(tableSelector).find("tbody");
+        const newRow = `
+        <tr>
+            <td><input type="text" class="form-control location" value="${
+                rowData.location || ""
+            }" /></td>
+            <td><input type="text" class="form-control product" value="${
+                rowData.product || ""
+            }" /></td>
+            <td><input type="text" class="form-control volume" value="${
+                rowData.volume || ""
+            }" /></td>
+            <td><input type="text" class="form-control unit" value="${
+                rowData.unit || ""
+            }" /></td>
+            <td><button type="button" class="btn btn-danger btn-sm remove-row">Remove</button></td>
+        </tr>
+    `;
+        tableBody.append(newRow);
+    }
 }
 
 initializeForm();
