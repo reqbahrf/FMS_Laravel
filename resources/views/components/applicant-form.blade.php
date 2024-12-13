@@ -462,7 +462,7 @@
                                     <div class="col-12 col-md-3">
                                         <label for="region">Region:<span class="requiredFields">*</span></label>
                                         <select id="region" name="region" class="form-select"
-                                            onchange="updateProvinces()" required>
+                                            required>
                                             <option value="">Select Region</option>
                                         </select>
                                         <div class="invalid-feedback">Please select a region</div>
@@ -470,7 +470,7 @@
                                     <div class="col-12 col-md-3">
                                         <label for="province">Province:<span class="requiredFields">*</span></label>
                                         <select id="province" class="form-select" name="province"
-                                            onchange="updateCities()" required disabled>
+                                           required disabled>
                                             <option value="">Select Province</option>
                                         </select>
                                         <div class="invalid-feedback">Please select a Province</div>
@@ -478,7 +478,7 @@
                                     <div class="col-12 col-md-3">
                                         <label for="city">City:<span class="requiredFields">*</span></label>
                                         <select id="city" name="city" class="form-select"
-                                            onchange="updateBarangays()" required disabled>
+                                            required disabled>
                                             <option value="">Select City</option>
                                         </select>
                                         <div class="invalid-feedback">Please select a City</div>

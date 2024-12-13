@@ -1143,124 +1143,123 @@ export function initializeForm() {
         }
     });
 
-    window.fetchRegions = function () {
-        fetch(`${API_BASE_URL}/regions/`)
-            .then((response) => response.json())
-            .then((data) => {
-                const regionSelect = document.getElementById("region");
-                data.forEach((region) => {
-                    const option = document.createElement("option");
-                    option.value = region.name;
-                    option.textContent = region.name;
-                    option.dataset.code = region.code;
-                    regionSelect.appendChild(option);
-                });
+    const API = {
+        fetchRegions: () => {
+            return $.ajax({
+                type: "GET",
+                url: `${API_BASE_URL}/regions/`,
+            }).fail((error) => {
+                console.error("Error fetching regions:", error);
             });
+        },
+
+        fetchProvinces: (regionCode) => {
+            return $.ajax({
+                type: "GET",
+                url: `${API_BASE_URL}/regions/${regionCode}/provinces/`,
+            }).fail((error) => {
+                console.error("Error fetching provinces:", error);
+            });
+        },
+
+        fetchCities: (provinceCode) => {
+            return $.ajax({
+                type: "GET",
+                url: `${API_BASE_URL}/provinces/${provinceCode}/cities-municipalities/`,
+            }).fail((error) => {
+                console.error("Error fetching cities:", error);
+            });
+        },
+        fetchBarangay: (cityCode) => {
+            return $.ajax({
+                type: "GET",
+                url: `${API_BASE_URL}/cities-municipalities/${cityCode}/barangays/`,
+            });
+        },
     };
 
-    window.updateProvinces = function () {
-        const regionSelect = document.getElementById("region");
-        const selectedRegionOption =
-            regionSelect.options[regionSelect.selectedIndex];
-        const provinceSelect = document.getElementById("province");
-        const citySelect = document.getElementById("city");
-        const barangaySelect = document.getElementById("barangay");
-
-        if (regionSelect.value) {
-            provinceSelect.disabled = false;
-        } else {
-            provinceSelect.disabled = true;
-            citySelect.disabled = true;
-            barangaySelect.disabled = true;
-        }
-
-        provinceSelect.innerHTML = '<option value="">Select Province</option>';
-        citySelect.innerHTML = '<option value="">Select City</option>';
-        barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
-
-        const selectedRegionCode = selectedRegionOption.dataset.code;
-        if (selectedRegionCode) {
-            fetch(`${API_BASE_URL}/regions/${selectedRegionCode}/provinces/`)
-                .then((response) => response.json())
-                .then((data) => {
-                    data.forEach((province) => {
-                        const option = document.createElement("option");
-                        option.value = province.name;
-                        option.textContent = province.name;
-                        option.dataset.code = province.code;
-                        provinceSelect.appendChild(option);
-                    });
-                });
-        }
+    const populateSelect = (selectElement, data, placeholder) => {
+        const parsedData = typeof data === "string" ? JSON.parse(data) : data;
+        $(selectElement).html(`<option value="">${placeholder}</option>`); // Clear options
+        $.each(parsedData, (index, item) => {
+            $(selectElement).append(
+                `<option value="${item.name}" data-code="${item.code}">${item.name}</option>`
+            );
+        });
     };
 
-    window.updateCities = function () {
-        const provinceSelect = document.getElementById("province");
-        const selectedProvinceOption =
-            provinceSelect.options[provinceSelect.selectedIndex];
-        const citySelect = document.getElementById("city");
-        const barangaySelect = document.getElementById("barangay");
+    // Function to initialize region dropdown
+    const initializeRegions = () => {
+        const $regionSelect = $("#region");
+        API.fetchRegions().done((regions) => {
+            populateSelect($regionSelect, regions, "Select Region");
+        });
+    };
 
-        if (provinceSelect.value) {
-            citySelect.disabled = false;
-        } else {
-            citySelect.disabled = true;
-            barangaySelect.disabled = true;
-        }
+    // Function to handle province update based on selected region
+    const updateProvinces = () => {
+        const $regionSelect = $("#region");
+        const $provinceSelect = $("#province");
+        const $citySelect = $("#city");
+        const $barangaySelect = $("#barangay");
 
-        citySelect.innerHTML = '<option value="">Select City</option>';
-        barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+        const regionCode = $regionSelect.find(":selected").data("code");
 
-        const selectedProvinceCode = selectedProvinceOption.dataset.code;
-        if (selectedProvinceCode) {
-            fetch(
-                `${API_BASE_URL}/provinces/${selectedProvinceCode}/cities-municipalities/`
-            )
-                .then((response) => response.json())
-                .then((data) => {
-                    data.forEach((city) => {
-                        const option = document.createElement("option");
-                        option.value = city.name;
-                        option.textContent = city.name;
-                        option.dataset.code = city.code;
-                        citySelect.appendChild(option);
-                    });
-                });
+        $provinceSelect.prop("disabled", !regionCode);
+        $citySelect.prop("disabled", true);
+        $barangaySelect.prop("disabled", true);
+
+        populateSelect($provinceSelect, [], "Select Province");
+        populateSelect($citySelect, [], "Select City");
+        populateSelect($barangaySelect, [], "Select Barangay");
+
+        if (regionCode) {
+            API.fetchProvinces(regionCode).done((provinces) => {
+                populateSelect($provinceSelect, provinces, "Select Province");
+            });
         }
     };
 
-    window.updateBarangays = function () {
-        const citySelect = document.getElementById("city");
-        const selectedCityOption = citySelect.options[citySelect.selectedIndex];
-        const barangaySelect = document.getElementById("barangay");
+    // Function to handle city update based on selected province
+    const updateCities = () => {
+        const $provinceSelect = $("#province");
+        const $citySelect = $("#city");
+        const $barangaySelect = $("#barangay");
 
-        if (citySelect.value) {
-            barangaySelect.disabled = false;
-        } else {
-            barangaySelect.disabled = true;
-        }
+        const provinceCode = $provinceSelect.find(":selected").data("code");
 
-        barangaySelect.innerHTML = '<option value="">Select Barangay</option>';
+        $citySelect.prop("disabled", !provinceCode);
+        $barangaySelect.prop("disabled", true);
 
-        const selectedCityCode = selectedCityOption.dataset.code;
-        if (selectedCityCode) {
-            fetch(
-                `${API_BASE_URL}/cities-municipalities/${selectedCityCode}/barangays/`
-            )
-                .then((response) => response.json())
-                .then((data) => {
-                    data.forEach((barangay) => {
-                        const option = document.createElement("option");
-                        option.value = barangay.name;
-                        option.textContent = barangay.name;
-                        option.dataset.code = barangay.code;
-                        barangaySelect.appendChild(option);
-                    });
-                });
+        populateSelect($citySelect, [], "Select City");
+        populateSelect($barangaySelect, [], "Select Barangay");
+
+        if (provinceCode) {
+            API.fetchCities(provinceCode).done((cities) => {
+                populateSelect($citySelect, cities, "Select City");
+            });
         }
     };
 
-    fetchRegions();
+    const updateBarangays = () => {
+        const $citySelect = $("#city");
+        const $barangaySelect = $("#barangay");
+
+        const cityCode = $citySelect.find(":selected").data("code");
+
+        $barangaySelect.prop("disabled", !cityCode);
+
+        if (cityCode) {
+            API.fetchBarangay(cityCode).done((barangays) => {
+                populateSelect($barangaySelect, barangays, "Select Barangay");
+            });
+        }
+    };
+
+    initializeRegions();
+    $("#region").on("change", updateProvinces);
+    $("#province").on("change", updateCities);
+    $("#city").on("change", updateBarangays);
 
     const storeMarketProductsData = function () {
         const exportMarketData = [];
@@ -1352,8 +1351,9 @@ export function initializeForm() {
         }
     }
 
+    // Modify the draft loading section:
     (async () => {
-        console.log("retriving the form draft");
+        console.log("Retrieving the form draft");
         try {
             const response = await $.ajax({
                 type: "GET",
@@ -1369,24 +1369,112 @@ export function initializeForm() {
                 const draftData = response.draftData;
 
                 // Populate simple form fields
-                for (const [key, value] of Object.entries(draftData)) {
-                    if (key !== "exportMarket" && key !== "localMarket") {
+                $.each(draftData, (key, value) => {
+                    if (
+                        ![
+                            "exportMarket",
+                            "localMarket",
+                            "region",
+                            "province",
+                            "city",
+                            "barangay",
+                        ].includes(key)
+                    ) {
                         $(`[name="${key}"]`).val(value);
                     }
-                }
+                });
 
-                // Populate export market table
+                // Handle tables
                 if (draftData.exportMarket) {
-                    draftData.exportMarket.forEach((rowData) => {
+                    $.each(draftData.exportMarket, (index, rowData) => {
                         addRowToTable("#exportMarketTable", rowData);
                     });
                 }
 
-                // Populate local market table
                 if (draftData.localMarket) {
-                    draftData.localMarket.forEach((rowData) => {
+                    $.each(draftData.localMarket, (index, rowData) => {
                         addRowToTable("#localMarketTable", rowData);
                     });
+                }
+
+                // Handle address dropdowns sequentially
+                if (draftData.region) {
+                    // Initialize regions and wait for it to complete
+                    await new Promise((resolve) => {
+                        API.fetchRegions().done((regions) => {
+                            populateSelect(
+                                $("#region"),
+                                regions,
+                                "Select Region"
+                            );
+                            $("#region").val(draftData.region);
+                            resolve();
+                        });
+                    });
+
+                    if (draftData.province) {
+                        // Fetch provinces for selected region
+                        const regionCode = $("#region")
+                            .find(":selected")
+                            .data("code");
+                        await new Promise((resolve) => {
+                            API.fetchProvinces(regionCode).done((provinces) => {
+                                populateSelect(
+                                    $("#province"),
+                                    provinces,
+                                    "Select Province"
+                                );
+                                $("#province").val(draftData.province);
+                                $("#province").prop("disabled", false);
+                                resolve();
+                            });
+                        });
+
+                        if (draftData.city) {
+                            // Fetch cities for selected province
+                            const provinceCode = $("#province")
+                                .find(":selected")
+                                .data("code");
+                            await new Promise((resolve) => {
+                                API.fetchCities(provinceCode).done((cities) => {
+                                    populateSelect(
+                                        $("#city"),
+                                        cities,
+                                        "Select City"
+                                    );
+                                    $("#city").val(draftData.city);
+                                    $("#city").prop("disabled", false);
+                                    resolve();
+                                });
+                            });
+
+                            if (draftData.barangay) {
+                                // Fetch barangays for selected city
+                                const cityCode = $("#city")
+                                    .find(":selected")
+                                    .data("code");
+                                await new Promise((resolve) => {
+                                    API.fetchBarangay(cityCode).done(
+                                        (barangays) => {
+                                            populateSelect(
+                                                $("#barangay"),
+                                                barangays,
+                                                "Select Barangay"
+                                            );
+                                            $("#barangay").val(
+                                                draftData.barangay
+                                            );
+                                            $("#barangay").prop(
+                                                "disabled",
+                                                false
+                                            );
+                                            resolve();
+                                        }
+                                    );
+                                });
+                            }
+                        }
+                    }
                 }
 
                 console.log("Draft loaded:", draftData);
@@ -1395,7 +1483,6 @@ export function initializeForm() {
             console.error("Error loading draft:", error);
         }
     })();
-
     // Helper function to add rows to a table
     function addRowToTable(tableSelector, rowData) {
         const tableBody = $(tableSelector).find("tbody");
