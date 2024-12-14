@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Events\NewApplicant;
 use App\Events\ProjectEvent;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NewRegistrationRequest;
 use Illuminate\Support\Facades\Cache;
+
+use function Illuminate\Support\defer;
 
 class ApplicationController extends Controller
 {
@@ -218,8 +218,11 @@ class ApplicationController extends Controller
 
             if ($successful_inserts == 6) {
                 DB::commit();
-                event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $city, 'NEW_APPLICANT'));
-                Cache::forget('applicants');
+                //Testing this defer Method
+                defer(fn () =>  [
+                    event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $city, 'NEW_APPLICANT')),
+                    Cache::forget('applicants')
+                ]);
                 return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.index')], 200);
             } else {
                 DB::rollBack();
