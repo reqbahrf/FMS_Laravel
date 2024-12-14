@@ -27,7 +27,7 @@ class AdminReportController extends Controller
             $report = $this->processReportData($chartData);
             $docHeader = view('StaffView.outputs.DocHeader')->render();
 
-            // Generate PDF
+            // Generate PDF with output to browser
             $mpdf = new Mpdf([
                 'mode' => 'utf-8',
                 'format' => 'A4',
@@ -54,10 +54,9 @@ class AdminReportController extends Controller
             // Write HTML to PDF
             $mpdf->WriteHTML($html);
 
-            // Output PDF
-            return response($mpdf->Output('dashboard-report.pdf', 'S'), 200, [
-                'Content-Type' => 'application/pdf',
-                'Content-Disposition' => 'inline; filename="dashboard-report' . date("Y") . '.pdf"'          ]);
+            // Stream PDF directly to output
+            $mpdf->Output('dashboard-report-' . date('Y-m-d') . '.pdf', 'I');
+            exit; // Prevent any further output
         } catch (Exception $e) {
             Log::error('Error generating PDF report: ' . $e->getMessage());
             return response()->json([
