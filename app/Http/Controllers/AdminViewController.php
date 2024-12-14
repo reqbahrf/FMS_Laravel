@@ -7,10 +7,11 @@ use App\Models\User;
 
 use App\Models\ChartYearOf;
 use App\Models\OrgUserInfo;
+use App\Services\AdminDashboardService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
-
+use Illuminate\Support\Facades\Concurrency;
 
 class AdminViewController extends Controller
 {
@@ -33,7 +34,7 @@ class AdminViewController extends Controller
         }
     }
 
-    public function getDashboardChartData(Request $request)
+    public function getDashboardChartData(AdminDashboardService $adminDashboard)
     {
         try {
             if (Cache::has('chartData') && Cache::has('staffhandledProjects')
@@ -42,9 +43,9 @@ class AdminViewController extends Controller
                 $staffhandledProjects = Cache::get('staffhandledProjects');
 
             } else {
-                $chartData = ChartYearOf::select('monthly_project_categories', 'project_local_categories')->where('year_of', '=', date('Y'))->get();
-                $staffhandledProjects = $this->getStaffHandledProjects();
 
+                $chartData = $adminDashboard->getChartData();
+                $staffhandledProjects = $adminDashboard->getStaffHandledProjects();
 
                 Cache::put('chartData', $chartData, 1800);
                 Cache::put('staffhandledProjects', $staffhandledProjects, 1800);
@@ -62,45 +63,6 @@ class AdminViewController extends Controller
         }
     }
 
-    private function getStaffHandledProjects()
-    {
-        try {
-
-            return OrgUserInfo::whereHas('user', function ($query) {
-                $query->where('role', 'Staff');
-            })
-                ->with(['handledProjects.businessInfo'])
-                ->get()
-                ->map(function ($staff) {
-
-                    $enterpriseCount = [
-                        'Micro Enterprise' => 0,
-                        'Small Enterprise' => 0,
-                        'Medium Enterprise' => 0,
-                    ];
-
-                    $groupedEnterpriseLevels = $staff->handledProjects->groupBy('businessInfo.enterprise_level')
-                        ->map(function ($projects) {
-                            return $projects->count();
-                        });
-
-                    foreach ($groupedEnterpriseLevels as $level => $count) {
-                        if (array_key_exists($level, $enterpriseCount)) {
-                            $enterpriseCount[$level] = $count;
-                        }
-                    }
-
-                    return (object) [
-                        'Staff_Name' => $staff->prefix . ' ' . $staff->f_name . ' ' . $staff->mid_name . ' ' . $staff->l_name . ' ' . $staff->suffix,
-                        'Micro Enterprise' => $enterpriseCount['Micro Enterprise'],
-                        'Small Enterprise' => $enterpriseCount['Small Enterprise'],
-                        'Medium Enterprise' => $enterpriseCount['Medium Enterprise'],
-                    ];
-                });
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
-    }
 
 
     public function pendingProjectGet(Request $request)
