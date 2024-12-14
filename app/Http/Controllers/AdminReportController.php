@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\AdminDashboardService;
 use Exception;
 use Mpdf\Mpdf;
 use Illuminate\Http\Request;
@@ -16,11 +17,11 @@ class AdminReportController extends Controller
         $this->adminViewController = $adminViewController;
     }
 
-    public function generatePDFReport(Request $request)
+    public function generatePDFReport(AdminDashboardService $adminDashboard)
     {
         try {
             // Get chart data from AdminViewController
-            $chartData = $this->adminViewController->getDashboardChartData($request)->getData(true);
+            $chartData = $this->adminViewController->getDashboardChartData($adminDashboard)->getData(true);
 
             // Process the data
             $report = $this->processReportData($chartData);

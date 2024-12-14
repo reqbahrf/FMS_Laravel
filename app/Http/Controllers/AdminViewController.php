@@ -37,19 +37,11 @@ class AdminViewController extends Controller
     public function getDashboardChartData(AdminDashboardService $adminDashboard)
     {
         try {
-            if (Cache::has('chartData') && Cache::has('staffhandledProjects')
-            ) {
-                $chartData = Cache::get('chartData');
-                $staffhandledProjects = Cache::get('staffhandledProjects');
 
-            } else {
 
-                $chartData = $adminDashboard->getChartData();
-                $staffhandledProjects = $adminDashboard->getStaffHandledProjects();
+            $chartData = $adminDashboard->getChartData();
+            $staffhandledProjects = $adminDashboard->getStaffHandledProjects();
 
-                Cache::put('chartData', $chartData, 1800);
-                Cache::put('staffhandledProjects', $staffhandledProjects, 1800);
-            }
             $monthlyData = $chartData->pluck('monthly_project_categories');
             $localData = $chartData->pluck('project_local_categories');
 

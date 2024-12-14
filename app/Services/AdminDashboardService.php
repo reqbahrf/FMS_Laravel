@@ -6,6 +6,7 @@ use Exception;
 use App\Models\ChartYearOf;
 use App\Models\OrgUserInfo;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Cache;
 
 class AdminDashboardService {
 
@@ -19,17 +20,28 @@ class AdminDashboardService {
 
     public function getChartData()
     {
-        return $this->chartYearOfModel
-            ->select('monthly_project_categories', 'project_local_categories')
-            ->where('year_of', '=', date('Y'))
-            ->get();
+        if(Cache::has('chartData')) {
+            $chartData = Cache::get('chartData');
+        }else{
+            $chartData = $this->chartYearOfModel
+                ->select('monthly_project_categories', 'project_local_categories')
+                ->where('year_of', '=', date('Y'))
+                ->get();
+
+            Cache::put('chartData', $chartData, 1800);
+        }
+
+        return $chartData;
     }
 
     public function getStaffHandledProjects()
     {
 
         try {
-            return $this->orgUserInfoModel
+            if(Cache::has('staffhandledProjects')) {
+                $staffhandledProjects = Cache::get('staffhandledProjects');
+            }else{
+                $staffhandledProjects = $this->orgUserInfoModel
                 ->whereHas('user', function ($query) {
                     $query->where('role', 'Staff');
                 })
@@ -61,6 +73,11 @@ class AdminDashboardService {
                         'Medium Enterprise' => $enterpriseCount['Medium Enterprise'],
                     ];
                 });
+                Cache::put('staffhandledProjects', $staffhandledProjects, 1800);
+            }
+
+
+            return $staffhandledProjects;
         } catch (Exception $e) {
             Log::error('Error in getStaffHandledProjects: ' . $e->getMessage());
             return collect([]);
