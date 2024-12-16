@@ -797,7 +797,6 @@ window.initializeStaffPageJs = async () => {
                         data: formData,
                     });
 
-
                     await getPaymentHistoryAndCalculation(
                         project_id,
                         getAmountRefund()
@@ -874,7 +873,8 @@ window.initializeStaffPageJs = async () => {
                 const isConfirmed = await createConfirmationModal({
                     title: "Save Payment Record",
                     titleBg: "bg-primary",
-                    message: "Are you sure you want to save this payment record?",
+                    message:
+                        "Are you sure you want to save this payment record?",
                     confirmText: "Yes",
                     confirmButtonClass: "btn-primary",
                     cancelText: "No",
@@ -888,7 +888,7 @@ window.initializeStaffPageJs = async () => {
                 if (submissionMethod === "add") {
                     const project_id = $("#ProjectID").val();
                     if (project_id) {
-                       storePaymentRecords(project_id);
+                        storePaymentRecords(project_id);
                     } else {
                         console.error("Project ID is null");
                     }
@@ -1456,7 +1456,7 @@ window.initializeStaffPageJs = async () => {
 
             const SaveProjectFileLinks = async (projectID, action) => {
                 try {
-                    showProcessToast('Saving Project Link...');
+                    showProcessToast("Saving Project Link...");
                     let requirementLinks = {};
                     const linkContainer =
                         RequirementContainer.find(".linkContainer");
@@ -1499,7 +1499,7 @@ window.initializeStaffPageJs = async () => {
             };
             const SaveProjectFile = async (projectID, action, businesID) => {
                 try {
-                    showProcessToast('Saving Project File...');
+                    showProcessToast("Saving Project File...");
                     const name = $("#requirements_file_name").val();
                     const file_path =
                         uploadFileRequirements.getAttribute("data-file_path");
@@ -1541,10 +1541,11 @@ window.initializeStaffPageJs = async () => {
                     const projectID = $("#ProjectID").val();
                     const businesID = $("input#hiddenbusiness_id").val();
 
-                   const isConfirmed = await createConfirmationModal({
+                    const isConfirmed = await createConfirmationModal({
                         title: "Save Requirements",
                         titleBg: "bg-primary",
-                        message: "Are you sure you want to save this Requirements?",
+                        message:
+                            "Are you sure you want to save this Requirements?",
                         confirmText: "Yes",
                         confirmButtonClass: "btn-primary",
                         cancelText: "No",
@@ -1569,7 +1570,8 @@ window.initializeStaffPageJs = async () => {
                     const isConfirmed = await createConfirmationModal({
                         title: "Update Requirements",
                         titleBg: "bg-primary",
-                        message: "Are you sure you want to update this Requirements?",
+                        message:
+                            "Are you sure you want to update this Requirements?",
                         confirmText: "Yes",
                         confirmButtonClass: "btn-primary",
                         cancelText: "No",
@@ -1579,7 +1581,7 @@ window.initializeStaffPageJs = async () => {
                         return;
                     }
 
-                    showProcessToast('Updating...')
+                    showProcessToast("Updating...");
 
                     const response = await $.ajax({
                         type: "PUT",
@@ -1779,7 +1781,7 @@ window.initializeStaffPageJs = async () => {
                         const recordToDelete = $(this).attr(
                             "data-record-to-delete"
                         );
-                        showProcessToast('Deleting Record...');
+                        showProcessToast("Deleting Record...");
                         const uniqueVal = $(this).attr("data-unique-val");
                         const deleteRoute =
                             recordToDelete === "paymentRecord"
@@ -2013,7 +2015,10 @@ window.initializeStaffPageJs = async () => {
                     $("#SheetFormDocumentContainer").append(response);
                 } catch (error) {
                     hideProcessToast();
-                    showToastFeedback("text-bg-danger", error.responseJSON.message);
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
                 }
             };
 
@@ -2576,26 +2581,23 @@ window.initializeStaffPageJs = async () => {
                     inputsToCurrencyFormatter($(this));
                 });
 
-
                 const $openButton = $("#open-floating-window");
                 const $content = $("#floating-content");
                 const $input = $("#projectLedgerLink");
-                const $window = $('#floating-window');
-                const $header = $('#floating-header');
-                const $closeButton = $('#close-button');
+                const $window = $("#floating-window");
+                const $header = $("#floating-header");
+                const $closeButton = $("#close-button");
 
                 $openButton.on("click", async function () {
-
-
-                    const module = await import('./ReusableJS/FloatingWindow')
-                    if(module.InitializeFloatingWindow){
+                    const module = await import("./ReusableJS/FloatingWindow");
+                    if (module.InitializeFloatingWindow) {
                         module.InitializeFloatingWindow({
                             $content,
                             $input,
                             $window,
                             $header,
                             $closeButton,
-                        })
+                        });
                     }
 
                     const url = $input.val().trim();
@@ -2635,8 +2637,6 @@ window.initializeStaffPageJs = async () => {
 
             const toggleDocumentSelector = () =>
                 $("#selectDOC_toGenerate").toggleClass("d-none");
-
-
 
             /**
              * Attaches a click event listener to elements with the class `ExportPDF` within the `#SheetFormDocumentContainer` element.
@@ -3104,11 +3104,12 @@ window.initializeStaffPageJs = async () => {
                 const isConfirmed = await createConfirmationModal({
                     title: "Create Quarterly Report",
                     titleBg: "bg-primary",
-                    message: "Are you sure you want to Create this Quarterly Report?",
+                    message:
+                        "Are you sure you want to Create this Quarterly Report?",
                     confirmText: "Yes",
                     confirmButtonClass: "btn-primary",
                     cancelText: "No",
-                })
+                });
 
                 if (!isConfirmed) {
                     return;
@@ -3462,7 +3463,7 @@ window.initializeStaffPageJs = async () => {
                 ],
             });
 
-            const paymentTableConfig =   {
+            const paymentTableConfig = {
                 autoWidth: true,
                 responsive: true,
                 columns: [
@@ -3483,8 +3484,12 @@ window.initializeStaffPageJs = async () => {
                     },
                 ],
             };
-            const OngoingPaymentHistoryDataTable = $("#OngoingPaymentHistoryTable").DataTable(paymentTableConfig);
-            const CompletePaymentHistoryDataTable = $("#CompletePaymentHistoryTable").DataTable(paymentTableConfig);
+            const OngoingPaymentHistoryDataTable = $(
+                "#OngoingPaymentHistoryTable"
+            ).DataTable(paymentTableConfig);
+            const CompletePaymentHistoryDataTable = $(
+                "#CompletePaymentHistoryTable"
+            ).DataTable(paymentTableConfig);
 
             const addProjectBtn = $("#addProjectManualy");
 
@@ -3784,7 +3789,10 @@ window.initializeStaffPageJs = async () => {
                         .filter(".handle_by")
                         .val(projectDetails.handle_by);
 
-                    getPaymentHistory(projectDetails.project_id, OngoingPaymentHistoryDataTable);
+                    getPaymentHistory(
+                        projectDetails.project_id,
+                        OngoingPaymentHistoryDataTable
+                    );
                 }
             );
 
@@ -3926,7 +3934,10 @@ window.initializeStaffPageJs = async () => {
                         .filter(".handle_by")
                         .val(projectDetails.handled_by);
 
-                        getPaymentHistory(projectDetails.project_id, CompletePaymentHistoryDataTable);
+                    getPaymentHistory(
+                        projectDetails.project_id,
+                        CompletePaymentHistoryDataTable
+                    );
                 }
             );
 
@@ -4022,26 +4033,38 @@ window.initializeStaffPageJs = async () => {
                                               Approved.staffUserName
                                           }">
                                           <input type="hidden" class="evaluated_by" value="${
-                                              (Approved.evaluated_by_prefix ? Approved.evaluated_by_suffix : "") +
+                                              (Approved.evaluated_by_prefix
+                                                  ? Approved.evaluated_by_suffix
+                                                  : "") +
                                               " " +
                                               Approved.evaluated_by_f_name +
                                               " " +
-                                              (Approved.evaluated_by_mid_name ? Approved.evaluated_by_suffix : "") +
+                                              (Approved.evaluated_by_mid_name
+                                                  ? Approved.evaluated_by_suffix
+                                                  : "") +
                                               " " +
                                               Approved.evaluated_by_l_name +
                                               " " +
-                                              (Approved.evaluated_by_suffix ? Approved.evaluated_by_suffix : "")
+                                              (Approved.evaluated_by_suffix
+                                                  ? Approved.evaluated_by_suffix
+                                                  : "")
                                           }">
                                           <input type="hidden" class="assigned_to" value="${
-                                              (Approved.handled_by_prefix ? Approved.handled_by_suffix : "") +
+                                              (Approved.handled_by_prefix
+                                                  ? Approved.handled_by_suffix
+                                                  : "") +
                                               "" +
                                               Approved.handled_by_f_name +
                                               " " +
-                                              (Approved.handled_by_mid_name ? Approved.handled_by_suffix : "") +
+                                              (Approved.handled_by_mid_name
+                                                  ? Approved.handled_by_suffix
+                                                  : "") +
                                               " " +
                                               Approved?.handled_by_l_name +
                                               " " +
-                                              (Approved.handled_by_suffix ? Approved.handled_by_suffix : "")
+                                              (Approved.handled_by_suffix
+                                                  ? Approved.handled_by_suffix
+                                                  : "")
                                           }">`,
                                 `${Approved.date_approved}`,
                                 ` <button class="btn btn-primary approvedProjectInfo" type="button"
@@ -4105,26 +4128,38 @@ window.initializeStaffPageJs = async () => {
                           Ongoing.date_approved
                       }">
                       <input type="hidden" class="evaluated_by" value="${
-                          (Ongoing.evaluated_by_prefix ? Ongoing.evaluated_by_prefix : "") +
+                          (Ongoing.evaluated_by_prefix
+                              ? Ongoing.evaluated_by_prefix
+                              : "") +
                           " " +
                           Ongoing.evaluated_by_f_name +
                           " " +
-                          (Ongoing.evaluated_by_mid_name ? Ongoing.evaluated_by_mid_name : "") +
+                          (Ongoing.evaluated_by_mid_name
+                              ? Ongoing.evaluated_by_mid_name
+                              : "") +
                           " " +
                           Ongoing.evaluated_by_l_name +
                           " " +
-                          (Ongoing.evaluated_by_suffix ? Ongoing.evaluated_by_suffix : "")
+                          (Ongoing.evaluated_by_suffix
+                              ? Ongoing.evaluated_by_suffix
+                              : "")
                       }">
                       <input type="hidden" class="handled_by" value="${
-                          (Ongoing.handled_by_prefix ? Ongoing.handled_by_prefix : "") +
+                          (Ongoing.handled_by_prefix
+                              ? Ongoing.handled_by_prefix
+                              : "") +
                           " " +
                           Ongoing.handled_by_f_name +
                           " " +
-                          (Ongoing.handled_by_mid_name ? Ongoing.handled_by_mid_name : "") +
+                          (Ongoing.handled_by_mid_name
+                              ? Ongoing.handled_by_mid_name
+                              : "") +
                           " " +
                           Ongoing.handled_by_l_name +
                           " " +
-                          (Ongoing.handled_by_suffix ? Ongoing.handled_by_suffix : "")
+                          (Ongoing.handled_by_suffix
+                              ? Ongoing.handled_by_suffix
+                              : "")
                       }">`,
                                 `${Ongoing.firm_name}
                       <input type="hidden" class="business_id" value="${
@@ -4235,26 +4270,38 @@ window.initializeStaffPageJs = async () => {
                               completed.date_approved
                           }">
                           <input type="hidden" class="evaluated_by" value="${
-                              (completed.evaluated_by_prefix ? completed.evaluated_by_prefix : "") +
+                              (completed.evaluated_by_prefix
+                                  ? completed.evaluated_by_prefix
+                                  : "") +
                               " " +
                               completed.evaluated_by_f_name +
                               " " +
-                              (completed.evaluated_by_mid_name ? completed?.evaluated_by_mid_name : "") +
+                              (completed.evaluated_by_mid_name
+                                  ? completed?.evaluated_by_mid_name
+                                  : "") +
                               " " +
                               completed.evaluated_by_l_name +
                               " " +
-                              (completed.evaluated_by_suffix ? completed.evaluated_by_suffix : "")
+                              (completed.evaluated_by_suffix
+                                  ? completed.evaluated_by_suffix
+                                  : "")
                           }">
                           <input type="hidden" class="handled_by" value="${
-                              (completed.handled_by_prefix ? completed.handled_by_prefix : "") +
+                              (completed.handled_by_prefix
+                                  ? completed.handled_by_prefix
+                                  : "") +
                               " " +
                               completed.handled_by_f_name +
                               " " +
-                              (completed.handled_by_mid_name ? completed.handled_by_mid_name : "") +
+                              (completed.handled_by_mid_name
+                                  ? completed.handled_by_mid_name
+                                  : "") +
                               " " +
                               completed.handled_by_l_name +
                               " " +
-                              (completed.handled_by_suffix ? completed.handled_by_suffix : "")
+                              (completed.handled_by_suffix
+                                  ? completed.handled_by_suffix
+                                  : "")
                           }">`,
                                 `${completed.firm_name}
                           <input type="hidden" class="business_id" value="${
@@ -4359,40 +4406,73 @@ window.initializeStaffPageJs = async () => {
         Applicant: () => {
             new smartWizard();
 
-       Echo.private('viewing-Applicant-events').listenForWhisper('viewing', (e) => {
-           // Find the button for the specific applicant
-           const applicantButton = $(`#ApplicantTableBody button[data-applicant-id="${e.applicant_id}"]`);
-           
-           // Find the parent td of the button
-           const buttonParentTd = applicantButton.closest('td');
-           
-           // Store the original button HTML if needed for restoration
-           if (!buttonParentTd.data('original-content')) {
-               buttonParentTd.data('original-content', buttonParentTd.html());
-           }
-           
-           // Hide the button but keep it in the DOM
-           applicantButton.css('display', 'none');
-           
-           // Append the reviewer name next to the hidden button
-           buttonParentTd.append(`<span class="reviewer-name">${e.reviewed_by ? `${e.reviewed_by} is viewing this` : ''}</span>`)
-               .addClass('reviewer-name-cell');
-       });
-       
-       Echo.private('viewing-Applicant-events').listenForWhisper('viewing-closed', (e) => {
-           // Find the button for the specific applicant
-           const applicantButton = $(`#ApplicantTableBody button[data-applicant-id="${e.applicant_id}"]`);
-           
-           // Find the parent td of the button
-           const buttonParentTd = applicantButton.closest('td');
-           
-           // Restore the original content
-           if (buttonParentTd.data('original-content')) {
-               buttonParentTd
-                   .html(buttonParentTd.data('original-content'))
-                   .removeClass('reviewer-name-cell');
-           }
-       });
+            Echo.private("viewing-Applicant-events").listenForWhisper(
+                "viewing",
+                (e) => {
+                    // Find the button for the specific applicant
+                    updateViewingState(e.applicant_id, e.reviewed_by);
+                }
+            );
+
+            Echo.private("viewing-Applicant-events").listenForWhisper(
+                "viewing-closed",
+                (e) => {
+                    // Find the button for the specific applicant
+                    removeViewingState(e.applicant_id);
+                }
+            );
+
+            function updateViewingState(applicantId, reviewedBy) {
+                const applicantButton = $(
+                    `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
+                );
+                const buttonParentTd = applicantButton.closest("td");
+
+                if (!buttonParentTd.data("original-content")) {
+                    buttonParentTd.data(
+                        "original-content",
+                        buttonParentTd.html()
+                    );
+                }
+
+                applicantButton.css("display", "none");
+                buttonParentTd
+                    .append(
+                        `<span class="reviewer-name">${
+                            reviewedBy ? `${reviewedBy} is viewing this` : ""
+                        }</span>`
+                    )
+                    .addClass("reviewer-name-cell");
+            }
+
+            // Function to remove viewing state from UI
+            function removeViewingState(applicantId) {
+                const applicantButton = $(
+                    `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
+                );
+                const buttonParentTd = applicantButton.closest("td");
+
+                if (buttonParentTd.data("original-content")) {
+                    buttonParentTd
+                        .html(buttonParentTd.data("original-content"))
+                        .removeClass("reviewer-name-cell");
+                }
+            }
+
+            let currentlyViewingApplicantId = null;
+
+            Echo.join("viewing-Applicant-events").joining(() => {
+                // When someone joins, broadcast your current viewing state if you're viewing something
+                if (currentlyViewingApplicantId) {
+                    Echo.private("viewing-Applicant-events").whisper(
+                        "viewing",
+                        {
+                            applicant_id: currentlyViewingApplicantId,
+                            reviewed_by: AUTH_USER_NAME,
+                        }
+                    );
+                }
+            });
             let ProjectProposalFormInitialValue = {};
             const applicantDataTable = $("#applicant").DataTable({
                 responsive: true,
@@ -4714,10 +4794,14 @@ window.initializeStaffPageJs = async () => {
                         personnel.total_personnel || "0"
                     );
 
-                    Echo.private('viewing-Applicant-events').whisper('viewing', {
-                        applicant_id: ApplicationID,
-                        reviewed_by: AUTH_USER_NAME,
-                    })
+                    Echo.private("viewing-Applicant-events").whisper(
+                        "viewing",
+                        {
+                            applicant_id: ApplicationID,
+                            reviewed_by: AUTH_USER_NAME,
+                        }
+                    );
+                    currentlyViewingApplicantId = ApplicationID;
 
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
@@ -4729,14 +4813,17 @@ window.initializeStaffPageJs = async () => {
 
             ApplicantDetailsContainer.on("hidden.bs.offcanvas", function () {
                 const FormContainer =
-                ApplicantDetailsContainer.find("#projectProposal");
+                    ApplicantDetailsContainer.find("#projectProposal");
                 const ApplicantID = ApplicantDetailsContainer.find(
                     "#selected_applicationId"
                 ).val();
-
-                Echo.private('viewing-Applicant-events').whisper('viewing-closed', {
-                    applicant_id: ApplicantID,
-                });
+                currentlyViewingApplicantId = null;
+                Echo.private("viewing-Applicant-events").whisper(
+                    "viewing-closed",
+                    {
+                        applicant_id: ApplicantID,
+                    }
+                );
 
                 FormContainer.find("input, textarea").val("");
                 FormContainer.find(
@@ -4865,7 +4952,7 @@ window.initializeStaffPageJs = async () => {
             }
             //View applicant requirements
             $("#requirementsTables").on("click", ".viewReq", async function () {
-                showProcessToast('Retrieving file...');
+                showProcessToast("Retrieving file...");
                 const row = $(this).closest("tr");
                 const fileID = row
                     .find('input[type="hidden"][name="file_id"]')
@@ -4890,8 +4977,8 @@ window.initializeStaffPageJs = async () => {
                 $("#fileUploaded").val(uploadedDate);
                 $("#fileUploadedBy").val(updatedDate);
                 $("#fileUploadedBy").val(uploader);
-               await retrieveAndDisplayFile(fileUrl, fileType);
-               hideProcessToast();
+                await retrieveAndDisplayFile(fileUrl, fileType);
+                hideProcessToast();
             });
 
             //retrieve and display file function as base64 format for both pdf and img type
@@ -5017,7 +5104,7 @@ window.initializeStaffPageJs = async () => {
                 if (!confirmed) {
                     return;
                 }
-                showProcessToast('Setting evaluation date...');
+                showProcessToast("Setting evaluation date...");
                 try {
                     const response = await $.ajax({
                         type: "PUT",
@@ -5082,7 +5169,7 @@ window.initializeStaffPageJs = async () => {
                     return;
                 }
 
-                showProcessToast('Rejecting applicant...');
+                showProcessToast("Rejecting applicant...");
                 const formData = new FormData(this);
                 try {
                     const response = await $.ajax({
