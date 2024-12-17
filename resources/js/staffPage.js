@@ -24,6 +24,7 @@ import 'datatables.net-scroller-bs5';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
+let currentPage = null;
 
 Echo.private(`staff-notifications.${USER_ID}`).listen(
     '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
@@ -92,6 +93,13 @@ const setActiveLink = (activeLink) => {
 
 window.loadPage = async (url, activeLink) => {
     try {
+        $(document).trigger('page:changing', {
+            from: currentPage,
+            to: activeLink
+        });
+
+        currentPage = activeLink;
+
         $('.spinner').removeClass('d-none');
         $('#main-content').hide();
         const cachedPage = sessionStorage.getItem(url);
@@ -2045,7 +2053,7 @@ window.initializeStaffPageJs = async () => {
             });
 
             function inputsToCurrencyFormatter(thisInput) {
-                const value = thisInput.val().replace(/[^0-9.]/g, '');
+                let value = thisInput.val().replace(/[^0-9.]/g, '');
 
                 if ((value.match(/\./g) || []).length > 1) {
                     value =
@@ -4405,51 +4413,57 @@ window.initializeStaffPageJs = async () => {
         },
         Applicant: () => {
             new smartWizard();
+            const APPLICANT_VIEWING_CHANNEL = "viewing-Applicant-events";
+            let currentlyViewingApplicantId = null;
+            let echoChannel = null;
 
-            Echo.private('viewing-Applicant-events').listenForWhisper(
-                'viewing',
-                (e) => {
-                    // Find the button for the specific applicant
+            const initializeEchoListeners = () => {
+                if (echoChannel) {
+                    Echo.leaveChannel(`private-${APPLICANT_VIEWING_CHANNEL}`);
+                }
+
+                echoChannel = Echo.private(APPLICANT_VIEWING_CHANNEL);
+
+                Echo.private('viewing-Applicant-events').listenForWhisper('viewing', (e) => {
                     updateViewingState(e.applicant_id, e.reviewed_by);
-                }
-            );
+                });
 
-            Echo.private('viewing-Applicant-events').listenForWhisper(
-                'viewing-closed',
-                (e) => {
-                    // Find the button for the specific applicant
+                // When viewing ends
+                Echo.private('viewing-Applicant-events').listenForWhisper('viewing-closed', (e) => {
                     removeViewingState(e.applicant_id);
+                });
+            };
+
+            const cleanupEchoListeners = () => {
+                if (currentlyViewingApplicantId) {
+                    echoChannel?.whisper("viewing-closed", {
+                        applicant_id: currentlyViewingApplicantId
+                    });
+                    currentlyViewingApplicantId = null;
                 }
-            );
+
+                if (echoChannel) {
+                    Echo.leaveChannel(`private-${APPLICANT_VIEWING_CHANNEL}`);
+                    echoChannel = null;
+                }
+            };
 
             function updateViewingState(applicantId, reviewedBy) {
-                const applicantButton = $(
-                    `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
-                );
+                const applicantButton = $(`#ApplicantTableBody button[data-applicant-id="${applicantId}"]`);
                 const buttonParentTd = applicantButton.closest('td');
 
                 if (!buttonParentTd.data('original-content')) {
-                    buttonParentTd.data(
-                        'original-content',
-                        buttonParentTd.html()
-                    );
+                    buttonParentTd.data('original-content', buttonParentTd.html());
                 }
 
                 applicantButton.css('display', 'none');
-                buttonParentTd
-                    .append(
-                        `<span class="reviewer-name">${
-                            reviewedBy ? `${reviewedBy} is viewing this` : ''
-                        }</span>`
-                    )
+                buttonParentTd.append(`<span class="reviewer-name">${reviewedBy ? `${reviewedBy} is viewing this` : ''}</span>`)
                     .addClass('reviewer-name-cell');
             }
 
             // Function to remove viewing state from UI
             function removeViewingState(applicantId) {
-                const applicantButton = $(
-                    `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
-                );
+                const applicantButton = $(`#ApplicantTableBody button[data-applicant-id="${applicantId}"]`);
                 const buttonParentTd = applicantButton.closest('td');
 
                 if (buttonParentTd.data('original-content')) {
@@ -4459,20 +4473,13 @@ window.initializeStaffPageJs = async () => {
                 }
             }
 
-            let currentlyViewingApplicantId = null;
-
-            Echo.join('viewing-Applicant-events').joining(() => {
-                // When someone joins, broadcast your current viewing state if you're viewing something
-                if (currentlyViewingApplicantId) {
-                    Echo.private('viewing-Applicant-events').whisper(
-                        'viewing',
-                        {
-                            applicant_id: currentlyViewingApplicantId,
-                            reviewed_by: AUTH_USER_NAME,
-                        }
-                    );
+            $(document).on('page:changing', function(e, data) {
+                const { from, to } = data;
+                if (from === 'Applicationlink') {
+                    cleanupEchoListeners();
                 }
             });
+
             let ProjectProposalFormInitialValue = {};
             const applicantDataTable = $('#applicant').DataTable({
                 responsive: true,
@@ -4640,6 +4647,7 @@ window.initializeStaffPageJs = async () => {
                         })
                     )
                     .draw();
+                    initializeEchoListeners();
             };
 
             getApplicants();
