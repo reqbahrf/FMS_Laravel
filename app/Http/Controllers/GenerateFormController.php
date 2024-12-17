@@ -6,9 +6,18 @@ use Exception;
 use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Services\ProjectFormService;
+use App\Services\GetPreviousQuarterService;
 
 class GenerateFormController extends Controller
 {
+
+    public function __construct(private ProjectFormService $projectFormService, private GetPreviousQuarterService $getPreviousQuarterService)
+    {
+        $this->projectFormService = $projectFormService;
+        $this->getPreviousQuarterService = $getPreviousQuarterService;
+
+    }
     public function getProjectSheetsForm(Request $request, $type, $projectId, $quarter = null)
     {
         try {
@@ -30,17 +39,17 @@ class GenerateFormController extends Controller
 
             switch ($formType) {
                 case 'PIS':
-                    $projectData = $this->getProjectInfomationSheetData($projectId);
+                    $projectData = $this->projectFormService->getProjectInfomationSheetData($projectId);
                     return view('StaffView.SheetFormTemplete.PISFormTemplete', compact('projectData'));
 
                 case 'PDS':
-                    $projectData = $this->getProjectDataSheetData($projectId, $quarter);
+                    $projectData = $this->projectFormService->getProjectDataSheetData($projectId, $quarter);
                     $CurrentQuarterlyData = $projectData->quarterlyReport->first()->report_file;
                     $PreviousQuarterlyData = $projectData->previousQuarterlyReport->first()->report_file;
 
                     $CurrentQuarterlyData = array_merge(['quarter' => $quarter], $CurrentQuarterlyData);
                     $PreviousQuarterlyData = $PreviousQuarterlyData != null
-                        ? array_merge(['quarter' => $this->getPreviousQuarter($quarter)], $PreviousQuarterlyData)
+                        ? array_merge(['quarter' => $this->getPreviousQuarterService->getPreviousQuarter($quarter)], $PreviousQuarterlyData)
                         : null;
 
                     return view('StaffView.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'CurrentQuarterlyData', 'PreviousQuarterlyData'));
@@ -61,113 +70,6 @@ class GenerateFormController extends Controller
                 'error' => 'An error occurred while generating the form',
                 'message' => $e->getMessage()
             ], 500);
-        }
-    }
-
-    private function getProjectInfomationSheetData(string $projectId): object
-    {
-        try {
-            return ProjectInfo::select(
-                'Project_id',
-                'project_title',
-                'business_id',
-                'firm_name',
-                'enterprise_type',
-                'zip_code',
-                'landMark',
-                'barangay',
-                'city',
-                'province',
-                'region',
-                'f_name',
-                'mid_name',
-                'l_name',
-                'suffix',
-                'sex',
-                'birth_date',
-                'mobile_number',
-                'landline',
-                'email'
-            )
-                ->join('business_info', 'project_info.business_id', '=', 'business_info.id')
-                ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
-                ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
-                ->where('project_info.Project_id', $projectId)
-                ->firstOrFail();
-        } catch (Exception $e) {
-            Log::error('Error in getProjectInfomationSheetData: ' . $e->getMessage(), [
-                'projectId' => $projectId
-            ]);
-            throw new Exception('Failed to retrieve project information sheet data: ' . $e->getMessage());
-        }
-    }
-
-    private function getProjectDataSheetData(string $projectId, string $quarter): object
-    {
-        try {
-            $previousQuarter = $this->getPreviousQuarter($quarter);
-
-            return ProjectInfo::select(
-                'project_info.Project_id',
-                'project_info.project_title',
-                'business_info.firm_name',
-                'business_info.landMark',
-                'business_info.barangay',
-                'business_info.city',
-                'business_info.province',
-                'business_info.region',
-                'business_info.zip_code',
-                'coop_users_info.f_name',
-                'coop_users_info.mid_name',
-                'coop_users_info.l_name',
-                'coop_users_info.suffix',
-                'coop_users_info.designation',
-                'coop_users_info.landline',
-                'coop_users_info.mobile_number',
-                'users.email'
-            )
-                ->join('business_info', 'project_info.business_id', '=', 'business_info.id')
-                ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
-                ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
-                ->with([
-                    'quarterlyReport' => function ($query) use ($quarter) {
-                        $query->select('ongoing_project_id', 'quarter', 'report_file')
-                            ->where('quarter',  $quarter);
-                    },
-                    'previousQuarterlyReport' => function ($query) use ($previousQuarter) {
-                        $query->select('ongoing_project_id', 'quarter', 'report_file')
-                            ->where('quarter',  $previousQuarter);
-                    }
-                ])
-                ->where('project_info.Project_id', $projectId)
-                ->firstOrFail();
-        } catch (Exception $e) {
-            Log::error('Error in getProjectDataSheetData: ' . $e->getMessage(), [
-                'projectId' => $projectId,
-                'quarter' => $quarter
-            ]);
-            throw new Exception('Failed to retrieve project data sheet data: ' . $e->getMessage());
-        }
-    }
-
-    protected function getPreviousQuarter(String $quarter): string
-    {
-        try {
-            list($currentQuarter, $currentYear) = explode(' ', $quarter);
-            $currentQuarterNumber = (int) substr($currentQuarter, 1);
-            $previousQuarterNumber = $currentQuarterNumber - 1;
-            $previousYear = $currentYear;
-
-            if ($previousQuarterNumber < 1) {
-                $previousQuarterNumber = 4;
-                $previousYear -= 1;
-            }
-            return "Q{$previousQuarterNumber} {$previousYear}";
-        } catch (Exception $e) {
-            Log::error('Error in getPreviousQuarter: ' . $e->getMessage(), [
-                'quarter' => $quarter
-            ]);
-            throw new Exception('Failed to retrieve previous quarter: ' . $e->getMessage());
         }
     }
 }
