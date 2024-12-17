@@ -4419,18 +4419,36 @@ window.initializeStaffPageJs = async () => {
 
             const initializeEchoListeners = () => {
                 if (echoChannel) {
-                    Echo.leaveChannel(`private-${APPLICANT_VIEWING_CHANNEL}`);
+                  cleanupEchoListeners();
                 }
 
                 echoChannel = Echo.private(APPLICANT_VIEWING_CHANNEL);
 
-                Echo.private('viewing-Applicant-events').listenForWhisper('viewing', (e) => {
+                echoChannel.listenForWhisper('viewing', (e) => {
                     updateViewingState(e.applicant_id, e.reviewed_by);
                 });
 
                 // When viewing ends
-                Echo.private('viewing-Applicant-events').listenForWhisper('viewing-closed', (e) => {
+                echoChannel.listenForWhisper('viewing-closed', (e) => {
                     removeViewingState(e.applicant_id);
+                });
+
+
+             Echo.join(APPLICANT_VIEWING_CHANNEL)
+                    .here((staff) => {
+                         console.log('Current members:', staff);
+                    })
+                    .joining((staff) => {
+                    console.log('New member joining:', staff);
+                    if (currentlyViewingApplicantId) {
+                        console.log('Refiring viewing event for applicant:', currentlyViewingApplicantId);
+                        echoChannel.whisper('viewing', {
+                            applicant_id: currentlyViewingApplicantId,
+                            reviewed_by: AUTH_USER_NAME,
+                        });
+                    }
+                }).leaving((staff) => {
+                    console.log('Member leaving:', staff);
                 });
             };
 
@@ -4440,10 +4458,12 @@ window.initializeStaffPageJs = async () => {
                         applicant_id: currentlyViewingApplicantId
                     });
                     currentlyViewingApplicantId = null;
+
                 }
 
                 if (echoChannel) {
                     Echo.leaveChannel(`private-${APPLICANT_VIEWING_CHANNEL}`);
+                    Echo.leaveChannel(`presence-${APPLICANT_VIEWING_CHANNEL}`);
                     echoChannel = null;
                 }
             };
@@ -4648,6 +4668,7 @@ window.initializeStaffPageJs = async () => {
                     )
                     .draw();
                     initializeEchoListeners();
+
             };
 
             getApplicants();
