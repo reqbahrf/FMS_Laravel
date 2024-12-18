@@ -95,7 +95,7 @@ window.loadPage = async (url, activeLink) => {
     try {
         $(document).trigger('page:changing', {
             from: currentPage,
-            to: activeLink
+            to: activeLink,
         });
 
         currentPage = activeLink;
@@ -717,10 +717,11 @@ window.initializeStaffPageJs = async () => {
                                 project.application_status === 'approved'
                                     ? 'bg-warning'
                                     : project.application_status === 'ongoing'
-                                    ? 'bg-primary'
-                                    : project.application_status === 'completed'
-                                    ? 'bg-success'
-                                    : null
+                                      ? 'bg-primary'
+                                      : project.application_status ===
+                                          'completed'
+                                        ? 'bg-success'
+                                        : null
                             }">${project.application_status}</span>`,
                             `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
                             data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
@@ -934,8 +935,8 @@ window.initializeStaffPageJs = async () => {
                                 payment.payment_status === 'Paid'
                                     ? 'success'
                                     : payment.payment_status === 'Pending'
-                                    ? 'warning'
-                                    : 'danger'
+                                      ? 'warning'
+                                      : 'danger'
                             } ">${payment.payment_status}</span>`,
                             dateFormatter(payment.created_at),
                             `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
@@ -981,10 +982,10 @@ window.initializeStaffPageJs = async () => {
                                 receipt.remark === 'Pending'
                                     ? 'bg-info'
                                     : receipt.remark === 'Approved'
-                                    ? 'bg-success'
-                                    : receipt.remark === 'Rejected'
-                                    ? 'bg-danger'
-                                    : ''
+                                      ? 'bg-success'
+                                      : receipt.remark === 'Rejected'
+                                        ? 'bg-danger'
+                                        : ''
                             }">${receipt.remark}</span>
                       <input type="hidden" class="comment" value="${
                           receipt.comment
@@ -1564,8 +1565,8 @@ window.initializeStaffPageJs = async () => {
                     action === 'ProjectLink'
                         ? SaveProjectFileLinks(projectID, action)
                         : action === 'ProjectFile'
-                        ? SaveProjectFile(projectID, action, businesID)
-                        : null;
+                          ? SaveProjectFile(projectID, action, businesID)
+                          : null;
                 });
 
             $('#UpdateProjectLink').on('click', async () => {
@@ -1798,16 +1799,16 @@ window.initializeStaffPageJs = async () => {
                                       uniqueVal
                                   )
                                 : recordToDelete === 'projectLinkRecord'
-                                ? DASHBBOARD_TAB_ROUTE.DELETE_PROJECT_LINK.replace(
-                                      ':file_id',
-                                      uniqueVal
-                                  )
-                                : recordToDelete === 'quarterlyRecord'
-                                ? DASHBBOARD_TAB_ROUTE.DELETE_QUARTERLY_REPORT.replace(
-                                      ':record_id',
-                                      uniqueVal
-                                  )
-                                : '';
+                                  ? DASHBBOARD_TAB_ROUTE.DELETE_PROJECT_LINK.replace(
+                                        ':file_id',
+                                        uniqueVal
+                                    )
+                                  : recordToDelete === 'quarterlyRecord'
+                                    ? DASHBBOARD_TAB_ROUTE.DELETE_QUARTERLY_REPORT.replace(
+                                          ':record_id',
+                                          uniqueVal
+                                      )
+                                    : '';
                         try {
                             const project_id = $('#ProjectID').val();
                             const response = await $.ajax({
@@ -1829,13 +1830,13 @@ window.initializeStaffPageJs = async () => {
                             recordToDelete === 'projectLinkRecord'
                                 ? getProjectLinks(project_id)
                                 : recordToDelete === 'paymentRecord'
-                                ? getPaymentHistoryAndCalculation(
-                                      project_id,
-                                      getAmountRefund()
-                                  )
-                                : recordToDelete === 'quarterlyRecord'
-                                ? getQuarterlyReports(project_id)
-                                : null;
+                                  ? getPaymentHistoryAndCalculation(
+                                        project_id,
+                                        getAmountRefund()
+                                    )
+                                  : recordToDelete === 'quarterlyRecord'
+                                    ? getQuarterlyReports(project_id)
+                                    : null;
                         } catch (error) {
                             hideProcessToast();
                             showToastFeedback(
@@ -3973,8 +3974,8 @@ window.initializeStaffPageJs = async () => {
                                     payment.payment_status === 'Paid'
                                         ? 'success'
                                         : payment.payment_status === 'Pending'
-                                        ? 'warning'
-                                        : 'danger'
+                                          ? 'warning'
+                                          : 'danger'
                                 } ">${payment.payment_status}</span>`,
                                 formattedDate,
                             ];
@@ -4413,13 +4414,13 @@ window.initializeStaffPageJs = async () => {
         },
         Applicant: () => {
             new smartWizard();
-            const APPLICANT_VIEWING_CHANNEL = "viewing-Applicant-events";
+            const APPLICANT_VIEWING_CHANNEL = 'viewing-Applicant-events';
             let currentlyViewingApplicantId = null;
             let echoChannel = null;
 
             const initializeEchoListeners = () => {
                 if (echoChannel) {
-                  cleanupEchoListeners();
+                    cleanupEchoListeners();
                 }
 
                 echoChannel = Echo.private(APPLICANT_VIEWING_CHANNEL);
@@ -4433,32 +4434,30 @@ window.initializeStaffPageJs = async () => {
                     removeViewingState(e.applicant_id);
                 });
 
-
-             Echo.join(APPLICANT_VIEWING_CHANNEL)
+                Echo.join(APPLICANT_VIEWING_CHANNEL)
                     .here((staff) => {
-                         console.log('Current members:', staff);
+                        console.log('Current members:', staff);
                     })
                     .joining((staff) => {
-                    console.log('New member joining:', staff);
-                    if (currentlyViewingApplicantId) {
-                        console.log('Refiring viewing event for applicant:', currentlyViewingApplicantId);
-                        echoChannel.whisper('viewing', {
-                            applicant_id: currentlyViewingApplicantId,
-                            reviewed_by: AUTH_USER_NAME,
-                        });
-                    }
-                }).leaving((staff) => {
-                    console.log('Member leaving:', staff);
-                });
+                        console.log('New member joining:', staff);
+                        if (currentlyViewingApplicantId) {
+                            echoChannel.whisper('viewing', {
+                                applicant_id: currentlyViewingApplicantId,
+                                reviewed_by: AUTH_USER_NAME,
+                            });
+                        }
+                    })
+                    .leaving((staff) => {
+                        console.log('Member leaving:', staff);
+                    });
             };
 
             const cleanupEchoListeners = () => {
                 if (currentlyViewingApplicantId) {
-                    echoChannel?.whisper("viewing-closed", {
-                        applicant_id: currentlyViewingApplicantId
+                    echoChannel?.whisper('viewing-closed', {
+                        applicant_id: currentlyViewingApplicantId,
                     });
                     currentlyViewingApplicantId = null;
-
                 }
 
                 if (echoChannel) {
@@ -4477,13 +4476,23 @@ window.initializeStaffPageJs = async () => {
                 }
 
                 applicantButton.css('display', 'none');
-                buttonParentTd.append(`<span class="reviewer-name">${reviewedBy ? `${reviewedBy} is viewing this` : ''}</span>`)
-                    .addClass('reviewer-name-cell');
-            }
+                if (reviewedBy) {
+                    const initials = reviewedBy.split(" ").map((n)=>n[0]).join("");
+                    // Create a container for the initial and name
+                    const reviewerContainer = $(`<div class="reviewer-container"></div>`);
+                    reviewerContainer.append(`<span class="reviewer-initial">${initials}</span>`);
+                    reviewerContainer.append(`<span class="reviewer-name">${reviewedBy}</span>`);
+                    reviewerContainer.append(`<span class="badge rounded-pill text-bg-success reviewer-badge">reviewing</span>`)
 
+                    buttonParentTd.append(reviewerContainer)
+                        .addClass('reviewer-name-cell');
+                }
+            }
             // Function to remove viewing state from UI
             function removeViewingState(applicantId) {
-                const applicantButton = $(`#ApplicantTableBody button[data-applicant-id="${applicantId}"]`);
+                const applicantButton = $(
+                    `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
+                );
                 const buttonParentTd = applicantButton.closest('td');
 
                 if (buttonParentTd.data('original-content')) {
@@ -4493,7 +4502,7 @@ window.initializeStaffPageJs = async () => {
                 }
             }
 
-            $(document).on('page:changing', function(e, data) {
+            $(document).on('page:changing', function (e, data) {
                 const { from, to } = data;
                 if (from === 'Applicationlink') {
                     cleanupEchoListeners();
@@ -4615,10 +4624,8 @@ window.initializeStaffPageJs = async () => {
                         parseInt(item.female_indirect_part || 0)
                     }">
                     <span class="b_address text-truncate">${item.landMark}, ${
-                                    item.barangay
-                                }, ${item.city}, ${item.province}, ${
-                                    item.region
-                                }</span><br>
+                        item.barangay
+                    }, ${item.city}, ${item.province}, ${item.region}</span><br>
                     <strong>Type of Enterprise:</strong> <span class="enterprise_l">${
                         item.enterprise_type
                     }</span>
@@ -4652,11 +4659,12 @@ window.initializeStaffPageJs = async () => {
                                     item.application_status === 'new'
                                         ? 'bg-primary'
                                         : item.application_status ===
-                                          'evaluation'
-                                        ? 'bg-info'
-                                        : item.application_status === 'pending'
-                                        ? 'bg-primary'
-                                        : 'bg-danger'
+                                            'evaluation'
+                                          ? 'bg-info'
+                                          : item.application_status ===
+                                              'pending'
+                                            ? 'bg-primary'
+                                            : 'bg-danger'
                                 }">${item.application_status}</span>`,
                                 `   <button class="btn btn-primary applicantDetailsBtn" data-applicant-id="${item.Application_ID}" type="button"
                                             data-bs-toggle="offcanvas" data-bs-target="#applicantDetails"
@@ -4667,8 +4675,7 @@ window.initializeStaffPageJs = async () => {
                         })
                     )
                     .draw();
-                    initializeEchoListeners();
-
+                initializeEchoListeners();
             };
 
             getApplicants();
@@ -4937,8 +4944,8 @@ window.initializeStaffPageJs = async () => {
                   requirement.remarks === 'Pending'
                       ? 'bg-info'
                       : requirement.remarks === 'Approved'
-                      ? 'bg-primary'
-                      : 'bg-danger'
+                        ? 'bg-primary'
+                        : 'bg-danger'
               } border border-light rounded-circle">
     <span class="visually-hidden">New alerts</span>
   </span>
