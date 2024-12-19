@@ -18,7 +18,7 @@ class ApplicationController extends Controller
 
     public function store(NewRegistrationRequest $request)
     {
-         $user_name = Auth::user()->user_name;
+        $user_name = Auth::user()->user_name;
 
         $successful_inserts = 0;
 
@@ -157,9 +157,8 @@ class ApplicationController extends Controller
             $fileNames['FDA_LTOFilePath'] = $fda_lto_Name_Selector;
             $fileNames['govFilePath'] = $govId_Selector;
 
-            foreach($file_to_insert as $filekey => $filePath){
-                if(Storage::disk('public')->exists($filePath))
-                {
+            foreach ($file_to_insert as $filekey => $filePath) {
+                if (Storage::disk('public')->exists($filePath)) {
                     $fileName = $fileNames[$filekey];
                     $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
@@ -199,10 +198,9 @@ class ApplicationController extends Controller
                     } else {
                         return response()->json(['error' => "Failed to store file {$fileName}"], 500);
                     }
-                }else{
+                } else {
                     return response()->json(['error' => "This file $fileNames[$filekey] does not exist"], 404);
                 };
-
             }
 
             $successful_inserts++;
@@ -219,10 +217,8 @@ class ApplicationController extends Controller
             if ($successful_inserts == 6) {
                 DB::commit();
                 //Testing this defer Method
-                defer(fn () =>  [
-                    event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $city, 'NEW_APPLICANT')),
-                    Cache::forget('applicants')
-                ]);
+                event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $city, 'NEW_APPLICANT'));
+                Cache::forget('applicants');
                 return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.index')], 200);
             } else {
                 DB::rollBack();
@@ -234,6 +230,4 @@ class ApplicationController extends Controller
             return response()->json(['error' => 'An error occurred']);
         }
     }
-
-
 }
