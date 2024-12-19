@@ -106,6 +106,7 @@ const handleAjaxSuccess = async (response, activeLink, url) => {
             [NAV_ROUTE.PROJECTS]: functions.ProjectList,
             [NAV_ROUTE.APPLICATIONS]: functions.ApplicantList,
             [NAV_ROUTE.USERS]: functions.Users,
+            [NAV_ROUTE.SETTINGS]: functions.ProjectSettings,
         };
         if (urlMapFunction[url]) {
             await urlMapFunction[url]();
@@ -2532,6 +2533,49 @@ window.initializeAdminPageJs = async () => {
                 const offcanvas = $(this);
 
                 offcanvas.find("#StaffName").text(StaffName);
+            });
+        },
+        ProjectSettings: () => {
+            const ProjectFeeForm = $('#projectFeeForm');
+
+            ProjectFeeForm.on("submit", async function (event) {
+                event.preventDefault();
+                const isConfirmed = await createConfirmationModal({
+                    title: "Update Project Fee",
+                    titleBg: "bg-primary",
+                    message:
+                        "Are you sure you want to update the project fee?",
+                    confirmText: "Yes",
+                    confirmButtonClass: "btn-primary",
+                    cancelText: "No",
+                });
+                if (!isConfirmed) {
+                    return;
+                }
+                showProcessToast("Updating Project Fee...");
+                try{
+                    const formData = new FormData(this);
+                    const response = await $.ajax({
+                        type: "POST",
+                        url: PROJECT_SETTINGS_ROUTE.UPDATE_PROJECT_FEE,
+                        headers: {
+                            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
+                                "content"
+                            ),
+                        },
+                        processData: false, // Don't process the data
+                        contentType: false, // Let jQuery set the content type based on formData
+                        data: formData,
+                    });
+                    hideProcessToast();
+                    showToastFeedback("text-bg-success", response.message);
+                }catch (error) {
+                    hideProcessToast();
+                    showToastFeedback(
+                        "text-bg-danger",
+                        error.responseJSON.message
+                    );
+                }
             });
         },
     };

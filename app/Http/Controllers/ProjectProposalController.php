@@ -8,6 +8,7 @@ use App\Models\ProjectInfo;
 use App\Models\ProjectProposal;
 use App\Notifications\ProjectProposalNotification;
 use App\Models\User;
+use App\Services\ProjectFeeService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -33,10 +34,8 @@ class ProjectProposalController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(SubmitProjectProposalRequest $request)
+
+    public function store(SubmitProjectProposalRequest $request, ProjectFeeService $projectFeeService)
     {
         $StaffID = Auth::user()->orgUserInfo->id;
         $validated = $request->validated();
@@ -69,7 +68,7 @@ class ProjectProposalController extends Controller
             $proposalData['expectedOutputs'] = $validated['expectedOutputs'];
             switch ($validated['action']) {
                 case 'SubmitForm':
-                    return $this->submitProjectProposal($validated['application_id'], $proposalData);
+                    return $this->submitProjectProposal($validated['application_id'], $proposalData, $projectFeeService);
                     break;
                 case 'DraftForm':
                     return $this->draftProjectProposal($validated['application_id'], $proposalData);
@@ -93,7 +92,7 @@ class ProjectProposalController extends Controller
             $data = $draftedData->data;
             return response()->json($data, 200);
         } catch (Exception $e) {
-            Log::alert('Error fetching project proposal:',$e->getMessage());
+            Log::alert('Error fetching project proposal:', $e->getMessage());
             return response()->json(['error' => 'Server error'], 500);
         }
     }
@@ -119,13 +118,21 @@ class ProjectProposalController extends Controller
         //
     }
 
-    protected function submitProjectProposal($ApplicationID, $proposalData)
+    protected function submitProjectProposal($ApplicationID, $proposalData, $projectFeeService)
     {
-        // Format fund amount and calculate actual fund to be refunded
-        $fundAmount = str_replace(',', '', $proposalData['fundAmount']);
-        $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
-        $actualFundToRefund = number_format($fundAmountFormatted * 1.05, 2, '.', ''); // Includes the 5% addition
+        // Remove commas and convert to float directly
+        $fundAmount = floatval(str_replace(',', '', $proposalData['fundAmount']));
 
+        // Get the fee percentage from the service
+        $fee_percentage = $projectFeeService->getProjectFee();
+
+        // Calculate the actual fund to refund
+        // (1 + fee_percentage/100) multiplies the original amount by the total percentage
+        $actualFundToRefund = $fundAmount * (1 + ($fee_percentage / 100));
+
+        // Format to 2 decimal places
+        $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
+        $actualFundToRefund = number_format($actualFundToRefund, 2, '.', '');
 
         // Begin a transaction for database consistency
         DB::beginTransaction();

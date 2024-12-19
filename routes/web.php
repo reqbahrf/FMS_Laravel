@@ -40,6 +40,7 @@ use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
@@ -265,7 +266,14 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
     Route::get('/Admin/Project/getOngoingProjects', [AdminViewController::class, 'getOngoingProjects'])
         ->name('admin.Project.getOngoingProjects');
 
-    Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])->name('admin.Users-list');
+    Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])
+        ->name('admin.Users-list');
+
+    Route::get('/Admin/Project-Settings',[AdminViewController::class, 'ProjectSettingView'])
+        ->name('admin.ProjectSettings');
+
+    Route::post('/Admin/Project-Settings', [ProjectSettingController::class, 'updateFee'])
+        ->name('admin.ProjectSettings.update');
 
     Route::get('/Admin/Project/ProposalDetails/{business_id}/{project_id}', GetProjectProposalController::class)
         ->name('admin.Project.GetProposalDetails');

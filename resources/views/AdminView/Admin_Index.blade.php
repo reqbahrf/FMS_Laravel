@@ -99,6 +99,17 @@
                         <span class="nav-text ml-2">Users</span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a
+                        class="mb-2 d-flex align-items-center"
+                        id="ProjectSettings"
+                        href="#"
+                        onclick="loadPage('{{ route('admin.ProjectSettings') }}','ProjectSettings');"
+                    >
+                        <i class="ri-settings-3-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Project Settings</span>
+                    </a>
+                </li>
             </ul>
         </nav>
 
@@ -178,6 +189,17 @@
                         >
                             <i class="ri-shield-user-fill ri-2x"></i>
                             <span class="nav-text ml-2">Users</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a
+                            class="mb-2 d-flex align-items-center"
+                            id="ProjectSettings"
+                            href="#"
+                            onclick=""
+                        >
+                            <i class="ri-settings-3-fill ri-2x"></i>
+                            <span class="nav-text ml-2">Project Settings</span>
                         </a>
                     </li>
                 </ul>
@@ -327,6 +349,7 @@
             PROJECTS: '{{ route('admin.Project') }}',
             APPLICATIONS: '{{ route('admin.Applicant') }}',
             USERS: '{{ route('admin.Users-list') }}',
+            SETTINGS: '{{ route('admin.ProjectSettings') }}'
         }
         const DASHBOARD_ROUTE = {
             GET_DASHBOARD_CHARTS_DATA: '{{ route('admin.Dashboard.chartData') }}',
@@ -357,6 +380,10 @@
             UPDATE_STAFF_USER: '{{ route('Users.update', ':user_name') }}',
             DELETE_STAFF_USER: '{{ route('Users.destroy', ':user_name') }}',
 
+        };
+
+        const PROJECT_SETTINGS_ROUTE = {
+            UPDATE_PROJECT_FEE: '{{ route('admin.ProjectSettings.update') }}',
         };
     </script>
     @vite('resources/js/adminPage.js')

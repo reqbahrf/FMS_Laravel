@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\ChartYearOf;
 use App\Models\OrgUserInfo;
 use App\Services\AdminDashboardService;
+use App\Services\ProjectFeeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -134,6 +135,16 @@ class AdminViewController extends Controller
 
         if ($request->ajax()) {
             return view('AdminView.AdminUsersTab');
+        } else {
+            return view('AdminView.Admin_Index');
+        }
+    }
+
+    public function ProjectSettingView(Request $request, ProjectFeeService $projectFeeService)
+    {
+        if ($request->ajax()) {
+            $fee_percentage = $projectFeeService->getProjectFee();
+            return view('AdminView.AdminProjectSettingsTab', compact('fee_percentage'));
         } else {
             return view('AdminView.Admin_Index');
         }
