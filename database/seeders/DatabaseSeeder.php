@@ -17,7 +17,8 @@ class DatabaseSeeder extends Seeder
       $this->call([
         UserTest::class,
         UserAdminTest::class,
-        ApplicationSeeder::class
+        ApplicationSeeder::class,
+        ProjectFeeSettingTableSeeder::class
       ]);
 
     }

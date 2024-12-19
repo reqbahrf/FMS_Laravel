@@ -146,6 +146,7 @@ class ProjectProposalController extends Controller
                     'evaluated_by_id' => $proposalData['staffId'],
                     'project_title' => $proposalData['projectTitle'],
                     'fund_amount' => $fundAmountFormatted,
+                    'fee_applied' => $fee_percentage,
                     'actual_amount_to_be_refund' => $actualFundToRefund,
                 ]
             );
