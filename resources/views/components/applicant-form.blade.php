@@ -2,54 +2,93 @@
     <div id="smartwizard">
         <ul class="nav nav-progress">
             <li class="nav-item">
-                <a class="nav-link default active" href="#step-1">
+                <a
+                    class="nav-link default active"
+                    href="#step-1"
+                >
                     <div class="num">1</div>
                     Personal Info
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link default" href="#step-2">
+                <a
+                    class="nav-link default"
+                    href="#step-2"
+                >
                     <span class="num">2</span>
                     Business Info
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link default" href="#step-3">
+                <a
+                    class="nav-link default"
+                    href="#step-3"
+                >
                     <span class="num">3</span>
                     Requirements
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link default" href="#step-4">
+                <a
+                    class="nav-link default"
+                    href="#step-4"
+                >
                     <span class="num">4</span>
                     Confirm Details
                 </a>
             </li>
         </ul>
-        <form id="applicationForm" class="g-3 p-5" novalidate>
+        <form
+            class="g-3 p-5"
+            id="applicationForm"
+            novalidate
+        >
             @csrf
-            <div class="tab-content h-auto" style="height: auto;">
-                <div class="alert alert-primary m-0" role="alert">
+            <div
+                class="tab-content h-auto"
+                style="height: auto;"
+            >
+                <div
+                    class="alert alert-primary m-0"
+                    role="alert"
+                >
                     <i class="ri-information-2-fill ri-lg"></i>
                     Please fill out all the <span class="requiredFields">*</span> required fields
                 </div>
-                <div id="step-1" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-1"
-                    style="position: static; left: 0px; display: block;">
+                <div
+                    class="tab-pane py-5"
+                    id="step-1"
+                    role="tabpanel"
+                    aria-labelledby="step-1"
+                    style="position: static; left: 0px; display: block;"
+                >
                     <!-- Where Personal Info Displayed -->
                     <div class="row mb-3 gy-3">
                         @if (auth()->user()->hasRole('Staff'))
                             <div class="col-12 col-md-6">
-                                    <label for="email">Email: <span class="requiredFields">*</span></label>
-                                    <input type="email" name="email" id="email" class="form-control"
-                                        value="" required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                        title="Please enter a valid email address">
-                                    <div class="form-text text-muted">To ensure successful delivery of login
-                                        credentials, please enter a valid email address for the registered user.</div>
-                                    <div class="invalid-feedback">Please enter a valid email address.</div>
+                                <label for="email">Email: <span class="requiredFields">*</span></label>
+                                <input
+                                    class="form-control"
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    value=""
+                                    title="Please enter a valid email address"
+                                    required
+                                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                >
+                                <div class="form-text text-muted">To ensure successful delivery of login
+                                    credentials, please enter a valid email address for the registered user.</div>
+                                <div class="invalid-feedback">Please enter a valid email address.</div>
                             </div>
                             <div class="col-12 col-md-6">
                                 <label for="projectStatus">Status:</label>
-                                <select name="projectStatus" id="projectStatus" class="form-select" required>
+                                <select
+                                    class="form-select"
+                                    id="projectStatus"
+                                    name="projectStatus"
+                                    required
+                                >
                                     <option value="new">New</option>
                                     <option value="ongoing">Ongoing</option>
                                 </select>
@@ -57,40 +96,97 @@
                                     Please select a project status.
                                 </div>
                             </div>
-                            <div class="col-12 col-md-3" style="display: none">
+                            <div
+                                class="col-12 col-md-3"
+                                style="display: none"
+                            >
                                 <label for="project_id">Project ID:</label>
-                                <input type="text" class="form-control" name="project_id" id="project_id"
-                                    value=""  data-status-dependency="ongoing" required>
-                                <div class="invalid-feedback" disabled>
+                                <input
+                                    class="form-control"
+                                    id="project_id"
+                                    name="project_id"
+                                    data-status-dependency="ongoing"
+                                    type="text"
+                                    value=""
+                                    required
+                                >
+                                <div
+                                    class="invalid-feedback"
+                                    disabled
+                                >
                                     Please enter a valid project ID.
                                 </div>
                             </div>
-                            <div class="col-12 col-md-9" style="display: none">
+                            <div
+                                class="col-12 col-md-9"
+                                style="display: none"
+                            >
                                 <label for="project_title">Project Title:</label>
-                                <input type="text" class="form-control" name="project_title" id="project_title" data-status-dependency="ongoing"  required>
-                                <div class="invalid-feedback"  disabled>
+                                <input
+                                    class="form-control"
+                                    id="project_title"
+                                    name="project_title"
+                                    data-status-dependency="ongoing"
+                                    type="text"
+                                    required
+                                >
+                                <div
+                                    class="invalid-feedback"
+                                    disabled
+                                >
                                     Please enter a valid project title.
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4" style="display: none">
+                            <div
+                                class="col-12 col-md-4"
+                                style="display: none"
+                            >
                                 <label for="funded_amount">Funded Amount:</label>
-                                <input type="text" class="form-control" name="funded_amount" id="funded_amount" required data-status-dependency="ongoing">
-                                <div class="invalid-feedback" disabled>
+                                <input
+                                    class="form-control"
+                                    id="funded_amount"
+                                    name="funded_amount"
+                                    data-status-dependency="ongoing"
+                                    type="text"
+                                    required
+                                >
+                                <div
+                                    class="invalid-feedback"
+                                    disabled
+                                >
                                     Please enter a valid funded amount.
                                 </div>
                             </div>
-                            <div class="col-12 col-md-4" style="display: none">
+                            <div
+                                class="col-12 col-md-4"
+                                style="display: none"
+                            >
                                 <label for="funded_date">Funded Date:</label>
-                                <input type="date" class="form-control" name="funded_date" id="funded_date" required data-status-dependency="ongoing">
-                                <div class="invalid-feedback" disabled>
+                                <input
+                                    class="form-control"
+                                    id="funded_date"
+                                    name="funded_date"
+                                    data-status-dependency="ongoing"
+                                    type="date"
+                                    required
+                                >
+                                <div
+                                    class="invalid-feedback"
+                                    disabled
+                                >
                                     Please enter a valid funded date.
                                 </div>
                             </div>
                             <hr>
-                            @endif
+                        @endif
                         <div class="col-12 col-md-2">
                             <label for="prefix">Prefix:</label>
-                            <input list="prefixOptions" class="form-control" name="prefix" id="prefix">
+                            <input
+                                class="form-control"
+                                id="prefix"
+                                name="prefix"
+                                list="prefixOptions"
+                            >
                             <datalist id="prefixOptions">
                                 <option value="none">None</option>
                                 <option value="Mx.">Mx.</option>
@@ -107,32 +203,58 @@
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="f_name">First Name: <span class="requiredFields"> *</span></label>
-                            <input type="text" name="f_name" id="f_name" class="form-control"
-                                value="{{ old('f_name') }}" placeholder="John" required>
+                            <input
+                                class="form-control"
+                                id="f_name"
+                                name="f_name"
+                                type="text"
+                                value="{{ old('f_name') }}"
+                                placeholder="John"
+                                required
+                            >
                             <div class="invalid-feedback">
                                 Please enter your first name.
                             </div>
                         </div>
                         <div class="col-12 col-md-2">
                             <label for="middle_name">Middle Name: <span class="requiredFields">*</span></label>
-                            <input type="text" name="middle_name" id="middle_name" value="{{ old('middle_name') }}"
-                                class="form-control" placeholder="Doe" required>
+                            <input
+                                class="form-control"
+                                id="middle_name"
+                                name="middle_name"
+                                type="text"
+                                value="{{ old('middle_name') }}"
+                                placeholder="Doe"
+                                required
+                            >
                             <div class="invalid-feedback">
                                 Please enter your middle name.
                             </div>
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="l_name">Last Name: <span class="requiredFields"> *</span></label>
-                            <input type="text" name="l_name" id="l_name" class="form-control"
-                                value="{{ old('l_name') }}" placeholder="Doe" required>
+                            <input
+                                class="form-control"
+                                id="l_name"
+                                name="l_name"
+                                type="text"
+                                value="{{ old('l_name') }}"
+                                placeholder="Doe"
+                                required
+                            >
                             <div class="invalid-feedback">
                                 Please enter your last name.
                             </div>
                         </div>
                         <div class="col-12 col-md-2">
                             <label for="suffix">Suffix: </label>
-                            <input list="suffixList" class="form-control" name="suffix" id="suffix"
-                                value="{{ old('suffix') }}">
+                            <input
+                                class="form-control"
+                                id="suffix"
+                                name="suffix"
+                                value="{{ old('suffix') }}"
+                                list="suffixList"
+                            >
                             <datalist id="suffixList">
                                 <option value="none">None</option>
                                 <option value="Jr.">Jr.</option>
@@ -148,7 +270,12 @@
                             <div class="row">
                                 <div class="col-12 me-auto">
                                     <label for="sex">sex: <span class="requiredFields">*</span></label>
-                                    <select name="sex" id="sex" class="form-select" required>
+                                    <select
+                                        class="form-select"
+                                        id="sex"
+                                        name="sex"
+                                        required
+                                    >
                                         <option value="">Select...</option>
                                         <option value="Male">Male</option>
                                         <option value="Female">Female</option>
@@ -164,10 +291,18 @@
                                 <div class="col-12 mx-auto">
                                     <label for="designation">Designation: <span class="requiredFields">*</span>
                                     </label>
-                                    <input type="text" name="designation" id="designation"
-                                        value="{{ old('designation') }}" class="form-control"
-                                        placeholder="Designation" required data-bs-toggle="tooltip"
-                                        data-bs-placement="right" title="Example: Manager, Owner, CEO, etc.">
+                                    <input
+                                        class="form-control"
+                                        id="designation"
+                                        name="designation"
+                                        data-bs-toggle="tooltip"
+                                        data-bs-placement="right"
+                                        type="text"
+                                        value="{{ old('designation') }}"
+                                        title="Example: Manager, Owner, CEO, etc."
+                                        placeholder="Designation"
+                                        required
+                                    >
                                     <div class="invalid-feedback">
                                         Please enter your Designation.
                                     </div>
@@ -181,8 +316,15 @@
                                     <label for="b_date">Birth Date: <span class="requiredFields">
                                             *</span></label>
 
-                                    <input type="date" name="b_date" id="b_date" value="{{ old('b_date') }}"
-                                        class="form-control" placeholder="DD/MM/YYYY" required>
+                                    <input
+                                        class="form-control"
+                                        id="b_date"
+                                        name="b_date"
+                                        type="date"
+                                        value="{{ old('b_date') }}"
+                                        placeholder="DD/MM/YYYY"
+                                        required
+                                    >
                                     <div class="invalid-feedback">
                                         Please enter your Birth Date.
                                     </div>
@@ -198,8 +340,13 @@
                                     <label for="Mobile_no">Mobile Number: <span
                                             class="requiredFields">*</span></label>
                                     <div class="input-group">
-                                        <select class="form-select" style="max-width: 11.25rem;" name="country_code"
-                                            id="country_code" required>
+                                        <select
+                                            class="form-select"
+                                            id="country_code"
+                                            name="country_code"
+                                            style="max-width: 11.25rem;"
+                                            required
+                                        >
                                             <option value="+93">Afghanistan (+93)</option>
                                             <option value="+355">Albania (+355)</option>
                                             <option value="+213">Algeria (+213)</option>
@@ -338,7 +485,10 @@
                                             <option value="+675">Papua New Guinea (+675)</option>
                                             <option value="+595">Paraguay (+595)</option>
                                             <option value="+51">Peru (+51)</option>
-                                            <option value="+63" selected>Philippines (+63)</option>
+                                            <option
+                                                value="+63"
+                                                selected
+                                            >Philippines (+63)</option>
                                             <option value="+48">Poland (+48)</option>
                                             <option value="+351">Portugal (+351)</option>
                                             <option value="+974">Qatar (+974)</option>
@@ -397,11 +547,17 @@
                                             <option value="+260">Zambia (+260)</option>
                                             <option value="+263">Zimbabwe (+263)</option>
                                         </select>
-                                        <input type="tel" name="Mobile_no" value="{{ old('Mobile_no') }}"
-                                            id="Mobile_no" class="form-control" placeholder="965-453-5432"
-                                            pattern="\d{3}-\d{3}-\d{4}"
+                                        <input
+                                            class="form-control"
+                                            id="Mobile_no"
+                                            name="Mobile_no"
+                                            type="tel"
+                                            value="{{ old('Mobile_no') }}"
                                             title="Please enter a valid mobile number in the format XXX-XXX-XXXX"
-                                            required>
+                                            placeholder="965-453-5432"
+                                            pattern="\d{3}-\d{3}-\d{4}"
+                                            required
+                                        >
                                     </div>
                                     <div class="invalid-feedback">
                                         Please enter a valid mobile number.
@@ -409,9 +565,14 @@
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label for="landline">Landline:</label>
-                                    <input type="tel" name="landline" id="landline"
-                                        value="{{ old('landline') }}" class="form-control"
-                                        placeholder="(XX) YYY ZZZZ">
+                                    <input
+                                        class="form-control"
+                                        id="landline"
+                                        name="landline"
+                                        type="tel"
+                                        value="{{ old('landline') }}"
+                                        placeholder="(XX) YYY ZZZZ"
+                                    >
                                     <div class="invalid-feedback">
                                         Please enter a valid landline number.
                                     </div>
@@ -421,15 +582,27 @@
                         </div>
                     </div>
                 </div>
-                <div id="step-2" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-2"
-                    style="position: static; left: 0px; display: none;">
+                <div
+                    class="tab-pane py-5"
+                    id="step-2"
+                    role="tabpanel"
+                    aria-labelledby="step-2"
+                    style="position: static; left: 0px; display: none;"
+                >
                     <!-- Where the business info displayed -->
                     <div class="row g-3">
                         <div class="col-12 col-md-8">
                             <label for="firm_name">Name of Firm: <span class="requiredFields">
                                     *</span></label>
-                            <input type="text" name="firm_name" id="firm_name" value="{{ old('firm_name') }}"
-                                class="form-control" placeholder="ABC Company" required>
+                            <input
+                                class="form-control"
+                                id="firm_name"
+                                name="firm_name"
+                                type="text"
+                                value="{{ old('firm_name') }}"
+                                placeholder="ABC Company"
+                                required
+                            >
                             <div class="invalid-feedback">
                                 Please enter the name of the firm.
                             </div>
@@ -437,16 +610,27 @@
                         <div class="col-12 col-md-4">
                             <label for="enterpriseType">Type Of Enterprise <span class="requiredFields">
                                     *</span></label>
-                            <select class="form-select" name="enterpriseType" id="enterpriseType" required>
+                            <select
+                                class="form-select"
+                                id="enterpriseType"
+                                name="enterpriseType"
+                                required
+                            >
                                 <option value="">Select Enterprise</option>
-                                <option value="Sole Proprietorship"
-                                    {{ old('enterpriseType') == 'Sole Proprietorship' ? 'selected' : '' }}>Sole
+                                <option
+                                    value="Sole Proprietorship"
+                                    {{ old('enterpriseType') == 'Sole Proprietorship' ? 'selected' : '' }}
+                                >Sole
                                     Proprietorship</option>
-                                <option value="Partnership"
-                                    {{ old('enterpriseType') == 'Partnership' ? 'selected' : '' }}>Partnership
+                                <option
+                                    value="Partnership"
+                                    {{ old('enterpriseType') == 'Partnership' ? 'selected' : '' }}
+                                >Partnership
                                 </option>
-                                <option value="Corporation"
-                                    {{ old('enterpriseType') == 'Corporation' ? 'selected' : '' }}>Corporation
+                                <option
+                                    value="Corporation"
+                                    {{ old('enterpriseType') == 'Corporation' ? 'selected' : '' }}
+                                >Corporation
                                 </option>
                             </select>
                             <div class="invalid-feedback">
@@ -461,31 +645,51 @@
                                 <div class="row gy-3">
                                     <div class="col-12 col-md-3">
                                         <label for="region">Region:<span class="requiredFields">*</span></label>
-                                        <select id="region" name="region" class="form-select"
-                                            required>
+                                        <select
+                                            class="form-select"
+                                            id="region"
+                                            name="region"
+                                            required
+                                        >
                                             <option value="">Select Region</option>
                                         </select>
                                         <div class="invalid-feedback">Please select a region</div>
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <label for="province">Province:<span class="requiredFields">*</span></label>
-                                        <select id="province" class="form-select" name="province"
-                                           required disabled>
+                                        <select
+                                            class="form-select"
+                                            id="province"
+                                            name="province"
+                                            required
+                                            disabled
+                                        >
                                             <option value="">Select Province</option>
                                         </select>
                                         <div class="invalid-feedback">Please select a Province</div>
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <label for="city">City:<span class="requiredFields">*</span></label>
-                                        <select id="city" name="city" class="form-select"
-                                            required disabled>
+                                        <select
+                                            class="form-select"
+                                            id="city"
+                                            name="city"
+                                            required
+                                            disabled
+                                        >
                                             <option value="">Select City</option>
                                         </select>
                                         <div class="invalid-feedback">Please select a City</div>
                                     </div>
                                     <div class="col-12 col-md-3">
                                         <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
-                                        <select id="barangay" class="form-select" name="barangay" required disabled>
+                                        <select
+                                            class="form-select"
+                                            id="barangay"
+                                            name="barangay"
+                                            required
+                                            disabled
+                                        >
                                             <option value="">Select Barangay</option>
                                         </select>
                                         <div class="invalid-feedback">Please select a Barangey</div>
@@ -493,9 +697,15 @@
                                     <div class="col-12 col-md-10">
                                         <label for="Landmark">Landmark: <span class="requiredFields">
                                                 *</span></label>
-                                        <input type="text" name="Landmark" value="{{ old('Landmark') }}"
-                                            id="Landmark" class="form-control"
-                                            placeholder="Street Name, or Purok, Building No." required>
+                                        <input
+                                            class="form-control"
+                                            id="Landmark"
+                                            name="Landmark"
+                                            type="text"
+                                            value="{{ old('Landmark') }}"
+                                            placeholder="Street Name, or Purok, Building No."
+                                            required
+                                        >
                                         <div class="invalid-feedback">
                                             Please enter the landmark.
                                         </div>
@@ -503,8 +713,15 @@
                                     <div class="col-12 col-md-2">
                                         <label for="zipcode">Zip Code: <span class="requiredFields"> *</span">
                                         </label>
-                                        <input type="text" name="zipcode" value="{{ old('zipcode') }}"
-                                            id="zipcode" class="form-control" placeholder="8000" required>
+                                        <input
+                                            class="form-control"
+                                            id="zipcode"
+                                            name="zipcode"
+                                            type="text"
+                                            value="{{ old('zipcode') }}"
+                                            placeholder="8000"
+                                            required
+                                        >
                                         <div class="invalid-feedback">
                                             Please enter the zipcode.
                                         </div>
@@ -527,9 +744,15 @@
                                             <span class="input-group-text">
                                                 ₱
                                             </span>
-                                            <input type="text" name="buildings" value="{{ old('buildings') }}"
-                                                id="buildings" class="form-control" placeholder="500,000.00"
-                                                required>
+                                            <input
+                                                class="form-control"
+                                                id="buildings"
+                                                name="buildings"
+                                                type="text"
+                                                value="{{ old('buildings') }}"
+                                                placeholder="500,000.00"
+                                                required
+                                            >
                                         </div>
                                         <div class="invalid-feedback">
                                             Please enter the value of buildings.
@@ -542,9 +765,15 @@
                                             <span class="input-group-text">
                                                 ₱
                                             </span>
-                                            <input type="text" name="equipments" value="{{ old('equipments') }}"
-                                                id="equipments" class="form-control" placeholder="500,000.00"
-                                                required>
+                                            <input
+                                                class="form-control"
+                                                id="equipments"
+                                                name="equipments"
+                                                type="text"
+                                                value="{{ old('equipments') }}"
+                                                placeholder="500,000.00"
+                                                required
+                                            >
                                         </div>
                                         <div class="invalid-feedback">
                                             Please enter the value of equipments.
@@ -557,9 +786,15 @@
                                             <span class="input-group-text">
                                                 ₱
                                             </span>
-                                            <input type="text" name="working_capital"
-                                                value="{{ old('working_capital') }}" id="working_capital"
-                                                class="form-control" placeholder="500,000.00" required>
+                                            <input
+                                                class="form-control"
+                                                id="working_capital"
+                                                name="working_capital"
+                                                type="text"
+                                                value="{{ old('working_capital') }}"
+                                                placeholder="500,000.00"
+                                                required
+                                            >
                                         </div>
                                         <div class="invalid-feedback">
                                             Please enter the value of working capital.
@@ -577,7 +812,11 @@
 
                                     </div>
                                 </div>
-                                <input type="hidden" id="EnterpriseLevelInput" name="enterprise_level">
+                                <input
+                                    id="EnterpriseLevelInput"
+                                    name="enterprise_level"
+                                    type="hidden"
+                                >
                             </div>
                         </div>
                         <div class="row p-0 mt-0 g-3">
@@ -589,7 +828,10 @@
                                     <div class="card-body">
                                         <div class="row g-3">
                                             <div class="col-12 col-md-8">
-                                                <div class="alert alert-primary" role="alert">
+                                                <div
+                                                    class="alert alert-primary"
+                                                    role="alert"
+                                                >
                                                     <h5 class="alert-heading"> <i class="ri-information-2-fill"></i>
                                                         Direct Personnel
                                                     </h5>
@@ -613,23 +855,29 @@
                                                                 <div class="col-12">
                                                                     <label for="m_personelDiRe">Male:
                                                                     </label>
-                                                                    <input type="text" name="m_personnelDiRe"
-                                                                        value="{{ old('m_personnelDiRe') }}"
-                                                                        id="m_personnelDiRe"
+                                                                    <input
                                                                         class="form-control num_only"
+                                                                        id="m_personnelDiRe"
+                                                                        name="m_personnelDiRe"
+                                                                        type="text"
+                                                                        value="{{ old('m_personnelDiRe') }}"
                                                                         placeholder="No. Male Regular"
-                                                                        pattern="[0-9]">
+                                                                        pattern="[0-9]"
+                                                                    >
 
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="f_personnelDiRe">Female:
                                                                     </label>
-                                                                    <input type="text" name="f_personnelDiRe"
-                                                                        value="{{ old('f_personnelDiRe') }}"
-                                                                        id="f_personnelDiRe"
+                                                                    <input
                                                                         class="form-control num_only"
+                                                                        id="f_personnelDiRe"
+                                                                        name="f_personnelDiRe"
+                                                                        type="text"
+                                                                        value="{{ old('f_personnelDiRe') }}"
                                                                         placeholder="No. Female Regular"
-                                                                        pattern="[0-9]">
+                                                                        pattern="[0-9]"
+                                                                    >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -643,22 +891,28 @@
                                                                 <div class="col-12">
                                                                     <label for="m_personnelDiPart">Male:
                                                                     </label>
-                                                                    <input type="text" name="m_personnelDiPart"
-                                                                        value="{{ old('m_personnelDiPart') }}"
-                                                                        id="m_personnelDiPart"
+                                                                    <input
                                                                         class="form-control num_only"
+                                                                        id="m_personnelDiPart"
+                                                                        name="m_personnelDiPart"
+                                                                        type="text"
+                                                                        value="{{ old('m_personnelDiPart') }}"
                                                                         placeholder="No. Male Part-time"
-                                                                        pattern="[0-9]">
+                                                                        pattern="[0-9]"
+                                                                    >
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="f_personnelDiPart">Female:
                                                                     </label>
-                                                                    <input type="text" name="f_personnelDiPart"
-                                                                        value="{{ old('f_personnelDiPart') }}"
-                                                                        id="f_personnelDiPart"
+                                                                    <input
                                                                         class="form-control num_only"
+                                                                        id="f_personnelDiPart"
+                                                                        name="f_personnelDiPart"
+                                                                        type="text"
+                                                                        value="{{ old('f_personnelDiPart') }}"
                                                                         placeholder="Number of Female Part-time"
-                                                                        pattern="[0-9]">
+                                                                        pattern="[0-9]"
+                                                                    >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -677,7 +931,10 @@
                                     <div class="card-body">
                                         <div class="row g-3">
                                             <div class="col-12 col-md-8">
-                                                <div class="alert alert-primary" role="alert">
+                                                <div
+                                                    class="alert alert-primary"
+                                                    role="alert"
+                                                >
                                                     <h5 class="alert-heading"> <i class="ri-information-2-fill"></i>
                                                         Indirect Personnel
                                                     </h5>
@@ -700,23 +957,29 @@
                                                                 <div class="col-12">
                                                                     <label for="m_personnelIndRe">Male:
                                                                     </label>
-                                                                    <input type="text" name="m_personnelIndRe"
-                                                                        value="{{ old('m_personnelIndRe') }}"
-                                                                        id="m_personnelIndRe"
+                                                                    <input
                                                                         class="form-control num_only"
+                                                                        id="m_personnelIndRe"
+                                                                        name="m_personnelIndRe"
+                                                                        type="text"
+                                                                        value="{{ old('m_personnelIndRe') }}"
                                                                         placeholder="No. Male Regular"
-                                                                        pattern="[0-9]">
+                                                                        pattern="[0-9]"
+                                                                    >
 
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="f_personnelIndRe">Female:
                                                                     </label>
-                                                                    <input type="text" name="f_personnelIndRe"
-                                                                        value="{{ old('f_personnelIndRe') }}"
-                                                                        id="f_personnelIndRe"
+                                                                    <input
                                                                         class="form-control num_only"
+                                                                        id="f_personnelIndRe"
+                                                                        name="f_personnelIndRe"
+                                                                        type="text"
+                                                                        value="{{ old('f_personnelIndRe') }}"
                                                                         placeholder="No. Female Regular"
-                                                                        pattern="[0-9]">
+                                                                        pattern="[0-9]"
+                                                                    >
 
                                                                 </div>
                                                             </div>
@@ -731,23 +994,29 @@
                                                                 <div class="col-12">
                                                                     <label for="">Male:
                                                                     </label>
-                                                                    <input type="text" name="m_personnelIndPart"
-                                                                        value="{{ old('m_personnelIndPart') }}"
-                                                                        id="m_personnelIndPart"
+                                                                    <input
                                                                         class="form-control num_only"
+                                                                        id="m_personnelIndPart"
+                                                                        name="m_personnelIndPart"
+                                                                        type="text"
+                                                                        value="{{ old('m_personnelIndPart') }}"
                                                                         placeholder="No. Male Part-time"
-                                                                        pattern="[0-9]">
+                                                                        pattern="[0-9]"
+                                                                    >
 
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="">Female:
                                                                     </label>
-                                                                    <input type="text" name="f_personnelIndPart"
-                                                                        value="{{ old('f_personnelIndPart') }}"
-                                                                        id="f_personnelIndPart"
+                                                                    <input
                                                                         class="form-control num_only"
+                                                                        id="f_personnelIndPart"
+                                                                        name="f_personnelIndPart"
+                                                                        type="text"
+                                                                        value="{{ old('f_personnelIndPart') }}"
                                                                         placeholder="Number of Female Part-time"
-                                                                        pattern="[0-9]">
+                                                                        pattern="[0-9]"
+                                                                    >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -767,29 +1036,46 @@
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-12">
-                                            <div class="alert alert-primary" role="alert">
+                                            <div
+                                                class="alert alert-primary"
+                                                role="alert"
+                                            >
                                                 <i class="ri-information-2-fill ri-lg"></i>
                                                 Please input the Products name for the Export and Local Market
                                             </div>
                                         </div>
-                                        <div class="col-12 mb-4" id="localMarketContainer">
+                                        <div
+                                            class="col-12 mb-4"
+                                            id="localMarketContainer"
+                                        >
                                             <h5>Local Market Products</h5>
                                             <div class="mt-2">
-                                                <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
-                                                    <button type="button"
-                                                        class="btn btn-primary addNewProductRow" data-toggle="tooltip"
-                                                        title="Add a new row">
+                                                <div
+                                                    class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                                    <button
+                                                        class="btn btn-primary addNewProductRow"
+                                                        data-toggle="tooltip"
+                                                        type="button"
+                                                        title="Add a new row"
+                                                    >
                                                         <i class="ri-add-box-fill"></i>
                                                     </button>
-                                                    <button type="button"
+                                                    <button
                                                         class="btn btn-danger removeRowButton mx-2"
-                                                        data-toggle="tooltip" title="Delete row" disabled>
+                                                        data-toggle="tooltip"
+                                                        type="button"
+                                                        title="Delete row"
+                                                        disabled
+                                                    >
                                                         <i class="ri-subtract-fill"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="table-responsive">
-                                                <table class="table table-bordered" id="localMarketTable">
+                                                <table
+                                                    class="table table-bordered"
+                                                    id="localMarketTable"
+                                                >
                                                     <thead>
                                                         <tr>
                                                             <th>Enterprise Location</th>
@@ -800,9 +1086,21 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><input type="text" class="form-control location" placeholder="Enter location"></td>
-                                                            <td><input type="text" class="form-control product" placeholder="Enter product"></td>
-                                                            <td><input type="number" class="form-control volume" placeholder="Enter volume"></td>
+                                                            <td><input
+                                                                    class="form-control location"
+                                                                    type="text"
+                                                                    placeholder="Enter location"
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control product"
+                                                                    type="text"
+                                                                    placeholder="Enter product"
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control volume"
+                                                                    type="number"
+                                                                    placeholder="Enter volume"
+                                                                ></td>
                                                             <td>
                                                                 <select class="form-select unit">
                                                                     <option value="kg">Kilogram (kg)</option>
@@ -819,23 +1117,38 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12" id="exportMarketContainer">
-                                            <h5>Export Market Products</h5>   <div class="mt-2">
-                                                <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
-                                                    <button type="button"
-                                                        class="btn btn-primary addNewProductRow" data-toggle="tooltip"
-                                                        title="Add a new row">
+                                        <div
+                                            class="col-12"
+                                            id="exportMarketContainer"
+                                        >
+                                            <h5>Export Market Products</h5>
+                                            <div class="mt-2">
+                                                <div
+                                                    class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                                    <button
+                                                        class="btn btn-primary addNewProductRow"
+                                                        data-toggle="tooltip"
+                                                        type="button"
+                                                        title="Add a new row"
+                                                    >
                                                         <i class="ri-add-box-fill"></i>
                                                     </button>
-                                                    <button type="button"
+                                                    <button
                                                         class="btn btn-danger removeRowButton mx-2"
-                                                        data-toggle="tooltip" title="Delete row" disabled>
+                                                        data-toggle="tooltip"
+                                                        type="button"
+                                                        title="Delete row"
+                                                        disabled
+                                                    >
                                                         <i class="ri-subtract-fill"></i>
                                                     </button>
                                                 </div>
                                             </div>
                                             <div class="table-responsive">
-                                                <table class="table table-bordered" id="exportMarketTable">
+                                                <table
+                                                    class="table table-bordered"
+                                                    id="exportMarketTable"
+                                                >
                                                     <thead>
                                                         <tr>
                                                             <th>Enterprise Location</th>
@@ -846,9 +1159,21 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><input type="text" class="form-control location" placeholder="Enter location"></td>
-                                                            <td><input type="text" class="form-control product" placeholder="Enter product"></td>
-                                                            <td><input type="number" class="form-control volume" placeholder="Enter volume"></td>
+                                                            <td><input
+                                                                    class="form-control location"
+                                                                    type="text"
+                                                                    placeholder="Enter location"
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control product"
+                                                                    type="text"
+                                                                    placeholder="Enter product"
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control volume"
+                                                                    type="number"
+                                                                    placeholder="Enter volume"
+                                                                ></td>
                                                             <td>
                                                                 <select class="form-select unit">
                                                                     <option value="kg">Kilogram (kg)</option>
@@ -873,42 +1198,72 @@
                         </div>
                     </div>
                 </div>
-                <div id="step-3" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-3"
-                    style="position: static; left: 0px; display: none; ">
+                <div
+                    class="tab-pane py-5"
+                    id="step-3"
+                    role="tabpanel"
+                    aria-labelledby="step-3"
+                    style="position: static; left: 0px; display: none; "
+                >
                     <h3>Upload the Following Requirements:</h3>
                     <div class="row mb-12 p-5">
                         <div class="mb-3">
-                            <label for="IntentFile" class="form-label">Letter of Intent:
-                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                            <label
+                                class="form-label"
+                                for="IntentFile"
+                            >Letter of Intent:
+                                <span
+                                    class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
-                            <input class="fileUploads" type="file" name="IntentFile" id="IntentFile"
-                                accept="application/pdf" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
-                                <div class="invalid-feedback">
-                                    Please upload the Letter of Intent.
-                                </div>
+                            <input
+                                class="fileUploads"
+                                id="IntentFile"
+                                name="IntentFile"
+                                type="file"
+                                accept="application/pdf"
+                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                            >
+                            <div class="invalid-feedback">
+                                Please upload the Letter of Intent.
+                            </div>
                             <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
                         </div>
                         <div class="mb-3">
-                            <label for="DtiSecCdafile" class="form-label">DTI/SEC/CDA
+                            <label
+                                class="form-label"
+                                for="DtiSecCdafile"
+                            >DTI/SEC/CDA
                                 <span class="form-text">(Certificate of Registration):</span>
-                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                                <span
+                                    class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
                             <div class="row">
                                 <div class="col-2 d-flex align-items-center justify-content-center">
-                                    <select id="DtiSecCdaSelector" class="form-select form-select-lg"
-                                        name="DSC_file_Selector">
+                                    <select
+                                        class="form-select form-select-lg"
+                                        id="DtiSecCdaSelector"
+                                        name="DSC_file_Selector"
+                                    >
                                         <option value="">Choose...</option>
                                         <option value="DTI">DTI</option>
                                         <option value="SEC">SEC</option>
                                         <option value="CDA">CDA</option>
                                     </select>
                                 </div>
-                                <div class="col-10" id="DtiSecCdaContainer">
-                                    <input class="fileUploads" type="file" name="DTI_SEC_CDA_File"
-                                        id="DtiSecCdafile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
-                                        <div class="invalid-feedback">
-                                            Please upload the DTI/SEC/CDA document.
-                                        </div>
+                                <div
+                                    class="col-10"
+                                    id="DtiSecCdaContainer"
+                                >
+                                    <input
+                                        class="fileUploads"
+                                        id="DtiSecCdafile"
+                                        name="DTI_SEC_CDA_File"
+                                        type="file"
+                                        {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                                    >
+                                    <div class="invalid-feedback">
+                                        Please upload the DTI/SEC/CDA document.
+                                    </div>
                                 </div>
                             </div>
                             <div class="form-text">Choose 1 out of 3 documents above. the accepted formats: .pdf.
@@ -916,18 +1271,30 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="businessPermitFile" class="form-label">Business Permit:
-                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                            <label
+                                class="form-label"
+                                for="businessPermitFile"
+                            >Business Permit:
+                                <span
+                                    class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
-                            <input class="fileUploads" type="file" name="businessPermitFile"
-                                id="businessPermitFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
-                                <div class="invalid-feedback">
-                                    Please upload the Business Permit.
-                                </div>
+                            <input
+                                class="fileUploads"
+                                id="businessPermitFile"
+                                name="businessPermitFile"
+                                type="file"
+                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                            >
+                            <div class="invalid-feedback">
+                                Please upload the Business Permit.
+                            </div>
                             <div class="form-text">Accepted formats: .pdf.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="fdaLtoFile" class="form-label">FDA/LTO
+                            <label
+                                class="form-label"
+                                for="fdaLtoFile"
+                            >FDA/LTO
                                 <span class="form-text">(Certificate of Registration):</span>
                                 <span class="fw-lighter">
                                     (if Applicable)
@@ -938,15 +1305,23 @@
                             </label>
                             <div class="row">
                                 <div class="col-2 d-flex align-items-center justify-content-center">
-                                    <select id="fdaLtoSelector" class="form-select form-select-lg"
-                                        name="Fda_Lto_Selector">
+                                    <select
+                                        class="form-select form-select-lg"
+                                        id="fdaLtoSelector"
+                                        name="Fda_Lto_Selector"
+                                    >
                                         <option value="">Choose...</option>
                                         <option value="FDA">FDA</option>
                                         <option value="LTO">LTO</option>
                                     </select>
                                 </div>
                                 <div class="col-10">
-                                    <input class="fileUploads" type="file" name="fdaLtoFile" id="fdaLtoFile">
+                                    <input
+                                        class="fileUploads"
+                                        id="fdaLtoFile"
+                                        name="fdaLtoFile"
+                                        type="file"
+                                    >
                                 </div>
                             </div>
                             <div class="form-text">Choose 1 out of 2 documents above. the accepted formats: .pdf
@@ -954,23 +1329,40 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="receiptFile" class="form-label">Official Receipt of the Business:
-                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                            <label
+                                class="form-label"
+                                for="receiptFile"
+                            >Official Receipt of the Business:
+                                <span
+                                    class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
-                            <input class="fileUploads" type="file" name="receiptFile" id="receiptFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
+                            <input
+                                class="fileUploads"
+                                id="receiptFile"
+                                name="receiptFile"
+                                type="file"
+                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                            >
                             <div class="invalid-feedback">
                                 Please upload the Official Receipt of the Business.
                             </div>
                             <div class="form-text">Accepted formats: .pdf.</div>
                         </div>
                         <div class="mb-3">
-                            <label for="govIdFile" class="form-label">Government Valid ID:
-                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                            <label
+                                class="form-label"
+                                for="govIdFile"
+                            >Government Valid ID:
+                                <span
+                                    class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
                             <div class="row">
                                 <div class="col-2 d-flex align-items-center justify-content-center">
-                                    <Select id="GovIdSelector" class="form-select form-select-lg"
-                                        name="GovIdSelector">
+                                    <Select
+                                        class="form-select form-select-lg"
+                                        id="GovIdSelector"
+                                        name="GovIdSelector"
+                                    >
                                         <option value="">Choose...</option>
                                         <option value="National ID">National ID</option>
                                         <option value="SSS ID">SSS UMID</option>
@@ -979,7 +1371,14 @@
                                     </Select>
                                 </div>
                                 <div class="col-10">
-                                    <input class="fileUploads" type="file" name="govIdFile" id="govIdFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
+                                    <input
+                                        class="fileUploads"
+                                        id="govIdFile"
+                                        name="govIdFile"
+                                        type="file"
+                                        capture="environment"
+                                        {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                                    >
                                     <div class="invalid-feedback">
                                         Please upload the Copy of Government Valid ID.
                                     </div>
@@ -988,37 +1387,81 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label for="BIRFile" class="form-label">BIR
+                            <label
+                                class="form-label"
+                                for="BIRFile"
+                            >BIR
                                 <span class="form-text">(Certificate of Registration):</span>
-                                <span class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
+                                <span
+                                    class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                                 <span class="form-text text-secondary fw-lighter">
                                     Bureau of Internal Revenue(BIR) Certificate of Registration
                                 </span>
                             </label>
-                            <input class="fileUploads" type="file" name="BIRFile" id="BIRFile" {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}>
+                            <input
+                                class="fileUploads"
+                                id="BIRFile"
+                                name="BIRFile"
+                                type="file"
+                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                            >
                             <div class="form-text">Accepted formats: .pdf. Maximum file size: 10MB</div>
                             <div class="invalid-feedback">
                                 Please upload the BIR.
                             </div>
                         </div>
-                        <div class="alert alert-primary m-0" role="alert">
+                        <div
+                            class="alert alert-primary m-0"
+                            role="alert"
+                        >
                             <i class="ri-information-2-fill ri-lg"></i>
                             Please, before you proceed to the next step, make sure you have double-checked all the
                             uploaded files.
                         </div>
-                        <input type="hidden" name="Intent_unique_id_path" id="IntentFileID_path" >
-                        <input type="hidden" name="DTI_SEC_CDA_unique_id_path" id="DtiSecCdaFileID_path"
-                            >
-                        <input type="hidden" name="BusinessPermit_unique_id_path" id="businessPermitFileID_path"
-                            >
-                        <input type="hidden" name="FDA_LTO_unique_id_path" id="fdaLtoFileID_path" >
-                        <input type="hidden" name="receipt_unique_id_path" id="receiptFileID_path" >
-                        <input type="hidden" name="govId_unique_id_path" id="govIdFileID_path" >
-                        <input type="hidden" name="BIR_unique_id_path" id="BIRFileID_path" >
+                        <input
+                            id="IntentFileID_path"
+                            name="Intent_unique_id_path"
+                            type="hidden"
+                        >
+                        <input
+                            id="DtiSecCdaFileID_path"
+                            name="DTI_SEC_CDA_unique_id_path"
+                            type="hidden"
+                        >
+                        <input
+                            id="businessPermitFileID_path"
+                            name="BusinessPermit_unique_id_path"
+                            type="hidden"
+                        >
+                        <input
+                            id="fdaLtoFileID_path"
+                            name="FDA_LTO_unique_id_path"
+                            type="hidden"
+                        >
+                        <input
+                            id="receiptFileID_path"
+                            name="receipt_unique_id_path"
+                            type="hidden"
+                        >
+                        <input
+                            id="govIdFileID_path"
+                            name="govId_unique_id_path"
+                            type="hidden"
+                        >
+                        <input
+                            id="BIRFileID_path"
+                            name="BIR_unique_id_path"
+                            type="hidden"
+                        >
                     </div>
                 </div>
-                <div id="step-4" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-4"
-                    style="position: static; left: 0px; display: none;">
+                <div
+                    class="tab-pane py-5"
+                    id="step-4"
+                    role="tabpanel"
+                    aria-labelledby="step-4"
+                    style="position: static; left: 0px; display: none;"
+                >
                     <div class="row mb-3">
                         <div class="col-md-12 mb-4">
                             <h5>Review and confirm the details provided before submission.</h5>
@@ -1033,28 +1476,48 @@
                                         <div class="row justify-content-center">
                                             <div class="col-12 col-md-6">
                                                 <label for="re_full_name">Full Name</label>
-                                                <input type="text" id="re_Full_name" class="form-control mb-3"
-                                                    readonly>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_Full_name"
+                                                    type="text"
+                                                    readonly
+                                                >
                                             </div>
                                             <div class="col-12 col-md-4">
                                                 <label for="designa">Designation</label>
-                                                <input type="text" id="re_designa" class="form-control mb-3"
-                                                    readonly>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_designa"
+                                                    type="text"
+                                                    readonly
+                                                >
                                             </div>
                                             <div class="col-12 col-md-2">
                                                 <label for="b_Date">Birth Date</label>
-                                                <input type="text" id="re_b_Date" class="form-control mb-3"
-                                                    readonly>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_b_Date"
+                                                    type="text"
+                                                    readonly
+                                                >
                                             </div>
                                             <div class="col-12 col-md-4">
                                                 <label for="Mobile_no">Mobile Number</label>
-                                                <input type="text" id="re_Mobile_no" class="form-control mb-3"
-                                                    readonly>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_Mobile_no"
+                                                    type="text"
+                                                    readonly
+                                                >
                                             </div>
                                             <div class="col-12 col-md-4">
                                                 <label for="landline">Landline</label>
-                                                <input type="text" id="re_landline" class="form-control mb-3"
-                                                    readonly>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_landline"
+                                                    type="text"
+                                                    readonly
+                                                >
                                             </div>
                                         </div>
                                     </div>
@@ -1069,19 +1532,31 @@
                                         <div class="row">
                                             <div class="col-12 col-md-8">
                                                 <label for="firm_name">Firm Name</label>
-                                                <input type="text" id="re_firm_name" class="form-control mb-3"
-                                                    readonly>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_firm_name"
+                                                    type="text"
+                                                    readonly
+                                                >
 
                                             </div>
                                             <div class="col-12 col-md-4">
                                                 <label for="type_enterprise">Type of Enterprise</label>
-                                                <input type="text" id="re_type_enterprise"
-                                                    class="form-control mb-3" readonly>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_type_enterprise"
+                                                    type="text"
+                                                    readonly
+                                                >
                                             </div>
                                             <div class="col-12">
                                                 <label for="Address">Full Address</label>
-                                                <input type="text" id="re_Address" class="form-control mb-3"
-                                                    readonly>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_Address"
+                                                    type="text"
+                                                    readonly
+                                                >
                                             </div>
                                             <div class="col-12 my-3">
                                                 <div class="card">
@@ -1092,19 +1567,31 @@
                                                         <div class="row">
                                                             <div class="col-12 col-md-4">
                                                                 <label for="buildings">Buildings</label>
-                                                                <input type="text" id="re_buildings"
-                                                                    class="form-control mb-3" readonly>
+                                                                <input
+                                                                    class="form-control mb-3"
+                                                                    id="re_buildings"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                             <div class="col-12 col-md-4">
                                                                 <label for="equipments">Equipments</label>
-                                                                <input type="text" id="re_equipments"
-                                                                    class="form-control mb-3" readonly>
+                                                                <input
+                                                                    class="form-control mb-3"
+                                                                    id="re_equipments"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                             <div class="col-12 col-md-4">
                                                                 <label for="working_capital">Working
                                                                     Capital</label>
-                                                                <input type="text" id="re_working_capital"
-                                                                    class="form-control mb-3" readonly>
+                                                                <input
+                                                                    class="form-control mb-3"
+                                                                    id="re_working_capital"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                             <div class="row text-center">
                                                                 <div class="col-12 col-md-6">
@@ -1139,10 +1626,13 @@
                                                                             <label
                                                                                 for="re_m_personnelDiRe">Male</label>
                                                                             <div class="mb-3">
-                                                                                <input type="text"
-                                                                                    name="re_m_personnelDiRe"
+                                                                                <input
+                                                                                    class="form-control"
                                                                                     id="re_m_personnelDiRe"
-                                                                                    class="form-control" readonly>
+                                                                                    name="re_m_personnelDiRe"
+                                                                                    type="text"
+                                                                                    readonly
+                                                                                >
                                                                             </div>
 
                                                                         </div>
@@ -1150,10 +1640,13 @@
                                                                             <label
                                                                                 for="re_f_personnelDiRe">Female</label>
                                                                             <div class="mb-3">
-                                                                                <input type="text"
-                                                                                    name="re_f_personnelDiRe"
+                                                                                <input
+                                                                                    class="form-control"
                                                                                     id="re_f_personnelDiRe"
-                                                                                    class="form-control" readonly>
+                                                                                    name="re_f_personnelDiRe"
+                                                                                    type="text"
+                                                                                    readonly
+                                                                                >
                                                                             </div>
                                                                         </div>
 
@@ -1168,19 +1661,25 @@
                                                                         <div class="col-12">
                                                                             <label for="">Male</label>
                                                                             <div class="mb-3">
-                                                                                <input type="text"
-                                                                                    name="re_m_personnelDiPart"
+                                                                                <input
+                                                                                    class="form-control"
                                                                                     id="re_m_personnelDiPart"
-                                                                                    class="form-control" readonly>
+                                                                                    name="re_m_personnelDiPart"
+                                                                                    type="text"
+                                                                                    readonly
+                                                                                >
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <label for="">Female</label>
                                                                             <div class="mb-3">
-                                                                                <input type="text"
-                                                                                    name="re_f_personnelDiPart"
+                                                                                <input
+                                                                                    class="form-control"
                                                                                     id="re_f_personnelDiPart"
-                                                                                    class="form-control" readonly>
+                                                                                    name="re_f_personnelDiPart"
+                                                                                    type="text"
+                                                                                    readonly
+                                                                                >
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1204,20 +1703,26 @@
                                                                             <label for="re_m_personnelIndRe">Male
                                                                             </label>
                                                                             <div class="mb-3">
-                                                                                <input type="text"
-                                                                                    name="re_m_personnelIndRe"
+                                                                                <input
+                                                                                    class="form-control"
                                                                                     id="re_m_personnelIndRe"
-                                                                                    class="form-control" readonly>
+                                                                                    name="re_m_personnelIndRe"
+                                                                                    type="text"
+                                                                                    readonly
+                                                                                >
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <label
                                                                                 for="re_f_personnelIndRe">Female</label>
                                                                             <div class="mb-3">
-                                                                                <input type="text"
-                                                                                    name="re_f_personnelIndRe"
+                                                                                <input
+                                                                                    class="form-control"
                                                                                     id="re_f_personnelIndRe"
-                                                                                    class="form-control" readonly>
+                                                                                    name="re_f_personnelIndRe"
+                                                                                    type="text"
+                                                                                    readonly
+                                                                                >
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1231,20 +1736,26 @@
                                                                             <label
                                                                                 for="re_m_personnelIndPart">Male</label>
                                                                             <div class="mb-3">
-                                                                                <input type="text"
-                                                                                    name="re_m_personnelIndPart"
+                                                                                <input
+                                                                                    class="form-control"
                                                                                     id="re_m_personnelIndPart"
-                                                                                    class="form-control" readonly>
+                                                                                    name="re_m_personnelIndPart"
+                                                                                    type="text"
+                                                                                    readonly
+                                                                                >
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <label
                                                                                 for="re_f_personnelIndPart">Female</label>
                                                                             <div class="mb-3">
-                                                                                <input type="text"
-                                                                                    name="re_f_personnelIndPart"
+                                                                                <input
+                                                                                    class="form-control"
                                                                                     id="re_f_personnelIndPart"
-                                                                                    class="form-control" readonly>
+                                                                                    name="re_f_personnelIndPart"
+                                                                                    type="text"
+                                                                                    readonly
+                                                                                >
                                                                             </div>
                                                                         </div>
                                                                     </div>
@@ -1260,11 +1771,19 @@
                                                             <div class="card-body">
                                                                 <div class="col-12">
                                                                     <label for="Export">Export</label>
-                                                                    <textarea id="re_ExportMar" class="form-control mb-3" readonly></textarea>
+                                                                    <textarea
+                                                                        class="form-control mb-3"
+                                                                        id="re_ExportMar"
+                                                                        readonly
+                                                                    ></textarea>
                                                                 </div>
                                                                 <div class="col-12">
                                                                     <label for="Local">Local</label>
-                                                                    <textarea id="re_LocalMar" class="form-control mb-3" readonly></textarea>
+                                                                    <textarea
+                                                                        class="form-control mb-3"
+                                                                        id="re_LocalMar"
+                                                                        readonly
+                                                                    ></textarea>
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -1282,12 +1801,25 @@
         </form>
     </div>
     {{-- Modal Start --}}
-    <div class="modal fade" id="confirmationModal" data-bs-backdrop="static" tabindex="-1" role="dialog"
-        aria-labelledby="confirmationModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
+    <div
+        class="modal fade"
+        id="confirmationModal"
+        data-bs-backdrop="static"
+        role="dialog"
+        aria-labelledby="confirmationModalLabel"
+        aria-hidden="true"
+        tabindex="-1"
+    >
+        <div
+            class="modal-dialog"
+            role="document"
+        >
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="confirmationModalLabel">Confirmation</h5>
+                    <h5
+                        class="modal-title"
+                        id="confirmationModalLabel"
+                    >Confirmation</h5>
                 </div>
                 <div class="modal-body">
                     <div class="card mb-3">
@@ -1388,29 +1920,55 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="form-check">
-                                <input type="checkbox" name="detail_confirm" id="detail_confirm"
-                                    class="form-check-input" required>
-                                <label for="detail_confirm" class="form-check-label">I hereby confirm that the
+                                <input
+                                    class="form-check-input"
+                                    id="detail_confirm"
+                                    name="detail_confirm"
+                                    type="checkbox"
+                                    required
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="detail_confirm"
+                                >I hereby confirm that the
                                     information I provided is true and correct.</label>
                             </div>
                         </div>
                         <div class="col-12">
                             <div class="form-check">
-                                <input type="checkbox" name="agree_terms" id="agree_terms"
-                                    class="form-check-input" required>
-                                <label for="agree_terms" class="form-check-label">I have read and agree to the
+                                <input
+                                    class="form-check-input"
+                                    id="agree_terms"
+                                    name="agree_terms"
+                                    type="checkbox"
+                                    required
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="agree_terms"
+                                >I have read and agree to the
                                     terms and conditions.</label>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn" id="cancelButton"
-                        data-bs-dismiss="modal">Cancel</button>
-                    <button type="button" class="btn btn-primary" id="confirmButton" disabled>Confirm</button>
+                    <button
+                        class="btn"
+                        id="cancelButton"
+                        data-bs-dismiss="modal"
+                        type="button"
+                    >Cancel</button>
+                    <button
+                        class="btn btn-primary"
+                        id="confirmButton"
+                        type="button"
+                        disabled
+                    >Confirm</button>
                 </div>
             </div>
         </div>
     </div>
     {{-- Modal End --}}
 </div>
+
