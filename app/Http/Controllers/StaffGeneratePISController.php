@@ -38,10 +38,8 @@ class StaffGeneratePISController extends Controller
                 $mpdf->SetHTMLHeader($DocHeader);
                 $mpdf->WriteHTML($html);
 
-                return response($mpdf->Output('PISsample.pdf', 'S'), 200, [
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename="PISsample.pdf"',
-                ]);
+              $mpdf->Output('PIS-document' . date('Y-m-d') . '.pdf', 'I');
+              return;
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([
                     'message' => 'Error generating PDF',

@@ -39,10 +39,9 @@ class StaffGeneratePDSController extends Controller
                 $mpdf->SetHTMLHeader($DocHeader);
                 $mpdf->WriteHTML($html);
 
-                return response($mpdf->Output('PDSsample.pdf', 'S'), 200, [
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename="PDSsample.pdf"',
-                ]);
+                $mpdf->Output('PDS-sheet' . date('Y-m-d') . '.pdf', 'I');
+
+                return;
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([
                     'message' => 'Error generating PDF',

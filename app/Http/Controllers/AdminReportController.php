@@ -56,7 +56,7 @@ class AdminReportController extends Controller
 
             // Stream PDF directly to output
             $mpdf->Output('dashboard-report-' . date('Y-m-d') . '.pdf', 'I');
-            exit; // Prevent any further output
+            return; // Prevent any further output
         } catch (Exception $e) {
             Log::error('Error generating PDF report: ' . $e->getMessage());
             return response()->json([

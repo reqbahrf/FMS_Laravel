@@ -39,10 +39,8 @@ class staffGenerateSRController extends Controller
                 $mpdf->SetHTMLHeader($DocHeader);
                 $mpdf->WriteHTML($html, 0);
 
-                return response($mpdf->Output('SRsample.pdf', 'S'), 200, [
-                    'Content-Type' => 'application/pdf',
-                    'Content-Disposition' => 'inline; filename="SRsample.pdf"',
-                ]);
+                $mpdf->Output('SR-document-' . date('Y-m-d') . '.pdf', 'I');
+                return;
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([
                     'message' => 'Error generating PDF',
