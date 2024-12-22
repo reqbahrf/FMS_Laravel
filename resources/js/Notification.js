@@ -18,9 +18,10 @@ export default async function Notification(){
                 title: item.data.title,
                 message: item.data.message,
                 type: item.read_at,
-                created_at: item.created_at
+                created_at: item.created_at,
+                time_ago: item.time_ago
             }));
-            
+
             // Pass all notifications at once
             NotificationContainer(notifications);
         } else {
