@@ -3,6 +3,7 @@ import {
     showProcessToast,
     hideProcessToast,
 } from './ReusableJS/utilFunctions';
+import TableDataExtractor from './ReusableJS/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
@@ -180,7 +181,10 @@ export function initializeForm() {
     // Government ID File
     const govIdInstance = initializeFilePond(
         'govIdFile',
-        { acceptedFileTypes: ['image/png', 'image/jpeg'], captureMethod: 'environment' },
+        {
+            acceptedFileTypes: ['image/png', 'image/jpeg'],
+            captureMethod: 'environment',
+        },
         'govId_unique_id_path',
         'govIdFileID_path',
         'GovIdSelector'
@@ -538,7 +542,7 @@ export function initializeForm() {
 
             formDataObject = {
                 ...formDataObject,
-                ...storeMarketProductsData(),
+                ...getMarketProductsData(tableConfigurations),
             };
 
             console.log(formDataObject);
@@ -793,44 +797,42 @@ export function initializeForm() {
     $('#province').on('change', updateCities);
     $('#city').on('change', updateBarangays);
 
-    const storeMarketProductsData = function () {
-        const exportMarketData = [];
-        const localMarketData = [];
+    const getMarketProductsData = function (tableConfigs) {
+        const allMarketData = {};
+        for (const tableKey in tableConfigs) {
+            const tableConfig = tableConfigs[tableKey].id;
+            const columnSelectors = tableConfigs[tableKey].selectors;
+            const requiredFields = tableConfigs[tableKey].requiredFields;
+            allMarketData[tableKey] = TableDataExtractor(
+                tableConfig,
+                columnSelectors,
+                requiredFields
+            );
+        }
+        return allMarketData;
+    };
 
-        // Get data from Export Market table
-        $('#exportMarketTable tbody tr').each(function () {
-            const row = $(this);
-            const exportData = {
-                location: row.find('.location').val(),
-                product: row.find('.product').val(),
-                volume: row.find('.volume').val(),
-                unit: row.find('.unit').val(),
-            };
-
-            if (exportData.product && exportData.product !== null) {
-                exportMarketData.push(exportData);
-            }
-        });
-
-        // Get data from Local Market table
-        $('#localMarketTable tbody tr').each(function () {
-            const row = $(this);
-            const localData = {
-                location: row.find('.location').val(),
-                product: row.find('.product').val(),
-                volume: row.find('.volume').val(),
-                unit: row.find('.unit').val(),
-            };
-
-            if (localData.product && localData.product !== null) {
-                localMarketData.push(localData);
-            }
-        });
-
-        return {
-            exportMarket: exportMarketData,
-            localMarket: localMarketData,
-        };
+    const tableConfigurations = {
+        exportMarket: {
+            id: 'exportMarketTable',
+            selectors: {
+                product: '.product',
+                location: '.location',
+                volume: '.volume',
+                unit: '.unit',
+            },
+            requiredFields: ['product'],
+        },
+        localMarket: {
+            id: 'localMarketTable',
+            selectors: {
+                product: '.product',
+                location: '.location',
+                volume: '.volume',
+                unit: '.unit',
+            },
+            requiredFields: ['product'],
+        },
     };
 
     let changedFields = {};
@@ -859,7 +861,7 @@ export function initializeForm() {
         'input change',
         'input',
         function () {
-            changedFields = { ...storeMarketProductsData() };
+            changedFields = { ...getMarketProductsData(tableConfigurations) };
             clearTimeout(autoSaveTimeout);
             autoSaveTimeout = setTimeout(syncDraftWithServer, saveInterval);
             console.log('this is triggered');
@@ -873,7 +875,7 @@ export function initializeForm() {
 
         const requestData = {
             ...changedFields,
-            ...storeMarketProductsData(),
+            ...getMarketProductsData(tableConfigurations),
             draft_type: DRAFT_TYPE,
         };
 
