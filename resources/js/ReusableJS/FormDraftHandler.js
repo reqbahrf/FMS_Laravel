@@ -1,11 +1,14 @@
-
 /**
  * Populates form text inputs with data from a draft object
  * @param {Object} draftData - Object containing key-value pairs to populate form fields
  * @param {string} formSelector - jQuery selector for the target form
  * @param {Array} [excludedFields=[]] - Array of field names to exclude from population
  */
-export function loadTextInputData(draftData, formSelector, excludedFields = []) {
+export function loadTextInputData(
+    draftData,
+    formSelector,
+    excludedFields = []
+) {
     $.each(draftData, (key, value) => {
         if (!excludedFields.includes(key)) {
             $(`${formSelector} [name="${key}"]`).val(value);
@@ -43,7 +46,6 @@ function addRowToTable(tableSelector, rowData, rowConfig) {
     tableBody.append(newRow);
 }
 
-
 /**
  * Synchronizes draft changes with the server by sending modified fields via AJAX POST request.
  * @param {string} draftType - The type of draft being synchronized
@@ -66,7 +68,7 @@ export async function syncDraftWithServer(draftType, changedFields) {
             contentType: 'application/json',
             processData: false,
             headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
         });
 
@@ -79,25 +81,31 @@ export async function syncDraftWithServer(draftType, changedFields) {
     }
 }
 
-
 /**
- * Asynchronously loads form draft data from the server and populates form fields.
- * @param {string} draftType - Type of draft to retrieve
- * @param {Object} formConfig - Configuration containing form selectors and table configs
- * @param {Function} customSimpleFieldsLoader - Optional custom loader for text fields
- * @param {Function} customTableLoader - Optional custom loader for table data
- * @param {Function} customDropdownLoader - Optional custom loader for dropdowns
- * @returns {Promise<void>} - Resolves when draft data is loaded
- * @throws {Error} When draft data retrieval fails
+ * Asynchronously loads draft data for a given type, populating form fields and tables.
+ *
+ * @param {string} draftType - The type of draft to load.
+ * @param {object} formConfig - Configuration object containing form and table selectors.
+ * @param {function} [customInputDataLoaderFn] - Custom function to load text input data.
+ * @param {function} [customTableDataLoaderFn] - Custom function to load table data.
+ * @param {function|object} [customDataLoaderFn] - Custom function or object of functions to load other data.
+ *
+ * @returns {Promise<void>}
  */
-export const loadDraftData = async (draftType, formConfig, customSimpleFieldsLoader, customTableLoader, customDropdownLoader) => {
+export const loadDraftData = async (
+    draftType,
+    formConfig,
+    customInputDataLoaderFn,
+    customTableDataLoaderFn,
+    customDataLoaderFn
+) => {
     console.log('Retrieving the form draft for', draftType);
     try {
         const response = await $.ajax({
             type: 'GET',
             url: DRAFT_ROUTE.GET.replace(':type', draftType),
             headers: {
-                'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
             },
         });
 
@@ -111,18 +119,29 @@ export const loadDraftData = async (draftType, formConfig, customSimpleFieldsLoa
 
         // Use helper functions or fall back to generic loaders
         const loaders = {
-            textFields: customSimpleFieldsLoader || ((data, selector) => loadTextInputData(data, selector)),
-            tablesFields: customTableLoader || ((data, selectors, rowConfigs) => loadTablesData(data, selectors, rowConfigs)),
-            dropdowns: customDropdownLoader || ((data, selector) => {})
+            textFields:
+                customInputDataLoaderFn ||
+                ((data, selector) => loadTextInputData(data, selector)),
+            tablesFields:
+                customTableDataLoaderFn ||
+                ((data, selectors, rowConfigs) =>
+                    loadTablesData(data, selectors, rowConfigs)),
+            customFields:
+                typeof customDataLoaderFn === 'object'
+                    ? customDataLoaderFn
+                    : { defaultLoader: customDataLoaderFn || (() => {}) },
         };
 
-        // Load data in sequence (or in parallel if loaders return Promises and don't depend on each other)
         loaders.textFields(draftData, formSelector);
         loaders.tablesFields(draftData, tableSelectors, tableRowConfigs);
-        loaders.dropdowns(draftData, formSelector);
+        Object.entries(loaders.customFields).forEach(
+            ([loaderName, loaderFn]) => {
+                loaderFn(draftData, formSelector);
+                console.log(`Executed custom loader: ${loaderName}`);
+            }
+        );
 
         console.log('Draft loaded:', draftData);
-
     } catch (error) {
         console.error('Error loading draft:', error);
     }
