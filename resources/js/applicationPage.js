@@ -3,6 +3,12 @@ import {
     showProcessToast,
     hideProcessToast,
 } from './ReusableJS/utilFunctions';
+import {
+    syncDraftWithServer,
+    loadDraftData,
+    loadTextInputData,
+} from './ReusableJS/FormDraftHandler';
+import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
 import TableDataExtractor from './ReusableJS/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
@@ -837,6 +843,7 @@ export function initializeForm() {
 
     let changedFields = {};
     let autoSaveTimeout;
+    const DRAFT_TYPE = 'Application';
     const saveInterval = 5000; // 5 seconds
 
     $('#applicationForm :input:not([readonly])').on(
@@ -852,7 +859,9 @@ export function initializeForm() {
             changedFields[fieldName] = fieldValue; // Track changes locally
 
             clearTimeout(autoSaveTimeout);
-            autoSaveTimeout = setTimeout(syncDraftWithServer, saveInterval);
+            autoSaveTimeout = setTimeout(() => {
+                syncDraftWithServer(DRAFT_TYPE, changedFields);
+            }, saveInterval);
             console.log(changedFields);
         }
     );
@@ -863,74 +872,18 @@ export function initializeForm() {
         function () {
             changedFields = { ...getMarketProductsData(tableConfigurations) };
             clearTimeout(autoSaveTimeout);
-            autoSaveTimeout = setTimeout(syncDraftWithServer, saveInterval);
+            autoSaveTimeout = setTimeout(() => {
+                syncDraftWithServer(DRAFT_TYPE, changedFields);
+            }, saveInterval);
             console.log('this is triggered');
             console.log(changedFields);
         }
     );
 
-    async function syncDraftWithServer() {
-        if ($.isEmptyObject(changedFields)) return;
-        const DRAFT_TYPE = 'Application';
-
-        const requestData = {
-            ...changedFields,
-            ...getMarketProductsData(tableConfigurations),
-            draft_type: DRAFT_TYPE,
-        };
-
-        try {
-            const response = await $.ajax({
-                type: 'POST',
-                url: DRAFT_ROUTE.STORE,
-                data: JSON.stringify(requestData),
-                contentType: 'application/json',
-                processData: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content'
-                    ),
-                },
-            });
-
-            if (response.success) {
-                console.log('Draft saved successfully:', response.message);
-                changedFields = {}; // Clear changes after saving
-            }
-        } catch (error) {
-            console.error('Error saving draft:', error);
-        }
+    const loadApplicationFormInputFields = (draftData, formSelector) => {
+        const excludedFields = ['exportMarket', 'localMarket', 'region', 'province', 'city', 'barangay'];
+        loadTextInputData(draftData, formSelector, excludedFields);
     }
-
-    const loadSimpleFields = (draftData) => {
-        const excludedFields = [
-            'exportMarket',
-            'localMarket',
-            'region',
-            'province',
-            'city',
-            'barangay',
-        ];
-        $.each(draftData, (key, value) => {
-            if (!excludedFields.includes(key)) {
-                $(`[name="${key}"]`).val(value);
-            }
-        });
-    };
-
-    const loadMarketTables = (draftData) => {
-        if (draftData.exportMarket) {
-            $.each(draftData.exportMarket, (_, rowData) => {
-                addRowToTable('#exportMarketTable', rowData);
-            });
-        }
-
-        if (draftData.localMarket) {
-            $.each(draftData.localMarket, (_, rowData) => {
-                addRowToTable('#localMarketTable', rowData);
-            });
-        }
-    };
 
     const loadLocationDropdown = async (
         selector,
@@ -993,60 +946,15 @@ export function initializeForm() {
         );
     };
 
-    // Main draft loading function
-    const loadDraftData = async () => {
-        console.log('Retrieving the form draft');
-        try {
-            const response = await $.ajax({
-                type: 'GET',
-                url: DRAFT_ROUTE.GET.replace(':type', 'Application'),
-                headers: {
-                    'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content'
-                    ),
-                },
-            });
-
-            if (response.success && response.draftData) {
-                const draftData = response.draftData;
-
-                // Load form data in sequence
-                loadSimpleFields(draftData);
-                loadMarketTables(draftData);
-                await loadAddressDropdowns(draftData);
-
-                console.log('Draft loaded:', draftData);
-            }
-        } catch (error) {
-            console.error('Error loading draft:', error);
-        }
-    };
-
-    // Initialize draft loading
     (async () => {
-        await loadDraftData();
+        await loadDraftData(
+            DRAFT_TYPE,
+            APPLICATION_FORM_CONFIG,
+            loadApplicationFormInputFields,
+            null,
+            loadAddressDropdowns
+        );
     })();
-    // Helper function to add rows to a table
-    function addRowToTable(tableSelector, rowData) {
-        const tableBody = $(tableSelector).find('tbody');
-        const newRow = `
-        <tr>
-            <td><input type="text" class="form-control location" value="${
-                rowData.location || ''
-            }" /></td>
-            <td><input type="text" class="form-control product" value="${
-                rowData.product || ''
-            }" /></td>
-            <td><input type="text" class="form-control volume" value="${
-                rowData.volume || ''
-            }" /></td>
-            <td><input type="text" class="form-control unit" value="${
-                rowData.unit || ''
-            }" /></td>
-        </tr>
-    `;
-        tableBody.append(newRow);
-    }
 }
 
 initializeForm();
