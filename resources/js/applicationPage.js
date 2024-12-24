@@ -55,6 +55,41 @@ export function initializeForm() {
         },
     };
 
+    /**
+     * Initializes a FilePond instance with custom configuration and file handling capabilities.
+     *
+     * @param {string} elementId - The ID of the input element to transform into FilePond
+     * @param {Object} options - Additional FilePond options to merge with base configuration
+     * @param {string} hiddenInputName - The name attribute of the hidden input that stores file metadata
+     * @param {string} hiddenInputId - The ID of the hidden input that stores file metadata
+     * @param {string|null} [selectorId=null] - Optional ID of an element to disable after successful upload
+     *
+     * @returns {FilePond|null} Returns the FilePond instance if initialization is successful, null otherwise
+     *
+     * @example
+     * // Initialize FilePond for an intent letter upload
+     * const pond = initializeFilePond(
+     *     'intent_letter_input',
+     *     { acceptedFileTypes: ['application/pdf'] },
+     *     'Intent_unique_id_path',
+     *     'IntentFileID_path',
+     *     'intent_letter_selector'
+     * );
+     *
+     * @description
+     * This function creates a FilePond instance with the following features:
+     * - Handles file uploads to the server with CSRF protection
+     * - Stores file metadata (unique_id and file_path) in a hidden input
+     * - Supports file removal with server-side cleanup
+     * - Optional element disabling after successful upload
+     * - Error handling for both upload and removal processes
+     *
+     * @throws {Error} Logs an error to console if the target element is not found
+     *
+     * @requires FilePond
+     * @requires baseFilePondConfig - Global configuration object for FilePond
+     * @requires csrfToken - CSRF token for server requests
+     */
     function initializeFilePond(
         elementId,
         options,
@@ -63,6 +98,9 @@ export function initializeForm() {
         selectorId = null
     ) {
         const element = document.getElementById(elementId);
+        const metaDataHandler = document.querySelector(
+            `input[name="${hiddenInputName}"][id="${hiddenInputId}"]`
+        );
         if (!element) {
             console.error(`Element with ID '${elementId}' not found.`);
             return null;
@@ -82,9 +120,11 @@ export function initializeForm() {
                                 'data-unique-id',
                                 data.unique_id
                             );
-                            document.querySelector(
-                                `input[name="${hiddenInputName}"][id="${hiddenInputId}"]`
-                            ).value = data.file_path;
+                            metaDataHandler.value = data.file_path;
+                            metaDataHandler.setAttribute(
+                                'data-unique-id',
+                                data.unique_id
+                            );
                             element.setAttribute(
                                 'data-file-path',
                                 data.file_path
@@ -116,6 +156,11 @@ export function initializeForm() {
                         .then((response) => {
                             if (response.ok) {
                                 load();
+                                metaDataHandler.value = '';
+                                metaDataHandler.setAttribute(
+                                    'data-unique-id',
+                                    ''
+                                );
                             } else {
                                 error('Could not revert file');
                             }
@@ -880,10 +925,102 @@ export function initializeForm() {
         }
     );
 
+    const FileMetaHiddenInputs = [
+        'IntentFileID_path',
+        'DtiSecCdaFileID_path',
+        'businessPermitFileID_path',
+        'fdaLtoFileID_path',
+        'receiptFileID_path',
+        'govIdFileID_path',
+        'BIRFileID_path',
+    ];
+
+    /**
+     * Sets up MutationObservers to monitor changes in hidden input fields for file metadata.
+     *
+     * @param {string[]} FileMetaHiddenInputs - Array of IDs of hidden input elements to monitor
+     *
+     * @example
+     * // Monitor multiple file input fields
+     * const inputIds = [
+     *     'IntentFileID_path',
+     *     'DtiSecCdaFileID_path',
+     *     'businessPermitFileID_path'
+     * ];
+     * fileInputChange(inputIds);
+     *
+     * @description
+     * This function sets up observers for each hidden input that:
+     * - Monitors changes to the input's value and data-unique-id attributes
+     * - Automatically saves changes to the draft after a specified interval
+     * - Logs changes to the console for debugging purposes
+     * - Creates a changedFields object with the following structure:
+     *   {
+     *     [inputId]: {
+     *       filePath: string,
+     *       uniqueId: string
+     *     }
+     *   }
+     *
+     * @requires jQuery ($) - For DOM manipulation
+     * @requires MutationObserver - For monitoring DOM changes
+     * @requires autoSaveTimeout - Global variable for managing save timeouts
+     * @requires saveInterval - Global constant defining save delay
+     * @requires syncDraftWithServer - Function to save changes to server
+     * @requires DRAFT_TYPE - Global constant defining the type of draft
+     *
+     * @listens MutationObserver#attributes - Listens for changes to input attributes
+     *
+     * @fires syncDraftWithServer - Triggered after saveInterval when changes are detected
+     */
+    const fileInputChange = (FileMetaHiddenInputs) => {
+        FileMetaHiddenInputs.forEach((inputId) => {
+            const inputElement = $(`#${inputId}`);
+
+            // Use a MutationObserver to detect changes to the 'value' attribute
+            const observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    if (
+                        mutation.type === 'attributes' &&
+                        mutation.attributeName === 'value'
+                    ) {
+                        const filePath = inputElement.val();
+                        const uniqueId = inputElement.attr('data-unique-id');
+                        console.log(
+                            `Hidden input ${inputId} changed to: ${filePath} with unique ID: ${uniqueId}`
+                        );
+                        const changedFields = {
+                            [inputId]: {
+                                filePath: filePath,
+                                uniqueId: uniqueId,
+                            },
+                        };
+                        clearTimeout(autoSaveTimeout);
+                        autoSaveTimeout = setTimeout(() => {
+                            syncDraftWithServer(DRAFT_TYPE, changedFields);
+                        }, saveInterval);
+                    }
+                });
+            });
+
+            // Start observing the input element for changes to its attributes
+            observer.observe(inputElement[0], { attributes: true });
+        });
+    };
+
+    fileInputChange(FileMetaHiddenInputs);
+
     const loadApplicationFormInputFields = (draftData, formSelector) => {
-        const excludedFields = ['exportMarket', 'localMarket', 'region', 'province', 'city', 'barangay'];
+        const excludedFields = [
+            'exportMarket',
+            'localMarket',
+            'region',
+            'province',
+            'city',
+            'barangay',
+        ];
         loadTextInputData(draftData, formSelector, excludedFields);
-    }
+    };
 
     const loadLocationDropdown = async (
         selector,
