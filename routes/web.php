@@ -94,6 +94,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::post('/set/Draft', [FormDraftController::class, 'store'])
         ->name('form.setDraft');
+
+    Route::get('/get/Draft/file/{uniqueId}', [FormDraftController::class, 'getFiles'])
+        ->name('form.getDraftFile');
 });
 
 

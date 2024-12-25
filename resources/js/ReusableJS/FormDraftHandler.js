@@ -34,6 +34,47 @@ export function loadTablesData(draftData, tableSelectors, tableRowConfigs) {
         }
     });
 }
+
+
+export const loadFilepondData = (draftData, filepondIds) => {
+    if (!draftData || typeof draftData !== 'object') return;
+
+    $.each(draftData, (key, value) => {
+        // Validate object structure and required properties
+        if (
+            value &&
+            typeof value === 'object' &&
+            'filePath' in value &&
+            'uniqueId' in value &&
+            typeof value.filePath === 'string' &&
+            typeof value.uniqueId === 'string'
+        ) {
+            // Handle both array and object cases for filepondIds
+            const filepondId = Array.isArray(filepondIds)
+                ? filepondIds.find(id => id.toLowerCase() === key.toLowerCase())
+                : filepondIds[key];
+
+            if (filepondId) {
+                const fileUrl = DRAFT_ROUTE.GET_FILE.replace(':unique_id', value.uniqueId);
+                // Load file into corresponding FilePond instance
+                const filepondInstance = getFilepondInstanceHandler(filepondId);
+                if (filepondInstance) {
+                    filepondInstance.addFile(fileUrl, {
+                        type: 'local',
+                    });
+                }
+            }
+        }
+    });
+};
+
+const getFilepondInstanceHandler = (name) => {
+    const filePondElement = document.getElementById(name);
+    if (filePondElement) {
+        return FilePond.find(filePondElement);
+    }
+};
+
 /**
  * Adds a new row to a specified table using provided data and configuration
  * @param {string} tableSelector - jQuery selector for target table
@@ -97,6 +138,7 @@ export const loadDraftData = async (
     formConfig,
     customInputDataLoaderFn,
     customTableDataLoaderFn,
+    customFilepondLoaderFn,
     customDataLoaderFn
 ) => {
     console.log('Retrieving the form draft for', draftType);
@@ -115,7 +157,7 @@ export const loadDraftData = async (
         }
 
         const draftData = response.draftData;
-        const { formSelector, tableSelectors, tableRowConfigs } = formConfig;
+        const { formSelector, tableSelectors, tableRowConfigs , filepondSelector} = formConfig;
 
         // Use helper functions or fall back to generic loaders
         const loaders = {
@@ -126,6 +168,9 @@ export const loadDraftData = async (
                 customTableDataLoaderFn ||
                 ((data, selectors, rowConfigs) =>
                     loadTablesData(data, selectors, rowConfigs)),
+            FilePondField:
+                customFilepondLoaderFn ||
+                ((data, selector) => loadFilepondData(data, selector)),
             customFields:
                 typeof customDataLoaderFn === 'object'
                     ? customDataLoaderFn
@@ -134,6 +179,7 @@ export const loadDraftData = async (
 
         loaders.textFields(draftData, formSelector);
         loaders.tablesFields(draftData, tableSelectors, tableRowConfigs);
+        loaders.FilePondField(draftData, filepondSelector);
         Object.entries(loaders.customFields).forEach(
             ([loaderName, loaderFn]) => {
                 loaderFn(draftData, formSelector);

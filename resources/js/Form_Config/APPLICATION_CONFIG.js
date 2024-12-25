@@ -16,6 +16,15 @@ const APPLICATION_FORM_CONFIG = {
             }
         }
     },
+    filepondSelector: [
+        'IntentFile',
+        'DtiSecCdafile',
+        'businessPermitFile',
+        'fdaLtoFile',
+        'receiptFile',
+        'govIdFile',
+        'BIRFile',
+    ],
 }
 
 const createMarketTableRow = (rowData) => {

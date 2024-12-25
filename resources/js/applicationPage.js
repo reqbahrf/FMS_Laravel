@@ -174,6 +174,17 @@ export function initializeForm() {
                             error('Could not revert file');
                         });
                 },
+                load: async (source, load, error, progress, abort, headers) => {
+                    try {
+                        const response = await fetch(source);
+                        const BlobData = await response.blob();
+                        if (response.ok) {
+                            load(BlobData);
+                        }
+                    } catch (error) {
+                        error('Could not load file');
+                    }
+                },
             },
         };
 
@@ -193,11 +204,12 @@ export function initializeForm() {
     }
 
     // Intent File
-    initializeFilePond(
+    const intentInstance = initializeFilePond(
         'IntentFile',
         { acceptedFileTypes: ['application/pdf'] },
         'Intent_unique_id_path',
-        'IntentFileID_path'
+        'IntentFileID_path',
+        'IntentSelector'
     );
 
     // DTI/SEC/CDA File
@@ -210,7 +222,7 @@ export function initializeForm() {
     );
 
     // Business Permit File
-    initializeFilePond(
+    const businessPermitInstance = initializeFilePond(
         'businessPermitFile',
         { acceptedFileTypes: ['application/pdf'] },
         'BusinessPermit_unique_id_path',
@@ -227,7 +239,7 @@ export function initializeForm() {
     );
 
     // Receipt File
-    initializeFilePond(
+    const receiptInstance = initializeFilePond(
         'receiptFile',
         { acceptedFileTypes: ['application/pdf'] },
         'receipt_unique_id_path',
@@ -247,7 +259,7 @@ export function initializeForm() {
     );
 
     // BIR File
-    initializeFilePond(
+    const birInstance = initializeFilePond(
         'BIRFile',
         { acceptedFileTypes: ['application/pdf'] },
         'BIR_unique_id_path',
@@ -257,7 +269,6 @@ export function initializeForm() {
     handleFilePondSelectorDisabling('DtiSecCdaSelector', dtiSecCdaInstance);
     handleFilePondSelectorDisabling('fdaLtoSelector', fdaLtoInstance);
     handleFilePondSelectorDisabling('GovIdSelector', govIdInstance);
-
     // Market Outlet Table Functions
     const toggleDeleteRowButton = (container, elementSelector) => {
         const element = container.find(elementSelector);
@@ -981,7 +992,7 @@ export function initializeForm() {
      * @fires syncDraftWithServer - Called to save changes after the specified interval
      * @see syncDraftWithServer
      */
-    const fileInputChange = (FileMetaHiddenInputs) => {
+    const fileInputChange = async (FileMetaHiddenInputs) => {
         FileMetaHiddenInputs.forEach((inputId) => {
             const inputElement = $(`#${inputId}`);
 
@@ -1022,7 +1033,7 @@ export function initializeForm() {
         });
     };
 
-    fileInputChange(FileMetaHiddenInputs);
+
 
     const loadApplicationFormInputFields = (draftData, formSelector) => {
         const excludedFields = [
@@ -1097,14 +1108,21 @@ export function initializeForm() {
         );
     };
 
+    const loadFilePondDraftFile = (FilepondInstances) => {
+
+
+    };
+
     (async () => {
         await loadDraftData(
             DRAFT_TYPE,
             APPLICATION_FORM_CONFIG,
             loadApplicationFormInputFields,
             null,
+            null,
             loadAddressDropdowns
         );
+        await fileInputChange(FileMetaHiddenInputs);
     })();
 }
 
