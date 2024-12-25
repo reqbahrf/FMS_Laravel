@@ -166,10 +166,6 @@ export function initializeForm() {
                                     'data-unique-id',
                                     ''
                                 );
-                                metaDataHandler.setAttribute(
-                                    'data-file-input-name',
-                                    ''
-                                )
                             } else {
                                 error('Could not revert file');
                             }
@@ -577,7 +573,7 @@ export function initializeForm() {
 
     $(confirmTrueInfo)
         .add(confirmAgreeInfo)
-        .on('change',function () {
+        .on('change', function () {
             confirmButton.prop(
                 'disabled',
                 !$(confirmTrueInfo).is(':checked') ||
@@ -945,42 +941,45 @@ export function initializeForm() {
     ];
 
     /**
-     * Sets up MutationObservers to monitor changes in hidden input fields for file metadata.
+     * Sets up MutationObservers to monitor and handle changes in hidden input fields for file metadata.
+     * This function is used to track file upload changes and automatically save them as drafts.
      *
-     * @param {string[]} FileMetaHiddenInputs - Array of IDs of hidden input elements to monitor
-     *
-     * @example
-     * // Monitor multiple file input fields
-     * const inputIds = [
-     *     'IntentFileID_path',
-     *     'DtiSecCdaFileID_path',
-     *     'businessPermitFileID_path'
-     * ];
-     * fileInputChange(inputIds);
+     * @param {string[]} FileMetaHiddenInputs - Array of hidden input element IDs to monitor
      *
      * @description
-     * This function sets up observers for each hidden input that:
-     * - Monitors changes to the input's value for the file path, data-unique-id, and data-file-input-name attributes
-     * - Automatically saves changes to the draft after a specified interval
-     * - Logs changes to the console for debugging purposes
-     * - Creates a changedFields object with the following structure:
-     *   {
-     *     [FILE_INPUT_NAME]: {
-     *       filePath: string,
-     *       uniqueId: string
-     *     }
+     * For each hidden input field, this function:
+     * 1. Creates a MutationObserver to watch for value changes
+     * 2. Tracks changes to file path, unique ID, and file input name
+     * 3. Automatically triggers draft saving after a delay
+     * 4. Maintains data consistency between UI and server
+     *
+     * The function generates a changedFields object with this structure:
+     * ```js
+     * {
+     *   [META_DATA_HIDDEN_INPUT_NAME]: "file/path/string",
+     *   [FILE_INPUT_NAME]: {
+     *     filePath: "file/path/string",
+     *     uniqueId: "unique-identifier"
      *   }
+     * }
+     * ```
      *
-     * @requires jQuery ($) - For DOM manipulation
-     * @requires MutationObserver - For monitoring DOM changes
-     * @requires autoSaveTimeout - Global variable for managing save timeouts
-     * @requires saveInterval - Global constant defining save delay
-     * @requires syncDraftWithServer - Function to save changes to server
-     * @requires DRAFT_TYPE - Global constant defining the type of draft
+     * @example
+     * // Monitor file inputs for Intent, DTI/SEC/CDA, and Business Permit
+     * fileInputChange([
+     *   'IntentFileID_path',
+     *   'DtiSecCdaFileID_path',
+     *   'businessPermitFileID_path'
+     * ]);
      *
-     * @listens MutationObserver#attributes - Listens for changes to input attributes
+     * @requires jQuery - DOM manipulation library
+     * @requires MutationObserver - Browser API for watching DOM changes
+     * @global {number} autoSaveTimeout - Timeout ID for managing save delays
+     * @global {number} saveInterval - Delay duration before saving (in milliseconds)
+     * @global {string} DRAFT_TYPE - Defines the type of draft being saved
      *
-     * @fires syncDraftWithServer - Triggered after saveInterval when changes are detected
+     * @fires syncDraftWithServer - Called to save changes after the specified interval
+     * @see syncDraftWithServer
      */
     const fileInputChange = (FileMetaHiddenInputs) => {
         FileMetaHiddenInputs.forEach((inputId) => {
@@ -993,6 +992,8 @@ export function initializeForm() {
                         mutation.type === 'attributes' &&
                         mutation.attributeName === 'value'
                     ) {
+                        const META_DATA_HIDDEN_INPUT_NAME =
+                            inputElement.attr('name');
                         const filePath = inputElement.val();
                         const FILE_INPUT_NAME = inputElement.attr(
                             'data-file-input-name'
@@ -1002,6 +1003,7 @@ export function initializeForm() {
                             `Hidden input ${inputId} changed to: ${filePath} with unique ID: ${uniqueId}`
                         );
                         const changedFields = {
+                            [META_DATA_HIDDEN_INPUT_NAME]: filePath,
                             [FILE_INPUT_NAME]: {
                                 filePath: filePath,
                                 uniqueId: uniqueId,

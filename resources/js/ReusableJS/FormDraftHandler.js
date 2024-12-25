@@ -1,6 +1,6 @@
 /**
  * Populates form text inputs with data from a draft object
- * @param {Object} draftData - Object containing key-value pairs to populate form fields
+ * @param {Object} draftData - Object containing key-value pairs to populate the form
  * @param {string} formSelector - jQuery selector for the target form
  * @param {Array} [excludedFields=[]] - Array of field names to exclude from population
  */
@@ -10,7 +10,7 @@ export function loadTextInputData(
     excludedFields = []
 ) {
     $.each(draftData, (key, value) => {
-        if (!excludedFields.includes(key)) {
+        if (!excludedFields.includes(key) && typeof value !== 'object') {
             $(`${formSelector} [name="${key}"]`).val(value);
         }
     });
