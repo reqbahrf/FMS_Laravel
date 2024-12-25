@@ -79,7 +79,7 @@ export function initializeForm() {
      * @description
      * This function creates a FilePond instance with the following features:
      * - Handles file uploads to the server with CSRF protection
-     * - Stores file metadata (unique_id and file_path) in a hidden input
+     * - Stores file metadata (unique_id, file_path and file_input_name) in a hidden input
      * - Supports file removal with server-side cleanup
      * - Optional element disabling after successful upload
      * - Error handling for both upload and removal processes
@@ -98,6 +98,7 @@ export function initializeForm() {
         selectorId = null
     ) {
         const element = document.getElementById(elementId);
+        const elementName = element.name;
         const metaDataHandler = document.querySelector(
             `input[name="${hiddenInputName}"][id="${hiddenInputId}"]`
         );
@@ -124,6 +125,10 @@ export function initializeForm() {
                             metaDataHandler.setAttribute(
                                 'data-unique-id',
                                 data.unique_id
+                            );
+                            metaDataHandler.setAttribute(
+                                'data-file-input-name',
+                                elementName
                             );
                             element.setAttribute(
                                 'data-file-path',
@@ -161,6 +166,10 @@ export function initializeForm() {
                                     'data-unique-id',
                                     ''
                                 );
+                                metaDataHandler.setAttribute(
+                                    'data-file-input-name',
+                                    ''
+                                )
                             } else {
                                 error('Could not revert file');
                             }
@@ -568,7 +577,7 @@ export function initializeForm() {
 
     $(confirmTrueInfo)
         .add(confirmAgreeInfo)
-        .change(function () {
+        .on('change',function () {
             confirmButton.prop(
                 'disabled',
                 !$(confirmTrueInfo).is(':checked') ||
@@ -951,12 +960,12 @@ export function initializeForm() {
      *
      * @description
      * This function sets up observers for each hidden input that:
-     * - Monitors changes to the input's value and data-unique-id attributes
+     * - Monitors changes to the input's value for the file path, data-unique-id, and data-file-input-name attributes
      * - Automatically saves changes to the draft after a specified interval
      * - Logs changes to the console for debugging purposes
      * - Creates a changedFields object with the following structure:
      *   {
-     *     [inputId]: {
+     *     [FILE_INPUT_NAME]: {
      *       filePath: string,
      *       uniqueId: string
      *     }
@@ -985,12 +994,15 @@ export function initializeForm() {
                         mutation.attributeName === 'value'
                     ) {
                         const filePath = inputElement.val();
+                        const FILE_INPUT_NAME = inputElement.attr(
+                            'data-file-input-name'
+                        );
                         const uniqueId = inputElement.attr('data-unique-id');
                         console.log(
                             `Hidden input ${inputId} changed to: ${filePath} with unique ID: ${uniqueId}`
                         );
                         const changedFields = {
-                            [inputId]: {
+                            [FILE_INPUT_NAME]: {
                                 filePath: filePath,
                                 uniqueId: uniqueId,
                             },
