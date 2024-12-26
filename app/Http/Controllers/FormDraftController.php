@@ -98,7 +98,7 @@ class FormDraftController extends Controller
                 ->header('X-File-Name', $tempFile->file_name)
                 ->header('X-File-Size', $tempFile->file_size)
                 ->header('X-File-Type', $tempFile->type)
-                ->header('X-Owner-Id', $tempFile->owner_id)
+                ->header('X-File-path', $tempFile->owner_id)
                 ->header('X-Unique-Id', $tempFile->unique_id);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);

@@ -68,6 +68,11 @@ export const loadFilepondData = (draftData, filepondIds) => {
                 if (filepondInstance) {
                     filepondInstance.addFile(fileUrl, {
                         type: 'local',
+                        metadata: {
+                            unique_id: value.uniqueId,
+                            file_path: value.filePath,
+                            file_input_name: key
+                        }
                     });
                 }
             }
@@ -87,7 +92,7 @@ const getFilepondInstanceHandler = (filepondInputID) => {
             console.log("FilePond instance was disabled, enabling it now");
             instance.disabled = false;
         }
-        
+
         return instance;
     } else {
         console.error("FilePond element not found for ID:", filepondInputID);

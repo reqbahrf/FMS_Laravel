@@ -180,15 +180,54 @@ export function initializeForm() {
                 load: async (source, load, error, progress, abort, headers) => {
                     try {
                         const response = await fetch(source);
-                        const BlobData = await response.blob();
                         if (response.ok) {
+                            const BlobData = await response.blob();
                             load(BlobData);
                         }
                     } catch (error) {
-                        error('Could not load file');
+                        console.error('Error loading file:', error);
                     }
                 },
             },
+            onremovefile: async (error, file) => {
+                console.log('onremovefile triggered'); // Add this debug log
+                const filePath = file.getMetadata('file_path');
+                const unique_id = file.getMetadata('unique_id');
+                console.log('File Path:', filePath);
+                console.log('Unique ID:', unique_id);
+                if(unique_id) {
+                    try {
+                        const response = await fetch(`/FileRequirementsRevert/${unique_id}`,
+                            {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': csrfToken,
+                                },
+                                body: JSON.stringify({
+                                    file_path: filePath,
+                                }),
+                            })
+                        if(response.ok) {
+                            metaDataHandler.value = '';
+                            metaDataHandler.setAttribute(
+                                'data-unique-id',
+                                ''
+                            );
+                            metaDataHandler.setAttribute(
+                                'data-file-input-name',
+                                ''
+                            );
+                        }
+                        else {
+                            console.error('Failed to delete file:', response.statusText);
+                        }
+                    } catch (error) {
+                        console.error('Error deleting file:', error);
+                    }
+                }
+                return true;
+            }
         };
 
         return FilePond.create(element, config);
