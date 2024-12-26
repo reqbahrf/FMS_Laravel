@@ -41,6 +41,11 @@ export const loadFilepondData = (draftData, filepondIds) => {
 
     $.each(draftData, (key, value) => {
         // Validate object structure and required properties
+        if (key === 'undefined') {
+            console.warn("Skipping 'undefined' key.");
+            return true; // Continue to the next iteration in $.each
+        }
+
         if (
             value &&
             typeof value === 'object' &&
@@ -49,10 +54,12 @@ export const loadFilepondData = (draftData, filepondIds) => {
             typeof value.filePath === 'string' &&
             typeof value.uniqueId === 'string'
         ) {
-            // Handle both array and object cases for filepondIds
-            const filepondId = Array.isArray(filepondIds)
-                ? filepondIds.find(id => id.toLowerCase() === key.toLowerCase())
-                : filepondIds[key];
+
+            const filepondId = filepondIds.find(id => id.includes(key));
+
+            console.log("Looking for filepondId matching:", key);
+            console.log("Found filepondId:", filepondId);
+
 
             if (filepondId) {
                 const fileUrl = DRAFT_ROUTE.GET_FILE.replace(':unique_id', value.uniqueId);
@@ -68,10 +75,23 @@ export const loadFilepondData = (draftData, filepondIds) => {
     });
 };
 
-const getFilepondInstanceHandler = (name) => {
-    const filePondElement = document.getElementById(name);
+const getFilepondInstanceHandler = (filepondInputID) => {
+    console.log("Looking for FilePond instance with ID:", filepondInputID);
+    const filePondElement = document.getElementById(filepondInputID);
     if (filePondElement) {
-        return FilePond.find(filePondElement);
+        const instance = FilePond.find(filePondElement);
+        console.log("Found FilePond instance:", instance);
+
+        // Check if instance exists and is disabled
+        if (instance && instance.disabled) {
+            console.log("FilePond instance was disabled, enabling it now");
+            instance.disabled = false;
+        }
+        
+        return instance;
+    } else {
+        console.error("FilePond element not found for ID:", filepondInputID);
+        return null; // Ensure a null value is returned if the element is not found
     }
 };
 

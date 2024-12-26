@@ -49,7 +49,7 @@ export function initializeForm() {
                     console.error('File upload error:', response);
                 },
             },
-            revert: (uniqueFileId, load, error) => {
+            revert: async (uniqueFileId, load, error) => {
                 // Common revert logic will be handled later
             },
         },
@@ -144,35 +144,38 @@ export function initializeForm() {
                         return data.unique_id;
                     },
                 },
-                revert: (uniqueFileId, load, error) => {
+                revert: async (uniqueFileId, load, error) => {
                     const filePath = element.getAttribute('data-file-path');
                     const unique_id = element.getAttribute('data-unique-id');
 
-                    fetch(`/FileRequirementsRevert/${unique_id}`, {
-                        method: 'DELETE',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': csrfToken,
-                        },
-                        body: JSON.stringify({
-                            file_path: filePath,
-                        }),
-                    })
-                        .then((response) => {
-                            if (response.ok) {
-                                load();
-                                metaDataHandler.value = '';
-                                metaDataHandler.setAttribute(
-                                    'data-unique-id',
-                                    ''
-                                );
-                            } else {
-                                error('Could not revert file');
+                    try {
+                        const response = await fetch(
+                            `/FileRequirementsRevert/${unique_id}`,
+                            {
+                                method: 'DELETE',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'X-CSRF-TOKEN': csrfToken,
+                                },
+                                body: JSON.stringify({
+                                    file_path: filePath,
+                                }),
                             }
-                        })
-                        .catch(() => {
+                        );
+
+                        if (response.ok) {
+                            load();
+                            metaDataHandler.value = '';
+                            metaDataHandler.setAttribute(
+                                'data-unique-id',
+                                ''
+                            );
+                        } else {
                             error('Could not revert file');
-                        });
+                        }
+                    } catch (err) {
+                        error('Could not revert file');
+                    }
                 },
                 load: async (source, load, error, progress, abort, headers) => {
                     try {
@@ -214,7 +217,7 @@ export function initializeForm() {
 
     // DTI/SEC/CDA File
     const dtiSecCdaInstance = initializeFilePond(
-        'DtiSecCdafile',
+        'DTI_SEC_CDA_File',
         { acceptedFileTypes: ['application/pdf'] },
         'DTI_SEC_CDA_unique_id_path',
         'DtiSecCdaFileID_path',

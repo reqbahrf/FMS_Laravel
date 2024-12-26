@@ -18,7 +18,7 @@ const APPLICATION_FORM_CONFIG = {
     },
     filepondSelector: [
         'IntentFile',
-        'DtiSecCdafile',
+        'DTI_SEC_CDA_File',
         'businessPermitFile',
         'fdaLtoFile',
         'receiptFile',

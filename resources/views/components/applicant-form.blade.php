@@ -1256,7 +1256,7 @@
                                 >
                                     <input
                                         class="fileUploads"
-                                        id="DtiSecCdafile"
+                                        id="DTI_SEC_CDA_File"
                                         name="DTI_SEC_CDA_File"
                                         type="file"
                                         {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
