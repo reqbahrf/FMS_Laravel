@@ -217,7 +217,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-2">
-                            <label for="middle_name">Middle Name: <span class="requiredFields">*</span></label>
+                            <label for="middle_name">Middle Name:</label>
                             <input
                                 class="form-control"
                                 id="middle_name"
@@ -225,11 +225,7 @@
                                 type="text"
                                 value="{{ old('middle_name') }}"
                                 placeholder="Doe"
-                                required
                             >
-                            <div class="invalid-feedback">
-                                Please enter your middle name.
-                            </div>
                         </div>
                         <div class="col-12 col-md-3">
                             <label for="l_name">Last Name: <span class="requiredFields"> *</span></label>
@@ -1419,38 +1415,38 @@
                             uploaded files.
                         </div>
                         <input
-                            id="IntentFileID_path"
-                            name="Intent_unique_id_path"
+                            id="IntentFileID_Data_Handler"
+                            name="IntentFileID_Data_Handler"
                             type="hidden"
                         >
                         <input
-                            id="DtiSecCdaFileID_path"
-                            name="DTI_SEC_CDA_unique_id_path"
+                            id="DtiSecCdaFileID_Data_Handler"
+                            name="DtiSecCdaFileID_Data_Handler"
                             type="hidden"
                         >
                         <input
-                            id="businessPermitFileID_path"
-                            name="BusinessPermit_unique_id_path"
+                            id="BusinessPermitFileID_Data_Handler"
+                            name="BusinessPermitFileID_Data_Handler"
                             type="hidden"
                         >
                         <input
-                            id="fdaLtoFileID_path"
-                            name="FDA_LTO_unique_id_path"
+                            id="FdaLtoFileID_Data_Handler"
+                            name="FdaLtoFileID_Data_Handler"
                             type="hidden"
                         >
                         <input
-                            id="receiptFileID_path"
-                            name="receipt_unique_id_path"
+                            id="ReceiptFileID_Data_Handler"
+                            name="ReceiptFileID_Data_Handler"
                             type="hidden"
                         >
                         <input
-                            id="govIdFileID_path"
-                            name="govId_unique_id_path"
+                            id="GovIdFileID_Data_Handler"
+                            name="GovIdFileID_Data_Handler"
                             type="hidden"
                         >
                         <input
-                            id="BIRFileID_path"
-                            name="BIR_unique_id_path"
+                            id="BIRFileID_Data_Handler"
+                            name="BIRFileID_Data_Handler"
                             type="hidden"
                         >
                     </div>

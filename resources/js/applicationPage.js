@@ -8,6 +8,10 @@ import {
     loadDraftData,
     loadTextInputData,
 } from './ReusableJS/FormDraftHandler';
+import {
+    InitializeFilePond,
+    handleFilePondSelectorDisabling,
+} from './ReusableJS/FilepondHandlers';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
 import TableDataExtractor from './ReusableJS/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
@@ -25,291 +29,60 @@ export function initializeForm() {
     confirmButton.off('click');
 
     const API_BASE_URL = 'https://psgc.gitlab.io/api';
-    //IntentFile upload pond
-    const csrfToken = document
-        .querySelector('meta[name="csrf-token"]')
-        .getAttribute('content');
-    const baseFilePondConfig = {
-        allowMultiple: false,
-        allowFileTypeValidation: true,
-        allowFileSizeValidation: true,
-        allowRevert: true,
-        maxFileSize: '10MB',
-        server: {
-            process: {
-                url: '/FileRequirementsUpload',
-                method: 'POST',
-                headers: {
-                    'X-CSRF-TOKEN': csrfToken,
-                },
-                onload: (response) => {
-                    // Common onload logic will be handled later
-                },
-                onerror: (response) => {
-                    console.error('File upload error:', response);
-                },
-            },
-            revert: async (uniqueFileId, load, error) => {
-                // Common revert logic will be handled later
-            },
-        },
-    };
-
-    /**
-     * Initializes a FilePond instance with custom configuration and file handling capabilities.
-     *
-     * @param {string} elementId - The ID of the input element to transform into FilePond
-     * @param {Object} options - Additional FilePond options to merge with base configuration
-     * @param {string} hiddenInputName - The name attribute of the hidden input that stores file metadata
-     * @param {string} hiddenInputId - The ID of the hidden input that stores file metadata
-     * @param {string|null} [selectorId=null] - Optional ID of an element to disable after successful upload
-     *
-     * @returns {FilePond|null} Returns the FilePond instance if initialization is successful, null otherwise
-     *
-     * @example
-     * // Initialize FilePond for an intent letter upload
-     * const pond = initializeFilePond(
-     *     'intent_letter_input',
-     *     { acceptedFileTypes: ['application/pdf'] },
-     *     'Intent_unique_id_path',
-     *     'IntentFileID_path',
-     *     'intent_letter_selector'
-     * );
-     *
-     * @description
-     * This function creates a FilePond instance with the following features:
-     * - Handles file uploads to the server with CSRF protection
-     * - Stores file metadata (unique_id, file_path and file_input_name) in a hidden input
-     * - Supports file removal with server-side cleanup
-     * - Optional element disabling after successful upload
-     * - Error handling for both upload and removal processes
-     *
-     * @throws {Error} Logs an error to console if the target element is not found
-     *
-     * @requires FilePond
-     * @requires baseFilePondConfig - Global configuration object for FilePond
-     * @requires csrfToken - CSRF token for server requests
-     */
-    function initializeFilePond(
-        elementId,
-        options,
-        hiddenInputName,
-        hiddenInputId,
-        selectorId = null
-    ) {
-        const element = document.getElementById(elementId);
-        const elementName = element.name;
-        const metaDataHandler = document.querySelector(
-            `input[name="${hiddenInputName}"][id="${hiddenInputId}"]`
-        );
-        if (!element) {
-            console.error(`Element with ID '${elementId}' not found.`);
-            return null;
-        }
-
-        const config = {
-            ...baseFilePondConfig,
-            ...options,
-            server: {
-                ...baseFilePondConfig.server,
-                process: {
-                    ...baseFilePondConfig.server.process,
-                    onload: (response) => {
-                        const data = JSON.parse(response);
-                        if (data.unique_id && data.file_path) {
-                            element.setAttribute(
-                                'data-unique-id',
-                                data.unique_id
-                            );
-                            metaDataHandler.value = data.file_path;
-                            metaDataHandler.setAttribute(
-                                'data-unique-id',
-                                data.unique_id
-                            );
-                            metaDataHandler.setAttribute(
-                                'data-file-input-name',
-                                elementName
-                            );
-                            element.setAttribute(
-                                'data-file-path',
-                                data.file_path
-                            );
-
-                            if (selectorId) {
-                                document
-                                    .getElementById(selectorId)
-                                    .classList.add('disabled');
-                            }
-                        }
-                        return data.unique_id;
-                    },
-                },
-                revert: async (uniqueFileId, load, error) => {
-                    const filePath = element.getAttribute('data-file-path');
-                    const unique_id = element.getAttribute('data-unique-id');
-
-                    try {
-                        const response = await fetch(
-                            `/FileRequirementsRevert/${unique_id}`,
-                            {
-                                method: 'DELETE',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': csrfToken,
-                                },
-                                body: JSON.stringify({
-                                    file_path: filePath,
-                                }),
-                            }
-                        );
-
-                        if (response.ok) {
-                            load();
-                            metaDataHandler.value = '';
-                            metaDataHandler.setAttribute(
-                                'data-unique-id',
-                                ''
-                            );
-                        } else {
-                            error('Could not revert file');
-                        }
-                    } catch (err) {
-                        error('Could not revert file');
-                    }
-                },
-                load: async (source, load, error, progress, abort, headers) => {
-                    try {
-                        const response = await fetch(source);
-                        if (response.ok) {
-                            const BlobData = await response.blob();
-                            load(BlobData);
-                        }
-                    } catch (error) {
-                        console.error('Error loading file:', error);
-                    }
-                },
-            },
-            onremovefile: async (error, file) => {
-                console.log('onremovefile triggered'); // Add this debug log
-                const filePath = file.getMetadata('file_path');
-                const unique_id = file.getMetadata('unique_id');
-                const fileInputName = file.getMetadata('file_input_name');
-                const metaDataHandlerName = file.getMetadata('meta_data_name');
-                const metaDataHandlerID = file.getMetadata('meta_data_id');
-                const oldMEtaDataHandler = document.querySelector(
-                    `input[name="${metaDataHandlerName}"][id="${metaDataHandlerID}"]`
-                );
-                if(unique_id) {
-                    try {
-                        const response = await fetch(`/FileRequirementsRevert/${unique_id}`,
-                            {
-                                method: 'DELETE',
-                                headers: {
-                                    'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': csrfToken,
-                                },
-                                body: JSON.stringify({
-                                    file_path: filePath,
-                                }),
-                            })
-                        if(response.ok) {
-                            oldMEtaDataHandler.value = '';
-                            oldMEtaDataHandler.setAttribute(
-                                'data-unique-id',
-                                ''
-                            );
-                            oldMEtaDataHandler.setAttribute(
-                                'data-file-input-name',
-                                fileInputName
-                            );
-                        }
-                        else {
-                            console.error('Failed to delete file:', response.statusText);
-                        }
-                    } catch (error) {
-                        console.error('Error deleting file:', error);
-                    }
-                }
-                return true;
-            }
-        };
-
-        return FilePond.create(element, config);
-    }
-
-    function handleFilePondSelectorDisabling(selectorId, filePondInstance) {
-        const selector = document.getElementById(selectorId);
-        if (!selector) return;
-
-        const checkAndDisable = () => {
-            filePondInstance.disabled = selector.value === '';
-        };
-
-        checkAndDisable();
-        selector.addEventListener('change', checkAndDisable);
-    }
 
     // Intent File
-    const intentInstance = initializeFilePond(
+    const intentInstance = InitializeFilePond(
         'IntentFile',
         { acceptedFileTypes: ['application/pdf'] },
-        'Intent_unique_id_path',
-        'IntentFileID_path',
-        'IntentSelector'
+        'IntentFileID_Data_Handler',
     );
 
     // DTI/SEC/CDA File
-    const dtiSecCdaInstance = initializeFilePond(
+    const dtiSecCdaInstance = InitializeFilePond(
         'DTI_SEC_CDA_File',
         { acceptedFileTypes: ['application/pdf'] },
-        'DTI_SEC_CDA_unique_id_path',
-        'DtiSecCdaFileID_path',
+        'DtiSecCdaFileID_Data_Handler',
         'DtiSecCdaSelector'
     );
 
     // Business Permit File
-    const businessPermitInstance = initializeFilePond(
+    const businessPermitInstance = InitializeFilePond(
         'businessPermitFile',
         { acceptedFileTypes: ['application/pdf'] },
-        'BusinessPermit_unique_id_path',
-        'businessPermitFileID_path'
+        'BusinessPermitFileID_Data_Handler'
     );
 
     // FDA LTO File
-    const fdaLtoInstance = initializeFilePond(
+    const fdaLtoInstance = InitializeFilePond(
         'fdaLtoFile',
         { acceptedFileTypes: ['application/pdf'] },
-        'FDA_LTO_unique_id_path',
-        'fdaLtoFileID_path',
+        'FdaLtoFileID_Data_Handler',
         'fdaLtoSelector'
     );
 
     // Receipt File
-    const receiptInstance = initializeFilePond(
+    const receiptInstance = InitializeFilePond(
         'receiptFile',
         { acceptedFileTypes: ['application/pdf'] },
-        'receipt_unique_id_path',
-        'receiptFileID_path'
+        'ReceiptFileID_Data_Handler',
     );
 
     // Government ID File
-    const govIdInstance = initializeFilePond(
+    const govIdInstance = InitializeFilePond(
         'govIdFile',
         {
             acceptedFileTypes: ['image/png', 'image/jpeg'],
             captureMethod: 'environment',
         },
-        'govId_unique_id_path',
-        'govIdFileID_path',
+        'GovIdFileID_Data_Handler',
         'GovIdSelector'
     );
 
     // BIR File
-    const birInstance = initializeFilePond(
+    const birInstance = InitializeFilePond(
         'BIRFile',
         { acceptedFileTypes: ['application/pdf'] },
-        'BIR_unique_id_path',
-        'BIRFileID_path'
+        'BIRFileID_Data_Handler'
     );
 
     handleFilePondSelectorDisabling('DtiSecCdaSelector', dtiSecCdaInstance);

@@ -76,8 +76,7 @@ export const loadFilepondData = (draftData, filepondIds) => {
                             unique_id: value.uniqueId,
                             file_path: value.filePath,
                             file_input_name: key,
-                            meta_data_name: value.metaDataName,
-                            meta_data_id: value.metaDataId
+                            meta_data_handler_id: value.metaDataId
                         }
                     });
                 }

@@ -10,8 +10,6 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NewRegistrationRequest;
 use Illuminate\Support\Facades\Cache;
 
-use function Illuminate\Support\defer;
-
 class ApplicationController extends Controller
 {
 
@@ -131,13 +129,13 @@ class ApplicationController extends Controller
 
             $file_to_insert = [
 
-                'IntentFilePath' => $validatedInputs['Intent_unique_id_path'],
-                'DSCFilePath' => $validatedInputs['DTI_SEC_CDA_unique_id_path'],
-                'businessPermitFilePath' => $validatedInputs['BusinessPermit_unique_id_path'],
-                'FDA_LTOFilePath' => $validatedInputs['FDA_LTO_unique_id_path'],
-                'receiptFilePath' => $validatedInputs['receipt_unique_id_path'],
-                'govFilePath' => $validatedInputs['govId_unique_id_path'],
-                'BIRFilePath' => $validatedInputs['BIR_unique_id_path']
+                'IntentFilePath' => $validatedInputs['IntentFileID_Data_Handler'],
+                'DSCFilePath' => $validatedInputs['DtiSecCdaFileID_Data_Handler'],
+                'businessPermitFilePath' => $validatedInputs['BusinessPermitFileID_Data_Handler'],
+                'FDA_LTOFilePath' => $validatedInputs['FdaLtoFileID_Data_Handler'],
+                'receiptFilePath' => $validatedInputs['ReceiptFileID_Data_Handler'],
+                'govFilePath' => $validatedInputs['GovIdFileID_Data_Handler'],
+                'BIRFilePath' => $validatedInputs['BIRFileID_Data_Handler']
             ];
 
             Log::info($file_to_insert);

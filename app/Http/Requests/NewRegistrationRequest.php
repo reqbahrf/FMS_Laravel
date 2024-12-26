@@ -74,13 +74,13 @@ class NewRegistrationRequest extends FormRequest
             'receiptFile' => $isCooperator ? 'required|string' : 'nullable|string',
             'govIdFile' => $isCooperator ? 'required|string' : 'nullable|string',
             'GovIdSelector' => $isCooperator ? 'required|string|in:National ID,SSS ID,GSIS ID,Passport ID' : 'nullable|string|in:National ID,SSS ID,GSIS ID,Passport ID',
-            'Intent_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
-            'DTI_SEC_CDA_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
-            'BusinessPermit_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
-            'FDA_LTO_unique_id_path' => 'nullable|string',
-            'receipt_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
-            'govId_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
-            'BIR_unique_id_path' => $isCooperator ? 'required|string' : 'nullable|string',
+            'IntentFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
+            'DtiSecCdaFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
+            'BusinessPermitFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
+            'FdaLtoFileID_Data_Handler' => 'nullable|string',
+            'ReceiptFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
+            'GovIdFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
+            'BIRFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
         ];
     }
 }
