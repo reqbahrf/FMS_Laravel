@@ -51,8 +51,12 @@ export const loadFilepondData = (draftData, filepondIds) => {
             typeof value === 'object' &&
             'filePath' in value &&
             'uniqueId' in value &&
+            'metaDataName' in value &&
+            'metaDataId' in value &&
             typeof value.filePath === 'string' &&
-            typeof value.uniqueId === 'string'
+            typeof value.uniqueId === 'string' &&
+            typeof value.metaDataName === 'string' &&
+            typeof value.metaDataId === 'string'
         ) {
 
             const filepondId = filepondIds.find(id => id.includes(key));
@@ -71,7 +75,9 @@ export const loadFilepondData = (draftData, filepondIds) => {
                         metadata: {
                             unique_id: value.uniqueId,
                             file_path: value.filePath,
-                            file_input_name: key
+                            file_input_name: key,
+                            meta_data_name: value.metaDataName,
+                            meta_data_id: value.metaDataId
                         }
                     });
                 }

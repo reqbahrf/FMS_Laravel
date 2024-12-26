@@ -193,8 +193,12 @@ export function initializeForm() {
                 console.log('onremovefile triggered'); // Add this debug log
                 const filePath = file.getMetadata('file_path');
                 const unique_id = file.getMetadata('unique_id');
-                console.log('File Path:', filePath);
-                console.log('Unique ID:', unique_id);
+                const fileInputName = file.getMetadata('file_input_name');
+                const metaDataHandlerName = file.getMetadata('meta_data_name');
+                const metaDataHandlerID = file.getMetadata('meta_data_id');
+                const oldMEtaDataHandler = document.querySelector(
+                    `input[name="${metaDataHandlerName}"][id="${metaDataHandlerID}"]`
+                );
                 if(unique_id) {
                     try {
                         const response = await fetch(`/FileRequirementsRevert/${unique_id}`,
@@ -209,14 +213,14 @@ export function initializeForm() {
                                 }),
                             })
                         if(response.ok) {
-                            metaDataHandler.value = '';
-                            metaDataHandler.setAttribute(
+                            oldMEtaDataHandler.value = '';
+                            oldMEtaDataHandler.setAttribute(
                                 'data-unique-id',
                                 ''
                             );
-                            metaDataHandler.setAttribute(
+                            oldMEtaDataHandler.setAttribute(
                                 'data-file-input-name',
-                                ''
+                                fileInputName
                             );
                         }
                         else {
@@ -1047,6 +1051,7 @@ export function initializeForm() {
                     ) {
                         const META_DATA_HIDDEN_INPUT_NAME =
                             inputElement.attr('name');
+                        const META_DATA_ID = inputElement.attr('id');
                         const filePath = inputElement.val();
                         const FILE_INPUT_NAME = inputElement.attr(
                             'data-file-input-name'
@@ -1060,6 +1065,8 @@ export function initializeForm() {
                             [FILE_INPUT_NAME]: {
                                 filePath: filePath,
                                 uniqueId: uniqueId,
+                                metaDataName: META_DATA_HIDDEN_INPUT_NAME,
+                                metaDataId: META_DATA_ID,
                             },
                         };
                         clearTimeout(autoSaveTimeout);
