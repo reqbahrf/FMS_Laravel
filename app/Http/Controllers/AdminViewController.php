@@ -35,13 +35,13 @@ class AdminViewController extends Controller
         }
     }
 
-    public function getDashboardChartData(AdminDashboardService $adminDashboard)
+    public function getDashboardChartData(AdminDashboardService $adminDashboard, $yearToLoad = null)
     {
         try {
 
-
-            $chartData = $adminDashboard->getChartData();
+            $chartData = $adminDashboard->getChartData($yearToLoad);
             $staffhandledProjects = $adminDashboard->getStaffHandledProjects();
+            $listOfYears = $adminDashboard->getListOfYears();
 
             $monthlyData = $chartData->pluck('monthly_project_categories');
             $localData = $chartData->pluck('project_local_categories');
@@ -49,7 +49,8 @@ class AdminViewController extends Controller
             return response()->json([
                 'monthlyData' => $monthlyData,
                 'localData' => $localData,
-                'staffhandledProjects' => $staffhandledProjects
+                'staffhandledProjects' => $staffhandledProjects,
+                'listOfYears' => $listOfYears
             ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()]);

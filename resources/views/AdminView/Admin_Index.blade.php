@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html
-    data-bs-theme="light"
+    data-bs-theme="dark"
     lang="en"
 >
 
@@ -352,8 +352,8 @@
             SETTINGS: '{{ route('admin.ProjectSettings') }}'
         }
         const DASHBOARD_ROUTE = {
-            GET_DASHBOARD_CHARTS_DATA: '{{ route('admin.Dashboard.chartData') }}',
-            GENERATE_DASHBOARD_REPORT: '{{ route('admin.Dashboard.generateReport') }}'
+            GET_DASHBOARD_CHARTS_DATA: '{{ route('admin.Dashboard.chartData', ':yearToLoad') }}',
+            GENERATE_DASHBOARD_REPORT: '{{ route('admin.Dashboard.generateReport', ':yearToLoad') }}'
         };
 
         const PROJECT_LIST_ROUTE = {

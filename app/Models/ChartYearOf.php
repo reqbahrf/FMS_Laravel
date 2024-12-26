@@ -26,7 +26,7 @@ class ChartYearOf extends Model
     ];
 
     protected $casts = [
-        'year_of' => 'date:Y',
+        'year_of' => 'string',
         'monthly_project_categories' => 'array',
         'project_local_categories' => 'array',
         'staff_handled_projects_categories' => 'array',

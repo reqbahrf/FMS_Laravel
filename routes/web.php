@@ -254,7 +254,7 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
     Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])
         ->name('admin.Dashboard');
 
-    Route::get('/Admin/Dashboard/chartData', [AdminViewController::class, 'getDashboardChartData'])
+    Route::get('/Admin/Dashboard/chartData/{yearToLoad?}', [AdminViewController::class, 'getDashboardChartData'])
         ->name('admin.Dashboard.chartData');
 
     Route::get('/Admin/Project', [AdminViewController::class, 'projectTabGet'])
@@ -291,7 +291,7 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
     Route::post('/Admin/Assign-New-Staff', [AdminProjectController::class, 'assignNewStaff'])
         ->name('admin.AssignNewStaff');
 
-    Route::get('/generate-pdf-report', [AdminReportController::class, 'generatePDFReport'])
+    Route::get('/generate-pdf-report/{yearToLoad?}', [AdminReportController::class, 'generatePDFReport'])
         ->name('admin.Dashboard.generateReport');
 });
 

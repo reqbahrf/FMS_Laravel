@@ -5,6 +5,12 @@
 </div>
 <div class="container-fluid">
     <div class="row gy-3 gx-2">
+        <div class="col-12 col-md-4 d-flex align-items-center">
+            <h5 class="text-muted fw-medium me-2 w-auto">Statistics for Year:</h5>
+            <select name="yearSelector" class="form-select w-50" id="yearSelector">
+                <option value="">Select Year</option>
+            </select>
+        </div>
         <div class="col-12">
             <div class="card shadow-sm">
                 <div class="card-header bg-primary">

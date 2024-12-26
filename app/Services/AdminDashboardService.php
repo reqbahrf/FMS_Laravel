@@ -18,14 +18,16 @@ class AdminDashboardService {
         $this->orgUserInfoModel = $orgUserInfoModel;
     }
 
-    public function getChartData()
+    public function getChartData($yearToLoad = null)
     {
+        $yearToLoad = $yearToLoad ?? date('Y');
+
         if(Cache::has('chartData')) {
             $chartData = Cache::get('chartData');
         }else{
             $chartData = $this->chartYearOfModel
                 ->select('monthly_project_categories', 'project_local_categories')
-                ->where('year_of', '=', date('Y'))
+                ->where('year_of', '=', $yearToLoad)
                 ->get();
 
             Cache::put('chartData', $chartData, 1800);
@@ -82,7 +84,24 @@ class AdminDashboardService {
             Log::error('Error in getStaffHandledProjects: ' . $e->getMessage());
             return collect([]);
         }
-
-
+    }
+    public function getListOfYears()
+    {
+        try {
+            if(Cache::has('listOfYears')) {
+                $listOfYears = Cache::get('listOfYears');
+            }else{
+                $listOfYears = $this->chartYearOfModel
+                ->select('year_of')
+                ->distinct()
+                ->get()
+                ->pluck('year_of');
+                Cache::put('listOfYears', $listOfYears, 1800);
+            }
+            return $listOfYears;
+        } catch (Exception $e) {
+            Log::error('Error in getListOfYears: ' . $e->getMessage());
+            return collect([]);
+        }
     }
 }

@@ -146,6 +146,26 @@ $(function () {
 window.initializeAdminPageJs = async () => {
     const functions = {
         Dashboard: async () => {
+
+            const yearToLoadSelector = $('#yearSelector');
+
+            const processYearListSelector = async (yearsArray) => {
+                return new Promise((resolve) => {
+                    const currentYear = new Date().getFullYear();
+                    yearToLoadSelector.empty();
+                    yearsArray.forEach(year => {
+                        const selected = year === currentYear ? 'selected' : '';
+                        yearToLoadSelector.append(`<option value="${year}" ${selected}>${year}</option>`);
+                    });
+                    resolve();
+                });
+            }
+
+            yearToLoadSelector.on('change', async function () {
+                const selectedYear = $(this).val();
+                await getDashboardChartData(selectedYear);
+            });
+
             /**
              * Processes monthly data for chart creation.
              *
@@ -263,9 +283,6 @@ window.initializeAdminPageJs = async () => {
                 completed
             ) => {
                 const overallProject = {
-                    theme: {
-                        mode: "light",
-                    },
                     series: [
                         {
                             name: "Applicants",
@@ -440,9 +457,6 @@ window.initializeAdminPageJs = async () => {
                 totalMedium
             ) => {
                 const EnterpriseLevelOptions = {
-                    theme: {
-                        mode: "light",
-                    },
                     series: [totalMicro, totalSmall, totalMedium],
                     labels: [
                         `Micro Enterprise`,
@@ -512,9 +526,6 @@ window.initializeAdminPageJs = async () => {
                 mediumEnterpriseData
             ) => {
                 const handledBusiness = {
-                    theme: {
-                        mode: "light",
-                    },
                     series: [
                         {
                             name: "Micro Enterprise",
@@ -580,11 +591,12 @@ window.initializeAdminPageJs = async () => {
              *
              * @return {Promise<void>} A promise that resolves when the data is fetched and processed.
              */
-            const getDashboardChartData = async () => {
+            const getDashboardChartData = async (yearToload = null) => {
                 try {
+                    const selectedYear = yearToload || '';
                     const response = await $.ajax({
                         type: "GET",
-                        url: DASHBOARD_ROUTE.GET_DASHBOARD_CHARTS_DATA,
+                        url: DASHBOARD_ROUTE.GET_DASHBOARD_CHARTS_DATA.replace(':yearToLoad', selectedYear),
                         headers: {
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                                 "content"
@@ -600,10 +612,12 @@ window.initializeAdminPageJs = async () => {
                         (await JSON.parse(response.localData)) ||
                         response.localData; // Assumes it's a valid JSON string
                     const handleProject = await response.staffhandledProjects;
+                    const ListChartYear = await response.listOfYears;
                     return Promise.all([
                         processMonthlyDataChart(monthlyData),
                         processLocalDataChart(localData),
                         processHandleStaffProjectChart(handleProject),
+                        processYearListSelector(ListChartYear),
                     ]);
                 } catch (error) {
                     console.error("Error fetching chart data:", error);
@@ -621,6 +635,7 @@ window.initializeAdminPageJs = async () => {
             await loadAllCharts();
 
             $('#generateDashboardReport').off('click').on('click', async function(){
+                const selectedYear = yearToLoadSelector.val() || '';
 
                 const isConfirmed = await createConfirmationModal({
                     title: "Generate Report",
@@ -638,7 +653,7 @@ window.initializeAdminPageJs = async () => {
                 try {
                 const response = await $.ajax({
                     type: "GET",
-                    url: DASHBOARD_ROUTE.GENERATE_DASHBOARD_REPORT,
+                    url: DASHBOARD_ROUTE.GENERATE_DASHBOARD_REPORT.replace(':yearToLoad', selectedYear),
                     headers: {
                         "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr(
                             "content"

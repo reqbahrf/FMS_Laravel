@@ -17,11 +17,11 @@ class AdminReportController extends Controller
         $this->adminViewController = $adminViewController;
     }
 
-    public function generatePDFReport(AdminDashboardService $adminDashboard)
+    public function generatePDFReport(AdminDashboardService $adminDashboard, $yearToLoad)
     {
         try {
             // Get chart data from AdminViewController
-            $chartData = $this->adminViewController->getDashboardChartData($adminDashboard)->getData(true);
+            $chartData = $this->adminViewController->getDashboardChartData($adminDashboard, $yearToLoad)->getData(true);
 
             // Process the data
             $report = $this->processReportData($chartData);
