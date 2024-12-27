@@ -13,6 +13,7 @@ class FormDraft extends Model
         'owner_id',
         'form_type',
         'form_data',
+        'is_submitted'
     ];
 
     protected $casts = [

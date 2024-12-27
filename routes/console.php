@@ -10,3 +10,4 @@ Artisan::command('inspire', function () {
 
 Schedule::command('reports:close')->daily();
 Schedule::command('app:cleanup-temporary-files')->daily();
+Schedule::command('form-drafts:clean')->daily();
