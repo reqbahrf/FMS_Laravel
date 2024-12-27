@@ -9,19 +9,20 @@ use Illuminate\Support\Facades\Session;
 use App\Models\CoopUserInfo;
 use App\Models\ApplicationInfo;
 use App\Models\OngoingQuarterlyReport;
-use App\Services\getCooperatorInfoService;
+use App\Services\GetCooperatorInfoService;
 use Illuminate\Support\Facades\Log;
 
 class CooperatorViewController extends Controller
 {
-    public function index()
+    public function index(GetCooperatorInfoService $getCooperatorInfoService)
     {
         $userName = Auth::user()->user_name;
 
         $user = Auth::user();
         $notifications = $user->notifications;
+        $businessInfos = $getCooperatorInfoService->getCooperatorInfo();
 
-        return view('CooperatorView.Cooperator_Index', compact('notifications'));
+        return view('CooperatorView.Cooperator_Index', compact(['notifications', 'businessInfos']));
     }
 
 
@@ -122,7 +123,7 @@ class CooperatorViewController extends Controller
         }
     }
 
-    public function CooperatorProjects(Request $request, getCooperatorInfoService $getCooperatorInfoService)
+    public function CooperatorProjects(Request $request, GetCooperatorInfoService $getCooperatorInfoService)
     {
         if ($request->ajax()) {
 
