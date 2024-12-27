@@ -1,6 +1,6 @@
 <div class="wrapper">
     <x-toast-alert />
-    <x-my-account-modal :businessInfos="$businessInfos"/>
+    <x-my-account-modal />
     <x-logout-confirmation-modal />
     <nav class="sidenav expanded">
         <ul class="navbar-nav">
@@ -33,7 +33,15 @@
                     <span class="nav-text ml-2">Requirements</span>
                 </a>
             </li>
-            <li class="nav-item mb-2">
+            <li class="nav-item main-Nav mb-2">
+                <a href="#" id="ProjectsTab"
+                    onclick="loadPage('{{ route('Cooperator.myProjects') }}','ProjectsTab');"
+                    class="mb-2 d-flex align-items-center">
+                    <i class="ri-file-list-3-fill ri-2x"></i>
+                    <span class="nav-text ml-2">Projects</span>
+                </a>
+            </li>
+            <li class="nav-item main-Nav mb-2">
                 <a href="#" class="mb-2 d-flex align-items-center querterlyReportTab">
                     <i class="ri-draft-fill ri-2x"></i>
                     <span class="nav-text ml-2">Quarterly Report</span>

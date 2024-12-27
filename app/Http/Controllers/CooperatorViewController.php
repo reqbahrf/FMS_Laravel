@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Session;
 use App\Models\CoopUserInfo;
 use App\Models\ApplicationInfo;
 use App\Models\OngoingQuarterlyReport;
+use App\Services\getCooperatorInfoService;
 use Illuminate\Support\Facades\Log;
 
 class CooperatorViewController extends Controller
@@ -20,14 +21,7 @@ class CooperatorViewController extends Controller
         $user = Auth::user();
         $notifications = $user->notifications;
 
-        $result = $this->getBusinessInfo();
-        if (!$result) {
-            return redirect()->route('login');
-        }
-
-        $businessInfos = $result->flatMap->BusinessInfo;
-
-        return view('CooperatorView.Cooperator_Index', compact(['notifications', 'businessInfos']));
+        return view('CooperatorView.Cooperator_Index', compact('notifications'));
     }
 
 
@@ -69,10 +63,7 @@ class CooperatorViewController extends Controller
 
             return view('CooperatorView.CooperatorDashboardTab', compact('row'));
         } else {
-            $result = $this->getBusinessInfo();
-
-            $businessInfos = $result->flatMap->BusinessInfo;
-            return view('CooperatorView.Cooperator_Index', compact('businessInfos'));
+            return view('CooperatorView.Cooperator_Index');
         }
     }
 
@@ -125,20 +116,21 @@ class CooperatorViewController extends Controller
     {
         if ($request->ajax()) {
 
-
             return view('CooperatorView.CooperatorRequirement');
         } else {
-            $result = $this->getBusinessInfo();
-            $businessInfos = $result->flatMap->BusinessInfo;
-            return view('CooperatorView.Cooperator_Index', compact('businessInfos'));
+            return view('CooperatorView.Cooperator_Index');
         }
     }
 
-    private function getBusinessInfo()
+    public function CooperatorProjects(Request $request, getCooperatorInfoService $getCooperatorInfoService)
     {
-        $userName = Auth::user()->user_name;
-        return CoopUserInfo::where('user_name', $userName)
-            ->with('BusinessInfo.applicationInfo.projectInfo')
-            ->get();
+        if ($request->ajax()) {
+
+            $businessInfos = $getCooperatorInfoService->getCooperatorInfo();
+            return view('CooperatorView.CooperatorProjectTab', compact('businessInfos'));
+        } else {
+            return view('CooperatorView.Cooperator_Index');
+        }
     }
+
 }

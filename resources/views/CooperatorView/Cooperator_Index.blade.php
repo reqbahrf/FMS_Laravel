@@ -255,9 +255,9 @@
         </script>
     @else
         @if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
-            @include('CooperatorView.CooperatorApprovedPage', compact('businessInfos'))
+            @include('CooperatorView.CooperatorApprovedPage')
         @elseif(in_array(Session::get('application_status'), ['new', 'evaluation', 'pending']))
-            @include('CooperatorView.ApplicationWaitingPage', compact('businessInfos'))
+            @include('CooperatorView.ApplicationWaitingPage')
         @endif
     @endif
 </body>

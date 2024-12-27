@@ -13,14 +13,12 @@ class MyAccountModal extends Component
     public $username;
     public $userRole;
     public $email;
-    public $businessInfos;
     /**
      * Create a new component instance.
      */
-    public function __construct($businessInfos = null)
+    public function __construct()
     {
         $user = Auth::user();
-        $this->businessInfos = $businessInfos;
         $this->userRole = $user->role;
         $this->email = $user->email;
 

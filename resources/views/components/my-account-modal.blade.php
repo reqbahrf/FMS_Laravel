@@ -1,4 +1,3 @@
-@props(['businessInfos'])
 
 <style>
     .modal-fullscreen {
@@ -29,38 +28,70 @@
         font-size: 14px;
     }
 </style>
-<div class="modal fade" id="myAccountModal" tabindex="-1" aria-labelledby="myAccountModalLabel" aria-hidden="true">
+<div
+    class="modal fade"
+    id="myAccountModal"
+    aria-labelledby="myAccountModalLabel"
+    aria-hidden="true"
+    tabindex="-1"
+>
     <div class="modal-dialog modal-fullscreen">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="myAccountModalLabel">My Account</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5
+                    class="modal-title"
+                    id="myAccountModalLabel"
+                >My Account</h5>
+                <button
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    type="button"
+                    aria-label="Close"
+                ></button>
             </div>
             <div class="modal-body">
                 <div class="container-lg">
                     <div class="row">
                         <div class="col-md-3 shadow rounded">
-                            <div class="nav flex-column nav-pills mx-1 mt-3" id="v-pills-tab" role="tablist"
-                                aria-orientation="vertical">
+                            <div
+                                class="nav flex-column nav-pills mx-1 mt-3"
+                                id="v-pills-tab"
+                                role="tablist"
+                                aria-orientation="vertical"
+                            >
 
-                                <a class="nav-link active" id="v-pills-personal-tab" data-bs-toggle="pill"
-                                    href="#v-pills-personal" role="tab" aria-controls="v-pills-personal"
-                                    aria-selected="true">Personal</a>
-
-                                @if ($userRole == 'Cooperator')
-                                    <a class="nav-link" id="v-pills-billing-tab" data-bs-toggle="pill"
-                                        href="#v-pills-billing" role="tab" aria-controls="v-pills-billing"
-                                        aria-selected="false">Projects</a>
-                                @endif
-                                <a class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill"
-                                    href="#v-pills-settings" role="tab" aria-controls="v-pills-settings"
-                                    aria-selected="false">Settings</a>
+                                <a
+                                    class="nav-link active"
+                                    id="v-pills-personal-tab"
+                                    data-bs-toggle="pill"
+                                    href="#v-pills-personal"
+                                    role="tab"
+                                    aria-controls="v-pills-personal"
+                                    aria-selected="true"
+                                >Personal</a>
+                                <a
+                                    class="nav-link"
+                                    id="v-pills-settings-tab"
+                                    data-bs-toggle="pill"
+                                    href="#v-pills-settings"
+                                    role="tab"
+                                    aria-controls="v-pills-settings"
+                                    aria-selected="false"
+                                >Settings</a>
                             </div>
                         </div>
                         <div class="col-md-9">
-                            <div class="tab-content mx-2" id="v-pills-tabContent" style="height: 90vh">
-                                <div class="tab-pane fade show active" id="v-pills-personal" role="tabpanel"
-                                    aria-labelledby="v-pills-personal-tab">
+                            <div
+                                class="tab-content mx-2"
+                                id="v-pills-tabContent"
+                                style="height: 90vh"
+                            >
+                                <div
+                                    class="tab-pane fade show active"
+                                    id="v-pills-personal"
+                                    role="tabpanel"
+                                    aria-labelledby="v-pills-personal-tab"
+                                >
                                     <!-- Profile Section -->
                                     <div class="d-flex align-items-center mb-4">
                                         <div class="profile-pic me-3">
@@ -84,105 +115,86 @@
                                         <div class="card-body">
                                             <form>
                                                 <div class="mb-3">
-                                                    <label for="fullName" class="form-label">Full name</label>
-                                                    <input type="text" class="form-control" id="fullName"
-                                                        value="{{ $username }}">
+                                                    <label
+                                                        class="form-label"
+                                                        for="fullName"
+                                                    >Full name</label>
+                                                    <input
+                                                        class="form-control"
+                                                        id="fullName"
+                                                        type="text"
+                                                        value="{{ $username }}"
+                                                    >
                                                 </div>
                                                 <div class="mb-3">
-                                                    <label for="email" class="form-label">Email</label>
-                                                    <input type="email" class="form-control" id="email"
-                                                        value="{{ $email }}">
+                                                    <label
+                                                        class="form-label"
+                                                        for="email"
+                                                    >Email</label>
+                                                    <input
+                                                        class="form-control"
+                                                        id="email"
+                                                        type="email"
+                                                        value="{{ $email }}"
+                                                    >
                                                 </div>
                                             </form>
                                         </div>
                                     </div>
-                                   <form class="card shadow-sm mt-3">
-                                    <div class="card-header">
-                                        Reset Password
-                                    </div>
-                                    <div class="card-body">
-                                        <div class="mb-3">
-                                            <label for="currentPassword" class="form-label">Current Password</label>
-                                            <input type="password" class="form-control" id="currentPassword" required>
+                                    <form class="card shadow-sm mt-3">
+                                        <div class="card-header">
+                                            Reset Password
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="newPassword" class="form-label">New Password</label>
-                                            <input type="password" class="form-control" id="newPassword" required>
+                                        <div class="card-body">
+                                            <div class="mb-3">
+                                                <label
+                                                    class="form-label"
+                                                    for="currentPassword"
+                                                >Current Password</label>
+                                                <input
+                                                    class="form-control"
+                                                    id="currentPassword"
+                                                    type="password"
+                                                    required
+                                                >
+                                            </div>
+                                            <div class="mb-3">
+                                                <label
+                                                    class="form-label"
+                                                    for="newPassword"
+                                                >New Password</label>
+                                                <input
+                                                    class="form-control"
+                                                    id="newPassword"
+                                                    type="password"
+                                                    required
+                                                >
+                                            </div>
+                                            <div class="mb-3">
+                                                <label
+                                                    class="form-label"
+                                                    for="confirmPassword"
+                                                >Confirm Password</label>
+                                                <input
+                                                    class="form-control"
+                                                    id="confirmPassword"
+                                                    type="password"
+                                                    required
+                                                >
+                                            </div>
+                                            <button
+                                                class="btn btn-primary me-auto"
+                                                type="submit"
+                                            >Reset Password</button>
                                         </div>
-                                        <div class="mb-3">
-                                            <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                            <input type="password" class="form-control" id="confirmPassword" required>
-                                        </div>
-                                        <button type="submit" class="btn btn-primary me-auto">Reset Password</button>
-                                    </div>
-                                   </form>
+                                    </form>
                                 </div>
-                                @if ($userRole == 'Cooperator')
-                                    <div class="tab-pane fade" id="v-pills-billing" role="tabpanel"
-                                        aria-labelledby="v-pills-billing-tab">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">Firm Name</th>
-                                                    <th scope="col">Project Title</th>
-                                                    <th scope="col">Application Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if($businessInfos && is_array($businessInfos) || is_object($businessInfos))
-                                                @forelse ($businessInfos as $businessInfo)
-                                                    @if ($businessInfo->applicationInfo && $businessInfo->applicationInfo->count() > 0)
-                                                        @foreach ($businessInfo->applicationInfo as $application)
-                                                            <tr>
-                                                                <td>{{ $businessInfo->firm_name }}</td>
-                                                                <td>{{ $application->projectInfo->project_title ?? 'N/A' }}
-                                                                </td>
-                                                                <td>
-                                                                    @php
-                                                                        $badgeClass = match (
-                                                                            $application->application_status
-                                                                        ) {
-                                                                            'completed' => 'bg-success',
-                                                                            'pending' => 'bg-warning',
-                                                                            'rejected' => 'bg-danger',
-                                                                            'ongoing' => 'bg-primary',
-                                                                            'evaluation' => 'bg-info',
-                                                                            'new' => 'bg-secondary',
-                                                                            default => 'bg-secondary',
-                                                                        };
-                                                                    @endphp
-                                                                    <span class="badge {{ $badgeClass }}">
-                                                                        {{ ucfirst($application->application_status) }}
-                                                                    </span>
-                                                                </td>
-                                                            </tr>
-                                                        @endforeach
-                                                    @else
-                                                        <tr>
-                                                            <td>{{ $businessInfo->firm_name }}</td>
-                                                            <td colspan="2">No applications available</td>
-                                                        </tr>
-                                                    @endif
-                                                @empty
-                                                    <tr>
-                                                        <td colspan="3" class="text-center">No business information
-                                                            available</td>
-                                                    </tr>
-                                                @endforelse
-                                                @else
-                                                <tr>
-                                                    <td colspan="3" class="text-center">No business information available</td>
-                                                </tr>
-                                            @endif
-                                            </tbody>
-                                        </table>
-                                        <div class="d-flex justify-content-end">
-                                            <button type="button" class="btn btn-primary" disabled>Apply New Project</button>
-                                        </div>
-                                    </div>
-                                @endif
-                                <div class="tab-pane fade" id="v-pills-settings" role="tabpanel"
-                                    aria-labelledby="v-pills-settings-tab">
+                                <div
+                                    class="tab-pane fade"
+                                    id="v-pills-settings"
+                                    role="tabpanel"
+                                    aria-labelledby="v-pills-settings-tab"
+                                >
 
                                 </div>
                             </div>
@@ -193,3 +205,4 @@
         </div>
     </div>
 </div>
+

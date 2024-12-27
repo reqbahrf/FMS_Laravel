@@ -145,6 +145,9 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
     Route::get('/Cooperator/Requirements', [CooperatorViewController::class, 'requirementsGet'])
         ->name('Cooperator.Requirements');
 
+    Route::get('/Cooperator/myProjects', [CooperatorViewController::class, 'CooperatorProjects'])
+        ->name('Cooperator.myProjects');
+
     Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', [Coop_QuarterlyReportController::class, 'getQuarterlyForm'])
         ->name('CooperatorViewController')
         ->middleware('signed');
