@@ -72,8 +72,8 @@ class NewApplicationListener implements ShouldQueue
     {
         $orgUsers = User::whereIn('role', ['Staff', 'Admin'])->get();
 
-        $orgUsers->each(function (User $user) use ($event) {
-            $user->notify(new NewApplicantNotification($event));
+        $orgUsers->each(function (User $user) use ($event, $orgUsers) {
+            $user->notify(new NewApplicantNotification($event, $orgUsers));
         });
     }
 }

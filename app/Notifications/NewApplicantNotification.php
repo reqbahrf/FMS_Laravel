@@ -16,13 +16,15 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
     use Queueable;
 
     private $event;
+    private $orgUsers;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(ProjectEvent $event)
+    public function __construct(ProjectEvent $event, $orgUsers = null)
     {
         $this->event = $event;
+        $this->orgUsers = $orgUsers;
     }
 
     /**
@@ -43,8 +45,8 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
     public function toArray(object $notifiable): array
     {
         return [
-          'title' => 'New applicant',
-          'message' => 'New applicant has been submitted to the system. you may check it on the Applicants tab.',
+            'title' => 'New applicant',
+            'message' => 'New applicant has been submitted to the system. you may check it on the Applicants tab.',
         ];
     }
 
@@ -58,8 +60,15 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        return User::whereIn('role', ['Staff', 'Admin'])->get()->map(function ($user) {
-            return new PrivateChannel('admin-notifications.' . $user->id);
-        })->toArray();
+        $orgUsers = $this->orgUsers ?? User::whereIn('role', ['Staff', 'Admin'])->get();
+
+        return $orgUsers
+            ->map(function ($user) {
+                $channelPrefix = $user->role === 'Admin'
+                    ? 'admin-notifications.'
+                    : 'staff-notifications.';
+                return new PrivateChannel($channelPrefix . $user->id);
+            })
+            ->toArray();
     }
 }

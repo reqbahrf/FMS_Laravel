@@ -22,15 +22,15 @@ class AdminDashboardService {
     {
         $yearToLoad = $yearToLoad ?? date('Y');
 
-        if(Cache::has('chartData')) {
-            $chartData = Cache::get('chartData');
+        if(Cache::has('chartData' . $yearToLoad)) {
+            $chartData = Cache::get('chartData' . $yearToLoad);
         }else{
             $chartData = $this->chartYearOfModel
                 ->select('monthly_project_categories', 'project_local_categories')
                 ->where('year_of', '=', $yearToLoad)
                 ->get();
 
-            Cache::put('chartData', $chartData, 1800);
+            Cache::put('chartData' . $yearToLoad, $chartData, 1800);
         }
 
         return $chartData;
