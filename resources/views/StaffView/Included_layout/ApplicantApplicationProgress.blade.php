@@ -2,26 +2,40 @@
     <div id="ApplicationProgress">
         <ul class="nav nav-progress">
             <li class="nav-item">
-                <a class="nav-link default active" href="#step-1">
+                <a
+                    class="nav-link default active"
+                    href="#step-1"
+                >
                     <div class="num">1</div>
                     Requirement Verification
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link default" href="#step-2">
+                <a
+                    class="nav-link default"
+                    href="#step-2"
+                >
                     <span class="num">2</span>
                     Conduct TNA
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link default" href="#step-3">
+                <a
+                    class="nav-link default"
+                    href="#step-3"
+                >
                     <span class="num">3</span>
                     Project Proposal
                 </a>
             </li>
         </ul>
         <div class="tab-content h-100">
-            <div id="step-1" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-1">
+            <div
+                class="tab-pane py-5"
+                id="step-1"
+                role="tabpanel"
+                aria-labelledby="step-1"
+            >
                 <!-- Where Requirement Verification Info Displayed -->
                 <div class="card">
                     <div class="card-header bg-primary">
@@ -40,14 +54,22 @@
                                         <th class="fw-bold text-center">Action</th>
                                     </tr>
                                 </thead>
-                                <tbody class="table-group-divider" id="requirementsTables">
+                                <tbody
+                                    class="table-group-divider"
+                                    id="requirementsTables"
+                                >
                                 </tbody>
                             </table>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="step-2" class="tab-pane py-5 overflow-auto" role="tabpanel" aria-labelledby="step-2">
+            <div
+                class="tab-pane py-5 overflow-auto"
+                id="step-2"
+                role="tabpanel"
+                aria-labelledby="step-2"
+            >
                 <!-- Where Conduct TNA Info Displayed -->
                 <div class="card h-100">
                     <div class="card-header bg-primary">
@@ -59,34 +81,60 @@
                     <div class="card-body">
                         <div class="row align-items-between h-100">
                             <div class="col-9">
-                                    <input type="datetime-local" id="evaluationSchedule-datepicker"
-                                        class="form-control" min="{{ date('Y-m-d\TH:i') }}">
+                                <input
+                                    class="form-control"
+                                    id="evaluationSchedule-datepicker"
+                                    type="datetime-local"
+                                    min="{{ date('Y-m-d\TH:i') }}"
+                                >
                             </div>
                             <div class="col-3">
-                                <button type="button" class="btn btn-primary mx-auto" id="setEvaluationDate">
+                                <button
+                                    class="btn btn-primary mx-auto"
+                                    id="setEvaluationDate"
+                                    type="button"
+                                >
                                     SET
                                 </button>
                             </div>
                             <div class="col-12 mb-auto">
-                                <div id="nofi_ScheduleCont" class="mt-3">
+                                <div
+                                    class="mt-3"
+                                    id="nofi_ScheduleCont"
+                                >
 
                                 </div>
                             </div>
                             <div class="col-12">
-                            <div class="col-12 mt-3 d-flex justify-content-end">
-                                <button type="button" class="btn btn-success" id="acceptEvaluation">
-                                    Accept
-                                </button>
-                                <button type="button" class="btn btn-danger mx-2" data-bs-target="#tnaEvaluationResultModal" data-bs-toggle="modal" id="rejectEvaluation">
-                                    Reject
-                                </button>
-                            </div>
+                                <div class="col-12 mt-3 d-flex justify-content-end">
+                                    <button
+                                        class="btn btn-success"
+                                        id="acceptEvaluation"
+                                        type="button"
+                                    >
+                                        Accept
+                                    </button>
+                                    <button
+                                        class="btn btn-danger mx-2"
+                                        id="rejectEvaluation"
+                                        data-bs-target="#tnaEvaluationResultModal"
+                                        data-bs-toggle="modal"
+                                        type="button"
+                                    >
+                                        Reject
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div id="step-3" class="tab-pane py-5" role="tabpanel" aria-labelledby="step-3">
+            <div
+                class="tab-pane py-5"
+                id="step-3"
+                role="tabpanel"
+                aria-labelledby="step-3"
+            >
                 <!-- Where Project Proposal Info Displayed -->
                 <div class="card">
                     <div class="card-header bg-primary">
@@ -96,60 +144,103 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form method="post" id="projectProposal">
+                        <form
+                            id="projectProposal"
+                            method="post"
+                        >
                             <div class="row mb-3 ">
                                 <div class="d-flex justify-content-end p-2">
-                                    <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
-                                            class="ri-arrow-go-back-fill"></i>
+                                    <button
+                                        class="btn btn-primary btn-sm revertButton"
+                                        type="button"
+                                        disabled
+                                    ><i class="ri-arrow-go-back-fill"></i>
                                     </button>
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label for="projectID">Project ID:</label>
-                                    <input type="text" class="form-control" id="projectID" name="projectID"
-                                    placeholder="Project ID" required data-initial-key="projectID">
+                                    <input
+                                        class="form-control"
+                                        id="projectID"
+                                        name="projectID"
+                                        data-initial-key="projectID"
+                                        type="text"
+                                        placeholder="Project ID"
+                                        required
+                                    >
                                 </div>
                                 <div class="col-12 col-md-9">
-                                        <label for="projectTitle">Project Title:</label>
-                                        <input type="text" class="form-control" id="projectTitle" name="projectTitle"
-                                            placeholder="Project Title" required data-initial-key="projectTitle">
+                                    <label for="projectTitle">Project Title:</label>
+                                    <input
+                                        class="form-control"
+                                        id="projectTitle"
+                                        name="projectTitle"
+                                        data-initial-key="projectTitle"
+                                        type="text"
+                                        placeholder="Project Title"
+                                        required
+                                    >
                                 </div>
                             </div>
                             <div class="card p-0 mb-3">
-                                <div class="card-body" id="ExpectedOutputTextareaContainer">
-                                        <h6>Expected Outputs</h6>
-                                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
-                                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
-                                                <i class="ri-add-fill"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
-                                                <i class="ri-subtract-fill"></i>
-                                            </button>
-                                        </div>
+                                <div
+                                    class="card-body"
+                                    id="ExpectedOutputTextareaContainer"
+                                >
+                                    <h6>Expected Outputs</h6>
+                                    <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                                        <button
+                                            class="btn btn-success btn-sm me-2 addNewRowButton"
+                                            type="button"
+                                        >
+                                            <i class="ri-add-fill"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-danger btn-sm removeRowButton"
+                                            type="button"
+                                        >
+                                            <i class="ri-subtract-fill"></i>
+                                        </button>
+                                    </div>
                                     <div class="row input_list">
-                                            <div class="col-12">
-                                                <textarea class="form-control"
+                                        <div class="col-12">
+                                            <textarea
+                                                class="form-control"
                                                 name="expectedOutputs[]"
-                                                rows="3"></textarea>
-                                            </div>
+                                                rows="3"
+                                            ></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="card p-0 mb-3">
-                                <div class="card-body" id="ApprovedEquipmentContainer">
-                                            <h6>Approved S&T Intervention Related
-                                                Equipment</h6>
-                                                <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
-                                                    <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
-                                                        <i class="ri-add-fill"></i>
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger btn-sm removeRowButton">
-                                                        <i class="ri-subtract-fill"></i>
-                                                    </button>
-                                                </div>
+                                <div
+                                    class="card-body"
+                                    id="ApprovedEquipmentContainer"
+                                >
+                                    <h6>Approved S&T Intervention Related
+                                        Equipment</h6>
+                                    <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                                        <button
+                                            class="btn btn-success btn-sm me-2 addNewRowButton"
+                                            type="button"
+                                        >
+                                            <i class="ri-add-fill"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-danger btn-sm removeRowButton"
+                                            type="button"
+                                        >
+                                            <i class="ri-subtract-fill"></i>
+                                        </button>
+                                    </div>
                                     <div class="row">
                                         <div>
                                             <div class="col-12">
-                                                <table class="table" style="width:100%">
+                                                <table
+                                                    class="table"
+                                                    style="width:100%"
+                                                >
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Qty</th>
@@ -160,13 +251,22 @@
                                                     <tbody id="EquipmentTableBody">
                                                         <tr>
                                                             <td>
-                                                                <input type="number" class="form-control EquipmentQTY">
+                                                                <input
+                                                                    class="form-control EquipmentQTY"
+                                                                    type="number"
+                                                                >
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control Particulars" >
+                                                                <input
+                                                                    class="form-control Particulars"
+                                                                    type="text"
+                                                                >
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control EquipmentCost" >
+                                                                <input
+                                                                    class="form-control EquipmentCost"
+                                                                    type="text"
+                                                                >
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -177,20 +277,32 @@
                                 </div>
                             </div>
                             <div class="card p-0 mb-3">
-                                <div class="card-body" id="ApprovedNonEquipmentContainer">
+                                <div
+                                    class="card-body"
+                                    id="ApprovedNonEquipmentContainer"
+                                >
                                     <h6>Approved Items of Expenditure(Non-Equipment)</h6>
-                                        <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
-                                            <button type="button" class="btn btn-success btn-sm me-2 addNewRowButton">
-                                                <i class="ri-add-fill"></i>
-                                            </button>
-                                            <button type="button" class="btn btn-danger btn-sm removeRowButton">
-                                                <i class="ri-subtract-fill"></i>
-                                            </button>
-                                        </div>
+                                    <div class="d-flex justify-content-end mb-2 addAndRemoveButton_Container">
+                                        <button
+                                            class="btn btn-success btn-sm me-2 addNewRowButton"
+                                            type="button"
+                                        >
+                                            <i class="ri-add-fill"></i>
+                                        </button>
+                                        <button
+                                            class="btn btn-danger btn-sm removeRowButton"
+                                            type="button"
+                                        >
+                                            <i class="ri-subtract-fill"></i>
+                                        </button>
+                                    </div>
                                     <div class="row">
                                         <div>
                                             <div class="col-12">
-                                                <table class="table" style="width:100%">
+                                                <table
+                                                    class="table"
+                                                    style="width:100%"
+                                                >
                                                     <thead>
                                                         <tr>
                                                             <th width="10%">Qty</th>
@@ -201,13 +313,22 @@
                                                     <tbody id="NonEquipmentTableBody">
                                                         <tr>
                                                             <td>
-                                                                <input type="number" class="form-control NonEquipmentQTY">
+                                                                <input
+                                                                    class="form-control NonEquipmentQTY"
+                                                                    type="number"
+                                                                >
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control NonParticulars" >
+                                                                <input
+                                                                    class="form-control NonParticulars"
+                                                                    type="text"
+                                                                >
                                                             </td>
                                                             <td>
-                                                                <input type="text" class="form-control NonEquipmentCost" >
+                                                                <input
+                                                                    class="form-control NonEquipmentCost"
+                                                                    type="text"
+                                                                >
                                                             </td>
                                                         </tr>
                                                     </tbody>
@@ -222,22 +343,46 @@
                                     <div class="row justify-content-md-end">
                                         <div class="col-12 col-md-3">
                                             <label for="dateOfFundRelease">Date of Fund Release:</label>
-                                            <input type="date" class="form-control" id="dateOfFundRelease"
-                                                name="dateOfFundRelease" placeholder="Date of Fund Release" required data-initial-key="dateOfFundRelease">
+                                            <input
+                                                class="form-control"
+                                                id="dateOfFundRelease"
+                                                name="dateOfFundRelease"
+                                                data-initial-key="dateOfFundRelease"
+                                                type="date"
+                                                placeholder="Date of Fund Release"
+                                                required
+                                            >
                                         </div>
 
                                         <div class="col-12 col-md-3">
                                             <label for="fundAmount">Fund Amount:</label>
-                                            <input type="text" class="form-control" id="fundAmount"
-                                                name="fundAmount" placeholder="Fund Amount" required data-initial-key="fundAmount">
-                                         </div>
+                                            <input
+                                                class="form-control"
+                                                id="fundAmount"
+                                                name="fundAmount"
+                                                data-initial-key="fundAmount"
+                                                type="text"
+                                                placeholder="Fund Amount"
+                                                required
+                                            >
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-12 d-flex justify-content-end">
-                                    <button type="button" class="btn btn-success m-2" data-action="DraftForm" id="DraftProjectProposal">Draft</button>
-                                    <button type="button" class="btn btn-primary m-2" data-action="SubmitForm" id="submitProjectProposal">Submit</button>
+                                    <button
+                                        class="btn btn-success m-2"
+                                        id="DraftProjectProposal"
+                                        data-action="DraftForm"
+                                        type="button"
+                                    >Draft</button>
+                                    <button
+                                        class="btn btn-primary m-2"
+                                        id="submitProjectProposal"
+                                        data-action="SubmitForm"
+                                        type="button"
+                                    >Submit</button>
                                 </div>
                             </div>
                         </form>

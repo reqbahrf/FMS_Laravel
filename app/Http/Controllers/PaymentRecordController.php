@@ -54,7 +54,10 @@ class PaymentRecordController extends Controller
             $exists = PaymentRecord::where('transaction_id', $validated['TransactionID'])->exists();
 
             if ($exists) {
-                return response()->json(['success' => false, 'message' => 'Transaction ID already exists'], 409);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Transaction ID already exists'
+                ], 409);
             }
 
 
@@ -70,16 +73,25 @@ class PaymentRecordController extends Controller
 
 
             if ($ActualRefundAmount < $paymentRecord->amount + $RefundedAmount) {
-                return response()->json(['success' => false, 'message' => 'Payment amount would exceed the total refund amount allowed'], 422);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Payment amount would exceed the total refund amount allowed'
+                ], 422);
             }
 
             $paymentRecord->save();
 
-            return response()->json(['success' => true, 'message' => 'Payment record created successfully'], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment record created successfully'
+            ], 200);
         } catch (\Exception $e) {
             Log::error('Error creating payment record: ' . $e->getMessage());
 
-            return response()->json(['success' => false, 'message' => 'Error creating payment record'], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Error creating payment record'
+            ], 500);
         }
     }
 
@@ -110,26 +122,31 @@ class PaymentRecordController extends Controller
         ]);
 
         try {
-            $exists = PaymentRecord::where('transaction_id', $validated['TransactionID'])->exists();
+            $exists = PaymentRecord::where('transaction_id', $validated['TransactionID'])
+                ->exists();
             if (!$exists) {
-                return response()->json(['message' => 'Transaction ID does not exist'], 404);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Transaction ID does not exist'
+                ], 404);
             }
 
-            $record = PaymentRecord::where('transaction_id', $validated['TransactionID'])->firstOrFail();
+            $record = PaymentRecord::where('transaction_id', $validated['TransactionID'])
+                ->firstOrFail();
             $newAmount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
-        
+
             // Get the project info
             $projectInfo = $record->projectInfo;
             $actualRefundAmount = $projectInfo->actual_amount_to_be_refund;
             $refundedAmount = $projectInfo->refunded_amount;
-            
+
             // Calculate the total refunded amount excluding the current record's amount
             $totalRefundedExcludingCurrent = $refundedAmount - $record->amount;
-            
+
             // Check if the new amount would exceed the total refund amount
             if ($actualRefundAmount < $newAmount + $totalRefundedExcludingCurrent) {
                 return response()->json([
-                    'success' => false, 
+                    'success' => false,
                     'message' => 'Payment amount would exceed the total refund amount allowed'
                 ], 422);
             }
@@ -141,10 +158,16 @@ class PaymentRecordController extends Controller
                 'payment_method' => $validated['paymentMethod'],
             ]);
 
-            return response()->json(['success' => true, 'message' => 'Payment record updated successfully'], 200);
+            return response()->json([
+                'success' => true,
+                'message' => 'Payment record updated successfully'
+            ], 200);
         } catch (\Exception $e) {
             Log::error('Error updating payment record: ' . $e->getMessage());
-            return response()->json(['message' => 'Error updating payment record'], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Error updating payment record'
+            ], 500);
         }
     }
 
@@ -155,17 +178,28 @@ class PaymentRecordController extends Controller
     {
 
         try {
-            $exists = PaymentRecord::where('transaction_id', $transaction_id)->exists();
+            $exists = PaymentRecord::where('transaction_id', $transaction_id)
+                ->exists();
             if (!$exists) {
-                return response()->json(['message' => 'Transaction ID does not exist'], 404);
+                return response()
+                    ->json([
+                        'message' => 'Transaction ID does not exist'
+                    ], 404);
             }
 
             $record = PaymentRecord::where('transaction_id', $transaction_id)->first();
             $record->delete();
-            return response()->json(['success' => true, 'message' => 'Payment record deleted successfully'], 200);
+            return response()
+                ->json([
+                    'success' => true,
+                    'message' => 'Payment record deleted successfully'
+                ], 200);
         } catch (\Exception $e) {
             Log::error('Error deleting payment record: ' . $e->getMessage());
-            return response()->json(['message' => 'Error deleting payment record'], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting payment record'
+            ], 500);
         }
     }
 }
