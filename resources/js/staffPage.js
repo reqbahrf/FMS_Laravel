@@ -25,6 +25,7 @@ import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
 let currentPage = null;
+const MAIN_CONTENT_CONTAINER = $('#main-content');
 
 Echo.private(`staff-notifications.${USER_ID}`).listen(
     '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
@@ -101,7 +102,7 @@ window.loadPage = async (url, activeLink) => {
         currentPage = activeLink;
 
         $('.spinner').removeClass('d-none');
-        $('#main-content').hide();
+        MAIN_CONTENT_CONTAINER.hide();
         const cachedPage = sessionStorage.getItem(url);
         if (cachedPage) {
             handleAjaxSuccess(cachedPage, activeLink, url);
@@ -121,13 +122,13 @@ window.loadPage = async (url, activeLink) => {
         console.log('Error: ', error);
     } finally {
         $('.spinner').addClass('d-none');
-        $('#main-content').show();
+        MAIN_CONTENT_CONTAINER.show();
     }
 };
 
 const handleAjaxSuccess = async (response, activeLink, url) => {
     try {
-        $('#main-content').html(response);
+        MAIN_CONTENT_CONTAINER.html(response);
         setActiveLink(activeLink);
         history.pushState(null, '', url);
 
@@ -4415,6 +4416,12 @@ window.initializeStaffPageJs = async () => {
         Applicant: () => {
             new smartWizard();
             const APPLICANT_VIEWING_CHANNEL = 'viewing-Applicant-events';
+            const TNArejectionModal = $('#tnaEvaluationResultModal');
+            const ReviewFileModalContainer = $('#reviewFileModal');
+            const ReviewedFileFormContainer = ReviewFileModalContainer.find('#reviewedFileForm');
+            const ApplicantDetailsContainer = $('#applicantDetails');
+            const ApplicantProgressContainer = $('#ApplicationProgress');
+            const RequirementsTable = $('#requirementsTables');
             let currentlyViewingApplicantId = null;
             let echoChannel = null;
 
@@ -4468,23 +4475,40 @@ window.initializeStaffPageJs = async () => {
             };
 
             function updateViewingState(applicantId, reviewedBy) {
-                const applicantButton = $(`#ApplicantTableBody button[data-applicant-id="${applicantId}"]`);
+                const applicantButton = $(
+                    `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
+                );
                 const buttonParentTd = applicantButton.closest('td');
 
                 if (!buttonParentTd.data('original-content')) {
-                    buttonParentTd.data('original-content', buttonParentTd.html());
+                    buttonParentTd.data(
+                        'original-content',
+                        buttonParentTd.html()
+                    );
                 }
 
                 applicantButton.css('display', 'none');
                 if (reviewedBy) {
-                    const initials = reviewedBy.split(" ").map((n)=>n[0]).join("");
+                    const initials = reviewedBy
+                        .split(' ')
+                        .map((n) => n[0])
+                        .join('');
                     // Create a container for the initial and name
-                    const reviewerContainer = $(`<div class="reviewer-container"></div>`);
-                    reviewerContainer.append(`<span class="reviewer-initial">${initials}</span>`);
-                    reviewerContainer.append(`<span class="reviewer-name">${reviewedBy}</span>`);
-                    reviewerContainer.append(`<span class="badge rounded-pill text-bg-success reviewer-badge">reviewing</span>`)
+                    const reviewerContainer = $(
+                        `<div class="reviewer-container"></div>`
+                    );
+                    reviewerContainer.append(
+                        `<span class="reviewer-initial">${initials}</span>`
+                    );
+                    reviewerContainer.append(
+                        `<span class="reviewer-name">${reviewedBy}</span>`
+                    );
+                    reviewerContainer.append(
+                        `<span class="badge rounded-pill text-bg-success reviewer-badge">reviewing</span>`
+                    );
 
-                    buttonParentTd.append(reviewerContainer)
+                    buttonParentTd
+                        .append(reviewerContainer)
                         .addClass('reviewer-name-cell');
                 }
             }
@@ -4545,8 +4569,6 @@ window.initializeStaffPageJs = async () => {
                     },
                 ],
             });
-
-            const TNArejectionModal = $('#tnaEvaluationResultModal');
 
             const getApplicants = async () => {
                 const response = await fetch(
@@ -4778,11 +4800,8 @@ window.initializeStaffPageJs = async () => {
                             .val(),
                     };
 
-                    console.log(personnel);
-
-                    const ApplicantDetails = $(
-                        '#applicantDetails .businessInfo'
-                    ).find('input');
+                    const ApplicantDetails = ApplicantDetailsContainer
+                        .find('.businessInfo input');
 
                     ApplicantDetails.filter('#firm_name').val(firmName);
                     ApplicantDetails.filter('#selected_userId').val(userID);
@@ -4845,8 +4864,6 @@ window.initializeStaffPageJs = async () => {
                 }
             );
 
-            const ApplicantDetailsContainer = $('#applicantDetails');
-
             ApplicantDetailsContainer.on('hidden.bs.offcanvas', function () {
                 const FormContainer =
                     ApplicantDetailsContainer.find('#projectProposal');
@@ -4867,7 +4884,7 @@ window.initializeStaffPageJs = async () => {
                 ).each(function () {
                     $(this).children().slice(1).remove();
                 });
-                ApplicantDetailsContainer.find('#requirementsTables').empty();
+              RequirementsTable.empty();
                 clearInitialValues();
             });
 
@@ -4930,9 +4947,7 @@ window.initializeStaffPageJs = async () => {
             }
             //Get applicant requirements to populate the requirements table
             function populateReqTable(response) {
-                const requimentTableBody = $('#requirementsTables');
-
-                requimentTableBody.empty();
+                RequirementsTable.empty();
 
                 $.each(response, function (index, requirement) {
                     const row = $('<tr>');
@@ -4983,11 +4998,11 @@ window.initializeStaffPageJs = async () => {
                             '">'
                     );
 
-                    requimentTableBody.append(row);
+                    RequirementsTable.append(row);
                 });
             }
             //View applicant requirements
-            $('#requirementsTables').on('click', '.viewReq', async function () {
+            RequirementsTable.on('click', '.viewReq', async function () {
                 showProcessToast('Retrieving file...');
                 const row = $(this).closest('tr');
                 const fileID = row
@@ -5006,13 +5021,15 @@ window.initializeStaffPageJs = async () => {
                     .val();
                 const uploader = $('#contact_person').val();
 
-                $('#selectedFile_ID').val(fileID);
-                $('#fileName').val(file_Name);
-                $('#filetype').val(fileType);
-                $('#file_url').val(fileUrl);
-                $('#fileUploaded').val(uploadedDate);
-                $('#fileUploadedBy').val(updatedDate);
-                $('#fileUploadedBy').val(uploader);
+                const reviewFileModalInput = ReviewFileModalContainer.find('input')
+
+                reviewFileModalInput.filter('#selectedFile_ID').val(fileID);
+                reviewFileModalInput.filter('#fileName').val(file_Name);
+                reviewFileModalInput.filter('#filetype').val(fileType);
+                reviewFileModalInput.filter('#file_url').val(fileUrl);
+                reviewFileModalInput.filter('#fileUploaded').val(uploadedDate);
+                reviewFileModalInput.filter('#fileUploadedBy').val(updatedDate);
+                reviewFileModalInput.filter('#fileUploadedBy').val(uploader);
                 await retrieveAndDisplayFile(fileUrl, fileType);
                 hideProcessToast();
             });
@@ -5063,16 +5080,14 @@ window.initializeStaffPageJs = async () => {
                     console.log(error);
                 } finally {
                     const reviewFileModal = new bootstrap.Modal(
-                        document.getElementById('reviewFileModal')
+                        $('#reviewFileModal')[0]
                     );
                     reviewFileModal.show();
                 }
             }
 
-            const reviewFileFormContainer = $('#reviewFileForm');
-
             //TODO: need some working
-            reviewFileFormContainer.on('submit', async function (e) {
+            ReviewedFileFormContainer.on('submit', async function (e) {
                 e.preventDefault();
 
                 const action = $(e.originalEvent.submitter).val();
@@ -5118,7 +5133,7 @@ window.initializeStaffPageJs = async () => {
 
             //set evaluation date
             $('#setEvaluationDate').on('click', async function () {
-                const container = $('#applicantDetails .businessInfo');
+                const container = ApplicantDetailsContainer.find('.businessInfo');
                 const user_id = container.find('#selected_userId').val();
                 const application_id = container
                     .find('#selected_applicationId')
@@ -5175,11 +5190,11 @@ window.initializeStaffPageJs = async () => {
             });
 
             TNArejectionModal.on('show.bs.modal', function () {
-                const selectedApplicantUserId = $(
-                    '#applicantDetails input[type="hidden"]#selected_userId'
+                const selectedApplicantUserId = ApplicantDetailsContainer.find(
+                    'input[type="hidden"]#selected_userId'
                 ).val();
-                const selectedApplicantApplicationId = $(
-                    '#applicantDetails input[type="hidden"]#selected_applicationId'
+                const selectedApplicantApplicationId = ApplicantDetailsContainer.find(
+                    'input[type="hidden"]#selected_applicationId'
                 ).val();
                 const modalHiddenInput = $(this).find('input[type="hidden"]');
                 modalHiddenInput
@@ -5579,9 +5594,7 @@ window.initializeStaffPageJs = async () => {
                 }
             );
 
-            const ApplicantProgressSmartWizard = $('#ApplicationProgress');
-
-            ApplicantProgressSmartWizard.smartWizard({
+            ApplicantProgressContainer.smartWizard({
                 selected: 0,
                 theme: 'dots',
                 transition: {
