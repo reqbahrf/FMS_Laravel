@@ -761,13 +761,13 @@ export function initializeForm() {
     );
 
     const FileMetaHiddenInputs = [
-        'IntentFileID_path',
-        'DtiSecCdaFileID_path',
-        'businessPermitFileID_path',
-        'fdaLtoFileID_path',
-        'receiptFileID_path',
-        'govIdFileID_path',
-        'BIRFileID_path',
+        'IntentFileID_Data_Handler',
+        'DtiSecCdaFileID_Data_Handler',
+        'BusinessPermitFileID_Data_Handler',
+        'FdaLtoFileID_Data_Handler',
+        'ReceiptFileID_Data_Handler',
+        'GovIdFileID_Data_Handler',
+        'BIRFileID_Data_Handler',
     ];
 
     /**
@@ -842,10 +842,7 @@ export function initializeForm() {
                                 metaDataId: META_DATA_ID,
                             },
                         };
-                        clearTimeout(autoSaveTimeout);
-                        autoSaveTimeout = setTimeout(() => {
-                            syncDraftWithServer(DRAFT_TYPE, changedFields);
-                        }, saveInterval);
+                        syncDraftWithServer(DRAFT_TYPE, changedFields);
                     }
                 });
             });
@@ -945,6 +942,7 @@ export function initializeForm() {
             loadAddressDropdowns
         );
         await fileInputChange(FileMetaHiddenInputs);
+        updateEnterpriseLevel();
     })();
 }
 
