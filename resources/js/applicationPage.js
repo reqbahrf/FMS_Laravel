@@ -770,46 +770,49 @@ export function initializeForm() {
         'BIRFileID_Data_Handler',
     ];
 
+   
     /**
-     * Sets up MutationObservers to monitor and handle changes in hidden input fields for file metadata.
-     * This function is used to track file upload changes and automatically save them as drafts.
+     * Monitors changes in hidden input fields containing file metadata and triggers an action to sync these changes with the server.
+     * This function specifically targets hidden input fields that store information about uploaded files, such as file paths, unique IDs, and related metadata.
+     * When changes are detected in these fields, it prepares an object containing the updated information and calls a function to save this data as a draft.
      *
-     * @param {string[]} FileMetaHiddenInputs - Array of hidden input element IDs to monitor
+     * @param {string[]} FileMetaHiddenInputs - An array of IDs for hidden input elements that store file metadata. Each ID corresponds to a specific type of document or file.
      *
      * @description
-     * For each hidden input field, this function:
-     * 1. Creates a MutationObserver to watch for value changes
-     * 2. Tracks changes to file path, unique ID, and file input name
-     * 3. Automatically triggers draft saving after a delay
-     * 4. Maintains data consistency between UI and server
+     * The function initializes a MutationObserver for each specified hidden input field. The MutationObserver listens for changes to the 'value' attribute of these inputs.
+     * When a change is detected, it extracts relevant information such as the file path, unique ID, input name, and metadata details.
+     * This information is then compiled into an object (`changedFields`) and passed to the `syncDraftWithServer` function to be saved as a draft.
+     * This ensures that changes in file uploads are captured and persisted in a draft state.
      *
-     * The function generates a changedFields object with this structure:
+     * The `changedFields` object has the following structure:
      * ```js
      * {
-     *   [META_DATA_HIDDEN_INPUT_NAME]: "file/path/string",
-     *   [FILE_INPUT_NAME]: {
-     *     filePath: "file/path/string",
-     *     uniqueId: "unique-identifier"
+     *   [META_DATA_HIDDEN_INPUT_NAME]: "file/path/string", // The name of the hidden input field, used as a key for the file path.
+     *   [FILE_INPUT_NAME]: {  // The name of the associated file input field, used as a key for an object containing more details.
+     *     filePath: "file/path/string", // The path of the uploaded file.
+     *     uniqueId: "unique-identifier", // A unique identifier for the file.
+     *     metaDataName: "META_DATA_HIDDEN_INPUT_NAME", // The name attribute of the hidden input.
+     *     metaDataId: "META_DATA_ID" // The ID attribute of the hidden input.
      *   }
      * }
      * ```
      *
      * @example
-     * // Monitor file inputs for Intent, DTI/SEC/CDA, and Business Permit
+     * // Example usage to monitor specific file input fields:
      * fileInputChange([
-     *   'IntentFileID_path',
-     *   'DtiSecCdaFileID_path',
-     *   'businessPermitFileID_path'
+     *   'IntentFileID_Data_Handler',
+     *   'DtiSecCdaFileID_Data_Handler',
+     *   'BusinessPermitFileID_Data_Handler'
      * ]);
      *
-     * @requires jQuery - DOM manipulation library
-     * @requires MutationObserver - Browser API for watching DOM changes
-     * @global {number} autoSaveTimeout - Timeout ID for managing save delays
-     * @global {number} saveInterval - Delay duration before saving (in milliseconds)
-     * @global {string} DRAFT_TYPE - Defines the type of draft being saved
+     * @requires jQuery - A fast, small, and feature-rich JavaScript library for DOM manipulation.
+     * @requires MutationObserver - A web API that provides a way to react to changes in the DOM.
      *
-     * @fires syncDraftWithServer - Called to save changes after the specified interval
-     * @see syncDraftWithServer
+     * @global {string} DRAFT_TYPE - A global variable that defines the type of draft being saved (e.g., 'application', 'form').
+     *
+     * @fires syncDraftWithServer - This function is called to handle the actual saving of the draft data to the server.
+     * The `changedFields` object is passed to this function along with the `DRAFT_TYPE`.
+     * @see syncDraftWithServer - For details on how the draft data is processed and saved.
      */
     const fileInputChange = async (FileMetaHiddenInputs) => {
         FileMetaHiddenInputs.forEach((inputId) => {
