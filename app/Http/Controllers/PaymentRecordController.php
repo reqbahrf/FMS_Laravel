@@ -70,7 +70,7 @@ class PaymentRecordController extends Controller
 
 
             if ($ActualRefundAmount < $paymentRecord->amount + $RefundedAmount) {
-                return response()->json(['success' => false, 'message' => 'Enter Payment Amount Exceed with the Total Refund Amount'], 422);
+                return response()->json(['success' => false, 'message' => 'Payment amount would exceed the total refund amount allowed'], 422);
             }
 
             $paymentRecord->save();
@@ -115,7 +115,24 @@ class PaymentRecordController extends Controller
                 return response()->json(['message' => 'Transaction ID does not exist'], 404);
             }
 
-            $record = PaymentRecord::where('transaction_id', $validated['TransactionID'])->first();
+            $record = PaymentRecord::where('transaction_id', $validated['TransactionID'])->firstOrFail();
+            $newAmount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
+        
+            // Get the project info
+            $projectInfo = $record->projectInfo;
+            $actualRefundAmount = $projectInfo->actual_amount_to_be_refund;
+            $refundedAmount = $projectInfo->refunded_amount;
+            
+            // Calculate the total refunded amount excluding the current record's amount
+            $totalRefundedExcludingCurrent = $refundedAmount - $record->amount;
+            
+            // Check if the new amount would exceed the total refund amount
+            if ($actualRefundAmount < $newAmount + $totalRefundedExcludingCurrent) {
+                return response()->json([
+                    'success' => false, 
+                    'message' => 'Payment amount would exceed the total refund amount allowed'
+                ], 422);
+            }
             $record->update([
                 'Project_id' => $validated['project_id'],
                 'transaction_id' => $validated['TransactionID'],
