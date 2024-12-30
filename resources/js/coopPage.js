@@ -649,10 +649,10 @@ window.initilizeCoopPageJs = async () => {
             const confirmButton = $('#confirmButton');
 
             confirmTrueInfo.add(confirmAgreeInfo).on('change', function () {
-                confirmButton.disabled = !(
+                confirmButton.prop('disabled', !(
                     confirmTrueInfo.is(':checked') &&
                     confirmAgreeInfo.is(':checked')
-                );
+                ));
             });
 
             confirmButton.on('click', function () {
