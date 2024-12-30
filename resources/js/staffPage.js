@@ -23,6 +23,7 @@ import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
+import { TableDataExtractor } from './ReusableJS/TableDataExtractor';
 window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
@@ -5091,6 +5092,7 @@ window.initializeStaffPageJs = async () => {
                 e.preventDefault();
 
                 const action = $(e.originalEvent.submitter).val();
+                const selected_id = ReviewFileModalContainer.find('input[type="hidden"]#selectedFile_ID').val();
                 const isconfimed = await createConfirmationModal({
                     title: 'Review File',
                     titleBg: 'bg-primary',
@@ -5109,7 +5111,7 @@ window.initializeStaffPageJs = async () => {
                         method: 'PUT',
                         url: APPLICANT_TAB_ROUTE.UPDATE_APPLICANT_REQUIREMENTS.replace(
                             ':id',
-                            $('#selectedFile_ID').val()
+                            selected_id
                         ),
                         data: formData,
                         headers: {
@@ -5305,6 +5307,27 @@ window.initializeStaffPageJs = async () => {
                 }
             });
 
+            const equipmentAndNonEquipmentTablesConfigs = {
+                equipmentDetails: {
+                    id: 'EquipmentTable',
+                    selectors: {
+                        Qty: '.EquipmentQTY',
+                        Actual_Particulars: '.Particulars',
+                        Cost: '.EquipmentCost',
+                    },
+                    requiredFields: ['Qty', 'Actual_Particulars', 'Cost'],
+                },
+                nonEquipmentDetails: {
+                    id: 'NonEquipmentTable',
+                    selectors: {
+                        Qty: '.NonEquipmentQTY',
+                        Actual_Particulars: '.NonParticulars',
+                        Cost: '.NonEquipmentCost',
+                    },
+                    requiredFields: ['Qty', 'Actual_Particulars', 'Cost'],
+                },
+            };
+
             function projectProposalFormData() {
                 const FormContainer = $('#projectProposal');
                 const FormData = FormContainer.serializeArray();
@@ -5320,45 +5343,10 @@ window.initializeStaffPageJs = async () => {
                     }
                 });
 
-                const equipmentFacilities = FormContainer.find(
-                    '#EquipmentTableBody tr'
-                );
-                const nonEquipment = FormContainer.find(
-                    '#NonEquipmentTableBody tr'
-                );
-                const TableData = () => {
-                    const EquipmentObject = [];
-                    const NonEquipmentObject = [];
-
-                    equipmentFacilities.each(function () {
-                        const tableRowInputs = $(this).find('input');
-                        const equipmentDetails = {
-                            Qty: tableRowInputs[0].value,
-                            Actual_Particulars: tableRowInputs[1].value,
-                            Cost: tableRowInputs[2].value,
-                        };
-
-                        EquipmentObject.push(equipmentDetails);
-                    });
-
-                    nonEquipment.each(function () {
-                        const tableRowInputs = $(this).find('input');
-                        const nonEquipmentDetails = {
-                            Qty: tableRowInputs[0].value,
-                            Actual_Particulars: tableRowInputs[1].value,
-                            Cost: tableRowInputs[2].value,
-                        };
-                        NonEquipmentObject.push(nonEquipmentDetails);
-                    });
-
-                    return {
-                        equipmentDetails: EquipmentObject,
-                        nonEquipmentDetails: NonEquipmentObject,
-                    };
-                };
+               
                 return (FormDataObjects = {
                     ...FormDataObjects,
-                    ...TableData(),
+                    ...TableDataExtractor(equipmentAndNonEquipmentTablesConfigs),
                 });
             }
 
@@ -5394,7 +5382,7 @@ window.initializeStaffPageJs = async () => {
                 });
 
                 // Populate equipment details
-                const equipmentTableBody = $('#EquipmentTableBody');
+                const equipmentTableBody = $('#EquipmentTable body tr');
                 equipmentTableBody.empty();
                 draftData.equipmentDetails.forEach((equipment, index) => {
                     const qtyKey = `equipmentQty[${index}]`;
@@ -5424,7 +5412,7 @@ window.initializeStaffPageJs = async () => {
                 });
 
                 // Populate non-equipment details
-                const nonEquipmentTableBody = $('#NonEquipmentTableBody');
+                const nonEquipmentTableBody = $('#NonEquipmentTable body tr');
                 nonEquipmentTableBody.empty();
                 draftData.nonEquipmentDetails.forEach((nonEquipment, index) => {
                     const qtyKey = `nonEquipmentQty[${index}]`;

@@ -240,6 +240,7 @@
                                                 <table
                                                     class="table"
                                                     style="width:100%"
+                                                    id="EquipmentTable"
                                                 >
                                                     <thead>
                                                         <tr>
@@ -248,7 +249,7 @@
                                                             <th width="30%">(₱)&nbsp;Cost</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="EquipmentTableBody">
+                                                    <tbody >
                                                         <tr>
                                                             <td>
                                                                 <input
@@ -302,6 +303,7 @@
                                                 <table
                                                     class="table"
                                                     style="width:100%"
+                                                    id="NonEquipmentTable"
                                                 >
                                                     <thead>
                                                         <tr>
@@ -310,7 +312,7 @@
                                                             <th width="30%">(₱)&nbsp;Cost</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody id="NonEquipmentTableBody">
+                                                    <tbody >
                                                         <tr>
                                                             <td>
                                                                 <input

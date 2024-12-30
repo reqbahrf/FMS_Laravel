@@ -13,7 +13,7 @@ import {
     handleFilePondSelectorDisabling,
 } from './ReusableJS/FilepondHandlers';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
-import TableDataExtractor from './ReusableJS/TableDataExtractor';
+import { TableDataExtractor } from './ReusableJS/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
@@ -683,18 +683,8 @@ export function initializeForm() {
     $('#province').on('change', updateCities);
     $('#city').on('change', updateBarangays);
 
-    const getMarketProductsData = function (tableConfigs) {
-        const allMarketData = {};
-        for (const tableKey in tableConfigs) {
-            const tableConfig = tableConfigs[tableKey].id;
-            const columnSelectors = tableConfigs[tableKey].selectors;
-            const requiredFields = tableConfigs[tableKey].requiredFields;
-            allMarketData[tableKey] = TableDataExtractor(
-                tableConfig,
-                columnSelectors,
-                requiredFields
-            );
-        }
+    const getMarketProductsData = (tableConfigs) => {
+        const allMarketData = TableDataExtractor(tableConfigs);
         return allMarketData;
     };
 
