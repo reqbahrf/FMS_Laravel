@@ -23,21 +23,38 @@
     <h4>Quarterly Report for {{ $quarter }}</h4>
 </div>
 <div class="m-2 m-md-3">
-    <form id="updateQuarterlyData"  data-quarter-id="{{ $reportId }}" data-quarter-project="{{ $projectId }}" data-quarter-period="{{ $quarter }}" data-quarter-status="{{ $reportStatus }}">
+    <form
+        id="updateQuarterlyData"
+        data-quarter-id="{{ $reportId }}"
+        data-quarter-project="{{ $projectId }}"
+        data-quarter-period="{{ $quarter }}"
+        data-quarter-status="{{ $reportStatus }}"
+    >
         <div class="card mb-3">
-            <div class="card-body" id="AssetsInputs">
+            <div
+                class="card-body"
+                id="AssetsInputs"
+            >
                 <div class="d-flex align-items-center p-3">
                     <h5>1.0 Assets</h5>
                     <div class="ms-auto">
-                        <button type="button" class="btn btn-primary btn-sm editButton"><i
-                                class="ri-edit-2-fill"></i></button>
-                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
-                                class="ri-arrow-go-back-fill"></i></button>
+                        <button
+                            class="btn btn-primary btn-sm editButton"
+                            type="button"
+                        ><i class="ri-edit-2-fill"></i></button>
+                        <button
+                            class="btn btn-primary btn-sm revertButton"
+                            type="button"
+                            disabled
+                        ><i class="ri-arrow-go-back-fill"></i></button>
                     </div>
                 </div>
                 <div class="row ms-md-4 ms-sm-2 my-4">
                     <div class="col-12 my-3">
-                        <div class="alert alert-primary m-0 d-none" role="alert">
+                        <div
+                            class="alert alert-primary m-0 d-none"
+                            role="alert"
+                        >
                             <i class="ri-information-2-fill ri-lg"></i>
                             Kindly provide the current assets for the building, equipment, and working capital for the
                             current quarter.
@@ -50,8 +67,15 @@
                             <span class="input-group-text">
                                 ₱
                             </span>
-                            <input type="text" class="form-control" id="BuildingAsset" name="Building"
-                                placeholder="500,000" readonly value="{{ $reportData['Building'] }}">
+                            <input
+                                class="form-control"
+                                id="BuildingAsset"
+                                name="Building"
+                                type="text"
+                                value="{{ $reportData['Building'] }}"
+                                placeholder="500,000"
+                                readonly
+                            >
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -61,8 +85,15 @@
                             <span class="input-group-text">
                                 ₱
                             </span>
-                            <input type="text" class="form-control" id="Equipment" name="Equipment"
-                                placeholder="500,000" readonly value="{{ $reportData['Equipment'] }}">
+                            <input
+                                class="form-control"
+                                id="Equipment"
+                                name="Equipment"
+                                type="text"
+                                value="{{ $reportData['Equipment'] }}"
+                                placeholder="500,000"
+                                readonly
+                            >
                         </div>
                     </div>
                     <div class="col-12 col-md-4">
@@ -73,32 +104,53 @@
                             <span class="input-group-text">
                                 ₱
                             </span>
-                            <input type="text" class="form-control" id="WorkingCapital" name="WorkingCapital"
-                                placeholder="500,000" readonly value="{{ $reportData['WorkingCapital'] }}">
+                            <input
+                                class="form-control"
+                                id="WorkingCapital"
+                                name="WorkingCapital"
+                                type="text"
+                                value="{{ $reportData['WorkingCapital'] }}"
+                                placeholder="500,000"
+                                readonly
+                            >
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card mb-3">
-            <div class="card-body" id="EmploymentInputs">
+            <div
+                class="card-body"
+                id="EmploymentInputs"
+            >
                 <div class="d-flex align-items-center p-3">
                     <h5>2.0 Total Employment</h5>
                     <div class="ms-auto">
-                        <button type="button" class="btn btn-primary btn-sm editButton"><i
-                                class="ri-edit-2-fill"></i></button>
-                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
-                                class="ri-arrow-go-back-fill"></i></button>
+                        <button
+                            class="btn btn-primary btn-sm editButton"
+                            type="button"
+                        ><i class="ri-edit-2-fill"></i></button>
+                        <button
+                            class="btn btn-primary btn-sm revertButton"
+                            type="button"
+                            disabled
+                        ><i class="ri-arrow-go-back-fill"></i></button>
                     </div>
                 </div>
-                <div class="card mb-0 mb-md-3">
+                <div
+                    class="card mb-0 mb-md-3"
+                    id="directLaborCard"
+                >
                     <div class="card-header">
                         2.1 Direct Labor(Production)
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-md-8 d-none">
-                                <div class="alert alert-primary h-100 " role="alert">
+                                <div
+                                    class="alert alert-primary h-100 "
+                                    role="alert"
+                                >
                                     <h5 class="alert-heading"> <i class="ri-information-2-fill"></i> Direct Personnel
                                     </h5>
                                     <p>Direct personnel are those who are actively involved in the
@@ -129,24 +181,36 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <label for="maleInput">Male:</label>
-                                                        <input type="text" name="male_Dir_Regular"
-                                                            class="form-control number_input_only" id="maleInput"
+                                                        <input
+                                                            class="form-control number_input_only"
+                                                            id="maleInput"
+                                                            name="male_Dir_Regular"
+                                                            type="text"
+                                                            value="{{ $reportData['male_Dir_Regular'] ?? '' }}"
                                                             readonly
-                                                            value="{{ $reportData['male_Dir_Regular'] ?? '' }}">
+                                                        >
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Female:</label>
-                                                        <input type="text" name="female_Dir_Regular"
-                                                            class="form-control number_input_only" id="femaleInput"
+                                                        <input
+                                                            class="form-control number_input_only"
+                                                            id="femaleInput"
+                                                            name="female_Dir_Regular"
+                                                            type="text"
+                                                            value="{{ $reportData['female_Dir_Regular'] ?? '' }}"
                                                             readonly
-                                                            value="{{ $reportData['female_Dir_Regular'] ?? '' }}">
+                                                        >
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Workday:</label>
-                                                        <input type="text" name="workday_Dir_Regular"
-                                                            class="form-control number_input_only" id="workdayInput"
+                                                        <input
+                                                            class="form-control number_input_only"
+                                                            id="workdayInput"
+                                                            name="workday_Dir_Regular"
+                                                            type="text"
+                                                            value="{{ $reportData['workday_Dir_Regular'] ?? '' }}"
                                                             readonly
-                                                            value="{{ $reportData['workday_Dir_Regular'] ?? '' }}">
+                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -161,24 +225,36 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <label for="maleInput">Male:</label>
-                                                        <input type="text" name="male_Dir_PartT"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="parttimeMaleInput" readonly
-                                                            value="{{ $reportData['male_Dir_PartT'] ?? '' }}">
+                                                            id="parttimeMaleInput"
+                                                            name="male_Dir_PartT"
+                                                            type="text"
+                                                            value="{{ $reportData['male_Dir_PartT'] ?? '' }}"
+                                                            readonly
+                                                        >
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Female:</label>
-                                                        <input type="text" name="female_Dir_PartT"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="parttimeFemaleInput" readonly
-                                                            value="{{ $reportData['female_Dir_PartT'] ?? '' }}">
+                                                            id="parttimeFemaleInput"
+                                                            name="female_Dir_PartT"
+                                                            type="text"
+                                                            value="{{ $reportData['female_Dir_PartT'] ?? '' }}"
+                                                            readonly
+                                                        >
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="maleInput">Workday:</label>
-                                                        <input type="text" name="workday_Dir_PartT"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="parttimeWorkdayInput" readonly
-                                                            value="{{ $reportData['workday_Dir_PartT'] ?? '' }}">
+                                                            id="parttimeWorkdayInput"
+                                                            name="workday_Dir_PartT"
+                                                            type="text"
+                                                            value="{{ $reportData['workday_Dir_PartT'] ?? '' }}"
+                                                            readonly
+                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -189,14 +265,20 @@
                         </div>
                     </div>
                 </div>
-                <div class="card mb-0 mb-md-3">
+                <div
+                    class="card mb-0 mb-md-3"
+                    id="indirectLaborCard"
+                >
                     <div class="card-header">
                         2.2 Indirect Labor(Admin and Marketing)
                     </div>
                     <div class="card-body">
                         <div class="row">
                             <div class="col-12 col-md-8 d-none">
-                                <div class="alert alert-primary h-100 " role="alert">
+                                <div
+                                    class="alert alert-primary h-100 "
+                                    role="alert"
+                                >
                                     <h5 class="alert-heading"> <i class="ri-information-2-fill"></i> Indirect
                                         Personnel
                                     </h5>
@@ -229,24 +311,36 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <label for="regularMaleInput">Male:</label>
-                                                        <input type="text" name="male_Indir_Regular"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="regularMaleInput" readonly
-                                                            value="{{ $reportData['male_Indir_Regular'] ?? '' }}">
+                                                            id="regularMaleInput"
+                                                            name="male_Indir_Regular"
+                                                            type="text"
+                                                            value="{{ $reportData['male_Indir_Regular'] ?? '' }}"
+                                                            readonly
+                                                        >
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="regularFemaleInput">Female:</label>
-                                                        <input type="text" name="female_Indir_Regular"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="regularFemaleInput" readonly
-                                                            value="{{ $reportData['female_Indir_Regular'] ?? '' }}">
+                                                            id="regularFemaleInput"
+                                                            name="female_Indir_Regular"
+                                                            type="text"
+                                                            value="{{ $reportData['female_Indir_Regular'] ?? '' }}"
+                                                            readonly
+                                                        >
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="regularWorkdayInput">Workday:</label>
-                                                        <input type="text" name="workday_Indir_Regular"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="regularWorkdayInput" readonly
-                                                            value="{{ $reportData['workday_Indir_Regular'] ?? '' }}">
+                                                            id="regularWorkdayInput"
+                                                            name="workday_Indir_Regular"
+                                                            type="text"
+                                                            value="{{ $reportData['workday_Indir_Regular'] ?? '' }}"
+                                                            readonly
+                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -261,26 +355,38 @@
                                                 <div class="row">
                                                     <div class="col-12">
                                                         <label for="parttimeMaleInput">Male: </label>
-                                                        <input type="text" name="male_Indir_PartT"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="parttimeMaleInput" readonly
-                                                            value="{{ $reportData['male_Indir_PartT'] ?? '' }}">
+                                                            id="parttimeMaleInput"
+                                                            name="male_Indir_PartT"
+                                                            type="text"
+                                                            value="{{ $reportData['male_Indir_PartT'] ?? '' }}"
+                                                            readonly
+                                                        >
 
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="parttimeFemaleInput">Female: </label>
-                                                        <input type="text" name="female_Indir_PartT"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="parttimeFemaleInput" readonly
-                                                            value="{{ $reportData['female_Indir_PartT'] ?? '' }}">
+                                                            id="parttimeFemaleInput"
+                                                            name="female_Indir_PartT"
+                                                            type="text"
+                                                            value="{{ $reportData['female_Indir_PartT'] ?? '' }}"
+                                                            readonly
+                                                        >
 
                                                     </div>
                                                     <div class="col-12">
                                                         <label for="parttimeWorkdayInput">Workday: </label>
-                                                        <input type="text" name="workday_Indir_PartT"
+                                                        <input
                                                             class="form-control number_input_only"
-                                                            id="parttimeWorkdayInput" readonly
-                                                            value="{{ $reportData['workday_Indir_PartT'] ?? '' }}">
+                                                            id="parttimeWorkdayInput"
+                                                            name="workday_Indir_PartT"
+                                                            type="text"
+                                                            value="{{ $reportData['workday_Indir_PartT'] ?? '' }}"
+                                                            readonly
+                                                        >
                                                     </div>
                                                 </div>
                                             </div>
@@ -294,19 +400,30 @@
             </div>
         </div>
         <div class="card mb-3">
-            <div class="card-body" id="ProductionAndSalesInputs">
+            <div
+                class="card-body"
+                id="ProductionAndSalesInputs"
+            >
                 <div class="d-flex align-items-center p-3">
                     <h5>3.0 PRODUCTION AND SALES DATA FOR THE QUARTER</h5>
                     <div class="ms-auto">
-                        <button type="button" class="btn btn-primary btn-sm editButton"><i
-                                class="ri-edit-2-fill"></i></button>
-                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
-                                class="ri-arrow-go-back-fill"></i></button>
+                        <button
+                            class="btn btn-primary btn-sm editButton"
+                            type="button"
+                        ><i class="ri-edit-2-fill"></i></button>
+                        <button
+                            class="btn btn-primary btn-sm revertButton"
+                            type="button"
+                            disabled
+                        ><i class="ri-arrow-go-back-fill"></i></button>
                     </div>
                 </div>
                 <div class="row align-items-center">
                     <div class="col-12">
-                        <div class="alert alert-primary h-100 d-none" role="alert">
+                        <div
+                            class="alert alert-primary h-100 d-none"
+                            role="alert"
+                        >
                             <h5 class="alert-heading">
                                 <i class="ri-information-2-fill"></i> Export and Local Market Product
                             </h5>
@@ -329,24 +446,40 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div id="productExport" class="productExport">
+                        <div
+                            class="productExport"
+                            id="productExport"
+                        >
                             <strong>3.1 Export Market</strong>
                             <div class="row">
                                 <div class="mb-3">
                                     <div class="mt-2">
-                                        <div class="d-flex justify-content-end p-2">
-                                            <button type="button" id="addExportRow" class="btn btn-primary AddProductRow"
-                                                data-toggle="tooltip" title="Add a new row" disabled>
+                                        <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                            <button
+                                                class="btn btn-primary addNewProductRow"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Add a new row"
+                                                disabled
+                                            >
                                                 <i class="ri-add-box-fill"></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger deleteExportRow mx-2"
-                                                data-toggle="tooltip" title="Delete row">
+                                            <button
+                                                class="btn btn-danger removeRowButton mx-2"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Delete row"
+                                                disabled
+                                            >
                                                 <i class="ri-subtract-fill"></i>
                                             </button>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table Export-Outlet">
+                                        <table
+                                            class="table Export-Outlet"
+                                            id="ExportOutletTable"
+                                        >
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Name of Product</th>
@@ -360,51 +493,116 @@
                                             </thead>
                                             <tbody class="ExportData table-group-divider">
                                                 @forelse ($reportData['ExportProduct'] as $exportProduct)
-                                                @php
-                                                    $exportProductVolume = $exportProduct['volumeOfProduction'] ?? '';
+                                                    @php
+                                                        $exportProductVolume =
+                                                            $exportProduct['volumeOfProduction'] ?? '';
 
-                                                    if(preg_match('/^([\d,]+)\s*(\w+)$/', $exportProductVolume, $exportmatches)) {
-                                                        $exportProductVolume = $exportmatches[1];
-                                                        $exportProductVolumeUnit = $exportmatches[2];
-                                                    }else {
-                                                        $exportProductVolume = '';
-                                                        $exportProductVolumeUnit = '';
-                                                    }
-                                                @endphp
+                                                        if (
+                                                            preg_match(
+                                                                '/^([\d,]+)\s*(\w+)$/',
+                                                                $exportProductVolume,
+                                                                $exportmatches,
+                                                            )
+                                                        ) {
+                                                            $exportProductVolume = $exportmatches[1];
+                                                            $exportProductVolumeUnit = $exportmatches[2];
+                                                        } else {
+                                                            $exportProductVolume = '';
+                                                            $exportProductVolumeUnit = '';
+                                                        }
+                                                    @endphp
                                                     <tr class="table_row">
                                                         <td>
-                                                            <input type="text" class="form-control productName"
-                                                                readonly value="{{ $exportProduct['ProductName'] ?? '' }}">
+                                                            <input
+                                                                class="form-control productName"
+                                                                type="text"
+                                                                value="{{ $exportProduct['ProductName'] ?? '' }}"
+                                                                readonly
+                                                            >
                                                         </td>
                                                         <td>
-                                                            <textarea class="form-control w-100 packingDetails" readonly>{{ $exportProduct['PackingDetails'] ?? '' }} </textarea>
+                                                            <textarea
+                                                                class="form-control w-100 packingDetails"
+                                                                readonly
+                                                            >{{ $exportProduct['PackingDetails'] ?? '' }} </textarea>
                                                         </td>
                                                         <td>
                                                             <div class="input-group">
-                                                                <input type="text"
-                                                                    class="form-control productionVolume_val" readonly
-                                                                    value="{{ $exportProductVolume }}">
-                                                                <select class="form-select volumeUnit" readonly>
+                                                                <input
+                                                                    class="form-control productionVolume_val"
+                                                                    type="text"
+                                                                    value="{{ $exportProductVolume }}"
+                                                                    readonly
+                                                                >
+                                                                <select
+                                                                    class="form-select volumeUnit"
+                                                                    readonly
+                                                                >
                                                                     <!-- Volume Units -->
                                                                     <optgroup label="Volume">
-                                                                        <option value="mL" {{ $exportProductVolumeUnit == 'mL' ? 'selected' : '' }}>Milliliters (mL)</option>
-                                                                        <option value="cm³" {{ $exportProductVolumeUnit == 'cm³' ? 'selected' : '' }}>Cubic Centimeters (cm³)</option>
-                                                                        <option value="fl oz" {{ $exportProductVolumeUnit == 'fl oz' ? 'selected' : '' }}>Fluid Ounces (fl oz)</option>
-                                                                        <option value="cup" {{ $exportProductVolumeUnit == 'cup' ? 'selected' : '' }}>Cups (cup)</option>
-                                                                        <option value="pt" {{ $exportProductVolumeUnit == 'pt' ? 'selected' : '' }}>Pints (pt)</option>
-                                                                        <option value="qt" {{ $exportProductVolumeUnit == 'qt' ? 'selected' : '' }}>Quarts (qt)</option>
-                                                                        <option value="L" {{ $exportProductVolumeUnit == 'L' ? 'selected' : '' }}>Liters (L)</option>
-                                                                        <option value="gal" {{ $exportProductVolumeUnit == 'gal' ? 'selected' : '' }}>Gallons (gal)</option>
-                                                                        <option value="in³" {{ $exportProductVolumeUnit == 'in³' ? 'selected' : '' }}>Cubic Inches (in³)</option>
-                                                                        <option value="ft³" {{ $exportProductVolumeUnit == 'ft³' ? 'selected' : '' }}>Cubic Feet (ft³)</option>
-                                                                        <option value="cubic-meters" {{ $exportProductVolumeUnit == 'm³' ? 'selected' : '' }}>Cubic Meters (m³)</option>
+                                                                        <option
+                                                                            value="mL"
+                                                                            {{ $exportProductVolumeUnit == 'mL' ? 'selected' : '' }}
+                                                                        >Milliliters (mL)</option>
+                                                                        <option
+                                                                            value="cm³"
+                                                                            {{ $exportProductVolumeUnit == 'cm³' ? 'selected' : '' }}
+                                                                        >Cubic Centimeters (cm³)</option>
+                                                                        <option
+                                                                            value="fl oz"
+                                                                            {{ $exportProductVolumeUnit == 'fl oz' ? 'selected' : '' }}
+                                                                        >Fluid Ounces (fl oz)</option>
+                                                                        <option
+                                                                            value="cup"
+                                                                            {{ $exportProductVolumeUnit == 'cup' ? 'selected' : '' }}
+                                                                        >Cups (cup)</option>
+                                                                        <option
+                                                                            value="pt"
+                                                                            {{ $exportProductVolumeUnit == 'pt' ? 'selected' : '' }}
+                                                                        >Pints (pt)</option>
+                                                                        <option
+                                                                            value="qt"
+                                                                            {{ $exportProductVolumeUnit == 'qt' ? 'selected' : '' }}
+                                                                        >Quarts (qt)</option>
+                                                                        <option
+                                                                            value="L"
+                                                                            {{ $exportProductVolumeUnit == 'L' ? 'selected' : '' }}
+                                                                        >Liters (L)</option>
+                                                                        <option
+                                                                            value="gal"
+                                                                            {{ $exportProductVolumeUnit == 'gal' ? 'selected' : '' }}
+                                                                        >Gallons (gal)</option>
+                                                                        <option
+                                                                            value="in³"
+                                                                            {{ $exportProductVolumeUnit == 'in³' ? 'selected' : '' }}
+                                                                        >Cubic Inches (in³)</option>
+                                                                        <option
+                                                                            value="ft³"
+                                                                            {{ $exportProductVolumeUnit == 'ft³' ? 'selected' : '' }}
+                                                                        >Cubic Feet (ft³)</option>
+                                                                        <option
+                                                                            value="cubic-meters"
+                                                                            {{ $exportProductVolumeUnit == 'm³' ? 'selected' : '' }}
+                                                                        >Cubic Meters (m³)</option>
                                                                     </optgroup>
                                                                     <!-- Weight Units -->
                                                                     <optgroup label="Weight">
-                                                                        <option value="g" {{ $exportProductVolumeUnit == 'g' ? 'selected' : '' }}>Grams (g)</option>
-                                                                        <option value="oz" {{ $exportProductVolumeUnit == 'oz' ? 'selected' : '' }}>Ounces (oz)</option>
-                                                                        <option value="lb" {{ $exportProductVolumeUnit == 'lb' ? 'selected' : '' }}>Pounds (lb)</option>
-                                                                        <option value="kg" {{ $exportProductVolumeUnit == 'kg' ? 'selected' : '' }}>Kilograms (kg)</option>
+                                                                        <option
+                                                                            value="g"
+                                                                            {{ $exportProductVolumeUnit == 'g' ? 'selected' : '' }}
+                                                                        >Grams (g)</option>
+                                                                        <option
+                                                                            value="oz"
+                                                                            {{ $exportProductVolumeUnit == 'oz' ? 'selected' : '' }}
+                                                                        >Ounces (oz)</option>
+                                                                        <option
+                                                                            value="lb"
+                                                                            {{ $exportProductVolumeUnit == 'lb' ? 'selected' : '' }}
+                                                                        >Pounds (lb)</option>
+                                                                        <option
+                                                                            value="kg"
+                                                                            {{ $exportProductVolumeUnit == 'kg' ? 'selected' : '' }}
+                                                                        >Kilograms (kg)</option>
                                                                     </optgroup>
                                                                 </select>
                                                             </div>
@@ -414,20 +612,12 @@
                                                                 <span class="input-group-text">
                                                                     ₱
                                                                 </span>
-                                                                <input type="text"
-                                                                    class="form-control grossSales_val" readonly
-                                                                    value="{{ $exportProduct['grossSales'] ?? '' }}">
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">
-                                                                    ₱
-                                                                </span>
-                                                                <input type="text"
-                                                                    class="form-control estimatedCostOfProduction_val"
+                                                                <input
+                                                                    class="form-control grossSales_val"
+                                                                    type="text"
+                                                                    value="{{ $exportProduct['grossSales'] ?? '' }}"
                                                                     readonly
-                                                                    value="{{ $exportProduct['estimatedCostOfProduction'] ?? '' }}">
+                                                                >
                                                             </div>
                                                         </td>
                                                         <td>
@@ -435,30 +625,59 @@
                                                                 <span class="input-group-text">
                                                                     ₱
                                                                 </span>
-                                                                <input type="text"
-                                                                    class="form-control netSales_val" readonly
-                                                                    value="{{ $exportProduct['netSales'] ?? '' }}">
+                                                                <input
+                                                                    class="form-control estimatedCostOfProduction_val"
+                                                                    type="text"
+                                                                    value="{{ $exportProduct['estimatedCostOfProduction'] ?? '' }}"
+                                                                    readonly
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">
+                                                                    ₱
+                                                                </span>
+                                                                <input
+                                                                    class="form-control netSales_val"
+                                                                    type="text"
+                                                                    value="{{ $exportProduct['netSales'] ?? '' }}"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 @empty
                                                     <tr class="table_row">
                                                         <td>
-                                                            <input type="text" class="form-control productName"
-                                                                readonly>
+                                                            <input
+                                                                class="form-control productName"
+                                                                type="text"
+                                                                readonly
+                                                            >
                                                         </td>
                                                         <td>
-                                                            <textarea class="form-control w-100 packingDetails" readonly> </textarea>
+                                                            <textarea
+                                                                class="form-control w-100 packingDetails"
+                                                                readonly
+                                                            > </textarea>
                                                         </td>
                                                         <td>
                                                             <div class="input-group">
-                                                                <input type="text"
-                                                                    class="form-control productionVolume_val" readonly>
-                                                                <select class="form-select volumeUnit" readonly>
+                                                                <input
+                                                                    class="form-control productionVolume_val"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
+                                                                <select
+                                                                    class="form-select volumeUnit"
+                                                                    readonly
+                                                                >
                                                                     <!-- Volume Units -->
                                                                     <optgroup label="Volume">
                                                                         <option value="mL">Milliliters
-                                                                            (mL)</option>
+                                                                            (mL)
+                                                                        </option>
                                                                         <option value="cm³">Cubic
                                                                             Centimeters (cm³)</option>
                                                                         <option value="fl oz">Fluid
@@ -501,8 +720,11 @@
                                                                 <span class="input-group-text">
                                                                     ₱
                                                                 </span>
-                                                                <input type="text"
-                                                                    class="form-control grossSales_val" readonly>
+                                                                <input
+                                                                    class="form-control grossSales_val"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                         </td>
                                                         <td>
@@ -510,9 +732,11 @@
                                                                 <span class="input-group-text">
                                                                     ₱
                                                                 </span>
-                                                                <input type="text"
+                                                                <input
                                                                     class="form-control estimatedCostOfProduction_val"
-                                                                    readonly>
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                         </td>
                                                         <td>
@@ -520,8 +744,11 @@
                                                                 <span class="input-group-text">
                                                                     ₱
                                                                 </span>
-                                                                <input type="text"
-                                                                    class="form-control netSales_val" readonly>
+                                                                <input
+                                                                    class="form-control netSales_val"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -534,24 +761,40 @@
                         </div>
                     </div>
                     <div class="col-12">
-                        <div id="productLocal" class="productLocal">
+                        <div
+                            class="productLocal"
+                            id="productLocal"
+                        >
                             <strong>3.2 Local Market</strong>
                             <div class="row p-0">
                                 <div class="col-12">
                                     <div class="mt-2">
-                                        <div class="d-flex justify-content-end p-2">
-                                            <button type="button" id="addLocalRow" class="btn btn-primary AddProductRow"
-                                                data-toggle="tooltip" title="Add a new row" disabled>
+                                        <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                            <button
+                                                class="btn btn-primary addNewProductRow"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Add a new row"
+                                                disabled
+                                            >
                                                 <i class="ri-add-box-fill"></i>
                                             </button>
-                                            <button type="button" class="btn btn-danger mx-2 deleteLocalRow"
-                                                data-toggle="tooltip" title="Delete row">
+                                            <button
+                                                class="btn btn-danger removeRowButton mx-2"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Delete row"
+                                                disabled
+                                            >
                                                 <i class="ri-subtract-fill"></i>
                                             </button>
                                         </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table Local-Outlet">
+                                        <table
+                                            class="table Local-Outlet"
+                                            id="LocalOutletTable"
+                                        >
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Name of Product</th>
@@ -565,49 +808,110 @@
                                             </thead>
                                             <tbody class="LocalData table-group-divider">
                                                 @forelse($reportData['LocalProduct'] as $localProduct)
-                                                @php
-                                                $localProductVolume = $localProduct['volumeOfProduction'] ?? '';
+                                                    @php
+                                                        $localProductVolume = $localProduct['volumeOfProduction'] ?? '';
 
-                                                if(preg_match('/^([\d,]+)\s*(\w+)$/', $localProductVolume, $localmatches)) {
-                                                    $localProductVolume = $localmatches[1];
-                                                    $localProductVolumeUnit = $localmatches[2];
-                                                }else{
-                                                    $localProductVolume = '';
-                                                    $localProductVolumeUnit = '';
-                                                }
-                                                @endphp
+                                                        if (
+                                                            preg_match(
+                                                                '/^([\d,]+)\s*(\w+)$/',
+                                                                $localProductVolume,
+                                                                $localmatches,
+                                                            )
+                                                        ) {
+                                                            $localProductVolume = $localmatches[1];
+                                                            $localProductVolumeUnit = $localmatches[2];
+                                                        } else {
+                                                            $localProductVolume = '';
+                                                            $localProductVolumeUnit = '';
+                                                        }
+                                                    @endphp
                                                     <tr class="table_row">
-                                                        <td><input type="text" class="form-control productName"
-                                                                readonly value="{{ $localProduct['ProductName'] ?? '' }}">
+                                                        <td><input
+                                                                class="form-control productName"
+                                                                type="text"
+                                                                value="{{ $localProduct['ProductName'] ?? '' }}"
+                                                                readonly
+                                                            >
                                                         </td>
                                                         <td>
-                                                            <textarea class="form-control packingDetails" readonly>{{ $localProduct['PackingDetails'] ?? '' }}</textarea>
+                                                            <textarea
+                                                                class="form-control packingDetails"
+                                                                readonly
+                                                            >{{ $localProduct['PackingDetails'] ?? '' }}</textarea>
                                                         </td>
                                                         <td>
                                                             <div class="input-group">
-                                                                <input type="text"
-                                                                    class="form-control productionVolume_val" readonly
-                                                                    value="{{ $localProductVolume }}">
+                                                                <input
+                                                                    class="form-control productionVolume_val"
+                                                                    type="text"
+                                                                    value="{{ $localProductVolume }}"
+                                                                    readonly
+                                                                >
                                                                 <select class="form-select volumeUnit">
                                                                     <!-- Volume Units -->
-                                                                    <option value="mL" {{ $exportProductVolumeUnit == 'mL' ? 'selected' : '' }}>Milliliters (mL)</option>
-                                                                        <option value="cm³" {{ $localProductVolumeUnit == 'cm³' ? 'selected' : '' }}>Cubic Centimeters (cm³)</option>
-                                                                        <option value="fl oz" {{ $localProductVolumeUnit == 'fl oz' ? 'selected' : '' }}>Fluid Ounces (fl oz)</option>
-                                                                        <option value="cup" {{ $localProductVolumeUnit == 'cup' ? 'selected' : '' }}>Cups (cup)</option>
-                                                                        <option value="pt" {{ $localProductVolumeUnit == 'pt' ? 'selected' : '' }}>Pints (pt)</option>
-                                                                        <option value="qt" {{ $localProductVolumeUnit == 'qt' ? 'selected' : '' }}>Quarts (qt)</option>
-                                                                        <option value="L" {{ $localProductVolumeUnit == 'L' ? 'selected' : '' }}>Liters (L)</option>
-                                                                        <option value="gal" {{ $localProductVolumeUnit == 'gal' ? 'selected' : '' }}>Gallons (gal)</option>
-                                                                        <option value="in³" {{ $localProductVolumeUnit == 'in³' ? 'selected' : '' }}>Cubic Inches (in³)</option>
-                                                                        <option value="ft³" {{ $localProductVolumeUnit == 'ft³' ? 'selected' : '' }}>Cubic Feet (ft³)</option>
-                                                                        <option value="cubic-meters" {{ $localProductVolumeUnit == 'm³' ? 'selected' : '' }}>Cubic Meters (m³)</option>
+                                                                    <option
+                                                                        value="mL"
+                                                                        {{ $exportProductVolumeUnit == 'mL' ? 'selected' : '' }}
+                                                                    >Milliliters (mL)</option>
+                                                                    <option
+                                                                        value="cm³"
+                                                                        {{ $localProductVolumeUnit == 'cm³' ? 'selected' : '' }}
+                                                                    >Cubic Centimeters (cm³)</option>
+                                                                    <option
+                                                                        value="fl oz"
+                                                                        {{ $localProductVolumeUnit == 'fl oz' ? 'selected' : '' }}
+                                                                    >Fluid Ounces (fl oz)</option>
+                                                                    <option
+                                                                        value="cup"
+                                                                        {{ $localProductVolumeUnit == 'cup' ? 'selected' : '' }}
+                                                                    >Cups (cup)</option>
+                                                                    <option
+                                                                        value="pt"
+                                                                        {{ $localProductVolumeUnit == 'pt' ? 'selected' : '' }}
+                                                                    >Pints (pt)</option>
+                                                                    <option
+                                                                        value="qt"
+                                                                        {{ $localProductVolumeUnit == 'qt' ? 'selected' : '' }}
+                                                                    >Quarts (qt)</option>
+                                                                    <option
+                                                                        value="L"
+                                                                        {{ $localProductVolumeUnit == 'L' ? 'selected' : '' }}
+                                                                    >Liters (L)</option>
+                                                                    <option
+                                                                        value="gal"
+                                                                        {{ $localProductVolumeUnit == 'gal' ? 'selected' : '' }}
+                                                                    >Gallons (gal)</option>
+                                                                    <option
+                                                                        value="in³"
+                                                                        {{ $localProductVolumeUnit == 'in³' ? 'selected' : '' }}
+                                                                    >Cubic Inches (in³)</option>
+                                                                    <option
+                                                                        value="ft³"
+                                                                        {{ $localProductVolumeUnit == 'ft³' ? 'selected' : '' }}
+                                                                    >Cubic Feet (ft³)</option>
+                                                                    <option
+                                                                        value="cubic-meters"
+                                                                        {{ $localProductVolumeUnit == 'm³' ? 'selected' : '' }}
+                                                                    >Cubic Meters (m³)</option>
                                                                     </optgroup>
                                                                     <!-- Weight Units -->
                                                                     <optgroup label="Weight">
-                                                                        <option value="g" {{ $localProductVolumeUnit == 'g' ? 'selected' : '' }}>Grams (g)</option>
-                                                                        <option value="oz" {{ $localProductVolumeUnit == 'oz' ? 'selected' : '' }}>Ounces (oz)</option>
-                                                                        <option value="lb" {{ $localProductVolumeUnit == 'lb' ? 'selected' : '' }}>Pounds (lb)</option>
-                                                                        <option value="kg" {{ $localProductVolumeUnit == 'kg' ? 'selected' : '' }}>Kilograms (kg)</option>
+                                                                        <option
+                                                                            value="g"
+                                                                            {{ $localProductVolumeUnit == 'g' ? 'selected' : '' }}
+                                                                        >Grams (g)</option>
+                                                                        <option
+                                                                            value="oz"
+                                                                            {{ $localProductVolumeUnit == 'oz' ? 'selected' : '' }}
+                                                                        >Ounces (oz)</option>
+                                                                        <option
+                                                                            value="lb"
+                                                                            {{ $localProductVolumeUnit == 'lb' ? 'selected' : '' }}
+                                                                        >Pounds (lb)</option>
+                                                                        <option
+                                                                            value="kg"
+                                                                            {{ $localProductVolumeUnit == 'kg' ? 'selected' : '' }}
+                                                                        >Kilograms (kg)</option>
                                                                     </optgroup>
                                                                 </select>
                                                             </div>
@@ -616,45 +920,63 @@
                                                         <td>
                                                             <div class="input-group">
                                                                 <span class="input-group-text">₱</span>
-                                                                <input type="text"
-                                                                    class="form-control grossSales_val" readonly
-                                                                    value="{{ $localProduct['grossSales'] ?? '' }}">
-                                                            </div>
-                                                        </td>
-                                                        <td>
-                                                            <div class="input-group">
-                                                                <span class="input-group-text">₱</span>
-                                                                <input type="text"
-                                                                    class="form-control estimatedCostOfProduction_val"
+                                                                <input
+                                                                    class="form-control grossSales_val"
+                                                                    type="text"
+                                                                    value="{{ $localProduct['grossSales'] ?? '' }}"
                                                                     readonly
-                                                                    value="{{ $localProduct['estimatedCostOfProduction'] ?? '' }}">
+                                                                >
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="input-group">
                                                                 <span class="input-group-text">₱</span>
-                                                                <input type="text"
-                                                                    class="form-control netSales_val" readonly
-                                                                    value="{{ $localProduct['netSales'] ?? '' }}">
+                                                                <input
+                                                                    class="form-control estimatedCostOfProduction_val"
+                                                                    type="text"
+                                                                    value="{{ $localProduct['estimatedCostOfProduction'] ?? '' }}"
+                                                                    readonly
+                                                                >
+                                                            </div>
+                                                        </td>
+                                                        <td>
+                                                            <div class="input-group">
+                                                                <span class="input-group-text">₱</span>
+                                                                <input
+                                                                    class="form-control netSales_val"
+                                                                    type="text"
+                                                                    value="{{ $localProduct['netSales'] ?? '' }}"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                         </td>
                                                     </tr>
                                                 @empty
                                                     <tr class="table_row">
-                                                        <td><input type="text" class="form-control productName"
-                                                                readonly></td>
+                                                        <td><input
+                                                                class="form-control productName"
+                                                                type="text"
+                                                                readonly
+                                                            ></td>
                                                         <td>
-                                                            <textarea class="form-control packingDetails" readonly></textarea>
+                                                            <textarea
+                                                                class="form-control packingDetails"
+                                                                readonly
+                                                            ></textarea>
                                                         </td>
                                                         <td>
                                                             <div class="input-group">
-                                                                <input type="text"
-                                                                    class="form-control productionVolume_val" readonly>
+                                                                <input
+                                                                    class="form-control productionVolume_val"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                                 <select class="form-select volumeUnit">
                                                                     <!-- Volume Units -->
                                                                     <optgroup label="Volume">
                                                                         <option value="mL">Milliliters
-                                                                            (mL)</option>
+                                                                            (mL)
+                                                                        </option>
                                                                         <option value="cm³">Cubic
                                                                             Centimeters (cm³)</option>
                                                                         <option value="fl oz">Fluid
@@ -694,23 +1016,31 @@
                                                         <td>
                                                             <div class="input-group">
                                                                 <span class="input-group-text">₱</span>
-                                                                <input type="text"
-                                                                    class="form-control grossSales_val" readonly>
+                                                                <input
+                                                                    class="form-control grossSales_val"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="input-group">
                                                                 <span class="input-group-text">₱</span>
-                                                                <input type="text"
+                                                                <input
                                                                     class="form-control estimatedCostOfProduction_val"
-                                                                    readonly>
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                         </td>
                                                         <td>
                                                             <div class="input-group">
                                                                 <span class="input-group-text">₱</span>
-                                                                <input type="text"
-                                                                    class="form-control netSales_val" readonly>
+                                                                <input
+                                                                    class="form-control netSales_val"
+                                                                    type="text"
+                                                                    readonly
+                                                                >
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -722,65 +1052,93 @@
                             </div>
                         </div>
                     </div>
-            </div>
-        </div>
-        <div class="card mb-3">
-            <div class="card-body" id="marketOutletInputs">
-                <div class="d-flex align-items-center p-3">
-                    <h5>4.0 MARKET OUTLETS</h5>
-                    <div class="ms-auto">
-                        <button type="button" class="btn btn-primary btn-sm editButton"><i
-                                class="ri-edit-2-fill"></i></button>
-                        <button type="button" class="btn btn-primary btn-sm revertButton" disabled><i
-                                class="ri-arrow-go-back-fill"></i></button>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 my-3">
-                        <div class="alert alert-primary h-100 d-none" role="alert">
-                            <h5 class="alert-heading">
-                                <i class="ri-information-2-fill"></i> Export and Local Market
-                            </h5>
-                            <p>
-                                Kindly provide the necessary information for this Export and Local Market Outlet. The
-                                following
-                                details are needed.
-                            <ul>
-                                <li>
-                                    Export - location name in which the outlet is located(example: USA, China, etc)
-                                </li>
-                                <li>
-                                    Local - location name in which the outlet is located(example: Carmin, Tagum, etc)
-                                </li>
-                            </ul>
-                            </p>
-                            <hr>
-                            <p class="mb-0 text-secondary text-small">You may enter none or leave blank if not
-                                applicable.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6">
-                        <strong class="ms-2">4.1 Export</strong>
-                        <div class="ms-4">
-                            <textarea class="form-control h-100" name="Market_Export" placeholder="Export" id="exportTextarea" readonly>{{ $reportData['Market_Export'] ?? '' }}</textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-6">
-                        <strong class="ms-2">4.2 Local</strong>
-                        <div class="ms-4">
-                            <textarea class="form-control h-100" name="Market_local" placeholder="Local" id="localTextarea" readonly>{{ $reportData['Market_local'] ?? '' }}</textarea>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </div>
-        <div class="card mb-3">
-            <div class="card-body">
-                <div class="d-flex justify-content-end p-1">
-                    <button type="submit" class="btn btn-primary">Submit</button>
+            <div class="card mb-3">
+                <div
+                    class="card-body"
+                    id="marketOutletInputs"
+                >
+                    <div class="d-flex align-items-center p-3">
+                        <h5>4.0 MARKET OUTLETS</h5>
+                        <div class="ms-auto">
+                            <button
+                                class="btn btn-primary btn-sm editButton"
+                                type="button"
+                            ><i class="ri-edit-2-fill"></i></button>
+                            <button
+                                class="btn btn-primary btn-sm revertButton"
+                                type="button"
+                                disabled
+                            ><i class="ri-arrow-go-back-fill"></i></button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 my-3">
+                            <div
+                                class="alert alert-primary h-100 d-none"
+                                role="alert"
+                            >
+                                <h5 class="alert-heading">
+                                    <i class="ri-information-2-fill"></i> Export and Local Market
+                                </h5>
+                                <p>
+                                    Kindly provide the necessary information for this Export and Local Market Outlet.
+                                    The
+                                    following
+                                    details are needed.
+                                <ul>
+                                    <li>
+                                        Export - location name in which the outlet is located(example: USA, China, etc)
+                                    </li>
+                                    <li>
+                                        Local - location name in which the outlet is located(example: Carmin, Tagum,
+                                        etc)
+                                    </li>
+                                </ul>
+                                </p>
+                                <hr>
+                                <p class="mb-0 text-secondary text-small">You may enter none or leave blank if not
+                                    applicable.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <strong class="ms-2">4.1 Export</strong>
+                            <div class="ms-4">
+                                <textarea
+                                    class="form-control h-100"
+                                    id="exportTextarea"
+                                    name="Market_Export"
+                                    placeholder="Export"
+                                    readonly
+                                >{{ $reportData['Market_Export'] ?? '' }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-6">
+                            <strong class="ms-2">4.2 Local</strong>
+                            <div class="ms-4">
+                                <textarea
+                                    class="form-control h-100"
+                                    id="localTextarea"
+                                    name="Market_local"
+                                    placeholder="Local"
+                                    readonly
+                                >{{ $reportData['Market_local'] ?? '' }}</textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+            <div class="card mb-3">
+                <div class="card-body">
+                    <div class="d-flex justify-content-end p-1">
+                        <button
+                            class="btn btn-primary"
+                            type="submit"
+                        >Submit</button>
+                    </div>
+                </div>
+            </div>
     </form>
 </div>

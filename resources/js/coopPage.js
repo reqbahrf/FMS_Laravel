@@ -20,6 +20,40 @@ import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 
+const ExportAndLocalMktTableConfig = {
+    ExportProduct: {
+        id: 'ExportOutletTable',
+        selectors: {
+            ProductName: '.productName',
+            PackingDetails: '.packingDetails',
+            volumeOfProduction: {
+                value: '.productionVolume_val',
+                unit: '.volumeUnit'
+            },
+            grossSales: '.grossSales_val',
+            estimatedCostOfProduction: '.estimatedCostOfProduction_val',
+            netSales: '.netSales_val',
+        },
+        requiredFields: ['ProductName']
+    },
+    LocalProduct: {
+        id: 'LocalOutletTable',
+        selectors: {
+            ProductName: '.productName',
+            PackingDetails: '.packingDetails',
+            volumeOfProduction: {
+                value: '.productionVolume_val',
+                unit: '.volumeUnit'
+            },
+            grossSales: '.grossSales_val',
+            estimatedCostOfProduction: '.estimatedCostOfProduction_val',
+            netSales: '.netSales_val',
+        },
+        requiredFields: ['ProductName']
+    }
+};
+
+
 Echo.private(`coop-notifications.${USER_ID}`).listen(
     '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
     (e) => {
@@ -612,53 +646,21 @@ window.initilizeCoopPageJs = async () => {
 
             const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
             const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
-            const confirmButton = document.getElementById('confirmButton');
+            const confirmButton = $('#confirmButton');
 
-            confirmTrueInfo.add(confirmAgreeInfo).change(function () {
+            confirmTrueInfo.add(confirmAgreeInfo).on('change', function () {
                 confirmButton.disabled = !(
                     confirmTrueInfo.is(':checked') &&
                     confirmAgreeInfo.is(':checked')
                 );
             });
 
-            confirmButton.addEventListener('click', function () {
+            confirmButton.on('click', function () {
                 submitQuarterlyForm();
             });
 
             const QuarterlyForm = $('#quarterlyForm');
-            const ExportAndLocalMktTableConfig = {
-                ExportProduct: {
-                    id: 'ExportOutletTable',
-                    selectors: {
-                        ProductName: '.productName',
-                        PackingDetails: '.packingDetails',
-                        volumeOfProduction: {
-                            value: '.productionVolume_val',
-                            unit: '.volumeUnit'
-                        },
-                        grossSales: '.grossSales_val',
-                        estimatedCostOfProduction: '.estimatedCostOfProduction_val',
-                        netSales: '.netSales_val',
-                    },
-                    requiredFields: ['ProductName']
-                },
-                LocalProduct: {
-                    id: 'LocalOutletTable',
-                    selectors: {
-                        ProductName: '.productName',
-                        PackingDetails: '.packingDetails',
-                        volumeOfProduction: {
-                            value: '.productionVolume_val',
-                            unit: '.volumeUnit'
-                        },
-                        grossSales: '.grossSales_val',
-                        estimatedCostOfProduction: '.estimatedCostOfProduction_val',
-                        netSales: '.netSales_val',
-                    },
-                    requiredFields: ['ProductName']
-                }
-            };
-
+          
             function submitQuarterlyForm() {
                 showProcessToast('Submitting Quarterly Report...');
 
@@ -723,193 +725,29 @@ window.initilizeCoopPageJs = async () => {
 
         ReportedQuarterlyReport: () => {
             console.log('initilizeCoopPageJs.ReportedQuarterlyReport');
-            $('#BuildingAsset, #Equipment, #WorkingCapital').on(
-                'input',
-                function () {
-                    // Remove any non-digit characters
-                    let value = $(this)
-                        .val()
-                        .replace(/[^0-9]/g, '');
+            formatToNumber('#BuildingAsset, #Equipment, #WorkingCapital');
+            formatToNumber('#directLaborCard, #indirectLaborCard', 'input');
+            formatToNumber('.ExportData, .LocalData', 'tr td:nth-child(n+3):nth-child(-n+6) input');
 
-                    // Add commas every three digits
-                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-                    // Set the new value to the input field
-                    $(this).val(value);
-                }
-            );
-
-            $('#employment input').on('input', function () {
-                // Remove any non-digit characters
-                let value = $(this)
-                    .val()
-                    .replace(/[^0-9]/g, '');
-
-                // Set the new value to the input field
-                $(this).val(value);
-            });
-
-            $('.ExportData, .LocalData').on(
-                'input',
-                'tr td:nth-child(n+3):nth-child(-n+6) input',
-                function () {
-                    // Remove any non-digit characters
-                    let value = $(this)
-                        .val()
-                        .replace(/[^0-9]/g, '');
-
-                    // Add commas every three digits
-                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-                    // Set the new value to the input field
-                    $(this).val(value);
-                }
-            );
-
-            function parseValueToFloat(value) {
-                return parseFloat(value.replace(/,/g, '')) || 0;
-            }
+            AddNewRowHandler('.addNewProductRow', 'div.productLocal, div.productExport');
+            RemoveRowHandler('.removeRowButton', 'div.productLocal, div.productExport');
 
             $('.ExportData, .LocalData').on(
                 'input',
                 'tr td:nth-child(n+4):nth-child(-n+5) input',
                 function () {
-                    let row = $(this).closest('tr');
-                    let grossSales = parseValueToFloat(
+                    const row = $(this).closest('tr');
+                    const grossSales = parseValueToFloat(
                         row.find('.grossSales_val').val()
                     );
-                    let estimatedCostOfProduction = parseValueToFloat(
+                    const estimatedCostOfProduction = parseValueToFloat(
                         row.find('.estimatedCostOfProduction_val').val()
                     );
-                    let netSales = grossSales - estimatedCostOfProduction;
-                    let formattedNetSales = netSales.toLocaleString('en-US', {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                    });
-                    console.log(
-                        grossSales,
-                        estimatedCostOfProduction,
-                        formattedNetSales
-                    );
+                    const netSales = grossSales - estimatedCostOfProduction;
+                    const formattedNetSales = formatToString(netSales);
                     row.find('.netSales_val').val(formattedNetSales);
                 }
             );
-
-            let counters = {
-                export: 0,
-                local: 0,
-            };
-
-            const addRow = (buttonSelector, tableSelector, identifier) => {
-                $(buttonSelector).click(function () {
-                    counters[identifier]++;
-
-                    let newRow = `
-                <tr class="table_row">
-                    <td><input type="text" class="form-control productName"></td>
-                    <td><textarea class="form-control packingDetails"></textarea></td>
-                    <td>
-                        <div class="input-group">
-                             <input type="text" class="form-control productionVolume_val">
-                                                                           <select class="form-select volumeUnit">
-
-                                                                                    <optgroup label="Volume">
-                                                                                        <option value="mL">Milliliters
-                                                                                            (mL)</option>
-                                                                                        <option value="cm³">Cubic
-                                                                                            Centimeters (cm³)</option>
-                                                                                        <option value="fl oz">Fluid
-                                                                                            Ounces (fl oz)</option>
-                                                                                        <option value="cup">Cups (cup)
-                                                                                        </option>
-                                                                                        <option value="pt">Pints (pt)
-                                                                                        </option>
-                                                                                        <option value="qt">Quarts (qt)
-                                                                                        </option>
-                                                                                        <option value="L">Liters (L)
-                                                                                        </option>
-                                                                                        <option value="gal">Gallons (gal)
-                                                                                        </option>
-                                                                                        <option value="in³">Cubic
-                                                                                            Inches (in³)</option>
-                                                                                        <option value="ft³">Cubic Feet
-                                                                                            (ft³)</option>
-                                                                                        <option value="cubic-meters">Cubic
-                                                                                            Meters (m³)</option>
-                                                                                    </optgroup>
-
-                                                                                    <optgroup label="Weight">
-                                                                                        <option value="g">Grams (g)
-                                                                                        </option>
-                                                                                        <option value="oz">Ounces (oz)
-                                                                                        </option>
-                                                                                        <option value="lb">Pounds (lb)
-                                                                                        </option>
-                                                                                        <option value="kg">Kilograms
-                                                                                            (kg)</option>
-                                                                                    </optgroup>
-                                                                                </select>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="input-group">
-                            <span class="input-group-text">₱</span>
-                            <input type="text" class="form-control grossSales_val">
-                        </div>
-                    </td>
-                    <td>
-                         <div class="input-group">
-                            <span class="input-group-text">₱</span>
-                            <input type="text" class="form-control estimatedCostOfProduction_val">
-                        </div>
-                    </td>
-                    <td>
-                         <div class="input-group">
-                            <span class="input-group-text">₱</span>
-                            <input type="text" class="form-control netSales_val">
-                        </div>
-                    </td>
-                </tr>
-                `;
-
-                    $(tableSelector).append(newRow);
-                    updateDeleteButtonState();
-                });
-            };
-
-            const deleteRow = (buttonSelector, identifier, tableSelector) => {
-                $(document).on('click', buttonSelector, function () {
-                    if ($(tableSelector + ' tr').length > 1) {
-                        $(tableSelector + ' tr:last').remove();
-                        updateDeleteButtonState();
-                    }
-                    counters[identifier]--;
-                });
-            };
-
-            const updateDeleteButtonState = () => {
-                ['.deleteExportRow', '.deleteLocalRow'].forEach(
-                    function (buttonSelector) {
-                        let tableSelector =
-                            buttonSelector === '.deleteExportRow'
-                                ? '.Export-Outlet tbody'
-                                : '.Local-Outlet tbody';
-                        if ($(tableSelector + ' tr').length <= 1) {
-                            $(buttonSelector).prop('disabled', true);
-                        } else {
-                            $(buttonSelector).prop('disabled', false);
-                        }
-                    }
-                );
-            };
-
-            addRow('#addExportRow', '.Export-Outlet tbody', 'export');
-            deleteRow('.deleteExportRow', 'export', '.Export-Outlet tbody');
-
-            addRow('#addLocalRow', '.Local-Outlet tbody', 'local');
-            deleteRow('.deleteLocalRow', 'local', '.Local-Outlet tbody');
-
-            updateDeleteButtonState();
 
             const inputContainers = $(
                 '#AssetsInputs, #EmploymentInputs, #marketOutletInputs'
@@ -936,63 +774,7 @@ window.initilizeCoopPageJs = async () => {
                     storeInitialValues(container);
             });
 
-            const storeProductsData = function () {
-                const ExportTable_data = [];
-                const LocalTable_data = [];
-
-                Products.exportProduct
-                    .find('.ExportData .table_row')
-                    .each(function () {
-                        const row = $(this);
-                        const exportData = {
-                            ProductName: row.find('.productName').val(),
-                            PackingDetails: row.find('.packingDetails').val(),
-                            volumeOfProduction:
-                                row.find('.productionVolume_val').val() +
-                                ' ' +
-                                row.find('.volumeUnit').val(),
-                            grossSales: row.find('.grossSales_val').val(),
-                            estimatedCostOfProduction: row
-                                .find('.estimatedCostOfProduction_val')
-                                .val(),
-                            netSales: row.find('.netSales_val').val(),
-                        };
-                        exportData.ProductName &&
-                        exportData.ProductName !== null
-                            ? ExportTable_data.push(exportData)
-                            : null;
-                    });
-
-                initialData.ExportProduct = ExportTable_data;
-
-                Products.localProduct
-                    .find('.LocalData .table_row')
-                    .each(function () {
-                        const row = $(this);
-                        const localData = {
-                            ProductName: row.find('.productName').val(),
-                            PackingDetails: row.find('.packingDetails').val(),
-                            volumeOfProduction:
-                                row.find('.productionVolume_val').val() +
-                                ' ' +
-                                row.find('.volumeUnit').val(),
-                            grossSales: row.find('.grossSales_val').val(),
-                            estimatedCostOfProduction: row
-                                .find('.estimatedCostOfProduction_val')
-                                .val(),
-                            netSales: row.find('.netSales_val').val(),
-                        };
-                        localData.ProductName && localData.ProductName !== null
-                            ? LocalTable_data.push(localData)
-                            : null;
-                    });
-                return {
-                    ExportProduct: ExportTable_data,
-                    LocalProduct: LocalTable_data,
-                };
-            };
-
-            initialData['ProductionAndSalesInputs'] = storeProductsData();
+            initialData['ProductionAndSalesInputs'] = TableDataExtractor(ExportAndLocalMktTableConfig);
 
             console.log(initialData);
 
@@ -1049,10 +831,10 @@ window.initilizeCoopPageJs = async () => {
                     .prop('readonly');
                 if (!isReadonly) {
                     cardBody.find('.revertButton').prop('disabled', false);
-                    cardBody.find('.AddProductRow').prop('disabled', false);
+                    cardBody.find('.addNewProductRow').prop('disabled', false);
                 } else {
                     cardBody.find('.revertButton').prop('disabled', true);
-                    cardBody.find('.AddProductRow').prop('disabled', true);
+                    cardBody.find('.addNewProductRow').prop('disabled', true);
                 }
             });
 
@@ -1177,7 +959,7 @@ window.initilizeCoopPageJs = async () => {
                     });
 
                 // Disable Revert button after reverting
-                ProductAndSalesContainer.find('.AddProductRow').prop(
+                ProductAndSalesContainer.find('.addNewProductRow').prop(
                     'disabled',
                     true
                 );
@@ -1222,7 +1004,10 @@ window.initilizeCoopPageJs = async () => {
                     formDataObject[v.name] = v.value;
                 });
 
-                formDataObject = { ...formDataObject, ...storeProductsData() };
+                formDataObject = {
+                    ...formDataObject,
+                    ...TableDataExtractor(ExportAndLocalMktTableConfig),
+                };
 
                 $.ajax({
                     headers: {
