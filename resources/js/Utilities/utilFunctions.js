@@ -89,6 +89,10 @@ function formatToNumber(selectorOrParent, inputSelectors = null) {
     });
 }
 
+function parseValueToFloat(value) {
+    return parseFloat(value?.replace(/,/g, '')) || 0;
+}
+
 function closeModal(modelId) {
     const model = bootstrap.Modal.getInstance(modelId);
     model.hide();
@@ -192,6 +196,7 @@ export {
     dateFormatter,
     closeOffcanvasInstances,
     formatToNumber,
+    parseValueToFloat,
     closeModal,
     sanitize,
     createConfirmationModal,

@@ -1,0 +1,528 @@
+import { formatToString, formatToNumber, parseValueToFloat } from '../Utilities/utilFunctions';
+export class FormEvents {
+    constructor(formType) {
+        this.formType = formType;
+        this.initializeFormEvents();
+    }
+
+    initializeFormEvents() {
+        const Form_Events = {
+            'PIS': () => {
+                this.PISFormEvents();
+            },
+            'PDS': () => {
+                this.PDSFormEvents();
+            },
+            'SR': () => {
+                this.SRFormEvents();
+            },
+        }[this.formType];
+        
+        if(Form_Events) {
+            Form_Events();
+        }else {
+            console.log(`Form Type ${this.formType} not found`);
+        }
+    }
+    PISFormEvents() {
+        function caculateTotalAssests() {
+            const landAssets = parseValueToFloat($('#land_val').val());
+            const buildingAssets = parseValueToFloat($('#building_val').val());
+            const equipmentAssets = parseValueToFloat(
+                $('#equipment_val').val()
+            );
+            const workingCapital = parseValueToFloat(
+                $('#workingCapital_val').val()
+            );
+            const totalAssests =
+                landAssets +
+                buildingAssets +
+                equipmentAssets +
+                workingCapital;
+            $('#totalAssests').val(formatToString(totalAssests));
+        }
+
+        $(
+            '#land_val, #building_val, #equipment_val, #workingCapital_val'
+        ).on('input', function () {
+            const thisInputId = $(this).attr('id');
+            console.log(thisInputId);
+            formatToNumber(`#${thisInputId}`);
+            caculateTotalAssests();
+        });
+
+        const calculateTotalEmploymentGenerated = () => {
+            let manMonthTotal = 0;
+
+            $('#totalEmploymentContainer tr').each(function () {
+                const thisTableRow = $(this);
+
+                const male = parseValueToFloat(
+                    thisTableRow.find('.maleInput').val()
+                );
+                const female = parseValueToFloat(
+                    thisTableRow.find('.femaleInput').val()
+                );
+                const subtotal = male + female;
+                thisTableRow.find('.thisRowSubtotal').val(
+                    subtotal.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                    })
+                );
+
+                manMonthTotal += subtotal;
+            });
+            $('#TotalmanMonths').val(formatToString(manMonthTotal));
+             
+        };
+
+        $('#totalEmploymentContainer').on(
+            'input',
+            'td input.maleInput, td input.femaleInput',
+            function () {
+                console.log('Input Changed');
+                const thisInputId = $(this).attr('id');
+                console.log(thisInputId);
+                formatToNumber(`#${thisInputId}`);
+                calculateTotalEmploymentGenerated();
+            }
+        );
+
+        const calculateTotalGrossSales = () => {
+            console.log('Input Changed');
+
+            const localProduct = parseValueToFloat(
+                $('#localProduct_Val').val()
+            );
+            const exportProduct = parseValueToFloat(
+                $('#exportProduct_Val').val()
+            );
+            const totalGrossSales = localProduct + exportProduct;
+            $('#totalGrossSales').val(formatToString(totalGrossSales));
+
+            console.log(totalGrossSales);
+        };
+
+        $('#localProduct_Val, #exportProduct_Val').on(
+            'input',
+            function () {
+                const thisInputId = $(this).attr('id');
+                formatToNumber(`#${thisInputId}`);
+                calculateTotalGrossSales();
+            }
+        );
+    }
+
+    //TODO: need to be test
+    /**
+     * Initializes and sets up event listeners for the PDS form, handling calculations and updates for employment and sales data.
+     *
+     * @return {void}
+     */
+    PDSFormEvents() {
+        //TODO: Update the Js docs of this PDS events
+        const calculateTotalEmployment = () => {
+            let totalNumPersonel = 0;
+            let totalManMonth = 0;
+            $('#totalEmployment tr').each(function () {
+                const totalMalePersonel = parseValueToFloat(
+                    $(this).find('.maleInput').val()
+                );
+                const totalFemalePersonel = parseValueToFloat(
+                    $(this).find('.femaleInput').val()
+                );
+                const workDays = parseValueToFloat(
+                    $(this).find('.workdayInput').val()
+                );
+                const thisRowManMonth =
+                    (totalMalePersonel + totalFemalePersonel) *
+                    (workDays / 20);
+                $(this)
+                    .find('.totalManMonth')
+                    .val(
+                        formatToString(thisRowManMonth)
+                    );
+
+                totalNumPersonel +=
+                    totalMalePersonel + totalFemalePersonel;
+
+                totalManMonth += parseValueToFloat(
+                    $(this).find('.totalManMonth').val()
+                );
+            });
+            $('#TotalManMonth').val(formatToString(totalManMonth));
+            $('#TotalEmployment').val(formatToString(totalNumPersonel));
+        };
+
+        /**
+         * Event listener for input changes on employee data table cells.
+         *
+         * Listens for changes on 'maleInput', 'femaleInput', and 'workdayInput' cells within the '#totalEmployment' table.
+         * When a change occurs, updates the corresponding 'totalManMonth' cell and recalculates the overall total employment values.
+         *
+         * @event input
+         * @listener
+         * @param {object} event - The input event object.
+         * @param {HTMLElement} event.target - The input element that triggered the event.
+         *
+         * @fires calculateTotalEmployment
+         */
+        $('#totalEmployment').on(
+            'input',
+            'td input.maleInput, td input.femaleInput, td input.workdayInput',
+            function () {
+                const thisEmployeeRow = $(this);
+                formatToNumber(`#${thisEmployeeRow.attr('id')}`);
+
+                const employeeRow = thisEmployeeRow.closest('tr');
+                const maleVal = parseValueToFloat(
+                    employeeRow.find('.maleInput').val()
+                );
+                const femaleVal = parseValueToFloat(
+                    employeeRow.find('.femaleInput').val()
+                );
+                const workDays = parseValueToFloat(
+                    employeeRow.find('.workdayInput').val()
+                );
+
+                const totalManMonth =
+                    (workDays / 20) * (maleVal + femaleVal);
+                employeeRow.find('.totalManMonth').val(totalManMonth);
+
+                calculateTotalEmployment();
+            }
+        );
+
+        /**
+         * Calculates the total gross sales, production cost, and net sales
+         * from the local and export products tables.
+         *
+         * @return {void}
+         */
+        const calculateTotals = () => {
+            let totalGrossSales = 0;
+            let totalProductionCost = 0;
+            let totalNetSales = 0;
+
+            $('#localProducts tr, #exportProducts tr').each(
+                function () {
+                    const tableRow = $(this);
+                    let grossSales = parseValueToFloat(
+                        tableRow.find('.grossSales_val').val()
+                    );
+                    let productionCost = parseValueToFloat(
+                        tableRow.find('.productionCost_val').val()
+                    );
+
+                    let netSales = grossSales - productionCost;
+
+                    let FormattedNetSales = formatToString(netSales);
+
+                    tableRow
+                        .find('.netSales_val')
+                        .val(FormattedNetSales);
+
+                    totalGrossSales += grossSales;
+                    totalProductionCost += productionCost;
+                    totalNetSales += netSales;
+                }
+            );
+
+            $('#totalGrossSales').val(
+                `₱ ${formatToString(totalGrossSales)}`
+            );
+            $('#totalProductionCost').val(
+                `₱ ${formatToString(totalProductionCost)}`
+            );
+            $('#totalNetSales').val(
+                `₱ ${formatToString(totalNetSales)}`
+            );
+
+            $('.CurrentgrossSales_val').val(
+                formatToString(totalGrossSales)
+            );
+        };
+
+        /**
+         * Event listener for input changes on gross sales and production cost fields.
+         *
+         * Calculates the net sales by subtracting the estimated production cost from the gross sales,
+         * updates the corresponding net sales field, and recalculates totals.
+         *
+         * @event input
+         * @listener
+         * @param {object} event - The input event object.
+         * @param {HTMLElement} event.target - The input element that triggered the event.
+         *
+         * @fires calculateTotals
+         */
+        $('#localProducts, #exportProducts').on(
+            'input',
+            'td input.grossSales_val, td input.productionCost_val',
+            function () {
+                const thisInput = $(this);
+                formatToNumber(`.${thisInput.attr('id')}`);
+
+                const $productRow = thisInput.closest('tr');
+                const grossSales = parseValueToFloat(
+                    $productRow.find('.grossSales_val').val()
+                );
+                const estimatedProductionCost = parseValueToFloat(
+                    $productRow.find('.productionCost_val').val()
+                );
+                const netSales = grossSales - estimatedProductionCost;
+
+                $productRow.find('.netSales_val').val(
+                    formatToString(netSales)
+                );
+
+                calculateTotals();
+            }
+        );
+
+        /**
+         * Calculates the productivity increase percentage based on current and previous gross sales.
+         *
+         * @param {number} CurrentgrossSales - The current gross sales value.
+         * @param {number} PreviousgrossSales - The previous gross sales value.
+         * @return {void}
+         */
+        const calculateToBeAccomplishedProductivity = () => {
+            const increaseInProductivityRow = $(
+                '#ToBeAccomplished .increaseInProductivity'
+            );
+
+            const CurrentAndPreviousgrossSales = $(
+                '#ToBeAccomplished td .CurrentgrossSales_val, td .PreviousgrossSales_val, td .TotalgrossSales_val'
+            ).closest('tr');
+
+            const CurrentgrossSales = parseValueToFloat(
+                CurrentAndPreviousgrossSales.find(
+                    '.CurrentgrossSales_val'
+                ).val()
+            );
+            const PreviousgrossSales = parseValueToFloat(
+                CurrentAndPreviousgrossSales.find(
+                    '.PreviousgrossSales_val'
+                ).val()
+            );
+
+            increaseInProductivityRow
+                .find('.CurrentgrossSales_val_cal')
+                .text(
+                    formatToString(CurrentgrossSales)
+                );
+
+            increaseInProductivityRow
+                .find('.PreviousgrossSales_val_cal')
+                .text(
+                    formatToString(PreviousgrossSales)
+                );
+
+            const TotalgrossSales =
+                CurrentgrossSales - PreviousgrossSales;
+            CurrentAndPreviousgrossSales.find(
+                '.TotalgrossSales_val'
+            ).val(
+                formatToString(TotalgrossSales)
+            );
+
+            const increaseInProductivityByPercent =
+                ((CurrentgrossSales - PreviousgrossSales) /
+                    PreviousgrossSales) *
+                100;
+            increaseInProductivityRow
+                .find('.totalgrossSales_percent')
+                .val(`${increaseInProductivityByPercent.toFixed(2)}%`);
+        };
+
+        /**
+         * Event listener for input changes on table cells containing current and previous gross sales values.
+         *
+         * @event input
+         * @memberof #ToBeAccomplished
+         * @param {object} event - The input event object.
+         * @param {HTMLElement} event.target - The table cell that triggered the event.
+         *
+         * @description Formats the input value, calculates the difference between current and previous gross sales,
+         * updates the total gross sales value, and recalculates productivity metrics.
+         *
+         * @fires calculateToBeAccomplishedProductivity
+         */
+        $('#ToBeAccomplished').on(
+            'input',
+            'td .CurrentgrossSales_val, td .PreviousgrossSales_val',
+            function () {
+                const thisInputClass = $(this).attr('class');
+                formatToNumber(`.${thisInputClass}`);
+                calculateToBeAccomplishedProductivity();
+            }
+        );
+
+        /**
+         * Calculates the percentage increase in employment.
+         *
+         * @param {number} CurrentEmployment - The current employment value.
+         * @param {number} PreviousEmployment - The previous employment value.
+         * @return {void}
+         */
+        const calculateToBeAccomplishedEmployment = () => {
+            const increaseInEmploymentRow = $(
+                '#ToBeAccomplished .increaseInEmployment'
+            );
+
+            const CurrentAndPreviousEmployment = $(
+                '#ToBeAccomplished td .CurrentEmployment_val, td .PreviousEmployment_val, td .TotalEmployment_val'
+            ).closest('tr');
+
+            const CurrentEmployment = parseInt(
+                CurrentAndPreviousEmployment.find(
+                    '.CurrentEmployment_val'
+                ).val()
+            );
+
+            const PreviousEmployment = parseInt(
+                CurrentAndPreviousEmployment.find(
+                    '.PreviousEmployment_val'
+                ).val()
+            );
+
+            increaseInEmploymentRow
+                .find('.CurrentEmployment_val_cal')
+                .text(CurrentEmployment);
+            increaseInEmploymentRow
+                .find('.PreviousEmployment_val_cal')
+                .text(PreviousEmployment);
+
+            const TotalEmployment =
+                CurrentEmployment - PreviousEmployment;
+            CurrentAndPreviousEmployment.find(
+                '.TotalEmployment_val'
+            ).val(TotalEmployment);
+
+            const increaseInEmploymentByPercent =
+                ((CurrentEmployment - PreviousEmployment) /
+                    PreviousEmployment) *
+                100;
+            increaseInEmploymentRow
+                .find('.totalEmployment_percent')
+                .val(`${increaseInEmploymentByPercent.toFixed(2)}%`);
+        };
+
+        $('#ToBeAccomplished').on(
+            'input',
+            'td .CurrentEmployment_val , td .PreviousEmployment_val',
+            function () {
+                const thisInputClass = $(this).attr('class');
+                formatToNumber(`.${thisInputClass}`);
+                calculateToBeAccomplishedEmployment();
+            }
+        );
+
+        calculateTotalEmployment();
+        calculateTotals();
+        calculateToBeAccomplishedProductivity();
+        calculateToBeAccomplishedEmployment();
+    }
+
+     //TODO: need to be test
+    SRFormEvents() {
+        const toggleDeleteRowButton = (container, elementSelector) => {
+            const element = container.find(elementSelector);
+            const deleteRowButton = container
+                .children('.addAndRemoveButton_Container')
+                .find('.removeRowButton');
+            element.length === 1
+                ? deleteRowButton.prop('disabled', true)
+                : deleteRowButton.prop('disabled', false);
+        };
+        // Add event listener to the add row button
+        $('.addNewRowButton').on('click', function () {
+            const container = $(this).closest('.card-body');
+
+            const table = container.find('table');
+            if (table.length) {
+                const lastRow = table.find('tbody tr:last-child');
+                const newRow = lastRow.clone();
+                newRow.find('input, textarea').val('');
+                table.find('tbody').append(newRow);
+                toggleDeleteRowButton(container, 'tbody tr');
+            } else {
+                const divContainer = container.find('.input_list');
+                const newDiv = divContainer.last().clone();
+                newDiv.find('input, textarea').val('');
+                container.append(newDiv);
+                toggleDeleteRowButton(container, '.input_list');
+            }
+        });
+
+        // Add event listener to the delete row button
+        $('.removeRowButton').on('click', function () {
+            const container = $(this).closest('.card-body');
+
+            const table = container.find('table');
+            if (table.length) {
+                const lastRow = table.find('tbody tr:last-child');
+                lastRow.remove();
+                toggleDeleteRowButton(container, 'tbody tr');
+            } else {
+                const divContainer = container.find('.input_list');
+                divContainer.last().remove();
+                toggleDeleteRowButton(container, '.input_list');
+            }
+        });
+
+        $('#StatusReportForm .card-body').each(function () {
+            const container = $(this);
+
+            const table = container.find('table');
+            if (table.length) {
+                toggleDeleteRowButton(container, 'tbody tr');
+            } else {
+                toggleDeleteRowButton(container, '.input_list');
+            }
+        });
+
+        $('.number_input_only').on('input', function () {
+            this.value = this.value.replace(/[^0-9.]/g, '');
+        });
+
+        const CurrencyInputs = $(
+            '#StatusReportForm table td input.approved_cost, #StatusReportForm table td input.actual_cost, #StatusReportForm table td input.non_equipment_approved_cost, #StatusReportForm table td input.non_equipment_actual_cost, #StatusReportForm input.total_approved_project_cost, #StatusReportForm input.amount_utilized, #StatusReportForm input.total_amount_to_be_refunded, #StatusReportForm input.total_amount_already_due, #StatusReportForm input.total_amount_refunded, #StatusReportForm input.unsetted_refund, #StatusReportForm table td input.sales_gross_sales'
+        );
+
+        CurrencyInputs.on('input', function () {
+            inputsToCurrencyFormatter($(this));
+        });
+
+        const $openButton = $('#open-floating-window');
+        const $content = $('#floating-content');
+        const $input = $('#projectLedgerLink');
+        const $window = $('#floating-window');
+        const $header = $('#floating-header');
+        const $closeButton = $('#close-button');
+
+        $openButton.on('click', async function () {
+            const module = await import('../Utilities/FloatingWindow');
+            if (module.InitializeFloatingWindow) {
+                module.InitializeFloatingWindow({
+                    $content,
+                    $input,
+                    $window,
+                    $header,
+                    $closeButton,
+                });
+            }
+
+            const url = $input.val().trim();
+            if (!url) {
+                alert('Please enter a valid URL!');
+                return;
+            }
+            $content.html('<p>Loading...</p>');
+            $content.html(`<iframe src="${url}"></iframe>`);
+            $window.show();
+        });
+    }
+
+}

@@ -2,18 +2,18 @@ import {
     showToastFeedback,
     showProcessToast,
     hideProcessToast,
-} from './ReusableJS/utilFunctions';
+} from './Utilities/utilFunctions';
 import {
     syncDraftWithServer,
     loadDraftData,
     loadTextInputData,
-} from './ReusableJS/FormDraftHandler';
+} from './Utilities/FormDraftHandler';
 import {
     InitializeFilePond,
     handleFilePondSelectorDisabling,
-} from './ReusableJS/FilepondHandlers';
+} from './Utilities/FilepondHandlers';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
-import { TableDataExtractor } from './ReusableJS/TableDataExtractor';
+import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
@@ -34,7 +34,7 @@ export function initializeForm() {
     const intentInstance = InitializeFilePond(
         'IntentFile',
         { acceptedFileTypes: ['application/pdf'] },
-        'IntentFileID_Data_Handler',
+        'IntentFileID_Data_Handler'
     );
 
     // DTI/SEC/CDA File
@@ -64,7 +64,7 @@ export function initializeForm() {
     const receiptInstance = InitializeFilePond(
         'receiptFile',
         { acceptedFileTypes: ['application/pdf'] },
-        'ReceiptFileID_Data_Handler',
+        'ReceiptFileID_Data_Handler'
     );
 
     // Government ID File
@@ -760,7 +760,6 @@ export function initializeForm() {
         'BIRFileID_Data_Handler',
     ];
 
-   
     /**
      * Monitors changes in hidden input fields containing file metadata and triggers an action to sync these changes with the server.
      * This function specifically targets hidden input fields that store information about uploaded files, such as file paths, unique IDs, and related metadata.
@@ -845,8 +844,6 @@ export function initializeForm() {
         });
     };
 
-
-
     const loadApplicationFormInputFields = (draftData, formSelector) => {
         const excludedFields = [
             'exportMarket',
@@ -920,10 +917,7 @@ export function initializeForm() {
         );
     };
 
-    const loadFilePondDraftFile = (FilepondInstances) => {
-
-
-    };
+    const loadFilePondDraftFile = (FilepondInstances) => {};
 
     (async () => {
         await loadDraftData(
