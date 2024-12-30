@@ -1,14 +1,28 @@
-
-import "./echo"
+import './echo';
 import Notification from './Notification';
 import NotificationContainer from './NotificationContainer';
-import { showToastFeedback, dateFormatter, createConfirmationModal, showProcessToast, hideProcessToast, closeModal } from "./ReusableJS/utilFunctions";
-import "smartwizard/dist/css/smart_wizard_all.css";
+import {
+    showToastFeedback,
+    dateFormatter,
+    formatToString,
+    formatToNumber,
+    parseValueToFloat,
+    createConfirmationModal,
+    showProcessToast,
+    hideProcessToast,
+    closeModal,
+} from './Utilities/utilFunctions';
+import { 
+    AddNewRowHandler, 
+    RemoveRowHandler 
+} from './Utilities/AddAndRemoveTableRowHandler';
+import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';
+import { TableDataExtractor } from './Utilities/TableDataExtractor';
 
-
-Echo.private(`coop-notifications.${USER_ID}`)
-    .listen('.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated', (e) => {
+Echo.private(`coop-notifications.${USER_ID}`).listen(
+    '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
+    (e) => {
         try {
             console.log('Raw event:', e);
             const NotificationData = e;
@@ -18,164 +32,159 @@ Echo.private(`coop-notifications.${USER_ID}`)
             }
 
             NotificationContainer(NotificationData);
-
-        }
-        catch (error) {
+        } catch (error) {
             console.error('Error parsing notification data:', error);
             console.log('Raw data:', e.data);
         }
-    });
+    }
+);
 
-    Notification();
+Notification();
 
-    $(window).on('beforeunload', function() {
-        return 'Are you sure you want to leave?';
-    });
-    $(function() {
-        const lastUrl = sessionStorage.getItem('CoopLastUrl');
-        const lastActive = sessionStorage.getItem('CoopLastActive');
-        if (lastUrl && lastActive) {
-            loadPage(lastUrl, lastActive);
+$(window).on('beforeunload', function () {
+    return 'Are you sure you want to leave?';
+});
+$(function () {
+    const lastUrl = sessionStorage.getItem('CoopLastUrl');
+    const lastActive = sessionStorage.getItem('CoopLastActive');
+    if (lastUrl && lastActive) {
+        loadPage(lastUrl, lastActive);
+    } else {
+        loadPage(NAV_ROUTES.DASHBOARD, 'InformationTab');
+    }
+});
+
+const setActiveLink = (activeLink) => {
+    $('.nav-item a').removeClass('active');
+    const defaultLink = 'dashboardLink';
+    const linkToActivate = $('#' + (activeLink || defaultLink));
+    linkToActivate.addClass('active');
+};
+
+window.loadPage = async (url, activeLink) => {
+    try {
+        $('.spinner').removeClass('d-none');
+        $('#main-content').hide();
+        const cachedPage = sessionStorage.getItem(url);
+        if (cachedPage) {
+            // If cached, use the cached response
+            handleAjaxSuccess(cachedPage, activeLink, url);
         } else {
-            loadPage(NAV_ROUTES.DASHBOARD, 'InformationTab');
+            // If not cached, make the AJAX request
+            const response = await $.ajax({
+                url: url,
+                type: 'GET',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content'
+                    ),
+                },
+            });
+            //sessionStorage.setItem(url, response);
+            await handleAjaxSuccess(response, activeLink, url);
         }
+    } catch (error) {
+        console.log('Error: ', error);
+    } finally {
+        $('.spinner').addClass('d-none');
+        $('#main-content').show();
+    }
+};
+
+const handleAjaxSuccess = async (response, activeLink, url) => {
+    try {
+        $('#main-content').html(response);
+        setActiveLink(activeLink);
+        history.pushState(null, '', url);
+
+        const parsedUrl = new URL(url);
+        const urlParts = parsedUrl.pathname.split('/');
+        const reportSubmitted = urlParts[urlParts.length - 1] === 'true';
+        const quarterlyReportUrlPath = `${parsedUrl.pathname.split('/').slice(0, 3).join('/')}`;
+        const functions = await initilizeCoopPageJs();
+
+        const urlMapFunction = {
+            [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
+            [NAV_ROUTES.REQUIREMENTS]: functions.Requirements,
+            [NAV_ROUTES.QUARTERLY_REPORT]: reportSubmitted
+                ? functions.ReportedQuarterlyReport
+                : functions.QuarterlyReport,
+        };
+
+        if (quarterlyReportUrlPath === NAV_ROUTES.QUARTERLY_REPORT) {
+            await urlMapFunction[NAV_ROUTES.QUARTERLY_REPORT]();
+        } else if (urlMapFunction[url]) {
+            await urlMapFunction[url]();
+        }
+
+        sessionStorage.setItem('CoopLastUrl', url);
+        sessionStorage.setItem('CoopLastActive', activeLink);
+    } catch (error) {
+        console.log('Error: ', error);
+    } finally {
+        //    $('.spinner').addClass('d-none');
+        //    $('#main-content').show();
+    }
+};
+
+const getQuarterlyReportLinks = async () => {
+    try {
+        const response = await $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+            },
+            type: 'GET',
+            url: GET_AVAILABLE_QUARTERLY_REPORT_URL,
+        });
+
+        const QuarterlyReportContainer = $(
+            '#quarterlyReportContainerLargeScreen, #quarterlyReportContainerMobileScreen'
+        );
+        QuarterlyReportContainer.html(
+            response ? response.html : '<li>No quarterly report</li>'
+        );
+    } catch (error) {}
+};
+
+getQuarterlyReportLinks();
+
+$(function () {
+    $('.sideNavButtonSmallScreen').on('click', function () {
+        new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
     });
 
-    const setActiveLink = (activeLink) => {
-        $('.nav-item a').removeClass('active');
-        const defaultLink = 'dashboardLink';
-        const linkToActivate = $('#' + (activeLink || defaultLink));
-        linkToActivate.addClass('active');
-    }
-
-
-    window.loadPage = async (url, activeLink) => {
-        try {
-
-            $('.spinner').removeClass('d-none');
-            $('#main-content').hide();
-            const cachedPage = sessionStorage.getItem(url);
-            if (cachedPage) {
-                // If cached, use the cached response
-                handleAjaxSuccess(cachedPage, activeLink, url);
-            } else {
-                // If not cached, make the AJAX request
-                const response = await $.ajax({
-                    url: url,
-                    type: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                });
-                //sessionStorage.setItem(url, response);
-                await handleAjaxSuccess(response, activeLink, url);
-            }
-        } catch (error) {
-            console.log('Error: ', error);
-        } finally {
-            $('.spinner').addClass('d-none');
-            $('#main-content').show();
-        }
-    };
-
-    const handleAjaxSuccess = async (response, activeLink, url) => {
-        try {
-
-            $('#main-content').html(response);
-            setActiveLink(activeLink);
-            history.pushState(null, '', url);
-
-            const parsedUrl = new URL(url);
-            const urlParts = parsedUrl.pathname.split('/');
-            const reportSubmitted = urlParts[urlParts.length - 1] === 'true';
-            const quarterlyReportUrlPath =
-                `${parsedUrl.pathname.split('/').slice(0, 3).join('/')}`;
-            const functions = await initilizeCoopPageJs();
-
-
-            const urlMapFunction = {
-                [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
-                [NAV_ROUTES.REQUIREMENTS]: functions.Requirements,
-                [NAV_ROUTES.QUARTERLY_REPORT]: reportSubmitted ? functions.ReportedQuarterlyReport :
-                    functions.QuarterlyReport,
-
-            };
-
-            if (quarterlyReportUrlPath === NAV_ROUTES.QUARTERLY_REPORT) {
-                await urlMapFunction[NAV_ROUTES.QUARTERLY_REPORT]();
-            } else if (urlMapFunction[url]) {
-                await urlMapFunction[url]();
-            }
-
-            sessionStorage.setItem('CoopLastUrl', url);
-            sessionStorage.setItem('CoopLastActive', activeLink);
-        } catch (error) {
-            console.log('Error: ', error);
-        } finally {
-            //    $('.spinner').addClass('d-none');
-            //    $('#main-content').show();
-        }
-    }
-
-    const getQuarterlyReportLinks = async () => {
-
-        try {
-            const response = await $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'GET',
-                url: GET_AVAILABLE_QUARTERLY_REPORT_URL,
-            });
-
-            const QuarterlyReportContainer = $(
-                '#quarterlyReportContainerLargeScreen, #quarterlyReportContainerMobileScreen');
-            QuarterlyReportContainer.html(response ? response.html : '<li>No quarterly report</li>');
-
-        } catch (error) {
-
-        }
-
-    }
-
-    getQuarterlyReportLinks();
-
-    $(function() {
-
-        $('.sideNavButtonSmallScreen').on('click', function() {
-            new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
-        })
-
-        $('.sideNavButtonLargeScreen').on('click', function() {
-            $('.sidenav').toggleClass('expanded minimized');
-            $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
-            $('.logoTitleLScreen').toggle();
-            //side bar minimize
-            $('.sidenav a span').each(function() {
-                $(this).toggleClass('d-none');
-            });
-
-            $('.sidenav a').each(function() {
-                $(this).toggleClass('justify-content-center');
-            });
-            //size bar minimize rotation
-            $('#hover-link').toggleClass('rotate-icon');
+    $('.sideNavButtonLargeScreen').on('click', function () {
+        $('.sidenav').toggleClass('expanded minimized');
+        $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
+        $('.logoTitleLScreen').toggle();
+        //side bar minimize
+        $('.sidenav a span').each(function () {
+            $(this).toggleClass('d-none');
         });
 
-        //  Sidebar dropdown
-
-        $('.querterlyReportTab').click(function() {
-            const $activeNav = $(this).closest('li');
-            const $sideBarTasks = $activeNav.find('.sidebarTasks').toggleClass('d-none');
-            $activeNav.find('.ri-arrow-right-s-line, .ri-arrow-down-s-line').toggleClass(
-                'd-block d-none');
+        $('.sidenav a').each(function () {
+            $(this).toggleClass('justify-content-center');
         });
-    })
+        //size bar minimize rotation
+        $('#hover-link').toggleClass('rotate-icon');
+    });
+
+    //  Sidebar dropdown
+
+    $('.querterlyReportTab').on('click', function () {
+        const activeNav = $(this).closest('li');
+        const sideBarTasks = activeNav
+            .find('.sidebarTasks')
+            .toggleClass('d-none');
+        activeNav
+            .find('.ri-arrow-right-s-line, .ri-arrow-down-s-line')
+            .toggleClass('d-block d-none');
+    });
+});
 
 window.initilizeCoopPageJs = async () => {
     const functions = {
         Dashboard: () => {
-
             const progressPercentage = (percentage) => {
                 const options = {
                     series: [percentage],
@@ -184,8 +193,8 @@ window.initilizeCoopPageJs = async () => {
                         width: 250,
                         type: 'radialBar',
                         toolbar: {
-                            show: true
-                        }
+                            show: true,
+                        },
                     },
                     plotOptions: {
                         radialBar: {
@@ -204,8 +213,8 @@ window.initilizeCoopPageJs = async () => {
                                     top: 3,
                                     left: 0,
                                     blur: 4,
-                                    opacity: 0.24
-                                }
+                                    opacity: 0.24,
+                                },
                             },
                             track: {
                                 background: '#fff',
@@ -216,8 +225,8 @@ window.initilizeCoopPageJs = async () => {
                                     top: -3,
                                     left: 0,
                                     blur: 4,
-                                    opacity: 0.35
-                                }
+                                    opacity: 0.35,
+                                },
                             },
 
                             dataLabels: {
@@ -226,18 +235,18 @@ window.initilizeCoopPageJs = async () => {
                                     offsetY: -10,
                                     show: true,
                                     color: '#888',
-                                    fontSize: '17px'
+                                    fontSize: '17px',
                                 },
                                 value: {
-                                    formatter: function(val) {
+                                    formatter: function (val) {
                                         return parseInt(val);
                                     },
                                     color: '#111',
                                     fontSize: '36px',
                                     show: true,
-                                }
-                            }
-                        }
+                                },
+                            },
+                        },
                     },
                     fill: {
                         type: 'gradient',
@@ -249,84 +258,90 @@ window.initilizeCoopPageJs = async () => {
                             inverseColors: true,
                             opacityFrom: 1,
                             opacityTo: 1,
-                            stops: [0, 100]
-                        }
+                            stops: [0, 100],
+                        },
                     },
                     stroke: {
-                        lineCap: 'round'
+                        lineCap: 'round',
                     },
                     labels: ['Percent'],
                 };
 
-                const chart = new ApexCharts(document.querySelector("#ProgressPer"), options).render();
-              ;
-            }
+                const chart = new ApexCharts(
+                    document.querySelector('#ProgressPer'),
+                    options
+                ).render();
+            };
 
+            const getProgress = async () => {
+                const paymentTextPer = $('#ProgressPerText');
+                try {
+                    const response = await fetch(
+                        DASHBOARD_ROUTE.GET_COOPERATOR_PROGRESS,
+                        {
+                            method: 'GET',
+                            headers: {
+                                'X-CSRF-TOKEN': $(
+                                    'meta[name="csrf-token"]'
+                                ).attr('content'),
+                            },
+                            dataType: 'json',
+                        }
+                    );
+                    const data = await response.json();
+                    paymentTableProcess(data.paymentList || null);
 
-            const formatToString = (value) => {
-            return value.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-            });
-        };
+                    const actual_amount =
+                        parseFloat(data.progress?.actual_amount_to_be_refund) ||
+                        0;
+                    const refunded_amount =
+                        parseFloat(data.progress?.refunded_amount) || 0;
+                    const percentage =
+                        actual_amount > 0
+                            ? Math.ceil((refunded_amount / actual_amount) * 100)
+                            : 0;
 
-        const getProgress = async () => {
-            const paymentTextPer = $('#ProgressPerText')
-            try {
-                const response = await fetch(DASHBOARD_ROUTE.GET_COOPERATOR_PROGRESS, {
-                    method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    dataType: 'json'
-                });
-                const data = await response.json();
-                paymentTableProcess(data.paymentList || null);
+                    paymentTextPer.html(
+                        `<h5>${formatToString(refunded_amount)} / ${formatToString(actual_amount)}</h5>`
+                    );
+                    progressPercentage(percentage);
+                } catch (error) {
+                    console.error(error);
+                }
+            };
 
-                 const actual_amount = parseFloat(data.progress?.actual_amount_to_be_refund) || 0;
-                 const refunded_amount = parseFloat(data.progress?.refunded_amount) || 0;
-                 const percentage = actual_amount > 0 ? Math.ceil((refunded_amount / actual_amount) * 100) : 0;
-
-                 paymentTextPer.html(`<h5>${formatToString(refunded_amount)} / ${formatToString(actual_amount)}</h5>`);
-                progressPercentage(percentage);
-
-
-            } catch (error) {
-                console.error(error)
-
-            }
-        }
-
-
-
-        const paymentTableProcess = (data) => {
-            const paymentTable = $('#PaymentTable').find('tbody');
-            paymentTable.empty();
-            if(!data){
-                const row = `<tr>
+            const paymentTableProcess = (data) => {
+                const paymentTable = $('#PaymentTable').find('tbody');
+                paymentTable.empty();
+                if (!data) {
+                    const row = `<tr>
                   <td colspan="3" class="text-center">No payment yet</td>
                  </tr>`;
-                paymentTable.append(row);
-            }else{
-                $.each(data, function(key, value) {
-                    const statusClass = value.payment_status === "Paid" ? "bg-success" : "bg-danger";
-                    const row = `<tr>
+                    paymentTable.append(row);
+                } else {
+                    $.each(data, function (key, value) {
+                        const statusClass =
+                            value.payment_status === 'Paid'
+                                ? 'bg-success'
+                                : 'bg-danger';
+                        const row = `<tr>
                       <td class="text-center">${formatToString(value.amount)}</td>
                       <td class="text-center">${value.payment_method}</td>
                       <td class="text-center"><span class="badge rounded-pill ${statusClass}">${value.payment_status}</span></td>
                      </tr>`;
-                    paymentTable.append(row);
-                });
-            }
-        }
+                        paymentTable.append(row);
+                    });
+                }
+            };
 
-        getProgress();
-
+            getProgress();
         },
 
         Requirements: () => {
             function initializeFilePond() {
-                const inputElement = document.querySelector('.filepond-receipt-upload');
+                const inputElement = document.querySelector(
+                    '.filepond-receipt-upload'
+                );
                 const receiptFilePondInit = FilePond.create(inputElement, {
                     acceptedFileTypes: ['image/*'],
                     allowFileTypeValidation: true,
@@ -341,60 +356,87 @@ window.initilizeCoopPageJs = async () => {
                             url: '/FileRequirementsUpload',
                             method: 'POST',
                             headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
-                                    'content')
+                                'X-CSRF-TOKEN': document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
                             },
                             onload: (response) => {
                                 const data = JSON.parse(response);
                                 if (data.file_path && data.unique_id) {
                                     // Store unique_id in a hidden input field or as a data attribute
-                                    document.querySelector('input[name="unique_id"]').value = data.unique_id;
-                                    inputElement.setAttribute('data-unique-id', data.unique_id);
+                                    document.querySelector(
+                                        'input[name="unique_id"]'
+                                    ).value = data.unique_id;
+                                    inputElement.setAttribute(
+                                        'data-unique-id',
+                                        data.unique_id
+                                    );
                                     if (data.file_path) {
-                                        inputElement.setAttribute('data-file-path', data.file_path);
+                                        inputElement.setAttribute(
+                                            'data-file-path',
+                                            data.file_path
+                                        );
                                     }
                                 }
                                 return data.unique_id;
-                            }
+                            },
                         },
                         revert: (uniqueFileId, load, error) => {
-                            const receiptPath = inputElement.getAttribute('data-file-path');
-                            const unique_id = inputElement.getAttribute('data-unique-id');
+                            const receiptPath =
+                                inputElement.getAttribute('data-file-path');
+                            const unique_id =
+                                inputElement.getAttribute('data-unique-id');
 
-                            console.log('Reverting file with path:', receiptPath, 'and unique ID:', unique_id);
+                            console.log(
+                                'Reverting file with path:',
+                                receiptPath,
+                                'and unique ID:',
+                                unique_id
+                            );
 
                             fetch(`/FileRequirementsRevert/${unique_id}`, {
                                 method: 'DELETE',
                                 headers: {
                                     'Content-Type': 'application/json',
-                                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                        .getAttribute('content')
+                                    'X-CSRF-TOKEN': document
+                                        .querySelector(
+                                            'meta[name="csrf-token"]'
+                                        )
+                                        .getAttribute('content'),
                                 },
                                 body: JSON.stringify({
-                                    file_path: receiptPath
+                                    file_path: receiptPath,
+                                }),
+                            })
+                                .then((response) => {
+                                    if (response.ok) {
+                                        load();
+                                    } else {
+                                        console.error(
+                                            'Failed to delete file:',
+                                            response.statusText
+                                        );
+                                    }
                                 })
-                            }).then(response => {
-                                if (response.ok) {
-                                    load();
-                                } else {
-                                    console.error('Failed to delete file:', response.statusText);
-                                }
-                            }).catch(() => {
-                                error('Failed to delete file');
-                            });
-                        } // Revert is not needed for temporary files
-                    }
-                })
+                                .catch(() => {
+                                    error('Failed to delete file');
+                                });
+                        }, // Revert is not needed for temporary files
+                    },
+                });
 
                 const form = $('#uploadForm');
-                const submissionModal = new bootstrap.Modal(document.getElementById('receiptModal'));
+                const submissionModal = new bootstrap.Modal(
+                    document.getElementById('receiptModal')
+                );
 
                 form.on('submit', async (event) => {
                     event.preventDefault();
                     const isConfirmed = await createConfirmationModal({
                         title: 'Confirm Submission',
-                        message: 'Are you sure you want to submit this receipt?',
-                    })
+                        message:
+                            'Are you sure you want to submit this receipt?',
+                    });
 
                     if (!isConfirmed) {
                         return;
@@ -411,36 +453,46 @@ window.initilizeCoopPageJs = async () => {
                             processData: false,
                             contentType: false,
                             headers: {
-                                'X-CSRF-TOKEN': $('input[name="_token"]').val()
+                                'X-CSRF-TOKEN': $('input[name="_token"]').val(),
                             },
                         });
 
                         if (response.success) {
-
-                            closeModal('#receiptModal')
+                            closeModal('#receiptModal');
                             getReceipt();
                             hideProcessToast();
                             setTimeout(() => {
-                              showToastFeedback('text-bg-success', response.success);
+                                showToastFeedback(
+                                    'text-bg-success',
+                                    response.success
+                                );
                             }, 500);
                         }
                     } catch (error) {
                         hideProcessToast();
                         console.error(error);
-                        showToastFeedback('text-bg-danger', error.responseJSON.error);
+                        showToastFeedback(
+                            'text-bg-danger',
+                            error.responseJSON.error
+                        );
                     }
                 });
             }
 
             async function getReceipt() {
                 try {
-                    const response = await fetch(REQUIREMENTS_ROUTE.GET_RECEIPTS, {
-                        method: 'GET',
-                        dataType: 'json',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    const response = await fetch(
+                        REQUIREMENTS_ROUTE.GET_RECEIPTS,
+                        {
+                            method: 'GET',
+                            dataType: 'json',
+                            headers: {
+                                'X-CSRF-TOKEN': document
+                                    .querySelector('meta[name="csrf-token"]')
+                                    .getAttribute('content'),
+                            },
                         }
-                    });
+                    );
 
                     const data = await response.json();
                     const tableBody = $('#expenseReceipt_tbody');
@@ -452,9 +504,8 @@ window.initilizeCoopPageJs = async () => {
                     </tr>`;
                         tableBody.append(row);
                     } else {
-                        data.forEach(value => {
-                            const receiptImage =
-                                `<img src="data:image/png;base64,${value.receipt_image}" alt="${value.receipt_name}" style="max-width: 200px; max-height: 200px;" />`;
+                        data.forEach((value) => {
+                            const receiptImage = `<img src="data:image/png;base64,${value.receipt_image}" alt="${value.receipt_name}" style="max-width: 200px; max-height: 200px;" />`;
                             const row = `<tr>
                         <td>${value.receipt_name}</td>
                         <td>${value.receipt_description}</td>
@@ -476,305 +527,281 @@ window.initilizeCoopPageJs = async () => {
                 }
             }
 
-
             initializeFilePond();
             getReceipt();
         },
 
         QuarterlyReport: () => {
             new SmartWizard();
-            $('#BuildingAsset, #Equipment, #WorkingCapital').on('input', function() {
-                // Remove any non-digit characters
-                let value = $(this).val().replace(/[^0-9]/g, '');
+            
+            formatToNumber('#BuildingAsset, #Equipment, #WorkingCapital');
 
-                // Add commas every three digits
-                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            formatToNumber('#directLaborCard, #indirectLaborCard', 'input');
+            formatToNumber('.ExportData, .LocalData', 'tr td:nth-child(n+3):nth-child(-n+6) input');
 
-                // Set the new value to the input field
-                $(this).val(value);
-            });
+            AddNewRowHandler('.addNewProductRow', 'div.productLocal, div.productExport');
+            RemoveRowHandler('.removeRowButton', 'div.productLocal, div.productExport');
 
-            $('#employment input').on('input', function() {
-                // Remove any non-digit characters
-                let value = $(this).val().replace(/[^0-9]/g, '');
 
-                // Set the new value to the input field
-                $(this).val(value);
-            });
 
-            $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+3):nth-child(-n+6) input', function() {
-                // Remove any non-digit characters
-                let value = $(this).val().replace(/[^0-9]/g, '');
 
-                // Add commas every three digits
-                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            $('.ExportData, .LocalData').on(
+                'input',
+                'tr td:nth-child(n+4):nth-child(-n+5) input',
+                function () {
+                    const row = $(this).closest('tr');
+                    const grossSales = parseValueToFloat(
+                        row.find('.grossSales_val').val()
+                    );
+                    const estimatedCostOfProduction = parseValueToFloat(
+                        row.find('.estimatedCostOfProduction_val').val()
+                    );
+                    const netSales = grossSales - estimatedCostOfProduction;
+                    const formattedNetSales = formatToString(netSales);
 
-                // Set the new value to the input field
-                $(this).val(value);
-            });
-
-            function parseValue(value){
-                return parseFloat(value.replace(/,/g, '')) || 0;
-            }
-
-            //ADD The Function for add row and delete row for the Export and Local Products here
-
-            const toggleDeleteRowButton = (container, elementSelector) => {
-                const element = container.find(elementSelector);
-                const deleteRowButton = container
-                .find('.removeRowButton');
-                element.length === 1
-                  ? deleteRowButton.prop('disabled', true)
-                  : deleteRowButton.prop('disabled', false);
-              };
-
-            const addProductBtn = $('.addNewProductRow');
-            const deleteProductBtn = $('.removeRowButton');
-
-            addProductBtn.on('click', function() {
-                const container = $(this).closest('div.productLocal, div.productExport');
-
-                const table = container.find('table');
-                if (table.length) {
-                    const lastRow = table.find('tbody tr:last-child');
-                    const newRow = lastRow.clone();
-                    newRow.find('input, textarea').val('');
-                    table.find('tbody').append(newRow);
-                    toggleDeleteRowButton(container, 'tbody tr');
-                } else {
-                    const tableRow = container.find('.table_row');
-                    const newRow = tableRow.last().clone();
-                    newRow.find('input, textarea').val('');
-                    container.append(newRow);
-                    toggleDeleteRowButton(container, '.table_row');
+                    row.find('.netSales_val').val(formattedNetSales);
                 }
-            })
-
-            deleteProductBtn.on('click', function() {
-                const container = $(this).closest('div.productLocal, div.productExport');
-
-                const table = container.find('table');
-                if(table.length){
-                    const lastRow = table.find('tbody tr:last-child');
-                    lastRow.remove();
-                    toggleDeleteRowButton(container, 'tbody tr');
-                }else{
-                    const tableRow = container.find('.table_row');
-                    tableRow.last().remove();
-                    toggleDeleteRowButton(container, '.table_row');
-                }
-            })
-
-
-            $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+4):nth-child(-n+5) input', function() {
-                let row = $(this).closest('tr');
-                let grossSales = parseValue(row.find('.grossSales_val').val());
-                let estimatedCostOfProduction = parseValue(row.find('.estimatedCostOfProduction_val').val());
-                let netSales = grossSales - estimatedCostOfProduction;
-                let formattedNetSales = netSales.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                console.log(grossSales, estimatedCostOfProduction, formattedNetSales);
-                row.find('.netSales_val').val(formattedNetSales);
-            });
-
-
+            );
 
             $('#smartwizard').smartWizard({
                 selected: 0,
                 theme: 'dots',
                 transition: {
-                    animation: 'slideHorizontal'
+                    animation: 'slideHorizontal',
                 },
                 toolbar: {
                     showNextButton: true, // show/hide a Next button
                     showPreviousButton: true, // show/hide a Previous button
                     position: 'both buttom', // none/ top/ both bottom
                     extraHtml: `<button type="button" class="btn btn-success" onclick="showConfirm()">Submit</button>
-                                  <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`
+                                  <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`,
                 },
             });
-            $('#smartwizard').on("showStep", function(e, anchorObject, stepIndex, stepDirection, stepPosition) {
-
-                if (stepIndex === 3 && stepPosition === 'last') {
-                    console.log("Arriving at Last Step - Showing Buttons");
-                    $('.btn-success, .btn-secondary').show();
-                } else {
-                    console.log("Not Arriving at Last Step - Hiding Buttons");
-                    $('.btn-success, .btn-secondary').hide();
+            $('#smartwizard').on(
+                'showStep',
+                function (
+                    e,
+                    anchorObject,
+                    stepIndex,
+                    stepDirection,
+                    stepPosition
+                ) {
+                    if (stepIndex === 3 && stepPosition === 'last') {
+                        console.log('Arriving at Last Step - Showing Buttons');
+                        $('.btn-success, .btn-secondary').show();
+                    } else {
+                        console.log(
+                            'Not Arriving at Last Step - Hiding Buttons'
+                        );
+                        $('.btn-success, .btn-secondary').hide();
+                    }
                 }
-            });
-            $('#smartwizard').on('click', 'button', function() {
+            );
+            $('#smartwizard').on('click', 'button', function () {
                 // Your function goes here
                 $('#smartwizard').smartWizard('fixHeight');
             });
 
-            window.showConfirm = function() {
+            window.showConfirm = function () {
                 event.preventDefault();
-                window.confirmationModal = new bootstrap.Modal(document.getElementById('confirmationModal'));
+                window.confirmationModal = new bootstrap.Modal(
+                    document.getElementById('confirmationModal')
+                );
                 confirmationModal.show();
-            }
+            };
 
             const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
             const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
             const confirmButton = document.getElementById('confirmButton');
 
-            confirmTrueInfo.add(confirmAgreeInfo).change(function() {
-                confirmButton.disabled = !(confirmTrueInfo.is(':checked') && confirmAgreeInfo.is(':checked'));
+            confirmTrueInfo.add(confirmAgreeInfo).change(function () {
+                confirmButton.disabled = !(
+                    confirmTrueInfo.is(':checked') &&
+                    confirmAgreeInfo.is(':checked')
+                );
             });
 
-            confirmButton.addEventListener('click', function() {
+            confirmButton.addEventListener('click', function () {
                 submitQuarterlyForm();
             });
 
-            $('.number_input_only').on('input', function() {
-                this.value = this.value.replace(/[^0-9]/g, '');
-            })
-
+            const QuarterlyForm = $('#quarterlyForm');
+            const ExportAndLocalMktTableConfig = {
+                ExportProduct: {
+                    id: 'ExportOutletTable',
+                    selectors: {
+                        ProductName: '.productName',
+                        PackingDetails: '.packingDetails',
+                        volumeOfProduction: {
+                            value: '.productionVolume_val',
+                            unit: '.volumeUnit'
+                        },
+                        grossSales: '.grossSales_val',
+                        estimatedCostOfProduction: '.estimatedCostOfProduction_val',
+                        netSales: '.netSales_val',
+                    },
+                    requiredFields: ['ProductName']
+                },
+                LocalProduct: {
+                    id: 'LocalOutletTable',
+                    selectors: {
+                        ProductName: '.productName',
+                        PackingDetails: '.packingDetails',
+                        volumeOfProduction: {
+                            value: '.productionVolume_val',
+                            unit: '.volumeUnit'
+                        },
+                        grossSales: '.grossSales_val',
+                        estimatedCostOfProduction: '.estimatedCostOfProduction_val',
+                        netSales: '.netSales_val',
+                    },
+                    requiredFields: ['ProductName']
+                }
+            };
 
             function submitQuarterlyForm() {
                 showProcessToast('Submitting Quarterly Report...');
 
-                const formData = $('#quarterlyForm').serializeArray();
-                const quarterId = $('#quarterlyForm').data('quarter-id');
-                const quarterProject = $('#quarterlyForm').data('quarter-project');
-                const quarterPeriod = $('#quarterlyForm').data('quarter-period');
-                const quarterStatus = $('#quarterlyForm').data('quarter-status');
+                const formData = QuarterlyForm.serializeArray();
+                const quarterId = QuarterlyForm.data('quarter-id');
+                const quarterProject =
+                    QuarterlyForm.data('quarter-project');
+                const quarterPeriod =
+                    QuarterlyForm.data('quarter-period');
+                const quarterStatus =
+                    QuarterlyForm.data('quarter-status');
 
                 let dataObject = {};
-                $.each(formData, function(i, v) {
+                $.each(formData, function (i, v) {
                     dataObject[v.name] = v.value;
                 });
 
-                const ExportTable_row = $('.ExportData .table_row');
-                const LocalTable_row = $('.LocalData .table_row');
-                const ExportTable_data = [];
-                const LocalTable_data = [];
-
-
-            ExportTable_row.each(function() {
-                const row = $(this); // Wrap `this` with jQuery to use jQuery methods
-                const exporttable_row = {
-                    ProductName: row.find('.productName').val(),
-                    PackingDetails: row.find('.packingDetails').val(),
-                    volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
-                    grossSales: row.find('.grossSales_val').val(),
-                    estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
-                    netSales: row.find('.netSales_val').val()
+                dataObject = {
+                    ...dataObject, 
+                    ...TableDataExtractor(ExportAndLocalMktTableConfig)
                 };
-                exporttable_row.ProductName && exporttable_row.ProductName !== null
-                ? ExportTable_data.push(exporttable_row)
-                : null;
-            });
-
-            // const ExportwrappedData = {ExportProductInfo: ExportTable_data};
-           dataObject.ExportProduct = ExportTable_data;
-
-
-            LocalTable_row.each(function() {
-                const row = $(this); // Wrap `this` with jQuery to use jQuery methods
-                const localtable_row = {
-                    ProductName: row.find('.productName').val(),
-                    PackingDetails: row.find('.packingDetails').val(),
-                    volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
-                    grossSales: row.find('.grossSales_val').val(),
-                    estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
-                    netSales: row.find('.netSales_val').val()
-                };
-                localtable_row.ProductName && localtable_row.ProductName.trim() !== null
-                ? LocalTable_data.push(localtable_row)
-                : null;
-            });
-
-            // const LocalwrappedData = {LocalProductInfo: localTable_data};
-            dataObject.LocalProduct = LocalTable_data;
 
 
                 // Send form data using AJAX
                 $.ajax({
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                            'content'
+                        ),
                         'X-Quarter-Project': quarterProject,
                         'X-Quarter-Period': quarterPeriod,
-                        'X-Quarter-Status': quarterStatus
+                        'X-Quarter-Status': quarterStatus,
                     },
                     type: 'PUT',
-                    url: QUARTERLY_REPORT_ROUTE.STORE_REPORT.replace(':quarterId', quarterId),
+                    url: QUARTERLY_REPORT_ROUTE.STORE_REPORT.replace(
+                        ':quarterId',
+                        quarterId
+                    ),
                     data: JSON.stringify(dataObject), // Send the new data object
                     contentType: 'application/json', // Set content type to JSON
-                    success: function(response) {
+                    success: function (response) {
                         // Handle the response if needed
                         hideProcessToast();
                         setTimeout(() => {
-                                confirmationModal.hide();
-                                showToastFeedback('text-bg-success', response.message);
-                            }, 500);
+                            confirmationModal.hide();
+                            showToastFeedback(
+                                'text-bg-success',
+                                response.message
+                            );
+                        }, 500);
                     },
-                    error: function(xhr, status, error) {
+                    error: function (xhr, status, error) {
                         hideProcessToast();
-                        showToastFeedback('text-bg-danger', 'Failed to submit quarterly report');
-                    }
+                        showToastFeedback(
+                            'text-bg-danger',
+                            'Failed to submit quarterly report'
+                        );
+                    },
                 });
             }
-
         },
 
         ReportedQuarterlyReport: () => {
             console.log('initilizeCoopPageJs.ReportedQuarterlyReport');
-            $('#BuildingAsset, #Equipment, #WorkingCapital').on('input', function() {
-                // Remove any non-digit characters
-                let value = $(this).val().replace(/[^0-9]/g, '');
+            $('#BuildingAsset, #Equipment, #WorkingCapital').on(
+                'input',
+                function () {
+                    // Remove any non-digit characters
+                    let value = $(this)
+                        .val()
+                        .replace(/[^0-9]/g, '');
 
-                // Add commas every three digits
-                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                    // Add commas every three digits
+                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+
+                    // Set the new value to the input field
+                    $(this).val(value);
+                }
+            );
+
+            $('#employment input').on('input', function () {
+                // Remove any non-digit characters
+                let value = $(this)
+                    .val()
+                    .replace(/[^0-9]/g, '');
 
                 // Set the new value to the input field
                 $(this).val(value);
             });
 
-            $('#employment input').on('input', function() {
-                // Remove any non-digit characters
-                let value = $(this).val().replace(/[^0-9]/g, '');
+            $('.ExportData, .LocalData').on(
+                'input',
+                'tr td:nth-child(n+3):nth-child(-n+6) input',
+                function () {
+                    // Remove any non-digit characters
+                    let value = $(this)
+                        .val()
+                        .replace(/[^0-9]/g, '');
 
-                // Set the new value to the input field
-                $(this).val(value);
-            });
+                    // Add commas every three digits
+                    value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
-            $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+3):nth-child(-n+6) input', function() {
-                // Remove any non-digit characters
-                let value = $(this).val().replace(/[^0-9]/g, '');
+                    // Set the new value to the input field
+                    $(this).val(value);
+                }
+            );
 
-                // Add commas every three digits
-                value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-                // Set the new value to the input field
-                $(this).val(value);
-            });
-
-            function parseValue(value) {
+            function parseValueToFloat(value) {
                 return parseFloat(value.replace(/,/g, '')) || 0;
             }
 
-
-            $('.ExportData, .LocalData').on('input', 'tr td:nth-child(n+4):nth-child(-n+5) input', function() {
-                let row = $(this).closest('tr');
-                let grossSales = parseValue(row.find('.grossSales_val').val());
-                let estimatedCostOfProduction = parseValue(row.find('.estimatedCostOfProduction_val')
-                    .val());
-                let netSales = grossSales - estimatedCostOfProduction;
-                let formattedNetSales = netSales.toLocaleString('en-US', {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2
-                });
-                console.log(grossSales, estimatedCostOfProduction, formattedNetSales);
-                row.find('.netSales_val').val(formattedNetSales);
-            });
+            $('.ExportData, .LocalData').on(
+                'input',
+                'tr td:nth-child(n+4):nth-child(-n+5) input',
+                function () {
+                    let row = $(this).closest('tr');
+                    let grossSales = parseValueToFloat(
+                        row.find('.grossSales_val').val()
+                    );
+                    let estimatedCostOfProduction = parseValueToFloat(
+                        row.find('.estimatedCostOfProduction_val').val()
+                    );
+                    let netSales = grossSales - estimatedCostOfProduction;
+                    let formattedNetSales = netSales.toLocaleString('en-US', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    });
+                    console.log(
+                        grossSales,
+                        estimatedCostOfProduction,
+                        formattedNetSales
+                    );
+                    row.find('.netSales_val').val(formattedNetSales);
+                }
+            );
 
             let counters = {
                 export: 0,
-                local: 0
+                local: 0,
             };
 
             const addRow = (buttonSelector, tableSelector, identifier) => {
-                $(buttonSelector).click(function() {
+                $(buttonSelector).click(function () {
                     counters[identifier]++;
 
                     let newRow = `
@@ -848,30 +875,33 @@ window.initilizeCoopPageJs = async () => {
                     $(tableSelector).append(newRow);
                     updateDeleteButtonState();
                 });
-            }
+            };
 
             const deleteRow = (buttonSelector, identifier, tableSelector) => {
-                $(document).on('click', buttonSelector, function() {
+                $(document).on('click', buttonSelector, function () {
                     if ($(tableSelector + ' tr').length > 1) {
                         $(tableSelector + ' tr:last').remove();
                         updateDeleteButtonState();
                     }
                     counters[identifier]--;
                 });
-            }
+            };
 
             const updateDeleteButtonState = () => {
-                ['.deleteExportRow', '.deleteLocalRow'].forEach(function(buttonSelector) {
-                    let tableSelector = buttonSelector === '.deleteExportRow' ?
-                        '.Export-Outlet tbody' :
-                        '.Local-Outlet tbody';
-                    if ($(tableSelector + ' tr').length <= 1) {
-                        $(buttonSelector).prop('disabled', true);
-                    } else {
-                        $(buttonSelector).prop('disabled', false);
+                ['.deleteExportRow', '.deleteLocalRow'].forEach(
+                    function (buttonSelector) {
+                        let tableSelector =
+                            buttonSelector === '.deleteExportRow'
+                                ? '.Export-Outlet tbody'
+                                : '.Local-Outlet tbody';
+                        if ($(tableSelector + ' tr').length <= 1) {
+                            $(buttonSelector).prop('disabled', true);
+                        } else {
+                            $(buttonSelector).prop('disabled', false);
+                        }
                     }
-                });
-            }
+                );
+            };
 
             addRow('#addExportRow', '.Export-Outlet tbody', 'export');
             deleteRow('.deleteExportRow', 'export', '.Export-Outlet tbody');
@@ -881,96 +911,114 @@ window.initilizeCoopPageJs = async () => {
 
             updateDeleteButtonState();
 
-            const inputContainers = $('#AssetsInputs, #EmploymentInputs, #marketOutletInputs');
-            const ProductAndSalesContainer = $('#ProductionAndSalesInputs')
+            const inputContainers = $(
+                '#AssetsInputs, #EmploymentInputs, #marketOutletInputs'
+            );
+            const ProductAndSalesContainer = $('#ProductionAndSalesInputs');
 
             const Products = {
                 exportProduct: ProductAndSalesContainer.find('.productExport'),
-                localProduct: ProductAndSalesContainer.find('.productLocal')
-            }
-
+                localProduct: ProductAndSalesContainer.find('.productLocal'),
+            };
 
             function storeInitialValues(container) {
                 const containerData = {};
-                container.find('input, textarea').each(function(index, input) {
+                container.find('input, textarea').each(function (index, input) {
                     containerData[input.name] = $(input).val();
                 });
                 return containerData;
             }
 
             const initialData = {};
-            inputContainers.each(function() {
+            inputContainers.each(function () {
                 const container = $(this);
-                initialData[container.attr('id')] = storeInitialValues(container);
+                initialData[container.attr('id')] =
+                    storeInitialValues(container);
             });
 
-            const storeProductsData = function() {
+            const storeProductsData = function () {
                 const ExportTable_data = [];
                 const LocalTable_data = [];
 
-                Products.exportProduct.find('.ExportData .table_row').each(function() {
-                    const row = $(this);
-                    const exportData = {
-                        ProductName: row.find('.productName').val(),
-                        PackingDetails: row.find('.packingDetails').val(),
-                        volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
-                        grossSales: row.find('.grossSales_val').val(),
-                        estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
-                        netSales: row.find('.netSales_val').val(),
-                    };
-                    exportData.ProductName && exportData.ProductName !== null
-                    ? ExportTable_data.push(exportData)
-                    : null;
-                });
+                Products.exportProduct
+                    .find('.ExportData .table_row')
+                    .each(function () {
+                        const row = $(this);
+                        const exportData = {
+                            ProductName: row.find('.productName').val(),
+                            PackingDetails: row.find('.packingDetails').val(),
+                            volumeOfProduction:
+                                row.find('.productionVolume_val').val() +
+                                ' ' +
+                                row.find('.volumeUnit').val(),
+                            grossSales: row.find('.grossSales_val').val(),
+                            estimatedCostOfProduction: row
+                                .find('.estimatedCostOfProduction_val')
+                                .val(),
+                            netSales: row.find('.netSales_val').val(),
+                        };
+                        exportData.ProductName &&
+                        exportData.ProductName !== null
+                            ? ExportTable_data.push(exportData)
+                            : null;
+                    });
 
                 initialData.ExportProduct = ExportTable_data;
 
-                Products.localProduct.find('.LocalData .table_row').each(function() {
-                    const row = $(this);
-                    const localData = {
-                        ProductName: row.find('.productName').val(),
-                        PackingDetails: row.find('.packingDetails').val(),
-                        volumeOfProduction: row.find('.productionVolume_val').val() + ' ' + row.find('.volumeUnit').val(),
-                        grossSales: row.find('.grossSales_val').val(),
-                        estimatedCostOfProduction: row.find('.estimatedCostOfProduction_val').val(),
-                        netSales: row.find('.netSales_val').val(),
-                    };
-                    localData.ProductName && localData.ProductName !== null
-                    ? LocalTable_data.push(localData)
-                    : null;
-                });
+                Products.localProduct
+                    .find('.LocalData .table_row')
+                    .each(function () {
+                        const row = $(this);
+                        const localData = {
+                            ProductName: row.find('.productName').val(),
+                            PackingDetails: row.find('.packingDetails').val(),
+                            volumeOfProduction:
+                                row.find('.productionVolume_val').val() +
+                                ' ' +
+                                row.find('.volumeUnit').val(),
+                            grossSales: row.find('.grossSales_val').val(),
+                            estimatedCostOfProduction: row
+                                .find('.estimatedCostOfProduction_val')
+                                .val(),
+                            netSales: row.find('.netSales_val').val(),
+                        };
+                        localData.ProductName && localData.ProductName !== null
+                            ? LocalTable_data.push(localData)
+                            : null;
+                    });
                 return {
                     ExportProduct: ExportTable_data,
-                    LocalProduct: LocalTable_data
+                    LocalProduct: LocalTable_data,
                 };
-            }
+            };
 
             initialData['ProductionAndSalesInputs'] = storeProductsData();
 
             console.log(initialData);
 
-            inputContainers.on('click', '.editButton', function() {
+            inputContainers.on('click', '.editButton', function () {
                 // Get the specific card-body container where the button was clicked
                 const cardBody = $(this).closest('div.card-body');
 
                 // Toggle the readonly state for all input and textarea elements within the card-body
-                cardBody.find('input, textarea').prop('readonly', function(i, val) {
-                    return !val; // Toggle the current readonly value (true/false)
-                });
+                cardBody
+                    .find('input, textarea')
+                    .prop('readonly', function (i, val) {
+                        return !val; // Toggle the current readonly value (true/false)
+                    });
 
                 // Enable or disable the Revert button based on the readonly state
-                const isReadonly = cardBody.find('input, textarea').prop(
-                    'readonly'); // Check if inputs are readonly
+                const isReadonly = cardBody
+                    .find('input, textarea')
+                    .prop('readonly'); // Check if inputs are readonly
                 if (!isReadonly) {
-                    cardBody.find('.revertButton').prop('disabled',
-                        false); // Enable Revert if inputs are editable
+                    cardBody.find('.revertButton').prop('disabled', false); // Enable Revert if inputs are editable
                 } else {
-                    cardBody.find('.revertButton').prop('disabled',
-                        true); // Disable Revert if inputs are readonly again
+                    cardBody.find('.revertButton').prop('disabled', true); // Disable Revert if inputs are readonly again
                 }
             });
 
-            inputContainers.on('click', '.revertButton', function() {
+            inputContainers.on('click', '.revertButton', function () {
                 console.log('revert');
                 const cardBody = $(this).closest('div.card-body');
 
@@ -979,7 +1027,7 @@ window.initilizeCoopPageJs = async () => {
                 console.log(containerId);
 
                 // Revert inputs back to initial values within this container
-                cardBody.find('input, textarea').each(function(index, input) {
+                cardBody.find('input, textarea').each(function (index, input) {
                     $(input).val(initialData[containerId][input.name]);
                 });
 
@@ -988,13 +1036,17 @@ window.initilizeCoopPageJs = async () => {
                 cardBody.find('.revertButton').prop('disabled', true);
             });
 
-            ProductAndSalesContainer.on('click', '.editButton', function() {
+            ProductAndSalesContainer.on('click', '.editButton', function () {
                 const cardBody = $(this).closest('div.card-body');
-                cardBody.find('input, textarea').prop('readonly', function(i, val) {
-                    return !val;
-                });
+                cardBody
+                    .find('input, textarea')
+                    .prop('readonly', function (i, val) {
+                        return !val;
+                    });
 
-                const isReadonly = cardBody.find('input, textarea').prop('readonly');
+                const isReadonly = cardBody
+                    .find('input, textarea')
+                    .prop('readonly');
                 if (!isReadonly) {
                     cardBody.find('.revertButton').prop('disabled', false);
                     cardBody.find('.AddProductRow').prop('disabled', false);
@@ -1004,79 +1056,152 @@ window.initilizeCoopPageJs = async () => {
                 }
             });
 
-            ProductAndSalesContainer.on('click', '.revertButton', function() {
-                const initialProductData = initialData['ProductionAndSalesInputs'];
+            ProductAndSalesContainer.on('click', '.revertButton', function () {
+                const initialProductData =
+                    initialData['ProductionAndSalesInputs'];
 
                 // Revert export product table
-                Products.exportProduct.find('.ExportData .table_row').each(function(index, row) {
-                    if (initialProductData.ExportProduct[index]) {
-                        $(row).find('.productName').val(initialProductData.ExportProduct[index]
-                            .productName);
-                        $(row).find('.packingDetails').val(initialProductData.ExportProduct[
-                            index].packingDetails);
-                        $(row).find('.productionVolume_val').val(initialProductData
-                            .ExportProduct[index].volumeOfProduction);
-                        $(row).find('.grossSales_val').val(initialProductData.ExportProduct[
-                            index].grossSales);
-                        $(row).find('.estimatedCostOfProduction_val').val(initialProductData
-                            .ExportProduct[index].productionCost);
-                        $(row).find('.netSales_val').val(initialProductData.ExportProduct[index]
-                            .netSales);
-                    } else {
-                        // If no initial data exists, clear the inputs
-                        console.log("No initial data for export row, clearing inputs:", index);
-                        $(row).find('.productName').val('');
-                        $(row).find('.packingDetails').val('');
-                        $(row).find('.productionVolume_val').val('');
-                        $(row).find('.grossSales_val').val('');
-                        $(row).find('.estimatedCostOfProduction_val').val('');
-                        $(row).find('.netSales_val').val('');
-                    }
-                });
+                Products.exportProduct
+                    .find('.ExportData .table_row')
+                    .each(function (index, row) {
+                        if (initialProductData.ExportProduct[index]) {
+                            $(row)
+                                .find('.productName')
+                                .val(
+                                    initialProductData.ExportProduct[index]
+                                        .productName
+                                );
+                            $(row)
+                                .find('.packingDetails')
+                                .val(
+                                    initialProductData.ExportProduct[index]
+                                        .packingDetails
+                                );
+                            $(row)
+                                .find('.productionVolume_val')
+                                .val(
+                                    initialProductData.ExportProduct[index]
+                                        .volumeOfProduction
+                                );
+                            $(row)
+                                .find('.grossSales_val')
+                                .val(
+                                    initialProductData.ExportProduct[index]
+                                        .grossSales
+                                );
+                            $(row)
+                                .find('.estimatedCostOfProduction_val')
+                                .val(
+                                    initialProductData.ExportProduct[index]
+                                        .productionCost
+                                );
+                            $(row)
+                                .find('.netSales_val')
+                                .val(
+                                    initialProductData.ExportProduct[index]
+                                        .netSales
+                                );
+                        } else {
+                            // If no initial data exists, clear the inputs
+                            console.log(
+                                'No initial data for export row, clearing inputs:',
+                                index
+                            );
+                            $(row).find('.productName').val('');
+                            $(row).find('.packingDetails').val('');
+                            $(row).find('.productionVolume_val').val('');
+                            $(row).find('.grossSales_val').val('');
+                            $(row)
+                                .find('.estimatedCostOfProduction_val')
+                                .val('');
+                            $(row).find('.netSales_val').val('');
+                        }
+                    });
 
                 // Revert local product table
-                Products.localProduct.find('.LocalData .table_row').each(function(index, row) {
-                    if (initialProductData.LocalProduct[index]) {
-                        $(row).find('.productName').val(initialProductData.LocalProduct[index]
-                            .productName);
-                        $(row).find('.packingDetails').val(initialProductData.LocalProduct[
-                            index].packingDetails);
-                        $(row).find('.productionVolume_val').val(initialProductData
-                            .LocalProduct[index].volumeOfProduction);
-                        $(row).find('.grossSales_val').val(initialProductData.LocalProduct[
-                            index].grossSales);
-                        $(row).find('.estimatedCostOfProduction_val').val(initialProductData
-                            .LocalProduct[index].productionCost);
-                        $(row).find('.netSales_val').val(initialProductData.LocalProduct[index]
-                            .netSales);
-                    } else {
-                        // Clear the inputs if no initial data for local product
-                        console.log("No initial data for local row, clearing inputs:", index);
-                        $(row).find('.productName').val('');
-                        $(row).find('.packingDetails').val('');
-                        $(row).find('.productionVolume_val').val('');
-                        $(row).find('.grossSales_val').val('');
-                        $(row).find('.estimatedCostOfProduction_val').val('');
-                        $(row).find('.netSales_val').val('');
-                    }
-                });
+                Products.localProduct
+                    .find('.LocalData .table_row')
+                    .each(function (index, row) {
+                        if (initialProductData.LocalProduct[index]) {
+                            $(row)
+                                .find('.productName')
+                                .val(
+                                    initialProductData.LocalProduct[index]
+                                        .productName
+                                );
+                            $(row)
+                                .find('.packingDetails')
+                                .val(
+                                    initialProductData.LocalProduct[index]
+                                        .packingDetails
+                                );
+                            $(row)
+                                .find('.productionVolume_val')
+                                .val(
+                                    initialProductData.LocalProduct[index]
+                                        .volumeOfProduction
+                                );
+                            $(row)
+                                .find('.grossSales_val')
+                                .val(
+                                    initialProductData.LocalProduct[index]
+                                        .grossSales
+                                );
+                            $(row)
+                                .find('.estimatedCostOfProduction_val')
+                                .val(
+                                    initialProductData.LocalProduct[index]
+                                        .productionCost
+                                );
+                            $(row)
+                                .find('.netSales_val')
+                                .val(
+                                    initialProductData.LocalProduct[index]
+                                        .netSales
+                                );
+                        } else {
+                            // Clear the inputs if no initial data for local product
+                            console.log(
+                                'No initial data for local row, clearing inputs:',
+                                index
+                            );
+                            $(row).find('.productName').val('');
+                            $(row).find('.packingDetails').val('');
+                            $(row).find('.productionVolume_val').val('');
+                            $(row).find('.grossSales_val').val('');
+                            $(row)
+                                .find('.estimatedCostOfProduction_val')
+                                .val('');
+                            $(row).find('.netSales_val').val('');
+                        }
+                    });
 
                 // Disable Revert button after reverting
-                ProductAndSalesContainer.find('.AddProductRow').prop('disabled', true);
-                ProductAndSalesContainer.find('input, textarea').prop('readonly', true);
-                ProductAndSalesContainer.find('.revertButton').prop('disabled', true);
+                ProductAndSalesContainer.find('.AddProductRow').prop(
+                    'disabled',
+                    true
+                );
+                ProductAndSalesContainer.find('input, textarea').prop(
+                    'readonly',
+                    true
+                );
+                ProductAndSalesContainer.find('.revertButton').prop(
+                    'disabled',
+                    true
+                );
             });
 
             //TODO: Implove the form Update functionalities
-            $('#updateQuarterlyData').on('submit', async function(e) {
+            $('#updateQuarterlyData').on('submit', async function (e) {
                 e.preventDefault();
                 const isConfirmed = await createConfirmationModal({
                     title: 'Confirm Update',
-                    message: 'Are you sure you want to update this quarterly report?',
+                    message:
+                        'Are you sure you want to update this quarterly report?',
                     confirmButtonText: 'Update',
                     cancelButtonText: 'Cancel',
                     confirmButtonClass: 'btn-primary',
-                })
+                });
 
                 if (!isConfirmed) {
                     return;
@@ -1093,43 +1218,48 @@ window.initilizeCoopPageJs = async () => {
                 let formDataObject = {};
                 const updatedFormData = form.serializeArray();
 
-                $.each(updatedFormData, function(i, v) {
+                $.each(updatedFormData, function (i, v) {
                     formDataObject[v.name] = v.value;
                 });
 
-                formDataObject = { ...formDataObject, ...storeProductsData()};
+                formDataObject = { ...formDataObject, ...storeProductsData() };
 
                 $.ajax({
                     headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                    'X-Quarter-Project': quarterProject,
-                    'X-Quarter-Period': quarterPeriod,
-                    'X-Quarter-Status': quarterStatus
-                },
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                            'content'
+                        ),
+                        'X-Quarter-Project': quarterProject,
+                        'X-Quarter-Period': quarterPeriod,
+                        'X-Quarter-Status': quarterStatus,
+                    },
                     type: 'PUT',
-                    url: QUARTERLY_REPORT_ROUTE.UPDATE_REPORT.replace(':quarterId', quarterId),
+                    url: QUARTERLY_REPORT_ROUTE.UPDATE_REPORT.replace(
+                        ':quarterId',
+                        quarterId
+                    ),
                     data: JSON.stringify(formDataObject),
                     contentType: 'application/json',
-                    success: function(response) {
+                    success: function (response) {
                         hideProcessToast();
                         showToastFeedback('text-bg-success', response.message);
                     },
-                    error: function(error) {
+                    error: function (error) {
                         hideProcessToast();
-                        showToastFeedback('text-bg-danger', error.responseJSON.message);
-                        form.find('button[type="submit"]').prop('disabled', false);
+                        showToastFeedback(
+                            'text-bg-danger',
+                            error.responseJSON.message
+                        );
+                        form.find('button[type="submit"]').prop(
+                            'disabled',
+                            false
+                        );
                         form.find('input, textarea').prop('readonly', false);
                         console.log(error);
-                    }
-
-                })
-
-            })
-
-        }
-
-
-
-    }
-    return functions
-}
+                    },
+                });
+            });
+        },
+    };
+    return functions;
+};

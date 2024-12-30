@@ -12,6 +12,10 @@ import {
     InitializeFilePond,
     handleFilePondSelectorDisabling,
 } from './Utilities/FilepondHandlers';
+import { 
+    AddNewRowHandler, 
+    RemoveRowHandler 
+} from './Utilities/AddAndRemoveTableRowHandler';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
@@ -89,41 +93,45 @@ export function initializeForm() {
     handleFilePondSelectorDisabling('fdaLtoSelector', fdaLtoInstance);
     handleFilePondSelectorDisabling('GovIdSelector', govIdInstance);
     // Market Outlet Table Functions
-    const toggleDeleteRowButton = (container, elementSelector) => {
-        const element = container.find(elementSelector);
-        const deleteRowButton = container.find('.removeRowButton');
-        element.length === 1
-            ? deleteRowButton.prop('disabled', true)
-            : deleteRowButton.prop('disabled', false);
-    };
+    // const toggleDeleteRowButton = (container, elementSelector) => {
+    //     const element = container.find(elementSelector);
+    //     const deleteRowButton = container.find('.removeRowButton');
+    //     element.length === 1
+    //         ? deleteRowButton.prop('disabled', true)
+    //         : deleteRowButton.prop('disabled', false);
+    // };
 
     // Handle adding new rows
-    $('.addNewProductRow').on('click', function () {
-        const container = $(this).closest(
-            '#localMarketContainer, #exportMarketContainer'
-        );
-        const table = container.find('table');
+    // $('.addNewProductRow').on('click', function () {
+    //     const container = $(this).closest(
+    //         '#localMarketContainer, #exportMarketContainer'
+    //     );
+    //     const table = container.find('table');
 
-        const lastRow = table.find('tbody tr:last-child');
-        const newRow = lastRow.clone();
-        newRow.find('input').val('');
-        newRow.find('select').prop('selectedIndex', 0);
-        table.find('tbody').append(newRow);
-        toggleDeleteRowButton(container, 'tbody tr');
-    });
+    //     const lastRow = table.find('tbody tr:last-child');
+    //     const newRow = lastRow.clone();
+    //     newRow.find('input').val('');
+    //     newRow.find('select').prop('selectedIndex', 0);
+    //     table.find('tbody').append(newRow);
+    //     toggleDeleteRowButton(container, 'tbody tr');
+    // });
+
+    //TODO: still need testing
+    AddNewRowHandler('.addNewProductRow', '#localMarketContainer, #exportMarketContainer');
+    RemoveRowHandler('.removeRowButton', '#localMarketContainer, #exportMarketContainer');
 
     // Handle removing rows
-    $('.removeRowButton').on('click', function () {
-        const container = $(this).closest(
-            '#localMarketContainer, #exportMarketContainer'
-        );
-        const table = container.find('table');
-        const lastRow = table.find('tbody tr:last-child');
-        lastRow.remove();
-        toggleDeleteRowButton(container, 'tbody tr');
-    });
+    // $('.removeRowButton').on('click', function () {
+    //     const container = $(this).closest(
+    //         '#localMarketContainer, #exportMarketContainer'
+    //     );
+    //     const table = container.find('table');
+    //     const lastRow = table.find('tbody tr:last-child');
+    //     lastRow.remove();
+    //     toggleDeleteRowButton(container, 'tbody tr');
+    // });
 
-    $('input, select').focus(function () {
+    $('input, select').on('focus', function () {
         if ($(this).attr('required')) {
             $(this).removeClass('is-invalid');
         }
