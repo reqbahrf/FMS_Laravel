@@ -7,6 +7,8 @@ import {
     syncDraftWithServer,
     loadDraftData,
     loadTextInputData,
+    syncTextInputData,
+    syncTablesData,
 } from './Utilities/FormDraftHandler';
 import {
     InitializeFilePond,
@@ -424,11 +426,13 @@ export function initializeForm() {
         await submitForm();
     });
 
+    const ApplicationForm = $('#applicationForm');
+
     async function submitForm() {
         showProcessToast('Submitting form...');
         try {
             let formDataObject = {};
-            const form = $('#applicationForm').find(':input:not([readonly])');
+            const form = ApplicationForm.find(':input:not([readonly])');
             const updatedFormData = form.serializeArray();
             $.each(updatedFormData, function (i, v) {
                 formDataObject[v.name] = v.value;
@@ -719,40 +723,10 @@ export function initializeForm() {
         },
     };
 
-    let changedFields = {};
-    let autoSaveTimeout;
     const DRAFT_TYPE = 'Application';
-    const saveInterval = 5000; // 5 seconds
 
-    $('#applicationForm :input[name]:not([readonly])').on(
-        'input change',
-        function () {
-            const fieldName = $(this).attr('name');
-            const fieldValue = $(this).val();
-
-            changedFields[fieldName] = fieldValue; // Track changes locally
-
-            clearTimeout(autoSaveTimeout);
-            autoSaveTimeout = setTimeout(() => {
-                syncDraftWithServer(DRAFT_TYPE, changedFields, APPLICATION_FORM_CONFIG.formSelector);
-            }, saveInterval);
-            console.log(changedFields);
-        }
-    );
-
-    $('#exportMarketTable tr, #localMarketTable tr').on(
-        'input change',
-        'input',
-        function () {
-            changedFields = { ...getMarketProductsData(tableConfigurations) };
-            clearTimeout(autoSaveTimeout);
-            autoSaveTimeout = setTimeout(() => {
-                syncDraftWithServer(DRAFT_TYPE, changedFields, APPLICATION_FORM_CONFIG.formSelector);
-            }, saveInterval);
-            console.log('this is triggered');
-            console.log(changedFields);
-        }
-    );
+    syncTextInputData(DRAFT_TYPE, ApplicationForm);
+    syncTablesData(DRAFT_TYPE, ApplicationForm, '#exportMarketTable tr, #localMarketTable tr', tableConfigurations);
 
     const FileMetaHiddenInputs = [
         'IntentFileID_Data_Handler',
@@ -763,7 +737,7 @@ export function initializeForm() {
         'GovIdFileID_Data_Handler',
         'BIRFileID_Data_Handler',
     ];
-
+// TODO: put this into the reuseable utilities js
     /**
      * Monitors changes in hidden input fields containing file metadata and triggers an action to sync these changes with the server.
      * This function specifically targets hidden input fields that store information about uploaded files, such as file paths, unique IDs, and related metadata.

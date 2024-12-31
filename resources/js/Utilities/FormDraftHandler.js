@@ -1,3 +1,86 @@
+
+import { TableDataExtractor } from './TableDataExtractor';
+let changedFields = {};
+let autoSaveTimeout;
+const saveInterval = 5000;
+
+
+/**
+ * Synchronizes text input changes within a form with the server, typically for autosaving draft data.
+ * This function listens for 'input' and 'change' events on specified input elements within a form.
+ * When changes occur, it updates an object (`changedFields`) with the modified field names and values.
+ * It then uses a timeout to delay the actual server synchronization, ensuring that rapid changes are bundled together into a single save operation.
+ *
+ * @param {string} DraftType - A unique identifier for the type of draft being edited (e.g., 'Quarterly_report_2023_Q4').
+ * @param {jQuery} FormInstance - The jQuery object representing the form element.
+ * @param {string} [inputSelectors=':input[name]:not([readonly])'] - A jQuery selector string to specify which input elements within the form should be monitored for changes. Defaults to all named, non-readonly input elements.
+ *
+ * @example
+ * // Example usage to sync all text inputs (except readonly ones) in a form with ID 'myForm':
+ * const myForm = $('#myForm');
+ * syncTextInputData('MyFormDraft', myForm);
+ *
+ * // Example usage to sync only specific input fields with class 'syncable-input':
+ * syncTextInputData('MyFormDraft', myForm, '.syncable-input');
+ */
+export function syncTextInputData(DraftType, FormInstance, inputSelectors = null) {
+    inputSelectors = inputSelectors ?? ':input[name]:not([readonly])';
+    FormInstance.find(inputSelectors).on('input change', (event) => {
+        const fieldName = event.target.name;
+        const fieldValue = event.target.value;
+        changedFields[fieldName] = fieldValue;
+
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(() => {
+            syncDraftWithServer(DraftType, changedFields, FormInstance);
+        }, saveInterval);
+    });
+}
+
+/**
+ * Synchronizes data changes within specified HTML tables with the server, commonly used for autosaving draft data in forms with dynamic tables.
+ * This function listens for 'input' and 'change' events on input elements within specified table rows.
+ * When changes occur, it extracts data from the tables using the `TableDataExtractor` function and updates the `changedFields` object.
+ * Similar to `syncTextInputData`, it uses a timeout to delay the server synchronization, batching rapid changes into a single save operation.
+ *
+ * @param {string} DraftType - A unique identifier for the type of draft being edited (e.g., 'Quarterly_report_2023_Q4').
+ * @param {jQuery} FormInstance - The jQuery object representing the form element containing the tables.
+ * @param {string} tableSelectors - A jQuery selector string to identify the table rows within which changes should be monitored (e.g., '#myTable tr', '#table1 tr, #table2 tr').
+ * @param {Object} tableConfigs - Configuration object for `TableDataExtractor`, defining how to extract data from the specified tables.
+ *
+ * @example
+ * // Example usage to sync data from two tables with IDs 'exportTable' and 'localTable':
+ * const myForm = $('#myForm');
+ * const tableConfigs = {
+ *     exportMarket: {
+ *         id: 'exportTable',
+ *         selectors: { product: '.product-name', quantity: '.quantity' },
+ *         requiredFields: ['product']
+ *     },
+ *     localMarket: {
+ *         id: 'localTable',
+ *         selectors: { item: '.item-name', price: '.price' },
+ *         requiredFields: ['item']
+ *     }
+ * };
+ * syncTablesData('MyFormDraft', myForm, '#exportTable tr, #localTable tr', tableConfigs);
+ */
+export function syncTablesData(
+    DraftType,
+    FormInstance,
+    tableSelectors,
+    tableConfigs
+) {
+    FormInstance.find(tableSelectors).on('input change', 'input', () => {
+        changedFields = { ...TableDataExtractor(tableConfigs) };
+
+        clearTimeout(autoSaveTimeout);
+        autoSaveTimeout = setTimeout(() => {
+            syncDraftWithServer(DraftType, changedFields, FormInstance);
+        }, saveInterval);
+    });
+}
+
 /**
  * Populates form text inputs with data from a draft object
  * @param {Object} draftData - Object containing key-value pairs to populate the form
@@ -124,7 +207,11 @@ function addRowToTable(tableSelector, rowData, rowConfig) {
  * @param {string} formID - The ID of the form element
  * @returns {Promise<void>} A promise that resolves when synchronization is complete
  */
-export async function syncDraftWithServer(draftType, changedFields, formInstance) {
+export async function syncDraftWithServer(
+    draftType,
+    changedFields,
+    formInstance
+) {
     if ($.isEmptyObject(changedFields)) return;
 
     draftLoadingHandler(formInstance);

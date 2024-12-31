@@ -12,10 +12,10 @@ import {
     hideProcessToast,
     closeModal,
 } from './Utilities/utilFunctions';
-import { 
-    syncDraftWithServer, 
-    loadDraftData, 
-    loadTextInputData 
+import {
+    syncTextInputData, 
+    syncTablesData,
+    loadDraftData,  
 } from './Utilities/FormDraftHandler';
 import QUARTERLY_REPORTING_FORM_CONFIG from './Form_Config/QUARTERLY_REPORTING_CONFIG';
 import { 
@@ -733,31 +733,11 @@ window.initilizeCoopPageJs = async () => {
                 'quarter-period'
             )
             console.log(QUARTER_PERIOD);
-            let changedFields = {};
-            let autoSaveTimeout;
             const DRAFT_TYPE = `Quarterly_report_${QUARTER_PERIOD}`.replace(/\s/g, '');
-            const saveInterval = 5000; // 5 seconds
 
-            QUARTERLY_FORM.find(':input[name]:not([readonly])').on('input change', function () {
-                const fieldName = $(this).attr('name');
-                const fieldValue = $(this).val();
-                changedFields[fieldName] = fieldValue;
-
-                clearTimeout(autoSaveTimeout);
-                autoSaveTimeout = setTimeout(() => {
-                    syncDraftWithServer(DRAFT_TYPE, changedFields, QUARTERLY_FORM);
-                }, saveInterval);
-            });
-
-            QUARTERLY_FORM.find('#LocalOutletTable tr, #ExportOutletTable tr').on('input change', 'input', function () {
-                changedFields = {...TableDataExtractor(ExportAndLocalMktTableConfig)};
-
-                clearTimeout(autoSaveTimeout);
-                autoSaveTimeout = setTimeout(() => {
-                    syncDraftWithServer(DRAFT_TYPE, changedFields, QUARTERLY_FORM);
-                }, saveInterval);
-
-            });
+            syncTextInputData(DRAFT_TYPE, QUARTERLY_FORM);
+            syncTablesData(DRAFT_TYPE, QUARTERLY_FORM, '#LocalOutletTable tr, #ExportOutletTable tr', ExportAndLocalMktTableConfig);
+           
             (async () => {
                 await loadDraftData(
                     DRAFT_TYPE, 
