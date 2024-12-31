@@ -13,6 +13,11 @@ import {
     closeModal,
 } from './Utilities/utilFunctions';
 import { 
+    syncDraftWithServer, 
+    loadDraftData, 
+    loadTextInputData 
+} from './Utilities/FormDraftHandler';
+import { 
     AddNewRowHandler, 
     RemoveRowHandler 
 } from './Utilities/AddAndRemoveTableRowHandler';

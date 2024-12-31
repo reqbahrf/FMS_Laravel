@@ -1,10 +1,10 @@
 <style>
     #smartwizard th {
-        font-size: clamp(12px, 1vw, 13px);
+        font-size: clamp(0.75rem, 1vw, 0.8125rem);
     }
 
     #smartwizard th.theader {
-        font-size: 40px;
+        font-size: 2.5rem;
     }
 
     .volumeUnit {

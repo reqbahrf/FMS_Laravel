@@ -738,7 +738,7 @@ export function initializeForm() {
 
             clearTimeout(autoSaveTimeout);
             autoSaveTimeout = setTimeout(() => {
-                syncDraftWithServer(DRAFT_TYPE, changedFields);
+                syncDraftWithServer(DRAFT_TYPE, changedFields, APPLICATION_FORM_CONFIG.formSelector);
             }, saveInterval);
             console.log(changedFields);
         }
@@ -751,7 +751,7 @@ export function initializeForm() {
             changedFields = { ...getMarketProductsData(tableConfigurations) };
             clearTimeout(autoSaveTimeout);
             autoSaveTimeout = setTimeout(() => {
-                syncDraftWithServer(DRAFT_TYPE, changedFields);
+                syncDraftWithServer(DRAFT_TYPE, changedFields, APPLICATION_FORM_CONFIG.formSelector);
             }, saveInterval);
             console.log('this is triggered');
             console.log(changedFields);
@@ -842,7 +842,7 @@ export function initializeForm() {
                                 metaDataId: META_DATA_ID,
                             },
                         };
-                        syncDraftWithServer(DRAFT_TYPE, changedFields);
+                        syncDraftWithServer(DRAFT_TYPE, changedFields, APPLICATION_FORM_CONFIG.formSelector);
                     }
                 });
             });

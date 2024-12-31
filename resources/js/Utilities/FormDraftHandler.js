@@ -35,7 +35,6 @@ export function loadTablesData(draftData, tableSelectors, tableRowConfigs) {
     });
 }
 
-
 export const loadFilepondData = (draftData, filepondIds) => {
     if (!draftData || typeof draftData !== 'object') return;
 
@@ -58,15 +57,16 @@ export const loadFilepondData = (draftData, filepondIds) => {
             typeof value.metaDataName === 'string' &&
             typeof value.metaDataId === 'string'
         ) {
+            const filepondId = filepondIds.find((id) => id.includes(key));
 
-            const filepondId = filepondIds.find(id => id.includes(key));
-
-            console.log("Looking for filepondId matching:", key);
-            console.log("Found filepondId:", filepondId);
-
+            console.log('Looking for filepondId matching:', key);
+            console.log('Found filepondId:', filepondId);
 
             if (filepondId) {
-                const fileUrl = DRAFT_ROUTE.GET_FILE.replace(':unique_id', value.uniqueId);
+                const fileUrl = DRAFT_ROUTE.GET_FILE.replace(
+                    ':unique_id',
+                    value.uniqueId
+                );
                 // Load file into corresponding FilePond instance
                 const filepondInstance = getFilepondInstanceHandler(filepondId);
                 if (filepondInstance) {
@@ -76,8 +76,8 @@ export const loadFilepondData = (draftData, filepondIds) => {
                             unique_id: value.uniqueId,
                             file_path: value.filePath,
                             file_input_name: key,
-                            meta_data_handler_id: value.metaDataId
-                        }
+                            meta_data_handler_id: value.metaDataId,
+                        },
                     });
                 }
             }
@@ -86,21 +86,21 @@ export const loadFilepondData = (draftData, filepondIds) => {
 };
 
 const getFilepondInstanceHandler = (filepondInputID) => {
-    console.log("Looking for FilePond instance with ID:", filepondInputID);
+    console.log('Looking for FilePond instance with ID:', filepondInputID);
     const filePondElement = document.getElementById(filepondInputID);
     if (filePondElement) {
         const instance = FilePond.find(filePondElement);
-        console.log("Found FilePond instance:", instance);
+        console.log('Found FilePond instance:', instance);
 
         // Check if instance exists and is disabled
         if (instance && instance.disabled) {
-            console.log("FilePond instance was disabled, enabling it now");
+            console.log('FilePond instance was disabled, enabling it now');
             instance.disabled = false;
         }
 
         return instance;
     } else {
-        console.error("FilePond element not found for ID:", filepondInputID);
+        console.error('FilePond element not found for ID:', filepondInputID);
         return null; // Ensure a null value is returned if the element is not found
     }
 };
@@ -121,10 +121,13 @@ function addRowToTable(tableSelector, rowData, rowConfig) {
  * Synchronizes draft changes with the server by sending modified fields via AJAX POST request.
  * @param {string} draftType - The type of draft being synchronized
  * @param {Object} changedFields - Object containing the modified draft fields
+ * @param {string} formID - The ID of the form element
  * @returns {Promise<void>} A promise that resolves when synchronization is complete
  */
-export async function syncDraftWithServer(draftType, changedFields) {
+export async function syncDraftWithServer(draftType, changedFields, formID) {
     if ($.isEmptyObject(changedFields)) return;
+
+    draftLoadingHandler(formID);
 
     const requestData = {
         ...changedFields,
@@ -144,10 +147,12 @@ export async function syncDraftWithServer(draftType, changedFields) {
         });
 
         if (response.success) {
+            removeDraftLoadingHandler(formID);
             console.log('Draft saved successfully:', response.message);
             changedFields = {}; // Clear changes after saving
         }
     } catch (error) {
+        removeDraftLoadingHandler(formID);
         console.error('Error saving draft:', error);
     }
 }
@@ -187,7 +192,12 @@ export const loadDraftData = async (
         }
 
         const draftData = response.draftData;
-        const { formSelector, tableSelectors, tableRowConfigs , filepondSelector} = formConfig;
+        const {
+            formSelector,
+            tableSelectors,
+            tableRowConfigs,
+            filepondSelector,
+        } = formConfig;
 
         // Use helper functions or fall back to generic loaders
         const loaders = {
@@ -222,3 +232,38 @@ export const loadDraftData = async (
         console.error('Error loading draft:', error);
     }
 };
+
+/**
+ * Helper function that Adds a loading spinner indicator to a form to show that a draft is being saved
+ * @param {string} formId - The ID of the form element where the loading spinner will be prepended
+ * @returns {void}
+ * @description This function creates and prepends a Bootstrap-styled loading spinner with "Drafting..." text
+ * to indicate that form content is being saved as a draft. The spinner includes both an animated element
+ * and text for better user feedback.
+ */
+function draftLoadingHandler(formId) {
+    const form = $(`#${formId}`);
+    const spinner = `<div
+                    class="d-flex align-items-center"
+                    id="DraftingIndicator"
+                >
+                    <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span role="status" class="ms-1 text-secondary">Drafting...</span>
+                </div>`;
+    form.prepend(spinner);
+}
+
+/**
+ * Helper function that removes the draft loading spinner from a form
+ * @param {string} formId - The ID of the form element from which to remove the loading spinner
+ * @returns {void}
+ * @description This function finds and removes the drafting indicator element (spinner and text)
+ * that was previously added by draftLoadingHandler. It uses jQuery to locate and remove
+ * the element with ID 'DraftingIndicator'.
+ */
+function removeDraftLoadingHandler(formId) {
+    const form = $(`#${formId}`);
+    form.find('#DraftingIndicator').remove();
+}
