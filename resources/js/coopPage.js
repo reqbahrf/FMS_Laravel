@@ -13,9 +13,7 @@ import {
     closeModal,
 } from './Utilities/utilFunctions';
 import {
-    syncTextInputData, 
-    syncTablesData,
-    loadDraftData,  
+    FormDraftHandler  
 } from './Utilities/FormDraftHandler';
 import QUARTERLY_REPORTING_FORM_CONFIG from './Form_Config/QUARTERLY_REPORTING_CONFIG';
 import { 
@@ -735,16 +733,14 @@ window.initilizeCoopPageJs = async () => {
             console.log(QUARTER_PERIOD);
             const DRAFT_TYPE = `Quarterly_report_${QUARTER_PERIOD}`.replace(/\s/g, '');
 
-            syncTextInputData(DRAFT_TYPE, QUARTERLY_FORM);
-            syncTablesData(DRAFT_TYPE, QUARTERLY_FORM, '#LocalOutletTable tr, #ExportOutletTable tr', ExportAndLocalMktTableConfig);
+            const formDraftHandler = new FormDraftHandler(QUARTERLY_FORM, DRAFT_TYPE);
+
+            formDraftHandler.syncTextInputData();
+            formDraftHandler.syncTablesData('#LocalOutletTable tr, #ExportOutletTable tr', ExportAndLocalMktTableConfig);
            
             (async () => {
-                await loadDraftData(
-                    DRAFT_TYPE, 
+                await formDraftHandler.loadDraftData( 
                     QUARTERLY_REPORTING_FORM_CONFIG,
-                    null,
-                    null,
-                    null,
                 );
             })()
 

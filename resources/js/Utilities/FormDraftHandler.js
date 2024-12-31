@@ -1,354 +1,432 @@
-
 import { TableDataExtractor } from './TableDataExtractor';
-let changedFields = {};
-let autoSaveTimeout;
-const saveInterval = 5000;
 
+export class FormDraftHandler {
+    constructor(formInstance, draftType, saveInterval = 5000) {
+        this.formInstance = formInstance;
+        this.draftType = draftType;
+        this.saveInterval = saveInterval;
+        this.changedFields = {};
+        this.autoSaveTimeout = null;
+    }
 
-/**
- * Synchronizes text input changes within a form with the server, typically for autosaving draft data.
- * This function listens for 'input' and 'change' events on specified input elements within a form.
- * When changes occur, it updates an object (`changedFields`) with the modified field names and values.
- * It then uses a timeout to delay the actual server synchronization, ensuring that rapid changes are bundled together into a single save operation.
- *
- * @param {string} DraftType - A unique identifier for the type of draft being edited (e.g., 'Quarterly_report_2023_Q4').
- * @param {jQuery} FormInstance - The jQuery object representing the form element.
- * @param {string} [inputSelectors=':input[name]:not([readonly])'] - A jQuery selector string to specify which input elements within the form should be monitored for changes. Defaults to all named, non-readonly input elements.
- *
- * @example
- * // Example usage to sync all text inputs (except readonly ones) in a form with ID 'myForm':
- * const myForm = $('#myForm');
- * syncTextInputData('MyFormDraft', myForm);
- *
- * // Example usage to sync only specific input fields with class 'syncable-input':
- * syncTextInputData('MyFormDraft', myForm, '.syncable-input');
- */
-export function syncTextInputData(DraftType, FormInstance, inputSelectors = null) {
-    inputSelectors = inputSelectors ?? ':input[name]:not([readonly])';
-    FormInstance.find(inputSelectors).on('input change', (event) => {
-        const fieldName = event.target.name;
-        const fieldValue = event.target.value;
-        changedFields[fieldName] = fieldValue;
+   
+    /**
+     * Synchronizes text input data with the server by monitoring input changes.
+     * When an input field changes, the value is stored in the 'changedFields' object.
+     * The 'scheduleSave' method is called to save the changes to the server.
+     * 
+     * @param {string} [inputSelectors=:input[name]:not([readonly])] - default jQuery selector for input fields to monitor.
+     * @returns {void}
+     * 
+     * @example
+     * // Initialize and start monitoring input fields
+     * const formHandler = new FormDraftHandler(formInstance, 'draftType');
+     * formHandler.syncTextInputData();
+     * 
+     * @description
+     * This method:
+     * 1. Sets up event listeners for input fields
+     * 2. Monitors changes to input fields
+     * 3. Stores the changed values in the 'changedFields' object
+     * 4. Calls the 'scheduleSave' method to save the changes to the server
+     */
+    syncTextInputData(inputSelectors = null) {
+        inputSelectors = inputSelectors ?? ':input[name]:not([readonly])';
+        this.formInstance.find(inputSelectors).on('input change', (event) => {
+            const fieldName = event.target.name;
+            const fieldValue = event.target.value;
+            this.changedFields[fieldName] = fieldValue;
 
-        clearTimeout(autoSaveTimeout);
-        autoSaveTimeout = setTimeout(() => {
-            syncDraftWithServer(DraftType, changedFields, FormInstance);
-        }, saveInterval);
-    });
-}
+            this.scheduleSave();
+        });
+    }
+    /**
+     * Synchronizes table input data with the server by monitoring input changes.
+     * Uses TableDataExtractor to extract data from specified tables and stores it in the 'changedFields' object.
+     * Calls the 'scheduleSave' method to save the changes to the server.
+     * 
+     * @param {string} tableSelectors - jQuery selector to target table inputs
+     * @param {Object.<string, {id: string, selectors: Object.<string, string|Object>, requiredFields: string[]}>} tableConfigs - Table configurations object
+     * @returns {void}
+     * 
+     * @example
+     * // Initialize and start monitoring table inputs
+     * const formHandler = new FormDraftHandler(formInstance, 'draftType');
+     * const tableConfigs = {
+     *   exportMarket: {
+     *     id: 'exportMarketTable',
+     *     selectors: {
+     *       product: '.product-class',
+     *       location: '.location-class',
+     *       volume: { value: '.volume-class', unit: '.unit-class' },
+     *     },
+     *     requiredFields: ['product']
+     *   }
+     * };
+     * formHandler.syncTablesData('#exportMarketTable', tableConfigs);
+     * 
+     * @description
+     * This method:
+     * 1. Sets up event listeners for table inputs
+     * 2. Monitors changes to table inputs
+     * 3. Stores the changed values in the 'changedFields' object
+     * 4. Calls the 'scheduleSave' method to save the changes to the server
+     */
+    syncTablesData(tableSelectors, tableConfigs) {
+        this.formInstance.find(tableSelectors).on('input change', 'input', () => {
+            this.changedFields = TableDataExtractor(tableConfigs);
 
-/**
- * Synchronizes data changes within specified HTML tables with the server, commonly used for autosaving draft data in forms with dynamic tables.
- * This function listens for 'input' and 'change' events on input elements within specified table rows.
- * When changes occur, it extracts data from the tables using the `TableDataExtractor` function and updates the `changedFields` object.
- * Similar to `syncTextInputData`, it uses a timeout to delay the server synchronization, batching rapid changes into a single save operation.
- *
- * @param {string} DraftType - A unique identifier for the type of draft being edited (e.g., 'Quarterly_report_2023_Q4').
- * @param {jQuery} FormInstance - The jQuery object representing the form element containing the tables.
- * @param {string} tableSelectors - A jQuery selector string to identify the table rows within which changes should be monitored (e.g., '#myTable tr', '#table1 tr, #table2 tr').
- * @param {Object} tableConfigs - Configuration object for `TableDataExtractor`, defining how to extract data from the specified tables.
- *
- * @example
- * // Example usage to sync data from two tables with IDs 'exportTable' and 'localTable':
- * const myForm = $('#myForm');
- * const tableConfigs = {
- *     exportMarket: {
- *         id: 'exportTable',
- *         selectors: { product: '.product-name', quantity: '.quantity' },
- *         requiredFields: ['product']
- *     },
- *     localMarket: {
- *         id: 'localTable',
- *         selectors: { item: '.item-name', price: '.price' },
- *         requiredFields: ['item']
- *     }
- * };
- * syncTablesData('MyFormDraft', myForm, '#exportTable tr, #localTable tr', tableConfigs);
- */
-export function syncTablesData(
-    DraftType,
-    FormInstance,
-    tableSelectors,
-    tableConfigs
-) {
-    FormInstance.find(tableSelectors).on('input change', 'input', () => {
-        changedFields = { ...TableDataExtractor(tableConfigs) };
+            this.scheduleSave();
+        });
+    }
 
-        clearTimeout(autoSaveTimeout);
-        autoSaveTimeout = setTimeout(() => {
-            syncDraftWithServer(DraftType, changedFields, FormInstance);
-        }, saveInterval);
-    });
-}
+    /**
+     * Synchronizes FilePond file upload data with the server by monitoring hidden input changes.
+     * Uses MutationObserver to detect changes in file metadata hidden inputs and automatically
+     * saves the changes to the server.
+     * 
+     * @async
+     * @param {string[]} FileMetaDataHiddenInputSelector - Array of input IDs to monitor for file metadata changes
+     * @returns {void}
+     * 
+     * @example
+     * // Initialize and start monitoring file inputs
+     * const formHandler = new FormDraftHandler(formInstance, 'draftType');
+     * formHandler.syncFilepondData(['fileInput1_Data_Handler', 'fileInput2_Data_Handler']);
+     * 
+     * @description
+     * This method:
+     * 1. Sets up MutationObservers for each hidden input
+     * 2. Monitors changes to the 'value' attribute
+     * 3. Extracts metadata (file path, unique ID, etc.)
+     * 4. Automatically saves changes using the draft system
+     */
+    syncFilepondData(FileMetaDataHiddenInputSelector) {
+        FileMetaDataHiddenInputSelector.forEach((inputId) => {
+            const inputElement = $(`#${inputId}`);
 
-/**
- * Populates form text inputs with data from a draft object
- * @param {Object} draftData - Object containing key-value pairs to populate the form
- * @param {string} formSelector - jQuery selector for the target form
- * @param {Array} [excludedFields=[]] - Array of field names to exclude from population
- */
-export function loadTextInputData(
-    draftData,
-    formSelector,
-    excludedFields = []
-) {
-    $.each(draftData, (key, value) => {
-        if (!excludedFields.includes(key) && typeof value !== 'object') {
-            $(`${formSelector} [name="${key}"]`).val(value);
-        }
-    });
-}
-
-/**
- * Populates multiple tables with data using provided selectors and row configurations
- * @param {Object} draftData - Object containing data for each table type
- * @param {Object} tableSelectors - Object mapping table types to jQuery selectors
- * @param {Object} tableRowConfigs - Object mapping table types to row configuration objects
- */
-export function loadTablesData(draftData, tableSelectors, tableRowConfigs) {
-    $.each(tableSelectors, (tableType, tableSelector) => {
-        const tableData = draftData[tableType];
-        const rowConfig = tableRowConfigs[tableType];
-
-        if (tableData) {
-            $.each(tableData, (_, rowData) => {
-                addRowToTable(tableSelector, rowData, rowConfig);
+            let isProcessing = false;
+            const observer = new MutationObserver((mutations) => {
+                if (isProcessing) {
+                    return;
+                }
+                isProcessing = true;
+                mutations.forEach((mutation) => {
+                    if (
+                        mutation.type === 'attributes' &&
+                        mutation.attributeName === 'value'
+                    ) {
+                        const META_DATA_HIDDEN_INPUT_NAME =
+                            inputElement.attr('name');
+                        const META_DATA_ID = inputElement.attr('id');
+                        const filePath = inputElement.val();
+                        const FILE_INPUT_NAME = inputElement.attr(
+                            'data-file-input-name'
+                        );
+                        const uniqueId = inputElement.attr('data-unique-id');
+                        console.log(
+                            `Hidden input ${inputId} changed to: ${filePath} with unique ID: ${uniqueId}`
+                        );
+                        this.changedFields = {
+                            [META_DATA_HIDDEN_INPUT_NAME]: filePath,
+                            [FILE_INPUT_NAME]: {
+                                filePath: filePath,
+                                uniqueId: uniqueId,
+                                metaDataName: META_DATA_HIDDEN_INPUT_NAME,
+                                metaDataId: META_DATA_ID,
+                            },
+                        };
+                        this.scheduleSave()
+                    }
+                });
+                setTimeout(() => {
+                    isProcessing = false;
+                }, 100);
             });
-        }
-    });
-}
 
-export const loadFilepondData = (draftData, filepondIds) => {
-    if (!draftData || typeof draftData !== 'object' || !filepondIds) return;
+            // Start observing the input element for changes to its attributes
+            observer.observe(inputElement[0], { attributes: true });
+        });
 
-    $.each(draftData, (key, value) => {
-        // Validate object structure and required properties
-        if (key === 'undefined') {
-            console.warn("Skipping 'undefined' key.");
-            return true; // Continue to the next iteration in $.each
-        }
+    }
 
+    /**
+     * Populates form text inputs with data from a draft object
+     * @param {Object} draftData - Object containing key-value pairs to populate the form
+     * @param {string} formSelector - jQuery selector for the target form
+     * @param {Array} [excludedFields=[]] - Array of field names to exclude from population
+     */
+    loadTextInputData(draftData, formSelector, excludedFields = []) {
+        $.each(draftData, (key, value) => {
+            if (
+                !excludedFields.includes(key) &&
+                typeof value !== 'object'
+            ) {
+                $(`${formSelector} [name="${key}"]`).val(value);
+            }
+        });
+    }
+
+    /**
+     * Populates multiple tables with data using provided selectors and row configurations
+     * @param {Object} draftData - Object containing data for each table type
+     * @param {Object} tableSelectors - Object mapping table types to jQuery selectors
+     * @param {Object} tableRowConfigs - Object mapping table types to row configuration objects
+     */
+    loadTablesData(draftData, tableSelectors, tableRowConfigs) {
+        $.each(tableSelectors, (tableType, tableSelector) => {
+            const tableData = draftData[tableType];
+            const rowConfig = tableRowConfigs[tableType];
+
+            if (tableData) {
+                $.each(tableData, (_, rowData) => {
+                    this.addRowToTable(tableSelector, rowData, rowConfig);
+                });
+            }
+        });
+    }
+
+    loadFilepondData(draftData, filepondIds) {
         if (
-            value &&
-            typeof value === 'object' &&
-            'filePath' in value &&
-            'uniqueId' in value &&
-            'metaDataName' in value &&
-            'metaDataId' in value &&
-            typeof value.filePath === 'string' &&
-            typeof value.uniqueId === 'string' &&
-            typeof value.metaDataName === 'string' &&
-            typeof value.metaDataId === 'string'
-        ) {
-            const filepondId = filepondIds.find((id) => id.includes(key));
+            !draftData ||
+            typeof draftData !== 'object' ||
+            !filepondIds
+        )
+            return;
 
-            console.log('Looking for filepondId matching:', key);
-            console.log('Found filepondId:', filepondId);
+        $.each(draftData, (key, value) => {
+            // Validate object structure and required properties
+            if (key === 'undefined') {
+                console.warn("Skipping 'undefined' key.");
+                return true; // Continue to the next iteration in $.each
+            }
 
-            if (filepondId) {
-                const fileUrl = DRAFT_ROUTE.GET_FILE.replace(
-                    ':unique_id',
-                    value.uniqueId
+            if (
+                value &&
+                typeof value === 'object' &&
+                'filePath' in value &&
+                'uniqueId' in value &&
+                'metaDataName' in value &&
+                'metaDataId' in value &&
+                typeof value.filePath === 'string' &&
+                typeof value.uniqueId === 'string' &&
+                typeof value.metaDataName === 'string' &&
+                typeof value.metaDataId === 'string'
+            ) {
+                const filepondId = filepondIds.find((id) =>
+                    id.includes(key)
                 );
-                // Load file into corresponding FilePond instance
-                const filepondInstance = getFilepondInstanceHandler(filepondId);
-                if (filepondInstance) {
-                    filepondInstance.addFile(fileUrl, {
-                        type: 'local',
-                        metadata: {
-                            unique_id: value.uniqueId,
-                            file_path: value.filePath,
-                            file_input_name: key,
-                            meta_data_handler_id: value.metaDataId,
-                        },
-                    });
+
+                console.log('Looking for filepondId matching:', key);
+                console.log('Found filepondId:', filepondId);
+
+                if (filepondId) {
+                    const fileUrl = DRAFT_ROUTE.GET_FILE.replace(
+                        ':unique_id',
+                        value.uniqueId
+                    );
+                    // Load file into corresponding FilePond instance
+                    const filepondInstance =
+                        this.getFilepondInstanceHandler(filepondId);
+                    if (filepondInstance) {
+                        filepondInstance.addFile(fileUrl, {
+                            type: 'local',
+                            metadata: {
+                                unique_id: value.uniqueId,
+                                file_path: value.filePath,
+                                file_input_name: key,
+                                meta_data_handler_id: value.metaDataId,
+                            },
+                        });
+                    }
                 }
             }
-        }
-    });
-};
-
-const getFilepondInstanceHandler = (filepondInputID) => {
-    console.log('Looking for FilePond instance with ID:', filepondInputID);
-    const filePondElement = document.getElementById(filepondInputID);
-    if (filePondElement) {
-        const instance = FilePond.find(filePondElement);
-        console.log('Found FilePond instance:', instance);
-
-        // Check if instance exists and is disabled
-        if (instance && instance.disabled) {
-            console.log('FilePond instance was disabled, enabling it now');
-            instance.disabled = false;
-        }
-
-        return instance;
-    } else {
-        console.error('FilePond element not found for ID:', filepondInputID);
-        return null; // Ensure a null value is returned if the element is not found
-    }
-};
-
-/**
- * Adds a new row to a specified table using provided data and configuration
- * @param {string} tableSelector - jQuery selector for target table
- * @param {Object} rowData - Data to populate the new row
- * @param {Object} rowConfig - Configuration object containing createRow method
- */
-function addRowToTable(tableSelector, rowData, rowConfig) {
-    const tableBody = $(tableSelector).find('tbody');
-    const newRow = rowConfig.createRow(rowData);
-    tableBody.append(newRow);
-}
-
-/**
- * Synchronizes draft changes with the server by sending modified fields via AJAX POST request.
- * @param {string} draftType - The type of draft being synchronized
- * @param {Object} changedFields - Object containing the modified draft fields
- * @param {string} formID - The ID of the form element
- * @returns {Promise<void>} A promise that resolves when synchronization is complete
- */
-export async function syncDraftWithServer(
-    draftType,
-    changedFields,
-    formInstance
-) {
-    if ($.isEmptyObject(changedFields)) return;
-
-    draftLoadingHandler(formInstance);
-
-    const requestData = {
-        ...changedFields,
-        draft_type: draftType,
-    };
-
-    try {
-        const response = await $.ajax({
-            type: 'POST',
-            url: DRAFT_ROUTE.STORE,
-            data: JSON.stringify(requestData),
-            contentType: 'application/json',
-            processData: false,
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
         });
-
-        if (response.success) {
-            removeDraftLoadingHandler(formInstance);
-            console.log('Draft saved successfully:', response.message);
-            changedFields = {}; // Clear changes after saving
-        }
-    } catch (error) {
-        removeDraftLoadingHandler(formInstance);
-        console.error('Error saving draft:', error);
     }
-}
 
-/**
- * Asynchronously loads draft data for a given type, populating form fields and tables.
- *
- * @param {string} draftType - The type of draft to load.
- * @param {object} formConfig - Configuration object containing form and table selectors.
- * @param {function} [customInputDataLoaderFn] - Custom function to load text input data.
- * @param {function} [customTableDataLoaderFn] - Custom function to load table data.
- * @param {function|object} [customDataLoaderFn] - Custom function or object of functions to load other data.
- *
- * @returns {Promise<void>}
- */
-export const loadDraftData = async (
-    draftType,
-    formConfig,
-    customInputDataLoaderFn,
-    customTableDataLoaderFn,
-    customFilepondLoaderFn,
-    customDataLoaderFn
-) => {
-    console.log('Retrieving the form draft for', draftType);
-    try {
-        const response = await $.ajax({
-            type: 'GET',
-            url: DRAFT_ROUTE.GET.replace(':type', draftType),
-            headers: {
-                'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-            },
-        });
+    getFilepondInstanceHandler(filepondInputID) {
+        console.log(
+            'Looking for FilePond instance with ID:',
+            filepondInputID
+        );
+        const filePondElement = document.getElementById(filepondInputID);
+        if (filePondElement) {
+            const instance = FilePond.find(filePondElement);
+            console.log('Found FilePond instance:', instance);
 
-        if (!response.success || !response.draftData) {
-            console.log('No draft found or draft data is empty.');
-            return; // Exit early if no draft data
+            // Check if instance exists and is disabled
+            if (instance && instance.disabled) {
+                console.log(
+                    'FilePond instance was disabled, enabling it now'
+                );
+                instance.disabled = false;
+            }
+
+            return instance;
+        } else {
+            console.error(
+                'FilePond element not found for ID:',
+                filepondInputID
+            );
+            return null; // Ensure a null value is returned if the element is not found
         }
+    }
+    /**
+     * Adds a new row to a specified table using provided data and configuration
+     * @param {string} tableSelector - jQuery selector for target table
+     * @param {Object} rowData - Data to populate the new row
+     * @param {Object} rowConfig - Configuration object containing createRow method
+     */
+    addRowToTable(tableSelector, rowData, rowConfig) {
+        const tableBody = $(tableSelector).find('tbody');
+        const newRow = rowConfig.createRow(rowData);
+        tableBody.append(newRow);
+    }
 
-        const draftData = response.draftData;
-        const {
-            formSelector,
-            tableSelectors,
-            tableRowConfigs,
-            filepondSelector,
-        } = formConfig;
+    /**
+     * Asynchronously loads draft data for a given type, populating form fields and tables.
+     *
+     * @param {object} formConfig - Configuration object containing form and table selectors.
+     * @param {function} [customInputDataLoaderFn] - Custom function to load text input data.
+     * @param {function} [customTableDataLoaderFn] - Custom function to load table data.
+     * @param {function|object} [customDataLoaderFn] - Custom function or object of functions to load other data.
+     *
+     * @returns {Promise<void>}
+     */
+    async loadDraftData(
+        formConfig,
+        customInputDataLoaderFn,
+        customTableDataLoaderFn,
+        customFilepondLoaderFn,
+        customDataLoaderFn
+    ) {
+        console.log('Retrieving the form draft for', this.draftType);
+        try {
+            const response = await $.ajax({
+                type: 'GET',
+                url: DRAFT_ROUTE.GET.replace(':type', this.draftType),
+                headers: {
+                    'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content'
+                    ),
+                },
+            });
 
-        // Use helper functions or fall back to generic loaders
-        const loaders = {
-            textFields:
-                customInputDataLoaderFn ||
-                ((data, selector) => loadTextInputData(data, selector)),
-            tablesFields:
-                customTableDataLoaderFn ||
-                ((data, selectors, rowConfigs) =>
-                    loadTablesData(data, selectors, rowConfigs)),
-            FilePondField:
-                customFilepondLoaderFn ||
-                ((data, selector) => loadFilepondData(data, selector)),
-            customFields:
-                typeof customDataLoaderFn === 'object'
-                    ? customDataLoaderFn
-                    : { defaultLoader: customDataLoaderFn || (() => {}) },
+            if (!response.success || !response.draftData) {
+                console.log('No draft found or draft data is empty.');
+                return; // Exit early if no draft data
+            }
+
+            const draftData = response.draftData;
+            const {
+                formSelector,
+                tableSelectors,
+                tableRowConfigs,
+                filepondSelector,
+            } = formConfig;
+
+            // Use helper functions or fall back to generic loaders
+            const loaders = {
+                textFields:
+                    customInputDataLoaderFn ||
+                    ((data, selector) =>
+                        this.loadTextInputData(data, selector)),
+                tablesFields:
+                    customTableDataLoaderFn ||
+                    ((data, selectors, rowConfigs) =>
+                        this.loadTablesData(data, selectors, rowConfigs)),
+                FilePondField:
+                    customFilepondLoaderFn ||
+                    ((data, selector) =>
+                        this.loadFilepondData(data, selector)),
+                customFields:
+                    typeof customDataLoaderFn === 'object'
+                        ? customDataLoaderFn
+                        : {
+                              defaultLoader:
+                                  customDataLoaderFn || (() => {}),
+                          },
+            };
+
+            loaders.textFields(draftData, formSelector);
+            loaders.tablesFields(
+                draftData,
+                tableSelectors,
+                tableRowConfigs
+            );
+            loaders.FilePondField(draftData, filepondSelector);
+            Object.entries(loaders.customFields).forEach(
+                ([loaderName, loaderFn]) => {
+                    loaderFn(draftData, formSelector);
+                    console.log(`Executed custom loader: ${loaderName}`);
+                }
+            );
+
+            console.log('Draft loaded:', draftData);
+        } catch (error) {
+            console.error('Error loading draft:', error);
+        }
+    }
+
+    scheduleSave() {  
+        this.draftLoadingHandler();
+        clearTimeout(this.autoSaveTimeout);
+        this.autoSaveTimeout = setTimeout(() => {
+            this.syncDraftWithServer(this.changedFields);
+        }, this.saveInterval);
+    }
+
+    /**
+     * Synchronizes draft changes with the server.
+     * @param {Object} changedFields - Object containing the modified draft fields.
+     */
+    async syncDraftWithServer(changedFields) {
+        if ($.isEmptyObject(changedFields)) return;
+
+      
+        const requestData = {
+            ...changedFields,
+            draft_type: this.draftType,
         };
 
-        loaders.textFields(draftData, formSelector);
-        loaders.tablesFields(draftData, tableSelectors, tableRowConfigs);
-        loaders.FilePondField(draftData, filepondSelector);
-        Object.entries(loaders.customFields).forEach(
-            ([loaderName, loaderFn]) => {
-                loaderFn(draftData, formSelector);
-                console.log(`Executed custom loader: ${loaderName}`);
+        try {
+            const response = await $.ajax({
+                type: 'POST',
+                url: DRAFT_ROUTE.STORE,
+                data: JSON.stringify(requestData),
+                contentType: 'application/json',
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content'
+                    ),
+                },
+            });
+
+            if (response.success) {
+                this.removeDraftLoadingHandler();
+                console.log('Draft saved successfully:', response.message);
+                this.changedFields = {}; // Clear changes after saving
             }
-        );
-
-        console.log('Draft loaded:', draftData);
-    } catch (error) {
-        console.error('Error loading draft:', error);
+        } catch (error) {
+            this.removeDraftLoadingHandler();
+            console.error('Error saving draft:', error);
+        }
     }
-};
 
-/**
- * Helper function that Adds a loading spinner indicator to a form to show that a draft is being saved
- * @param {string} formId - The ID of the form element where the loading spinner will be prepended
- * @returns {void}
- * @description This function creates and prepends a Bootstrap-styled loading spinner with "Drafting..." text
- * to indicate that form content is being saved as a draft. The spinner includes both an animated element
- * and text for better user feedback.
- */
-function draftLoadingHandler(formInstance) {
-    const spinner = `<div
-                    class="d-flex align-items-center"
-                    id="DraftingIndicator"
-                >
-                    <div class="spinner-grow spinner-grow-sm text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
-                    </div>
-                    <span role="status" class="ms-1 text-secondary">Drafting...</span>
-                </div>`;
-    formInstance.prepend(spinner);
-}
-
-/**
- * Helper function that removes the draft loading spinner from a form
- * @param {string} formId - The ID of the form element from which to remove the loading spinner
- * @returns {void}
- * @description This function finds and removes the drafting indicator element (spinner and text)
- * that was previously added by draftLoadingHandler. It uses jQuery to locate and remove
- * the element with ID 'DraftingIndicator'.
- */
-function removeDraftLoadingHandler(formInstance) {
-    formInstance.find('#DraftingIndicator').remove();
+    draftLoadingHandler(customLoadingMessage = null) {
+        if (this.formInstance.find('#DraftingIndicator').length > 0) {
+            return; 
+        }
+        const spinner = `<div class="d-flex align-items-center" id="DraftingIndicator">
+                            <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                            <span role="status" class="ms-1 text-secondary">${customLoadingMessage ?? 'Drafting...'}</span>
+                        </div>`;
+        this.formInstance.prepend(spinner);
+    }
+    removeDraftLoadingHandler() {
+        this.formInstance.find('#DraftingIndicator').remove();
+    }
 }

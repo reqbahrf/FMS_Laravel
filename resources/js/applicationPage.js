@@ -4,11 +4,7 @@ import {
     hideProcessToast,
 } from './Utilities/utilFunctions';
 import {
-    syncDraftWithServer,
-    loadDraftData,
-    loadTextInputData,
-    syncTextInputData,
-    syncTablesData,
+    FormDraftHandler
 } from './Utilities/FormDraftHandler';
 import {
     InitializeFilePond,
@@ -725,8 +721,10 @@ export function initializeForm() {
 
     const DRAFT_TYPE = 'Application';
 
-    syncTextInputData(DRAFT_TYPE, ApplicationForm);
-    syncTablesData(DRAFT_TYPE, ApplicationForm, '#exportMarketTable tr, #localMarketTable tr', tableConfigurations);
+    const formDraftHandler = new FormDraftHandler(ApplicationForm, DRAFT_TYPE);
+
+    formDraftHandler.syncTextInputData();
+    formDraftHandler.syncTablesData('#exportMarketTable tr, #localMarketTable tr', tableConfigurations);
 
     const FileMetaHiddenInputs = [
         'IntentFileID_Data_Handler',
@@ -737,90 +735,7 @@ export function initializeForm() {
         'GovIdFileID_Data_Handler',
         'BIRFileID_Data_Handler',
     ];
-// TODO: put this into the reuseable utilities js
-    /**
-     * Monitors changes in hidden input fields containing file metadata and triggers an action to sync these changes with the server.
-     * This function specifically targets hidden input fields that store information about uploaded files, such as file paths, unique IDs, and related metadata.
-     * When changes are detected in these fields, it prepares an object containing the updated information and calls a function to save this data as a draft.
-     *
-     * @param {string[]} FileMetaHiddenInputs - An array of IDs for hidden input elements that store file metadata. Each ID corresponds to a specific type of document or file.
-     *
-     * @description
-     * The function initializes a MutationObserver for each specified hidden input field. The MutationObserver listens for changes to the 'value' attribute of these inputs.
-     * When a change is detected, it extracts relevant information such as the file path, unique ID, input name, and metadata details.
-     * This information is then compiled into an object (`changedFields`) and passed to the `syncDraftWithServer` function to be saved as a draft.
-     * This ensures that changes in file uploads are captured and persisted in a draft state.
-     *
-     * The `changedFields` object has the following structure:
-     * ```js
-     * {
-     *   [META_DATA_HIDDEN_INPUT_NAME]: "file/path/string", // The name of the hidden input field, used as a key for the file path.
-     *   [FILE_INPUT_NAME]: {  // The name of the associated file input field, used as a key for an object containing more details.
-     *     filePath: "file/path/string", // The path of the uploaded file.
-     *     uniqueId: "unique-identifier", // A unique identifier for the file.
-     *     metaDataName: "META_DATA_HIDDEN_INPUT_NAME", // The name attribute of the hidden input.
-     *     metaDataId: "META_DATA_ID" // The ID attribute of the hidden input.
-     *   }
-     * }
-     * ```
-     *
-     * @example
-     * // Example usage to monitor specific file input fields:
-     * fileInputChange([
-     *   'IntentFileID_Data_Handler',
-     *   'DtiSecCdaFileID_Data_Handler',
-     *   'BusinessPermitFileID_Data_Handler'
-     * ]);
-     *
-     * @requires jQuery - A fast, small, and feature-rich JavaScript library for DOM manipulation.
-     * @requires MutationObserver - A web API that provides a way to react to changes in the DOM.
-     *
-     * @global {string} DRAFT_TYPE - A global variable that defines the type of draft being saved (e.g., 'application', 'form').
-     *
-     * @fires syncDraftWithServer - This function is called to handle the actual saving of the draft data to the server.
-     * The `changedFields` object is passed to this function along with the `DRAFT_TYPE`.
-     * @see syncDraftWithServer - For details on how the draft data is processed and saved.
-     */
-    const fileInputChange = async (FileMetaHiddenInputs) => {
-        FileMetaHiddenInputs.forEach((inputId) => {
-            const inputElement = $(`#${inputId}`);
-
-            // Use a MutationObserver to detect changes to the 'value' attribute
-            const observer = new MutationObserver((mutations) => {
-                mutations.forEach((mutation) => {
-                    if (
-                        mutation.type === 'attributes' &&
-                        mutation.attributeName === 'value'
-                    ) {
-                        const META_DATA_HIDDEN_INPUT_NAME =
-                            inputElement.attr('name');
-                        const META_DATA_ID = inputElement.attr('id');
-                        const filePath = inputElement.val();
-                        const FILE_INPUT_NAME = inputElement.attr(
-                            'data-file-input-name'
-                        );
-                        const uniqueId = inputElement.attr('data-unique-id');
-                        console.log(
-                            `Hidden input ${inputId} changed to: ${filePath} with unique ID: ${uniqueId}`
-                        );
-                        const changedFields = {
-                            [META_DATA_HIDDEN_INPUT_NAME]: filePath,
-                            [FILE_INPUT_NAME]: {
-                                filePath: filePath,
-                                uniqueId: uniqueId,
-                                metaDataName: META_DATA_HIDDEN_INPUT_NAME,
-                                metaDataId: META_DATA_ID,
-                            },
-                        };
-                        syncDraftWithServer(DRAFT_TYPE, changedFields, APPLICATION_FORM_CONFIG.formSelector);
-                    }
-                });
-            });
-
-            // Start observing the input element for changes to its attributes
-            observer.observe(inputElement[0], { attributes: true });
-        });
-    };
+    formDraftHandler.syncFilepondData(FileMetaHiddenInputs);
 
     const loadApplicationFormInputFields = (draftData, formSelector) => {
         const excludedFields = [
@@ -831,7 +746,7 @@ export function initializeForm() {
             'city',
             'barangay',
         ];
-        loadTextInputData(draftData, formSelector, excludedFields);
+        formDraftHandler.loadTextInputData(draftData, formSelector, excludedFields);
     };
 
     const loadLocationDropdown = async (
@@ -895,11 +810,8 @@ export function initializeForm() {
         );
     };
 
-    const loadFilePondDraftFile = (FilepondInstances) => {};
-
     (async () => {
         await loadDraftData(
-            DRAFT_TYPE,
             APPLICATION_FORM_CONFIG,
             loadApplicationFormInputFields,
             null,
