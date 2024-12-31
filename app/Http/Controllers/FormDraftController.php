@@ -22,7 +22,7 @@ class FormDraftController extends Controller
     {
         try {
             $draftType = $request->validate([
-                'draft_type' => 'required|string|in:Application',
+                'draft_type' => 'required|string',
             ]);
 
             $data = $request->except('draft_type');

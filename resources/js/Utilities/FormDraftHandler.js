@@ -36,7 +36,7 @@ export function loadTablesData(draftData, tableSelectors, tableRowConfigs) {
 }
 
 export const loadFilepondData = (draftData, filepondIds) => {
-    if (!draftData || typeof draftData !== 'object') return;
+    if (!draftData || typeof draftData !== 'object' || !filepondIds) return;
 
     $.each(draftData, (key, value) => {
         // Validate object structure and required properties
@@ -124,10 +124,10 @@ function addRowToTable(tableSelector, rowData, rowConfig) {
  * @param {string} formID - The ID of the form element
  * @returns {Promise<void>} A promise that resolves when synchronization is complete
  */
-export async function syncDraftWithServer(draftType, changedFields, formID) {
+export async function syncDraftWithServer(draftType, changedFields, formInstance) {
     if ($.isEmptyObject(changedFields)) return;
 
-    draftLoadingHandler(formID);
+    draftLoadingHandler(formInstance);
 
     const requestData = {
         ...changedFields,
@@ -147,12 +147,12 @@ export async function syncDraftWithServer(draftType, changedFields, formID) {
         });
 
         if (response.success) {
-            removeDraftLoadingHandler(formID);
+            removeDraftLoadingHandler(formInstance);
             console.log('Draft saved successfully:', response.message);
             changedFields = {}; // Clear changes after saving
         }
     } catch (error) {
-        removeDraftLoadingHandler(formID);
+        removeDraftLoadingHandler(formInstance);
         console.error('Error saving draft:', error);
     }
 }
@@ -241,8 +241,7 @@ export const loadDraftData = async (
  * to indicate that form content is being saved as a draft. The spinner includes both an animated element
  * and text for better user feedback.
  */
-function draftLoadingHandler(formId) {
-    const form = $(`#${formId}`);
+function draftLoadingHandler(formInstance) {
     const spinner = `<div
                     class="d-flex align-items-center"
                     id="DraftingIndicator"
@@ -252,7 +251,7 @@ function draftLoadingHandler(formId) {
                     </div>
                     <span role="status" class="ms-1 text-secondary">Drafting...</span>
                 </div>`;
-    form.prepend(spinner);
+    formInstance.prepend(spinner);
 }
 
 /**
@@ -263,7 +262,6 @@ function draftLoadingHandler(formId) {
  * that was previously added by draftLoadingHandler. It uses jQuery to locate and remove
  * the element with ID 'DraftingIndicator'.
  */
-function removeDraftLoadingHandler(formId) {
-    const form = $(`#${formId}`);
-    form.find('#DraftingIndicator').remove();
+function removeDraftLoadingHandler(formInstance) {
+    formInstance.find('#DraftingIndicator').remove();
 }

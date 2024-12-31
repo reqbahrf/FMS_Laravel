@@ -724,15 +724,11 @@ export function initializeForm() {
     const DRAFT_TYPE = 'Application';
     const saveInterval = 5000; // 5 seconds
 
-    $('#applicationForm :input:not([readonly])').on(
+    $('#applicationForm :input[name]:not([readonly])').on(
         'input change',
         function () {
             const fieldName = $(this).attr('name');
             const fieldValue = $(this).val();
-
-            if (!fieldName) {
-                return;
-            }
 
             changedFields[fieldName] = fieldValue; // Track changes locally
 

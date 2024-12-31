@@ -338,6 +338,12 @@
         STORE_REPORT: '{{ route('QuarterlyReport.update', ':quarterId') }}',
         UPDATE_REPORT: '{{ route('QuarterlyReport.update', ':quarterId') }}'
     }
+
+    const DRAFT_ROUTE = {
+            GET: "{{ route('form.getDraft', ':type') }}",
+            GET_FILE: "{{ route('form.getDraftFile', ':unique_id') }}",
+            STORE: "{{ route('form.setDraft') }}",
+        }
 </script>
 @vite('resources/js/coopPage.js')
 
