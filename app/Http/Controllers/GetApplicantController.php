@@ -18,11 +18,11 @@ class GetApplicantController extends Controller
             if (Cache::has('applicants')) {
                 $applicants = Cache::get('applicants');
             } else {
-                $applicants = DB::table('users')
-                    ->join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
-                    ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
+                $applicants = DB::table('application_info')
+                    ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
+                    ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
+                    ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
                     ->join('assets', 'assets.id', '=', 'business_info.id')
-                    ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
                     ->leftJoin('personnel', 'personnel.id', '=', 'business_info.id')
                     ->whereIn('application_info.application_status', ['new', 'evaluation', 'pending', 'rejected'])
                     ->select(

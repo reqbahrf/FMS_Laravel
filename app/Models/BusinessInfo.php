@@ -48,6 +48,21 @@ class BusinessInfo extends Model
         return $this->HasMany(ProjectInfo::class, 'business_id', 'id');
     }
 
+    public function assetsInfo(): HasOne 
+    {
+        return $this->HasOne(Assets::class, 'id', 'id');
+    }
+
+    public function personnelInfo(): HasOne 
+    {
+        return $this->HasOne(Personnel::class, 'id', 'id');
+    }
+
+    public function requirementInfo(): HasMany 
+    {
+        return $this->HasMany(Requirement::class, 'business_id', 'id');
+    }
+
     protected static function booted()
     {
         // Listen to the "created" event

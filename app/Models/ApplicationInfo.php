@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use App\Events\NewApplicant;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ApplicationInfo extends Model
 {
@@ -21,12 +22,12 @@ class ApplicationInfo extends Model
         'Evaluation_date',
     ];
 
-    public function businessInfo()
+    public function businessInfo(): BelongsTo
     {
         return $this->belongsTo(BusinessInfo::class, 'business_id', 'id');
     }
 
-    public function projectInfo()
+    public function projectInfo(): BelongsTo
     {
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
     }
