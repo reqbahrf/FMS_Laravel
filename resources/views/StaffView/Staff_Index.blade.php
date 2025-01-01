@@ -348,7 +348,7 @@
         //Project Tab
         const PROJECT_TAB_ROUTE = {
             GET_APPROVED_PROJECTS: '{{ route('staff.Project.ApprovedProjectProposal') }}',
-            GET_ONGOING_PROJECTS: '{{ route('staff.Project.getOngoingProjects') }}',
+            GET_ONGOING_PROJECTS: '{{ route('Project.getOngoingProjects') }}',
             GET_COMPLETED_PROJECTS: '{{ route('getCompletedProject') }}',
             GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}'
 

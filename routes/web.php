@@ -40,6 +40,7 @@ use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\GetOngoingProjectController;
 use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -182,9 +183,6 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
     Route::get('/Staff/Project/getApproved-Project', [StaffViewController::class, 'getApprovedProjects'])
         ->name('staff.Project.ApprovedProjectProposal');
 
-    Route::get('/Staff/Project/getOngoingProjects', [StaffViewController::class, 'getOngoingProjects'])
-        ->name('staff.Project.getOngoingProjects');
-
     Route::get('/Staff/Applicant', [StaffViewController::class, 'getApplicantView'])
         ->name('staff.Applicant');
 
@@ -306,8 +304,11 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
     Route::get('/Project/Completed-Project', GetCompletedProjectController::class)
         ->name('getCompletedProject');
 
-    Route::get('/Applicant/getApplicants', GetApplicantController::class)
+    Route::get('/Applicant/get/Applicants', GetApplicantController::class)
         ->name('Applicant.getApplicants');
+
+    Route::get('/Project/get/OngoingProjects', GetOngoingProjectController::class)
+        ->name('Project.getOngoingProjects');
 
     Route::resource('/Project/ProjectProposal', ProjectProposalController::class);
 });
