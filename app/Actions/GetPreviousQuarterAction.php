@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Services;
+namespace App\Actions;
 
 use Exception;
 use Illuminate\Support\Facades\Log;
 
-class GetPreviousQuarterService
+class GetPreviousQuarterAction
 {
-    public function getPreviousQuarter(String $quarter): string
+    public function execute(String $quarter): string
     {
         try {
             list($currentQuarter, $currentYear) = explode(' ', $quarter);
@@ -21,7 +21,7 @@ class GetPreviousQuarterService
             }
             return "Q{$previousQuarterNumber} {$previousYear}";
         } catch (Exception $e) {
-            Log::error('Error in getPreviousQuarter: ' . $e->getMessage(), [
+            Log::error('Error in GetPreviousQuarterAction: ' . $e->getMessage(), [
                 'quarter' => $quarter
             ]);
             throw new Exception('Failed to retrieve previous quarter: ' . $e->getMessage());

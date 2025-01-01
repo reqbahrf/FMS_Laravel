@@ -18,22 +18,53 @@ class AdminDashboardService {
         $this->orgUserInfoModel = $orgUserInfoModel;
     }
 
-    public function getChartData($yearToLoad = null)
+    private function getChartData($yearToLoad, $Selected_Query)
     {
-        $yearToLoad = $yearToLoad ?? date('Y');
-
-        if(Cache::has('chartData' . $yearToLoad)) {
-            $chartData = Cache::get('chartData' . $yearToLoad);
-        }else{
+        try{
+            $yearToLoad = $yearToLoad ?? date('Y');
             $chartData = $this->chartYearOfModel
-                ->select('monthly_project_categories', 'project_local_categories')
                 ->where('year_of', '=', $yearToLoad)
-                ->get();
-
-            Cache::put('chartData' . $yearToLoad, $chartData, 1800);
+                ->pluck($Selected_Query)
+                ->firstOrFail();
+            return $chartData;
+        }catch(Exception $e){
+            Log::error('Error in getChartData: ' . $e->getMessage());
+            throw new Exception('Error in getChartData: ' . $e->getMessage(), $e->getCode(), $e);
         }
+    }
 
-        return $chartData;
+    public function getMonthlyData($yearToLoad)
+    {
+        try{
+            $method_query = 'monthly_project_categories';
+            if(!Cache::has('monthly_Data')){
+                $Monthly_data = $this->getChartData($yearToLoad, $method_query);
+                Cache::put('monthly_Data', $Monthly_data, 1800);
+            }
+            $Monthly_data = Cache::get('monthly_Data');
+            return $Monthly_data;
+        }catch(Exception $e){
+            Log::error('Error in getMonthlyData: ' . $e->getMessage());
+            throw new Exception('Error in getMonthlyData: ' . $e->getMessage(), $e->getCode(), $e);
+            return [];
+        }
+    }
+
+    public function getLocalData($yearToLoad)
+    {
+        try{
+            $method_query = 'project_local_categories';
+            if(!Cache::has('local_Data')){
+                $Local_data = $this->getChartData($yearToLoad, $method_query);
+                Cache::put('local_Data', $Local_data, 1800);
+            }
+            $Local_data = Cache::get('local_Data');
+            return $Local_data;
+        }catch(Exception $e){
+            Log::error('Error in getLocalData: ' . $e->getMessage());
+            throw new Exception('Error in getLocalData: ' . $e->getMessage(), $e->getCode(), $e);
+            return [];
+        }
     }
 
     public function getStaffHandledProjects()

@@ -39,12 +39,11 @@ class AdminViewController extends Controller
     {
         try {
 
-            $chartData = $adminDashboard->getChartData($yearToLoad);
             $staffhandledProjects = $adminDashboard->getStaffHandledProjects();
             $listOfYears = $adminDashboard->getListOfYears();
 
-            $monthlyData = $chartData->pluck('monthly_project_categories');
-            $localData = $chartData->pluck('project_local_categories');
+            $monthlyData = $adminDashboard->getMonthlyData($yearToLoad);
+            $localData = $adminDashboard->getLocalData($yearToLoad);
 
             return response()->json([
                 'monthlyData' => $monthlyData,

@@ -5,14 +5,14 @@ namespace App\Services;
 use Exception;
 use App\Models\ProjectInfo;
 use Illuminate\Support\Facades\Log;
-use App\Services\GetPreviousQuarterService;
+use App\Actions\GetPreviousQuarterAction;
 
 
 class ProjectFormService
 {
 
 
-    public function __construct(private GetPreviousQuarterService $getPreviousQuarterService)
+    public function __construct(private GetPreviousQuarterAction $getPreviousQuarterService)
     {
         $this->getPreviousQuarterService = $getPreviousQuarterService;
 
@@ -58,7 +58,7 @@ class ProjectFormService
     public function getProjectDataSheetData(string $projectId, string $quarter): object
     {
         try {
-            $previousQuarter = $this->getPreviousQuarterService->getPreviousQuarter($quarter);
+            $previousQuarter = $this->getPreviousQuarterService->execute($quarter);
 
             return ProjectInfo::select(
                 'project_info.Project_id',
