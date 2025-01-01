@@ -16,18 +16,51 @@ class GetCooperatorInfoService
         $this->coopUserInfo = $coopUserInfo;
     }
 
-    public function getCooperatorInfo($Coop_Username = null)
+    private function getCooperatorInfo(?string $Coop_Username, ?string $with): object
     {
         try {
             $userName = $Coop_Username ?? Auth::user()->user_name;
             return $this->coopUserInfo
                 ->where('user_name', $userName)
-                ->with('BusinessInfo.applicationInfo.projectInfo')
+                ->with($with)
                 ->get()
-                ->flatMap
-                ->BusinessInfo;
-        }catch (Exception $e) {
-           Log::error($e->getMessage());
+                ->flatMap(fn($item) => $item->BusinessInfo);
+        } catch (Exception $e) {
+            Log::error('Error getting cooperator info: ' . $e->getMessage());
+            throw new Exception("Error processing cooperator information request", 1, $e);
+        }
+    }
+
+    public function getCoopBusinessInfo(?string $Coop_Username = null): object
+    {
+        try {
+            $with_query = 'BusinessInfo';
+            return $this->getCooperatorInfo($Coop_Username,  $with_query);
+        } catch (Exception $e) {
+            Log::error('Error getting business info: ' . $e->getMessage());
+            throw new Exception("Error retrieving business information", 1, $e);
+        }
+    }
+
+    public function getCoopBusinessApplicationInfo(?string $Coop_Username = null): object
+    {
+        try {
+            $with_query = 'BusinessInfo.applicationInfo';
+            return $this->getCooperatorInfo($Coop_Username,  $with_query);
+        } catch (Exception $e) {
+            Log::error('Error getting business and application info: ' . $e->getMessage());
+            throw new Exception("Error retrieving business application information", 1, $e);
+        }
+    }
+
+    public function getAllCoopInfo(?string $Coop_Username = null): object
+    {
+        try {
+            $with_query = 'BusinessInfo.applicationInfo.projectInfo';
+            return $this->getCooperatorInfo($Coop_Username,  $with_query);
+        } catch (Exception $e) {
+            Log::error('Error getting all cooperator info: ' . $e->getMessage());
+            throw new Exception("Error Processing Request", 1, $e);
         }
     }
 }

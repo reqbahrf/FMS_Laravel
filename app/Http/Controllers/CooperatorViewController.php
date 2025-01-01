@@ -20,7 +20,7 @@ class CooperatorViewController extends Controller
 
         $user = Auth::user();
         $notifications = $user->notifications;
-        $businessInfos = $getCooperatorInfoService->getCooperatorInfo();
+        $businessInfos = $getCooperatorInfoService->getAllCoopInfo();
 
         return view('CooperatorView.Cooperator_Index', compact(['notifications', 'businessInfos']));
     }
@@ -127,7 +127,7 @@ class CooperatorViewController extends Controller
     {
         if ($request->ajax()) {
 
-            $businessInfos = $getCooperatorInfoService->getCooperatorInfo();
+            $businessInfos = $getCooperatorInfoService->getAllCoopInfo();
             return view('CooperatorView.CooperatorProjectTab', compact('businessInfos'));
         } else {
             return view('CooperatorView.Cooperator_Index');
