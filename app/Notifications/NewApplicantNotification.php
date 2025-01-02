@@ -3,6 +3,7 @@
 namespace App\Notifications;
 
 use App\Models\User;
+use RuntimeException;
 use App\Events\ProjectEvent;
 use Illuminate\Bus\Queueable;
 use App\Actions\CalculateTimeAgo;
@@ -39,6 +40,26 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
     }
 
     /**
+     * Get the event instance.
+     *
+     * @return ProjectEvent
+     */
+    public function getEvent(): ProjectEvent
+    {
+        return $this->event;
+    }
+
+    /**
+     * Get the organization users.
+     *
+     * @return mixed
+     */
+    public function getOrgUsers()
+    {
+        return $this->orgUsers;
+    }
+
+    /**
      * Get the array representation of the notification.
      *
      * @return array<string, mixed>
@@ -54,6 +75,11 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
     public function toBroadcast($notifiable)
     {
         $notification = $notifiable->notifications()->where('type', self::class)->latest()->first();
+
+        if (!$notification) {
+            throw new RuntimeException('Notification not found');
+        }
+
         $timeAgo = CalculateTimeAgo::execute($notification->created_at);
 
         return new BroadcastMessage([
