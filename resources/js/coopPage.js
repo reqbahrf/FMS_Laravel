@@ -22,6 +22,8 @@ import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import NotificationManager from './Utilities/NotificationManager';
+
+const MAIN_CONTENT_CONTAINER = $('#main-content');
 const USER_ROLE = 'coop';
 const ExportAndLocalMktTableConfig = {
     ExportProduct: {
@@ -83,7 +85,7 @@ const setActiveLink = (activeLink) => {
 window.loadPage = async (url, activeLink) => {
     try {
         $('.spinner').removeClass('d-none');
-        $('#main-content').hide();
+        MAIN_CONTENT_CONTAINER.hide();
         const cachedPage = sessionStorage.getItem(url);
         if (cachedPage) {
             // If cached, use the cached response
@@ -106,13 +108,13 @@ window.loadPage = async (url, activeLink) => {
         console.log('Error: ', error);
     } finally {
         $('.spinner').addClass('d-none');
-        $('#main-content').show();
+        MAIN_CONTENT_CONTAINER.show();
     }
 };
 
 const handleAjaxSuccess = async (response, activeLink, url) => {
     try {
-        $('#main-content').html(response);
+        MAIN_CONTENT_CONTAINER.html(response);
         setActiveLink(activeLink);
         history.pushState(null, '', url);
 

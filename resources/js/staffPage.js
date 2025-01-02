@@ -2922,6 +2922,8 @@ window.initializeStaffPageJs = async () => {
                 function () {
                     const row = $(this).closest('tr');
                     const inputs = row.find('input');
+                    const readonlyInputs = $('#approvedDetails').find('input');
+
 
                     const values = {
                         cooperatorName: row.find('td:eq(1)').text().trim(),
@@ -2958,97 +2960,39 @@ window.initializeStaffPageJs = async () => {
                         ),
                         equipment: parseFloat(
                             inputs
-                                .filter('.equipment_Assets')
-                                .val()
-                                .replace(/,/g, '')
+                            .filter('.equipment_Assets')
+                            .val()
+                            .replace(/,/g, '')
                         ),
                         workingCapital: parseFloat(
                             inputs
-                                .filter('.working_capital_Assets')
-                                .val()
-                                .replace(/,/g, '')
+                            .filter('.working_capital_Assets')
+                            .val()
+                            .replace(/,/g, '')
                         ),
                     };
+                    
 
-                    $('#cooperatorName').val(values.cooperatorName);
-                    $('#designation').val(values.designation);
-                    $('#b_id').val(values.b_id);
-                    $('#businessAddress').val(values.businessAddress);
-                    $('#typeOfEnterprise').val(values.typeOfEnterprise);
-                    $('#enterpriseLevel').val(values.enterpriseLevel);
-                    $('#landline').val(values.landline);
-                    $('#mobilePhone').val(values.mobilePhone);
-                    $('#email').val(values.email);
-                    $('#ProjectId').val(values.ProjectId);
-                    $('#ProjectTitle').val(values.ProjectTitle);
-                    $('#Amount').val(
-                        values.Amount.toLocaleString('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        })
-                    );
-                    $('#Applied').val(values.Applied);
-                    $('#evaluated').val(values.evaluated);
-                    $('#Assigned_to').val(values.Assigned_to);
-                    $('#building').val(
-                        values.building.toLocaleString('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        })
-                    );
-                    $('#equipment').val(
-                        values.equipment.toLocaleString('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        })
-                    );
-                    $('#workingCapital').val(
-                        values.workingCapital.toLocaleString('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                        })
-                    );
+                    readonlyInputs.filter('#cooperatorName').val(values.cooperatorName);
+                    readonlyInputs.filter('#designation').val(values.designation);
+                    readonlyInputs.filter('#b_id').val(values.b_id);
+                    readonlyInputs.filter('#businessAddress').val(values.businessAddress);
+                    readonlyInputs.filter('#typeOfEnterprise').val(values.typeOfEnterprise);
+                    readonlyInputs.filter('#enterpriseLevel').val(values.enterpriseLevel);
+                    readonlyInputs.filter('#landline').val(values.landline);
+                    readonlyInputs.filter('#mobilePhone').val(values.mobilePhone);
+                    readonlyInputs.filter('#email').val(values.email);
+                    readonlyInputs.filter('#ProjectId').val(values.ProjectId);
+                    readonlyInputs.filter('#ProjectTitle').val(values.ProjectTitle);
+                    readonlyInputs.filter('#Amount').val(formatToString(values.Amount));
+                    readonlyInputs.filter('#Applied').val(values.Applied);
+                    readonlyInputs.filter('#evaluated').val(values.evaluated);
+                    readonlyInputs.filter('#Assigned_to').val(values.Assigned_to);
+                    readonlyInputs.filter('#building').val(formatToString(values.building));
+                    readonlyInputs.filter('#equipment').val(formatToString(values.equipment));
+                    readonlyInputs.filter('#workingCapital').val(formatToString(values.workingCapital));
 
-                    const approvedProjectOffcanvas = $('#approvedDetails');
-                    const userName = inputs.filter('.staffUserName').val();
-                    const authUserName = '{{ Auth::user()->user_name }}';
-                    if (
-                        userName !== undefined &&
-                        userName !== null &&
-                        authUserName === userName
-                    ) {
-                        approvedProjectOffcanvas.find('.offcanvas-body').after(`
-                              <div class="menu-container">
-                        <div class="menu-button z-3 p-3 text-white">
-                            <i class="ri-menu-2-fill ri-lg" id="menu-icon-state"></i>
-                        </div>
-                        <div class="menu" id="menu">
-                            <div class="menu-item text-nowrap">
-                                <button class="btn text-white" data-display-section="cooperatorRequirementsLinks"
-                                    id="attachlink">
-                                    <i class="ri-user-fill"></i>
-                                    Attach Link
-                                </button>
-                            </div>
-                            <div class="menu-item text-nowrap">
-                                <button class="btn text-white" data-display-section="createPIS" id="createPIS">
-                                    <i class="ri-home-fill"></i>
-                                    Create PIS
-                                </button>
-                            </div>
-                            <div class="menu-item text-nowrap menuBtn">
-                                <button class="btn text-white" data-display-section="cooperatorDetails" id="cooperatorDetails">
-                                    <i class="ri-file-add-fill"></i>
-                                    Details
-                                </button>
-                            </div>
-                        </div>
-                    </div>`);
-                    } else {
-                        approvedProjectOffcanvas
-                            .find('.menu-container')
-                            .remove();
-                    }
+                   
                 }
             );
 
@@ -3446,7 +3390,7 @@ window.initializeStaffPageJs = async () => {
                                               Approved.fund_amount
                                           }">
                                           <input type="hidden" class="dateApplied" value="${
-                                              Approved.date_applied
+                                            dateFormatter(Approved.date_applied)
                                           }">
                                           <input type="hidden" class="staffUserName" value="${
                                               Approved.staffUserName
@@ -3485,7 +3429,7 @@ window.initializeStaffPageJs = async () => {
                                                   ? Approved.handled_by_suffix
                                                   : '')
                                           }">`,
-                                `${Approved.date_approved}`,
+                                `${dateFormatter(Approved.date_approved)}`,
                                 ` <button class="btn btn-primary approvedProjectInfo" type="button"
                                                                   data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
                                                                   aria-controls="approvedDetails">

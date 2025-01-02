@@ -1,6 +1,4 @@
 import "./echo";
-import Notification from "./Notification";
-import NotificationContainer from "./NotificationContainer";
 import {
     showToastFeedback,
     formatToString,
@@ -25,6 +23,7 @@ import "datatables.net-fixedheader-bs5";
 import "datatables.net-responsive-bs5";
 import "datatables.net-scroller-bs5";
 
+const MAIN_CONTENT_CONTAINER = $("#main-content");
 const USER_ROLE = "admin";
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Admin_Index.blade.php
 const notificationManager = new NotificationManager(NOTIFICATION_ROUTE, USER_ID, USER_ROLE);
@@ -53,7 +52,7 @@ const setActiveLink = (activeLink) => {
 window.loadPage = async (url, activeLink) => {
     try {
         $(".spinner").removeClass("d-none");
-        $("#main-content").hide();
+        MAIN_CONTENT_CONTAINER.hide();
         // Check if the response is already cached
         const cachePage = sessionStorage.getItem(url);
         if (cachePage) {
@@ -78,13 +77,13 @@ window.loadPage = async (url, activeLink) => {
         console.error(error);
     } finally {
         $(".spinner").addClass("d-none");
-        $("#main-content").show();
+        MAIN_CONTENT_CONTAINER.show();
     }
 };
 
 const handleAjaxSuccess = async (response, activeLink, url) => {
     try {
-        $("#main-content").html(response);
+        MAIN_CONTENT_CONTAINER.html(response);
         setActiveLink(activeLink);
         history.pushState(null, "", url);
 

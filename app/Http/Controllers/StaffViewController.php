@@ -132,22 +132,22 @@ class StaffViewController extends Controller
             if (Cache::has('approved_projects')) {
                 $approvedProjects = Cache::get('approved_projects');
             } else {
-                $approvedProjects =  DB::table('users')
-                    ->join('coop_users_info', 'coop_users_info.user_name', '=', 'users.user_name')
-                    ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
-                    ->join('assets', 'assets.id', '=', 'business_info.id')
-                    ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
-                    ->leftJoin('org_users_info as handled_by', function ($join) {
-                        $join->on('pi.handled_by_id', '=', 'handled_by.id');
-                    })->leftJoin('org_users_info as evaluated_by', function ($join) {
-                        $join->on('pi.evaluated_by_id', '=', 'evaluated_by.id');
-                    })
-                    ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-                    ->where('pi.handled_by_id', '!=', null)
-                    ->where('pi.evaluated_by_id', '!=', null)
-                    ->where('application_info.application_status', 'approved')
-                    ->where('users.role', 'Cooperator')
-                    ->select(
+                $approvedProjects = DB::table('application_info')
+                ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
+                ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
+                ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+                ->join('assets', 'assets.id', '=', 'business_info.id')
+                ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
+                ->leftJoin('org_users_info as handled_by', function ($join) {
+                    $join->on('pi.handled_by_id', '=', 'handled_by.id');
+                })->leftJoin('org_users_info as evaluated_by', function ($join) {
+                    $join->on('pi.evaluated_by_id', '=', 'evaluated_by.id');
+                })
+                ->where('pi.handled_by_id', '!=', null)
+                ->where('pi.evaluated_by_id', '!=', null)
+                ->where('application_info.application_status', 'approved')
+                ->where('users.role', 'Cooperator')
+                ->select(
                         'users.user_name',
                         'users.email',
                         'users.role',
@@ -187,10 +187,8 @@ class StaffViewController extends Controller
                         'application_info.application_status'
                     )
                     ->get();
-
                 Cache::put('approved_projects', $approvedProjects, 1800);
             }
-
 
             return response()->json($approvedProjects);
         } catch (Exception $e) {
