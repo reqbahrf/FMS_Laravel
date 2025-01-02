@@ -13,6 +13,8 @@ import {
     hideProcessToast,
 } from "./Utilities/utilFunctions";
 
+import NotificationManager from "./Utilities/NotificationManager";
+
 import DataTable from "datatables.net-bs5";
 window.DataTable = DataTable;
 import "datatables.net-bs5";
@@ -23,26 +25,13 @@ import "datatables.net-fixedheader-bs5";
 import "datatables.net-responsive-bs5";
 import "datatables.net-scroller-bs5";
 
-Echo.private(`admin-notifications.${USER_ID}`).listen(
-    ".Illuminate\\Notifications\\Events\\BroadcastNotificationCreated",
-    (e) => {
-        try {
-            console.log("Raw event:", e);
-            const NotificationData = e;
+const USER_ROLE = "admin";
+//The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Admin_Index.blade.php
+const notificationManager = new NotificationManager(NOTIFICATION_ROUTE, USER_ID, USER_ROLE);
 
-            if (!NotificationData) {
-                throw new Error("Notification data is undefined");
-            }
+notificationManager.fetchNotifications();
+notificationManager.setupEventListeners();
 
-            NotificationContainer(NotificationData);
-        } catch (error) {
-            console.error("Error parsing notification data:", error);
-            console.log("Raw data:", e.data);
-        }
-    }
-);
-
-Notification();
 
 $(function () {
     const lastUrl = sessionStorage.getItem("AdminlastUrl");

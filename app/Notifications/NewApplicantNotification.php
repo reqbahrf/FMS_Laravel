@@ -2,14 +2,15 @@
 
 namespace App\Notifications;
 
-use Illuminate\Bus\Queueable;
 use App\Models\User;
+use App\Events\ProjectEvent;
+use Illuminate\Bus\Queueable;
+use App\Actions\CalculateTimeAgo;
+use Illuminate\Notifications\Notification;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Notifications\Notification;
-use App\Events\ProjectEvent;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class NewApplicantNotification extends Notification implements ShouldBroadcast
 {
@@ -52,9 +53,15 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
 
     public function toBroadcast($notifiable)
     {
+        $notification = $notifiable->notifications()->where('type', self::class)->latest()->first();
+        $timeAgo = CalculateTimeAgo::execute($notification->created_at);
+
         return new BroadcastMessage([
-            'title' => 'New applicant',
-            'message' => 'New applicant has been submitted to the system. you may check it on the Applicants tab.',
+            'id' => $notification->id,
+            'data' => $notification->data,
+            'read_at' => $notification->read_at,
+            'created_at' => $notification->created_at,
+            'time_ago' => $timeAgo,
         ]);
     }
 

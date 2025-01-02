@@ -1,6 +1,4 @@
 import './echo';
-import Notification from './Notification';
-import NotificationContainer from './NotificationContainer';
 import {
     showToastFeedback,
     formatToString,
@@ -13,6 +11,7 @@ import {
     hideProcessToast,
 } from './Utilities/utilFunctions';
 import { FormEvents } from './components/ProjectFormEvents';
+import NotificationManager from './Utilities/NotificationManager';
 
 import DataTable from 'datatables.net-bs5';
 window.DataTable = DataTable;
@@ -29,26 +28,12 @@ window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 
-Echo.private(`staff-notifications.${USER_ID}`).listen(
-    '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
-    (e) => {
-        try {
-            console.log('Raw event:', e);
-            const NotificationData = e;
+const USER_ROLE = "staff";
+//The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Staff_Index.blade.php
+const notificationManager = new NotificationManager(NOTIFICATION_ROUTE, USER_ID, USER_ROLE);
+notificationManager.fetchNotifications();
+notificationManager.setupEventListeners();
 
-            if (!NotificationData) {
-                throw new Error('Notification data is undefined');
-            }
-
-            NotificationContainer(NotificationData);
-        } catch (error) {
-            console.error('Error parsing notification data:', error);
-            console.log('Raw data:', e.data);
-        }
-    }
-);
-
-Notification();
 
 $(document).on('DOMContentLoaded', function () {
     // Line chart
