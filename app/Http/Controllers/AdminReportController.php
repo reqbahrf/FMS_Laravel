@@ -49,7 +49,7 @@ class AdminReportController extends Controller
             $mpdf->SetTitle('Dashboard Report ' . date('Y-m-d'));
 
             // Generate HTML content
-            $html = $this->generateReportHTML($report);
+            $html = $this->generateReportHTML($report, $yearToLoad);
 
             // Write HTML to PDF
             $mpdf->WriteHTML($html);
@@ -74,57 +74,85 @@ class AdminReportController extends Controller
             'summary' => []
         ];
 
-        // Process Monthly Data
-        $monthlyData = json_decode($chartData['monthlyData'][0], true);
-        foreach ($monthlyData as $month => $data) {
-            $report['monthly_statistics'][] = [
-                'month' => $month,
-                'total_applicants' => $data['Applicants'],
-                'ongoing_projects' => $data['Ongoing'],
-                'completed_projects' => $data['Completed'],
-                'total_projects' => $data['Ongoing'] + $data['Completed']
+        try {
+            if (!isset($chartData['monthlyData'])) {
+                Log::error('Monthly data is not set');
+                throw new Exception('Monthly data is not set');
+            }
+            if (!is_string($chartData['monthlyData'])) {
+                Log::error('Monthly data is not a string');
+                throw new Exception('Monthly data is not a string');
+            }
+            $monthlyData = json_decode($chartData['monthlyData'], true);
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($monthlyData)) {
+                Log::error('Failed to decode monthly data', ['error' => json_last_error_msg()]);
+                throw new Exception('Failed to decode monthly data');
+            }
+
+            foreach ($monthlyData as $month => $data) {
+                $report['monthly_statistics'][] = [
+                    'month' => $month,
+                    'total_applicants' => $data['Applicants'] ?? 0,
+                    'ongoing_projects' => $data['Ongoing'] ?? 0,
+                    'completed_projects' => $data['Completed'] ?? 0,
+                    'total_projects' => ($data['Ongoing'] ?? 0) + ($data['Completed'] ?? 0)
+                ];
+            }
+
+            if (!isset($chartData['localData'])) {
+                Log::error('Local data is not set');
+                throw new Exception('Local data is not set');
+            }
+            if (!is_string($chartData['localData'])) {
+                Log::error('Local data is not a string');
+                throw new Exception('Local data is not a string');
+            }
+            $localData = json_decode($chartData['localData'], true);
+            if (json_last_error() !== JSON_ERROR_NONE || !is_array($localData)) {
+                Log::error('Failed to decode location data', ['error' => json_last_error_msg()]);
+                throw new Exception('Failed to decode location data');
+            }
+            foreach ($localData as $location => $data) {
+                $report['location_statistics'][] = [
+                    'location' => $location,
+                    'micro_enterprises' => $data['Micro Enterprise'] ?? 0,
+                    'small_enterprises' => $data['Small Enterprise'] ?? 0,
+                    'medium_enterprises' => $data['Medium Enterprise'] ?? 0,
+                    'total_enterprises' => ($data['Micro Enterprise'] ?? 0) + ($data['Small Enterprise'] ?? 0) + ($data['Medium Enterprise'] ?? 0)
+                ];
+            }
+
+            // Process Staff Data
+            foreach ($chartData['staffhandledProjects'] as $staff) {
+                $totalProjects = ($staff['Micro Enterprise'] ?? 0) + ($staff['Small Enterprise'] ?? 0) + ($staff['Medium Enterprise'] ?? 0);
+                $report['staff_performance'][] = [
+                    'staff_name' => trim($staff['Staff_Name']),
+                    'micro_enterprises' => $staff['Micro Enterprise'] ?? 0,
+                    'small_enterprises' => $staff['Small Enterprise'] ?? 0,
+                    'medium_enterprises' => $staff['Medium Enterprise'] ?? 0,
+                    'total_handled_projects' => $totalProjects
+                ];
+            }
+
+            // Calculate Summary Statistics
+            $report['summary'] = [
+                'total_applicants' => collect($report['monthly_statistics'])->sum('total_applicants'),
+                'total_ongoing' => collect($report['monthly_statistics'])->sum('ongoing_projects'),
+                'total_completed' => collect($report['monthly_statistics'])->sum('completed_projects'),
+                'total_locations' => count($report['location_statistics']),
+                'total_active_staff' => count(array_filter($report['staff_performance'], function ($staff) {
+                    return $staff['total_handled_projects'] > 0;
+                }))
             ];
-        }
 
-        // Process Location Data
-        $localData = json_decode($chartData['localData'][0], true);
-        foreach ($localData as $location => $data) {
-            $report['location_statistics'][] = [
-                'location' => $location,
-                'micro_enterprises' => $data['Micro Enterprise'],
-                'small_enterprises' => $data['Small Enterprise'],
-                'medium_enterprises' => $data['Medium Enterprise'],
-                'total_enterprises' => $data['Micro Enterprise'] + $data['Small Enterprise'] + $data['Medium Enterprise']
-            ];
-        }
-
-        // Process Staff Data
-        foreach ($chartData['staffhandledProjects'] as $staff) {
-            $totalProjects = $staff['Micro Enterprise'] + $staff['Small Enterprise'] + $staff['Medium Enterprise'];
-            $report['staff_performance'][] = [
-                'staff_name' => trim($staff['Staff_Name']),
-                'micro_enterprises' => $staff['Micro Enterprise'],
-                'small_enterprises' => $staff['Small Enterprise'],
-                'medium_enterprises' => $staff['Medium Enterprise'],
-                'total_handled_projects' => $totalProjects
-            ];
-        }
-
-        // Calculate Summary Statistics
-        $report['summary'] = [
-            'total_applicants' => collect($report['monthly_statistics'])->sum('total_applicants'),
-            'total_ongoing' => collect($report['monthly_statistics'])->sum('ongoing_projects'),
-            'total_completed' => collect($report['monthly_statistics'])->sum('completed_projects'),
-            'total_locations' => count($report['location_statistics']),
-            'total_active_staff' => count(array_filter($report['staff_performance'], function ($staff) {
-                return $staff['total_handled_projects'] > 0;
-            }))
-        ];
-
-        return $report;
+            return $report;
+       } catch (Exception $e) {
+    Log::error('Error in processReportData: ' . $e->getMessage());
+    throw new Exception('Error in processReportData', $e->getCode(), $e);
+}
     }
 
-    private function generateReportHTML($report)
+    private function generateReportHTML($report, $yearToLoad)
     {
         $html = '
         <style>
@@ -140,6 +168,7 @@ class AdminReportController extends Controller
 
         <div class="header">
             <h1>Dashboard Report</h1>
+            <p>For the Year: ' . htmlspecialchars($yearToLoad) . '</p>
             <p>Generated on: ' . date('Y-m-d g:i:s A') . '</p>
         </div>';
 

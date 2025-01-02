@@ -7,15 +7,15 @@ use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use App\Services\ProjectFormService;
-use App\Services\GetPreviousQuarterService;
+use App\Actions\GetPreviousQuarterAction;
 
 class GenerateFormController extends Controller
 {
 
-    public function __construct(private ProjectFormService $projectFormService, private GetPreviousQuarterService $getPreviousQuarterService)
+    public function __construct(private ProjectFormService $projectFormService, private GetPreviousQuarterAction $getPreviousQuarterAction)
     {
         $this->projectFormService = $projectFormService;
-        $this->getPreviousQuarterService = $getPreviousQuarterService;
+        $this->getPreviousQuarterAction = $getPreviousQuarterAction;
 
     }
     public function getProjectSheetsForm(Request $request, $type, $projectId, $quarter = null)
@@ -49,7 +49,7 @@ class GenerateFormController extends Controller
 
                     $CurrentQuarterlyData = array_merge(['quarter' => $quarter], $CurrentQuarterlyData);
                     $PreviousQuarterlyData = $PreviousQuarterlyData != null
-                        ? array_merge(['quarter' => $this->getPreviousQuarterService->getPreviousQuarter($quarter)], $PreviousQuarterlyData)
+                        ? array_merge(['quarter' => $this->getPreviousQuarterAction->execute($quarter)], $PreviousQuarterlyData)
                         : null;
 
                     return view('StaffView.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'CurrentQuarterlyData', 'PreviousQuarterlyData'));
