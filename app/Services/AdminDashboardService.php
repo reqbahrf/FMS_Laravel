@@ -22,10 +22,14 @@ class AdminDashboardService {
     {
         try{
             $yearToLoad = $yearToLoad ?? date('Y');
+            if(Cache::has("$yearToLoad _ $Selected_Query")) {
+                return Cache::get("$yearToLoad _ $Selected_Query");
+            }
             $chartData = $this->chartYearOfModel
                 ->where('year_of', '=', $yearToLoad)
                 ->pluck($Selected_Query)
                 ->firstOrFail();
+            Cache::put("$yearToLoad _ $Selected_Query", $chartData, 1800);
             return $chartData;
         }catch(Exception $e){
             Log::error('Error in getChartData: ' . $e->getMessage());
@@ -37,11 +41,7 @@ class AdminDashboardService {
     {
         try{
             $method_query = 'monthly_project_categories';
-            if(!Cache::has('monthly_Data')){
-                $Monthly_data = $this->getChartData($yearToLoad, $method_query);
-                Cache::put('monthly_Data', $Monthly_data, 1800);
-            }
-            $Monthly_data = Cache::get('monthly_Data');
+            $Monthly_data = $this->getChartData($yearToLoad, $method_query);
             return $Monthly_data;
         }catch(Exception $e){
             Log::error('Error in getMonthlyData: ' . $e->getMessage());
@@ -54,11 +54,7 @@ class AdminDashboardService {
     {
         try{
             $method_query = 'project_local_categories';
-            if(!Cache::has('local_Data')){
-                $Local_data = $this->getChartData($yearToLoad, $method_query);
-                Cache::put('local_Data', $Local_data, 1800);
-            }
-            $Local_data = Cache::get('local_Data');
+            $Local_data = $this->getChartData($yearToLoad, $method_query);
             return $Local_data;
         }catch(Exception $e){
             Log::error('Error in getLocalData: ' . $e->getMessage());
@@ -113,6 +109,7 @@ class AdminDashboardService {
             return $staffhandledProjects;
         } catch (Exception $e) {
             Log::error('Error in getStaffHandledProjects: ' . $e->getMessage());
+            throw new Exception('Error in getStaffHandledProjects: ' . $e->getMessage(), $e->getCode(), $e);
             return collect([]);
         }
     }

@@ -49,7 +49,8 @@ class AdminViewController extends Controller
                 'monthlyData' => $monthlyData,
                 'localData' => $localData,
                 'staffhandledProjects' => $staffhandledProjects,
-                'listOfYears' => $listOfYears
+                'listOfYears' => $listOfYears,
+                'currentSelectedYear' => $yearToLoad
             ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()]);

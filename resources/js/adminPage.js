@@ -148,16 +148,40 @@ window.initializeAdminPageJs = async () => {
         Dashboard: async () => {
 
             const yearToLoadSelector = $('#yearSelector');
+            let MonthlyDataChart;
+            let LocalDataChart;
+            let EnterpriseLevelsDataChart;
+            let StaffhandlerProjectChart;
 
-            const processYearListSelector = async (yearsArray) => {
-                return new Promise((resolve) => {
-                    const currentYear = new Date().getFullYear();
-                    yearToLoadSelector.empty();
-                    yearsArray.forEach(year => {
-                        const selected = year === currentYear ? 'selected' : '';
-                        yearToLoadSelector.append(`<option value="${year}" ${selected}>${year}</option>`);
-                    });
-                    resolve();
+            const processYearListSelector = (yearsArray, currentSelectedYear) => {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (!Array.isArray(yearsArray)) {
+                            throw new Error('Years must be provided as an array');
+                        }
+                        
+                        if (!yearToLoadSelector || !yearToLoadSelector.length) {
+                            throw new Error('Year selector not found');
+                        }
+            
+                        const currentYear = new Date().getFullYear();
+                        yearToLoadSelector.empty();
+                        
+                        const options = yearsArray.map(year => {
+                            const selected = year == (currentSelectedYear ?? currentYear);
+                            return $('<option>', {
+                                value: year,
+                                text: year,
+                                selected: selected
+                            });
+                        });
+                        
+                        yearToLoadSelector.append(options);
+                        resolve();
+                    } catch (error) {
+                        console.error('Error in processYearListSelector:', error);
+                        reject(error);
+                    }
                 });
             }
 
@@ -344,11 +368,14 @@ window.initializeAdminPageJs = async () => {
                     },
                 };
                 return new Promise((resolve) => {
-                    const overallProjectGraph = new ApexCharts(
+                    if (MonthlyDataChart) {
+                        MonthlyDataChart.destroy();
+                    }
+                    MonthlyDataChart = new ApexCharts(
                         document.querySelector("#overallProjectGraph"),
                         overallProject
                     );
-                    overallProjectGraph.render();
+                    MonthlyDataChart.render();
                     resolve();
                 });
             };
@@ -362,7 +389,6 @@ window.initializeAdminPageJs = async () => {
              * @param {number[]} mediumCounts - An array of medium enterprise counts.
              * @return {void}
              */
-            let barChart;
             let pieChart;
 
             const createLocalDataChart = async (
@@ -442,11 +468,14 @@ window.initializeAdminPageJs = async () => {
                     },
                 };
                 return new Promise((resolve) => {
-                    barChart = new ApexCharts(
+                    if (LocalDataChart) {
+                        LocalDataChart.destroy();
+                    }
+                    LocalDataChart = new ApexCharts(
                         document.querySelector("#localeChart"),
                         options
                     );
-                    barChart.render();
+                    LocalDataChart.render();
                     resolve();
                 });
             };
@@ -511,11 +540,14 @@ window.initializeAdminPageJs = async () => {
                 };
 
                 return new Promise((resolve) => {
-                    pieChart = new ApexCharts(
+                    if (EnterpriseLevelsDataChart) {
+                        EnterpriseLevelsDataChart.destroy();
+                    }
+                    EnterpriseLevelsDataChart = new ApexCharts(
                         document.querySelector("#enterpriseLevelChart"),
                         EnterpriseLevelOptions
                     );
-                    pieChart.render();
+                    EnterpriseLevelsDataChart.render();
                     resolve();
                 });
             };
@@ -578,10 +610,14 @@ window.initializeAdminPageJs = async () => {
                     },
                 };
                 return new Promise((resolve) => {
-                    new ApexCharts(
+                    if (StaffhandlerProjectChart) {
+                        StaffhandlerProjectChart.destroy();
+                    }
+                    StaffhandlerProjectChart = new ApexCharts(
                         document.querySelector("#staffHandledB"),
                         handledBusiness
-                    ).render();
+                    );
+                    StaffhandlerProjectChart.render();
                     resolve();
                 });
             };
@@ -606,18 +642,19 @@ window.initializeAdminPageJs = async () => {
 
                     // Parse the JSON response if it's a string
                     const monthlyData =
-                        (await JSON.parse(response.monthlyData)) ||
+                        (JSON.parse(response.monthlyData)) ||
                         response.monthlyData;
                     const localData =
-                        (await JSON.parse(response.localData)) ||
+                        (JSON.parse(response.localData)) ||
                         response.localData; // Assumes it's a valid JSON string
-                    const handleProject = await response.staffhandledProjects;
-                    const ListChartYear = await response.listOfYears;
+                    const handleProject = response.staffhandledProjects;
+                    const ListChartYear = response.listOfYears;
+                    const currentSelectedYear = response.currentSelectedYear;
                     return Promise.all([
                         processMonthlyDataChart(monthlyData),
                         processLocalDataChart(localData),
                         processHandleStaffProjectChart(handleProject),
-                        processYearListSelector(ListChartYear),
+                        processYearListSelector(ListChartYear, currentSelectedYear),
                     ]);
                 } catch (error) {
                     console.error("Error fetching chart data:", error);
