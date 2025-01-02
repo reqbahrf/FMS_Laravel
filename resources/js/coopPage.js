@@ -1,6 +1,4 @@
 import './echo';
-import Notification from './Notification';
-import NotificationContainer from './NotificationContainer';
 import {
     showToastFeedback,
     dateFormatter,
@@ -23,7 +21,8 @@ import {
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
-
+import NotificationManager from './Utilities/NotificationManager';
+const USER_ROLE = 'coop';
 const ExportAndLocalMktTableConfig = {
     ExportProduct: {
         id: 'ExportOutletTable',
@@ -56,28 +55,10 @@ const ExportAndLocalMktTableConfig = {
         requiredFields: ['ProductName']
     }
 };
-
-
-Echo.private(`coop-notifications.${USER_ID}`).listen(
-    '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
-    (e) => {
-        try {
-            console.log('Raw event:', e);
-            const NotificationData = e;
-
-            if (!NotificationData) {
-                throw new Error('Notification data is undefined');
-            }
-
-            NotificationContainer(NotificationData);
-        } catch (error) {
-            console.error('Error parsing notification data:', error);
-            console.log('Raw data:', e.data);
-        }
-    }
-);
-
-Notification();
+//The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ CooperatorApprovedPage.blade.php
+const notificationManager = new NotificationManager(NOTIFICATION_ROUTE, USER_ID, USER_ROLE);
+notificationManager.fetchNotifications();
+notificationManager.setupEventListeners();
 
 $(window).on('beforeunload', function () {
     return 'Are you sure you want to leave?';
