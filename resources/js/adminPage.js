@@ -185,43 +185,47 @@ window.initializeAdminPageJs = async () => {
              * @return {Promise<void>} A promise that resolves when the data is processed.
              */
             const processMonthlyDataChart = async (monthlyData) => {
-                let applicants = Array(12).fill(0);
-                let ongoing = Array(12).fill(0);
-                let completed = Array(12).fill(0);
-
-                const months = [
-                    "Jan",
-                    "Feb",
-                    "Mar",
-                    "Apr",
-                    "May",
-                    "Jun",
-                    "Jul",
-                    "Aug",
-                    "Sep",
-                    "Oct",
-                    "Nov",
-                    "Dec",
-                ];
-
-                await Promise.all(
-                    Object.keys(monthlyData).map(async (month) => {
+                try {
+                    
+                    let applicants = Array(12).fill(0);
+                    let ongoing = Array(12).fill(0);
+                    let completed = Array(12).fill(0);
+    
+                    const months = [
+                        "Jan",
+                        "Feb",
+                        "Mar",
+                        "Apr",
+                        "May",
+                        "Jun",
+                        "Jul",
+                        "Aug",
+                        "Sep",
+                        "Oct",
+                        "Nov",
+                        "Dec",
+                    ];
+    
+                    Object.keys(monthlyData).forEach(month => {
                         const data = monthlyData[month];
-
+    
                         // Assuming 'month' matches 'Sep', 'Oct' etc.
                         const monthIndex = months.indexOf(month.slice(0, 3));
-
+    
                         // For each series, push the respective data
-
-                        if (monthIndex !== -1) {
-                            // Update the arrays for the respective data
-                            applicants[monthIndex] = data.Applicants || 0;
-                            ongoing[monthIndex] = data.Ongoing || 0;
-                            completed[monthIndex] = data.Completed || 0;
-                        }
-                    })
-                );
-                await createMonthlyDataChart(applicants, ongoing, completed);
+    
+                            if (monthIndex !== -1) {
+                                // Update the arrays for the respective data
+                                applicants[monthIndex] = data.Applicants || 0;
+                                ongoing[monthIndex] = data.Ongoing || 0;
+                                completed[monthIndex] = data.Completed || 0;
+                            }
+                        })
+                    await createMonthlyDataChart(applicants, ongoing, completed);
+                } catch (error) {
+                    throw new Error('Error in processMonthlyDataChart:' + error);
+                    
+                }
             };
 
             /**
@@ -231,65 +235,63 @@ window.initializeAdminPageJs = async () => {
              * @return {Promise<void>} A promise that resolves when the data is processed and charts are created.
              */
             const processLocalDataChart = async (localData) => {
-                let cities = [];
-                let microCounts = [];
-                let smallCounts = [];
-                let mediumCounts = [];
+                try{
 
-                for (const city in localData) {
-                    if (localData.hasOwnProperty(city)) {
-                        cities.push(city);
-                        microCounts.push(localData[city]["Micro Enterprise"]);
-                        smallCounts.push(localData[city]["Small Enterprise"]);
-                        mediumCounts.push(localData[city]["Medium Enterprise"]);
+                    let cities = [];
+                    let microCounts = [];
+                    let smallCounts = [];
+                    let mediumCounts = [];
+    
+                    for (const city in localData) {
+                        if (localData.hasOwnProperty(city)) {
+                            cities.push(city);
+                            microCounts.push(localData[city]["Micro Enterprise"]);
+                            smallCounts.push(localData[city]["Small Enterprise"]);
+                            mediumCounts.push(localData[city]["Medium Enterprise"]);
+                        }
                     }
+    
+                    let totalMicro = microCounts.reduce((a, b) => a + b, 0);
+                    let totalSmall = smallCounts.reduce((a, b) => a + b, 0);
+                    let totalMedium = mediumCounts.reduce((a, b) => a + b, 0);
+    
+                       await createLocalDataChart(
+                            cities,
+                            microCounts,
+                            smallCounts,
+                            mediumCounts
+                        )
+                       await createEnterpriseLevels(totalMicro, totalSmall, totalMedium)
+                }catch(error){
+                    throw new Error('Error in processLocalDataChart:' + error);
                 }
-
-                let totalMicro = microCounts.reduce((a, b) => a + b, 0);
-                let totalSmall = smallCounts.reduce((a, b) => a + b, 0);
-                let totalMedium = mediumCounts.reduce((a, b) => a + b, 0);
-
-                return Promise.all([
-                    createLocalDataChart(
-                        cities,
-                        microCounts,
-                        smallCounts,
-                        mediumCounts
-                    ),
-                    createEnterpriseLevels(totalMicro, totalSmall, totalMedium),
-                ]);
             };
 
             const processHandleStaffProjectChart = async (handleProject) => {
-                const staffNames = handleProject.map((item) => item.Staff_Name);
-                const microEnterprisData = handleProject.map(
-                    (item) => item["Micro Enterprise"]
-                );
-                const smallEnterpriseData = handleProject.map(
-                    (item) => item["Small Enterprise"]
-                );
-                const mediumEnterpriseData = handleProject.map(
-                    (item) => item["Medium Enterprise"]
-                );
-                return Promise.all([
-                    createhandledProjectsChart(
-                        staffNames,
-                        microEnterprisData,
-                        smallEnterpriseData,
-                        mediumEnterpriseData
-                    ),
-                ]);
+                try {
+                    const staffNames = handleProject.map((item) => item.Staff_Name);
+                    const microEnterprisData = handleProject.map(
+                        (item) => item["Micro Enterprise"]
+                    );
+                    const smallEnterpriseData = handleProject.map(
+                        (item) => item["Small Enterprise"]
+                    );
+                    const mediumEnterpriseData = handleProject.map(
+                        (item) => item["Medium Enterprise"]
+                    );
+                       await createhandledProjectsChart(
+                            staffNames,
+                            microEnterprisData,
+                            smallEnterpriseData,
+                            mediumEnterpriseData
+                        )
+                } catch (error) {
+                    throw new Error('Error in processHandleStaffProjectChart:' + error);                   
+                }
             };
 
-            /**
-             * Creates a monthly data chart with the provided applicants, ongoing, and completed data.
-             *
-             * @param {number[]} applicants - An array of applicant data for each month.
-             * @param {number[]} ongoing - An array of ongoing data for each month.
-             * @param {number[]} completed - An array of completed data for each month.
-             * @return {Promise<void>} A promise that resolves when the chart is rendered.
-             */
-            const createMonthlyDataChart = async (
+    
+            const createMonthlyDataChart = (
                 applicants,
                 ongoing,
                 completed
@@ -365,21 +367,11 @@ window.initializeAdminPageJs = async () => {
                     );
                     MonthlyDataChart.render();
                     resolve();
+                }).catch((error) => {
+                    throw new Error('Error in createMonthlyDataChart:' + error);
                 });
             };
-
-            /**
-             * Creates a local data chart with the provided cities and enterprise counts.
-             *
-             * @param {string[]} cities - An array of city names.
-             * @param {number[]} microCounts - An array of micro enterprise counts.
-             * @param {number[]} smallCounts - An array of small enterprise counts.
-             * @param {number[]} mediumCounts - An array of medium enterprise counts.
-             * @return {void}
-             */
-            let pieChart;
-
-            const createLocalDataChart = async (
+            const createLocalDataChart = (
                 cities,
                 microCounts,
                 smallCounts,
@@ -465,10 +457,11 @@ window.initializeAdminPageJs = async () => {
                     );
                     LocalDataChart.render();
                     resolve();
+                }).catch((error) => {
+                    throw new Error('Error in createLocalDataChart:' + error);
                 });
             };
-
-            const createEnterpriseLevels = async (
+            const createEnterpriseLevels = (
                 totalMicro,
                 totalSmall,
                 totalMedium
@@ -537,9 +530,11 @@ window.initializeAdminPageJs = async () => {
                     );
                     EnterpriseLevelsDataChart.render();
                     resolve();
+                }).catch((error) => {
+                    throw new Error('Error in createEnterpriseLevels:' + error);
                 });
             };
-            const createhandledProjectsChart = async (
+            const createhandledProjectsChart = (
                 staffNames,
                 microEnterprisData,
                 smallEnterpriseData,
@@ -607,6 +602,8 @@ window.initializeAdminPageJs = async () => {
                     );
                     StaffhandlerProjectChart.render();
                     resolve();
+                }).catch((error) => {
+                    throw new Error('Error in createhandledProjectsChart:', error);
                 });
             };
 
@@ -638,26 +635,21 @@ window.initializeAdminPageJs = async () => {
                     const handleProject = response.staffhandledProjects;
                     const ListChartYear = response.listOfYears;
                     const currentSelectedYear = response.currentSelectedYear;
-                    return Promise.all([
-                        processMonthlyDataChart(monthlyData),
-                        processLocalDataChart(localData),
-                        processHandleStaffProjectChart(handleProject),
-                        processYearListSelector(ListChartYear, currentSelectedYear),
-                    ]);
+
+                  await Promise.all([
+                      processMonthlyDataChart(monthlyData),
+                      processLocalDataChart(localData),
+                      processHandleStaffProjectChart(handleProject),
+                      processYearListSelector(ListChartYear, currentSelectedYear),
+                ])
                 } catch (error) {
-                    console.error("Error fetching chart data:", error);
+                   throw new Error('Error in getDashboardChartData:' + error);
                 }
             };
 
-            const loadAllCharts = async () => {
-                await Promise.all([
-                    (() => {
-                        getDashboardChartData();
-                    })(),
-                ]);
-            };
-
-            await loadAllCharts();
+         
+        
+    
 
             $('#generateDashboardReport').off('click').on('click', async function(){
                 const selectedYear = yearToLoadSelector.val() || '';
@@ -760,6 +752,8 @@ window.initializeAdminPageJs = async () => {
              }
 
             });
+
+            await getDashboardChartData();
         },
 
         /**
@@ -768,7 +762,7 @@ window.initializeAdminPageJs = async () => {
          *
          * @return {void}
          */
-        ProjectList: () => {
+        ProjectList: async () => {
             const ForApprovalDataTable = $("#forApproval").DataTable({
                 responsive: true,
                 autoWidth: false,
@@ -1589,10 +1583,9 @@ window.initializeAdminPageJs = async () => {
 
                     ForApprovalDataTable.draw();
                 } catch (error) {
-                    console.error("Error:", error);
+                    throw new Error("Error fetching for approval projects: " + error);
                 }
             }
-            getforApprovalProject();
 
             const approvedProjectProposal = async (
                 businessId,
@@ -1786,7 +1779,7 @@ window.initializeAdminPageJs = async () => {
 
                     OngoingDataTable.draw();
                 } catch (error) {
-                    console.error("Error:", error);
+                   throw new Error('Error fetching ongoing projects: ' + error);
                 }
             }
 
@@ -1914,15 +1907,16 @@ window.initializeAdminPageJs = async () => {
                     );
                     CompletedDataTable.draw();
                 } catch (error) {
-                    console.error("Error:", error);
+                    throw new Error("Error fetching completed projects: " + error);
                 }
             }
 
-            getOngoingProjects();
-            getCompletedProjects();
+           await getforApprovalProject();
+           await getOngoingProjects();
+           await getCompletedProjects();
         },
 
-        ApplicantList: () => {
+        ApplicantList: async () => {
             const applicantDataTable = $("#applicant").DataTable({
                 responsive: true,
                 autoWidth: false,
@@ -2077,7 +2071,7 @@ window.initializeAdminPageJs = async () => {
                     .draw();
             };
 
-            getApplicants();
+           
 
             $("#ApplicanttableBody").on("click", ".viewApplicant", function () {
                 const row = $(this).closest("tr");
@@ -2211,9 +2205,11 @@ window.initializeAdminPageJs = async () => {
                     .filter(".personnel-total")
                     .val(personnelTotal);
             });
+
+            await getApplicants();
         },
 
-        Users: () => {
+        Users: async () => {
             $("#user_staff").DataTable({
                 autoWidth: false,
                 responsive: true,
@@ -2307,7 +2303,7 @@ window.initializeAdminPageJs = async () => {
                 }
             };
 
-            getStaffUserLists();
+        
 
             (() => {
                 "use strict";
@@ -2574,6 +2570,8 @@ window.initializeAdminPageJs = async () => {
 
                 offcanvas.find("#StaffName").text(StaffName);
             });
+
+            await getStaffUserLists();
         },
         ProjectSettings: () => {
             const ProjectFeeForm = $('#projectFeeForm');
