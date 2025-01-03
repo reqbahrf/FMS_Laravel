@@ -10,13 +10,11 @@ import {
     hideProcessToast,
     closeModal,
 } from './Utilities/utilFunctions';
-import {
-    FormDraftHandler  
-} from './Utilities/FormDraftHandler';
+import { FormDraftHandler } from './Utilities/FormDraftHandler';
 import QUARTERLY_REPORTING_FORM_CONFIG from './Form_Config/QUARTERLY_REPORTING_CONFIG';
-import { 
-    AddNewRowHandler, 
-    RemoveRowHandler 
+import {
+    AddNewRowHandler,
+    RemoveRowHandler,
 } from './Utilities/AddAndRemoveTableRowHandler';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';
@@ -33,13 +31,13 @@ const ExportAndLocalMktTableConfig = {
             PackingDetails: '.packingDetails',
             volumeOfProduction: {
                 value: '.productionVolume_val',
-                unit: '.volumeUnit'
+                unit: '.volumeUnit',
             },
             grossSales: '.grossSales_val',
             estimatedCostOfProduction: '.estimatedCostOfProduction_val',
             netSales: '.netSales_val',
         },
-        requiredFields: ['ProductName']
+        requiredFields: ['ProductName'],
     },
     LocalProduct: {
         id: 'LocalOutletTable',
@@ -48,17 +46,21 @@ const ExportAndLocalMktTableConfig = {
             PackingDetails: '.packingDetails',
             volumeOfProduction: {
                 value: '.productionVolume_val',
-                unit: '.volumeUnit'
+                unit: '.volumeUnit',
             },
             grossSales: '.grossSales_val',
             estimatedCostOfProduction: '.estimatedCostOfProduction_val',
             netSales: '.netSales_val',
         },
-        requiredFields: ['ProductName']
-    }
+        requiredFields: ['ProductName'],
+    },
 };
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ CooperatorApprovedPage.blade.php
-const notificationManager = new NotificationManager(NOTIFICATION_ROUTE, USER_ID, USER_ROLE);
+const notificationManager = new NotificationManager(
+    NOTIFICATION_ROUTE,
+    USER_ID,
+    USER_ROLE
+);
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
 
@@ -205,7 +207,8 @@ $(function () {
 
 window.initilizeCoopPageJs = async () => {
     const functions = {
-        Dashboard: () => {
+        Dashboard: async () => {
+            let progressDataChart;
             const progressPercentage = (percentage) => {
                 const options = {
                     series: [percentage],
@@ -288,10 +291,20 @@ window.initilizeCoopPageJs = async () => {
                     labels: ['Percent'],
                 };
 
-                const chart = new ApexCharts(
-                    document.querySelector('#ProgressPer'),
-                    options
-                ).render();
+                return new Promise((resolve) => {
+                    if (progressDataChart) {
+                        progressDataChart.destroy();
+                    }
+                    progressDataChart = new ApexCharts(
+                        document.querySelector('#ProgressPer'),
+                        options
+                    ).render();
+                    resolve();
+                }).catch((error) => {
+                    throw new Error(
+                        'Error initializing progress chart: ' + error
+                    );
+                });
             };
 
             const getProgress = async () => {
@@ -325,9 +338,9 @@ window.initilizeCoopPageJs = async () => {
                     paymentTextPer.html(
                         `<h5>${formatToString(refunded_amount)} / ${formatToString(actual_amount)}</h5>`
                     );
-                    progressPercentage(percentage);
+                    await progressPercentage(percentage);
                 } catch (error) {
-                    console.error(error);
+                    throw new Error('Error fetching progress data: ' + error);
                 }
             };
 
@@ -355,10 +368,10 @@ window.initilizeCoopPageJs = async () => {
                 }
             };
 
-            getProgress();
+            await getProgress();
         },
 
-        Requirements: () => {
+        Requirements: async () => {
             function initializeFilePond() {
                 const inputElement = document.querySelector(
                     '.filepond-receipt-upload'
@@ -545,26 +558,33 @@ window.initilizeCoopPageJs = async () => {
                     }
                 } catch (error) {
                     console.error('Error:', error);
+                    throw new Error('Error fetching receipt data' + error);
                 }
             }
 
             initializeFilePond();
-            getReceipt();
+            await getReceipt();
         },
 
-        QuarterlyReport: () => {
+        QuarterlyReport: async () => {
             new SmartWizard();
-            
+
             formatToNumber('#BuildingAsset, #Equipment, #WorkingCapital');
 
             formatToNumber('#directLaborCard, #indirectLaborCard', 'input');
-            formatToNumber('.ExportData, .LocalData', 'tr td:nth-child(n+3):nth-child(-n+6) input');
+            formatToNumber(
+                '.ExportData, .LocalData',
+                'tr td:nth-child(n+3):nth-child(-n+6) input'
+            );
 
-            AddNewRowHandler('.addNewProductRow', 'div.productLocal, div.productExport');
-            RemoveRowHandler('.removeRowButton', 'div.productLocal, div.productExport');
-
-
-
+            AddNewRowHandler(
+                '.addNewProductRow',
+                'div.productLocal, div.productExport'
+            );
+            RemoveRowHandler(
+                '.removeRowButton',
+                'div.productLocal, div.productExport'
+            );
 
             $('.ExportData, .LocalData').on(
                 'input',
@@ -636,10 +656,13 @@ window.initilizeCoopPageJs = async () => {
             const confirmButton = $('#confirmButton');
 
             confirmTrueInfo.add(confirmAgreeInfo).on('change', function () {
-                confirmButton.prop('disabled', !(
-                    confirmTrueInfo.is(':checked') &&
-                    confirmAgreeInfo.is(':checked')
-                ));
+                confirmButton.prop(
+                    'disabled',
+                    !(
+                        confirmTrueInfo.is(':checked') &&
+                        confirmAgreeInfo.is(':checked')
+                    )
+                );
             });
 
             confirmButton.on('click', function () {
@@ -647,18 +670,15 @@ window.initilizeCoopPageJs = async () => {
             });
 
             const QuarterlyForm = $('#quarterlyForm');
-          
+
             function submitQuarterlyForm() {
                 showProcessToast('Submitting Quarterly Report...');
 
                 const formData = QuarterlyForm.serializeArray();
                 const quarterId = QuarterlyForm.data('quarter-id');
-                const quarterProject =
-                    QuarterlyForm.data('quarter-project');
-                const quarterPeriod =
-                    QuarterlyForm.data('quarter-period');
-                const quarterStatus =
-                    QuarterlyForm.data('quarter-status');
+                const quarterProject = QuarterlyForm.data('quarter-project');
+                const quarterPeriod = QuarterlyForm.data('quarter-period');
+                const quarterStatus = QuarterlyForm.data('quarter-status');
 
                 let dataObject = {};
                 $.each(formData, function (i, v) {
@@ -666,10 +686,9 @@ window.initilizeCoopPageJs = async () => {
                 });
 
                 dataObject = {
-                    ...dataObject, 
-                    ...TableDataExtractor(ExportAndLocalMktTableConfig)
+                    ...dataObject,
+                    ...TableDataExtractor(ExportAndLocalMktTableConfig),
                 };
-
 
                 // Send form data using AJAX
                 $.ajax({
@@ -710,33 +729,46 @@ window.initilizeCoopPageJs = async () => {
             }
 
             const QUARTERLY_FORM = $('#quarterlyForm');
-            const QUARTER_PERIOD = QUARTERLY_FORM.data(
-                'quarter-period'
-            )
+            const QUARTER_PERIOD = QUARTERLY_FORM.data('quarter-period');
             console.log(QUARTER_PERIOD);
-            const DRAFT_TYPE = `Quarterly_report_${QUARTER_PERIOD}`.replace(/\s/g, '');
+            const DRAFT_TYPE = `Quarterly_report_${QUARTER_PERIOD}`.replace(
+                /\s/g,
+                ''
+            );
 
-            const formDraftHandler = new FormDraftHandler(QUARTERLY_FORM, DRAFT_TYPE);
+            const formDraftHandler = new FormDraftHandler(
+                QUARTERLY_FORM,
+                DRAFT_TYPE
+            );
 
             formDraftHandler.syncTextInputData();
-            formDraftHandler.syncTablesData('#LocalOutletTable tr, #ExportOutletTable tr', ExportAndLocalMktTableConfig);
-           
-            (async () => {
-                await formDraftHandler.loadDraftData( 
-                    QUARTERLY_REPORTING_FORM_CONFIG,
-                );
-            })()
+            formDraftHandler.syncTablesData(
+                '#LocalOutletTable tr, #ExportOutletTable tr',
+                ExportAndLocalMktTableConfig
+            );
 
+            await formDraftHandler.loadDraftData(
+                QUARTERLY_REPORTING_FORM_CONFIG
+            );
         },
 
         ReportedQuarterlyReport: () => {
             console.log('initilizeCoopPageJs.ReportedQuarterlyReport');
             formatToNumber('#BuildingAsset, #Equipment, #WorkingCapital');
             formatToNumber('#directLaborCard, #indirectLaborCard', 'input');
-            formatToNumber('.ExportData, .LocalData', 'tr td:nth-child(n+3):nth-child(-n+6) input');
+            formatToNumber(
+                '.ExportData, .LocalData',
+                'tr td:nth-child(n+3):nth-child(-n+6) input'
+            );
 
-            AddNewRowHandler('.addNewProductRow', 'div.productLocal, div.productExport');
-            RemoveRowHandler('.removeRowButton', 'div.productLocal, div.productExport');
+            AddNewRowHandler(
+                '.addNewProductRow',
+                'div.productLocal, div.productExport'
+            );
+            RemoveRowHandler(
+                '.removeRowButton',
+                'div.productLocal, div.productExport'
+            );
 
             $('.ExportData, .LocalData').on(
                 'input',
@@ -780,7 +812,9 @@ window.initilizeCoopPageJs = async () => {
                     storeInitialValues(container);
             });
 
-            initialData['ProductionAndSalesInputs'] = TableDataExtractor(ExportAndLocalMktTableConfig);
+            initialData['ProductionAndSalesInputs'] = TableDataExtractor(
+                ExportAndLocalMktTableConfig
+            );
 
             console.log(initialData);
 
