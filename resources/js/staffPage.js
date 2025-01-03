@@ -129,7 +129,7 @@ const handleAjaxSuccess = async (response, activeLink, url) => {
         };
 
         if (urlMapFunctions[url]) {
-            urlMapFunctions[url]();
+           await urlMapFunctions[url]();
         }
 
         //  if (url === '/org-access/viewCooperatorInfo.php') {
@@ -145,7 +145,7 @@ const handleAjaxSuccess = async (response, activeLink, url) => {
 
 window.initializeStaffPageJs = async () => {
     const functions = {
-        Dashboard: () => {
+        Dashboard: async () => {
             //Foramt Input with Id paymentAmount
             formatToNumber('#paymentAmount');
             formatToNumber('#days_open');
@@ -341,7 +341,7 @@ window.initializeStaffPageJs = async () => {
              * @param {Array} completed - Data for the 'Completed' category.
              * @returns {Promise} A promise that resolves after rendering the monthly data chart.
              */
-            const createMonthlyDataChart = async (
+            const createMonthlyDataChart = (
                 applicant,
                 ongoing,
                 completed
@@ -504,39 +504,41 @@ window.initializeStaffPageJs = async () => {
              * @returns {Promise<void>} - A promise that resolves when the chart has been created.
              */
             const processMonthlyDataChart = async (monthlyData) => {
-                let applicant = Array(12).fill(0);
-                let ongoing = Array(12).fill(0);
-                let completed = Array(12).fill(0);
-                const months = [
-                    'Jan',
-                    'Feb',
-                    'Mar',
-                    'Apr',
-                    'May',
-                    'Jun',
-                    'Jul',
-                    'Aug',
-                    'Sep',
-                    'Oct',
-                    'Nov',
-                    'Dec',
-                ];
-
-                await Promise.all(
-                    Object.keys(monthlyData).map(async (month) => {
-                        const data = monthlyData[month];
-
-                        const monthIndex = months.indexOf(month.slice(0, 3));
-
-                        if (monthIndex !== -1) {
-                            applicant[monthIndex] = data.Applicants || 0;
-                            ongoing[monthIndex] = data.Ongoing || 0;
-                            completed[monthIndex] = data.Completed || 0;
-                        }
-                    })
-                );
-                await createMonthlyDataChart(applicant, ongoing, completed);
-                await displayCurrentMonthStats(monthlyData);
+                try{
+                    let applicant = Array(12).fill(0);
+                    let ongoing = Array(12).fill(0);
+                    let completed = Array(12).fill(0);
+                    const months = [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec',
+                    ];
+    
+                        Object.keys(monthlyData).forEach((month) => {
+                            const data = monthlyData[month];
+    
+                            const monthIndex = months.indexOf(month.slice(0, 3));
+    
+                            if (monthIndex !== -1) {
+                                applicant[monthIndex] = data.Applicants || 0;
+                                ongoing[monthIndex] = data.Ongoing || 0;
+                                completed[monthIndex] = data.Completed || 0;
+                            }
+                        })
+                    await createMonthlyDataChart(applicant, ongoing, completed);
+                    await displayCurrentMonthStats(monthlyData);
+                }catch(error){
+                    throw new Error('Failed to process monthly data: ' + error.message);
+                }
             };
 
             const getDashboardChartData = async () => {
@@ -550,14 +552,11 @@ window.initializeStaffPageJs = async () => {
                             ),
                         },
                     });
-                    processMonthlyDataChart(response);
+                   await processMonthlyDataChart(response);
                 } catch (error) {
-                    console.error(error);
+                    throw new Error('Failed to get dashboard chart data: ' + error.message);
                 }
             };
-
-            getDashboardChartData();
-
             //Handled Project Offcanvas Button Events
 
             function toggleMenu(tab, addClassMenu, removeClassMenu) {
@@ -612,117 +611,119 @@ window.initializeStaffPageJs = async () => {
              * @return {void}
              */
             const getHandleProject = async () => {
-                const response = await fetch(
-                    DASHBBOARD_TAB_ROUTE.GET_HANDLED_PROJECTS,
-                    {
-                        method: 'GET',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                    }
-                );
-                const data = await response.json();
-                HandledProjectDataTable.clear();
-                HandledProjectDataTable.rows.add(
-                    data.map((project) => {
-                        const refunded_amount =
-                            parseFloat(project.Refunded_Amount) || 0;
-                        const Actual_Amount =
-                            parseFloat(project.Actual_Amount) || 0;
-                        const percentage = Math.ceil(
-                            (refunded_amount / Actual_Amount) * 100
-                        );
-                        return [
-                            project.Project_id,
-                            project.project_title,
-                            `<p class="firm_name">${project.firm_name}</p>
-                        <input type="hidden" class="business_id" value="${
-                            project.business_id
+                try {
+                    const response = await fetch(
+                        DASHBBOARD_TAB_ROUTE.GET_HANDLED_PROJECTS,
+                        {
+                            method: 'GET',
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content'
+                                ),
+                            },
+                        }
+                    );
+                    const data = await response.json();
+                    HandledProjectDataTable.clear();
+                    HandledProjectDataTable.rows.add(
+                        data.map((project) => {
+                            const refunded_amount =
+                                parseFloat(project.Refunded_Amount) || 0;
+                            const Actual_Amount =
+                                parseFloat(project.Actual_Amount) || 0;
+                            const percentage = Math.ceil(
+                                (refunded_amount / Actual_Amount) * 100
+                            );
+                            return [
+                                project.Project_id,
+                                project.project_title,
+                                `<p class="firm_name">${project.firm_name}</p>
+                            <input type="hidden" class="business_id" value="${
+                                project.business_id
+                            }">
+                            <input type="hidden" class="business_enterprise_type" value="${
+                                project.enterprise_type
+                            }">
+                            <input type="hidden" class="business_enterprise_level" value="${
+                                project.enterprise_level
+                            }">
+                            <input type="hidden" class="business_address" value="${
+                                project.landMark +
+                                ', ' +
+                                project.barangay +
+                                ', ' +
+                                project.city +
+                                ', ' +
+                                project.province +
+                                ', ' +
+                                project.region
+                            }">
+                            <input type="hidden" class="dateApplied" value="${
+                                project.date_applied
+                            }">
+                            <input type="hidden" class="building_value" value="${
+                                project.building_value
+                            }">
+                            <input type="hidden" class="equipment_value" value="${
+                                project.equipment_value
+                            }">
+                            <input type="hidden" class="working_capital" value="${
+                                project.working_capital
+                            }">`,
+                                `<p class="owner_name">${
+                                    (project.prefix ? project.prefix : '') +
+                                    ' ' +
+                                    project.f_name +
+                                    ' ' +
+                                    project.l_name +
+                                    ' ' +
+                                    (project.suffix ? project.suffix : ' ')
+                                }</p>
+                            <input type="hidden" class="sex" value="${project.sex}">
+                            <input type="hidden" class="birth_date" value="${
+                                project.birth_date
+                            }">
+                            <input type="hidden" class="landline" value="${
+                                project.landline ?? ''
+                            }">
+                            <input type="hidden" class="mobile_phone" value="${
+                                project.mobile_number
+                            }">
+                            <input type="hidden" class="email" value="${
+                                project.email
+                            }">`,
+                                `${
+                                    formatToString(refunded_amount) +
+                                    '/' +
+                                    formatToString(Actual_Amount)
+                                }<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
+                        <input type="hidden" class="approved_amount" value="${
+                            project.Approved_Amount
                         }">
-                        <input type="hidden" class="business_enterprise_type" value="${
-                            project.enterprise_type
-                        }">
-                        <input type="hidden" class="business_enterprise_level" value="${
-                            project.enterprise_level
-                        }">
-                        <input type="hidden" class="business_address" value="${
-                            project.landMark +
-                            ', ' +
-                            project.barangay +
-                            ', ' +
-                            project.city +
-                            ', ' +
-                            project.province +
-                            ', ' +
-                            project.region
-                        }">
-                        <input type="hidden" class="dateApplied" value="${
-                            project.date_applied
-                        }">
-                        <input type="hidden" class="building_value" value="${
-                            project.building_value
-                        }">
-                        <input type="hidden" class="equipment_value" value="${
-                            project.equipment_value
-                        }">
-                        <input type="hidden" class="working_capital" value="${
-                            project.working_capital
-                        }">`,
-                            `<p class="owner_name">${
-                                (project.prefix ? project.prefix : '') +
-                                ' ' +
-                                project.f_name +
-                                ' ' +
-                                project.l_name +
-                                ' ' +
-                                (project.suffix ? project.suffix : ' ')
-                            }</p>
-                        <input type="hidden" class="sex" value="${project.sex}">
-                        <input type="hidden" class="birth_date" value="${
-                            project.birth_date
-                        }">
-                        <input type="hidden" class="landline" value="${
-                            project.landline ?? ''
-                        }">
-                        <input type="hidden" class="mobile_phone" value="${
-                            project.mobile_number
-                        }">
-                        <input type="hidden" class="email" value="${
-                            project.email
-                        }">`,
-                            `${
-                                formatToString(refunded_amount) +
-                                '/' +
-                                formatToString(Actual_Amount)
-                            }<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
-                    <input type="hidden" class="approved_amount" value="${
-                        project.Approved_Amount
-                    }">
-                    <input type="hidden" class="actual_amount" value="${Actual_Amount}">`,
-                            `<span class="badge ${
-                                project.application_status === 'approved'
-                                    ? 'bg-warning'
-                                    : project.application_status === 'ongoing'
-                                      ? 'bg-primary'
-                                      : project.application_status ===
-                                          'completed'
-                                        ? 'bg-success'
-                                        : null
-                            }">${project.application_status}</span>`,
-                            `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
-                            data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
-                            <i class="ri-menu-unfold-4-line ri-1x"></i>
-                        </button>`,
-                        ];
-                    })
-                );
-
-                HandledProjectDataTable.draw();
+                        <input type="hidden" class="actual_amount" value="${Actual_Amount}">`,
+                                `<span class="badge ${
+                                    project.application_status === 'approved'
+                                        ? 'bg-warning'
+                                        : project.application_status === 'ongoing'
+                                          ? 'bg-primary'
+                                          : project.application_status ===
+                                              'completed'
+                                            ? 'bg-success'
+                                            : null
+                                }">${project.application_status}</span>`,
+                                `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
+                                <i class="ri-menu-unfold-4-line ri-1x"></i>
+                            </button>`,
+                            ];
+                        })
+                    );
+                    HandledProjectDataTable.draw();
+                }catch(error){
+                    throw new Error("Error fetching handled projects: " + error);
+                }
             };
 
-            getHandleProject();
 
             /**
              * Handles the content of the project offcanvas based on the project status.
@@ -2738,8 +2739,12 @@ window.initializeStaffPageJs = async () => {
                     );
                 }
             };
+
+            await getDashboardChartData();
+            await getHandleProject();
+            console.log('resolved')
         },
-        Projects: () => {
+        Projects: async () => {
             const ApprovedDataTable = $('#approvedTable').DataTable({
                 responsive: true,
                 autoWidth: true,
@@ -2996,23 +3001,6 @@ window.initializeStaffPageJs = async () => {
                 }
             );
 
-            $('#approvedDetails').on(
-                'click',
-                '[data-display-section]',
-                function () {
-                    // Cache the data attribute value
-                    const sectionId = $(this).data('display-section');
-                    // Cache the section container selector
-                    const sectionContainer = $('.section-container');
-
-                    // Hide all sections in one go, instead of calling hide() on each element
-                    sectionContainer.hide();
-
-                    // Toggle the display of the selected section
-                    $('#' + sectionId).toggle();
-                }
-            );
-
             $('#OngoingTableBody').on(
                 'click',
                 '.ongoingProjectInfo',
@@ -3162,7 +3150,7 @@ window.initializeStaffPageJs = async () => {
             $('#CompletedTableBody').on(
                 'click',
                 '.completedProjectInfo',
-                function () {
+               async function () {
                     const row = $(this).closest('tr');
                     const inputs = row.find('input');
                     const readonlyInputs = $('#completedDetails').find('input');
@@ -3297,14 +3285,14 @@ window.initializeStaffPageJs = async () => {
                         .filter('.handle_by')
                         .val(projectDetails.handled_by);
 
-                    getPaymentHistory(
+                   await getPaymentHistory(
                         projectDetails.project_id,
                         CompletePaymentHistoryDataTable
                     );
                 }
             );
 
-            async function getPaymentHistory(projectId, dataTableObject) {
+            async function getPaymentHistory(projectId, paymentTableObject) {
                 try {
                     const response = await $.ajax({
                         type: 'GET',
@@ -3314,8 +3302,8 @@ window.initializeStaffPageJs = async () => {
                             projectId,
                     });
 
-                    dataTableObject.clear();
-                    dataTableObject.rows.add(
+                    paymentTableObject.clear();
+                    paymentTableObject.rows.add(
                         response.map((payment) => {
                             const formattedDate = dateFormatter(
                                 payment.created_at
@@ -3335,7 +3323,7 @@ window.initializeStaffPageJs = async () => {
                             ];
                         })
                     );
-                    dataTableObject.draw();
+                    paymentTableObject.draw();
 
                     let totalAmount = 0;
                     response.forEach((payment) => {
@@ -3727,9 +3715,9 @@ window.initializeStaffPageJs = async () => {
                 }
             }
 
-            getApprovedProjects();
-            getOngoingProjects();
-            getCompletedProjects();
+           await getApprovedProjects();
+           await getOngoingProjects();
+           await getCompletedProjects();
         },
 
         AddProject: async () => {
@@ -3766,7 +3754,7 @@ window.initializeStaffPageJs = async () => {
             // Add event listener for status changes
             $('#projectStatus').on('change', toggleProjectInputs);
         },
-        Applicant: () => {
+        Applicant: async () => {
             new smartWizard();
             const APPLICANT_VIEWING_CHANNEL = 'viewing-Applicant-events';
             const TNArejectionModal = $('#tnaEvaluationResultModal');
@@ -4053,7 +4041,7 @@ window.initializeStaffPageJs = async () => {
                 initializeEchoListeners();
             };
 
-            getApplicants();
+         
 
             $('#evaluationSchedule-datepicker').on('change', function () {
                 const selectedDate = new Date(this.value);
@@ -4946,6 +4934,8 @@ window.initializeStaffPageJs = async () => {
                     position: 'both buttom', // none/ top/ both bottom
                 },
             });
+
+           await getApplicants();
         },
     };
     return functions;

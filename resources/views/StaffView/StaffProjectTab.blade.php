@@ -557,69 +557,7 @@
                                     </tr>
                                 </thead>
                                 <tbody id="ApprovedtableBody" class=" table-group-divider">
-                                    {{-- @if (isset($approved) && count($approved) > 0)
-                                        @foreach ($approved as $item)
-                                            <tr>
-                                                <td>{{ $item->id }}</td>
-                                                <td>{{ $item->f_name }} {{ $item->l_name }}</td>
-                                                <td>{{ $item->designation }}</td>
-                                                <td>{{ $item->firm_name }}</td>
-                                                <td>
-                                                    <div>
-                                                        <strong>Business Address:</strong> <br> {{ $item->landMark }},
-                                                        {{ $item->barangay }}, {{ $item->city }},
-                                                        {{ $item->province }}, {{ $item->region }} <br>
-                                                        <strong>Type of Enterprise:</strong>
-                                                        {{ $item->enterprise_type }}
-                                                        <br>
-                                                        <strong>Level of Enterprise:</strong>
-                                                        {{ $item->enterprise_level }}
-                                                    </div>
-                                                    <br>
-                                                    <div>
-                                                        <strong>Assets:</strong> <br>
-                                                        <span class="ps-2">Land:
-                                                            {{ number_format($item->building_value, 2) }}</span><br>
-                                                        <span class="ps-2">Building:
-                                                            {{ number_format($item->equipment_value, 2) }}</span> <br>
-                                                        <span class="ps-2">Equipment:
-                                                            {{ number_format($item->working_capital, 2) }}</span>
-                                                    </div>
-                                                    <br>
-                                                    <div>
-                                                        <strong>Contact Details:</strong><br>
-                                                        <span class="p-2">Mobile Phone:</span>
-                                                        {{ $item->mobile_number }}
-                                                        <br>
-                                                        <span class="p-2">Email:</span> {{ $item->email }} <br>
-                                                        <span class="p-2">Landline:</span> {{ $item->landline }}
-                                                        <br>
-                                                    </div>
-                                                </td>
-                                                <td>
-                                                    <p>
-                                                        <strong>Title of the Project:</strong> <br>
-                                                        <span class="ps-2">{{ $item->project_title }}</span><br>
-                                                        <strong>Approved fund:</strong><br>
-                                                        <span
-                                                            class="ps-2">{{ number_format($item->fund_amount, 2) }}</span><br>
-                                                        <strong>Approved Date:</strong><br>
-                                                        <span class="ps-2">{{ $item->date_approved }}</span><br><br>
-                                                        <strong>Assigned Staff:</strong><br>
-                                                        <span class="ps-2">{{ $item->full_name }}</span>
-                                                    </p>
-                                                </td>
-                                                <td>
-                                                    <!-- Button trigger modal -->
-                                                    <button class="btn btn-primary" type="button"
-                                                        data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
-                                                        aria-controls="approvedDetails">
-                                                        <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                                    </button>
-                                                </td>
-                                            </tr>
-                                        @endforeach
-                                    @endif --}}
+                                    
                                 </tbody>
                             </table>
                         <!-- Where the applicant table end -->
