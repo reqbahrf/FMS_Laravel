@@ -1,11 +1,11 @@
 import './echo';
 import {
     showToastFeedback,
-    formatToString,
-    dateFormatter,
+    formatNumberToCurrency,
+    customDateFormatter,
     closeOffcanvasInstances,
     createConfirmationModal,
-    formatToNumber,
+    customFormatNumericInput,
     closeModal,
     showProcessToast,
     hideProcessToast,
@@ -28,12 +28,15 @@ window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 
-const USER_ROLE = "staff";
+const USER_ROLE = 'staff';
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Staff_Index.blade.php
-const notificationManager = new NotificationManager(NOTIFICATION_ROUTE, USER_ID, USER_ROLE);
+const notificationManager = new NotificationManager(
+    NOTIFICATION_ROUTE,
+    USER_ID,
+    USER_ROLE
+);
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
-
 
 $(document).on('DOMContentLoaded', function () {
     // Line chart
@@ -129,7 +132,7 @@ const handleAjaxSuccess = async (response, activeLink, url) => {
         };
 
         if (urlMapFunctions[url]) {
-           await urlMapFunctions[url]();
+            await urlMapFunctions[url]();
         }
 
         //  if (url === '/org-access/viewCooperatorInfo.php') {
@@ -147,9 +150,9 @@ window.initializeStaffPageJs = async () => {
     const functions = {
         Dashboard: async () => {
             //Foramt Input with Id paymentAmount
-            formatToNumber('#paymentAmount');
-            formatToNumber('#days_open');
-            formatToNumber('#updateOpenDays');
+            customFormatNumericInput('#paymentAmount');
+            customFormatNumericInput('#days_open');
+            customFormatNumericInput('#updateOpenDays');
 
             // initialize datatable
             const HandledProjectDataTable = $('#handledProject').DataTable({
@@ -341,11 +344,7 @@ window.initializeStaffPageJs = async () => {
              * @param {Array} completed - Data for the 'Completed' category.
              * @returns {Promise} A promise that resolves after rendering the monthly data chart.
              */
-            const createMonthlyDataChart = (
-                applicant,
-                ongoing,
-                completed
-            ) => {
+            const createMonthlyDataChart = (applicant, ongoing, completed) => {
                 const monthlyDataChart = {
                     theme: {
                         mode: 'light',
@@ -504,7 +503,7 @@ window.initializeStaffPageJs = async () => {
              * @returns {Promise<void>} - A promise that resolves when the chart has been created.
              */
             const processMonthlyDataChart = async (monthlyData) => {
-                try{
+                try {
                     let applicant = Array(12).fill(0);
                     let ongoing = Array(12).fill(0);
                     let completed = Array(12).fill(0);
@@ -522,22 +521,24 @@ window.initializeStaffPageJs = async () => {
                         'Nov',
                         'Dec',
                     ];
-    
-                        Object.keys(monthlyData).forEach((month) => {
-                            const data = monthlyData[month];
-    
-                            const monthIndex = months.indexOf(month.slice(0, 3));
-    
-                            if (monthIndex !== -1) {
-                                applicant[monthIndex] = data.Applicants || 0;
-                                ongoing[monthIndex] = data.Ongoing || 0;
-                                completed[monthIndex] = data.Completed || 0;
-                            }
-                        })
+
+                    Object.keys(monthlyData).forEach((month) => {
+                        const data = monthlyData[month];
+
+                        const monthIndex = months.indexOf(month.slice(0, 3));
+
+                        if (monthIndex !== -1) {
+                            applicant[monthIndex] = data.Applicants || 0;
+                            ongoing[monthIndex] = data.Ongoing || 0;
+                            completed[monthIndex] = data.Completed || 0;
+                        }
+                    });
                     await createMonthlyDataChart(applicant, ongoing, completed);
                     await displayCurrentMonthStats(monthlyData);
-                }catch(error){
-                    throw new Error('Failed to process monthly data: ' + error.message);
+                } catch (error) {
+                    throw new Error(
+                        'Failed to process monthly data: ' + error.message
+                    );
                 }
             };
 
@@ -552,9 +553,11 @@ window.initializeStaffPageJs = async () => {
                             ),
                         },
                     });
-                   await processMonthlyDataChart(response);
+                    await processMonthlyDataChart(response);
                 } catch (error) {
-                    throw new Error('Failed to get dashboard chart data: ' + error.message);
+                    throw new Error(
+                        'Failed to get dashboard chart data: ' + error.message
+                    );
                 }
             };
             //Handled Project Offcanvas Button Events
@@ -617,9 +620,9 @@ window.initializeStaffPageJs = async () => {
                         {
                             method: 'GET',
                             headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                    'content'
-                                ),
+                                'X-CSRF-TOKEN': $(
+                                    'meta[name="csrf-token"]'
+                                ).attr('content'),
                             },
                         }
                     );
@@ -693,9 +696,9 @@ window.initializeStaffPageJs = async () => {
                                 project.email
                             }">`,
                                 `${
-                                    formatToString(refunded_amount) +
+                                    formatNumberToCurrency(refunded_amount) +
                                     '/' +
-                                    formatToString(Actual_Amount)
+                                    formatNumberToCurrency(Actual_Amount)
                                 }<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
                         <input type="hidden" class="approved_amount" value="${
                             project.Approved_Amount
@@ -704,7 +707,8 @@ window.initializeStaffPageJs = async () => {
                                 `<span class="badge ${
                                     project.application_status === 'approved'
                                         ? 'bg-warning'
-                                        : project.application_status === 'ongoing'
+                                        : project.application_status ===
+                                            'ongoing'
                                           ? 'bg-primary'
                                           : project.application_status ===
                                               'completed'
@@ -719,11 +723,12 @@ window.initializeStaffPageJs = async () => {
                         })
                     );
                     HandledProjectDataTable.draw();
-                }catch(error){
-                    throw new Error("Error fetching handled projects: " + error);
+                } catch (error) {
+                    throw new Error(
+                        'Error fetching handled projects: ' + error
+                    );
                 }
             };
-
 
             /**
              * Handles the content of the project offcanvas based on the project status.
@@ -918,7 +923,7 @@ window.initializeStaffPageJs = async () => {
                     PaymentHistoryDataTable.rows.add(
                         response.map((payment) => [
                             payment.transaction_id,
-                            formatToString(parseFloat(payment.amount)),
+                            formatNumberToCurrency(parseFloat(payment.amount)),
                             payment.payment_method,
                             `<span class="badge bg-${
                                 payment.payment_status === 'Paid'
@@ -927,7 +932,7 @@ window.initializeStaffPageJs = async () => {
                                       ? 'warning'
                                       : 'danger'
                             } ">${payment.payment_status}</span>`,
-                            dateFormatter(payment.created_at),
+                            customDateFormatter(payment.created_at),
                             `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                                         data-bs-target="#paymentModal"
                                         data-action="Update"><i class="ri-file-edit-fill"></i></button>
@@ -966,7 +971,7 @@ window.initializeStaffPageJs = async () => {
                     <input type="hidden" class="receipt_description" value="${receipt.receipt_description}">
                     `,
                             `<img src="data:image/png;base64,${receipt.receipt_image}" alt="${receipt.receipt_name}" style="max-width: 100px; max-height: 100px;">`,
-                            dateFormatter(receipt.created_at),
+                            customDateFormatter(receipt.created_at),
                             `<span class="badge ${
                                 receipt.remark === 'Pending'
                                     ? 'bg-info'
@@ -1200,10 +1205,12 @@ window.initializeStaffPageJs = async () => {
                         .val(projectTitle);
                     offCanvaReadonlyInputs
                         .filter('#ApprovedAmount')
-                        .val(formatToString(parseFloat(approved_amount)));
+                        .val(
+                            formatNumberToCurrency(parseFloat(approved_amount))
+                        );
                     offCanvaReadonlyInputs
                         .filter('#appliedDate')
-                        .val(dateFormatter(dateApplied));
+                        .val(customDateFormatter(dateApplied));
                     offCanvaReadonlyInputs.filter('#FirmName').val(firmName);
                     offCanvaReadonlyInputs
                         .filter('#CooperatorName')
@@ -1222,17 +1229,19 @@ window.initializeStaffPageJs = async () => {
                         .val(enterpriseLevel);
                     offCanvaReadonlyInputs
                         .filter('#buildingAsset')
-                        .val(formatToString(buildingAsset));
+                        .val(formatNumberToCurrency(buildingAsset));
                     offCanvaReadonlyInputs
                         .filter('#equipmentAsset')
-                        .val(formatToString(equipmentAsset));
+                        .val(formatNumberToCurrency(equipmentAsset));
                     offCanvaReadonlyInputs
                         .filter('#workingCapitalAsset')
-                        .val(formatToString(workingCapitalAsset));
+                        .val(formatNumberToCurrency(workingCapitalAsset));
 
                     offCanvaReadonlyInputs
                         .filter('#FundedAmount')
-                        .text(formatToString(parseFloat(actual_amount)));
+                        .text(
+                            formatNumberToCurrency(parseFloat(actual_amount))
+                        );
 
                     handleProjectOffcanvasContent(project_status);
                     getPaymentHistoryAndCalculation(project_id, actual_amount);
@@ -1264,9 +1273,9 @@ window.initializeStaffPageJs = async () => {
                     const percentage = Math.round(
                         (totalAmount / fundedAmount) * 100
                     );
-                    $('#totalPaid').text(formatToString(totalAmount));
+                    $('#totalPaid').text(formatNumberToCurrency(totalAmount));
                     $('#remainingBalance').text(
-                        formatToString(remainingAmount)
+                        formatNumberToCurrency(remainingAmount)
                     );
 
                     percentage == 100
@@ -1437,7 +1446,7 @@ window.initializeStaffPageJs = async () => {
                                 `${link.file_name}
                        <input type="hidden" class="linkID" value="${link.id}">`,
                                 link.file_link,
-                                dateFormatter(link.created_at),
+                                customDateFormatter(link.created_at),
                                 `${viewButton}
                         <button class="btn btn-primary btn-sm updateLinkRecord" data-is-external="${link.is_external}" data-bs-toggle="modal" data-bs-target="#projectLinkModal"><i class="ri-pencil-fill"></i></button>
                         <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-delete-record-type="projectLink"> <i class="ri-delete-bin-6-fill"></i></button>`,
@@ -2742,7 +2751,7 @@ window.initializeStaffPageJs = async () => {
 
             await getDashboardChartData();
             await getHandleProject();
-            console.log('resolved')
+            console.log('resolved');
         },
         Projects: async () => {
             const ApprovedDataTable = $('#approvedTable').DataTable({
@@ -2929,7 +2938,6 @@ window.initializeStaffPageJs = async () => {
                     const inputs = row.find('input');
                     const readonlyInputs = $('#approvedDetails').find('input');
 
-
                     const values = {
                         cooperatorName: row.find('td:eq(1)').text().trim(),
                         designation: inputs.filter('.designation').val(),
@@ -2965,39 +2973,60 @@ window.initializeStaffPageJs = async () => {
                         ),
                         equipment: parseFloat(
                             inputs
-                            .filter('.equipment_Assets')
-                            .val()
-                            .replace(/,/g, '')
+                                .filter('.equipment_Assets')
+                                .val()
+                                .replace(/,/g, '')
                         ),
                         workingCapital: parseFloat(
                             inputs
-                            .filter('.working_capital_Assets')
-                            .val()
-                            .replace(/,/g, '')
+                                .filter('.working_capital_Assets')
+                                .val()
+                                .replace(/,/g, '')
                         ),
                     };
-                    
 
-                    readonlyInputs.filter('#cooperatorName').val(values.cooperatorName);
-                    readonlyInputs.filter('#designation').val(values.designation);
+                    readonlyInputs
+                        .filter('#cooperatorName')
+                        .val(values.cooperatorName);
+                    readonlyInputs
+                        .filter('#designation')
+                        .val(values.designation);
                     readonlyInputs.filter('#b_id').val(values.b_id);
-                    readonlyInputs.filter('#businessAddress').val(values.businessAddress);
-                    readonlyInputs.filter('#typeOfEnterprise').val(values.typeOfEnterprise);
-                    readonlyInputs.filter('#enterpriseLevel').val(values.enterpriseLevel);
+                    readonlyInputs
+                        .filter('#businessAddress')
+                        .val(values.businessAddress);
+                    readonlyInputs
+                        .filter('#typeOfEnterprise')
+                        .val(values.typeOfEnterprise);
+                    readonlyInputs
+                        .filter('#enterpriseLevel')
+                        .val(values.enterpriseLevel);
                     readonlyInputs.filter('#landline').val(values.landline);
-                    readonlyInputs.filter('#mobilePhone').val(values.mobilePhone);
+                    readonlyInputs
+                        .filter('#mobilePhone')
+                        .val(values.mobilePhone);
                     readonlyInputs.filter('#email').val(values.email);
                     readonlyInputs.filter('#ProjectId').val(values.ProjectId);
-                    readonlyInputs.filter('#ProjectTitle').val(values.ProjectTitle);
-                    readonlyInputs.filter('#Amount').val(formatToString(values.Amount));
+                    readonlyInputs
+                        .filter('#ProjectTitle')
+                        .val(values.ProjectTitle);
+                    readonlyInputs
+                        .filter('#Amount')
+                        .val(formatNumberToCurrency(values.Amount));
                     readonlyInputs.filter('#Applied').val(values.Applied);
                     readonlyInputs.filter('#evaluated').val(values.evaluated);
-                    readonlyInputs.filter('#Assigned_to').val(values.Assigned_to);
-                    readonlyInputs.filter('#building').val(formatToString(values.building));
-                    readonlyInputs.filter('#equipment').val(formatToString(values.equipment));
-                    readonlyInputs.filter('#workingCapital').val(formatToString(values.workingCapital));
-
-                   
+                    readonlyInputs
+                        .filter('#Assigned_to')
+                        .val(values.Assigned_to);
+                    readonlyInputs
+                        .filter('#building')
+                        .val(formatNumberToCurrency(values.building));
+                    readonlyInputs
+                        .filter('#equipment')
+                        .val(formatNumberToCurrency(values.equipment));
+                    readonlyInputs
+                        .filter('#workingCapital')
+                        .val(formatNumberToCurrency(values.workingCapital));
                 }
             );
 
@@ -3093,14 +3122,22 @@ window.initializeStaffPageJs = async () => {
                         .val(businessDetails.enterprise_level);
                     readonlyInputs
                         .filter('.building')
-                        .val(formatToString(businessDetails.building_assets));
+                        .val(
+                            formatNumberToCurrency(
+                                businessDetails.building_assets
+                            )
+                        );
                     readonlyInputs
                         .filter('.equipment')
-                        .val(formatToString(businessDetails.equipment_assets));
+                        .val(
+                            formatNumberToCurrency(
+                                businessDetails.equipment_assets
+                            )
+                        );
                     readonlyInputs
                         .filter('.workingCapital')
                         .val(
-                            formatToString(
+                            formatNumberToCurrency(
                                 businessDetails.working_capital_assets
                             )
                         );
@@ -3114,25 +3151,27 @@ window.initializeStaffPageJs = async () => {
                     readonlyInputs
                         .filter('.funded_amount')
                         .val(
-                            formatToString(projectDetails.project_fund_amount)
+                            formatNumberToCurrency(
+                                projectDetails.project_fund_amount
+                            )
                         );
                     readonlyInputs
                         .filter('.amount_to_be_refunded')
                         .val(
-                            formatToString(
+                            formatNumberToCurrency(
                                 projectDetails.project_amount_to_be_refunded
                             )
                         );
                     readonlyInputs
                         .filter('.refunded')
                         .val(
-                            formatToString(
+                            formatNumberToCurrency(
                                 projectDetails.project_refunded_amount
                             )
                         );
                     readonlyInputs
                         .filter('.date_applied')
-                        .val(dateFormatter(projectDetails.date_applied));
+                        .val(customDateFormatter(projectDetails.date_applied));
                     readonlyInputs
                         .filter('.evaluated_by')
                         .val(projectDetails.evaluated_by);
@@ -3150,7 +3189,7 @@ window.initializeStaffPageJs = async () => {
             $('#CompletedTableBody').on(
                 'click',
                 '.completedProjectInfo',
-               async function () {
+                async function () {
                     const row = $(this).closest('tr');
                     const inputs = row.find('input');
                     const readonlyInputs = $('#completedDetails').find('input');
@@ -3238,14 +3277,22 @@ window.initializeStaffPageJs = async () => {
                         .val(businessDetails.enterprise_level);
                     readonlyInputs
                         .filter('.building')
-                        .val(formatToString(businessDetails.building_assets));
+                        .val(
+                            formatNumberToCurrency(
+                                businessDetails.building_assets
+                            )
+                        );
                     readonlyInputs
                         .filter('.equipment')
-                        .val(formatToString(businessDetails.equipment_assets));
+                        .val(
+                            formatNumberToCurrency(
+                                businessDetails.equipment_assets
+                            )
+                        );
                     readonlyInputs
                         .filter('.workingCapital')
                         .val(
-                            formatToString(
+                            formatNumberToCurrency(
                                 businessDetails.working_capital_assets
                             )
                         );
@@ -3259,25 +3306,27 @@ window.initializeStaffPageJs = async () => {
                     readonlyInputs
                         .filter('.funded_amount')
                         .val(
-                            formatToString(projectDetails.project_fund_amount)
+                            formatNumberToCurrency(
+                                projectDetails.project_fund_amount
+                            )
                         );
                     readonlyInputs
                         .filter('.amount_to_be_refunded')
                         .val(
-                            formatToString(
+                            formatNumberToCurrency(
                                 projectDetails.project_amount_to_be_refunded
                             )
                         );
                     readonlyInputs
                         .filter('.refunded')
                         .val(
-                            formatToString(
+                            formatNumberToCurrency(
                                 projectDetails.project_refunded_amount
                             )
                         );
                     readonlyInputs
                         .filter('.date_applied')
-                        .val(dateFormatter(projectDetails.date_applied));
+                        .val(customDateFormatter(projectDetails.date_applied));
                     readonlyInputs
                         .filter('.evaluated_by')
                         .val(projectDetails.evaluated_by);
@@ -3285,7 +3334,7 @@ window.initializeStaffPageJs = async () => {
                         .filter('.handle_by')
                         .val(projectDetails.handled_by);
 
-                   await getPaymentHistory(
+                    await getPaymentHistory(
                         projectDetails.project_id,
                         CompletePaymentHistoryDataTable
                     );
@@ -3305,12 +3354,14 @@ window.initializeStaffPageJs = async () => {
                     paymentTableObject.clear();
                     paymentTableObject.rows.add(
                         response.map((payment) => {
-                            const formattedDate = dateFormatter(
+                            const formattedDate = customDateFormatter(
                                 payment.created_at
                             );
                             return [
                                 payment.transaction_id,
-                                formatToString(parseFloat(payment.amount)),
+                                formatNumberToCurrency(
+                                    parseFloat(payment.amount)
+                                ),
                                 payment.payment_method,
                                 `<span class="badge bg-${
                                     payment.payment_status === 'Paid'
@@ -3377,9 +3428,9 @@ window.initializeStaffPageJs = async () => {
                                           <input type="hidden" class="fund_amount" value="${
                                               Approved.fund_amount
                                           }">
-                                          <input type="hidden" class="dateApplied" value="${
-                                            dateFormatter(Approved.date_applied)
-                                          }">
+                                          <input type="hidden" class="dateApplied" value="${customDateFormatter(
+                                              Approved.date_applied
+                                          )}">
                                           <input type="hidden" class="staffUserName" value="${
                                               Approved.staffUserName
                                           }">
@@ -3417,7 +3468,7 @@ window.initializeStaffPageJs = async () => {
                                                   ? Approved.handled_by_suffix
                                                   : '')
                                           }">`,
-                                `${dateFormatter(Approved.date_approved)}`,
+                                `${customDateFormatter(Approved.date_approved)}`,
                                 ` <button class="btn btn-primary approvedProjectInfo" type="button"
                                                                   data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
                                                                   aria-controls="approvedDetails">
@@ -3556,9 +3607,9 @@ window.initializeStaffPageJs = async () => {
                           Ongoing.landline ?? ''
                       }">`,
                                 `${
-                                    formatToString(amount_refunded) +
+                                    formatNumberToCurrency(amount_refunded) +
                                     ' / ' +
-                                    formatToString(to_be_refunded)
+                                    formatNumberToCurrency(to_be_refunded)
                                 } <span class="badge text-white bg-primary">${percentage}%</span>`,
                                 ` <button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
                                                   data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
@@ -3698,9 +3749,9 @@ window.initializeStaffPageJs = async () => {
                               completed.landline ?? ''
                           }">`,
                                 `${
-                                    formatToString(amount_refunded) +
+                                    formatNumberToCurrency(amount_refunded) +
                                     ' / ' +
-                                    formatToString(to_be_refunded)
+                                    formatNumberToCurrency(to_be_refunded)
                                 } <span class="badge text-white bg-primary">${percentage}%</span>`,
                                 `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
                                                   data-bs-target="#completedDetails" aria-controls="completedDetails">
@@ -3715,9 +3766,9 @@ window.initializeStaffPageJs = async () => {
                 }
             }
 
-           await getApprovedProjects();
-           await getOngoingProjects();
-           await getCompletedProjects();
+            await getApprovedProjects();
+            await getOngoingProjects();
+            await getCompletedProjects();
         },
 
         AddProject: async () => {
@@ -3746,7 +3797,7 @@ window.initializeStaffPageJs = async () => {
                 }
             }
 
-            formatToNumber('#step-1', 'input#funded_amount');
+            customFormatNumericInput('#step-1', 'input#funded_amount');
 
             // Initial check on page load
             toggleProjectInputs();
@@ -3759,7 +3810,8 @@ window.initializeStaffPageJs = async () => {
             const APPLICANT_VIEWING_CHANNEL = 'viewing-Applicant-events';
             const TNArejectionModal = $('#tnaEvaluationResultModal');
             const ReviewFileModalContainer = $('#reviewFileModal');
-            const ReviewedFileFormContainer = ReviewFileModalContainer.find('#reviewedFileForm');
+            const ReviewedFileFormContainer =
+                ReviewFileModalContainer.find('#reviewedFileForm');
             const ApplicantDetailsContainer = $('#applicantDetails');
             const ApplicantProgressContainer = $('#ApplicationProgress');
             const RequirementsTable = $('#requirementsTables');
@@ -3994,13 +4046,13 @@ window.initializeStaffPageJs = async () => {
                     }</span>
                     <p>
                         <strong>Assets:</strong> <br>
-                        <span class="ps-2">Building: ${formatToString(
+                        <span class="ps-2">Building: ${formatNumberToCurrency(
                             parseFloat(item.building_value)
                         )}</span><br>
-                        <span class="ps-2">Equipment: ${formatToString(
+                        <span class="ps-2">Equipment: ${formatNumberToCurrency(
                             parseFloat(item.equipment_value)
                         )}</span> <br>
-                        <span class="ps-2">Working Capital: ${formatToString(
+                        <span class="ps-2">Working Capital: ${formatNumberToCurrency(
                             parseFloat(item.working_capital)
                         )}</span>
                     </p>
@@ -4017,7 +4069,7 @@ window.initializeStaffPageJs = async () => {
                         }</span>
                     </p>
                 </div>`,
-                                `${dateFormatter(item.date_applied)}`,
+                                `${customDateFormatter(item.date_applied)}`,
                                 `<span class="badge ${
                                     item.application_status === 'new'
                                         ? 'bg-primary'
@@ -4041,8 +4093,6 @@ window.initializeStaffPageJs = async () => {
                 initializeEchoListeners();
             };
 
-         
-
             $('#evaluationSchedule-datepicker').on('change', function () {
                 const selectedDate = new Date(this.value);
                 const currentDate = new Date();
@@ -4051,16 +4101,16 @@ window.initializeStaffPageJs = async () => {
                     this.value = this.min;
                 }
             });
-            formatToNumber('#EquipmentTableBody', [
+            customFormatNumericInput('#EquipmentTableBody', [
                 '.EquipmentCost',
                 '.EquipmentQTY',
             ]);
-            formatToNumber('#NonEquipmentTableBody', [
+            customFormatNumericInput('#NonEquipmentTableBody', [
                 '.NonEquipmentQTY',
                 '.NonEquipmentCost',
             ]);
 
-            formatToNumber('#fundAmount');
+            customFormatNumericInput('#fundAmount');
 
             //TODO: update this the logic of this
             $('#ApplicantTableBody').on(
@@ -4141,8 +4191,9 @@ window.initializeStaffPageJs = async () => {
                             .val(),
                     };
 
-                    const ApplicantDetails = ApplicantDetailsContainer
-                        .find('.businessInfo input');
+                    const ApplicantDetails = ApplicantDetailsContainer.find(
+                        '.businessInfo input'
+                    );
 
                     ApplicantDetails.filter('#firm_name').val(firmName);
                     ApplicantDetails.filter('#selected_userId').val(userID);
@@ -4225,7 +4276,7 @@ window.initializeStaffPageJs = async () => {
                 ).each(function () {
                     $(this).children().slice(1).remove();
                 });
-              RequirementsTable.empty();
+                RequirementsTable.empty();
                 clearInitialValues();
             });
 
@@ -4362,7 +4413,8 @@ window.initializeStaffPageJs = async () => {
                     .val();
                 const uploader = $('#contact_person').val();
 
-                const reviewFileModalInput = ReviewFileModalContainer.find('input')
+                const reviewFileModalInput =
+                    ReviewFileModalContainer.find('input');
 
                 reviewFileModalInput.filter('#selectedFile_ID').val(fileID);
                 reviewFileModalInput.filter('#fileName').val(file_Name);
@@ -4432,7 +4484,9 @@ window.initializeStaffPageJs = async () => {
                 e.preventDefault();
 
                 const action = $(e.originalEvent.submitter).val();
-                const selected_id = ReviewFileModalContainer.find('input[type="hidden"]#selectedFile_ID').val();
+                const selected_id = ReviewFileModalContainer.find(
+                    'input[type="hidden"]#selectedFile_ID'
+                ).val();
                 const isconfimed = await createConfirmationModal({
                     title: 'Review File',
                     titleBg: 'bg-primary',
@@ -4475,7 +4529,8 @@ window.initializeStaffPageJs = async () => {
 
             //set evaluation date
             $('#setEvaluationDate').on('click', async function () {
-                const container = ApplicantDetailsContainer.find('.businessInfo');
+                const container =
+                    ApplicantDetailsContainer.find('.businessInfo');
                 const user_id = container.find('#selected_userId').val();
                 const application_id = container
                     .find('#selected_applicationId')
@@ -4535,9 +4590,10 @@ window.initializeStaffPageJs = async () => {
                 const selectedApplicantUserId = ApplicantDetailsContainer.find(
                     'input[type="hidden"]#selected_userId'
                 ).val();
-                const selectedApplicantApplicationId = ApplicantDetailsContainer.find(
-                    'input[type="hidden"]#selected_applicationId'
-                ).val();
+                const selectedApplicantApplicationId =
+                    ApplicantDetailsContainer.find(
+                        'input[type="hidden"]#selected_applicationId'
+                    ).val();
                 const modalHiddenInput = $(this).find('input[type="hidden"]');
                 modalHiddenInput
                     .filter('input[name="applicant_id"]')
@@ -4683,10 +4739,11 @@ window.initializeStaffPageJs = async () => {
                     }
                 });
 
-               
                 return (FormDataObjects = {
                     ...FormDataObjects,
-                    ...TableDataExtractor(equipmentAndNonEquipmentTablesConfigs),
+                    ...TableDataExtractor(
+                        equipmentAndNonEquipmentTablesConfigs
+                    ),
                 });
             }
 
@@ -4935,7 +4992,7 @@ window.initializeStaffPageJs = async () => {
                 },
             });
 
-           await getApplicants();
+            await getApplicants();
         },
     };
     return functions;

@@ -1,10 +1,10 @@
 import './echo';
 import {
     showToastFeedback,
-    dateFormatter,
-    formatToString,
-    formatToNumber,
-    parseValueToFloat,
+    customDateFormatter,
+    formatNumberToCurrency,
+    customFormatNumericInput,
+    parseFormattedNumberToFloat,
     createConfirmationModal,
     showProcessToast,
     hideProcessToast,
@@ -336,7 +336,7 @@ window.initilizeCoopPageJs = async () => {
                             : 0;
 
                     paymentTextPer.html(
-                        `<h5>${formatToString(refunded_amount)} / ${formatToString(actual_amount)}</h5>`
+                        `<h5>${formatNumberToCurrency(refunded_amount)} / ${formatNumberToCurrency(actual_amount)}</h5>`
                     );
                     await progressPercentage(percentage);
                 } catch (error) {
@@ -359,7 +359,7 @@ window.initilizeCoopPageJs = async () => {
                                 ? 'bg-success'
                                 : 'bg-danger';
                         const row = `<tr>
-                      <td class="text-center">${formatToString(value.amount)}</td>
+                      <td class="text-center">${formatNumberToCurrency(value.amount)}</td>
                       <td class="text-center">${value.payment_method}</td>
                       <td class="text-center"><span class="badge rounded-pill ${statusClass}">${value.payment_status}</span></td>
                      </tr>`;
@@ -544,7 +544,7 @@ window.initilizeCoopPageJs = async () => {
                         <td>${value.receipt_name}</td>
                         <td>${value.receipt_description}</td>
                         <td class="img-Content">${receiptImage}</td>
-                        <td>${dateFormatter(value.created_at)}</td>
+                        <td>${customDateFormatter(value.created_at)}</td>
                         <td>
                             <span class="badge rounded-pill ${value.remark === 'Pending' ? 'bg-info' : value.remark === 'Approved' ? 'bg-success' : value.remark === 'Rejected' ? 'bg-danger' : ''}">
                                 ${value.remark}
@@ -569,10 +569,15 @@ window.initilizeCoopPageJs = async () => {
         QuarterlyReport: async () => {
             new SmartWizard();
 
-            formatToNumber('#BuildingAsset, #Equipment, #WorkingCapital');
+            customFormatNumericInput(
+                '#BuildingAsset, #Equipment, #WorkingCapital'
+            );
 
-            formatToNumber('#directLaborCard, #indirectLaborCard', 'input');
-            formatToNumber(
+            customFormatNumericInput(
+                '#directLaborCard, #indirectLaborCard',
+                'input'
+            );
+            customFormatNumericInput(
                 '.ExportData, .LocalData',
                 'tr td:nth-child(n+3):nth-child(-n+6) input'
             );
@@ -591,14 +596,15 @@ window.initilizeCoopPageJs = async () => {
                 'tr td:nth-child(n+4):nth-child(-n+5) input',
                 function () {
                     const row = $(this).closest('tr');
-                    const grossSales = parseValueToFloat(
+                    const grossSales = parseFormattedNumberToFloat(
                         row.find('.grossSales_val').val()
                     );
-                    const estimatedCostOfProduction = parseValueToFloat(
-                        row.find('.estimatedCostOfProduction_val').val()
-                    );
+                    const estimatedCostOfProduction =
+                        parseFormattedNumberToFloat(
+                            row.find('.estimatedCostOfProduction_val').val()
+                        );
                     const netSales = grossSales - estimatedCostOfProduction;
-                    const formattedNetSales = formatToString(netSales);
+                    const formattedNetSales = formatNumberToCurrency(netSales);
 
                     row.find('.netSales_val').val(formattedNetSales);
                 }
@@ -754,9 +760,14 @@ window.initilizeCoopPageJs = async () => {
 
         ReportedQuarterlyReport: () => {
             console.log('initilizeCoopPageJs.ReportedQuarterlyReport');
-            formatToNumber('#BuildingAsset, #Equipment, #WorkingCapital');
-            formatToNumber('#directLaborCard, #indirectLaborCard', 'input');
-            formatToNumber(
+            customFormatNumericInput(
+                '#BuildingAsset, #Equipment, #WorkingCapital'
+            );
+            customFormatNumericInput(
+                '#directLaborCard, #indirectLaborCard',
+                'input'
+            );
+            customFormatNumericInput(
                 '.ExportData, .LocalData',
                 'tr td:nth-child(n+3):nth-child(-n+6) input'
             );
@@ -775,14 +786,15 @@ window.initilizeCoopPageJs = async () => {
                 'tr td:nth-child(n+4):nth-child(-n+5) input',
                 function () {
                     const row = $(this).closest('tr');
-                    const grossSales = parseValueToFloat(
+                    const grossSales = parseFormattedNumberToFloat(
                         row.find('.grossSales_val').val()
                     );
-                    const estimatedCostOfProduction = parseValueToFloat(
-                        row.find('.estimatedCostOfProduction_val').val()
-                    );
+                    const estimatedCostOfProduction =
+                        parseFormattedNumberToFloat(
+                            row.find('.estimatedCostOfProduction_val').val()
+                        );
                     const netSales = grossSales - estimatedCostOfProduction;
-                    const formattedNetSales = formatToString(netSales);
+                    const formattedNetSales = formatNumberToCurrency(netSales);
                     row.find('.netSales_val').val(formattedNetSales);
                 }
             );

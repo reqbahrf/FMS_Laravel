@@ -1,4 +1,8 @@
-import { formatToString, formatToNumber, parseValueToFloat } from '../Utilities/utilFunctions';
+import {
+    formatNumberToCurrency,
+    customFormatNumericInput,
+    parseFormattedNumberToFloat,
+} from '../Utilities/utilFunctions';
 export class FormEvents {
     constructor(formType) {
         this.formType = formType;
@@ -7,49 +11,51 @@ export class FormEvents {
 
     initializeFormEvents() {
         const Form_Events = {
-            'PIS': () => {
+            PIS: () => {
                 this.PISFormEvents();
             },
-            'PDS': () => {
+            PDS: () => {
                 this.PDSFormEvents();
             },
-            'SR': () => {
+            SR: () => {
                 this.SRFormEvents();
             },
         }[this.formType];
-        
-        if(Form_Events) {
+
+        if (Form_Events) {
             Form_Events();
-        }else {
+        } else {
             console.log(`Form Type ${this.formType} not found`);
         }
     }
     PISFormEvents() {
         function caculateTotalAssests() {
-            const landAssets = parseValueToFloat($('#land_val').val());
-            const buildingAssets = parseValueToFloat($('#building_val').val());
-            const equipmentAssets = parseValueToFloat(
+            const landAssets = parseFormattedNumberToFloat(
+                $('#land_val').val()
+            );
+            const buildingAssets = parseFormattedNumberToFloat(
+                $('#building_val').val()
+            );
+            const equipmentAssets = parseFormattedNumberToFloat(
                 $('#equipment_val').val()
             );
-            const workingCapital = parseValueToFloat(
+            const workingCapital = parseFormattedNumberToFloat(
                 $('#workingCapital_val').val()
             );
             const totalAssests =
-                landAssets +
-                buildingAssets +
-                equipmentAssets +
-                workingCapital;
-            $('#totalAssests').val(formatToString(totalAssests));
+                landAssets + buildingAssets + equipmentAssets + workingCapital;
+            $('#totalAssests').val(formatNumberToCurrency(totalAssests));
         }
 
-        $(
-            '#land_val, #building_val, #equipment_val, #workingCapital_val'
-        ).on('input', function () {
-            const thisInputId = $(this).attr('id');
-            console.log(thisInputId);
-            formatToNumber(`#${thisInputId}`);
-            caculateTotalAssests();
-        });
+        $('#land_val, #building_val, #equipment_val, #workingCapital_val').on(
+            'input',
+            function () {
+                const thisInputId = $(this).attr('id');
+                console.log(thisInputId);
+                customFormatNumericInput(`#${thisInputId}`);
+                caculateTotalAssests();
+            }
+        );
 
         const calculateTotalEmploymentGenerated = () => {
             let manMonthTotal = 0;
@@ -57,10 +63,10 @@ export class FormEvents {
             $('#totalEmploymentContainer tr').each(function () {
                 const thisTableRow = $(this);
 
-                const male = parseValueToFloat(
+                const male = parseFormattedNumberToFloat(
                     thisTableRow.find('.maleInput').val()
                 );
-                const female = parseValueToFloat(
+                const female = parseFormattedNumberToFloat(
                     thisTableRow.find('.femaleInput').val()
                 );
                 const subtotal = male + female;
@@ -72,8 +78,7 @@ export class FormEvents {
 
                 manMonthTotal += subtotal;
             });
-            $('#TotalmanMonths').val(formatToString(manMonthTotal));
-             
+            $('#TotalmanMonths').val(formatNumberToCurrency(manMonthTotal));
         };
 
         $('#totalEmploymentContainer').on(
@@ -83,7 +88,7 @@ export class FormEvents {
                 console.log('Input Changed');
                 const thisInputId = $(this).attr('id');
                 console.log(thisInputId);
-                formatToNumber(`#${thisInputId}`);
+                customFormatNumericInput(`#${thisInputId}`);
                 calculateTotalEmploymentGenerated();
             }
         );
@@ -91,26 +96,23 @@ export class FormEvents {
         const calculateTotalGrossSales = () => {
             console.log('Input Changed');
 
-            const localProduct = parseValueToFloat(
+            const localProduct = parseFormattedNumberToFloat(
                 $('#localProduct_Val').val()
             );
-            const exportProduct = parseValueToFloat(
+            const exportProduct = parseFormattedNumberToFloat(
                 $('#exportProduct_Val').val()
             );
             const totalGrossSales = localProduct + exportProduct;
-            $('#totalGrossSales').val(formatToString(totalGrossSales));
+            $('#totalGrossSales').val(formatNumberToCurrency(totalGrossSales));
 
             console.log(totalGrossSales);
         };
 
-        $('#localProduct_Val, #exportProduct_Val').on(
-            'input',
-            function () {
-                const thisInputId = $(this).attr('id');
-                formatToNumber(`#${thisInputId}`);
-                calculateTotalGrossSales();
-            }
-        );
+        $('#localProduct_Val, #exportProduct_Val').on('input', function () {
+            const thisInputId = $(this).attr('id');
+            customFormatNumericInput(`#${thisInputId}`);
+            calculateTotalGrossSales();
+        });
     }
 
     //TODO: need to be test
@@ -125,33 +127,29 @@ export class FormEvents {
             let totalNumPersonel = 0;
             let totalManMonth = 0;
             $('#totalEmployment tr').each(function () {
-                const totalMalePersonel = parseValueToFloat(
+                const totalMalePersonel = parseFormattedNumberToFloat(
                     $(this).find('.maleInput').val()
                 );
-                const totalFemalePersonel = parseValueToFloat(
+                const totalFemalePersonel = parseFormattedNumberToFloat(
                     $(this).find('.femaleInput').val()
                 );
-                const workDays = parseValueToFloat(
+                const workDays = parseFormattedNumberToFloat(
                     $(this).find('.workdayInput').val()
                 );
                 const thisRowManMonth =
-                    (totalMalePersonel + totalFemalePersonel) *
-                    (workDays / 20);
+                    (totalMalePersonel + totalFemalePersonel) * (workDays / 20);
                 $(this)
                     .find('.totalManMonth')
-                    .val(
-                        formatToString(thisRowManMonth)
-                    );
+                    .val(formatNumberToCurrency(thisRowManMonth));
 
-                totalNumPersonel +=
-                    totalMalePersonel + totalFemalePersonel;
+                totalNumPersonel += totalMalePersonel + totalFemalePersonel;
 
-                totalManMonth += parseValueToFloat(
+                totalManMonth += parseFormattedNumberToFloat(
                     $(this).find('.totalManMonth').val()
                 );
             });
-            $('#TotalManMonth').val(formatToString(totalManMonth));
-            $('#TotalEmployment').val(formatToString(totalNumPersonel));
+            $('#TotalManMonth').val(formatNumberToCurrency(totalManMonth));
+            $('#TotalEmployment').val(formatNumberToCurrency(totalNumPersonel));
         };
 
         /**
@@ -172,21 +170,20 @@ export class FormEvents {
             'td input.maleInput, td input.femaleInput, td input.workdayInput',
             function () {
                 const thisEmployeeRow = $(this);
-                formatToNumber(`#${thisEmployeeRow.attr('id')}`);
+                customFormatNumericInput(`#${thisEmployeeRow.attr('id')}`);
 
                 const employeeRow = thisEmployeeRow.closest('tr');
-                const maleVal = parseValueToFloat(
+                const maleVal = parseFormattedNumberToFloat(
                     employeeRow.find('.maleInput').val()
                 );
-                const femaleVal = parseValueToFloat(
+                const femaleVal = parseFormattedNumberToFloat(
                     employeeRow.find('.femaleInput').val()
                 );
-                const workDays = parseValueToFloat(
+                const workDays = parseFormattedNumberToFloat(
                     employeeRow.find('.workdayInput').val()
                 );
 
-                const totalManMonth =
-                    (workDays / 20) * (maleVal + femaleVal);
+                const totalManMonth = (workDays / 20) * (maleVal + femaleVal);
                 employeeRow.find('.totalManMonth').val(totalManMonth);
 
                 calculateTotalEmployment();
@@ -204,42 +201,38 @@ export class FormEvents {
             let totalProductionCost = 0;
             let totalNetSales = 0;
 
-            $('#localProducts tr, #exportProducts tr').each(
-                function () {
-                    const tableRow = $(this);
-                    let grossSales = parseValueToFloat(
-                        tableRow.find('.grossSales_val').val()
-                    );
-                    let productionCost = parseValueToFloat(
-                        tableRow.find('.productionCost_val').val()
-                    );
+            $('#localProducts tr, #exportProducts tr').each(function () {
+                const tableRow = $(this);
+                let grossSales = parseFormattedNumberToFloat(
+                    tableRow.find('.grossSales_val').val()
+                );
+                let productionCost = parseFormattedNumberToFloat(
+                    tableRow.find('.productionCost_val').val()
+                );
 
-                    let netSales = grossSales - productionCost;
+                let netSales = grossSales - productionCost;
 
-                    let FormattedNetSales = formatToString(netSales);
+                let FormattedNetSales = formatNumberToCurrency(netSales);
 
-                    tableRow
-                        .find('.netSales_val')
-                        .val(FormattedNetSales);
+                tableRow.find('.netSales_val').val(FormattedNetSales);
 
-                    totalGrossSales += grossSales;
-                    totalProductionCost += productionCost;
-                    totalNetSales += netSales;
-                }
-            );
+                totalGrossSales += grossSales;
+                totalProductionCost += productionCost;
+                totalNetSales += netSales;
+            });
 
             $('#totalGrossSales').val(
-                `₱ ${formatToString(totalGrossSales)}`
+                `₱ ${formatNumberToCurrency(totalGrossSales)}`
             );
             $('#totalProductionCost').val(
-                `₱ ${formatToString(totalProductionCost)}`
+                `₱ ${formatNumberToCurrency(totalProductionCost)}`
             );
             $('#totalNetSales').val(
-                `₱ ${formatToString(totalNetSales)}`
+                `₱ ${formatNumberToCurrency(totalNetSales)}`
             );
 
             $('.CurrentgrossSales_val').val(
-                formatToString(totalGrossSales)
+                formatNumberToCurrency(totalGrossSales)
             );
         };
 
@@ -261,20 +254,20 @@ export class FormEvents {
             'td input.grossSales_val, td input.productionCost_val',
             function () {
                 const thisInput = $(this);
-                formatToNumber(`.${thisInput.attr('id')}`);
+                customFormatNumericInput(`.${thisInput.attr('id')}`);
 
                 const $productRow = thisInput.closest('tr');
-                const grossSales = parseValueToFloat(
+                const grossSales = parseFormattedNumberToFloat(
                     $productRow.find('.grossSales_val').val()
                 );
-                const estimatedProductionCost = parseValueToFloat(
+                const estimatedProductionCost = parseFormattedNumberToFloat(
                     $productRow.find('.productionCost_val').val()
                 );
                 const netSales = grossSales - estimatedProductionCost;
 
-                $productRow.find('.netSales_val').val(
-                    formatToString(netSales)
-                );
+                $productRow
+                    .find('.netSales_val')
+                    .val(formatNumberToCurrency(netSales));
 
                 calculateTotals();
             }
@@ -296,12 +289,12 @@ export class FormEvents {
                 '#ToBeAccomplished td .CurrentgrossSales_val, td .PreviousgrossSales_val, td .TotalgrossSales_val'
             ).closest('tr');
 
-            const CurrentgrossSales = parseValueToFloat(
+            const CurrentgrossSales = parseFormattedNumberToFloat(
                 CurrentAndPreviousgrossSales.find(
                     '.CurrentgrossSales_val'
                 ).val()
             );
-            const PreviousgrossSales = parseValueToFloat(
+            const PreviousgrossSales = parseFormattedNumberToFloat(
                 CurrentAndPreviousgrossSales.find(
                     '.PreviousgrossSales_val'
                 ).val()
@@ -309,22 +302,15 @@ export class FormEvents {
 
             increaseInProductivityRow
                 .find('.CurrentgrossSales_val_cal')
-                .text(
-                    formatToString(CurrentgrossSales)
-                );
+                .text(formatNumberToCurrency(CurrentgrossSales));
 
             increaseInProductivityRow
                 .find('.PreviousgrossSales_val_cal')
-                .text(
-                    formatToString(PreviousgrossSales)
-                );
+                .text(formatNumberToCurrency(PreviousgrossSales));
 
-            const TotalgrossSales =
-                CurrentgrossSales - PreviousgrossSales;
-            CurrentAndPreviousgrossSales.find(
-                '.TotalgrossSales_val'
-            ).val(
-                formatToString(TotalgrossSales)
+            const TotalgrossSales = CurrentgrossSales - PreviousgrossSales;
+            CurrentAndPreviousgrossSales.find('.TotalgrossSales_val').val(
+                formatNumberToCurrency(TotalgrossSales)
             );
 
             const increaseInProductivityByPercent =
@@ -354,7 +340,7 @@ export class FormEvents {
             'td .CurrentgrossSales_val, td .PreviousgrossSales_val',
             function () {
                 const thisInputClass = $(this).attr('class');
-                formatToNumber(`.${thisInputClass}`);
+                customFormatNumericInput(`.${thisInputClass}`);
                 calculateToBeAccomplishedProductivity();
             }
         );
@@ -394,11 +380,10 @@ export class FormEvents {
                 .find('.PreviousEmployment_val_cal')
                 .text(PreviousEmployment);
 
-            const TotalEmployment =
-                CurrentEmployment - PreviousEmployment;
-            CurrentAndPreviousEmployment.find(
-                '.TotalEmployment_val'
-            ).val(TotalEmployment);
+            const TotalEmployment = CurrentEmployment - PreviousEmployment;
+            CurrentAndPreviousEmployment.find('.TotalEmployment_val').val(
+                TotalEmployment
+            );
 
             const increaseInEmploymentByPercent =
                 ((CurrentEmployment - PreviousEmployment) /
@@ -414,7 +399,7 @@ export class FormEvents {
             'td .CurrentEmployment_val , td .PreviousEmployment_val',
             function () {
                 const thisInputClass = $(this).attr('class');
-                formatToNumber(`.${thisInputClass}`);
+                customFormatNumericInput(`.${thisInputClass}`);
                 calculateToBeAccomplishedEmployment();
             }
         );
@@ -425,7 +410,7 @@ export class FormEvents {
         calculateToBeAccomplishedEmployment();
     }
 
-     //TODO: need to be test
+    //TODO: need to be test
     SRFormEvents() {
         const toggleDeleteRowButton = (container, elementSelector) => {
             const element = container.find(elementSelector);
@@ -524,5 +509,4 @@ export class FormEvents {
             $window.show();
         });
     }
-
 }
