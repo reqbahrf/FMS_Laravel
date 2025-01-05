@@ -418,6 +418,8 @@ window.initializeStaffPageJs = async () => {
                     );
                     lineChart.render();
                     resolve();
+                }).catch(error => {
+                    throw new Error('Error rendering line chart: ' + error);
                 });
             };
 
@@ -750,7 +752,7 @@ window.initializeStaffPageJs = async () => {
                             )
                             .addClass('d-none');
                     },
-                    ongoing: async () => {
+                    ongoing: () => {
                         handleProjectOffcanvas
                             .find(
                                 '.ongoingProjectContent, .paymentProjectContent'
@@ -762,7 +764,7 @@ window.initializeStaffPageJs = async () => {
                             )
                             .addClass('d-none');
                     },
-                    completed: async () => {
+                    completed: () => {
                         handleProjectOffcanvas
                             .find(
                                 '.completedProjectContent, .paymentProjectContent'
@@ -861,6 +863,7 @@ window.initializeStaffPageJs = async () => {
                 }
             }
 
+            //TODO: refactor this method in the future
             /**
              * Event listener for the submit payment button click event.
              *
@@ -950,7 +953,9 @@ window.initializeStaffPageJs = async () => {
                     });
                     return totalAmount;
                 } catch (error) {
-                    console.log(error);
+                    throw new Error(
+                        'Error fetching payment history: ' + error
+                    )
                 }
             }
 
@@ -990,10 +995,8 @@ window.initializeStaffPageJs = async () => {
                     );
                     UploadedReceiptDataTable.draw();
                 } catch (error) {
-                    console.error('Error fetching uploaded receipts:', error);
-                    showToastFeedback(
-                        'text-bg-danger',
-                        'Failed to fetch uploaded receipts'
+                    throw new Error(
+                        'Error fetching uploaded receipts: ' + error
                     );
                 }
             }
@@ -1020,7 +1023,8 @@ window.initializeStaffPageJs = async () => {
                 }
             });
 
-            async function retrieve_the_selected_record_TO_UPDATE(
+            //TODO: refactor this function in the future
+             function retrieve_the_selected_record_TO_UPDATE(
                 selected_row
             ) {
                 const selected_transaction_id = selected_row
@@ -1049,6 +1053,7 @@ window.initializeStaffPageJs = async () => {
             const ProjectLedgerInput = $('#projectLedgerLink');
             const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');
 
+            //TODO: refactor this function in the future
             ProjectLedgerSubmitBtn.on('click', function () {
                 const project_id = $('#ProjectID').val();
                 const ProjectLedgerLink = $('#projectLedgerLink').val();
@@ -1113,7 +1118,9 @@ window.initializeStaffPageJs = async () => {
                           );
                     ProjectLedgerInput.val(response.project_ledger_link);
                 } catch (error) {
-                    console.error(error);
+                    throw new Error(
+                        'Error fetching project ledger: ' + error
+                    )
                 }
             };
 
@@ -1286,7 +1293,9 @@ window.initializeStaffPageJs = async () => {
                         InitializeviewCooperatorProgress(percentage);
                     }, 500);
                 } catch (error) {
-                    console.log(error);
+                    throw new Error(
+                        'Error fetching payment history: ' + error
+                    );
                 }
             };
 
@@ -1408,6 +1417,9 @@ window.initializeStaffPageJs = async () => {
                                 .find('input[name="requirements_link"]')
                                 .addClass('is-invalid')
                                 .removeClass('is-valid');
+                            throw new Error(
+                                'Error fetching the link: ' + error
+                            );
                         } finally {
                             linkConstInstance.find('.spinner-border').remove();
                         }
@@ -1459,6 +1471,9 @@ window.initializeStaffPageJs = async () => {
                     showToastFeedback(
                         'text-bg-danger',
                         error?.responseJSON.message
+                    );
+                    throw new Error(
+                        'Error fetching project links: ' + error
                     );
                 }
             };
@@ -1613,7 +1628,7 @@ window.initializeStaffPageJs = async () => {
                     toggleRequirementUploadType();
                 } catch (error) {
                     hideProcessToast();
-                    showToastFeedback('text-bg-danger', error);
+                    showToastFeedback('text-bg-danger', error.responseJSON.message);
                 }
             });
 
@@ -1728,6 +1743,7 @@ window.initializeStaffPageJs = async () => {
              *
              * @returns {void}
              */
+            //TODO: Refactor this function in the future
             //TODO: Refrash the Record once the request is successful
             $('#deleteRecordModal').on('show.bs.modal', function (event) {
                 const triggeredDeleteButton = $(event.relatedTarget);
@@ -1978,7 +1994,8 @@ window.initializeStaffPageJs = async () => {
                     });
                     $('#Select_quarter_to_Generate').append(response.html);
                 } catch (error) {
-                    console.log(error);
+                   throw new Error(
+                        'Error fetching quarterly reports: ' + error);
                 }
             };
 
@@ -2220,6 +2237,7 @@ window.initializeStaffPageJs = async () => {
                         );
                     },
 
+                    //Todo: make use of the TableDataExtractor.js utility
                     PDS: function () {
                         const thisFormData =
                             $('#projectDataForm').serializeArray();
@@ -2659,11 +2677,9 @@ window.initializeStaffPageJs = async () => {
                         TableContainer.append(newRow);
                     });
                 } catch (error) {
-                    console.log(error);
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
+                    throw new Error(
+                        'Error fetching quarterly reports: ' + error
+                    )
                 }
             };
 
