@@ -290,7 +290,7 @@ function showProcessToast(message = 'Processing...') {
 
     // Set the message if provided, otherwise show default spinner
     if (message) {
-        $('#ProcessToastBody').html(message);
+        ProcessToast.find('#ProcessToastBody').html(message);
     }
 
     toastInstance.show();

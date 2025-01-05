@@ -143,6 +143,7 @@ const handleAjaxSuccess = async (response, activeLink, url) => {
         sessionStorage.setItem('StafflastActive', activeLink);
     } catch (error) {
         console.log('Error: ', error);
+        throw new Error(error.message);
     }
 };
 
