@@ -59,7 +59,7 @@
                                 <i class="ri-subtract-fill"></i>
                             </button>
                         </div>
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="expectedAndActualTable">
                             <thead class="table-light">
                                 <tr>
                                     <th scope="col">Expected Output</th>
@@ -100,7 +100,7 @@
                                 <i class="ri-subtract-fill"></i>
                             </button>
                         </div>
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="equipmentTable">
                             <thead class="table-light">
                                 <tr>
                                     <th colspan="3" class="text-center">Approved S&T Intervention Related Equipment
@@ -167,7 +167,7 @@
                                 <i class="ri-subtract-fill"></i>
                             </button>
                         </div>
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="nonEquipmentTable">
                             <thead class="table-light">
                                 <tr>
                                     <th colspan="3" class="text-center">Approved Items of Expenditure</th>
@@ -320,7 +320,7 @@
                                 <i class="ri-subtract-fill"></i>
                             </button>
                         </div>
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="salesTable">
                             <thead class="table-light">
                                 <tr>
                                     <th>Name of Product/Service</th>
@@ -369,7 +369,7 @@
                                 <i class="ri-subtract-fill"></i>
                             </button>
                         </div>
-                        <table  class="table table-bordered table-striped">
+                        <table  class="table table-bordered table-striped" id="employmentGeneratedTable">
                             <thead class="table-light">
                                 <tr>
                                     <th>No. of Employees</th>
@@ -405,7 +405,7 @@
                                 <i class="ri-subtract-fill"></i>
                             </button>
                         </div>
-                        <table class="table table-bordered table-striped">
+                        <table class="table table-bordered table-striped" id="indirectEmploymentTable">
                             <thead class="table-light">
                                 <tr>
                                     <th rowspan="2" colspan="1" class="text-center align-middle"

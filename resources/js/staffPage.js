@@ -2248,6 +2248,136 @@ window.initializeStaffPageJs = async () => {
                 }
             }
 
+            const ExpectedAndActualOutputTableConfig = {
+                ExpectedAndActualData: {
+                    id: 'expectedAndActualTable',
+                    selectors: {
+                        expectedOutput: '.expectedOutput',
+                        actualAccomplishment: '.actualAccomplishment',
+                        remarksJustification: '.remarksJustification',
+                    },
+                    requiredFields: ['Expected_Output', 'Actual_Accomplishment', 'Remarks_Justification']
+                }
+            }
+
+            const EquipmentTableConfig = {
+                EquipmentData: {
+                    id: 'equipmentTable',
+                    selectors: {
+                        Approved: {
+                            qty: '.approved_qty',
+                            particulars: '.approved_particulars',
+                            cost: '.approved_cost',
+                        },
+                        Actual: {
+                            qty: '.actual_qty',
+                            particulars: '.actual_particulars',
+                            cost: '.actual_cost',
+                        },
+                        acknowledgement: '.acknowledgement',
+                        remarks: '.remarks',
+                    },
+                    requiredFields: [
+                        'Approved.qty', 
+                        'Approved.particulars', 
+                        'Approved.cost', 
+                        'Actual.qty', 
+                        'Actual.particulars', 
+                        'Actual.cost', 
+                        'acknowledgement', 
+                        'remarks'
+                    ]
+                }
+            }
+
+            const NonEquipmentTableConfig = {
+                NonEquipmentData: {
+                    id: 'nonEquipmentTable',
+                    selectors: {
+                        Approved: {
+                            qty: '.non_equipment_approved_qty',
+                            particulars: '.non_equipment_approved_particulars',
+                            cost: '.non_equipment_approved_cost',
+                        },
+                        Actual: {
+                            qty: '.non_equipment_actual_qty',
+                            particulars: '.non_equipment_actual_particulars',
+                            cost: '.non_equipment_actual_cost',
+                        },
+                        remarks: '.non_equipment_remarks',
+                    },
+                    requiredFields: [
+                        'Approved.qty', 
+                        'Approved.particulars', 
+                        'Approved.cost', 
+                        'Actual.qty', 
+                        'Actual.particulars', 
+                        'Actual.cost', 
+                        'remarks'
+                    ]
+                }
+            }
+
+            const salesTableConfig = {
+                SalesData: {
+                    id: 'salesTable',
+                    selectors: {
+                        ProductService: '.sales_product_service',
+                        SalesVolumeProduction: '.sales_volume_production',
+                        SalesQuarter: '.sales_quarter_specify',
+                        GrossSales: '.sales_gross_sales',
+                    },
+                    requiredFields: [
+                        'ProductService', 
+                        'SalesVolumeProduction', 
+                        'SalesQuarter', 
+                        'GrossSales'
+                    ]
+                }
+            }
+
+            const EmploymentGeneratedTableConfig = {
+                EmploymentGeneratedData: {
+                    id: 'employmentGeneratedTable',
+                    selectors: {
+                        Employment_total: '.employment_total',
+                        Employment_Male: '.employment_male',
+                        Employment_Female: '.employment_female',
+                        Employment_PWD: '.employment_pwd', 
+                    },
+                    requiredFields: [
+                        'Employment_total', 
+                        'Employment_Male', 
+                        'Employment_Female', 
+                        'Employment_PWD'
+                    ]
+                }
+            }
+
+            const IndirectEmploymentTableConfig = {
+                IndirectEmploymentData: {
+                    id: 'indirectEmploymentTable',
+                    selectors: {
+                        IndirectEmployment_total: '.indirect_employment_total',
+                        IndirectEmployment_ForwardMale: '.indirect_employment_forward_male',
+                        IndirectEmployment_ForwardFemale: '.indirect_employment_forward_female',
+                        InderectEmplyment_ForwardTotal: '.indirect_employment_forward_total',
+                        IndirectEmployment_BackwardMale: '.indirect_employment_backward_male',
+                        IndirectEmployment_BackwardFemale: '.indirect_employment_backward_female',
+                        IndirectEmployment_BackwardTotal: '.indirect_employment_backward_total',
+                    },
+                    requiredFields: [
+                        'IndirectEmployment_total', 
+                        'IndirectEmployment_ForwardMale', 
+                        'IndirectEmployment_ForwardFemale', 
+                        'InderectEmplyment_ForwardTotal', 
+                        'IndirectEmployment_BackwardMale', 
+                        'IndirectEmployment_BackwardFemale', 
+                        'IndirectEmployment_BackwardTotal'
+                    ]
+                }
+            }
+
             /**
              * Prepares and returns the required data for the specified export type.
              *
@@ -2300,208 +2430,28 @@ window.initializeStaffPageJs = async () => {
                                 thisFormObject[v.name] = v.value;
                             }
                         });
-                        const expectedAndActualTableRow = FormContainer.find(
-                            '.expectedAndActual_tableRow tr'
-                        );
-                        const equipmentTableRow = FormContainer.find(
-                            '.equipment_tableRow tr'
-                        );
-                        const nonEquipmentTableRow = FormContainer.find(
-                            '.non_equipment_tableRow tr'
-                        );
-                        const salesTableRow =
-                            FormContainer.find('.sales_tableRow tr');
-                        const employmentGeneratedTableRow = FormContainer.find(
-                            '.employment_generated_tableRow tr'
-                        );
-                        const indirectEmploymentTableRow = FormContainer.find(
-                            '.indirect_employment_tableRow tr'
-                        );
 
                         const TableData = () => {
-                            const expectedAndActualData = [];
-                            const equipmentData = [];
-                            const nonEquipmentData = [];
-                            const salesData = [];
-                            const employmentGeneratedData = [];
-                            const indirectEmploymentData = [];
-
-                            expectedAndActualTableRow.each(function () {
-                                const tableRowInputs = $(this);
-                                const expectedAndActualDetails = {
-                                    Expected_Output: tableRowInputs
-                                        .find('.expectedOutput')
-                                        .val(),
-                                    Actual_Accomplishment: tableRowInputs
-                                        .find('.actualAccomplishment')
-                                        .val(),
-                                    Remarks_Justification: tableRowInputs
-                                        .find('.remarksJustification')
-                                        .val(),
-                                };
-                                expectedAndActualData.push(
-                                    expectedAndActualDetails
-                                );
-                            });
-
-                            equipmentTableRow.each(function () {
-                                const tableRowInputs = $(this);
-                                const equipmentDetails = {
-                                    Approved_qty: tableRowInputs
-                                        .find('.approved_qty')
-                                        .val(),
-                                    Approved_Particulars: tableRowInputs
-                                        .find('.approved_particulars')
-                                        .val(),
-                                    Approved_cost: tableRowInputs
-                                        .find('.approved_cost')
-                                        .val(),
-                                    Actual_qty: tableRowInputs
-                                        .find('.actual_qty')
-                                        .val(),
-                                    Actual_Particulars: tableRowInputs
-                                        .find('.actual_particulars')
-                                        .val(),
-                                    Actual_cost: tableRowInputs
-                                        .find('.actual_cost')
-                                        .val(),
-                                    acknowledgement: tableRowInputs
-                                        .find('.acknowledgement')
-                                        .val(),
-                                    remarks: tableRowInputs
-                                        .find('.remarks')
-                                        .val(),
-                                };
-                                equipmentData.push(equipmentDetails);
-                            });
-
-                            nonEquipmentTableRow.each(function () {
-                                const tableRowInputs = $(this);
-                                const nonEquipmentDetails = {
-                                    Approved_qty: tableRowInputs
-                                        .find('.non_equipment_approved_qty')
-                                        .val(),
-                                    Approved_Particulars: tableRowInputs
-                                        .find(
-                                            '.non_equipment_approved_particulars'
-                                        )
-                                        .val(),
-                                    Approved_cost: tableRowInputs
-                                        .find('.non_equipment_approved_cost')
-                                        .val(),
-                                    Actual_qty: tableRowInputs
-                                        .find('.non_equipment_actual_qty')
-                                        .val(),
-                                    Actual_Particulars: tableRowInputs
-                                        .find(
-                                            '.non_equipment_actual_particulars'
-                                        )
-                                        .val(),
-                                    Actual_cost: tableRowInputs
-                                        .find('.non_equipment_actual_cost')
-                                        .val(),
-                                    remarks: tableRowInputs
-                                        .find('.non_equipment_remarks')
-                                        .val(),
-                                };
-                                nonEquipmentData.push(nonEquipmentDetails);
-                            });
-
-                            salesTableRow.each(function () {
-                                const tableRowInputs = $(this);
-                                const salesDetails = {
-                                    ProductService: tableRowInputs
-                                        .find('.sales_product_service')
-                                        .val(),
-                                    SalesVolumeProduction: tableRowInputs
-                                        .find('.sales_volume_production')
-                                        .val(),
-                                    SalesQuarter: tableRowInputs
-                                        .find('.sales_quarter_specify')
-                                        .val(),
-                                    GrossSales: tableRowInputs
-                                        .find('.sales_gross_sales')
-                                        .val(),
-                                };
-                                salesData.push(salesDetails);
-                            });
-                            employmentGeneratedTableRow.each(function () {
-                                const tableRowInputs = $(this);
-                                const employmentGeneratedDetails = {
-                                    Employment_total: tableRowInputs
-                                        .find('.employment_total')
-                                        .val(),
-                                    Employment_Male: tableRowInputs
-                                        .find('.employment_male')
-                                        .val(),
-                                    Employment_Female: tableRowInputs
-                                        .find('.employment_female')
-                                        .val(),
-                                    Employment_PWD: tableRowInputs
-                                        .find('.employment_pwd')
-                                        .val(),
-                                };
-                                employmentGeneratedData.push(
-                                    employmentGeneratedDetails
-                                );
-                            });
-
-                            indirectEmploymentTableRow.each(function () {
-                                const tableRowInputs = $(this);
-                                const indirectEmploymentDetails = {
-                                    IndirectEmployment_total: tableRowInputs
-                                        .find('.indirect_employment_total')
-                                        .val(),
-                                    IndirectEmployment_ForwardMale:
-                                        tableRowInputs
-                                            .find(
-                                                '.indirect_employment_forward_male'
-                                            )
-                                            .val(),
-                                    IndirectEmployment_ForwardFemale:
-                                        tableRowInputs
-                                            .find(
-                                                '.indirect_employment_forward_female'
-                                            )
-                                            .val(),
-                                    InderectEmplyment_ForwardTotal:
-                                        tableRowInputs
-                                            .find(
-                                                '.indirect_employment_forward_total'
-                                            )
-                                            .val(),
-                                    IndirectEmployment_BackwardMale:
-                                        tableRowInputs
-                                            .find(
-                                                '.indirect_employment_backward_male'
-                                            )
-                                            .val(),
-                                    IndirectEmployment_BackwardFemale:
-                                        tableRowInputs
-                                            .find(
-                                                '.indirect_employment_backward_female'
-                                            )
-                                            .val(),
-                                    IndirectEmployment_BackwardTotal:
-                                        tableRowInputs
-                                            .find(
-                                                '.indirect_employment_backward_total'
-                                            )
-                                            .val(),
-                                };
-                                indirectEmploymentData.push(
-                                    indirectEmploymentDetails
-                                );
-                            });
-
                             return {
-                                ExpectedAndActualData: expectedAndActualData,
-                                EquipmentData: equipmentData,
-                                NonEquipmentData: nonEquipmentData,
-                                SalesData: salesData,
+                                ExpectedAndActualData: TableDataExtractor(
+                                    ExpectedAndActualOutputTableConfig
+                                ),
+                                EquipmentData: TableDataExtractor(
+                                    EquipmentTableConfig
+                                ),
+                                NonEquipmentData: TableDataExtractor(
+                                    NonEquipmentTableConfig
+                                ),
+                                SalesData: TableDataExtractor(
+                                    salesTableConfig
+                                ),
                                 EmploymentGeneratedData:
-                                    employmentGeneratedData,
-                                IndirectEmploymentData: indirectEmploymentData,
+                                    TableDataExtractor(
+                                        EmploymentGeneratedTableConfig
+                                    ),
+                                IndirectEmploymentData: TableDataExtractor(
+                                    IndirectEmploymentTableConfig
+                                ),
                             };
                         };
 

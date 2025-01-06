@@ -32,17 +32,26 @@
  * }
  */
 const TableDataExtractor = (tableConfigs) => {
-    let tableData = {};
-    for (const tableKey in tableConfigs) {
-        const table_id = tableConfigs[tableKey].id;
-        const columnSelector = tableConfigs[tableKey].selectors;
-        const requiredFields = tableConfigs[tableKey].requiredFields;
+    try{
 
-        tableData[tableKey] = ProcessTableInputData(table_id, columnSelector, requiredFields);
+        let tableData = {};
+        for (const tableKey in tableConfigs) {
+            const table_id = tableConfigs[tableKey].id;
+            const columnSelector = tableConfigs[tableKey].selectors;
+            const requiredFields = tableConfigs[tableKey].requiredFields;
+    
+            tableData[tableKey] = ProcessTableInputData(
+                table_id,
+                columnSelector,
+                requiredFields
+            );
+        }
+    
+        return tableData;
+    }catch(error){
+        throw new Error('Error in TableDataExtractor:' + error);
     }
-
-    return tableData;
-}
+};
 
 /**
  * Helper function to Extracts data from a table based on specified column selectors and validates required fields.
@@ -75,42 +84,74 @@ const TableDataExtractor = (tableConfigs) => {
  * @throws {Error} Will throw an error if the jQuery selectors are invalid or elements are not found.
  */
 const ProcessTableInputData = (table_id, columnSelector, requiredFields) => {
-    let tableData = [];
-
-    $(`#${table_id} tbody tr`).each(function () {
-        const row = $(this);
-        const rowData = {};
-
-        for (const column in columnSelector) {
-            const selector = columnSelector[column];
-
-            if (typeof selector === 'string') {
-                // Simple selector
-                rowData[column] = row.find(selector).val();
-            } else if (typeof selector === 'object') {
-                // Composite selector
-                let compositeValue = '';
-                for (const subKey in selector) {
-                    compositeValue += row.find(selector[subKey]).val() + ' ';
+    try{
+        let tableData = [];
+    
+        $(`#${table_id} tbody tr`).each(function () {
+            const row = $(this);
+            const rowData = {};
+    
+            // Process all selectors first
+            for (const column in columnSelector) {
+                const selector = columnSelector[column];
+    
+                if (typeof selector === 'string') {
+                    // Simple selector
+                    rowData[column] = row.find(selector).val();
+                } else if (typeof selector === 'object') {
+                    // Handle nested selectors
+                    if (!rowData[column]) {
+                        rowData[column] = {};
+                    }
+    
+                    for (const subKey in selector) {
+                        if (typeof selector[subKey] === 'string') {
+                            // Simple nested selector
+                            rowData[column][subKey] = row
+                                .find(selector[subKey])
+                                .val();
+                        } else if (typeof selector[subKey] === 'object') {
+                            // Deep nested selector
+                            if (!rowData[column][subKey]) {
+                                rowData[column][subKey] = {};
+                            }
+                            for (const deepKey in selector[subKey]) {
+                                rowData[column][subKey][deepKey] = row
+                                    .find(selector[subKey][deepKey])
+                                    .val();
+                            }
+                        }
+                    }
                 }
-                rowData[column] = compositeValue.trim(); // Remove trailing space
             }
-        }
-
-        let allRequiredFieldsPresent = true;
-        for (const field of requiredFields) {
-            if (!rowData[field] || rowData[field] === null || rowData[field] === '') {
-                allRequiredFieldsPresent = false;
-                break;
+    
+            // Validate required fields using dot notation
+            let allRequiredFieldsPresent = true;
+            for (const field of requiredFields) {
+                const fieldParts = field.split('.');
+                let value = rowData;
+    
+                // Traverse the object using dot notation
+                for (const part of fieldParts) {
+                    value = value?.[part];
+                    if (value === undefined || value === null || value === '') {
+                        allRequiredFieldsPresent = false;
+                        break;
+                    }
+                }
+    
+                if (!allRequiredFieldsPresent) break;
             }
-        }
+    
+            if (allRequiredFieldsPresent) {
+                tableData.push(rowData);
+            }
+        });
+    
+        return tableData;
+    }catch(error){
+       throw new Error('Error in ProcessTableInputData:' + error);
+    }
+};
 
-        if (allRequiredFieldsPresent) {
-            tableData.push(rowData);
-        }
-    });
-
-    return tableData;
-}
-
-export { TableDataExtractor }
+export { TableDataExtractor };
