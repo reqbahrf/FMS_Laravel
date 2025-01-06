@@ -2221,6 +2221,33 @@ window.initializeStaffPageJs = async () => {
                 .off('click', '.ExportPDF')
                 .on('click', '.ExportPDF', handlePDFExport);
 
+            const ExportAndLocalProductsConfig = {
+               localProduct: {
+                    id: 'exportMarketTable',
+                    selectors: {
+                        productName: '.productName',
+                        packingDetails: '.packingDetails',
+                        volumeOfProduction: '.volumeOfProduction_val',
+                        grossSales: '.grossSales_val',
+                        productionCost: '.productionCost_val',
+                        netSales: '.netSales_val',
+                    },
+                    requiredFields: ['productName']
+                },
+                exportProduct: {
+                    id: 'exportProductTable',
+                    selectors: {
+                        productName: '.productName',
+                        packingDetails: '.packingDetails',
+                        volumeOfProduction: '.volumeOfProduction_val',
+                        grossSales: '.grossSales_val',
+                        productionCost: '.productionCost_val',
+                        netSales: '.netSales_val',
+                    },
+                    requiredFields: ['productName']
+                }
+            }
+
             /**
              * Prepares and returns the required data for the specified export type.
              *
@@ -2237,7 +2264,6 @@ window.initializeStaffPageJs = async () => {
                         );
                     },
 
-                    //Todo: make use of the TableDataExtractor.js utility
                     PDS: function () {
                         const thisFormData =
                             $('#projectDataForm').serializeArray();
@@ -2252,60 +2278,10 @@ window.initializeStaffPageJs = async () => {
                             }
                         });
 
-                        const localProductsRow = $('#localProducts tr');
-                        const exportProductsRow = $('#exportProducts tr');
-                        const localProductData = [];
-                        const exportProductData = [];
-
-                        localProductsRow.each(function () {
-                            const tableRow = $(this);
-                            const localProductDetails = {
-                                productName: tableRow
-                                    .find('.productName')
-                                    .val(),
-                                packingDetails: tableRow
-                                    .find('.packingDetails')
-                                    .val(),
-                                volumeOfProduction: tableRow
-                                    .find('.volumeOfProduction_val')
-                                    .val(),
-                                grossSales: tableRow
-                                    .find('.grossSales_val')
-                                    .val(),
-                                productionCost: tableRow
-                                    .find('.productionCost_val')
-                                    .val(),
-                                netSales: tableRow.find('.netSales_val').val(),
-                            };
-                            localProductData.push(localProductDetails);
-                        });
-
-                        thisFormObject.localProduct = localProductData;
-
-                        exportProductsRow.each(function () {
-                            const tableRow = $(this);
-                            const exportProductDetails = {
-                                productName: tableRow
-                                    .find('.productName')
-                                    .val(),
-                                packingDetails: tableRow
-                                    .find('.packingDetails')
-                                    .val(),
-                                volumeOfProduction: tableRow
-                                    .find('.volumeOfProduction_val')
-                                    .val(),
-                                grossSales: tableRow
-                                    .find('.grossSales_val')
-                                    .val(),
-                                productionCost: tableRow
-                                    .find('.productionCost_val')
-                                    .val(),
-                                netSales: tableRow.find('.netSales_val').val(),
-                            };
-                            exportProductData.push(exportProductDetails);
-                        });
-
-                        thisFormObject.exportProduct = exportProductData;
+                        thisFormObject = {
+                            ...thisFormObject, 
+                            ...TableDataExtractor(ExportAndLocalProductsConfig)
+                        }
 
                         return thisFormObject;
                     },

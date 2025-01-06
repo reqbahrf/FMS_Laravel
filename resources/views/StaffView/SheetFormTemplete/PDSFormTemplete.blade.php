@@ -305,7 +305,7 @@
                         <div class="table-responsive">
                             <!-- Export Market Table -->
                             <h6 class="fw-bold text-primary mt-3">3.1 Export Market</h6>
-                            <table class="table table-bordered align-middle">
+                            <table class="table table-bordered align-middle" id="exportMarketTable">
                                 <colgroup>
                                     <col style="width: 20%;">
                                     <col style="width: 20%;">
@@ -363,7 +363,7 @@
                         <!-- Local Market Table -->
                         <div class="table-responsive">
                             <h6 class="fw-bold text-primary mt-4">3.2 Local Market</h6>
-                            <table class="table table-bordered align-middle">
+                            <table class="table table-bordered align-middle" id="localMarketTable">
                                 <colgroup>
                                     <col style="width: 20%;">
                                     <col style="width: 20%;">
