@@ -1707,154 +1707,216 @@ window.initializeStaffPageJs = async () => {
             /**
              * Event listener for showing the delete confirmation modal.
              *
-             * This listener triggers when the '#deleteRecordModal' modal is shown. It dynamically updates
-             * the modal's content based on the type of record that is being deleted (e.g., project payment,
-             * project link, or quarterly report). Once confirmed, it sends an AJAX DELETE request to the
-             * appropriate endpoint to delete the specified record.
+             * This listener triggers when the '#deleteRecordModal' modal is shown. It dynamically populates
+             * the modal's content based on the type of record to be deleted. The record type and associated data are
+             * determined by the `getRecordData` function. It also attaches a click handler (`handleDeleteClick`) to the
+             * modal's delete button, which is responsible for sending the DELETE request to the server.
              *
              * @event show.bs.modal
              * @param {Event} event - The event object triggered when the modal is shown.
-             * @listens show.bs.modal
+             * @listens show.bs.modal - Listens for the Bootstrap modal 'show' event.
              *
-             * @property {jQuery} triggeredDeleteButton - The button element that triggered the modal, containing data attributes used for determining the record type and details.
-             * @property {string} action - The type of record to delete (e.g., 'projectPayment', 'projectLink', or 'quarterlyRecord').
-             * @property {jQuery} recordRow - The table row (`<tr>`) element closest to the triggered button, used to extract record details from the table.
+             * @property {jQuery} modal - The jQuery object representing the modal element.
+             * @property {jQuery} triggeredDeleteButton - The button element that triggered the modal.
+             * @property {jQuery} recordRow - The table row (`<tr>`) element associated with the record to be deleted.
+             * @property {string} action - The type of record to delete (e.g., 'projectPayment', 'projectLink', 'quarterlyRecord').
              *
-             * @property {string} paymentTransactionID - The transaction ID of the payment record to delete (if `action === 'projectPayment'`).
-             * @property {string} paymentAmount - The amount of the payment to delete (if `action === 'projectPayment'`).
+             * @see getRecordData
+             * @see handleDeleteClick
+             */
+            $('#deleteRecordModal').on('show.bs.modal', function (event) {
+                const modal = $(this);
+                const triggeredDeleteButton = $(event.relatedTarget);
+                const recordRow = triggeredDeleteButton.closest('tr');
+                const action = triggeredDeleteButton.data('delete-record-type');
+
+                const recordData = getRecordData(
+                    action,
+                    recordRow,
+                    triggeredDeleteButton
+                );
+
+                // Update modal content
+                modal.find('.modal-body').html(recordData.message);
+                modal
+                    .find('#deleteRecord')
+                    .attr('data-record-to-delete', recordData.recordType)
+                    .attr('data-unique-val', recordData.uniqueVal)
+                    .off('click') // Remove previous click handlers
+                    .on('click', handleDeleteClick.bind(modal, recordData));
+            });
+
+            /**
+             * Retrieves data for the delete confirmation modal based on the specified action.
              *
-             * @property {string} projectName - The name of the project link record to delete (if `action === 'projectLink'`).
-             * @property {string} projectLink - The URL of the project link to delete (if `action === 'projectLink'`).
+             * This function determines the appropriate message, record type, unique identifier, delete route, and
+             * after-delete action based on the provided `action`. It uses an object-based lookup (`recordTypes`) to
+             * store the specific logic for each supported action type.
              *
-             * @property {string} quarterlyRecord_id - The ID of the quarterly report record to delete (if `action === 'quarterlyRecord'`).
-             * @property {string} quarterPeriod - The quarter period of the quarterly report record to delete (if `action === 'quarterlyRecord'`).
+             * @param {string} action - The type of record to be deleted (e.g., 'projectPayment', 'projectLink', 'quarterlyRecord').
+             * @param {jQuery} recordRow - The table row (`<tr>`) element associated with the record.
+             * @param {jQuery} triggeredDeleteButton - The button element that triggered the modal.
+             *
+             * @returns {{message: string, recordType: string, uniqueVal: string, deleteRoute: function, afterDelete: function}}
+             *   An object containing the following properties:
+             *   - `message`: The message to be displayed in the modal body.
+             *   - `recordType`: The type of record being deleted (used for the `data-record-to-delete` attribute).
+             *   - `uniqueVal`: The unique identifier of the record (used for the `data-unique-val` attribute and the delete route).
+             *   - `deleteRoute`: A function that takes the `uniqueVal` and returns the URL for the DELETE request.
+             *   - `afterDelete`: A function to be executed after a successful deletion, typically for UI updates.
+             *
+             * @throws {Error} Throws an error if an unknown action is provided.
+             */
+            function getRecordData(action, recordRow, triggeredDeleteButton) {
+                const recordTypes = {
+                    projectPayment: {
+                        getMessage: () => {
+                            const paymentTransactionID = recordRow
+                                .find('td:eq(0)')
+                                .text();
+                            const paymentAmount = recordRow
+                                .find('td:eq(1)')
+                                .text();
+                            return `Are you sure you want to delete this transaction <strong>${paymentTransactionID}</strong> with amount of <strong>${paymentAmount}</strong>?`;
+                        },
+                        recordType: 'paymentRecord',
+                        getUniqueVal: () => recordRow.find('td:eq(0)').text(),
+                        getDeleteRoute: (uniqueVal) =>
+                            DASHBBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
+                                ':transaction_id',
+                                uniqueVal
+                            ),
+                        afterDelete: async (project_id) =>
+                            await getPaymentHistoryAndCalculation(
+                                project_id,
+                                getAmountRefund()
+                            ),
+                    },
+                    projectLink: {
+                        getMessage: () => {
+                            const fileId = recordRow.find('input.linkID').val();
+                            const projectName = recordRow
+                                .find('td:eq(0)')
+                                .text();
+                            const projectLink = recordRow
+                                .find('td:eq(1)')
+                                .text();
+                            return `Are you sure you want to delete this link <a href="${projectLink}" target="_blank">${projectLink}</a> with a file named ${projectName}?`;
+                        },
+                        recordType: 'projectLinkRecord',
+                        getUniqueVal: () =>
+                            recordRow.find('input.linkID').val(),
+                        getDeleteRoute: (uniqueVal) =>
+                            DASHBBOARD_TAB_ROUTE.DELETE_PROJECT_LINK.replace(
+                                ':file_id',
+                                uniqueVal
+                            ),
+                        afterDelete: async (project_id) =>
+                            await getProjectLinks(project_id),
+                    },
+                    quarterlyRecord: {
+                        getMessage: () => {
+                            const quarterPeriod = recordRow
+                                .find('td:eq(0)')
+                                .text();
+                            return `Are you sure you want to delete this quarterly record <strong>${quarterPeriod}</strong>?`;
+                        },
+                        recordType: 'quarterlyRecord',
+                        getUniqueVal: () =>
+                            triggeredDeleteButton.data('record-id'),
+                        getDeleteRoute: (uniqueVal) =>
+                            DASHBBOARD_TAB_ROUTE.DELETE_QUARTERLY_REPORT.replace(
+                                ':record_id',
+                                uniqueVal
+                            ),
+                        afterDelete: async (project_id) =>
+                            await getQuarterlyReports(project_id),
+                    },
+                };
+
+                const recordType = recordTypes[action];
+                if (!recordType) {
+                    console.error('Unknown action:', action);
+                    throw new Error('Unknown action: ' + action);
+                    return {
+                        message: 'Error: Unknown action.',
+                        recordType: '',
+                        uniqueVal: '',
+                    };
+                }
+
+                return {
+                    message: recordType.getMessage(),
+                    recordType: recordType.recordType,
+                    uniqueVal: recordType.getUniqueVal(),
+                    deleteRoute: recordType.getDeleteRoute,
+                    afterDelete: recordType.afterDelete,
+                };
+            }
+
+            /**
+             * Handles the click event on the delete button within the confirmation modal.
+             *
+             * This function sends an AJAX DELETE request to the server to delete the specified record. The URL for the
+             * request is determined by the `deleteRoute` function within the `recordData` object. After a successful
+             * deletion, it calls the `afterDelete` function, also provided by `recordData`, to perform any necessary UI
+             * updates. It also handles displaying success or error messages using toast notifications and closes the modal.
+             *
+             * @async
+             * @function handleDeleteClick
+             * @this {jQuery} - The modal element, bound using `bind` in the event listener.
+             * @param {{message: string, recordType: string, uniqueVal: string, deleteRoute: function, afterDelete: function}} recordData -
+             *   The data object for the record to be deleted, obtained from `getRecordData`.
+             *
+             * @property {string} uniqueVal - The unique identifier of the record to be deleted, extracted from the modal's data attribute.
+             * @property {function} deleteRouteFn - The function to generate the delete route URL.
+             * @property {function} afterDeleteFn - The function to be called after a successful deletion.
+             * @property {string} deleteRoute - The generated URL for the DELETE request.
+             * @property {string} project_id - The ID of the project, extracted from the '#ProjectID' element.
              *
              * @fires $.ajax DELETE - Sends a DELETE request to the server to delete the specified record.
              *
-             * @function handleDeleteClick - Handles the click event on the delete button within the modal.
-             *   This sends the appropriate DELETE request and updates the UI accordingly.
-             *
-             * @returns {void}
+             * @returns {Promise<void>} A promise that resolves when the delete operation is complete.
              */
-            //TODO: Refactor this function in the future
-            //TODO: Refrash the Record once the request is successful
-            $('#deleteRecordModal').on('show.bs.modal', function (event) {
-                const triggeredDeleteButton = $(event.relatedTarget);
-                const action = triggeredDeleteButton.data('delete-record-type');
-                const recordRow = triggeredDeleteButton.closest('tr');
-
-                console.log(triggeredDeleteButton.data('record-to-delete'));
-                console.log(action);
-
-                const modal = $(this);
-
-                if (action === 'projectPayment') {
-                    const paymentTransactionID = recordRow
-                        .find('td:eq(0)')
-                        .text();
-                    const paymentAmount = recordRow.find('td:eq(1)').text();
-
-                    modal
-                        .find('.modal-body')
-                        .html(
-                            `Are you sure you want to delete this transaction <strong>${paymentTransactionID}</strong> with amount of <strong>${paymentAmount}</strong>?`
-                        );
-                    modal
-                        .find('#deleteRecord')
-                        .attr('data-record-to-delete', 'paymentRecord')
-                        .attr('data-unique-val', paymentTransactionID);
-                } else if (action === 'projectLink') {
-                    const fileId = recordRow.find('input.linkID').val();
-                    const projectName = recordRow.find('td:eq(0)').text();
-                    const projectLink = recordRow.find('td:eq(1)').text();
-
-                    modal
-                        .find('.modal-body')
-                        .html(
-                            `Are you sure you want to delete this link <a href="${projectLink}" target="_blank">${projectLink}</a> with a file named ${projectName}?`
-                        );
-                    modal
-                        .find('#deleteRecord')
-                        .attr('data-record-to-delete', 'projectLinkRecord')
-                        .attr('data-unique-val', fileId);
-                } else if (action === 'quarterlyRecord') {
-                    const quarterlyRecord_id =
-                        triggeredDeleteButton.data('record-id');
-                    const quarterPeriod = recordRow.find('td:eq(0)').text();
-                    console.log(quarterPeriod, quarterlyRecord_id);
-                    modal
-                        .find('.modal-body')
-                        .html(
-                            `Are you sure you want to delete this quarterly record <strong>${quarterPeriod}</strong>?`
-                        );
-                    modal
-                        .find('#deleteRecord')
-                        .attr('data-record-to-delete', 'quarterlyRecord')
-                        .attr('data-unique-val', quarterlyRecord_id);
-                }
-                modal
+            async function handleDeleteClick(recordData) {
+                const modal = this; // 'this' is bound to the modal
+                const uniqueVal = $(modal)
                     .find('#deleteRecord')
-                    .off('click')
-                    .on('click', async function () {
-                        const recordToDelete = $(this).attr(
-                            'data-record-to-delete'
-                        );
-                        showProcessToast('Deleting Record...');
-                        const uniqueVal = $(this).attr('data-unique-val');
-                        const deleteRoute =
-                            recordToDelete === 'paymentRecord'
-                                ? DASHBBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
-                                      ':transaction_id',
-                                      uniqueVal
-                                  )
-                                : recordToDelete === 'projectLinkRecord'
-                                  ? DASHBBOARD_TAB_ROUTE.DELETE_PROJECT_LINK.replace(
-                                        ':file_id',
-                                        uniqueVal
-                                    )
-                                  : recordToDelete === 'quarterlyRecord'
-                                    ? DASHBBOARD_TAB_ROUTE.DELETE_QUARTERLY_REPORT.replace(
-                                          ':record_id',
-                                          uniqueVal
-                                      )
-                                    : '';
-                        try {
-                            const project_id = $('#ProjectID').val();
-                            const response = await $.ajax({
-                                type: 'DELETE',
-                                url: deleteRoute,
-                                headers: {
-                                    'X-CSRF-TOKEN': $(
-                                        'meta[name="csrf-token"]'
-                                    ).attr('content'),
-                                },
-                            });
-                            hideProcessToast();
-                            showToastFeedback(
-                                'text-bg-success',
-                                response.message
-                            );
-                            closeModal('#deleteRecordModal');
-                            modal.hide();
-                            recordToDelete === 'projectLinkRecord'
-                                ? getProjectLinks(project_id)
-                                : recordToDelete === 'paymentRecord'
-                                  ? getPaymentHistoryAndCalculation(
-                                        project_id,
-                                        getAmountRefund()
-                                    )
-                                  : recordToDelete === 'quarterlyRecord'
-                                    ? getQuarterlyReports(project_id)
-                                    : null;
-                        } catch (error) {
-                            hideProcessToast();
-                            showToastFeedback(
-                                'text-bg-danger',
-                                error.responseJSON.message
-                            );
-                        }
+                    .attr('data-unique-val');
+                const deleteRouteFn = recordData.deleteRoute;
+                const afterDeleteFn = recordData.afterDelete;
+                const deleteRoute = deleteRouteFn(uniqueVal);
+
+                showProcessToast('Deleting Record...');
+
+                try {
+                    const project_id = $('#ProjectID').val();
+                    const response = await $.ajax({
+                        type: 'DELETE',
+                        url: deleteRoute,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                'content'
+                            ),
+                        },
                     });
-            });
+
+                    hideProcessToast();
+                    showToastFeedback('text-bg-success', response.message);
+                    closeModal('#deleteRecordModal');
+                    modal.hide();
+
+                    if (afterDeleteFn) {
+                        await afterDeleteFn(project_id);
+                    }
+                } catch (error) {
+                    hideProcessToast();
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error.responseJSON.message
+                    );
+                }
+            }
 
             const projectStateBtn = $('.updateProjectState');
 
@@ -1973,6 +2035,8 @@ window.initializeStaffPageJs = async () => {
              */
             const getAvailableQuarterlyReports = async (Project_id) => {
                 try {
+                    const QuarterlySelector = $('#Select_quarter_to_Generate');
+                    QuarterlySelector.empty();
                     const response = await $.ajax({
                         type: 'GET',
                         url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
@@ -1985,15 +2049,15 @@ window.initializeStaffPageJs = async () => {
                             ),
                         },
                     });
-                    $('#Select_quarter_to_Generate').append(response.html);
+                    if (response && response.html) {
+                        QuarterlySelector.append(response.html);
+                    }
                 } catch (error) {
                     throw new Error(
                         'Error fetching quarterly reports: ' + error
                     );
                 }
             };
-
-            //TODO: Implement spinner for the ajax request
 
             const GET_PROJECT_SHEET_FORM = async (
                 formType,
