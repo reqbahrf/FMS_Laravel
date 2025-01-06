@@ -2430,34 +2430,15 @@ window.initializeStaffPageJs = async () => {
                                 thisFormObject[v.name] = v.value;
                             }
                         });
-
-                        const TableData = () => {
-                            return {
-                                ExpectedAndActualData: TableDataExtractor(
-                                    ExpectedAndActualOutputTableConfig
-                                ),
-                                EquipmentData: TableDataExtractor(
-                                    EquipmentTableConfig
-                                ),
-                                NonEquipmentData: TableDataExtractor(
-                                    NonEquipmentTableConfig
-                                ),
-                                SalesData: TableDataExtractor(
-                                    salesTableConfig
-                                ),
-                                EmploymentGeneratedData:
-                                    TableDataExtractor(
-                                        EmploymentGeneratedTableConfig
-                                    ),
-                                IndirectEmploymentData: TableDataExtractor(
-                                    IndirectEmploymentTableConfig
-                                ),
-                            };
-                        };
-
+                        
                         return (thisFormObject = {
                             ...thisFormObject,
-                            ...TableData(),
+                            ...TableDataExtractor(ExpectedAndActualOutputTableConfig),
+                            ...TableDataExtractor(EquipmentTableConfig),
+                            ...TableDataExtractor(NonEquipmentTableConfig),
+                            ...TableDataExtractor(salesTableConfig),
+                            ...TableDataExtractor(EmploymentGeneratedTableConfig),
+                            ...TableDataExtractor(IndirectEmploymentTableConfig),
                         });
                     },
                 };
