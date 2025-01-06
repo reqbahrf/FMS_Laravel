@@ -418,7 +418,7 @@ window.initializeStaffPageJs = async () => {
                     );
                     lineChart.render();
                     resolve();
-                }).catch(error => {
+                }).catch((error) => {
                     throw new Error('Error rendering line chart: ' + error);
                 });
             };
@@ -953,9 +953,7 @@ window.initializeStaffPageJs = async () => {
                     });
                     return totalAmount;
                 } catch (error) {
-                    throw new Error(
-                        'Error fetching payment history: ' + error
-                    )
+                    throw new Error('Error fetching payment history: ' + error);
                 }
             }
 
@@ -1024,9 +1022,7 @@ window.initializeStaffPageJs = async () => {
             });
 
             //TODO: refactor this function in the future
-             function retrieve_the_selected_record_TO_UPDATE(
-                selected_row
-            ) {
+            function retrieve_the_selected_record_TO_UPDATE(selected_row) {
                 const selected_transaction_id = selected_row
                     .find('td:eq(0)')
                     .text()
@@ -1118,9 +1114,7 @@ window.initializeStaffPageJs = async () => {
                           );
                     ProjectLedgerInput.val(response.project_ledger_link);
                 } catch (error) {
-                    throw new Error(
-                        'Error fetching project ledger: ' + error
-                    )
+                    throw new Error('Error fetching project ledger: ' + error);
                 }
             };
 
@@ -1293,9 +1287,7 @@ window.initializeStaffPageJs = async () => {
                         InitializeviewCooperatorProgress(percentage);
                     }, 500);
                 } catch (error) {
-                    throw new Error(
-                        'Error fetching payment history: ' + error
-                    );
+                    throw new Error('Error fetching payment history: ' + error);
                 }
             };
 
@@ -1472,9 +1464,7 @@ window.initializeStaffPageJs = async () => {
                         'text-bg-danger',
                         error?.responseJSON.message
                     );
-                    throw new Error(
-                        'Error fetching project links: ' + error
-                    );
+                    throw new Error('Error fetching project links: ' + error);
                 }
             };
 
@@ -1628,7 +1618,10 @@ window.initializeStaffPageJs = async () => {
                     toggleRequirementUploadType();
                 } catch (error) {
                     hideProcessToast();
-                    showToastFeedback('text-bg-danger', error.responseJSON.message);
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error.responseJSON.message
+                    );
                 }
             });
 
@@ -1994,8 +1987,9 @@ window.initializeStaffPageJs = async () => {
                     });
                     $('#Select_quarter_to_Generate').append(response.html);
                 } catch (error) {
-                   throw new Error(
-                        'Error fetching quarterly reports: ' + error);
+                    throw new Error(
+                        'Error fetching quarterly reports: ' + error
+                    );
                 }
             };
 
@@ -2222,7 +2216,7 @@ window.initializeStaffPageJs = async () => {
                 .on('click', '.ExportPDF', handlePDFExport);
 
             const ExportAndLocalProductsConfig = {
-               localProduct: {
+                localProduct: {
                     id: 'exportMarketTable',
                     selectors: {
                         productName: '.productName',
@@ -2232,7 +2226,7 @@ window.initializeStaffPageJs = async () => {
                         productionCost: '.productionCost_val',
                         netSales: '.netSales_val',
                     },
-                    requiredFields: ['productName']
+                    requiredFields: ['productName'],
                 },
                 exportProduct: {
                     id: 'exportProductTable',
@@ -2244,9 +2238,9 @@ window.initializeStaffPageJs = async () => {
                         productionCost: '.productionCost_val',
                         netSales: '.netSales_val',
                     },
-                    requiredFields: ['productName']
-                }
-            }
+                    requiredFields: ['productName'],
+                },
+            };
 
             const ExpectedAndActualOutputTableConfig = {
                 ExpectedAndActualData: {
@@ -2256,9 +2250,13 @@ window.initializeStaffPageJs = async () => {
                         actualAccomplishment: '.actualAccomplishment',
                         remarksJustification: '.remarksJustification',
                     },
-                    requiredFields: ['Expected_Output', 'Actual_Accomplishment', 'Remarks_Justification']
-                }
-            }
+                    requiredFields: [
+                        'expectedOutput',
+                        'actualAccomplishment',
+                        'remarksJustification',
+                    ],
+                },
+            };
 
             const EquipmentTableConfig = {
                 EquipmentData: {
@@ -2278,17 +2276,17 @@ window.initializeStaffPageJs = async () => {
                         remarks: '.remarks',
                     },
                     requiredFields: [
-                        'Approved.qty', 
-                        'Approved.particulars', 
-                        'Approved.cost', 
-                        'Actual.qty', 
-                        'Actual.particulars', 
-                        'Actual.cost', 
-                        'acknowledgement', 
-                        'remarks'
-                    ]
-                }
-            }
+                        'Approved.qty',
+                        'Approved.particulars',
+                        'Approved.cost',
+                        'Actual.qty',
+                        'Actual.particulars',
+                        'Actual.cost',
+                        'acknowledgement',
+                        'remarks',
+                    ],
+                },
+            };
 
             const NonEquipmentTableConfig = {
                 NonEquipmentData: {
@@ -2307,16 +2305,16 @@ window.initializeStaffPageJs = async () => {
                         remarks: '.non_equipment_remarks',
                     },
                     requiredFields: [
-                        'Approved.qty', 
-                        'Approved.particulars', 
-                        'Approved.cost', 
-                        'Actual.qty', 
-                        'Actual.particulars', 
-                        'Actual.cost', 
-                        'remarks'
-                    ]
-                }
-            }
+                        'Approved.qty',
+                        'Approved.particulars',
+                        'Approved.cost',
+                        'Actual.qty',
+                        'Actual.particulars',
+                        'Actual.cost',
+                        'remarks',
+                    ],
+                },
+            };
 
             const salesTableConfig = {
                 SalesData: {
@@ -2328,13 +2326,13 @@ window.initializeStaffPageJs = async () => {
                         GrossSales: '.sales_gross_sales',
                     },
                     requiredFields: [
-                        'ProductService', 
-                        'SalesVolumeProduction', 
-                        'SalesQuarter', 
-                        'GrossSales'
-                    ]
-                }
-            }
+                        'ProductService',
+                        'SalesVolumeProduction',
+                        'SalesQuarter',
+                        'GrossSales',
+                    ],
+                },
+            };
 
             const EmploymentGeneratedTableConfig = {
                 EmploymentGeneratedData: {
@@ -2343,40 +2341,46 @@ window.initializeStaffPageJs = async () => {
                         Employment_total: '.employment_total',
                         Employment_Male: '.employment_male',
                         Employment_Female: '.employment_female',
-                        Employment_PWD: '.employment_pwd', 
+                        Employment_PWD: '.employment_pwd',
                     },
                     requiredFields: [
-                        'Employment_total', 
-                        'Employment_Male', 
-                        'Employment_Female', 
-                        'Employment_PWD'
-                    ]
-                }
-            }
+                        'Employment_total',
+                        'Employment_Male',
+                        'Employment_Female',
+                        'Employment_PWD',
+                    ],
+                },
+            };
 
             const IndirectEmploymentTableConfig = {
                 IndirectEmploymentData: {
                     id: 'indirectEmploymentTable',
                     selectors: {
                         IndirectEmployment_total: '.indirect_employment_total',
-                        IndirectEmployment_ForwardMale: '.indirect_employment_forward_male',
-                        IndirectEmployment_ForwardFemale: '.indirect_employment_forward_female',
-                        InderectEmplyment_ForwardTotal: '.indirect_employment_forward_total',
-                        IndirectEmployment_BackwardMale: '.indirect_employment_backward_male',
-                        IndirectEmployment_BackwardFemale: '.indirect_employment_backward_female',
-                        IndirectEmployment_BackwardTotal: '.indirect_employment_backward_total',
+                        IndirectEmployment_ForwardMale:
+                            '.indirect_employment_forward_male',
+                        IndirectEmployment_ForwardFemale:
+                            '.indirect_employment_forward_female',
+                        InderectEmplyment_ForwardTotal:
+                            '.indirect_employment_forward_total',
+                        IndirectEmployment_BackwardMale:
+                            '.indirect_employment_backward_male',
+                        IndirectEmployment_BackwardFemale:
+                            '.indirect_employment_backward_female',
+                        IndirectEmployment_BackwardTotal:
+                            '.indirect_employment_backward_total',
                     },
                     requiredFields: [
-                        'IndirectEmployment_total', 
-                        'IndirectEmployment_ForwardMale', 
-                        'IndirectEmployment_ForwardFemale', 
-                        'InderectEmplyment_ForwardTotal', 
-                        'IndirectEmployment_BackwardMale', 
-                        'IndirectEmployment_BackwardFemale', 
-                        'IndirectEmployment_BackwardTotal'
-                    ]
-                }
-            }
+                        'IndirectEmployment_total',
+                        'IndirectEmployment_ForwardMale',
+                        'IndirectEmployment_ForwardFemale',
+                        'InderectEmplyment_ForwardTotal',
+                        'IndirectEmployment_BackwardMale',
+                        'IndirectEmployment_BackwardFemale',
+                        'IndirectEmployment_BackwardTotal',
+                    ],
+                },
+            };
 
             /**
              * Prepares and returns the required data for the specified export type.
@@ -2409,9 +2413,9 @@ window.initializeStaffPageJs = async () => {
                         });
 
                         thisFormObject = {
-                            ...thisFormObject, 
-                            ...TableDataExtractor(ExportAndLocalProductsConfig)
-                        }
+                            ...thisFormObject,
+                            ...TableDataExtractor(ExportAndLocalProductsConfig),
+                        };
 
                         return thisFormObject;
                     },
@@ -2430,15 +2434,21 @@ window.initializeStaffPageJs = async () => {
                                 thisFormObject[v.name] = v.value;
                             }
                         });
-                        
+
                         return (thisFormObject = {
                             ...thisFormObject,
-                            ...TableDataExtractor(ExpectedAndActualOutputTableConfig),
+                            ...TableDataExtractor(
+                                ExpectedAndActualOutputTableConfig
+                            ),
                             ...TableDataExtractor(EquipmentTableConfig),
                             ...TableDataExtractor(NonEquipmentTableConfig),
                             ...TableDataExtractor(salesTableConfig),
-                            ...TableDataExtractor(EmploymentGeneratedTableConfig),
-                            ...TableDataExtractor(IndirectEmploymentTableConfig),
+                            ...TableDataExtractor(
+                                EmploymentGeneratedTableConfig
+                            ),
+                            ...TableDataExtractor(
+                                IndirectEmploymentTableConfig
+                            ),
                         });
                     },
                 };
@@ -2586,7 +2596,7 @@ window.initializeStaffPageJs = async () => {
                 } catch (error) {
                     throw new Error(
                         'Error fetching quarterly reports: ' + error
-                    )
+                    );
                 }
             };
 
