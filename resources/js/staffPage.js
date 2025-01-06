@@ -1645,6 +1645,7 @@ window.initializeStaffPageJs = async () => {
                     .prop('readonly', is_external == '1' ? false : true);
             });
 
+            //TODO: refactor this logic of this function
             // Function to toggle requirement upload type containers
             function toggleRequirementUploadType() {
                 const uploadTypeRadios = $('[name="requirement_upload_type"]');
@@ -1838,11 +1839,6 @@ window.initializeStaffPageJs = async () => {
                 if (!recordType) {
                     console.error('Unknown action:', action);
                     throw new Error('Unknown action: ' + action);
-                    return {
-                        message: 'Error: Unknown action.',
-                        recordType: '',
-                        uniqueVal: '',
-                    };
                 }
 
                 return {
