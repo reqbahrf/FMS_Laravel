@@ -1,8 +1,10 @@
+import SignaturePad from 'signature_pad';
 import {
     formatNumberToCurrency,
     customFormatNumericInput,
     parseFormattedNumberToFloat,
 } from '../Utilities/utilFunctions';
+
 export class FormEvents {
     constructor(formType) {
         this.formType = formType;
@@ -28,6 +30,7 @@ export class FormEvents {
             console.log(`Form Type ${this.formType} not found`);
         }
     }
+
     PISFormEvents() {
         function caculateTotalAssests() {
             const landAssets = parseFormattedNumberToFloat(
@@ -113,16 +116,69 @@ export class FormEvents {
             customFormatNumericInput(`#${thisInputId}`);
             calculateTotalGrossSales();
         });
+
+        const canvasPad = document.getElementById('signature-canvas');
+        const signaturePad = new SignaturePad(canvasPad, {
+            minWidth: 2,
+            maxWidth: 5,
+        });
+
+        // Handle canvas resize
+        function resizeCanvas() {
+            const ratio = Math.max(window.devicePixelRatio || 1, 1);
+            canvasPad.width = canvasPad.offsetWidth * ratio;
+            canvasPad.height = canvasPad.offsetHeight * ratio;
+            canvasPad.getContext("2d").scale(ratio, ratio);
+            signaturePad.clear(); // Clear the canvas
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        // Clear signature
+        $('#clear-signature').on('click', function() {
+            signaturePad.clear();
+        });
+
+        // Handle image upload
+        $('#esignature-image').on('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = new Image();
+                    img.onload = function() {
+                        const ctx = canvasPad.getContext('2d');
+                        ctx.clearRect(0, 0, canvasPad.width, canvasPad.height);
+                        ctx.drawImage(img, 0, 0, canvasPad.width, canvasPad.height);
+                    };
+                    img.src = e.target.result;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Handle signature save
+        $('#add-esignature').on('click', function() {
+            if (!signaturePad.isEmpty()) {
+                const signatureData = signaturePad.toDataURL();
+                const name = $('#esignature-name').val();
+                const topText = $('#esignature-top-text').val();
+                const bottomText = $('#esignature-bottom-text').val();
+
+                console.log('Signature saved:', {
+                    name,
+                    topText,
+                    bottomText,
+                    signatureData
+                });
+            } else {
+                alert('Please provide a signature first.');
+            }
+        });
     }
 
-    //TODO: need to be test
-    /**
-     * Initializes and sets up event listeners for the PDS form, handling calculations and updates for employment and sales data.
-     *
-     * @return {void}
-     */
     PDSFormEvents() {
-        //TODO: Update the Js docs of this PDS events
         const calculateTotalEmployment = () => {
             let totalNumPersonel = 0;
             let totalManMonth = 0;
@@ -152,19 +208,6 @@ export class FormEvents {
             $('#TotalEmployment').val(formatNumberToCurrency(totalNumPersonel));
         };
 
-        /**
-         * Event listener for input changes on employee data table cells.
-         *
-         * Listens for changes on 'maleInput', 'femaleInput', and 'workdayInput' cells within the '#totalEmployment' table.
-         * When a change occurs, updates the corresponding 'totalManMonth' cell and recalculates the overall total employment values.
-         *
-         * @event input
-         * @listener
-         * @param {object} event - The input event object.
-         * @param {HTMLElement} event.target - The input element that triggered the event.
-         *
-         * @fires calculateTotalEmployment
-         */
         $('#totalEmployment').on(
             'input',
             'td input.maleInput, td input.femaleInput, td input.workdayInput',
@@ -190,12 +233,6 @@ export class FormEvents {
             }
         );
 
-        /**
-         * Calculates the total gross sales, production cost, and net sales
-         * from the local and export products tables.
-         *
-         * @return {void}
-         */
         const calculateTotals = () => {
             let totalGrossSales = 0;
             let totalProductionCost = 0;
@@ -236,19 +273,6 @@ export class FormEvents {
             );
         };
 
-        /**
-         * Event listener for input changes on gross sales and production cost fields.
-         *
-         * Calculates the net sales by subtracting the estimated production cost from the gross sales,
-         * updates the corresponding net sales field, and recalculates totals.
-         *
-         * @event input
-         * @listener
-         * @param {object} event - The input event object.
-         * @param {HTMLElement} event.target - The input element that triggered the event.
-         *
-         * @fires calculateTotals
-         */
         $('#localProducts, #exportProducts').on(
             'input',
             'td input.grossSales_val, td input.productionCost_val',
@@ -273,13 +297,6 @@ export class FormEvents {
             }
         );
 
-        /**
-         * Calculates the productivity increase percentage based on current and previous gross sales.
-         *
-         * @param {number} CurrentgrossSales - The current gross sales value.
-         * @param {number} PreviousgrossSales - The previous gross sales value.
-         * @return {void}
-         */
         const calculateToBeAccomplishedProductivity = () => {
             const increaseInProductivityRow = $(
                 '#ToBeAccomplished .increaseInProductivity'
@@ -322,19 +339,6 @@ export class FormEvents {
                 .val(`${increaseInProductivityByPercent.toFixed(2)}%`);
         };
 
-        /**
-         * Event listener for input changes on table cells containing current and previous gross sales values.
-         *
-         * @event input
-         * @memberof #ToBeAccomplished
-         * @param {object} event - The input event object.
-         * @param {HTMLElement} event.target - The table cell that triggered the event.
-         *
-         * @description Formats the input value, calculates the difference between current and previous gross sales,
-         * updates the total gross sales value, and recalculates productivity metrics.
-         *
-         * @fires calculateToBeAccomplishedProductivity
-         */
         $('#ToBeAccomplished').on(
             'input',
             'td .CurrentgrossSales_val, td .PreviousgrossSales_val',
@@ -345,13 +349,6 @@ export class FormEvents {
             }
         );
 
-        /**
-         * Calculates the percentage increase in employment.
-         *
-         * @param {number} CurrentEmployment - The current employment value.
-         * @param {number} PreviousEmployment - The previous employment value.
-         * @return {void}
-         */
         const calculateToBeAccomplishedEmployment = () => {
             const increaseInEmploymentRow = $(
                 '#ToBeAccomplished .increaseInEmployment'
@@ -410,7 +407,6 @@ export class FormEvents {
         calculateToBeAccomplishedEmployment();
     }
 
-    //TODO: need to be test
     SRFormEvents() {
         const toggleDeleteRowButton = (container, elementSelector) => {
             const element = container.find(elementSelector);

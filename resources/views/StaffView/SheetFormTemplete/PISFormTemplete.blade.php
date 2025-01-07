@@ -462,6 +462,49 @@
                  </div>
              </div>
          </div>
+         <div class="col-12 mt-3">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">E-Signature</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="esignature-name" class="form-label">Name:</label>
+                                <input type="text" class="form-control" id="esignature-name" name="esignature-name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="esignature-top-text" class="form-label">Top Text:</label>
+                                <input type="text" class="form-control" id="esignature-top-text" name="esignature-top-text">
+                            </div>
+                            <div class="mb-3">
+                                <label for="esignature-bottom-text" class="form-label">Bottom Text:</label>
+                                <input type="text" class="form-control" id="esignature-bottom-text" name="esignature-bottom-text">
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="esignature-image" class="form-label">Signature:</label>
+                                <input type="file" class="form-control" id="esignature-image" name="esignature-image" accept="image/png">
+                            </div>
+                            <div class="mb-3">
+                                <canvas id="signature-canvas" class="border rounded w-100" width="300" height="150"></canvas>
+                            </div>
+                            <div class="d-flex gap-2">
+                                <button type="button" class="btn btn-secondary" id="clear-signature">
+                                    <i class="fas fa-eraser"></i> Clear
+                                </button>
+                                <button type="button" class="btn btn-primary" id="add-esignature">
+                                    <i class="fas fa-plus"></i> Add E-signature
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+         </div>
          <div class="d-flex justify-content-end p-3">
              <button type="button" data-to-export="PIS" class="btn btn-primary ExportPDF">Export as PDF</button>
          </div>
