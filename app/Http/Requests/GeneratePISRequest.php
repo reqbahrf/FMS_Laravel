@@ -82,6 +82,7 @@ class GeneratePISRequest extends FormRequest
             'consultanceServicesDefinition' => 'nullable|string',
             'otherServices_checkbox' => 'nullable|string',
             'otherServicesDefinition' => 'nullable|string',
+            'signatures' => 'nullable|array',
         ];
     }
 }

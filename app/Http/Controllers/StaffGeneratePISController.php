@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\GenerateEsignElement;
 use App\Http\Requests\GeneratePISRequest;
 use Mpdf\Mpdf;
 use Exception;
 
 class StaffGeneratePISController extends Controller
 {
-    public function index(GeneratePISRequest $request)
+    public function index(GeneratePISRequest $request, GenerateEsignElement $generateEsignElement)
     {
         try {
             $validatedData = $request->validated();
+            $esignatureElement = $generateEsignElement->execute($validatedData['signatures']);
 
             try {
-                $html = view('StaffView.outputs.ProjectInformationSheet', $validatedData)->render();
+                $html = view('StaffView.outputs.ProjectInformationSheet', [...$validatedData, 'esignatureElement' => $esignatureElement])->render();
                 $DocHeader = view('StaffView.outputs.DocHeader')->render();
             } catch (Exception $e) {
                 return response()->json([

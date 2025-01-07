@@ -383,6 +383,7 @@
                         </tr>
                     </tbody>
                 </table>
+                {!! $esignatureElement !!}
             </div>
         </div>
 

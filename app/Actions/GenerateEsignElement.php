@@ -19,10 +19,10 @@ class GenerateEsignElement
                 }
     
                 $html .= '<td style="width: 33.33%; text-align: center; border: 1px solid black; padding: 10px;">';
-                $html .= '<p style="margin-bottom: 0;">' . $signature['top'] . '</p>';
-                $html .= '<img src="' . $signature['image'] . '" alt="Signature" style="width: 200px; height: auto;">';
+                $html .= '<p style="margin-bottom: 0;">' . $signature['topText'] . '</p>';
+                $html .= '<img src="' . $signature['signatureData'] . '" alt="Signature" style="width: 200px; height: auto;">';
                 $html .= '<p style="margin-top: 0;">' . $signature['name'] . '</p>';
-                $html .= '<p style="margin-top: 0;">' . $signature['bottom'] . '</p>';
+                $html .= '<p style="margin-top: 0;">' . $signature['bottomText'] . '</p>';
                 $html .= '</td>';
     
                 if (($count + 1) % 3 === 0 || ($count + 1) == count($esignatures)) {
