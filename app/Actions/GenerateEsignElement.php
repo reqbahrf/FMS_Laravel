@@ -18,11 +18,23 @@ class GenerateEsignElement
                     $html .= '<tr>'; // Start a new row for every 3 signatures
                 }
     
-                $html .= '<td style="width: 33.33%; text-align: center; border: 1px solid black; padding: 10px;">';
-                $html .= '<p style="margin-bottom: 0;">' . $signature['topText'] . '</p>';
-                $html .= '<img src="' . $signature['signatureData'] . '" alt="Signature" style="width: 200px; height: auto;">';
-                $html .= '<p style="margin-top: 0;">' . $signature['name'] . '</p>';
-                $html .= '<p style="margin-top: 0;">' . $signature['bottomText'] . '</p>';
+                $html .= '<td style="width: 33.33%; padding: 7.5pt; vertical-align: top;">';
+                $html .= '<div style="position: relative; min-height: 90pt;">';
+                
+                // Top text
+                $html .= '<p style="margin: 0 0 2pt 0; text-align: left;">' . $signature['topText'] . '</p>';
+                
+                // Signature container with relative positioning
+                $html .= '<div style="position: relative; height: 45pt; margin: 2pt 0;">';
+                $html .= '<img src="' . $signature['signatureData'] . '" alt="Signature" style="position: absolute; left: 0; top: 0; width: 135pt; height: auto; opacity: 0.9;">';
+                $html .= '</div>';
+                
+                // Name and bottom text
+                $html .= '<p style="margin: 0 0 2pt 0; text-align: center;">' . $signature['name'] . '</p>';
+                $html .= '<div style="border-bottom: 0.75pt solid black; margin-bottom: 2pt;"></div>';
+                $html .= '<p style="margin: 0; text-align: left; font-weight: bold;">' . $signature['bottomText'] . '</p>';
+                
+                $html .= '</div>';
                 $html .= '</td>';
     
                 if (($count + 1) % 3 === 0 || ($count + 1) == count($esignatures)) {
