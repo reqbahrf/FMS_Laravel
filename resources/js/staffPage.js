@@ -2056,7 +2056,7 @@ window.initializeStaffPageJs = async () => {
                 }
             };
 
-            const FormDocumentContainer = $('#SheetFormDocumentContainer')
+            const FormDocumentContainer = $('#SheetFormDocumentContainer');
 
             const GET_PROJECT_SHEET_FORM = async (
                 formType,
@@ -2108,34 +2108,60 @@ window.initializeStaffPageJs = async () => {
                 }
             };
 
-            FormDocumentContainer.on('click', 'button[data-form-type]', async function () {
-                try{
-                    const formType = $(this).data('form-type');
-                    const Project_id = $('#ProjectID').val();
-                    const QuartertoUsed = $('#Select_quarter_to_Generate').val();
-                    await GET_PROJECT_SHEET_FORM(
-                        formType,
-                        Project_id,
-                        QuartertoUsed
-                    );
-                    // Initialize form events if not already initialized
-                    if (!window.formEvents?.[formType]) {
+            FormDocumentContainer.on(
+                'click',
+                'button[data-form-type]',
+                async function () {
+                    try {
+                        cleanupFormHandlers();
+                        const formType = $(this).data('form-type');
+                        const Project_id = $('#ProjectID').val();
+                        const QuartertoUsed = $(
+                            '#Select_quarter_to_Generate'
+                        ).val();
+                        await GET_PROJECT_SHEET_FORM(
+                            formType,
+                            Project_id,
+                            QuartertoUsed
+                        );
+                        // Initialize form events if not already initialized
+
                         window.formEvents = {
-                            ...window.formEvents,
                             [formType]: new FormEvents(formType),
                         };
-                    }
-    
-                    // Initialize signature handler if not already initialized
-                    if (!window.esignatureHandler) {
+                        // Initialize signature handler if not already initialized
                         window.esignatureHandler = new EsignatureHandler(
                             '#esignature-section'
                         );
+                    } catch (error) {
+                        showToastFeedback('text-bg-danger', error);
                     }
-                }catch(error){
-                    showToastFeedback('text-bg-danger', error)
                 }
-            });
+            );
+            const cleanupFormHandlers = () => {
+                // Cleanup form events
+                if (window.formEvents) {
+                    Object.keys(window.formEvents).forEach((key) => {
+                        // Add any cleanup needed for FormEvents
+                        delete window.formEvents[key];
+                    });
+                    delete window.formEvents;
+                }
+
+                // Cleanup signature handler
+                if (window.esignatureHandler) {
+                    if (Array.isArray(window.esignatureHandler.signaturePads)) {
+                        window.esignatureHandler.signaturePads.forEach(
+                            (pad) => {
+                                if (pad && typeof pad.clear === 'function') {
+                                    pad.clear();
+                                }
+                            }
+                        );
+                    }
+                    delete window.esignatureHandler;
+                }
+            };
 
             //TODO: Make this reusable and efficient
 
@@ -2208,7 +2234,8 @@ window.initializeStaffPageJs = async () => {
 
                     // Get form data
                     const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
-                    const esignatureObjects = window.esignatureHandler.collectSignatures();
+                    const esignatureObjects =
+                        window.esignatureHandler.collectSignatures();
 
                     // Convert URL-encoded string to object
                     const params = new URLSearchParams(data);
