@@ -2102,7 +2102,12 @@ window.initializeStaffPageJs = async () => {
                 }
             };
 
+            let esignature;
+
             $('button[data-form-type]').on('click', async function () {
+                const { default: EsignatureHandler } = await import(
+                    '../js/Utilities/EsignatureHandler'
+                );
                 const formType = $(this).data('form-type');
                 const Project_id = $('#ProjectID').val();
                 const QuartertoUsed = $('#Select_quarter_to_Generate').val();
@@ -2110,6 +2115,7 @@ window.initializeStaffPageJs = async () => {
                     QuartertoUsed: QuartertoUsed,
                 });
                 new FormEvents(formType);
+                esignature = new EsignatureHandler('#esignature-section');
             });
 
             //TODO: Make this reusable and efficient
@@ -2183,12 +2189,19 @@ window.initializeStaffPageJs = async () => {
 
                     // Get form data
                     const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
+                    const esignatureObjects = esignature.collectSignatures();
 
+                    // Convert URL-encoded string to object
+                    const params = new URLSearchParams(data);
+                    const dataObject = Object.fromEntries(params);
+
+                    // Add signatures to the object
+                    dataObject.signatures = esignatureObjects;
                     // Make the request using jQuery ajax for better blob handling
                     const response = await $.ajax({
                         type: 'POST',
                         url: route_url,
-                        data: data,
+                        data: dataObject,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'

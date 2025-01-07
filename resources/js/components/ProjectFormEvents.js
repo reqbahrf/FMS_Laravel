@@ -1,9 +1,10 @@
-import SignaturePad from 'signature_pad';
+
 import {
     formatNumberToCurrency,
     customFormatNumericInput,
     parseFormattedNumberToFloat,
 } from '../Utilities/utilFunctions';
+
 
 export class FormEvents {
     constructor(formType) {
@@ -115,155 +116,6 @@ export class FormEvents {
             const thisInputId = $(this).attr('id');
             customFormatNumericInput(`#${thisInputId}`);
             calculateTotalGrossSales();
-        });
-
-        const EsignnatureContainer = $('#esignature-section');
-
-        const initializeBtns = () => {
-            const addRowBtn = `<button type="button" class="btn btn-success btn-sm me-2 add-row-btn">
-            <i class="ri-add-fill"></i>
-            </button>`;
-            const deleteRowBtn = `<button type="button" class="btn btn-danger btn-sm me-2 delete-row-btn">
-            <i class="ri-subtract-fill"></i>
-            </button>`;
-            const btnContainer = document.createElement('div');
-            btnContainer.classList.add('d-flex', 'justify-content-end', 'mb-2', 'addAndRemoveButton_Container');
-            btnContainer.innerHTML = addRowBtn + deleteRowBtn;
-            EsignnatureContainer.find('.card-body').prepend(btnContainer);
-        }
-
-        initializeBtns();
-
-        const initializeSignaturePad = (canvas) => {
-            const ratio = Math.max(window.devicePixelRatio || 1, 1);
-            canvas.width = canvas.offsetWidth * ratio;
-            canvas.height = canvas.offsetHeight * ratio;
-            const ctx = canvas.getContext('2d');
-            ctx.scale(ratio, ratio);
-            
-            return new SignaturePad(canvas, {
-                minWidth: 2,
-                maxWidth: 5,
-            });
-        };
-
-        const toggleDeleteButton = () => {
-            const rows = EsignnatureContainer.find('.esignature-row');
-            const deleteBtn = EsignnatureContainer.find('.delete-row-btn');
-            deleteBtn.prop('disabled', rows.length <= 1);
-        };
-
-        // Initialize first signature pad
-        const firstCanvas = EsignnatureContainer.find('.esignature-canvas')[0];
-        let signaturePads = [initializeSignaturePad(firstCanvas)];
-
-        // Call initially to set correct state
-        toggleDeleteButton();
-
-        EsignnatureContainer.on('click', '.add-row-btn', function () {
-            console.log('Adding new signature row');
-            const container = $(this).closest('.card-body');
-            const originalRow = container.find('.esignature-row').first();
-            const newRow = originalRow.clone();
-        
-            // Clear all input values in the new row
-            newRow.find('input').val('');
-            
-            // Remove the old canvas and create a fresh one
-            const oldCanvas = newRow.find('.esignature-canvas');
-            const newCanvas = $('<canvas>')
-                .addClass('border rounded w-100 esignature-canvas')
-                .attr('width', '300')
-                .attr('height', '180');
-            oldCanvas.replaceWith(newCanvas);
-            
-            // Append the new row after the last existing row
-            container.find('.esignature-row:last').after(newRow);
-            
-            // Initialize the new signature pad
-            const newPad = initializeSignaturePad(newCanvas[0]);
-            signaturePads.push(newPad);
-            
-            toggleDeleteButton();
-        });
-
-        EsignnatureContainer.on('click', '.delete-row-btn', function () {
-            const container = $(this).closest('.card-body');
-            const rows = container.find('.esignature-row');
-            
-            if (rows.length > 1) {
-                signaturePads.pop(); // Remove the last signature pad from our array
-                rows.last().remove();
-                toggleDeleteButton();
-            }
-        });
-
-        // Handle clear signature - use event delegation for dynamically added elements
-        EsignnatureContainer.on('click', '.clear-signature', function() {
-            const row = $(this).closest('.esignature-row');
-            const canvas = row.find('.esignature-canvas')[0];
-            const padIndex = EsignnatureContainer.find('.esignature-row').index(row);
-            if (signaturePads[padIndex]) {
-                signaturePads[padIndex].clear();
-            }
-        });
-
-        // Handle file upload preview - use event delegation
-        EsignnatureContainer.on('change', '.esignature-image', function() {
-            const file = this.files[0];
-            const row = $(this).closest('.esignature-row');
-            const padIndex = EsignnatureContainer.find('.esignature-row').index(row);
-            
-            if (file && signaturePads[padIndex]) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const img = new Image();
-                    img.onload = function() {
-                        const canvas = row.find('.esignature-canvas')[0];
-                        const ctx = canvas.getContext('2d');
-                        ctx.clearRect(0, 0, canvas.width, canvas.height);
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                    };
-                    img.src = e.target.result;
-                };
-                reader.readAsDataURL(file);
-            }
-        });
-
-        // Handle signature save - use event delegation
-        EsignnatureContainer.on('click', '.add-esignature', function() {
-            const row = $(this).closest('.esignature-row');
-            const padIndex = EsignnatureContainer.find('.esignature-row').index(row);
-            
-            if (signaturePads[padIndex] && !signaturePads[padIndex].isEmpty()) {
-                const signatureData = signaturePads[padIndex].toDataURL();
-                const name = row.find('.esignature-name').val();
-                const topText = row.find('.esignature-top-text').val();
-                const bottomText = row.find('.esignature-bottom-text').val();
-
-                console.log('Signature saved:', {
-                    name,
-                    topText,
-                    bottomText,
-                    signatureData
-                });
-            } else {
-                alert('Please provide a signature first.');
-            }
-        });
-
-        // Handle window resize
-        $(window).on('resize', function() {
-            EsignnatureContainer.find('.esignature-canvas').each(function(index) {
-                const ratio = Math.max(window.devicePixelRatio || 1, 1);
-                this.width = this.offsetWidth * ratio;
-                this.height = this.offsetHeight * ratio;
-                const ctx = this.getContext('2d');
-                ctx.scale(ratio, ratio);
-                
-                // Reinitialize signature pad
-                signaturePads[index] = initializeSignaturePad(this);
-            });
         });
     }
 

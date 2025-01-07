@@ -495,9 +495,6 @@
                                 <button type="button" class="btn btn-secondary clear-signature">
                                     <i class="fas fa-eraser"></i> Clear
                                 </button>
-                                <button type="button" class="btn btn-primary add-esignature">
-                                    <i class="fas fa-plus"></i> Add E-signature
-                                </button>
                             </div>
                         </div>
                     </div>
