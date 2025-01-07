@@ -10,7 +10,8 @@ import {
     showProcessToast,
     hideProcessToast,
 } from './Utilities/utilFunctions';
-import { FormEvents } from './components/ProjectFormEvents';
+import FormEvents from './components/ProjectFormEvents';
+import EsignatureHandler from './Utilities/EsignatureHandler';
 import NotificationManager from './Utilities/NotificationManager';
 
 import DataTable from 'datatables.net-bs5';
@@ -2055,10 +2056,12 @@ window.initializeStaffPageJs = async () => {
                 }
             };
 
+            const FormDocumentContainer = $('#SheetFormDocumentContainer')
+
             const GET_PROJECT_SHEET_FORM = async (
                 formType,
                 Project_id,
-                { QuartertoUsed } = {}
+                QuartertoUsed = null
             ) => {
                 const isConfirmed = await createConfirmationModal({
                     title: 'Retrieve Selected Form',
@@ -2092,30 +2095,46 @@ window.initializeStaffPageJs = async () => {
                     });
                     hideProcessToast();
                     toggleDocumentSelector();
-                    $('#SheetFormDocumentContainer').append(response);
+                    if (!response) {
+                        throw new Error('No response received');
+                    }
+                    FormDocumentContainer.append(response);
                 } catch (error) {
                     hideProcessToast();
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
+                    throw new Error(
+                        'Error fetching project sheet form: ' +
+                            error.responseJSON.message
                     );
                 }
             };
 
-            let esignature;
-
-            $('button[data-form-type]').on('click', async function () {
-                const { default: EsignatureHandler } = await import(
-                    '../js/Utilities/EsignatureHandler'
-                );
-                const formType = $(this).data('form-type');
-                const Project_id = $('#ProjectID').val();
-                const QuartertoUsed = $('#Select_quarter_to_Generate').val();
-                await GET_PROJECT_SHEET_FORM(formType, Project_id, {
-                    QuartertoUsed: QuartertoUsed,
-                });
-                new FormEvents(formType);
-                esignature = new EsignatureHandler('#esignature-section');
+            FormDocumentContainer.on('click', 'button[data-form-type]', async function () {
+                try{
+                    const formType = $(this).data('form-type');
+                    const Project_id = $('#ProjectID').val();
+                    const QuartertoUsed = $('#Select_quarter_to_Generate').val();
+                    await GET_PROJECT_SHEET_FORM(
+                        formType,
+                        Project_id,
+                        QuartertoUsed
+                    );
+                    // Initialize form events if not already initialized
+                    if (!window.formEvents?.[formType]) {
+                        window.formEvents = {
+                            ...window.formEvents,
+                            [formType]: new FormEvents(formType),
+                        };
+                    }
+    
+                    // Initialize signature handler if not already initialized
+                    if (!window.esignatureHandler) {
+                        window.esignatureHandler = new EsignatureHandler(
+                            '#esignature-section'
+                        );
+                    }
+                }catch(error){
+                    showToastFeedback('text-bg-danger', error)
+                }
             });
 
             //TODO: Make this reusable and efficient
@@ -2131,7 +2150,7 @@ window.initializeStaffPageJs = async () => {
              * @param {Event} event - The click event object.
              * @return {void}
              */
-            $('#SheetFormDocumentContainer').on(
+            FormDocumentContainer.on(
                 'click',
                 '.breadcrumb-item:not(.active) a',
                 function () {
@@ -2189,7 +2208,7 @@ window.initializeStaffPageJs = async () => {
 
                     // Get form data
                     const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
-                    const esignatureObjects = esignature.collectSignatures();
+                    const esignatureObjects = window.esignatureHandler.collectSignatures();
 
                     // Convert URL-encoded string to object
                     const params = new URLSearchParams(data);

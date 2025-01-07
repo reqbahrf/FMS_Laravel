@@ -6,7 +6,7 @@ import {
 } from '../Utilities/utilFunctions';
 
 
-export class FormEvents {
+export default class FormEvents {
     constructor(formType) {
         this.formType = formType;
         this.initializeFormEvents();
