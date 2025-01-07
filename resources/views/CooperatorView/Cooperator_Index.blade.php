@@ -24,11 +24,6 @@
     @vite('resources/css/app.scss')
     @vite('resources/css/coopPage.css')
     @vite('resources/js/app.js')
-    </script>
-    <link
-        href="{{ asset('icon_css/remixicon.css') }}"
-        rel="stylesheet"
-    >
 </head>
 
 <body class="overflow-hidden">

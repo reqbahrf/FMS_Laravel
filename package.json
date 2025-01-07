@@ -41,6 +41,7 @@
         "jszip": "^3.10.1",
         "mammoth": "^1.8.0",
         "pdfmake": "^0.2.15",
+        "remixicon": "^4.6.0",
         "signature_pad": "^5.0.4",
         "smartwizard": "^6.0.6",
         "use-postal-ph": "^1.1.10"

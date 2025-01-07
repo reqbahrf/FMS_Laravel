@@ -24,10 +24,6 @@
     @vite('resources/css/app.scss')
     @vite('resources/css/staffPage.css')
     <link
-        href="{{ asset('icon_css/remixicon.css') }}"
-        rel="stylesheet"
-    >
-    <link
         href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
         rel="stylesheet"
     >
