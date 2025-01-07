@@ -117,7 +117,72 @@ export class FormEvents {
             calculateTotalGrossSales();
         });
 
-        const canvasPad = document.getElementById('signature-canvas');
+        const EsignnatureContainer = $('#esignature-section');
+
+        const initializeBtns = () => {
+           const addRowBtn = `<button type="button" class="btn btn-success btn-sm me-2 add-row-btn">
+           <i class="ri-add-fill"></i>
+           </button>`;
+           const deleteRowBtn = `<button type="button" class="btn btn-danger btn-sm me-2 delete-row-btn">
+           <i class="ri-subtract-fill"></i>
+           </button>`;
+           const btnContainer = document.createElement('div');
+           btnContainer.classList.add('d-flex', 'justify-content-end', 'mb-2', 'addAndRemoveButton_Container');
+           btnContainer.innerHTML = addRowBtn + deleteRowBtn;
+           EsignnatureContainer.find('.card-body').prepend(btnContainer);
+        }
+
+        initializeBtns();
+
+        const toggleDeleteButton = () => {
+            const rows = EsignnatureContainer.find('.esignature-row');
+            const deleteBtn = EsignnatureContainer.find('.delete-row-btn');
+            deleteBtn.prop('disabled', rows.length <= 1);
+        };
+
+        // Call initially to set correct state
+        toggleDeleteButton();
+
+        $('.add-row-btn').on('click', function () {
+            console.log('Adding new signature row');
+            const container = $(this).closest('.card-body');
+            const originalRow = container.find('.esignature-row').first();
+            const newRow = originalRow.clone(true); // Clone with event handlers
+        
+            // Clear all input values in the new row
+            newRow.find('input').val('');
+            
+            // Clear the canvas in the new row
+            const newCanvas = newRow.find('.esignature-canvas')[0];
+            const ctx = newCanvas.getContext('2d');
+            ctx.clearRect(0, 0, newCanvas.width, newCanvas.height);
+            
+            // Initialize new SignaturePad for the cloned canvas
+            new SignaturePad(newCanvas, {
+                minWidth: 2,
+                maxWidth: 5,
+            });
+        
+            // Append the new row after the last existing row
+            container.find('.esignature-row:last').after(newRow);
+            toggleDeleteButton();
+        });
+
+      
+
+
+        $('.delete-row-btn').on('click', function () {
+            const container = $(this).closest('.card-body');
+            const rows = container.find('.esignature-row');
+            
+            if (rows.length > 1) {
+                rows.last().remove();
+                toggleDeleteButton();
+            } 
+            
+        });
+
+        const canvasPad = EsignnatureContainer.find('.esignature-canvas')[0];
         const signaturePad = new SignaturePad(canvasPad, {
             minWidth: 2,
             maxWidth: 5,
@@ -136,12 +201,12 @@ export class FormEvents {
         resizeCanvas();
 
         // Clear signature
-        $('#clear-signature').on('click', function() {
+        $('.clear-signature').on('click', function() {
             signaturePad.clear();
         });
 
         // Handle image upload
-        $('#esignature-image').on('change', function() {
+        $('.esignature-image').on('change', function() {
             const file = this.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -159,12 +224,12 @@ export class FormEvents {
         });
 
         // Handle signature save
-        $('#add-esignature').on('click', function() {
+        $('.add-esignature').on('click', function() {
             if (!signaturePad.isEmpty()) {
                 const signatureData = signaturePad.toDataURL();
-                const name = $('#esignature-name').val();
-                const topText = $('#esignature-top-text').val();
-                const bottomText = $('#esignature-bottom-text').val();
+                const name = $('.esignature-name').val();
+                const topText = $('.esignature-top-text').val();
+                const bottomText = $('.esignature-bottom-text').val();
 
                 console.log('Signature saved:', {
                     name,
