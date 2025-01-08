@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\OrgUserInfo;
 use App\Models\CoopUserInfo;
 use App\Models\User;
+use App\Services\AuditService;
 use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
@@ -14,6 +15,12 @@ use Exception;
 
 class AuthController extends Controller
 {
+    protected $auditService;
+
+    public function __construct(AuditService $auditService)
+    {
+        $this->auditService = $auditService;
+    }
     public function signup(Request $request)
     {
         Log::info('Signup method called');
@@ -42,6 +49,15 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
                 'role' => 'Cooperator'
             ]);
+
+            $this->auditService->createAuditLog(
+                'user_signup',
+                $user,
+                ['user_name' => $user->user_name, 'email' => $user->email, 'role' => $user->role],
+                [],
+                $request,
+                $user
+            );
 
             Auth::login($user);
             return response()->json([
@@ -88,6 +104,7 @@ class AuthController extends Controller
                         $coop_userInfo = CoopUserInfo::where('user_name', $user->user_name)->first();
 
                         if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                            $this->userLoginAudit($user, $request);
 
                             return response()->json(['success' => 'Login successfully', 'redirect' => route('Cooperator.index')]);
                         } else if (is_null($coop_userInfo)) {
@@ -99,12 +116,13 @@ class AuthController extends Controller
                         $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
 
                         if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                            $this->userLoginAudit($user, $request);
                             return response()->json(['success' => 'Login successfully', 'redirect' => route($user->role . '.index')], 200);
                         }
                         break;
                 }
             }
-            return response()->json(['error' => 'The provided credentials do not match our records.'], 401);
+            return response()->json(['error' => 'Invalid credentials'], 401);
         }catch(Exception $e){
             return response()->json(['error' => $e->getMessage()], 401);
         }
@@ -119,6 +137,18 @@ class AuthController extends Controller
             return 'email';
         }
         return 'user_name';
+    }
+
+    protected function userLoginAudit($user, $request)
+    {
+        $this->auditService->createAuditLog(
+            'user_login',
+            $user,
+            ['last_login' => now()],
+            [],
+            $request,
+            $user
+        );
     }
 
     public function logout(Request $request)
