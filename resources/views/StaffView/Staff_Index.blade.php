@@ -33,6 +33,7 @@
     <div class="wrapper">
         <x-toast-alert />
         <x-my-account-modal />
+        <x-user-activity-log-modal />
         <x-logout-confirmation-modal />
         <nav class="sidenav expanded">
             <ul class="navbar-nav">
@@ -262,6 +263,15 @@
                                 >
                                     <p><i class="ri-user-3-line me-2"></i>My Account</p>
                                 </button>
+                                <button
+                                    class="dropdown-item py-2"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#userActivityLogModal"
+                                >
+                                    <p><i class="ri-file-list-3-line me-2"></i>Activity Log</p>
+                                </button>
+
                                 <a
                                     class="dropdown-item py-2"
                                     data-bs-toggle="modal"
@@ -301,6 +311,7 @@
         const USER_ID = '{{ Auth::user()->id }}';
         const AUTH_USER_NAME = '{{ Auth::user()->orgUserInfo->full_name }}';
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
+        const USER_ACTIVITY_LOG_ROUTE = '{{ route('activity.logs') }}';
         //Global Route Variables for the Navigation Tabs
         //Dashboard Tab
         const NAV_ROUTES = {

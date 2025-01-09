@@ -252,7 +252,7 @@
     </div>
 </div>
 
-<div class="card m-0 m-md-3">
+<div class="card shadow-sm m-0 m-md-3">
     <div class="card-body">
         <div class="m-3">
             <!-- Where the applicant table start -->

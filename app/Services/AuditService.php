@@ -95,11 +95,12 @@ class AuditService
      * @param string $sortOrder The sort order ('asc' or 'desc').
      * @return ?object A paginated collection of audit logs, or null on failure.
      */
-    public function getAuditLogs(
+    protected function getAuditLogs(
         array $filters = [], 
+        array $selector = ['*'],
         int $limit = 50, 
         string $orderBy = 'created_at', 
-        string $sortOrder = 'desc'
+        string $sortOrder = 'desc',
         ): ?object
     {
         try {
@@ -139,11 +140,26 @@ class AuditService
                 $query->where('created_at', '<=', $filters['end_date']);
             }
 
-            return $query->orderBy($orderBy, $sortOrder)->paginate($limit);
+            return $query->orderBy($orderBy, $sortOrder)
+                ->select($selector)
+                ->paginate($limit);
         } catch (QueryException $e) {
             Log::error("Audit log retrieval failed (database error): " . $e->getMessage());
+            throw $e;
         } catch (Exception $e) {
             Log::error("Audit log retrieval failed (general error): " . $e->getMessage());
+            throw $e;
+        }
+    }
+
+    public function getUserAuditLogs(int $user_id) : ?object
+    {
+        try{
+            $selector = ['user_type', 'event', 'ip_address', 'user_agent', 'url', 'created_at'];
+            return $this->getAuditLogs(['user_id' => $user_id], $selector);
+        }catch(Exception $e){
+            Log::error('Error in getUserAuditLogs: ' . $e->getMessage());
+            throw new Exception('Error in getUserAuditLogs: ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 }

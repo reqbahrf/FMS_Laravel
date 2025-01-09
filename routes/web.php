@@ -45,7 +45,7 @@ use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
-
+use App\Http\Controllers\UserActivityLogController;
 
 Route::get('/', function () {
     return view('index');
@@ -98,6 +98,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/get/Draft/file/{uniqueId}', [FormDraftController::class, 'getFiles'])
         ->name('form.getDraftFile');
+    
+    Route::get('/activity/logs', UserActivityLogController::class)
+        ->name('activity.logs');
 });
 
 
