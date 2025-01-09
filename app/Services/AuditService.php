@@ -2,12 +2,11 @@
 
 namespace App\Services;
 
-use OwenIt\Auditing\Models\Audit;
-use Illuminate\Http\Request;
-use App\Models\User;
 use Exception;
-use Illuminate\Database\QueryException;
+use OwenIt\Auditing\Models\Audit;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Database\QueryException;
 
 
 class AuditService
@@ -18,18 +17,25 @@ class AuditService
         $this->audit = $audit;
     }
 
+
     /**
-     * Creates a new audit log entry.
+     * Creates an audit log entry.
      *
-     * @param string $event The event that triggered the audit.
-     * @param \Illuminate\Database\Eloquent\Model $auditable The auditable model.
+     * @param string $event The event that triggered the audit log.
+     * @param object|null $auditable The auditable model.
      * @param array $newValues The new values of the model.
      * @param array $oldValues The old values of the model.
-     * @param \Illuminate\Http\Request|null $request The request object.
-     * @param \App\Models\User|null $user The user performing the action.
+     * @param string|null $tags The tags associated with the audit log.
      * @return void
+     * @throws Exception If saving the audit log fails.
      */
-    public function createAuditLog(string $event, $auditable, array $newValues = [], array $oldValues = [], ?Request $request = null, ?User $user = null): void
+    public function createAuditLog(
+        string $event, 
+        ?object $auditable = null, 
+        array $newValues = [], 
+        array $oldValues = [], 
+        ?string $tags = null
+        ): void
     {
             try {
                 // Create a new Audit instance instead of using the injected one
@@ -37,32 +43,38 @@ class AuditService
                 
                 $audit->event = $event;
         
+                $request = request();
                 if ($request) {
                     $audit->ip_address = $request->ip();
                     $audit->user_agent = $request->userAgent();
                     $audit->url = $request->fullUrl();
                 }
         
-                if (!$user) {
-                    $user = auth()->user;
-                }
-        
+                $user = Auth::user();
                 if ($user) {
-                    $audit->user_id = $user->getKey();
-                    $audit->user_type = get_class($user);
+                    $audit->user_id = $user->id;
+                    $audit->user_type = $user->role;
                 }
-        
-                $audit->auditable_id = $auditable->getKey();
-                $audit->auditable_type = get_class($auditable);
+
+                if($auditable){
+                    $audit->auditable_id = $auditable->id;
+                    $audit->auditable_type = get_class($auditable);
+                }
         
                 $audit->old_values = json_encode($oldValues);
                 $audit->new_values = json_encode($newValues);
+
+                if($tags){
+                    $audit->tags = $tags;
+                }
         
                 if (!$audit->save()) {
                     Log::error("Failed to save audit log", [
                         'event' => $event,
-                        'auditable_id' => $auditable->getKey(),
-                        'auditable_type' => get_class($auditable)
+                        'user_id' => $user?->id ?? null,
+                        'user_type' => $user?->role ?? null,
+                        'auditable_id' => $auditable?->id ?? null,
+                        'auditable_type' => $auditable ? get_class($auditable) : null,
                     ]);
                     throw new Exception('Failed to save audit log');
                 }
@@ -81,9 +93,14 @@ class AuditService
      * @param int $limit The number of records to return per page.
      * @param string $orderBy The column to order the results by.
      * @param string $sortOrder The sort order ('asc' or 'desc').
-     * @return \Illuminate\Contracts\Pagination\LengthAwarePaginator
+     * @return ?object A paginated collection of audit logs, or null on failure.
      */
-    public function getAuditLogs(array $filters = [], int $limit = 50, string $orderBy = 'created_at', string $sortOrder = 'desc'): ?object
+    public function getAuditLogs(
+        array $filters = [], 
+        int $limit = 50, 
+        string $orderBy = 'created_at', 
+        string $sortOrder = 'desc'
+        ): ?object
     {
         try {
 

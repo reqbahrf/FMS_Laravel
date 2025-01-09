@@ -52,11 +52,10 @@ class AuthController extends Controller
 
             $this->auditService->createAuditLog(
                 'user_signup',
-                $user,
+                null,
                 ['user_name' => $user->user_name, 'email' => $user->email, 'role' => $user->role],
                 [],
-                $request,
-                $user
+                $request
             );
 
             Auth::login($user);
@@ -139,15 +138,13 @@ class AuthController extends Controller
         return 'user_name';
     }
 
-    protected function userLoginAudit($user, $request)
+    protected function userLoginAudit(?object $user = null): void
     {
         $this->auditService->createAuditLog(
-            'user_login',
-            $user,
+            'Login',
+            null,
             ['last_login' => now()],
             [],
-            $request,
-            $user
         );
     }
 
