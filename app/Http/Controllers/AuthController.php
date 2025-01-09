@@ -103,8 +103,7 @@ class AuthController extends Controller
                         $coop_userInfo = CoopUserInfo::where('user_name', $user->user_name)->first();
 
                         if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                            $this->userLoginAudit($user, $request);
-
+                            $this->userLoginAudit();
                             return response()->json(['success' => 'Login successfully', 'redirect' => route('Cooperator.index')]);
                         } else if (is_null($coop_userInfo)) {
                             return response()->json(['no_record' => 'No Application Record found.', 'redirect' => route('registrationForm')]);
@@ -115,7 +114,7 @@ class AuthController extends Controller
                         $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
 
                         if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                            $this->userLoginAudit($user, $request);
+                            $this->userLoginAudit();
                             return response()->json(['success' => 'Login successfully', 'redirect' => route($user->role . '.index')], 200);
                         }
                         break;
