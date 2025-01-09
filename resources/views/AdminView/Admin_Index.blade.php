@@ -31,6 +31,7 @@
         {{-- Toast Container end --}}
         {{-- My account  --}}
         <x-my-account-modal />
+        <x-user-activity-log-modal />
         {{-- Side Nav for large screens --}}
         <x-logout-confirmation-modal />
         <nav class="sidenav expanded">
@@ -305,6 +306,14 @@
                                 >
                                     <p><i class="ri-user-3-line me-2"></i>My Account</p>
                                 </button>
+                                <button
+                                    class="dropdown-item py-2"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#userActivityLogModal"
+                                    type="button"
+                                >
+                                    <p><i class="ri-file-list-3-line me-2"></i>Activity Log</p>
+                                </button>
                                 <a
                                     class="dropdown-item py-2"
                                     data-bs-toggle="modal"
@@ -340,6 +349,8 @@
     <script>
         const USER_ID = {{ Auth::user()->id }};
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
+        const USER_ACTIVITY_LOG_ROUTE = '{{ route('activity.logs') }}';
+
         const NAV_ROUTE = {
             DASHBOARD: '{{ route('admin.Dashboard') }}',
             PROJECTS: '{{ route('admin.Project') }}',
@@ -386,4 +397,3 @@
 </body>
 
 </html>
-

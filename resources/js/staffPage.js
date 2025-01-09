@@ -13,6 +13,7 @@ import {
 import FormEvents from './components/ProjectFormEvents';
 import EsignatureHandler from './Utilities/EsignatureHandler';
 import NotificationManager from './Utilities/NotificationManager';
+import ActivityLogHandler from './Utilities/ActivityLogHandler';
 
 import DataTable from 'datatables.net-bs5';
 window.DataTable = DataTable;
@@ -30,7 +31,7 @@ let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL =$('#userActivityLogModal');
 
-console.log(ACTIVITY_LOG_MODAL)
+
 
 const USER_ROLE = 'staff';
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Staff_Index.blade.php
@@ -151,31 +152,9 @@ const handleAjaxSuccess = async (response, activeLink, url) => {
     }
 };
 
-const getActivityLog = async () => {
-    const data = await fetch(USER_ACTIVITY_LOG_ROUTE, {
-        method: 'GET',
-        dataType: 'json',
-    });
-    const result = await data.json();
-    return result;
-};
 
-ACTIVITY_LOG_MODAL.on('show.bs.modal', async function () {
-    const ActivityTableLog = $(this).find('.modal-body #userActivityLogTable tbody');
-    ActivityTableLog.empty();
-    const data = await getActivityLog();
-    data.data.map(log => {
-        ActivityTableLog.append(`
-            <tr>
-                <td>${log.user_type}</td>
-                <td>${log.event}</td>
-                <td>${log.ip_address}</td>
-                <td>${log.user_agent}</td>
-                <td>${customDateFormatter(log.created_at)}</td>
-            </tr>
-        `);
-    })
-});
+const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL);
+activityLog.init();
 
 window.initializeStaffPageJs = async () => {
     const functions = {

@@ -12,6 +12,7 @@ import {
 } from './Utilities/utilFunctions';
 
 import NotificationManager from './Utilities/NotificationManager';
+import ActivityLogHandler from './Utilities/ActivityLogHandler';
 
 import DataTable from 'datatables.net-bs5';
 window.DataTable = DataTable;
@@ -24,6 +25,8 @@ import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
+const ACTIVITY_LOG_MODAL =$('#userActivityLogModal');
+
 const USER_ROLE = 'admin';
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Admin_Index.blade.php
 const notificationManager = new NotificationManager(
@@ -133,6 +136,9 @@ $(function () {
         $('#hover-link').toggleClass('rotate-icon');
     });
 });
+
+const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL);
+activityLog.init();
 
 window.initializeAdminPageJs = async () => {
     const functions = {
