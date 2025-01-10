@@ -13,6 +13,7 @@ import {
 
 import NotificationManager from './Utilities/NotificationManager';
 import ActivityLogHandler from './Utilities/ActivityLogHandler';
+import NavigationHandler from './Utilities/TabNavigationHandler';
 
 import DataTable from 'datatables.net-bs5';
 window.DataTable = DataTable;
@@ -25,7 +26,7 @@ import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
-const ACTIVITY_LOG_MODAL =$('#userActivityLogModal');
+const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
 
 const USER_ROLE = 'admin';
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Admin_Index.blade.php
@@ -38,82 +39,22 @@ const notificationManager = new NotificationManager(
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
 
-$(function () {
-    const lastUrl = sessionStorage.getItem('AdminlastUrl');
-    const lastActive = sessionStorage.getItem('AdminLastActive');
-    if (lastUrl && lastActive) {
-        loadPage(lastUrl, lastActive);
-    } else {
-        loadPage(NAV_ROUTE.DASHBOARD, 'dashboardLink');
-    }
-});
-
-const setActiveLink = (activeLink) => {
-    $('.nav-item a').removeClass('active');
-    const defaultLink = 'dashboardLink';
-    const linkToActivate = $('#' + (activeLink || defaultLink));
-    linkToActivate.addClass('active');
+const urlMapFunction = {
+    [NAV_ROUTE.DASHBOARD]: (functions) => functions.Dashboard,
+    [NAV_ROUTE.PROJECTS]: (functions) => functions.ProjectList,
+    [NAV_ROUTE.APPLICATIONS]: (functions) => functions.ApplicantList,
+    [NAV_ROUTE.USERS]: (functions) => functions.Users,
+    [NAV_ROUTE.SETTINGS]: (functions) => functions.ProjectSettings,
 };
 
-window.loadPage = async (url, activeLink) => {
-    try {
-        $('.spinner').removeClass('d-none');
-        MAIN_CONTENT_CONTAINER.hide();
-        // Check if the response is already cached
-        const cachePage = sessionStorage.getItem(url);
-        if (cachePage) {
-            // If cached, use the cached response
-            handleAjaxSuccess(cachePage, activeLink, url);
-        } else {
-            // If not cached, make the AJAX request
-            const response = await $.ajax({
-                url: url,
-                type: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content'
-                    ),
-                },
-            });
-            // Cache the response
-            //sessionStorage.setItem(url, response);
-            await handleAjaxSuccess(response, activeLink, url);
-        }
-    } catch (error) {
-        console.error(error);
-    } finally {
-        $('.spinner').addClass('d-none');
-        MAIN_CONTENT_CONTAINER.show();
-    }
-};
-
-const handleAjaxSuccess = async (response, activeLink, url) => {
-    try {
-        MAIN_CONTENT_CONTAINER.html(response);
-        setActiveLink(activeLink);
-        history.pushState(null, '', url);
-
-        const functions = await initializeAdminPageJs();
-
-        const urlMapFunction = {
-            [NAV_ROUTE.DASHBOARD]: functions.Dashboard,
-            [NAV_ROUTE.PROJECTS]: functions.ProjectList,
-            [NAV_ROUTE.APPLICATIONS]: functions.ApplicantList,
-            [NAV_ROUTE.USERS]: functions.Users,
-            [NAV_ROUTE.SETTINGS]: functions.ProjectSettings,
-        };
-        if (urlMapFunction[url]) {
-            await urlMapFunction[url]();
-        }
-        // if (url === '/org-access/viewCooperatorInfo.php') {
-        //     InitializeviewCooperatorProgress();
-        // }
-        sessionStorage.setItem('AdminlastUrl', url);
-        sessionStorage.setItem('AdminLastActive', activeLink);
-    } catch (error) {
-        console.error(error);
-    }
-};
+const navigationHandler = new NavigationHandler(
+    MAIN_CONTENT_CONTAINER,
+    USER_ROLE,
+    urlMapFunction,
+    initializeAdminPageJs
+);
+navigationHandler.init();
+window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
 
 $(function () {
     $('.sideNavButtonSmallScreen').on('click', function () {
@@ -140,7 +81,7 @@ $(function () {
 const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL);
 activityLog.init();
 
-window.initializeAdminPageJs = async () => {
+async function initializeAdminPageJs() {
     const functions = {
         Dashboard: async () => {
             const yearToLoadSelector = $('#yearSelector');
@@ -2681,3 +2622,5 @@ window.initializeAdminPageJs = async () => {
     };
     return functions;
 };
+
+

@@ -351,7 +351,7 @@
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
         const USER_ACTIVITY_LOG_ROUTE = '{{ route('activity.logs') }}';
 
-        const NAV_ROUTE = {
+        const NAV_ROUTES = {
             DASHBOARD: '{{ route('admin.Dashboard') }}',
             PROJECTS: '{{ route('admin.Project') }}',
             APPLICATIONS: '{{ route('admin.Applicant') }}',

@@ -14,6 +14,7 @@ import FormEvents from './components/ProjectFormEvents';
 import EsignatureHandler from './Utilities/EsignatureHandler';
 import NotificationManager from './Utilities/NotificationManager';
 import ActivityLogHandler from './Utilities/ActivityLogHandler';
+import NavigationHandler from './Utilities/TabNavigationHandler';
 
 import DataTable from 'datatables.net-bs5';
 window.DataTable = DataTable;
@@ -43,7 +44,24 @@ const notificationManager = new NotificationManager(
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
 
-$(document).on('DOMContentLoaded', function () {
+
+const urlMapFunctions = {
+    [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
+    [NAV_ROUTES.PROJECT]: (functions) => functions.Projects,
+    [NAV_ROUTES.ADD_PROJECT]: (functions) => functions.AddProject,
+    [NAV_ROUTES.APPLICANT]: (functions) => functions.Applicant,
+};
+
+const navigationHandler = new NavigationHandler(
+    MAIN_CONTENT_CONTAINER,
+    USER_ROLE,
+    urlMapFunctions,
+    initializeStaffPageJs
+)
+navigationHandler.init();
+window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
+
+$(function () {
     // Line chart
     //toast feedback
 
@@ -70,93 +88,10 @@ $(document).on('DOMContentLoaded', function () {
     });
 });
 
-$(function () {
-    const lastUrl = sessionStorage.getItem('StafflastUrl');
-    const lastActive = sessionStorage.getItem('StafflastActive');
-    if (lastUrl && lastActive) {
-        loadPage(lastUrl, lastActive);
-    } else {
-        loadPage(NAV_ROUTES.DASHBOARD, 'dashboardLink');
-    }
-});
-
-const setActiveLink = (activeLink) => {
-    $('.nav-item a').removeClass('active');
-    const defaultLink = 'dashboardLink';
-    const linkToActivate = $('#' + (activeLink || defaultLink));
-    linkToActivate.addClass('active');
-};
-
-window.loadPage = async (url, activeLink) => {
-    try {
-        $(document).trigger('page:changing', {
-            from: currentPage,
-            to: activeLink,
-        });
-
-        currentPage = activeLink;
-
-        $('.spinner').removeClass('d-none');
-        MAIN_CONTENT_CONTAINER.hide();
-        const cachedPage = sessionStorage.getItem(url);
-        if (cachedPage) {
-            handleAjaxSuccess(cachedPage, activeLink, url);
-        } else {
-            const response = await $.ajax({
-                url,
-                type: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content'
-                    ),
-                },
-            });
-            await handleAjaxSuccess(response, activeLink, url);
-        }
-    } catch (error) {
-        console.log('Error: ', error);
-    } finally {
-        $('.spinner').addClass('d-none');
-        MAIN_CONTENT_CONTAINER.show();
-    }
-};
-
-const handleAjaxSuccess = async (response, activeLink, url) => {
-    try {
-        MAIN_CONTENT_CONTAINER.html(response);
-        setActiveLink(activeLink);
-        history.pushState(null, '', url);
-
-        const functions = await initializeStaffPageJs();
-
-        const urlMapFunctions = {
-            [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
-            [NAV_ROUTES.PROJECT]: functions.Projects,
-            [NAV_ROUTES.ADD_PROJECT]: functions.AddProject,
-            [NAV_ROUTES.APPLICANT]: functions.Applicant,
-        };
-
-        if (urlMapFunctions[url]) {
-            await urlMapFunctions[url]();
-        }
-
-        //  if (url === '/org-access/viewCooperatorInfo.php') {
-        //      await InitializeviewCooperatorProgress();
-        //  }
-
-        sessionStorage.setItem('StafflastUrl', url);
-        sessionStorage.setItem('StafflastActive', activeLink);
-    } catch (error) {
-        console.log('Error: ', error);
-        throw new Error(error.message);
-    }
-};
-
-
 const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL);
 activityLog.init();
 
-window.initializeStaffPageJs = async () => {
+async function initializeStaffPageJs() {
     const functions = {
         Dashboard: async () => {
             //Foramt Input with Id paymentAmount

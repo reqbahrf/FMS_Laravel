@@ -1,4 +1,13 @@
+/**
+ * Manages notifications for a user, including fetching, displaying, and handling real-time updates.
+ */
 class NotificationManager {
+    /**
+     * Constructor for the NotificationManager class.
+     * @param {string} notificationRoute - The API endpoint to fetch notifications.
+     * @param {string} userId - The ID of the current user.
+     * @param {string} userRole - The role of the current user.
+     */
     constructor(notificationRoute, userId, userRole) {
         this.notificationRoute = notificationRoute;
         this.userId = userId;
