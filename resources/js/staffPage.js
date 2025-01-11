@@ -17,6 +17,13 @@ import ActivityLogHandler from './Utilities/ActivityLogHandler';
 import NavigationHandler from './Utilities/TabNavigationHandler';
 
 import DataTable from 'datatables.net-bs5';
+import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
+// import 'datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css';
+// import 'datatables.net-fixedcolumns-bs5/css/fixedColumns.bootstrap5.min.css';
+// import 'datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css';
+// import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
+// import 'datatables.net-scroller-bs5/css/scroller.bootstrap5.min.css';
+
 window.DataTable = DataTable;
 import 'datatables.net-buttons-bs5';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
