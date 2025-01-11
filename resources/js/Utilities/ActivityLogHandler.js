@@ -15,10 +15,10 @@ export default class ActivityLogHandler {
             retrievalType === 'personal'
                 ? USER_ACTIVITY_LOG_ROUTE
                 : USERS_LIST_ROUTE.GET_STAFF_USER_ACTIVITY_LOGS;
-        
-                if (retrievalType === 'selectedStaff') {
-                    this._initializeStaffActivityLogEvents();
-                }
+
+        if (retrievalType === 'selectedStaff') {
+            this._initializeStaffActivityLogEvents();
+        }
     }
 
     initPersonalActivityLog() {
@@ -46,13 +46,14 @@ export default class ActivityLogHandler {
         }
     }
 
-
     async getSelectedStaffActivityLog(user_id) {
         try {
             if (!user_id) {
                 throw new Error('User ID is required');
             }
-            const table = this.DivContainer.find('#StaffActivityLogTable tbody');
+            const table = this.DivContainer.find(
+                '#StaffActivityLogTable tbody'
+            );
             table.empty();
             const data = await this._getUserAuditLogs(user_id);
             this._renderActivityLogTable(table, data.data);
@@ -70,17 +71,46 @@ export default class ActivityLogHandler {
             `);
             return;
         }
-        logs.forEach((log) => {
-            tableBody.append(`
-                <tr>
+        const tooltipTitlehelperFn = (oldValues, newValues) => {
+            if (!oldValues || !newValues) {
+                return '';
+            }
+            const excludeKeys = ['remember_token', 'password'];
+            const formatValues = (obj) => {
+                return Object.entries(obj)
+                    .filter(([key]) => !excludeKeys.includes(key))
+                    .map(([key, value]) => `${key}: ${value}`)
+                    .join('<br>');
+            };
+
+            return `<strong>Old Values:</strong><br>${formatValues(oldValues)}<br><br>
+                    <strong>New Values:</strong><br>${formatValues(newValues)}`;
+        };
+
+        const toolTipHelperFn = (auditableType, oldValues, newValues) => {
+            const toolTipText =
+                auditableType?.replace('App\\Models\\', '') || '';
+            const toolTipEl = `data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<strong>${toolTipText}</strong><br>${tooltipTitlehelperFn(oldValues, newValues)}" data-bs-placement="right"`;
+            return toolTipText ? toolTipEl.trim() : '';
+        };
+
+        const ActivityLogTableContent = (log) => {
+            return `<tr>
                     <td>${log.user_type}</td>
-                    <td>${log.event}</td>
+                    <td><span class="fw-bold text-decoration-underline" ${toolTipHelperFn(log.auditable_type, log.old_values, log.new_values)}>${log.event}</span></td>
                     <td>${log.ip_address}</td>
                     <td>${log.user_agent}</td>
                     <td>${customDateFormatter(log.created_at)}</td>
-                </tr>
-            `);
+                </tr>`;
+        };
+        logs.forEach((log) => {
+            tableBody.append(ActivityLogTableContent(log));
         });
+
+        const toolTipTriggerList = $('[data-bs-toggle="tooltip"]');
+        const toolTipList = [...toolTipTriggerList].map(
+            (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+        );
     }
 
     async _getActivityLog() {
