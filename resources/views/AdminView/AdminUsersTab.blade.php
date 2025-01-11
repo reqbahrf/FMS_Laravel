@@ -285,12 +285,19 @@
                             </li>
                         </ul>
                     </div>
-                    <!-- end div-->
                 </div>
-                <!-- end card-body-->
             </div>
             <div class="card mt-3">
-
+                <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                    <thead>
+                        <tr>
+                            <th>Activity</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

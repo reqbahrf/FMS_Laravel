@@ -47,11 +47,11 @@ notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
 
 const urlMapFunction = {
-    [NAV_ROUTE.DASHBOARD]: (functions) => functions.Dashboard,
-    [NAV_ROUTE.PROJECTS]: (functions) => functions.ProjectList,
-    [NAV_ROUTE.APPLICATIONS]: (functions) => functions.ApplicantList,
-    [NAV_ROUTE.USERS]: (functions) => functions.Users,
-    [NAV_ROUTE.SETTINGS]: (functions) => functions.ProjectSettings,
+    [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
+    [NAV_ROUTES.PROJECTS]: (functions) => functions.ProjectList,
+    [NAV_ROUTES.APPLICATIONS]: (functions) => functions.ApplicantList,
+    [NAV_ROUTES.USERS]: (functions) => functions.Users,
+    [NAV_ROUTES.SETTINGS]: (functions) => functions.ProjectSettings,
 };
 
 //Initialize the navigation handler for the admin page switching tabs
@@ -87,7 +87,7 @@ $(function () {
 });
 
 const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL);
-activityLog.init();
+activityLog.initPersonalActivityLog();
 
 async function initializeAdminPageJs() {
     const functions = {
@@ -2123,38 +2123,30 @@ async function initializeAdminPageJs() {
                 autoWidth: false,
                 responsive: true,
                 columns: [
-                    { title: '#' },
-                    { title: 'Name' },
-                    { title: 'Email' },
-                    { title: 'Username' },
-                    { title: 'Access Status' },
-                    { title: 'Action' },
-                ],
-                columnDefs: [
-                    {
-                        targets: 0,
+                    { 
+                        title: '#',
                         width: '5%',
                         className: 'text-center',
                     },
-                    {
-                        targets: 1,
+                    { 
+                        title: 'Name',
                         width: '30%',
                     },
-                    {
-                        targets: 2,
-                        width: '20%',
+                    { 
+                        title: 'Email',
+                        width: '20%', 
                     },
-                    {
-                        targets: 3,
-                        width: '20%',
+                    { 
+                        title: 'Username',
+                        width: '20%', 
                     },
-                    {
-                        targets: 4,
-                        width: '15%',
+                    { 
+                        title: 'Access Status',
+                        width: '15%', 
                     },
-                    {
-                        targets: 5,
-                        width: '10%',
+                    { 
+                        title: 'Action',
+                        width: '10%', 
                     },
                 ],
             });

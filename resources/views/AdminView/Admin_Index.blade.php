@@ -385,6 +385,7 @@
             GET_STAFF_USER_LISTS: '{{ route('Users.index') }}',
             UPDATE_STAFF_USER: '{{ route('Users.update', ':user_name') }}',
             DELETE_STAFF_USER: '{{ route('Users.destroy', ':user_name') }}',
+            GET_STAFF_USER_ACTIVITY_LOGS: '',
 
         };
 
