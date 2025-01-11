@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html
-    data-bs-theme="light"
+    data-bs-theme="dark"
     lang="en"
 >
 

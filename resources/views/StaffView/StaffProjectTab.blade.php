@@ -930,7 +930,7 @@
                 </div>
 
                 <div
-                    class="tab-content bg-white mt-0 mx-3 mb-3"
+                    class="tab-content mt-0 mx-3 mb-3"
                     id="myTabContent"
                 >
                     <!-- first tab here -->
