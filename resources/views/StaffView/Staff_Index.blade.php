@@ -312,6 +312,7 @@
         const AUTH_USER_NAME = '{{ Auth::user()->orgUserInfo->full_name }}';
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
         const USER_ACTIVITY_LOG_ROUTE = '{{ route('activity.logs') }}';
+        const PROJECTS_PAYMENT_RECORDS_ROUTE = '{{ route('PaymentRecord.index') }}';
         //Global Route Variables for the Navigation Tabs
         //Dashboard Tab
         const NAV_ROUTES = {
@@ -327,7 +328,6 @@
             GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',
             UPDATE_PROJECT_STATE: '{{ route('staff.Dashboard.updateProjectState') }}',
             STORE_PAYMENT_RECORDS: '{{ route('PaymentRecord.store') }}',
-            GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}',
             UPDATE_PAYMENT_RECORDS: '{{ route('PaymentRecord.update', ':transaction_id') }}',
             DELETE_PAYMENT_RECORDS: '{{ route('PaymentRecord.destroy', ':transaction_id') }}',
             STORE_PROJECT_FILES: '{{ route('ProjectLink.store') }}',
@@ -357,8 +357,6 @@
             GET_APPROVED_PROJECTS: '{{ route('staff.Project.ApprovedProjectProposal') }}',
             GET_ONGOING_PROJECTS: '{{ route('Project.getOngoingProjects') }}',
             GET_COMPLETED_PROJECTS: '{{ route('getCompletedProject') }}',
-            GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}'
-
 
         }
 

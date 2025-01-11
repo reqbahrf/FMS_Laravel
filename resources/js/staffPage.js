@@ -864,14 +864,12 @@ async function initializeStaffPageJs() {
              * @return {Promise} A promise that resolves when the payment history table has been populated.
              * @throws {Error} If there is an error fetching the payment history.
              */
+            //TODO: convert as a javascript utility
             async function getPaymentHistory(projectId) {
                 try {
                     const response = await $.ajax({
                         type: 'GET',
-                        url:
-                            DASHBBOARD_TAB_ROUTE.GET_PAYMENT_RECORDS +
-                            '?project_id=' +
-                            projectId,
+                        url: PROJECTS_PAYMENT_RECORDS_ROUTE + '?project_id=' + projectId,
                     });
 
                     PaymentHistoryDataTable.clear();
@@ -2759,32 +2757,34 @@ async function initializeStaffPageJs() {
         Projects: async () => {
             const ApprovedDataTable = $('#approvedTable').DataTable({
                 responsive: true,
-                autoWidth: true,
-                fixedColumns: true,
-                columnDefs: [
+                autoWidth: false,
+                fixedColumns: false,
+                columns: [
                     {
-                        targets: 0,
+                        title: 'Project #',
                         width: '5%',
                     },
                     {
-                        targets: 1,
+                        title: 'Cooperator Name',
                         width: '10%',
                     },
                     {
-                        targets: 2,
-                        width: '15%',
-                    },
-                    {
-                        targets: 3,
-                        width: '30%',
-                    },
-                    {
-                        targets: 4,
+                        title: 'Firm Name',
                         width: '10%',
                     },
                     {
-                        targets: 5,
-                        width: '2%',
+                        title: 'Project Title',
+                        width: '25%',
+                    },
+                    {
+                        title: 'Date Approved',
+                        width: '12%',
+                    },
+                    {
+                        title: 'Action',
+                        width: '5%',
+                        orderable: false,
+                        className: 'text-center',
                     },
                 ],
             });
@@ -2795,51 +2795,32 @@ async function initializeStaffPageJs() {
                 columns: [
                     {
                         title: 'Project #',
+                        width: '15%',
+                        className: 'text-center',
                     },
                     {
                         title: 'Project Title',
+                        width: '30%',
                     },
                     {
                         title: 'Firm',
+                        width: '15%',
                     },
                     {
                         title: 'Cooperator Name',
+                        width: '20%',
+
                     },
                     {
                         title: 'Progress',
+                        className: 'text-end',
+                        width: '30%',
                     },
                     {
                         title: 'Action',
-                    },
-                ],
-                columnDefs: [
-                    {
-                        targets: 0,
-                        width: '15%',
-                        className: 'text-center',
-                    },
-                    {
-                        targets: 1,
-                        width: '30%',
-                    },
-                    {
-                        targets: 2,
-                        width: '15%',
-                    },
-                    {
-                        targets: 3,
-                        width: '20%',
-                    },
-                    {
-                        targets: 4,
-                        width: '30%',
-                        className: 'text-end',
-                    },
-                    {
-                        targets: 5,
-                        width: '10%',
                         orderable: false,
                         className: 'text-center',
+                        width: '10%',
                     },
                 ],
             });
@@ -2850,48 +2831,28 @@ async function initializeStaffPageJs() {
                 columns: [
                     {
                         title: 'Project #',
-                    },
-                    {
-                        title: 'Project Title',
-                    },
-                    {
-                        title: 'Firm',
-                    },
-                    {
-                        title: 'Cooperator Name',
-                    },
-                    {
-                        title: 'Progress',
-                    },
-                    {
-                        title: 'Action',
-                    },
-                ],
-                columnDefs: [
-                    {
-                        targets: 0,
                         width: '15%',
                         className: 'text-center',
                     },
                     {
-                        targets: 1,
+                        title: 'Project Title',
                         width: '30%',
                     },
                     {
-                        targets: 2,
+                        title: 'Firm',
                         width: '15%',
                     },
                     {
-                        targets: 3,
+                        title: 'Cooperator Name',
                         width: '20%',
                     },
                     {
-                        targets: 4,
+                        title: 'Progress',
                         width: '30%',
                         className: 'text-end',
                     },
                     {
-                        targets: 5,
+                        title: 'Action',
                         width: '10%',
                         orderable: false,
                         className: 'text-center',
@@ -3182,7 +3143,7 @@ async function initializeStaffPageJs() {
                         .filter('.handle_by')
                         .val(projectDetails.handle_by);
 
-                    getPaymentHistory(
+                    getProjectPaymentHistory(
                         projectDetails.project_id,
                         OngoingPaymentHistoryDataTable
                     );
@@ -3337,19 +3298,20 @@ async function initializeStaffPageJs() {
                         .filter('.handle_by')
                         .val(projectDetails.handled_by);
 
-                    await getPaymentHistory(
+                    await getProjectPaymentHistory(
                         projectDetails.project_id,
                         CompletePaymentHistoryDataTable
                     );
                 }
             );
 
-            async function getPaymentHistory(projectId, paymentTableObject) {
+            //TODO: convert this as a javascript utility
+            async function getProjectPaymentHistory(projectId, paymentTableObject) {
                 try {
                     const response = await $.ajax({
                         type: 'GET',
                         url:
-                            PROJECT_TAB_ROUTE.GET_PAYMENT_RECORDS +
+                            PROJECTS_PAYMENT_RECORDS_ROUTE +
                             '?project_id=' +
                             projectId,
                     });

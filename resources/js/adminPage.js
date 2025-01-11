@@ -53,6 +53,7 @@ const urlMapFunction = {
     [NAV_ROUTE.SETTINGS]: (functions) => functions.ProjectSettings,
 };
 
+//Initialize the navigation handler for the admin page switching tabs
 const navigationHandler = new NavigationHandler(
     MAIN_CONTENT_CONTAINER,
     USER_ROLE,
@@ -757,46 +758,26 @@ async function initializeAdminPageJs() {
                 columns: [
                     {
                         title: 'Applicant Name',
-                    },
-                    {
-                        title: 'Firm Name',
-                    },
-                    {
-                        title: 'Project title',
-                    },
-                    {
-                        title: 'Date Submitted',
-                    },
-                    {
-                        title: 'Status',
-                    },
-                    {
-                        title: 'Action',
-                    },
-                ],
-                columnDefs: [
-                    {
-                        targets: 0,
                         width: '20%',
                     },
                     {
-                        targets: 1,
+                        title: 'Firm Name',
                         width: '15%',
                     },
                     {
-                        targets: 2,
+                        title: 'Project title',
                         width: '30%',
                     },
                     {
-                        targets: 3,
+                        title: 'Date Submitted',
                         width: '15%',
                     },
                     {
-                        targets: 4,
+                        title: 'Status',
                         width: '8%',
                     },
                     {
-                        targets: 5,
+                        title: 'Action',
                         width: '5%',
                     },
                 ],
@@ -808,48 +789,28 @@ async function initializeAdminPageJs() {
                 columns: [
                     {
                         title: 'Project #',
-                    },
-                    {
-                        title: 'Project Title',
-                    },
-                    {
-                        title: 'Firm',
-                    },
-                    {
-                        title: 'Cooperator Name',
-                    },
-                    {
-                        title: 'Progress',
-                    },
-                    {
-                        title: 'Action',
-                    },
-                ],
-                columnDefs: [
-                    {
-                        targets: 0,
                         width: '15%',
                         className: 'text-center',
                     },
                     {
-                        targets: 1,
+                        title: 'Project Title',
                         width: '30%',
                     },
                     {
-                        targets: 2,
+                        title: 'Firm',
                         width: '15%',
                     },
                     {
-                        targets: 3,
+                        title: 'Cooperator Name',
                         width: '20%',
                     },
                     {
-                        targets: 4,
+                        title: 'Progress',
                         width: '20%',
                         className: 'text-end',
                     },
                     {
-                        targets: 5,
+                        title: 'Action',
                         width: '10%',
                         orderable: false,
                         className: 'text-center',
@@ -863,48 +824,28 @@ async function initializeAdminPageJs() {
                 columns: [
                     {
                         title: 'Project #',
-                    },
-                    {
-                        title: 'Project Title',
-                    },
-                    {
-                        title: 'Firm',
-                    },
-                    {
-                        title: 'Cooperator Name',
-                    },
-                    {
-                        title: 'Progress',
-                    },
-                    {
-                        title: 'Action',
-                    },
-                ],
-                columnDefs: [
-                    {
-                        targets: 0,
                         width: '15%',
                         className: 'text-center',
                     },
                     {
-                        targets: 1,
+                        title: 'Project Title',
                         width: '30%',
                     },
                     {
-                        targets: 2,
+                        title: 'Firm',
                         width: '15%',
                     },
                     {
-                        targets: 3,
+                        title: 'Cooperator Name',
                         width: '20%',
                     },
                     {
-                        targets: 4,
+                        title: 'Progress',
                         width: '30%',
                         className: 'text-end',
                     },
                     {
-                        targets: 5,
+                        title: 'Action',
                         width: '10%',
                         orderable: false,
                         className: 'text-center',
