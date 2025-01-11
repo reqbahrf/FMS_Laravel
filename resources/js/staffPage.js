@@ -93,8 +93,8 @@ $(function () {
     });
 });
 
-const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL);
-activityLog.init();
+const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL, USER_ROLE, 'personal');
+activityLog.initPersonalActivityLog();
 
 async function initializeStaffPageJs() {
     const functions = {

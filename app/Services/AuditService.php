@@ -162,4 +162,15 @@ class AuditService
             throw new Exception('Error in getUserAuditLogs: ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
+
+    public function getSelectedUserAuditLogs(int $user_id) : ?object
+    {
+        try{
+            $selector = ['*'];
+            return $this->getAuditLogs(['user_id' => $user_id], $selector);
+        }catch(Exception $e){
+            Log::error('Error in getSelectedUserAuditLogs: ' . $e->getMessage());
+            throw new Exception('Error in getSelectedUserAuditLogs: ' . $e->getMessage(), $e->getCode(), $e);
+        }
+    }
 }

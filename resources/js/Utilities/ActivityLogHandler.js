@@ -1,92 +1,128 @@
 import { customDateFormatter, showToastFeedback } from './utilFunctions';
 
 export default class ActivityLogHandler {
-    constructor(DivContainer, user_role){
-        this.activityLog = [];
+    constructor(DivContainer, user_role, retrievalType) {
+        if (!['personal', 'selectedStaff'].includes(retrievalType)) {
+            throw new Error(
+                'Invalid retrieval type. Must be either "personal" or "selectedStaff"'
+            );
+        }
+
+        this.activityLog = new Map();
         this.DivContainer = DivContainer;
         this.user_role = user_role;
-        this.route_url = USER_ACTIVITY_LOG_ROUTE;
-        this.staffActivityLogRoute = USERS_LIST_ROUTE.GET_STAFF_USER_ACTIVITY_LOGS ?? '';
+        this.ActivityLogRoute =
+            retrievalType === 'personal'
+                ? USER_ACTIVITY_LOG_ROUTE
+                : USERS_LIST_ROUTE.GET_STAFF_USER_ACTIVITY_LOGS;
+        
+                if (retrievalType === 'selectedStaff') {
+                    this._initializeStaffActivityLogEvents();
+                }
     }
 
     initPersonalActivityLog() {
         this.DivContainer.on('show.bs.modal', async (e) => {
             try {
-                const ActivityTableLog = $(e.target).find('.modal-body #userActivityLogTable tbody');
+                const ActivityTableLog = $(e.target).find(
+                    '.modal-body #userActivityLogTable tbody'
+                );
                 ActivityTableLog.empty();
                 const data = await this._getActivityLog();
-                data.data.map(log => {
-                    ActivityTableLog.append(`
-                        <tr>
-                            <td>${log.user_type}</td>
-                            <td>${log.event}</td>
-                            <td>${log.ip_address}</td>
-                            <td>${log.user_agent}</td>
-                            <td>${customDateFormatter(log.created_at)}</td>
-                        </tr>
-                    `);
-                })
+                this._renderActivityLogTable(ActivityTableLog, data.data);
             } catch (error) {
-                showToastFeedback('text-bg-danger', 'Error loading activity log:' + error);
+                this._handleError('Error loading activity log:', error);
             }
         });
     }
 
-     initSelectedStaffActivityLog(user_id){
-        if(this.user_role !== 'admin'){
-            throw new Error('Unauthorized: User role is not admin');
+    _initializeStaffActivityLogEvents() {
+        if (this.user_role !== 'admin') {
+            this._handleError(
+                'Unauthorized:',
+                new Error('User role is not admin')
+            );
+            return;
         }
-        this.DivContainer.on('show.bs.offcanvas', async (e) => {
-            try {
-                const ActivityTableLog = $(e.target).find('.offcanvas-body #StaffActivityLogTable tbody');
-                ActivityTableLog.empty();
-                const data = await this._getUserAuditLogs(user_id);
-                data.data.map(log => {
-                    ActivityTableLog.append(`
-                        <tr>
-                            <td>${log.user_type}</td>
-                            <td>${log.event}</td>
-                            <td>${log.ip_address}</td>
-                            <td>${log.user_agent}</td>
-                            <td>${customDateFormatter(log.created_at)}</td>
-                        </tr>
-                    `);
-                })
-            } catch (error) {
-                showToastFeedback('text-bg-danger', 'Error loading activity log:' + error);
-            }
-        })
-
     }
 
 
+    async getSelectedStaffActivityLog(user_id) {
+        try {
+            if (!user_id) {
+                throw new Error('User ID is required');
+            }
+            const table = this.DivContainer.find('#StaffActivityLogTable tbody');
+            table.empty();
+            const data = await this._getUserAuditLogs(user_id);
+            this._renderActivityLogTable(table, data.data);
+        } catch (error) {
+            this._handleError('Error loading activity log:', error);
+        }
+    }
+
+    _renderActivityLogTable(tableBody, logs) {
+        if (!logs.length) {
+            tableBody.append(`
+                <tr>
+                    <td colspan="5" class="text-center">No activity log available.</td>
+                </tr>
+            `);
+            return;
+        }
+        logs.forEach((log) => {
+            tableBody.append(`
+                <tr>
+                    <td>${log.user_type}</td>
+                    <td>${log.event}</td>
+                    <td>${log.ip_address}</td>
+                    <td>${log.user_agent}</td>
+                    <td>${customDateFormatter(log.created_at)}</td>
+                </tr>
+            `);
+        });
+    }
+
     async _getActivityLog() {
         try {
-            if(this.activityLog.length === 0){
-                const data = await fetch(this.route_url, {
+            if (!this.activityLog.has('personal')) {
+                const data = await fetch(this.ActivityLogRoute, {
                     method: 'GET',
                     dataType: 'json',
                 });
                 const result = await data.json();
-                this.activityLog = result;
+                this.activityLog.set('personal', result);
             }
-            return this.activityLog;
+            return this.activityLog.get('personal');
         } catch (error) {
-            console.log('Error: ', error);
-            throw new Error(error.message);
+            throw new Error(`Failed to fetch activity log: ${error.message}`);
         }
     }
 
-    async _getUserAuditLogs(user_id){
+    async _getUserAuditLogs(user_id) {
+        const cacheKey = `user_${user_id}`;
         try {
-            const response = await fetch(this.staffActivityLogRoute?.replace(':staff_id', user_id), {
-                method: 'GET',
-                dataType: 'json',
-            });
-            const result = await response.json();
-            return result;
-        }catch(error){
-            showToastFeedback('text-bg-danger', 'Error loading user audit logs:' + error);
+            if (!this.activityLog.has(cacheKey)) {
+                const response = await fetch(
+                    this.ActivityLogRoute?.replace(':user_id', user_id),
+                    {
+                        method: 'GET',
+                        dataType: 'json',
+                    }
+                );
+                const result = await response.json();
+                this.activityLog.set(cacheKey, result);
+            }
+            return this.activityLog.get(cacheKey);
+        } catch (error) {
+            throw new Error(
+                `Failed to fetch user audit logs: ${error.message}`
+            );
         }
+    }
+
+    _handleError(prefix, error) {
+        console.error(prefix, error);
+        showToastFeedback('text-bg-danger', `${prefix} ${error.message}`);
     }
 }

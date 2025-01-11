@@ -99,7 +99,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/get/Draft/file/{uniqueId}', [FormDraftController::class, 'getFiles'])
         ->name('form.getDraftFile');
     
-    Route::get('/activity/logs', UserActivityLogController::class)
+    Route::get('/activity/logs', [UserActivityLogController::class, 'getPersonalActivityLog'])
         ->name('activity.logs');
 });
 
@@ -297,6 +297,9 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
     Route::get('/generate-pdf-report/{yearToLoad?}', [AdminReportController::class, 'generatePDFReport'])
         ->name('admin.Dashboard.generateReport');
+    
+        Route::get('/activity/logs/user/{user_id}', [UserActivityLogController::class, 'getSelectedUserActivityLog'])
+        ->name('activity.logs.user');
 });
 
 //Admin Route End

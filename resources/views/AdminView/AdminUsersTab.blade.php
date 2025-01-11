@@ -288,11 +288,14 @@
                 </div>
             </div>
             <div class="card mt-3">
-                <table class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <table id="StaffActivityLogTable" class="table table-striped table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
                     <thead>
                         <tr>
-                            <th>Activity</th>
-                            <th>Date</th>
+                            <th>User Type</th>
+                            <th>Action</th>
+                            <th>Ip Address</th>
+                            <th>User Agent</th>
+                            <th>Time Stamp</th>
                         </tr>
                     </thead>
                     <tbody>

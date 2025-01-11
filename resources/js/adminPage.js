@@ -86,7 +86,7 @@ $(function () {
     });
 });
 
-const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL);
+const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL, USER_ROLE, 'personal');
 activityLog.initPersonalActivityLog();
 
 async function initializeAdminPageJs() {
@@ -2451,23 +2451,33 @@ async function initializeAdminPageJs() {
             );
 
             // Helper function for sanitization
+            const VIEW_USER_OFFCANVAS = $('#viewUserOffcanvas');    
 
-            $('#viewUserOffcanvas').on('show.bs.offcanvas', function (e) {
-                const triggerdButton = $(e.relatedTarget);
-                const buttonRow = triggerdButton.closest('tr');
-                const StaffName = buttonRow
-                    .find('td:nth-child(2)')
-                    .text()
-                    .trim();
-                const Email = buttonRow.find('td:nth-child(3)').text().trim();
-                const UserName = buttonRow
-                    .find('td:nth-child(4)')
-                    .text()
-                    .trim();
+            const staffAuditLogs = new ActivityLogHandler(VIEW_USER_OFFCANVAS, USER_ROLE, 'selectedStaff');
+            VIEW_USER_OFFCANVAS.on('show.bs.offcanvas', function (e) {
+               try{
 
-                const offcanvas = $(this);
-
-                offcanvas.find('#StaffName').text(StaffName);
+                   const triggerdButton = $(e.relatedTarget);
+                   const buttonRow = triggerdButton.closest('tr');
+                   const staff_id = buttonRow.find('td:nth-child(1)').text().trim();
+                   const StaffName = buttonRow
+                       .find('td:nth-child(2)')
+                       .text()
+                       .trim();
+                   const Email = buttonRow.find('td:nth-child(3)').text().trim();
+                   const UserName = buttonRow
+                       .find('td:nth-child(4)')
+                       .text()
+                       .trim();
+   
+                   const offcanvas = $(this);
+   
+                   offcanvas.find('#StaffName').text(StaffName);
+                   staffAuditLogs.getSelectedStaffActivityLog(staff_id);
+               }catch(error){
+                 showToastFeedback('text-bg-danger', error);
+               }
+                
             });
 
             await getStaffUserLists();
