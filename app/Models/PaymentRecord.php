@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use OwenIt\Auditing\Contracts\Auditable as AuditableContract;
 
-class PaymentRecord extends Model
+class PaymentRecord extends Model implements AuditableContract
 {
-    use HasFactory;
+    use HasFactory, Auditable;
 
     protected $table = 'payment_records';
 
@@ -24,6 +26,7 @@ class PaymentRecord extends Model
         'payment_status' => 'string',
         'payment_method' => 'string'
     ];
+
     public function projectInfo(): BelongsTo
     {
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
