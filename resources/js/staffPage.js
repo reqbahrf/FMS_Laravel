@@ -10,6 +10,7 @@ import {
     showProcessToast,
     hideProcessToast,
 } from './Utilities/utilFunctions';
+import getProjectPaymentHistory from './Utilities/ProjectPaymentHistory';
 import FormEvents from './components/ProjectFormEvents';
 import EsignatureHandler from './Utilities/EsignatureHandler';
 import NotificationManager from './Utilities/NotificationManager';
@@ -37,9 +38,7 @@ import { TableDataExtractor } from './Utilities/TableDataExtractor';
 window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
-const ACTIVITY_LOG_MODAL =$('#userActivityLogModal');
-
-
+const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
 
 const USER_ROLE = 'staff';
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Staff_Index.blade.php
@@ -50,7 +49,6 @@ const notificationManager = new NotificationManager(
 );
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
-
 
 const urlMapFunctions = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
@@ -64,7 +62,7 @@ const navigationHandler = new NavigationHandler(
     USER_ROLE,
     urlMapFunctions,
     initializeStaffPageJs
-)
+);
 navigationHandler.init();
 window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
 
@@ -756,7 +754,8 @@ async function initializeStaffPageJs() {
 
                     await getPaymentHistoryAndCalculation(
                         project_id,
-                        getAmountRefund()
+                        getAmountRefund(),
+                        PaymentHistoryDataTable
                     );
                     hideProcessToast();
                     setTimeout(() => {
@@ -799,7 +798,8 @@ async function initializeStaffPageJs() {
 
                     await getPaymentHistoryAndCalculation(
                         project_id,
-                        getAmountRefund()
+                        getAmountRefund(),
+                        PaymentHistoryDataTable
                     );
                     hideProcessToast();
                     setTimeout(() => {
@@ -856,55 +856,6 @@ async function initializeStaffPageJs() {
                     console.error('Submission method is not defined');
                 }
             });
-
-            /**
-             * Fetches payment history for a given project ID and populates the payment history table.
-             *
-             * @param {string} projectId - The ID of the project to fetch payment history for.
-             * @return {Promise} A promise that resolves when the payment history table has been populated.
-             * @throws {Error} If there is an error fetching the payment history.
-             */
-            //TODO: convert as a javascript utility
-            async function getPaymentHistory(projectId) {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url: PROJECTS_PAYMENT_RECORDS_ROUTE + '?project_id=' + projectId,
-                    });
-
-                    PaymentHistoryDataTable.clear();
-                    PaymentHistoryDataTable.rows.add(
-                        response.map((payment) => [
-                            payment.transaction_id,
-                            formatNumberToCurrency(parseFloat(payment.amount)),
-                            payment.payment_method,
-                            `<span class="badge bg-${
-                                payment.payment_status === 'Paid'
-                                    ? 'success'
-                                    : payment.payment_status === 'Pending'
-                                      ? 'warning'
-                                      : 'danger'
-                            } ">${payment.payment_status}</span>`,
-                            customDateFormatter(payment.created_at),
-                            `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
-                                        data-bs-target="#paymentModal"
-                                        data-action="Update"><i class="ri-file-edit-fill"></i></button>
-                        <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-delete-record-type="projectPayment"><i class="ri-delete-bin-2-fill"></i></button>`,
-                        ])
-                    );
-                    PaymentHistoryDataTable.draw();
-
-                    let totalAmount = 0;
-                    response.forEach((payment) => {
-                        payment.payment_status === 'Paid'
-                            ? (totalAmount += parseFloat(payment.amount))
-                            : (totalAmount += 0);
-                    });
-                    return totalAmount;
-                } catch (error) {
-                    throw new Error('Error fetching payment history: ' + error);
-                }
-            }
 
             async function getUploadedReceipts(projectId) {
                 try {
@@ -1195,7 +1146,11 @@ async function initializeStaffPageJs() {
                         );
 
                     handleProjectOffcanvasContent(project_status);
-                    getPaymentHistoryAndCalculation(project_id, actual_amount);
+                    getPaymentHistoryAndCalculation(
+                        project_id,
+                        actual_amount,
+                        PaymentHistoryDataTable
+                    );
                     getUploadedReceipts(project_id);
                     getProjectLedger(project_id);
                     getProjectLinks(project_id);
@@ -1206,16 +1161,33 @@ async function initializeStaffPageJs() {
 
             const getAmountRefund = () => {
                 const actual_amount = $('#FundedAmount').text();
-
                 return actual_amount;
             };
 
+            /**
+             * Calculates and displays payment statistics for a project.
+             *
+             * @async
+             * @param {number|string} project_id - The project identifier
+             * @param {string} actual_amount - Total funded amount (currency string)
+             * @param {DataTable.Api} paymentDataTableInstance - DataTable for payment history
+             * @throws {Error} If payment history fetch fails
+             *
+             * @description
+             * Fetches payment history, calculates statistics (total paid, remaining balance,
+             * completion percentage), and updates the UI with payment information and progress.
+             */
             const getPaymentHistoryAndCalculation = async (
                 project_id,
-                actual_amount
+                actual_amount,
+                paymentDataTableInstance
             ) => {
                 try {
-                    const totalAmount = await getPaymentHistory(project_id);
+                    const totalAmount = await getProjectPaymentHistory(
+                        project_id,
+                        paymentDataTableInstance,
+                        true
+                    );
 
                     const fundedAmount = parseFloat(
                         actual_amount.replace(/,/g, '')
@@ -1739,7 +1711,8 @@ async function initializeStaffPageJs() {
                         afterDelete: async (project_id) =>
                             await getPaymentHistoryAndCalculation(
                                 project_id,
-                                getAmountRefund()
+                                getAmountRefund(),
+                                PaymentHistoryDataTable
                             ),
                     },
                     projectLink: {
@@ -2809,7 +2782,6 @@ async function initializeStaffPageJs() {
                     {
                         title: 'Cooperator Name',
                         width: '20%',
-
                     },
                     {
                         title: 'Progress',
@@ -3305,49 +3277,6 @@ async function initializeStaffPageJs() {
                 }
             );
 
-            //TODO: convert this as a javascript utility
-            async function getProjectPaymentHistory(projectId, paymentTableObject) {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url:
-                            PROJECTS_PAYMENT_RECORDS_ROUTE +
-                            '?project_id=' +
-                            projectId,
-                    });
-
-                    paymentTableObject.clear();
-                    paymentTableObject.rows.add(
-                        response.map((payment) => {
-                            const formattedDate = customDateFormatter(
-                                payment.created_at
-                            );
-                            return [
-                                payment.transaction_id,
-                                formatNumberToCurrency(
-                                    parseFloat(payment.amount)
-                                ),
-                                payment.payment_method,
-                                `<span class="badge bg-${
-                                    payment.payment_status === 'Paid'
-                                        ? 'success'
-                                        : payment.payment_status === 'Pending'
-                                          ? 'warning'
-                                          : 'danger'
-                                } ">${payment.payment_status}</span>`,
-                                formattedDate,
-                            ];
-                        })
-                    );
-                    paymentTableObject.draw();
-
-                    let totalAmount = 0;
-                    response.forEach((payment) => {
-                        totalAmount += parseFloat(payment.amount);
-                    });
-                    //   return totalAmount;
-                } catch (error) {}
-            }
             async function getApprovedProjects() {
                 try {
                     const response = await fetch(
@@ -4961,4 +4890,4 @@ async function initializeStaffPageJs() {
         },
     };
     return functions;
-};
+}

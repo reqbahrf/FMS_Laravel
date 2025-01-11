@@ -350,6 +350,7 @@
         const USER_ID = {{ Auth::user()->id }};
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
         const USER_ACTIVITY_LOG_ROUTE = '{{ route('activity.logs') }}';
+        const PROJECTS_PAYMENT_RECORDS_ROUTE = '{{ route('PaymentRecord.index') }}';
 
         const NAV_ROUTES = {
             DASHBOARD: '{{ route('admin.Dashboard') }}',
@@ -369,10 +370,8 @@
             GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails', ['business_id' => ':business_id', 'project_id' => ':project_id']) }}',
             GET_ONGOING_PROJECTS: '{{ route('Project.getOngoingProjects') }}',
             APPROVED_PROJECT: '{{ route('admin.Project.ApprovedProjectProposal') }}',
-            GET_PAYMENT_RECORDS: '{{ route('PaymentRecord.index') }}',
             GET_COMPLETED_PROJECTS: '{{ route('getCompletedProject') }}',
             ASSIGNED_NEW_STAFF: '{{ route('admin.AssignNewStaff') }}'
-
 
         };
 

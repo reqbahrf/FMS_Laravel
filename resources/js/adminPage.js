@@ -10,6 +10,7 @@ import {
     showProcessToast,
     hideProcessToast,
 } from './Utilities/utilFunctions';
+import getProjectPaymentHistory from './Utilities/ProjectPaymentHistory';
 
 import NotificationManager from './Utilities/NotificationManager';
 import ActivityLogHandler from './Utilities/ActivityLogHandler';
@@ -1188,7 +1189,7 @@ async function initializeAdminPageJs() {
                         .filter('.handle_by')
                         .val(projectDetails.handle_by);
 
-                    getPaymentHistory(
+                    getProjectPaymentHistory(
                         projectDetails.project_id,
                         OngoingPaymentHistoryDataTable
                     );
@@ -1391,57 +1392,12 @@ async function initializeAdminPageJs() {
                         .filter('.handle_by')
                         .val(projectDetails.handle_by);
 
-                    getPaymentHistory(
+                    getProjectPaymentHistory(
                         projectDetails.project_id,
                         CompletedPaymentHistoryDataTable
                     );
                 }
             );
-
-            async function getPaymentHistory(projectId, dataTableObject) {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url:
-                            PROJECT_LIST_ROUTE.GET_PAYMENT_RECORDS +
-                            '?project_id=' +
-                            projectId,
-                    });
-
-                    dataTableObject.clear();
-                    dataTableObject.rows.add(
-                        response.map((payment) => {
-                            const formattedDate = customDateFormatter(
-                                payment.created_at
-                            );
-                            return [
-                                payment.transaction_id,
-                                formatNumberToCurrency(
-                                    parseFloat(payment.amount)
-                                ),
-                                payment.payment_method,
-                                `<span class="badge bg-${
-                                    payment.payment_status === 'Paid'
-                                        ? 'success'
-                                        : payment.payment_status === 'Pending'
-                                          ? 'warning'
-                                          : 'danger'
-                                } ">${payment.payment_status}</span>`,
-                                formattedDate,
-                            ];
-                        })
-                    );
-                    dataTableObject.draw();
-
-                    let totalAmount = 0;
-                    response.forEach((payment) => {
-                        totalAmount += parseFloat(payment.amount);
-                    });
-                    //   return totalAmount;
-                } catch (error) {
-                    console.log(error);
-                }
-            }
 
             /**
              * Retrieves a list of staff members and populates the Assigned_to dropdown.
