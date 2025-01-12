@@ -30,34 +30,31 @@
                 ></div>
             </a>
             <div class="dropdown-menu dropdown-menu-end dropdown-menu-animated dropdown-lg py-0">
-                <div class="p-2 border-top-0 border-start-0 border-end-0 border-dashed border">
+                <div class="p-3 border-bottom">
                     <div class="row align-items-center">
                         <div class="col">
-                            <p class="m-0 font-16 fw-semibold">Notification</p>
+                            <h6 class="m-0 fs-5 fw-semibold">Notification</h6>
                         </div>
                         <div class="col-auto">
-                            <a
-                                class="text-dark text-decoration-underline"
-                                href="#"
-                            >
-                                <small>Clear All</small>
+                            <a href="#" class="text-muted text-decoration-none small" id="clearAllNotifications">
+                                <i class="ri-delete-bin-line me-1"></i>Clear All
                             </a>
                         </div>
                     </div>
                 </div>
-                <div
-                    class="px-2"
-                    id="notification--container"
-                    style="max-height: 300px; overflow-y: auto;"
-                >
-
+                <div class="notification-scroll" id="notification--container" style="max-height: 400px; overflow-y: auto;">
+                    <div class="p-2">
+                        <!-- Notifications will be dynamically inserted here -->
+                        <div class="text-center p-3 text-muted" id="noNotifications" style="display: none;">
+                            <i class="ri-notification-off-line ri-2x mb-2"></i>
+                            <p class="mb-0">No notifications yet</p>
+                        </div>
+                    </div>
                 </div>
-                <button
-                    class="dropdown-item text-center text-primary notify-item border-top py-2"
-                    type="button"
-                >
-                    View All
-                </button>
+                <a href="#" class="dropdown-item text-center text-primary notify-item border-top p-3">
+                    <i class="ri-eye-line me-1"></i>
+                    <span class="fw-medium">View All</span>
+                </a>
             </div>
         </li>
         <li class="avatar-li">

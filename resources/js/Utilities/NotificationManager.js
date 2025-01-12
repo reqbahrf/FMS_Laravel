@@ -1,5 +1,11 @@
 /**
  * Manages notifications for a user, including fetching, displaying, and handling real-time updates.
+ * @exports NotificationManager
+ * @requires jquery
+ * @requires top-navigation.blade.php component
+ * 
+ * **Notes**
+ * - This class is relay on On top-navigation.blade.php component to display notifications.
  */
 class NotificationManager {
     /**
@@ -140,6 +146,13 @@ class NotificationManager {
         }
     }
 
+
+     /**
+     * Categorizes notifications based on their creation date.
+     * @param {Array<Object>} notifications - An array of notification objects.
+     * @returns {Object} An object containing categorized notifications.
+     * @private
+     */
     _categorizeNotifications(notifications) {
         const now = new Date();
         const categories = {
@@ -171,6 +184,12 @@ class NotificationManager {
         return categories;
     }
 
+
+     /**
+     * Sets up event listeners for new notifications using Laravel Echo.
+     * It listens for the `BroadcastNotificationCreated` event on a private channel specific to the user.
+     * When a new notification is received, it resets the current page and fetches the updated notifications.
+     */
     setupEventListeners() {
         Echo.private(`${this.userRole}-notifications.${this.userId}`).listen(
             '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
@@ -220,27 +239,55 @@ class NotificationManager {
             }
         });
 
-        // Add click handler for "View All" button
-        $('.dropdown-item.text-center').on('click', async (e) => {
+        // Add click handler for "Clear All" button
+        $('#clearAllNotifications').on('click', async (e) => {
             e.preventDefault();
+            e.stopPropagation();
+            
             try {
-                await fetch('/notifications/mark-all-read', {
+                const response = await fetch('/notifications/mark-all-read', {
                     method: 'POST',
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                     }
                 });
-                this.fetchNotifications(1);
+
+                if (response.ok) {
+                    // Fade out all notifications with animation
+                    const notifications = this.notificationContainer.find('.notify-item');
+                    notifications.fadeOut(300, () => {
+                        // After fade out, show no notifications message
+                        this.notificationContainer.html('<div class="text-center py-3">No notifications</div>');
+                        this.badgeAlert.hide();
+                    });
+                }
             } catch (error) {
-                console.error('Error marking all notifications as read:', error);
+                console.error('Error clearing all notifications:', error);
             }
         });
     }
 
+    /**
+     * Updates the badge and no message display based on the number of notifications.
+     * Hides the badge and displays "No notifications" if there are no notifications,
+     * otherwise shows the badge with the total number of notifications.
+     * @private
+     */
     _updateBadgeAndNoMessage() {
-        if (this.notificationContainer.children('.notify-item').length === 0) {
+        // Check if any notifications exist in any category
+        const totalNotifications = this.notificationContainer.find('.notify-item').length;
+        
+        if (totalNotifications === 0) {
             this.notificationContainer.html('<div class="text-center py-3">No notifications</div>');
             this.badgeAlert.hide();
+        } else {
+            // Clean up empty categories
+            this.notificationContainer.find('.notification-category').each((_, category) => {
+                const $category = $(category);
+                if ($category.find('.notify-item').length === 0) {
+                    $category.remove();
+                }
+            });
         }
     }
 }

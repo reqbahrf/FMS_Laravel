@@ -2,6 +2,7 @@ html[data-bs-theme=dark] {
   --ct-primary: #318791;
   --ct-text-color: #FFFFFF;
   --bs-topnav-color:#3A444E;
+  --ct-topnav-notification-bg: #2c4f58;
   --bs-topnav-icon: #FFFFFF;
   --bs-sidenav-color: #3A444E;
   --ct-body-color: #343A40;
@@ -11,6 +12,7 @@ html[data-bs-theme=light] {
   --ct-primary: #318791;
   --ct-text-color: #000000;
   --bs-topnav-color: #FFFFFF;
+  --ct-topnav-notification-bg: #d0eef1;
   --bs-topnav-icon: #000000;
   --bs-sidenav-color: #313A46;
   --ct-body-color: #F9FAFD;
@@ -20,6 +22,83 @@ $primary: #318791;
 .btn-primary {
   color: #fff !important;
 }
+
+/*
+-----------------------------------------------------------------
+    Notification CSS
+-----------------------------------------------------------------
+*/
+
+.topNav .notification-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+
+.topNav .notification-scroll::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.topNav .notification-scroll::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.topNav .notification-scroll::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.topNav .dropdown-menu {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.topNav .notify-item {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+.topNav .notify-item:last-child {
+  border-bottom: none;
+}
+
+.topNav .notify-item:hover {
+  background-color: var(--ct-topnav-notification-bg);
+}
+
+.topNav .notify-item.unread {
+  background-color: rgba(13, 110, 253, 0.05);
+}
+
+.topNav .notify-item h5 {
+  color: var(--ct-text-color);
+  margin-bottom: 0.25rem !important;
+}
+
+.topNav .notify-item p {
+  color: var(--ct-text-color);
+  margin-bottom: 0.25rem;
+}
+
+.topNav .notify-item .time-ago {
+  font-size: 0.75rem;
+  color: var(--ct-text-color-2);
+}
+
+.topNav .category-header {
+  padding: 0.5rem 1rem;
+  background-color: #f8f9fa;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--ct-text-color);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/*
+-----------------------------------------------------------------
+    Notification End
+-----------------------------------------------------------------
+*/
 
 @import '/node_modules/bootstrap/scss/bootstrap.scss';
 @import '/node_modules/remixicon/fonts/remixicon.css';
