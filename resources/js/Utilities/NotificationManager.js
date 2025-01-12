@@ -86,30 +86,89 @@ class NotificationManager {
             return;
         }
 
-        const notificationHTML = notifications.map(notification => `
-            <div class="notify-item ${!notification.type ? 'unread' : ''}" data-id="${notification.id}">
-                <div class="d-flex align-items-center">
-                    <div class="flex-grow-1 overflow-hidden">
-                        <h5 class="m-0 font-14">${notification.title}</h5>
-                        <p class="m-0 text-muted font-13 text-truncate">${notification.message}</p>
-                        <p class="m-0 text-muted font-11">
-                            <small>${notification.time_ago}</small>
-                        </p>
-                    </div>
-                    <div class="flex-shrink-0">
-                        <button class="btn btn-sm btn-link noti-close-btn">
-                            <i class="ri-close-line text-muted"></i>
-                        </button>
+        // Group notifications by category
+        const categorizedNotifications = this._categorizeNotifications(notifications);
+        
+        const notificationHTML = Object.entries(categorizedNotifications).map(([category, items]) => {
+            if (items.length === 0) return '';
+            
+            const categoryId = `category-${category.toLowerCase().replace(/\s+/g, '-')}`;
+            const notificationItems = items.map(notification => `
+                <div class="notify-item ${!notification.type ? 'unread' : ''}" data-id="${notification.id}">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1 overflow-hidden">
+                            <h5 class="m-0 font-14">${notification.title}</h5>
+                            <p class="m-0 text-muted font-13 text-truncate">${notification.message}</p>
+                            <p class="m-0 text-muted font-11">
+                                <small>${notification.time_ago}</small>
+                            </p>
+                        </div>
+                        <div class="flex-shrink-0">
+                            <button class="btn btn-sm btn-link noti-close-btn">
+                                <i class="ri-close-line text-muted"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        `).join('');
+            `).join('');
+
+            if (append) {
+                const existingCategory = this.notificationContainer.find(`#${categoryId}`);
+                if (existingCategory.length) {
+                    existingCategory.find('.notification-items').append(notificationItems);
+                    return '';
+                }
+            }
+
+            return `
+                <div class="notification-category" id="${categoryId}">
+                    <h6 class="notification-category-title px-2 pt-2">${category}</h6>
+                    <div class="notification-items">
+                        ${notificationItems}
+                    </div>
+                </div>
+            `;
+        }).join('');
 
         if (append) {
-            this.notificationContainer.append(notificationHTML);
+            // Filter out empty strings before appending
+            if (notificationHTML.trim()) {
+                this.notificationContainer.append(notificationHTML);
+            }
         } else {
             this.notificationContainer.html(notificationHTML);
         }
+    }
+
+    _categorizeNotifications(notifications) {
+        const now = new Date();
+        const categories = {
+            [NotificationManager.CATEGORIES.NEW]: [],
+            [NotificationManager.CATEGORIES.TODAY]: [],
+            [NotificationManager.CATEGORIES.YESTERDAY]: [],
+            [NotificationManager.CATEGORIES.THIS_WEEK]: [],
+            [NotificationManager.CATEGORIES.OLDER]: []
+        };
+
+        notifications.forEach(notification => {
+            const notificationDate = new Date(notification.created_at);
+            const timeDiff = now - notificationDate;
+            const daysDiff = Math.floor(timeDiff / NotificationManager.TIME_INTERVALS.DAY);
+
+            if (!notification.type) {
+                categories[NotificationManager.CATEGORIES.NEW].push(notification);
+            } else if (daysDiff === 0) {
+                categories[NotificationManager.CATEGORIES.TODAY].push(notification);
+            } else if (daysDiff === 1) {
+                categories[NotificationManager.CATEGORIES.YESTERDAY].push(notification);
+            } else if (daysDiff <= 7) {
+                categories[NotificationManager.CATEGORIES.THIS_WEEK].push(notification);
+            } else {
+                categories[NotificationManager.CATEGORIES.OLDER].push(notification);
+            }
+        });
+
+        return categories;
     }
 
     setupEventListeners() {
