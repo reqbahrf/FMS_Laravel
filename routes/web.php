@@ -26,26 +26,26 @@ use App\Http\Controllers\ProjectLedgerController;
 use Illuminate\Auth\Events\PasswordResetLinkSent;
 use App\Http\Controllers\CooperatorViewController;
 use App\Http\Controllers\PasswordChangeController;
+use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\RejectionEmailController;
 use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\staffGenerateSRController;
+use App\Http\Controllers\UserActivityLogController;
 use App\Http\Controllers\AdminManageStaffController;
 use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\UserNotificationController;
+use App\Http\Controllers\GetOngoingProjectController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
-use App\Http\Controllers\GetOngoingProjectController;
-use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
-use App\Http\Controllers\UserActivityLogController;
 
 Route::get('/', function () {
     return view('index');
@@ -102,8 +102,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/activity/logs', [UserActivityLogController::class, 'getPersonalActivityLog'])
         ->name('activity.logs');
 });
-
-
 
 //Login routes
 
@@ -318,6 +316,14 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
 
     Route::resource('/Project/ProjectProposal', ProjectProposalController::class);
 });
+
+// Notification Routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/notifications', [UserNotificationController::class, 'getUserNotifications'])->name('notifications.get');
+    Route::post('/notifications/{id}/mark-as-read', [UserNotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
+    Route::post('/notifications/mark-all-read', [UserNotificationController::class, 'markAllAsRead'])->name('notifications.markAllRead');
+});
+
 //Email Verification
 
 Route::middleware('auth')->group(function () {
@@ -335,7 +341,6 @@ Route::middleware('auth')->group(function () {
         return back()->with('status', 'An email has been sent to <strong>' . e($request->user()->email) . '</strong> Please check your Gmail to verify. <br> If you did not receive the email, please check your spam folder. <br> <span class="fw-light text-muted">verification link will expire in 30 minutes.</span>');
     })->middleware('throttle:6,1')->name('verification.send');
 });
-
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/change-password', [PasswordChangeController::class, 'showChangePasswordForm'])
