@@ -15,6 +15,22 @@ class NotificationManager {
         this.notificationContainer = $('#notification--container');
         this.badgeAlert = $('#badge--container');
     }
+
+    // Constants for notification categories
+    static CATEGORIES = {
+        NEW: 'New',
+        TODAY: 'Today',
+        YESTERDAY: 'Yesterday',
+        THIS_WEEK: 'This Week',
+        OLDER: 'Older',
+    };
+
+    // Constants for time intervals in milliseconds
+    static TIME_INTERVALS = {
+        DAY: 24 * 60 * 60 * 1000,
+        WEEK: 7 * 24 * 60 * 60 * 1000,
+    };
+
     async fetchNotifications() {
         try {
             const response = await fetch(this.notificationRoute, {
@@ -38,15 +54,16 @@ class NotificationManager {
                     created_at: item.created_at,
                     time_ago: item.time_ago,
                 }));
-                this.updateNotificationUI(notifications);
+                this._updateNotificationUI(notifications);
             } else {
-                this.updateNotificationUI(null);
+                this._updateNotificationUI(null);
             }
         } catch (error) {
             console.error('Error fetching notifications:', error);
             return [];
         }
     }
+
     setupEventListeners() {
         Echo.private(`${this.userRole}-notifications.${this.userId}`).listen(
             '.Illuminate\\Notifications\\Events\\BroadcastNotificationCreated',
@@ -64,7 +81,7 @@ class NotificationManager {
                         created_at: data.created_at,
                         time_ago: data.time_ago,
                     };
-                    this.updateNotificationUI(notificationData);
+                    this._updateNotificationUI(notificationData);
                 } catch (error) {
                     console.error('Error parsing notification ', error);
                 }
@@ -78,12 +95,12 @@ class NotificationManager {
             const item = $(e.currentTarget).closest('.notify-item');
             item.fadeOut(300, () => {
                 item.remove();
-                this.updateBadgeAndNoMessage();
+                this._updateBadgeAndNoMessage();
             });
         });
     }
 
-    updateNotificationUI(notificationData) {
+    _updateNotificationUI(notificationData) {
         this.notificationContainer.empty();
 
         if (!notificationData) {
@@ -104,7 +121,7 @@ class NotificationManager {
             this.badgeAlert.show();
 
             const categorizedNotifications =
-                this.categorizeNotifications(notificationData);
+                this._categorizeNotifications(notificationData);
             let notificationsHtml = '';
             for (const category in categorizedNotifications) {
                 notificationsHtml += `
@@ -147,7 +164,7 @@ class NotificationManager {
             );
             this.badgeAlert.show();
 
-            const categorizedNotifications = this.categorizeNotifications([
+            const categorizedNotifications = this._categorizeNotifications([
                 notificationData,
             ]);
             let notificationsHtml = '';
@@ -176,14 +193,17 @@ class NotificationManager {
                                     </div>
                                 </div>
                             </a>
-                        `).join('')}
+                        `
+                            )
+                            .join('')}
                     </div>
                 `;
             }
             this.notificationContainer.prepend(notificationsHtml);
         }
     }
-    updateBadgeAndNoMessage() {
+
+    _updateBadgeAndNoMessage() {
         if (this.notificationContainer.children().length === 0) {
             this.notificationContainer.html(`
                 <p id="no-notifications-message" class="text-center text-muted my-3">No Notifications</p>
@@ -192,44 +212,71 @@ class NotificationManager {
         } else {
             const newCount = this.notificationContainer.children().length;
             const displayCount = newCount > 99 ? '99+' : newCount;
-            this.badgeAlert.html(`<span class="badge rounded-pill bg-danger">${displayCount}</span>`);
+            this.badgeAlert.html(
+                `<span class="badge rounded-pill bg-danger">${displayCount}</span>`
+            );
         }
     }
 
-    categorizeNotifications(notifications) {
-        const categorized = {
-            'New': [],
-            'Today': [],
-            'Yesterday': [],
-            'This Week': [],
-            'Older': []
-        };
+    _categorizeNotifications(notifications) {
+        if (!Array.isArray(notifications)) {
+            throw new Error('Notifications must be an array');
+        }
 
-        const now = new Date();
-        notifications.forEach(notification => {
+        const categorized = new Map();
+        Object.values(NotificationManager.CATEGORIES).forEach((category) => {
+            categorized.set(category, []);
+        });
+
+        const now = new Date('2025-01-12T09:16:17+08:00');
+
+        notifications.forEach((notification) => {
+            if (!notification?.created_at) {
+                console.warn(
+                    'Notification missing created_at timestamp',
+                    notification
+                );
+                return;
+            }
+
             const createdAt = new Date(notification.created_at);
-            const diffInDays = Math.floor((now - createdAt) / (1000 * 60 * 60 * 24));
+            const timeDiff = now - createdAt;
+            const diffInDays = Math.floor(
+                timeDiff / NotificationManager.TIME_INTERVALS.DAY
+            );
 
             if (notification.read_at === null) {
-                categorized['New'].push(notification);
+                categorized
+                    .get(NotificationManager.CATEGORIES.NEW)
+                    .push(notification);
             } else if (diffInDays === 0) {
-                categorized['Today'].push(notification);
+                categorized
+                    .get(NotificationManager.CATEGORIES.TODAY)
+                    .push(notification);
             } else if (diffInDays === 1) {
-                categorized['Yesterday'].push(notification);
+                categorized
+                    .get(NotificationManager.CATEGORIES.YESTERDAY)
+                    .push(notification);
             } else if (diffInDays <= 7) {
-                categorized['This Week'].push(notification);
+                categorized
+                    .get(NotificationManager.CATEGORIES.THIS_WEEK)
+                    .push(notification);
             } else {
-                categorized['Older'].push(notification);
+                categorized
+                    .get(NotificationManager.CATEGORIES.OLDER)
+                    .push(notification);
             }
         });
 
-        for (const category in categorized) {
-            if (categorized[category].length === 0) {
-                delete categorized[category];
+        // Convert Map back to object and remove empty categories
+        const result = {};
+        for (const [category, notifications] of categorized) {
+            if (notifications.length > 0) {
+                result[category] = notifications;
             }
         }
 
-        return categorized;
+        return result;
     }
 }
 
