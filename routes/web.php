@@ -170,7 +170,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
         return view('StaffView.Staff_Index');
     })->name('Staff.index');
 
-    Route::get('/Staff/dashboard', [StaffViewController::class, 'dashboard'])
+    Route::get('/Staff/dashboard', [StaffViewController::class, 'LoadDashboardTab'])
         ->name('staff.dashboard');
 
     Route::get('/Staff/Dashboard/chartData', [StaffViewController::class, 'getDashboardChartData'])
@@ -179,13 +179,13 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
     Route::put('/Staff/Dashboard/updateProjectState', [UpdateProjectStateController::class, 'updateProjectState'])
         ->name('staff.Dashboard.updateProjectState');
 
-    Route::get('/Staff/Project', [StaffViewController::class, 'getProjectsView'])
+    Route::get('/Staff/Project', [StaffViewController::class, 'LoadProjectsTab'])
         ->name('staff.Project');
 
     Route::get('/Staff/Project/getApproved-Project', [StaffViewController::class, 'getApprovedProjects'])
         ->name('staff.Project.ApprovedProjectProposal');
 
-    Route::get('/Staff/Applicant', [StaffViewController::class, 'getApplicantView'])
+    Route::get('/Staff/Applicant', [StaffViewController::class, 'LoadApplicantTab'])
         ->name('staff.Applicant');
 
     Route::get('/Staff/Dashboard/getHandledProjects', [StaffViewController::class, 'getHandledProjects'])
@@ -227,7 +227,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
         ->name('staff.set.EvaluationSchedule');
 
     //Get evaluation schedule
-    Route::get('/staff/Applicant/Evaluation-Schedule', [StaffViewController::class, 'getScheduledDate'])
+    Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
         ->name('staff.get.EvaluationSchedule');
 
     //Staff Submit Project Proposal
