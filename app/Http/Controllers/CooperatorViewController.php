@@ -26,46 +26,44 @@ class CooperatorViewController extends Controller
     }
 
 
-    public function dashboard(Request $request)
+    public function LoadDashboardTab(Request $request)
     {
-
-
-        if ($request->ajax()) {
-            $username = Session::get('user_name');
-            $session_project_id = Session::get('project_id');
-            $session_business_id = Session::get('business_id');
-
-            // Query the database
-            $row = DB::table('coop_users_info')
-                ->Join('users', 'users.user_name', '=', 'coop_users_info.user_name')
-                ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
-                ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
-                ->select(
-                    'users.user_name',
-                    'users.email',
-                    'project_info.project_title',
-                    'coop_users_info.f_name',
-                    'coop_users_info.l_name',
-                    'coop_users_info.designation',
-                    'coop_users_info.landline',
-                    'coop_users_info.mobile_number',
-                    'business_info.firm_name',
-                    'business_info.landMark',
-                    'business_info.barangay',
-                    'business_info.city',
-                    'business_info.province',
-                    'business_info.region',
-                )
-                ->where('coop_users_info.user_name', $username)
-                ->where('project_info.Project_id', $session_project_id)
-                ->where('business_info.id', $session_business_id)
-                ->first();
-
-
-            return view('CooperatorView.CooperatorDashboardTab', compact('row'));
-        } else {
-            return view('CooperatorView.Cooperator_Index');
-        }
+            if ($request->ajax()) {
+                $username = Session::get('user_name');
+                $session_project_id = Session::get('project_id');
+                $session_business_id = Session::get('business_id');
+    
+                // Query the database
+                $row = DB::table('coop_users_info')
+                    ->Join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+                    ->join('business_info', 'business_info.user_info_id', '=', 'coop_users_info.id')
+                    ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
+                    ->select(
+                        'users.user_name',
+                        'users.email',
+                        'project_info.project_title',
+                        'coop_users_info.f_name',
+                        'coop_users_info.l_name',
+                        'coop_users_info.designation',
+                        'coop_users_info.landline',
+                        'coop_users_info.mobile_number',
+                        'business_info.firm_name',
+                        'business_info.landMark',
+                        'business_info.barangay',
+                        'business_info.city',
+                        'business_info.province',
+                        'business_info.region',
+                    )
+                    ->where('coop_users_info.user_name', $username)
+                    ->where('project_info.Project_id', $session_project_id)
+                    ->where('business_info.id', $session_business_id)
+                    ->first();
+    
+    
+                return view('CooperatorView.CooperatorDashboardTab', compact('row'));
+            } else {
+                return view('CooperatorView.Cooperator_Index');
+            }
     }
 
     public function CoopProgress()
@@ -113,7 +111,7 @@ class CooperatorViewController extends Controller
             'paymentList' => null
         ], 404);  // Return 404 if the necessary data is not found
     }
-    public function requirementsGet(Request $request)
+    public function LoadRequirementsTab(Request $request)
     {
         if ($request->ajax()) {
 
@@ -123,7 +121,7 @@ class CooperatorViewController extends Controller
         }
     }
 
-    public function CooperatorProjects(Request $request, GetCooperatorInfoService $getCooperatorInfoService)
+    public function LoadCooperatorProjectsTab(Request $request, GetCooperatorInfoService $getCooperatorInfoService)
     {
         if ($request->ajax()) {
 

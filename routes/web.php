@@ -139,16 +139,16 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
     Route::get('/Cooperator/Home', [CooperatorViewController::class, 'index'])
         ->name('Cooperator.index');
 
-    Route::get('/Cooperator/Dashboard', [CooperatorViewController::class, 'dashboard'])
+    Route::get('/Cooperator/Dashboard', [CooperatorViewController::class, 'LoadDashboardTab'])
         ->name('Cooperator.dashboard');
 
     Route::get('/Cooperator/Progress', [CooperatorViewController::class, 'CoopProgress'])
         ->name('Cooperator.Progress');
 
-    Route::get('/Cooperator/Requirements', [CooperatorViewController::class, 'requirementsGet'])
+    Route::get('/Cooperator/Requirements', [CooperatorViewController::class, 'LoadRequirementsTab'])
         ->name('Cooperator.Requirements');
 
-    Route::get('/Cooperator/myProjects', [CooperatorViewController::class, 'CooperatorProjects'])
+    Route::get('/Cooperator/myProjects', [CooperatorViewController::class, 'LoadCooperatorProjectsTab'])
         ->name('Cooperator.myProjects');
 
     Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', [Coop_QuarterlyReportController::class, 'getQuarterlyForm'])

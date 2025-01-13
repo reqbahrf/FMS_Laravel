@@ -4,19 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Actions\GetStaffHandledProjects;
 use Exception;
-use Carbon\Carbon;
 use App\Models\ChartYearOf;
-use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
-use App\Models\ApplicationInfo;
-use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Models\OngoingQuarterlyReport;
-use App\Notifications\ProjectProposal;
-use Illuminate\Support\Facades\Storage;
+
 
 
 class StaffViewController extends Controller
@@ -33,18 +28,18 @@ class StaffViewController extends Controller
     }
 
     public function getDashboardChartData()
-{
-    try {
-        if(Cache::has('monthly_project_categories')) {
-            $monthlyData = Cache::get('monthly_project_categories');
-        }else{
-            $chartData = ChartYearOf::select('monthly_project_categories')->where('year_of', '=', date('Y'))->first();
-            $monthlyData = json_decode($chartData->monthly_project_categories, true);
-            Cache::put('monthly_project_categories', $monthlyData, 1800);
-        }
+    {
+        try {
+            if (Cache::has('monthly_project_categories')) {
+                $monthlyData = Cache::get('monthly_project_categories');
+            } else {
+                $chartData = ChartYearOf::select('monthly_project_categories')->where('year_of', '=', date('Y'))->first();
+                $monthlyData = json_decode($chartData->monthly_project_categories, true);
+                Cache::put('monthly_project_categories', $monthlyData, 1800);
+            }
 
-        // Return data as JSON response
-        return response()->json($monthlyData, 200);
+            // Return data as JSON response
+            return response()->json($monthlyData, 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()
@@ -54,11 +49,11 @@ class StaffViewController extends Controller
 
     public function getHandledProjects()
     {
-        try{
+        try {
             $org_userId = Auth::user()->orgUserInfo->id;
             $handledProjects = GetStaffHandledProjects::execute($org_userId);
             return response()->json($handledProjects, 200);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error in getHandledProjects: ' . $e->getMessage());
             return response()->json(['error' => 'Something went wrong:' . $e->getMessage()], 500);
         }
@@ -89,21 +84,21 @@ class StaffViewController extends Controller
                 $approvedProjects = Cache::get('approved_projects');
             } else {
                 $approvedProjects = DB::table('application_info')
-                ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
-                ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
-                ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
-                ->join('assets', 'assets.id', '=', 'business_info.id')
-                ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
-                ->leftJoin('org_users_info as handled_by', function ($join) {
-                    $join->on('pi.handled_by_id', '=', 'handled_by.id');
-                })->leftJoin('org_users_info as evaluated_by', function ($join) {
-                    $join->on('pi.evaluated_by_id', '=', 'evaluated_by.id');
-                })
-                ->where('pi.handled_by_id', '!=', null)
-                ->where('pi.evaluated_by_id', '!=', null)
-                ->where('application_info.application_status', 'approved')
-                ->where('users.role', 'Cooperator')
-                ->select(
+                    ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
+                    ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
+                    ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+                    ->join('assets', 'assets.id', '=', 'business_info.id')
+                    ->join('project_info AS pi', 'pi.business_id', '=', 'business_info.id')
+                    ->leftJoin('org_users_info as handled_by', function ($join) {
+                        $join->on('pi.handled_by_id', '=', 'handled_by.id');
+                    })->leftJoin('org_users_info as evaluated_by', function ($join) {
+                        $join->on('pi.evaluated_by_id', '=', 'evaluated_by.id');
+                    })
+                    ->where('pi.handled_by_id', '!=', null)
+                    ->where('pi.evaluated_by_id', '!=', null)
+                    ->where('application_info.application_status', 'approved')
+                    ->where('users.role', 'Cooperator')
+                    ->select(
                         'users.user_name',
                         'users.email',
                         'users.role',
