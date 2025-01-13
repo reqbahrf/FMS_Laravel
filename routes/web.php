@@ -43,6 +43,7 @@ use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\GetPendingProjectController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
@@ -253,28 +254,28 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
         return view('AdminView.Admin_Index');
     })->name('Admin.index');
 
-    Route::get('/Admin/Dashboard', [AdminViewController::class, 'index'])
+    Route::get('/Admin/Dashboard', [AdminViewController::class, 'LoadDashboardTab'])
         ->name('admin.Dashboard');
 
     Route::get('/Admin/Dashboard/chartData/{yearToLoad?}', [AdminViewController::class, 'getDashboardChartData'])
         ->name('admin.Dashboard.chartData');
 
-    Route::get('/Admin/Project', [AdminViewController::class, 'projectTabGet'])
+    Route::get('/Admin/Project', [AdminViewController::class, 'LoadProjectTab'])
         ->name('admin.Project');
 
-    Route::get('/Admin/Project/Pending-Project', [AdminViewController::class, 'pendingProjectGet'])
+    Route::get('/Admin/Project/Pending-Project', GetPendingProjectController::class)
         ->name('admin.Project.PendingProject');
 
-    Route::get('/Admin/Applicant', [AdminViewController::class, 'applicantTabGet'])
+    Route::get('/Admin/Applicant', [AdminViewController::class, 'LoadApplicantTab'])
         ->name('admin.Applicant');
 
     Route::get('/Admin/Project/getOngoingProjects', [AdminViewController::class, 'getOngoingProjects'])
         ->name('admin.Project.getOngoingProjects');
 
-    Route::get('/Admin/Users-List', [AdminViewController::class, 'userGet'])
+    Route::get('/Admin/Users-List', [AdminViewController::class, 'LoadUsersTab'])
         ->name('admin.Users-list');
 
-    Route::get('/Admin/Project-Settings',[AdminViewController::class, 'ProjectSettingView'])
+    Route::get('/Admin/Project-Settings',[AdminViewController::class, 'LoadProjectSettingTab'])
         ->name('admin.ProjectSettings');
 
     Route::post('/Admin/Project-Settings', [ProjectSettingController::class, 'updateFee'])
@@ -285,7 +286,7 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
     Route::post('/Admin/Project/Approved-Project', [AdminProjectController::class, 'approvedProjectProposal'])
         ->name('admin.Project.ApprovedProjectProposal');
-        
+
     Route::resource('/Admin/Users', AdminManageStaffController::class);
 
     Route::post('/Admin/Assign-New-Staff', [AdminProjectController::class, 'assignNewStaff'])
