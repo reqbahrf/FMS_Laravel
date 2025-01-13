@@ -93,9 +93,18 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        $orgUsers = $this->orgUsers ?? User::whereIn('role', ['Staff', 'Admin'])->get();
+        // If orgUsers is not provided, get all Staff and Admin users
+        if (!$this->orgUsers) {
+            $this->orgUsers = User::whereIn('role', ['Staff', 'Admin'])->get();
+        }
+        // Ensure we're working with a collection
+        elseif (!($this->orgUsers instanceof \Illuminate\Database\Eloquent\Collection)) {
+            $this->orgUsers = collect([$this->orgUsers]);
+        }
 
-        return $orgUsers
+        // Ensure each user only receives one notification
+        return $this->orgUsers
+            ->unique('id')  // Remove duplicate users
             ->map(function ($user) {
                 $channelPrefix = $user->role === 'Admin'
                     ? 'admin-notifications.'
