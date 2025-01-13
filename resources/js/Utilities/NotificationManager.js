@@ -45,6 +45,29 @@ class NotificationManager {
         WEEK: 7 * 24 * 60 * 60 * 1000,
     };
 
+    /**
+     * Fetches notifications from the server.
+     * This method retrieves notifications, updates the internal state, and triggers UI updates.
+     * It supports pagination and prevents concurrent loading.
+     *
+     * @async
+     * @function fetchNotifications
+     * @memberof NotificationManager
+     *
+     * @param {number} [page=1] - The page number to fetch.
+     *
+     * @throws {Error} If there is an error during the fetch operation.
+     *
+     * @fires NotificationManager#_updateNotificationUI
+     *
+     * @example
+     * // Example of fetching the first page of notifications
+     * this.fetchNotifications();
+     *
+     * @example
+     * // Example of fetching the second page of notifications
+     * this.fetchNotifications(2);
+     */
     async fetchNotifications(page = 1) {
         if (this.isLoading || (!this.hasMore && page > 1)) return;
 
@@ -95,6 +118,22 @@ class NotificationManager {
         }
     }
 
+    /**
+     * Updates the notification badge count in the UI.
+     * If the count is greater than zero, it displays the badge with the count.
+     * Otherwise, it hides the badge.
+     *
+     * @private
+     * @function _updateBadgeCount
+     * @memberof NotificationManager
+     *
+     * @param {number} count - The number of unread notifications to display on the badge.
+     *
+     * @example
+     * // Example of updating the badge count
+     * this._updateBadgeCount(5); // Displays a badge with the number 5
+     * this._updateBadgeCount(0); // Hides the badge
+     */
     _updateBadgeCount(count) {
         if (count > 0) {
             this.badgeAlert
@@ -247,9 +286,31 @@ class NotificationManager {
     }
 
     /**
-     * Sets up event listeners for new notifications using Laravel Echo.
-     * It listens for the `BroadcastNotificationCreated` event on a private channel specific to the user.
-     * When a new notification is received, it resets the current page and fetches the updated notifications.
+     * Sets up event listeners for real-time notifications using Laravel Echo.
+     * This method listens on a private channel specific to the user and their role,
+     * processing incoming notifications and updating the UI accordingly.
+     *
+     *
+     * @function setupEventListeners
+     * @memberof NotificationManager
+     *
+     * @throws {Error} If the notification data is undefined or cannot be parsed.
+     *
+     * @listens Echo~private:userRole-notifications.userId
+     * @fires NotificationManager#_updateNotificationUI
+     *
+     * @example
+     * // Example of how the notification data is structured
+     * {
+     *   id: 123,
+     *    {
+     *     title: 'New Message',
+     *     message: 'You have a new message from John Doe.',
+     *     read_at: null,
+     *   },
+     *   created_at: '2023-10-27T12:00:00.000Z',
+     *   time_ago: '5 minutes ago',
+     * }
      */
     setupEventListeners() {
         Echo.private(`${this.userRole}-notifications.${this.userId}`).listen(
