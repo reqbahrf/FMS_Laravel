@@ -78,9 +78,15 @@ class NotificationManager {
                 }));
                 this.notifications = notifications;
                 this.unreadCount = data.unread;
-                this._updateNotificationUI(notifications, { append: page > 1, updateBadge: true });
+                this._updateNotificationUI(notifications, {
+                    append: page > 1,
+                    updateBadge: true,
+                });
             } else if (page === 1) {
-                this._updateNotificationUI([], { append: false, updateBadge: true });
+                this._updateNotificationUI([], {
+                    append: false,
+                    updateBadge: true,
+                });
             }
         } catch (error) {
             console.error('Error fetching notifications:', error);
@@ -101,14 +107,17 @@ class NotificationManager {
         }
     }
 
-     /**
+    /**
      * Update the notification UI with new notifications
      * @param {Array} [notifications=null] - Optional notifications array. If not provided, uses this.notifications
      * @param {Object} [options={ append: false, updateBadge: true }] - Update options
      */
-     _updateNotificationUI(notifications = null, options = { append: false, updateBadge: true }) {
+    _updateNotificationUI(
+        notifications = null,
+        options = { append: false, updateBadge: true }
+    ) {
         const notificationsToShow = notifications || this.notifications;
-        
+
         if (!notificationsToShow || notificationsToShow.length === 0) {
             if (!options.append) {
                 this.notificationContainer.html(
@@ -119,7 +128,8 @@ class NotificationManager {
         }
 
         // Group notifications by category
-        const categorizedNotifications = this._categorizeNotifications(notificationsToShow);
+        const categorizedNotifications =
+            this._categorizeNotifications(notificationsToShow);
 
         const notificationHTML = Object.entries(categorizedNotifications)
             .map(([category, items]) => {
@@ -249,22 +259,39 @@ class NotificationManager {
                     if (!notification || !notification.data) {
                         throw new Error('Notification data is undefined');
                     }
-                    // Parse the JSON string data if it's a string
-                    const data =
+
+                    // First parse: the entire notification data
+                    const parsedData =
                         typeof notification.data === 'string'
                             ? JSON.parse(notification.data)
                             : notification.data;
 
+                    const NOTIFICATION_OBJECT = {
+                        id: notification.id,
+                        title: parsedData.title,
+                        message: parsedData.message,
+                        type: notification.read_at,
+                        created_at: notification.created_at,
+                        time_ago: notification.time_ago,
+                    };
+
                     // Add the new notification to the beginning of the list
-                    this.notifications.unshift(data);
+                    this.notifications.unshift(NOTIFICATION_OBJECT);
+
                     // Update the unread count
-                    if (!data.read_at) {
+                    if (!parsedData.read_at) {
                         this.unreadCount++;
                     }
+
                     // Trigger UI update
                     this._updateNotificationUI();
                 } catch (error) {
-                    console.error('Error parsing notification:', error);
+                    console.error(
+                        'Error parsing notification:',
+                        error,
+                        'Raw data:',
+                        notification
+                    );
                 }
             }
         );

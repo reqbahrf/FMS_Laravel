@@ -8,6 +8,7 @@ use App\Events\ProjectEvent;
 use Illuminate\Bus\Queueable;
 use App\Actions\CalculateTimeAgo;
 use Illuminate\Notifications\Notification;
+use App\Actions\ParseBroadcastNotification;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -74,21 +75,9 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
 
     public function toBroadcast($notifiable)
     {
-        $notification = $notifiable->notifications()->where('type', self::class)->latest()->first();
+        $parsedNotification = ParseBroadcastNotification::execute($notifiable, self::class);
 
-        if (!$notification) {
-            throw new RuntimeException('Notification not found');
-        }
-
-        $timeAgo = CalculateTimeAgo::execute($notification->created_at);
-
-        return new BroadcastMessage([
-            'id' => $notification->id,
-            'data' => $notification->data,
-            'read_at' => $notification->read_at,
-            'created_at' => $notification->created_at,
-            'time_ago' => $timeAgo,
-        ]);
+        return new BroadcastMessage($parsedNotification);
     }
 
     public function broadcastOn()

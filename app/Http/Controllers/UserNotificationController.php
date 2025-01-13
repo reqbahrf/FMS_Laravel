@@ -48,7 +48,7 @@ class UserNotificationController extends Controller
         $notification = Auth::user()->notifications->find($id);
         if ($notification) {
             $notification->markAsRead();
-            return response()->json(['success' => true]);
+            return response()->json(['success' => true], 200);
         }
         return response()->json(['success' => false], 404);
     }
@@ -56,6 +56,6 @@ class UserNotificationController extends Controller
     public function markAllAsRead()
     {
         Auth::user()->unreadNotifications->markAsRead();
-        return response()->json(['success' => true]);
+        return response()->json(['success' => true], 200);
     }
 }
