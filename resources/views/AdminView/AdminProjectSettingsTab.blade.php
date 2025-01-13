@@ -12,7 +12,7 @@
                 <form id="projectFeeForm">
                     @csrf
                     <div class="form-group mb-3">
-                        <label for="fee_percentage">Fee Percentage:</label>
+                        <label for="fee_percentage">Fee Percentage (%):</label>
                         <input
                             class="form-control"
                             id="fee_percentage"
