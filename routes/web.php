@@ -285,9 +285,7 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
     Route::post('/Admin/Project/Approved-Project', [AdminProjectController::class, 'approvedProjectProposal'])
         ->name('admin.Project.ApprovedProjectProposal');
-
-    Route::get('/Admin/Stafflist', [AdminViewController::class, 'staffGet'])->name('admin.Stafflist');
-
+        
     Route::resource('/Admin/Users', AdminManageStaffController::class);
 
     Route::post('/Admin/Assign-New-Staff', [AdminProjectController::class, 'assignNewStaff'])

@@ -245,7 +245,7 @@
         };
 
         const PROJECT_LIST_ROUTE = {
-            GET_STAFFLIST: '{{ route('admin.Stafflist') }}',
+            GET_STAFFLIST: '{{ route('Users.index') }}',
             GET_APPROVED_PROJECTS: '{{ route('admin.Project.PendingProject') }}',
             GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails', ['business_id' => ':business_id', 'project_id' => ':project_id']) }}',
             GET_ONGOING_PROJECTS: '{{ route('Project.getOngoingProjects') }}',
@@ -262,7 +262,7 @@
 
         const USERS_LIST_ROUTE = {
             STORE_NEW_STAFF_USER: '{{ route('Users.store') }}',
-            GET_STAFF_USER_LISTS: '{{ route('Users.index') }}',
+            GET_STAFF_USER_LISTS: PROJECT_LIST_ROUTE.GET_STAFFLIST,
             UPDATE_STAFF_USER: '{{ route('Users.update', ':user_name') }}',
             DELETE_STAFF_USER: '{{ route('Users.destroy', ':user_name') }}',
             GET_STAFF_USER_ACTIVITY_LOGS: '{{ route('activity.logs.user', ':user_id') }}',

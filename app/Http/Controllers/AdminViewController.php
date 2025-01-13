@@ -148,30 +148,4 @@ class AdminViewController extends Controller
         }
     }
 
-    public function staffGet(Request $request)
-    {
-        try {
-            $stafflist = User::select([
-                'users.user_name',
-                'users.role',
-                'org_users_info.id as staff_id',
-                'org_users_info.prefix',
-                'org_users_info.f_name',
-                'org_users_info.mid_name',
-                'org_users_info.l_name',
-                'org_users_info.suffix',
-            ])
-                ->join('org_users_info', 'users.user_name', '=', 'org_users_info.user_name')
-                ->where('users.role', '=', 'Staff')
-                ->get();
-
-            if ($stafflist) {
-                return response()->json($stafflist);
-            } else {
-                return response()->json(['error' => 'No Registered Staff'], 404);
-            }
-        } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        };
-    }
 }

@@ -27,6 +27,7 @@ class AdminManageStaffController extends Controller
                 'users.id',
                 'users.user_name',
                 'users.email',
+                'org_users_info.id as staff_id',
                 'org_users_info.prefix',
                 'org_users_info.f_name',
                 'org_users_info.mid_name',
