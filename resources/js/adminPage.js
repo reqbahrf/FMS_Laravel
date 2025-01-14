@@ -15,6 +15,7 @@ import getProjectPaymentHistory from './Utilities/ProjectPaymentHistory';
 import NotificationManager from './Utilities/NotificationManager';
 import ActivityLogHandler from './Utilities/ActivityLogHandler';
 import NavigationHandler from './Utilities/TabNavigationHandler';
+import DarkMode from './Utilities/DarkModeHandler';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -34,6 +35,9 @@ import 'datatables.net-scroller-bs5';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
+
+const darkMode = new DarkMode();
+darkMode.initializeTheme();
 
 const USER_ROLE = 'admin';
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Admin_Index.blade.php

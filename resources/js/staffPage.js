@@ -16,6 +16,7 @@ import EsignatureHandler from './Utilities/EsignatureHandler';
 import NotificationManager from './Utilities/NotificationManager';
 import ActivityLogHandler from './Utilities/ActivityLogHandler';
 import NavigationHandler from './Utilities/TabNavigationHandler';
+import DarkMode from './Utilities/DarkModeHandler';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -39,6 +40,9 @@ window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
+
+const darkMode = new DarkMode();
+darkMode.initializeTheme();
 
 const USER_ROLE = 'staff';
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ Staff_Index.blade.php

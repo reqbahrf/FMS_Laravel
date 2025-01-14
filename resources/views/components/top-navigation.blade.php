@@ -14,6 +14,11 @@
         </button>
     </div>
     <ul class="list-unstyled d-flex align-items-center m-0 gap-3 ">
+        <li class="btn-li">
+            <button type="button" class="position-relative text-decoration-none nav-link" id="toggleDarkMode">
+               
+            </button>
+        </li>
         <li class="nofi-li">
             <a
                 class="position-relative text-decoration-none nav-link"
