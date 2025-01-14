@@ -28,7 +28,7 @@ class AdminDashboardService {
             $chartData = $this->chartYearOfModel
                 ->where('year_of', '=', $yearToLoad)
                 ->pluck($Selected_Query)
-                ->firstOrFail();
+                ->first();
             Cache::put("$yearToLoad _ $Selected_Query", $chartData, 1800);
             return $chartData;
         }catch(Exception $e){

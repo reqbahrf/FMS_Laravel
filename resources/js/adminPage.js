@@ -609,27 +609,40 @@ async function initializeAdminPageJs() {
                         },
                     });
 
-                    // Parse the JSON response if it's a string
-                    const monthlyData =
-                        JSON.parse(response.monthlyData) ||
-                        response.monthlyData;
-                    const localData =
-                        JSON.parse(response.localData) || response.localData; // Assumes it's a valid JSON string
-                    const handleProject = response.staffhandledProjects;
-                    const ListChartYear = response.listOfYears;
-                    const currentSelectedYear = response.currentSelectedYear;
+                    // Safely parse and handle monthlyData
+                    let monthlyData = [];
+                    try {
+                        monthlyData = typeof response.monthlyData === 'string' && response.monthlyData 
+                            ? JSON.parse(response.monthlyData) 
+                            : (response.monthlyData || []);
+                    } catch (e) {
+                        console.warn('Error parsing monthlyData:', e);
+                    }
+
+                    // Safely parse and handle localData
+                    let localData = [];
+                    try {
+                        localData = typeof response.localData === 'string' && response.localData
+                            ? JSON.parse(response.localData)
+                            : (response.localData || []);
+                    } catch (e) {
+                        console.warn('Error parsing localData:', e);
+                    }
+
+                    // Safely handle other data
+                    const handleProject = response.staffhandledProjects || [];
+                    const ListChartYear = response.listOfYears || [];
+                    const currentSelectedYear = response.currentSelectedYear || ListChartYear[0];
 
                     await Promise.all([
                         processMonthlyDataChart(monthlyData),
                         processLocalDataChart(localData),
                         processHandleStaffProjectChart(handleProject),
-                        processYearListSelector(
-                            ListChartYear,
-                            currentSelectedYear
-                        ),
+                        processYearListSelector(ListChartYear, currentSelectedYear),
                     ]);
                 } catch (error) {
-                    throw new Error('Error in getDashboardChartData:' + error);
+                    console.error('Error in getDashboardChartData:', error);
+                    throw new Error('Error in getDashboardChartData: ' + error);
                 }
             };
 
@@ -2527,5 +2540,3 @@ async function initializeAdminPageJs() {
     };
     return functions;
 };
-
-

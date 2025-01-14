@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
         UserAdminTest::class,
         ApplicationSeeder::class,
         ProjectFeeSettingTableSeeder::class,
-        ChartYearOf2025Seeder::class
+        ChartYearOfSeeder::class
       ]);
 
     }

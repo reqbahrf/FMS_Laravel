@@ -42,15 +42,17 @@ class AdminViewController extends Controller
             $staffhandledProjects = $adminDashboard->getStaffHandledProjects();
             $listOfYears = $adminDashboard->getListOfYears();
 
-            $monthlyData = $adminDashboard->getMonthlyData($yearToLoad);
-            $localData = $adminDashboard->getLocalData($yearToLoad);
+            $selectedYear = $yearToLoad ?? $listOfYears[0];
+
+            $monthlyData = $adminDashboard->getMonthlyData($selectedYear) ?? [];
+            $localData = $adminDashboard->getLocalData($selectedYear) ?? [];
 
             return response()->json([
                 'monthlyData' => $monthlyData,
                 'localData' => $localData,
                 'staffhandledProjects' => $staffhandledProjects,
                 'listOfYears' => $listOfYears,
-                'currentSelectedYear' => $yearToLoad
+                'currentSelectedYear' => $selectedYear
             ]);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()]);

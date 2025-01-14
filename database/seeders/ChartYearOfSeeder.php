@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\ChartYearOf;
 use Illuminate\Database\Seeder;
 
-class ChartYearOf2025Seeder extends Seeder
+class ChartYearOfSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -46,7 +46,7 @@ class ChartYearOf2025Seeder extends Seeder
         ]);
 
         ChartYearOf::create([
-            'year_of' => '2025',
+            'year_of' => '2026',
             'monthly_project_categories' => $monthlyProjectCategories,
             'project_local_categories' => $projectLocalCategories,
         ]);
