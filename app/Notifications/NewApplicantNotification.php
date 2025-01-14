@@ -19,15 +19,14 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
     use Queueable;
 
     private $event;
-    private $orgUsers;
+    private $notifiableUsers;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(ProjectEvent $event, $orgUsers = null)
+    public function __construct(ProjectEvent $event)
     {
         $this->event = $event;
-        $this->orgUsers = $orgUsers;
     }
 
     /**
@@ -55,9 +54,9 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
      *
      * @return mixed
      */
-    public function getOrgUsers()
+    public function setNotifiableUsers($users)
     {
-        return $this->orgUsers;
+        $this->notifiableUsers = $users;
     }
 
     /**
@@ -82,24 +81,19 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        // If orgUsers is not provided, get all Staff and Admin users
-        if (!$this->orgUsers) {
-            $this->orgUsers = User::whereIn('role', ['Staff', 'Admin'])->get();
+        if(!$this->notifiableUsers){
+            return [];
         }
-        // Ensure we're working with a collection
-        elseif (!($this->orgUsers instanceof \Illuminate\Database\Eloquent\Collection)) {
-            $this->orgUsers = collect([$this->orgUsers]);
-        }
+        $channelPrefix = $this->getChannelPrefix();
+        return [
+            new PrivateChannel($channelPrefix . $this->notifiableUsers->id),
+        ];
+    }
 
-        // Ensure each user only receives one notification
-        return $this->orgUsers
-            ->unique('id')  // Remove duplicate users
-            ->map(function ($user) {
-                $channelPrefix = $user->role === 'Admin'
-                    ? 'admin-notifications.'
-                    : 'staff-notifications.';
-                return new PrivateChannel($channelPrefix . $user->id);
-            })
-            ->toArray();
+    private function getChannelPrefix()
+    {
+        return $this->notifiableUsers->role === 'Admin'
+            ? 'admin-notifications.'
+            : 'staff-notifications.';
     }
 }

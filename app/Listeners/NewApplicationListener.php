@@ -70,10 +70,12 @@ class NewApplicationListener implements ShouldQueue
 
     private function sendNotification(ProjectEvent $event): void
     {
-        $orgUsers = User::whereIn('role', ['Staff', 'Admin'])->get();
-
-        $orgUsers->each(function (User $user) use ($event, $orgUsers) {
-            $user->notify(new NewApplicantNotification($event, $orgUsers));
-        });
+        User::whereIn('role', ['Staff', 'Admin'])
+            ->get()
+            ->each(function (User $user) use ($event) {
+              $notification = new NewApplicantNotification($event);
+              $notification->setNotifiableUsers($user);
+              $user->notify($notification);
+            });
     }
 }
