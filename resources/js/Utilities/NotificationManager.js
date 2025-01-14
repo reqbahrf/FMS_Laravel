@@ -313,9 +313,7 @@ class NotificationManager {
      * }
      */
     setupEventListeners() {
-        Echo.private(`${this.userRole}-notifications.${this.userId}`).listen(
-            NotificationManager.ECHO_NOTIFICATION_CHANNEL,
-            (notification) => {
+        Echo.private(`${this.userRole}.notifications.${this.userId}`).notification(notification => {
                 try {
                     if (!notification || !notification.data) {
                         throw new Error('Notification data is undefined');

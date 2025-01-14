@@ -67,9 +67,4 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
 
         return new BroadcastMessage($parsedNotification);
     }
-
-    public function broadcastOn()
-    {
-        return new PrivateChannel('admin-notifications.');
-    }
 }

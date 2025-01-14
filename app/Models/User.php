@@ -70,4 +70,9 @@ class User extends Authenticatable  implements MustVerifyEmail, AuditableContrac
     {
         return $this->hasOne(CoopUserInfo::class, 'user_name', 'user_name');
     }
+
+    public function receivesBroadcastNotificationsOn(): string
+    {
+        return lcfirst($this->role) . '.notifications.' . $this->id;
+    }
 }

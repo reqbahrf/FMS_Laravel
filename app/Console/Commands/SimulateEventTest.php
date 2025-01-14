@@ -5,6 +5,8 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use ReflectionClass;
 
+
+//php artisan test:simulate "App\Events\ProjectEvent" --data='{"businessId":1,"enterprise_type":"Manufacturing","enterprise_level":"Level 2","city":"Sample City","event_type":"new_applicant"}'
 class SimulateEventTest extends Command
 {
     /**
