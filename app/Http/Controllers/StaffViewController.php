@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\GetAvailableChartYearList;
 use App\Actions\GetStaffHandledProjects;
 use Exception;
 use App\Models\ChartYearOf;
@@ -30,10 +31,11 @@ class StaffViewController extends Controller
     public function getDashboardChartData()
     {
         try {
+            $selectedYear = GetAvailableChartYearList::execute();
             if (Cache::has('monthly_project_categories')) {
                 $monthlyData = Cache::get('monthly_project_categories');
             } else {
-                $chartData = ChartYearOf::select('monthly_project_categories')->where('year_of', '=', date('Y'))->first();
+                $chartData = ChartYearOf::select('monthly_project_categories')->where('year_of', '=',  $selectedYear[0])->first();
                 $monthlyData = json_decode($chartData->monthly_project_categories, true);
                 Cache::put('monthly_project_categories', $monthlyData, 1800);
             }

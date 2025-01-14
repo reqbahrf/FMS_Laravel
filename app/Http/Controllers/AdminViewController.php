@@ -7,11 +7,12 @@ use App\Models\User;
 
 use App\Models\ChartYearOf;
 use App\Models\OrgUserInfo;
-use App\Services\AdminDashboardService;
-use App\Services\ProjectFeeService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Services\ProjectFeeService;
 use Illuminate\Support\Facades\Cache;
+use App\Services\AdminDashboardService;
+use App\Actions\GetAvailableChartYearList;
 use Illuminate\Support\Facades\Concurrency;
 
 class AdminViewController extends Controller
@@ -40,7 +41,7 @@ class AdminViewController extends Controller
         try {
 
             $staffhandledProjects = $adminDashboard->getStaffHandledProjects();
-            $listOfYears = $adminDashboard->getListOfYears();
+            $listOfYears = GetAvailableChartYearList::execute();
 
             $selectedYear = $yearToLoad ?? $listOfYears[0];
 

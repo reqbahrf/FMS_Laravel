@@ -113,23 +113,4 @@ class AdminDashboardService {
             return collect([]);
         }
     }
-    public function getListOfYears()
-    {
-        try {
-            if(Cache::has('listOfYears')) {
-                $listOfYears = Cache::get('listOfYears');
-            }else{
-                $listOfYears = $this->chartYearOfModel
-                ->select('year_of')
-                ->distinct()
-                ->get()
-                ->pluck('year_of');
-                Cache::put('listOfYears', $listOfYears, 1800);
-            }
-            return $listOfYears;
-        } catch (Exception $e) {
-            Log::error('Error in getListOfYears: ' . $e->getMessage());
-            return collect([]);
-        }
-    }
 }
