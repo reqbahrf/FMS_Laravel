@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SubmitProjectProposalRequest;
-use App\Models\ApplicationInfo;
-use App\Models\ProjectInfo;
-use App\Models\ProjectProposal;
-use App\Notifications\ProjectProposalNotification;
-use App\Models\User;
-use App\Services\ProjectFeeService;
 use Exception;
+use App\Models\User;
+use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
+use App\Models\ApplicationInfo;
+use App\Models\ProjectProposal;
+use Illuminate\Support\Facades\DB;
+use App\Services\ProjectFeeService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\ProjectProposalNotification;
+use App\Http\Requests\SubmitProjectProposalRequest;
 
 class ProjectProposalController extends Controller
 {
@@ -169,12 +170,8 @@ class ProjectProposalController extends Controller
             );
             DB::commit();
             $Evaluated_by = Auth::user()->email;
-            User::where('role', 'Admin')->get()->each(function ($Admin) use ($ProposalInfo, $Evaluated_by) {
-                $notification = new ProjectProposalNotification($ProposalInfo, $Evaluated_by);
-                $Admin->notify($notification);
-            });
-
-
+            Notification::send(Auth::user(), new ProjectProposalNotification($ProposalInfo, $Evaluated_by));
+            
             Cache::forget('pendingProjects');
             return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
         } catch (\Exception $e) {

@@ -5,10 +5,11 @@ namespace App\Listeners;
 use App\Models\User;
 use App\Models\ChartYearOf;
 use App\Events\ProjectEvent;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Notifications\NewApplicantNotification;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewApplicantNotification;
 
 class NewApplicationListener implements ShouldQueue
 {
@@ -68,14 +69,15 @@ class NewApplicationListener implements ShouldQueue
         return $localData;
     }
 
+    /**
+     * Send notification to multiple users.
+     *
+     * @param  ProjectEvent  $event
+     * @return void
+     */
     private function sendNotification(ProjectEvent $event): void
     {
-        User::whereIn('role', ['Staff', 'Admin'])
-            ->get()
-            ->each(function (User $user) use ($event) {
-              $notification = new NewApplicantNotification($event);
-              $notification->setNotifiableUsers($user);
-              $user->notify($notification);
-            });
+        $users = User::whereIn('role', ['Staff', 'Admin'])->get();
+        Notification::send($users, new NewApplicantNotification($event));
     }
 }

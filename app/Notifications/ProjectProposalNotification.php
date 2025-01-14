@@ -2,25 +2,25 @@
 
 namespace App\Notifications;
 
-use App\Actions\ParseBroadcastNotification;
 use App\Models\User;
-use Illuminate\Broadcasting\Channel;
-use Illuminate\Broadcasting\PrivateChannel;
+use App\Models\ProjectInfo;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Notifications\Messages\BroadcastMessage;
-
 use Illuminate\Notifications\Notification;
+use App\Actions\ParseBroadcastNotification;
+use Illuminate\Broadcasting\PrivateChannel;
+
+
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Notifications\Messages\BroadcastMessage;
 
 class ProjectProposalNotification extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
-    private $ProposalInfo;
-    private $Evaluated_By;
-    private $ProjectTitle;
-    private $Project_id;
+    private ProjectInfo $ProposalInfo;
+    private User $Evaluated_By;
+    private string $ProjectTitle;
+    private int $Project_id;
 
     /**
      * Create a new notification instance.
@@ -63,8 +63,6 @@ class ProjectProposalNotification extends Notification implements ShouldBroadcas
 
     public function broadcastOn()
     {
-        return User::where('role', 'Admin')->get()->map(function ($user) {
-            return new PrivateChannel('admin-notifications.' . $user->id);
-        })->toArray();
+        return new PrivateChannel('admin-notifications.');
     }
 }
