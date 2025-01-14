@@ -19,7 +19,7 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
     use Queueable;
 
     private $event;
-    private $notifiableUsers;
+    private $notifiableUser;
 
     /**
      * Create a new notification instance.
@@ -54,9 +54,9 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
      *
      * @return mixed
      */
-    public function setNotifiableUsers($users)
+    public function setNotifiableUsers($user)
     {
-        $this->notifiableUsers = $users;
+        $this->notifiableUser = $user;
     }
 
     /**
@@ -81,18 +81,18 @@ class NewApplicantNotification extends Notification implements ShouldBroadcast
 
     public function broadcastOn()
     {
-        if(!$this->notifiableUsers){
+        if(!$this->notifiableUser){
             return [];
         }
         $channelPrefix = $this->getChannelPrefix();
         return [
-            new PrivateChannel($channelPrefix . $this->notifiableUsers->id),
+            new PrivateChannel($channelPrefix . $this->notifiableUser->id),
         ];
     }
 
     private function getChannelPrefix()
     {
-        return $this->notifiableUsers->role === 'Admin'
+        return $this->notifiableUser->role === 'Admin'
             ? 'admin-notifications.'
             : 'staff-notifications.';
     }

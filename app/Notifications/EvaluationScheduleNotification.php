@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Actions\ParseBroadcastNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
@@ -69,11 +70,9 @@ class EvaluationScheduleNotification extends Notification
     public function toBroadcast($notifiable)
     {
 
-        return new BroadcastMessage([
-            'title' => 'Evaluation Schedule',
-            'message' => 'Your evaluation is' . ($this->isRescheduled ? ' rescheduled' : ' scheduled') . ' on ' . $this->evaluationDate,
-            'application_id' => $this->schedule->id,
-        ]);
+        $parsedNotification = ParseBroadcastNotification::execute($notifiable, self::class);
+
+        return new BroadcastMessage($parsedNotification);
     }
 
     public function findExisting($notifiable)

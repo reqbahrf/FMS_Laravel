@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Actions\ParseBroadcastNotification;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
@@ -24,7 +25,7 @@ class ProjectAssignmentNotification extends Notification implements ShouldQueue
         return ['database', 'broadcast'];
     }
 
-    public function toDatabase($notifiable): array
+    public function toArray($notifiable): array
     {
         return [
             'title' => 'Project Assignment',
@@ -35,10 +36,7 @@ class ProjectAssignmentNotification extends Notification implements ShouldQueue
 
     public function toBroadcast($notifiable): BroadcastMessage
     {
-        return new BroadcastMessage([
-            'title' => 'Project Assignment',
-            'message' => 'You have been assigned to handle project: ' . $this->project->project_title,
-            'project_id' => $this->project->Project_id,
-        ]);
+        $parsedNotification = ParseBroadcastNotification::execute($notifiable, self::class);
+        return new BroadcastMessage($parsedNotification);
     }
 }

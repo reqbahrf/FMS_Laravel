@@ -1,10 +1,21 @@
-<?php 
+<?php
 
 namespace App\Actions;
 
 use Exception;
 use RuntimeException;
 
+/**
+ * Executes the parsing of a broadcast notification.
+ *
+ * @param object $notifiable The notifiable entity.
+ * @param string $notificationClass The notification class.
+ *
+ * @throws Exception
+ * @throws RuntimeException
+ *
+ * @return array An array containing the notification data.
+ */
 class ParseBroadcastNotification
 {
     public static function execute(object $notifiable, string $notificationClass): array
@@ -28,10 +39,8 @@ class ParseBroadcastNotification
                 'created_at' => $notification->created_at,
                 'time_ago' => $timeAgo,
             ];
-
         } catch (Exception $e) {
             throw $e;
         }
     }
-
 }

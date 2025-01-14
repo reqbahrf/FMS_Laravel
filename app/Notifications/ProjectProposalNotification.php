@@ -2,6 +2,7 @@
 
 namespace App\Notifications;
 
+use App\Actions\ParseBroadcastNotification;
 use App\Models\User;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
@@ -56,10 +57,8 @@ class ProjectProposalNotification extends Notification implements ShouldBroadcas
 
     public function toBroadcast($notifiable)
     {
-        return new BroadcastMessage([
-            'title' => 'New project proposal',
-            'message' => ' Project proposal from ' . $this->Evaluated_By . ' Entitled ' . ' <strong> '. '"' . $this->ProjectTitle . '"' .' </strong>' . ' with Project id ' . ' <strong> ' . $this->Project_id . ' </strong>' . 'has been submitted.',
-        ]);
+        $parsedNotification = ParseBroadcastNotification::execute($notifiable, self::class);
+        return new BroadcastMessage($parsedNotification);
     }
 
     public function broadcastOn()
