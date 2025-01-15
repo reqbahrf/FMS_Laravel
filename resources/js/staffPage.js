@@ -103,11 +103,57 @@ activityLog.initPersonalActivityLog();
 async function initializeStaffPageJs() {
     const functions = {
         Dashboard: async () => {
+            const yearToLoadSelector = $('#yearSelector');
             //Foramt Input with Id paymentAmount
             customFormatNumericInput('#paymentAmount');
             customFormatNumericInput('#days_open');
             customFormatNumericInput('#updateOpenDays');
 
+            const processYearListSelector = (
+                yearsArray,
+                currentSelectedYear
+            ) => {
+                return new Promise((resolve, reject) => {
+                    try {
+                        if (!Array.isArray(yearsArray)) {
+                            throw new Error(
+                                'Years must be provided as an array'
+                            );
+                        }
+
+                        if (!yearToLoadSelector || !yearToLoadSelector.length) {
+                            throw new Error('Year selector not found');
+                        }
+
+                        const currentYear = new Date().getFullYear();
+                        yearToLoadSelector.empty();
+
+                        const options = yearsArray.map((year) => {
+                            const selected =
+                                year == (currentSelectedYear ?? currentYear);
+                            return $('<option>', {
+                                value: year,
+                                text: year,
+                                selected: selected,
+                            });
+                        });
+
+                        yearToLoadSelector.append(options);
+                        resolve();
+                    } catch (error) {
+                        console.error(
+                            'Error in processYearListSelector:',
+                            error
+                        );
+                        reject(error);
+                    }
+                });
+            };
+
+            yearToLoadSelector.on('change', async function () {
+                const selectedYear = $(this).val();
+                await getDashboardChartData(selectedYear);
+            });
             // initialize datatable
             const HandledProjectDataTable = $('#handledProject').DataTable({
                 autoWidth: false,
@@ -298,6 +344,7 @@ async function initializeStaffPageJs() {
              * @param {Array} completed - Data for the 'Completed' category.
              * @returns {Promise} A promise that resolves after rendering the monthly data chart.
              */
+            let ChartData = null;
             const createMonthlyDataChart = (applicant, ongoing, completed) => {
                 const monthlyDataChart = {
                     theme: {
@@ -365,11 +412,14 @@ async function initializeStaffPageJs() {
                 };
 
                 return new Promise((resolve) => {
-                    const lineChart = new ApexCharts(
+                    if(ChartData) {
+                        ChartData.destroy();
+                    }
+                    ChartData = new ApexCharts(
                         document.querySelector('#lineChart'),
                         monthlyDataChart
                     );
-                    lineChart.render();
+                    ChartData.render();
                     resolve();
                 }).catch((error) => {
                     throw new Error('Error rendering line chart: ' + error);
@@ -498,18 +548,23 @@ async function initializeStaffPageJs() {
                 }
             };
 
-            const getDashboardChartData = async () => {
+            const getDashboardChartData = async (year = null) => {
                 try {
+                    const selectedYear = year || '';
                     const response = await $.ajax({
                         type: 'GET',
-                        url: DASHBBOARD_TAB_ROUTE.GET_MONTHLY_PROJECTS_CHARTDATA,
+                        url: DASHBBOARD_TAB_ROUTE.GET_MONTHLY_PROJECTS_CHARTDATA.replace(':yearToLoad', selectedYear),
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
                             ),
                         },
                     });
-                    await processMonthlyDataChart(response);
+                    const monthlyData = response.monthlyData;
+                    const listOfYears = response.listOfYears;
+                    const currentSelectedYear = response.currentSelectedYear;
+                    await processYearListSelector(listOfYears, currentSelectedYear);
+                    await processMonthlyDataChart(monthlyData);
                 } catch (error) {
                     throw new Error(
                         'Failed to get dashboard chart data: ' + error.message

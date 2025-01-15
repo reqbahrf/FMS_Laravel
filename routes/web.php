@@ -173,7 +173,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
     Route::get('/Staff/dashboard', [StaffViewController::class, 'LoadDashboardTab'])
         ->name('staff.dashboard');
 
-    Route::get('/Staff/Dashboard/chartData', [StaffViewController::class, 'getDashboardChartData'])
+    Route::get('/Staff/Dashboard/chartData/{yearToLoad?}', [StaffViewController::class, 'getDashboardChartData'])
         ->name('staff.Dashboard.chartData');
 
     Route::put('/Staff/Dashboard/updateProjectState', [UpdateProjectStateController::class, 'updateProjectState'])

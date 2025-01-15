@@ -73,7 +73,6 @@
                         <div class="col-12">
                             <label for="projectLink" class="form-label">Project Link</label>
                             <textarea type="text" name="projectLink" id="projectLink" class="form-control"></textarea>
-                            </label>
                         </div>
                     </div>
                 </form>
@@ -250,6 +249,12 @@
     <h4 class="p-3">Dashboard</h4>
 </div>
 <div class="row gy-3 mx-2">
+    <div class="col-12 col-md-4 d-flex align-items-center">
+        <h5 class="text-muted fw-medium me-2 w-auto">Statistics for Year:</h5>
+        <select name="yearSelector" class="form-select w-50" id="yearSelector">
+            <option value="">Select Year</option>
+        </select>
+    </div>
     <h5 class="text-muted fw-medium">This Month Project Statistics:</h5>
     <div class="col-12 col-md-3">
         <div class="card stat-card shadow-sm">

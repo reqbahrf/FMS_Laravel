@@ -28,20 +28,25 @@ class StaffViewController extends Controller
         }
     }
 
-    public function getDashboardChartData()
+    public function getDashboardChartData($yearToLoad = null)
     {
         try {
-            $selectedYear = GetAvailableChartYearList::execute();
-            if (Cache::has('monthly_project_categories')) {
-                $monthlyData = Cache::get('monthly_project_categories');
+            $listOfYears = GetAvailableChartYearList::execute();
+            $selectedYear = $yearToLoad ?? $listOfYears[0];
+            if (Cache::has('monthly_project_categories' . $selectedYear)) {
+                $monthlyData = Cache::get('monthly_project_categories' . $selectedYear);
             } else {
-                $chartData = ChartYearOf::select('monthly_project_categories')->where('year_of', '=',  $selectedYear[0])->first();
+                $chartData = ChartYearOf::select('monthly_project_categories')->where('year_of', '=',  $selectedYear)->first();
                 $monthlyData = json_decode($chartData->monthly_project_categories, true);
-                Cache::put('monthly_project_categories', $monthlyData, 1800);
+                Cache::put('monthly_project_categories' . $selectedYear, $monthlyData, 1800);
             }
 
             // Return data as JSON response
-            return response()->json($monthlyData, 200);
+            return response()->json([
+                'monthlyData' => $monthlyData, 
+                'listOfYears' => $listOfYears, 
+                'currentSelectedYear' => $selectedYear
+            ], 200);
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage()

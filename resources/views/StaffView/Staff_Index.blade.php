@@ -203,7 +203,7 @@
 
         };
         const DASHBBOARD_TAB_ROUTE = {
-            GET_MONTHLY_PROJECTS_CHARTDATA: '{{ route('staff.Dashboard.chartData') }}',
+            GET_MONTHLY_PROJECTS_CHARTDATA: '{{ route('staff.Dashboard.chartData', ':yearToLoad') }}',
             GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',
             UPDATE_PROJECT_STATE: '{{ route('staff.Dashboard.updateProjectState') }}',
             STORE_PAYMENT_RECORDS: '{{ route('PaymentRecord.store') }}',
