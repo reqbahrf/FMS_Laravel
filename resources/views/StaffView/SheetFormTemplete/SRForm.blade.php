@@ -571,6 +571,7 @@
                 </div>
             </div>
         </form>
+        <x-esignature.esignature-main />
         <div class="d-flex justify-content-end p-3">
             <button type="button" data-to-export="SR" class="btn btn-primary ExportPDF">Export as PDF</button>
         </div>

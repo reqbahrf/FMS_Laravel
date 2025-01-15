@@ -5557,6 +5557,7 @@
             </tr>
         </tbody>
     </table>
+    {!! $esignatureElement !!}
     <p style="margin-bottom: 0.28cm"><br>
         <br>
 

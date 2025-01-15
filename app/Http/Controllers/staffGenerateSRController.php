@@ -2,20 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\GenerateSRRequest;
-use Illuminate\Http\Request;
-use Mpdf\Mpdf;
 use Exception;
+use Mpdf\Mpdf;
+use Illuminate\Http\Request;
+use App\Actions\GenerateEsignElement;
+use App\Http\Requests\GenerateSRRequest;
 
 class staffGenerateSRController extends Controller
 {
-    public function index(GenerateSRRequest $request)
+    public function index(GenerateSRRequest $request, GenerateEsignElement $generateEsignElement)
     {
         try {
             $ValidatedData = $request->validated();
+            $esignatureElement = $generateEsignElement->execute($ValidatedData['signatures']);
 
             try {
-                $html = view('StaffView.outputs.StatusReport', $ValidatedData)->render();
+                $html = view('StaffView.outputs.StatusReport', [...$ValidatedData, 'esignatureElement' => $esignatureElement])->render();
                 $DocHeader = view('StaffView.outputs.DocHeader')->render();
             } catch (Exception $e) {
                 return response()->json([

@@ -49,6 +49,7 @@ class GenerateSRRequest extends FormRequest
             'SalesData' => 'nullable|array',
             'EmploymentGeneratedData' => 'nullable|array',
             'IndirectEmploymentData' => 'nullable|array',
+            'signatures' => 'nullable|array',
         ];
     }
 }
