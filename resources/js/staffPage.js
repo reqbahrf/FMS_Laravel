@@ -2218,8 +2218,8 @@ async function initializeStaffPageJs() {
                     const esignatureObjects =
                         window.esignatureHandler.collectSignatures();
 
-                    // Add signatures to the object
-                    //dataObject.signatures = esignatureObjects;
+                    data['signatures'] = esignatureObjects;
+
                     // Make the request using jQuery ajax for better blob handling
                     const response = await $.ajax({
                         type: 'POST',
@@ -2487,11 +2487,28 @@ async function initializeStaffPageJs() {
             const requestDATA = async (ExportPDF_BUTTON_DATA_VALUE) => {
                 const formDATAToBESent = {
                     PIS: function () {
-                        return (
-                            $('#projectInfoForm').serialize() +
-                            '&' +
-                            $('#PIS_checklistsForm').serialize()
-                        );
+                        // Convert both forms to array and merge them
+                        const projectInfoArray = $('#projectInfoForm').serializeArray();
+                        const pisChecklistArray = $('#PIS_checklistsForm').serializeArray();
+                        
+                        // Combine both arrays
+                        const combinedArray = [...projectInfoArray, ...pisChecklistArray];
+                        
+                        // Convert array to object
+                        const jsonObject = {};
+                        combinedArray.forEach(item => {
+                            // Handle multiple values for same name (checkboxes/multi-select)
+                            if (jsonObject[item.name]) {
+                                if (!Array.isArray(jsonObject[item.name])) {
+                                    jsonObject[item.name] = [jsonObject[item.name]];
+                                }
+                                jsonObject[item.name].push(item.value);
+                            } else {
+                                jsonObject[item.name] = item.value;
+                            }
+                        });
+                        
+                        return jsonObject;
                     },
 
                     PDS: function () {
