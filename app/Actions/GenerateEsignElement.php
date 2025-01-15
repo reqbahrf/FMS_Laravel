@@ -22,7 +22,7 @@ class GenerateEsignElement
                 $html .= '<div style="position: relative; min-height: 90pt;">';
                 
                 // Top text
-                $html .= '<p style="margin: 0 0 2pt 0; text-align: left;">' . $signature['topText'] . '</p>';
+                $html .= '<p style="margin: 0 0 2pt 0; text-align: left;">' . ($signature['topText'] ?? '') . '</p>';
                 
                 // Signature container with relative positioning
                 $html .= '<div style="position: relative; height: 45pt; margin: 2pt 0;">';
@@ -32,7 +32,7 @@ class GenerateEsignElement
                 // Name and bottom text
                 $html .= '<p style="margin: 0 0 2pt 0; text-align: center;">' . $signature['name'] . '</p>';
                 $html .= '<div style="border-bottom: 0.75pt solid black; margin-bottom: 2pt;"></div>';
-                $html .= '<p style="margin: 0; text-align: left; font-weight: bold;">' . $signature['bottomText'] . '</p>';
+                $html .= '<p style="margin: 0; text-align: left; font-weight: bold;">' . ($signature['bottomText'] ?? '') . '</p>';
                 
                 $html .= '</div>';
                 $html .= '</td>';
