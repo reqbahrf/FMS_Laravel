@@ -6,7 +6,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>DOST-SETUP</title>
         <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
-        <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
         @vite('resources/css/app.scss')
         @vite('resources/css/indexPage.css')
     </head>
