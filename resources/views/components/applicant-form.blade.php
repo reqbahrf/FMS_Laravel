@@ -188,7 +188,6 @@
                                 list="prefixOptions"
                             >
                             <datalist id="prefixOptions">
-                                <option value="none">None</option>
                                 <option value="Mx.">Mx.</option>
                                 <option value="Mr.">Mr.</option>
                                 <option value="Mrs.">Mrs.</option>
@@ -252,7 +251,6 @@
                                 list="suffixList"
                             >
                             <datalist id="suffixList">
-                                <option value="none">None</option>
                                 <option value="Jr.">Jr.</option>
                                 <option value="Sr.">Sr.</option>
                                 <option value="II">II</option>
