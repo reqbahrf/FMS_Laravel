@@ -8,8 +8,9 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Notifications\Notification;
 use App\Models\ProjectInfo;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class ProjectAssignmentNotification extends Notification implements ShouldQueue
+class ProjectAssignmentNotification extends Notification implements ShouldBroadcast
 {
     use Queueable;
 
@@ -36,6 +37,7 @@ class ProjectAssignmentNotification extends Notification implements ShouldQueue
 
     public function toBroadcast($notifiable): BroadcastMessage
     {
+        //TODO: getting a 'Notification not found'
         $parsedNotification = ParseBroadcastNotification::execute($notifiable, self::class);
         return new BroadcastMessage($parsedNotification);
     }
