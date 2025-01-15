@@ -128,7 +128,8 @@ class SubmitQuarterlyReportRequest extends FormRequest
             ],
             'ExportProduct.*.volumeOfProduction' => [
                 'required_with_all:ExportProduct',
-                'regex:/^\d{1,3}(,\d{3})*(\.\d+)?\s?(mL|cm³|fl oz|cup|pt|qt|L|gal|in³|ft³|cubic-meters|g|oz|lb|kg)$/'
+                'array',
+                //'regex:/^\d{1,3}(,\d{3})*(\.\d+)?\s?(mL|cm³|fl oz|cup|pt|qt|L|gal|in³|ft³|cubic-meters|g|oz|lb|kg)$/'
             ],
             'ExportProduct.*.grossSales' => [
                 'required_with_all:ExportProduct',
@@ -140,7 +141,7 @@ class SubmitQuarterlyReportRequest extends FormRequest
             ],
             'ExportProduct.*.netSales' => [
                 'required_with_all:ExportProduct',
-                'regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/'
+                'regex:/^-?\d{1,3}(,\d{3})*(\.\d{2})?$/'
             ],
 
             'LocalProduct' => [
@@ -159,7 +160,8 @@ class SubmitQuarterlyReportRequest extends FormRequest
             ],
             'LocalProduct.*.volumeOfProduction' => [
                 'required_with_all:ExportProduct',
-                'regex:/^\d{1,3}(,\d{3})*(\.\d+)?\s?(mL|cm³|fl oz|cup|pt|qt|L|gal|in³|ft³|cubic-meters|g|oz|lb|kg)$/'
+                'array',
+                //'regex:/^\d{1,3}(,\d{3})*(\.\d+)?\s?(mL|cm³|fl oz|cup|pt|qt|L|gal|in³|ft³|cubic-meters|g|oz|lb|kg)$/'
             ],
             'LocalProduct.*.grossSales' => [
                 'required_with_all:ExportProduct',
@@ -171,7 +173,7 @@ class SubmitQuarterlyReportRequest extends FormRequest
             ],
             'LocalProduct.*.netSales' => [
                 'required_with_all:ExportProduct',
-                'regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/'
+                'regex:/^-?\d{1,3}(,\d{3})*(\.\d{2})?$/'
             ],
         ];
     }
