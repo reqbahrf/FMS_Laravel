@@ -2214,20 +2214,17 @@ async function initializeStaffPageJs() {
 
                     // Get form data
                     const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
+                    console.log(data)
                     const esignatureObjects =
                         window.esignatureHandler.collectSignatures();
 
-                    // Convert URL-encoded string to object
-                    const params = new URLSearchParams(data);
-                    const dataObject = Object.fromEntries(params);
-
                     // Add signatures to the object
-                    dataObject.signatures = esignatureObjects;
+                    //dataObject.signatures = esignatureObjects;
                     // Make the request using jQuery ajax for better blob handling
                     const response = await $.ajax({
                         type: 'POST',
                         url: route_url,
-                        data: dataObject,
+                        data: data,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
@@ -2316,7 +2313,7 @@ async function initializeStaffPageJs() {
 
             const ExportAndLocalProductsConfig = {
                 localProduct: {
-                    id: 'exportMarketTable',
+                    id: 'localMarketTable',
                     selectors: {
                         productName: '.productName',
                         packingDetails: '.packingDetails',
@@ -2328,7 +2325,7 @@ async function initializeStaffPageJs() {
                     requiredFields: ['productName'],
                 },
                 exportProduct: {
-                    id: 'exportProductTable',
+                    id: 'exportMarketTable',
                     selectors: {
                         productName: '.productName',
                         packingDetails: '.packingDetails',
