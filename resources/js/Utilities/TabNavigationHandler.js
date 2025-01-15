@@ -22,6 +22,7 @@ export default class NavigationHandler {
         this.MappedUrlsRoutes = MappedUrlsRoutes;
         this.PageFunctionsInitializer = PageFunctionsInitializer;
         this.spinner = $('.spinner');
+        this.currentPage = null;
     }
 
     /**
@@ -59,6 +60,14 @@ export default class NavigationHandler {
      */
     async loadPage(url, activeLink) {
         try {
+
+            $(document).trigger('page:changing', {
+                from: this.currentPage,
+                to: activeLink
+            });
+
+            this.currentPage = activeLink;
+            
             this.spinner.removeClass('d-none');
             this.tabContainer.hide();
             const cachedPage = sessionStorage.getItem(url);
@@ -114,5 +123,13 @@ export default class NavigationHandler {
             console.error('Page load error:', error);
             throw new Error(error.message || 'Failed to handle page response');
         }
+    }
+
+    /**
+     * Gets the current page
+     * @returns {string|null} The current page
+     */
+    getCurrentPage() {
+        return this.currentPage;
     }
 }

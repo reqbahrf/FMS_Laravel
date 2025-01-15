@@ -2960,13 +2960,19 @@ async function initializeStaffPageJs() {
                         .val(values.Assigned_to);
                     readonlyInputs
                         .filter('#building')
-                        .val(formatNumberToCurrency(values.building));
+                        .val(
+                            formatNumberToCurrency(values.building)
+                        );
                     readonlyInputs
                         .filter('#equipment')
-                        .val(formatNumberToCurrency(values.equipment));
+                        .val(
+                            formatNumberToCurrency(values.equipment)
+                        );
                     readonlyInputs
                         .filter('#workingCapital')
-                        .val(formatNumberToCurrency(values.workingCapital));
+                        .val(
+                            formatNumberToCurrency(values.workingCapital)
+                        );
                 }
             );
 
@@ -3360,7 +3366,7 @@ async function initializeStaffPageJs() {
                                                   ? Approved.handled_by_suffix
                                                   : '') +
                                               ' ' +
-                                              Approved?.handled_by_l_name +
+                                              Approved.handled_by_l_name +
                                               ' ' +
                                               (Approved.handled_by_suffix
                                                   ? Approved.handled_by_suffix
@@ -3716,38 +3722,41 @@ async function initializeStaffPageJs() {
             let currentlyViewingApplicantId = null;
             let echoChannel = null;
 
-            const initializeEchoListeners = () => {
-                if (echoChannel) {
-                    cleanupEchoListeners();
-                }
+            const initializeEchoListeners = async () => {
+                return new Promise((resolve) => {
+                    if (echoChannel) {
+                        cleanupEchoListeners();
+                    }
 
-                echoChannel = Echo.private(APPLICANT_VIEWING_CHANNEL);
+                    echoChannel = Echo.private(APPLICANT_VIEWING_CHANNEL);
 
-                echoChannel.listenForWhisper('viewing', (e) => {
-                    updateViewingState(e.applicant_id, e.reviewed_by);
-                });
-
-                // When viewing ends
-                echoChannel.listenForWhisper('viewing-closed', (e) => {
-                    removeViewingState(e.applicant_id);
-                });
-
-                Echo.join(APPLICANT_VIEWING_CHANNEL)
-                    .here((staff) => {
-                        console.log('Current members:', staff);
-                    })
-                    .joining((staff) => {
-                        console.log('New member joining:', staff);
-                        if (currentlyViewingApplicantId) {
-                            echoChannel.whisper('viewing', {
-                                applicant_id: currentlyViewingApplicantId,
-                                reviewed_by: AUTH_USER_NAME,
-                            });
-                        }
-                    })
-                    .leaving((staff) => {
-                        console.log('Member leaving:', staff);
+                    echoChannel.listenForWhisper('viewing', (e) => {
+                        updateViewingState(e.applicant_id, e.reviewed_by);
                     });
+
+                    // When viewing ends
+                    echoChannel.listenForWhisper('viewing-closed', (e) => {
+                        removeViewingState(e.applicant_id);
+                    });
+
+                    Echo.join(APPLICANT_VIEWING_CHANNEL)
+                        .here((staff) => {
+                            console.log('Current members:', staff);
+                            resolve(); // Resolve the promise when initialization is complete
+                        })
+                        .joining((staff) => {
+                            console.log('New member joining:', staff);
+                            if (currentlyViewingApplicantId) {
+                                echoChannel.whisper('viewing', {
+                                    applicant_id: currentlyViewingApplicantId,
+                                    reviewed_by: AUTH_USER_NAME,
+                                });
+                            }
+                        })
+                        .leaving((staff) => {
+                            console.log('Member leaving:', staff);
+                        });
+                });
             };
 
             const cleanupEchoListeners = () => {
@@ -3988,7 +3997,6 @@ async function initializeStaffPageJs() {
                         })
                     )
                     .draw();
-                initializeEchoListeners();
             };
 
             $('#evaluationSchedule-datepicker').on('change', function () {
@@ -4418,6 +4426,7 @@ async function initializeStaffPageJs() {
                         showToastFeedback('text-bg-success', response.success);
                     }, 500);
                 } catch (error) {
+                    hideProcessToast();
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.error
@@ -4891,6 +4900,7 @@ async function initializeStaffPageJs() {
             });
 
             await getApplicants();
+            await initializeEchoListeners();
         },
     };
     return functions;
