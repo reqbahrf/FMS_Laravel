@@ -810,17 +810,17 @@ export function initializeForm() {
         );
     };
 
-    (async () => {
-        await loadDraftData(
+    $(async () => {
+        await formDraftHandler.loadDraftData(
             APPLICATION_FORM_CONFIG,
             loadApplicationFormInputFields,
             null,
             null,
             loadAddressDropdowns
-        );
-        await fileInputChange(FileMetaHiddenInputs);
+        )
         updateEnterpriseLevel();
-    })();
+    })
+
 }
 
 initializeForm();

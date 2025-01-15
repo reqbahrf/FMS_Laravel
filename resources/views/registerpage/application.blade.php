@@ -8,7 +8,6 @@
     <title>Application Form</title>
     <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
     @vite('resources/css/app.scss')
-    <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
     <style>
         html {
