@@ -74,6 +74,7 @@ class GeneratePDSRequest extends FormRequest
             'totalEmployment_percent' => 'required|max:10',
             'localProduct' => 'nullable|array',
             'exportProduct' => 'nullable|array',
+            'signatures' => 'nullable|array',
         ];
     }
 }

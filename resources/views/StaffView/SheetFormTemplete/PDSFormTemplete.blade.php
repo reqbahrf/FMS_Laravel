@@ -1039,6 +1039,7 @@
                 </div>
             </div>
     </form>
+    <x-esignature.esignature-main />
     <div class="d-flex justify-content-end p-3">
         <button
             class="btn btn-primary ExportPDF"
