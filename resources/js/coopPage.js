@@ -16,6 +16,7 @@ import {
     AddNewRowHandler,
     RemoveRowHandler,
 } from './Utilities/AddAndRemoveTableRowHandler';
+import DarkMode from './Utilities/DarkModeHandler';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
@@ -55,6 +56,9 @@ const ExportAndLocalMktTableConfig = {
         requiredFields: ['ProductName'],
     },
 };
+
+const darkMode = new DarkMode();
+darkMode.initializeTheme();
 //The NOTIFICATION_ROUTE and USER_ID constants are defined in the Blade view @ CooperatorApprovedPage.blade.php
 const notificationManager = new NotificationManager(
     NOTIFICATION_ROUTE,

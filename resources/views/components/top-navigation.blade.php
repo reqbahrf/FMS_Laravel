@@ -73,10 +73,28 @@
             >
                 <div class="account-avatar d-flex align-items-center justify-content-center gap-2">
                     <div class="profile-logo rounded-circle border border-1 border-white bg-primary">
-                        {{ strtoupper(substr(trim((string) Auth::user()->orgUserInfo->f_name), 0, 1)) }}
+                        @if(Auth::user()->role == 'Cooperator')
+                            {{ strtoupper(substr(trim((string) Auth::user()->coopUserInfo->f_name), 0, 1)) }}
+                        @else
+                            {{ strtoupper(substr(trim((string) Auth::user()->orgUserInfo->f_name), 0, 1)) }}
+                        @endif
                     </div>
                     <p class="m-0 fw-bold">
-                        {{ Auth::user()->orgUserInfo->prefix . ' ' . Auth::user()->orgUserInfo->f_name . ' ' . (Auth::user()->orgUserInfo->mid_name ? substr(Auth::user()->orgUserInfo->mid_name, 0, 1) . '.' : '') . ' ' . Auth::user()->orgUserInfo->l_name . ' ' . Auth::user()->orgUserInfo->suffix }}
+                        @if(Auth::user()->role == 'Cooperator')
+                        {{ Auth::user()->coopUserInfo->prefix 
+                        . ' ' . Auth::user()->coopUserInfo->f_name 
+                        . ' ' . (Auth::user()->coopUserInfo->mid_name 
+                        ? substr(Auth::user()->coopUserInfo->mid_name, 0, 1) 
+                        . '.' : '') . ' ' . Auth::user()->coopUserInfo->l_name 
+                        . ' ' . Auth::user()->coopUserInfo->suffix }}
+                        @else
+                        {{ Auth::user()->orgUserInfo->prefix 
+                        . ' ' . Auth::user()->orgUserInfo->f_name 
+                        . ' ' . (Auth::user()->orgUserInfo->mid_name 
+                        ? substr(Auth::user()->orgUserInfo->mid_name, 0, 1) 
+                        . '.' : '') . ' ' . Auth::user()->orgUserInfo->l_name 
+                        . ' ' . Auth::user()->orgUserInfo->suffix }}
+                        @endif
                     </p>
                 </div>
             </a>
