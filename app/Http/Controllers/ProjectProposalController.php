@@ -136,46 +136,44 @@ class ProjectProposalController extends Controller
         $actualFundToRefund = number_format($actualFundToRefund, 2, '.', '');
 
         // Begin a transaction for database consistency
-        DB::beginTransaction();
-
+            DB::beginTransaction();
         try {
-            // Update submission status
-            $ProposalInfo = ProjectInfo::updateOrCreate(
-                ['Project_id' => $proposalData['projectID']],
-                [
-                    'business_id' => $proposalData['business_id'],
-                    'evaluated_by_id' => $proposalData['staffId'],
-                    'project_title' => $proposalData['projectTitle'],
-                    'fund_amount' => $fundAmountFormatted,
-                    'fee_applied' => $fee_percentage,
-                    'actual_amount_to_be_refund' => $actualFundToRefund,
-                ]
-            );
-            ApplicationInfo::where('id', $ApplicationID)
-                ->where('business_id', $proposalData['business_id'])
-                ->update([
-                    'Project_id' => $proposalData['projectID'],
-                    'application_status' => 'pending',
-                ]);
-
-            ProjectProposal::updateOrCreate(
-                [
-                    'application_id' => $ApplicationID
-                ],
-                [
-                    'Project_id' => $proposalData['projectID'],
-                    'data' => $proposalData,
-                    'Submission_status' => 'Submitted'
-                ]
-            );
-            DB::commit();
-            $Evaluated_by = Auth::user()->email;
-            Notification::send(Auth::user(), new ProjectProposalNotification($ProposalInfo, $Evaluated_by));
-            
-            Cache::forget('pendingProjects');
+                $ProposalInfo = ProjectInfo::updateOrCreate(
+                    ['Project_id' => $proposalData['projectID']],
+                    [
+                        'business_id' => $proposalData['business_id'],
+                        'evaluated_by_id' => $proposalData['staffId'],
+                        'project_title' => $proposalData['projectTitle'],
+                        'fund_amount' => $fundAmountFormatted,
+                        'fee_applied' => $fee_percentage,
+                        'actual_amount_to_be_refund' => $actualFundToRefund,
+                    ]
+                );
+                ApplicationInfo::where('id', $ApplicationID)
+                    ->where('business_id', $proposalData['business_id'])
+                    ->update([
+                        'Project_id' => $proposalData['projectID'],
+                        'application_status' => 'pending',
+                    ]);
+    
+                ProjectProposal::updateOrCreate(
+                    [
+                        'application_id' => $ApplicationID
+                    ],
+                    [
+                        'Project_id' => $proposalData['projectID'],
+                        'data' => $proposalData,
+                        'Submission_status' => 'Submitted'
+                    ]
+                );
+                $Evaluated_by = Auth::user()->email;
+                $AdminUsers = User::where('role', 'Admin')->get();
+                DB::commit();
+                Cache::forget('pendingProjects');
+                Cache::forget('applicants');
+                Notification::send($AdminUsers, new ProjectProposalNotification($ProposalInfo, $Evaluated_by));
             return response()->json(['success' => 'true', 'message' => 'Project Proposal Submitted'], 200);
-        } catch (\Exception $e) {
-            // Rollback transaction if something goes wrong
+        } catch (Exception $e) {
             DB::rollBack();
             return response()->json(['error' => $e->getMessage()], 500);
         }

@@ -27,12 +27,14 @@ class ProjectInfo extends Model
         'project_title',
         'project_ledger_link',
         'fund_amount',
+        'fee_applied',
         'actual_amount_to_be_refund',
         'refunded_amount'
     ];
 
     protected $casts = [
         'Project_id' => 'string',
+        'fee_applied' => 'float',
         'actual_amount_to_be_refund' => 'float',
         'refunded_amount' => 'float'
     ];
