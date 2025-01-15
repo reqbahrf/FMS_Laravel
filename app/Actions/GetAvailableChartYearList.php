@@ -17,6 +17,7 @@ class GetAvailableChartYearList
             }else{
                 $listOfYears = ChartYearOf::select('year_of')
                     ->distinct()
+                    ->orderBy('year_of', 'asc')
                     ->get()
                     ->pluck('year_of');
                     Cache::put('listOfYears', $listOfYears, 1800);
