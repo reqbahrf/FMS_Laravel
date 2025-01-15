@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
+use Exception;
 use App\Models\CoopUserInfo;
+use Illuminate\Http\Request;
 use App\Models\ApplicationInfo;
-use App\Models\OngoingQuarterlyReport;
-use App\Services\GetCooperatorInfoService;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Models\OngoingQuarterlyReport;
+use Illuminate\Support\Facades\Session;
+use App\Services\GetCooperatorInfoService;
 
 class CooperatorViewController extends Controller
 {
@@ -68,48 +69,55 @@ class CooperatorViewController extends Controller
 
     public function CoopProgress()
     {
-        $user = Auth::user();
-        $session_application_id = Session::get('application_id');
-        $session_business_id = Session::get('business_id');
-
-        if ($user) {
-            // Eager load the necessary relationships to reduce queries
-            $applicationInfo = ApplicationInfo::where('id',  $session_application_id)
-                ->where('business_id', $session_business_id)
-                ->with('projectInfo')
-                ->firstOrFail();
-
-            $projectInfo = $applicationInfo->projectInfo;
-
-            if ($projectInfo) {
-                $paymentInfo = $projectInfo->paymentInfo; // Remove ->first() to get all payment records
-
-                if ($paymentInfo->isNotEmpty()) { // Check if there are payment records
-                    $paymentList = $paymentInfo->map(function ($payment) {
-                        return [
-                            'amount' => $payment->amount,
-                            'payment_status' => $payment->payment_status,
-                            'payment_method' => $payment->payment_method
-                        ];
-                    });
-
-                    return response()->json([
-                        'progress' => [
-                            'actual_amount_to_be_refund' => $projectInfo->actual_amount_to_be_refund,
-                            'refunded_amount' => $projectInfo->refunded_amount
-                        ],
-                        'paymentList' => $paymentList
-                    ]);
+        try{
+            $user = Auth::user();
+            $session_application_id = Session::get('application_id');
+            $session_business_id = Session::get('business_id');
+    
+            if ($user) {
+                // Eager load the necessary relationships to reduce queries
+                $applicationInfo = ApplicationInfo::where('id',  $session_application_id)
+                    ->where('business_id', $session_business_id)
+                    ->with('projectInfo')
+                    ->firstOrFail();
+    
+                $projectInfo = $applicationInfo->projectInfo;
+    
+                if ($projectInfo) {
+                    $paymentInfo = $projectInfo->paymentInfo; // Remove ->first() to get all payment records
+    
+                    if ($paymentInfo->isNotEmpty()) { // Check if there are payment records
+                        $paymentList = $paymentInfo->map(function ($payment) {
+                            return [
+                                'amount' => $payment->amount,
+                                'payment_status' => $payment->payment_status,
+                                'payment_method' => $payment->payment_method
+                            ];
+                        });
+    
+                        return response()->json([
+                            'progress' => [
+                                'actual_amount_to_be_refund' => $projectInfo->actual_amount_to_be_refund ?? [],
+                                'refunded_amount' => $projectInfo->refunded_amount ?? []
+                            ],
+                            'paymentList' => $paymentList ?? []
+                        ], 200);
+                    }
                 }
             }
+            return response()->json([
+                'progress' => [],
+                'paymentList' => []
+            ], 200);
+
+        }catch(Exception $e){
+            Log::error($e->getMessage());
+            return response()->json([
+                'progress' => null,
+                'paymentList' => null
+            ], 500);
+
         }
-
-
-        // Return a default response if no user, project, or payment info is found
-        return response()->json([
-            'progress' => null,
-            'paymentList' => null
-        ], 404);  // Return 404 if the necessary data is not found
     }
     public function LoadRequirementsTab(Request $request)
     {

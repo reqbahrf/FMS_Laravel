@@ -65,8 +65,6 @@
                 <div class="container">
                     <div class="row">
                         <div class="col d-flex flex-column align-items-center">
-                            <!-- Add content for ProgressPer div here -->
-                            <!-- Assuming your ApexChart is here -->
                             <div id="ProgressPer" class="mx-auto" style="order: 1;"></div>
                             <div class="text-center" id="ProgressPerText" style="order: 2;">
                                 <h5>0/0</h5>

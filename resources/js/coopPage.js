@@ -21,8 +21,10 @@ import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import NotificationManager from './Utilities/NotificationManager';
+import ActivityLogHandler from './Utilities/ActivityLogHandler';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
+const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
 const USER_ROLE = 'coop';
 const ExportAndLocalMktTableConfig = {
     ExportProduct: {
@@ -88,6 +90,12 @@ const setActiveLink = (activeLink) => {
     linkToActivate.addClass('active');
 };
 
+const activityLog = new ActivityLogHandler(
+    ACTIVITY_LOG_MODAL,
+    USER_ROLE,
+    'personal'
+);
+activityLog.initPersonalActivityLog();
 window.loadPage = async (url, activeLink) => {
     try {
         $('.spinner').removeClass('d-none');
@@ -213,28 +221,25 @@ window.initilizeCoopPageJs = async () => {
     const functions = {
         Dashboard: async () => {
             let progressDataChart;
-            const progressPercentage = (percentage) => {
+            const progressPercentage = (percentage = 0) => {
                 const options = {
                     series: [percentage],
                     chart: {
-                        height: 250,
-                        width: 250,
                         type: 'radialBar',
+                        height: 350,
+                        width: '100%',
                         toolbar: {
-                            show: true,
+                            show: false,
                         },
                     },
                     plotOptions: {
                         radialBar: {
-                            startAngle: -135,
-                            endAngle: 225,
+                            startAngle: -160,
+                            endAngle: 160,
                             hollow: {
                                 margin: 0,
                                 size: '70%',
                                 background: '#fff',
-                                image: undefined,
-                                imageOffsetX: 0,
-                                imageOffsetY: 0,
                                 position: 'front',
                                 dropShadow: {
                                     enabled: true,
@@ -246,8 +251,8 @@ window.initilizeCoopPageJs = async () => {
                             },
                             track: {
                                 background: '#fff',
-                                strokeWidth: '50%',
-                                margin: 0, // margin is in pixels
+                                strokeWidth: '67%',
+                                margin: 0,
                                 dropShadow: {
                                     enabled: true,
                                     top: -3,
@@ -256,7 +261,6 @@ window.initilizeCoopPageJs = async () => {
                                     opacity: 0.35,
                                 },
                             },
-
                             dataLabels: {
                                 show: true,
                                 name: {
@@ -267,7 +271,7 @@ window.initilizeCoopPageJs = async () => {
                                 },
                                 value: {
                                     formatter: function (val) {
-                                        return parseInt(val);
+                                        return parseInt(val) + '%';
                                     },
                                     color: '#111',
                                     fontSize: '36px',
@@ -292,7 +296,7 @@ window.initilizeCoopPageJs = async () => {
                     stroke: {
                         lineCap: 'round',
                     },
-                    labels: ['Percent'],
+                    labels: ['Progress'],
                 };
 
                 return new Promise((resolve) => {
@@ -302,7 +306,8 @@ window.initilizeCoopPageJs = async () => {
                     progressDataChart = new ApexCharts(
                         document.querySelector('#ProgressPer'),
                         options
-                    ).render();
+                    );
+                    progressDataChart.render();
                     resolve();
                 }).catch((error) => {
                     throw new Error(
@@ -326,19 +331,26 @@ window.initilizeCoopPageJs = async () => {
                             dataType: 'json',
                         }
                     );
-                    const data = await response.json();
-                    paymentTableProcess(data.paymentList || null);
+                    const data = (await response?.json()) || {};
+
+                    // Handle empty array case
+                    const progress = Array.isArray(data.progress)
+                        ? {}
+                        : data.progress || {};
+                    const paymentList = Array.isArray(data.paymentList)
+                        ? null
+                        : data.paymentList;
+
+                    paymentTableProcess(paymentList);
 
                     const actual_amount =
-                        parseFloat(data.progress?.actual_amount_to_be_refund) ||
-                        0;
+                        parseFloat(progress?.actual_amount_to_be_refund) || 0;
                     const refunded_amount =
-                        parseFloat(data.progress?.refunded_amount) || 0;
+                        parseFloat(progress?.refunded_amount) || 0;
                     const percentage =
                         actual_amount > 0
                             ? Math.ceil((refunded_amount / actual_amount) * 100)
                             : 0;
-
                     paymentTextPer.html(
                         `<h5>${formatNumberToCurrency(refunded_amount)} / ${formatNumberToCurrency(actual_amount)}</h5>`
                     );
@@ -831,8 +843,6 @@ window.initilizeCoopPageJs = async () => {
             initialData['ProductionAndSalesInputs'] = TableDataExtractor(
                 ExportAndLocalMktTableConfig
             );
-
-            console.log(initialData);
 
             inputContainers.on('click', '.editButton', function () {
                 // Get the specific card-body container where the button was clicked

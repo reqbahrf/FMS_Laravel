@@ -1,6 +1,7 @@
 <div class="wrapper">
     <x-toast-alert />
     <x-my-account-modal />
+    <x-user-activity-log-modal />
     <x-logout-confirmation-modal />
     <nav class="sidenav expanded">
         <ul class="navbar-nav">
@@ -202,6 +203,7 @@
     const BASE_URL = protocol + '//' + host + '/';
 
     const USER_ID = {{ Auth::user()->id }};
+    const USER_ACTIVITY_LOG_ROUTE = '{{ route('activity.logs') }}';
     const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
     const GET_AVAILABLE_QUARTERLY_REPORT_URL = '{{ route('QuarterlyReport.index') }}'
 
