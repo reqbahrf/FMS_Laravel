@@ -1002,7 +1002,7 @@ async function initializeAdminPageJs() {
                 const row = $(this).closest('tr');
                 const inputs = row.find('input');
                 const offCanvaReadonlyInputs =
-                    $('#approvalDetails').find('input');
+                    $('#approvalDetails').find('input, span.fee--label');
 
                 const cooperatorName = row.find('td:eq(0)').text().trim();
                 const designation = inputs.filter('.designation').val();
@@ -1026,6 +1026,9 @@ async function initializeAdminPageJs() {
                 const workingCapitalAssets = parseFloat(
                     inputs.filter('.working_capital_Assets').val()
                 );
+
+                const fee_applied = `with ${inputs.filter('.fee_applied').val()} %`;
+                console.log(fee_applied)
 
                 // Update form fields
                 offCanvaReadonlyInputs
@@ -1051,7 +1054,8 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs
                     .filter('#workingCapital')
                     .val(formatNumberToCurrency(workingCapitalAssets));
-
+                    
+                offCanvaReadonlyInputs.filter('span.fee--label').text(fee_applied);
                 const staffListSelector = $('#Assigned_to');
                 // Trigger additional actions
                 getProjectProposal(businessId, Project_id);
@@ -1493,6 +1497,7 @@ async function initializeAdminPageJs() {
                                 <input type="hidden" class="project_title" value="${project.Project_id}">
                                 <input type="hidden" class="date_proposed" value="${project.evaluated_by_id}">
                                 <input type="hidden" class="assigned_to" value="${project.full_name}">
+                                <input type="hidden" class="fee_applied" value="${project.fee_applied}">
                                 <input type="hidden" class="application_status" value="${project.fund_amount}">`,
                                 `${customDateFormatter(project.date_proposed)}`,
                                 `<span class="badge bg-primary">${project.application_status}</span>`,

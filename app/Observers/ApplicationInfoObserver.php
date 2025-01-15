@@ -3,9 +3,7 @@
 namespace App\Observers;
 
 use App\Models\ApplicationInfo;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
+
 
 class ApplicationInfoObserver
 {

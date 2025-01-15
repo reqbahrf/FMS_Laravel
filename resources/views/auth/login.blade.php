@@ -9,7 +9,6 @@
         <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
         @vite('resources/css/app.scss')
         @vite('resources/js/app.js')
-        <link rel="stylesheet" href="{{ asset('icon_css/remixicon.css') }}">
 
         <style>
             @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap');

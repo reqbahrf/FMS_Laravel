@@ -265,7 +265,7 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <label for="To_Be_Refunded">Amount: <span class="text-muted">with 5%</span></label>
+                            <label for="To_Be_Refunded">Amount: <span class="text-muted fee--label"></span></label>
                             <div class="input-group">
                                 <span class="input-group-text">₱</span>
                                 <input

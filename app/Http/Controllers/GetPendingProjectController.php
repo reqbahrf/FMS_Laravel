@@ -45,6 +45,7 @@ class GetPendingProjectController extends Controller
                         'project_info.project_title',
                         'project_info.evaluated_by_id',
                         'project_info.fund_amount',
+                        'project_info.fee_applied',
                         'project_info.created_at as date_proposed',
                         'org_users_info.prefix',
                         'org_users_info.f_name',
