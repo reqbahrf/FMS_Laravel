@@ -53,13 +53,13 @@
                                 <div class="col-5" id="progressPercentage">
                                 </div>
                                 <div class="col-7 inline-block">
-                                    <p class="fw-bold">Total Paid:
+                                    <p class="fw-bold">Total Paid (₱):
                                         <span class="fw-light" id="totalPaid"></span>
                                     </p>
-                                    <p class="fw-bold">Funded Amount:
+                                    <p class="fw-bold">Funded Amount (₱):
                                         <span class="fw-light" id="FundedAmount"></span>
                                     </p>
-                                    <p class="fw-bold">Remaining Balance:
+                                    <p class="fw-bold">Remaining Balance (₱):
                                         <span class="fw-light" id="remainingBalance"></span>
                                     </p>
                                 </div>

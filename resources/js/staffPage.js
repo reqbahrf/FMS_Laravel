@@ -216,7 +216,7 @@ async function initializeStaffPageJs() {
                             title: 'Transaction #',
                         },
                         {
-                            title: 'Amount',
+                            title: 'Amount (₱)',
                         },
                         {
                             title: 'Payment Method',
