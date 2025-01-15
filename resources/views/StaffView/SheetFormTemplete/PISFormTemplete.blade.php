@@ -462,7 +462,7 @@
                  </div>
              </div>
          </div>
-         <x-esignature.esignature-main>
+         <x-esignature.esignature-main />
          <div class="d-flex justify-content-end p-3">
              <button type="button" data-to-export="PIS" class="btn btn-primary ExportPDF">Export as PDF</button>
          </div>

@@ -493,7 +493,7 @@ div .cards {
 /* Stat cards css */
 
 #handleProjectOff .offcanvas-body {
-    background-color: #f5f5f5;
+    background-color: var(--ct-body-color);
 }
 
 #handledProject_wrapper > div:nth-child(2) {
