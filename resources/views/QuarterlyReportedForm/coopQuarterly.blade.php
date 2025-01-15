@@ -493,24 +493,6 @@
                                             </thead>
                                             <tbody class="ExportData table-group-divider">
                                                 @forelse ($reportData['ExportProduct'] as $exportProduct)
-                                                    @php
-                                                        $exportProductVolume =
-                                                            $exportProduct['volumeOfProduction'] ?? '';
-
-                                                        if (
-                                                            preg_match(
-                                                                '/^([\d,]+)\s*(\w+)$/',
-                                                                $exportProductVolume,
-                                                                $exportmatches,
-                                                            )
-                                                        ) {
-                                                            $exportProductVolume = $exportmatches[1];
-                                                            $exportProductVolumeUnit = $exportmatches[2];
-                                                        } else {
-                                                            $exportProductVolume = '';
-                                                            $exportProductVolumeUnit = '';
-                                                        }
-                                                    @endphp
                                                     <tr class="table_row">
                                                         <td>
                                                             <input
@@ -531,7 +513,7 @@
                                                                 <input
                                                                     class="form-control productionVolume_val"
                                                                     type="text"
-                                                                    value="{{ $exportProductVolume }}"
+                                                                    value="{{ $exportProduct['volumeOfProduction']['value'] ?? '' }}"
                                                                     readonly
                                                                 >
                                                                 <select
@@ -542,66 +524,66 @@
                                                                     <optgroup label="Volume">
                                                                         <option
                                                                             value="mL"
-                                                                            {{ $exportProductVolumeUnit == 'mL' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'mL' ? 'selected' : '' }}
                                                                         >Milliliters (mL)</option>
                                                                         <option
                                                                             value="cm³"
-                                                                            {{ $exportProductVolumeUnit == 'cm³' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'cm³' ? 'selected' : '' }}
                                                                         >Cubic Centimeters (cm³)</option>
                                                                         <option
                                                                             value="fl oz"
-                                                                            {{ $exportProductVolumeUnit == 'fl oz' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'fl oz' ? 'selected' : '' }}
                                                                         >Fluid Ounces (fl oz)</option>
                                                                         <option
                                                                             value="cup"
-                                                                            {{ $exportProductVolumeUnit == 'cup' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'cup' ? 'selected' : '' }}
                                                                         >Cups (cup)</option>
                                                                         <option
                                                                             value="pt"
-                                                                            {{ $exportProductVolumeUnit == 'pt' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'pt' ? 'selected' : '' }}
                                                                         >Pints (pt)</option>
                                                                         <option
                                                                             value="qt"
-                                                                            {{ $exportProductVolumeUnit == 'qt' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'qt' ? 'selected' : '' }}
                                                                         >Quarts (qt)</option>
                                                                         <option
                                                                             value="L"
-                                                                            {{ $exportProductVolumeUnit == 'L' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'L' ? 'selected' : '' }}
                                                                         >Liters (L)</option>
                                                                         <option
                                                                             value="gal"
-                                                                            {{ $exportProductVolumeUnit == 'gal' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'gal' ? 'selected' : '' }}
                                                                         >Gallons (gal)</option>
                                                                         <option
                                                                             value="in³"
-                                                                            {{ $exportProductVolumeUnit == 'in³' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'in³' ? 'selected' : '' }}
                                                                         >Cubic Inches (in³)</option>
                                                                         <option
                                                                             value="ft³"
-                                                                            {{ $exportProductVolumeUnit == 'ft³' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'ft³' ? 'selected' : '' }}
                                                                         >Cubic Feet (ft³)</option>
                                                                         <option
                                                                             value="cubic-meters"
-                                                                            {{ $exportProductVolumeUnit == 'm³' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'm³' ? 'selected' : '' }}
                                                                         >Cubic Meters (m³)</option>
                                                                     </optgroup>
                                                                     <!-- Weight Units -->
                                                                     <optgroup label="Weight">
                                                                         <option
                                                                             value="g"
-                                                                            {{ $exportProductVolumeUnit == 'g' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'g' ? 'selected' : '' }}
                                                                         >Grams (g)</option>
                                                                         <option
                                                                             value="oz"
-                                                                            {{ $exportProductVolumeUnit == 'oz' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'oz' ? 'selected' : '' }}
                                                                         >Ounces (oz)</option>
                                                                         <option
                                                                             value="lb"
-                                                                            {{ $exportProductVolumeUnit == 'lb' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'lb' ? 'selected' : '' }}
                                                                         >Pounds (lb)</option>
                                                                         <option
                                                                             value="kg"
-                                                                            {{ $exportProductVolumeUnit == 'kg' ? 'selected' : '' }}
+                                                                            {{ $exportProduct['volumeOfProduction']['unit'] == 'kg' ? 'selected' : '' }}
                                                                         >Kilograms (kg)</option>
                                                                     </optgroup>
                                                                 </select>
@@ -808,23 +790,7 @@
                                             </thead>
                                             <tbody class="LocalData table-group-divider">
                                                 @forelse($reportData['LocalProduct'] as $localProduct)
-                                                    @php
-                                                        $localProductVolume = $localProduct['volumeOfProduction'] ?? '';
-
-                                                        if (
-                                                            preg_match(
-                                                                '/^([\d,]+)\s*(\w+)$/',
-                                                                $localProductVolume,
-                                                                $localmatches,
-                                                            )
-                                                        ) {
-                                                            $localProductVolume = $localmatches[1];
-                                                            $localProductVolumeUnit = $localmatches[2];
-                                                        } else {
-                                                            $localProductVolume = '';
-                                                            $localProductVolumeUnit = '';
-                                                        }
-                                                    @endphp
+                                    
                                                     <tr class="table_row">
                                                         <td><input
                                                                 class="form-control productName"
@@ -844,73 +810,73 @@
                                                                 <input
                                                                     class="form-control productionVolume_val"
                                                                     type="text"
-                                                                    value="{{ $localProductVolume }}"
+                                                                    value="{{ $localProduct['volumeOfProduction']['value'] }}"
                                                                     readonly
                                                                 >
                                                                 <select class="form-select volumeUnit">
                                                                     <!-- Volume Units -->
                                                                     <option
                                                                         value="mL"
-                                                                        {{ $exportProductVolumeUnit == 'mL' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'mL' ? 'selected' : '' }}
                                                                     >Milliliters (mL)</option>
                                                                     <option
                                                                         value="cm³"
-                                                                        {{ $localProductVolumeUnit == 'cm³' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'cm³' ? 'selected' : '' }}
                                                                     >Cubic Centimeters (cm³)</option>
                                                                     <option
                                                                         value="fl oz"
-                                                                        {{ $localProductVolumeUnit == 'fl oz' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'fl oz' ? 'selected' : '' }}
                                                                     >Fluid Ounces (fl oz)</option>
                                                                     <option
                                                                         value="cup"
-                                                                        {{ $localProductVolumeUnit == 'cup' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'cup' ? 'selected' : '' }}
                                                                     >Cups (cup)</option>
                                                                     <option
                                                                         value="pt"
-                                                                        {{ $localProductVolumeUnit == 'pt' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'pt' ? 'selected' : '' }}
                                                                     >Pints (pt)</option>
                                                                     <option
                                                                         value="qt"
-                                                                        {{ $localProductVolumeUnit == 'qt' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'qt' ? 'selected' : '' }}
                                                                     >Quarts (qt)</option>
                                                                     <option
                                                                         value="L"
-                                                                        {{ $localProductVolumeUnit == 'L' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'L' ? 'selected' : '' }}
                                                                     >Liters (L)</option>
                                                                     <option
                                                                         value="gal"
-                                                                        {{ $localProductVolumeUnit == 'gal' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'gal' ? 'selected' : '' }}
                                                                     >Gallons (gal)</option>
                                                                     <option
                                                                         value="in³"
-                                                                        {{ $localProductVolumeUnit == 'in³' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'in³' ? 'selected' : '' }}
                                                                     >Cubic Inches (in³)</option>
                                                                     <option
                                                                         value="ft³"
-                                                                        {{ $localProductVolumeUnit == 'ft³' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'ft³' ? 'selected' : '' }}
                                                                     >Cubic Feet (ft³)</option>
                                                                     <option
                                                                         value="cubic-meters"
-                                                                        {{ $localProductVolumeUnit == 'm³' ? 'selected' : '' }}
+                                                                        {{ $localProduct['volumeOfProduction']['unit'] == 'm³' ? 'selected' : '' }}
                                                                     >Cubic Meters (m³)</option>
                                                                     </optgroup>
                                                                     <!-- Weight Units -->
                                                                     <optgroup label="Weight">
                                                                         <option
                                                                             value="g"
-                                                                            {{ $localProductVolumeUnit == 'g' ? 'selected' : '' }}
+                                                                            {{ $localProduct['volumeOfProduction']['unit'] == 'g' ? 'selected' : '' }}
                                                                         >Grams (g)</option>
                                                                         <option
                                                                             value="oz"
-                                                                            {{ $localProductVolumeUnit == 'oz' ? 'selected' : '' }}
+                                                                            {{ $localProduct['volumeOfProduction']['unit'] == 'oz' ? 'selected' : '' }}
                                                                         >Ounces (oz)</option>
                                                                         <option
                                                                             value="lb"
-                                                                            {{ $localProductVolumeUnit == 'lb' ? 'selected' : '' }}
+                                                                            {{ $localProduct['volumeOfProduction']['unit'] == 'lb' ? 'selected' : '' }}
                                                                         >Pounds (lb)</option>
                                                                         <option
                                                                             value="kg"
-                                                                            {{ $localProductVolumeUnit == 'kg' ? 'selected' : '' }}
+                                                                            {{ $localProduct['volumeOfProduction']['unit'] == 'kg' ? 'selected' : '' }}
                                                                         >Kilograms (kg)</option>
                                                                     </optgroup>
                                                                 </select>
