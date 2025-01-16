@@ -1241,90 +1241,169 @@
                             <div class="card-header fw-bold">
                                 BENCHMARK INFORMATION
                             </div>
-                            <div class="card-body">
+                            <div class="card-body" >
                                 <hr>
                                 <h6 class="my-4">*Product and Supply Chain</h6>
                                 <hr>
-                                <table class="table table-bordered" id="productAndSupplyChainTable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Raw Material</th>
-                                            <th scope="col">Source</th>
-                                            <th scope="col">Unit Cost (₱)</th>
-                                            <th scope="col">Volume Used/Year</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="text" class="form-control RawMaterial" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control Source" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control UnitCost" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control VolumeUsed" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div id="productAndSupplyChainContainer">
+                                    <div class="mt-2">
+                                        <div
+                                            class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                            <button
+                                                class="btn btn-primary addProductAndSupplyChainRow"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Add a new row"
+                                            >
+                                                <i class="ri-add-box-fill"></i>
+                                            </button>
+                                            <button
+                                                class="btn btn-danger removeRowButton mx-2"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Delete row"
+                                                disabled
+                                            >
+                                                <i class="ri-subtract-fill"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="productAndSupplyChainTable">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Raw Material</th>
+                                                    <th scope="col">Source</th>
+                                                    <th scope="col">Unit Cost (₱)</th>
+                                                    <th scope="col">Volume Used/Year</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control RawMaterial" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control Source" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control UnitCost" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control VolumeUsed" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 <hr>
                                 <h6 class="my-4">*Production</h6>
                                 <hr>
-                                <table class="table table-bordered" id="productionTable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Product</th>
-                                            <th scope="col">Volume of Production/Year</th>
-                                            <th scope="col">Unit Cost of Production (₱)</th>
-                                            <th scope="col">Annual Cost of Production (₱)</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="text" class="form-control Product" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control VolumeProduction" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control UnitCost" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control AnnualCost" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div id="productionContainer">
+
+                                    <div class="mt-2">
+                                        <div
+                                            class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                            <button
+                                                class="btn btn-primary addProductionRow"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Add a new row"
+                                            >
+                                                <i class="ri-add-box-fill"></i>
+                                            </button>
+                                            <button
+                                                class="btn btn-danger removeRowButton mx-2"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Delete row"
+                                                disabled
+                                            >
+                                                <i class="ri-subtract-fill"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="productionTable">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Product</th>
+                                                    <th scope="col">Volume of Production/Year</th>
+                                                    <th scope="col">Unit Cost of Production (₱)</th>
+                                                    <th scope="col">Annual Cost of Production (₱)</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control Product" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control VolumeProduction" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control UnitCost" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control AnnualCost" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 <hr>
                                 <h6 class="my-4">*Production Equipment</h6>
                                 <hr>
-                                <table class="table table-bordered" id="productionEquipmentTable">
-                                    <thead>
-                                        <tr>
-                                            <th scope="col">Type of Equipment</th>
-                                            <th scope="col">Specification</th>
-                                            <th scope="col">Capacity</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr>
-                                            <td>
-                                                <input type="text" class="form-control TypeOfEquipment" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control Specification" />
-                                            </td>
-                                            <td>
-                                                <input type="text" class="form-control Capacity" />
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
+                                <div id="productionEquipmentContainer">
+                                    <div class="mt-2">
+                                        <div
+                                            class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                            <button
+                                                class="btn btn-primary addProductionEquipmentRow"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Add a new row"
+                                            >
+                                                <i class="ri-add-box-fill"></i>
+                                            </button>
+                                            <button
+                                                class="btn btn-danger removeRowButton mx-2"
+                                                data-toggle="tooltip"
+                                                type="button"
+                                                title="Delete row"
+                                                disabled
+                                            >
+                                                <i class="ri-subtract-fill"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-bordered" id="productionEquipmentTable">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">Type of Equipment</th>
+                                                    <th scope="col">Specification</th>
+                                                    <th scope="col">Capacity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <input type="text" class="form-control TypeOfEquipment" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control Specification" />
+                                                    </td>
+                                                    <td>
+                                                        <input type="text" class="form-control Capacity" />
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
                                 <div class="row gy-3">
                                     <div class="col-12">
                                         <label for="ProductionProblemAndConcern" class="form-label">-Production Problem and Concern</label>

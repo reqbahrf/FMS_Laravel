@@ -88,31 +88,61 @@ export function initializeForm() {
     handleFilePondSelectorDisabling('DtiSecCdaSelector', dtiSecCdaInstance);
     handleFilePondSelectorDisabling('fdaLtoSelector', fdaLtoInstance);
     handleFilePondSelectorDisabling('GovIdSelector', govIdInstance);
-    // Market Outlet Table Functions
-    // const toggleDeleteRowButton = (container, elementSelector) => {
-    //     const element = container.find(elementSelector);
-    //     const deleteRowButton = container.find('.removeRowButton');
-    //     element.length === 1
-    //         ? deleteRowButton.prop('disabled', true)
-    //         : deleteRowButton.prop('disabled', false);
-    // };
 
-    // Handle adding new rows
-    // $('.addNewProductRow').on('click', function () {
-    //     const container = $(this).closest(
-    //         '#localMarketContainer, #exportMarketContainer'
-    //     );
-    //     const table = container.find('table');
+    const BENCHMARKTableConfig  = {
+        productAndSupply: {
+            id: 'productAndSupplyChainContainer',
+            selectors: {
+                rowMaterial: '.RawMaterial',
+                source: '.Source',
+                unitCost: '.UnitCost',
+                volumeUsed: '.VolumeUsed',
+            },
+            requiredFields: [
+                'rowMaterial',
+                'source',
+                'unitCost',
+                'volumeUsed',
+            ],
+        },
+        production: {
+            id: 'productionContainer',
+            selectors: {
+                product: '.Product',
+                volumeProduction: '.VolumeProduction',
+                unitCost: '.UnitCost',
+                annualCost: '.AnnualCost',
+            },
+            requiredFields: [
+                'product',
+                'volumeProduction',
+                'unitCost',
+                'annualCost',
+            ],
+        },
+        productionEquipment: {
+            id: 'productionEquipmentContainer',
+            selectors: {
+                typeOfEquipment: '.TypeOfEquipment',
+                specification: '.Specification',
+                capacity: '.Capacity',
+            },
+            requiredFields: [
+                'typeOfEquipment',
+                'specification',
+                'capacity',
+            ],
+        },
+    };
+    AddNewRowHandler('.addProductAndSupplyChainRow', '#productAndSupplyChainContainer');
+    RemoveRowHandler('.removeRowButton', '#productAndSupplyChainContainer');
 
-    //     const lastRow = table.find('tbody tr:last-child');
-    //     const newRow = lastRow.clone();
-    //     newRow.find('input').val('');
-    //     newRow.find('select').prop('selectedIndex', 0);
-    //     table.find('tbody').append(newRow);
-    //     toggleDeleteRowButton(container, 'tbody tr');
-    // });
+    AddNewRowHandler('.addProductionRow', '#productionContainer');
+    RemoveRowHandler('.removeRowButton', '#productionContainer');
 
-    //TODO: still need testing
+    AddNewRowHandler('.addProductionEquipmentRow', '#productionEquipmentContainer');
+    RemoveRowHandler('.removeRowButton', '#productionEquipmentContainer');
+
     AddNewRowHandler(
         '.addNewProductRow',
         '#localMarketContainer, #exportMarketContainer'
@@ -894,6 +924,8 @@ export function initializeForm() {
         new AddressForm({ prefix: 'office' }),
         new AddressForm({ prefix: 'factory' }),
     ];
+
+
 
     const getMarketProductsData = (tableConfigs) => {
         const allMarketData = TableDataExtractor(tableConfigs);
