@@ -52,6 +52,10 @@ Route::get('/', function () {
     return view('index');
 })->name('home');
 
+
+Route::get('/test', function () {
+    return view('Forms.TNA');
+});
 Route::get('/signup', function () {
     return view('registerpage.signup');
 })->name('registerpage.signup');
