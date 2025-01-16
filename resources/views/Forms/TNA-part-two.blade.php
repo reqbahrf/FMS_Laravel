@@ -76,15 +76,15 @@
                 <td rowspan="10" style="border-width: medium 1px medium medium;border-style: none solid none none;border-color: currentcolor rgb(0, 0, 0) currentcolor currentcolor;padding: 0cm 0.19cm 0cm 0cm;vertical-align: top;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Type of Organization:</span></p>
                 </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td style="">
+                    <input type="radio" name="type_of_organization" value="Single Proprietorship" id="type_of_organization_1">
                 </td>
-                <td colspan="3" style="border-width: medium medium medium 1px;border-style: none none none solid;border-color: currentcolor currentcolor currentcolor rgb(0, 0, 0);padding: 0cm 0cm 0cm 0.19cm;vertical-align: top;">
+                <td colspan="3" style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Single proprietorship</span></p>
                 </td>
             </tr>
             <tr>
-                <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
                 <td colspan="3" style="border: none;padding: 0cm;">
@@ -92,15 +92,15 @@
                 </td>
             </tr>
             <tr>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td style="">
+                    <input type="radio" name="type_of_organization" value="Cooperative" id="type_of_organization_2">
                 </td>
-                <td colspan="3" style="border-top: none;border-bottom: none;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0cm;padding-left: 0.19cm;padding-right: 0cm;">
+                <td colspan="3" style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Cooperative</span></p>
                 </td>
             </tr>
             <tr>
-                <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
+                <td style=";">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
                 <td colspan="3" style="border: none;padding: 0cm;">
@@ -108,15 +108,15 @@
                 </td>
             </tr>
             <tr>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td style="">
+                    <input type="radio" name="type_of_organization" value="Partnership" id="type_of_organization_3">
                 </td>
-                <td colspan="3" style="border-top: none;border-bottom: none;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0cm;padding-left: 0.19cm;padding-right: 0cm;">
+                <td colspan="3" style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Partnership</span></p>
                 </td>
             </tr>
             <tr>
-                <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
                 <td colspan="3" style="border: none;padding: 0cm;">
@@ -124,25 +124,25 @@
                 </td>
             </tr>
             <tr>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td style="">
+                    <input type="radio" name="type_of_organization" value="Corporation" id="type_of_organization_4">
                 </td>
-                <td colspan="3" style="border-top: none;border-bottom: none;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0cm;padding-left: 0.19cm;padding-right: 0cm;">
+                <td colspan="3" style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Corporation</span></p>
                 </td>
             </tr>
             <tr>
-                <td style="border-top: 1px solid #000000;border-bottom: none;border-left: none;border-right: none;padding: 0cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
-                <td style="border-top: none;border-bottom: none;border-left: none;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0cm;padding-left: 0cm;padding-right: 0.19cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
-                <td style="border-top: none;border-bottom: none;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0cm;padding-left: 0.19cm;padding-right: 0cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Profit</span></p>
+                <td style="">
+                    <input type="radio" name="type_of_cooperation" value="Profit" id="type_of_cooperation"><span lang="en-US">Profit</span>
                 </td>
             </tr>
             <tr>
@@ -157,14 +157,14 @@
                 <td style="border: none;padding: 0cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
-                <td style="border-top: none;border-bottom: none;border-left: none;border-right: 1px solid #000000;padding-top: 0cm;padding-bottom: 0cm;padding-left: 0cm;padding-right: 0.19cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
-                <td style="border-top: none;border-bottom: none;border-left: 1px solid #000000;border-right: none;padding-top: 0cm;padding-bottom: 0cm;padding-left: 0.19cm;padding-right: 0cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Non-profit</span></p>
+                <td style="">
+                    <input type="radio" name="type_of_cooperation" value="Profit" id="type_of_cooperation"><span lang="en-US">Non-profit</span>
                 </td>
             </tr>
         </tbody>
@@ -174,15 +174,15 @@
         <tbody>
             <tr>
                 <td style="border: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Enterprise Registration No.</span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Enterprise Registration No.   <input type="text" name="enterprise_registration_no" id="enterprise_registration_no"></span></p>
                 </td>
-                <td colspan="2" style="border-top: none;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td colspan="2" style="">
+                  
                 </td>
-                <td colspan="2" style="border: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Year Registered</span></p>
+                <td colspan="2" style="">
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Year Registered <input type="text" name="year_registered" id="year_registered"></span></p>
                 </td>
-                <td style="border-top: none;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
             </tr>
@@ -193,8 +193,8 @@
                 <td colspan="2" style="border: medium;padding: 0cm;vertical-align: top;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Present capitalization</span></p>
                 </td>
-                <td colspan="2" style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: bottom;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">₱</p>
+                <td colspan="2" style="">
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">₱ <input type="text" name="present_capitalization" id="present_capitalization"></p>
                 </td>
             </tr>
         </tbody>
@@ -212,7 +212,7 @@
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
                 <td colspan="3" style="border: none;padding: 0cm;">
-                    <input type="radio" name="CapitalClassification" value="Small (less - 1.5M)"><span lang="en-US">Small (1.5 &ndash; 15M)</span><span lang="en-US">Micro (less than 1.5M)</span></p>
+                    <input type="radio" name="CapitalClassification" value="Small (less - 1.5M)"><span lang="en-US">Small (1.5 &ndash; 15M)</span><span lang="en-US">Micro (less than 1.5M)</span>
                 </td>
             </tr>
             <tr>
@@ -391,9 +391,9 @@
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Direct Workers</span></p>
                 </td>
                 <td style="border: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                    <input type="text" name="DirectWorkers">
                 </td>
-                <td style="border-top: none;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
             </tr>
@@ -410,8 +410,8 @@
                 <td style="border: none;padding: 0cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Production</span></p>
                 </td>
-                <td style="border-top: none;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td style="">
+                    <input type="text" name="production" id="production">
                 </td>
                 <td style="border: none;padding: 0cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
@@ -430,8 +430,8 @@
                 <td style="border: none;padding: 0cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Non-production</span></p>
                 </td>
-                <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td style="">
+                    <input type="text" name="non_production" id="non_production">
                 </td>
                 <td style="border: none;padding: 0cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
@@ -444,18 +444,18 @@
                 <td colspan="3" style="border: none;padding: 0cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Indirect/Contract Workers</span></p>
                 </td>
-                <td style="border-top: 1px solid #000000;border-bottom: none;border-left: none;border-right: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td style="">
+                    <input type="text" name="indirect_workers">
                 </td>
-                <td style="border-top: none;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                <td style="">
+                   
                 </td>
             </tr>
             <tr>
                 <td colspan="5" style="border: none;padding: 0cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Total</span></p>
+                   <span lang="en-US">Total</span> <input type="text" style="width:20%;" id="total" name="total">
                 </td>
-                <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
+                <td style="">
                     <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
             </tr>
