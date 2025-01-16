@@ -1,52 +1,4 @@
-<!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
-</head>
-<style>
-    #TNAForm {
-        size: A4;
-        margin: 2cm;
-    }
-    #TNAForm {
-        width: 21cm;
-        min-height: 29.7cm;
-        margin: 0 auto;
-        padding: 2cm;
-        background: white;
-        font-size: 12pt;
-    }
-    #TNAForm table {
-        width: 100% !important;
-        margin-bottom: 15pt;
-    }
-    #TNAForm td {
-        padding: 5pt;
-    }
-    #TNAForm p {
-        margin-bottom: 8pt;
-        line-height: 1.5;
-    }
-
-    #TNAForm .padding-md { padding: 12pt; }
-    
-    #TNAForm input[type="text"] {
-        border: none;
-        border-bottom: 1px solid #000;
-        outline: none;
-        padding: 5pt;
-        width: 80%;
-    }
-    /* Convert common px values to pt */
-    #TNAForm .margin-sm { margin: 8pt; }
-    #TNAForm .padding-sm { padding: 8pt; }
-    #TNAForm .margin-md { margin: 12pt; }
-    #TNAForm .padding-md { padding: 12pt; }
-</style>
-<body>
+<div id="TNAForm">
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US"><strong>DOST TNA Form 01</strong></span></p>
     <p style="text-align: center;background: transparent;line-height: 108%;margin-bottom: 0.28cm;"><br>&nbsp;</p>
     <p style="text-align: center;background: transparent;line-height: 108%;margin-bottom: 0.28cm;"><br>&nbsp;</p>
@@ -177,8 +129,8 @@
     <p style="text-align: justify;background: transparent;line-height: 108%;margin-right: 0.02cm;margin-bottom: 0.28cm;"><br>&nbsp;</p>
     <p style="text-align: justify;background: transparent;line-height: 108%;margin-right: 0.02cm;margin-bottom: 0.28cm;"><br>&nbsp;</p>
 
-    @include('Forms.TNA-part-two')
-    @include('Forms.TNA-part-three')
+    <x-t-n-a-form.t-n-a-form-one />
+    <x-t-n-a-form.attachment-a />
     
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -801,6 +753,4 @@
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-</body>
-
-</html>
+</div>
