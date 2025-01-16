@@ -749,7 +749,7 @@
                         </div>
 
                         <div class="card p-0">
-                            <div class="card-header">
+                            <div class="card-header fw-bold">
                                 Office Address:
                             </div>
                             <div class="card-body">
@@ -875,7 +875,7 @@
                             </div>
                         </div>
                         <div class="card p-0">
-                            <div class="card-header">
+                            <div class="card-header fw-bold">
                                 Factory Address:
                             </div>
                             <div class="card-body">
@@ -999,7 +999,7 @@
                     </div>
                     <div class="row justify-content-center my-1 g-3">
                         <div class="card p-0">
-                            <div class="card-header">
+                            <div class="card-header fw-bold">
                                 Assets:
                             </div>
                             <div class="card-body">
@@ -1089,7 +1089,7 @@
                         <div class="row p-0 mt-0 g-3">
                             <div class="col-12 p-0">
                                 <div class="card">
-                                    <div class="card-header">
+                                    <div class="card-header fw-bold">
                                         Number of Personnel Direct(Production):
                                     </div>
                                     <div class="card-body">
@@ -1192,7 +1192,7 @@
                             </div>
                             <div class="col-12 p-0">
                                 <div class="card p-0">
-                                    <div class="card-header">
+                                    <div class="card-header fw-bold">
                                         Number of Personnel Indirect(Admin and Marketing):
                                     </div>
                                     <div class="card-body">
@@ -1295,7 +1295,7 @@
                         </div>
                         <div class="col-12 mb-3 p-0">
                             <div class="card">
-                                <div class="card-header">
+                                <div class="card-header fw-bold">
                                     Market Outlet
                                 </div>
                                 <div class="card-body">
