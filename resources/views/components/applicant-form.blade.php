@@ -34,6 +34,15 @@
                     href="#step-4"
                 >
                     <span class="num">4</span>
+                    Technological Needs Assessment
+                </a>
+            </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link default"
+                    href="#step-5"
+                >
+                    <span class="num">5</span>
                     Confirm Details
                 </a>
             </li>
@@ -1450,8 +1459,17 @@
                     </div>
                 </div>
                 <div
+                class="tab-pane py-5"
+                id="step-4"
+                role="tabpanel"
+                aria-labelledby="step-4"
+                style="position: static; left: 0px; display: none;">
+                <x-t-n-a-form.main />
+
+                </div>
+                <div
                     class="tab-pane py-5"
-                    id="step-4"
+                    id="step-5"
                     role="tabpanel"
                     aria-labelledby="step-4"
                     style="position: static; left: 0px; display: none;"

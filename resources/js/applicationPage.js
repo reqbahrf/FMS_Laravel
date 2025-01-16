@@ -387,7 +387,7 @@ export function initializeForm() {
         currentStep.find('input, select, textarea').each(function () {
             if (!this.checkValidity()) {
                 $(this).addClass('is-invalid'); // Add invalid class for styling
-                isValid = false;
+                isValid = true;
                 $('#smartwizard').smartWizard('fixHeight');
             } else {
                 $(this).removeClass('is-invalid');
