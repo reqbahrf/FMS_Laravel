@@ -1237,6 +1237,264 @@
                                 
                             </div>
                         </div>
+                        <div class="card p-0">
+                            <div class="card-header fw-bold">
+                                BENCHMARK INFORMATION
+                            </div>
+                            <div class="card-body">
+                                <hr>
+                                <h6 class="my-4">*Product and Supply Chain</h6>
+                                <hr>
+                                <table class="table table-bordered" id="productAndSupplyChainTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Raw Material</th>
+                                            <th scope="col">Source</th>
+                                            <th scope="col">Unit Cost (₱)</th>
+                                            <th scope="col">Volume Used/Year</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control RawMaterial" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control Source" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control UnitCost" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control VolumeUsed" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <h6 class="my-4">*Production</h6>
+                                <hr>
+                                <table class="table table-bordered" id="productionTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Product</th>
+                                            <th scope="col">Volume of Production/Year</th>
+                                            <th scope="col">Unit Cost of Production (₱)</th>
+                                            <th scope="col">Annual Cost of Production (₱)</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control Product" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control VolumeProduction" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control UnitCost" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control AnnualCost" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <hr>
+                                <h6 class="my-4">*Production Equipment</h6>
+                                <hr>
+                                <table class="table table-bordered" id="productionEquipmentTable">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Type of Equipment</th>
+                                            <th scope="col">Specification</th>
+                                            <th scope="col">Capacity</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <input type="text" class="form-control TypeOfEquipment" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control Specification" />
+                                            </td>
+                                            <td>
+                                                <input type="text" class="form-control Capacity" />
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div class="row gy-3">
+                                    <div class="col-12">
+                                        <label for="ProductionProblemAndConcern" class="form-label">-Production Problem and Concern</label>
+                                        <textarea class="form-control" id="ProductionProblemAndConcern" name="ProductionProblemAndConcern" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="ProductionWasteManageSystem" class="form-label">-Production Waste Management System</label>
+                                        <textarea class="form-control" id="ProductionWasteManageSystem" name="ProductionWasteManageSystem" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="ProductionPlan" class="form-label">-Production Plan</label>
+                                        <textarea class="form-control" id="ProductionPlan" name="ProductionPlan" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="InventorySystem" class="form-label">-Inventory System</label>
+                                        <textarea class="form-control" id="InventorySystem" name="InventorySystem" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="MaintenanceProgram" class="form-label">-Maintenance Program</label>
+                                        <textarea class="form-control" id="MaintenanceProgram" name="MaintenanceProgram" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="cGMPHACCPActivities" class="form-label">-cGMP/HACCP Activities</label>
+                                        <textarea class="form-control" id="cGMPHACCPActivities" name="cGMPHACCPActivities" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="SuppliesPurchasingSystem" class="form-label">-Supplies/Purchasing System</label>
+                                        <textarea class="form-control" id="SuppliesPurchasingSystem" name="SuppliesPurchasingSystem" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h6  class="my-4">*Marketing</h6>
+                                <hr>
+                                <div class="row gy-3">
+                                    <div class="col-12">
+                                        <label for="MarketingPlan" class="form-label">-Marketing Plan</label>
+                                        <textarea class="form-control" id="MarketingPlan" name="MarketingPlan" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="MarketOutletsAndNumber" class="form-label">-Market Outlets and Number</label>
+                                        <textarea class="form-control" id="MarketOutletsAndNumber" name="MarketOutletsAndNumber" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="PromotionalStrategies" class="form-label">-Promotional Strategies</label>
+                                        <textarea class="form-control" id="PromotionalStrategies" name="PromotionalStrategies" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label for="MarketCompetitors" class="form-label">-Market Competitors</label>
+                                        <textarea class="form-control" id="MarketCompetitors" name="MarketCompetitors" rows="3"></textarea>
+                                    </div>
+                                    <h6>-Packaging</h6>
+                                    <div class="row g-3">
+                                        <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="checkbox" id="nutritionEvaluation" name="nutritionEvaluation">
+                                                    <label class="form-check-label" for="nutritionEvaluation">
+                                                        Nutrition Evaluation
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control mt-2 ms-2" id="nutritionEvaluationDetails" name="nutritionEvaluationDetails">
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="checkbox" id="barCode" name="barCode">
+                                                    <label class="form-check-label" for="barCode">
+                                                        Bar Code
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control mt-2 ms-2" id="barCodeDetails" name="barCodeDetails">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="checkbox" id="productLabel" name="productLabel">
+                                                    <label class="form-check-label" for="productLabel">
+                                                        Product Label
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control mt-2 ms-2" id="productLabelDetails" name="productLabelDetails">
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="form-check mb-2">
+                                                    <input class="form-check-input" type="checkbox" id="expiryDate" name="expiryDate">
+                                                    <label class="form-check-label" for="expiryDate">
+                                                        Expiry Date
+                                                    </label>
+                                                </div>
+                                                <input type="text" class="form-control mt-2 ms-2" id="expiryDateDetails" name="expiryDateDetails">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                                <hr>
+                                <h6 class="my-4">Finance</h6>
+                                <hr>
+                                <div class="row gy-3">
+                                    <div class="col-12">
+                                        <label class="form-label" for="CashFlowAndRelatedDocuments">
+                                            Cash Flow or other related documents:
+                                        </label>
+                                        <textarea class="form-control" id="CashFlowAndRelatedDocuments" name="CashFlowAndRelatedDocuments" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" for="SourceOfCapitalCredit">
+                                            Source(s) of capital/credit:
+                                        </label>
+                                        <textarea class="form-control" id="SourceOfCapitalCredit" name="SourceOfCapitalCredit" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" for="AccountingSystem">
+                                            Accounting System:
+                                        </label>
+                                        <textarea class="form-control" id="AccountingSystem" name="AccountingSystem" rows="3"></textarea>
+                                    </div>
+                                    
+
+                                </div>
+                                <hr>
+                                <h6 class="my-4">Finance</h6>
+                                <hr>
+                                <div class="row gy-3">
+                                    <div class="col-12">
+                                        <label class="form-label" for="HiringAndCriteria">
+                                            Hiring and Criteria:
+                                        </label>
+                                        <textarea class="form-control" id="HiringAndCriteria" name="HiringAndCriteria" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" for="IncentivesToEmployees">
+                                            Incentives to Employees:
+                                        </label>
+                                        <textarea class="form-control" id="IncentivesToEmployees" name="IncentivesToEmployees" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" for="TrainingAndDevelopment">
+                                            Training and Development:
+                                        </label>
+                                        <textarea class="form-control" id="TrainingAndDevelopment" name="TrainingAndDevelopment" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" for="SafetyMeasuresPracticed">
+                                            Safety Measures Practiced:
+                                        </label>
+                                        <textarea class="form-control" id="SafetyMeasuresPracticed" name="SafetyMeasuresPracticed" rows="3"></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label class="form-label" for="OtherEmployeeWelfare">
+                                            Other Employee Welfare:
+                                        </label>
+                                        <textarea class="form-control" id="OtherEmployeeWelfare" name="OtherEmployeeWelfare" rows="3"></textarea>
+                                    </div>
+                                </div>
+                                <hr>
+                                <h6 class="my-4">Other Concerns</h6>
+                                <hr>
+                                <div class="row gy-3">
+                                    <div class="col-12">
+                                        <label class="form-label" for="OtherConcerns">
+                                            Other Concerns:
+                                        </label>
+                                        <textarea class="form-control" id="OtherConcerns" name="OtherConcerns" rows="3"></textarea>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        </div>
                         <div class="row p-0 mt-0 g-3">
                             <div class="col-12 p-0">
                                 <div class="card">
