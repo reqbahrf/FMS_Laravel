@@ -34,15 +34,6 @@
                     href="#step-4"
                 >
                     <span class="num">4</span>
-                    Technological Needs Assessment
-                </a>
-            </li>
-            <li class="nav-item">
-                <a
-                    class="nav-link default"
-                    href="#step-5"
-                >
-                    <span class="num">5</span>
                     Confirm Details
                 </a>
             </li>
@@ -188,6 +179,7 @@
                             </div>
                             <hr>
                         @endif
+                        <h5>Contact Person:</h5>
                         <div class="col-12 col-md-2">
                             <label for="prefix">Prefix:</label>
                             <input
@@ -642,7 +634,7 @@
                         </div>
                         <div class="card p-0">
                             <div class="card-header">
-                                Business Address:
+                                Office Address:
                             </div>
                             <div class="card-body">
                                 <div class="row gy-3">
@@ -650,8 +642,8 @@
                                         <label for="region">Region:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
-                                            id="region"
-                                            name="region"
+                                            id="officeRegion"
+                                            name="officeRegion"
                                             required
                                         >
                                             <option value="">Select Region</option>
@@ -662,8 +654,8 @@
                                         <label for="province">Province:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
-                                            id="province"
-                                            name="province"
+                                            id="officeProvince"
+                                            name="officeProvince"
                                             required
                                             disabled
                                         >
@@ -675,8 +667,8 @@
                                         <label for="city">City:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
-                                            id="city"
-                                            name="city"
+                                            id="officeCity"
+                                            name="officeCity"
                                             required
                                             disabled
                                         >
@@ -688,8 +680,8 @@
                                         <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
-                                            id="barangay"
-                                            name="barangay"
+                                            id="officeBarangay"
+                                            name="officeBarangay"
                                             required
                                             disabled
                                         >
@@ -702,10 +694,10 @@
                                                 *</span></label>
                                         <input
                                             class="form-control"
-                                            id="Landmark"
-                                            name="Landmark"
+                                            id="officeLandmark"
+                                            name="officeLandmark"
                                             type="text"
-                                            value="{{ old('Landmark') }}"
+                                            value="{{ old('officeLandmark') }}"
                                             placeholder="Street Name, or Purok, Building No."
                                             required
                                         >
@@ -718,16 +710,172 @@
                                         </label>
                                         <input
                                             class="form-control"
-                                            id="zipcode"
-                                            name="zipcode"
+                                            id="officeZipcode"
+                                            name="officeZipcode"
                                             type="text"
-                                            value="{{ old('zipcode') }}"
+                                            value="{{ old('officeZipcode') }}"
                                             placeholder="8000"
                                             required
                                         >
                                         <div class="invalid-feedback">
                                             Please enter the zipcode.
                                         </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label for="telNo">Telephone No:</label>
+                                        <input
+                                            class="form-control"
+                                            id="officeTelNo"
+                                            name="officeTelNo"
+                                            type="text"
+                                            value="{{ old('officeTelNo') }}"
+                                            placeholder="1234567"
+                                        >
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label for="faxNo">Fax No:</label>
+                                        <input
+                                            class="form-control"
+                                            id="officeFaxNo"
+                                            name="officeFaxNo"
+                                            type="text"
+                                            value="{{ old('officeFaxNo') }}"
+                                            placeholder="1234567"
+                                        >
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label for="emailAddress">Email Address:</label>
+                                        <input
+                                            class="form-control"
+                                            id="officeEmailAddress"
+                                            name="officeEmailAddress"
+                                            type="email"
+                                            value="{{ old('emailAddress') }}"
+                                            placeholder="example@domain.com"
+                                        >
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card p-0">
+                            <div class="card-header">
+                               Factory Address:
+                            </div>
+                            <div class="card-body">
+                                <div class="row gy-3">
+                                    <div class="col-12 col-md-3">
+                                        <label for="region">Region:<span class="requiredFields">*</span></label>
+                                        <select
+                                            class="form-select"
+                                            id="factoryRegion"
+                                            name="factoryRegion"
+                                            required
+                                        >
+                                            <option value="">Select Region</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a region</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <label for="province">Province:<span class="requiredFields">*</span></label>
+                                        <select
+                                            class="form-select"
+                                            id="factoryProvince"
+                                            name="factoryProvince"
+                                            required
+                                            disabled
+                                        >
+                                            <option value="">Select Province</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a Province</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <label for="city">City:<span class="requiredFields">*</span></label>
+                                        <select
+                                            class="form-select"
+                                            id="factoryCity"
+                                            name="factoryCity"
+                                            required
+                                            disabled
+                                        >
+                                            <option value="">Select City</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a City</div>
+                                    </div>
+                                    <div class="col-12 col-md-3">
+                                        <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
+                                        <select
+                                            class="form-select"
+                                            id="factoryBarangay"
+                                            name="factoryBarangay"
+                                            required
+                                            disabled
+                                        >
+                                            <option value="">Select Barangay</option>
+                                        </select>
+                                        <div class="invalid-feedback">Please select a Barangey</div>
+                                    </div>
+                                    <div class="col-12 col-md-10">
+                                        <label for="Landmark">Landmark: <span class="requiredFields">
+                                                *</span></label>
+                                        <input
+                                            class="form-control"
+                                            id="factoryLandmark"
+                                            name="factoryLandmark"
+                                            type="text"
+                                            value="{{ old('factoryLandmark') }}"
+                                            placeholder="Street Name, or Purok, Building No."
+                                            required
+                                        >
+                                        <div class="invalid-feedback">
+                                            Please enter the landmark.
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-2">
+                                        <label for="zipcode">Zip Code: <span class="requiredFields"> *</span">
+                                        </label>
+                                        <input
+                                            class="form-control"
+                                            id="factoryZipcode"
+                                            name="factoryZipcode"
+                                            type="text"
+                                            value="{{ old('factoryZipcode') }}"
+                                            placeholder="8000"
+                                            required
+                                        >
+                                        <div class="invalid-feedback">
+                                            Please enter the zipcode.
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label for="telNo">Telephone No:</label>
+                                        <input
+                                            class="form-control"
+                                            id="factoryTelNo"
+                                            name="factoryTelNo"
+                                            type="text"
+                                            placeholder="1234567"
+                                        >
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label for="faxNo">Fax No:</label>
+                                        <input
+                                            class="form-control"
+                                            id="factoryFaxNo"
+                                            name="factoryFaxNo"
+                                            type="text"
+                                            placeholder="1234567"
+                                        >
+                                    </div>
+                                    <div class="col-12 col-md-4">
+                                        <label for="emailAddress">Email Address:</label>
+                                        <input
+                                            class="form-control"
+                                            id="factoryEmailAddress"
+                                            name="factoryEmailAddress"
+                                            type="email"
+                                            placeholder="example@domain.com"
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -1459,17 +1607,8 @@
                     </div>
                 </div>
                 <div
-                class="tab-pane py-5"
-                id="step-4"
-                role="tabpanel"
-                aria-labelledby="step-4"
-                style="position: static; left: 0px; display: none;">
-                <x-t-n-a-form.main />
-
-                </div>
-                <div
                     class="tab-pane py-5"
-                    id="step-5"
+                    id="step-4"
                     role="tabpanel"
                     aria-labelledby="step-4"
                     style="position: static; left: 0px; display: none;"
@@ -1562,14 +1701,79 @@
                                                 >
                                             </div>
                                             <div class="col-12">
-                                                <label for="Address">Full Address</label>
+                                                <label for="Address" class="fw-bold">Office Address</label>
                                                 <input
                                                     class="form-control mb-3"
-                                                    id="re_Address"
+                                                    id="re_OfficeAddress"
                                                     type="text"
                                                     readonly
                                                 >
                                             </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="officeTelNo">Telephone No:</label>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_officeTelNo"
+                                                    type="text"
+                                                    readonly
+                                                >
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="officeFaxNo">Fax No:</label>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_officeFaxNo"
+                                                    type="text"
+                                                    readonly
+                                                >
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="officeEmailAddress">Email Address:</label>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_officeEmailAddress"
+                                                    type="email"
+                                                    readonly
+                                                >
+                                            </div>
+                                            <div class="col-12">
+                                                <label for="factoryAddress" class="fw-bold">Factory Address</label>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_factoryAddress"
+                                                    type="text"
+                                                    readonly
+                                                >
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="factoryTelNo">Telephone No:</label>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_factoryTelNo"
+                                                    type="text"
+                                                    readonly
+                                                >
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="factoryFaxNo">Fax No:</label>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_factoryFaxNo"
+                                                    type="text"
+                                                    readonly
+                                                >
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="factoryEmailAddress">Email Address:</label>
+                                                <input
+                                                    class="form-control mb-3"
+                                                    id="re_factoryEmailAddress"
+                                                    type="email"
+                                                    readonly
+                                                >
+                                            </div>
+
+
                                             <div class="col-12 my-3">
                                                 <div class="card">
                                                     <div class="card-header">

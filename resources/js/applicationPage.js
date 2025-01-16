@@ -3,16 +3,14 @@ import {
     showProcessToast,
     hideProcessToast,
 } from './Utilities/utilFunctions';
-import {
-    FormDraftHandler
-} from './Utilities/FormDraftHandler';
+import { FormDraftHandler } from './Utilities/FormDraftHandler';
 import {
     InitializeFilePond,
     handleFilePondSelectorDisabling,
 } from './Utilities/FilepondHandlers';
-import { 
-    AddNewRowHandler, 
-    RemoveRowHandler 
+import {
+    AddNewRowHandler,
+    RemoveRowHandler,
 } from './Utilities/AddAndRemoveTableRowHandler';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
@@ -115,8 +113,14 @@ export function initializeForm() {
     // });
 
     //TODO: still need testing
-    AddNewRowHandler('.addNewProductRow', '#localMarketContainer, #exportMarketContainer');
-    RemoveRowHandler('.removeRowButton', '#localMarketContainer, #exportMarketContainer');
+    AddNewRowHandler(
+        '.addNewProductRow',
+        '#localMarketContainer, #exportMarketContainer'
+    );
+    RemoveRowHandler(
+        '.removeRowButton',
+        '#localMarketContainer, #exportMarketContainer'
+    );
 
     // Handle removing rows
     // $('.removeRowButton').on('click', function () {
@@ -338,23 +342,53 @@ export function initializeForm() {
                 // Business Info
                 $('#re_firm_name').val($('#firm_name').val());
                 $('#re_type_enterprise').val($('#enterpriseType').val());
-                const landMark = $('#Landmark').val();
-                const Barangay = 'Barangay ' + $('#barangay').val();
-                const City = $('#city').val();
-                const Province = $('#province').val();
-                const Region = $('#region').val();
+                const OfficeLandMark = $('#officeLandmark').val();
+                const OfficeBarangay = 'Barangay ' + $('#officeBarangay').val();
+                const OfficeCity = $('#officeCity').val();
+                const OfficeProvince = $('#officeProvince').val();
+                const OfficeRegion = $('#officeRegion').val();
+                const OfficeTeleNumber = $('#officeTelNo').val();
+                const OfficeFax = $('#officeFaxNo').val();
+                const OfficeEmail = $('#officeEmailAddress').val();
 
-                $('#re_Address').val(
-                    landMark +
+                const FactoryLandMark = $('#factoryLandmark').val();
+                const FactoryBarangay = 'Barangay ' + $('#factoryBarangay').val();
+                const FactoryCity = $('#factoryCity').val();
+                const FactoryProvince = $('#factoryProvince').val();
+                const FactoryRegion = $('#factoryRegion').val();
+                const FactoryTeleNumber = $('#factoryTelNo').val();
+                const FactoryFax = $('#factoryFaxNo').val();
+                const FactoryEmail = $('#factoryEmailAddress').val();
+
+                $('#re_OfficeAddress').val(
+                    OfficeLandMark +
                         ', ' +
-                        Barangay +
+                        OfficeBarangay +
                         ', ' +
-                        City +
+                        OfficeCity +
                         ', ' +
-                        Province +
+                        OfficeProvince +
                         ', ' +
-                        Region
+                        OfficeRegion
                 );
+                $('#re_officeEmailAddress').val(OfficeEmail);
+                $('#re_officeTelNo').val(OfficeTeleNumber);
+                $('#re_officeFaxNo').val(OfficeFax);
+
+                $('#re_factoryAddress').val(
+                    FactoryLandMark +
+                        ', ' +
+                        FactoryBarangay +
+                        ', ' +
+                        FactoryCity +
+                        ', ' +
+                        FactoryProvince +
+                        ', ' +
+                        FactoryRegion
+                );
+                $('#re_factoryEmailAddress').val(FactoryEmail);
+                $('#re_factoryTelNo').val(FactoryTeleNumber);
+                $('#re_factoryFaxNo').val(FactoryFax);
                 $('#re_buildings').val($('#buildings').val());
                 $('#re_equipments').val($('#equipments').val());
                 $('#re_working_capital').val($('#working_capital').val());
@@ -608,88 +642,115 @@ export function initializeForm() {
         },
     };
 
-    const populateSelect = (selectElement, data, placeholder) => {
-        const parsedData = typeof data === 'string' ? JSON.parse(data) : data;
-        $(selectElement).html(`<option value="">${placeholder}</option>`); // Clear options
-        $.each(parsedData, (index, item) => {
-            $(selectElement).append(
-                `<option value="${item.name}" data-code="${item.code}">${item.name}</option>`
-            );
-        });
-    };
+    class AddressForm {
+        constructor(config) {
+            this.prefix = config.prefix;
+            this.selectors = {
+                region: `#${this.prefix}Region`,
+                province: `#${this.prefix}Province`,
+                city: `#${this.prefix}City`,
+                barangay: `#${this.prefix}Barangay`,
+            };
+            this.initializeForm();
+        }
 
-    // Function to initialize region dropdown
-    const initializeRegions = () => {
-        const $regionSelect = $('#region');
-        API.fetchRegions().done((regions) => {
-            populateSelect($regionSelect, regions, 'Select Region');
-        });
-    };
-
-    // Function to handle province update based on selected region
-    const updateProvinces = () => {
-        const $regionSelect = $('#region');
-        const $provinceSelect = $('#province');
-        const $citySelect = $('#city');
-        const $barangaySelect = $('#barangay');
-
-        const regionCode = $regionSelect.find(':selected').data('code');
-
-        $provinceSelect.prop('disabled', !regionCode);
-        $citySelect.prop('disabled', true);
-        $barangaySelect.prop('disabled', true);
-
-        populateSelect($provinceSelect, [], 'Select Province');
-        populateSelect($citySelect, [], 'Select City');
-        populateSelect($barangaySelect, [], 'Select Barangay');
-
-        if (regionCode) {
-            API.fetchProvinces(regionCode).done((provinces) => {
-                populateSelect($provinceSelect, provinces, 'Select Province');
+        populateSelect(selectElement, data, placeholder) {
+            const parsedData =
+                typeof data === 'string' ? JSON.parse(data) : data;
+            $(selectElement).html(`<option value="">${placeholder}</option>`);
+            $.each(parsedData, (index, item) => {
+                $(selectElement).append(
+                    `<option value="${item.name}" data-code="${item.code}">${item.name}</option>`
+                );
             });
         }
-    };
 
-    // Function to handle city update based on selected province
-    const updateCities = () => {
-        const $provinceSelect = $('#province');
-        const $citySelect = $('#city');
-        const $barangaySelect = $('#barangay');
+        initializeForm() {
+            this.initializeRegions();
+            $(this.selectors.region).on('change', () => this.updateProvinces());
+            $(this.selectors.province).on('change', () => this.updateCities());
+            $(this.selectors.city).on('change', () => this.updateBarangays());
+        }
 
-        const provinceCode = $provinceSelect.find(':selected').data('code');
-
-        $citySelect.prop('disabled', !provinceCode);
-        $barangaySelect.prop('disabled', true);
-
-        populateSelect($citySelect, [], 'Select City');
-        populateSelect($barangaySelect, [], 'Select Barangay');
-
-        if (provinceCode) {
-            API.fetchCities(provinceCode).done((cities) => {
-                populateSelect($citySelect, cities, 'Select City');
+        initializeRegions() {
+            API.fetchRegions().done((regions) => {
+                this.populateSelect(
+                    this.selectors.region,
+                    regions,
+                    'Select Region'
+                );
             });
         }
-    };
 
-    const updateBarangays = () => {
-        const $citySelect = $('#city');
-        const $barangaySelect = $('#barangay');
+        updateProvinces() {
+            const regionCode = $(this.selectors.region)
+                .find(':selected')
+                .data('code');
 
-        const cityCode = $citySelect.find(':selected').data('code');
+            $(this.selectors.province).prop('disabled', !regionCode);
+            $(this.selectors.city).prop('disabled', true);
+            $(this.selectors.barangay).prop('disabled', true);
 
-        $barangaySelect.prop('disabled', !cityCode);
+            this.populateSelect(this.selectors.province, [], 'Select Province');
+            this.populateSelect(this.selectors.city, [], 'Select City');
+            this.populateSelect(this.selectors.barangay, [], 'Select Barangay');
 
-        if (cityCode) {
-            API.fetchBarangay(cityCode).done((barangays) => {
-                populateSelect($barangaySelect, barangays, 'Select Barangay');
-            });
+            if (regionCode) {
+                API.fetchProvinces(regionCode).done((provinces) => {
+                    this.populateSelect(
+                        this.selectors.province,
+                        provinces,
+                        'Select Province'
+                    );
+                });
+            }
         }
-    };
 
-    initializeRegions();
-    $('#region').on('change', updateProvinces);
-    $('#province').on('change', updateCities);
-    $('#city').on('change', updateBarangays);
+        updateCities() {
+            const provinceCode = $(this.selectors.province)
+                .find(':selected')
+                .data('code');
+
+            $(this.selectors.city).prop('disabled', !provinceCode);
+            $(this.selectors.barangay).prop('disabled', true);
+
+            this.populateSelect(this.selectors.city, [], 'Select City');
+            this.populateSelect(this.selectors.barangay, [], 'Select Barangay');
+
+            if (provinceCode) {
+                API.fetchCities(provinceCode).done((cities) => {
+                    this.populateSelect(
+                        this.selectors.city,
+                        cities,
+                        'Select City'
+                    );
+                });
+            }
+        }
+
+        updateBarangays() {
+            const cityCode = $(this.selectors.city)
+                .find(':selected')
+                .data('code');
+            $(this.selectors.barangay).prop('disabled', !cityCode);
+
+            if (cityCode) {
+                API.fetchBarangay(cityCode).done((barangays) => {
+                    this.populateSelect(
+                        this.selectors.barangay,
+                        barangays,
+                        'Select Barangay'
+                    );
+                });
+            }
+        }
+    }
+
+    // Initialize multiple address forms
+    const addressForms = [
+        new AddressForm({ prefix: 'office' }),
+        new AddressForm({ prefix: 'factory' }),
+    ];
 
     const getMarketProductsData = (tableConfigs) => {
         const allMarketData = TableDataExtractor(tableConfigs);
@@ -724,7 +785,10 @@ export function initializeForm() {
     const formDraftHandler = new FormDraftHandler(ApplicationForm, DRAFT_TYPE);
 
     formDraftHandler.syncTextInputData();
-    formDraftHandler.syncTablesData('#exportMarketTable tr, #localMarketTable tr', tableConfigurations);
+    formDraftHandler.syncTablesData(
+        '#exportMarketTable tr, #localMarketTable tr',
+        tableConfigurations
+    );
 
     const FileMetaHiddenInputs = [
         'IntentFileID_Data_Handler',
@@ -746,7 +810,11 @@ export function initializeForm() {
             'city',
             'barangay',
         ];
-        formDraftHandler.loadTextInputData(draftData, formSelector, excludedFields);
+        formDraftHandler.loadTextInputData(
+            draftData,
+            formSelector,
+            excludedFields
+        );
     };
 
     const loadLocationDropdown = async (
@@ -817,10 +885,9 @@ export function initializeForm() {
             null,
             null,
             loadAddressDropdowns
-        )
+        );
         updateEnterpriseLevel();
-    })
-
+    });
 }
 
 initializeForm();
