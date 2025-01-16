@@ -351,7 +351,47 @@ export function initializeForm() {
                     BusinessType: $('#businessType').val(),
                     InitialCapital: $('#initialCapitalization').val(),
                     presentCapital: $('#presentCapitalization').val(),
-                }
+                    specificProduct: $('#specificProductOrService').val(),
+                    reasonsForAssistance: $(
+                        '#reasonsWhyAssistanceIsBeingSought'
+                    ).val(),
+                    consultationAnswer: $(
+                        'input[name="consultationAnswer"]:checked'
+                    ).val(),
+                    companyAgency: $('#fromWhatCompanyAgency').val(),
+                    assistanceType: $(
+                        '#pleaseSpecifyTheTypeOfAssistanceSought'
+                    ).val(),
+                    whyNot: $('#whyNot').val(),
+                    enterprisePlanForTheNext5Years: $('#enterprisePlanForTheNext5Years').val(),
+                    nextTenYears: $('#nextTenYears').val(),
+                    currentAgreementAndAlliancesUndertaken: $('#currentAgreementAndAlliancesUndertaken').val(),
+                };
+
+                const BusinessActivities = {
+                    foodProcessing: $('#foodProcessing').is(':checked'),
+                    foodProcessingSpecificSector: $(
+                        '#foodProcessingSpecificSector'
+                    ).val(),
+                    furniture: $('#furniture').is(':checked'),
+                    furnitureSpecificSector: $(
+                        '#furnitureSpecificSector'
+                    ).val(),
+                    naturalFibers: $('#naturalFibers').is(':checked'),
+                    naturalFibersSpecificSector: $(
+                        '#naturalFibersSpecificSector'
+                    ).val(),
+                    metals: $('#metals').is(':checked'),
+                    metalsSpecificSector: $('#metalsSpecificSector').val(),
+                    aquatic: $('#aquatic').is(':checked'),
+                    aquaticSpecificSector: $('#aquaticSpecificSector').val(),
+                    horticulture: $('#horticulture').is(':checked'),
+                    horticultureSpecificSector: $(
+                        '#horticultureSpecificSector'
+                    ).val(),
+                    others: $('#others').is(':checked'),
+                    othersSpecificSector: $('#othersSpecificSector').val(),
+                };
                 const OfficeLandMark = $('#officeLandmark').val();
                 const OfficeBarangay = 'Barangay ' + $('#officeBarangay').val();
                 const OfficeCity = $('#officeCity').val();
@@ -362,7 +402,8 @@ export function initializeForm() {
                 const OfficeEmail = $('#officeEmailAddress').val();
 
                 const FactoryLandMark = $('#factoryLandmark').val();
-                const FactoryBarangay = 'Barangay ' + $('#factoryBarangay').val();
+                const FactoryBarangay =
+                    'Barangay ' + $('#factoryBarangay').val();
                 const FactoryCity = $('#factoryCity').val();
                 const FactoryProvince = $('#factoryProvince').val();
                 const FactoryRegion = $('#factoryRegion').val();
@@ -371,12 +412,16 @@ export function initializeForm() {
                 const FactoryEmail = $('#factoryEmailAddress').val();
 
                 $('#re_briefBackground').val(BusinessInfo.Background);
-                $("#re_businessPermitNo").val(BusinessInfo.PermitNo);
-                $("#re_yearRegistered").val(BusinessInfo.PermitYearRegistered);
-                $("#re_enterpriseRegistrationNo").val(BusinessInfo.RegistrationNo);
-                $("#re_yearEnterpriseRegistered").val(BusinessInfo.RegistrationYear);
-                $("#re_initialCapitalization").val(BusinessInfo.InitialCapital);
-                $("#re_presentCapitalization").val(BusinessInfo.presentCapital);
+                $('#re_businessPermitNo').val(BusinessInfo.PermitNo);
+                $('#re_yearRegistered').val(BusinessInfo.PermitYearRegistered);
+                $('#re_enterpriseRegistrationNo').val(
+                    BusinessInfo.RegistrationNo
+                );
+                $('#re_yearEnterpriseRegistered').val(
+                    BusinessInfo.RegistrationYear
+                );
+                $('#re_initialCapitalization').val(BusinessInfo.InitialCapital);
+                $('#re_presentCapitalization').val(BusinessInfo.presentCapital);
 
                 $('#re_OfficeAddress').val(
                     OfficeLandMark +
@@ -407,6 +452,48 @@ export function initializeForm() {
                 $('#re_factoryEmailAddress').val(FactoryEmail);
                 $('#re_factoryTelNo').val(FactoryTeleNumber);
                 $('#re_factoryFaxNo').val(FactoryFax);
+
+                $('#re_foodProcessing').prop(
+                    'checked',
+                    BusinessActivities.foodProcessing
+                );
+                $('#re_foodProcessingSpecificSector').val(
+                    BusinessActivities.foodProcessingSpecificSector
+                );
+                $('#re_furniture').prop(
+                    'checked',
+                    BusinessActivities.furniture
+                );
+                $('#re_furnitureSpecificSector').val(
+                    BusinessActivities.furnitureSpecificSector
+                );
+                $('#re_naturalFibers').prop(
+                    'checked',
+                    BusinessActivities.naturalFibers
+                );
+                $('#re_naturalFibersSpecificSector').val(
+                    BusinessActivities.naturalFibersSpecificSector
+                );
+                $('#re_metals').prop('checked', BusinessActivities.metals);
+                $('#re_metalsSpecificSector').val(
+                    BusinessActivities.metalsSpecificSector
+                );
+                $('#re_aquatic').prop('checked', BusinessActivities.aquatic);
+                $('#re_aquaticSpecificSector').val(
+                    BusinessActivities.aquaticSpecificSector
+                );
+                $('#re_horticulture').prop(
+                    'checked',
+                    BusinessActivities.horticulture
+                );
+                $('#re_horticultureSpecificSector').val(
+                    BusinessActivities.horticultureSpecificSector
+                );
+                $('#re_others').prop('checked', BusinessActivities.others);
+                $('#re_othersSpecificSector').val(
+                    BusinessActivities.othersSpecificSector
+                );
+
                 $('#re_buildings').val($('#buildings').val());
                 $('#re_equipments').val($('#equipments').val());
                 $('#re_working_capital').val($('#working_capital').val());
@@ -429,6 +516,44 @@ export function initializeForm() {
                 $('#re_f_personnelIndPart').val($('#f_personnelIndPart').val());
 
                 // Object mapping file input IDs to their corresponding readonly input IDs
+
+                // Update the review section with consultation data
+                $('#re_specificProductOrService').val(
+                    BusinessInfo.specificProduct
+                );
+                $('#re_reasonsWhyAssistanceIsBeingSought').val(
+                    BusinessInfo.reasonsForAssistance
+                );
+
+                $('#re_enterprisePlanForTheNext5Years').val(
+                    BusinessInfo.enterprisePlanForTheNext5Years
+                );
+                $('#re_nextTenYears').val(
+                    BusinessInfo.nextTenYears
+                );
+                $('#re_currentAgreementAndAlliancesUndertaken').val(
+                    BusinessInfo.currentAgreementAndAlliancesUndertaken
+                );
+
+                // Handle consultation radio buttons in review
+                if (BusinessInfo.consultationAnswer === 'yes') {
+                    $('#re_consultationYes').prop('checked', true);
+                    $('#re_consultationNo').prop('checked', false);
+                    $('#re_yesConsultationDetails').show();
+                    $('#re_noConsultationDetails').hide();
+                    $('#re_fromWhatCompanyAgency').val(
+                        BusinessInfo.companyAgency
+                    );
+                    $('#re_pleaseSpecifyTheTypeOfAssistanceSought').val(
+                        BusinessInfo.assistanceType
+                    );
+                } else if (BusinessInfo.consultationAnswer === 'no') {
+                    $('#re_consultationYes').prop('checked', false);
+                    $('#re_consultationNo').prop('checked', true);
+                    $('#re_yesConsultationDetails').hide();
+                    $('#re_noConsultationDetails').show();
+                    $('#re_whyNot').val(BusinessInfo.whyNot);
+                }
             }
         }
     );
@@ -906,6 +1031,7 @@ export function initializeForm() {
         );
         updateEnterpriseLevel();
     });
+
 }
 
 initializeForm();
