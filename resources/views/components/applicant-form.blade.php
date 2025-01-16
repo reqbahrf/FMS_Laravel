@@ -614,24 +614,140 @@
                                 <option value="">Select Enterprise</option>
                                 <option
                                     value="Sole Proprietorship"
-                                    {{ old('enterpriseType') == 'Sole Proprietorship' ? 'selected' : '' }}
                                 >Sole
                                     Proprietorship</option>
                                 <option
                                     value="Partnership"
-                                    {{ old('enterpriseType') == 'Partnership' ? 'selected' : '' }}
                                 >Partnership
                                 </option>
                                 <option
-                                    value="Corporation"
-                                    {{ old('enterpriseType') == 'Corporation' ? 'selected' : '' }}
-                                >Corporation
+                                    value="Corporation (Non-Profit)"
+                                >Corporation (Non-Profit)
+                                </option>
+                                <option
+                                    value="Corporation (Profit)"
+                                >Corporation (Profit)
                                 </option>
                             </select>
                             <div class="invalid-feedback">
                                 Please select a type of enterprise.
                             </div>
                         </div>
+                        <div class="col-12 col-md-12">
+                            <label for="briefBackground">Brief Enterprise Background: <span class="requiredFields">
+                                    *</span></label>
+                            <textarea
+                                class="form-control"
+                                id="briefBackground"
+                                name="briefBackground"
+                                rows="3"
+                                placeholder="Enter Brief Enterprise Background"
+                                required
+                            ></textarea>
+                            <div class="invalid-feedback">
+                                Please enter the brief enterprise background.
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="businessPermitNo">Business Permit No.: <span class="requiredFields">
+                                    *</span></label>
+                            <input
+                                class="form-control"
+                                id="businessPermitNo"
+                                name="businessPermitNo"
+                                type="text"
+                                value="{{ old('businessPermitNo') }}"
+                                placeholder="Enter Business Permit No."
+                                required
+                            >
+                            <div class="invalid-feedback">
+                                Please enter the business permit no.
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label for="yearRegistered">Year Registered: <span class="requiredFields">
+                                    *</span></label>
+                            <input
+                                class="form-control"
+                                id="permitYearRegistered"
+                                name="permitYearRegistered"
+                                type="date"
+                                value="{{ old('permitYearRegistered') }}"
+                                max="{{ date('Y-m') }}"
+                                required
+                            >
+                            <div class="invalid-feedback">
+                                Please enter the year registered.
+                            </div>
+                        </div>
+                      
+                        <div class="col-12 col-md-6">
+                            <label for="enterpriseRegistrationNo">Enterprise Registration No.: <span class="requiredFields">
+                                    *</span></label>
+                            <input
+                                class="form-control"
+                                id="enterpriseRegistrationNo"
+                                name="enterpriseRegistrationNo"
+                                type="text"
+                                value="{{ old('enterpriseRegistrationNo') }}"
+                                placeholder="Enter Enterprise Registration No."
+                                required
+                            >
+                            <div class="invalid-feedback">
+                                Please enter the enterprise registration no.
+                            </div>
+                        </div>
+
+                        <div class="col-12 col-md-6">
+                            <label for="yearEnterpriseRegistered">Year Enterprise Registered: <span class="requiredFields">
+                                    *</span></label>
+                            <input
+                                class="form-control"
+                                id="yearEnterpriseRegistered"
+                                name="yearEnterpriseRegistered"
+                                type="date"
+                                value="{{ old('yearEnterpriseRegistered') }}"
+                                max="{{ date('Y-m') }}"
+                                required
+                            >
+                            <div class="invalid-feedback">
+                                Please enter the year enterprise registered.
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="initialCapitalization">Initial Capitalization: <span class="requiredFields">
+                                    *</span></label>
+                            <input
+                                class="form-control"
+                                id="initialCapitalization"
+                                name="initialCapitalization"
+                                type="number"
+                                value="{{ old('initialCapitalization') }}"
+                                placeholder="0.00"
+                                required
+                            >
+                            <div class="invalid-feedback">
+                                Please enter the initial capitalization.
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-4">
+                            <label for="presentCapitalization">Present Capitalization: <span class="requiredFields">
+                                    *</span></label>
+                            <input
+                                class="form-control"
+                                id="presentCapitalization"
+                                name="presentCapitalization"
+                                type="number"
+                                value="{{ old('presentCapitalization') }}"
+                                placeholder="0.00"
+                                required
+                            >
+                            <div class="invalid-feedback">
+                                Please enter the present capitalization.
+                            </div>
+                        </div>
+
                         <div class="card p-0">
                             <div class="card-header">
                                 Office Address:
@@ -754,13 +870,13 @@
                                             placeholder="example@domain.com"
                                         >
                                     </div>
-                                    
+
                                 </div>
                             </div>
                         </div>
                         <div class="card p-0">
                             <div class="card-header">
-                               Factory Address:
+                                Factory Address:
                             </div>
                             <div class="card-body">
                                 <div class="row gy-3">
@@ -1143,8 +1259,7 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="col-12">
-                                                                    <label for="">Male:
-                                                                    </label>
+                                                                    <label for="m_personnelIndPart">Male</label>
                                                                     <input
                                                                         class="form-control num_only"
                                                                         id="m_personnelIndPart"
@@ -1157,8 +1272,7 @@
 
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="">Female:
-                                                                    </label>
+                                                                    <label for="f_personnelIndPart">Female</label>
                                                                     <input
                                                                         class="form-control num_only"
                                                                         id="f_personnelIndPart"
@@ -1680,7 +1794,7 @@
                                         Business Information
                                     </div>
                                     <div class="card-body">
-                                        <div class="row">
+                                        <div class="row gy-3">
                                             <div class="col-12 col-md-8">
                                                 <label for="firm_name">Firm Name</label>
                                                 <input
@@ -1700,8 +1814,120 @@
                                                     readonly
                                                 >
                                             </div>
+                                            <div class="col-12 col-md-12">
+                                                <label for="briefBackground">Brief Enterprise Background: <span class="requiredFields">
+                                                        *</span></label>
+                                                <textarea
+                                                    class="form-control"
+                                                    id="re_briefBackground"
+                                                    name="briefBackground"
+                                                    rows="3"
+                                                    readonly
+                                                ></textarea>
+                                                <div class="invalid-feedback">
+                                                    Please enter the brief enterprise background.
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-6">
+                                                <label for="businessPermitNo">Business Permit No.: <span class="requiredFields">
+                                                        *</span></label>
+                                                <input
+                                                    class="form-control"
+                                                    id="re_businessPermitNo"
+                                                    name="businessPermitNo"
+                                                    type="text"
+                                                    value="{{ old('businessPermitNo') }}"
+                                                    readonly
+                                                >
+                                                <div class="invalid-feedback">
+                                                    Please enter the business permit no.
+                                                </div>
+                                            </div>
+                    
+                                            <div class="col-12 col-md-6">
+                                                <label for="yearRegistered">Year Registered: <span class="requiredFields">
+                                                        *</span></label>
+                                                <input
+                                                    class="form-control"
+                                                    id="re_yearRegistered"
+                                                    name="yearRegistered"
+                                                    type="date"
+                                                    value="{{ old('yearRegistered') }}"
+                                                    max="{{ date('Y-m') }}"
+                                                    readonly
+                                                >
+                                                <div class="invalid-feedback">
+                                                    Please enter the year registered.
+                                                </div>
+                                            </div>
+                                          
+                                            <div class="col-12 col-md-6">
+                                                <label for="enterpriseRegistrationNo">Enterprise Registration No.: <span class="requiredFields">
+                                                        *</span></label>
+                                                <input
+                                                    class="form-control"
+                                                    id="re_enterpriseRegistrationNo"
+                                                    name="enterpriseRegistrationNo"
+                                                    type="text"
+                                                    value="{{ old('enterpriseRegistrationNo') }}"
+                                                    readonly
+                                                >
+                                                <div class="invalid-feedback">
+                                                    Please enter the enterprise registration no.
+                                                </div>
+                                            </div>
+                    
+                                            <div class="col-12 col-md-6">
+                                                <label for="yearEnterpriseRegistered">Year Enterprise Registered: <span class="requiredFields">
+                                                        *</span></label>
+                                                <input
+                                                    class="form-control"
+                                                    id="re_yearEnterpriseRegistered"
+                                                    name="yearEnterpriseRegistered"
+                                                    type="date"
+                                                    value="{{ old('yearEnterpriseRegistered') }}"
+                                                    max="{{ date('Y-m') }}"
+                                                    readonly
+                                                >
+                                                <div class="invalid-feedback">
+                                                    Please enter the year enterprise registered.
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="initialCapitalization">Initial Capitalization: <span class="requiredFields">
+                                                        *</span></label>
+                                                <input
+                                                    class="form-control"
+                                                    id="re_initialCapitalization"
+                                                    name="initialCapitalization"
+                                                    type="number"
+                                                    value="{{ old('initialCapitalization') }}"
+                                                    readonly
+                                                >
+                                                <div class="invalid-feedback">
+                                                    Please enter the initial capitalization.
+                                                </div>
+                                            </div>
+                                            <div class="col-12 col-md-4">
+                                                <label for="presentCapitalization">Present Capitalization: <span class="requiredFields">
+                                                        *</span></label>
+                                                <input
+                                                    class="form-control"
+                                                    id="re_presentCapitalization"
+                                                    name="presentCapitalization"
+                                                    type="number"
+                                                    value="{{ old('presentCapitalization') }}"
+                                                    readonly
+                                                >
+                                                <div class="invalid-feedback">
+                                                    Please enter the present capitalization.
+                                                </div>
+                                            </div>
                                             <div class="col-12">
-                                                <label for="Address" class="fw-bold">Office Address</label>
+                                                <label
+                                                    class="fw-bold"
+                                                    for="Address"
+                                                >Office Address</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_OfficeAddress"
@@ -1737,7 +1963,10 @@
                                                 >
                                             </div>
                                             <div class="col-12">
-                                                <label for="factoryAddress" class="fw-bold">Factory Address</label>
+                                                <label
+                                                    class="fw-bold"
+                                                    for="factoryAddress"
+                                                >Factory Address</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_factoryAddress"
@@ -1772,7 +2001,7 @@
                                                     readonly
                                                 >
                                             </div>
-
+                                          
 
                                             <div class="col-12 my-3">
                                                 <div class="card">
@@ -1816,7 +2045,8 @@
                                                                 </div>
                                                                 <div class="col-12 col-md-6">
                                                                     <p>Enterprise Level: <span
-                                                                            id="re_Enterprise_Level"></span>
+                                                                            id="re_Enterprise_Level"
+                                                                        ></span>
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -1824,6 +2054,7 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            
                                             <div class="col-12">
                                                 <div class="row">
                                                     <div class="col-12 col-md-3">
@@ -2187,4 +2418,3 @@
     </div>
     {{-- Modal End --}}
 </div>
-

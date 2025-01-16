@@ -342,6 +342,16 @@ export function initializeForm() {
                 // Business Info
                 $('#re_firm_name').val($('#firm_name').val());
                 $('#re_type_enterprise').val($('#enterpriseType').val());
+                const BusinessInfo = {
+                    Background: $('#briefBackground').val(),
+                    PermitNo: $('#businessPermitNo').val(),
+                    PermitYearRegistered: $('#permitYearRegistered').val(),
+                    RegistrationNo: $('#enterpriseRegistrationNo').val(),
+                    RegistrationYear: $('#yearEnterpriseRegistered').val(),
+                    BusinessType: $('#businessType').val(),
+                    InitialCapital: $('#initialCapitalization').val(),
+                    presentCapital: $('#presentCapitalization').val(),
+                }
                 const OfficeLandMark = $('#officeLandmark').val();
                 const OfficeBarangay = 'Barangay ' + $('#officeBarangay').val();
                 const OfficeCity = $('#officeCity').val();
@@ -359,6 +369,14 @@ export function initializeForm() {
                 const FactoryTeleNumber = $('#factoryTelNo').val();
                 const FactoryFax = $('#factoryFaxNo').val();
                 const FactoryEmail = $('#factoryEmailAddress').val();
+
+                $('#re_briefBackground').val(BusinessInfo.Background);
+                $("#re_businessPermitNo").val(BusinessInfo.PermitNo);
+                $("#re_yearRegistered").val(BusinessInfo.PermitYearRegistered);
+                $("#re_enterpriseRegistrationNo").val(BusinessInfo.RegistrationNo);
+                $("#re_yearEnterpriseRegistered").val(BusinessInfo.RegistrationYear);
+                $("#re_initialCapitalization").val(BusinessInfo.InitialCapital);
+                $("#re_presentCapitalization").val(BusinessInfo.presentCapital);
 
                 $('#re_OfficeAddress').val(
                     OfficeLandMark +
