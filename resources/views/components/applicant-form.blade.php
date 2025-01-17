@@ -651,6 +651,38 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
+                            <label for="website">Website:</label>
+                            <input
+                                class="form-control"
+                                id="website"
+                                name="website"
+                                type="url"
+                                value="{{ old('website') }}"
+                                placeholder="https://example.com"
+                            >
+                            <div class="invalid-feedback">
+                                Please enter a valid website.
+                            </div>
+                        </div>
+                        <div class="col-12 col-md-6">
+                            <label for="yearEstablished">Year Enterprise Was Established: <span class="requiredFields">
+                                    *</span></label>
+                            <input
+                                class="form-control"
+                                id="yearEstablished"
+                                name="yearEstablished"
+                                type="date"
+                                value="{{ old('yearEstablished') }}"
+                                placeholder="2022"
+                                required
+                            >
+                            <div class="invalid-feedback">
+                                Please enter the year enterprise was established.
+                            </div>
+                        </div>
+                        
+
+                        <div class="col-12 col-md-6">
                             <label for="businessPermitNo">Business Permit No.: <span class="requiredFields">
                                     *</span></label>
                             <input

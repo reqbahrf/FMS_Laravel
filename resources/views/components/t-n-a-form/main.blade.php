@@ -370,7 +370,6 @@
                 </td>
             </tr>
         </tbody>
-        </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <ul>

@@ -22,13 +22,13 @@
             <tr>
                 <td colspan="3" style="border: none;padding: 0cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Name of Enterprise:
-                        <input name="enterprise_name" type="text" placeholder="Enterprise Name"></span></p>
+                        <input name="enterprise_name" type="text" value="{{ $TNAdata['firm_name'] ?? '' }}" placeholder="Enterprise Name"></span></p>
                 </td>
             </tr>
             <tr>
                 <td colspan="3" style="border: medium;padding: 0cm;vertical-align: top;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Production Site/ Location:
-                        <input name="production_site" placeholder="Production Site" type="text"></span></p>
+                        <input name="factory_address" placeholder="Production Site" value="{{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '')  . ' '. ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }} type="text"></span></p>
                 </td>
                 <td colspan="4" style="border-width: 1px medium;border-style: solid none;border-color: rgb(0, 0, 0) currentcolor;padding: 0cm;vertical-align: bottom;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
@@ -36,10 +36,10 @@
             </tr>
             <tr>
                 <td colspan="2" style="border: medium;padding: 0cm;vertical-align: top;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Business Permit No.:<input name="business_permit_no" type="text" placeholder="Business Permit"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Business Permit No.:<input name="businessPermitNo" value="{{ $TNAdata['businessPermitNo'] ?? '' }}" type="text" placeholder="Business Permit"></span></p>
                 </td>
                 <td colspan="2" style="border-width: 1px medium medium;border-style: solid none none;border-color: rgb(0, 0, 0) currentcolor currentcolor;padding: 0cm;vertical-align: bottom;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Year Registered:<input name="year_registered" type="text" placeholder="Year"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Year Registered:<input name="permitYearRegistered" value="{{ $TNAdata['permitYearRegistered'] ?? '' }}" type="text" placeholder="Year"></span></p>
                 </td>
             </tr>
             <tr>
@@ -47,8 +47,7 @@
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
                         <span lang="en-US">Brief Enterprise Background:</span>
                     </p>
-                    <textarea style="width:100%"></textarea>
-                   
+                    <textarea name="enterpriseBackground" style="width:100%">{{ $TNAdata['enterpriseBackground'] ?? '' }}</textarea>
                 </td>             
             </tr>
         </tbody>
