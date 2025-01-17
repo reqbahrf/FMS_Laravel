@@ -35,7 +35,7 @@ class TNAdataHandlerService
                 ->first();
             return $TNAForm ? $TNAForm->data : null;
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception('Error in getting TNA data: ' . $e->getMessage());
         }
     }
 }

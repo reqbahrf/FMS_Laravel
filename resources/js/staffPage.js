@@ -4978,6 +4978,7 @@ async function initializeStaffPageJs() {
                         type:'GET',
                         url: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT.replace(':business_id', business_Id),
                     })
+                    TNADocumentContainerModal.find('.modal-body').html(response)
                 }catch(error){
                     showToastFeedback(
                         'text-bg-danger',
@@ -4986,6 +4987,12 @@ async function initializeStaffPageJs() {
                 }
 
             }
+
+            TNADocumentContainerModal.on('show.bs.modal', async function (event) {
+                const business_Id = $(event.relatedTarget).attr('data-business-id');
+                await getTNAForm(business_Id)
+            })
+
             await getApplicants();
             await initializeEchoListeners();
         },
