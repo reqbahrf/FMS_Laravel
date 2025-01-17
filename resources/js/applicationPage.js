@@ -137,6 +137,11 @@ export function initializeForm() {
             ],
         },
     };
+
+    const beachMarkTableData = (BENCHMARKTableConfig) => {
+        const data = TableDataExtractor(BENCHMARKTableConfig);
+        return data;
+    }
     AddNewRowHandler('.addProductAndSupplyChainRow', '#productAndSupplyChainContainer');
     RemoveRowHandler('.removeRowButton', '#productAndSupplyChainContainer');
 
@@ -646,6 +651,7 @@ export function initializeForm() {
 
             formDataObject = {
                 ...formDataObject,
+                ...beachMarkTableData(BENCHMARKTableConfig),
                 ...getMarketProductsData(tableConfigurations),
             };
 

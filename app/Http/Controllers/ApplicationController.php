@@ -3,19 +3,22 @@
 namespace App\Http\Controllers;
 
 use App\Events\ProjectEvent;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NewRegistrationRequest;
-use Illuminate\Support\Facades\Cache;
 
 class ApplicationController extends Controller
 {
 
-
-    public function store(NewRegistrationRequest $request)
+//Remove The NewRegistrationRequest Do do some testing 
+    public function store(Request $request)
     {
+
+        dd($request);
         $user_name = Auth::user()->user_name;
 
         $successful_inserts = 0;
