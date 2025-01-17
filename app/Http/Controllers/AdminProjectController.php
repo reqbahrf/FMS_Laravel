@@ -52,7 +52,7 @@ class AdminProjectController extends Controller
             // Send notification to assigned staff's user account
             $assignedStaff = OrgUserInfo::with('user')->findOrFail($validated['assigned_staff_id']);
             if ($assignedStaff->user) {
-                $assignedStaff->user->notify(new ProjectAssignmentNotification($project))->afterCommit();
+                $assignedStaff->user->notify(new ProjectAssignmentNotification($project));
             }
 
             if ($project->wasChanged('handled_by_id')) {
