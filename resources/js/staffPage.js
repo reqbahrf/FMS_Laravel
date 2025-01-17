@@ -4968,6 +4968,21 @@ async function initializeStaffPageJs() {
                 },
             });
 
+            const getTNAForm = async () => {
+                try{
+                    const response = await $.ajax({
+                        
+                    })
+
+                }catch(error){
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error.responseJSON.message
+                    );
+                }
+
+            }
+
             await getApplicants();
             await initializeEchoListeners();
         },
