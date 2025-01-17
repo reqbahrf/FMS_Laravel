@@ -8,39 +8,43 @@
         <tbody>
             <tr>
                 <td colspan="3" style="border: 1px solid rgb(0, 0, 0);padding: 0cm 0.19cm;vertical-align: top;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Name of Enterprise:&nbsp;<input type="text" name="name_of_enterprise" id="name_of_enterprise" placeholder="Name of Enterprise"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
+                        <span lang="en-US">Name of Enterprise:&nbsp;<input type="text" name="firm_name" id="firm_name" value="{{ $TNAdata['firm_name'] ?? '' }}" placeholder="Name of Enterprise"></span></p>
                 </td>
             </tr>
         </tbody>
         <tbody>
             <tr>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Contact Person:&nbsp;<input type="text" name="contact_person" id="contact_person" placeholder="Contact Person"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
+                        <span lang="en-US">Contact Person:&nbsp;<input type="text" name="contact_person" id="contact_person" value="{{ $TNAdata['contact_person'] ?? (($TNAdata['prefix'] ?? ''    ) . ' ' . ($TNAdata['f_name'] ?? '') . ' ' .  ($TNAdata['middle_name'] ?? '') . ' ' .  ($TNAdata['l_name'] ?? '') . ' ' .  ($TNAdata['suffix'] ?? '')) }}" placeholder="Contact Person"></span></p>
                 </td>
                 <td colspan="2" style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Position in the Enterprise: (wife of the owner) <input type="text" name="position_in_enterprise" id="position_in_enterprise" placeholder="Position in the Enterprise"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
+                        <span lang="en-US">Position in the Enterprise: (wife of the owner) <input type="text" name="position_in_enterprise" id="position_in_enterprise" placeholder="Position in the Enterprise"></span></p>
                 </td>
             </tr>
         </tbody>
         <tbody>
             <tr>
                 <td rowspan="2" style="border-top: 1px solid #000000;border-bottom: none;border-left: 1px solid #000000;border-right: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">Office Address:&nbsp; <input type="text" name="office_address" id="office_address" placeholder="Office Address"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;">
+                        <span lang="en-US">Office Address:&nbsp; <input type="text" name="office_address" id="office_address" value="{{ $TNAdata['office_address'] ?? (($TNAdata['officeLandmark'] ?? '') . ' ' . ($TNAdata['officeBarangay'] ?? '') . ' ' . ($TNAdata['officeCity'] ?? '') . ' ' . ($TNAdata['officeProvince'] ?? '')  . ' '. ($TNAdata['officeRegion'] ?? '') . ' ' . ($TNAdata['officeZipCode'] ?? ''))  }}" placeholder="Office Address"></span></p>
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">Tel No.: <input type="text" name="tel_no" id="tel_no" placeholder="Tel No."></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">Tel No.: <input type="text" name="officeTelNo" id="officeTelNo" value="{{ $TNAdata['officeTelNo'] ?? '' }}" placeholder="Tel No."></span></p>
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Fax No.: <input type="text" name="fax_no" id="fax_no" placeholder="Fax No."></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Fax No.: <input type="text" name="officeFaxNo" id="officeFaxNo" value="{{ $TNAdata['officeFaxNo'] ?? '' }}" placeholder="Fax No."></span></p>
                 </td>
             </tr>
         </tbody>
         <tbody>
             <tr>
                 <td rowspan="2" colspan="2" style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">E-mail Address:&nbsp; <input type="text" name="email_address" id="email_address" placeholder="E-mail Address"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">E-mail Address:&nbsp; <input type="text" name="officeEmailAddress" id="officeEmailAddress" value="{{ $TNAdata['officeEmailAddress'] ?? '' }}" placeholder="E-mail Address"></span></p>
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
             </tr>
@@ -53,22 +57,22 @@
         <tbody>
             <tr>
                 <td rowspan="2" style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">Factory Address: <input type="text" name="factory_address" id="factory_address" placeholder="Factory Address"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">Factory Address: <input type="text" name="factory_address" id="factory_address" value="{{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '')  . ' '. ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}" placeholder="Factory Address"></span></p>
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">Tel No.: <input type="text" name="tel_no" id="tel_no" placeholder="Tel No."></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">Tel No.: <input type="text" name="factoryTelNo" id="factoryTelNo" value="{{ $TNAdata['factoryTelNo'] ?? '' }}" placeholder="Tel No."></span></p>
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Fax No.:&nbsp; <input type="text" name="fax_no" id="fax_no" placeholder="Fax No."></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Fax No.:&nbsp; <input type="text" name="factoryFaxNo" id="factoryFaxNo" value="{{ $TNAdata['factoryFaxNo'] ?? '' }}" placeholder="Fax No."></span></p>
                 </td>
             </tr>
         </tbody>
         <tbody>
             <tr>
                 <td colspan="2" style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">E-mail Address: <input type="text" name="email_address" id="email_address" placeholder="E-mail Address"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span lang="en-US">E-mail Address: <input type="text" name="factoryEmailAddress" id="factoryEmailAddress" value="{{ $TNAdata['factoryEmailAddress'] ?? '' }}" placeholder="E-mail Address"></span></p>
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
             </tr>
@@ -76,7 +80,7 @@
         <tbody>
             <tr>
                 <td colspan="3" style="border: 1px solid rgb(0, 0, 0);padding: 0cm 0.19cm;vertical-align: top;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Website:&nbsp; <input type="text" name="website" id="website" placeholder="Website"></span></p>
+                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Website:&nbsp; <input type="text" name="website" id="website" value="{{ $TNAdata['website'] ?? '' }}" placeholder="Website"></span></p>
                 </td>
             </tr>
         </tbody>
@@ -152,34 +156,22 @@
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <table cellpadding="7" style="width: 543px;">
         <tbody>
+            @foreach ($TNAdata['production'] ?? [] as $production)
             <tr>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US"><strong>Product</strong></span></p>
+                    <input type="text" name="product" class="product" value="{{ $production['product'] ?? '' }}" />
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US"><strong>Volume of Production/Year</strong></span></p>
+                    <input type="text" name="volumeProduction" class="volumeProduction" value="{{ $production['volumeProduction'] ?? '' }}" />
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US"><strong>Unit Cost of Production (₱)</strong></span></p>
+                    <input type="text" name="unitCost" class="unitCost" value="{{ $production['unitCost'] ?? '' }}" />
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US"><strong>Annual Cost of Production (₱)</strong></span></p>
+                    <input type="text" name="annualCost" class="annualCost" value="{{ $production['annualCost'] ?? '' }}" />
                 </td>
             </tr>
-            <tr>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                   <input type="text" class="form-control Product">
-                </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <input type="text" class="form-control VolumeProduction">
-                </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <input type="text" class="form-control UnitCost">
-                </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <input type="text" class="form-control AnnualCost">
-                </td>
-            </tr>
+            @endforeach
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br></p>
@@ -202,17 +194,19 @@
                     <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US"><strong>Capacity</strong></span></p>
                 </td>
             </tr>
+            @foreach ($TNAdata['productionEquipment'] ?? [] as $productionEquipment)
             <tr>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <input type="text" class="TypeOfEquipment">
+                    <input type="text" name="typeOfEquipment" class="typeOfEquipment" value="{{ $productionEquipment['typeOfEquipment'] ?? '' }}" />
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <input type="text" class="Specifications">
+                    <input type="text" name="specification" class="specification" value="{{ $productionEquipment['specification'] ?? '' }}" />
                 </td>
                 <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <input type="text" class="Capacity">
+                    <input type="text" name="capacity" class="capacity" value="{{ $productionEquipment['capacity'] ?? '' }}" />
                 </td>
             </tr>
+            @endforeach
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -228,13 +222,12 @@
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
                 </td>
             </tr>
-            @for ($i = 0; $i < 5; $i++)
+         
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="ProductionProblemAndConcern[]" style="width: 100%;" />
+                    <textarea class="form-control" name="ProductionProblemAndConcern" style="width: 100%;">{{ $TNAdata['productionProblemAndConcern'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -245,13 +238,12 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
+          
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="ProductionWasteManageSystem[]" style="width: 100%;" />
+                    <textarea class="form-control" name="ProductionWasteManageSystem" style="width: 100%;">{{ $TNAdata['ProductionWasteManageSystem'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br></p>
@@ -262,13 +254,13 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
+            
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="ProductionPlan[]" style="width: 100%;" />
+                    <textarea class="form-control" name="ProductionPlan" style="width: 100%;">{{ $TNAdata['ProductionPlan'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
+          
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -372,13 +364,12 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="InventorySystem[]" style="width: 100%;" />
+                    <textarea class="form-control" name="InventorySystem" style="width: 100%;">{{ $TNAdata['InventorySystem'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
+        </tbody>
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -389,13 +380,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="MaintenanceProgram[]" style="width: 100%;" />
+                    <textarea class="form-control" name="MaintenanceProgram" style="width: 100%;">{{ $TNAdata['MaintenanceProgram'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -406,13 +395,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="HACCPActivities[]" style="width: 100%;" />
+                    <textarea class="form-control" name="cGMPHACCPActivities" style="width: 100%;">{{ $TNAdata['cGMPHACCPActivities'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -423,13 +410,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="SuppliesPurchasingSystem[]" style="width: 100%;" />
+                    <textarea class="form-control" name="SuppliesPurchasingSystem" style="width: 100%;">{{ $TNAdata['SuppliesPurchasingSystem'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <ul>
@@ -445,13 +430,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="MarketingPlan[]" style="width: 100%;" />
+                    <textarea class="form-control" name="MarketingPlan" style="width: 100%;">{{ $TNAdata['MarketingPlan'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br></p>
@@ -462,13 +445,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="MarketOutlets[]" style="width: 100%;" />
+                    <textarea class="form-control" name="MarketOutlets" style="width: 100%;">{{ $TNAdata['MarketOutlets'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -483,13 +464,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="PromotionalStrategies[]" style="width: 100%;" />
+                    <textarea class="form-control" name="PromotionalStrategies" style="width: 100%;">{{ $TNAdata['PromotionalStrategies'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -500,13 +479,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="MarketCompetitors[]" style="width: 100%;" />
+                    <textarea class="form-control" name="MarketCompetitors" style="width: 100%;">{{ $TNAdata['MarketCompetitors'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -525,46 +502,46 @@
                                 <tbody>
                                     <tr>
                                         <td style="border: none;padding: 0cm;">
-                                           <input type="checkbox" name="NutritionEvaluation" value="1" style="width: 15px; height: 15px;" />
+                                           <input type="checkbox" name="nutritionEvaluation" value="on" style="width: 15px; height: 15px;" {{ isset($TNAdata['nutritionEvaluation']) && $TNAdata['nutritionEvaluation'] == 'on' ? 'checked' : '' }} />
                                         </td>
                                         <td style="border: none;padding: 0cm;">
                                             <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Nutrition Evaluation</span></p>
                                         </td>
                                         <td style="border-top: none;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
-                                            <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                                            <input type="text" name="nutritionEvaluationDetails" value="{{ $TNAdata['nutritionEvaluationDetails'] ?? '' }}" style="width: 100%;" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="border: none;padding: 0cm;">
-                                            <input type="checkbox" name="BarCode" value="1" style="width: 15px; height: 15px;" />
+                                            <input type="checkbox" name="barCode" value="on" style="width: 15px; height: 15px;" {{ isset($TNAdata['barCode']) && $TNAdata['barCode'] == 'on' ? 'checked' : '' }} />
                                         </td>
                                         <td style="border: none;padding: 0cm;">
                                             <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Bar Code</span></p>
                                         </td>
                                         <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
-                                            <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                                            <input type="text" name="barCodeDetails" value="{{ $TNAdata['barCodeDetails'] ?? '' }}" style="width: 100%;" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="border: none;padding: 0cm;">
-                                            <input type="checkbox" name="ProductLabel" value="1" style="width: 15px; height: 15px;" />
+                                            <input type="checkbox" name="productLabel" value="on" style="width: 15px; height: 15px;" {{ isset($TNAdata['productLabel']) && $TNAdata['productLabel'] == 'on' ? 'checked' : '' }} />
                                         </td>
                                         <td style="border: none;padding: 0cm;">
                                             <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Product Label</span></p>
                                         </td>
                                         <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
-                                            <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                                            <input type="text" name="productLabelDetails" value="{{ $TNAdata['productLabelDetails'] ?? '' }}" style="width: 100%;" />
                                         </td>
                                     </tr>
                                     <tr>
                                         <td style="border: none;padding: 0cm;">
-                                            <input type="checkbox" name="ExpiryDate" value="1" style="width: 15px; height: 15px;" />
+                                            <input type="checkbox" name="expiryDate" value="on" style="width: 15px; height: 15px;" {{ isset($TNAdata['expiryDate']) && $TNAdata['expiryDate'] == 'on' ? 'checked' : '' }} />
                                         </td>
                                         <td style="border: none;padding: 0cm;">
                                             <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span lang="en-US">Expiry Date</span></p>
                                         </td>
                                         <td style="border-top: 1px solid #000000;border-bottom: 1px solid #000000;border-left: none;border-right: none;padding: 0cm;">
-                                            <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                                            <input type="text" name="expiryDateDetails" value="{{ $TNAdata['expiryDateDetails'] ?? '' }}" style="width: 100%;" />
                                         </td>
                                     </tr>
                                 </tbody>
@@ -589,13 +566,13 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
+          
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="CashFlowAndRelatedDocuments[]" style="width: 100%;" />
+                    <textarea class="form-control" name="CashFlowAndRelatedDocuments" style="width: 100%;">{{ $TNAdata['CashFlowAndRelatedDocuments'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
+           
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -606,13 +583,13 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
+           
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="SourceOfCapital[]" style="width: 100%;" />
+                    <textarea class="form-control" name="SourceOfCapitalCredits" style="width: 100%;">{{ $TNAdata['SourceOfCapitalCredits'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
+        
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -623,13 +600,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="AccountingSystem[]" style="width: 100%;" />
+                    <textarea class="form-control" name="AccountingSystem" style="width: 100%;">{{ $TNAdata['AccountingSystem'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -646,13 +621,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="HiringAndCriteria[]" style="width: 100%;" />
+                    <textarea class="form-control" name="HiringAndCriteria" style="width: 100%;">{{ $TNAdata['HiringAndCriteria'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -663,13 +636,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="IncentivesToEmployees[]" style="width: 100%;" />
+                    <textarea class="form-control" name="IncentivesToEmployees" style="width: 100%;">{{ $TNAdata['IncentivesToEmployees'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -680,13 +651,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="TrainingAndDevelopment[]" style="width: 100%;" />
+                    <textarea class="form-control" name="TrainingAndDevelopment" style="width: 100%;">{{ $TNAdata['TrainingAndDevelopment'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -697,13 +666,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="SafetyMeasuresPracticed[]" style="width: 100%;" />
+                    <textarea class="form-control" name="SafetyMeasuresPracticed" style="width: 100%;">{{ $TNAdata['SafetyMeasuresPracticed'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -716,14 +683,11 @@
     </ul>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="OtherEmployeeWelfare[]" style="width: 100%;" />
+                    <textarea class="form-control" name="OtherEmployeeWelfare" style="width: 100%;">{{ $TNAdata['OtherEmployeeWelfare'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
-    
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -735,13 +699,11 @@
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 1.27cm;"><br></p>
     <table cellpadding="7" style="width: 587px;">
         <tbody>
-            @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input type="text" name="OtherConcerns[]" style="width: 100%;" />
+                    <textarea class="form-control" name="OtherConcerns" style="width: 100%;">{{ $TNAdata['OtherConcerns'] ?? '' }}</textarea>
                 </td>
             </tr>
-            @endfor
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>

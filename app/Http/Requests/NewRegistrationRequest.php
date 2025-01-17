@@ -134,6 +134,7 @@ class NewRegistrationRequest extends FormRequest
             'SourceOfCapitalCredits' => 'nullable|in:on,null',
             'AccountingSystem' => 'nullable|string',
             'HiringAndCriteria' => 'nullable|string',
+            'IncentivesToEmployees' => 'nullable|string',
             'TrainingAndDevelopment' => 'nullable|string',
             'SafetyMeasuresPracticed' => 'nullable|string',
             'OtherEmployeeWelfare' => 'nullable|string',
