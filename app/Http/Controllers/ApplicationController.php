@@ -10,15 +10,15 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NewRegistrationRequest;
+use App\Services\TNAdataHandlerService;
 
 class ApplicationController extends Controller
 {
 
-//Remove The NewRegistrationRequest Do do some testing 
-    public function store(Request $request)
+    //Remove The NewRegistrationRequest Do do some testing 
+    public function store(NewRegistrationRequest $request, TNAdataHandlerService $TNAdataHandlerService)
     {
 
-        dd($request);
         $user_name = Auth::user()->user_name;
 
         $successful_inserts = 0;
@@ -59,12 +59,12 @@ class ApplicationController extends Controller
             $firm_name = $validatedInputs['firm_name'];
             $enterprise_type = $validatedInputs['enterpriseType'];
             $enterprise_level = ($request->input('enterprise_level'));
-            $region = $validatedInputs['region'];
-            $province = $validatedInputs['province'];
-            $city = $validatedInputs['city'];
-            $barangay = $validatedInputs['barangay'];
-            $landmark = $validatedInputs['Landmark'];
-            $zip_code = $validatedInputs['zipcode'];
+            $office_region = $validatedInputs['officeRegion'];
+            $office_province = $validatedInputs['officeProvince'];
+            $office_city = $validatedInputs['officeCity'];
+            $office_barangay = $validatedInputs['officeBarangay'];
+            $office_landmark = $validatedInputs['officeLandmark'];
+            $office_zipcode = $validatedInputs['officeZipcode'];
             $export_market = json_encode($validatedInputs['exportMarket']);
             $local_market = json_encode($validatedInputs['localMarket']);
 
@@ -73,12 +73,12 @@ class ApplicationController extends Controller
                 'firm_name' => $firm_name,
                 'enterprise_type' => $enterprise_type,
                 'enterprise_level' => $enterprise_level,
-                'zip_code' => $zip_code,
-                'landmark' => $landmark,
-                'barangay' => $barangay,
-                'city' => $city,
-                'province' => $province,
-                'region' => $region,
+                'zip_code' => $office_zipcode,
+                'landmark' => $office_landmark,
+                'barangay' => $office_barangay,
+                'city' => $office_city,
+                'province' => $office_province,
+                'region' => $office_region,
                 'Export_Mkt_Outlet' => $export_market,
                 'Local_Mkt_Outlet' => $local_market,
             ]);
@@ -217,8 +217,9 @@ class ApplicationController extends Controller
 
             if ($successful_inserts == 6) {
                 DB::commit();
+                $TNAdataHandlerService->setTNAData($validatedInputs, $businessId);
                 //Testing this defer Method
-                event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $city, 'NEW_APPLICANT'));
+                event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $office_city, 'NEW_APPLICANT'));
                 Cache::forget('applicants');
                 return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.index')], 200);
             } else {
