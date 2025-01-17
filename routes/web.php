@@ -17,6 +17,7 @@ use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\TNADocumentController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\GetApplicantController;
@@ -38,12 +39,12 @@ use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\GetOngoingProjectController;
+use App\Http\Controllers\GetPendingProjectController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
-use App\Http\Controllers\GetPendingProjectController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
@@ -248,6 +249,9 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
 
     Route::post('/send-rejection-email', [RejectionEmailController::class, 'sendRejectionEmail'])
         ->name('send.rejection.email');
+
+    Route::get('/Staff/Applicant/get/tna/{business_id}', [TNADocumentController::class, 'getTNAData'])
+        ->name('staff.Applicant.get.tna');
 });
 
 //Staff Route End

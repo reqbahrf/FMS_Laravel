@@ -83,6 +83,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#tnaDocumentContainerModal"
                             type="button"
+                            id="viewTNA"
                         >
                             <i class="ri-file-list-3-fill me-1"></i>
                             View TNA document

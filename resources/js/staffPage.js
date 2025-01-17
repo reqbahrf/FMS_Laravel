@@ -4170,6 +4170,7 @@ async function initializeStaffPageJs() {
                         '.businessInfo input'
                     );
 
+                    $('#viewTNA').attr('data-business-id', businessID);
                     ApplicantDetails.filter('#firm_name').val(firmName);
                     ApplicantDetails.filter('#selected_userId').val(userID);
                     ApplicantDetails.filter('#selected_businessID').val(
@@ -4968,12 +4969,15 @@ async function initializeStaffPageJs() {
                 },
             });
 
-            const getTNAForm = async () => {
+
+            const TNADocumentContainerModal = $('#tnaDocumentContainerModal')
+
+            const getTNAForm = async (business_Id) => {
                 try{
                     const response = await $.ajax({
-                        
+                        type:'GET',
+                        url: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT.replace(':business_id', business_Id),
                     })
-
                 }catch(error){
                     showToastFeedback(
                         'text-bg-danger',
@@ -4982,7 +4986,6 @@ async function initializeStaffPageJs() {
                 }
 
             }
-
             await getApplicants();
             await initializeEchoListeners();
         },

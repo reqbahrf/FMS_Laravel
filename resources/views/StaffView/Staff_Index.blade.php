@@ -249,7 +249,8 @@
             SHOW_REQUIREMENT_FILE: '{{ route('Requirements.view') }}',
             STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}',
             GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}',
-            REJECT_APPLICATION_TNA: '{{ route('send.rejection.email') }}'
+            REJECT_APPLICATION_TNA: '{{ route('send.rejection.email') }}',
+            GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', ':business_id') }}'
         }
 
         const REGISTRATIONFORM_SUBMISSION_ROUTE = '{{ route('staff.Project.SubmitNewProject') }}'
