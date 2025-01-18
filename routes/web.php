@@ -6,7 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\checkAdminUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\MailController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ProxyController;
 use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
@@ -24,7 +24,6 @@ use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PaymentRecordController;
 use App\Http\Controllers\ProjectLedgerController;
-use Illuminate\Auth\Events\PasswordResetLinkSent;
 use App\Http\Controllers\CooperatorViewController;
 use App\Http\Controllers\PasswordChangeController;
 use App\Http\Controllers\ProjectSettingController;
@@ -104,7 +103,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/get/Draft/file/{uniqueId}', [FormDraftController::class, 'getFiles'])
         ->name('form.getDraftFile');
-    
+
     Route::get('/activity/logs', [UserActivityLogController::class, 'getPersonalActivityLog'])
         ->name('activity.logs');
 });
@@ -283,7 +282,7 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
     Route::get('/Admin/Users-List', [AdminViewController::class, 'LoadUsersTab'])
         ->name('admin.Users-list');
 
-    Route::get('/Admin/Project-Settings',[AdminViewController::class, 'LoadProjectSettingTab'])
+    Route::get('/Admin/Project-Settings', [AdminViewController::class, 'LoadProjectSettingTab'])
         ->name('admin.ProjectSettings');
 
     Route::post('/Admin/Project-Settings', [ProjectSettingController::class, 'updateFee'])
@@ -302,8 +301,8 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
     Route::get('/generate-pdf-report/{yearToLoad?}', [AdminReportController::class, 'generatePDFReport'])
         ->name('admin.Dashboard.generateReport');
-    
-        Route::get('/activity/logs/user/{user_id}', [UserActivityLogController::class, 'getSelectedUserActivityLog'])
+
+    Route::get('/activity/logs/user/{user_id}', [UserActivityLogController::class, 'getSelectedUserActivityLog'])
         ->name('activity.logs.user');
 });
 
@@ -338,15 +337,11 @@ Route::middleware('auth')->group(function () {
         return view('auth.verifyEmail');
     })->name('verification.notice');
 
-    Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-        $request->fulfill();
-        return redirect()->route('home')->with('success', 'Email verified successfully!');
-    })->middleware('signed')->name('verification.verify');
+    Route::post('/email/verify-otp', [EmailVerificationController::class, 'verifyOTP'])
+        ->name('verification.verify');
 
-    Route::post('/email/verification-notification', function (Request $request) {
-        $request->user()->sendEmailVerificationNotification();
-        return back()->with('status', 'An email has been sent to <strong>' . e($request->user()->email) . '</strong> Please check your Gmail to verify. <br> If you did not receive the email, please check your spam folder. <br> <span class="fw-light text-muted">verification link will expire in 30 minutes.</span>');
-    })->middleware('throttle:6,1')->name('verification.send');
+    Route::post('/email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])
+        ->middleware('throttle:6,1')->name('verification.send');
 });
 
 Route::middleware(['auth'])->group(function () {
