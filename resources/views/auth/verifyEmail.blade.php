@@ -19,10 +19,6 @@
     >
     @vite('resources/css/app.scss')
     @vite('resources/js/app.js')
-    <link
-        href="{{ asset('icon_css/remixicon.css') }}"
-        rel="stylesheet"
-    >
     <style>
         html {
             font-size: clamp(0.75rem, 1vw, 1.5rem);
