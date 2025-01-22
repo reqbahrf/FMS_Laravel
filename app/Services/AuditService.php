@@ -192,7 +192,7 @@ class AuditService
         // Force inputs to arrays
         $old = is_array($old_values) ? $old_values : [];
         $new = is_array($new_values) ? $new_values : [];
-    
+
         $keyTransformations = [
             'product_id' => 'Product ID',
             'transaction_id' => 'Transaction ID',
@@ -202,31 +202,35 @@ class AuditService
             'payment_status' => 'Payment Status',
             'payment_method' => 'Payment Method',
         ];
-    
+
         // Normalize keys to lowercase for consistent matching
         $normalizedOld = array_change_key_case($old, CASE_LOWER);
         $normalizedNew = array_change_key_case($new, CASE_LOWER);
-    
+
         $transformedOld = [];
         $transformedNew = [];
-    
+
         // Transform old and new values
         foreach ($normalizedOld as $key => $value) {
             // Find the transformed key
             $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
-    
-            $transformedOld[$transformedKey] = $value;
-            //$transformedNew[$transformedKey] = $normalizedNew[$key] ?? null;
+            $transformedValue = (is_numeric($value) && $transformedKey == 'Amount') 
+                ? number_format(floatval($value), 2, '.', ',')  
+                : $value;
+
+            $transformedOld[$transformedKey] = $transformedValue;
         }
-    
+
         // Add any keys in $new that are not in $old
         foreach ($normalizedNew as $key => $value) {
-           
-                $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
-                $transformedNew[$transformedKey] = $value;
-            
+
+            $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
+            $transformedValue = (is_numeric($value) && $transformedKey == 'Amount')
+                ? number_format(floatval($value), 2, '.', ',')  
+                : $value;
+            $transformedNew[$transformedKey] = $transformedValue;
         }
-    
+
         return [
             'old_values' => $transformedOld,
             'new_values' => $transformedNew,
