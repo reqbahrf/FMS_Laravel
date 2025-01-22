@@ -149,6 +149,13 @@ class AuditService
         }
     }
 
+    /**
+     * Retrieves audit logs for a specific user.
+     *
+     * @param int $user_id The ID of the user.
+     * @return ?object A collection of audit logs, or null on failure.
+     * @throws Exception If an error occurs during the process.
+     */
     public function getUserAuditLogs(int $user_id): ?object
     {
         try {
@@ -160,6 +167,16 @@ class AuditService
         }
     }
 
+    /**
+     * Retrieves and transforms audit logs for a specific user.
+     *
+     * Fetches audit logs for a given user ID, decodes JSON values,
+     * transforms keys, and merges the transformed data back into the audit logs.
+     *
+     * @param int $user_id The ID of the user.
+     * @return ?object A collection of transformed audit logs, or null on failure.
+     * @throws Exception If an error occurs during the process.
+     */
     public function getSelectedUserAuditLogs(int $user_id): ?object
     {
         try {
@@ -187,12 +204,45 @@ class AuditService
         }
     }
 
+    /**
+     * Transforms the keys of the old and new values arrays for audit logging.
+     *
+     * Converts keys to lowercase, applies specific transformations, and returns the transformed arrays.
+     *
+     * @param array $old_values The old values array.
+     * @param array $new_values The new values array.
+     * @return array An array containing the transformed old and new values.
+     */
     private function transformAuditKeys($old_values, $new_values): array
     {
         // Force inputs to arrays
         $old = is_array($old_values) ? $old_values : [];
         $new = is_array($new_values) ? $new_values : [];
 
+        $normalizedOld = array_change_key_case($old, CASE_LOWER);
+        $normalizedNew = array_change_key_case($new, CASE_LOWER);
+
+        $transformedOld = $this->processTransformations($normalizedOld);
+        $transformedNew = $this->processTransformations($normalizedNew);
+
+        return [
+            'old_values' => $transformedOld,
+            'new_values' => $transformedNew,
+        ];
+    }
+
+    /**
+     * Transforms keys and formats values of audited data.
+     *
+     * Applies predefined key transformations and formats numeric values.
+     *
+     * @param array $auditedData The data to be transformed.
+     * @return array The transformed data.
+     */
+    private function processTransformations(array $auditedData): array 
+    {
+
+        $transformed = [];
         $keyTransformations = [
             'product_id' => 'Product ID',
             'transaction_id' => 'Transaction ID',
@@ -203,37 +253,21 @@ class AuditService
             'payment_method' => 'Payment Method',
         ];
 
-        // Normalize keys to lowercase for consistent matching
-        $normalizedOld = array_change_key_case($old, CASE_LOWER);
-        $normalizedNew = array_change_key_case($new, CASE_LOWER);
-
-        $transformedOld = [];
-        $transformedNew = [];
-
-        // Transform old and new values
-        foreach ($normalizedOld as $key => $value) {
-            // Find the transformed key
-            $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
-            $transformedValue = (is_numeric($value) && $transformedKey == 'Amount') 
-                ? number_format(floatval($value), 2, '.', ',')  
-                : $value;
-
-            $transformedOld[$transformedKey] = $transformedValue;
-        }
-
-        // Add any keys in $new that are not in $old
-        foreach ($normalizedNew as $key => $value) {
-
-            $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
-            $transformedValue = (is_numeric($value) && $transformedKey == 'Amount')
-                ? number_format(floatval($value), 2, '.', ',')  
-                : $value;
-            $transformedNew[$transformedKey] = $transformedValue;
-        }
-
-        return [
-            'old_values' => $transformedOld,
-            'new_values' => $transformedNew,
+        $AmountTransformations = [
+            'amount',
+            'fund_amount',
+            'actual_amount_to_be_refund',
+            'refunded_amount'
         ];
+
+        foreach ($auditedData as $key => $value) {
+            $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
+            $transformedValue = (is_numeric($value) && in_array($key, $AmountTransformations, true))
+                ? number_format(floatval($value), 2, '.', ',')  
+                : $value;
+            $transformed[$transformedKey] = $transformedValue;
+            
+        }
+        return $transformed;
     }
 }
