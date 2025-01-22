@@ -30,60 +30,58 @@ class AuditService
      * @throws Exception If saving the audit log fails.
      */
     public function createAuditLog(
-        string $event, 
-        ?object $auditable = null, 
-        array $newValues = [], 
-        array $oldValues = [], 
+        string $event,
+        ?object $auditable = null,
+        array $newValues = [],
+        array $oldValues = [],
         ?string $tags = null
-        ): void
-    {
-            try {
-                // Create a new Audit instance instead of using the injected one
-                $audit = new Audit();
-                
-                $audit->event = $event;
-        
-                $request = request();
-                if ($request) {
-                    $audit->ip_address = $request->ip();
-                    $audit->user_agent = $request->userAgent();
-                    $audit->url = $request->fullUrl();
-                }
-        
-                $user = Auth::user();
-                if ($user) {
-                    $audit->user_id = $user->id;
-                    $audit->user_type = $user->role;
-                }
+    ): void {
+        try {
+            // Create a new Audit instance instead of using the injected one
+            $audit = new Audit();
 
-                if($auditable){
-                    $audit->auditable_id = $auditable->id;
-                    $audit->auditable_type = get_class($auditable);
-                }
-        
-                $audit->old_values = json_encode($oldValues);
-                $audit->new_values = json_encode($newValues);
+            $audit->event = $event;
 
-                if($tags){
-                    $audit->tags = $tags;
-                }
-        
-                if (!$audit->save()) {
-                    Log::error("Failed to save audit log", [
-                        'event' => $event,
-                        'user_id' => $user?->id ?? null,
-                        'user_type' => $user?->role ?? null,
-                        'auditable_id' => $auditable?->id ?? null,
-                        'auditable_type' => $auditable ? get_class($auditable) : null,
-                    ]);
-                    throw new Exception('Failed to save audit log');
-                }
-                
-            } catch (QueryException $e) {
-                Log::error("Audit log creation failed (database error): " . $e->getMessage());
-            } catch (Exception $e) {
-                Log::error("Audit log creation failed (general error): " . $e->getMessage());
+            $request = request();
+            if ($request) {
+                $audit->ip_address = $request->ip();
+                $audit->user_agent = $request->userAgent();
+                $audit->url = $request->fullUrl();
             }
+
+            $user = Auth::user();
+            if ($user) {
+                $audit->user_id = $user->id;
+                $audit->user_type = $user->role;
+            }
+
+            if ($auditable) {
+                $audit->auditable_id = $auditable->id;
+                $audit->auditable_type = get_class($auditable);
+            }
+
+            $audit->old_values = json_encode($oldValues);
+            $audit->new_values = json_encode($newValues);
+
+            if ($tags) {
+                $audit->tags = $tags;
+            }
+
+            if (!$audit->save()) {
+                Log::error("Failed to save audit log", [
+                    'event' => $event,
+                    'user_id' => $user?->id ?? null,
+                    'user_type' => $user?->role ?? null,
+                    'auditable_id' => $auditable?->id ?? null,
+                    'auditable_type' => $auditable ? get_class($auditable) : null,
+                ]);
+                throw new Exception('Failed to save audit log');
+            }
+        } catch (QueryException $e) {
+            Log::error("Audit log creation failed (database error): " . $e->getMessage());
+        } catch (Exception $e) {
+            Log::error("Audit log creation failed (general error): " . $e->getMessage());
+        }
     }
 
     /**
@@ -96,13 +94,12 @@ class AuditService
      * @return ?object A paginated collection of audit logs, or null on failure.
      */
     protected function getAuditLogs(
-        array $filters = [], 
+        array $filters = [],
         array $selector = ['*'],
-        int $limit = 50, 
-        string $orderBy = 'created_at', 
+        int $limit = 50,
+        string $orderBy = 'created_at',
         string $sortOrder = 'desc',
-        ): ?object
-    {
+    ): ?object {
         try {
 
             $query = $this->audit->query();
@@ -152,25 +149,87 @@ class AuditService
         }
     }
 
-    public function getUserAuditLogs(int $user_id) : ?object
+    public function getUserAuditLogs(int $user_id): ?object
     {
-        try{
+        try {
             $selector = ['user_type', 'event', 'ip_address', 'user_agent', 'url', 'created_at'];
             return $this->getAuditLogs(['user_id' => $user_id], $selector);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error in getUserAuditLogs: ' . $e->getMessage());
             throw new Exception('Error in getUserAuditLogs: ' . $e->getMessage(), $e->getCode(), $e);
         }
     }
 
-    public function getSelectedUserAuditLogs(int $user_id) : ?object
+    public function getSelectedUserAuditLogs(int $user_id): ?object
     {
-        try{
-            $selector = ['*'];
-            return $this->getAuditLogs(['user_id' => $user_id], $selector);
-        }catch(Exception $e){
+        try {
+            $auditLogs = $this->getAuditLogs(['user_id' => $user_id], ['*']);
+
+            $auditLogs->each(function ($audit) {
+                // Decode old_values and new_values from JSON strings to arrays
+                $old = (array) $audit->old_values ?? [];
+                $new = (array) $audit->new_values ?? [];
+
+                // Transform the keys
+                $transformed = $this->transformAuditKeys($old, $new);
+
+                $audit->old_values = $transformed['old_values'] ?? [];
+                $audit->new_values = $transformed['new_values'] ?? [];
+
+                // Merge remaining transformed data
+                $audit = (object) array_merge((array) $audit, $transformed);
+            });
+
+            return $auditLogs;
+        } catch (Exception $e) {
             Log::error('Error in getSelectedUserAuditLogs: ' . $e->getMessage());
-            throw new Exception('Error in getSelectedUserAuditLogs: ' . $e->getMessage(), $e->getCode(), $e);
+            throw $e;
         }
+    }
+
+    private function transformAuditKeys($old_values, $new_values): array
+    {
+        // Force inputs to arrays
+        $old = is_array($old_values) ? $old_values : [];
+        $new = is_array($new_values) ? $new_values : [];
+    
+        $keyTransformations = [
+            'product_id' => 'Product ID',
+            'transaction_id' => 'Transaction ID',
+            'user_id' => 'User ID',
+            'project_id' => 'Project ID',
+            'amount' => 'Amount',
+            'payment_status' => 'Payment Status',
+            'payment_method' => 'Payment Method',
+        ];
+    
+        // Normalize keys to lowercase for consistent matching
+        $normalizedOld = array_change_key_case($old, CASE_LOWER);
+        $normalizedNew = array_change_key_case($new, CASE_LOWER);
+    
+        $transformedOld = [];
+        $transformedNew = [];
+    
+        // Transform old and new values
+        foreach ($normalizedOld as $key => $value) {
+            // Find the transformed key
+            $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
+    
+            $transformedOld[$transformedKey] = $value;
+            //$transformedNew[$transformedKey] = $normalizedNew[$key] ?? null;
+        }
+    
+        // Add any keys in $new that are not in $old
+        foreach ($normalizedNew as $key => $value) {
+           
+                $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
+                $transformedNew[$transformedKey] = $value;
+            
+        }
+    
+        return [
+            'old_values' => $transformedOld,
+            'new_values' => $transformedNew,
+        ];
     }
 }
