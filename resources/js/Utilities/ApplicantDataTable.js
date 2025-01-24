@@ -1,5 +1,20 @@
 import { formatNumberToCurrency, customDateFormatter } from './utilFunctions';
 
+
+/**
+ * Manages applicant data table functionality with real-time collaborative viewing features.
+ * 
+ * Handles initialization and management of a DataTable for applicant information,
+ * including real-time updates through Echo channels for collaborative viewing states.
+ * Provides methods for fetching applicant data, managing viewing states, and
+ * broadcasting real-time events.
+ *
+ * @class
+ * @param {string} userName - The name of the current user
+ * @requires Echo
+ * @requires jQuery
+ * @requires DataTables
+ */
 export default class ApplicantDataTable {
     constructor(userName) {
         this.applicantViewingChannel = 'viewing-Applicant-events';
@@ -48,12 +63,51 @@ export default class ApplicantDataTable {
             ],
         });
     }
+
+    /**
+     * Initializes a real-time Echo channel for collaborative applicant viewing.
+     *
+     * This method establishes a private channel to enable real-time tracking
+     * of applicant viewing states across multiple users. It handles:
+     * - Channel initialization
+     * - Listening to viewing and viewing-closed events
+     * - Tracking channel membership
+     *
+     * @async
+     * @returns {Promise<void>} A promise that resolves when the channel is successfully set up
+     *
+     * @workflow
+     * 1. Clean up any existing Echo channel listeners
+     * 2. Create a private channel for applicant viewing events
+     * 3. Set up whisper event listeners for 'viewing' and 'viewing-closed' states
+     * 4. Handle channel membership events (here, joining, leaving)
+     *
+     * @fires Echo#whisper:viewing - Broadcast when a user starts viewing an applicant
+     * @fires Echo#whisper:viewing-closed - Broadcast when a user stops viewing an applicant
+     *
+     * @listens Echo.join().here - Logs current members when joining the channel
+     * @listens Echo.join().joining - Broadcasts current viewing state when a new member joins
+     * @listens Echo.join().leaving - Logs when a member leaves the channel
+     *
+     * @example
+     * // Typical usage within the class initialization
+     * try {
+     *   await this._initializeApplicantViewingChannel();
+     *   console.log('Applicant viewing channel initialized');
+     * } catch (error) {
+     *   console.error('Failed to initialize channel', error);
+     * }
+     *
+     * @throws {Error} If there are issues initializing the Echo channel
+     *
+     * @see {@link _cleanupEchoListeners} For channel cleanup method
+     * @see {@link _updateViewingState} For handling viewing state updates
+     */
     async _initializeApplicantViewingChannel() {
         return new Promise((resolve) => {
             if (this.echoChannel) {
                 this._cleanupEchoListeners();
             }
-
             this.echoChannel = Echo.private(this.applicantViewingChannel);
 
             this.echoChannel.listenForWhisper('viewing', (e) => {
@@ -73,8 +127,8 @@ export default class ApplicantDataTable {
                 .joining((staff) => {
                     console.log('New member joining:', staff);
                     if (this.applicantViewingChannel) {
-                        echoChannel.whisper('viewing', {
-                            applicant_id: this.applicantViewingChannel,
+                        this.echoChannel.whisper('viewing', {
+                            applicant_id: this.currentlyViewingApplicantId,
                             reviewed_by: this.userName,
                         });
                     }
@@ -82,73 +136,171 @@ export default class ApplicantDataTable {
                 .leaving((staff) => {
                     console.log('Member leaving:', staff);
                 });
+        }).catch((error) => {
+            throw new Error('Error initializing Echo channel: ' + error);
         });
     }
 
-    _cleanupEchoListeners = () => {
-        if (this.currentlyViewingApplicantId) {
-            echoChannel?.whisper('viewing-closed', {
-                applicant_id: this.applicantViewingChannel,
-            });
-            this.currentlyViewingApplicantId = null;
-        }
+    /**
+     * Initializes the Echo channel for real-time applicant viewing events.
+     *
+     * This method sets up a private Echo channel to handle real-time events related to
+     * applicant viewing status. It performs the following key actions:
+     * 1. Cleans up any existing Echo listeners
+     * 2. Creates a private channel for applicant viewing events
+     * 3. Sets up listeners for 'viewing' and 'viewing-closed' whisper events
+     * 4. Joins the channel and handles member presence events
+     *
+     * @async
+     * @returns {Promise<void>} A promise that resolves when the channel is initialized
+     *
+     * @fires Echo#listenForWhisper 'viewing' - Triggered when another user starts viewing an applicant
+     * @fires Echo#listenForWhisper 'viewing-closed' - Triggered when a user stops viewing an applicant
+     *
+     * @listens Echo.join().here - Logs current members when joining the channel
+     * @listens Echo.join().joining - Broadcasts current viewing state when a new member joins
+     * @listens Echo.join().leaving - Logs when a member leaves the channel
+     *
+     * @example
+     * // Typical usage within the class initialization
+     * await this._initializeApplicantViewingChannel();
+     *
+     * @throws {Error} Potential errors from Echo channel initialization
+     */
+    _cleanupEchoListeners() {
+        try {
+            if (this.currentlyViewingApplicantId) {
+                this.echoChannel?.whisper('viewing-closed', {
+                    applicant_id: this.currentlyViewingApplicantId,
+                });
+                this.currentlyViewingApplicantId = null;
+            }
 
-        if (echoChannel) {
-            Echo.leaveChannel(`private-${this.applicantViewingChannel}`);
-            Echo.leaveChannel(`presence-${this.applicantViewingChannel}`);
-            this.echoChannel = null;
+            if (this.echoChannel) {
+                Echo.leaveChannel(`private-${this.applicantViewingChannel}`);
+                Echo.leaveChannel(`presence-${this.applicantViewingChannel}`);
+                this.echoChannel = null;
+            }
+        } catch (e) {
+            throw new Error('Error cleaning up Echo listeners: ' + e.message);
         }
-    };
+    }
 
+    /**
+     * Updates the visual state of an applicant row in the data table to show who is reviewing it.
+     * Stores original content and displays reviewer information with initials and badge.
+     *
+     * @param {string|number} applicantId - The ID of the applicant being reviewed
+     * @param {string} reviewedBy - The name of the reviewer (optional)
+     * @throws {Error} If there is an error updating the viewing state
+     */
     _updateViewingState(applicantId, reviewedBy) {
-        const applicantButton = $(
-            `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
-        );
-        const buttonParentTd = applicantButton.closest('td');
+        try {
+            const applicantButton = this.applicantDataTable.find(
+                `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
+            );
+            const buttonParentTd = applicantButton.closest('td');
 
-        if (!buttonParentTd.data('original-content')) {
-            buttonParentTd.data('original-content', buttonParentTd.html());
-        }
+            if (!buttonParentTd.data('original-content')) {
+                buttonParentTd.data('original-content', buttonParentTd.html());
+            }
 
-        applicantButton.css('display', 'none');
-        if (reviewedBy) {
-            const initials = reviewedBy
-                .split(' ')
-                .map((n) => n[0])
-                .join('');
-            // Create a container for the initial and name
-            const reviewerContainer = $(
-                `<div class="reviewer-container"></div>`
-            );
-            reviewerContainer.append(
-                `<span class="reviewer-initial">${initials}</span>`
-            );
-            reviewerContainer.append(
-                `<span class="reviewer-name">${reviewedBy}</span>`
-            );
-            reviewerContainer.append(
-                `<span class="badge rounded-pill text-bg-success reviewer-badge">reviewing</span>`
-            );
+            applicantButton.css('display', 'none');
+            if (reviewedBy) {
+                const initials = reviewedBy
+                    .split(' ')
+                    .map((n) => n[0])
+                    .join('');
+                // Create a container for the initial and name
+                const reviewerContainer = $(
+                    `<div class="reviewer-container"></div>`
+                );
+                reviewerContainer.append(
+                    `<span class="reviewer-initial">${initials}</span>`
+                );
+                reviewerContainer.append(
+                    `<span class="reviewer-name">${reviewedBy}</span>`
+                );
+                reviewerContainer.append(
+                    `<span class="badge rounded-pill text-bg-success reviewer-badge">reviewing</span>`
+                );
 
-            buttonParentTd
-                .append(reviewerContainer)
-                .addClass('reviewer-name-cell');
+                buttonParentTd
+                    .append(reviewerContainer)
+                    .addClass('reviewer-name-cell');
+            }
+        } catch (e) {
+            throw new Error('Error updating viewing state: ' + e.message);
         }
     }
 
+    /**
+     * Removes the viewing state from an applicant row in the data table.
+     * Restores the original content and styling of the cell.
+     *
+     * @param {string|number} applicantId - The ID of the applicant to remove viewing state from
+     * @throws {Error} If there is an error removing the viewing state
+     */
     _removeViewingState(applicantId) {
-        const applicantButton = $(
-            `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
-        );
-        const buttonParentTd = applicantButton.closest('td');
+        try {
+            const applicantButton = $(
+                `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
+            );
+            const buttonParentTd = applicantButton.closest('td');
 
-        if (buttonParentTd.data('original-content')) {
-            buttonParentTd
-                .html(buttonParentTd.data('original-content'))
-                .removeClass('reviewer-name-cell');
+            if (buttonParentTd.data('original-content')) {
+                buttonParentTd
+                    .html(buttonParentTd.data('original-content'))
+                    .removeClass('reviewer-name-cell');
+            }
+        } catch (e) {
+            throw new Error('Error removing viewing state: ' + e.message);
         }
     }
 
+    /**
+     * Fetches and populates the applicant data table with applicant information.
+     *
+     * This asynchronous method retrieves applicant data from the server and dynamically
+     * renders a comprehensive DataTable with detailed applicant information. The method:
+     * - Sends a GET request to the predefined data table route
+     * - Processes and transforms raw applicant data
+     * - Clears and redraws the DataTable with formatted rows
+     *
+     * @async
+     * @returns {Promise<void>} A promise that resolves when applicants are successfully fetched and rendered
+     *
+     * @workflow
+     * 1. Fetch applicant data from server using predefined route
+     * 2. Parse JSON response
+     * 3. Clear existing DataTable
+     * 4. Transform applicant data into DataTable row format
+     * 5. Add transformed rows to DataTable
+     * 6. Redraw DataTable
+     *
+     * @requires formatNumberToCurrency - Utility function to format numeric values
+     * @requires customDateFormatter - Utility function to format dates
+     *
+     * @example
+     * // Typical usage within the class
+     * try {
+     *   await this._fetchApplicants();
+     *   console.log('Applicant table populated successfully');
+     * } catch (error) {
+     *   console.error('Failed to fetch applicants', error);
+     * }
+     *
+     * @throws {Error} If there is an issue fetching or processing applicant data
+     *
+     * @description
+     * Each applicant row includes:
+     * - Full name
+     * - Designation
+     * - Detailed business information
+     * - Application date
+     * - Application status
+     * - Action button for applicant details
+     */
     async _fetchApplicants() {
         try {
             const response = await fetch(this.dataTableRoute, {
@@ -274,12 +426,87 @@ export default class ApplicantDataTable {
     }
 
     _attactEventListener() {
-        $(document).on('page:changing', function (e, data) {
+        $(document).on('page:changing', (e, data) => {
             const { from, to } = data;
             if (from === 'Applicationlink') {
                 this._cleanupEchoListeners();
             }
         });
+    }
+
+    /**
+     * Broadcasts a real-time event indicating that an applicant is being viewed.
+     *
+     * This method sends a whisper event through the private Echo channel to notify
+     * other users about the current applicant being reviewed. It:
+     * - Sends a 'viewing' whisper event with applicant and reviewer details
+     * - Updates the currently viewed applicant ID
+     *
+     * @param {string|number} viewedApplicant_id - The unique identifier of the applicant being viewed
+     * @param {string} reviewer - The name of the user reviewing the applicant
+     *
+     * @throws {Error} If there is an issue broadcasting the viewing event
+     *
+     * @example
+     * // Broadcast that user is viewing an applicant
+     * try {
+     *   this.broadcastViewingEvent(123, 'John Doe');
+     *   console.log('Viewing event broadcasted successfully');
+     * } catch (error) {
+     *   console.error('Failed to broadcast viewing event', error);
+     * }
+     *
+     * @fires Echo#whisper:viewing - Notifies other users about the current applicant review
+     */
+    broadcastViewingEvent(viewedApplicant_id, reviewer) {
+        try {
+            Echo.private(this.applicantViewingChannel).whisper('viewing', {
+                applicant_id: viewedApplicant_id,
+                reviewed_by: reviewer,
+            });
+            this.currentlyViewingApplicantId = viewedApplicant_id;
+        } catch (error) {
+            throw new Error(
+                'Error broadcasting viewing event: ' + error.message
+            );
+        }
+    }
+
+    /**
+     * Broadcasts a real-time event indicating that an applicant review has ended.
+     *
+     * This method sends a whisper event through the private Echo channel to notify
+     * other users that the current applicant review is complete. It:
+     * - Sends a 'viewing-closed' whisper event with the applicant ID
+     * - Resets the currently viewed applicant ID
+     *
+     * @throws {Error} If there is an issue broadcasting the closed viewing event
+     *
+     * @example
+     * // Broadcast that applicant review is complete
+     * try {
+     *   this.broadcastClosedViewingEvent();
+     *   console.log('Closed viewing event broadcasted successfully');
+     * } catch (error) {
+     *   console.error('Failed to broadcast closed viewing event', error);
+     * }
+     *
+     * @fires Echo#whisper:viewing-closed - Notifies other users that applicant review has ended
+     */
+    broadcastClosedViewingEvent() {
+        try {
+            Echo.private(this.applicantViewingChannel).whisper(
+                'viewing-closed',
+                {
+                    applicant_id: this.currentlyViewingApplicantId,
+                }
+            );
+            this.currentlyViewingApplicantId = null;
+        } catch (e) {
+            throw new Error(
+                'Error broadcasting closed viewing event: ' + e.message
+            );
+        }
     }
 
     async init() {

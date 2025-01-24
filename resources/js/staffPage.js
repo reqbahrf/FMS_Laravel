@@ -3810,6 +3810,8 @@ async function initializeStaffPageJs() {
 
             customFormatNumericInput('#fundAmount');
 
+            const applicantTable = new ApplicantDataTable(AUTH_USER_NAME);
+            await applicantTable.init();
             //TODO: update this the logic of this
             $('#ApplicantTableBody').on(
                 'click',
@@ -3940,14 +3942,7 @@ async function initializeStaffPageJs() {
                         personnel.total_personnel || '0'
                     );
 
-                    Echo.private('viewing-Applicant-events').whisper(
-                        'viewing',
-                        {
-                            applicant_id: ApplicationID,
-                            reviewed_by: AUTH_USER_NAME,
-                        }
-                    );
-                    currentlyViewingApplicantId = ApplicationID;
+                    applicantTable.broadcastViewingEvent(ApplicationID, AUTH_USER_NAME);
 
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
@@ -3961,13 +3956,7 @@ async function initializeStaffPageJs() {
                 const ApplicantID = ApplicantDetailsContainer.find(
                     '#selected_applicationId'
                 ).val();
-                currentlyViewingApplicantId = null;
-                Echo.private('viewing-Applicant-events').whisper(
-                    'viewing-closed',
-                    {
-                        applicant_id: ApplicantID,
-                    }
-                );
+               applicantTable.broadcastClosedViewingEvent();
 
                 FormContainer.find('input, textarea').val('');
                 FormContainer.find(
@@ -4715,10 +4704,6 @@ async function initializeStaffPageJs() {
                 const business_Id = $(event.relatedTarget).attr('data-business-id');
                 await getTNAForm(business_Id)
             })
-
-            const applicantTable = new ApplicantDataTable(AUTH_USER_NAME);
-            await applicantTable.init();
-
         },
     };
     return functions;
