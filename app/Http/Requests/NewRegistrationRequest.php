@@ -96,6 +96,7 @@ class NewRegistrationRequest extends FormRequest
             'horticultureSpecificSector' => 'nullable|string',
             'others' => 'nullable|in:on,null',
             'othersSpecificSector' => 'nullable|string',
+            'specificProductOrService' => 'nullable|string',
             'reasonsWhyAssistanceIsBeingSought' => 'nullable|string',
 
               //TNA Important Data

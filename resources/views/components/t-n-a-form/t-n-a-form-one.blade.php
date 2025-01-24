@@ -203,18 +203,16 @@
     cellpadding="7"
 >
     <tbody>
-        @for ($i = 0; $i < 5; $i++)
-            <tr>
-                <td
-                    style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input
-                        name="SpecificProductOrService[]"
-                        type="text"
-                        style="width: 100%;"
-                    />
-                </td>
-            </tr>
-        @endfor
+
+        <tr>
+            <td>
+
+                <textarea
+                    name="specificProductOrService"
+                    style="width:100%"
+                >{{ $TNAdata['specificProductOrService'] ?? '' }}</textarea>
+            </td>
+        </tr>
     </tbody>
 </table>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">2.
@@ -224,18 +222,15 @@
     cellpadding="7"
 >
     <tbody>
-        @for ($i = 0; $i < 5; $i++)
-            <tr>
-                <td
-                    style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input
-                        name="ReasonsWhyAssistanceIsBeingSought[]"
-                        type="text"
-                        style="width: 100%;"
-                    />
-                </td>
-            </tr>
-        @endfor
+        <tr>
+            <td
+                style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
+                <textarea
+                    name="reasonsWhyAssistanceIsBeingSought"
+                    style="width: 100%;"
+                >{{ $TNAdata['reasonsWhyAssistanceIsBeingSought'] ?? '' }}</textarea>
+            </td>
+        </tr>
     </tbody>
 </table>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;">3. Have you consulted any
@@ -248,9 +243,10 @@
         <tr>
             <td style="">
                 <input
-                    name="HaveYouConsultedAnyOtherIndividualOrganizationOnAssistance"
-                    type="checkbox"
+                    name="consultationAnswer"
+                    type="radio"
                     value=""
+                    {{ ($TNAdata['consultationAnswer'] ?? '') == 'yes' ? 'checked' : '' }}
                 />
             </td>
             <td style="">
@@ -265,8 +261,9 @@
             </td>
             <td style="">
                 <input
-                    name="FromWhatCompanyAgency"
+                    name="fromWhatCompanyAgency"
                     type="text"
+                    value="{{ $TNAdata['fromWhatCompanyAgency'] ?? '' }}"
                     style="width: 100%;"
                 >
             </td>
@@ -291,8 +288,9 @@
             </td>
             <td style="">
                 <input
-                    name="PleaseSpecifyTheTypeOfAssistanceSought"
+                    name="pleaseSpecifyTheTypeOfAssistanceSought"
                     type="text"
+                    value="{{ $TNAdata['pleaseSpecifyTheTypeOfAssistanceSought'] ?? '' }}"
                     style="width: 100%;"
                 >
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
@@ -301,9 +299,9 @@
         <tr>
             <td style="">
                 <input
-                    name="moWhyNot"
-                    type="checkbox"
-                    value=""
+                    name="consultationAnswer"
+                    type="radio"
+                    {{ ($TNAdata['consultationAnswer'] ?? '') == 'no' ? 'checked' : '' }}
                 />
             </td>
             <td style="">
@@ -378,18 +376,15 @@
     cellpadding="7"
 >
     <tbody>
-        @for ($i = 0; $i < 5; $i++)
-            <tr>
-                <td
-                    style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input
-                        name="EnterprisePlanNextFiveYears[]"
-                        type="text"
-                        style="width: 100%;"
-                    />
-                </td>
-            </tr>
-        @endfor
+        <tr>
+            <td
+                style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
+                <textarea
+                    name="enterprisePlanForTheNext5Years"
+                    style="width: 100%;"
+                >{{ $TNAdata['enterprisePlanForTheNext5Years'] ?? '' }}</textarea>
+            </td>
+        </tr>
     </tbody>
 </table>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><span lang="en-US">Next
@@ -400,18 +395,12 @@
 >
     <tbody>
     <tbody>
-        @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td
                     style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input
-                        name="NextTenYears[]"
-                        type="text"
-                        style="width: 100%;"
-                    />
+                    <textarea name="nextTenYears" style="width: 100%;">{{ $TNAdata['nextTenYears'] ?? '' }}</textarea>
                 </td>
             </tr>
-        @endfor
     </tbody>
     </tbody>
 </table>
@@ -422,18 +411,15 @@
     cellpadding="7"
 >
     <tbody>
-        @for ($i = 0; $i < 5; $i++)
             <tr>
                 <td
                     style="border-width: medium medium 1px;border-style: none none solid;border-color: currentcolor currentcolor rgb(0, 0, 0);padding: 0cm;vertical-align: top;">
-                    <input
-                        name="CurrentAgreementAndAlliances[]"
-                        type="text"
+                    <textarea
+                        name="currentAgreementAndAlliancesUndertaken"
                         style="width: 100%;"
-                    />
+                    >{{ $TNAdata['currentAgreementAndAlliancesUndertaken'] ?? '' }}</textarea>
                 </td>
             </tr>
-        @endfor
     </tbody>
 </table>
 <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><span

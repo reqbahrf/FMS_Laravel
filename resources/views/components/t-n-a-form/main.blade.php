@@ -386,6 +386,14 @@
         style="width: 543px;"
         cellpadding="7"
     >
+    <thead>
+        <tr>
+            <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Product</th>
+            <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Volume of Production/Year</th>
+            <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Unit Cost of Production (₱)</th>
+            <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Annual Cost of Production (₱)</th>
+        </tr>
+    </thead>
         <tbody>
             @foreach ($TNAdata['production'] ?? [] as $production)
                 <tr>
