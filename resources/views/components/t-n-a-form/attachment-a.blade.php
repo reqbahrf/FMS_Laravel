@@ -1,5 +1,7 @@
+@props(['TNAdata'])
 <p style="text-align: justify;background: transparent;line-height: 108%;margin-right: 0.02cm;margin-bottom: 0.28cm;">
-    <br>&nbsp;</p>
+    <br>&nbsp;
+</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
@@ -51,16 +53,12 @@
                     >Production Site/ Location:
                         <input
                             name="factory_address"
+                            type="text"
+                            value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}"
                             placeholder="Production Site"
-                            value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }} type="text"
                         ></span></p>
             </td>
-            <td
-                style="border-width: 1px medium;border-style: solid none;border-color: rgb(0, 0, 0) currentcolor;padding: 0cm;vertical-align: bottom;"
-                colspan="4"
-            >
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
-            </td>
+
         </tr>
         <tr>
             <td
@@ -69,7 +67,7 @@
             >
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                         lang="en-US"
-                    >Business Permit No.:<input
+                    >Business Permit No:<input
                             name="businessPermitNo"
                             type="text"
                             value="{{ $TNAdata['businessPermitNo'] ?? '' }}"
@@ -77,7 +75,7 @@
                         ></span></p>
             </td>
             <td
-                style="border-width: 1px medium medium;border-style: solid none none;border-color: rgb(0, 0, 0) currentcolor currentcolor;padding: 0cm;vertical-align: bottom;"
+                style="border: medium;padding: 0cm;vertical-align: top;"
                 colspan="2"
             >
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
@@ -99,37 +97,36 @@
                     <span lang="en-US">Brief Enterprise Background:</span>
                 </p>
                 <textarea
-                    name="enterpriseBackground"
+                    name="briefBackground"
                     style="width:100%"
-                >{{ $TNAdata['enterpriseBackground'] ?? '' }}</textarea>
+                >{{ $TNAdata['briefBackground'] ?? '' }}</textarea>
             </td>
         </tr>
     </tbody>
     <tbody>
         <tr>
-            <td
-                style="border-width: 1px medium medium;border-style: solid none none;border-color: rgb(0, 0, 0) currentcolor currentcolor;padding: 0cm;vertical-align: top;">
+            <td colspan="2">
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                         lang="en-US"
-                    >Year enterprise was established:</span></p>
+                    >Year enterprise was established:
+                        <input
+                            name="yearEstablished"
+                            type="text"
+                            value="{{ $TNAdata['yearEstablished'] ?? '' }}"
+                        >
+                    </span>
+                </p>
             </td>
-            <td
-                style="border-width: 1px medium;border-style: solid none;border-color: rgb(0, 0, 0) currentcolor;padding: 0cm;vertical-align: bottom;"
-                colspan="3"
-            >
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
-            </td>
-            <td
-                style="border-width: 1px medium medium;border-style: solid none none;border-color: rgb(0, 0, 0) currentcolor currentcolor;padding: 0cm;vertical-align: top;">
+            <td colspan="2">
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                         lang="en-US"
-                    >Initial Capitalization:</span></p>
-            </td>
-            <td
-                style="border-width: 1px medium;border-style: solid none;border-color: rgb(0, 0, 0) currentcolor;padding: 0cm;vertical-align: bottom;"
-                colspan="2"
-            >
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
+                    >Initial Capitalization:
+                        <input
+                            name="initialCapitalization"
+                            type="text"
+                            value="{{ $TNAdata['initialCapitalization'] ?? '' }}"
+                        >
+                    </span></p>
             </td>
         </tr>
     </tbody>
@@ -155,6 +152,7 @@
                     name="type_of_organization"
                     type="radio"
                     value="Single Proprietorship"
+                    {{ $TNAdata['enterpriseType'] == 'Sole Proprietorship' ? 'checked' : '' }}
                 >
             </td>
             <td
@@ -180,10 +178,11 @@
         <tr>
             <td style="">
                 <input
-                    id="type_of_organization_2"
-                    name="type_of_organization"
+                    id="enterpriseType"
+                    name="enterpriseType"
                     type="radio"
                     value="Cooperative"
+                    {{ $TNAdata['enterpriseType'] == 'Cooperative' ? 'checked' : '' }}
                 >
             </td>
             <td
@@ -209,10 +208,11 @@
         <tr>
             <td style="">
                 <input
-                    id="type_of_organization_3"
-                    name="type_of_organization"
+                   id="enterpriseType"
+                    name="enterpriseType"
                     type="radio"
                     value="Partnership"
+                    {{ $TNAdata['enterpriseType'] == 'Partnership' ? 'checked' : '' }}
                 >
             </td>
             <td
@@ -238,10 +238,11 @@
         <tr>
             <td style="">
                 <input
-                    id="type_of_organization_4"
-                    name="type_of_organization"
+                    id="enterpriseType"
+                    name="enterpriseType"
                     type="radio"
                     value="Corporation"
+                    {{ in_array($TNAdata['enterpriseType'], ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? 'checked' : '' }}
                 >
             </td>
             <td
@@ -269,6 +270,7 @@
                     name="type_of_cooperation"
                     type="radio"
                     value="Profit"
+                    {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Profit)' ? 'checked' : '') }}
                 ><span lang="en-US">Profit</span>
             </td>
         </tr>
@@ -298,7 +300,8 @@
                     id="type_of_cooperation"
                     name="type_of_cooperation"
                     type="radio"
-                    value="Profit"
+                    value="Non-profit"
+                    {{$TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Non-Profit)' ? 'checked' : '') }}
                 ><span lang="en-US">Non-profit</span>
             </td>
         </tr>
@@ -311,20 +314,15 @@
 >
     <tbody>
         <tr>
-            <td style="border: none;padding: 0cm;">
+            <td colspan="2" style="border: none;padding: 0cm;">
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                         lang="en-US"
                     >Enterprise Registration No. <input
-                            id="enterprise_registration_no"
-                            name="enterprise_registration_no"
+                            id="enterpriseRegistrationNo"
+                            name="enterpriseRegistrationNo"
                             type="text"
+                            value="{{ $TNAdata['enterpriseRegistrationNo'] ?? '' }}"
                         ></span></p>
-            </td>
-            <td
-                style=""
-                colspan="2"
-            >
-
             </td>
             <td
                 style=""
@@ -333,9 +331,10 @@
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                         lang="en-US"
                     >Year Registered <input
-                            id="year_registered"
-                            name="year_registered"
+                            id="yearEnterpriseRegistered"
+                            name="yearEnterpriseRegistered"
                             type="text"
+                            value="{{ $TNAdata['yearEnterpriseRegistered'] ?? '' }}"
                         ></span></p>
             </td>
             <td style="">
@@ -357,17 +356,19 @@
             >
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                         lang="en-US"
-                    >Present capitalization</span></p>
+                    >Present capitalization
+                    ₱ <input
+                    id="present_capitalization"
+                    name="present_capitalization"
+                    type="text"
+                    value="{{ $TNAdata['presentCapitalization'] ?? '' }}"
+                ></span></p>
             </td>
             <td
                 style=""
                 colspan="2"
             >
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">₱ <input
-                        id="present_capitalization"
-                        name="present_capitalization"
-                        type="text"
-                    ></p>
+                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"></p>
             </td>
         </tr>
     </tbody>
@@ -377,6 +378,12 @@
     dir="ltr"
     cellpadding="7"
 >
+@php 
+$total = 0;
+$total += floatval(str_replace(',', '', $TNAdata['buildings']));
+$total += floatval(str_replace(',', '', $TNAdata['equipments']));
+$total += floatval(str_replace(',', '', $TNAdata['working_capital']));
+@endphp
     <tbody>
         <tr>
             <td style="border: none;padding: 0cm;">
@@ -396,6 +403,7 @@
                     name="CapitalClassification"
                     type="radio"
                     value="Small (less - 1.5M)"
+                    {{ $total <= 1500000 ? 'checked' : '' }}
                 ><span lang="en-US">Small (1.5 &ndash; 15M)</span><span lang="en-US">Micro (less than 1.5M)</span>
             </td>
         </tr>
@@ -434,6 +442,7 @@
                     name="CapitalClassification"
                     type="radio"
                     value="Small (1.5 - 15M)"
+                    {{ $total <= 1500000 && $total >= 1500000 ? 'checked' : '' }}
                 ><span lang="en-US">Small (1.5 &ndash; 15M)</span>
             </td>
         </tr>
@@ -472,6 +481,7 @@
                     name="CapitalClassification"
                     type="radio"
                     value="Medium (15M - 100M)"
+                    {{ $total > 1500000 && $total < 10000000 ? 'checked' : '' }}
                 ><span lang="en-US">Medium (15 &ndash; 100M)</span>
             </td>
         </tr>
@@ -502,6 +512,15 @@
                     >Classification according to employment (number of employees)</span></p>
             </td>
         </tr>
+        @php
+            $ProductionEmployees = 0;
+            $NonProductionEmployees = 0;
+            $DirectEmployees = ($TNAdata['m_personnelDiRe'] ?? 0) + ($TNAdata['f_personnelDiRe'] ?? 0) + ($TNAdata['m_personnelDiPart'] ?? 0) + ($TNAdata['f_personnelDiPart'] ?? 0);
+            $IndirectEmployees = ($TNAdata['m_personnelIndRe'] ?? 0) + ($TNAdata['f_personnelIndRe'] ?? 0) + ($TNAdata['m_personnelIndPart'] ?? 0) + ($TNAdata['f_personnelIndPart'] ?? 0);
+            
+            $TotalEmployees = ($DirectEmployees ?? 0) + ($IndirectEmployees ?? 0);
+
+        @endphp
         <tr>
             <td style="border: none;padding: 0cm;">
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
@@ -537,6 +556,7 @@
                     name="mumberOfEmployees"
                     type="radio"
                     value="Small (1 - 9)"
+                    {{ $TotalEmployees <= 9 && $TotalEmployees >= 1 ? 'checked' : '' }}
                 ><span lang="en-US">Medium (1 &ndash; 9)</span>
             </td>
         </tr>
@@ -575,6 +595,7 @@
                     name="mumberOfEmployees"
                     type="radio"
                     value="Small (10 - 99)"
+                    {{ $TotalEmployees <= 99 && $TotalEmployees >= 10 ? 'checked' : '' }}
                 ><span lang="en-US">Small (10 - 99)</span>
             </td>
         </tr>
@@ -613,6 +634,7 @@
                     name="mumberOfEmployees"
                     type="radio"
                     value="Small (100 - 199)"
+                    {{ $TotalEmployees <= 199 && $TotalEmployees >= 100 ? 'checked' : '' }}
                 ><span lang="en-US">Medium (100 &ndash; 199)</span>
             </td>
         </tr>
@@ -649,6 +671,8 @@
                 <input
                     name="DirectWorkers"
                     type="text"
+                    value="{{ $DirectEmployees }}"
+                                    
                 >
             </td>
             <td style="">
@@ -675,6 +699,7 @@
                     id="production"
                     name="production"
                     type="text"
+                    value="{{ $ProductionEmployees }}"
                 >
             </td>
             <td style="border: none;padding: 0cm;">
@@ -701,6 +726,7 @@
                     id="non_production"
                     name="non_production"
                     type="text"
+                    value="{{ $NonProductionEmployees }}"
                 >
             </td>
             <td style="border: none;padding: 0cm;">
@@ -723,6 +749,7 @@
                 <input
                     name="indirect_workers"
                     type="text"
+                    value="{{ $IndirectEmployees }}"
                 >
             </td>
             <td style="">
@@ -739,6 +766,7 @@
                     name="total"
                     type="text"
                     style="width:20%;"
+                    value="{{ $TotalEmployees }}"
                 >
             </td>
             <td style="">
