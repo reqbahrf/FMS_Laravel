@@ -359,8 +359,8 @@
         style="text-align: justify;background: transparent;line-height: 108%;margin-right: 0.02cm;margin-bottom: 0.28cm;">
         <br>&nbsp;</p>
 
-    <x-t-n-a-form.t-n-a-form-one />
-    <x-t-n-a-form.attachment-a />
+        <x-t-n-a-form.attachment-a :TNAdata="$TNAdata" />
+        <x-t-n-a-form.t-n-a-form-one :TNAdata="$TNAdata" />
 
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -386,6 +386,14 @@
         style="width: 543px;"
         cellpadding="7"
     >
+    <thead>
+        <tr>
+            <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Product</th>
+            <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Volume of Production/Year</th>
+            <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Unit Cost of Production (₱)</th>
+            <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Annual Cost of Production (₱)</th>
+        </tr>
+    </thead>
         <tbody>
             @foreach ($TNAdata['production'] ?? [] as $production)
                 <tr>
@@ -459,7 +467,6 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         <input
                             class="typeOfEquipment"
-                            name="typeOfEquipment"
                             type="text"
                             value="{{ $productionEquipment['typeOfEquipment'] ?? '' }}"
                         />
@@ -467,7 +474,6 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         <input
                             class="specification"
-                            name="specification"
                             type="text"
                             value="{{ $productionEquipment['specification'] ?? '' }}"
                         />
@@ -475,7 +481,6 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         <input
                             class="capacity"
-                            name="capacity"
                             type="text"
                             value="{{ $productionEquipment['capacity'] ?? '' }}"
                         />
@@ -511,7 +516,7 @@
                         class="form-control"
                         name="ProductionProblemAndConcern"
                         style="width: 100%;"
-                    >{{ $TNAdata['productionProblemAndConcern'] ?? '' }}</textarea>
+                    >{{ $TNAdata['ProductionProblemAndConcern'] ?? '' }}</textarea>
                 </td>
             </tr>
         </tbody>
