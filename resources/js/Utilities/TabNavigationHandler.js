@@ -44,7 +44,7 @@ export default class NavigationHandler {
      * @param {string} activeLink - The ID of the link to be activated
      * @returns {void}
      */
-    setActiveLink(activeLink) {
+    _setActiveLink(activeLink) {
         $('.nav-item a').removeClass('active');
         const defaultLink = 'dashboardLink';
         const linkToActivate = $('#' + (activeLink || defaultLink));
@@ -60,14 +60,13 @@ export default class NavigationHandler {
      */
     async loadPage(url, activeLink) {
         try {
-
             $(document).trigger('page:changing', {
                 from: this.currentPage,
-                to: activeLink
+                to: activeLink,
             });
 
             this.currentPage = activeLink;
-            
+
             this.spinner.removeClass('d-none');
             this.tabContainer.hide();
             const cachedPage = sessionStorage.getItem(url);
@@ -106,7 +105,7 @@ export default class NavigationHandler {
             const urlRoute = this.MappedUrlsRoutes;
 
             this.tabContainer.html(response);
-            this.setActiveLink(activeLink);
+            this._setActiveLink(activeLink);
             history.pushState(null, '', url);
 
             if (urlRoute[url]) {

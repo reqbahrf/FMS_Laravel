@@ -22,6 +22,7 @@ import SmartWizard from 'smartwizard';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import NotificationManager from './Utilities/NotificationManager';
 import ActivityLogHandler from './Utilities/ActivityLogHandler';
+import CoopPageNavHandler from './coopPage_utils/CoopPageNavHandler';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
@@ -70,25 +71,24 @@ const notificationManager = new NotificationManager(
 notificationManager.fetchNotifications();
 notificationManager.setupEventListeners();
 
+const urlMapFunction = {
+    [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
+    [NAV_ROUTES.REQUIREMENTS]: (functions) => functions.Requirements,
+    [NAV_ROUTES.QUARTERLY_REPORT]: (functions, reportSubmitted) => reportSubmitted ? functions.ReportedQuarterlyReport : functions.QuarterlyReport,
+};
+
+const navigationHandler = new CoopPageNavHandler(
+    MAIN_CONTENT_CONTAINER,
+    USER_ROLE,
+    urlMapFunction,
+    initilizeCoopPageJs
+);
+navigationHandler.init();
+window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
+
 $(window).on('beforeunload', function () {
     return 'Are you sure you want to leave?';
 });
-$(function () {
-    const lastUrl = sessionStorage.getItem('CoopLastUrl');
-    const lastActive = sessionStorage.getItem('CoopLastActive');
-    if (lastUrl && lastActive) {
-        loadPage(lastUrl, lastActive);
-    } else {
-        loadPage(NAV_ROUTES.DASHBOARD, 'InformationTab');
-    }
-});
-
-const setActiveLink = (activeLink) => {
-    $('.nav-item a').removeClass('active');
-    const defaultLink = 'dashboardLink';
-    const linkToActivate = $('#' + (activeLink || defaultLink));
-    linkToActivate.addClass('active');
-};
 
 const activityLog = new ActivityLogHandler(
     ACTIVITY_LOG_MODAL,
@@ -96,71 +96,6 @@ const activityLog = new ActivityLogHandler(
     'personal'
 );
 activityLog.initPersonalActivityLog();
-window.loadPage = async (url, activeLink) => {
-    try {
-        $('.spinner').removeClass('d-none');
-        MAIN_CONTENT_CONTAINER.hide();
-        const cachedPage = sessionStorage.getItem(url);
-        if (cachedPage) {
-            // If cached, use the cached response
-            handleAjaxSuccess(cachedPage, activeLink, url);
-        } else {
-            // If not cached, make the AJAX request
-            const response = await $.ajax({
-                url: url,
-                type: 'GET',
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                        'content'
-                    ),
-                },
-            });
-            //sessionStorage.setItem(url, response);
-            await handleAjaxSuccess(response, activeLink, url);
-        }
-    } catch (error) {
-        console.log('Error: ', error);
-    } finally {
-        $('.spinner').addClass('d-none');
-        MAIN_CONTENT_CONTAINER.show();
-    }
-};
-
-const handleAjaxSuccess = async (response, activeLink, url) => {
-    try {
-        MAIN_CONTENT_CONTAINER.html(response);
-        setActiveLink(activeLink);
-        history.pushState(null, '', url);
-
-        const parsedUrl = new URL(url);
-        const urlParts = parsedUrl.pathname.split('/');
-        const reportSubmitted = urlParts[urlParts.length - 1] === 'true';
-        const quarterlyReportUrlPath = `${parsedUrl.pathname.split('/').slice(0, 3).join('/')}`;
-        const functions = await initilizeCoopPageJs();
-
-        const urlMapFunction = {
-            [NAV_ROUTES.DASHBOARD]: functions.Dashboard,
-            [NAV_ROUTES.REQUIREMENTS]: functions.Requirements,
-            [NAV_ROUTES.QUARTERLY_REPORT]: reportSubmitted
-                ? functions.ReportedQuarterlyReport
-                : functions.QuarterlyReport,
-        };
-
-        if (quarterlyReportUrlPath === NAV_ROUTES.QUARTERLY_REPORT) {
-            await urlMapFunction[NAV_ROUTES.QUARTERLY_REPORT]();
-        } else if (urlMapFunction[url]) {
-            await urlMapFunction[url]();
-        }
-
-        sessionStorage.setItem('CoopLastUrl', url);
-        sessionStorage.setItem('CoopLastActive', activeLink);
-    } catch (error) {
-        console.log('Error: ', error);
-    } finally {
-        //    $('.spinner').addClass('d-none');
-        //    $('#main-content').show();
-    }
-};
 
 const getQuarterlyReportLinks = async () => {
     try {
@@ -217,7 +152,7 @@ $(function () {
     });
 });
 
-window.initilizeCoopPageJs = async () => {
+async function initilizeCoopPageJs() {
     const functions = {
         Dashboard: async () => {
             let progressDataChart;
@@ -1113,4 +1048,4 @@ window.initilizeCoopPageJs = async () => {
         },
     };
     return functions;
-};
+}

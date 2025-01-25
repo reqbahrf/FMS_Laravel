@@ -24,9 +24,9 @@
             <li class="nav-item main-Nav mb-2">
                 <a
                     class="mb-2 d-flex align-items-center"
-                    id="InformationTab"
+                    id="dashboardLink"
                     href="#"
-                    onclick="loadPage('{{ route('Cooperator.dashboard') }}','InformationTab');"
+                    onclick="loadPage('{{ route('Cooperator.dashboard') }}','dashboardLink');"
                 >
                     <i class="ri-dashboard-3-fill ri-2x"></i>
                     <span class="nav-text ml-2">Dashboard</span>
