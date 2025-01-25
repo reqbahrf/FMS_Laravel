@@ -101,27 +101,48 @@ export default class NavigationHandler {
      */
     async _handleLoadPageResponse(response, activeLink, url) {
         try {
-            const functions = await this.PageFunctionsInitializer();
-            const urlRoute = this.MappedUrlsRoutes;
+            const functions = await this._initializePageContext(
+                response,
+                activeLink,
+                url
+            );
 
-            this.tabContainer.html(response);
-            this._setActiveLink(activeLink);
-            history.pushState(null, '', url);
-
-            if (urlRoute[url]) {
-                const pageFunction = await urlRoute[url](functions);
-                if (typeof pageFunction === 'function') {
-                    await pageFunction();
-                }
+            const pageFunction = await this._getPageFunction(url, functions);
+            if (typeof pageFunction === 'function') {
+                await pageFunction();
             }
 
-            //sessionStorage.setItem(url, response);
-            sessionStorage.setItem(`${this.userRole}LastUrl`, url);
-            sessionStorage.setItem(`${this.userRole}LastActive`, activeLink);
+            this._persistNavigationState(url, activeLink);
         } catch (error) {
-            console.error('Page load error:', error);
-            throw new Error(error.message || 'Failed to handle page response');
+            this._handlePageLoadError(error);
         }
+    }
+
+    async _getPageFunction(url, functions) {
+        const urlRoute = this.MappedUrlsRoutes;
+        return urlRoute[url](functions);
+    }
+
+    async _initializePageContext(response, activeLink, url) {
+        // Load page functions
+        const functions = await this.PageFunctionsInitializer();
+
+        // Update UI
+        this.tabContainer.html(response);
+        this._setActiveLink(activeLink);
+        history.pushState(null, '', url);
+
+        return functions;
+    }
+
+    _persistNavigationState(url, activeLink) {
+        sessionStorage.setItem(`${this.userRole}LastUrl`, url);
+        sessionStorage.setItem(`${this.userRole}LastActive`, activeLink);
+    }
+
+    _handlePageLoadError(error) {
+        console.error('Page load error:', error);
+        throw new Error(error.message || 'Failed to handle page response');
     }
 
     /**
