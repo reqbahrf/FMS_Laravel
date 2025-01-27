@@ -60,7 +60,8 @@ Route::get('/signup', function () {
     return view('registerpage.signup');
 })->name('registerpage.signup');
 
-Route::post('/signup/submit', [AuthController::class, 'signup'])->name('signup');
+Route::post('/signup/submit', [AuthController::class, 'signup'])
+    ->name('signup');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/application', function () {
@@ -333,15 +334,15 @@ Route::middleware(['auth'])->group(function () {
 //Email Verification
 
 Route::middleware('auth')->group(function () {
-    Route::get('/email/verify', function () {
-        return view('auth.verifyEmail');
-    })->name('verification.notice');
+    Route::get('/email/verify', [EmailVerificationController::class, 'emailVerificationView'])
+        ->name('verification.notice');
 
     Route::post('/email/verify-otp', [EmailVerificationController::class, 'verifyOTP'])
         ->name('verification.verify');
 
     Route::post('/email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])
-        ->middleware('throttle:6,1')->name('verification.send');
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
 });
 
 Route::middleware(['auth'])->group(function () {

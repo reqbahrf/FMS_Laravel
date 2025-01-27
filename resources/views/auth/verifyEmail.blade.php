@@ -100,6 +100,30 @@
                 width: 80vw;
             }
         }
+
+        .otp-input {
+            border-radius: 8px;
+            border: 1px solid #48c4d3;
+            transition: all 0.3s ease;
+        }
+
+        .otp-input:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(49, 135, 145, 0.25);
+            outline: none;
+        }
+
+        /* Disable number input arrows */
+        .otp-input::-webkit-outer-spin-button,
+        .otp-input::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        /* For Firefox */
+        .otp-input[type=number] {
+            -moz-appearance: textfield;
+        }
     </style>
 </head>
 
@@ -163,7 +187,7 @@
             <div class="card-body">
                 <div class="row text-center gap-3">
                     <div class="col-12">
-                        <h4>Thank you for registering</h4>
+                        <h4>Email Verification</h4>
                     </div>
                     <div class="col-12">
                         <svg
@@ -233,14 +257,25 @@
                                     class="form-label"
                                     for="otp"
                                 >Enter Verification OTP</label>
+                                <div class="d-flex gap-2 justify-content-center">
+                                    @for ($i = 1; $i <= 6; $i++)
+                                        <input
+                                            class="form-control text-center otp-input"
+                                            id="otp-{{ $i }}"
+                                            type="text"
+                                            style="width: 45px; height: 45px; font-size: 1.2rem;"
+                                            maxlength="1"
+                                            pattern="\d"
+                                            inputmode="numeric"
+                                            autocomplete="one-time-code"
+                                            required
+                                        >
+                                    @endfor
+                                </div>
                                 <input
-                                    class="form-control @error('otp') is-invalid @enderror"
-                                    id="otp"
+                                    id="otp-hidden"
                                     name="otp"
-                                    type="text"
-                                    placeholder="Enter 6-digit OTP"
-                                    maxlength="6"
-                                    pattern="\d{6}"
+                                    type="hidden"
                                     required
                                 >
                                 @error('otp')
@@ -302,6 +337,54 @@
             $('.resend-button-text').text('Sending...');
             $('.btn-outline-primary').attr('disabled', true);
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const otpInputs = document.querySelectorAll('.otp-input');
+            const hiddenInput = document.getElementById('otp-hidden');
+
+            otpInputs.forEach((input, index) => {
+                // Handle input
+                input.addEventListener('input', function(e) {
+                    if (e.target.value.length >= 1) {
+                        e.target.value = e.target.value.slice(0, 1); // Ensure only 1 digit
+                        if (index < otpInputs.length - 1) {
+                            otpInputs[index + 1].focus();
+                        }
+                    }
+                    updateHiddenInput();
+                });
+
+                // Handle keydown
+                input.addEventListener('keydown', function(e) {
+                    if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                        otpInputs[index - 1].focus();
+                    }
+                });
+
+                // Handle paste
+                input.addEventListener('paste', function(e) {
+                    e.preventDefault();
+                    const pastedData = e.clipboardData.getData('text').slice(0, 6);
+                    if (/^\d+$/.test(pastedData)) { // Check if all digits
+                        pastedData.split('').forEach((digit, i) => {
+                            if (otpInputs[i]) {
+                                otpInputs[i].value = digit;
+                            }
+                        });
+                        updateHiddenInput();
+                        otpInputs[Math.min(pastedData.length, 5)].focus();
+                    }
+                });
+            });
+
+            // Update hidden input with combined OTP value
+            function updateHiddenInput() {
+                const otpValue = Array.from(otpInputs)
+                    .map(input => input.value)
+                    .join('');
+                hiddenInput.value = otpValue;
+            }
+        });
     </script>
 
 </body>
