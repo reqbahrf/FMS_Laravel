@@ -235,9 +235,9 @@
                             {!! session('status') !!}
                         </div>
                     @endif
-                    @if (session('error'))
+                    @if ($errors->has('otp-request-error'))
                         <div class="alert alert-danger">
-                            {{ session('error') }}
+                            {{ $errors->first('otp-request-error') }}
                         </div>
                     @endif
                     <div class="col-12">

@@ -341,7 +341,7 @@ Route::middleware('auth')->group(function () {
         ->name('verification.verify');
 
     Route::post('/email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])
-        ->middleware('throttle:6,1')
+        ->middleware('EmailRateLimit')
         ->name('verification.send');
 });
 

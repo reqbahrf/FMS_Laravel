@@ -37,7 +37,8 @@ class EmailVerificationController extends Controller
             // If not redirected from verification routes, just return the view
             return view('auth.verifyEmail');
         } catch (Exception $e) {
-            return redirect()->back()->withErrors(['Invalid verification request:' => $e->getMessage()]);
+            Log::error(['Error in MailController:(emailVerificationView) method' => $e->getMessage()]);
+            return back()->withErrors(['otp-request-error' => 'Something went wrong. Please try again later']);
         }
     }
     public function sendVerificationEmail()
@@ -66,7 +67,7 @@ class EmailVerificationController extends Controller
 
             return back()->with('status', 'An OTP has been sent to <strong>' . e($user->email) . '</strong>. <br> Please check your email. <br> <span class="fw-light text-muted">OTP will expire in 30 minutes.</span>');
         } catch (Exception $e) {
-            return back()->withErrors(['Invalid verification request:' => $e->getMessage()]);
+            return back()->withErrors(['otp-request-error' => 'Something went wrong. Please try again later']);
         }
     }
 
@@ -104,10 +105,12 @@ class EmailVerificationController extends Controller
                     'Staff' => redirect()->route('Staff.index'),
                     'Admin' => redirect()->route('Admin.index'),
                 };
+            }else{
+               throw new Exception('Invalid or expired OTP');
             }
         } catch (Exception $e) {
             Log::alert(['Error in MailController:' => $e->getMessage()]);
-            return back()->withErrors(['otp' => 'Invalid or expired OTP']);
+            return back()->withErrors(['otp-request-error' => 'Invalid or expired OTP']);
         }
     }
 }

@@ -2,15 +2,19 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\User;
 use Closure;
+use App\Models\User;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Cache\RateLimiter;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 
 class EmailVerificationRateLimitMiddleware
 {
+
+    private const MAX_ATTEMPTS = 5;
+    private const DECAY_MINUTES = 30;
     /**
      * Handle an incoming request.
      *
@@ -18,17 +22,11 @@ class EmailVerificationRateLimitMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $id = $request->route('id');
-        $hash = $request->route('hash');
 
-        $user = User::find($id);
-        $maxAttempts = 5;
-        $decayMinutes = 30;
+        $user = Auth::user();
 
-
-        if (!$user || hash('sha256', $user->email) !== $hash) {
-            return redirect()->route('home')->with('error', 'Invalid verification link.');
-        }
+        $maxAttempts = self::MAX_ATTEMPTS;
+        $decayMinutes = self::DECAY_MINUTES;
 
         // Define the throttle key based on user email and IP address
         $limiter = app(RateLimiter::class);
@@ -37,7 +35,7 @@ class EmailVerificationRateLimitMiddleware
         // Check if the user has exceeded the rate limit
         if ($limiter->tooManyAttempts($throttleKey, $maxAttempts)) {
             $retryAfter = ceil($limiter->availableIn($throttleKey) / 60);
-            return back()->with('error', "Too many email verification attempts. Please try again in {$retryAfter} minutes.");
+            return back()->withErrors(['otp-request-error' => "Too many email verification attempts. Please try again in {$retryAfter} minutes."]);
         }
 
         // Proceed to the next middleware/controller
