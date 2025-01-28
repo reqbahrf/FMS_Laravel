@@ -54,7 +54,7 @@ Route::get('/', function () {
 
 
 Route::get('/test', function () {
-    return view('Forms.TNA');
+    return view('components.project-proposal-form.main-layout');
 });
 Route::get('/signup', function () {
     return view('registerpage.signup');
