@@ -360,14 +360,6 @@
                             </div>
                             <div class="invalid-feedback">Please enter your password.</div>
                         </div>
-
-                        <div class="form-floating mb-3">
-                            <input type="date" class="form-control" id="B_date" name="B_date"
-                                placeholder="Birth Date" required>
-                            <label for="B_date">Birth Date</label>
-                            <div class="invalid-feedback">Please select your birth date.</div>
-                        </div>
-
                         <div class="forgot-password">
                             <a href="{{ route('password.request') }}">Forgot Password?</a>
                         </div>
@@ -395,7 +387,7 @@
 
         <script type="module">
             $(document).ready(function() {
-                $('#login, #password, #B_date').on('focus', function() {
+                $('#login, #password').on('focus', function() {
                     $(this).removeClass('is-invalid');
                 });
 
@@ -469,7 +461,7 @@
                 function validateForm() {
                     let valid = true;
 
-                    $('#login, #password, #B_date').each(function() {
+                    $('#login, #password').each(function() {
                         if ($(this).val() === '') {
                             $(this).addClass('is-invalid');
                             valid = false;
