@@ -364,7 +364,13 @@
 
                 <h2 class="form-title">Welcome Back</h2>
 
-                <div id="server_feedback"></div>
+                <div id="server_feedback">
+                    @if($errors->any())
+                        <div class="alert alert-danger">
+                            {{ $errors->first() }}
+                        </div>
+                    @endif
+                </div>
 
                 <form
                     class="needs-validation"
@@ -432,7 +438,7 @@
                     <div class="col-6 p-1">
                         <a
                             class="btn btn-outline-primary w-100"
-                            href=""
+                            href="{{ route('auth-with.google') }}"
                         >
                             <svg
                                 width="20px"

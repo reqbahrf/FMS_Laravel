@@ -9,6 +9,7 @@
         "carlos-meneses/laravel-mpdf": "^2.1",
         "laravel/framework": "^11.9",
         "laravel/reverb": "@beta",
+        "laravel/socialite": "^5.17",
         "laravel/tinker": "^2.9",
         "owen-it/laravel-auditing": "^13.6",
         "predis/predis": "^2.2"
