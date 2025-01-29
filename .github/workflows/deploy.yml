@@ -25,6 +25,9 @@ jobs:
           port: 22
           debug: true
           script: |
+            sudo -n chown -R $USER:$USER /home/user/htdocs/srv656676.hstgr.cloud
+            sudo -n chmod -R 755 /home/user/htdocs/srv656676.hstgr.cloud
+            sudo -n chmod -R 777 storage bootstrap/cache
             git config --global --add safe.directory /home/user/htdocs/srv656676.hstgr.cloud
             mkdir -p /home/user/htdocs
             cd /home/user/htdocs
@@ -39,9 +42,7 @@ jobs:
               git reset --hard origin/main
             fi
 
-            sudo chown -R user:user .
-            sudo chmod -R 755 .
-            sudo chmod -R 777 storage bootstrap/cache
+           
 
             export COMPOSER_ALLOW_SUPERUSER=1
             composer install --no-interaction --no-plugins --no-scripts
