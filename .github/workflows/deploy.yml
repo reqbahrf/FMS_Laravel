@@ -25,9 +25,10 @@ jobs:
           port: 22
           debug: true
           script: |
-            sudo -n chown -R $USER:$USER /home/user/htdocs/srv656676.hstgr.cloud
-            sudo -n chmod -R 755 /home/user/htdocs/srv656676.hstgr.cloud
+            sudo -n chown -R user:user .
+            sudo -n chmod -R 755 .
             sudo -n chmod -R 777 storage bootstrap/cache
+            
             git config --global --add safe.directory /home/user/htdocs/srv656676.hstgr.cloud
             mkdir -p /home/user/htdocs
             cd /home/user/htdocs
