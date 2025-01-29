@@ -27,29 +27,28 @@ jobs:
           script: |
             mkdir -p /home/user/htdocs
             cd /home/user/htdocs
-            
-            # Use SSH key for Git operations to avoid permission issues
-            GIT_SSH_COMMAND="ssh -o StrictHostKeyChecking=no" 
-            
             if [ ! -d "srv656676.hstgr.cloud" ]; then
-              git config --global safe.directory '*'
+              git config --global --add safe.directory /srv656676.hstgr.cloud
               git clone ${{ secrets.REPO_URL }} srv656676.hstgr.cloud
               cd srv656676.hstgr.cloud
             else
               cd srv656676.hstgr.cloud
-              # Use Git commands without sudo
               git clean -fd
               git reset --hard HEAD
               git fetch origin main
               git reset --hard origin/main
             fi
 
-            # Use chown without sudo if possible
-            chown -R $(whoami):$(whoami) . || true
-            chmod -R 755 . || true
-            chmod -R 777 storage bootstrap/cache || true
+            sudo -n chown -R user:user .
+            sudo -n chmod -R 755 .
+            sudo -n chmod -R 777 storage bootstrap/cache
 
-            # Remove sudo from Composer and npm commands
+           
+            export COMPOSER_ALLOW_SUPERUSER=1
+            composer install --no-interaction --no-plugins --no-scripts
+            npm install
+            npm run build
+
             export COMPOSER_ALLOW_SUPERUSER=1
             composer install --no-interaction --no-plugins --no-scripts
             npm install
