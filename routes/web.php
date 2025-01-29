@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\checkAdminUser;
 use App\Http\Middleware\CheckStaffUser;
-use App\Http\Controllers\AuthController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ProxyController;
 use App\Http\Controllers\ReceiptController;
@@ -43,6 +43,7 @@ use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -52,7 +53,10 @@ Route::get('/', function () {
     return view('index');
 })->name('home');
 
-
+Route::controller(GoogleAuthController::class)->group(function () {
+    Route::get('/auth-with/google', 'AuthenticateWithGoogle')->name('auth-with.google');
+    Route::get('/auth/google-callback', 'handleGoogleAuth')->name('handle.google.Auth');
+});
 Route::get('/test', function () {
     return view('components.project-proposal-form.main-layout');
 });

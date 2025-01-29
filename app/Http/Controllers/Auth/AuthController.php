@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 use App\Models\OrgUserInfo;
+use App\Http\Controllers\Controller;
 use App\Models\CoopUserInfo;
 use App\Models\User;
 use App\Services\AuditService;
-use DateTime;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -79,7 +79,6 @@ class AuthController extends Controller
         $request->validate([
             'login' => 'required',
             'password' => 'required',
-            'B_date' => 'required|date',
             'remember' => 'in:on,off',
         ]);
 
@@ -88,8 +87,6 @@ class AuthController extends Controller
             $credentials = [
                 $this->username() => $request->login,
                 'password' => $request->password];
-
-            $bDate = new DateTime($request->B_date);
 
             if (Auth::attempt($credentials, $request->has('remember'))) {
                 $user = Auth::user();
@@ -102,8 +99,8 @@ class AuthController extends Controller
                     case 'Cooperator':
                         $coop_userInfo = CoopUserInfo::where('user_name', $user->user_name)->first();
 
-                        if ($coop_userInfo && $coop_userInfo->birth_date->format('Y-m-d') === $bDate->format('Y-m-d')) {
-                            $this->userLoginAudit();
+                        $this->userLoginAudit();
+                        if ($coop_userInfo) {
                             return response()->json(['success' => 'Login successfully', 'redirect' => route('Cooperator.index')]);
                         } else if (is_null($coop_userInfo)) {
                             return response()->json(['no_record' => 'No Application Record found.', 'redirect' => route('registrationForm')]);
@@ -113,7 +110,7 @@ class AuthController extends Controller
                     case 'Admin':
                         $orgUserInfo = OrgUserInfo::where('user_name', $user->user_name)->first();
 
-                        if ($orgUserInfo && $orgUserInfo->birthdate->format('Y-m-d') === $bDate->format('Y-m-d')) {
+                        if ($orgUserInfo) {
                             $this->userLoginAudit();
                             return response()->json(['success' => 'Login successfully', 'redirect' => route($user->role . '.index')], 200);
                         }
