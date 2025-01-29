@@ -25,14 +25,10 @@ jobs:
           port: 22
           debug: true
           script: |
-            sudo -n chown -R user:user .
-            sudo -n chmod -R 755 .
-            sudo -n chmod -R 777 storage bootstrap/cache
-            
-            git config --global --add safe.directory /home/user/htdocs/srv656676.hstgr.cloud
             mkdir -p /home/user/htdocs
             cd /home/user/htdocs
             if [ ! -d "srv656676.hstgr.cloud" ]; then
+              git config --global --add safe.directory /srv656676.hstgr.cloud
               git clone ${{ secrets.REPO_URL }} srv656676.hstgr.cloud
               cd srv656676.hstgr.cloud
             else
@@ -43,8 +39,11 @@ jobs:
               git reset --hard origin/main
             fi
 
-           
+            sudo -n chown -R $(whoami):$(whoami) .
+            sudo -n chmod -R 755 .
+            sudo -n chmod -R 777 storage bootstrap/cache
 
+           
             export COMPOSER_ALLOW_SUPERUSER=1
             composer install --no-interaction --no-plugins --no-scripts
             npm install
