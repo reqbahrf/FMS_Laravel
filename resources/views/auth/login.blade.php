@@ -434,7 +434,11 @@
                     </button>
                 </form>
                 <div class="row mt-4">
-                    <p class="text-center">Or login with</p>
+                    <div class="col-12 d-flex align-items-center">
+                        <hr class="flex-grow-1">
+                        <span class="mx-3">Or login with</span>
+                        <hr class="flex-grow-1">
+                    </div>
                     <div class="col-12 p-1">
                         <a
                             class="btn btn-outline-primary w-100"

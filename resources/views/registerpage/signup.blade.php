@@ -281,35 +281,35 @@
 
                 <form id="signupForm" action="{{ route('signup') }}" method="post" novalidate>
                     @csrf
-                    <div class="mb-3">
+                    <div class="mb-1">
                         <label for="userName1" class="form-label">Username</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="ri-user-line"></i>
                             </span>
-                            <input type="text" class="form-control" id="userName1" name="username" required>
+                            <input type="text" class="form-control form-control-sm" id="userName1" name="username" required>
                             <div class="invalid-feedback">Please choose a username.</div>
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-1">
                         <label for="email1" class="form-label">Email</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="ri-mail-line"></i>
                             </span>
-                            <input type="email" class="form-control" id="email1" name="email" required>
+                            <input type="email" class="form-control form-control-sm" id="email1" name="email" required>
                             <div class="invalid-feedback">Please enter a valid email.</div>
                         </div>
                     </div>
 
-                    <div class="mb-3">
+                    <div class="mb-1">
                         <label for="password1" class="form-label">Password</label>
                         <div class="input-group">
                             <span class="input-group-text">
                                 <i class="ri-lock-line"></i>
                             </span>
-                            <input type="password" class="form-control" id="password1" name="password" required>
+                            <input type="password" class="form-control form-control-sm" id="password1" name="password" required>
                             <span class="input-group-text password-toggle" id="togglePassword">
                                 <i class="ri-eye-line"></i>
                             </span>
@@ -323,7 +323,7 @@
                             <span class="input-group-text">
                                 <i class="ri-lock-line"></i>
                             </span>
-                            <input type="password" class="form-control" id="password1_confirmation"
+                            <input type="password" class="form-control form-control-sm" id="password1_confirmation"
                                 name="password_confirmation" required>
                             <span class="input-group-text password-toggle" id="toggleConfirmPassword">
                                 <i class="ri-eye-line"></i>
@@ -338,8 +338,12 @@
                         <span class="button-text">Create Account</span>
                     </button>
                 </form>
-                <div class="row mt-4">
-                    <p class="text-center">Or sign up with</p>
+                <div class="row mt-2 gy-1">
+                    <div class="col-12 d-flex align-items-center">
+                        <hr class="flex-grow-1">
+                        <span class="mx-3">Or sign up with</span>
+                        <hr class="flex-grow-1">
+                    </div>
                     <div class="col-12 p-1">
                         <a
                             class="btn btn-outline-primary w-100"
