@@ -11,6 +11,9 @@ use App\Actions\GetAvailableChartYearList;
 
 class AdminViewController extends Controller
 {
+    public function index(){
+        return view('AdminView.Admin_Index');
+    }
     public function LoadDashboardTab(Request $request)
     {
         if ($request->ajax()) {

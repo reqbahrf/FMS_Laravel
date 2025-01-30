@@ -17,6 +17,10 @@ use App\Models\OngoingQuarterlyReport;
 
 class StaffViewController extends Controller
 {
+
+    public function index(){
+        return view('StaffView.Staff_Index');
+    }
     public function LoadDashboardTab(Request $request)
     {
         //dashboard logic here

@@ -128,14 +128,24 @@ Route::post('/login', [AuthController::class, 'login'])
 Route::get('/password/reset', fn() => view('auth.passwordReset.resetRequest'))
     ->name('password.request');
 
+
+Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])
+    ->name('password.email');
+
+    
 Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])
     ->name('password.email');
 
 Route::get('/password/reset/{token}', fn($token) => view('auth.passwordReset.resetForm', ['token' => $token]))
     ->name('password.reset');
 
-Route::post('/password/reset', [PasswordResetController::class, 'reset'])
-    ->name('password.reset.submit');
+Route::controller(PasswordResetController::class)->group(function() {
+    Route::post('/password/email', 'sendResetLink')
+        ->name('password.email');
+    
+    Route::post('/password/reset', 'reset')
+        ->name('password.reset.submit');
+});    
 
 //Logout routes
 
@@ -145,20 +155,22 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
     Route::post('/Cooperator/Projects', SetProjectToLoadController::class)
         ->name('Cooperator.Projects');
 
-    Route::get('/Cooperator/Home', [CooperatorViewController::class, 'index'])
-        ->name('Cooperator.index');
-
-    Route::get('/Cooperator/Dashboard', [CooperatorViewController::class, 'LoadDashboardTab'])
-        ->name('Cooperator.dashboard');
-
-    Route::get('/Cooperator/Progress', [CooperatorViewController::class, 'CoopProgress'])
-        ->name('Cooperator.Progress');
-
-    Route::get('/Cooperator/Requirements', [CooperatorViewController::class, 'LoadRequirementsTab'])
-        ->name('Cooperator.Requirements');
-
-    Route::get('/Cooperator/myProjects', [CooperatorViewController::class, 'LoadCooperatorProjectsTab'])
-        ->name('Cooperator.myProjects');
+    Route::controller(CooperatorViewController::class)->group(function () {
+        Route::get('/Cooperator/Home', 'index')
+            ->name('Cooperator.index');
+    
+        Route::get('/Cooperator/Dashboard',  'LoadDashboardTab')
+            ->name('Cooperator.dashboard');
+    
+        Route::get('/Cooperator/Progress',  'CoopProgress')
+            ->name('Cooperator.Progress');
+    
+        Route::get('/Cooperator/Requirements',  'LoadRequirementsTab')
+            ->name('Cooperator.Requirements');
+    
+        Route::get('/Cooperator/myProjects',  'LoadCooperatorProjectsTab')
+            ->name('Cooperator.myProjects');
+    });
 
     Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', [Coop_QuarterlyReportController::class, 'getQuarterlyForm'])
         ->name('CooperatorViewController')
@@ -174,31 +186,42 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
 //Cooperator Routes End
 //Staff Routes
 
-Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(function () {
-    Route::get('/Staff/Home', function () {
-        return view('StaffView.Staff_Index');
-    })->name('Staff.index');
+Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])->group(function () {
+    
+    Route::controller(StaffViewController::class)->group(function () {
+        Route::get('/Staff/Home', 'index')
+            ->name('Staff.index');
 
-    Route::get('/Staff/dashboard', [StaffViewController::class, 'LoadDashboardTab'])
-        ->name('staff.dashboard');
+        Route::get('/Staff/dashboard', 'LoadDashboardTab')
+            ->name('staff.dashboard');
+        
+        Route::get('/Staff/Dashboard/chartData/{yearToLoad?}', 'getDashboardChartData')
+            ->name('staff.Dashboard.chartData');
 
-    Route::get('/Staff/Dashboard/chartData/{yearToLoad?}', [StaffViewController::class, 'getDashboardChartData'])
-        ->name('staff.Dashboard.chartData');
+        Route::get('/Staff/Project', 'LoadProjectsTab')
+            ->name('staff.Project');
+
+        Route::get('/Staff/Project/getApproved-Project', 'getApprovedProjects')
+            ->name('staff.Project.ApprovedProjectProposal');
+        
+        Route::get('/Staff/Applicant', 'LoadApplicantTab')
+            ->name('staff.Applicant');
+
+        Route::get('/Staff/Dashboard/getHandledProjects', 'getHandledProjects')
+            ->name('staff.Dashboard.getHandledProjects');
+
+        Route::get('/Staff/Project/getQuarterReport/{ProjectId}', 'getAvailableQuarterlyReport')
+            ->name('Staff.Project.getQuarterReport');
+
+         //Staff Submit Project Proposal
+        Route::post('/staff/Applicant/ProjectProposal', 'submitProjectProposal')
+            ->name('staff.Applicant.ProjectProposal');
+    });
+   
+
 
     Route::put('/Staff/Dashboard/updateProjectState', [UpdateProjectStateController::class, 'updateProjectState'])
         ->name('staff.Dashboard.updateProjectState');
-
-    Route::get('/Staff/Project', [StaffViewController::class, 'LoadProjectsTab'])
-        ->name('staff.Project');
-
-    Route::get('/Staff/Project/getApproved-Project', [StaffViewController::class, 'getApprovedProjects'])
-        ->name('staff.Project.ApprovedProjectProposal');
-
-    Route::get('/Staff/Applicant', [StaffViewController::class, 'LoadApplicantTab'])
-        ->name('staff.Applicant');
-
-    Route::get('/Staff/Dashboard/getHandledProjects', [StaffViewController::class, 'getHandledProjects'])
-        ->name('staff.Dashboard.getHandledProjects');
 
     Route::put('/Staff/Dashboard/ProjectLedger', [ProjectLedgerController::class, 'saveOrupdate'])
         ->name('staff.Dashboard.ProjectLedger');
@@ -216,8 +239,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
     Route::post('/Staff/Submit-New-Projects', [StaffAddProjectController::class, 'store'])
         ->name('staff.Project.SubmitNewProject');
 
-    Route::get('/Staff/Project/getQuarterReport/{ProjectId}', [StaffViewController::class, 'getAvailableQuarterlyReport'])
-        ->name('Staff.Project.getQuarterReport');
+   
 
     Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [GenerateFormController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');
@@ -239,9 +261,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
     Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
         ->name('staff.get.EvaluationSchedule');
 
-    //Staff Submit Project Proposal
-    Route::post('/staff/Applicant/ProjectProposal', [StaffViewController::class, 'submitProjectProposal'])
-        ->name('staff.Applicant.ProjectProposal');
+   
 
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
@@ -262,33 +282,37 @@ Route::middleware([CheckStaffUser::class, 'check.password.change'])->group(funct
 //Admin routes
 
 Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(function () {
-    Route::get('/Admin/Home', function () {
-        return view('AdminView.Admin_Index');
-    })->name('Admin.index');
 
-    Route::get('/Admin/Dashboard', [AdminViewController::class, 'LoadDashboardTab'])
-        ->name('admin.Dashboard');
+    Route::controller(AdminViewController::class)->group(function () {
 
-    Route::get('/Admin/Dashboard/chartData/{yearToLoad?}', [AdminViewController::class, 'getDashboardChartData'])
-        ->name('admin.Dashboard.chartData');
+        Route::get('/Admin/Home', 'index')
+            ->name('Admin.index');
+        
+        Route::get('/Admin/Dashboard', 'LoadDashboardTab')
+            ->name('admin.Dashboard');
+    
+        Route::get('/Admin/Dashboard/chartData/{yearToLoad?}', 'getDashboardChartData')
+            ->name('admin.Dashboard.chartData');
 
-    Route::get('/Admin/Project', [AdminViewController::class, 'LoadProjectTab'])
-        ->name('admin.Project');
+        Route::get('/Admin/Project', 'LoadProjectTab')
+            ->name('admin.Project');
+
+        Route::get('/Admin/Applicant', 'LoadApplicantTab')
+            ->name('admin.Applicant');
+
+        Route::get('/Admin/Project/getOngoingProjects', 'getOngoingProjects')
+            ->name('admin.Project.getOngoingProjects');
+
+        Route::get('/Admin/Users-List', 'LoadUsersTab')
+            ->name('admin.Users-list');
+        
+        Route::get('/Admin/Project-Settings', 'LoadProjectSettingTab')
+            ->name('admin.ProjectSettings');
+    });
+
 
     Route::get('/Admin/Project/Pending-Project', GetPendingProjectController::class)
         ->name('admin.Project.PendingProject');
-
-    Route::get('/Admin/Applicant', [AdminViewController::class, 'LoadApplicantTab'])
-        ->name('admin.Applicant');
-
-    Route::get('/Admin/Project/getOngoingProjects', [AdminViewController::class, 'getOngoingProjects'])
-        ->name('admin.Project.getOngoingProjects');
-
-    Route::get('/Admin/Users-List', [AdminViewController::class, 'LoadUsersTab'])
-        ->name('admin.Users-list');
-
-    Route::get('/Admin/Project-Settings', [AdminViewController::class, 'LoadProjectSettingTab'])
-        ->name('admin.ProjectSettings');
 
     Route::post('/Admin/Project-Settings', [ProjectSettingController::class, 'updateFee'])
         ->name('admin.ProjectSettings.update');
@@ -329,29 +353,29 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
 });
 
 // Notification Routes
-Route::middleware(['auth'])->group(function () {
-    Route::get('/notifications', [UserNotificationController::class, 'getUserNotifications'])->name('notifications.get');
-    Route::post('/notifications/{id}/mark-as-read', [UserNotificationController::class, 'markAsRead'])->name('notifications.markAsRead');
-    Route::post('/notifications/mark-all-read', [UserNotificationController::class, 'markAllAsRead'])->name('notifications.markAllRead');
-});
+Route::controller(UserNotificationController::class)->group(function () {
+    Route::get('/notifications', 'getUserNotifications')->name('notifications.get');
+    Route::post('/notifications/{id}/mark-as-read', 'markAsRead')->name('notifications.markAsRead');
+    Route::post('/notifications/mark-all-read', 'markAllAsRead')->name('notifications.markAllRead');
+})->middleware(['auth']);
 
 //Email Verification
 
-Route::middleware('auth')->group(function () {
-    Route::get('/email/verify', [EmailVerificationController::class, 'emailVerificationView'])
+Route::controller(EmailVerificationController::class)->group(function () {
+    Route::get('/email/verify', 'emailVerificationView')
         ->name('verification.notice');
 
-    Route::post('/email/verify-otp', [EmailVerificationController::class, 'verifyOTP'])
+    Route::post('/email/verify-otp', 'verifyOTP')
         ->name('verification.verify');
 
-    Route::post('/email/verification-notification', [EmailVerificationController::class, 'sendVerificationEmail'])
+    Route::post('/email/verification-notification', 'sendVerificationEmail')
         ->middleware('EmailRateLimit')
         ->name('verification.send');
-});
+})->middleware('auth');
 
-Route::middleware(['auth'])->group(function () {
-    Route::get('/change-password', [PasswordChangeController::class, 'showChangePasswordForm'])
+Route::controller(PasswordChangeController::class)->group(function () {
+    Route::get('/change-password', 'showChangePasswordForm')
         ->name('password.change');
-    Route::post('/change-password', [PasswordChangeController::class, 'changePassword'])
+    Route::post('/change-password', 'changePassword')
         ->name('password.update');
-})->withoutMiddleware('check.password.change');
+})->middleware(['auth'])->withoutMiddleware('check.password.change');
