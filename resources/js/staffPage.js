@@ -4296,14 +4296,14 @@ async function initializeStaffPageJs() {
                     nofi_dateCont.empty();
                     if (response.Scheduled_date) {
                         nofi_dateCont.append(
-                            `<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>' +
+                            html`<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>' +
                                 ${response.Scheduled_date} +
                                 '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>`
                         );
                         setAndUpdateBtn.text('Update');
                     } else {
                         nofi_dateCont.append(
-                            `<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>`
+                            html`<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>`
                         );
                     }
                 } catch (error) {

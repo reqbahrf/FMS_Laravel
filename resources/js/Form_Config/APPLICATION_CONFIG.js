@@ -28,7 +28,7 @@ const APPLICATION_FORM_CONFIG = {
 }
 
 const createMarketTableRow = (rowData) => {
-    return `
+    return html`
         <tr>
             <td><input type="text" class="form-control location" value="${rowData.location || ''}" /></td>
             <td><input type="text" class="form-control product" value="${rowData.product || ''}" /></td>

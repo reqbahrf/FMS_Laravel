@@ -2696,13 +2696,13 @@ async function initializeAdminPageJs() {
 
                     const modalBodyContent =
                         optionType === 'updateUser'
-                            ? `<div class="form-check form-switch">
+                            ? html`<div class="form-check form-switch">
                <input class="form-check-input" type="checkbox" role="switch" id="toggleStaffAccess">
                <label class="form-check-label" for="toogleStaffAccess">Are you sure you want to update Access for this user <strong>${sanitize(
                    staffName
                )}?</strong></label>
              </div>`
-                            : `<p>Are you sure you want to delete <strong>${sanitize(
+                            : html`<p>Are you sure you want to delete <strong>${sanitize(
                                   staffName
                               )}?</strong></p>`;
 

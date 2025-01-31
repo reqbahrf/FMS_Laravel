@@ -74,7 +74,10 @@ notificationManager.setupEventListeners();
 const urlMapFunction = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
     [NAV_ROUTES.REQUIREMENTS]: (functions) => functions.Requirements,
-    [NAV_ROUTES.QUARTERLY_REPORT]: (functions, reportSubmitted) => reportSubmitted ? functions.ReportedQuarterlyReport : functions.QuarterlyReport,
+    [NAV_ROUTES.QUARTERLY_REPORT]: (functions, reportSubmitted) =>
+        reportSubmitted
+            ? functions.ReportedQuarterlyReport
+            : functions.QuarterlyReport,
 };
 
 const navigationHandler = new CoopPageNavHandler(
@@ -309,11 +312,17 @@ async function initilizeCoopPageJs() {
                             value.payment_status === 'Paid'
                                 ? 'bg-success'
                                 : 'bg-danger';
-                        const row = `<tr>
-                      <td class="text-center">${formatNumberToCurrency(value.amount)}</td>
-                      <td class="text-center">${value.payment_method}</td>
-                      <td class="text-center"><span class="badge rounded-pill ${statusClass}">${value.payment_status}</span></td>
-                     </tr>`;
+                        const row = html`<tr>
+                            <td class="text-center">
+                                ${formatNumberToCurrency(value.amount)}
+                            </td>
+                            <td class="text-center">${value.payment_method}</td>
+                            <td class="text-center">
+                                <span class="badge rounded-pill ${statusClass}"
+                                    >${value.payment_status}</span
+                                >
+                            </td>
+                        </tr>`;
                         paymentTable.append(row);
                     });
                 }
@@ -484,25 +493,45 @@ async function initilizeCoopPageJs() {
                     tableBody.empty(); // Clear the existing rows
 
                     if (!data || data.length === 0) {
-                        const row = `<tr>
-                        <td colspan="6" class="text-center">No receipt uploaded yet</td>
-                    </tr>`;
+                        const row = html`<tr>
+                            <td
+                                colspan="6"
+                                class="text-center"
+                            >
+                                No receipt uploaded yet
+                            </td>
+                        </tr>`;
                         tableBody.append(row);
                     } else {
                         data.forEach((value) => {
-                            const receiptImage = `<img src="data:image/png;base64,${value.receipt_image}" alt="${value.receipt_name}" style="max-width: 200px; max-height: 200px;" />`;
-                            const row = `<tr>
-                        <td>${value.receipt_name}</td>
-                        <td>${value.receipt_description}</td>
-                        <td class="img-Content">${receiptImage}</td>
-                        <td>${customDateFormatter(value.created_at)}</td>
-                        <td>
-                            <span class="badge rounded-pill ${value.remark === 'Pending' ? 'bg-info' : value.remark === 'Approved' ? 'bg-success' : value.remark === 'Rejected' ? 'bg-danger' : ''}">
-                                ${value.remark}
-                            </span>
-                        </td>
-                        <td></td>
-                    </tr>`;
+                            const receiptImage = html`<img
+                                src="data:image/png;base64,${value.receipt_image}"
+                                alt="${value.receipt_name}"
+                                style="max-width: 200px; max-height: 200px;"
+                            />`;
+                            const row = html`<tr>
+                                <td>${value.receipt_name}</td>
+                                <td>${value.receipt_description}</td>
+                                <td class="img-Content">${receiptImage}</td>
+                                <td>
+                                    ${customDateFormatter(value.created_at)}
+                                </td>
+                                <td>
+                                    <span
+                                        class="badge rounded-pill ${value.remark ===
+                                        'Pending'
+                                            ? 'bg-info'
+                                            : value.remark === 'Approved'
+                                              ? 'bg-success'
+                                              : value.remark === 'Rejected'
+                                                ? 'bg-danger'
+                                                : ''}"
+                                    >
+                                        ${value.remark}
+                                    </span>
+                                </td>
+                                <td></td>
+                            </tr>`;
 
                             tableBody.append(row);
                         });
@@ -571,8 +600,19 @@ async function initilizeCoopPageJs() {
                     showNextButton: true, // show/hide a Next button
                     showPreviousButton: true, // show/hide a Previous button
                     position: 'both buttom', // none/ top/ both bottom
-                    extraHtml: `<button type="button" class="btn btn-success" onclick="showConfirm()">Submit</button>
-                                  <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`,
+                    extraHtml: html`<button
+                            type="button"
+                            class="btn btn-success"
+                            onclick="showConfirm()"
+                        >
+                            Submit
+                        </button>
+                        <button
+                            class="btn btn-secondary"
+                            onclick="onCancel()"
+                        >
+                            Cancel
+                        </button>`,
                 },
             });
             $('#smartwizard').on(
