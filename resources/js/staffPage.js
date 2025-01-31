@@ -98,7 +98,11 @@ $(function () {
     });
 });
 
-const activityLog = new ActivityLogHandler(ACTIVITY_LOG_MODAL, USER_ROLE, 'personal');
+const activityLog = new ActivityLogHandler(
+    ACTIVITY_LOG_MODAL,
+    USER_ROLE,
+    'personal'
+);
 activityLog.initPersonalActivityLog();
 
 async function initializeStaffPageJs() {
@@ -413,7 +417,7 @@ async function initializeStaffPageJs() {
                 };
 
                 return new Promise((resolve) => {
-                    if(ChartData) {
+                    if (ChartData) {
                         ChartData.destroy();
                     }
                     ChartData = new ApexCharts(
@@ -554,7 +558,10 @@ async function initializeStaffPageJs() {
                     const selectedYear = year || '';
                     const response = await $.ajax({
                         type: 'GET',
-                        url: DASHBBOARD_TAB_ROUTE.GET_MONTHLY_PROJECTS_CHARTDATA.replace(':yearToLoad', selectedYear),
+                        url: DASHBBOARD_TAB_ROUTE.GET_MONTHLY_PROJECTS_CHARTDATA.replace(
+                            ':yearToLoad',
+                            selectedYear
+                        ),
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
@@ -564,7 +571,10 @@ async function initializeStaffPageJs() {
                     const monthlyData = response.monthlyData;
                     const listOfYears = response.listOfYears;
                     const currentSelectedYear = response.currentSelectedYear;
-                    await processYearListSelector(listOfYears, currentSelectedYear);
+                    await processYearListSelector(
+                        listOfYears,
+                        currentSelectedYear
+                    );
                     await processMonthlyDataChart(monthlyData);
                 } catch (error) {
                     throw new Error(
@@ -652,72 +662,112 @@ async function initializeStaffPageJs() {
                             return [
                                 project.Project_id,
                                 project.project_title,
-                                `<p class="firm_name">${project.firm_name}</p>
-                            <input type="hidden" class="business_id" value="${
-                                project.business_id
-                            }">
-                            <input type="hidden" class="business_enterprise_type" value="${
-                                project.enterprise_type
-                            }">
-                            <input type="hidden" class="business_enterprise_level" value="${
-                                project.enterprise_level
-                            }">
-                            <input type="hidden" class="business_address" value="${
-                                project.landMark +
-                                ', ' +
-                                project.barangay +
-                                ', ' +
-                                project.city +
-                                ', ' +
-                                project.province +
-                                ', ' +
-                                project.region
-                            }">
-                            <input type="hidden" class="dateApplied" value="${
-                                project.date_applied
-                            }">
-                            <input type="hidden" class="building_value" value="${
-                                project.building_value
-                            }">
-                            <input type="hidden" class="equipment_value" value="${
-                                project.equipment_value
-                            }">
-                            <input type="hidden" class="working_capital" value="${
-                                project.working_capital
-                            }">`,
-                                `<p class="owner_name">${
-                                    (project.prefix ? project.prefix : '') +
-                                    ' ' +
-                                    project.f_name +
-                                    ' ' +
-                                    project.l_name +
-                                    ' ' +
-                                    (project.suffix ? project.suffix : ' ')
-                                }</p>
-                            <input type="hidden" class="sex" value="${project.sex}">
-                            <input type="hidden" class="birth_date" value="${
-                                project.birth_date
-                            }">
-                            <input type="hidden" class="landline" value="${
-                                project.landline ?? ''
-                            }">
-                            <input type="hidden" class="mobile_phone" value="${
-                                project.mobile_number
-                            }">
-                            <input type="hidden" class="email" value="${
-                                project.email
-                            }">`,
-                                `${
-                                    formatNumberToCurrency(refunded_amount) +
+                                html`<p class="firm_name">
+                                        ${project.firm_name}
+                                    </p>
+                                    <input
+                                        type="hidden"
+                                        class="business_id"
+                                        value="${project.business_id}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="business_enterprise_type"
+                                        value="${project.enterprise_type}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="business_enterprise_level"
+                                        value="${project.enterprise_level}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="business_address"
+                                        value="${project.landMark +
+                                        ', ' +
+                                        project.barangay +
+                                        ', ' +
+                                        project.city +
+                                        ', ' +
+                                        project.province +
+                                        ', ' +
+                                        project.region}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="dateApplied"
+                                        value="${project.date_applied}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="building_value"
+                                        value="${project.building_value}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="equipment_value"
+                                        value="${project.equipment_value}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="working_capital"
+                                        value="${project.working_capital}"
+                                    />`,
+                                html`<p class="owner_name">
+                                        ${(project.prefix
+                                            ? project.prefix
+                                            : '') +
+                                        ' ' +
+                                        project.f_name +
+                                        ' ' +
+                                        project.l_name +
+                                        ' ' +
+                                        (project.suffix ? project.suffix : ' ')}
+                                    </p>
+                                    <input
+                                        type="hidden"
+                                        class="sex"
+                                        value="${project.sex}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="birth_date"
+                                        value="${project.birth_date}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="landline"
+                                        value="${project.landline ?? ''}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="mobile_phone"
+                                        value="${project.mobile_number}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="email"
+                                        value="${project.email}"
+                                    />`,
+                                html`${formatNumberToCurrency(refunded_amount) +
                                     '/' +
-                                    formatNumberToCurrency(Actual_Amount)
-                                }<span class="badge ms-1 text-white bg-primary">${percentage}%</span>
-                        <input type="hidden" class="approved_amount" value="${
-                            project.Approved_Amount
-                        }">
-                        <input type="hidden" class="actual_amount" value="${Actual_Amount}">`,
-                                `<span class="badge ${
-                                    project.application_status === 'approved'
+                                    formatNumberToCurrency(Actual_Amount)}<span
+                                        class="badge ms-1 text-white bg-primary"
+                                        >${percentage}%</span
+                                    >
+                                    <input
+                                        type="hidden"
+                                        class="approved_amount"
+                                        value="${project.Approved_Amount}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="actual_amount"
+                                        value="${Actual_Amount}"
+                                    />`,
+                                html`<span
+                                    class="badge ${project.application_status ===
+                                    'approved'
                                         ? 'bg-warning'
                                         : project.application_status ===
                                             'ongoing'
@@ -725,12 +775,18 @@ async function initializeStaffPageJs() {
                                           : project.application_status ===
                                               'completed'
                                             ? 'bg-success'
-                                            : null
-                                }">${project.application_status}</span>`,
-                                `<button class="btn btn-primary handleProjectbtn" type="button" data-bs-toggle="offcanvas"
-                                data-bs-target="#handleProjectOff" aria-controls="handleProjectOff">
-                                <i class="ri-menu-unfold-4-line ri-1x"></i>
-                            </button>`,
+                                            : null}"
+                                    >${project.application_status}</span
+                                >`,
+                                html`<button
+                                    class="btn btn-primary handleProjectbtn"
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#handleProjectOff"
+                                    aria-controls="handleProjectOff"
+                                >
+                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                </button>`,
                             ];
                         })
                     );
@@ -930,25 +986,44 @@ async function initializeStaffPageJs() {
                     UploadedReceiptDataTable.clear();
                     UploadedReceiptDataTable.rows.add(
                         response.map((receipt) => [
-                            `${receipt.receipt_name}
-                    <input type="hidden" class="receipt_id" value="${receipt.id}">
-                    <input type="hidden" class="receipt_description" value="${receipt.receipt_description}">
-                    `,
-                            `<img src="data:image/png;base64,${receipt.receipt_image}" alt="${receipt.receipt_name}" style="max-width: 100px; max-height: 100px;">`,
+                            html`${receipt.receipt_name}
+                                <input
+                                    type="hidden"
+                                    class="receipt_id"
+                                    value="${receipt.id}"
+                                />
+                                <input
+                                    type="hidden"
+                                    class="receipt_description"
+                                    value="${receipt.receipt_description}"
+                                /> `,
+                            html`<img
+                                src="data:image/png;base64,${receipt.receipt_image}"
+                                alt="${receipt.receipt_name}"
+                                style="max-width: 100px; max-height: 100px;"
+                            />`,
                             customDateFormatter(receipt.created_at),
-                            `<span class="badge ${
-                                receipt.remark === 'Pending'
-                                    ? 'bg-info'
-                                    : receipt.remark === 'Approved'
-                                      ? 'bg-success'
-                                      : receipt.remark === 'Rejected'
-                                        ? 'bg-danger'
-                                        : ''
-                            }">${receipt.remark}</span>
-                      <input type="hidden" class="comment" value="${
-                          receipt.comment
-                      }">`,
-                            `<button class="btn btn-primary btn-sm viewReceipt" data-receipt-id="${receipt.ongoing_project_id}">View</button>`,
+                            html`<span
+                                    class="badge ${receipt.remark === 'Pending'
+                                        ? 'bg-info'
+                                        : receipt.remark === 'Approved'
+                                          ? 'bg-success'
+                                          : receipt.remark === 'Rejected'
+                                            ? 'bg-danger'
+                                            : ''}"
+                                    >${receipt.remark}</span
+                                >
+                                <input
+                                    type="hidden"
+                                    class="comment"
+                                    value="${receipt.comment}"
+                                />`,
+                            html`<button
+                                class="btn btn-primary btn-sm viewReceipt"
+                                data-receipt-id="${receipt.ongoing_project_id}"
+                            >
+                                View
+                            </button>`,
                         ])
                     );
                     UploadedReceiptDataTable.draw();
@@ -1365,9 +1440,13 @@ async function initializeStaffPageJs() {
                     )}`;
 
                     if (inputtedLink) {
-                        const spinner = `<div class="spinner-border spinner-border-sm text-primary ms-3" role="status" style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;">
-                        <span class="visually-hidden"></span>
-                    </div>`;
+                        const spinner = html`<div
+                            class="spinner-border spinner-border-sm text-primary ms-3"
+                            role="status"
+                            style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;"
+                        >
+                            <span class="visually-hidden"></span>
+                        </div>`;
 
                         inputField.after(spinner);
                         try {
@@ -1424,18 +1503,51 @@ async function initializeStaffPageJs() {
                             // For internal files, create a route to view the file using its ID
                             const viewButton = link.is_external
                                 ? link.file_link.match(/^https?:\/\//i)
-                                    ? `<a class="btn btn-outline-primary btn-sm" target="_blank" href="${link.file_link}"><i class="ri-eye-fill"></i></a>`
-                                    : `<a class="btn btn-outline-primary btn-sm" target="_blank" href="https://${link.file_link}"><i class="ri-eye-fill"></i></a>`
-                                : `<a class="btn btn-outline-primary btn-sm" target="_blank" href="/view-project-file/${link.id}"><i class="ri-eye-fill"></i></a>`;
+                                    ? html`<a
+                                          class="btn btn-outline-primary btn-sm"
+                                          target="_blank"
+                                          href="${link.file_link}"
+                                          ><i class="ri-eye-fill"></i
+                                      ></a>`
+                                    : html`<a
+                                          class="btn btn-outline-primary btn-sm"
+                                          target="_blank"
+                                          href="https://${link.file_link}"
+                                          ><i class="ri-eye-fill"></i
+                                      ></a>`
+                                : html`<a
+                                      class="btn btn-outline-primary btn-sm"
+                                      target="_blank"
+                                      href="/view-project-file/${link.id}"
+                                      ><i class="ri-eye-fill"></i
+                                  ></a>`;
 
                             return [
-                                `${link.file_name}
-                       <input type="hidden" class="linkID" value="${link.id}">`,
+                                html`${link.file_name}
+                                    <input
+                                        type="hidden"
+                                        class="linkID"
+                                        value="${link.id}"
+                                    />`,
                                 link.file_link,
                                 customDateFormatter(link.created_at),
-                                `${viewButton}
-                        <button class="btn btn-primary btn-sm updateLinkRecord" data-is-external="${link.is_external}" data-bs-toggle="modal" data-bs-target="#projectLinkModal"><i class="ri-pencil-fill"></i></button>
-                        <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-delete-record-type="projectLink"> <i class="ri-delete-bin-6-fill"></i></button>`,
+                                html`${viewButton}
+                                    <button
+                                        class="btn btn-primary btn-sm updateLinkRecord"
+                                        data-is-external="${link.is_external}"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#projectLinkModal"
+                                    >
+                                        <i class="ri-pencil-fill"></i>
+                                    </button>
+                                    <button
+                                        class="btn btn-danger btn-sm deleteRecord"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteRecordModal"
+                                        data-delete-record-type="projectLink"
+                                    >
+                                        <i class="ri-delete-bin-6-fill"></i>
+                                    </button>`,
                             ];
                         })
                     );
@@ -2215,7 +2327,7 @@ async function initializeStaffPageJs() {
 
                     // Get form data
                     const data = await requestDATA(ExportPDF_BUTTON_DATA_VALUE);
-                    console.log(data)
+                    console.log(data);
                     const esignatureObjects =
                         window.esignatureHandler.collectSignatures();
 
@@ -2489,26 +2601,34 @@ async function initializeStaffPageJs() {
                 const formDATAToBESent = {
                     PIS: function () {
                         // Convert both forms to array and merge them
-                        const projectInfoArray = $('#projectInfoForm').serializeArray();
-                        const pisChecklistArray = $('#PIS_checklistsForm').serializeArray();
-                        
+                        const projectInfoArray =
+                            $('#projectInfoForm').serializeArray();
+                        const pisChecklistArray = $(
+                            '#PIS_checklistsForm'
+                        ).serializeArray();
+
                         // Combine both arrays
-                        const combinedArray = [...projectInfoArray, ...pisChecklistArray];
-                        
+                        const combinedArray = [
+                            ...projectInfoArray,
+                            ...pisChecklistArray,
+                        ];
+
                         // Convert array to object
                         const jsonObject = {};
-                        combinedArray.forEach(item => {
+                        combinedArray.forEach((item) => {
                             // Handle multiple values for same name (checkboxes/multi-select)
                             if (jsonObject[item.name]) {
                                 if (!Array.isArray(jsonObject[item.name])) {
-                                    jsonObject[item.name] = [jsonObject[item.name]];
+                                    jsonObject[item.name] = [
+                                        jsonObject[item.name],
+                                    ];
                                 }
                                 jsonObject[item.name].push(item.value);
                             } else {
                                 jsonObject[item.name] = item.value;
                             }
                         });
-                        
+
                         return jsonObject;
                     },
 
@@ -2661,49 +2781,63 @@ async function initializeStaffPageJs() {
                         );
                     });
                     response.forEach((report) => {
-                        const newRow = `
-        <tr>
-          <td class="text-center">
-          ${report.quarter}
-          </td>
-          <td class="text-center">
-          <span class="badge rounded-pill ${
-              report.Coop_Response === 'submitted'
-                  ? 'bg-success'
-                  : 'text-bg-secondary'
-          }">${report.Coop_Response}
-          </span>
-          </td>
-          <td class="text-center">
-          <span class="badge rounded-pill ${
-              report.report_status === 'open'
-                  ? 'bg-primary'
-                  : 'text-bg-secondary'
-          }">
-          ${report.report_status}
-          </span>
-          </td>
-          <td class="text-center">
-          <span>
-          ${report.open_until ?? 'Not set'}
-          </span><br/>
-          <span class="text-secondary fst-italic">  ${
-              report.open_until
-                  ? 'will close in ' + report.remaining_days + ' Day/s'
-                  : ' '
-          }
-          </span>
-          </td>
-          <td class="text-center">
-          <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#updateQuarterlyRecordModal" data-record-id="${
-              report.id
-          }"><i class="ri-file-edit-fill"></i></button>
-          <button type="button" class="btn btn-danger btn-sm deleteQuarterlyRecord" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" data-record-id="${
-              report.id
-          }" data-delete-record-type="quarterlyRecord"><i class="ri-delete-bin-fill"></i></button>
-          </td>
-        </tr>
-      `;
+                        const newRow = html`
+                            <tr>
+                                <td class="text-center">${report.quarter}</td>
+                                <td class="text-center">
+                                    <span
+                                        class="badge rounded-pill ${report.Coop_Response ===
+                                        'submitted'
+                                            ? 'bg-success'
+                                            : 'text-bg-secondary'}"
+                                        >${report.Coop_Response}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span
+                                        class="badge rounded-pill ${report.report_status ===
+                                        'open'
+                                            ? 'bg-primary'
+                                            : 'text-bg-secondary'}"
+                                    >
+                                        ${report.report_status}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <span>
+                                        ${report.open_until ?? 'Not set'} </span
+                                    ><br />
+                                    <span class="text-secondary fst-italic">
+                                        ${report.open_until
+                                            ? 'will close in ' +
+                                              report.remaining_days +
+                                              ' Day/s'
+                                            : ' '}
+                                    </span>
+                                </td>
+                                <td class="text-center">
+                                    <button
+                                        type="button"
+                                        class="btn btn-primary btn-sm"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#updateQuarterlyRecordModal"
+                                        data-record-id="${report.id}"
+                                    >
+                                        <i class="ri-file-edit-fill"></i>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        class="btn btn-danger btn-sm deleteQuarterlyRecord"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#deleteRecordModal"
+                                        data-record-id="${report.id}"
+                                        data-delete-record-type="quarterlyRecord"
+                                    >
+                                        <i class="ri-delete-bin-fill"></i>
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
                         // Append the new row to the table body
                         TableContainer.append(newRow);
                     });
@@ -3030,19 +3164,13 @@ async function initializeStaffPageJs() {
                         .val(values.Assigned_to);
                     readonlyInputs
                         .filter('#building')
-                        .val(
-                            formatNumberToCurrency(values.building)
-                        );
+                        .val(formatNumberToCurrency(values.building));
                     readonlyInputs
                         .filter('#equipment')
-                        .val(
-                            formatNumberToCurrency(values.equipment)
-                        );
+                        .val(formatNumberToCurrency(values.equipment));
                     readonlyInputs
                         .filter('#workingCapital')
-                        .val(
-                            formatNumberToCurrency(values.workingCapital)
-                        );
+                        .val(formatNumberToCurrency(values.workingCapital));
                 }
             );
 
@@ -3377,77 +3505,129 @@ async function initializeStaffPageJs() {
                         data.map((Approved) => {
                             return [
                                 `${Approved.Project_id}`,
-                                `${Approved.f_name} ${Approved.l_name}
-                                          <input type="hidden" class="designation" value="${
-                                              Approved.designation
-                                          }">
-                                          <input type="hidden" class="mobile_number" value="${
-                                              Approved.mobile_number
-                                          }">
-                                          <input type="hidden" class="email" value="${
-                                              Approved.email
-                                          }">
-                                          <input type="hidden" class="landline" value="${
-                                              Approved.landline ?? ''
-                                          }">`,
-                                `${Approved.firm_name}
-                                          <input type="hidden" class="business_id" value="${Approved.business_id}">
-                                          <input type="hidden" class="enterprise_type" value="${Approved.enterprise_type}">
-                                          <input type="hidden" class="enterprise_level" value="${Approved.enterprise_level}">
-                                          <input type="hidden" class="building_Assets" value="${Approved.building_value}">
-                                          <input type="hidden" class="equipment_Assets" value="${Approved.equipment_value}">
-                                          <input type="hidden" class="working_capital_Assets" value="${Approved.working_capital}">
-                                          <input type="hidden" class="business_address" value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}">`,
-                                `${Approved.project_title}
-                                          <input type="hidden" class="fund_amount" value="${
-                                              Approved.fund_amount
-                                          }">
-                                          <input type="hidden" class="dateApplied" value="${customDateFormatter(
-                                              Approved.date_applied
-                                          )}">
-                                          <input type="hidden" class="staffUserName" value="${
-                                              Approved.staffUserName
-                                          }">
-                                          <input type="hidden" class="evaluated_by" value="${
-                                              (Approved.evaluated_by_prefix
-                                                  ? Approved.evaluated_by_suffix
-                                                  : '') +
-                                              ' ' +
-                                              Approved.evaluated_by_f_name +
-                                              ' ' +
-                                              (Approved.evaluated_by_mid_name
-                                                  ? Approved.evaluated_by_suffix
-                                                  : '') +
-                                              ' ' +
-                                              Approved.evaluated_by_l_name +
-                                              ' ' +
-                                              (Approved.evaluated_by_suffix
-                                                  ? Approved.evaluated_by_suffix
-                                                  : '')
-                                          }">
-                                          <input type="hidden" class="assigned_to" value="${
-                                              (Approved.handled_by_prefix
-                                                  ? Approved.handled_by_suffix
-                                                  : '') +
-                                              '' +
-                                              Approved.handled_by_f_name +
-                                              ' ' +
-                                              (Approved.handled_by_mid_name
-                                                  ? Approved.handled_by_suffix
-                                                  : '') +
-                                              ' ' +
-                                              Approved.handled_by_l_name +
-                                              ' ' +
-                                              (Approved.handled_by_suffix
-                                                  ? Approved.handled_by_suffix
-                                                  : '')
-                                          }">`,
+                                html`${Approved.f_name} ${Approved.l_name}
+                                    <input
+                                        type="hidden"
+                                        class="designation"
+                                        value="${Approved.designation}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="mobile_number"
+                                        value="${Approved.mobile_number}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="email"
+                                        value="${Approved.email}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="landline"
+                                        value="${Approved.landline ?? ''}"
+                                    />`,
+                                html`${Approved.firm_name}
+                                    <input
+                                        type="hidden"
+                                        class="business_id"
+                                        value="${Approved.business_id}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="enterprise_type"
+                                        value="${Approved.enterprise_type}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="enterprise_level"
+                                        value="${Approved.enterprise_level}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="building_Assets"
+                                        value="${Approved.building_value}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="equipment_Assets"
+                                        value="${Approved.equipment_value}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="working_capital_Assets"
+                                        value="${Approved.working_capital}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="business_address"
+                                        value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}"
+                                    />`,
+                                html`${Approved.project_title}
+                                    <input
+                                        type="hidden"
+                                        class="fund_amount"
+                                        value="${Approved.fund_amount}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="dateApplied"
+                                        value="${customDateFormatter(
+                                            Approved.date_applied
+                                        )}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="staffUserName"
+                                        value="${Approved.staffUserName}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="evaluated_by"
+                                        value="${(Approved.evaluated_by_prefix
+                                            ? Approved.evaluated_by_suffix
+                                            : '') +
+                                        ' ' +
+                                        Approved.evaluated_by_f_name +
+                                        ' ' +
+                                        (Approved.evaluated_by_mid_name
+                                            ? Approved.evaluated_by_suffix
+                                            : '') +
+                                        ' ' +
+                                        Approved.evaluated_by_l_name +
+                                        ' ' +
+                                        (Approved.evaluated_by_suffix
+                                            ? Approved.evaluated_by_suffix
+                                            : '')}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="assigned_to"
+                                        value="${(Approved.handled_by_prefix
+                                            ? Approved.handled_by_suffix
+                                            : '') +
+                                        '' +
+                                        Approved.handled_by_f_name +
+                                        ' ' +
+                                        (Approved.handled_by_mid_name
+                                            ? Approved.handled_by_suffix
+                                            : '') +
+                                        ' ' +
+                                        Approved.handled_by_l_name +
+                                        ' ' +
+                                        (Approved.handled_by_suffix
+                                            ? Approved.handled_by_suffix
+                                            : '')}"
+                                    />`,
                                 `${customDateFormatter(Approved.date_approved)}`,
-                                ` <button class="btn btn-primary approvedProjectInfo" type="button"
-                                                                  data-bs-toggle="offcanvas" data-bs-target="#approvedDetails"
-                                                                  aria-controls="approvedDetails">
-                                                                  <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                                              </button>`,
+                                html` <button
+                                    class="btn btn-primary approvedProjectInfo"
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#approvedDetails"
+                                    aria-controls="approvedDetails"
+                                >
+                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                </button>`,
                             ];
                         })
                     );
@@ -3490,105 +3670,155 @@ async function initializeStaffPageJs() {
                             );
                             return [
                                 `${Ongoing.Project_id}`,
-                                `${Ongoing.project_title}
-                      <input type="hidden" class="project_id" value="${
-                          Ongoing.Project_id
-                      }">
-                      <input type="hidden" class="project_fund_amount" value="${fund_amount}">
-                      <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
-                      <input type="hidden" class="amount_refunded" value="${amount_refunded}">
-                      <input type="hidden" class="date_applied" value="${
-                          Ongoing.date_applied
-                      }">
-                      <input type="hidden" class="date_approved" value="${
-                          Ongoing.date_approved
-                      }">
-                      <input type="hidden" class="evaluated_by" value="${
-                          (Ongoing.evaluated_by_prefix
-                              ? Ongoing.evaluated_by_prefix
-                              : '') +
-                          ' ' +
-                          Ongoing.evaluated_by_f_name +
-                          ' ' +
-                          (Ongoing.evaluated_by_mid_name
-                              ? Ongoing.evaluated_by_mid_name
-                              : '') +
-                          ' ' +
-                          Ongoing.evaluated_by_l_name +
-                          ' ' +
-                          (Ongoing.evaluated_by_suffix
-                              ? Ongoing.evaluated_by_suffix
-                              : '')
-                      }">
-                      <input type="hidden" class="handled_by" value="${
-                          (Ongoing.handled_by_prefix
-                              ? Ongoing.handled_by_prefix
-                              : '') +
-                          ' ' +
-                          Ongoing.handled_by_f_name +
-                          ' ' +
-                          (Ongoing.handled_by_mid_name
-                              ? Ongoing.handled_by_mid_name
-                              : '') +
-                          ' ' +
-                          Ongoing.handled_by_l_name +
-                          ' ' +
-                          (Ongoing.handled_by_suffix
-                              ? Ongoing.handled_by_suffix
-                              : '')
-                      }">`,
-                                `${Ongoing.firm_name}
-                      <input type="hidden" class="business_id" value="${
-                          Ongoing.business_id
-                      }">
-                      <input type="hidden" class="address" value="${
-                          Ongoing.landmark +
-                          ', ' +
-                          Ongoing.barangay +
-                          ', ' +
-                          Ongoing.city +
-                          ', ' +
-                          Ongoing.province +
-                          ', ' +
-                          Ongoing.region
-                      }">
-                      <input type="hidden" class="enterprise_type" value="${
-                          Ongoing.enterprise_type
-                      }">
-                      <input type="hidden" class="enterprise_level" value="${
-                          Ongoing.enterprise_level
-                      }">
-                      <input type="hidden" class="building_assets" value="${
-                          Ongoing.building_value
-                      }">
-                      <input type="hidden" class="equipment_assets" value="${
-                          Ongoing.equipment_value
-                      }">
-                      <input type="hidden" class="working_capital_assets" value="${
-                          Ongoing.working_capital
-                      }">`,
-                                `${Ongoing.f_name + ' ' + Ongoing.l_name}
-                      <input type="hidden" class="designation" value="${
-                          Ongoing.designation
-                      }">
-                      <input type="hidden" class="mobile_number" value="${
-                          Ongoing.mobile_number
-                      }">
-                      <input type="hidden" class="email" value="${
-                          Ongoing.email
-                      }">
-                      <input type="hidden" class="landline" value="${
-                          Ongoing.landline ?? ''
-                      }">`,
-                                `${
-                                    formatNumberToCurrency(amount_refunded) +
+                                html`${Ongoing.project_title}
+                                    <input
+                                        type="hidden"
+                                        class="project_id"
+                                        value="${Ongoing.Project_id}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="project_fund_amount"
+                                        value="${fund_amount}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="amount_to_be_refunded"
+                                        value="${to_be_refunded}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="amount_refunded"
+                                        value="${amount_refunded}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="date_applied"
+                                        value="${Ongoing.date_applied}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="date_approved"
+                                        value="${Ongoing.date_approved}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="evaluated_by"
+                                        value="${(Ongoing.evaluated_by_prefix
+                                            ? Ongoing.evaluated_by_prefix
+                                            : '') +
+                                        ' ' +
+                                        Ongoing.evaluated_by_f_name +
+                                        ' ' +
+                                        (Ongoing.evaluated_by_mid_name
+                                            ? Ongoing.evaluated_by_mid_name
+                                            : '') +
+                                        ' ' +
+                                        Ongoing.evaluated_by_l_name +
+                                        ' ' +
+                                        (Ongoing.evaluated_by_suffix
+                                            ? Ongoing.evaluated_by_suffix
+                                            : '')}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="handled_by"
+                                        value="${(Ongoing.handled_by_prefix
+                                            ? Ongoing.handled_by_prefix
+                                            : '') +
+                                        ' ' +
+                                        Ongoing.handled_by_f_name +
+                                        ' ' +
+                                        (Ongoing.handled_by_mid_name
+                                            ? Ongoing.handled_by_mid_name
+                                            : '') +
+                                        ' ' +
+                                        Ongoing.handled_by_l_name +
+                                        ' ' +
+                                        (Ongoing.handled_by_suffix
+                                            ? Ongoing.handled_by_suffix
+                                            : '')}"
+                                    />`,
+                                html`${Ongoing.firm_name}
+                                    <input
+                                        type="hidden"
+                                        class="business_id"
+                                        value="${Ongoing.business_id}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="address"
+                                        value="${Ongoing.landmark +
+                                        ', ' +
+                                        Ongoing.barangay +
+                                        ', ' +
+                                        Ongoing.city +
+                                        ', ' +
+                                        Ongoing.province +
+                                        ', ' +
+                                        Ongoing.region}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="enterprise_type"
+                                        value="${Ongoing.enterprise_type}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="enterprise_level"
+                                        value="${Ongoing.enterprise_level}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="building_assets"
+                                        value="${Ongoing.building_value}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="equipment_assets"
+                                        value="${Ongoing.equipment_value}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="working_capital_assets"
+                                        value="${Ongoing.working_capital}"
+                                    />`,
+                                html`${Ongoing.f_name + ' ' + Ongoing.l_name}
+                                    <input
+                                        type="hidden"
+                                        class="designation"
+                                        value="${Ongoing.designation}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="mobile_number"
+                                        value="${Ongoing.mobile_number}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="email"
+                                        value="${Ongoing.email}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="landline"
+                                        value="${Ongoing.landline ?? ''}"
+                                    />`,
+                                html`${formatNumberToCurrency(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)
-                                } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                                ` <button class="btn btn-primary ongoingProjectInfo" type="button" data-bs-toggle="offcanvas"
-                                                  data-bs-target="#ongoingDetails" aria-controls="ongoingDetails">
-                                                  <i class="ri-menu-unfold-4-line ri-1x"></i>
-                      </button>`,
+                                    formatNumberToCurrency(to_be_refunded)}
+                                    <span class="badge text-white bg-primary"
+                                        >${percentage}%</span
+                                    >`,
+                                html` <button
+                                    class="btn btn-primary ongoingProjectInfo"
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#ongoingDetails"
+                                    aria-controls="ongoingDetails"
+                                >
+                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                </button>`,
                             ];
                         })
                     );
@@ -3632,105 +3862,157 @@ async function initializeStaffPageJs() {
                             );
                             return [
                                 `${completed.Project_id}`,
-                                `${completed.project_title}
-                          <input type="hidden" class="project_id" value="${
-                              completed.Project_id
-                          }">
-                          <input type="hidden" class="project_fund_amount" value="${fund_amount}">
-                          <input type="hidden" class="amount_to_be_refunded" value="${to_be_refunded}">
-                          <input type="hidden" class="amount_refunded" value="${amount_refunded}">
-                          <input type="hidden" class="date_applied" value="${
-                              completed.date_applied
-                          }">
-                          <input type="hidden" class="date_approved" value="${
-                              completed.date_approved
-                          }">
-                          <input type="hidden" class="evaluated_by" value="${
-                              (completed.evaluated_by_prefix
-                                  ? completed.evaluated_by_prefix
-                                  : '') +
-                              ' ' +
-                              completed.evaluated_by_f_name +
-                              ' ' +
-                              (completed.evaluated_by_mid_name
-                                  ? completed?.evaluated_by_mid_name
-                                  : '') +
-                              ' ' +
-                              completed.evaluated_by_l_name +
-                              ' ' +
-                              (completed.evaluated_by_suffix
-                                  ? completed.evaluated_by_suffix
-                                  : '')
-                          }">
-                          <input type="hidden" class="handled_by" value="${
-                              (completed.handled_by_prefix
-                                  ? completed.handled_by_prefix
-                                  : '') +
-                              ' ' +
-                              completed.handled_by_f_name +
-                              ' ' +
-                              (completed.handled_by_mid_name
-                                  ? completed.handled_by_mid_name
-                                  : '') +
-                              ' ' +
-                              completed.handled_by_l_name +
-                              ' ' +
-                              (completed.handled_by_suffix
-                                  ? completed.handled_by_suffix
-                                  : '')
-                          }">`,
-                                `${completed.firm_name}
-                          <input type="hidden" class="business_id" value="${
-                              completed.business_id
-                          }">
-                          <input type="hidden" class="address" value="${
-                              completed.landmark +
-                              ', ' +
-                              completed.barangay +
-                              ', ' +
-                              completed.city +
-                              ', ' +
-                              completed.province +
-                              ', ' +
-                              completed.region
-                          }">
-                          <input type="hidden" class="enterprise_type" value="${
-                              completed.enterprise_type
-                          }">
-                          <input type="hidden" class="enterprise_level" value="${
-                              completed.enterprise_level
-                          }">
-                          <input type="hidden" class="building_assets" value="${
-                              completed.building_value
-                          }">
-                          <input type="hidden" class="equipment_assets" value="${
-                              completed.equipment_value
-                          }">
-                          <input type="hidden" class="working_capital_assets" value="${
-                              completed.working_capital
-                          }">`,
-                                `${completed.f_name + ' ' + completed.l_name}
-                          <input type="hidden" class="designation" value="${
-                              completed.designation
-                          }">
-                          <input type="hidden" class="mobile_number" value="${
-                              completed.mobile_number
-                          }">
-                          <input type="hidden" class="email" value="${
-                              completed.email
-                          }">
-                          <input type="hidden" class="landline" value="${
-                              completed.landline ?? ''
-                          }">`,
-                                `${
-                                    formatNumberToCurrency(amount_refunded) +
+                                html`${completed.project_title}
+                                    <input
+                                        type="hidden"
+                                        class="project_id"
+                                        value="${completed.Project_id}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="project_fund_amount"
+                                        value="${fund_amount}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="amount_to_be_refunded"
+                                        value="${to_be_refunded}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="amount_refunded"
+                                        value="${amount_refunded}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="date_applied"
+                                        value="${completed.date_applied}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="date_approved"
+                                        value="${completed.date_approved}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="evaluated_by"
+                                        value="${(completed.evaluated_by_prefix
+                                            ? completed.evaluated_by_prefix
+                                            : '') +
+                                        ' ' +
+                                        completed.evaluated_by_f_name +
+                                        ' ' +
+                                        (completed.evaluated_by_mid_name
+                                            ? completed?.evaluated_by_mid_name
+                                            : '') +
+                                        ' ' +
+                                        completed.evaluated_by_l_name +
+                                        ' ' +
+                                        (completed.evaluated_by_suffix
+                                            ? completed.evaluated_by_suffix
+                                            : '')}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="handled_by"
+                                        value="${(completed.handled_by_prefix
+                                            ? completed.handled_by_prefix
+                                            : '') +
+                                        ' ' +
+                                        completed.handled_by_f_name +
+                                        ' ' +
+                                        (completed.handled_by_mid_name
+                                            ? completed.handled_by_mid_name
+                                            : '') +
+                                        ' ' +
+                                        completed.handled_by_l_name +
+                                        ' ' +
+                                        (completed.handled_by_suffix
+                                            ? completed.handled_by_suffix
+                                            : '')}"
+                                    />`,
+                                html`${completed.firm_name}
+                                    <input
+                                        type="hidden"
+                                        class="business_id"
+                                        value="${completed.business_id}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="address"
+                                        value="${completed.landmark +
+                                        ', ' +
+                                        completed.barangay +
+                                        ', ' +
+                                        completed.city +
+                                        ', ' +
+                                        completed.province +
+                                        ', ' +
+                                        completed.region}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="enterprise_type"
+                                        value="${completed.enterprise_type}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="enterprise_level"
+                                        value="${completed.enterprise_level}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="building_assets"
+                                        value="${completed.building_value}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="equipment_assets"
+                                        value="${completed.equipment_value}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="working_capital_assets"
+                                        value="${completed.working_capital}"
+                                    />`,
+                                html`${completed.f_name +
+                                    ' ' +
+                                    completed.l_name}
+                                    <input
+                                        type="hidden"
+                                        class="designation"
+                                        value="${completed.designation}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="mobile_number"
+                                        value="${completed.mobile_number}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="email"
+                                        value="${completed.email}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="landline"
+                                        value="${completed.landline ?? ''}"
+                                    />`,
+                                html`${formatNumberToCurrency(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)
-                                } <span class="badge text-white bg-primary">${percentage}%</span>`,
-                                `<button class="btn btn-primary completedProjectInfo" type="button" data-bs-toggle="offcanvas"
-                                                  data-bs-target="#completedDetails" aria-controls="completedDetails">
-                                                  <i class="ri-menu-unfold-4-line ri-1x"></i>
-                                              </button>`,
+                                    formatNumberToCurrency(to_be_refunded)}
+                                    <span class="badge text-white bg-primary"
+                                        >${percentage}%</span
+                                    >`,
+                                html`<button
+                                    class="btn btn-primary completedProjectInfo"
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#completedDetails"
+                                    aria-controls="completedDetails"
+                                >
+                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                </button>`,
                             ];
                         })
                     );
@@ -3942,7 +4224,10 @@ async function initializeStaffPageJs() {
                         personnel.total_personnel || '0'
                     );
 
-                    applicantTable.broadcastViewingEvent(ApplicationID, AUTH_USER_NAME);
+                    applicantTable.broadcastViewingEvent(
+                        ApplicationID,
+                        AUTH_USER_NAME
+                    );
 
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
@@ -3956,7 +4241,7 @@ async function initializeStaffPageJs() {
                 const ApplicantID = ApplicantDetailsContainer.find(
                     '#selected_applicationId'
                 ).val();
-               applicantTable.broadcastClosedViewingEvent();
+                applicantTable.broadcastClosedViewingEvent();
 
                 FormContainer.find('input, textarea').val('');
                 FormContainer.find(
@@ -4011,14 +4296,14 @@ async function initializeStaffPageJs() {
                     nofi_dateCont.empty();
                     if (response.Scheduled_date) {
                         nofi_dateCont.append(
-                            '<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>' +
-                                response.Scheduled_date +
-                                '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>'
+                            `<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>' +
+                                ${response.Scheduled_date} +
+                                '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>`
                         );
                         setAndUpdateBtn.text('Update');
                     } else {
                         nofi_dateCont.append(
-                            '<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>'
+                            `<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>`
                         );
                     }
                 } catch (error) {
@@ -4034,18 +4319,25 @@ async function initializeStaffPageJs() {
                     row.append('<td>' + requirement.file_name + '</td>');
                     row.append('<td>' + requirement.file_type + '</td>');
                     row.append(
-                        `<td class="text-center">
-              <button class="btn btn-primary viewReq position-relative">View <span class="position-absolute top-0 start-100 translate-middle p-2 ${
-                  requirement.remarks === 'Pending'
-                      ? 'bg-info'
-                      : requirement.remarks === 'Approved'
-                        ? 'bg-primary'
-                        : 'bg-danger'
-              } border border-light rounded-circle">
-    <span class="visually-hidden">New alerts</span>
-  </span>
-</button>
-              </td>`
+                        html`<td class="text-center">
+                            <button
+                                class="btn btn-primary viewReq position-relative"
+                            >
+                                View
+                                <span
+                                    class="position-absolute top-0 start-100 translate-middle p-2 ${requirement.remarks ===
+                                    'Pending'
+                                        ? 'bg-info'
+                                        : requirement.remarks === 'Approved'
+                                          ? 'bg-primary'
+                                          : 'bg-danger'} border border-light rounded-circle"
+                                >
+                                    <span class="visually-hidden"
+                                        >New alerts</span
+                                    >
+                                </span>
+                            </button>
+                        </td>`
                     );
                     row.append(
                         '<input type="hidden"  name="file_id" value="' +
@@ -4460,11 +4752,18 @@ async function initializeStaffPageJs() {
                 draftData.expectedOutputs.forEach((output, index) => {
                     const outputKey = `expectedOutputs[${index}]`;
                     storeInitialValues(outputKey, output);
-                    expectedOutputsContainer.append(`
-                <div class="col-12 mb-2">
-                    <textarea class="form-control" name="expectedOutputs[]" rows="3" data-initial-key="${outputKey}">${output}</textarea>
-                </div>
-            `);
+                    expectedOutputsContainer.append(html`
+                        <div class="col-12 mb-2">
+                            <textarea
+                                class="form-control"
+                                name="expectedOutputs[]"
+                                rows="3"
+                                data-initial-key="${outputKey}"
+                            >
+${output}</textarea
+                            >
+                        </div>
+                    `);
                 });
 
                 // Populate equipment details
@@ -4482,19 +4781,34 @@ async function initializeStaffPageJs() {
                     );
                     storeInitialValues(costKey, equipment.Cost || '');
 
-                    equipmentTableBody.append(`
-                <tr>
-                    <td><input type="number" class="form-control EquipmentQTY" data-initial-key="${qtyKey}" value="${
-                        equipment.Qty
-                    }"/></td>
-                    <td><input type="text" class="form-control Particulars" data-initial-key="${particularsKey}" value="${
-                        equipment.Actual_Particulars
-                    }"/></td>
-                    <td><input type="text" class="form-control EquipmentCost" data-initial-key="${costKey}" value="${
-                        equipment.Cost || ''
-                    }"/></td>
-                </tr>
-            `);
+                    equipmentTableBody.append(html`
+                        <tr>
+                            <td>
+                                <input
+                                    type="number"
+                                    class="form-control EquipmentQTY"
+                                    data-initial-key="${qtyKey}"
+                                    value="${equipment.Qty}"
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="form-control Particulars"
+                                    data-initial-key="${particularsKey}"
+                                    value="${equipment.Actual_Particulars}"
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="form-control EquipmentCost"
+                                    data-initial-key="${costKey}"
+                                    value="${equipment.Cost || ''}"
+                                />
+                            </td>
+                        </tr>
+                    `);
                 });
 
                 // Populate non-equipment details
@@ -4512,19 +4826,34 @@ async function initializeStaffPageJs() {
                     );
                     storeInitialValues(costKey, nonEquipment.Cost || '');
 
-                    nonEquipmentTableBody.append(`
-                <tr>
-                    <td><input type="number" class="form-control NonEquipmentQTY" data-initial-key="${qtyKey}" value="${
-                        nonEquipment.Qty
-                    }"/></td>
-                    <td><input type="text" class="form-control NonParticulars" data-initial-key="${particularsKey}" value="${
-                        nonEquipment.Actual_Particulars
-                    }"/></td>
-                    <td><input type="text" class="form-control NonEquipmentCost" data-initial-key="${costKey}" value="${
-                        nonEquipment.Cost || ''
-                    }"/></td>
-                </tr>
-            `);
+                    nonEquipmentTableBody.append(html`
+                        <tr>
+                            <td>
+                                <input
+                                    type="number"
+                                    class="form-control NonEquipmentQTY"
+                                    data-initial-key="${qtyKey}"
+                                    value="${nonEquipment.Qty}"
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="form-control NonParticulars"
+                                    data-initial-key="${particularsKey}"
+                                    value="${nonEquipment.Actual_Particulars}"
+                                />
+                            </td>
+                            <td>
+                                <input
+                                    type="text"
+                                    class="form-control NonEquipmentCost"
+                                    data-initial-key="${costKey}"
+                                    value="${nonEquipment.Cost || ''}"
+                                />
+                            </td>
+                        </tr>
+                    `);
                 });
                 trackChanges();
             };
@@ -4681,29 +5010,37 @@ async function initializeStaffPageJs() {
                 },
             });
 
-
-            const TNADocumentContainerModal = $('#tnaDocumentContainerModal')
+            const TNADocumentContainerModal = $('#tnaDocumentContainerModal');
 
             const getTNAForm = async (business_Id) => {
-                try{
+                try {
                     const response = await $.ajax({
-                        type:'GET',
-                        url: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT.replace(':business_id', business_Id),
-                    })
-                    TNADocumentContainerModal.find('.modal-body').html(response)
-                }catch(error){
+                        type: 'GET',
+                        url: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT.replace(
+                            ':business_id',
+                            business_Id
+                        ),
+                    });
+                    TNADocumentContainerModal.find('.modal-body').html(
+                        response
+                    );
+                } catch (error) {
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.message
                     );
                 }
+            };
 
-            }
-
-            TNADocumentContainerModal.on('show.bs.modal', async function (event) {
-                const business_Id = $(event.relatedTarget).attr('data-business-id');
-                await getTNAForm(business_Id)
-            })
+            TNADocumentContainerModal.on(
+                'show.bs.modal',
+                async function (event) {
+                    const business_Id = $(event.relatedTarget).attr(
+                        'data-business-id'
+                    );
+                    await getTNAForm(business_Id);
+                }
+            );
         },
     };
     return functions;
