@@ -210,6 +210,7 @@
     const NAV_ROUTES = {
         DASHBOARD: '{{ route('Cooperator.dashboard') }}',
         REQUIREMENTS: '{{ route('Cooperator.Requirements') }}',
+        PROJECT: '{{ route('Cooperator.myProjects') }}',
         QUARTERLY_REPORT: '/Cooperator/QuarterlyReport',
     }
     console.log(NAV_ROUTES.QUARTERLY_REPORT)

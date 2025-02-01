@@ -74,6 +74,7 @@ notificationManager.setupEventListeners();
 const urlMapFunction = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
     [NAV_ROUTES.REQUIREMENTS]: (functions) => functions.Requirements,
+    [NAV_ROUTES.PROJECT]: (functions) => functions.Project,
     [NAV_ROUTES.QUARTERLY_REPORT]: (functions, reportSubmitted) =>
         reportSubmitted
             ? functions.ReportedQuarterlyReport
@@ -159,6 +160,7 @@ async function initilizeCoopPageJs() {
     const functions = {
         Dashboard: async () => {
             let progressDataChart;
+            console.log('this is called');
             const progressPercentage = (percentage = 0) => {
                 const options = {
                     series: [percentage],
@@ -270,14 +272,13 @@ async function initilizeCoopPageJs() {
                         }
                     );
                     const data = (await response?.json()) || {};
+                    console.log(data);
 
                     // Handle empty array case
-                    const progress = Array.isArray(data.progress)
-                        ? {}
-                        : data.progress || {};
-                    const paymentList = Array.isArray(data.paymentList)
-                        ? null
-                        : data.paymentList;
+                    const progress = data.progress ? data.progress : {};
+                    const paymentList = data.paymentList
+                        ? data.paymentList
+                        : {};
 
                     paymentTableProcess(paymentList);
 
@@ -290,7 +291,7 @@ async function initilizeCoopPageJs() {
                             ? Math.ceil((refunded_amount / actual_amount) * 100)
                             : 0;
                     paymentTextPer.html(
-                        `<h5>${formatNumberToCurrency(refunded_amount)} / ${formatNumberToCurrency(actual_amount)}</h5>`
+                        /*html*/ `<h5>${formatNumberToCurrency(refunded_amount)} / ${formatNumberToCurrency(actual_amount)}</h5>`
                     );
                     await progressPercentage(percentage);
                 } catch (error) {
@@ -302,9 +303,7 @@ async function initilizeCoopPageJs() {
                 const paymentTable = $('#PaymentTable').find('tbody');
                 paymentTable.empty();
                 if (!data) {
-                    const row = `<tr>
-                  <td colspan="3" class="text-center">No payment yet</td>
-                 </tr>`;
+                    const row = /*html*/ `<tr><td colspan="3" class="text-center">No payment yet</td></tr>`;
                     paymentTable.append(row);
                 } else {
                     $.each(data, function (key, value) {
@@ -545,6 +544,11 @@ async function initilizeCoopPageJs() {
 
             initializeFilePond();
             await getReceipt();
+        },
+
+        Project: async () => {
+            // TODO: add functions for new project Application
+            return null;
         },
 
         QuarterlyReport: async () => {

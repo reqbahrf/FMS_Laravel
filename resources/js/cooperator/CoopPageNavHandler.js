@@ -27,6 +27,9 @@ export default class CoopPageNavHandler extends NavigationHandler {
         const isQuarterlyReportRoute = quarterlyReportUrlPath === NAV_ROUTES.QUARTERLY_REPORT;
         const isReportSubmitted = reportSubmitted === true;
 
+        if(!isQuarterlyReportRoute && !isReportSubmitted) {
+            return await urlRoute[url](functions);
+        }
         if (isQuarterlyReportRoute && !isReportSubmitted) {
             return await urlRoute[NAV_ROUTES.QUARTERLY_REPORT](functions);
         } else {

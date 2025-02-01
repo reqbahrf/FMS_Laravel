@@ -3,13 +3,11 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Models\CoopUserInfo;
 use Illuminate\Http\Request;
 use App\Models\ApplicationInfo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\Session;
 use App\Services\GetCooperatorInfoService;
 
@@ -23,7 +21,7 @@ class CooperatorViewController extends Controller
         $notifications = $user->notifications;
         $businessInfos = $getCooperatorInfoService->getAllCoopInfo();
 
-        return view('CooperatorView.Cooperator_Index', compact(['notifications', 'businessInfos']));
+        return view('cooperator-view.Cooperator_Index', compact(['notifications', 'businessInfos']));
     }
 
 
@@ -61,9 +59,9 @@ class CooperatorViewController extends Controller
                     ->first();
     
     
-                return view('CooperatorView.CooperatorDashboardTab', compact('row'));
+                return view('cooperator-view.coop-page-tab.dashboardTab', compact('row'));
             } else {
-                return view('CooperatorView.Cooperator_Index');
+                return view('cooperator-view.Cooperator_Index');
             }
     }
 
@@ -123,9 +121,9 @@ class CooperatorViewController extends Controller
     {
         if ($request->ajax()) {
 
-            return view('CooperatorView.CooperatorRequirement');
+            return view('cooperator-view.coop-page-tab.requirement');
         } else {
-            return view('CooperatorView.Cooperator_Index');
+            return view('cooperator-view.Cooperator_Index');
         }
     }
 
@@ -134,9 +132,9 @@ class CooperatorViewController extends Controller
         if ($request->ajax()) {
 
             $businessInfos = $getCooperatorInfoService->getAllCoopInfo();
-            return view('CooperatorView.CooperatorProjectTab', compact('businessInfos'));
+            return view('cooperator-view.coop-page-tab.projectTab', compact('businessInfos'));
         } else {
-            return view('CooperatorView.Cooperator_Index');
+            return view('cooperator-view.Cooperator_Index');
         }
     }
 

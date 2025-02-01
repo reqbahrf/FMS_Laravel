@@ -250,9 +250,9 @@
         </script>
     @else
         @if (in_array(Session::get('application_status'), ['approved', 'ongoing', 'completed']))
-            @include('CooperatorView.CooperatorApprovedPage')
+            @include('cooperator-view.coop-project-status-view.approved-project-page')
         @elseif(in_array(Session::get('application_status'), ['new', 'evaluation', 'pending']))
-            @include('CooperatorView.ApplicationWaitingPage')
+            @include('cooperator-view.coop-project-status-view.pending-project-page')
         @endif
     @endif
 </body>
