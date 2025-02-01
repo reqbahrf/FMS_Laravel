@@ -2,7 +2,7 @@
     <h4 class="p-3">Applicant:</h4>
 </div>
 <div>
-    @include('staff-page-view.Included_layout.TNA_rejectionModal')
+    @include('staff-view.Included_layout.TNA_rejectionModal')
     <div
         class="offcanvas offcanvas-end"
         id="applicantDetails"
@@ -245,7 +245,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    @include('staff-page-view.Included_layout.ApplicantApplicationProgress')
+                    @include('staff-view.Included_layout.ApplicantApplicationProgress')
                 </div>
             </div>
         </div>
