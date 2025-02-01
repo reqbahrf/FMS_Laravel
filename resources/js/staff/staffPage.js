@@ -1241,7 +1241,7 @@ async function initializeStaffPageJs() {
                     const actual_amount = hiddenInputs
                         .filter('.actual_amount')
                         .val();
-                    
+
                     const fee_applied = hiddenInputs
                         .filter('.fee_applied')
                         .val();
@@ -1297,7 +1297,8 @@ async function initializeStaffPageJs() {
 
                     offCanvaReadonlyInputs
                         .filter('#FundedAmount')
-                        .html(/*html*/`${formatNumberToCurrency(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
+                        .html(
+                            /*html*/ `${formatNumberToCurrency(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
                         );
 
                     handleProjectOffcanvasContent(project_status);
@@ -1314,12 +1315,15 @@ async function initializeStaffPageJs() {
                 }
             );
 
-           const getAmountRefund = () => {
-               const fundedAmountText = $('#FundedAmount').text();
-               const actualAmount = fundedAmountText.split('(')[0].trim().replace(/[^\d.]/g, '');
-               console.log(actualAmount)
-               return actualAmount;
-           };
+            const getAmountRefund = () => {
+                const fundedAmountText = $('#FundedAmount').text();
+                const actualAmount = fundedAmountText
+                    .split('(')[0]
+                    .trim()
+                    .replace(/[^\d.]/g, '');
+                console.log(actualAmount);
+                return actualAmount;
+            };
 
             /**
              * Calculates and displays payment statistics for a project.
@@ -3206,8 +3210,10 @@ async function initializeStaffPageJs() {
                 function () {
                     const row = $(this).closest('tr');
                     const inputs = row.find('input');
-                    const readonlyInputs = $('#ongoingDetails').find('input');
-                    console.log(inputs);
+                    const readonlyInputs = $('#ongoingDetails').find(
+                        'input, .amount-to-be-refunded-label'
+                    );
+                    console.log(readonlyInputs);
 
                     const personalDetails = {
                         cooperName: row.find('td:nth-child(4)').text().trim(),
@@ -3249,6 +3255,9 @@ async function initializeStaffPageJs() {
                         ),
                         project_amount_to_be_refunded: parseFloat(
                             inputs.filter('.amount_to_be_refunded').val()
+                        ),
+                        fee_applied: parseFloat(
+                            inputs.filter('.fee_applied').val()
                         ),
                         project_refunded_amount: parseFloat(
                             inputs.filter('.amount_refunded').val()
@@ -3324,6 +3333,11 @@ async function initializeStaffPageJs() {
                             formatNumberToCurrency(
                                 projectDetails.project_fund_amount
                             )
+                        );
+                    readonlyInputs
+                        .filter('.amount-to-be-refunded-label')
+                        .html(
+                            /*html*/ `Amount to be refunded:  <span class="text-muted fw-light">(${projectDetails.fee_applied}%)</span>`
                         );
                     readonlyInputs
                         .filter('.amount_to_be_refunded')
@@ -3715,6 +3729,11 @@ async function initializeStaffPageJs() {
                                         type="hidden"
                                         class="amount_to_be_refunded"
                                         value="${to_be_refunded}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="fee_applied"
+                                        value="${Ongoing.fee_applied}"
                                     />
                                     <input
                                         type="hidden"
