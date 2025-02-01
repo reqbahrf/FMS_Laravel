@@ -33,6 +33,7 @@ class GetStaffHandledProjects
                         'project_info.project_title',
                         'project_info.handled_by_id',
                         'project_info.fund_amount As Approved_Amount',
+                        'project_info.fee_applied',
                         'project_info.actual_amount_to_be_refund As Actual_Amount',
                         'project_info.refunded_amount As Refunded_Amount',
                         'business_info.id as business_id',

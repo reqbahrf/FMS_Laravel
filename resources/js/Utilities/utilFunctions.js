@@ -135,7 +135,7 @@ function customFormatNumericInput(selectorOrParent, inputSelectors = null) {
     const combinedSelector = selectors.join(', ');
 
     $(selectorOrParent).on('input', combinedSelector, function () {
-        const value = $(this)
+        let value = $(this)
             .val()
             .replace(/[^0-9.]/g, '');
         if (value.includes('.')) {
@@ -216,7 +216,7 @@ function createConfirmationModal(options = {}) {
     $('#confirmationModal').remove();
 
     // Create modal HTML
-    const modalHTML = `
+    const modalHTML = /*html*/`
         <div class="modal fade" style="z-index: 2000 !important;" data-bs-backdrop="static" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
             <div class="modal-dialog ${size}">
                 <div class="modal-content">

@@ -761,12 +761,17 @@ async function initializeStaffPageJs() {
                                     formatNumberToCurrency(Actual_Amount)
                                 }<span
                                         class="badge ms-1 text-white bg-primary"
-                                        >${percentage}%</span
-                                    >
+                                        >${percentage}%
+                                </span>
                                     <input
                                         type="hidden"
                                         class="approved_amount"
                                         value="${project.Approved_Amount}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="fee_applied"
+                                        value="${project.fee_applied}" 
                                     />
                                     <input
                                         type="hidden"
@@ -1236,6 +1241,10 @@ async function initializeStaffPageJs() {
                     const actual_amount = hiddenInputs
                         .filter('.actual_amount')
                         .val();
+                    
+                    const fee_applied = hiddenInputs
+                        .filter('.fee_applied')
+                        .val();
 
                     // Calculate age
                     const age = Math.floor(
@@ -1288,8 +1297,7 @@ async function initializeStaffPageJs() {
 
                     offCanvaReadonlyInputs
                         .filter('#FundedAmount')
-                        .text(
-                            formatNumberToCurrency(parseFloat(actual_amount))
+                        .html(/*html*/`${formatNumberToCurrency(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
                         );
 
                     handleProjectOffcanvasContent(project_status);
@@ -1306,10 +1314,12 @@ async function initializeStaffPageJs() {
                 }
             );
 
-            const getAmountRefund = () => {
-                const actual_amount = $('#FundedAmount').text();
-                return actual_amount;
-            };
+           const getAmountRefund = () => {
+               const fundedAmountText = $('#FundedAmount').text();
+               const actualAmount = fundedAmountText.split('(')[0].trim().replace(/[^\d.]/g, '');
+               console.log(actualAmount)
+               return actualAmount;
+           };
 
             /**
              * Calculates and displays payment statistics for a project.
