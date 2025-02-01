@@ -607,7 +607,7 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
-                                <label for="amount_to_be_refunded">Amount to be refunded:</label>
+                                <label for="amount_to_be_refunded" class="amount-to-be-refunded-label">Amount to be refunded:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
                                     <input

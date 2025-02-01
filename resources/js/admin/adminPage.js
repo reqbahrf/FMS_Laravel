@@ -938,7 +938,7 @@ async function initializeAdminPageJs() {
                     '#ApprovedEquipmentContainer'
                 ).append(
                     data.proposal_data.equipmentDetails.map((item) => {
-                        return `<tr>
+                        return /*html*/ `<tr>
                 <td>${item.Qty}</td>
                 <td>${item.Actual_Particulars}</td>
                 <td>${item.Cost}</td>
@@ -950,7 +950,7 @@ async function initializeAdminPageJs() {
                     '#ApprovedNonEquipmentContainer'
                 ).append(
                     data.proposal_data.nonEquipmentDetails.map((item) => {
-                        return `<tr>
+                        return /*html*/ `<tr>
                 <td>${item.Qty}</td>
                 <td>${item.Actual_Particulars}</td>
                 <td>${item.Cost}</td>
@@ -1083,7 +1083,7 @@ async function initializeAdminPageJs() {
                 function () {
                     const row = $(this).closest('tr');
                     const inputs = row.find('input');
-                    const readonlyInputs = $('#ongoingDetails').find('input');
+                    const readonlyInputs = $('#ongoingDetails').find('input, .amount-to-be-refunded-label');
 
                     const personalDetails = {
                         cooperName: row.find('td:nth-child(4)').text().trim(),
@@ -1125,6 +1125,9 @@ async function initializeAdminPageJs() {
                         ),
                         project_amount_to_be_refunded: parseFloat(
                             inputs.filter('.amount_to_be_refunded').val()
+                        ),
+                        fee_applied: parseFloat(
+                            inputs.filter('.fee_applied').val()
                         ),
                         project_refunded_amount: parseFloat(
                             inputs.filter('.amount_refunded').val()
@@ -1200,6 +1203,10 @@ async function initializeAdminPageJs() {
                             formatNumberToCurrency(
                                 projectDetails.project_fund_amount
                             )
+                        );
+                    readonlyInputs
+                        .filter('.amount-to-be-refunded-label')
+                        .html(/*html*/ `Amount to be refunded:  <span class="text-muted fw-light">(${projectDetails.fee_applied}%)</span>`
                         );
                     readonlyInputs
                         .filter('.amount_to_be_refunded')
@@ -1708,6 +1715,11 @@ async function initializeAdminPageJs() {
                                         type="hidden"
                                         class="project_fund_amount"
                                         value="${fund_amount}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="fee_applied"
+                                        value="${Ongoing.fee_applied}"
                                     />
                                     <input
                                         type="hidden"
