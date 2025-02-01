@@ -19,16 +19,16 @@ class StaffViewController extends Controller
 {
 
     public function index(){
-        return view('StaffView.Staff_Index');
+        return view('staff-page-view.Staff_Index');
     }
     public function LoadDashboardTab(Request $request)
     {
         //dashboard logic here
         if ($request->ajax()) {
 
-            return view('StaffView.StaffdashboardTab');
+            return view('staff-page-view.staff-page-tab.dashboardTab');
         } else {
-            return view('StaffView.Staff_Index');
+            return view('staff-page-view.Staff_Index');
         }
     }
 
@@ -73,18 +73,18 @@ class StaffViewController extends Controller
     public function LoadProjectsTab(Request $request)
     {
         if ($request->ajax()) {
-            return view('StaffView.StaffProjectTab');
+            return view('staff-page-view.staff-page-tab.projectTab');
         } else {
-            return view('StaffView.Staff_Index');
+            return view('staff-page-view.Staff_Index');
         }
     }
 
     public function LoadApplicantTab(Request $request)
     {
         if ($request->ajax()) {
-            return view('StaffView.StaffApplicantTab');
+            return view('staff-page-view.staff-page-tab.applicantTab');
         } else {
-            return view('StaffView.Staff_Index');
+            return view('staff-page-view.Staff_Index');
         }
     }
 

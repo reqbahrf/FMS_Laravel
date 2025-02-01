@@ -32,8 +32,6 @@
 
     .checkbox-wrapper-26 {
         /* Temporary, for debugging */
-
-
         position: relative;
         /* Ensure this is set to contain absolutely positioned children */
         padding-bottom: 40px;
@@ -76,7 +74,6 @@
     .checkbox-wrapper-26 label {
         --size: 30px;
         --shadow: calc(var(--size) * .07) calc(var(--size) * .1);
-
         position: relative;
         display: block;
         width: var(--size);
@@ -175,7 +172,6 @@
         opacity: 1;
     }
 
-
     .line {
         position: absolute;
         bottom: 0;
@@ -203,33 +199,87 @@
     <h4 class="p-4">{Project title}</h4>
 </div>
 <div>
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
-        <li class="nav-item" role="presentation">
-            <button class="nav-link  tab-Nav active" id="Checklist-tab" data-bs-toggle="tab"
-                data-bs-target="#Checklist-tab-pane" type="button" role="tab" aria-controls="Checklist-tab-pane"
-                aria-selected="true">Requirements Checklist</button>
+    <ul
+        class="nav nav-tabs"
+        id="myTab"
+        role="tablist"
+    >
+        <li
+            class="nav-item"
+            role="presentation"
+        >
+            <button
+                class="nav-link  tab-Nav active"
+                id="Checklist-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#Checklist-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="Checklist-tab-pane"
+                aria-selected="true"
+            >Requirements Checklist</button>
         </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link  tab-Nav" id="Project-tab" data-bs-toggle="tab" data-bs-target="#Project-tab-pane"
-                type="button" role="tab" aria-controls="Project-tab-pane" aria-selected="false">Project Information
+        <li
+            class="nav-item"
+            role="presentation"
+        >
+            <button
+                class="nav-link  tab-Nav"
+                id="Project-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#Project-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="Project-tab-pane"
+                aria-selected="false"
+            >Project Information
                 Sheets</button>
         </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link  tab-Nav" id="ProjectData-tab" data-bs-toggle="tab"
-                data-bs-target="#ProjectData-tab-pane" type="button" role="tab"
-                aria-controls="ProjectData-tab-pane" aria-selected="false">Project Data Sheets</button>
+        <li
+            class="nav-item"
+            role="presentation"
+        >
+            <button
+                class="nav-link  tab-Nav"
+                id="ProjectData-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#ProjectData-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="ProjectData-tab-pane"
+                aria-selected="false"
+            >Project Data Sheets</button>
         </li>
-        <li class="nav-item" role="presentation">
-            <button class="nav-link  tab-Nav" id="Client-tab" data-bs-toggle="tab" data-bs-target="#Client-tab-pane"
-                type="button" role="tab" aria-controls="Client-tab-pane" aria-selected="false">Client's
+        <li
+            class="nav-item"
+            role="presentation"
+        >
+            <button
+                class="nav-link  tab-Nav"
+                id="Client-tab"
+                data-bs-toggle="tab"
+                data-bs-target="#Client-tab-pane"
+                type="button"
+                role="tab"
+                aria-controls="Client-tab-pane"
+                aria-selected="false"
+            >Client's
                 Information</button>
         </li>
     </ul>
 
 </div>
-<div class="tab-content bg-white" id="myTabContent">
-    <div class="tab-pane fade show active" id="Checklist-tab-pane" role="tabpanel" aria-labelledby="Checklist-tab"
-        tabindex="0">
+<div
+    class="tab-content bg-white"
+    id="myTabContent"
+>
+    <div
+        class="tab-pane fade show active"
+        id="Checklist-tab-pane"
+        role="tabpanel"
+        aria-labelledby="Checklist-tab"
+        tabindex="0"
+    >
         <Div class="m-2 p-5">
             <!-- TODO: add a line connection with the checkboxes -->
             <form action="">
@@ -237,8 +287,16 @@
                 <div>
                     <div class="checkbox-wrapper-26 ms-3">
                         <div class="d-flex align-items-center justify-content-start">
-                            <input type="checkbox" id="_checkbox-TNA" value="TNA" onclick="checkOrder(this, null)">
-                            <label for="_checkbox-TNA" class="me-2">
+                            <input
+                                id="_checkbox-TNA"
+                                type="checkbox"
+                                value="TNA"
+                                onclick="checkOrder(this, null)"
+                            >
+                            <label
+                                class="me-2"
+                                for="_checkbox-TNA"
+                            >
                                 <div class="tick_mark"></div>
                             </label>
                             <span>TNA</span>
@@ -247,9 +305,17 @@
                     </div>
                     <div class="checkbox-wrapper-26 ms-3">
                         <div class="d-flex align-items-center justify-content-start">
-                            <input type="checkbox" id="_checkbox-PDA" value="Project Deliberation Approval"
-                                onclick="checkOrder(this, '_checkbox-TNA')" disabled>
-                            <label for="_checkbox-PDA" class="me-2">
+                            <input
+                                id="_checkbox-PDA"
+                                type="checkbox"
+                                value="Project Deliberation Approval"
+                                onclick="checkOrder(this, '_checkbox-TNA')"
+                                disabled
+                            >
+                            <label
+                                class="me-2"
+                                for="_checkbox-PDA"
+                            >
                                 <div class="tick_mark"></div>
                             </label>
                             <span>Project Deliberation Approval</span>
@@ -258,9 +324,17 @@
                     </div>
                     <div class="checkbox-wrapper-26 ms-3">
                         <div class="d-flex align-items-center justify-content-start">
-                            <input type="checkbox" id="_checkbox-PDC" value="PDC-post Dated Cheque"
-                                onclick="checkOrder(this, '_checkbox-PDA')" disabled>
-                            <label for="_checkbox-PDC" class="me-2">
+                            <input
+                                id="_checkbox-PDC"
+                                type="checkbox"
+                                value="PDC-post Dated Cheque"
+                                onclick="checkOrder(this, '_checkbox-PDA')"
+                                disabled
+                            >
+                            <label
+                                class="me-2"
+                                for="_checkbox-PDC"
+                            >
                                 <div class="tick_mark"></div>
                             </label>
                             <span>PDC-post Dated Cheque</span>
@@ -269,9 +343,17 @@
                     </div>
                     <div class="checkbox-wrapper-26 ms-3">
                         <div class="d-flex align-items-center justify-content-start">
-                            <input type="checkbox" id="_checkbox-FR" value="Fund release"
-                                onclick="checkOrder(this, '_checkbox-PDC')" disabled>
-                            <label for="_checkbox-FR" class="me-2">
+                            <input
+                                id="_checkbox-FR"
+                                type="checkbox"
+                                value="Fund release"
+                                onclick="checkOrder(this, '_checkbox-PDC')"
+                                disabled
+                            >
+                            <label
+                                class="me-2"
+                                for="_checkbox-FR"
+                            >
                                 <div class="tick_mark"></div>
                             </label>
                             <span>Fund release</span>
@@ -281,15 +363,27 @@
             </form>
         </Div>
     </div>
-    <div class="tab-pane fade" id="Project-tab-pane" role="tabpanel" aria-labelledby="Project-tab" tabindex="0">
+    <div
+        class="tab-pane fade"
+        id="Project-tab-pane"
+        role="tabpanel"
+        aria-labelledby="Project-tab"
+        tabindex="0"
+    >
         <!-- Where the project infomation sheets will be displayed. -->
-        <button type="button" id="BackInformation" class="btn btn-secondary">Back</button>
+        <button
+            class="btn btn-secondary"
+            id="BackInformation"
+            type="button"
+        >Back</button>
         <div id="InformationSheets">
-
 
         </div>
 
-        <div class="p-5" id="InfoSheetForm">
+        <div
+            class="p-5"
+            id="InfoSheetForm"
+        >
 
             <fieldset class="mt-4">
                 <legend class="w-auto">
@@ -298,13 +392,21 @@
                 <form action="">
                     <div class="ps-4 pe-2 pt-2">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="projectTitle"
-                                placeholder="Project Title">
+                            <input
+                                class="form-control"
+                                id="projectTitle"
+                                type="text"
+                                placeholder="Project Title"
+                            >
                             <label for="projectTitle">Project Title:</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="firmName"
-                                placeholder="Name of the Firm">
+                            <input
+                                class="form-control"
+                                id="firmName"
+                                type="text"
+                                placeholder="Name of the Firm"
+                            >
                             <label for="firmName">Name of the Firm:</label>
                         </div>
                     </div>
@@ -319,34 +421,54 @@
                                         <div class="row">
                                             <div class="col-md-6">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="name"
-                                                        placeholder="Name">
+                                                    <input
+                                                        class="form-control"
+                                                        id="name"
+                                                        type="text"
+                                                        placeholder="Name"
+                                                    >
                                                     <label for="name">Name:</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="sex"
-                                                        placeholder="sex">
+                                                    <input
+                                                        class="form-control"
+                                                        id="sex"
+                                                        type="text"
+                                                        placeholder="sex"
+                                                    >
                                                     <label for="sex">sex:</label>
                                                 </div>
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-floating mb-3">
-                                                    <input type="text" class="form-control" id="age"
-                                                        placeholder="Age">
+                                                    <input
+                                                        class="form-control"
+                                                        id="age"
+                                                        type="text"
+                                                        placeholder="Age"
+                                                    >
                                                     <label for="age">Age:</label>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="organizationType"
-                                                placeholder="Type of Organization/Enterprise">
+                                            <input
+                                                class="form-control"
+                                                id="organizationType"
+                                                type="text"
+                                                placeholder="Type of Organization/Enterprise"
+                                            >
                                             <label for="organizationType">Type of Organization/Enterprise:</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="businessAddress"
-                                                placeholder="Business Address">
+                                            <input
+                                                class="form-control"
+                                                id="businessAddress"
+                                                type="text"
+                                                placeholder="Business Address"
+                                            >
                                             <label for="businessAddress">Business Address:</label>
                                         </div>
                                     </div>
@@ -361,23 +483,39 @@
                                     </legend>
                                     <div class="ps-4 pe-2 pt-2">
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="landline"
-                                                placeholder="Landline">
+                                            <input
+                                                class="form-control"
+                                                id="landline"
+                                                type="text"
+                                                placeholder="Landline"
+                                            >
                                             <label for="landline">Landline:</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="fax"
-                                                placeholder="Fax">
+                                            <input
+                                                class="form-control"
+                                                id="fax"
+                                                type="text"
+                                                placeholder="Fax"
+                                            >
                                             <label for="fax">Fax:</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="text" class="form-control" id="mobilePhone"
-                                                placeholder="Mobile Phone">
+                                            <input
+                                                class="form-control"
+                                                id="mobilePhone"
+                                                type="text"
+                                                placeholder="Mobile Phone"
+                                            >
                                             <label for="mobilePhone">Mobile Phone:</label>
                                         </div>
                                         <div class="form-floating mb-3">
-                                            <input type="email" class="form-control" id="emailAddress"
-                                                placeholder="Email Address">
+                                            <input
+                                                class="form-control"
+                                                id="emailAddress"
+                                                type="email"
+                                                placeholder="Email Address"
+                                            >
                                             <label for="emailAddress">Email Address:</label>
                                         </div>
                                     </div>
@@ -389,79 +527,156 @@
                                         <h6>ASSISTANCE OBTAINED FROM DOST</h6>
                                     </legend>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="productionTechnology">
-                                        <label class="form-check-label" for="productionTechnology">
+                                        <input
+                                            class="form-check-input"
+                                            id="productionTechnology"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="productionTechnology"
+                                        >
                                             A1 Production Technology
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="process">
-                                        <label class="form-check-label px-2" for="process">
+                                        <input
+                                            class="form-check-input"
+                                            id="process"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label px-2"
+                                            for="process"
+                                        >
                                             A.1.1 Process
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="equipment">
-                                        <label class="form-check-label px-2" for="equipment">
+                                        <input
+                                            class="form-check-input"
+                                            id="equipment"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label px-2"
+                                            for="equipment"
+                                        >
                                             A.1.2 Equipment
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="qualityControl">
-                                        <label class="form-check-label px-2" for="qualityControl">
+                                        <input
+                                            class="form-check-input"
+                                            id="qualityControl"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label px-2"
+                                            for="qualityControl"
+                                        >
                                             A.1.3 Quality Control/Laboratory Testing/Analysis
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="productionTechnology1">
-                                        <label class="form-check-label px-4" for="productionTechnology1">
+                                        <input
+                                            class="form-check-input"
+                                            id="productionTechnology1"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label px-4"
+                                            for="productionTechnology1"
+                                        >
                                             1.3.1 Production Technology
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="packagingLabeling">
-                                        <label class="form-check-label" for="packagingLabeling">
+                                        <input
+                                            class="form-check-input"
+                                            id="packagingLabeling"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="packagingLabeling"
+                                        >
                                             A2 Packaging/Labeling
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="postHarvest">
-                                        <label class="form-check-label" for="postHarvest">
+                                        <input
+                                            class="form-check-input"
+                                            id="postHarvest"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="postHarvest"
+                                        >
                                             A3 Post-Harvest
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="marketAssistance">
-                                        <label class="form-check-label" for="marketAssistance">
+                                        <input
+                                            class="form-check-input"
+                                            id="marketAssistance"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="marketAssistance"
+                                        >
                                             A4 Market Assistance
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="humanResourceTraining">
-                                        <label class="form-check-label" for="humanResourceTraining">
+                                        <input
+                                            class="form-check-input"
+                                            id="humanResourceTraining"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="humanResourceTraining"
+                                        >
                                             A5 Human Resource training
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="consultanceServices">
-                                        <label class="form-check-label" for="consultanceServices">
+                                        <input
+                                            class="form-check-input"
+                                            id="consultanceServices"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="consultanceServices"
+                                        >
                                             A6 Consultance Services
                                         </label>
                                     </div>
                                     <div class="form-check">
-                                        <input class="form-check-input" type="checkbox" value=""
-                                            id="otherServices">
-                                        <label class="form-check-label" for="otherServices">
+                                        <input
+                                            class="form-check-input"
+                                            id="otherServices"
+                                            type="checkbox"
+                                            value=""
+                                        >
+                                        <label
+                                            class="form-check-label"
+                                            for="otherServices"
+                                        >
                                             A7 other Services (FDA Permit, LGU Registration, Barcoding)
                                         </label>
                                     </div>
@@ -472,7 +687,11 @@
 
                     </div>
                     <div class="text-end">
-                        <button type="button" id="createSheetButtonInfo" class="btn btn-primary">Create
+                        <button
+                            class="btn btn-primary"
+                            id="createSheetButtonInfo"
+                            type="button"
+                        >Create
                             Sheet</button>
                     </div>
                 </form>
@@ -480,51 +699,83 @@
             </form>
         </div>
     </div>
-    <div class="tab-pane fade" id="ProjectData-tab-pane" role="tabpanel" aria-labelledby="ProjectData-tab"
-        tabindex="0">
+    <div
+        class="tab-pane fade"
+        id="ProjectData-tab-pane"
+        role="tabpanel"
+        aria-labelledby="ProjectData-tab"
+        tabindex="0"
+    >
         <!-- Where the project Data sheets will be displayed. -->
         <div class=" me-5 text-end">
-            <button type="button" id="BackData" class="btn">Back</button>
+            <button
+                class="btn"
+                id="BackData"
+                type="button"
+            >Back</button>
         </div>
         <div id="dataSheets">
 
-
         </div>
-        <div class="container p-5" id="dataSheets-form">
-            <div id="sw-AddProjectData" class="p-4">
+        <div
+            class="container p-5"
+            id="dataSheets-form"
+        >
+            <div
+                class="p-4"
+                id="sw-AddProjectData"
+            >
                 <ul class="nav nav-progress">
                     <li class="nav-item">
-                        <a class="nav-link  .tab-Nav default active z-3" href="#step-1">
+                        <a
+                            class="nav-link  .tab-Nav default active z-3"
+                            href="#step-1"
+                        >
                             <div class="num">1</div>
                             Cooperator Info
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link  default z-3" href="#step-2">
+                        <a
+                            class="nav-link  default z-3"
+                            href="#step-2"
+                        >
                             <span class="num">2</span>
                             Assests
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link  default z-3" href="#step-3">
+                        <a
+                            class="nav-link  default z-3"
+                            href="#step-3"
+                        >
                             <span class="num">3</span>
                             TOTAL EMPLOYMENT
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link default z-3" href="#step-4">
+                        <a
+                            class="nav-link default z-3"
+                            href="#step-4"
+                        >
                             <span class="num">4</span>
                             PRODUCTION AND SALES
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link  default z-3" href="#step-5">
+                        <a
+                            class="nav-link  default z-3"
+                            href="#step-5"
+                        >
                             <span class="num">5</span>
                             Market Outlets
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link  default z-3" href="#step-6">
+                        <a
+                            class="nav-link  default z-3"
+                            href="#step-6"
+                        >
                             <span class="num">6</span>
                             Increase in
                         </a>
@@ -533,7 +784,12 @@
                 </ul>
 
                 <div class="tab-content">
-                    <div id="step-1" class="tab-pane" role="tabpanel" aria-labelledby="step-1">
+                    <div
+                        class="tab-pane"
+                        id="step-1"
+                        role="tabpanel"
+                        aria-labelledby="step-1"
+                    >
                         Step content
                         <fieldset>
                             <legend class="w-auto">
@@ -541,65 +797,124 @@
                             </legend>
                             <div class="p-3">
                                 <div class="form-group row mt-2">
-                                    <label for="project_title" class="col-12 col-sm-2"><strong>Project
+                                    <label
+                                        class="col-12 col-sm-2"
+                                        for="project_title"
+                                    ><strong>Project
                                             Title:</strong></label>
                                     <div class="col-12 col-sm-10">
-                                        <input type="text" class="form-control" id="project_title"
-                                            placeholder="[Project Title Value]">
+                                        <input
+                                            class="form-control"
+                                            id="project_title"
+                                            type="text"
+                                            placeholder="[Project Title Value]"
+                                        >
                                     </div>
                                 </div>
                                 <div class="form-group row mt-2">
-                                    <label for="firm_name" class="col-12 col-sm-2"><strong>Name of
+                                    <label
+                                        class="col-12 col-sm-2"
+                                        for="firm_name"
+                                    ><strong>Name of
                                             Firm:</strong></label>
                                     <div class="col-12 col-sm-10">
-                                        <input type="text" class="form-control" id="firm_name"
-                                            placeholder="[Firm Name Value]">
+                                        <input
+                                            class="form-control"
+                                            id="firm_name"
+                                            type="text"
+                                            placeholder="[Firm Name Value]"
+                                        >
                                     </div>
                                 </div>
                                 <div class="form-group row mt-2">
-                                    <label for="address" class="col-12 col-sm-2"><strong>Address:</strong></label>
+                                    <label
+                                        class="col-12 col-sm-2"
+                                        for="address"
+                                    ><strong>Address:</strong></label>
                                     <div class="col-12 col-sm-10">
-                                        <input type="text" class="form-control" id="address"
-                                            placeholder="[Address Value]">
+                                        <input
+                                            class="form-control"
+                                            id="address"
+                                            type="text"
+                                            placeholder="[Address Value]"
+                                        >
                                     </div>
                                 </div>
                                 <div class="form-group row mt-2">
-                                    <label for="contact_person" class="col-12 col-sm-2"><strong>Contact
+                                    <label
+                                        class="col-12 col-sm-2"
+                                        for="contact_person"
+                                    ><strong>Contact
                                             Person:</strong></label>
                                     <div class="col-12 col-sm-4">
-                                        <input type="text" class="form-control" id="contact_person"
-                                            placeholder="[Contact Person Value]">
+                                        <input
+                                            class="form-control"
+                                            id="contact_person"
+                                            type="text"
+                                            placeholder="[Contact Person Value]"
+                                        >
                                     </div>
-                                    <label for="designation"
-                                        class="col-12 col-sm-2"><strong>Designation:</strong></label>
+                                    <label
+                                        class="col-12 col-sm-2"
+                                        for="designation"
+                                    ><strong>Designation:</strong></label>
                                     <div class="col-12 col-sm-4">
-                                        <input type="text" class="form-control" id="designation"
-                                            placeholder="[Designation Value]">
+                                        <input
+                                            class="form-control"
+                                            id="designation"
+                                            type="text"
+                                            placeholder="[Designation Value]"
+                                        >
                                     </div>
                                     <div class="form-group row mt-2">
-                                        <label for="landline"
-                                            class="col-12 col-sm-2"><strong>Landline:</strong></label>
+                                        <label
+                                            class="col-12 col-sm-2"
+                                            for="landline"
+                                        ><strong>Landline:</strong></label>
                                         <div class="col-12 col-sm-2">
-                                            <input type="text" class="form-control" id="landline"
-                                                placeholder="[Landline Value]">
+                                            <input
+                                                class="form-control"
+                                                id="landline"
+                                                type="text"
+                                                placeholder="[Landline Value]"
+                                            >
                                         </div>
-                                        <label for="mobile_phone" class="col-12 col-sm-2"><strong>Mobile
+                                        <label
+                                            class="col-12 col-sm-2"
+                                            for="mobile_phone"
+                                        ><strong>Mobile
                                                 Phone:</strong></label>
                                         <div class="col-12 col-sm-2">
-                                            <input type="text" class="form-control" id="mobile_phone"
-                                                placeholder="[Mobile Phone Value]">
+                                            <input
+                                                class="form-control"
+                                                id="mobile_phone"
+                                                type="text"
+                                                placeholder="[Mobile Phone Value]"
+                                            >
                                         </div>
-                                        <label for="email" class="col-12 col-sm-2"><strong>Email
+                                        <label
+                                            class="col-12 col-sm-2"
+                                            for="email"
+                                        ><strong>Email
                                                 Address:</strong></label>
                                         <div class="col-12 col-sm-2">
-                                            <input type="text" class="form-control" id="email"
-                                                placeholder="[Email Address Value]">
+                                            <input
+                                                class="form-control"
+                                                id="email"
+                                                type="text"
+                                                placeholder="[Email Address Value]"
+                                            >
                                         </div>
                                     </div>
                                 </div>
                         </fieldset>
                     </div>
-                    <div id="step-2" class="tab-pane" role="tabpanel" aria-labelledby="step-2">
+                    <div
+                        class="tab-pane"
+                        id="step-2"
+                        role="tabpanel"
+                        aria-labelledby="step-2"
+                    >
                         <fieldset class="">
                             <legend class="w-auto">
                                 <h4>1.0 ASSETS</h4>
@@ -607,23 +922,43 @@
                             <div class="row ms-md-4 mb-3">
                                 <div class="col-12 col-sm-6 col-md-4">
                                     <label for="BuildingAsset">Building:</label>
-                                    <input type="text" class="form-control" id="BuildingAsset" name="Building"
-                                        placeholder="">
+                                    <input
+                                        class="form-control"
+                                        id="BuildingAsset"
+                                        name="Building"
+                                        type="text"
+                                        placeholder=""
+                                    >
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4">
                                     <label for="Equipment">Equipment:</label>
-                                    <input type="text" class="form-control" id="Equipment" name="Equipment"
-                                        placeholder="">
+                                    <input
+                                        class="form-control"
+                                        id="Equipment"
+                                        name="Equipment"
+                                        type="text"
+                                        placeholder=""
+                                    >
                                 </div>
                                 <div class="col-12 col-sm-6 col-md-4">
                                     <label for="WorkingCapital">Working Capital:</label>
-                                    <input type="text" class="form-control" id="WorkingCapital"
-                                        name="WorkingCapital" placeholder="">
+                                    <input
+                                        class="form-control"
+                                        id="WorkingCapital"
+                                        name="WorkingCapital"
+                                        type="text"
+                                        placeholder=""
+                                    >
                                 </div>
                             </div>
                         </fieldset>
                     </div>
-                    <div id="step-3" class="tab-pane" role="tabpanel" aria-labelledby="step-3">
+                    <div
+                        class="tab-pane"
+                        id="step-3"
+                        role="tabpanel"
+                        aria-labelledby="step-3"
+                    >
                         Step content
                         <fieldset class="mt-4">
                             <legend class="w-auto">
@@ -648,12 +983,24 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="maleInput" placeholder=""></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="femaleInput" placeholder=""></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="workdayInput" placeholder=""></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="maleInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="femaleInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="workdayInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
                                                             <td>{Total}</td>
                                                         </tr>
                                                     </tbody>
@@ -675,12 +1022,24 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="parttimeMaleInput" placeholder=""></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="parttimeFemaleInput" placeholder=""></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="parttimeWorkdayInput" placeholder=""></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="parttimeMaleInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="parttimeFemaleInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="parttimeWorkdayInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
                                                             <td>{Total}</td>
                                                         </tr>
                                                     </tbody>
@@ -707,12 +1066,24 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="regularMaleInput" placeholder=""></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="regularFemaleInput" placeholder=""></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="regularWorkdayInput" placeholder=""></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="regularMaleInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="regularFemaleInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="regularWorkdayInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
                                                             <td>{Total}</td>
                                                         </tr>
                                                     </tbody>
@@ -734,12 +1105,24 @@
                                                     </thead>
                                                     <tbody>
                                                         <tr>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="parttimeMaleInput" placeholder=""></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="parttimeFemaleInput" placeholder=""></td>
-                                                            <td><input type="text" class="form-control"
-                                                                    id="parttimeWorkdayInput" placeholder=""></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="parttimeMaleInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="parttimeFemaleInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
+                                                            <td><input
+                                                                    class="form-control"
+                                                                    id="parttimeWorkdayInput"
+                                                                    type="text"
+                                                                    placeholder=""
+                                                                ></td>
                                                             <td>{Total}</td>
                                                         </tr>
                                                     </tbody>
@@ -751,7 +1134,12 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div id="step-4" class="tab-pane h-auto" role="tabpanel" aria-labelledby="step-4">
+                    <div
+                        class="tab-pane h-auto"
+                        id="step-4"
+                        role="tabpanel"
+                        aria-labelledby="step-4"
+                    >
                         <fieldset class="mt-4">
                             <legend class="w-auto">
                                 <h4>3.0 PRODUCTION AND SALES DATA FOR THE QUARTER</h4>
@@ -764,30 +1152,48 @@
                                             <h5 class="ms-2">3.1 Export Market</h5>
                                         </legend>
                                         <!-- FIXME: Improve the textfield format -->
-                                        <div id="productExport" class="productExport">
+                                        <div
+                                            class="productExport"
+                                            id="productExport"
+                                        >
                                             <div class="row">
                                                 <div class="mb-3">
                                                     <div class="mt-2">
                                                         <div class="d-flex justify-content-end">
-                                                            <button id="addExportRow" class="btn btn-primary"
-                                                                data-toggle="tooltip" title="Add a new row">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 64 64" width="25"
-                                                                    height="25">
+                                                            <button
+                                                                class="btn btn-primary"
+                                                                id="addExportRow"
+                                                                data-toggle="tooltip"
+                                                                title="Add a new row"
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 64 64"
+                                                                    width="25"
+                                                                    height="25"
+                                                                >
                                                                     <path
                                                                         d="M0 18L0 46L11.666016 46L12.554688 50L6 50L15 62L24 50L17.445312 50L18.333984 46L35.052734 46C35.138734 44.612 35.583 43.27 36 42L4 42L4 22L60 22L60 35.779297C61.549 36.832297 62.904 38.149062 64 39.664062L64 18L0 18 z M 51 36C43.82 36 38 41.82 38 49C38 56.18 43.82 62 51 62C58.18 62 64 56.18 64 49C64 41.82 58.18 36 51 36 z M 50 42L52 42C52 42 52.632625 44.583375 52.890625 47.109375C55.416625 47.367375 58 48 58 48L58 50C58 50 55.416625 50.632625 52.890625 50.890625C52.632625 53.416625 52 56 52 56L50 56C50 56 49.367375 53.416625 49.109375 50.890625C46.583375 50.632625 44 50 44 50L44 48C44 48 46.583375 47.367375 49.109375 47.109375C49.367375 44.583375 50 42 50 42 z"
-                                                                        fill="#FFFFFF" />
+                                                                        fill="#FFFFFF"
+                                                                    />
                                                                 </svg>
                                                             </button>
-                                                            <button type="button"
+                                                            <button
                                                                 class="btn btn-danger deleteExportRow mx-2"
-                                                                data-toggle="tooltip" title="Delete row">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 64 64" width="25"
-                                                                    height="25">
+                                                                data-toggle="tooltip"
+                                                                type="button"
+                                                                title="Delete row"
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 64 64"
+                                                                    width="25"
+                                                                    height="25"
+                                                                >
                                                                     <path
                                                                         d="M0 9L0 47L35.052734 47C35.138734 45.612 35.391594 44.27 35.808594 43L4 43L4 13L60 13L60 34.779297C61.549 35.832297 62.904 37.149062 64 38.664062L64 9L0 9 z M 51 34C43.82 34 38 39.82 38 47C38 54.18 43.82 60 51 60C58.18 60 64 54.18 64 47C64 39.82 58.18 34 51 34 z M 51 45C53.917 45 58 46 58 46L58 48C58 48 53.917 49 51 49C48.083 49 44 48 44 48L44 46C44 46 48.083 45 51 45 z"
-                                                                        fill="#FFFFFF" />
+                                                                        fill="#FFFFFF"
+                                                                    />
                                                                 </svg>
                                                             </button>
                                                         </div>
@@ -806,21 +1212,43 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><input type="text" class="form-control"
-                                                                        id="productName" name="productName"></td>
+                                                                <td><input
+                                                                        class="form-control"
+                                                                        id="productName"
+                                                                        name="productName"
+                                                                        type="text"
+                                                                    ></td>
                                                                 <td>
-                                                                    <textarea class="form-control" id="packingDetails" name="packingDetails"></textarea>
+                                                                    <textarea
+                                                                        class="form-control"
+                                                                        id="packingDetails"
+                                                                        name="packingDetails"
+                                                                    ></textarea>
                                                                 </td>
-                                                                <td><input type="text" class="form-control"
+                                                                <td><input
+                                                                        class="form-control"
                                                                         id="volumeOfProduction"
-                                                                        name="volumeOfProduction"></td>
-                                                                <td><input type="text" class="form-control"
-                                                                        id="grossSales" name="grossSales"></td>
-                                                                <td><input type="text" class="form-control"
+                                                                        name="volumeOfProduction"
+                                                                        type="text"
+                                                                    ></td>
+                                                                <td><input
+                                                                        class="form-control"
+                                                                        id="grossSales"
+                                                                        name="grossSales"
+                                                                        type="text"
+                                                                    ></td>
+                                                                <td><input
+                                                                        class="form-control"
                                                                         id="estimatedCostOfProduction"
-                                                                        name="estimatedCostOfProduction"></td>
-                                                                <td><input type="text" class="form-control"
-                                                                        id="netSales" name="netSales"></td>
+                                                                        name="estimatedCostOfProduction"
+                                                                        type="text"
+                                                                    ></td>
+                                                                <td><input
+                                                                        class="form-control"
+                                                                        id="netSales"
+                                                                        name="netSales"
+                                                                        type="text"
+                                                                    ></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -837,30 +1265,48 @@
                                             <h5 class="ms-2">3.2 Local Market</h5>
                                         </legend>
                                         <!-- FIXME: Improve the textfield format -->
-                                        <div id="productLocal" class="productLocal">
+                                        <div
+                                            class="productLocal"
+                                            id="productLocal"
+                                        >
                                             <div class="row">
                                                 <div class="col-12">
                                                     <div class="mt-2">
                                                         <div class="d-flex justify-content-end">
-                                                            <button id="addLocalRow" class="btn btn-primary"
-                                                                data-toggle="tooltip" title="Add a new row">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 64 64" width="25"
-                                                                    height="25">
+                                                            <button
+                                                                class="btn btn-primary"
+                                                                id="addLocalRow"
+                                                                data-toggle="tooltip"
+                                                                title="Add a new row"
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 64 64"
+                                                                    width="25"
+                                                                    height="25"
+                                                                >
                                                                     <path
                                                                         d="M0 18L0 46L11.666016 46L12.554688 50L6 50L15 62L24 50L17.445312 50L18.333984 46L35.052734 46C35.138734 44.612 35.583 43.27 36 42L4 42L4 22L60 22L60 35.779297C61.549 36.832297 62.904 38.149062 64 39.664062L64 18L0 18 z M 51 36C43.82 36 38 41.82 38 49C38 56.18 43.82 62 51 62C58.18 62 64 56.18 64 49C64 41.82 58.18 36 51 36 z M 50 42L52 42C52 42 52.632625 44.583375 52.890625 47.109375C55.416625 47.367375 58 48 58 48L58 50C58 50 55.416625 50.632625 52.890625 50.890625C52.632625 53.416625 52 56 52 56L50 56C50 56 49.367375 53.416625 49.109375 50.890625C46.583375 50.632625 44 50 44 50L44 48C44 48 46.583375 47.367375 49.109375 47.109375C49.367375 44.583375 50 42 50 42 z"
-                                                                        fill="#FFFFFF" />
+                                                                        fill="#FFFFFF"
+                                                                    />
                                                                 </svg>
                                                             </button>
-                                                            <button type="button"
+                                                            <button
                                                                 class="btn btn-danger mx-2 deleteLocalRow"
-                                                                data-toggle="tooltip" title="Delete row">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 64 64" width="25"
-                                                                    height="25">
+                                                                data-toggle="tooltip"
+                                                                type="button"
+                                                                title="Delete row"
+                                                            >
+                                                                <svg
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 64 64"
+                                                                    width="25"
+                                                                    height="25"
+                                                                >
                                                                     <path
                                                                         d="M0 9L0 47L35.052734 47C35.138734 45.612 35.391594 44.27 35.808594 43L4 43L4 13L60 13L60 34.779297C61.549 35.832297 62.904 37.149062 64 38.664062L64 9L0 9 z M 51 34C43.82 34 38 39.82 38 47C38 54.18 43.82 60 51 60C58.18 60 64 54.18 64 47C64 39.82 58.18 34 51 34 z M 51 45C53.917 45 58 46 58 46L58 48C58 48 53.917 49 51 49C48.083 49 44 48 44 48L44 46C44 46 48.083 45 51 45 z"
-                                                                        fill="#FFFFFF" />
+                                                                        fill="#FFFFFF"
+                                                                    />
                                                                 </svg>
                                                             </button>
                                                         </div>
@@ -879,21 +1325,43 @@
                                                         </thead>
                                                         <tbody>
                                                             <tr>
-                                                                <td><input type="text" class="form-control"
-                                                                        id="productName" name="productName"></td>
+                                                                <td><input
+                                                                        class="form-control"
+                                                                        id="productName"
+                                                                        name="productName"
+                                                                        type="text"
+                                                                    ></td>
                                                                 <td>
-                                                                    <textarea class="form-control" id="packingDetails" name="packingDetails"></textarea>
+                                                                    <textarea
+                                                                        class="form-control"
+                                                                        id="packingDetails"
+                                                                        name="packingDetails"
+                                                                    ></textarea>
                                                                 </td>
-                                                                <td><input type="text" class="form-control"
+                                                                <td><input
+                                                                        class="form-control"
                                                                         id="volumeOfProduction"
-                                                                        name="volumeOfProduction"></td>
-                                                                <td><input type="text" class="form-control"
-                                                                        id="grossSales" name="grossSales"></td>
-                                                                <td><input type="text" class="form-control"
+                                                                        name="volumeOfProduction"
+                                                                        type="text"
+                                                                    ></td>
+                                                                <td><input
+                                                                        class="form-control"
+                                                                        id="grossSales"
+                                                                        name="grossSales"
+                                                                        type="text"
+                                                                    ></td>
+                                                                <td><input
+                                                                        class="form-control"
                                                                         id="estimatedCostOfProduction"
-                                                                        name="estimatedCostOfProduction"></td>
-                                                                <td><input type="text" class="form-control"
-                                                                        id="netSales" name="netSales"></td>
+                                                                        name="estimatedCostOfProduction"
+                                                                        type="text"
+                                                                    ></td>
+                                                                <td><input
+                                                                        class="form-control"
+                                                                        id="netSales"
+                                                                        name="netSales"
+                                                                        type="text"
+                                                                    ></td>
                                                             </tr>
                                                         </tbody>
                                                     </table>
@@ -905,7 +1373,12 @@
                             </div>
                         </fieldset>
                     </div>
-                    <div id="step-5" class="tab-pane h-50" role="tabpanel" aria-labelledby="step-5">
+                    <div
+                        class="tab-pane h-50"
+                        id="step-5"
+                        role="tabpanel"
+                        aria-labelledby="step-5"
+                    >
                         <fieldset class="mt-4">
                             <legend class="w-auto">
                                 <h4>4.0 MARKET OUTLETS</h4>
@@ -915,21 +1388,34 @@
                                     <h5 class="ms-2">4.1 Export</h5>
                                     <div class="ms-4 mb-3">
                                         <label for="exportTextarea">Export</label>
-                                        <textarea class="form-control" placeholder="Export" id="exportTextarea"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="exportTextarea"
+                                            placeholder="Export"
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <div class="col-md-6 col-sm-6">
                                     <h5 class="ms-2">4.2 Local</h5>
                                     <div class="ms-4 mb-3">
                                         <label for="localTextarea">Local</label>
-                                        <textarea class="form-control" placeholder="Local" id="localTextarea"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="localTextarea"
+                                            placeholder="Local"
+                                        ></textarea>
                                     </div>
                                 </div>
                             </div>
                         </fieldset>
 
                     </div>
-                    <div id="step-6" class="tab-pane" role="tabpanel" aria-labelledby="step-5">
+                    <div
+                        class="tab-pane"
+                        id="step-6"
+                        role="tabpanel"
+                        aria-labelledby="step-5"
+                    >
                         <fieldset class="mt-4">
                             <legend class="w-auto">
                                 <h3>TO BE ACCOMPLISHED BY DOST XI</h3>
@@ -942,15 +1428,25 @@
                                     <div class="row ms-4">
                                         <div class="col-md-4">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="grossSalesPeriod1"
-                                                    name="grossSalesPeriod1" placeholder="Gross Sales {period1}">
+                                                <input
+                                                    class="form-control"
+                                                    id="grossSalesPeriod1"
+                                                    name="grossSalesPeriod1"
+                                                    type="text"
+                                                    placeholder="Gross Sales {period1}"
+                                                >
                                                 <label for="grossSalesPeriod1">Gross Sales {period1}</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="grossSalesPeriod2"
-                                                    name="grossSalesPeriod2" placeholder="Gross Sales {period2}">
+                                                <input
+                                                    class="form-control"
+                                                    id="grossSalesPeriod2"
+                                                    name="grossSalesPeriod2"
+                                                    type="text"
+                                                    placeholder="Gross Sales {period2}"
+                                                >
                                                 <label for="grossSalesPeriod2">Gross Sales {period2}</label>
                                             </div>
                                         </div>
@@ -975,15 +1471,25 @@
                                     <div class="row ms-4">
                                         <div class="col-md-4">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="TotalEmployment2"
-                                                    name="TotalEmployment2" placeholder="Gross Sales {period1}">
+                                                <input
+                                                    class="form-control"
+                                                    id="TotalEmployment2"
+                                                    name="TotalEmployment2"
+                                                    type="text"
+                                                    placeholder="Gross Sales {period1}"
+                                                >
                                                 <label for="TotalEmployment2">Total Employment {period1}</label>
                                             </div>
                                         </div>
                                         <div class="col-md-4">
                                             <div class="form-floating mb-3">
-                                                <input type="text" class="form-control" id="TotalEmployment2"
-                                                    name="TotalEmployment2" placeholder="Gross Sales {period2}">
+                                                <input
+                                                    class="form-control"
+                                                    id="TotalEmployment2"
+                                                    name="TotalEmployment2"
+                                                    type="text"
+                                                    placeholder="Gross Sales {period2}"
+                                                >
                                                 <label for="TotalEmployment2">Total Employment {period2}</label>
                                             </div>
                                         </div>
@@ -1006,21 +1512,36 @@
                 </div>
 
                 <div class="progress">
-                    <div class="progress-bar" role="progressbar" style="width: 0%" aria-valuenow="0"
-                        aria-valuemin="0" aria-valuemax="100"></div>
+                    <div
+                        class="progress-bar"
+                        role="progressbar"
+                        aria-valuenow="0"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        style="width: 0%"
+                    ></div>
                 </div>
             </div>
             <div class="text-end">
-                <button id="createSheetButton" class="btn btn-primary">Create Sheet</button>
+                <button
+                    class="btn btn-primary"
+                    id="createSheetButton"
+                >Create Sheet</button>
             </div>
         </div>
 
-
-
     </div>
-    <div class="tab-pane fade" id="Client-tab-pane" role="tabpanel" aria-labelledby="Client-tab" tabindex="0">
-        <div id="cooperatorInfo" class="p-2">\
-
+    <div
+        class="tab-pane fade"
+        id="Client-tab-pane"
+        role="tabpanel"
+        aria-labelledby="Client-tab"
+        tabindex="0"
+    >
+        <div
+            class="p-2"
+            id="cooperatorInfo"
+        >\
 
         </div>
     </div>
@@ -1123,8 +1644,6 @@
     });
 </script>
 
-
-
 <script>
     (function() {
         function enableNextCheckbox(currentCheckbox) {
@@ -1220,24 +1739,6 @@
                 },
                 error: function() {
                     alert('Error loading the file');
-                }
-            });
-        });
-        $('#BackInformation').click(function() {
-            $('#InformationSheets').empty(); // Clear the content of the div
-            $('#InfoSheetForm').show(); // Unhide the form
-        });
-
-        $('#Client-tab').click(function() {
-            $.ajax({
-                url: '/org-access/viewCooperatorInfo.php', //Specify the path to the PHP file
-                type: 'GET',
-                success: function(response) {
-                    $('#cooperatorInfo').html(response);
-                    InitializeviewCooperatorProgress();
-                },
-                error: function() {
-                    alert('Error loading information.');
                 }
             });
         });
