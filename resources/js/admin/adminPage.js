@@ -1,4 +1,4 @@
-import './echo';
+import '../echo';
 import {
     showToastFeedback,
     formatNumberToCurrency,
@@ -9,13 +9,13 @@ import {
     createConfirmationModal,
     showProcessToast,
     hideProcessToast,
-} from './Utilities/utilFunctions';
-import getProjectPaymentHistory from './Utilities/ProjectPaymentHistory';
+} from '../Utilities/utilFunctions';
+import getProjectPaymentHistory from '../Utilities/ProjectPaymentHistory';
 
-import NotificationManager from './Utilities/NotificationManager';
-import ActivityLogHandler from './Utilities/ActivityLogHandler';
-import NavigationHandler from './Utilities/TabNavigationHandler';
-import DarkMode from './Utilities/DarkModeHandler';
+import NotificationManager from '../Utilities/NotificationManager';
+import ActivityLogHandler from '../Utilities/ActivityLogHandler';
+import NavigationHandler from '../Utilities/TabNavigationHandler';
+import DarkMode from '../Utilities/DarkModeHandler';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -1483,7 +1483,7 @@ async function initializeAdminPageJs() {
                     ForApprovalDataTable.rows.add(
                         data.map((project) => {
                             return [
-                                html`${project.prefix ? project.prefix : ''}
+                                /*html*/ `${project.prefix ? project.prefix : ''}
                                     ${project.f_name} ${project.mid_name}.
                                     ${project.l_name}
                                     ${project.suffix ? project.suffix : ''}
@@ -1507,7 +1507,7 @@ async function initializeAdminPageJs() {
                                         class="landline"
                                         value="${project.landline ?? ''}"
                                     />`,
-                                html`${project.firm_name}
+                                /*html*/ `${project.firm_name}
                                     <input
                                         type="hidden"
                                         class="business_id"
@@ -1543,7 +1543,7 @@ async function initializeAdminPageJs() {
                                         class="working_capital_Assets"
                                         value="${project.working_capital}"
                                     />`,
-                                html`${project.project_title}
+                                /*html*/ `${project.project_title}
                                     <input
                                         type="hidden"
                                         class="Project_id"
@@ -1575,10 +1575,10 @@ async function initializeAdminPageJs() {
                                         value="${project.fund_amount}"
                                     />`,
                                 `${customDateFormatter(project.date_proposed)}`,
-                                html`<span class="badge bg-primary"
+                                /*html*/ `<span class="badge bg-primary"
                                     >${project.application_status}</span
                                 >`,
-                                html`<button
+                                /*html*/ `<button
                                     class="btn btn-primary viewApproval"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -1698,7 +1698,7 @@ async function initializeAdminPageJs() {
                             );
                             return [
                                 `${Ongoing.Project_id}`,
-                                html`${Ongoing.project_title}
+                                /*html*/ `${Ongoing.project_title}
                                     <input
                                         type="hidden"
                                         class="project_id"
@@ -1732,30 +1732,34 @@ async function initializeAdminPageJs() {
                                     <input
                                         type="hidden"
                                         class="evaluated_by"
-                                        value="${Ongoing?.evaluated_by_prefix +
-                                        ' ' +
-                                        Ongoing.evaluated_by_f_name +
-                                        ' ' +
-                                        Ongoing?.evaluated_by_mid_name +
-                                        ' ' +
-                                        Ongoing.evaluated_by_l_name +
-                                        ' ' +
-                                        Ongoing?.evaluated_by_suffix}"
+                                        value="${
+                                            Ongoing?.evaluated_by_prefix +
+                                            ' ' +
+                                            Ongoing.evaluated_by_f_name +
+                                            ' ' +
+                                            Ongoing?.evaluated_by_mid_name +
+                                            ' ' +
+                                            Ongoing.evaluated_by_l_name +
+                                            ' ' +
+                                            Ongoing?.evaluated_by_suffix
+                                        }"
                                     />
                                     <input
                                         type="hidden"
                                         class="handled_by"
-                                        value="${Ongoing?.handled_by_prefix +
-                                        ' ' +
-                                        Ongoing.handled_by_f_name +
-                                        ' ' +
-                                        Ongoing?.handled_by_mid_name +
-                                        ' ' +
-                                        Ongoing.handled_by_l_name +
-                                        ' ' +
-                                        Ongoing?.handled_by_suffix}"
+                                        value="${
+                                            Ongoing?.handled_by_prefix +
+                                            ' ' +
+                                            Ongoing.handled_by_f_name +
+                                            ' ' +
+                                            Ongoing?.handled_by_mid_name +
+                                            ' ' +
+                                            Ongoing.handled_by_l_name +
+                                            ' ' +
+                                            Ongoing?.handled_by_suffix
+                                        }"
                                     />`,
-                                html`${Ongoing.firm_name}
+                                /*html*/ `${Ongoing.firm_name}
                                     <input
                                         type="hidden"
                                         class="business_id"
@@ -1764,15 +1768,17 @@ async function initializeAdminPageJs() {
                                     <input
                                         type="hidden"
                                         class="address"
-                                        value="${Ongoing.landmark +
-                                        ', ' +
-                                        Ongoing.barangay +
-                                        ', ' +
-                                        Ongoing.city +
-                                        ', ' +
-                                        Ongoing.province +
-                                        ', ' +
-                                        Ongoing.region}"
+                                        value="${
+                                            Ongoing.landmark +
+                                            ', ' +
+                                            Ongoing.barangay +
+                                            ', ' +
+                                            Ongoing.city +
+                                            ', ' +
+                                            Ongoing.province +
+                                            ', ' +
+                                            Ongoing.region
+                                        }"
                                     />
                                     <input
                                         type="hidden"
@@ -1799,7 +1805,7 @@ async function initializeAdminPageJs() {
                                         class="working_capital_assets"
                                         value="${Ongoing.working_capital}"
                                     />`,
-                                html`${Ongoing.f_name + ' ' + Ongoing.l_name}
+                                /*html*/ `${Ongoing.f_name + ' ' + Ongoing.l_name}
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -1825,7 +1831,7 @@ async function initializeAdminPageJs() {
                                     ' / ' +
                                     formatNumberToCurrency(to_be_refunded)
                                 }<span class="badge text-white bg-primary">${percentage}%</span>`,
-                                html`<button
+                                /*html*/ `<button
                                     class="btn btn-primary ongoingProjectInfo"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -1878,7 +1884,7 @@ async function initializeAdminPageJs() {
                             );
                             return [
                                 `${completed.Project_id}`,
-                                html`${completed.project_title}
+                                /*html*/ `${completed.project_title}
                                     <input
                                         type="hidden"
                                         class="project_id"
@@ -1912,30 +1918,34 @@ async function initializeAdminPageJs() {
                                     <input
                                         type="hidden"
                                         class="evaluated_by"
-                                        value="${completed?.evaluated_by_prefix +
-                                        ' ' +
-                                        completed.evaluated_by_f_name +
-                                        ' ' +
-                                        completed?.evaluated_by_mid_name +
-                                        ' ' +
-                                        completed.evaluated_by_l_name +
-                                        ' ' +
-                                        completed?.evaluated_by_suffix}"
+                                        value="${
+                                            completed?.evaluated_by_prefix +
+                                            ' ' +
+                                            completed.evaluated_by_f_name +
+                                            ' ' +
+                                            completed?.evaluated_by_mid_name +
+                                            ' ' +
+                                            completed.evaluated_by_l_name +
+                                            ' ' +
+                                            completed?.evaluated_by_suffix
+                                        }"
                                     />
                                     <input
                                         type="hidden"
                                         class="handled_by"
-                                        value="${completed?.handled_by_prefix +
-                                        ' ' +
-                                        completed.handled_by_f_name +
-                                        ' ' +
-                                        completed?.handled_by_mid_name +
-                                        ' ' +
-                                        completed.handled_by_l_name +
-                                        ' ' +
-                                        completed?.handled_by_suffix}"
+                                        value="${
+                                            completed?.handled_by_prefix +
+                                            ' ' +
+                                            completed.handled_by_f_name +
+                                            ' ' +
+                                            completed?.handled_by_mid_name +
+                                            ' ' +
+                                            completed.handled_by_l_name +
+                                            ' ' +
+                                            completed?.handled_by_suffix
+                                        }"
                                     />`,
-                                html`${completed.firm_name}
+                                /*html*/ `${completed.firm_name}
                                     <input
                                         type="hidden"
                                         class="business_id"
@@ -1944,15 +1954,17 @@ async function initializeAdminPageJs() {
                                     <input
                                         type="hidden"
                                         class="address"
-                                        value="${completed.landmark +
-                                        ', ' +
-                                        completed.barangay +
-                                        ', ' +
-                                        completed.city +
-                                        ', ' +
-                                        completed.province +
-                                        ', ' +
-                                        completed.region}"
+                                        value="${
+                                            completed.landmark +
+                                            ', ' +
+                                            completed.barangay +
+                                            ', ' +
+                                            completed.city +
+                                            ', ' +
+                                            completed.province +
+                                            ', ' +
+                                            completed.region
+                                        }"
                                     />
                                     <input
                                         type="hidden"
@@ -1979,9 +1991,9 @@ async function initializeAdminPageJs() {
                                         class="working_capital_assets"
                                         value="${completed.working_capital}"
                                     />`,
-                                html`${completed.f_name +
-                                    ' ' +
-                                    completed.l_name}
+                                /*html*/ `${
+                                    completed.f_name + ' ' + completed.l_name
+                                }
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -2002,13 +2014,15 @@ async function initializeAdminPageJs() {
                                         class="landline"
                                         value="${completed.landline ?? ''}"
                                     />`,
-                                html`${formatNumberToCurrency(amount_refunded) +
+                                /*html*/ `${
+                                    formatNumberToCurrency(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)}
+                                    formatNumberToCurrency(to_be_refunded)
+                                }
                                     <span class="badge text-white bg-primary"
                                         >${percentage}%</span
                                     >`,
-                                html`<button
+                                /*html*/ `<button
                                     class="btn btn-primary completedProjectInfo"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -2094,7 +2108,7 @@ async function initializeAdminPageJs() {
                                     (item.suffix ? item.suffix : '')
                                 }`,
                                 `${item.designation}`,
-                                html`<div>
+                                /*html*/ `<div>
                                     <strong>Firm Name:</strong>
                                     <span class="firm_name"
                                         >${item.firm_name}</span
@@ -2153,8 +2167,9 @@ async function initializeAdminPageJs() {
                                     <input
                                         type="hidden"
                                         name="personnelFemaleIndirectPart"
-                                        value="${item.female_indirect_part ||
-                                        0}"
+                                        value="${
+                                            item.female_indirect_part || 0
+                                        }"
                                     />
                                     <input
                                         type="hidden"
@@ -2226,20 +2241,21 @@ async function initializeAdminPageJs() {
                                     </p>
                                 </div>`,
                                 `${customDateFormatter(item.date_applied)}`,
-                                html`<span
-                                    class="badge ${item.application_status ===
-                                    'new'
-                                        ? 'bg-primary'
-                                        : item.application_status ===
-                                            'evaluation'
-                                          ? 'bg-info'
-                                          : item.application_status ===
-                                              'pending'
+                                /*html*/ `<span
+                                    class="badge ${
+                                        item.application_status === 'new'
                                             ? 'bg-primary'
-                                            : 'bg-danger'}"
+                                            : item.application_status ===
+                                                'evaluation'
+                                              ? 'bg-info'
+                                              : item.application_status ===
+                                                  'pending'
+                                                ? 'bg-primary'
+                                                : 'bg-danger'
+                                    }"
                                     >${item.application_status}</span
                                 >`,
-                                html` <button
+                                /*html*/ ` <button
                                     class="btn btn-primary viewApplicant"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -2447,13 +2463,15 @@ async function initializeAdminPageJs() {
                             } ${staff.l_name || ''} ${staff?.suffix || ''}`,
                             staff.email,
                             staff.user_name,
-                            html`<span
-                                class="badge ${staff.access_to === 'Restricted'
-                                    ? 'bg-danger'
-                                    : 'bg-success'}"
+                            /*html*/ `<span
+                                class="badge ${
+                                    staff.access_to === 'Restricted'
+                                        ? 'bg-danger'
+                                        : 'bg-success'
+                                }"
                                 >${staff.access_to}</span
                             >`,
-                            html` <button
+                            /*html*/ ` <button
                                     class="btn btn-primary btn-sm"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -2696,13 +2714,13 @@ async function initializeAdminPageJs() {
 
                     const modalBodyContent =
                         optionType === 'updateUser'
-                            ? html`<div class="form-check form-switch">
+                            ? /*html*/ `<div class="form-check form-switch">
                <input class="form-check-input" type="checkbox" role="switch" id="toggleStaffAccess">
                <label class="form-check-label" for="toogleStaffAccess">Are you sure you want to update Access for this user <strong>${sanitize(
                    staffName
                )}?</strong></label>
              </div>`
-                            : html`<p>Are you sure you want to delete <strong>${sanitize(
+                            : /*html*/ `<p>Are you sure you want to delete <strong>${sanitize(
                                   staffName
                               )}?</strong></p>`;
 

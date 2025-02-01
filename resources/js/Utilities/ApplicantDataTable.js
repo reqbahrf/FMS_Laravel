@@ -312,7 +312,8 @@ export default class ApplicantDataTable {
                 .add(
                     data.map((item) => {
                         return [
-                            html`${(item?.prefix ?? '') +
+                            /*html*/ `${
+                                (item?.prefix ?? '') +
                                 ' ' +
                                 item.f_name +
                                 ' ' +
@@ -320,14 +321,15 @@ export default class ApplicantDataTable {
                                 ' ' +
                                 item.l_name +
                                 ' ' +
-                                (item?.suffix ?? '')}
+                                (item?.suffix ?? '')
+                            }
                                 <input
                                     type="hidden"
                                     name="sex"
                                     value="${item.sex}"
                                 />`,
                             `${item.designation}`,
-                            html`<div>
+                            /*html*/ `<div>
                                 <strong>Firm Name:</strong>
                                 <span class="firm_name">${item.firm_name}</span
                                 ><br />
@@ -390,16 +392,16 @@ export default class ApplicantDataTable {
                                 <input
                                     type="hidden"
                                     name="total_personnel"
-                                    value="${parseInt(
-                                        item.male_direct_re || 0
-                                    ) +
-                                    parseInt(item.female_direct_re || 0) +
-                                    parseInt(item.male_direct_part || 0) +
-                                    parseInt(item.female_direct_part || 0) +
-                                    parseInt(item.male_indirect_re || 0) +
-                                    parseInt(item.female_indirect_re || 0) +
-                                    parseInt(item.male_indirect_part || 0) +
-                                    parseInt(item.female_indirect_part || 0)}"
+                                    value="${
+                                        parseInt(item.male_direct_re || 0) +
+                                        parseInt(item.female_direct_re || 0) +
+                                        parseInt(item.male_direct_part || 0) +
+                                        parseInt(item.female_direct_part || 0) +
+                                        parseInt(item.male_indirect_re || 0) +
+                                        parseInt(item.female_indirect_re || 0) +
+                                        parseInt(item.male_indirect_part || 0) +
+                                        parseInt(item.female_indirect_part || 0)
+                                    }"
                                 />
                                 <span class="b_address text-truncate"
                                     >${item.landMark}, ${item.barangay},
@@ -449,17 +451,21 @@ export default class ApplicantDataTable {
                                 </p>
                             </div>`,
                             `${customDateFormatter(item.date_applied)}`,
-                            html`<span
-                                class="badge ${item.application_status === 'new'
-                                    ? 'bg-primary'
-                                    : item.application_status === 'evaluation'
-                                      ? 'bg-info'
-                                      : item.application_status === 'pending'
+                            /*html*/ `<span
+                                class="badge ${
+                                    item.application_status === 'new'
                                         ? 'bg-primary'
-                                        : 'bg-danger'}"
+                                        : item.application_status ===
+                                            'evaluation'
+                                          ? 'bg-info'
+                                          : item.application_status ===
+                                              'pending'
+                                            ? 'bg-primary'
+                                            : 'bg-danger'
+                                }"
                                 >${item.application_status}</span
                             >`,
-                            html` <button
+                            /*html*/ ` <button
                                 class="btn btn-primary applicantDetailsBtn"
                                 data-applicant-id="${item.Application_ID}"
                                 type="button"

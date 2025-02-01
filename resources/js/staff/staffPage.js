@@ -1,4 +1,4 @@
-import './echo';
+import '../echo';
 import {
     showToastFeedback,
     formatNumberToCurrency,
@@ -9,15 +9,15 @@ import {
     closeModal,
     showProcessToast,
     hideProcessToast,
-} from './Utilities/utilFunctions';
-import getProjectPaymentHistory from './Utilities/ProjectPaymentHistory';
-import FormEvents from './components/ProjectFormEvents';
-import EsignatureHandler from './Utilities/EsignatureHandler';
-import NotificationManager from './Utilities/NotificationManager';
-import ActivityLogHandler from './Utilities/ActivityLogHandler';
-import NavigationHandler from './Utilities/TabNavigationHandler';
-import DarkMode from './Utilities/DarkModeHandler';
-import ApplicantDataTable from '../js/Utilities/ApplicantDataTable';
+} from '../Utilities/utilFunctions';
+import getProjectPaymentHistory from '../Utilities/ProjectPaymentHistory';
+import FormEvents from '../components/ProjectFormEvents';
+import EsignatureHandler from '../Utilities/EsignatureHandler';
+import NotificationManager from '../Utilities/NotificationManager';
+import ActivityLogHandler from '../Utilities/ActivityLogHandler';
+import NavigationHandler from '../Utilities/TabNavigationHandler';
+import DarkMode from '../Utilities/DarkModeHandler';
+import ApplicantDataTable from '../Utilities/ApplicantDataTable';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -36,7 +36,7 @@ import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
-import { TableDataExtractor } from './Utilities/TableDataExtractor';
+import { TableDataExtractor } from '../Utilities/TableDataExtractor';
 window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
@@ -662,7 +662,7 @@ async function initializeStaffPageJs() {
                             return [
                                 project.Project_id,
                                 project.project_title,
-                                html`<p class="firm_name">
+                                /*html*/ `<p class="firm_name">
                                         ${project.firm_name}
                                     </p>
                                     <input
@@ -683,15 +683,17 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="business_address"
-                                        value="${project.landMark +
-                                        ', ' +
-                                        project.barangay +
-                                        ', ' +
-                                        project.city +
-                                        ', ' +
-                                        project.province +
-                                        ', ' +
-                                        project.region}"
+                                        value="${
+                                            project.landMark +
+                                            ', ' +
+                                            project.barangay +
+                                            ', ' +
+                                            project.city +
+                                            ', ' +
+                                            project.province +
+                                            ', ' +
+                                            project.region
+                                        }"
                                     />
                                     <input
                                         type="hidden"
@@ -713,16 +715,20 @@ async function initializeStaffPageJs() {
                                         class="working_capital"
                                         value="${project.working_capital}"
                                     />`,
-                                html`<p class="owner_name">
-                                        ${(project.prefix
-                                            ? project.prefix
-                                            : '') +
-                                        ' ' +
-                                        project.f_name +
-                                        ' ' +
-                                        project.l_name +
-                                        ' ' +
-                                        (project.suffix ? project.suffix : ' ')}
+                                /*html*/ `<p class="owner_name">
+                                        ${
+                                            (project.prefix
+                                                ? project.prefix
+                                                : '') +
+                                            ' ' +
+                                            project.f_name +
+                                            ' ' +
+                                            project.l_name +
+                                            ' ' +
+                                            (project.suffix
+                                                ? project.suffix
+                                                : ' ')
+                                        }
                                     </p>
                                     <input
                                         type="hidden"
@@ -749,9 +755,11 @@ async function initializeStaffPageJs() {
                                         class="email"
                                         value="${project.email}"
                                     />`,
-                                html`${formatNumberToCurrency(refunded_amount) +
+                                /*html*/ `${
+                                    formatNumberToCurrency(refunded_amount) +
                                     '/' +
-                                    formatNumberToCurrency(Actual_Amount)}<span
+                                    formatNumberToCurrency(Actual_Amount)
+                                }<span
                                         class="badge ms-1 text-white bg-primary"
                                         >${percentage}%</span
                                     >
@@ -765,20 +773,22 @@ async function initializeStaffPageJs() {
                                         class="actual_amount"
                                         value="${Actual_Amount}"
                                     />`,
-                                html`<span
-                                    class="badge ${project.application_status ===
-                                    'approved'
-                                        ? 'bg-warning'
-                                        : project.application_status ===
-                                            'ongoing'
-                                          ? 'bg-primary'
-                                          : project.application_status ===
-                                              'completed'
-                                            ? 'bg-success'
-                                            : null}"
+                                /*html*/ `<span
+                                    class="badge ${
+                                        project.application_status ===
+                                        'approved'
+                                            ? 'bg-warning'
+                                            : project.application_status ===
+                                                'ongoing'
+                                              ? 'bg-primary'
+                                              : project.application_status ===
+                                                  'completed'
+                                                ? 'bg-success'
+                                                : null
+                                    }"
                                     >${project.application_status}</span
                                 >`,
-                                html`<button
+                                /*html*/ `<button
                                     class="btn btn-primary handleProjectbtn"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -986,7 +996,7 @@ async function initializeStaffPageJs() {
                     UploadedReceiptDataTable.clear();
                     UploadedReceiptDataTable.rows.add(
                         response.map((receipt) => [
-                            html`${receipt.receipt_name}
+                            /*html*/ `${receipt.receipt_name}
                                 <input
                                     type="hidden"
                                     class="receipt_id"
@@ -997,20 +1007,22 @@ async function initializeStaffPageJs() {
                                     class="receipt_description"
                                     value="${receipt.receipt_description}"
                                 /> `,
-                            html`<img
+                            /*html*/ `<img
                                 src="data:image/png;base64,${receipt.receipt_image}"
                                 alt="${receipt.receipt_name}"
                                 style="max-width: 100px; max-height: 100px;"
                             />`,
                             customDateFormatter(receipt.created_at),
-                            html`<span
-                                    class="badge ${receipt.remark === 'Pending'
-                                        ? 'bg-info'
-                                        : receipt.remark === 'Approved'
-                                          ? 'bg-success'
-                                          : receipt.remark === 'Rejected'
-                                            ? 'bg-danger'
-                                            : ''}"
+                            /*html*/ `<span
+                                    class="badge ${
+                                        receipt.remark === 'Pending'
+                                            ? 'bg-info'
+                                            : receipt.remark === 'Approved'
+                                              ? 'bg-success'
+                                              : receipt.remark === 'Rejected'
+                                                ? 'bg-danger'
+                                                : ''
+                                    }"
                                     >${receipt.remark}</span
                                 >
                                 <input
@@ -1018,7 +1030,7 @@ async function initializeStaffPageJs() {
                                     class="comment"
                                     value="${receipt.comment}"
                                 />`,
-                            html`<button
+                            /*html*/ `<button
                                 class="btn btn-primary btn-sm viewReceipt"
                                 data-receipt-id="${receipt.ongoing_project_id}"
                             >
@@ -1440,7 +1452,7 @@ async function initializeStaffPageJs() {
                     )}`;
 
                     if (inputtedLink) {
-                        const spinner = html`<div
+                        const spinner = /*html*/ `<div
                             class="spinner-border spinner-border-sm text-primary ms-3"
                             role="status"
                             style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;"
@@ -1503,19 +1515,19 @@ async function initializeStaffPageJs() {
                             // For internal files, create a route to view the file using its ID
                             const viewButton = link.is_external
                                 ? link.file_link.match(/^https?:\/\//i)
-                                    ? html`<a
+                                    ? /*html*/ `<a
                                           class="btn btn-outline-primary btn-sm"
                                           target="_blank"
                                           href="${link.file_link}"
                                           ><i class="ri-eye-fill"></i
                                       ></a>`
-                                    : html`<a
+                                    : /*html*/ `<a
                                           class="btn btn-outline-primary btn-sm"
                                           target="_blank"
                                           href="https://${link.file_link}"
                                           ><i class="ri-eye-fill"></i
                                       ></a>`
-                                : html`<a
+                                : /*html*/ `<a
                                       class="btn btn-outline-primary btn-sm"
                                       target="_blank"
                                       href="/view-project-file/${link.id}"
@@ -1523,7 +1535,7 @@ async function initializeStaffPageJs() {
                                   ></a>`;
 
                             return [
-                                html`${link.file_name}
+                                /*html*/ `${link.file_name}
                                     <input
                                         type="hidden"
                                         class="linkID"
@@ -1531,7 +1543,7 @@ async function initializeStaffPageJs() {
                                     />`,
                                 link.file_link,
                                 customDateFormatter(link.created_at),
-                                html`${viewButton}
+                                /*html*/ `${viewButton}
                                     <button
                                         class="btn btn-primary btn-sm updateLinkRecord"
                                         data-is-external="${link.is_external}"
@@ -2781,24 +2793,26 @@ async function initializeStaffPageJs() {
                         );
                     });
                     response.forEach((report) => {
-                        const newRow = html`
+                        const newRow = /*html*/ `
                             <tr>
                                 <td class="text-center">${report.quarter}</td>
                                 <td class="text-center">
                                     <span
-                                        class="badge rounded-pill ${report.Coop_Response ===
-                                        'submitted'
-                                            ? 'bg-success'
-                                            : 'text-bg-secondary'}"
+                                        class="badge rounded-pill ${
+                                            report.Coop_Response === 'submitted'
+                                                ? 'bg-success'
+                                                : 'text-bg-secondary'
+                                        }"
                                         >${report.Coop_Response}
                                     </span>
                                 </td>
                                 <td class="text-center">
                                     <span
-                                        class="badge rounded-pill ${report.report_status ===
-                                        'open'
-                                            ? 'bg-primary'
-                                            : 'text-bg-secondary'}"
+                                        class="badge rounded-pill ${
+                                            report.report_status === 'open'
+                                                ? 'bg-primary'
+                                                : 'text-bg-secondary'
+                                        }"
                                     >
                                         ${report.report_status}
                                     </span>
@@ -2808,11 +2822,13 @@ async function initializeStaffPageJs() {
                                         ${report.open_until ?? 'Not set'} </span
                                     ><br />
                                     <span class="text-secondary fst-italic">
-                                        ${report.open_until
-                                            ? 'will close in ' +
-                                              report.remaining_days +
-                                              ' Day/s'
-                                            : ' '}
+                                        ${
+                                            report.open_until
+                                                ? 'will close in ' +
+                                                  report.remaining_days +
+                                                  ' Day/s'
+                                                : ' '
+                                        }
                                     </span>
                                 </td>
                                 <td class="text-center">
@@ -3505,7 +3521,7 @@ async function initializeStaffPageJs() {
                         data.map((Approved) => {
                             return [
                                 `${Approved.Project_id}`,
-                                html`${Approved.f_name} ${Approved.l_name}
+                                /*html*/ `${Approved.f_name} ${Approved.l_name}
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -3526,7 +3542,7 @@ async function initializeStaffPageJs() {
                                         class="landline"
                                         value="${Approved.landline ?? ''}"
                                     />`,
-                                html`${Approved.firm_name}
+                                /*html*/ `${Approved.firm_name}
                                     <input
                                         type="hidden"
                                         class="business_id"
@@ -3562,7 +3578,7 @@ async function initializeStaffPageJs() {
                                         class="business_address"
                                         value="${Approved.landmark} ${Approved.barangay}, ${Approved.city}, ${Approved.province}, ${Approved.region}"
                                     />`,
-                                html`${Approved.project_title}
+                                /*html*/ `${Approved.project_title}
                                     <input
                                         type="hidden"
                                         class="fund_amount"
@@ -3583,43 +3599,47 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="evaluated_by"
-                                        value="${(Approved.evaluated_by_prefix
-                                            ? Approved.evaluated_by_suffix
-                                            : '') +
-                                        ' ' +
-                                        Approved.evaluated_by_f_name +
-                                        ' ' +
-                                        (Approved.evaluated_by_mid_name
-                                            ? Approved.evaluated_by_suffix
-                                            : '') +
-                                        ' ' +
-                                        Approved.evaluated_by_l_name +
-                                        ' ' +
-                                        (Approved.evaluated_by_suffix
-                                            ? Approved.evaluated_by_suffix
-                                            : '')}"
+                                        value="${
+                                            (Approved.evaluated_by_prefix
+                                                ? Approved.evaluated_by_suffix
+                                                : '') +
+                                            ' ' +
+                                            Approved.evaluated_by_f_name +
+                                            ' ' +
+                                            (Approved.evaluated_by_mid_name
+                                                ? Approved.evaluated_by_suffix
+                                                : '') +
+                                            ' ' +
+                                            Approved.evaluated_by_l_name +
+                                            ' ' +
+                                            (Approved.evaluated_by_suffix
+                                                ? Approved.evaluated_by_suffix
+                                                : '')
+                                        }"
                                     />
                                     <input
                                         type="hidden"
                                         class="assigned_to"
-                                        value="${(Approved.handled_by_prefix
-                                            ? Approved.handled_by_suffix
-                                            : '') +
-                                        '' +
-                                        Approved.handled_by_f_name +
-                                        ' ' +
-                                        (Approved.handled_by_mid_name
-                                            ? Approved.handled_by_suffix
-                                            : '') +
-                                        ' ' +
-                                        Approved.handled_by_l_name +
-                                        ' ' +
-                                        (Approved.handled_by_suffix
-                                            ? Approved.handled_by_suffix
-                                            : '')}"
+                                        value="${
+                                            (Approved.handled_by_prefix
+                                                ? Approved.handled_by_suffix
+                                                : '') +
+                                            '' +
+                                            Approved.handled_by_f_name +
+                                            ' ' +
+                                            (Approved.handled_by_mid_name
+                                                ? Approved.handled_by_suffix
+                                                : '') +
+                                            ' ' +
+                                            Approved.handled_by_l_name +
+                                            ' ' +
+                                            (Approved.handled_by_suffix
+                                                ? Approved.handled_by_suffix
+                                                : '')
+                                        }"
                                     />`,
                                 `${customDateFormatter(Approved.date_approved)}`,
-                                html` <button
+                                /*html*/ ` <button
                                     class="btn btn-primary approvedProjectInfo"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -3670,7 +3690,7 @@ async function initializeStaffPageJs() {
                             );
                             return [
                                 `${Ongoing.Project_id}`,
-                                html`${Ongoing.project_title}
+                                /*html*/ `${Ongoing.project_title}
                                     <input
                                         type="hidden"
                                         class="project_id"
@@ -3704,42 +3724,46 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="evaluated_by"
-                                        value="${(Ongoing.evaluated_by_prefix
-                                            ? Ongoing.evaluated_by_prefix
-                                            : '') +
-                                        ' ' +
-                                        Ongoing.evaluated_by_f_name +
-                                        ' ' +
-                                        (Ongoing.evaluated_by_mid_name
-                                            ? Ongoing.evaluated_by_mid_name
-                                            : '') +
-                                        ' ' +
-                                        Ongoing.evaluated_by_l_name +
-                                        ' ' +
-                                        (Ongoing.evaluated_by_suffix
-                                            ? Ongoing.evaluated_by_suffix
-                                            : '')}"
+                                        value="${
+                                            (Ongoing.evaluated_by_prefix
+                                                ? Ongoing.evaluated_by_prefix
+                                                : '') +
+                                            ' ' +
+                                            Ongoing.evaluated_by_f_name +
+                                            ' ' +
+                                            (Ongoing.evaluated_by_mid_name
+                                                ? Ongoing.evaluated_by_mid_name
+                                                : '') +
+                                            ' ' +
+                                            Ongoing.evaluated_by_l_name +
+                                            ' ' +
+                                            (Ongoing.evaluated_by_suffix
+                                                ? Ongoing.evaluated_by_suffix
+                                                : '')
+                                        }"
                                     />
                                     <input
                                         type="hidden"
                                         class="handled_by"
-                                        value="${(Ongoing.handled_by_prefix
-                                            ? Ongoing.handled_by_prefix
-                                            : '') +
-                                        ' ' +
-                                        Ongoing.handled_by_f_name +
-                                        ' ' +
-                                        (Ongoing.handled_by_mid_name
-                                            ? Ongoing.handled_by_mid_name
-                                            : '') +
-                                        ' ' +
-                                        Ongoing.handled_by_l_name +
-                                        ' ' +
-                                        (Ongoing.handled_by_suffix
-                                            ? Ongoing.handled_by_suffix
-                                            : '')}"
+                                        value="${
+                                            (Ongoing.handled_by_prefix
+                                                ? Ongoing.handled_by_prefix
+                                                : '') +
+                                            ' ' +
+                                            Ongoing.handled_by_f_name +
+                                            ' ' +
+                                            (Ongoing.handled_by_mid_name
+                                                ? Ongoing.handled_by_mid_name
+                                                : '') +
+                                            ' ' +
+                                            Ongoing.handled_by_l_name +
+                                            ' ' +
+                                            (Ongoing.handled_by_suffix
+                                                ? Ongoing.handled_by_suffix
+                                                : '')
+                                        }"
                                     />`,
-                                html`${Ongoing.firm_name}
+                                /*html*/ `${Ongoing.firm_name}
                                     <input
                                         type="hidden"
                                         class="business_id"
@@ -3748,15 +3772,17 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="address"
-                                        value="${Ongoing.landmark +
-                                        ', ' +
-                                        Ongoing.barangay +
-                                        ', ' +
-                                        Ongoing.city +
-                                        ', ' +
-                                        Ongoing.province +
-                                        ', ' +
-                                        Ongoing.region}"
+                                        value="${
+                                            Ongoing.landmark +
+                                            ', ' +
+                                            Ongoing.barangay +
+                                            ', ' +
+                                            Ongoing.city +
+                                            ', ' +
+                                            Ongoing.province +
+                                            ', ' +
+                                            Ongoing.region
+                                        }"
                                     />
                                     <input
                                         type="hidden"
@@ -3783,7 +3809,7 @@ async function initializeStaffPageJs() {
                                         class="working_capital_assets"
                                         value="${Ongoing.working_capital}"
                                     />`,
-                                html`${Ongoing.f_name + ' ' + Ongoing.l_name}
+                                /*html*/ `${Ongoing.f_name + ' ' + Ongoing.l_name}
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -3804,13 +3830,15 @@ async function initializeStaffPageJs() {
                                         class="landline"
                                         value="${Ongoing.landline ?? ''}"
                                     />`,
-                                html`${formatNumberToCurrency(amount_refunded) +
+                                /*html*/ `${
+                                    formatNumberToCurrency(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)}
+                                    formatNumberToCurrency(to_be_refunded)
+                                }
                                     <span class="badge text-white bg-primary"
                                         >${percentage}%</span
                                     >`,
-                                html` <button
+                                /*html*/ ` <button
                                     class="btn btn-primary ongoingProjectInfo"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -3862,7 +3890,7 @@ async function initializeStaffPageJs() {
                             );
                             return [
                                 `${completed.Project_id}`,
-                                html`${completed.project_title}
+                                /*html*/ `${completed.project_title}
                                     <input
                                         type="hidden"
                                         class="project_id"
@@ -3896,42 +3924,46 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="evaluated_by"
-                                        value="${(completed.evaluated_by_prefix
-                                            ? completed.evaluated_by_prefix
-                                            : '') +
-                                        ' ' +
-                                        completed.evaluated_by_f_name +
-                                        ' ' +
-                                        (completed.evaluated_by_mid_name
-                                            ? completed?.evaluated_by_mid_name
-                                            : '') +
-                                        ' ' +
-                                        completed.evaluated_by_l_name +
-                                        ' ' +
-                                        (completed.evaluated_by_suffix
-                                            ? completed.evaluated_by_suffix
-                                            : '')}"
+                                        value="${
+                                            (completed.evaluated_by_prefix
+                                                ? completed.evaluated_by_prefix
+                                                : '') +
+                                            ' ' +
+                                            completed.evaluated_by_f_name +
+                                            ' ' +
+                                            (completed.evaluated_by_mid_name
+                                                ? completed?.evaluated_by_mid_name
+                                                : '') +
+                                            ' ' +
+                                            completed.evaluated_by_l_name +
+                                            ' ' +
+                                            (completed.evaluated_by_suffix
+                                                ? completed.evaluated_by_suffix
+                                                : '')
+                                        }"
                                     />
                                     <input
                                         type="hidden"
                                         class="handled_by"
-                                        value="${(completed.handled_by_prefix
-                                            ? completed.handled_by_prefix
-                                            : '') +
-                                        ' ' +
-                                        completed.handled_by_f_name +
-                                        ' ' +
-                                        (completed.handled_by_mid_name
-                                            ? completed.handled_by_mid_name
-                                            : '') +
-                                        ' ' +
-                                        completed.handled_by_l_name +
-                                        ' ' +
-                                        (completed.handled_by_suffix
-                                            ? completed.handled_by_suffix
-                                            : '')}"
+                                        value="${
+                                            (completed.handled_by_prefix
+                                                ? completed.handled_by_prefix
+                                                : '') +
+                                            ' ' +
+                                            completed.handled_by_f_name +
+                                            ' ' +
+                                            (completed.handled_by_mid_name
+                                                ? completed.handled_by_mid_name
+                                                : '') +
+                                            ' ' +
+                                            completed.handled_by_l_name +
+                                            ' ' +
+                                            (completed.handled_by_suffix
+                                                ? completed.handled_by_suffix
+                                                : '')
+                                        }"
                                     />`,
-                                html`${completed.firm_name}
+                                /*html*/ `${completed.firm_name}
                                     <input
                                         type="hidden"
                                         class="business_id"
@@ -3940,15 +3972,17 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="address"
-                                        value="${completed.landmark +
-                                        ', ' +
-                                        completed.barangay +
-                                        ', ' +
-                                        completed.city +
-                                        ', ' +
-                                        completed.province +
-                                        ', ' +
-                                        completed.region}"
+                                        value="${
+                                            completed.landmark +
+                                            ', ' +
+                                            completed.barangay +
+                                            ', ' +
+                                            completed.city +
+                                            ', ' +
+                                            completed.province +
+                                            ', ' +
+                                            completed.region
+                                        }"
                                     />
                                     <input
                                         type="hidden"
@@ -3975,9 +4009,9 @@ async function initializeStaffPageJs() {
                                         class="working_capital_assets"
                                         value="${completed.working_capital}"
                                     />`,
-                                html`${completed.f_name +
-                                    ' ' +
-                                    completed.l_name}
+                                /*html*/ `${
+                                    completed.f_name + ' ' + completed.l_name
+                                }
                                     <input
                                         type="hidden"
                                         class="designation"
@@ -3998,13 +4032,15 @@ async function initializeStaffPageJs() {
                                         class="landline"
                                         value="${completed.landline ?? ''}"
                                     />`,
-                                html`${formatNumberToCurrency(amount_refunded) +
+                                /*html*/ `${
+                                    formatNumberToCurrency(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)}
+                                    formatNumberToCurrency(to_be_refunded)
+                                }
                                     <span class="badge text-white bg-primary"
                                         >${percentage}%</span
                                     >`,
-                                html`<button
+                                /*html*/ `<button
                                     class="btn btn-primary completedProjectInfo"
                                     type="button"
                                     data-bs-toggle="offcanvas"
@@ -4028,7 +4064,7 @@ async function initializeStaffPageJs() {
         },
 
         AddProject: async () => {
-            const module = await import('./applicationPage');
+            const module = await import('../applicationPage');
             // If you know specific functions that need to be called
             if (module.initializeForm) {
                 module.initializeForm();
@@ -4295,15 +4331,13 @@ async function initializeStaffPageJs() {
                     const setAndUpdateBtn = $('#setEvaluationDate');
                     nofi_dateCont.empty();
                     if (response.Scheduled_date) {
-                        nofi_dateCont.append(
-                            html`<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>' +
+                        nofi_dateCont.append(/*html*/ `<div class="alert alert-primary mb-auto" role="alert">An evaluation date of <strong>' +
                                 ${response.Scheduled_date} +
-                                '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>`
-                        );
+                                '</strong> has been set for this applicant. <p class="my-auto text-secondary">Applicant is already notified through email and notification.</p></div>`);
                         setAndUpdateBtn.text('Update');
                     } else {
                         nofi_dateCont.append(
-                            html`<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>`
+                            /*html*/ `<div class="alert alert-primary my-auto" role="alert">No evaluation date has been set for this applicant.</div>`
                         );
                     }
                 } catch (error) {
@@ -4318,27 +4352,26 @@ async function initializeStaffPageJs() {
                     const row = $('<tr>');
                     row.append('<td>' + requirement.file_name + '</td>');
                     row.append('<td>' + requirement.file_type + '</td>');
-                    row.append(
-                        html`<td class="text-center">
+                    row.append(/*html*/ `<td class="text-center">
                             <button
                                 class="btn btn-primary viewReq position-relative"
                             >
                                 View
                                 <span
-                                    class="position-absolute top-0 start-100 translate-middle p-2 ${requirement.remarks ===
-                                    'Pending'
-                                        ? 'bg-info'
-                                        : requirement.remarks === 'Approved'
-                                          ? 'bg-primary'
-                                          : 'bg-danger'} border border-light rounded-circle"
+                                    class="position-absolute top-0 start-100 translate-middle p-2 ${
+                                        requirement.remarks === 'Pending'
+                                            ? 'bg-info'
+                                            : requirement.remarks === 'Approved'
+                                              ? 'bg-primary'
+                                              : 'bg-danger'
+                                    } border border-light rounded-circle"
                                 >
                                     <span class="visually-hidden"
                                         >New alerts</span
                                     >
                                 </span>
                             </button>
-                        </td>`
-                    );
+                        </td>`);
                     row.append(
                         '<input type="hidden"  name="file_id" value="' +
                             requirement.id +
@@ -4752,7 +4785,7 @@ async function initializeStaffPageJs() {
                 draftData.expectedOutputs.forEach((output, index) => {
                     const outputKey = `expectedOutputs[${index}]`;
                     storeInitialValues(outputKey, output);
-                    expectedOutputsContainer.append(html`
+                    expectedOutputsContainer.append(/*html*/ `
                         <div class="col-12 mb-2">
                             <textarea
                                 class="form-control"
@@ -4781,7 +4814,7 @@ ${output}</textarea
                     );
                     storeInitialValues(costKey, equipment.Cost || '');
 
-                    equipmentTableBody.append(html`
+                    equipmentTableBody.append(/*html*/ `
                         <tr>
                             <td>
                                 <input
@@ -4826,7 +4859,7 @@ ${output}</textarea
                     );
                     storeInitialValues(costKey, nonEquipment.Cost || '');
 
-                    nonEquipmentTableBody.append(html`
+                    nonEquipmentTableBody.append(/*html*/ `
                         <tr>
                             <td>
                                 <input

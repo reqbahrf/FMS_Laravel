@@ -187,7 +187,7 @@ export function initializeForm() {
             showNextButton: true,
             showPreviousButton: true,
             position: 'both bottom',
-            extraHtml: html`<button
+            extraHtml: /*html*/ `<button
                     type="button"
                     class="btn btn-success"
                     onclick="onFinish()"

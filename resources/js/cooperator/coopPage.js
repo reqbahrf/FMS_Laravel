@@ -1,4 +1,4 @@
-import './echo';
+import '../echo';
 import {
     showToastFeedback,
     customDateFormatter,
@@ -9,20 +9,20 @@ import {
     showProcessToast,
     hideProcessToast,
     closeModal,
-} from './Utilities/utilFunctions';
-import { FormDraftHandler } from './Utilities/FormDraftHandler';
-import QUARTERLY_REPORTING_FORM_CONFIG from './Form_Config/QUARTERLY_REPORTING_CONFIG';
+} from '../Utilities/utilFunctions';
+import { FormDraftHandler } from '../Utilities/FormDraftHandler';
+import QUARTERLY_REPORTING_FORM_CONFIG from '../Form_Config/QUARTERLY_REPORTING_CONFIG';
 import {
     AddNewRowHandler,
     RemoveRowHandler,
-} from './Utilities/AddAndRemoveTableRowHandler';
-import DarkMode from './Utilities/DarkModeHandler';
+} from '../Utilities/AddAndRemoveTableRowHandler';
+import DarkMode from '../Utilities/DarkModeHandler';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';
-import { TableDataExtractor } from './Utilities/TableDataExtractor';
-import NotificationManager from './Utilities/NotificationManager';
-import ActivityLogHandler from './Utilities/ActivityLogHandler';
-import CoopPageNavHandler from './coopPage_utils/CoopPageNavHandler';
+import { TableDataExtractor } from '../Utilities/TableDataExtractor';
+import NotificationManager from '../Utilities/NotificationManager';
+import ActivityLogHandler from '../Utilities/ActivityLogHandler';
+import CoopPageNavHandler from './CoopPageNavHandler';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
@@ -312,7 +312,7 @@ async function initilizeCoopPageJs() {
                             value.payment_status === 'Paid'
                                 ? 'bg-success'
                                 : 'bg-danger';
-                        const row = html`<tr>
+                        const row = /*html*/ `<tr>
                             <td class="text-center">
                                 ${formatNumberToCurrency(value.amount)}
                             </td>
@@ -493,7 +493,7 @@ async function initilizeCoopPageJs() {
                     tableBody.empty(); // Clear the existing rows
 
                     if (!data || data.length === 0) {
-                        const row = html`<tr>
+                        const row = /*html*/ `<tr>
                             <td
                                 colspan="6"
                                 class="text-center"
@@ -504,12 +504,12 @@ async function initilizeCoopPageJs() {
                         tableBody.append(row);
                     } else {
                         data.forEach((value) => {
-                            const receiptImage = html`<img
+                            const receiptImage = /*html*/ `<img
                                 src="data:image/png;base64,${value.receipt_image}"
                                 alt="${value.receipt_name}"
                                 style="max-width: 200px; max-height: 200px;"
                             />`;
-                            const row = html`<tr>
+                            const row = /*html*/ `<tr>
                                 <td>${value.receipt_name}</td>
                                 <td>${value.receipt_description}</td>
                                 <td class="img-Content">${receiptImage}</td>
@@ -518,14 +518,15 @@ async function initilizeCoopPageJs() {
                                 </td>
                                 <td>
                                     <span
-                                        class="badge rounded-pill ${value.remark ===
-                                        'Pending'
-                                            ? 'bg-info'
-                                            : value.remark === 'Approved'
-                                              ? 'bg-success'
-                                              : value.remark === 'Rejected'
-                                                ? 'bg-danger'
-                                                : ''}"
+                                        class="badge rounded-pill ${
+                                            value.remark === 'Pending'
+                                                ? 'bg-info'
+                                                : value.remark === 'Approved'
+                                                  ? 'bg-success'
+                                                  : value.remark === 'Rejected'
+                                                    ? 'bg-danger'
+                                                    : ''
+                                        }"
                                     >
                                         ${value.remark}
                                     </span>
@@ -600,7 +601,7 @@ async function initilizeCoopPageJs() {
                     showNextButton: true, // show/hide a Next button
                     showPreviousButton: true, // show/hide a Previous button
                     position: 'both buttom', // none/ top/ both bottom
-                    extraHtml: html`<button
+                    extraHtml: /*html*/ `<button
                             type="button"
                             class="btn btn-success"
                             onclick="showConfirm()"
