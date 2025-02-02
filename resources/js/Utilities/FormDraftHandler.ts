@@ -1,5 +1,6 @@
 import * as FilePond from 'filepond';
 import { TableDataExtractor } from './TableDataExtractor';
+import { RowConfig, DraftFormConfig } from 'global-form-config';
 interface FilePondDraftData {
     [key: string]:
         | string
@@ -9,29 +10,6 @@ interface FilePondDraftData {
               metaDataName: string;
               metaDataId: string;
           };
-}
-
-interface RowConfig {
-    createRow: (rowData: any) => HTMLElement;
-}
-
-interface TableRowConfig {
-    createRow: (rowData: any) => string;
-}
-
-interface TableSelectors {
-    [key: string]: string;
-}
-
-interface TableRowConfigs {
-    [key: string]: TableRowConfig;
-}
-
-interface DraftFormConfig {
-    formSelector: string;
-    tableSelectors: TableSelectors;
-    tableRowConfigs: TableRowConfigs;
-    filepondSelector: string[];
 }
 
 interface DraftData {
