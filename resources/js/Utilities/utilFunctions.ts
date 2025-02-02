@@ -134,40 +134,62 @@ function closeOffcanvasInstances(offcanva_id: string) {
  * // Format inputs within a specific parent
  * customFormatNumericInput('#parentDiv', '.numeric-input');
  */
-function customFormatNumericInput(selectorOrParent: string, inputSelectors: string | string[] | null = null) {
-    // If only one argument is provided, treat it as input selector(s)
+function customFormatNumericInput(
+    selectorOrParent: string | Element | JQuery<Element>, // Allow jQuery objects
+    inputSelectors: string | string[] | null = null
+) {
     let inputSelector: string | string[] | null = inputSelectors;
     let parentContainer: JQuery<Element>;
+
     if (inputSelectors === null && typeof selectorOrParent === 'string') {
+        // If only one argument is provided and it's a string, treat it as the input selector
         inputSelector = selectorOrParent;
-        parentContainer = $(selectorOrParent);
-    } else if (inputSelectors !== null && typeof selectorOrParent === 'string') {
+        parentContainer = $('body');
+    } else if (inputSelectors !== null && (selectorOrParent instanceof Element || selectorOrParent instanceof $)) {
+        // If the second argument is provided and the first is an Element or jQuery object
         inputSelector = inputSelectors;
-        parentContainer = $(selectorOrParent);
+        parentContainer = selectorOrParent instanceof Element ? $(selectorOrParent) : selectorOrParent;
     } else {
+        // Default to body as the parent container
         parentContainer = $('body');
         inputSelector = inputSelectors;
     }
 
     // Convert single string selector to array if needed
-    const selectors = Array.isArray(inputSelector)
-        ? inputSelector
-        : [inputSelector];
+    const selectors = Array.isArray(inputSelector) ? inputSelector : [inputSelector];
 
     // Join all selectors with comma for jQuery multiple selector
     const combinedSelector = selectors.join(', ');
 
-    parentContainer.on('input', combinedSelector, function (this: JQuery<HTMLInputElement>) {
-        const thisInput = this;
-        let value = thisInput?.val()?.replace(/[^0-9.]/g, '');
-        if (value?.includes('.')) {
+    // Find all matching inputs within the parent container
+    const $inputs = parentContainer.find(combinedSelector);
+
+    // Apply formatting to each input
+    $inputs.each(function() {
+        const thisInput = $(this);
+        
+        // Attach input event listener directly to this input
+        thisInput.on('input', function() {
+            // More strict regex: only allow digits and one decimal point
+            let value = thisInput.val()?.toString().replace(/[^0-9.]/g, '');
+            
+            // Ensure only one decimal point
             const parts = value?.split('.');
-            parts[1] = parts[1]?.substring(0, 2);
-            value = parts?.join('.');
-        }
-        const formattedValue = value?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        if(!formattedValue) return thisInput?.val('');
-        thisInput?.val(formattedValue);
+            if (parts && parts.length > 2) {
+                // If more than one decimal point, keep only the first part and first decimal point
+                value = `${parts[0]}.${parts[1]}`;
+            }
+            
+            // Limit decimal places to 2
+            if (value?.includes('.')) {
+                const [integerPart, decimalPart] = value.split('.');
+                value = `${integerPart}.${decimalPart.substring(0, 2)}`;
+            }
+            
+            const formattedValue = value?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            if (!formattedValue) return thisInput.val('');
+            thisInput.val(formattedValue);
+        });
     });
 }
 

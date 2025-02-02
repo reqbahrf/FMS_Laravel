@@ -5,9 +5,15 @@ import {
     parseFormattedNumberToFloat,
 } from '../Utilities/utilFunctions';
 
+enum FormType {
+    PIS = 'PIS',
+    PDS = 'PDS',
+    SR = 'SR',
+}
 
 export default class FormEvents {
-    constructor(formType) {
+    private formType: FormType;
+    constructor(formType: FormType) {
         this.formType = formType;
         this.initializeFormEvents();
     }
@@ -35,16 +41,16 @@ export default class FormEvents {
     PISFormEvents() {
         function caculateTotalAssests() {
             const landAssets = parseFormattedNumberToFloat(
-                $('#land_val').val()
+                $('#land_val').val() as string
             );
             const buildingAssets = parseFormattedNumberToFloat(
-                $('#building_val').val()
+                $('#building_val').val() as string
             );
             const equipmentAssets = parseFormattedNumberToFloat(
-                $('#equipment_val').val()
+                $('#equipment_val').val() as string
             );
             const workingCapital = parseFormattedNumberToFloat(
-                $('#workingCapital_val').val()
+                $('#workingCapital_val').val() as string
             );
             const totalAssests =
                 landAssets + buildingAssets + equipmentAssets + workingCapital;
@@ -68,10 +74,10 @@ export default class FormEvents {
                 const thisTableRow = $(this);
 
                 const male = parseFormattedNumberToFloat(
-                    thisTableRow.find('.maleInput').val()
+                    thisTableRow.find('.maleInput').val() as string
                 );
                 const female = parseFormattedNumberToFloat(
-                    thisTableRow.find('.femaleInput').val()
+                    thisTableRow.find('.femaleInput').val() as string
                 );
                 const subtotal = male + female;
                 thisTableRow.find('.thisRowSubtotal').val(
@@ -101,10 +107,10 @@ export default class FormEvents {
             console.log('Input Changed');
 
             const localProduct = parseFormattedNumberToFloat(
-                $('#localProduct_Val').val()
+                $('#localProduct_Val').val() as string
             );
             const exportProduct = parseFormattedNumberToFloat(
-                $('#exportProduct_Val').val()
+                $('#exportProduct_Val').val() as string
             );
             const totalGrossSales = localProduct + exportProduct;
             $('#totalGrossSales').val(formatNumberToCurrency(totalGrossSales));
@@ -125,13 +131,13 @@ export default class FormEvents {
             let totalManMonth = 0;
             $('#totalEmployment tr').each(function () {
                 const totalMalePersonel = parseFormattedNumberToFloat(
-                    $(this).find('.maleInput').val()
+                    $(this).find('.maleInput').val() as string
                 );
                 const totalFemalePersonel = parseFormattedNumberToFloat(
-                    $(this).find('.femaleInput').val()
+                    $(this).find('.femaleInput').val() as string
                 );
                 const workDays = parseFormattedNumberToFloat(
-                    $(this).find('.workdayInput').val()
+                    $(this).find('.workdayInput').val() as string
                 );
                 const thisRowManMonth =
                     (totalMalePersonel + totalFemalePersonel) * (workDays / 20);
@@ -142,7 +148,7 @@ export default class FormEvents {
                 totalNumPersonel += totalMalePersonel + totalFemalePersonel;
 
                 totalManMonth += parseFormattedNumberToFloat(
-                    $(this).find('.totalManMonth').val()
+                    $(this).find('.totalManMonth').val() as string
                 );
             });
             $('#TotalManMonth').val(formatNumberToCurrency(totalManMonth));
@@ -158,13 +164,13 @@ export default class FormEvents {
 
                 const employeeRow = thisEmployeeRow.closest('tr');
                 const maleVal = parseFormattedNumberToFloat(
-                    employeeRow.find('.maleInput').val()
+                    employeeRow.find('.maleInput').val() as string
                 );
                 const femaleVal = parseFormattedNumberToFloat(
-                    employeeRow.find('.femaleInput').val()
+                    employeeRow.find('.femaleInput').val() as string
                 );
                 const workDays = parseFormattedNumberToFloat(
-                    employeeRow.find('.workdayInput').val()
+                    employeeRow.find('.workdayInput').val() as string
                 );
 
                 const totalManMonth = (workDays / 20) * (maleVal + femaleVal);
@@ -182,10 +188,10 @@ export default class FormEvents {
             $('#localProducts tr, #exportProducts tr').each(function () {
                 const tableRow = $(this);
                 let grossSales = parseFormattedNumberToFloat(
-                    tableRow.find('.grossSales_val').val()
+                    tableRow.find('.grossSales_val').val() as string
                 );
                 let productionCost = parseFormattedNumberToFloat(
-                    tableRow.find('.productionCost_val').val()
+                    tableRow.find('.productionCost_val').val() as string
                 );
 
                 let netSales = grossSales - productionCost;
@@ -223,10 +229,10 @@ export default class FormEvents {
 
                 const $productRow = thisInput.closest('tr');
                 const grossSales = parseFormattedNumberToFloat(
-                    $productRow.find('.grossSales_val').val()
+                    $productRow.find('.grossSales_val').val() as string
                 );
                 const estimatedProductionCost = parseFormattedNumberToFloat(
-                    $productRow.find('.productionCost_val').val()
+                    $productRow.find('.productionCost_val').val() as string
                 );
                 const netSales = grossSales - estimatedProductionCost;
 
@@ -250,12 +256,12 @@ export default class FormEvents {
             const CurrentgrossSales = parseFormattedNumberToFloat(
                 CurrentAndPreviousgrossSales.find(
                     '.CurrentgrossSales_val'
-                ).val()
+                ).val() as string
             );
             const PreviousgrossSales = parseFormattedNumberToFloat(
                 CurrentAndPreviousgrossSales.find(
                     '.PreviousgrossSales_val'
-                ).val()
+                ).val() as string
             );
 
             increaseInProductivityRow
@@ -302,13 +308,13 @@ export default class FormEvents {
             const CurrentEmployment = parseInt(
                 CurrentAndPreviousEmployment.find(
                     '.CurrentEmployment_val'
-                ).val()
+                ).val() as string
             );
 
             const PreviousEmployment = parseInt(
                 CurrentAndPreviousEmployment.find(
                     '.PreviousEmployment_val'
-                ).val()
+                ).val() as string
             );
 
             increaseInEmploymentRow
@@ -349,7 +355,7 @@ export default class FormEvents {
     }
 
     SRFormEvents() {
-        const toggleDeleteRowButton = (container, elementSelector) => {
+        const toggleDeleteRowButton = (container : JQuery, elementSelector : string) => {
             const element = container.find(elementSelector);
             const deleteRowButton = container
                 .children('.addAndRemoveButton_Container')
@@ -405,21 +411,23 @@ export default class FormEvents {
             }
         });
 
-        $('.number_input_only').on('input', function () {
-            this.value = this.value.replace(/[^0-9.]/g, '');
+        $('.number_input_only').on('input', function (this: HTMLInputElement) {
+            const inputClass = $(this).attr('class');
+            customFormatNumericInput(`.${inputClass}`);
         });
 
         const CurrencyInputs = $(
             '#StatusReportForm table td input.approved_cost, #StatusReportForm table td input.actual_cost, #StatusReportForm table td input.non_equipment_approved_cost, #StatusReportForm table td input.non_equipment_actual_cost, #StatusReportForm input.total_approved_project_cost, #StatusReportForm input.amount_utilized, #StatusReportForm input.total_amount_to_be_refunded, #StatusReportForm input.total_amount_already_due, #StatusReportForm input.total_amount_refunded, #StatusReportForm input.unsetted_refund, #StatusReportForm table td input.sales_gross_sales'
         );
 
-        CurrencyInputs.on('input', function () {
-            inputsToCurrencyFormatter($(this));
+        CurrencyInputs.on('input', function (this: HTMLInputElement) {
+            const inputClass = $(this).attr('class');
+            customFormatNumericInput(`.${inputClass}`);
         });
 
         const $openButton = $('#open-floating-window');
         const $content = $('#floating-content');
-        const $input = $('#projectLedgerLink');
+        const $input = $('#projectLedgerLink') as JQuery<HTMLInputElement>;
         const $window = $('#floating-window');
         const $header = $('#floating-header');
         const $closeButton = $('#close-button');
@@ -436,7 +444,7 @@ export default class FormEvents {
                 });
             }
 
-            const url = $input.val().trim();
+            const url = $input?.val()?.trim();
             if (!url) {
                 alert('Please enter a valid URL!');
                 return;
