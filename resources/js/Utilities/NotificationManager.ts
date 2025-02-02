@@ -1,3 +1,4 @@
+
 /**
  * Manages notifications for a user, including fetching, displaying, and handling real-time updates.
  * @exports NotificationManager
@@ -7,14 +8,47 @@
  * **Notes**
  * - This class is relay on On top-navigation.blade.php component to display notifications.
  */
+
+interface NotificationData {
+    title: string;
+    message: string;
+}
+
+interface NotificationItem {
+    id: number;
+    data: NotificationData;
+    read_at: string | null;
+    type: string | null;
+    created_at: string;
+    time_ago: string;
+}
+interface ProcessNotificationItem {
+    id: number;
+    title: string;
+    message: string;
+    created_at: string;
+    time_ago: string;
+    type: string | null;
+}
+interface UpdateOptions {
+    append: boolean;
+    updateBadge: boolean;
+}
+
+
 class NotificationManager {
-    /**
-     * Constructor for the NotificationManager class.
-     * @param {string} notificationRoute - The API endpoint to fetch notifications.
-     * @param {string} userId - The ID of the current user.
-     * @param {string} userRole - The role of the current user.
-     */
-    constructor(notificationRoute, userId, userRole) {
+    
+    private notificationRoute: string;
+    private userId: string;
+    private userRole: string;
+    private notificationContainer: JQuery;
+    private badgeAlert: JQuery;
+    private currentPage: number;
+    private isLoading: boolean;
+    private hasMore: boolean;
+    private notifications: any[];
+    private unreadCount: number;
+    constructor(notificationRoute: string, userId: string, userRole: string) {
         this.notificationRoute = notificationRoute;
         this.userId = userId;
         this.userRole = userRole;
@@ -77,12 +111,6 @@ class NotificationManager {
                 `${this.notificationRoute}?page=${page}&limit=10`,
                 {
                     method: 'GET',
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                            'content'
-                        ),
-                    },
-                    dataType: 'json',
                 }
             );
             const data = await response.json();
@@ -91,7 +119,7 @@ class NotificationManager {
             this.currentPage = page;
 
             if (data.notifications.length > 0) {
-                const notifications = data.notifications.map((item) => ({
+                const notifications = data.notifications.map((item: NotificationItem) => ({
                     id: item.id,
                     title: item.data.title,
                     message: item.data.message,
@@ -134,7 +162,7 @@ class NotificationManager {
      * this._updateBadgeCount(5); // Displays a badge with the number 5
      * this._updateBadgeCount(0); // Hides the badge
      */
-    _updateBadgeCount(count) {
+    _updateBadgeCount(count: number) {
         if (count > 0) {
             this.badgeAlert
                 .html(
@@ -152,8 +180,8 @@ class NotificationManager {
      * @param {Object} [options={ append: false, updateBadge: true }] - Update options
      */
     _updateNotificationUI(
-        notifications = null,
-        options = { append: false, updateBadge: true }
+        notifications: NotificationItem[] | null = null,
+        options: UpdateOptions = { append: false, updateBadge: true }
     ) {
         const notificationsToShow = notifications || this.notifications;
 
@@ -177,7 +205,7 @@ class NotificationManager {
                 const categoryId = `category-${category.toLowerCase().replace(/\s+/g, '-')}`;
                 const notificationItems = items
                     .map(
-                        (notification) => `
+                        (notification: ProcessNotificationItem) => /*html*/`
                 <div class="notify-item ${!notification.type ? 'unread' : ''}" data-id="${notification.id}">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1 overflow-hidden">
@@ -242,9 +270,9 @@ class NotificationManager {
      * @returns {Object} An object containing categorized notifications.
      * @private
      */
-    _categorizeNotifications(notifications) {
+    _categorizeNotifications(notifications: Array<ProcessNotificationItem>): Record<string, ProcessNotificationItem[]> {
         const now = new Date();
-        const categories = {
+        const categories: Record<string, ProcessNotificationItem[]> = {
             [NotificationManager.CATEGORIES.NEW]: [],
             [NotificationManager.CATEGORIES.TODAY]: [],
             [NotificationManager.CATEGORIES.YESTERDAY]: [],
@@ -254,30 +282,40 @@ class NotificationManager {
 
         notifications.forEach((notification) => {
             const notificationDate = new Date(notification.created_at);
-            const timeDiff = now - notificationDate;
+            const timeDiff = Number(now) - Number(notificationDate);
             const daysDiff = Math.floor(
                 timeDiff / NotificationManager.TIME_INTERVALS.DAY
             );
 
+            // Convert NotificationItem to ProcessNotificationItem
+            const processNotification: ProcessNotificationItem = {
+                id: notification.id,
+                title: notification.title,
+                message: notification.message,
+                type: notification.type,
+                created_at: notification.created_at,
+                time_ago: notification.time_ago,
+            };
+
             if (!notification.type) {
                 categories[NotificationManager.CATEGORIES.NEW].push(
-                    notification
+                    processNotification
                 );
             } else if (daysDiff === 0) {
                 categories[NotificationManager.CATEGORIES.TODAY].push(
-                    notification
+                    processNotification
                 );
             } else if (daysDiff === 1) {
                 categories[NotificationManager.CATEGORIES.YESTERDAY].push(
-                    notification
+                    processNotification
                 );
             } else if (daysDiff <= 7) {
                 categories[NotificationManager.CATEGORIES.THIS_WEEK].push(
-                    notification
+                    processNotification
                 );
             } else {
                 categories[NotificationManager.CATEGORIES.OLDER].push(
-                    notification
+                    processNotification
                 );
             }
         });
@@ -313,7 +351,7 @@ class NotificationManager {
      * }
      */
     setupEventListeners() {
-        Echo.private(`${this.userRole}.notifications.${this.userId}`).notification(notification => {
+        Echo.private(`${this.userRole}.notifications.${this.userId}`).notification((notification: any) => {
                 try {
                     if (!notification || !notification.data) {
                         throw new Error('Notification data is undefined');
@@ -365,11 +403,11 @@ class NotificationManager {
             try {
                 await fetch(`/notifications/${notificationId}/mark-as-read`, {
                     method: 'POST',
-                    headers: {
+                    headers: new Headers({
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                             'content'
-                        ),
-                    },
+                        ) || '',
+                    }),
                 });
                 item.fadeOut(300, () => {
                     item.remove();
@@ -399,11 +437,11 @@ class NotificationManager {
             try {
                 const response = await fetch('/notifications/mark-all-read', {
                     method: 'POST',
-                    headers: {
+                    headers: new Headers({
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                             'content'
-                        ),
-                    },
+                        ) || '',
+                    }),
                 });
 
                 if (response.ok) {
