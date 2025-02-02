@@ -1,8 +1,19 @@
 import { customDateFormatter, showToastFeedback } from './utilFunctions';
+import * as bootstrap from 'bootstrap';
+import 'jquery';
 
+export enum RetrievalType {
+    Personal = 'personal',
+    SelectedStaff = 'selectedStaff'
+}
 export default class ActivityLogHandler {
-    constructor(DivContainer, user_role, retrievalType) {
-        if (!['personal', 'selectedStaff'].includes(retrievalType)) {
+    private activityLog: Map<string, any>;
+    private DivContainer: JQuery;
+    private user_role: string;
+    private ActivityLogRoute: string;
+
+    constructor(DivContainer: JQuery, user_role: string, retrievalType: RetrievalType) {
+        if (!Object.values(RetrievalType).includes(retrievalType)) {
             throw new Error(
                 'Invalid retrieval type. Must be either "personal" or "selectedStaff"'
             );
@@ -46,7 +57,7 @@ export default class ActivityLogHandler {
         }
     }
 
-    async getSelectedStaffActivityLog(user_id) {
+    async getSelectedStaffActivityLog(user_id: number) {
         try {
             if (!user_id) {
                 throw new Error('User ID is required');
@@ -62,7 +73,7 @@ export default class ActivityLogHandler {
         }
     }
 
-    _renderActivityLogTable(tableBody, logs) {
+    _renderActivityLogTable(tableBody: JQuery, logs: any[]) {
         if (!logs.length) {
             tableBody.append(`
                 <tr>
@@ -71,7 +82,7 @@ export default class ActivityLogHandler {
             `);
             return;
         }
-        const tooltipTitlehelperFn = (oldValues, newValues) => {
+        const tooltipTitlehelperFn = (oldValues: object, newValues: object) => {
             if (!oldValues || !newValues) {
                 return '';
             }
@@ -83,19 +94,19 @@ export default class ActivityLogHandler {
                     .join('<br>');
             };
 
-            return `<strong>Old Values:</strong><br>${formatValues(oldValues)}<br><br>
+            return /*html*/`<strong>Old Values:</strong><br>${formatValues(oldValues)}<br><br>
                     <strong>New Values:</strong><br>${formatValues(newValues)}`;
         };
 
-        const toolTipHelperFn = (auditableType, oldValues, newValues) => {
+        const toolTipHelperFn = (auditableType: string, oldValues: object, newValues: object) => {
             const toolTipText =
                 auditableType?.replace('App\\Models\\', '') || '';
             const toolTipEl = `data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<strong>${toolTipText}</strong><br>${tooltipTitlehelperFn(oldValues, newValues)}" data-bs-placement="right"`;
             return toolTipText ? toolTipEl.trim() : '';
         };
 
-        const ActivityLogTableContent = (log) => {
-            return `<tr>
+        const ActivityLogTableContent = (log: any) => {
+            return /*html*/`<tr>
                     <td>${log.user_type}</td>
                     <td><span class="fw-bold text-decoration-underline" ${toolTipHelperFn(log.auditable_type, log.old_values, log.new_values)}>${log.event}</span></td>
                     <td>${log.ip_address}</td>
@@ -116,16 +127,19 @@ export default class ActivityLogHandler {
     async _getActivityLog() {
         try {
             if (!this.activityLog.has('personal')) {
+                if (!this.ActivityLogRoute) {
+                    throw new Error('Activity Log Route is not defined');
+                }
                 const data = await fetch(this.ActivityLogRoute, {
                     method: 'GET',
-                    dataType: 'json',
                 });
                 const result = await data.json();
                 this.activityLog.set('personal', result);
             }
             return this.activityLog.get('personal');
         } catch (error) {
-            throw new Error(`Failed to fetch activity log: ${error.message}`);
+            this._handleError('Activity Log Retrieval', error);
+            throw error;
         }
     }
 
@@ -133,11 +147,13 @@ export default class ActivityLogHandler {
         const cacheKey = `user_${user_id}`;
         try {
             if (!this.activityLog.has(cacheKey)) {
+                if (!this.ActivityLogRoute) {
+                    throw new Error('Activity Log Route is not defined');
+                }
                 const response = await fetch(
                     this.ActivityLogRoute?.replace(':user_id', user_id),
                     {
                         method: 'GET',
-                        dataType: 'json',
                     }
                 );
                 const result = await response.json();
@@ -151,7 +167,7 @@ export default class ActivityLogHandler {
         }
     }
 
-    _handleError(prefix, error) {
+    _handleError(prefix: string, error: Error) {
         console.error(prefix, error);
         showToastFeedback('text-bg-danger', `${prefix} ${error.message}`);
     }

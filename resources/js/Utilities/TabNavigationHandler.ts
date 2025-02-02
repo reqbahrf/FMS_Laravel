@@ -1,21 +1,32 @@
 import { showToastFeedback } from './utilFunctions';
+import 'jquery';
+
+
+type HTMLContent = string;
 /**
  * @class NavigationHandler
  * @description Handles tab-based navigation in the application, including page loading, caching, and state management.
  */
 export default class NavigationHandler {
+    private tabContainer: JQuery;
+    private userRole: string;
+    private MappedUrlsRoutes: { [key: string]: Function };
+    private PageFunctionsInitializer: Function;
+    private spinner: JQuery;
+    private currentPage: string | null;
+
     /**
      * Creates an instance of NavigationHandler.
-     * @param {jQuery} TabContainer - jQuery object representing the container where tab content will be loaded
+     * @param {JQuery} TabContainer - jQuery object representing the container where tab content will be loaded
      * @param {string} userRole - The role of the current user
      * @param {Object.<string, Function>} MappedUrlsRoutes - Object mapping URLs to their corresponding route handler functions
      * @param {Function} PageFunctionsInitializer - Function that initializes page-specific functionality
      */
     constructor(
-        TabContainer,
-        userRole,
-        MappedUrlsRoutes,
-        PageFunctionsInitializer
+        TabContainer: JQuery,
+        userRole: string,
+        MappedUrlsRoutes: { [key: string]: Function },
+        PageFunctionsInitializer: Function
     ) {
         this.tabContainer = TabContainer;
         this.userRole = userRole;
@@ -44,7 +55,7 @@ export default class NavigationHandler {
      * @param {string} activeLink - The ID of the link to be activated
      * @returns {void}
      */
-    _setActiveLink(activeLink) {
+    _setActiveLink(activeLink: string) {
         $('.nav-item a').removeClass('active');
         const defaultLink = 'dashboardLink';
         const linkToActivate = $('#' + (activeLink || defaultLink));
@@ -58,7 +69,7 @@ export default class NavigationHandler {
      * @returns {Promise<void>}
      * @throws {Error} When page loading fails
      */
-    async loadPage(url, activeLink) {
+    async loadPage(url: string, activeLink: string) {
         try {
             $(document).trigger('page:changing', {
                 from: this.currentPage,
@@ -76,9 +87,9 @@ export default class NavigationHandler {
             } else {
                 const response = await $.ajax({
                     url: url,
-                    method: 'GET',
-                    accepts: 'text/html',
-                });
+                    type: 'GET',
+                    dataType: 'html',
+                } as JQuery.AjaxSettings);
                 await this._handleLoadPageResponse(response, activeLink, url);
             }
         } catch (error) {
@@ -99,7 +110,7 @@ export default class NavigationHandler {
      * @throws {Error} When handling page response fails
      * @private
      */
-    async _handleLoadPageResponse(response, activeLink, url) {
+    async _handleLoadPageResponse(response: HTMLContent, activeLink: string, url: string) {
         try {
             const functions = await this._initializePageContext(
                 response,
@@ -118,12 +129,12 @@ export default class NavigationHandler {
         }
     }
 
-    async _getPageFunction(url, functions) {
+    async _getPageFunction(url:string, functions: Function) {
         const urlRoute = this.MappedUrlsRoutes;
         return urlRoute[url](functions);
     }
 
-    async _initializePageContext(response, activeLink, url) {
+    async _initializePageContext(response: HTMLContent, activeLink: string, url: string) {
         // Load page functions
         const functions = await this.PageFunctionsInitializer();
 
@@ -135,12 +146,12 @@ export default class NavigationHandler {
         return functions;
     }
 
-    _persistNavigationState(url, activeLink) {
+    _persistNavigationState(url: string, activeLink: string) {
         sessionStorage.setItem(`${this.userRole}LastUrl`, url);
         sessionStorage.setItem(`${this.userRole}LastActive`, activeLink);
     }
 
-    _handlePageLoadError(error) {
+    _handlePageLoadError(error: Error) {
         console.error('Page load error:', error);
         throw new Error(error.message || 'Failed to handle page response');
     }
