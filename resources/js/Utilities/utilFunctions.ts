@@ -1,7 +1,18 @@
+import * as bootstrap from 'bootstrap';
 const ProcessToast = $('#ProcessToast');
 const FeedbackToast = $('#ActionFeedbackToast');
 
-/**
+interface ConfirmationModalOptions {
+    title?: string;
+    titleBg?: string;
+    message?: string;
+    confirmText?: string;
+    cancelText?: string;
+    confirmButtonClass?: string;
+    size?: string;
+}
+
+/**import * as bootstrap from 'bootstrap';
  * Shows a Bootstrap toast notification with customizable status and message.
  * Uses a pre-defined toast element with ID 'ActionFeedbackToast'.
  *
@@ -21,8 +32,8 @@ const FeedbackToast = $('#ActionFeedbackToast');
  * // Show warning message
  * showToastFeedback('text-bg-warning', 'Please review your input.');
  */
-function showToastFeedback(status, message) {
-    const toastInstance = new bootstrap.Toast(FeedbackToast);
+function showToastFeedback(status: string, message: string) {
+    const toastInstance = new bootstrap.Toast(FeedbackToast[0]);
 
     FeedbackToast
         .find('.toast-header')
@@ -49,25 +60,23 @@ function showToastFeedback(status, message) {
  * @param {number} value - The number to be formatted.
  * @returns {string} The formatted number as a string with exactly 2 decimal places.
  */
-const formatNumberToCurrency = (value) => {
+const formatNumberToCurrency = (value: number) => {
     return value.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
     });
 };
 
-const customDateFormatter = (date) => {
-    const hasTime = /\d{1,2}:\d{2}/.test(date);
-
+const customDateFormatter = (date: string) => {
     const dateObj = new Date(date);
-
-    const dateOptions = {
+    const dateOptions: Intl.DateTimeFormatOptions = {
         month: 'short',
         day: '2-digit',
-        year: 'numeric',
+        year: 'numeric'
     };
-    if (hasTime) {
-        dateOptions.hour = 'numeric';
+
+    if (dateObj.getHours() !== 0 || dateObj.getMinutes() !== 0) {
+        dateOptions.hour = '2-digit';
         dateOptions.minute = '2-digit';
         dateOptions.hour12 = true;
     }
@@ -91,17 +100,23 @@ const customDateFormatter = (date) => {
  * closeOffcanvasInstances('#filterOffcanvas');
  * closeOffcanvasInstances('#menuOffcanvas');
  */
-function closeOffcanvasInstances(offcanva_id) {
+function closeOffcanvasInstances(offcanva_id: string) {
     const offcanvasElement = $(offcanva_id).get(0);
+    if (!offcanvasElement) {
+        console.warn(`No offcanvas element found for selector: ${offcanva_id}`);
+        return;
+    }
     const offcanvasInstance = bootstrap.Offcanvas.getInstance(offcanvasElement);
-    offcanvasInstance.hide();
+    if (offcanvasInstance) {
+        offcanvasInstance.hide();
+    }
 }
 
 /**
  * Formats numeric input fields to display thousand separators and limit decimal places to 2 digits.
  * Automatically formats the input value as the user types.
  *
- * @param {string|Element} selectorOrParent - jQuery selector or parent element to attach the event handler.
+ * @param {string} selectorOrParent - jQuery selector or parent element to attach the event handler.
  *                                           If only one argument is provided, this becomes the input selector.
  * @param {string|string[]|null} inputSelectors - jQuery selector(s) for the input field(s) to format.
  *                                               Can be a single selector string or array of selectors.
@@ -119,32 +134,40 @@ function closeOffcanvasInstances(offcanva_id) {
  * // Format inputs within a specific parent
  * customFormatNumericInput('#parentDiv', '.numeric-input');
  */
-function customFormatNumericInput(selectorOrParent, inputSelectors = null) {
+function customFormatNumericInput(selectorOrParent: string, inputSelectors: string | string[] | null = null) {
     // If only one argument is provided, treat it as input selector(s)
-    if (inputSelectors === null) {
-        inputSelectors = selectorOrParent;
-        selectorOrParent = 'body';
+    let inputSelector: string | string[] | null = inputSelectors;
+    let parentContainer: JQuery<Element>;
+    if (inputSelectors === null && typeof selectorOrParent === 'string') {
+        inputSelector = selectorOrParent;
+        parentContainer = $(selectorOrParent);
+    } else if (inputSelectors !== null && typeof selectorOrParent === 'string') {
+        inputSelector = inputSelectors;
+        parentContainer = $(selectorOrParent);
+    } else {
+        parentContainer = $('body');
+        inputSelector = inputSelectors;
     }
 
     // Convert single string selector to array if needed
-    const selectors = Array.isArray(inputSelectors)
-        ? inputSelectors
-        : [inputSelectors];
+    const selectors = Array.isArray(inputSelector)
+        ? inputSelector
+        : [inputSelector];
 
     // Join all selectors with comma for jQuery multiple selector
     const combinedSelector = selectors.join(', ');
 
-    $(selectorOrParent).on('input', combinedSelector, function () {
-        let value = $(this)
-            .val()
-            .replace(/[^0-9.]/g, '');
-        if (value.includes('.')) {
-            const parts = value.split('.');
-            parts[1] = parts[1].substring(0, 2);
-            value = parts.join('.');
+    parentContainer.on('input', combinedSelector, function (this: JQuery<HTMLInputElement>) {
+        const thisInput = this;
+        let value = thisInput?.val()?.replace(/[^0-9.]/g, '');
+        if (value?.includes('.')) {
+            const parts = value?.split('.');
+            parts[1] = parts[1]?.substring(0, 2);
+            value = parts?.join('.');
         }
-        const formattedValue = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-        $(this).val(formattedValue);
+        const formattedValue = value?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        if(!formattedValue) return thisInput?.val('');
+        thisInput?.val(formattedValue);
     });
 }
 
@@ -155,16 +178,17 @@ function customFormatNumericInput(selectorOrParent, inputSelectors = null) {
  * @param {string} value - The formatted number string to parse
  * @returns {number} The parsed float value, or 0 if parsing fails
  */
-function parseFormattedNumberToFloat(value) {
+function parseFormattedNumberToFloat(value: string) {
     return parseFloat(value?.replace(/,/g, '')) || 0;
 }
 
-function closeModal(modelId) {
+function closeModal(modelId: string) {
     const model = bootstrap.Modal.getInstance(modelId);
+    if(!model) return console.warn(`No modal instance found for ${modelId}`);
     model.hide();
 }
 
-function sanitize(input) {
+function sanitize(input: string) {
     return $('<div>').text(input).html(); // Escape special characters
 }
 
@@ -201,7 +225,7 @@ function sanitize(input) {
  *     size: 'modal-sm'
  * });
  */
-function createConfirmationModal(options = {}) {
+function createConfirmationModal(options: ConfirmationModalOptions = {}) {
     const {
         title = 'Confirm Action',
         titleBg = 'bg-primary',
@@ -250,6 +274,7 @@ function createConfirmationModal(options = {}) {
     // Create and return a promise
     return new Promise((resolve, reject) => {
         const modalElement = document.getElementById('confirmationModal');
+        if(!modalElement) return console.warn(`No modal element found with id #confirmationModal`);
         const modal = new bootstrap.Modal(modalElement);
 
         // Handle confirm button click
@@ -286,7 +311,7 @@ function createConfirmationModal(options = {}) {
  * showProcessToast('Uploading files...');
  */
 function showProcessToast(message = 'Processing...') {
-    const toastInstance = new bootstrap.Toast(ProcessToast);
+    const toastInstance = new bootstrap.Toast(ProcessToast[0]);
 
     // Set the message if provided, otherwise show default spinner
     if (message) {
@@ -307,10 +332,11 @@ function showProcessToast(message = 'Processing...') {
  * hideProcessToast();
  */
 function hideProcessToast() {
-    const toastInstance = bootstrap.Toast.getInstance(ProcessToast);
-    if (toastInstance) {
-        toastInstance.hide();
+    const toastInstance = bootstrap.Toast.getInstance(ProcessToast[0]);
+    if (!toastInstance) {
+        return console.warn('No process toast instance found.');
     }
+    toastInstance.hide();
 }
 
 export {

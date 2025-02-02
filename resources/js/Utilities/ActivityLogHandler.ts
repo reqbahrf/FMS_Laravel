@@ -57,7 +57,7 @@ export default class ActivityLogHandler {
         }
     }
 
-    async getSelectedStaffActivityLog(user_id: number) {
+    async getSelectedStaffActivityLog(user_id: string) {
         try {
             if (!user_id) {
                 throw new Error('User ID is required');
@@ -87,7 +87,7 @@ export default class ActivityLogHandler {
                 return '';
             }
             const excludeKeys = ['remember_token', 'password'];
-            const formatValues = (obj) => {
+            const formatValues = (obj: object) => {
                 return Object.entries(obj)
                     .filter(([key]) => !excludeKeys.includes(key))
                     .map(([key, value]) => `${key}: ${value}`)
@@ -143,7 +143,7 @@ export default class ActivityLogHandler {
         }
     }
 
-    async _getUserAuditLogs(user_id) {
+    async _getUserAuditLogs(user_id: string) {
         const cacheKey = `user_${user_id}`;
         try {
             if (!this.activityLog.has(cacheKey)) {
@@ -162,13 +162,14 @@ export default class ActivityLogHandler {
             return this.activityLog.get(cacheKey);
         } catch (error) {
             throw new Error(
-                `Failed to fetch user audit logs: ${error.message}`
+                `Failed to fetch user audit logs: ${error}`
             );
         }
     }
 
-    _handleError(prefix: string, error: Error) {
-        console.error(prefix, error);
-        showToastFeedback('text-bg-danger', `${prefix} ${error.message}`);
+    _handleError(prefix: string, error?: unknown) {
+        const errorMessage = error instanceof Error ? error.message : String(error);
+        console.error(prefix, errorMessage);
+        showToastFeedback('text-bg-danger', `${prefix} ${errorMessage}`);
     }
 }
