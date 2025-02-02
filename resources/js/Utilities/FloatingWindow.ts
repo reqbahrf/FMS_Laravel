@@ -1,14 +1,25 @@
 let isFloatingWindowInitialized = false;
-export function InitializeFloatingWindow(elements) {
+
+interface FloatingWindowElements {
+    $window: JQuery<Element>;
+    $header: JQuery<Element>;
+    $closeButton: JQuery<Element>;
+}
+export function InitializeFloatingWindow(elements: FloatingWindowElements) {
     if (!isFloatingWindowInitialized) {
         isFloatingWindowInitialized = true;
     }
 
     const { $window, $header, $closeButton } = elements;
 
-    let isDragging = false;
-    let isResizing = false;
-    let startX, startY, startWidth, startHeight, resizeType;
+    if (!$window || !$header || !$closeButton) {
+        console.error("Required elements for floating window are missing.");
+        return;
+    }
+
+    let isDragging: boolean = false;
+    let isResizing: boolean = false;
+    let startX: number, startY: number, startWidth: number, startHeight: number, resizeType: string;
 
     // Open floating window and load resource
 
@@ -20,8 +31,10 @@ export function InitializeFloatingWindow(elements) {
     // Dragging
     $header.on("mousedown", function (e) {
         isDragging = true;
-        startX = e.clientX - $window.offset().left;
-        startY = e.clientY - $window.offset().top;
+        if ($window && $window.length > 0) {
+            startX = e.clientX - ($window.offset()?.left || 0);
+            startY = e.clientY - ($window.offset()?.top || 0);
+        }
     });
 
     // Resizing
@@ -29,22 +42,24 @@ export function InitializeFloatingWindow(elements) {
         isResizing = true;
         startX = e.clientX;
         startY = e.clientY;
-        startWidth = $window.width();
-        startHeight = $window.height();
-        resizeType = $(this).attr("class").split(" ")[1];
+        if ($window && $window.length > 0) {
+            startWidth = $window.width() || 0;
+            startHeight = $window.height() || 0;
+        }
+        resizeType = $(this).attr("class")?.split(" ")[1] || '';
         e.preventDefault();
     });
 
     $(document).on("mousemove", function (e) {
         if (isDragging) {
-            const viewportWidth = $(window).width();
-            const viewportHeight = $(window).height();
-            const windowWidth = $window.outerWidth();
-            const windowHeight = $window.outerHeight();
+            const viewportWidth: number = $(window).width() || 0;
+            const viewportHeight: number = $(window).height() || 0;
+            const windowWidth: number = $window.outerWidth() || 0;
+            const windowHeight: number = $window.outerHeight() || 0;
 
             // Calculate new position
-            let newLeft = e.clientX - startX;
-            let newTop = e.clientY - startY;
+            let newLeft: number = e.clientX - startX;
+            let newTop: number = e.clientY - startY;
 
             // Constrain to viewport boundaries
             newLeft = Math.max(
@@ -62,14 +77,14 @@ export function InitializeFloatingWindow(elements) {
             });
         }
         if (isResizing) {
-            const viewportWidth = $(window).width();
-            const viewportHeight = $(window).height();
-            const windowPosition = $window.offset();
+            const viewportWidth: number = $(window).width() || 0;
+            const viewportHeight: number = $(window).height() || 0;
+            const windowPosition = $window.offset() || { left: 0, top: 0 };
 
-            let newWidth = startWidth;
-            let newHeight = startHeight;
-            let newX = windowPosition.left;
-            let newY = windowPosition.top;
+            let newWidth: number = startWidth;
+            let newHeight: number = startHeight;
+            let newX: number = windowPosition.left;
+            let newY: number = windowPosition.top;
 
             switch (resizeType) {
                 case "resizer-r":
@@ -109,11 +124,11 @@ export function InitializeFloatingWindow(elements) {
             }
             if (newX < 0) {
                 newX = 0;
-                newWidth = windowPosition.left + $window.outerWidth() - newX;
+                newWidth = windowPosition.left + ($window.outerWidth() || 0) - newX;
             }
             if (newY < 0) {
                 newY = 0;
-                newHeight = windowPosition.top + $window.outerHeight() - newY;
+                newHeight = windowPosition.top + ($window.outerHeight() || 0) - newY;
             }
             if (newX + newWidth > viewportWidth) {
                 newWidth = viewportWidth - newX;
