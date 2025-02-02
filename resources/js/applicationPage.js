@@ -133,6 +133,8 @@ export function initializeForm() {
         const data = TableDataExtractor(BENCHMARKTableConfig);
         return data;
     };
+
+    //TODO: fix these handler
     AddNewRowHandler(
         '.addProductAndSupplyChainRow',
         '#productAndSupplyChainContainer'
