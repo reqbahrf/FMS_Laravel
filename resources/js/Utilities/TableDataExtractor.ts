@@ -57,10 +57,27 @@
  *   ]
  * }
  */
-const TableDataExtractor = (tableConfigs) => {
-    try{
+interface TableConfig {
+    id: string;
+    selectors: ColumnSelector;
+    requiredFields: string[];
+}
 
-        let tableData = {};
+interface TableData {
+    [key: string]: any[];
+}
+
+type ColumnSelector = {
+    [key: string]: string | {
+        [subKey: string]: string | {
+            [deepKey: string]: string
+        }
+    }
+};
+
+const TableDataExtractor = (tableConfigs: { [key: string]: TableConfig }): TableData => {
+    try{
+        let tableData: TableData = {};
         for (const tableKey in tableConfigs) {
             const table_id = tableConfigs[tableKey].id;
             const columnSelector = tableConfigs[tableKey].selectors;
@@ -139,33 +156,33 @@ const TableDataExtractor = (tableConfigs) => {
  *
  * @requires jQuery - This function depends on jQuery for DOM manipulation.
  */
-const ProcessTableInputData = (table_id, columnSelector, requiredFields) => {
+const ProcessTableInputData = (table_id: string, columnSelector: ColumnSelector, requiredFields: string[]): Array<any> => {
     try{
-        let tableData = [];
-    
-        $(`#${table_id} tbody tr`).each(function () {
-            const row = $(this);
-            const rowData = {};
-    
-            // Process all selectors first
+        const table = $(`#${table_id}`);
+        if (table.length === 0) {
+            throw new Error(`Table with ID '${table_id}' not found`);
+        }
+
+        const processedData: Array<any> = [];
+
+        table.find('tbody tr').each((index, rowElement) => {
+            const row = $(rowElement);
+            const rowData: any = {};
+
             for (const column in columnSelector) {
                 const selector = columnSelector[column];
-    
+
                 if (typeof selector === 'string') {
                     // Simple selector
-                    rowData[column] = row.find(selector).val();
+                    rowData[column] = row.find(selector).val() || row.find(selector).text().trim();
                 } else if (typeof selector === 'object') {
-                    // Handle nested selectors
-                    if (!rowData[column]) {
-                        rowData[column] = {};
-                    }
-    
+                    // Composite or nested selector
+                    rowData[column] = {};
                     for (const subKey in selector) {
                         if (typeof selector[subKey] === 'string') {
-                            // Simple nested selector
                             rowData[column][subKey] = row
-                                .find(selector[subKey])
-                                .val();
+                                .find(selector[subKey] as string)
+                                .val() || row.find(selector[subKey] as string).text().trim();
                         } else if (typeof selector[subKey] === 'object') {
                             // Deep nested selector
                             if (!rowData[column][subKey]) {
@@ -173,20 +190,20 @@ const ProcessTableInputData = (table_id, columnSelector, requiredFields) => {
                             }
                             for (const deepKey in selector[subKey]) {
                                 rowData[column][subKey][deepKey] = row
-                                    .find(selector[subKey][deepKey])
-                                    .val();
+                                    .find(selector[subKey][deepKey] as string)
+                                    .val() || row.find(selector[subKey][deepKey] as string).text().trim();
                             }
                         }
                     }
                 }
             }
-    
+
             // Validate required fields using dot notation
             let allRequiredFieldsPresent = true;
             for (const field of requiredFields) {
                 const fieldParts = field.split('.');
                 let value = rowData;
-    
+
                 // Traverse the object using dot notation
                 for (const part of fieldParts) {
                     value = value?.[part];
@@ -195,16 +212,16 @@ const ProcessTableInputData = (table_id, columnSelector, requiredFields) => {
                         break;
                     }
                 }
-    
+
                 if (!allRequiredFieldsPresent) break;
             }
-    
+
             if (allRequiredFieldsPresent) {
-                tableData.push(rowData);
+                processedData.push(rowData);
             }
         });
-    
-        return tableData;
+
+        return processedData;
     }catch(error){
        throw new Error('Error in ProcessTableInputData:' + error);
     }
