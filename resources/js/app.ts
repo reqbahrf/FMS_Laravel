@@ -1,6 +1,14 @@
-
 // Import jQuery
 import $ from 'jquery';
+// Extend the Window interface to include jQuery
+declare global {
+    interface Window {
+        $: typeof $;
+        jQuery: typeof $;
+        FilePond: typeof FilePond;
+        ApexCharts: typeof ApexCharts;
+    }
+}
 // Make jQuery globally available for Bootstrap and other libraries that might require it
 window.$ = window.jQuery = $;
 
@@ -31,4 +39,3 @@ $(document).on('DOMContentLoaded',function() {
         return new bootstrap.Tooltip(tooltipTriggerEl);
     });
 });
-

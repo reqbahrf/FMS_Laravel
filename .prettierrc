@@ -17,7 +17,15 @@
           "sortHtmlAttributes": "code-guide",
           "wrapAttributes": "force-expand-multiline"
         }
-      }
+      }, {
+        "files": ["*.ts"],
+        "options": {
+            "parser": "typescript",
+            "tabWidth": 4,
+            "singleQuote": true,
+            "trailingComma": "es5"
+        }
+    }
     ],
     "vscodeIntegration": true,
     "eslintIntegration": true

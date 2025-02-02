@@ -19,11 +19,17 @@ declare module 'global' {
     interface USERS_LIST_ROUTE {
         GET_STAFF_USER_ACTIVITY_LOGS: string;
     }
+    interface DRAFT_ROUTE {
+        GET_FILE: string;
+        GET: string;
+        STORE: string;
+    }
 
     // Declare NAV_ROUTES as a global variable
     global {
         var NAV_ROUTES: NavRoutes;
         var USER_ACTIVITY_LOG_ROUTE: string;
         var USERS_LIST_ROUTE: USERS_LIST_ROUTE;
+        var DRAFT_ROUTE: DRAFT_ROUTE;
     }
 }
