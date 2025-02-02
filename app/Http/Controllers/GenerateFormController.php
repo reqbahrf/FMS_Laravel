@@ -40,7 +40,7 @@ class GenerateFormController extends Controller
             switch ($formType) {
                 case 'PIS':
                     $projectData = $this->projectFormService->getProjectInfomationSheetData($projectId);
-                    return view('StaffView.SheetFormTemplete.PISFormTemplete', compact('projectData'));
+                    return view('staff-view.SheetFormTemplete.PISFormTemplete', compact('projectData'));
 
                 case 'PDS':
                     $projectData = $this->projectFormService->getProjectDataSheetData($projectId, $quarter);
@@ -52,10 +52,10 @@ class GenerateFormController extends Controller
                         ? array_merge(['quarter' => $this->getPreviousQuarterAction->execute($quarter)], $PreviousQuarterlyData)
                         : null;
 
-                    return view('StaffView.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'CurrentQuarterlyData', 'PreviousQuarterlyData'));
+                    return view('staff-view.SheetFormTemplete.PDSFormTemplete', compact('projectData', 'CurrentQuarterlyData', 'PreviousQuarterlyData'));
 
                 case 'SR':
-                    return view('StaffView.SheetFormTemplete.SRForm');
+                    return view('staff-view.SheetFormTemplete.SRForm');
 
                 default:
                     throw new Exception("Invalid form type provided");
