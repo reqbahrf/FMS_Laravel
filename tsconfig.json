@@ -11,7 +11,7 @@
         "isolatedModules": true,
         "noEmit": true,
         "jsx": "react-jsx",
-        "types": ["vite/client","jquery", "bootstrap"]
+        "types": ["vite/client", "jquery", "bootstrap"]
     },
     "include": ["resources/js/**/*"],
     "exclude": ["node_modules"]

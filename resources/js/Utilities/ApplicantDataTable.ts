@@ -1,3 +1,5 @@
+import * as DataTables from 'datatables.net';
+import 'laravel-echo'
 import { formatNumberToCurrency, customDateFormatter } from './utilFunctions';
 
 /**
@@ -15,7 +17,15 @@ import { formatNumberToCurrency, customDateFormatter } from './utilFunctions';
  * @requires DataTables
  */
 export default class ApplicantDataTable {
-    constructor(userName) {
+    private applicantViewingChannel: string;
+    private applicantDataTable: JQuery<HTMLElement>;
+    private dataTableRoute: string;
+    private applicantDataTableInstance: DataTables.Api;
+    private currentlyViewingApplicantId: number | null;
+    private echoChannel: ReturnType<typeof Echo['channel']> | null;
+    private userName: string;
+
+    constructor(userName: string) {
         this.applicantViewingChannel = 'viewing-Applicant-events';
         this.applicantDataTable = $('#applicant');
         this.dataTableRoute = APPLICANT_TAB_ROUTE.GET_APPLICANTS;
@@ -27,9 +37,7 @@ export default class ApplicantDataTable {
 
     _initializeApplicantDataTable() {
         return this.applicantDataTable.DataTable({
-            responsive: true,
             autoWidth: false,
-            fixedColumns: true,
             columns: [
                 {
                     title: 'Applicant',
@@ -60,7 +68,7 @@ export default class ApplicantDataTable {
                     orderable: false,
                 },
             ],
-        });
+        }) as DataTables.Api;
     }
 
     /**
@@ -109,21 +117,22 @@ export default class ApplicantDataTable {
             }
             this.echoChannel = Echo.private(this.applicantViewingChannel);
 
-            this.echoChannel.listenForWhisper('viewing', (e) => {
+            if (!this.echoChannel) return;
+            this.echoChannel.listenForWhisper('viewing', (e: { applicant_id: number; reviewed_by: string }) => {
                 this._updateViewingState(e.applicant_id, e.reviewed_by);
             });
 
             // When viewing ends
-            this.echoChannel.listenForWhisper('viewing-closed', (e) => {
+            this.echoChannel.listenForWhisper('viewing-closed', (e: { applicant_id: number }) => {
                 this._removeViewingState(e.applicant_id);
             });
 
             Echo.join(this.applicantViewingChannel)
-                .here((staff) => {
+                .here((staff: string) => {
                     console.log('Current members:', staff);
-                    resolve(); // Resolve the promise when initialization is complete
+                    resolve(true); // Resolve the promise when initialization is complete
                 })
-                .joining((staff) => {
+                .joining((staff: string) => {
                     console.log('New member joining:', staff);
                     if (this.applicantViewingChannel) {
                         this.echoChannel.whisper('viewing', {
@@ -132,7 +141,7 @@ export default class ApplicantDataTable {
                         });
                     }
                 })
-                .leaving((staff) => {
+                .leaving((staff: string) => {
                     console.log('Member leaving:', staff);
                 });
         }).catch((error) => {
@@ -181,7 +190,7 @@ export default class ApplicantDataTable {
                 this.echoChannel = null;
             }
         } catch (e) {
-            throw new Error('Error cleaning up Echo listeners: ' + e.message);
+            throw new Error('Error cleaning up Echo listeners: ' + e);
         }
     }
 
@@ -193,7 +202,7 @@ export default class ApplicantDataTable {
      * @param {string} reviewedBy - The name of the reviewer (optional)
      * @throws {Error} If there is an error updating the viewing state
      */
-    _updateViewingState(applicantId, reviewedBy) {
+    _updateViewingState(applicantId: number, reviewedBy: string) {
         try {
             const applicantButton = this.applicantDataTable.find(
                 `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
@@ -229,7 +238,7 @@ export default class ApplicantDataTable {
                     .addClass('reviewer-name-cell');
             }
         } catch (e) {
-            throw new Error('Error updating viewing state: ' + e.message);
+            throw new Error('Error updating viewing state: ' + e);
         }
     }
 
@@ -240,7 +249,7 @@ export default class ApplicantDataTable {
      * @param {string|number} applicantId - The ID of the applicant to remove viewing state from
      * @throws {Error} If there is an error removing the viewing state
      */
-    _removeViewingState(applicantId) {
+    _removeViewingState(applicantId: number) {
         try {
             const applicantButton = $(
                 `#ApplicantTableBody button[data-applicant-id="${applicantId}"]`
@@ -253,7 +262,7 @@ export default class ApplicantDataTable {
                     .removeClass('reviewer-name-cell');
             }
         } catch (e) {
-            throw new Error('Error removing viewing state: ' + e.message);
+            throw new Error('Error removing viewing state: ' + e);
         }
     }
 
@@ -304,13 +313,12 @@ export default class ApplicantDataTable {
         try {
             const response = await fetch(this.dataTableRoute, {
                 method: 'GET',
-                dataType: 'json',
             });
             const data = await response.json();
             this.applicantDataTableInstance.clear();
             this.applicantDataTableInstance.rows
                 .add(
-                    data.map((item) => {
+                    data.map((item: any) => {
                         return [
                             /*html*/ `${
                                 (item?.prefix ?? '') +
@@ -480,7 +488,7 @@ export default class ApplicantDataTable {
                 )
                 .draw();
         } catch (e) {
-            throw new Error('Failed to fetch applicants: ' + e.message);
+            throw new Error('Failed to fetch applicants: ' + e);
         }
     }
 
@@ -517,7 +525,7 @@ export default class ApplicantDataTable {
      *
      * @fires Echo#whisper:viewing - Notifies other users about the current applicant review
      */
-    broadcastViewingEvent(viewedApplicant_id, reviewer) {
+    broadcastViewingEvent(viewedApplicant_id: number, reviewer: string) {
         try {
             Echo.private(this.applicantViewingChannel).whisper('viewing', {
                 applicant_id: viewedApplicant_id,
@@ -525,9 +533,7 @@ export default class ApplicantDataTable {
             });
             this.currentlyViewingApplicantId = viewedApplicant_id;
         } catch (error) {
-            throw new Error(
-                'Error broadcasting viewing event: ' + error.message
-            );
+            throw new Error('Error broadcasting viewing event: ' + error);
         }
     }
 
@@ -562,9 +568,7 @@ export default class ApplicantDataTable {
             );
             this.currentlyViewingApplicantId = null;
         } catch (e) {
-            throw new Error(
-                'Error broadcasting closed viewing event: ' + e.message
-            );
+            throw new Error('Error broadcasting closed viewing event: ' + e);
         }
     }
 

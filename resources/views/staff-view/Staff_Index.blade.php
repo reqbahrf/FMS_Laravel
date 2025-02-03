@@ -184,7 +184,7 @@
         </div>
 
     </div>
-    @vite('resources/js/app.js')
+    @vite('resources/js/app.ts')
     @vite('resources/js/staff/staffPage.js')
     <script>
         const USER_ID = '{{ Auth::user()->id }}';

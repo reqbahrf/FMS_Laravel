@@ -25,11 +25,16 @@ declare module 'global' {
         STORE: string;
     }
 
+    interface APPLICANT_TAB_ROUTE {
+        GET_APPLICANTS: string
+    }
+
     // Declare NAV_ROUTES as a global variable
     global {
         var NAV_ROUTES: NavRoutes;
         var USER_ACTIVITY_LOG_ROUTE: string;
         var USERS_LIST_ROUTE: USERS_LIST_ROUTE;
         var DRAFT_ROUTE: DRAFT_ROUTE;
+        var APPLICANT_TAB_ROUTE: APPLICANT_TAB_ROUTE;
     }
 }

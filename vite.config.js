@@ -25,7 +25,7 @@ export default defineConfig({
                 'resources/css/staffPage.css',
                 'resources/css/adminPage.css',
                 'resources/css/coopPage.css',
-                'resources/js/app.js',
+                'resources/js/app.ts',
                 'resources/js/applicationPage.js',
                 'resources/js/cooperator/coopPage.js',
                 'resources/js/staff/staffPage.js',

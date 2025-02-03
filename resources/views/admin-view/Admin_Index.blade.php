@@ -225,7 +225,7 @@
             </div>
         </div>
     </div>
-    @vite('resources/js/app.js')
+    @vite('resources/js/app.ts')
     <script>
         const USER_ID = {{ Auth::user()->id }};
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';

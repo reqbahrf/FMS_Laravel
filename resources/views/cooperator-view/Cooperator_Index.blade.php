@@ -23,7 +23,7 @@
     >
     @vite('resources/css/app.scss')
     @vite('resources/css/coopPage.css')
-    @vite('resources/js/app.js')
+    @vite('resources/js/app.ts')
 </head>
 
 <body class="overflow-hidden">
