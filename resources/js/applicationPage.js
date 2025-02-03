@@ -249,6 +249,11 @@ export function initializeForm() {
             'BIRFile',
         ];
 
+        $('#yearEstablished, #yearEnterpriseRegistered, #permitYearRegistered').on('input', function(e) {
+            // Remove any non-numeric characters
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        });
+
         let isValid = true;
 
         requiredFileInputs.forEach((inputId) => {

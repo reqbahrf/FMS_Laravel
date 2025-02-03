@@ -671,9 +671,14 @@
                                 class="form-control"
                                 id="yearEstablished"
                                 name="yearEstablished"
-                                type="date"
-                                value="{{ old('yearEstablished') }}"
-                                placeholder="2022"
+                                placeholder="YYYY"
+                                pattern="^(19[0-9]{2}|20[0-9]{2})$"
+                                maxlength="4"
+                                min="1900"
+                                max="{{ date('Y') }}"
+                                inputmode="numeric"
+                                type="text"
+                                value=""
                                 required
                             >
                             <div class="invalid-feedback">
@@ -706,9 +711,14 @@
                                 class="form-control"
                                 id="permitYearRegistered"
                                 name="permitYearRegistered"
-                                type="date"
-                                value="{{ old('permitYearRegistered') }}"
-                                max="{{ date('Y-m') }}"
+                                placeholder="YYYY"
+                                pattern="^(19[0-9]{2}|20[0-9]{2})$"
+                                maxlength="4"
+                                min="1900"
+                                max="{{ date('Y') }}"
+                                inputmode="numeric"
+                                type="text"
+                                value=""
                                 required
                             >
                             <div class="invalid-feedback">
@@ -740,9 +750,14 @@
                                 class="form-control"
                                 id="yearEnterpriseRegistered"
                                 name="yearEnterpriseRegistered"
-                                type="date"
-                                value="{{ old('yearEnterpriseRegistered') }}"
-                                max="{{ date('Y-m') }}"
+                                placeholder="YYYY"
+                                pattern="^(19[0-9]{2}|20[0-9]{2})$"
+                                maxlength="4"
+                                min="1900"
+                                max="{{ date('Y') }}"
+                                inputmode="numeric"
+                                type="text"
+                                value=""
                                 required
                             >
                             <div class="invalid-feedback">
