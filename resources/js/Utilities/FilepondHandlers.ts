@@ -1,30 +1,104 @@
+import * as FilePond from 'filepond';
+interface FilePondResponse {
+    file_path: string;
+    unique_id: string;
+}
+
+type CustomFilePondConfig = FilePond.FilePondOptions & {
+    allowMultiple?: boolean;
+    allowFileTypeValidation?: boolean;
+    allowFileSizeValidation?: boolean;
+    allowRevert?: boolean;
+    maxFileSize?: string;
+    server: {
+        process: {
+            url: string;
+            method: string;
+            headers: {
+                [key: string]: string;
+            };
+            onload: (response: any) => any;
+            onerror: (response: any) => void;
+        };
+        revert?: (
+            uniqueFileId: string,
+            load: () => void,
+            error: (arg0: string) => void
+        ) => Promise<void>;
+    };
+};
+
+type ProcessConfig = {
+    url: string;
+    method: 'GET' | 'POST' | 'PUT' | 'DELETE';
+    headers: {
+        'X-CSRF-TOKEN': string;
+    };
+    onload: (response: any) => any;
+    onerror: (response: any) => void;
+};
+
+type ServerConfig = {
+    process: ProcessConfig;
+    revert?: (
+        uniqueFileId: string,
+        load: () => void,
+        error: (arg0: string) => void
+    ) => Promise<void>;
+    load?: (
+        source: string,
+        load: (file: Blob | File) => void,
+        error: (errorText: string) => void,
+        progress: (computableEvent: {
+            lengthComputable: boolean;
+            loaded: number;
+            total: number;
+        }) => void,
+        abort: () => void,
+        headers: () => Record<string, string>
+    ) => Promise<void>;
+};
+
+type InitializeFilePondConfig = CustomFilePondConfig & {
+    server: ServerConfig;
+    onremovefile: (
+        error: FilePond.FilePondErrorDescription | null,
+        file: FilePond.FilePondFile
+    ) => Promise<void>;
+};
+
 const csrfToken = document
-.querySelector('meta[name="csrf-token"]')
-.getAttribute('content');
-const baseFilePondConfig = {
-allowMultiple: false,
-allowFileTypeValidation: true,
-allowFileSizeValidation: true,
-allowRevert: true,
-maxFileSize: '10MB',
-server: {
-    process: {
-        url: '/FileRequirementsUpload',
-        method: 'POST',
-        headers: {
-            'X-CSRF-TOKEN': csrfToken,
+    .querySelector('meta[name="csrf-token"]')
+    ?.getAttribute('content') as string;
+const baseFilePondConfig: CustomFilePondConfig = {
+    allowMultiple: false,
+    allowFileTypeValidation: true,
+    allowFileSizeValidation: true,
+    allowRevert: true,
+    maxFileSize: '10MB',
+    server: {
+        process: {
+            url: '/FileRequirementsUpload',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken,
+            },
+            onload: (response: any) => {
+                // Common onload logic will be handled later
+                return response;
+            },
+            onerror: (response: any) => {
+                console.error('File upload error:', response);
+            },
         },
-        onload: (response) => {
-            // Common onload logic will be handled later
-        },
-        onerror: (response) => {
-            console.error('File upload error:', response);
+        revert: async (
+            uniqueFileId: string,
+            load: () => void,
+            error: (arg0: string) => void
+        ): Promise<void> => {
+            // Common revert logic will be handled later
         },
     },
-    revert: async (uniqueFileId, load, error) => {
-        // Common revert logic will be handled later
-    },
-},
 };
 
 /**
@@ -75,35 +149,37 @@ server: {
  * @property {Function} onremovefile - Callback function triggered when a file is removed from the FilePond instance. It sends a DELETE request to the server to delete the file and updates associated hidden input fields.
  */
 function InitializeFilePond(
-    elementId,
-    options,
-    hiddenInputId,
-    selectorId = null
-) {
-    const element = document.getElementById(elementId);
+    elementId: string,
+    options: Partial<InitializeFilePondConfig>,
+    hiddenInputId: string | null,
+    selectorId: string | null = null
+): FilePond.FilePond | null {
+    const element = document.getElementById(elementId) as HTMLInputElement;
     const elementName = element.name;
     const metaDataHandler = document.querySelector(
         `input[type="hidden"][id="${hiddenInputId}"]`
-    );
+    ) as HTMLInputElement;
     if (!element) {
         console.error(`Element with ID '${elementId}' not found.`);
         return null;
     }
 
-    const config = {
+    const config: InitializeFilePondConfig = {
         ...baseFilePondConfig,
         ...options,
         server: {
-            ...baseFilePondConfig.server,
+            ...(baseFilePondConfig.server as ServerConfig),
             process: {
-                ...baseFilePondConfig.server.process,
-                onload: (response) => {
-                    const data = JSON.parse(response);
+                ...(baseFilePondConfig.server.process as ProcessConfig),
+                onload: (response: any) => {
+                    // Parse the response if it's a string, otherwise use it directly
+                    const data: FilePondResponse =
+                        typeof response === 'string'
+                            ? JSON.parse(response)
+                            : response;
+
                     if (data.unique_id && data.file_path) {
-                        element.setAttribute(
-                            'data-unique-id',
-                            data.unique_id
-                        );
+                        element.setAttribute('data-unique-id', data.unique_id);
                         metaDataHandler.value = data.file_path;
                         metaDataHandler.setAttribute(
                             'data-unique-id',
@@ -113,21 +189,22 @@ function InitializeFilePond(
                             'data-file-input-name',
                             elementName
                         );
-                        element.setAttribute(
-                            'data-file-path',
-                            data.file_path
-                        );
+                        element.setAttribute('data-file-path', data.file_path);
 
                         if (selectorId) {
                             document
                                 .getElementById(selectorId)
-                                .classList.add('disabled');
+                                ?.classList.add('disabled');
                         }
                     }
                     return data.unique_id;
                 },
             },
-            revert: async (uniqueFileId, load, error) => {
+            revert: async (
+                uniqueFileId: string,
+                load: () => void,
+                error: (arg0: string) => void
+            ): Promise<void> => {
                 const filePath = element.getAttribute('data-file-path');
                 const unique_id = element.getAttribute('data-unique-id');
 
@@ -149,10 +226,7 @@ function InitializeFilePond(
                     if (response.ok) {
                         load();
                         metaDataHandler.value = '';
-                        metaDataHandler.setAttribute(
-                            'data-unique-id',
-                            ''
-                        );
+                        metaDataHandler.setAttribute('data-unique-id', '');
                     } else {
                         error('Could not revert file');
                     }
@@ -160,11 +234,15 @@ function InitializeFilePond(
                     error('Could not revert file');
                 }
             },
-            load: async (source, load, error, progress, abort, headers) => {
+            load: async (
+                source: string,
+                load: (file: Blob | File) => void,
+                error: (errorText: string) => void,
+            ) => {
                 try {
                     const response = await fetch(source);
                     if (response.ok) {
-                        const BlobData = await response.blob();
+                        const BlobData = (await response.blob()) as Blob;
                         load(BlobData);
                     }
                 } catch (error) {
@@ -172,17 +250,23 @@ function InitializeFilePond(
                 }
             },
         },
-        onremovefile: async (error, file) => {
-            const filePath = file.getMetadata('file_path');
-            const unique_id = file.getMetadata('unique_id');
-            const fileInputName = file.getMetadata('file_input_name');
-            const metaDataHandlerID = file.getMetadata('meta_data_handler_id');
+        onremovefile: async (
+            error: FilePond.FilePondErrorDescription | null,
+            file: FilePond.FilePondFile
+        ): Promise<void> => {
+            const filePath: string = file.getMetadata('file_path');
+            const unique_id: string = file.getMetadata('unique_id');
+            const fileInputName: string = file.getMetadata('file_input_name');
+            const metaDataHandlerID: string = file.getMetadata(
+                'meta_data_handler_id'
+            );
             const oldMEtaDataHandler = document.querySelector(
                 `input[type="hidden"][id="${metaDataHandlerID}"]`
-            );
-            if(unique_id) {
+            ) as HTMLInputElement;
+            if (unique_id) {
                 try {
-                    const response = await fetch(`/FileRequirementsRevert/${unique_id}`,
+                    const response = await fetch(
+                        `/FileRequirementsRevert/${unique_id}`,
                         {
                             method: 'DELETE',
                             headers: {
@@ -192,32 +276,31 @@ function InitializeFilePond(
                             body: JSON.stringify({
                                 file_path: filePath,
                             }),
-                        })
-                    if(response.ok) {
+                        }
+                    );
+                    if (response.ok) {
                         oldMEtaDataHandler.value = '';
-                        oldMEtaDataHandler.setAttribute(
-                            'data-unique-id',
-                            ''
-                        );
+                        oldMEtaDataHandler.setAttribute('data-unique-id', '');
                         oldMEtaDataHandler.setAttribute(
                             'data-file-input-name',
                             fileInputName
                         );
-                    }
-                    else {
-                        console.error('Failed to delete file:', response.statusText);
+                    } else {
+                        console.error(
+                            'Failed to delete file:',
+                            response.statusText
+                        );
                     }
                 } catch (error) {
                     console.error('Error deleting file:', error);
                 }
             }
-            return true;
-        }
+            return;
+        },
     };
 
     return FilePond.create(element, config);
 }
-
 
 /**
  * @function handleFilePondSelectorDisabling
@@ -226,7 +309,7 @@ function InitializeFilePond(
  * It also adds an event listener to the selector to re-evaluate the disabled state whenever the selector's value changes.
  *
  * @param {string} selectorId - The ID of the selector element (e.g., a <select> element).
- * @param {FilePond} filePondInstance - The FilePond instance to be enabled or disabled.
+ * @param {FilePond.FilePond} filePondInstance - The FilePond instance to be enabled or disabled.
  *
  * @returns {void}
  *
@@ -238,12 +321,19 @@ function InitializeFilePond(
  *
  * @listens change - Listens for the 'change' event on the selector element to update the FilePond instance's disabled state.
  */
-function handleFilePondSelectorDisabling(selectorId, filePondInstance) {
-    const selector = document.getElementById(selectorId);
+function handleFilePondSelectorDisabling(
+    selectorId: string,
+    filePondInstance: FilePond.FilePond
+) {
+    const selector = document.getElementById(selectorId) as HTMLSelectElement;
     if (!selector) return;
 
     const checkAndDisable = () => {
-        filePondInstance.disabled = selector.value === '';
+        if (filePondInstance.setOptions) {
+            filePondInstance.setOptions({
+                disabled: selector.value === '',
+            });
+        }
     };
 
     checkAndDisable();

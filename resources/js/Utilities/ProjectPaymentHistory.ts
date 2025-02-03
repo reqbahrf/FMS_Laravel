@@ -1,3 +1,4 @@
+import * as DataTables from 'datatables.net';
 import { customDateFormatter, formatNumberToCurrency } from './utilFunctions';
 /**
  * Fetches and displays payment history for a specific project in a DataTable.
@@ -25,9 +26,17 @@ import { customDateFormatter, formatNumberToCurrency } from './utilFunctions';
  * - Action buttons (if isUpdatable is true)
  */
 
+interface ProjectPayment {
+    transaction_id: string;
+    amount: string;
+    payment_method: string;
+    payment_status: 'Paid' | 'Pending' | 'Failed';
+    created_at: string;
+}
+
 const getProjectPaymentHistory = async (
-    project_id,
-    paymentDataTableInstance,
+    project_id: string,
+    paymentDataTableInstance: DataTables.Api,
     isUpdatable = false
 ) => {
     try {
@@ -38,10 +47,10 @@ const getProjectPaymentHistory = async (
         });
         paymentDataTableInstance.clear();
         paymentDataTableInstance.rows.add(
-            response.map((payment) => {
+            response.map((payment: ProjectPayment) => {
                 const formattedDate = customDateFormatter(payment.created_at);
                 const actionButtons = isUpdatable
-                    ? `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
+                    ? /*html*/ `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                         data-bs-target="#paymentModal"
                         data-action="Update"><i class="ri-file-edit-fill"></i></button>
                     <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" 
@@ -54,7 +63,7 @@ const getProjectPaymentHistory = async (
                     payment.transaction_id,
                     formatNumberToCurrency(parseFloat(payment.amount)),
                     payment.payment_method,
-                    `<span class="badge bg-${
+                    /*html*/`<span class="badge bg-${
                         payment.payment_status === 'Paid'
                             ? 'success'
                             : payment.payment_status === 'Pending'
@@ -68,13 +77,13 @@ const getProjectPaymentHistory = async (
         );
         paymentDataTableInstance.draw();
 
-        response.forEach((payment) => {
+        response.forEach((payment: ProjectPayment) => {
             totalAmount += parseFloat(payment.amount) || 0;
         });
         return totalAmount;
     } catch (error) {
         throw new Error(
-            'Error fetching project payment history: ' + error.message
+            'Error fetching project payment history: ' + error
         );
     }
 };

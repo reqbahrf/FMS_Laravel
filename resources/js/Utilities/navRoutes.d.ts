@@ -29,6 +29,8 @@ declare module 'global' {
         GET_APPLICANTS: string
     }
 
+    
+
     // Declare NAV_ROUTES as a global variable
     global {
         var NAV_ROUTES: NavRoutes;
@@ -36,5 +38,6 @@ declare module 'global' {
         var USERS_LIST_ROUTE: USERS_LIST_ROUTE;
         var DRAFT_ROUTE: DRAFT_ROUTE;
         var APPLICANT_TAB_ROUTE: APPLICANT_TAB_ROUTE;
+        var PROJECTS_PAYMENT_RECORDS_ROUTE: string
     }
 }
