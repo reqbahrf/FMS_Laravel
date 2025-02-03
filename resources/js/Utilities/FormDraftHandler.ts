@@ -56,13 +56,46 @@ export class FormDraftHandler {
      * 4. Calls the 'scheduleSave' method to save the changes to the server
      */
     syncTextInputData(inputSelectors: string | null = null) {
-        inputSelectors = inputSelectors ?? ':input[name]:not([readonly])';
+        // Expanded selector to include textarea, radio buttons, and checkboxes
+        console.log(this.formInstance)
+        inputSelectors =
+            inputSelectors ??
+            'textarea[name]:not([readonly]), input[name]:not([readonly]), select[name]:not([readonly])';
         this.formInstance.find(inputSelectors).on('input change', (event) => {
-            const target = event.target as HTMLInputElement;
+            const target = event.target as
+                | HTMLInputElement
+                | HTMLTextAreaElement
+                | HTMLSelectElement;
             const fieldName = target.name;
-            const fieldValue = target.value;
-            this.changedFields[fieldName] = fieldValue;
+            let fieldValue: string | boolean;
 
+            // Handle different input types
+            switch (target.type) {
+                case 'checkbox':
+                    // For checkboxes, store the checked state
+                    fieldValue = (target as HTMLInputElement).checked;
+                    break;
+                case 'radio':
+                    // For radio buttons, store the value of the selected radio button
+                    const radioGroup = this.formInstance.find(
+                        `input[name="${fieldName}"]:checked`
+                    );
+                    fieldValue =
+                        radioGroup.length > 0
+                            ? (radioGroup.val() as string)
+                            : '';
+                    break;
+                case 'select-one':
+                case 'select-multiple':
+                // For select elements, store the selected value(s)
+                    fieldValue = (target as HTMLSelectElement).value;
+                    break;
+                default:
+                    // For text inputs, textareas, and other input types, use the value
+                    fieldValue = target.value;
+            }
+
+            this.changedFields[fieldName] = fieldValue;
             this.scheduleSave();
         });
     }
@@ -190,12 +223,36 @@ export class FormDraftHandler {
         excludedFields: string[] = []
     ) {
         Object.entries(draftData).forEach(([key, value]) => {
+            // Skip excluded fields and non-primitive values
             if (
                 !excludedFields.includes(key) &&
-                typeof value !== 'object' &&
-                typeof value === 'string'
+                (typeof value === 'string' || typeof value === 'boolean')
             ) {
-                $(`${formSelector} [name="${key}"]`).val(value);
+                const $field = $(`${formSelector} [name="${key}"]`);
+
+                if ($field.length > 0) {
+                    const fieldType = $field.attr('type');
+
+                    switch (fieldType) {
+                        case 'checkbox':
+                            // Set checkbox checked state
+                            $field.prop('checked', value === true);
+                            break;
+                        case 'radio':
+                            // Select the radio button with the matching value
+                            if (typeof value === 'string') {
+                                $(
+                                    `${formSelector} input[name="${key}"][value="${value}"]`
+                                ).prop('checked', true);
+                            }
+                            break;
+                        default:
+                            // For text inputs, textareas, and other input types
+                            if (typeof value === 'string') {
+                                $field.val(value);
+                            }
+                    }
+                }
             }
         });
     }

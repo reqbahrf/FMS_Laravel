@@ -159,16 +159,6 @@ export function initializeForm() {
         '#localMarketContainer, #exportMarketContainer'
     );
 
-    // Handle removing rows
-    // $('.removeRowButton').on('click', function () {
-    //     const container = $(this).closest(
-    //         '#localMarketContainer, #exportMarketContainer'
-    //     );
-    //     const table = container.find('table');
-    //     const lastRow = table.find('tbody tr:last-child');
-    //     lastRow.remove();
-    //     toggleDeleteRowButton(container, 'tbody tr');
-    // });
 
     $('input, select').on('focus', function () {
         if ($(this).attr('required')) {
@@ -846,10 +836,10 @@ export function initializeForm() {
                 city: `#${this.prefix}City`,
                 barangay: `#${this.prefix}Barangay`,
             };
-            this.initializeForm();
+            this.initializeAddressSelection();
         }
 
-        populateSelect(selectElement, data, placeholder) {
+       static populateSelect(selectElement, data, placeholder) {
             const parsedData =
                 typeof data === 'string' ? JSON.parse(data) : data;
             $(selectElement).html(`<option value="">${placeholder}</option>`);
@@ -860,7 +850,7 @@ export function initializeForm() {
             });
         }
 
-        initializeForm() {
+        initializeAddressSelection() {
             this.initializeRegions();
             $(this.selectors.region).on('change', () => this.updateProvinces());
             $(this.selectors.province).on('change', () => this.updateCities());
@@ -869,7 +859,7 @@ export function initializeForm() {
 
         initializeRegions() {
             API.fetchRegions().done((regions) => {
-                this.populateSelect(
+                AddressForm.populateSelect(
                     this.selectors.region,
                     regions,
                     'Select Region'
@@ -886,13 +876,13 @@ export function initializeForm() {
             $(this.selectors.city).prop('disabled', true);
             $(this.selectors.barangay).prop('disabled', true);
 
-            this.populateSelect(this.selectors.province, [], 'Select Province');
-            this.populateSelect(this.selectors.city, [], 'Select City');
-            this.populateSelect(this.selectors.barangay, [], 'Select Barangay');
+            AddressForm.populateSelect(this.selectors.province, [], 'Select Province');
+            AddressForm.populateSelect(this.selectors.city, [], 'Select City');
+            AddressForm.populateSelect(this.selectors.barangay, [], 'Select Barangay');
 
             if (regionCode) {
                 API.fetchProvinces(regionCode).done((provinces) => {
-                    this.populateSelect(
+                    AddressForm.populateSelect(
                         this.selectors.province,
                         provinces,
                         'Select Province'
@@ -909,12 +899,12 @@ export function initializeForm() {
             $(this.selectors.city).prop('disabled', !provinceCode);
             $(this.selectors.barangay).prop('disabled', true);
 
-            this.populateSelect(this.selectors.city, [], 'Select City');
-            this.populateSelect(this.selectors.barangay, [], 'Select Barangay');
+            AddressForm.populateSelect(this.selectors.city, [], 'Select City');
+            AddressForm.populateSelect(this.selectors.barangay, [], 'Select Barangay');
 
             if (provinceCode) {
                 API.fetchCities(provinceCode).done((cities) => {
-                    this.populateSelect(
+                    AddressForm.populateSelect(
                         this.selectors.city,
                         cities,
                         'Select City'
@@ -931,7 +921,7 @@ export function initializeForm() {
 
             if (cityCode) {
                 API.fetchBarangay(cityCode).done((barangays) => {
-                    this.populateSelect(
+                    AddressForm.populateSelect(
                         this.selectors.barangay,
                         barangays,
                         'Select Barangay'
@@ -1000,10 +990,14 @@ export function initializeForm() {
         const excludedFields = [
             'exportMarket',
             'localMarket',
-            'region',
-            'province',
-            'city',
-            'barangay',
+            'officeRegion',
+            'officeProvince',
+            'officeCity',
+            'officeBarangay',
+            'factoryRegion',
+            'factoryProvince',
+            'factoryCity',
+            'factoryBarangay',
         ];
         formDraftHandler.loadTextInputData(
             draftData,
@@ -1020,7 +1014,7 @@ export function initializeForm() {
     ) => {
         return new Promise((resolve) => {
             fetchFn.done((items) => {
-                populateSelect($(selector), items, placeholder);
+                AddressForm.populateSelect($(selector), items, placeholder);
                 $(selector).val(data);
                 $(selector).prop('disabled', false);
                 resolve();
@@ -1028,48 +1022,93 @@ export function initializeForm() {
         });
     };
 
-    const loadAddressDropdowns = async (draftData) => {
-        if (!draftData.region) return;
+    const loadOfficeAddressDropdowns = async (draftData) => {
+        if (!draftData.officeRegion) return;
 
         // Load regions
         await loadLocationDropdown(
-            '#region',
+            '#officeRegion',
             API.fetchRegions(),
-            draftData.region,
-            'Select Region'
+            draftData.officeRegion,
+            'Select Office Region'
         );
 
-        if (!draftData.province) return;
+        if (!draftData.officeProvince) return;
 
         // Load provinces
-        const regionCode = $('#region').find(':selected').data('code');
+        const regionCode = $('#officeRegion').find(':selected').data('code');
         await loadLocationDropdown(
-            '#province',
+            '#officeProvince',
             API.fetchProvinces(regionCode),
-            draftData.province,
-            'Select Province'
+            draftData.officeProvince,
+            'Select Office Province'
         );
 
-        if (!draftData.city) return;
+        if (!draftData.officeCity) return;
 
         // Load cities
-        const provinceCode = $('#province').find(':selected').data('code');
+        const provinceCode = $('#officeProvince').find(':selected').data('code');
         await loadLocationDropdown(
-            '#city',
+            '#officeCity',
             API.fetchCities(provinceCode),
-            draftData.city,
-            'Select City'
+            draftData.officeCity,
+            'Select Office City'
         );
 
-        if (!draftData.barangay) return;
+        if (!draftData.officeBarangay) return;
 
         // Load barangays
-        const cityCode = $('#city').find(':selected').data('code');
+        const cityCode = $('#officeCity').find(':selected').data('code');
         await loadLocationDropdown(
-            '#barangay',
+            '#officeBarangay',
             API.fetchBarangay(cityCode),
-            draftData.barangay,
-            'Select Barangay'
+            draftData.officeBarangay,
+            'Select Office Barangay'
+        );
+    };
+
+    const loadFactoryAddressDropdowns = async (draftData) => {
+        if (!draftData.factoryRegion) return;
+
+        // Load regions
+        await loadLocationDropdown(
+            '#factoryRegion',
+            API.fetchRegions(),
+            draftData.factoryRegion,
+            'Select Factory Region'
+        );
+
+        if (!draftData.factoryProvince) return;
+
+        // Load provinces
+        const regionCode = $('#factoryRegion').find(':selected').data('code');
+        await loadLocationDropdown(
+            '#factoryProvince',
+            API.fetchProvinces(regionCode),
+            draftData.factoryProvince,
+            'Select Factory Province'
+        );
+
+        if (!draftData.factoryCity) return;
+
+        // Load cities
+        const provinceCode = $('#factoryProvince').find(':selected').data('code');
+        await loadLocationDropdown(
+            '#factoryCity',
+            API.fetchCities(provinceCode),
+            draftData.factoryCity,
+            'Select Factory City'
+        );
+
+        if (!draftData.factoryBarangay) return;
+
+        // Load barangays
+        const cityCode = $('#factoryCity').find(':selected').data('code');
+        await loadLocationDropdown(
+            '#factoryBarangay',
+            API.fetchBarangay(cityCode),
+            draftData.factoryBarangay,
+            'Select Factory Barangay'
         );
     };
 
@@ -1079,7 +1118,10 @@ export function initializeForm() {
             loadApplicationFormInputFields,
             null,
             null,
-            loadAddressDropdowns
+            {
+                loadOfficeAddressDropdowns,
+                loadFactoryAddressDropdowns,
+            }
         );
         updateEnterpriseLevel();
     });
