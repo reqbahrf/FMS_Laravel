@@ -16,8 +16,8 @@ class StaffGeneratePISController extends Controller
             $esignatureElement = $generateEsignElement->execute($validatedData['signatures']);
 
             try {
-                $html = view('StaffView.outputs.ProjectInformationSheet', [...$validatedData, 'esignatureElement' => $esignatureElement])->render();
-                $DocHeader = view('StaffView.outputs.DocHeader')->render();
+                $html = view('staff-view.outputs.ProjectInformationSheet', [...$validatedData, 'esignatureElement' => $esignatureElement])->render();
+                $DocHeader = view('staff-view.outputs.DocHeader')->render();
             } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Error generating information sheet template',

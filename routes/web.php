@@ -233,7 +233,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         if ($request->ajax()) {
             return view('components.add-project-form');
         }
-        return view('StaffView.Staff_Index');
+        return view('staff-view.Staff_Index');
     })->name('staff.Project.AddProject');
 
     Route::post('/Staff/Submit-New-Projects', [StaffAddProjectController::class, 'store'])

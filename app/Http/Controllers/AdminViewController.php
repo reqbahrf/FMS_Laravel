@@ -12,14 +12,14 @@ use App\Actions\GetAvailableChartYearList;
 class AdminViewController extends Controller
 {
     public function index(){
-        return view('AdminView.Admin_Index');
+        return view('admin-view.Admin_Index');
     }
     public function LoadDashboardTab(Request $request)
     {
         if ($request->ajax()) {
-            return view('AdminView.AdminDashboardTab');
+            return view('admin-view.admin-page-tab.dashboardTab');
         } else {
-            return view('AdminView.Admin_Index');
+            return view('admin-view.Admin_Index');
         }
     }
 
@@ -27,9 +27,9 @@ class AdminViewController extends Controller
     {
 
         if ($request->ajax()) {
-            return view('AdminView.AdminProjectlistTab');
+            return view('admin-view.admin-page-tab.projectlistTab');
         } else {
-            return view('AdminView.Admin_Index');
+            return view('admin-view.Admin_Index');
         }
     }
 
@@ -59,9 +59,9 @@ class AdminViewController extends Controller
     public function LoadApplicantTab(Request $request)
     {
         if ($request->ajax()) {
-            return view('AdminView.AdminApplicantlistTab');
+            return view('admin-view.admin-page-tab.applicantlistTab');
         } else {
-            return view('AdminView.Admin_Index');
+            return view('admin-view.Admin_Index');
         }
     }
 
@@ -69,9 +69,9 @@ class AdminViewController extends Controller
     {
 
         if ($request->ajax()) {
-            return view('AdminView.AdminUsersTab');
+            return view('admin-view.admin-page-tab.usersTab');
         } else {
-            return view('AdminView.Admin_Index');
+            return view('admin-view.Admin_Index');
         }
     }
 
@@ -79,9 +79,9 @@ class AdminViewController extends Controller
     {
         if ($request->ajax()) {
             $fee_percentage = $projectFeeService->getProjectFee();
-            return view('AdminView.AdminProjectSettingsTab', compact('fee_percentage'));
+            return view('admin-view.admin-page-tab.projectSettingsTab', compact('fee_percentage'));
         } else {
-            return view('AdminView.Admin_Index');
+            return view('admin-view.Admin_Index');
         }
     }
 

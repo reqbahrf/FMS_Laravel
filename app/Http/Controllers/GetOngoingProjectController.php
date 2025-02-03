@@ -60,6 +60,7 @@ class GetOngoingProjectController extends Controller
                         'PI.fund_amount',
                         'PI.actual_amount_to_be_refund as to_be_refunded',
                         'PI.refunded_amount as amount_refunded',
+                        'PI.fee_applied',
                         'PI.created_at as date_approved',
                         'evaluated_by.prefix as evaluated_by_prefix',
                         'evaluated_by.f_name as evaluated_by_f_name',

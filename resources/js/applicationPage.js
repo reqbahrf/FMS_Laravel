@@ -92,7 +92,7 @@ export function initializeForm() {
     handleFilePondSelectorDisabling('fdaLtoSelector', fdaLtoInstance);
     handleFilePondSelectorDisabling('GovIdSelector', govIdInstance);
 
-    const BENCHMARKTableConfig  = {
+    const BENCHMARKTableConfig = {
         productAndSupply: {
             id: 'productAndSupplyChainContainer',
             selectors: {
@@ -101,12 +101,7 @@ export function initializeForm() {
                 unitCost: '.UnitCost',
                 volumeUsed: '.VolumeUsed',
             },
-            requiredFields: [
-                'rowMaterial',
-                'source',
-                'unitCost',
-                'volumeUsed',
-            ],
+            requiredFields: ['rowMaterial', 'source', 'unitCost', 'volumeUsed'],
         },
         production: {
             id: 'productionContainer',
@@ -130,25 +125,29 @@ export function initializeForm() {
                 specification: '.Specification',
                 capacity: '.Capacity',
             },
-            requiredFields: [
-                'typeOfEquipment',
-                'specification',
-                'capacity',
-            ],
+            requiredFields: ['typeOfEquipment', 'specification', 'capacity'],
         },
     };
 
     const beachMarkTableData = (BENCHMARKTableConfig) => {
         const data = TableDataExtractor(BENCHMARKTableConfig);
         return data;
-    }
-    AddNewRowHandler('.addProductAndSupplyChainRow', '#productAndSupplyChainContainer');
+    };
+
+    //TODO: fix these handler
+    AddNewRowHandler(
+        '.addProductAndSupplyChainRow',
+        '#productAndSupplyChainContainer'
+    );
     RemoveRowHandler('.removeRowButton', '#productAndSupplyChainContainer');
 
     AddNewRowHandler('.addProductionRow', '#productionContainer');
     RemoveRowHandler('.removeRowButton', '#productionContainer');
 
-    AddNewRowHandler('.addProductionEquipmentRow', '#productionEquipmentContainer');
+    AddNewRowHandler(
+        '.addProductionEquipmentRow',
+        '#productionEquipmentContainer'
+    );
     RemoveRowHandler('.removeRowButton', '#productionEquipmentContainer');
 
     AddNewRowHandler(
@@ -190,7 +189,19 @@ export function initializeForm() {
             showNextButton: true,
             showPreviousButton: true,
             position: 'both bottom',
-            extraHtml: `<button type="button" class="btn btn-success" onclick="onFinish()" >Submit</button> <button class="btn btn-secondary" onclick="onCancel()">Cancel</button>`,
+            extraHtml: /*html*/ `<button
+                    type="button"
+                    class="btn btn-success"
+                    onclick="onFinish()"
+                >
+                    Submit
+                </button>
+                <button
+                    class="btn btn-secondary"
+                    onclick="onCancel()"
+                >
+                    Cancel
+                </button>`,
         },
         anchorSettings: {
             anchorClickable: false,
@@ -401,9 +412,13 @@ export function initializeForm() {
                         '#pleaseSpecifyTheTypeOfAssistanceSought'
                     ).val(),
                     whyNot: $('#whyNot').val(),
-                    enterprisePlanForTheNext5Years: $('#enterprisePlanForTheNext5Years').val(),
+                    enterprisePlanForTheNext5Years: $(
+                        '#enterprisePlanForTheNext5Years'
+                    ).val(),
                     nextTenYears: $('#nextTenYears').val(),
-                    currentAgreementAndAlliancesUndertaken: $('#currentAgreementAndAlliancesUndertaken').val(),
+                    currentAgreementAndAlliancesUndertaken: $(
+                        '#currentAgreementAndAlliancesUndertaken'
+                    ).val(),
                 };
 
                 const BusinessActivities = {
@@ -566,9 +581,7 @@ export function initializeForm() {
                 $('#re_enterprisePlanForTheNext5Years').val(
                     BusinessInfo.enterprisePlanForTheNext5Years
                 );
-                $('#re_nextTenYears').val(
-                    BusinessInfo.nextTenYears
-                );
+                $('#re_nextTenYears').val(BusinessInfo.nextTenYears);
                 $('#re_currentAgreementAndAlliancesUndertaken').val(
                     BusinessInfo.currentAgreementAndAlliancesUndertaken
                 );
@@ -934,8 +947,6 @@ export function initializeForm() {
         new AddressForm({ prefix: 'factory' }),
     ];
 
-
-
     const getMarketProductsData = (tableConfigs) => {
         const allMarketData = TableDataExtractor(tableConfigs);
         return allMarketData;
@@ -1072,7 +1083,6 @@ export function initializeForm() {
         );
         updateEnterpriseLevel();
     });
-
 }
 
 initializeForm();

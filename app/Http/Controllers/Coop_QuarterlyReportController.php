@@ -62,9 +62,9 @@ class Coop_QuarterlyReportController extends Controller
     {
         if ($request->ajax()) {
 
-            return view('CooperatorView.outputs.quarterlyReport');
+            return view('cooperator-view.outputs.quarterlyReport');
         } else {
-            return view('CooperatorView.Cooperator_Index');
+            return view('cooperator-view.Cooperator_Index');
         }
     }
 
@@ -87,10 +87,10 @@ class Coop_QuarterlyReportController extends Controller
 
                 return view('QuarterlyReportedForm.coopQuarterly', compact('reportId', 'projectId', 'quarter', 'reportStatus', 'reportData'));
             } else if ($reportSubmitted === 'false' && $reportStatus === 'open') {
-                return view('CooperatorView.outputs.quarterlyReport', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
+                return view('cooperator-view.outputs.quarterlyReport', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
             }
         } else {
-            return view('CooperatorView.Cooperator_Index');
+            return view('cooperator-view.Cooperator_Index');
         }
     }
 
