@@ -18,7 +18,7 @@
         rel="icon"
     >
     @vite('resources/css/app.scss')
-    @vite('resources/js/app.js')
+    @vite('resources/js/app.ts')
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@300;400;600;700&display=swap');
@@ -365,7 +365,7 @@
                 <h2 class="form-title">Welcome Back</h2>
 
                 <div id="server_feedback">
-                    @if($errors->any())
+                    @if ($errors->any())
                         <div class="alert alert-danger">
                             {{ $errors->first() }}
                         </div>

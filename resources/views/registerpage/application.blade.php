@@ -1,12 +1,25 @@
 <!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
+<html
+    data-bs-theme="light"
+    lang="en"
+>
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+    <meta
+        name="csrf-token"
+        content="{{ csrf_token() }}"
+    >
     <title>Application Form</title>
-    <link rel="icon" href="{{ asset('DOST_ICON.svg') }}" type="image/svg+xml">
+    <link
+        type="image/svg+xml"
+        href="{{ asset('DOST_ICON.svg') }}"
+        rel="icon"
+    >
     @vite('resources/css/app.scss')
 
     <style>
@@ -68,7 +81,6 @@
             /* Adjust the width as needed */
         }
 
-
         fieldset legend {
             position: absolute;
             /* Set position to absolute */
@@ -83,7 +95,6 @@
             left: 10px;
             /* Adjust horizontally if needed */
         }
-
 
         /* Additional styling to ensure the fieldset and its contents look integrated */
         fieldset {
@@ -150,53 +161,71 @@
         }
 
         #TNAForm {
-        size: A4;
-        margin: 2cm;
-    }
-    #TNAForm {
-        width: 21cm;
-        min-height: 29.7cm;
-        margin: 0 auto;
-        padding: 2cm;
-        background: white;
-        font-size: 12pt;
-    }
-    #TNAForm table {
-        width: 100% !important;
-        margin-bottom: 15pt;
-    }
-    #TNAForm td {
-        padding: 5pt;
-    }
-    #TNAForm p {
-        margin-bottom: 8pt;
-        line-height: 1.5;
-    }
+            size: A4;
+            margin: 2cm;
+        }
 
-    #TNAForm .padding-md { padding: 12pt; }
-    
-    #TNAForm input[type="text"] {
-        border: none;
-        border-bottom: 1px solid #000;
-        outline: none;
-        padding: 5pt;
-        width: 80%;
-    }
-    /* Convert common px values to pt */
-    #TNAForm .margin-sm { margin: 8pt; }
-    #TNAForm .padding-sm { padding: 8pt; }
-    #TNAForm .margin-md { margin: 12pt; }
-    #TNAForm .padding-md { padding: 12pt; }
+        #TNAForm {
+            width: 21cm;
+            min-height: 29.7cm;
+            margin: 0 auto;
+            padding: 2cm;
+            background: white;
+            font-size: 12pt;
+        }
+
+        #TNAForm table {
+            width: 100% !important;
+            margin-bottom: 15pt;
+        }
+
+        #TNAForm td {
+            padding: 5pt;
+        }
+
+        #TNAForm p {
+            margin-bottom: 8pt;
+            line-height: 1.5;
+        }
+
+        #TNAForm .padding-md {
+            padding: 12pt;
+        }
+
+        #TNAForm input[type="text"] {
+            border: none;
+            border-bottom: 1px solid #000;
+            outline: none;
+            padding: 5pt;
+            width: 80%;
+        }
+
+        /* Convert common px values to pt */
+        #TNAForm .margin-sm {
+            margin: 8pt;
+        }
+
+        #TNAForm .padding-sm {
+            padding: 8pt;
+        }
+
+        #TNAForm .margin-md {
+            margin: 12pt;
+        }
+
+        #TNAForm .padding-md {
+            padding: 12pt;
+        }
     </style>
 
 </head>
 
 <body>
-   <x-header />
+    <x-header />
     <x-applicant-form />
     <x-toast-alert />
-   <x-footer />
-    @vite('resources/js/app.js')
+    <x-footer />
+    @vite('resources/js/app.ts')
     <script type="text/javascript">
         const AUTH_USER_ID = "{{ Auth::user()->id }}";
         const DRAFT_ROUTE = {
@@ -208,9 +237,9 @@
     </script>
     @vite('resources/js/applicationPage.js')
     <script type="module">
-         $('#confirmModal .btn-primary').click(function() {
-                window.location.href = '/'; // Redirect after confirmation
-            })
+        $('#confirmModal .btn-primary').click(function() {
+            window.location.href = '/'; // Redirect after confirmation
+        })
     </script>
 </body>
 

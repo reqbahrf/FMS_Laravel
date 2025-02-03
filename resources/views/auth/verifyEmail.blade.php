@@ -18,7 +18,7 @@
         rel="icon"
     >
     @vite('resources/css/app.scss')
-    @vite('resources/js/app.js')
+    @vite('resources/js/app.ts')
     <style>
         html {
             font-size: clamp(0.75rem, 1vw, 1.5rem);
