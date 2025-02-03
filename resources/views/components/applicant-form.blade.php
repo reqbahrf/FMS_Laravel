@@ -3046,7 +3046,7 @@
                                 <label
                                     class="form-check-label"
                                     for="detail_confirm"
-                                >I hereby confirm that the
+                                > - I hereby confirm that the
                                     information I provided is true and correct.</label>
                             </div>
                         </div>
@@ -3062,8 +3062,115 @@
                                 <label
                                     class="form-check-label"
                                     for="agree_terms"
-                                >I have read and agree to the
+                                > - I have read and agree to the
                                     terms and conditions.</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    id="make_available"
+                                    name="make_available"
+                                    type="checkbox"
+                                    required
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="make_available"
+                                > - The applicant shall, at the earliest opportunity, make available to the DOST
+                                Regional Office No. <span class="text-decoration-underline">XI</span> (DOST <span class="text-decoration-underline">XI</span>) all information (manuals, procedures, etc.)
+                                required to establish the technology status of the selected core business
+                                functions and management systems;</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    id="satisfied_requirements"
+                                    name="satisfied_requirements"
+                                    type="checkbox"
+                                    required
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="satisfied_requirements"
+                                > - If DOST <span class="text-decoration-underline">XI</span> is not satisfied that all the requirements for business registration
+                                are complied with, it shall inform the applicant of the observed deficiencies
+                                before starting the assessment;</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    id="when_inputs_supplied"
+                                    name="when_inputs_supplied"
+                                    type="checkbox"
+                                    required
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="when_inputs_supplied"
+                                > - When the required inputs to the assessment are already supplied by the applicant,
+                                    including Attachment A, the DOST <span class="text-decoration-underline">XI</span> will assess the firm through the core
+                                    business functions and management systems, whichever is applicable, to identify
+                                    technology needs and verify compliance to standards vis-à-vis existing
+                                    practices;</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    id="report_prepared"
+                                    name="report_prepared"
+                                    type="checkbox"
+                                    required
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="report_prepared"
+                                > - When the DOST <span class="text-decoration-underline">XI</span> has completed the technology assessment, a report will be prepared
+                                on the results of the assessment with accompanying recommendations and opportunities
+                                for improvement.  The report prepared will define the scope of activities, functions,
+                                management practices and locations assessed.  The applicant shall not claim or
+                                otherwise imply that the report applies to other locations, product or activities not
+                                covered by the report;</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    id="report_permission"
+                                    name="report_permission"
+                                    type="checkbox"
+                                    required
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="report_permission"
+                                > - The applicant agrees that the report will not be used until permission has been
+                                granted by the DOST <span class="text-underline">XI</span>;</label>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input
+                                    class="form-check-input"
+                                    id="receipt_acknowledgment"
+                                    name="receipt_acknowledgment"
+                                    type="checkbox"
+                                    required
+                                >
+                                <label
+                                    class="form-check-label"
+                                    for="receipt_acknowledgment"
+                                > - The applicant agrees that the receipt or acknowledgment of the report ends the
+                                assessment stage; any technical assistance ensuing from the recommendations of the
+                                report will be viewed as a separate project.</label>
                             </div>
                         </div>
                     </div>

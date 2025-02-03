@@ -624,14 +624,32 @@ export function initializeForm() {
 
     const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
     const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
+    const make_availableInfo = $('input[type="checkbox"]#make_available');
+    const satisfied_requirementsInfo = $('input[type="checkbox"]#satisfied_requirements');
+    const when_inputs_suppliedInfo = $('input[type="checkbox"]#when_inputs_supplied');
+    const report_preparedInfo = $('input[type="checkbox"]#report_prepared');
+    const report_permissionInfo = $('input[type="checkbox"]#report_permission');
+    const receipt_acknowledgmentInfo = $('input[type="checkbox"]#receipt_acknowledgment');
 
     $(confirmTrueInfo)
         .add(confirmAgreeInfo)
+        .add(make_availableInfo)
+        .add(satisfied_requirementsInfo)
+        .add(when_inputs_suppliedInfo)
+        .add(report_preparedInfo)
+        .add(report_permissionInfo)
+        .add(receipt_acknowledgmentInfo)
         .on('change', function () {
             confirmButton.prop(
                 'disabled',
                 !$(confirmTrueInfo).is(':checked') ||
-                    !$(confirmAgreeInfo).is(':checked')
+                !$(confirmAgreeInfo).is(':checked') ||
+                !$(make_availableInfo).is(':checked') ||
+                !$(satisfied_requirementsInfo).is(':checked') ||
+                !$(when_inputs_suppliedInfo).is(':checked') ||
+                !$(report_preparedInfo).is(':checked') ||
+                !$(report_permissionInfo).is(':checked') ||
+                !$(receipt_acknowledgmentInfo).is(':checked')
             );
         });
 
