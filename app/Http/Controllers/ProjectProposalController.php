@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
+
 use App\Models\User;
 use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
@@ -132,8 +133,8 @@ class ProjectProposalController extends Controller
         $actualFundToRefund = $fundAmount * (1 + ($fee_percentage / 100));
 
         // Format to 2 decimal places
-        $fundAmountFormatted = number_format($fundAmount, 2, '.', '');
-        $actualFundToRefund = number_format($actualFundToRefund, 2, '.', '');
+        $fundAmountFormatted = floatval(number_format($fundAmount, 2, '.', ''));
+        $actualFundToRefund = floatval(number_format($actualFundToRefund, 2, '.', ''));
 
         // Begin a transaction for database consistency
             DB::beginTransaction();

@@ -25,7 +25,7 @@ class CalculateQuarterlyPayments
                 'transaction_id' => $transactionId,
                 'amount' => $amountPerQuarter,
                 'payment_status' => 'Pending',
-                'payment_method' => null,
+                'payment_method' => 'Cash',
                 'quarter' => $quarter,
             ]);
 
