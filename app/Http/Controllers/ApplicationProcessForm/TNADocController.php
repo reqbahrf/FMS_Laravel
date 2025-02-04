@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ApplicationProcessForm;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
 use App\Services\TNAdataHandlerService;
 
-class TNADocumentController extends Controller
+class TNADocController extends Controller
 {
     public function __construct(private TNAdataHandlerService $TNA)
     {
         $this->TNA = $TNA;
     }
 
-    public function getTNAData(Request $request)
+    public function getTNAForm(Request $request)
     {
         try {
             $business_id = $request->business_id;

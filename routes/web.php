@@ -17,7 +17,7 @@ use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\TNADocumentController;
+use App\Http\Controllers\ApplicationProcessForm\TNADocController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\GetApplicantController;
@@ -43,6 +43,7 @@ use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
+use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
@@ -132,20 +133,20 @@ Route::get('/password/reset', fn() => view('auth.passwordReset.resetRequest'))
 Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])
     ->name('password.email');
 
-    
+
 Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])
     ->name('password.email');
 
 Route::get('/password/reset/{token}', fn($token) => view('auth.passwordReset.resetForm', ['token' => $token]))
     ->name('password.reset');
 
-Route::controller(PasswordResetController::class)->group(function() {
+Route::controller(PasswordResetController::class)->group(function () {
     Route::post('/password/email', 'sendResetLink')
         ->name('password.email');
-    
+
     Route::post('/password/reset', 'reset')
         ->name('password.reset.submit');
-});    
+});
 
 //Logout routes
 
@@ -158,16 +159,16 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
     Route::controller(CooperatorViewController::class)->group(function () {
         Route::get('/Cooperator/Home', 'index')
             ->name('Cooperator.index');
-    
+
         Route::get('/Cooperator/Dashboard',  'LoadDashboardTab')
             ->name('Cooperator.dashboard');
-    
+
         Route::get('/Cooperator/Progress',  'CoopProgress')
             ->name('Cooperator.Progress');
-    
+
         Route::get('/Cooperator/Requirements',  'LoadRequirementsTab')
             ->name('Cooperator.Requirements');
-    
+
         Route::get('/Cooperator/myProjects',  'LoadCooperatorProjectsTab')
             ->name('Cooperator.myProjects');
     });
@@ -187,14 +188,14 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
 //Staff Routes
 
 Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])->group(function () {
-    
+
     Route::controller(StaffViewController::class)->group(function () {
         Route::get('/Staff/Home', 'index')
             ->name('Staff.index');
 
         Route::get('/Staff/dashboard', 'LoadDashboardTab')
             ->name('staff.dashboard');
-        
+
         Route::get('/Staff/Dashboard/chartData/{yearToLoad?}', 'getDashboardChartData')
             ->name('staff.Dashboard.chartData');
 
@@ -203,7 +204,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
         Route::get('/Staff/Project/getApproved-Project', 'getApprovedProjects')
             ->name('staff.Project.ApprovedProjectProposal');
-        
+
         Route::get('/Staff/Applicant', 'LoadApplicantTab')
             ->name('staff.Applicant');
 
@@ -213,11 +214,11 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::get('/Staff/Project/getQuarterReport/{ProjectId}', 'getAvailableQuarterlyReport')
             ->name('Staff.Project.getQuarterReport');
 
-         //Staff Submit Project Proposal
+        //Staff Submit Project Proposal
         Route::post('/staff/Applicant/ProjectProposal', 'submitProjectProposal')
             ->name('staff.Applicant.ProjectProposal');
     });
-   
+
 
 
     Route::put('/Staff/Dashboard/updateProjectState', [UpdateProjectStateController::class, 'updateProjectState'])
@@ -239,7 +240,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::post('/Staff/Submit-New-Projects', [StaffAddProjectController::class, 'store'])
         ->name('staff.Project.SubmitNewProject');
 
-   
+
 
     Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [GenerateFormController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');
@@ -261,7 +262,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
         ->name('staff.get.EvaluationSchedule');
 
-   
+
 
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
@@ -274,8 +275,11 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::post('/send-rejection-email', [RejectionEmailController::class, 'sendRejectionEmail'])
         ->name('send.rejection.email');
 
-    Route::get('/Staff/Applicant/get/tna/{business_id}', [TNADocumentController::class, 'getTNAData'])
+    Route::get('/Staff/Applicant/get/tna/{business_id}', [TNADocController::class, 'getTNAForm'])
         ->name('staff.Applicant.get.tna');
+        
+    Route::get('/Staff/Applicant/get/project-proposal', [ProjectProposalDocController::class, 'getProjectProposalForm'])
+        ->name('staff.Applicant.get.project-proposal');
 });
 
 //Staff Route End
@@ -287,10 +291,10 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
         Route::get('/Admin/Home', 'index')
             ->name('Admin.index');
-        
+
         Route::get('/Admin/Dashboard', 'LoadDashboardTab')
             ->name('admin.Dashboard');
-    
+
         Route::get('/Admin/Dashboard/chartData/{yearToLoad?}', 'getDashboardChartData')
             ->name('admin.Dashboard.chartData');
 
@@ -305,7 +309,7 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
         Route::get('/Admin/Users-List', 'LoadUsersTab')
             ->name('admin.Users-list');
-        
+
         Route::get('/Admin/Project-Settings', 'LoadProjectSettingTab')
             ->name('admin.ProjectSettings');
     });

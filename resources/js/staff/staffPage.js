@@ -4243,6 +4243,7 @@ async function initializeStaffPageJs() {
                     );
 
                     $('#viewTNA').attr('data-business-id', businessID);
+                    $('#viewProjectProposal').attr('data-business-id', businessID);
                     ApplicantDetails.filter('#firm_name').val(firmName);
                     ApplicantDetails.filter('#selected_userId').val(userID);
                     ApplicantDetails.filter('#selected_businessID').val(
@@ -5078,9 +5079,8 @@ ${output}</textarea
 
             const tnaForm = new TNAForm(TNADocumentContainerModal);
             tnaForm.initializeTNAForm();
-            // const projectProposalForm = new ProjectProposalForm(
-            //     ProjectProposalDocumentContainerModal
-            // );
+            const projectProposalForm = new ProjectProposalForm(ProjectProposalDocumentContainerModal);
+            projectProposalForm.initializeProjectProposalForm();
 
             // const getTNAForm = async (business_Id) => {
             //     try {
