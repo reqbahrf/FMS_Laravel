@@ -208,7 +208,7 @@ class ApplicationController extends Controller
 
 
             // Requirements table
-            DB::table('application_info')->insert([
+            $applicationId = DB::table('application_info')->insertGetId([
                 'business_id' => $businessId,
                 'created_at' => now(),
                 'updated_at' => now(),
@@ -217,7 +217,7 @@ class ApplicationController extends Controller
 
             if ($successful_inserts == 6) {
                 DB::commit();
-                $TNAdataHandlerService->setTNAData($validatedInputs, $businessId);
+                $TNAdataHandlerService->setTNAData($validatedInputs, $businessId, $applicationId);
                 //Testing this defer Method
                 event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $office_city, 'NEW_APPLICANT'));
                 Cache::forget('applicants');

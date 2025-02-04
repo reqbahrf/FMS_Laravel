@@ -18,7 +18,8 @@ class TNADocController extends Controller
     {
         try {
             $business_id = $request->business_id;
-            $TNAdata = $this->TNA->getTNAData($business_id);
+            $application_id = $request->application_id;
+            $TNAdata = $this->TNA->getTNAData($business_id, $application_id);
 
             if (!$TNAdata) {
                 Log::alert('TNA Data not found', ['business_id' => $business_id]);

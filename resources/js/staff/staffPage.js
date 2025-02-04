@@ -4242,8 +4242,8 @@ async function initializeStaffPageJs() {
                         '.businessInfo input'
                     );
 
-                    $('#viewTNA').attr('data-business-id', businessID);
-                    $('#viewProjectProposal').attr('data-business-id', businessID);
+                    $('#viewTNA').attr('data-business-id', businessID).attr('data-application-id', ApplicationID);
+                    $('#viewProjectProposal').attr('data-business-id', businessID).attr('data-application-id', ApplicationID);
                     ApplicantDetails.filter('#firm_name').val(firmName);
                     ApplicantDetails.filter('#selected_userId').val(userID);
                     ApplicantDetails.filter('#selected_businessID').val(

@@ -5,14 +5,14 @@ import { showToastFeedback } from '../Utilities/utilFunctions';
     constructor(TNAModalContainer: JQuery<HTMLElement>) {
         this.TNAModalContainer = TNAModalContainer;
     }
-    async getTNAForm(business_Id: number) {
+    async getTNAForm(business_Id: number, application_Id: number) {
         try {
             const response = await $.ajax({
                 type: 'GET',
                 url: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT.replace(
                     ':business_id',
                     business_Id.toString()
-                ),
+                ).replace(':application_id', application_Id.toString()),
             });
             this.TNAModalContainer.find('.modal-body').html(response as string);
         } catch (error: any) {
@@ -22,7 +22,8 @@ import { showToastFeedback } from '../Utilities/utilFunctions';
     initializeTNAForm() {
         this.TNAModalContainer.on('show.bs.modal', async (event: any) => {
             const business_Id = $(event.relatedTarget).data('business-id');
-            await this.getTNAForm(business_Id);
+            const application_Id = $(event.relatedTarget).data('application-id');
+            await this.getTNAForm(business_Id, application_Id);
         });
     }
 }
@@ -33,7 +34,7 @@ import { showToastFeedback } from '../Utilities/utilFunctions';
     constructor(ProjectProposalModalContainer: JQuery<HTMLElement>) {
         this.ProjectProposalModalContainer = ProjectProposalModalContainer;
     }
-    async getProjectProposalForm(business_Id: number) {
+    async getProjectProposalForm(business_Id: number, application_Id: number) {
         try {
             const response = await $.ajax({
                 type: 'GET',
@@ -51,7 +52,8 @@ import { showToastFeedback } from '../Utilities/utilFunctions';
     initializeProjectProposalForm() {
         this.ProjectProposalModalContainer.on('show.bs.modal', async (event: any) => {
             const business_Id = $(event.relatedTarget).data('business-id');
-            await this.getProjectProposalForm(business_Id);
+            const application_Id = $(event.relatedTarget).data('application-id');
+            await this.getProjectProposalForm(business_Id, application_Id);
         });
     }
 
