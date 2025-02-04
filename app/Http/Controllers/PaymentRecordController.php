@@ -21,7 +21,7 @@ class PaymentRecordController extends Controller
         ]);
         try {
             return DB::table('payment_records')->where('Project_id', $validated['project_id'])
-                ->select('reference_number', 'amount', 'payment_method', 'payment_status', 'created_at')
+                ->select('reference_number', 'amount', 'payment_method', 'payment_status', 'quarter', 'due_date', 'created_at')
                 ->get();
         } catch (\Exception $e) {
             Log::error('Error fetching payment records: ' . $e->getMessage());

@@ -1,36 +1,14 @@
 import * as DataTables from 'datatables.net';
 import { customDateFormatter, formatNumberToCurrency } from './utilFunctions';
-/**
- * Fetches and displays payment history for a specific project in a DataTable.
- * **NOTE:  the PROJECTS_PAYMENT_RECORDS_ROUTE constant is defined in the (Staff | Admin)_Index.blade.php.**
- * @async
- * @function getProjectPaymentHistory
- * @param {number|string} project_id - The ID of the project to fetch payment history for
- * @param {DataTables.Api} paymentDataTableInstance - The DataTable instance to populate with payment data
- * @param {boolean} [isUpdatable=false] - Whether to show update and delete buttons
- * @returns {Promise<number>} The total amount of all payments for the project
- * @throws {Error} If there's an error fetching the payment history
- *
- * @description
- * This function performs the following:
- * 1. Fetches payment records from the server using AJAX
- * 2. Clears and populates the DataTable with formatted payment data
- * 3. Calculates and returns the total amount of all payments
- *
- * Each payment record is displayed with:
- * - Transaction ID
- * - Formatted amount (currency)
- * - Payment method
- * - Payment status (with color-coded badge)
- * - Formatted date
- * - Action buttons (if isUpdatable is true)
- */
+
 
 interface ProjectPayment {
     reference_number: string;
     amount: string;
     payment_method: string;
-    payment_status: 'Paid' | 'Pending' | 'Failed';
+    payment_status: 'Paid' | 'Pending' | 'Due' | 'Overdue';
+    quarter: string;
+    due_date: string;
     created_at: string;
 }
 
@@ -48,7 +26,8 @@ const getProjectPaymentHistory = async (
         paymentDataTableInstance.clear();
         paymentDataTableInstance.rows.add(
             response.map((payment: ProjectPayment) => {
-                const formattedDate = customDateFormatter(payment.created_at);
+                const dateCreated = customDateFormatter(payment.created_at);
+                const dueDate = customDateFormatter(payment.due_date);
                 const actionButtons = isUpdatable
                     ? /*html*/ `<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                         data-bs-target="#paymentModal"
@@ -67,10 +46,12 @@ const getProjectPaymentHistory = async (
                         payment.payment_status === 'Paid'
                             ? 'success'
                             : payment.payment_status === 'Pending'
-                              ? 'warning'
-                              : 'danger'
+                            ? 'warning'
+                            : 'danger'
                     } ">${payment.payment_status}</span>`,
-                    formattedDate,
+                    payment.quarter,
+                    dueDate,
+                    dateCreated,
                     actionButtons,
                 ];
             })

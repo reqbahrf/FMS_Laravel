@@ -26,7 +26,7 @@ import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 // import 'datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css';
 // import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 // import 'datatables.net-scroller-bs5/css/scroller.bootstrap5.min.css';
-
+import '../Utilities/dataTableCustomConfig';
 window.DataTable = DataTable;
 import 'datatables.net-buttons-bs5';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
@@ -258,36 +258,50 @@ async function initializeStaffPageJs() {
                     },
                 ],
             });
+            //Data table custom sorter for quarter
+         
             //TODO: add quarterly column on this table
             const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable(
                 {
+                    fixedColumns: true,
+                    autoWidth: false,
                     responsive: true,
                     columns: [
                         {
-                            title: 'Transaction #',
+                            title: 'Reference #',
+                            width: '10%',
                         },
                         {
                             title: 'Amount (₱)',
+                            width: '10%',
                         },
                         {
                             title: 'Payment Method',
+                            width: '10%',
                         },
                         {
                             title: 'Status',
+                            width: '5%',
+                        },
+                        {
+                            title: 'Quarter',
+                            width: '10%',
+                            type: 'quarter',
+                        },
+                        {
+                            title: 'Due Date',
+                            width: '15%',
                         },
                         {
                             title: 'Date Created',
+                            width: '15%',
                         },
                         {
                             title: 'Action',
+                            width: '3%',
                         },
                     ],
-                    columnDefs: [
-                        {
-                            targets: 5,
-                            width: '8%',
-                        },
-                    ],
+                    order: [[4, 'asc']],
                 }
             );
 
@@ -3075,7 +3089,7 @@ async function initializeStaffPageJs() {
                 responsive: true,
                 columns: [
                     {
-                        title: 'Transaction #',
+                        title: 'Requirement #',
                     },
                     {
                         title: 'Amount',
@@ -3084,12 +3098,20 @@ async function initializeStaffPageJs() {
                         title: 'Payment Method',
                     },
                     {
-                        title: 'Status',
+                        title: 'Payment Status',
+                    },
+                    {
+                        title: 'Quarter',
+                        type: 'quarter',
+                    },
+                    {
+                        title: 'Due Date',
                     },
                     {
                         title: 'Date Created',
                     },
                 ],
+                order: [[4, 'asc']],
             };
             const OngoingPaymentHistoryDataTable = $(
                 '#OngoingPaymentHistoryTable'
