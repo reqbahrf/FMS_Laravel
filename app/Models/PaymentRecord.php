@@ -16,11 +16,12 @@ class PaymentRecord extends Model implements AuditableContract
 
     protected $fillable = [
         'Project_id',
-        'transaction_id',
+        'reference_number',
         'amount',
         'payment_status',
         'payment_method',
-        'quarter'
+        'quarter',
+        'due_date'
     ];
     protected $casts = [
         'amount' => 'float',

@@ -27,7 +27,7 @@ import { customDateFormatter, formatNumberToCurrency } from './utilFunctions';
  */
 
 interface ProjectPayment {
-    transaction_id: string;
+    reference_number: string;
     amount: string;
     payment_method: string;
     payment_status: 'Paid' | 'Pending' | 'Failed';
@@ -60,10 +60,10 @@ const getProjectPaymentHistory = async (
                     : '';
 
                 return [
-                    payment.transaction_id,
+                    payment.reference_number,
                     formatNumberToCurrency(parseFloat(payment.amount)),
                     payment.payment_method,
-                    /*html*/`<span class="badge bg-${
+                    /*html*/ `<span class="badge bg-${
                         payment.payment_status === 'Paid'
                             ? 'success'
                             : payment.payment_status === 'Pending'
@@ -82,9 +82,7 @@ const getProjectPaymentHistory = async (
         });
         return totalAmount;
     } catch (error) {
-        throw new Error(
-            'Error fetching project payment history: ' + error
-        );
+        throw new Error('Error fetching project payment history: ' + error);
     }
 };
 

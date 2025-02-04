@@ -239,13 +239,13 @@ class AuditService
      * @param array $auditedData The data to be transformed.
      * @return array The transformed data.
      */
-    private function processTransformations(array $auditedData): array 
+    private function processTransformations(array $auditedData): array
     {
 
         $transformed = [];
         $keyTransformations = [
             'product_id' => 'Product ID',
-            'transaction_id' => 'Transaction ID',
+            'reference_number' => 'Transaction ID',
             'user_id' => 'User ID',
             'project_id' => 'Project ID',
             'amount' => 'Amount',
@@ -263,10 +263,9 @@ class AuditService
         foreach ($auditedData as $key => $value) {
             $transformedKey = $keyTransformations[strtolower($key)] ?? ucwords(str_replace('_', ' ', $key));
             $transformedValue = (is_numeric($value) && in_array($key, $AmountTransformations, true))
-                ? number_format(floatval($value), 2, '.', ',')  
+                ? number_format(floatval($value), 2, '.', ',')
                 : $value;
             $transformed[$transformedKey] = $transformedValue;
-            
         }
         return $transformed;
     }

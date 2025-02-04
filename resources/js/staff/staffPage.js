@@ -258,7 +258,7 @@ async function initializeStaffPageJs() {
                     },
                 ],
             });
-
+            //TODO: add quarterly column on this table
             const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable(
                 {
                     responsive: true,
@@ -911,13 +911,13 @@ async function initializeStaffPageJs() {
             async function update_payment_records() {
                 try {
                     const project_id = $('#ProjectID').val();
-                    const transaction_id = $('#TransactionID').val();
+                    const reference_number = $('#reference_number').val();
                     const formData = $('#paymentForm').serialize();
                     const response = await $.ajax({
                         type: 'PUT',
                         url: DASHBBOARD_TAB_ROUTE.UPDATE_PAYMENT_RECORDS.replace(
-                            ':transaction_id',
-                            transaction_id
+                            ':reference_number',
+                            reference_number
                         ),
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -1092,7 +1092,7 @@ async function initializeStaffPageJs() {
                     .text()
                     .trim();
 
-                $('#TransactionID').val(selected_transaction_id);
+                $('#reference_number').val(selected_transaction_id);
                 $('#paymentAmount').val(selected_amount);
                 $('#paymentMethod').val(selected_payment_method);
                 $('#paymentStatus').val(selected_payment_status);
@@ -1903,7 +1903,7 @@ async function initializeStaffPageJs() {
                         getUniqueVal: () => recordRow.find('td:eq(0)').text(),
                         getDeleteRoute: (uniqueVal) =>
                             DASHBBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
-                                ':transaction_id',
+                                ':reference_number',
                                 uniqueVal
                             ),
                         afterDelete: async (project_id) =>
@@ -4242,8 +4242,12 @@ async function initializeStaffPageJs() {
                         '.businessInfo input'
                     );
 
-                    $('#viewTNA').attr('data-business-id', businessID).attr('data-application-id', ApplicationID);
-                    $('#viewProjectProposal').attr('data-business-id', businessID).attr('data-application-id', ApplicationID);
+                    $('#viewTNA')
+                        .attr('data-business-id', businessID)
+                        .attr('data-application-id', ApplicationID);
+                    $('#viewProjectProposal')
+                        .attr('data-business-id', businessID)
+                        .attr('data-application-id', ApplicationID);
                     ApplicantDetails.filter('#firm_name').val(firmName);
                     ApplicantDetails.filter('#selected_userId').val(userID);
                     ApplicantDetails.filter('#selected_businessID').val(
@@ -5073,13 +5077,19 @@ ${output}</textarea
                 },
             });
 
-            const {TNAForm, ProjectProposalForm} = await import('./applicationProcessForm');
+            const { TNAForm, ProjectProposalForm } = await import(
+                './applicationProcessForm'
+            );
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
-            const ProjectProposalDocumentContainerModal = $('#projectProposalDocContainerModal');
+            const ProjectProposalDocumentContainerModal = $(
+                '#projectProposalDocContainerModal'
+            );
 
             const tnaForm = new TNAForm(TNADocumentContainerModal);
             tnaForm.initializeTNAForm();
-            const projectProposalForm = new ProjectProposalForm(ProjectProposalDocumentContainerModal);
+            const projectProposalForm = new ProjectProposalForm(
+                ProjectProposalDocumentContainerModal
+            );
             projectProposalForm.initializeProjectProposalForm();
 
             // const getTNAForm = async (business_Id) => {

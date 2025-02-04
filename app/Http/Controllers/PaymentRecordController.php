@@ -21,7 +21,7 @@ class PaymentRecordController extends Controller
         ]);
         try {
             return DB::table('payment_records')->where('Project_id', $validated['project_id'])
-                ->select('transaction_id', 'amount', 'payment_method', 'payment_status', 'created_at')
+                ->select('reference_number', 'amount', 'payment_method', 'payment_status', 'created_at')
                 ->get();
         } catch (\Exception $e) {
             Log::error('Error fetching payment records: ' . $e->getMessage());
@@ -44,14 +44,14 @@ class PaymentRecordController extends Controller
     {
         $validated = $request->validate([
             'project_id' => 'required|string|max:15',
-            'TransactionID' => 'required|string|max:15',
+            'reference_number' => 'required|string|max:15',
             'amount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
             'paymentMethod' => 'required|string|max:15',
             'paymentStatus' => 'required|string|max:15',
         ]);
 
         try {
-            $exists = PaymentRecord::where('transaction_id', $validated['TransactionID'])->exists();
+            $exists = PaymentRecord::where('reference_number', $validated['reference_number'])->exists();
 
             if ($exists) {
                 return response()->json([
@@ -63,7 +63,7 @@ class PaymentRecordController extends Controller
 
             $paymentRecord = new PaymentRecord();
             $paymentRecord->Project_id = $validated['project_id'];
-            $paymentRecord->transaction_id = $validated['TransactionID'];
+            $paymentRecord->reference_number = $validated['reference_number'];
             $paymentRecord->amount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
             $paymentRecord->payment_status = $validated['paymentStatus'];
             $paymentRecord->payment_method = $validated['paymentMethod'];
@@ -115,14 +115,14 @@ class PaymentRecordController extends Controller
     {
         $validated = $request->validate([
             'project_id' => 'required|string|max:15',
-            'TransactionID' => 'required|string|max:15',
+            'reference_number' => 'required|string|max:15',
             'amount' => 'required|regex:/^\d{1,3}(,\d{3})*(\.\d{2})?$/',
             'paymentMethod' => 'required|string|max:15',
             'paymentStatus' => 'required|string|max:15',
         ]);
 
         try {
-            $exists = PaymentRecord::where('transaction_id', $validated['TransactionID'])
+            $exists = PaymentRecord::where('reference_number', $validated['reference_number'])
                 ->exists();
             if (!$exists) {
                 return response()->json([
@@ -131,7 +131,7 @@ class PaymentRecordController extends Controller
                 ], 404);
             }
 
-            $record = PaymentRecord::where('transaction_id', $validated['TransactionID'])
+            $record = PaymentRecord::where('reference_number', $validated['reference_number'])
                 ->firstOrFail();
             $newAmount = number_format(str_replace(',', '', $validated['amount']), 2, '.', '');
 
@@ -152,7 +152,7 @@ class PaymentRecordController extends Controller
             }
             $record->update([
                 'Project_id' => $validated['project_id'],
-                'transaction_id' => $validated['TransactionID'],
+                'reference_number' => $validated['reference_number'],
                 'amount' => number_format(str_replace(',', '', $validated['amount']), 2, '.', ''),
                 'payment_status' => $validated['paymentStatus'],
                 'payment_method' => $validated['paymentMethod'],
@@ -174,11 +174,11 @@ class PaymentRecordController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $transaction_id)
+    public function destroy(string $reference_number)
     {
 
         try {
-            $exists = PaymentRecord::where('transaction_id', $transaction_id)
+            $exists = PaymentRecord::where('reference_number', $reference_number)
                 ->exists();
             if (!$exists) {
                 return response()
@@ -187,7 +187,7 @@ class PaymentRecordController extends Controller
                     ], 404);
             }
 
-            $record = PaymentRecord::where('transaction_id', $transaction_id)->first();
+            $record = PaymentRecord::where('reference_number', $reference_number)->first();
             $record->delete();
             return response()
                 ->json([

@@ -13,7 +13,7 @@ class CalculateQuarterlyPayments
         $numberOfQuarter = $yearDuration * 4;
         $amountPerQuarter = floatval(number_format($totalAmount / $numberOfQuarter, 2, '.', ''));
 
-        $currentDate = Carbon::now();
+        $currentDate = Carbon::now()->addQuarter()->startOfQuarter();
 
         for ($i = 1; $i < $numberOfQuarter; $i++) {
             $quarter = 'Q' . ($currentDate->quarter) . ' ' . $currentDate->year;
@@ -22,11 +22,12 @@ class CalculateQuarterlyPayments
 
             PaymentRecord::create([
                 'Project_id' => $projectId,
-                'transaction_id' => $transactionId,
+                'reference_number' => $transactionId,
                 'amount' => $amountPerQuarter,
-                'payment_status' => 'Pending',
-                'payment_method' => 'Cash',
+                'payment_status' => 'Due',
+                'payment_method' => 'N/A',
                 'quarter' => $quarter,
+                'due_date' => $currentDate,
             ]);
 
             $currentDate->addQuarter();
