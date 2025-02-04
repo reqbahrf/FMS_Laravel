@@ -5072,37 +5072,45 @@ ${output}</textarea
                 },
             });
 
-            const TNADocumentContainerModal = $('#tnaDocumentContainerModal');
+            const {TNAForm, ProjectProposalForm} = await import('./applicationProcessForm');
+            const TNADocumentContainerModal = $('#tnaDocContainerModal');
+            const ProjectProposalDocumentContainerModal = $('#projectProposalDocContainerModal');
 
-            const getTNAForm = async (business_Id) => {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT.replace(
-                            ':business_id',
-                            business_Id
-                        ),
-                    });
-                    TNADocumentContainerModal.find('.modal-body').html(
-                        response
-                    );
-                } catch (error) {
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
-                }
-            };
+            const tnaForm = new TNAForm(TNADocumentContainerModal);
+            tnaForm.initializeTNAForm();
+            // const projectProposalForm = new ProjectProposalForm(
+            //     ProjectProposalDocumentContainerModal
+            // );
 
-            TNADocumentContainerModal.on(
-                'show.bs.modal',
-                async function (event) {
-                    const business_Id = $(event.relatedTarget).attr(
-                        'data-business-id'
-                    );
-                    await getTNAForm(business_Id);
-                }
-            );
+            // const getTNAForm = async (business_Id) => {
+            //     try {
+            //         const response = await $.ajax({
+            //             type: 'GET',
+            //             url: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT.replace(
+            //                 ':business_id',
+            //                 business_Id
+            //             ),
+            //         });
+            //         TNADocumentContainerModal.find('.modal-body').html(
+            //             response
+            //         );
+            //     } catch (error) {
+            //         showToastFeedback(
+            //             'text-bg-danger',
+            //             error.responseJSON.message
+            //         );
+            //     }
+            // };
+
+            // TNADocumentContainerModal.on(
+            //     'show.bs.modal',
+            //     async function (event) {
+            //         const business_Id = $(event.relatedTarget).attr(
+            //             'data-business-id'
+            //         );
+            //         await getTNAForm(business_Id);
+            //     }
+            // );
         },
     };
     return functions;

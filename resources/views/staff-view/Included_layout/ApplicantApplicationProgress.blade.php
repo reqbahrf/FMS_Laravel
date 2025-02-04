@@ -74,14 +74,14 @@
                     <div class="card-header bg-primary">
                         <div class="fw-bold fs-6 text-white">
                             <i class="ri-file-list-3-fill"></i>
-                            Conduct TNA
+                            TNA
                         </div>
                     </div>
                     <div class="card-body d-flex justify-content-end">
                         <button
                             class="btn btn-primary"
                             data-bs-toggle="modal"
-                            data-bs-target="#tnaDocumentContainerModal"
+                            data-bs-target="#tnaDocContainerModal"
                             type="button"
                             id="viewTNA"
                         >
@@ -155,8 +155,28 @@
                     role="tabpanel"
                     aria-labelledby="step-3"
                 >
+                <div class="card h-100">
+                    <div class="card-header bg-primary">
+                        <div class="fw-bold fs-6 text-white">
+                            <i class="ri-file-list-3-fill"></i>
+                            Project Proposal
+                        </div>
+                    </div>
+                    <div class="card-body d-flex justify-content-end">
+                        <button
+                            class="btn btn-primary"
+                            data-bs-toggle="modal"
+                            data-bs-target="#projectProposalDocContainerModal"
+                            type="button"
+                            id="viewProjectProposal"
+                        >
+                            <i class="ri-file-list-3-fill me-1"></i>
+                            View Project Proposal document
+                        </button>
+                    </div>
+                </div>
                     <!-- Where Project Proposal Info Displayed -->
-                    <div class="card">
+                    <div class="card mt-3">
                         <div class="card-header bg-primary">
                             <div class="fw-bold fs-6 text-white">
                                 <i class="ri-file-list-3-fill"></i>
