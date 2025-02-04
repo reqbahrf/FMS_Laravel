@@ -63,7 +63,7 @@ class AdminProjectController extends Controller
                 Cache::forget('staffhandledProjects');
             }
 
-            CalculateQuarterlyPayments::execute(3, $project->fund_amount, $project->Project_id);
+            CalculateQuarterlyPayments::execute(3, $project->actual_amount_to_be_refund, $project->Project_id);
             DB::commit();
 
             return response()->json([
