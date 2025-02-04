@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        //TODO: update this application_id as required after finalization
         Schema::table('application_forms', function (Blueprint $table) {
             $table->bigInteger('application_id')->unsigned()->nullable()->after('business_id');
             $table->foreign('application_id')->references('id')->on('application_info')->onDelete('cascade')->onUpdate('cascade');

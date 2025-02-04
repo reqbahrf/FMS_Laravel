@@ -19,7 +19,8 @@ class PaymentRecord extends Model implements AuditableContract
         'transaction_id',
         'amount',
         'payment_status',
-        'payment_method'
+        'payment_method',
+        'quarter'
     ];
     protected $casts = [
         'amount' => 'float',
