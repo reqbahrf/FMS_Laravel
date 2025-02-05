@@ -59,7 +59,9 @@ const getProjectPaymentHistory = async (
         paymentDataTableInstance.draw();
 
         response.forEach((payment: ProjectPayment) => {
-            totalAmount += parseFloat(payment.amount) || 0;
+            if (payment.payment_status === 'Paid') {
+                totalAmount += parseFloat(payment.amount) || 0;
+            }
         });
         return totalAmount;
     } catch (error) {
