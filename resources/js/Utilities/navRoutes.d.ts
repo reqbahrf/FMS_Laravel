@@ -36,6 +36,9 @@ declare module 'global' {
    interface STAFF_DASHBOARD_ROUTE {
         STORE_PAYMENT_RECORDS: string;
         UPDATE_PAYMENT_RECORDS: string;
+        DELETE_PAYMENT_RECORDS: string;
+        DELETE_PROJECT_LINK: string;
+        DELETE_QUARTERLY_REPORT: string;
    }
 
     

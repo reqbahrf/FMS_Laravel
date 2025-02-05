@@ -1,6 +1,6 @@
 import * as DataTables from 'datatables.net';
 import getProjectPaymentHistory from '../Utilities/ProjectPaymentHistory';
-import { showProcessToast, hideProcessToast, showToastFeedback } from '../Utilities/utilFunctions';
+import { showProcessToast, hideProcessToast, showToastFeedback, createConfirmationModal } from '../Utilities/utilFunctions';
 
 export default class PaymentHandler {
     private paymentHistoryDataTableInstance: DataTables.Api
@@ -47,7 +47,7 @@ export default class PaymentHandler {
     paymentForm.find('#paymentStatus').val(selected_payment_status);
 
     }
-    async storePaymentRecords() {
+    async storePaymentRecords() : Promise<void> {
         try{
             const formData = this.paymentForm.serialize() + '&project_id=' + this.project_id;
             showProcessToast('Storing Payment Record...');
@@ -62,6 +62,7 @@ export default class PaymentHandler {
                 data: formData,
             });
             await this.getPaymentAndCalculation()
+            hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
         }catch(error:any){
            throw new Error('Failed to store payment records: ' + error);
@@ -69,7 +70,7 @@ export default class PaymentHandler {
 
     }
 
-    async updatePaymentRecords(){
+    async updatePaymentRecords() : Promise<void>{
         try{
             showProcessToast('Updating Payment Record...');
             const formData = this.paymentForm.serialize();
@@ -85,6 +86,7 @@ export default class PaymentHandler {
                 data: formData + '&project_id=' + this.project_id,
             })
             await this.getPaymentAndCalculation()
+            hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
         }catch(error:any){
             throw new Error('Failed to update payment records: ' + error);
@@ -92,10 +94,42 @@ export default class PaymentHandler {
 
     }
 
-    async getPaymentAndCalculation(){
+    async deletePaymentRecord(reference_number: string, {options}: {options?: any}) {
+        try{
+            const isConfirmed = await createConfirmationModal({
+                titleBg: 'bg-danger',
+                title: 'Delete Payment Record',
+                message: options?.confirm ?? `Are you sure you want to delete this payment record? ${reference_number}`,
+                confirmText: 'Yes',
+                cancelText: 'Cancel',
+                confirmButtonClass: 'btn-danger',
+            });
+            if (!isConfirmed) {
+                return;
+            }
+            showProcessToast('Deleting Payment Record...');
+            const response = await $.ajax({
+                type: 'DELETE',
+                url: DASHBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(':reference_number', reference_number),
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                        'content'
+                    ),
+                },
+            })
+            await this.getPaymentAndCalculation()
+            hideProcessToast();
+            showToastFeedback('text-bg-success', response.message);
+        }catch(error){
+            throw new Error('Error in deleting payment record: ' + error);
+        }
+
+    }
+
+    async getPaymentAndCalculation(): Promise<void> {
         try{
             const totatAmount = await getProjectPaymentHistory(
-                this.project_id,  
+                this.project_id,
                 this.paymentHistoryDataTableInstance, 
                 true
             )

@@ -94,7 +94,6 @@ const customDateFormatter = (date: string): string => {
         month: 'short',
         day: '2-digit',
         year: 'numeric',
-        timeZone: 'UTC', // Explicitly use UTC to prevent local timezone conversion
     };
 
     // Add time formatting if the original input included time

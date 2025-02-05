@@ -263,8 +263,9 @@ async function initializeStaffPageJs() {
             });
             //Data table custom sorter for quarter
 
+            const PaymentHistoryTable = $('#paymentHistoryTable')
             //TODO: add quarterly column on this table
-            const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable(
+            const PaymentHistoryDataTable = PaymentHistoryTable.DataTable(
                 {
                     fixedColumns: true,
                     autoWidth: false,
@@ -788,17 +789,19 @@ async function initializeStaffPageJs() {
                                         value="${Actual_Amount}"
                                     />`,
                                 /*html*/ `<span
-                                    class="badge ${
-                                        project.application_status ===
-                                        'approved'
-                                            ? 'bg-warning'
-                                            : project.application_status ===
-                                                'ongoing'
-                                              ? 'bg-primary'
-                                              : project.application_status ===
-                                                  'completed'
-                                                ? 'bg-success'
-                                                : null
+                                   class="badge ${
+                                        (() => {
+                                            switch (project.application_status) {
+                                                case 'approved':
+                                                    return 'bg-warning';
+                                                case 'ongoing':
+                                                    return 'bg-primary';
+                                                case 'completed':
+                                                    return 'bg-success';
+                                                default:
+                                                    return '';
+                                            }
+                                        })()
                                     }"
                                     >${project.application_status}</span
                                 >`,
@@ -1246,7 +1249,14 @@ async function initializeStaffPageJs() {
                     getAvailableQuarterlyReports(project_id);
                 }
             );
-            console.log(paymentHandler);
+            
+            PaymentHistoryTable.on('click', '.delete--payment--Btn', function(e) {
+                const selectedRow = $(this).closest('tr');
+                const reference_number = selectedRow.find('td:eq(0)').text().trim();
+                paymentHandler.deletePaymentRecord(reference_number, {options: {confirm: `Are you sure you want to delete this payment record? ${reference_number}`}}).then(() => {
+                    selectedRow.remove();
+                });
+            })
 
             const getAmountRefund = () => {
                 const fundedAmountText = $('#FundedAmount').text();
@@ -1822,30 +1832,6 @@ async function initializeStaffPageJs() {
              */
             function getRecordData(action, recordRow, triggeredDeleteButton) {
                 const recordTypes = {
-                    projectPayment: {
-                        getMessage: () => {
-                            const paymentTransactionID = recordRow
-                                .find('td:eq(0)')
-                                .text();
-                            const paymentAmount = recordRow
-                                .find('td:eq(1)')
-                                .text();
-                            return `Are you sure you want to delete this transaction <strong>${paymentTransactionID}</strong> with amount of <strong>${paymentAmount}</strong>?`;
-                        },
-                        recordType: 'paymentRecord',
-                        getUniqueVal: () => recordRow.find('td:eq(0)').text(),
-                        getDeleteRoute: (uniqueVal) =>
-                            DASHBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
-                                ':reference_number',
-                                uniqueVal
-                            ),
-                        afterDelete: async (project_id) =>
-                            await getPaymentHistoryAndCalculation(
-                                project_id,
-                                getAmountRefund(),
-                                PaymentHistoryDataTable
-                            ),
-                    },
                     projectLink: {
                         getMessage: () => {
                             const fileId = recordRow.find('input.linkID').val();
