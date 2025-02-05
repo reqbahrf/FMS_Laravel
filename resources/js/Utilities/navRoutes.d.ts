@@ -15,6 +15,8 @@ declare module 'global' {
         APPLICATIONS?: string;
         USERS?: string;
         SETTINGS?: string;
+
+        QUARTERLY_REPORT: string;
     }
     interface USERS_LIST_ROUTE {
         GET_STAFF_USER_ACTIVITY_LOGS: string;

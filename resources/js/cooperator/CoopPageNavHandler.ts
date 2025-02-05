@@ -2,10 +2,10 @@ import NavigationHandler from '../Utilities/TabNavigationHandler';
 
 export default class CoopPageNavHandler extends NavigationHandler {
     constructor(
-        TabContainer,
-        userRole,
-        MappedUrlsRoutes,
-        PageFunctionsInitializer
+        TabContainer: JQuery<HTMLElement>,
+        userRole: string,
+        MappedUrlsRoutes: { [key: string]: Function },
+        PageFunctionsInitializer: Function
     ) {
         super(
             TabContainer,
@@ -15,8 +15,8 @@ export default class CoopPageNavHandler extends NavigationHandler {
         );
     }
 
-    async _getPageFunction(url, functions) {
-        const urlRoute = this.MappedUrlsRoutes;
+    async _getPageFunction(url: string, functions: Function): Promise<Function> {
+        const urlRoute = this.getUrlRoutes();
         const parsedUrl = new URL(url);
         const urlParts = parsedUrl.pathname.split('/');
 
