@@ -293,7 +293,11 @@ async function initializeStaffPageJs() {
                             width: '15%',
                         },
                         {
-                            title: 'Date Created',
+                            title: 'Date Completed',
+                            width: '15%'
+                        },
+                        {
+                            title: 'Last Modified',
                             width: '15%',
                         },
                         {
@@ -3106,6 +3110,9 @@ async function initializeStaffPageJs() {
                     },
                     {
                         title: 'Due Date',
+                    },
+                    {
+                        title: 'Date Completed'
                     },
                     {
                         title: 'Date Created',

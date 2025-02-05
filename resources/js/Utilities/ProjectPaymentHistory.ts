@@ -9,7 +9,8 @@ interface ProjectPayment {
     payment_status: 'Paid' | 'Pending' | 'Due' | 'Overdue';
     quarter: string;
     due_date: string;
-    created_at: string;
+    date_completed: string | null;
+    updated_at: string;
 }
 
 const getProjectPaymentHistory = async (
@@ -27,8 +28,11 @@ const getProjectPaymentHistory = async (
         
         // Process payments data
         const processedPayments = payments.map((payment: ProjectPayment) => {
-            const dateCreated = customDateFormatter(payment.created_at);
+            const dateUpdated = customDateFormatter(payment.updated_at);
             const dueDate = customDateFormatter(payment.due_date);
+            const dateCompleted = payment.date_completed
+                ? customDateFormatter(payment.date_completed)
+                : 'N/A';
             const actionButtons = isUpdatable
                 ? /*html*/`<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                     data-bs-target="#paymentModal"
@@ -52,7 +56,8 @@ const getProjectPaymentHistory = async (
                 }">${payment.payment_status}</span>`,
                 payment.quarter,
                 dueDate,
-                dateCreated,
+                dateCompleted,
+                dateUpdated,
                 actionButtons,
             ];
         });
