@@ -21,12 +21,15 @@ class PaymentRecord extends Model implements AuditableContract
         'payment_status',
         'payment_method',
         'quarter',
-        'due_date'
+        'due_date',
+        'date_completed'
     ];
     protected $casts = [
         'amount' => 'float',
         'payment_status' => 'string',
-        'payment_method' => 'string'
+        'payment_method' => 'string',
+        'due_date' => 'date',
+        'date_completed' => 'date',
     ];
 
     public function projectInfo(): BelongsTo

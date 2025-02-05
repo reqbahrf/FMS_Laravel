@@ -49,7 +49,8 @@ class CalculateQuarterlyPayments
                  'payment_status' => 'Due',
                  'payment_method' => 'N/A',
                  'quarter' => $quarter,
-                 'due_date' => $currentDate,
+                 'due_date' => $currentDate->toDateString(),
+                 'date_completed' => null,
              ]);
  
              // e. Move to the next quarter
