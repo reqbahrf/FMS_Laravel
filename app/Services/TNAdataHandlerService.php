@@ -12,11 +12,12 @@ class TNAdataHandlerService
         $this->TNAForm = $TNAForm;
     }
 
-    public function setTNAData(array $data, int $business_id, string $key = 'tna_form')
+    public function setTNAData(array $data, int $business_id, int $application_id, string $key = 'tna_form')
     {
         try {
             $this->TNAForm->updateOrCreate([
                 'business_id' => $business_id,
+                'application_id' => $application_id,
                 'key' => $key
             ], [
                 'data' => $data,
@@ -27,10 +28,11 @@ class TNAdataHandlerService
         }
     }
 
-    public function getTNAData(int $business_id, string $key = 'tna_form')
+    public function getTNAData(int $business_id, int $application_id, string $key = 'tna_form')
     {
         try {
             $TNAForm = $this->TNAForm->where('business_id', $business_id)
+                ->where('application_id', $application_id)
                 ->where('key', $key)
                 ->first();
             return $TNAForm ? $TNAForm->data : null;

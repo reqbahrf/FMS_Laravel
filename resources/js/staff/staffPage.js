@@ -26,7 +26,7 @@ import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
 // import 'datatables.net-fixedheader-bs5/css/fixedHeader.bootstrap5.min.css';
 // import 'datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css';
 // import 'datatables.net-scroller-bs5/css/scroller.bootstrap5.min.css';
-
+import '../Utilities/dataTableCustomConfig';
 window.DataTable = DataTable;
 import 'datatables.net-buttons-bs5';
 import 'datatables.net-buttons/js/buttons.html5.mjs';
@@ -258,36 +258,54 @@ async function initializeStaffPageJs() {
                     },
                 ],
             });
-
+            //Data table custom sorter for quarter
+         
+            //TODO: add quarterly column on this table
             const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable(
                 {
+                    fixedColumns: true,
+                    autoWidth: false,
                     responsive: true,
                     columns: [
                         {
-                            title: 'Transaction #',
+                            title: 'Reference #',
+                            width: '10%',
                         },
                         {
                             title: 'Amount (₱)',
+                            width: '10%',
                         },
                         {
                             title: 'Payment Method',
+                            width: '10%',
                         },
                         {
                             title: 'Status',
+                            width: '5%',
                         },
                         {
-                            title: 'Date Created',
+                            title: 'Quarter',
+                            width: '10%',
+                            type: 'quarter',
+                        },
+                        {
+                            title: 'Due Date',
+                            width: '15%',
+                        },
+                        {
+                            title: 'Date Completed',
+                            width: '15%'
+                        },
+                        {
+                            title: 'Last Modified',
+                            width: '15%',
                         },
                         {
                             title: 'Action',
+                            width: '3%',
                         },
                     ],
-                    columnDefs: [
-                        {
-                            targets: 5,
-                            width: '8%',
-                        },
-                    ],
+                    order: [[4, 'asc']],
                 }
             );
 
@@ -911,13 +929,13 @@ async function initializeStaffPageJs() {
             async function update_payment_records() {
                 try {
                     const project_id = $('#ProjectID').val();
-                    const transaction_id = $('#TransactionID').val();
+                    const reference_number = $('#reference_number').val();
                     const formData = $('#paymentForm').serialize();
                     const response = await $.ajax({
                         type: 'PUT',
                         url: DASHBBOARD_TAB_ROUTE.UPDATE_PAYMENT_RECORDS.replace(
-                            ':transaction_id',
-                            transaction_id
+                            ':reference_number',
+                            reference_number
                         ),
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -1092,7 +1110,7 @@ async function initializeStaffPageJs() {
                     .text()
                     .trim();
 
-                $('#TransactionID').val(selected_transaction_id);
+                $('#reference_number').val(selected_transaction_id);
                 $('#paymentAmount').val(selected_amount);
                 $('#paymentMethod').val(selected_payment_method);
                 $('#paymentStatus').val(selected_payment_status);
@@ -1903,7 +1921,7 @@ async function initializeStaffPageJs() {
                         getUniqueVal: () => recordRow.find('td:eq(0)').text(),
                         getDeleteRoute: (uniqueVal) =>
                             DASHBBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
-                                ':transaction_id',
+                                ':reference_number',
                                 uniqueVal
                             ),
                         afterDelete: async (project_id) =>
@@ -3075,7 +3093,7 @@ async function initializeStaffPageJs() {
                 responsive: true,
                 columns: [
                     {
-                        title: 'Transaction #',
+                        title: 'Requirement #',
                     },
                     {
                         title: 'Amount',
@@ -3084,12 +3102,23 @@ async function initializeStaffPageJs() {
                         title: 'Payment Method',
                     },
                     {
-                        title: 'Status',
+                        title: 'Payment Status',
+                    },
+                    {
+                        title: 'Quarter',
+                        type: 'quarter',
+                    },
+                    {
+                        title: 'Due Date',
+                    },
+                    {
+                        title: 'Date Completed'
                     },
                     {
                         title: 'Date Created',
                     },
                 ],
+                order: [[4, 'asc']],
             };
             const OngoingPaymentHistoryDataTable = $(
                 '#OngoingPaymentHistoryTable'
@@ -4242,8 +4271,12 @@ async function initializeStaffPageJs() {
                         '.businessInfo input'
                     );
 
-                    $('#viewTNA').attr('data-business-id', businessID);
-                    $('#viewProjectProposal').attr('data-business-id', businessID);
+                    $('#viewTNA')
+                        .attr('data-business-id', businessID)
+                        .attr('data-application-id', ApplicationID);
+                    $('#viewProjectProposal')
+                        .attr('data-business-id', businessID)
+                        .attr('data-application-id', ApplicationID);
                     ApplicantDetails.filter('#firm_name').val(firmName);
                     ApplicantDetails.filter('#selected_userId').val(userID);
                     ApplicantDetails.filter('#selected_businessID').val(
@@ -5073,13 +5106,19 @@ ${output}</textarea
                 },
             });
 
-            const {TNAForm, ProjectProposalForm} = await import('./applicationProcessForm');
+            const { TNAForm, ProjectProposalForm } = await import(
+                './applicationProcessForm'
+            );
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
-            const ProjectProposalDocumentContainerModal = $('#projectProposalDocContainerModal');
+            const ProjectProposalDocumentContainerModal = $(
+                '#projectProposalDocContainerModal'
+            );
 
             const tnaForm = new TNAForm(TNADocumentContainerModal);
             tnaForm.initializeTNAForm();
-            const projectProposalForm = new ProjectProposalForm(ProjectProposalDocumentContainerModal);
+            const projectProposalForm = new ProjectProposalForm(
+                ProjectProposalDocumentContainerModal
+            );
             projectProposalForm.initializeProjectProposalForm();
 
             // const getTNAForm = async (business_Id) => {

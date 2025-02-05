@@ -275,9 +275,9 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::post('/send-rejection-email', [RejectionEmailController::class, 'sendRejectionEmail'])
         ->name('send.rejection.email');
 
-    Route::get('/Staff/Applicant/get/tna/{business_id}', [TNADocController::class, 'getTNAForm'])
+    Route::get('/Staff/Applicant/get/tna/{business_id}/{application_id}', [TNADocController::class, 'getTNAForm'])
         ->name('staff.Applicant.get.tna');
-        
+
     Route::get('/Staff/Applicant/get/project-proposal', [ProjectProposalDocController::class, 'getProjectProposalForm'])
         ->name('staff.Applicant.get.project-proposal');
 });

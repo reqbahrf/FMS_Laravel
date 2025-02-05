@@ -32,6 +32,7 @@ import 'datatables.net-fixedcolumns-bs5';
 import 'datatables.net-fixedheader-bs5';
 import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
+import '../Utilities/dataTableCustomConfig';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
@@ -888,21 +889,29 @@ async function initializeAdminPageJs() {
                 responsive: true,
                 columns: [
                     {
-                        title: 'Transaction #',
+                        title: 'Reference #',
                     },
                     {
-                        title: 'Amount',
+                        title: 'Amount(₱)',
                     },
                     {
                         title: 'Payment Method',
                     },
                     {
-                        title: 'Status',
+                        title: 'Payment Status',
+                    },
+                    {
+                        title: 'Quarter',
+                        type: 'quarter'
+                    },
+                    {
+                        title: 'Due Date'
                     },
                     {
                         title: 'Date Created',
                     },
                 ],
+                order: [[4, 'asc']],
             };
 
             // Initialize separate instances

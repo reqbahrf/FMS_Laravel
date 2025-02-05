@@ -163,7 +163,7 @@
             class="content-row navExpanded"
             id="toggle-left-margin"
         >
-          <x-top-navigation />
+            <x-top-navigation />
             <div class="main-content">
                 <div class="spinner d-flex justify-content-center align-items-center h-100 d-none">
                     <div
@@ -207,8 +207,8 @@
             GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',
             UPDATE_PROJECT_STATE: '{{ route('staff.Dashboard.updateProjectState') }}',
             STORE_PAYMENT_RECORDS: '{{ route('PaymentRecord.store') }}',
-            UPDATE_PAYMENT_RECORDS: '{{ route('PaymentRecord.update', ':transaction_id') }}',
-            DELETE_PAYMENT_RECORDS: '{{ route('PaymentRecord.destroy', ':transaction_id') }}',
+            UPDATE_PAYMENT_RECORDS: '{{ route('PaymentRecord.update', ':reference_number') }}',
+            DELETE_PAYMENT_RECORDS: '{{ route('PaymentRecord.destroy', ':reference_number') }}',
             STORE_PROJECT_FILES: '{{ route('ProjectLink.store') }}',
             GET_PROJECT_LINKS: '{{ route('ProjectLink.index') }}',
             UPDATE_PROJECT_LINKS: '{{ route('ProjectLink.update', ':file_id') }}',
@@ -250,7 +250,7 @@
             STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}',
             GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}',
             REJECT_APPLICATION_TNA: '{{ route('send.rejection.email') }}',
-            GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', ':business_id') }}',
+            GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id']) }}',
             GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal') }}'
         }
 
@@ -263,4 +263,3 @@
 </body>
 
 </html>
-

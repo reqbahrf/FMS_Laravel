@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\ProjectInfo;
+use App\Actions\CalculateQuarterlyPayments;
 use App\Models\ApplicationInfo;
 use App\Models\BusinessInfo;
 use App\Models\OrgUserInfo;
@@ -62,6 +63,7 @@ class AdminProjectController extends Controller
                 Cache::forget('staffhandledProjects');
             }
 
+            CalculateQuarterlyPayments::execute(3, $project->actual_amount_to_be_refund, $project->Project_id);
             DB::commit();
 
             return response()->json([

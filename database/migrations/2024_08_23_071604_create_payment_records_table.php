@@ -15,10 +15,10 @@ return new class extends Migration
         Schema::create('payment_records', function (Blueprint $table) {
             $table->id();
             $table->char('Project_id', 15)->collation('utf8mb4_bin');
-            $table->string('transaction_id', 64)->unique();
+            $table->string('reference_number', 64)->unique();
             $table->decimal('amount', 10, 2);
-            $table->string('payment_status', 64);
-            $table->string('payment_method', 64);
+            $table->enum('payment_status', ['Due', 'Pending', 'Paid', 'Overdue'])->default('Due');
+            $table->string('payment_method');
             $table->timestamps();
             $table->foreign('Project_id')->references('Project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');
         });

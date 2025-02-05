@@ -26,11 +26,11 @@
                 <form id="paymentForm">
                     <div class="row gy-3">
                         <div class="col-12">
-                            <label for="TransactionID">Transaction ID:</label>
+                            <label for="reference_number">Transaction ID:</label>
                             <input
                                 class="form-control"
-                                id="TransactionID"
-                                name="TransactionID"
+                                id="reference_number"
+                                name="reference_number"
                                 type="text"
                             >
                         </div>
