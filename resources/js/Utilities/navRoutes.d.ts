@@ -33,10 +33,16 @@ declare module 'global' {
         GET_PROJECT_PROPOSAL: string;
     }
 
+   interface STAFF_DASHBOARD_ROUTE {
+        STORE_PAYMENT_RECORDS: string;
+        UPDATE_PAYMENT_RECORDS: string;
+   }
+
     
 
     // Declare NAV_ROUTES as a global variable
     global {
+        var DASHBOARD_TAB_ROUTE: STAFF_DASHBOARD_ROUTE;
         var NAV_ROUTES: NavRoutes;
         var USER_ACTIVITY_LOG_ROUTE: string;
         var USERS_LIST_ROUTE: USERS_LIST_ROUTE;

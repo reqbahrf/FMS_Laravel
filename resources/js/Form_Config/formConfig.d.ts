@@ -1,7 +1,4 @@
 declare module 'global-form-config' {
-   export interface RowConfig {
-        createRow: (rowData: any) => HTMLElement;
-    }
     
     export interface TableRowConfig {
         createRow: (rowData: any) => string;
