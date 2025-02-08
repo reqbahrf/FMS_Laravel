@@ -1,20 +1,49 @@
-import { createConfirmationModal, showProcessToast, hideProcessToast, showToastFeedback } from '../Utilities/utilFunctions';
+import {
+    createConfirmationModal,
+    showProcessToast,
+    hideProcessToast,
+    showToastFeedback,
+} from '../Utilities/utilFunctions';
 
+interface LocalDataStructure {
+    [region: string]: {
+        byProvince: {
+            [province: string]: {
+                byCity: {
+                    [city: string]: {
+                        byBarangay: {
+                            [barangay: string]: {
+                                [enterpriseLevel: string]: number;
+                            };
+                        };
+                    };
+                };
+            };
+        };
+    };
+}
 export default class AdminDashboard {
     private yearSelector: JQuery<HTMLSelectElement>;
     private generateReportBtn: JQuery<HTMLButtonElement>;
+    private localData: LocalDataStructure | null;
     private monthlyDataChart: ApexCharts | null;
     private localDataChart: ApexCharts | null;
     private enterpriseLevelsDataChart: ApexCharts | null;
     private staffhandlerProjectChart: ApexCharts | null;
+    private filterBySelector: JQuery<HTMLSelectElement>;
+    private specificLocationSelector: JQuery<HTMLSelectElement>;
 
     constructor() {
         this.yearSelector = $('#yearSelector');
         this.generateReportBtn = $('#generateDashboardReport');
+        this.localData = null;
         this.monthlyDataChart = null;
         this.localDataChart = null;
         this.enterpriseLevelsDataChart = null;
         this.staffhandlerProjectChart = null;
+        this.filterBySelector = $('#filterBy');
+        this.specificLocationSelector = $('#specificLocation');
+        this.setupLocationFilterListeners();
     }
 
     processYearListSelector(
@@ -489,6 +518,327 @@ export default class AdminDashboard {
         });
     }
 
+    private setupLocationFilterListeners(): void {
+        this.filterBySelector.on('change', () => {
+            const selectedFilter = this.filterBySelector.val() as string;
+            this.updateSpecificLocationSelector(selectedFilter);
+        });
+
+        this.specificLocationSelector.on('change', () => {
+            const selectedFilter = this.filterBySelector.val() as string;
+            const selectedLocation =
+                this.specificLocationSelector.val() as string;
+            this.filterAndUpdateCharts(selectedFilter, selectedLocation);
+        });
+    }
+
+    private updateSpecificLocationSelector(filterType: string): void {
+        const specificLocationSelector = this.specificLocationSelector;
+        specificLocationSelector.prop('disabled', false);
+        specificLocationSelector.empty();
+        specificLocationSelector.append($('<option>').text('Select Location'));
+
+        if (!this.localData) return;
+
+        let locations: string[] = [];
+        switch (filterType) {
+            case 'By Region':
+                locations = Object.keys(this.localData);
+                break;
+            case 'By Province':
+                Object.values(this.localData).forEach((regionData) => {
+                    locations = [
+                        ...locations,
+                        ...Object.keys(regionData.byProvince),
+                    ];
+                });
+                break;
+            case 'By City':
+                Object.values(this.localData).forEach((regionData) => {
+                    Object.values(regionData.byProvince).forEach(
+                        (provinceData) => {
+                            locations = [
+                                ...locations,
+                                ...Object.keys(provinceData.byCity),
+                            ];
+                        }
+                    );
+                });
+                break;
+            case 'By Barangay':
+                Object.values(this.localData).forEach((regionData) => {
+                    Object.values(regionData.byProvince).forEach(
+                        (provinceData) => {
+                            Object.values(provinceData.byCity).forEach(
+                                (cityData) => {
+                                    locations = [
+                                        ...locations,
+                                        ...Object.keys(cityData.byBarangay),
+                                    ];
+                                }
+                            );
+                        }
+                    );
+                });
+                break;
+            default:
+                return;
+        }
+
+        // Remove duplicates and sort
+        locations = [...new Set(locations)].sort();
+        locations.forEach((location) => {
+            specificLocationSelector.append(
+                $('<option>').val(location).text(location)
+            );
+        });
+    }
+
+    private filterAndUpdateCharts(
+        filterType: string,
+        selectedLocation: string
+    ): void {
+        // Early return if localData is null or location is not selected
+        if (!this.localData || selectedLocation === 'Select Location') {
+            console.warn('Local data is not available or no location selected');
+            return;
+        }
+
+        let filteredLocalData: {
+            [city: string]: {
+                ['Micro Enterprise']: number;
+                ['Small Enterprise']: number;
+                ['Medium Enterprise']: number;
+            };
+        } = {};
+
+        switch (filterType) {
+            case 'By Region':
+                // Safely check if the selected location exists in localData
+                if (!this.localData[selectedLocation]?.byProvince) {
+                    console.warn(
+                        `No province data found for location: ${selectedLocation}`
+                    );
+                    return;
+                }
+
+                Object.keys(
+                    this.localData[selectedLocation].byProvince || {}
+                ).forEach((province) => {
+                    const provinceData =
+                        this.localData![selectedLocation].byProvince[province];
+                    if (!provinceData?.byCity) {
+                        return;
+                    }
+
+                    Object.keys(provinceData.byCity).forEach((city) => {
+                        filteredLocalData[city] = {
+                            'Micro Enterprise': 0,
+                            'Small Enterprise': 0,
+                            'Medium Enterprise': 0,
+                        };
+
+                        Object.keys(
+                            provinceData.byCity[city].byBarangay || {}
+                        ).forEach((barangay) => {
+                            const barangayData =
+                                provinceData.byCity[city].byBarangay[barangay];
+                            if (!barangayData) {
+                                return;
+                            }
+
+                            Object.keys(barangayData).forEach(
+                                (enterpriseLevel) => {
+                                    if (
+                                        enterpriseLevel === 'Micro Enterprise'
+                                    ) {
+                                        filteredLocalData[city][
+                                            'Micro Enterprise'
+                                        ] += barangayData[enterpriseLevel];
+                                    } else if (
+                                        enterpriseLevel === 'Small Enterprise'
+                                    ) {
+                                        filteredLocalData[city][
+                                            'Small Enterprise'
+                                        ] += barangayData[enterpriseLevel];
+                                    } else if (
+                                        enterpriseLevel === 'Medium Enterprise'
+                                    ) {
+                                        filteredLocalData[city][
+                                            'Medium Enterprise'
+                                        ] += barangayData[enterpriseLevel];
+                                    }
+                                }
+                            );
+                        });
+                    });
+                });
+                break;
+            case 'By Province':
+                if (
+                    !this.localData[selectedLocation]?.byProvince[selectedLocation]
+                ) {
+                    console.warn('No data found for the selected location.');
+                    return;
+                }
+                Object.keys(this.localData).forEach((region) => {
+                    if (!this.localData) return;
+                    Object.keys(
+                        this.localData[region].byProvince[selectedLocation]
+                            ?.byCity || {}
+                    ).forEach((city) => {
+                        if (!this.localData) return;
+                        filteredLocalData[city] = {
+                            'Micro Enterprise': 0,
+                            'Small Enterprise': 0,
+                            'Medium Enterprise': 0,
+                        };
+                        Object.keys(
+                            this.localData[region].byProvince[selectedLocation]
+                                .byCity[city].byBarangay
+                        ).forEach((barangay) => {
+                            if (!this.localData) return;
+                            const barangayData =
+                                this.localData[region].byProvince[
+                                    selectedLocation
+                                ].byCity[city].byBarangay[barangay];
+                            if (!barangayData) {
+                                return;
+                            }
+
+                            Object.keys(barangayData).forEach(
+                                (enterpriseLevel) => {
+                                    if (
+                                        enterpriseLevel === 'Micro Enterprise'
+                                    ) {
+                                        filteredLocalData[city][
+                                            'Micro Enterprise'
+                                        ] += barangayData[enterpriseLevel];
+                                    } else if (
+                                        enterpriseLevel === 'Small Enterprise'
+                                    ) {
+                                        filteredLocalData[city][
+                                            'Small Enterprise'
+                                        ] += barangayData[enterpriseLevel];
+                                    } else if (
+                                        enterpriseLevel === 'Medium Enterprise'
+                                    ) {
+                                        filteredLocalData[city][
+                                            'Medium Enterprise'
+                                        ] += barangayData[enterpriseLevel];
+                                    }
+                                }
+                            );
+                        });
+                    });
+                });
+                break;
+            case 'By City':
+                Object.keys(this.localData).forEach((region) => {
+                    if (!this.localData) return;
+                    Object.keys(this.localData[region].byProvince).forEach(
+                        (province) => {
+                            if (!this.localData) return;
+                            const cityData =
+                                this.localData[region].byProvince[province]
+                                    .byCity[selectedLocation];
+                            if (!cityData) {
+                                return;
+                            }
+
+                            filteredLocalData[selectedLocation] = {
+                                'Micro Enterprise': 0,
+                                'Small Enterprise': 0,
+                                'Medium Enterprise': 0,
+                            };
+                            Object.keys(cityData.byBarangay).forEach(
+                                (barangay) => {
+                                    const barangayData =
+                                        cityData.byBarangay[barangay];
+                                    if (!barangayData) {
+                                        return;
+                                    }
+
+                                    Object.keys(barangayData).forEach(
+                                        (enterpriseLevel) => {
+                                            if (
+                                                enterpriseLevel ===
+                                                'Micro Enterprise'
+                                            ) {
+                                                filteredLocalData[
+                                                    selectedLocation
+                                                ]['Micro Enterprise'] +=
+                                                    barangayData[
+                                                        enterpriseLevel
+                                                    ];
+                                            } else if (
+                                                enterpriseLevel ===
+                                                'Small Enterprise'
+                                            ) {
+                                                filteredLocalData[
+                                                    selectedLocation
+                                                ]['Small Enterprise'] +=
+                                                    barangayData[
+                                                        enterpriseLevel
+                                                    ];
+                                            } else if (
+                                                enterpriseLevel ===
+                                                'Medium Enterprise'
+                                            ) {
+                                                filteredLocalData[
+                                                    selectedLocation
+                                                ]['Medium Enterprise'] +=
+                                                    barangayData[
+                                                        enterpriseLevel
+                                                    ];
+                                            }
+                                        }
+                                    );
+                                }
+                            );
+                        }
+                    );
+                });
+                break;
+            case 'By Barangay':
+                Object.keys(this.localData).forEach((region) => {
+                    if (!this.localData) return;
+                    Object.keys(this.localData[region].byProvince).forEach(
+                        (province) => {
+                            if (!this.localData) return;
+                            Object.keys(
+                                this.localData[region].byProvince[province]
+                                    .byCity
+                            ).forEach((city) => {
+                                if (!this.localData) return;
+                                const barangayData =
+                                    this.localData[region].byProvince[province]
+                                        .byCity[city].byBarangay[
+                                        selectedLocation
+                                    ];
+                                if (!barangayData) {
+                                    return;
+                                }
+
+                                filteredLocalData[city] = {
+                                    'Micro Enterprise':
+                                        barangayData['Micro Enterprise'] || 0,
+                                    'Small Enterprise':
+                                        barangayData['Small Enterprise'] || 0,
+                                    'Medium Enterprise':
+                                        barangayData['Medium Enterprise'] || 0,
+                                };
+                            });
+                        }
+                    );
+                });
+                break;
+        }
+
+        // Safely call processLocalDataChart with optional chaining
+        this.processLocalDataChart?.(filteredLocalData);
+    }
+
     async getDashboardChartData(
         yearToLoad: string | null = null
     ): Promise<void> {
@@ -520,9 +870,9 @@ export default class AdminDashboard {
             }
 
             // Safely parse and handle localData
-            let localData = [];
+            this.localData = null;
             try {
-                localData =
+                this.localData =
                     typeof response.localData === 'string' && response.localData
                         ? JSON.parse(response.localData)
                         : response.localData || [];
@@ -538,7 +888,6 @@ export default class AdminDashboard {
 
             await Promise.all([
                 this.processMouthlyDataChart(monthlyData),
-                this.processLocalDataChart(localData),
                 this.processHandleStaffProjectChart(handleProject),
                 this.processYearListSelector(
                     ListChartYear,
@@ -551,85 +900,80 @@ export default class AdminDashboard {
         }
     }
 
-   async init(): Promise<void> {
-       await this.getDashboardChartData();
+    async init(): Promise<void> {
+        await this.getDashboardChartData();
 
-       this.yearSelector.on('change', async (e) => {
-           const selectedYear = $(e.target).val() as string;
-           await this.getDashboardChartData(selectedYear);
-       });
-       this.generateReportBtn.on('click', async () => {
-         const selectedYear = this.yearSelector.val() as string || '';
-         const isConfirmed = await createConfirmationModal({
-            title: 'Generate Report',
-            titleBg: 'bg-primary',
-            message:
-                'Are you sure you want to generate the report?',
-            confirmText: 'Yes',
-            confirmButtonClass: 'btn-primary',
-            cancelText: 'No',
+        this.yearSelector.on('change', async (e) => {
+            const selectedYear = $(e.target).val() as string;
+            await this.getDashboardChartData(selectedYear);
         });
-        if (!isConfirmed) return
-        showProcessToast('Generating Report...');
-        try{
-            const response = await $.ajax({
-                type: 'GET',
-                url: DASHBOARD_TAB_ROUTE.GENERATE_DASHBOARD_REPORT.replace(
-                    ':yearToLoad',
-                    selectedYear
-                ),
-                headers: {
-                    'X-CSRF-TOKEN': $(
-                        'meta[name="csrf-token"]'
-                    ).attr('content'),
-                },
-                xhrFields: {
-                    responseType: 'blob',
-                },
+        this.generateReportBtn.on('click', async () => {
+            const selectedYear = (this.yearSelector.val() as string) || '';
+            const isConfirmed = await createConfirmationModal({
+                title: 'Generate Report',
+                titleBg: 'bg-primary',
+                message: 'Are you sure you want to generate the report?',
+                confirmText: 'Yes',
+                confirmButtonClass: 'btn-primary',
+                cancelText: 'No',
             });
+            if (!isConfirmed) return;
+            showProcessToast('Generating Report...');
+            try {
+                const response = await $.ajax({
+                    type: 'GET',
+                    url: DASHBOARD_TAB_ROUTE.GENERATE_DASHBOARD_REPORT.replace(
+                        ':yearToLoad',
+                        selectedYear
+                    ),
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                            'content'
+                        ),
+                    },
+                    xhrFields: {
+                        responseType: 'blob',
+                    },
+                });
 
-            // Check if response is JSON (error message)
-            const contentType = response.type;
-            if (contentType === 'application/json') {
-                // Read the blob as text to get error message
-                const reader = new FileReader();
-                reader.onload = function () {
-                    const errorData = JSON.parse(this.result as string);
-                    hideProcessToast();
-                    showToastFeedback(
-                        'text-bg-danger',
-                        errorData.message ||
-                            'Failed to generate PDF'
-                    );
-                };
-                reader.readAsText(response);
-                return;
-            }
+                // Check if response is JSON (error message)
+                const contentType = response.type;
+                if (contentType === 'application/json') {
+                    // Read the blob as text to get error message
+                    const reader = new FileReader();
+                    reader.onload = function () {
+                        const errorData = JSON.parse(this.result as string);
+                        hideProcessToast();
+                        showToastFeedback(
+                            'text-bg-danger',
+                            errorData.message || 'Failed to generate PDF'
+                        );
+                    };
+                    reader.readAsText(response);
+                    return;
+                }
 
-            // If we get here, it's a PDF response
-            const blob = new Blob([response], {
-                type: 'application/pdf',
-            });
-            const url = window.URL.createObjectURL(blob);
+                // If we get here, it's a PDF response
+                const blob = new Blob([response], {
+                    type: 'application/pdf',
+                });
+                const url = window.URL.createObjectURL(blob);
 
-            // Open PDF in new window
-            window.open(url, '_blank');
+                // Open PDF in new window
+                window.open(url, '_blank');
 
-            // Show success message
-            hideProcessToast();
-            showToastFeedback(
-                'text-bg-success',
-                'PDF generated successfully'
-            );
+                // Show success message
+                hideProcessToast();
+                showToastFeedback(
+                    'text-bg-success',
+                    'PDF generated successfully'
+                );
 
-            // Clean up the blob URL after a delay to ensure the PDF loads
-            setTimeout(() => {
-                window.URL.revokeObjectURL(url);
-            }, 1000);
-
-        }catch(e){
-
-        }
-       });
+                // Clean up the blob URL after a delay to ensure the PDF loads
+                setTimeout(() => {
+                    window.URL.revokeObjectURL(url);
+                }, 1000);
+            } catch (e) {}
+        });
     }
 }

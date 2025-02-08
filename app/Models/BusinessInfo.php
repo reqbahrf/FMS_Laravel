@@ -48,17 +48,17 @@ class BusinessInfo extends Model
         return $this->HasMany(ProjectInfo::class, 'business_id', 'id');
     }
 
-    public function assetsInfo(): HasOne 
+    public function assetsInfo(): HasOne
     {
         return $this->HasOne(Assets::class, 'id', 'id');
     }
 
-    public function personnelInfo(): HasOne 
+    public function personnelInfo(): HasOne
     {
         return $this->HasOne(Personnel::class, 'id', 'id');
     }
 
-    public function requirementInfo(): HasMany 
+    public function requirementInfo(): HasMany
     {
         return $this->HasMany(Requirement::class, 'business_id', 'id');
     }
@@ -72,7 +72,12 @@ class BusinessInfo extends Model
                 $business->id,
                 $business->enterprise_type,
                 $business->enterprise_level,
-                $business->city,
+                [
+                    'region' => $business->region,
+                    'province' => $business->province,
+                    'city' => $business->city,
+                    'barangay' => $business->barangay,
+                ],
                 'NEW_APPLICANT'
             ));
         });

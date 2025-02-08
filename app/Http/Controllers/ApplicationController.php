@@ -15,7 +15,7 @@ use App\Services\TNAdataHandlerService;
 class ApplicationController extends Controller
 {
 
-    //Remove The NewRegistrationRequest Do do some testing 
+    //Remove The NewRegistrationRequest Do do some testing
     public function store(NewRegistrationRequest $request, TNAdataHandlerService $TNAdataHandlerService)
     {
 
@@ -218,8 +218,20 @@ class ApplicationController extends Controller
             if ($successful_inserts == 6) {
                 DB::commit();
                 $TNAdataHandlerService->setTNAData($validatedInputs, $businessId, $applicationId);
+                $location = [
+                    'region' => $office_region,
+                    'province' => $office_province,
+                    'city' => $office_city,
+                    'barangay' => $office_barangay,
+                ];
                 //Testing this defer Method
-                event(new ProjectEvent($businessId, $enterprise_type, $enterprise_level, $office_city, 'NEW_APPLICANT'));
+                event(new ProjectEvent(
+                    $businessId,
+                    $enterprise_type,
+                    $enterprise_level,
+                    $location,
+                    'NEW_APPLICANT'
+                ));
                 Cache::forget('applicants');
                 return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.index')], 200);
             } else {
