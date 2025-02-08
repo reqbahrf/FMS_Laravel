@@ -260,7 +260,7 @@ async function initilizeCoopPageJs() {
                 const paymentTextPer = $('#ProgressPerText');
                 try {
                     const response = await fetch(
-                        DASHBOARD_ROUTE.GET_COOPERATOR_PROGRESS,
+                        DASHBOARD_TAB_ROUTE.GET_COOPERATOR_PROGRESS,
                         {
                             method: 'GET',
                             headers: {

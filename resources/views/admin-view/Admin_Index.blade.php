@@ -239,7 +239,7 @@
             USERS: '{{ route('admin.Users-list') }}',
             SETTINGS: '{{ route('admin.ProjectSettings') }}'
         }
-        const DASHBOARD_ROUTE = {
+        const DASHBOARD_TAB_ROUTE = {
             GET_DASHBOARD_CHARTS_DATA: '{{ route('admin.Dashboard.chartData', ':yearToLoad') }}',
             GENERATE_DASHBOARD_REPORT: '{{ route('admin.Dashboard.generateReport', ':yearToLoad') }}'
         };

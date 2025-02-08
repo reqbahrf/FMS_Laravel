@@ -215,7 +215,7 @@
     }
     console.log(NAV_ROUTES.QUARTERLY_REPORT)
 
-    const DASHBOARD_ROUTE = {
+    const DASHBOARD_TAB_ROUTE = {
         GET_COOPERATOR_PROGRESS: '{{ route('Cooperator.Progress') }}',
 
     }
@@ -231,10 +231,9 @@
     }
 
     const DRAFT_ROUTE = {
-            GET: "{{ route('form.getDraft', ':type') }}",
-            GET_FILE: "{{ route('form.getDraftFile', ':unique_id') }}",
-            STORE: "{{ route('form.setDraft') }}",
-        }
+        GET: "{{ route('form.getDraft', ':type') }}",
+        GET_FILE: "{{ route('form.getDraftFile', ':unique_id') }}",
+        STORE: "{{ route('form.setDraft') }}",
+    }
 </script>
 @vite('resources/js/cooperator/coopPage.js')
-
