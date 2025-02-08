@@ -224,13 +224,13 @@ async function initializeAdminPageJs() {
                         if (localData.hasOwnProperty(city)) {
                             cities.push(city);
                             microCounts.push(
-                                localData[city]['Micro Enterprise']
+                                localData[city]['Micro Enterprise'] ?? 0
                             );
                             smallCounts.push(
-                                localData[city]['Small Enterprise']
+                                localData[city]['Small Enterprise'] ?? 0
                             );
                             mediumCounts.push(
-                                localData[city]['Medium Enterprise']
+                                localData[city]['Medium Enterprise'] ?? 0
                             );
                         }
                     }
