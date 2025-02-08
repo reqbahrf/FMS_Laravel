@@ -16,7 +16,7 @@
     <ul class="list-unstyled d-flex align-items-center m-0 gap-3 ">
         <li class="btn-li">
             <button type="button" class="position-relative text-decoration-none nav-link" id="toggleDarkMode">
-               
+
             </button>
         </li>
         <li class="nofi-li">
@@ -73,7 +73,15 @@
             >
                 <div class="account-avatar d-flex align-items-center justify-content-center gap-2">
                     <div class="profile-logo rounded-circle border border-1 border-white bg-primary">
-                        @if(Auth::user()->role == 'Cooperator')
+                        @if(Auth::user()->avatar)
+                            @if(Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
+                                {{-- External URL (e.g., Google profile picture) --}}
+                                <img src="{{ e(Auth::user()->avatar) }}" alt="Profile" class="img-fluid rounded-circle">
+                            @else
+                                {{-- Internal storage path --}}
+                                <img src="{{ e(asset('storage/' . Auth::user()->avatar)) }}" alt="Profile" class="img-fluid">
+                            @endif
+                        @elseif(Auth::user()->role == 'Cooperator')
                             {{ strtoupper(substr(trim((string) Auth::user()->coopUserInfo->f_name), 0, 1)) }}
                         @else
                             {{ strtoupper(substr(trim((string) Auth::user()->orgUserInfo->f_name), 0, 1)) }}
@@ -81,18 +89,18 @@
                     </div>
                     <p class="m-0 fw-bold">
                         @if(Auth::user()->role == 'Cooperator')
-                        {{ Auth::user()->coopUserInfo->prefix 
-                        . ' ' . Auth::user()->coopUserInfo->f_name 
-                        . ' ' . (Auth::user()->coopUserInfo->mid_name 
-                        ? substr(Auth::user()->coopUserInfo->mid_name, 0, 1) 
-                        . '.' : '') . ' ' . Auth::user()->coopUserInfo->l_name 
+                        {{ Auth::user()->coopUserInfo->prefix
+                        . ' ' . Auth::user()->coopUserInfo->f_name
+                        . ' ' . (Auth::user()->coopUserInfo->mid_name
+                        ? substr(Auth::user()->coopUserInfo->mid_name, 0, 1)
+                        . '.' : '') . ' ' . Auth::user()->coopUserInfo->l_name
                         . ' ' . Auth::user()->coopUserInfo->suffix }}
                         @else
-                        {{ Auth::user()->orgUserInfo->prefix 
-                        . ' ' . Auth::user()->orgUserInfo->f_name 
-                        . ' ' . (Auth::user()->orgUserInfo->mid_name 
-                        ? substr(Auth::user()->orgUserInfo->mid_name, 0, 1) 
-                        . '.' : '') . ' ' . Auth::user()->orgUserInfo->l_name 
+                        {{ Auth::user()->orgUserInfo->prefix
+                        . ' ' . Auth::user()->orgUserInfo->f_name
+                        . ' ' . (Auth::user()->orgUserInfo->mid_name
+                        ? substr(Auth::user()->orgUserInfo->mid_name, 0, 1)
+                        . '.' : '') . ' ' . Auth::user()->orgUserInfo->l_name
                         . ' ' . Auth::user()->orgUserInfo->suffix }}
                         @endif
                     </p>

@@ -11,7 +11,7 @@
                 Are you sure you want to logout?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn" data-bs-dismiss="modal">Cancel</button>
                 <form action="{{ route('logout') }}" method="POST" class="">
                     @csrf
                     <button type="submit" class="btn btn-danger">Logout</button>

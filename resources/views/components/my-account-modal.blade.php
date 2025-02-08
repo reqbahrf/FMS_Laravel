@@ -1,4 +1,3 @@
-
 <style>
     .modal-fullscreen {
         min-height: 100vh;
@@ -95,8 +94,25 @@
                                     <!-- Profile Section -->
                                     <div class="d-flex align-items-center mb-4">
                                         <div class="profile-pic me-3">
-                                            {{ strtoupper(substr(trim((string) $username), 0, 1)) }}
-
+                                            @if (Auth::user()->avatar)
+                                                @if (Str::startsWith(Auth::user()->avatar, ['http://', 'https://']))
+                                                    {{-- External URL (e.g., Google profile picture) --}}
+                                                    <img
+                                                        class="img-fluid rounded-circle"
+                                                        src="{{ e(Auth::user()->avatar) }}"
+                                                        alt="Profile"
+                                                    >
+                                                @else
+                                                    {{-- Internal storage path --}}
+                                                    <img
+                                                        class="img-fluid"
+                                                        src="{{ e(asset('storage/' . Auth::user()->avatar)) }}"
+                                                        alt="Profile"
+                                                    >
+                                                @endif
+                                            @else
+                                                {{ strtoupper(substr(trim((string) $username), 0, 1)) }}
+                                            @endIf
                                         </div>
 
                                         <div>
@@ -205,4 +221,3 @@
         </div>
     </div>
 </div>
-
