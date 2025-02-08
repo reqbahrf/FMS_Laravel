@@ -29,8 +29,8 @@ class BusinessInfoFactory extends Factory
                 ],
                 'Davao de Oro' => [
                     'Compostela' => ['Poblacion', 'Lapu-lapu', 'San Roque', 'Luray'],
-                    'Davao de oro' => ['Poblacion', 'New Leyte', 'Andap', 'Napnapan']
-                ]
+                    'Nabunturan' => ['Poblacion', 'New Leyte', 'Andap', 'Napnapan'],
+                ],
             ]
         ];
 

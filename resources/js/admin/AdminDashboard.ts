@@ -22,6 +22,14 @@ interface LocalDataStructure {
         };
     };
 }
+
+interface EnterpriseData {
+    [key: string]: number;
+    'Micro Enterprise': number;
+    'Small Enterprise': number;
+    'Medium Enterprise': number;
+}
+
 export default class AdminDashboard {
     private yearSelector: JQuery<HTMLSelectElement>;
     private generateReportBtn: JQuery<HTMLButtonElement>;
@@ -128,11 +136,7 @@ export default class AdminDashboard {
     }
 
     async processLocalDataChart(localData: {
-        [city: string]: {
-            ['Micro Enterprise']: number;
-            ['Small Enterprise']: number;
-            ['Medium Enterprise']: number;
-        };
+        [keys: string]: EnterpriseData;
     }): Promise<void> {
         try {
             let cities = [];
@@ -604,235 +608,113 @@ export default class AdminDashboard {
             return;
         }
 
-        let filteredLocalData: {
-            [city: string]: {
-                ['Micro Enterprise']: number;
-                ['Small Enterprise']: number;
-                ['Medium Enterprise']: number;
-            };
-        } = {};
+        let filteredLocalData: { [locationKey: string]: EnterpriseData } = {};
+
+        const filterLocations = (
+            filterCallback: (
+                region: string,
+                province: string,
+                city: string,
+                barangay: string
+            ) => boolean,
+            locationExtractor: (
+                region: string,
+                province: string,
+                city: string,
+                barangay: string
+            ) => string
+        ) => {
+            Object.keys(this.localData || {}).forEach((region) => {
+                Object.keys(this.localData![region].byProvince).forEach(
+                    (province) => {
+                        Object.keys(
+                            this.localData![region].byProvince[province].byCity
+                        ).forEach((city) => {
+                            Object.keys(
+                                this.localData![region].byProvince[province]
+                                    .byCity[city].byBarangay
+                            ).forEach((barangay) => {
+                                if (
+                                    filterCallback(
+                                        region,
+                                        province,
+                                        city,
+                                        barangay
+                                    )
+                                ) {
+                                    const locationKey = locationExtractor(
+                                        region,
+                                        province,
+                                        city,
+                                        barangay
+                                    );
+
+                                    if (!filteredLocalData[locationKey]) {
+                                        filteredLocalData[locationKey] = {
+                                            'Micro Enterprise': 0,
+                                            'Small Enterprise': 0,
+                                            'Medium Enterprise': 0,
+                                        };
+                                    }
+
+                                    const barangayData =
+                                        this.localData![region].byProvince[
+                                            province
+                                        ].byCity[city].byBarangay[barangay];
+
+                                    const enterpriseLevels = [
+                                        'Micro Enterprise',
+                                        'Small Enterprise',
+                                        'Medium Enterprise',
+                                    ];
+
+                                    enterpriseLevels.forEach((enterpriseLevel) => {
+                                        if (barangayData[enterpriseLevel]) {
+                                            filteredLocalData[locationKey][
+                                                enterpriseLevel
+                                            ] += barangayData[enterpriseLevel];
+                                        }
+                                    });
+                                }
+                            });
+                        });
+                    }
+                );
+            });
+        };
 
         switch (filterType) {
             case 'By Region':
-                // Safely check if the selected location exists in localData
-                if (!this.localData[selectedLocation]?.byProvince) {
-                    console.warn(
-                        `No province data found for location: ${selectedLocation}`
-                    );
-                    return;
-                }
-
-                Object.keys(
-                    this.localData[selectedLocation].byProvince || {}
-                ).forEach((province) => {
-                    const provinceData =
-                        this.localData![selectedLocation].byProvince[province];
-                    if (!provinceData?.byCity) {
-                        return;
-                    }
-
-                    Object.keys(provinceData.byCity).forEach((city) => {
-                        filteredLocalData[city] = {
-                            'Micro Enterprise': 0,
-                            'Small Enterprise': 0,
-                            'Medium Enterprise': 0,
-                        };
-
-                        Object.keys(
-                            provinceData.byCity[city].byBarangay || {}
-                        ).forEach((barangay) => {
-                            const barangayData =
-                                provinceData.byCity[city].byBarangay[barangay];
-                            if (!barangayData) {
-                                return;
-                            }
-
-                            Object.keys(barangayData).forEach(
-                                (enterpriseLevel) => {
-                                    if (
-                                        enterpriseLevel === 'Micro Enterprise'
-                                    ) {
-                                        filteredLocalData[city][
-                                            'Micro Enterprise'
-                                        ] += barangayData[enterpriseLevel];
-                                    } else if (
-                                        enterpriseLevel === 'Small Enterprise'
-                                    ) {
-                                        filteredLocalData[city][
-                                            'Small Enterprise'
-                                        ] += barangayData[enterpriseLevel];
-                                    } else if (
-                                        enterpriseLevel === 'Medium Enterprise'
-                                    ) {
-                                        filteredLocalData[city][
-                                            'Medium Enterprise'
-                                        ] += barangayData[enterpriseLevel];
-                                    }
-                                }
-                            );
-                        });
-                    });
-                });
+                filterLocations(
+                    (region, province, city, barangay) =>
+                        region === selectedLocation,
+                    (region, province, city, barangay) => province
+                );
                 break;
             case 'By Province':
-                if (
-                    !this.localData[selectedLocation]?.byProvince[selectedLocation]
-                ) {
-                    console.warn('No data found for the selected location.');
-                    return;
-                }
-                Object.keys(this.localData).forEach((region) => {
-                    if (!this.localData) return;
-                    Object.keys(
-                        this.localData[region].byProvince[selectedLocation]
-                            ?.byCity || {}
-                    ).forEach((city) => {
-                        if (!this.localData) return;
-                        filteredLocalData[city] = {
-                            'Micro Enterprise': 0,
-                            'Small Enterprise': 0,
-                            'Medium Enterprise': 0,
-                        };
-                        Object.keys(
-                            this.localData[region].byProvince[selectedLocation]
-                                .byCity[city].byBarangay
-                        ).forEach((barangay) => {
-                            if (!this.localData) return;
-                            const barangayData =
-                                this.localData[region].byProvince[
-                                    selectedLocation
-                                ].byCity[city].byBarangay[barangay];
-                            if (!barangayData) {
-                                return;
-                            }
-
-                            Object.keys(barangayData).forEach(
-                                (enterpriseLevel) => {
-                                    if (
-                                        enterpriseLevel === 'Micro Enterprise'
-                                    ) {
-                                        filteredLocalData[city][
-                                            'Micro Enterprise'
-                                        ] += barangayData[enterpriseLevel];
-                                    } else if (
-                                        enterpriseLevel === 'Small Enterprise'
-                                    ) {
-                                        filteredLocalData[city][
-                                            'Small Enterprise'
-                                        ] += barangayData[enterpriseLevel];
-                                    } else if (
-                                        enterpriseLevel === 'Medium Enterprise'
-                                    ) {
-                                        filteredLocalData[city][
-                                            'Medium Enterprise'
-                                        ] += barangayData[enterpriseLevel];
-                                    }
-                                }
-                            );
-                        });
-                    });
-                });
+                filterLocations(
+                    (region, province, city, barangay) =>
+                        province === selectedLocation,
+                    (region, province, city, barangay) => city
+                );
                 break;
             case 'By City':
-                Object.keys(this.localData).forEach((region) => {
-                    if (!this.localData) return;
-                    Object.keys(this.localData[region].byProvince).forEach(
-                        (province) => {
-                            if (!this.localData) return;
-                            const cityData =
-                                this.localData[region].byProvince[province]
-                                    .byCity[selectedLocation];
-                            if (!cityData) {
-                                return;
-                            }
-
-                            filteredLocalData[selectedLocation] = {
-                                'Micro Enterprise': 0,
-                                'Small Enterprise': 0,
-                                'Medium Enterprise': 0,
-                            };
-                            Object.keys(cityData.byBarangay).forEach(
-                                (barangay) => {
-                                    const barangayData =
-                                        cityData.byBarangay[barangay];
-                                    if (!barangayData) {
-                                        return;
-                                    }
-
-                                    Object.keys(barangayData).forEach(
-                                        (enterpriseLevel) => {
-                                            if (
-                                                enterpriseLevel ===
-                                                'Micro Enterprise'
-                                            ) {
-                                                filteredLocalData[
-                                                    selectedLocation
-                                                ]['Micro Enterprise'] +=
-                                                    barangayData[
-                                                        enterpriseLevel
-                                                    ];
-                                            } else if (
-                                                enterpriseLevel ===
-                                                'Small Enterprise'
-                                            ) {
-                                                filteredLocalData[
-                                                    selectedLocation
-                                                ]['Small Enterprise'] +=
-                                                    barangayData[
-                                                        enterpriseLevel
-                                                    ];
-                                            } else if (
-                                                enterpriseLevel ===
-                                                'Medium Enterprise'
-                                            ) {
-                                                filteredLocalData[
-                                                    selectedLocation
-                                                ]['Medium Enterprise'] +=
-                                                    barangayData[
-                                                        enterpriseLevel
-                                                    ];
-                                            }
-                                        }
-                                    );
-                                }
-                            );
-                        }
-                    );
-                });
+                filterLocations(
+                    (region, province, city, barangay) =>
+                        city === selectedLocation,
+                    (region, province, city, barangay) => barangay
+                );
                 break;
             case 'By Barangay':
-                Object.keys(this.localData).forEach((region) => {
-                    if (!this.localData) return;
-                    Object.keys(this.localData[region].byProvince).forEach(
-                        (province) => {
-                            if (!this.localData) return;
-                            Object.keys(
-                                this.localData[region].byProvince[province]
-                                    .byCity
-                            ).forEach((city) => {
-                                if (!this.localData) return;
-                                const barangayData =
-                                    this.localData[region].byProvince[province]
-                                        .byCity[city].byBarangay[
-                                        selectedLocation
-                                    ];
-                                if (!barangayData) {
-                                    return;
-                                }
-
-                                filteredLocalData[city] = {
-                                    'Micro Enterprise':
-                                        barangayData['Micro Enterprise'] || 0,
-                                    'Small Enterprise':
-                                        barangayData['Small Enterprise'] || 0,
-                                    'Medium Enterprise':
-                                        barangayData['Medium Enterprise'] || 0,
-                                };
-                            });
-                        }
-                    );
-                });
+                filterLocations(
+                    (region, province, city, barangay) =>
+                        barangay === selectedLocation,
+                    (region, province, city, barangay) => barangay
+                );
                 break;
+            default:
+                console.warn(`Unsupported filter type: ${filterType}`);
+                return;
         }
 
         // Safely call processLocalDataChart with optional chaining
