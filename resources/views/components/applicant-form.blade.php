@@ -1402,7 +1402,7 @@
                                                 ></textarea>
                                             </div>
                                         </div>
-                                        <div class="mt-3">
+                                        <div class="mb-3">
                                             <label
                                                 class="form-label"
                                                 for="organizationalStructure"
@@ -1724,7 +1724,7 @@
                                         ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <div class="">
+                                        <div class="mb-3">
                                             <label
                                                 class="form-label"
                                                 for="PlanLayout"
@@ -1746,7 +1746,7 @@
                                                 type="hidden"
                                             >
                                         </div>
-                                        <div class="">
+                                        <div class="mb-3">
                                             <label
                                                 class="form-label"
                                                 for="processFlow"
@@ -2528,7 +2528,7 @@
                                 <span
                                     class="requiredFields">{{ auth()->user()->hasRole('Cooperator') ? '*' : '' }}</span>
                             </label>
-                            <div class="row">
+                            <div class="row mb-3">
                                 <div class="col-2 d-flex align-items-center justify-content-center">
                                     <select
                                         class="form-select form-select-lg"
@@ -2594,7 +2594,7 @@
                                     Food and Drug Administration(FDA) or Food and Drug Administration(LTO)
                                 </span>
                             </label>
-                            <div class="row">
+                            <div class="row mb-3">
                                 <div class="col-2 d-flex align-items-center justify-content-center">
                                     <select
                                         class="form-select form-select-lg"
@@ -2661,7 +2661,7 @@
                                         <option value="Passport ID">Philippine Passport</option>
                                     </Select>
                                 </div>
-                                <div class="col-10">
+                                <div class="col-10 mb-3">
                                     <input
                                         class="fileUploads"
                                         id="govIdFile"
