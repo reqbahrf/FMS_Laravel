@@ -38,34 +38,37 @@ class NewApplicationListener implements ShouldQueue
         $month = now()->format('F');
         $year = now()->year;
 
-        $chartCache = ChartYearOf::firstOrCreate(
+        $chart = ChartYearOf::firstOrCreate(
             ['year_of' => $year],
             ['monthly_project_categories' => json_encode([]), 'project_local_categories' => json_encode([])]
         );
 
-        $monthlyData = $this->updateMonthlyData($chartCache, $month);
-        $localData = $this->updateLocalData($chartCache, $event);
+        $monthlyData = $this->updateMonthlyData($chart, $month);
+        $localData = $this->updateLocalData($chart, $event);
 
-        $chartCache->update([
+        $chart->update([
             'monthly_project_categories' => json_encode($monthlyData),
             'project_local_categories' => json_encode($localData)
         ]);
     }
 
-    private function updateMonthlyData(ChartYearOf $chartCache, string $month): array
+    private function updateMonthlyData(ChartYearOf $chart, string $month): array
     {
-        $monthlyData = json_decode($chartCache->monthly_project_categories, true) ?? [];
+        $monthlyData = json_decode($chart->monthly_project_categories, true) ?? [];
         $monthlyData[$month]['Applicants'] = ($monthlyData[$month]['Applicants'] ?? 0) + 1;
         return $monthlyData;
     }
 
-    private function updateLocalData(ChartYearOf $chartCache, ProjectEvent $event): array
+    private function updateLocalData(ChartYearOf $chart, ProjectEvent $event): array
     {
-        $localData = json_decode($chartCache->project_local_categories, true) ?? [];
-        $city = $event->city;
+        $localData = json_decode($chart->project_local_categories, true) ?? [];
+        $region = $event->location['region'];
+        $province = $event->location['province'];
+        $city = $event->location['city'];
+        $barangay = $event->location['barangay'];
         $enterpriseLevel = $event->enterprise_level;
 
-        $localData[$city][$enterpriseLevel] = ($localData[$city][$enterpriseLevel] ?? 0) + 1;
+        $localData[$region]['byProvince'][$province]['byCity'][$city]['byBarangay'][$barangay][$enterpriseLevel] = ($localData[$region]['byProvince'][$province]['byCity'][$city]['byBarangay'][$barangay][$enterpriseLevel] ?? 0) + 1;
         return $localData;
     }
 

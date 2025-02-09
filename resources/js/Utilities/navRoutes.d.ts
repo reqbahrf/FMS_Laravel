@@ -15,6 +15,8 @@ declare module 'global' {
         APPLICATIONS?: string;
         USERS?: string;
         SETTINGS?: string;
+
+        QUARTERLY_REPORT: string;
     }
     interface USERS_LIST_ROUTE {
         GET_STAFF_USER_ACTIVITY_LOGS: string;
@@ -31,15 +33,28 @@ declare module 'global' {
         GET_PROJECT_PROPOSAL: string;
     }
 
-    
+    interface STAFF_DASHBOARD_ROUTE {
+        STORE_PAYMENT_RECORDS: string;
+        UPDATE_PAYMENT_RECORDS: string;
+        DELETE_PAYMENT_RECORDS: string;
+        DELETE_PROJECT_LINK: string;
+        DELETE_QUARTERLY_REPORT: string;
+    }
+
+    interface ADMIN_DASHBOARD_ROUTE {
+        GET_DASHBOARD_CHARTS_DATA: string;
+        GENERATE_DASHBOARD_REPORT: string;
+    }
 
     // Declare NAV_ROUTES as a global variable
     global {
+        var DASHBOARD_TAB_ROUTE: ADMIN_DASHBOARD_ROUTE;
+        var DASHBOARD_TAB_ROUTE: STAFF_DASHBOARD_ROUTE;
         var NAV_ROUTES: NavRoutes;
         var USER_ACTIVITY_LOG_ROUTE: string;
         var USERS_LIST_ROUTE: USERS_LIST_ROUTE;
         var DRAFT_ROUTE: DRAFT_ROUTE;
         var APPLICANT_TAB_ROUTE: APPLICANT_TAB_ROUTE;
-        var PROJECTS_PAYMENT_RECORDS_ROUTE: string
+        var PROJECTS_PAYMENT_RECORDS_ROUTE: string;
     }
 }

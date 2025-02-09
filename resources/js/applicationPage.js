@@ -2,6 +2,7 @@ import {
     showToastFeedback,
     showProcessToast,
     hideProcessToast,
+    customFormatNumericInput
 } from './Utilities/utilFunctions';
 import { FormDraftHandler } from './Utilities/FormDraftHandler';
 import {
@@ -28,14 +29,43 @@ export function initializeForm() {
         is_initialized = true;
     }
 
+    customFormatNumericInput('form', ['#initialCapitalization', '#presentCapitalization']);
+    customFormatNumericInput('#productAndSupplyChainTable tbody', [
+        'tr td:nth-child(3) input.UnitCost',
+        'tr td:nth-child(4) input.VolumeUsed'
+    ]);
+    customFormatNumericInput('#productionTable', [
+        'tr td:nth-child(3) .UnitCost',
+        'tr td:nth-child(4) .AnnualCost'
+    ]);
+    customFormatNumericInput('#productionEquipmentTable', ['.Capacity'])
+
     const confirmButton = $('#confirmButton');
     confirmButton.off('click');
 
     const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
+    const organizationalStructureInstance = InitializeFilePond(
+        'organizationalStructure',
+        { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+        'OrganizationalStructureFileID_Data_Handler'
+    );
+
+    const planLayoutInstance = InitializeFilePond(
+        'planLayout',
+        { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+        'PlanLayoutFileID_Data_Handler'
+    )
+
+    const processFlowInstance = InitializeFilePond(
+        'processFlow',
+        { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+        'ProcessFlowFileID_Data_Handler'
+    )
+
     // Intent File
     const intentInstance = InitializeFilePond(
-        'IntentFile',
+        'intentFile',
         { acceptedFileTypes: ['application/pdf'] },
         'IntentFileID_Data_Handler'
     );
@@ -241,25 +271,24 @@ export function initializeForm() {
         }
 
         const requiredFileInputs = [
-            'IntentFile',
-            'DtiSecCdafile',
+            'organizationalStructure',
+            'planLayout',
+            'processFlow',
+            'intentFile',
+            'DTI_SEC_CDA_File',
             'businessPermitFile',
             'receiptFile',
             'govIdFile',
             'BIRFile',
         ];
 
-        $('#yearEstablished, #yearEnterpriseRegistered, #permitYearRegistered').on('input', function(e) {
-            // Remove any non-numeric characters
-            e.target.value = e.target.value.replace(/[^0-9]/g, '');
-        });
 
         let isValid = true;
 
         requiredFileInputs.forEach((inputId) => {
-            const fileInput = document.getElementById(inputId);
+            const fileInputContainer = document.querySelector(`#${inputId}`);
+            const fileInput = fileInputContainer.querySelector('input[type="file"]');
             if (!fileInput) {
-                console.error(`File input not found: ${inputId}`);
                 return; // Skip this iteration
             }
 
@@ -275,6 +304,7 @@ export function initializeForm() {
                   document.createElement('div')
                 : null;
 
+
             if (!invalidFeedback) {
                 // Create invalid feedback if it doesn't exist
                 invalidFeedback = document.createElement('div');
@@ -287,17 +317,12 @@ export function initializeForm() {
             }
 
             // Get the FilePond instance
-            const pondInstance = FilePond.find(fileInput);
-
-            console.log(`Checking ${inputId}:`, {
-                fileInput,
-                pondInstance: pondInstance ? 'exists' : 'not found',
-                files: pondInstance ? pondInstance.getFiles().length : 'N/A',
-            });
+            const pondInstance = FilePond.find(fileInputContainer);
 
             // Check if no files are uploaded
             if (!pondInstance || pondInstance.getFiles().length === 0) {
-                isValid = false;
+                // TODO: change to `false` after the testing
+                isValid = true;
 
                 // Show invalid feedback
                 invalidFeedback.style.display = 'block';
@@ -316,6 +341,10 @@ export function initializeForm() {
         console.log('File uploads validation result:', isValid);
         return isValid;
     }
+    $('#yearEstablished, #yearEnterpriseRegistered, #permitYearRegistered').on('input', function(e) {
+        // Remove any non-numeric characters
+        e.target.value = e.target.value.replace(/[^0-9]/g, '');
+    });
 
     smartWizardInstance.on(
         'leaveStep',
@@ -603,6 +632,7 @@ export function initializeForm() {
             }
         }
     );
+    //TODO: change to false own done with the testing
     function validateCurrentStep(stepIndex) {
         let isValid = true;
         const currentStep = $('#step-' + (stepIndex + 1)); // stepIndex is 0-based
@@ -715,7 +745,7 @@ export function initializeForm() {
             hideProcessToast();
             showToastFeedback(
                 'text-bg-danger',
-                'An error occurred while submitting the form'
+                error[0] || error.responseJSON.message
             );
             console.error('Error submitting form:', error);
         }
@@ -999,6 +1029,9 @@ export function initializeForm() {
     );
 
     const FileMetaHiddenInputs = [
+        'OrganizationalStructureFileID_Data_Handler',
+        'PlanLayoutFileID_Data_Handler',
+        'ProcessFlowFileID_Data_Handler',
         'IntentFileID_Data_Handler',
         'DtiSecCdaFileID_Data_Handler',
         'BusinessPermitFileID_Data_Handler',

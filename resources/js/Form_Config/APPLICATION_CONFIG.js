@@ -19,7 +19,10 @@ const APPLICATION_FORM_CONFIG = {
         },
     },
     filepondSelector: [
-        'IntentFile',
+        'organizationalStructure',
+        'planLayout',
+        'processFlow',
+        'intentFile',
         'DTI_SEC_CDA_File',
         'businessPermitFile',
         'fdaLtoFile',

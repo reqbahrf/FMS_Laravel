@@ -23,8 +23,18 @@
                 </div>
             </div>
         </div>
-        <div class="col-12">
-            <h5 class="text-muted fw-medium">Locale and Enterprise Level</h5>
+        <div class="col-12 d-flex align-items-center">
+            <h5 class="text-muted fw-medium me-2">Locale and Enterprise Level</h5>
+            <select name="filterBy" class="form-select w-25 me-2" id="filterBy">
+                <option>Select Filter</option>
+                <option>By Region</option>
+                <option>By Province</option>
+                <option>By City</option>
+                <option>By Barangay</option>
+            </select>
+            <select name="specificLocation" class="form-select w-25" id="specificLocation" disabled>
+                <option>Select Location</option>
+            </select>
         </div>
         <div class="col-12 col-md-8">
             <div class="card shadow-sm">

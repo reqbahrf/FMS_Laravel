@@ -18,6 +18,7 @@ import ActivityLogHandler from '../Utilities/ActivityLogHandler';
 import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
 import ApplicantDataTable from '../Utilities/ApplicantDataTable';
+import PaymentHandler from './PaymentHandler';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -108,6 +109,8 @@ activityLog.initPersonalActivityLog();
 async function initializeStaffPageJs() {
     const functions = {
         Dashboard: async () => {
+            let paymentHandler;
+
             const yearToLoadSelector = $('#yearSelector');
             //Foramt Input with Id paymentAmount
             customFormatNumericInput('#paymentAmount');
@@ -259,9 +262,10 @@ async function initializeStaffPageJs() {
                 ],
             });
             //Data table custom sorter for quarter
-         
+
+            const PaymentHistoryTable = $('#paymentHistoryTable')
             //TODO: add quarterly column on this table
-            const PaymentHistoryDataTable = $('#paymentHistoryTable').DataTable(
+            const PaymentHistoryDataTable = PaymentHistoryTable.DataTable(
                 {
                     fixedColumns: true,
                     autoWidth: false,
@@ -294,7 +298,7 @@ async function initializeStaffPageJs() {
                         },
                         {
                             title: 'Date Completed',
-                            width: '15%'
+                            width: '15%',
                         },
                         {
                             title: 'Last Modified',
@@ -576,7 +580,7 @@ async function initializeStaffPageJs() {
                     const selectedYear = year || '';
                     const response = await $.ajax({
                         type: 'GET',
-                        url: DASHBBOARD_TAB_ROUTE.GET_MONTHLY_PROJECTS_CHARTDATA.replace(
+                        url: DASHBOARD_TAB_ROUTE.GET_MONTHLY_PROJECTS_CHARTDATA.replace(
                             ':yearToLoad',
                             selectedYear
                         ),
@@ -641,22 +645,10 @@ async function initializeStaffPageJs() {
                 '.GeneratedSheetsTabMenu'
             );
 
-            const isRefundCompleted = (boolean) => {
-                const completedButton = $('#MarkCompletedProjectBtn');
-                boolean
-                    ? completedButton.prop('disabled', false).show()
-                    : completedButton.prop('disabled', true).hide();
-            };
-
-            /**
-             * Fetches handled projects from the server and updates the handled project table.
-             *
-             * @return {void}
-             */
             const getHandleProject = async () => {
                 try {
                     const response = await fetch(
-                        DASHBBOARD_TAB_ROUTE.GET_HANDLED_PROJECTS,
+                        DASHBOARD_TAB_ROUTE.GET_HANDLED_PROJECTS,
                         {
                             method: 'GET',
                             headers: {
@@ -797,17 +789,19 @@ async function initializeStaffPageJs() {
                                         value="${Actual_Amount}"
                                     />`,
                                 /*html*/ `<span
-                                    class="badge ${
-                                        project.application_status ===
-                                        'approved'
-                                            ? 'bg-warning'
-                                            : project.application_status ===
-                                                'ongoing'
-                                              ? 'bg-primary'
-                                              : project.application_status ===
-                                                  'completed'
-                                                ? 'bg-success'
-                                                : null
+                                   class="badge ${
+                                        (() => {
+                                            switch (project.application_status) {
+                                                case 'approved':
+                                                    return 'bg-warning';
+                                                case 'ongoing':
+                                                    return 'bg-primary';
+                                                case 'completed':
+                                                    return 'bg-success';
+                                                default:
+                                                    return '';
+                                            }
+                                        })()
                                     }"
                                     >${project.application_status}</span
                                 >`,
@@ -879,90 +873,6 @@ async function initializeStaffPageJs() {
                 await content[project_status]();
             }
 
-            /**
-             * Stores payment records for a project by sending a POST request to the server.
-             *
-             * @param {number} project_id - The ID of the project for which payment records are being stored.
-             * @return {void}
-             */
-            async function storePaymentRecords(project_id) {
-                const formData =
-                    $('#paymentForm').serialize() + '&project_id=' + project_id;
-
-                try {
-                    const response = await $.ajax({
-                        type: 'POST',
-                        url: DASHBBOARD_TAB_ROUTE.STORE_PAYMENT_RECORDS,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        data: formData,
-                    });
-
-                    await getPaymentHistoryAndCalculation(
-                        project_id,
-                        getAmountRefund(),
-                        PaymentHistoryDataTable
-                    );
-                    hideProcessToast();
-                    setTimeout(() => {
-                        showToastFeedback('text-bg-success', response.message);
-                    }, 500);
-                } catch (error) {
-                    hideProcessToast();
-                    setTimeout(() => {
-                        showToastFeedback(
-                            'text-bg-danger',
-                            error.responseJSON.message
-                        );
-                    }, 200);
-                }
-            }
-
-            /**
-             * Updates the payment records for a project by sending a PUT request to the server.
-             *
-             * @return {void}
-             */
-            async function update_payment_records() {
-                try {
-                    const project_id = $('#ProjectID').val();
-                    const reference_number = $('#reference_number').val();
-                    const formData = $('#paymentForm').serialize();
-                    const response = await $.ajax({
-                        type: 'PUT',
-                        url: DASHBBOARD_TAB_ROUTE.UPDATE_PAYMENT_RECORDS.replace(
-                            ':reference_number',
-                            reference_number
-                        ),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        data: formData + '&project_id=' + project_id,
-                    });
-
-                    await getPaymentHistoryAndCalculation(
-                        project_id,
-                        getAmountRefund(),
-                        PaymentHistoryDataTable
-                    );
-                    hideProcessToast();
-                    setTimeout(() => {
-                        showToastFeedback('text-bg-success', response.message);
-                    }, 500);
-                } catch (error) {
-                    hideProcessToast();
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
-                }
-            }
-
             //TODO: refactor this method in the future
             /**
              * Event listener for the submit payment button click event.
@@ -974,35 +884,38 @@ async function initializeStaffPageJs() {
              * @param {Event} event - The click event triggered by the submit payment button.
              */
             $('#submitPayment').on('click', async function () {
-                const submissionMethod = $(this).attr('data-submissionmethod');
+                try {
+                    const submissionMethod = $(this).attr(
+                        'data-submissionmethod'
+                    );
 
-                closeModal('#paymentModal');
-                const isConfirmed = await createConfirmationModal({
-                    title: 'Save Payment Record',
-                    titleBg: 'bg-primary',
-                    message:
-                        'Are you sure you want to save this payment record?',
-                    confirmText: 'Yes',
-                    confirmButtonClass: 'btn-primary',
-                    cancelText: 'No',
-                });
+                    closeModal('#paymentModal');
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Save Payment Record',
+                        titleBg: 'bg-primary',
+                        message:
+                            'Are you sure you want to save this payment record?',
+                        confirmText: 'Yes',
+                        confirmButtonClass: 'btn-primary',
+                        cancelText: 'No',
+                    });
 
-                if (!isConfirmed) {
-                    return;
-                }
-                showProcessToast();
-
-                if (submissionMethod === 'add') {
-                    const project_id = $('#ProjectID').val();
-                    if (project_id) {
-                        storePaymentRecords(project_id);
-                    } else {
-                        console.error('Project ID is null');
+                    if (!isConfirmed) {
+                        return;
                     }
-                } else if (submissionMethod === 'update') {
-                    update_payment_records();
-                } else {
-                    console.error('Submission method is not defined');
+                    switch (submissionMethod) {
+                        case 'add':
+                           await paymentHandler.storePaymentRecords();
+                            break;
+                        case 'update':
+                           await paymentHandler.updatePaymentRecords();
+                            break;
+                        default:
+                            throw new Error('Submission method is not defined');
+                    }
+                } catch (error) {
+                    hideProcessToast();
+                    showToastFeedback('text-bg-danger', error);
                 }
             });
 
@@ -1010,7 +923,7 @@ async function initializeStaffPageJs() {
                 try {
                     const response = await $.ajax({
                         type: 'GET',
-                        url: DASHBBOARD_TAB_ROUTE.GET_UPLOADED_RECEIPTS.replace(
+                        url: DASHBOARD_TAB_ROUTE.GET_UPLOADED_RECEIPTS.replace(
                             ':project_id',
                             projectId
                         ),
@@ -1085,36 +998,38 @@ async function initializeStaffPageJs() {
                     modalTitle.text('Update Payment');
                     submitButton.text('Update Payment');
                     submitButton.attr('data-submissionMethod', 'update');
-                    retrieve_the_selected_record_TO_UPDATE(
-                        button.closest('tr')
+                    PaymentHandler.toUpdatePaymentRecord(
+                        button.closest('tr'),
+                        modal.find('#paymentForm')
                     );
                 }
             });
 
-            //TODO: refactor this function in the future
-            function retrieve_the_selected_record_TO_UPDATE(selected_row) {
-                const selected_transaction_id = selected_row
-                    .find('td:eq(0)')
-                    .text()
-                    .trim();
-                const selected_amount = selected_row
-                    .find('td:eq(1)')
-                    .text()
-                    .trim();
-                const selected_payment_method = selected_row
-                    .find('td:eq(2)')
-                    .text()
-                    .trim();
-                const selected_payment_status = selected_row
-                    .find('td:eq(3)')
-                    .text()
-                    .trim();
+            // let paymentHandler;
+            // //TODO: refactor this function in the future
+            // function retrieve_the_selected_record_TO_UPDATE(selected_row) {
+            //     const selected_transaction_id = selected_row
+            //         .find('td:eq(0)')
+            //         .text()
+            //         .trim();
+            //     const selected_amount = selected_row
+            //         .find('td:eq(1)')
+            //         .text()
+            //         .trim();
+            //     const selected_payment_method = selected_row
+            //         .find('td:eq(2)')
+            //         .text()
+            //         .trim();
+            //     const selected_payment_status = selected_row
+            //         .find('td:eq(3)')
+            //         .text()
+            //     .trim();
 
-                $('#reference_number').val(selected_transaction_id);
-                $('#paymentAmount').val(selected_amount);
-                $('#paymentMethod').val(selected_payment_method);
-                $('#paymentStatus').val(selected_payment_status);
-            }
+            //     $('#reference_number').val(selected_transaction_id);
+            //     $('#paymentAmount').val(selected_amount);
+            //     $('#paymentMethod').val(selected_payment_method);
+            //     $('#paymentStatus').val(selected_payment_status);
+            // }
 
             const ProjectLedgerInput = $('#projectLedgerLink');
             const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');
@@ -1142,7 +1057,7 @@ async function initializeStaffPageJs() {
                 try {
                     const response = await $.ajax({
                         type: 'PUT',
-                        url: DASHBBOARD_TAB_ROUTE.UPDATE_OR_CREATE_PROJECT_LEDGER,
+                        url: DASHBOARD_TAB_ROUTE.UPDATE_OR_CREATE_PROJECT_LEDGER,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
@@ -1167,7 +1082,7 @@ async function initializeStaffPageJs() {
                 try {
                     const response = await $.ajax({
                         type: 'GET',
-                        url: DASHBBOARD_TAB_ROUTE.GET_PROJECT_LEDGER.replace(
+                        url: DASHBOARD_TAB_ROUTE.GET_PROJECT_LEDGER.replace(
                             ':project_id',
                             project_id
                         ),
@@ -1319,12 +1234,14 @@ async function initializeStaffPageJs() {
                             /*html*/ `${formatNumberToCurrency(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
                         );
 
+                    //TODO initialize Payment Object here
                     handleProjectOffcanvasContent(project_status);
-                    getPaymentHistoryAndCalculation(
+                    paymentHandler = new PaymentHandler(
+                        PaymentHistoryDataTable,
                         project_id,
-                        actual_amount,
-                        PaymentHistoryDataTable
+                        actual_amount
                     );
+                    paymentHandler.getPaymentAndCalculation();
                     getUploadedReceipts(project_id);
                     getProjectLedger(project_id);
                     getProjectLinks(project_id);
@@ -1332,6 +1249,14 @@ async function initializeStaffPageJs() {
                     getAvailableQuarterlyReports(project_id);
                 }
             );
+            
+            PaymentHistoryTable.on('click', '.delete--payment--Btn', function(e) {
+                const selectedRow = $(this).closest('tr');
+                const reference_number = selectedRow.find('td:eq(0)').text().trim();
+                paymentHandler.deletePaymentRecord(reference_number, {options: {confirm: `Are you sure you want to delete this payment record? ${reference_number}`}}).then(() => {
+                    selectedRow.remove();
+                });
+            })
 
             const getAmountRefund = () => {
                 const fundedAmountText = $('#FundedAmount').text();
@@ -1532,7 +1457,7 @@ async function initializeStaffPageJs() {
                     const response = await $.ajax({
                         type: 'GET',
                         url:
-                            DASHBBOARD_TAB_ROUTE.GET_PROJECT_LINKS +
+                            DASHBOARD_TAB_ROUTE.GET_PROJECT_LINKS +
                             '?project_id=' +
                             Project_id,
                         headers: {
@@ -1623,7 +1548,7 @@ async function initializeStaffPageJs() {
 
                     const response = await $.ajax({
                         type: 'POST',
-                        url: DASHBBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
+                        url: DASHBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
@@ -1656,7 +1581,7 @@ async function initializeStaffPageJs() {
                         uploadFileRequirements.getAttribute('data-file_path');
                     const response = await $.ajax({
                         type: 'POST',
-                        url: DASHBBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
+                        url: DASHBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
@@ -1736,7 +1661,7 @@ async function initializeStaffPageJs() {
 
                     const response = await $.ajax({
                         type: 'PUT',
-                        url: DASHBBOARD_TAB_ROUTE.UPDATE_PROJECT_LINKS.replace(
+                        url: DASHBOARD_TAB_ROUTE.UPDATE_PROJECT_LINKS.replace(
                             ':file_id',
                             file_id
                         ),
@@ -1907,30 +1832,6 @@ async function initializeStaffPageJs() {
              */
             function getRecordData(action, recordRow, triggeredDeleteButton) {
                 const recordTypes = {
-                    projectPayment: {
-                        getMessage: () => {
-                            const paymentTransactionID = recordRow
-                                .find('td:eq(0)')
-                                .text();
-                            const paymentAmount = recordRow
-                                .find('td:eq(1)')
-                                .text();
-                            return `Are you sure you want to delete this transaction <strong>${paymentTransactionID}</strong> with amount of <strong>${paymentAmount}</strong>?`;
-                        },
-                        recordType: 'paymentRecord',
-                        getUniqueVal: () => recordRow.find('td:eq(0)').text(),
-                        getDeleteRoute: (uniqueVal) =>
-                            DASHBBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
-                                ':reference_number',
-                                uniqueVal
-                            ),
-                        afterDelete: async (project_id) =>
-                            await getPaymentHistoryAndCalculation(
-                                project_id,
-                                getAmountRefund(),
-                                PaymentHistoryDataTable
-                            ),
-                    },
                     projectLink: {
                         getMessage: () => {
                             const fileId = recordRow.find('input.linkID').val();
@@ -1946,7 +1847,7 @@ async function initializeStaffPageJs() {
                         getUniqueVal: () =>
                             recordRow.find('input.linkID').val(),
                         getDeleteRoute: (uniqueVal) =>
-                            DASHBBOARD_TAB_ROUTE.DELETE_PROJECT_LINK.replace(
+                            DASHBOARD_TAB_ROUTE.DELETE_PROJECT_LINK.replace(
                                 ':file_id',
                                 uniqueVal
                             ),
@@ -1964,7 +1865,7 @@ async function initializeStaffPageJs() {
                         getUniqueVal: () =>
                             triggeredDeleteButton.data('record-id'),
                         getDeleteRoute: (uniqueVal) =>
-                            DASHBBOARD_TAB_ROUTE.DELETE_QUARTERLY_REPORT.replace(
+                            DASHBOARD_TAB_ROUTE.DELETE_QUARTERLY_REPORT.replace(
                                 ':record_id',
                                 uniqueVal
                             ),
@@ -2062,7 +1963,7 @@ async function initializeStaffPageJs() {
                 try {
                     const response = await $.ajax({
                         type: 'PUT',
-                        url: DASHBBOARD_TAB_ROUTE.UPDATE_PROJECT_STATE,
+                        url: DASHBOARD_TAB_ROUTE.UPDATE_PROJECT_STATE,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
@@ -2074,7 +1975,6 @@ async function initializeStaffPageJs() {
                             business_id: businessID,
                         },
                     });
-                    const data = await response;
                     showToastFeedback('text-bg-success', data.message);
                 } catch (error) {
                     showToastFeedback(
@@ -2084,77 +1984,75 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            let paymentProgress;
+            // function InitializeviewCooperatorProgress(percentage) {
+            //     const options = {
+            //         series: [percentage],
+            //         chart: {
+            //             type: 'radialBar',
+            //             width: '100%',
+            //             height: '200px',
+            //             sparkline: {
+            //                 enabled: true,
+            //             },
+            //         },
+            //         colors: ['#00D8B6'],
+            //         plotOptions: {
+            //             radialBar: {
+            //                 startAngle: -90,
+            //                 endAngle: 90,
+            //                 track: {
+            //                     background: '#e7e7e7',
+            //                     strokeWidth: '97%',
+            //                     margin: 5, // margin is in pixels
+            //                     dropShadow: {
+            //                         enabled: true,
+            //                         top: 2,
+            //                         left: 0,
+            //                         color: '#999',
+            //                         opacity: 1,
+            //                         blur: 2,
+            //                     },
+            //                 },
+            //                 dataLabels: {
+            //                     name: {
+            //                         show: false,
+            //                     },
+            //                     value: {
+            //                         offsetY: -2,
+            //                         fontSize: '22px',
+            //                     },
+            //                 },
+            //             },
+            //         },
+            //         grid: {
+            //             padding: {
+            //                 top: -10,
+            //             },
+            //         },
+            //         fill: {
+            //             type: 'gradient',
+            //             gradient: {
+            //                 shade: 'light',
+            //                 shadeIntensity: 0.4,
+            //                 inverseColors: false,
+            //                 opacityFrom: 1,
+            //                 opacityTo: 1,
+            //                 stops: [0, 50, 53, 91],
+            //             },
+            //         },
+            //         labels: ['Average Results'],
+            //     };
 
-            function InitializeviewCooperatorProgress(percentage) {
-                const options = {
-                    series: [percentage],
-                    chart: {
-                        type: 'radialBar',
-                        width: '100%',
-                        height: '200px',
-                        sparkline: {
-                            enabled: true,
-                        },
-                    },
-                    colors: ['#00D8B6'],
-                    plotOptions: {
-                        radialBar: {
-                            startAngle: -90,
-                            endAngle: 90,
-                            track: {
-                                background: '#e7e7e7',
-                                strokeWidth: '97%',
-                                margin: 5, // margin is in pixels
-                                dropShadow: {
-                                    enabled: true,
-                                    top: 2,
-                                    left: 0,
-                                    color: '#999',
-                                    opacity: 1,
-                                    blur: 2,
-                                },
-                            },
-                            dataLabels: {
-                                name: {
-                                    show: false,
-                                },
-                                value: {
-                                    offsetY: -2,
-                                    fontSize: '22px',
-                                },
-                            },
-                        },
-                    },
-                    grid: {
-                        padding: {
-                            top: -10,
-                        },
-                    },
-                    fill: {
-                        type: 'gradient',
-                        gradient: {
-                            shade: 'light',
-                            shadeIntensity: 0.4,
-                            inverseColors: false,
-                            opacityFrom: 1,
-                            opacityTo: 1,
-                            stops: [0, 50, 53, 91],
-                        },
-                    },
-                    labels: ['Average Results'],
-                };
+            //     if (paymentProgress) {
+            //         paymentProgress.destroy();
+            //     }
 
-                if (paymentProgress) {
-                    paymentProgress.destroy();
-                }
-
-                paymentProgress = new ApexCharts(
-                    document.querySelector('#progressPercentage'),
-                    options
-                );
-                paymentProgress.render();
-            }
+            //     paymentProgress = new ApexCharts(
+            //         document.querySelector('#progressPercentage'),
+            //         options
+            //     );
+            //     paymentProgress.render();
+            // }
 
             /**
              * This function sends an AJAX request to the server to get the available
@@ -2763,7 +2661,7 @@ async function initializeStaffPageJs() {
                     $(this).serialize() + '&project_id=' + project_id;
                 $.ajax({
                     type: 'POST',
-                    url: DASHBBOARD_TAB_ROUTE.STORE_NEW_QUARTERLY_REPORT,
+                    url: DASHBOARD_TAB_ROUTE.STORE_NEW_QUARTERLY_REPORT,
                     data: formData,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -2803,7 +2701,7 @@ async function initializeStaffPageJs() {
                             ),
                         },
                         url:
-                            DASHBBOARD_TAB_ROUTE.GET_QUARTERLY_REPORT_RECORDS +
+                            DASHBOARD_TAB_ROUTE.GET_QUARTERLY_REPORT_RECORDS +
                             '?project_id=' +
                             project_id,
                     });
@@ -2961,7 +2859,7 @@ async function initializeStaffPageJs() {
                                 'content'
                             ),
                         },
-                        url: DASHBBOARD_TAB_ROUTE.UPDATE_QUARTERLY_REPORT.replace(
+                        url: DASHBOARD_TAB_ROUTE.UPDATE_QUARTERLY_REPORT.replace(
                             ':record_id',
                             report_id
                         ),
@@ -3112,7 +3010,7 @@ async function initializeStaffPageJs() {
                         title: 'Due Date',
                     },
                     {
-                        title: 'Date Completed'
+                        title: 'Date Completed',
                     },
                     {
                         title: 'Date Created',

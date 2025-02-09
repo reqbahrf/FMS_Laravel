@@ -10,7 +10,7 @@ type HTMLContent = string;
 export default class NavigationHandler {
     private tabContainer: JQuery;
     private userRole: string;
-    private MappedUrlsRoutes: { [key: string]: Function };
+    protected MappedUrlsRoutes: { [key: string]: Function };
     private PageFunctionsInitializer: Function;
     private spinner: JQuery;
     private currentPage: string | null;
@@ -69,7 +69,7 @@ export default class NavigationHandler {
      * @returns {Promise<void>}
      * @throws {Error} When page loading fails
      */
-    async loadPage(url: string, activeLink: string) {
+    async loadPage(url: string, activeLink: string) : Promise<void> {
         try {
             $(document).trigger('page:changing', {
                 from: this.currentPage,
@@ -94,7 +94,7 @@ export default class NavigationHandler {
             }
         } catch (error) {
             this.spinner.addClass('d-none');
-            showToastFeedback('text-bg-danger', error);
+            showToastFeedback('text-bg-danger', error as string);
         } finally {
             this.spinner.addClass('d-none');
             this.tabContainer.show();
@@ -110,7 +110,7 @@ export default class NavigationHandler {
      * @throws {Error} When handling page response fails
      * @private
      */
-    async _handleLoadPageResponse(response: HTMLContent, activeLink: string, url: string) {
+    async _handleLoadPageResponse(response: HTMLContent, activeLink: string, url: string): Promise<void> {
         try {
             const functions = await this._initializePageContext(
                 response,
@@ -125,7 +125,7 @@ export default class NavigationHandler {
 
             this._persistNavigationState(url, activeLink);
         } catch (error) {
-            this._handlePageLoadError(error);
+            this._handlePageLoadError(error as Error);
         }
     }
 
@@ -134,7 +134,7 @@ export default class NavigationHandler {
         return urlRoute[url](functions);
     }
 
-    async _initializePageContext(response: HTMLContent, activeLink: string, url: string) {
+    async _initializePageContext(response: HTMLContent, activeLink: string, url: string): Promise<Function> {
         // Load page functions
         const functions = await this.PageFunctionsInitializer();
 
@@ -162,5 +162,13 @@ export default class NavigationHandler {
      */
     getCurrentPage() {
         return this.currentPage;
+    }
+
+    /**
+     * Getter method to access MappedUrlsRoutes
+     * @returns {Object.<string, Function>} The mapped URL routes
+     */
+    protected getUrlRoutes(): { [key: string]: Function } {
+        return this.MappedUrlsRoutes;
     }
 }

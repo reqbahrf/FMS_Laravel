@@ -37,8 +37,7 @@ const getProjectPaymentHistory = async (
                 ? /*html*/`<button class="btn btn-primary btn-sm" data-bs-toggle="modal"
                     data-bs-target="#paymentModal"
                     data-action="Update"><i class="ri-file-edit-fill"></i></button>
-                <button class="btn btn-danger btn-sm deleteRecord" data-bs-toggle="modal" 
-                    data-bs-target="#deleteRecordModal" 
+                <button class="btn btn-danger btn-sm delete--payment--Btn" 
                     data-delete-record-type="projectPayment">
                     <i class="ri-delete-bin-2-fill"></i></button>`
                 : '';

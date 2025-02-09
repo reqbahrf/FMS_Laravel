@@ -25,7 +25,7 @@ class AdminReportController extends Controller
 
             // Process the data
             $report = $this->processReportData($chartData);
-            $docHeader = view('StaffView.outputs.DocHeader')->render();
+            $docHeader = view('staff-view.outputs.DocHeader')->render();
 
             // Generate PDF with output to browser
             $mpdf = new Mpdf([
@@ -112,14 +112,28 @@ class AdminReportController extends Controller
                 Log::error('Failed to decode location data', ['error' => json_last_error_msg()]);
                 throw new Exception('Failed to decode location data');
             }
-            foreach ($localData as $location => $data) {
-                $report['location_statistics'][] = [
-                    'location' => $location,
-                    'micro_enterprises' => $data['Micro Enterprise'] ?? 0,
-                    'small_enterprises' => $data['Small Enterprise'] ?? 0,
-                    'medium_enterprises' => $data['Medium Enterprise'] ?? 0,
-                    'total_enterprises' => ($data['Micro Enterprise'] ?? 0) + ($data['Small Enterprise'] ?? 0) + ($data['Medium Enterprise'] ?? 0)
-                ];
+
+            $report['location_statistics'] = [];
+            foreach ($localData as $region => $regionData) {
+                foreach ($regionData['byProvince'] as $province => $provinceData) {
+                    foreach ($provinceData['byCity'] as $city => $cityData) {
+                        foreach ($cityData['byBarangay'] as $barangay => $barangayData) {
+                            $enterpriseTypes = ['Micro Enterprise', 'Small Enterprise', 'Medium Enterprise'];
+                            $enterprises = array_map(fn($type) => $barangayData[$type] ?? 0, $enterpriseTypes);
+                            $totalEnterprises = array_sum($enterprises);
+
+                            if ($totalEnterprises > 0) {
+                                $report['location_statistics'][] = [
+                                    'location' => implode(', ', array_filter([$barangay, $city, $province, $region])),
+                                    'micro_enterprises' => $enterprises[0],
+                                    'small_enterprises' => $enterprises[1],
+                                    'medium_enterprises' => $enterprises[2],
+                                    'total_enterprises' => $totalEnterprises
+                                ];
+                            }
+                        }
+                    }
+                }
             }
 
             // Process Staff Data
@@ -146,10 +160,10 @@ class AdminReportController extends Controller
             ];
 
             return $report;
-       } catch (Exception $e) {
-    Log::error('Error in processReportData: ' . $e->getMessage());
-    throw new Exception('Error in processReportData', $e->getCode(), $e);
-}
+        } catch (Exception $e) {
+            Log::error('Error in processReportData: ' . $e->getMessage());
+            throw new Exception('Error in processReportData', $e->getCode(), $e);
+        }
     }
 
     private function generateReportHTML($report, $yearToLoad)

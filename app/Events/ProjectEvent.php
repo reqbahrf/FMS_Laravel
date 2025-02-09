@@ -12,18 +12,28 @@ class ProjectEvent
     public $businessId;
     public $enterprise_type;
     public $enterprise_level;
-    public $city;
+    public $location;
     public $event_type;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($businessId = null, $enterprise_type = null, $enterprise_level = null, $city = null, $event_type)
-    {
+    public function __construct(
+        ?int $businessId = null,
+        ?string $enterprise_type = null,
+        ?string $enterprise_level = null,
+        ?Array $location = [
+            'region' => null,
+            'province' => null,
+            'city' => null,
+            'barangay' => null,
+        ],
+        ?string $event_type = null
+    ) {
         $this->businessId = $businessId;
         $this->enterprise_type = $enterprise_type;
         $this->enterprise_level = $enterprise_level;
-        $this->city = $city;
+        $this->location = $location;
         $this->event_type = $event_type;
     }
 }

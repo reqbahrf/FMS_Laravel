@@ -20,7 +20,8 @@
                 </p>
             </div>
             <div class="col-12 text-center">
-                <p class="mb-0 text-white text-opacity-50"> @php
+                <p class="mb-0 text-white text-opacity-50">
+                @php
                     echo date('Y');
                 @endphp DOST-SETUP-SYS</p>
             </div>

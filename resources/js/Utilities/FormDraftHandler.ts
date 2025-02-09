@@ -1,6 +1,6 @@
 import * as FilePond from 'filepond';
 import { TableDataExtractor } from './TableDataExtractor';
-import { RowConfig, DraftFormConfig } from 'global-form-config';
+import { TableRowConfig, DraftFormConfig } from 'global-form-config';
 interface FilePondDraftData {
     [key: string]:
         | string
@@ -198,6 +198,7 @@ export class FormDraftHandler {
                                 metaDataId: META_DATA_ID,
                             },
                         } as FilePondDraftData;
+                        if(!FILE_INPUT_NAME) return;
                         this.scheduleSave();
                     }
                 });
@@ -217,7 +218,7 @@ export class FormDraftHandler {
      * @param {string} formSelector - jQuery selector for the target form
      * @param {Array} [excludedFields=[]] - Array of field names to exclude from population
      */
-    loadTextInputData(
+    private loadTextInputData(
         draftData: DraftData,
         formSelector: string,
         excludedFields: string[] = []
@@ -263,7 +264,7 @@ export class FormDraftHandler {
      * @param {Object} tableSelectors - Object mapping table types to jQuery selectors
      * @param {Object} tableRowConfigs - Object mapping table types to row configuration objects
      */
-    loadTablesData(
+    private loadTablesData(
         draftData: DraftData,
         tableSelectors: string[],
         tableRowConfigs: { [key: string]: any }
@@ -281,7 +282,7 @@ export class FormDraftHandler {
 
         $.each(tableSelectors, (tableType, tableSelector) => {
             const tableData = normalizedDraftData[tableType];
-            const rowConfig: RowConfig = tableRowConfigs[tableType];
+            const rowConfig: TableRowConfig = tableRowConfigs[tableType];
 
             if (tableData) {
                 // Handle both array and object types of tableData
@@ -301,7 +302,7 @@ export class FormDraftHandler {
         });
     }
 
-    loadFilepondData(draftData: FilePondDraftData, filepondIds: string[]) {
+    private loadFilepondData(draftData: FilePondDraftData, filepondIds: string[]) {
         if (!draftData || typeof draftData !== 'object' || !filepondIds) return;
 
         $.each(draftData, (key, value) => {
@@ -354,7 +355,7 @@ export class FormDraftHandler {
         });
     }
 
-    getFilepondInstanceHandler(filepondInputID: string) {
+    private getFilepondInstanceHandler(filepondInputID: string) {
         console.log('Looking for FilePond instance with ID:', filepondInputID);
         const filePondElement = document.getElementById(filepondInputID);
         if (filePondElement) {
@@ -382,10 +383,10 @@ export class FormDraftHandler {
      * @param {Object} rowData - Data to populate the new row
      * @param {Object} rowConfig - Configuration object containing createRow method
      */
-    addRowToTable(
+    private addRowToTable(
         tableSelector: string,
         rowData: object,
-        rowConfig: RowConfig
+        rowConfig: TableRowConfig
     ) {
         const tableBody = $(tableSelector).find('tbody');
         const newRow = rowConfig.createRow(rowData);
@@ -475,7 +476,7 @@ export class FormDraftHandler {
         }
     }
 
-    scheduleSave() {
+    private scheduleSave() {
         this.draftLoadingHandler();
         clearTimeout(this.autoSaveTimeout ?? 0);
         this.autoSaveTimeout = setTimeout(() => {

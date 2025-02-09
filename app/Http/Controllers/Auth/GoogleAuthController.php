@@ -99,6 +99,7 @@ class GoogleAuthController extends Controller
             Auth::login($user);
 
             // Update provider information
+            $user->avatar = $googleUser->getAvatar();
             $user->provider = 'google';
             $user->provider_id = $googleUser->getId();
 
@@ -134,7 +135,7 @@ class GoogleAuthController extends Controller
             $existingEmailUser = User::where('email', $googleUser->getEmail())
                 ->where('provider', '!=', 'google')
                 ->first();
-    
+
             if ($existingEmailUser) {
                 return redirect()->route('login')->withErrors([
                     'email' => 'An account with this email already exists. Please log in directly.'
@@ -142,7 +143,7 @@ class GoogleAuthController extends Controller
             }
 
             $username = $this->generateUniqueUsername($googleUser->user['given_name']);
-    
+
             // Create new user
             $newUser = User::create([
                 'email' => $googleUser->getEmail(),
@@ -154,10 +155,10 @@ class GoogleAuthController extends Controller
                 'role' => 'Cooperator', // Default role
                 'password' => Hash::make(Str::random(16)) // Random password for social users
             ]);
-    
+
             // Optional: Additional setup for new users
             // For example, creating a profile or sending a welcome email
-    
+
             Auth::login($newUser);
             return $this->CoopIntentedRoute($newUser);
         }catch(Exception $e){
@@ -165,7 +166,7 @@ class GoogleAuthController extends Controller
             return redirect()->route('registerpage.signup')->withErrors([
                 'error' => 'An unexpected error occurred. Please try again.'
             ]);
-            
+
         }
     }
 
@@ -184,7 +185,7 @@ class GoogleAuthController extends Controller
         return $username;
     }
 
-    protected function CoopIntentedRoute(User $user) 
+    protected function CoopIntentedRoute(User $user)
     {
         try {
             return is_null($user->coopUserInfo) ? redirect()->route('registrationForm') : redirect()->route('Cooperator.index');

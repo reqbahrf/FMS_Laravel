@@ -1,3 +1,17 @@
+@php
+    use App\Services\ApplicantFileHandlerService;
+try {
+    $organizationalStructure = ApplicantFileHandlerService::getFileAsBase64('Organizational Structure', $TNAdata['business_id']);
+    $planLayout = ApplicantFileHandlerService::getFileAsBase64('Plan Layout', $TNAdata['business_id']);
+    $processFlow = ApplicantFileHandlerService::getFileAsBase64('Process Flow', $TNAdata['business_id']);
+
+} catch (Exception $e) {
+    Log::error('Error retrieving file: ' . $e->getMessage());
+    $organizationalStructure = null;
+    $planLayout = null;
+    $processFlow = null;
+}
+@endphp
 <div id="TNAForm">
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
             lang="en-US"><strong>DOST TNA Form 01</strong></span></p>
@@ -360,7 +374,7 @@
         <br>&nbsp;</p>
 
         <x-t-n-a-form.attachment-a :TNAdata="$TNAdata" />
-        <x-t-n-a-form.t-n-a-form-one :TNAdata="$TNAdata" />
+        <x-t-n-a-form.t-n-a-form-one :TNAdata="$TNAdata" :organizationalStructure="$organizationalStructure" />
 
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -575,62 +589,6 @@
 
         </tbody>
     </table>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
     </p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
@@ -639,57 +597,17 @@
         <li>
             <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
                     lang="en-US"
-                >Plant Lay-Out</span></p>
+                >Plant Lay-Out</span>
+            </p>
+            @if($planLayout)
+               <img src="data:image/png;base64,{{ $planLayout }}" alt="" style="width: 16.17cm; height: 16.17cm">
+            @else
+            <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
+            <p>No image available</p>
+            <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
+            @endif
         </li>
     </ul>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
-    <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
-    </p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
     </p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>
@@ -699,6 +617,13 @@
             <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
                     lang="en-US"
                 >Process Flow</span></p>
+            @if($processFlow)
+               <img src="data:image/png;base64,{{ $processFlow }}" alt="" style="width: 16.17cm; height: 16.17cm">
+            @else
+            <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
+            <p>No image available</p>
+            <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
+            @endif
         </li>
     </ul>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
