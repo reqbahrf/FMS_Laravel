@@ -523,6 +523,11 @@ export default class AdminDashboard {
     }
 
     private setupLocationFilterListeners(): void {
+        // Wait for local data to be loaded before setting up filters
+
+        this.loadDefaultFilter();
+
+
         this.filterBySelector.on('change', () => {
             const selectedFilter = this.filterBySelector.val() as string;
             this.updateSpecificLocationSelector(selectedFilter);
@@ -534,6 +539,55 @@ export default class AdminDashboard {
                 this.specificLocationSelector.val() as string;
             this.filterAndUpdateCharts(selectedFilter, selectedLocation);
         });
+
+    }
+    private loadDefaultFilter(): void {
+        if (!this.localData) {
+            // If localData is not yet loaded, defer setup
+            setTimeout(() => this.setupLocationFilterListeners(), 100);
+            return;
+        }
+
+        // Set default values
+        this.filterBySelector.val('By City');
+        this.specificLocationSelector.prop('disabled', false);
+        this.specificLocationSelector.empty();
+
+        // Populate specific locations for City filter
+        let cityLocations: string[] = [];
+        Object.values(this.localData).forEach((regionData) => {
+            Object.values(regionData.byProvince).forEach((provinceData) => {
+                cityLocations = [
+                    ...cityLocations,
+                    ...Object.keys(provinceData.byCity),
+                ];
+            });
+        });
+
+        // Remove duplicates and sort
+        cityLocations = [...new Set(cityLocations)].sort();
+
+        // Add locations to selector
+        this.specificLocationSelector.append($('<option>').text('Select Location'));
+        cityLocations.forEach((city) => {
+            this.specificLocationSelector.append(
+                $('<option>').val(city).text(city)
+            );
+        });
+
+        // Set default location to Tagum if it exists
+        if (cityLocations.includes('Tagum')) {
+            this.specificLocationSelector.val('Tagum');
+        }
+
+        // Trigger change events to initialize the selectors
+        // this.filterBySelector.trigger('change');
+        // this.specificLocationSelector.trigger('change');
+
+        const defaultFilter = this.filterBySelector.val() as string;
+        const defaultLocation = this.specificLocationSelector.val() as string;
+
+        this.filterAndUpdateCharts(defaultFilter, defaultLocation);
     }
 
     private updateSpecificLocationSelector(filterType: string): void {
@@ -668,13 +722,18 @@ export default class AdminDashboard {
                                         'Medium Enterprise',
                                     ];
 
-                                    enterpriseLevels.forEach((enterpriseLevel) => {
-                                        if (barangayData[enterpriseLevel]) {
-                                            filteredLocalData[locationKey][
-                                                enterpriseLevel
-                                            ] += barangayData[enterpriseLevel];
+                                    enterpriseLevels.forEach(
+                                        (enterpriseLevel) => {
+                                            if (barangayData[enterpriseLevel]) {
+                                                filteredLocalData[locationKey][
+                                                    enterpriseLevel
+                                                ] +=
+                                                    barangayData[
+                                                        enterpriseLevel
+                                                    ];
+                                            }
                                         }
-                                    });
+                                    );
                                 }
                             });
                         });
