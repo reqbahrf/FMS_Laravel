@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Actions\InsertBusinessRequirementsFileAction;
 use App\Events\ProjectEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -128,82 +129,8 @@ class ApplicationController extends Controller
             // $receiptFileID = $validatedInputs['receiptFile'];
             // $govFileID = $validatedInputs['govIdFile'];
 
-
-
-            $file_to_insert = [
-                'organizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'],
-                'IntentFilePath' => $validatedInputs['IntentFileID_Data_Handler'],
-                'DSCFilePath' => $validatedInputs['DtiSecCdaFileID_Data_Handler'],
-                'businessPermitFilePath' => $validatedInputs['BusinessPermitFileID_Data_Handler'],
-                'FDA_LTOFilePath' => $validatedInputs['FdaLtoFileID_Data_Handler'],
-                'receiptFilePath' => $validatedInputs['ReceiptFileID_Data_Handler'],
-                'govFilePath' => $validatedInputs['GovIdFileID_Data_Handler'],
-                'BIRFilePath' => $validatedInputs['BIRFileID_Data_Handler']
-            ];
-
-            Log::info($file_to_insert);
-
-            $fileNames = [
-                'organizationalStructurePath' => 'Organizational Structure',
-                'IntentFilePath' => 'Intent File',
-                'businessPermitFilePath' => 'Business Permit',
-                'receiptFilePath' => 'Receipt',
-                'BIRFilePath' => 'BIR'
-            ];
-
-            $DSC_file_Name_Selector = $validatedInputs['DSC_file_Selector'];
-            $fda_lto_Name_Selector = $validatedInputs['Fda_Lto_Selector'];
-            $govId_Selector = $validatedInputs['GovIdSelector'];
-
-            $fileNames['DSCFilePath'] = $DSC_file_Name_Selector;
-            $fileNames['FDA_LTOFilePath'] = $fda_lto_Name_Selector;
-            $fileNames['govFilePath'] = $govId_Selector;
-
-            foreach ($file_to_insert as $filekey => $filePath) {
-                if (Storage::disk('public')->exists($filePath)) {
-                    $fileName = $fileNames[$filekey];
-                    $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
-
-                    $business_path = "Businesses/{$firm_name}_{$businessId}";
-                    $projectFilePath = $business_path . '/requirements';
-
-                    if (!Storage::disk('private')->exists($projectFilePath)) {
-                        Storage::disk('private')->makeDirectory($projectFilePath, 0755, true);
-                    }
-
-                    // Ensure filename has the original extension
-                    $newFileName = uniqid(time() . '_') . '_' . pathinfo($fileName, PATHINFO_FILENAME) . '.' . $fileExtension;
-                    $finalPath = str_replace(' ', '_', $projectFilePath . '/' . $newFileName);
-
-                    $sourceStream = Storage::disk('public')->readStream($filePath);
-                    $result = Storage::disk('private')->writeStream($finalPath, $sourceStream);
-
-                    if (is_resource($sourceStream)) {
-                        fclose($sourceStream);
-                    }
-
-                    // Only proceed if file was written successfully
-                    if ($result) {
-                        // Delete the original file after successful transfer
-                        Storage::disk('public')->delete($filePath);
-
-                        DB::table('requirements')->insert([
-                            'business_id' => $businessId,
-                            'file_name' => $fileName,
-                            'file_link' => $finalPath,
-                            'file_type' => $fileExtension,
-                            'can_edit' => false,
-                            'remarks' => 'Pending',
-                            'created_at' => now(),
-                            'updated_at' => now(),
-                        ]);
-                    } else {
-                        return response()->json(['error' => "Failed to store file {$fileName}"], 500);
-                    }
-                } else {
-                    return response()->json(['error' => "This file $fileNames[$filekey] does not exist"], 404);
-                };
-            }
+            $insertAction = new InsertBusinessRequirementsFileAction();
+            $insertAction->execute($validatedInputs, $businessId, $firm_name);
 
             $successful_inserts++;
 
