@@ -19,18 +19,26 @@ class BusinessInfoFactory extends Factory
         $locationData = [
             'Region XI (Davao Region)' => [
                 'Davao del Norte' => [
-                    'Tagum' => ['Magugpo North', 'Magugpo South', 'Magugpo East', 'Magugpo West'],
-                    'Panabo' => ['Poblacion', 'Salvacion', 'New Cortez', 'Cambanay'],
-                    'Carmin' => ['Poblacion', 'Crossing', 'Malinao', 'Mabini'],
-                    'Santo Tomas' => ['Poblacion', 'Macacao', 'Fatima', 'Mabuhay']
+                    'Tagum City' => ['Magugpo North', 'Magugpo South', 'Magugpo East', 'Magugpo West'],
+                    'Panabo City' => ['Poblacion', 'Salvacion', 'New Cortez', 'Cambanay'],
+                    'Carmen' => ['Poblacion', 'Crossing', 'Malinao', 'Mabini'],
+                    'Santo Tomas' => ['Poblacion', 'Macacao', 'Fatima', 'Mabuhay'],
+                    'Island Garden City of Samal' => ['Babak', 'Kaputian', 'Peñaplata', 'Libertad']
                 ],
                 'Davao City' => [
-                    'Davao City' => ['Poblacion', 'Talomo', 'Buhangin', 'Agdao']
+                    'Davao City' => ['Poblacion', 'Talomo', 'Buhangin', 'Agdao', 'Toril', 'Calinan', 'Baguio District']
                 ],
                 'Davao de Oro' => [
                     'Compostela' => ['Poblacion', 'Lapu-lapu', 'San Roque', 'Luray'],
                     'Nabunturan' => ['Poblacion', 'New Leyte', 'Andap', 'Napnapan'],
+                    'Monkayo' => ['Poblacion', 'Olaycon', 'Banlag', 'Awao'],
+                    'Maco' => ['Poblacion', 'Anibongan', 'Hijo', 'Panibasan']
                 ],
+                'Davao Oriental' => [
+                    'Mati City' => ['Poblacion', 'Dahican', 'Matiao', 'Tamisan'],
+                    'Baganga' => ['Poblacion', 'Batawan', 'Salingcomot', 'Lamiawan'],
+                    'Cateel' => ['Poblacion', 'San Alfonso', 'San Antonio', 'Alegria']
+                ]
             ]
         ];
 
