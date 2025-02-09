@@ -1017,7 +1017,9 @@ export function initializeForm() {
     );
 
     const FileMetaHiddenInputs = [
-        'organizationalStructureID_Data_Handler',
+        'OrganizationalStructureFileID_Data_Handler',
+        'PlanLayoutFileID_Data_Handler',
+        'ProcessFlowFileID_Data_Handler',
         'IntentFileID_Data_Handler',
         'DtiSecCdaFileID_Data_Handler',
         'BusinessPermitFileID_Data_Handler',
