@@ -17,8 +17,8 @@ class staffGenerateSRController extends Controller
             $esignatureElement = $generateEsignElement->execute($ValidatedData['signatures']);
 
             try {
-                $html = view('StaffView.outputs.StatusReport', [...$ValidatedData, 'esignatureElement' => $esignatureElement])->render();
-                $DocHeader = view('StaffView.outputs.DocHeader')->render();
+                $html = view('staff-view.outputs.StatusReport', [...$ValidatedData, 'esignatureElement' => $esignatureElement])->render();
+                $DocHeader = view('staff-view.outputs.DocHeader')->render();
             } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Error generating report template',
