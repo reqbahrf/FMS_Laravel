@@ -11,6 +11,7 @@ class ApplicationForm extends Model
 
     protected $fillable = [
         'business_id',
+        'application_id',
         'key',
         'data',
         'status',
