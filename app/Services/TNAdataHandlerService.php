@@ -20,7 +20,7 @@ class TNAdataHandlerService
                 'application_id' => $application_id,
                 'key' => $key
             ], [
-                'data' => $data,
+                'data' => [...$data, 'business_id' => $business_id, 'application_id' => $application_id],
                 'status' => 'Pending'
             ]);
         } catch (Exception $e) {
