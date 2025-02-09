@@ -36,11 +36,24 @@ export function initializeForm() {
     const organizationalStructureInstance = InitializeFilePond(
         'organizationalStructure',
         { acceptedFileTypes: ['image/png', 'image/jpeg'] },
-        'organizationalStructureID_Data_Handler'
+        'OrganizationalStructureFileID_Data_Handler'
     );
+
+    const planLayoutInstance = InitializeFilePond(
+        'planLayout',
+        { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+        'PlanLayoutFileID_Data_Handler'
+    )
+
+    const processFlowInstance = InitializeFilePond(
+        'processFlow',
+        { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+        'ProcessFlowFileID_Data_Handler'
+    )
+
     // Intent File
     const intentInstance = InitializeFilePond(
-        'IntentFile',
+        'intentFile',
         { acceptedFileTypes: ['application/pdf'] },
         'IntentFileID_Data_Handler'
     );
@@ -247,8 +260,10 @@ export function initializeForm() {
 
         const requiredFileInputs = [
             'organizationalStructure',
-            'IntentFile',
-            'DtiSecCdafile',
+            'planLayout',
+            'processFlow',
+            'intentFile',
+            'DTI_SEC_CDA_File',
             'businessPermitFile',
             'receiptFile',
             'govIdFile',

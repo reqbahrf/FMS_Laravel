@@ -612,13 +612,9 @@
                                 required
                             >
                                 <option value="">Select Enterprise</option>
-                                <option
-                                    value="Sole Proprietorship"
-                                >Sole
+                                <option value="Sole Proprietorship">Sole
                                     Proprietorship</option>
-                                <option
-                                    value="Partnership"
-                                >Partnership
+                                <option value="Partnership">Partnership
                                 </option>
                                 <option value="Corporation">Corporation</option>
                                 {{-- TODO: Edit the Enum values of the database for Non-Profit and Profit --}}
@@ -665,27 +661,27 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <label for="yearEstablished">Year Enterprise Was Established: <span class="requiredFields">
+                            <label for="yearEstablished">Year Enterprise Was Established: <span
+                                    class="requiredFields">
                                     *</span></label>
                             <input
                                 class="form-control"
                                 id="yearEstablished"
                                 name="yearEstablished"
+                                type="text"
+                                value=""
                                 placeholder="YYYY"
                                 pattern="^(19[0-9]{2}|20[0-9]{2})$"
                                 maxlength="4"
                                 min="1900"
                                 max="{{ date('Y') }}"
                                 inputmode="numeric"
-                                type="text"
-                                value=""
                                 required
                             >
                             <div class="invalid-feedback">
                                 Please enter the year enterprise was established.
                             </div>
                         </div>
-
 
                         <div class="col-12 col-md-6">
                             <label for="businessPermitNo">Business Permit No.: <span class="requiredFields">
@@ -711,14 +707,14 @@
                                 class="form-control"
                                 id="permitYearRegistered"
                                 name="permitYearRegistered"
+                                type="text"
+                                value=""
                                 placeholder="YYYY"
                                 pattern="^(19[0-9]{2}|20[0-9]{2})$"
                                 maxlength="4"
                                 min="1900"
                                 max="{{ date('Y') }}"
                                 inputmode="numeric"
-                                type="text"
-                                value=""
                                 required
                             >
                             <div class="invalid-feedback">
@@ -727,7 +723,9 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <label for="enterpriseRegistrationNo">Enterprise Registration No.: <span class="requiredFields">
+                            <label for="enterpriseRegistrationNo">Enterprise Registration No.: <span
+                                    class="requiredFields"
+                                >
                                     *</span></label>
                             <input
                                 class="form-control"
@@ -744,20 +742,22 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <label for="yearEnterpriseRegistered">Year Enterprise Registered: <span class="requiredFields">
+                            <label for="yearEnterpriseRegistered">Year Enterprise Registered: <span
+                                    class="requiredFields"
+                                >
                                     *</span></label>
                             <input
                                 class="form-control"
                                 id="yearEnterpriseRegistered"
                                 name="yearEnterpriseRegistered"
+                                type="text"
+                                value=""
                                 placeholder="YYYY"
                                 pattern="^(19[0-9]{2}|20[0-9]{2})$"
                                 maxlength="4"
                                 min="1900"
                                 max="{{ date('Y') }}"
                                 inputmode="numeric"
-                                type="text"
-                                value=""
                                 required
                             >
                             <div class="invalid-feedback">
@@ -1144,88 +1144,201 @@
                                     <label>Business Activity:</label>
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
-                                            <input class="form-check-input" type="checkbox" name="foodProcessing" id="foodProcessing">
+                                            <input
+                                                class="form-check-input"
+                                                id="foodProcessing"
+                                                name="foodProcessing"
+                                                type="checkbox"
+                                            >
                                         </div>
-                                        <label class="form-check-label flex-grow-1" for="foodProcessing">
+                                        <label
+                                            class="form-check-label flex-grow-1"
+                                            for="foodProcessing"
+                                        >
                                             Food processing (please specify specific sector)
                                         </label>
-                                        <input type="text" class="form-control ml-3" name="foodProcessingSpecificSector" id="foodProcessingSpecificSector" style="max-width: 300px;">
+                                        <input
+                                            class="form-control ml-3"
+                                            id="foodProcessingSpecificSector"
+                                            name="foodProcessingSpecificSector"
+                                            type="text"
+                                            style="max-width: 300px;"
+                                        >
                                     </div>
 
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
-                                            <input class="form-check-input" type="checkbox" name="furniture" id="furniture">
+                                            <input
+                                                class="form-check-input"
+                                                id="furniture"
+                                                name="furniture"
+                                                type="checkbox"
+                                            >
                                         </div>
-                                        <label class="form-check-label flex-grow-1" for="furniture">
+                                        <label
+                                            class="form-check-label flex-grow-1"
+                                            for="furniture"
+                                        >
                                             Furniture (please specify specific sector)
                                         </label>
-                                        <input type="text" class="form-control ml-3" name="furnitureSpecificSector" id="furnitureSpecificSector" style="max-width: 300px;">
+                                        <input
+                                            class="form-control ml-3"
+                                            id="furnitureSpecificSector"
+                                            name="furnitureSpecificSector"
+                                            type="text"
+                                            style="max-width: 300px;"
+                                        >
                                     </div>
 
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
-                                            <input class="form-check-input" type="checkbox" name="naturalFibers" id="naturalFibers">
+                                            <input
+                                                class="form-check-input"
+                                                id="naturalFibers"
+                                                name="naturalFibers"
+                                                type="checkbox"
+                                            >
                                         </div>
-                                        <label class="form-check-label flex-grow-1" for="naturalFibers">
-                                            Natural fibers, gifts and home decors and fashion accessories (please specify specific sector)
+                                        <label
+                                            class="form-check-label flex-grow-1"
+                                            for="naturalFibers"
+                                        >
+                                            Natural fibers, gifts and home decors and fashion accessories (please
+                                            specify specific sector)
                                         </label>
-                                        <input type="text" class="form-control ml-3" name="naturalFibersSpecificSector" id="naturalFibersSpecificSector" style="max-width: 300px;">
+                                        <input
+                                            class="form-control ml-3"
+                                            id="naturalFibersSpecificSector"
+                                            name="naturalFibersSpecificSector"
+                                            type="text"
+                                            style="max-width: 300px;"
+                                        >
                                     </div>
 
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
-                                            <input class="form-check-input" type="checkbox" name="metals" id="metals">
+                                            <input
+                                                class="form-check-input"
+                                                id="metals"
+                                                name="metals"
+                                                type="checkbox"
+                                            >
                                         </div>
-                                        <label class="form-check-label flex-grow-1" for="metals">
+                                        <label
+                                            class="form-check-label flex-grow-1"
+                                            for="metals"
+                                        >
                                             Metals and engineering (please specify specific sector)
                                         </label>
-                                        <input type="text" class="form-control ml-3" name="metalsSpecificSector" id="metalsSpecificSector" style="max-width: 300px;">
+                                        <input
+                                            class="form-control ml-3"
+                                            id="metalsSpecificSector"
+                                            name="metalsSpecificSector"
+                                            type="text"
+                                            style="max-width: 300px;"
+                                        >
                                     </div>
 
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
-                                            <input class="form-check-input" type="checkbox" name="aquatic" id="aquatic">
+                                            <input
+                                                class="form-check-input"
+                                                id="aquatic"
+                                                name="aquatic"
+                                                type="checkbox"
+                                            >
                                         </div>
-                                        <label class="form-check-label flex-grow-1" for="aquatic">
+                                        <label
+                                            class="form-check-label flex-grow-1"
+                                            for="aquatic"
+                                        >
                                             Aquatic and marine resources (please specify specific sector)
                                         </label>
-                                        <input type="text" class="form-control ml-3" name="aquaticSpecificSector" id="aquaticSpecificSector" style="max-width: 300px;">
+                                        <input
+                                            class="form-control ml-3"
+                                            id="aquaticSpecificSector"
+                                            name="aquaticSpecificSector"
+                                            type="text"
+                                            style="max-width: 300px;"
+                                        >
                                     </div>
 
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
-                                            <input class="form-check-input" type="checkbox" name="horticulture" id="horticulture">
+                                            <input
+                                                class="form-check-input"
+                                                id="horticulture"
+                                                name="horticulture"
+                                                type="checkbox"
+                                            >
                                         </div>
-                                        <label class="form-check-label flex-grow-1" for="horticulture">
+                                        <label
+                                            class="form-check-label flex-grow-1"
+                                            for="horticulture"
+                                        >
                                             Horticulture/Agriculture (please specify specific sector)
                                         </label>
-                                        <input type="text" class="form-control ml-3" name="horticultureSpecificSector" style="max-width: 300px;">
+                                        <input
+                                            class="form-control ml-3"
+                                            name="horticultureSpecificSector"
+                                            type="text"
+                                            style="max-width: 300px;"
+                                        >
                                     </div>
 
                                     <div class="d-flex align-items-center">
                                         <div class="form-check mr-3">
-                                            <input class="form-check-input" type="checkbox" name="others" id="others">
+                                            <input
+                                                class="form-check-input"
+                                                id="others"
+                                                name="others"
+                                                type="checkbox"
+                                            >
                                         </div>
-                                        <label class="form-check-label flex-grow-1" for="others">
+                                        <label
+                                            class="form-check-label flex-grow-1"
+                                            for="others"
+                                        >
                                             Others, please specify
                                         </label>
-                                        <input type="text" class="form-control ml-3" name="othersSpecificSector" style="max-width: 300px;">
+                                        <input
+                                            class="form-control ml-3"
+                                            name="othersSpecificSector"
+                                            type="text"
+                                            style="max-width: 300px;"
+                                        >
                                     </div>
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label class="form-label" for="specificProductOrService">
+                                        <label
+                                            class="form-label"
+                                            for="specificProductOrService"
+                                        >
                                             1. Specific product or service the enterprise offers its customers:
                                         </label>
-                                        <textarea class="form-control" id="specificProductOrService" name="specificProductOrService" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="specificProductOrService"
+                                            name="specificProductOrService"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label class="form-label" for="reasonsWhyAssistanceIsBeingSought">
-                                           2. Reasons why assistance is being sought:
+                                        <label
+                                            class="form-label"
+                                            for="reasonsWhyAssistanceIsBeingSought"
+                                        >
+                                            2. Reasons why assistance is being sought:
                                         </label>
-                                        <textarea class="form-control" id="reasonsWhyAssistanceIsBeingSought" name="reasonsWhyAssistanceIsBeingSought" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="reasonsWhyAssistanceIsBeingSought"
+                                            name="reasonsWhyAssistanceIsBeingSought"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <div class="row g-3">
@@ -1236,63 +1349,134 @@
                                         <div class="ms-3">
                                             <div class="mb-3">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="consultationAnswer" id="consultationYes" value="yes">
-                                                    <label class="form-check-label" for="consultationYes">
+                                                    <input
+                                                        class="form-check-input"
+                                                        id="consultationYes"
+                                                        name="consultationAnswer"
+                                                        type="radio"
+                                                        value="yes"
+                                                    >
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="consultationYes"
+                                                    >
                                                         Yes, from what company/agency
                                                     </label>
                                                 </div>
-                                                <input type="text" class="form-control consultation-input" id="fromWhatCompanyAgency" name="fromWhatCompanyAgency">
-                                                <label class="form-label mt-2">Please specify the type of assistance sought</label>
-                                                <textarea class="form-control consultation-input" id="pleaseSpecifyTheTypeOfAssistanceSought" name="pleaseSpecifyTheTypeOfAssistanceSought" rows="3"></textarea>
+                                                <input
+                                                    class="form-control consultation-input"
+                                                    id="fromWhatCompanyAgency"
+                                                    name="fromWhatCompanyAgency"
+                                                    type="text"
+                                                >
+                                                <label class="form-label mt-2">Please specify the type of assistance
+                                                    sought</label>
+                                                <textarea
+                                                    class="form-control consultation-input"
+                                                    id="pleaseSpecifyTheTypeOfAssistanceSought"
+                                                    name="pleaseSpecifyTheTypeOfAssistanceSought"
+                                                    rows="3"
+                                                ></textarea>
                                             </div>
                                             <div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="consultationAnswer" id="consultationNo" value="no">
-                                                    <label class="form-check-label" for="consultationNo">
+                                                    <input
+                                                        class="form-check-input"
+                                                        id="consultationNo"
+                                                        name="consultationAnswer"
+                                                        type="radio"
+                                                        value="no"
+                                                    >
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="consultationNo"
+                                                    >
                                                         No, why not?
                                                     </label>
                                                 </div>
-                                                <textarea class="form-control consultation-input" id="whyNot" name="whyNot" rows="3"></textarea>
+                                                <textarea
+                                                    class="form-control consultation-input"
+                                                    id="whyNot"
+                                                    name="whyNot"
+                                                    rows="3"
+                                                ></textarea>
                                             </div>
                                         </div>
                                         <div class="mt-3">
-                                            <label class="form-label" for="organizationalStructure">
+                                            <label
+                                                class="form-label"
+                                                for="organizationalStructure"
+                                            >
                                                 Please attach Organizational Structure:
                                             </label>
-                                            <input type="file" class="" id="organizationalStructure" name="organizationalStructure">
+                                            <input
+                                                class=""
+                                                id="organizationalStructure"
+                                                name="organizationalStructure"
+                                                type="file"
+                                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                                            >
                                             <div class="invalid-feedback">
                                                 Please upload the Organization Structure.
                                             </div>
-                                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size: 10MB</div>
-                                            <input type="hidden" id="organizationalStructureID_Data_Handler" name="organizationalStructureID_Data_Handler">
+                                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                                10MB</div>
+                                            <input
+                                                id="OrganizationalStructureFileID_Data_Handler"
+                                                name="OrganizationalStructureFileID_Data_Handler"
+                                                type="hidden"
+                                            >
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label class="form-label" for="enterprisePlanForTheNext5Years">
+                                        <label
+                                            class="form-label"
+                                            for="enterprisePlanForTheNext5Years"
+                                        >
                                             4. Enterprise plan for the next 5 years:
                                         </label>
-                                        <textarea class="form-control" id="enterprisePlanForTheNext5Years" name="enterprisePlanForTheNext5Years" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="enterprisePlanForTheNext5Years"
+                                            name="enterprisePlanForTheNext5Years"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label class="form-label ms-2" for="nextTenYears">
+                                        <label
+                                            class="form-label ms-2"
+                                            for="nextTenYears"
+                                        >
                                             Next 10 years?
                                         </label>
-                                        <textarea class="form-control" id="nextTenYears" name="nextTenYears" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="nextTenYears"
+                                            name="nextTenYears"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <div class="row g-3">
                                     <div class="col-12">
-                                        <label class="form-label" for="currentAgreementAndAlliancesUndertaken">
+                                        <label
+                                            class="form-label"
+                                            for="currentAgreementAndAlliancesUndertaken"
+                                        >
                                             5. Current agreement and alliances undertaken:
                                         </label>
-                                        <textarea class="form-control" id="currentAgreementAndAlliancesUndertaken" name="currentAgreementAndAlliancesUndertaken" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="currentAgreementAndAlliancesUndertaken"
+                                            name="currentAgreementAndAlliancesUndertaken"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>
@@ -1300,14 +1484,13 @@
                             <div class="card-header fw-bold">
                                 BENCHMARK INFORMATION
                             </div>
-                            <div class="card-body" >
+                            <div class="card-body">
                                 <hr>
                                 <h6 class="my-4">*Product and Supply Chain</h6>
                                 <hr>
                                 <div id="productAndSupplyChainContainer">
                                     <div class="mt-2">
-                                        <div
-                                            class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                        <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                             <button
                                                 class="btn btn-primary addProductAndSupplyChainRow"
                                                 data-toggle="tooltip"
@@ -1328,7 +1511,10 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="productAndSupplyChainTable">
+                                        <table
+                                            class="table table-bordered"
+                                            id="productAndSupplyChainTable"
+                                        >
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Raw Material</th>
@@ -1340,16 +1526,28 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <input type="text" class="form-control RawMaterial" />
+                                                        <input
+                                                            class="form-control RawMaterial"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control Source" />
+                                                        <input
+                                                            class="form-control Source"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control UnitCost" />
+                                                        <input
+                                                            class="form-control UnitCost"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control VolumeUsed" />
+                                                        <input
+                                                            class="form-control VolumeUsed"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -1362,8 +1560,7 @@
                                 <div id="productionContainer">
 
                                     <div class="mt-2">
-                                        <div
-                                            class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                        <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                             <button
                                                 class="btn btn-primary addProductionRow"
                                                 data-toggle="tooltip"
@@ -1384,7 +1581,10 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="productionTable">
+                                        <table
+                                            class="table table-bordered"
+                                            id="productionTable"
+                                        >
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Product</th>
@@ -1396,16 +1596,28 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <input type="text" class="form-control Product" />
+                                                        <input
+                                                            class="form-control Product"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control VolumeProduction" />
+                                                        <input
+                                                            class="form-control VolumeProduction"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control UnitCost" />
+                                                        <input
+                                                            class="form-control UnitCost"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control AnnualCost" />
+                                                        <input
+                                                            class="form-control AnnualCost"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -1417,8 +1629,7 @@
                                 <hr>
                                 <div id="productionEquipmentContainer">
                                     <div class="mt-2">
-                                        <div
-                                            class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                                        <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                             <button
                                                 class="btn btn-primary addProductionEquipmentRow"
                                                 data-toggle="tooltip"
@@ -1439,7 +1650,10 @@
                                         </div>
                                     </div>
                                     <div class="table-responsive">
-                                        <table class="table table-bordered" id="productionEquipmentTable">
+                                        <table
+                                            class="table table-bordered"
+                                            id="productionEquipmentTable"
+                                        >
                                             <thead>
                                                 <tr>
                                                     <th scope="col">Type of Equipment</th>
@@ -1450,13 +1664,22 @@
                                             <tbody>
                                                 <tr>
                                                     <td>
-                                                        <input type="text" class="form-control TypeOfEquipment" />
+                                                        <input
+                                                            class="form-control TypeOfEquipment"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control Specification" />
+                                                        <input
+                                                            class="form-control Specification"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                     <td>
-                                                        <input type="text" class="form-control Capacity" />
+                                                        <input
+                                                            class="form-control Capacity"
+                                                            type="text"
+                                                        />
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -1465,94 +1688,280 @@
                                 </div>
                                 <div class="row gy-3">
                                     <div class="col-12">
-                                        <label for="ProductionProblemAndConcern" class="form-label">-Production Problem and Concern</label>
-                                        <textarea class="form-control" id="ProductionProblemAndConcern" name="ProductionProblemAndConcern" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="ProductionProblemAndConcern"
+                                        >-Production Problem and Concern</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="ProductionProblemAndConcern"
+                                            name="ProductionProblemAndConcern"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label for="ProductionWasteManageSystem" class="form-label">-Production Waste Management System</label>
-                                        <textarea class="form-control" id="ProductionWasteManageSystem" name="ProductionWasteManageSystem" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="ProductionWasteManageSystem"
+                                        >-Production Waste Management System</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="ProductionWasteManageSystem"
+                                            name="ProductionWasteManageSystem"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label for="ProductionPlan" class="form-label">-Production Plan</label>
-                                        <textarea class="form-control" id="ProductionPlan" name="ProductionPlan" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="ProductionPlan"
+                                        >-Production Plan</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="ProductionPlan"
+                                            name="ProductionPlan"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label for="InventorySystem" class="form-label">-Inventory System</label>
-                                        <textarea class="form-control" id="InventorySystem" name="InventorySystem" rows="3"></textarea>
+                                        <div class="">
+                                            <label
+                                                class="form-label"
+                                                for="PlanLayout"
+                                            >-Plan Lay-out</label>
+                                            <input
+                                                id="planLayout"
+                                                name="planLayout"
+                                                type="file"
+                                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                                            >
+                                            <div class="invalid-feedback">
+                                                Please upload the Plan Lay-out.
+                                            </div>
+                                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                                10MB</div>
+                                            <input
+                                                id="PlanLayoutFileID_Data_Handler"
+                                                name="PlanLayoutFileID_Data_Handler"
+                                                type="hidden"
+                                            >
+                                        </div>
+                                        <div class="">
+                                            <label
+                                                class="form-label"
+                                                for="processFlow"
+                                            >-Process Flow</label>
+                                            <input
+                                                id="processFlow"
+                                                name="processFlow"
+                                                type="file"
+                                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                                            >
+                                            <div class="invalid-feedback">
+                                                Please upload the Process Flow.
+                                            </div>
+                                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                                10MB</div>
+                                            <input
+                                                id="ProcessFlowFileID_Data_Handler"
+                                                name="ProcessFlowFileID_Data_Handler"
+                                                type="hidden"
+                                            >
+                                        </div>
                                     </div>
                                     <div class="col-12">
-                                        <label for="MaintenanceProgram" class="form-label">-Maintenance Program</label>
-                                        <textarea class="form-control" id="MaintenanceProgram" name="MaintenanceProgram" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="InventorySystem"
+                                        >-Inventory System</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="InventorySystem"
+                                            name="InventorySystem"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label for="cGMPHACCPActivities" class="form-label">-cGMP/HACCP Activities</label>
-                                        <textarea class="form-control" id="cGMPHACCPActivities" name="cGMPHACCPActivities" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="MaintenanceProgram"
+                                        >-Maintenance Program</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="MaintenanceProgram"
+                                            name="MaintenanceProgram"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label for="SuppliesPurchasingSystem" class="form-label">-Supplies/Purchasing System</label>
-                                        <textarea class="form-control" id="SuppliesPurchasingSystem" name="SuppliesPurchasingSystem" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="cGMPHACCPActivities"
+                                        >-cGMP/HACCP Activities</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="cGMPHACCPActivities"
+                                            name="cGMPHACCPActivities"
+                                            rows="3"
+                                        ></textarea>
+                                    </div>
+                                    <div class="col-12">
+                                        <label
+                                            class="form-label"
+                                            for="SuppliesPurchasingSystem"
+                                        >-Supplies/Purchasing System</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="SuppliesPurchasingSystem"
+                                            name="SuppliesPurchasingSystem"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <hr>
-                                <h6  class="my-4">*Marketing</h6>
+                                <h6 class="my-4">*Marketing</h6>
                                 <hr>
                                 <div class="row gy-3">
                                     <div class="col-12">
-                                        <label for="MarketingPlan" class="form-label">-Marketing Plan</label>
-                                        <textarea class="form-control" id="MarketingPlan" name="MarketingPlan" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="MarketingPlan"
+                                        >-Marketing Plan</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="MarketingPlan"
+                                            name="MarketingPlan"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label for="MarketOutletsAndNumber" class="form-label">-Market Outlets and Number</label>
-                                        <textarea class="form-control" id="MarketOutletsAndNumber" name="MarketOutletsAndNumber" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="MarketOutletsAndNumber"
+                                        >-Market Outlets and Number</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="MarketOutletsAndNumber"
+                                            name="MarketOutletsAndNumber"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label for="PromotionalStrategies" class="form-label">-Promotional Strategies</label>
-                                        <textarea class="form-control" id="PromotionalStrategies" name="PromotionalStrategies" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="PromotionalStrategies"
+                                        >-Promotional Strategies</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="PromotionalStrategies"
+                                            name="PromotionalStrategies"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label for="MarketCompetitors" class="form-label">-Market Competitors</label>
-                                        <textarea class="form-control" id="MarketCompetitors" name="MarketCompetitors" rows="3"></textarea>
+                                        <label
+                                            class="form-label"
+                                            for="MarketCompetitors"
+                                        >-Market Competitors</label>
+                                        <textarea
+                                            class="form-control"
+                                            id="MarketCompetitors"
+                                            name="MarketCompetitors"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <h6>-Packaging</h6>
                                     <div class="row g-3">
                                         <div class="col-12">
                                             <div class="form-group">
                                                 <div class="form-check mb-2">
-                                                    <input class="form-check-input" type="checkbox" id="nutritionEvaluation" name="nutritionEvaluation">
-                                                    <label class="form-check-label" for="nutritionEvaluation">
+                                                    <input
+                                                        class="form-check-input"
+                                                        id="nutritionEvaluation"
+                                                        name="nutritionEvaluation"
+                                                        type="checkbox"
+                                                    >
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="nutritionEvaluation"
+                                                    >
                                                         Nutrition Evaluation
                                                     </label>
                                                 </div>
-                                                <input type="text" class="form-control mt-2 ms-2" id="nutritionEvaluationDetails" name="nutritionEvaluationDetails">
+                                                <input
+                                                    class="form-control mt-2 ms-2"
+                                                    id="nutritionEvaluationDetails"
+                                                    name="nutritionEvaluationDetails"
+                                                    type="text"
+                                                >
                                             </div>
                                             <div class="form-group">
                                                 <div class="form-check mb-2">
-                                                    <input class="form-check-input" type="checkbox" id="barCode" name="barCode">
-                                                    <label class="form-check-label" for="barCode">
+                                                    <input
+                                                        class="form-check-input"
+                                                        id="barCode"
+                                                        name="barCode"
+                                                        type="checkbox"
+                                                    >
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="barCode"
+                                                    >
                                                         Bar Code
                                                     </label>
                                                 </div>
-                                                <input type="text" class="form-control mt-2 ms-2" id="barCodeDetails" name="barCodeDetails">
+                                                <input
+                                                    class="form-control mt-2 ms-2"
+                                                    id="barCodeDetails"
+                                                    name="barCodeDetails"
+                                                    type="text"
+                                                >
                                             </div>
 
                                             <div class="form-group">
                                                 <div class="form-check mb-2">
-                                                    <input class="form-check-input" type="checkbox" id="productLabel" name="productLabel">
-                                                    <label class="form-check-label" for="productLabel">
+                                                    <input
+                                                        class="form-check-input"
+                                                        id="productLabel"
+                                                        name="productLabel"
+                                                        type="checkbox"
+                                                    >
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="productLabel"
+                                                    >
                                                         Product Label
                                                     </label>
                                                 </div>
-                                                <input type="text" class="form-control mt-2 ms-2" id="productLabelDetails" name="productLabelDetails">
+                                                <input
+                                                    class="form-control mt-2 ms-2"
+                                                    id="productLabelDetails"
+                                                    name="productLabelDetails"
+                                                    type="text"
+                                                >
                                             </div>
 
                                             <div class="form-group">
                                                 <div class="form-check mb-2">
-                                                    <input class="form-check-input" type="checkbox" id="expiryDate" name="expiryDate">
-                                                    <label class="form-check-label" for="expiryDate">
+                                                    <input
+                                                        class="form-check-input"
+                                                        id="expiryDate"
+                                                        name="expiryDate"
+                                                        type="checkbox"
+                                                    >
+                                                    <label
+                                                        class="form-check-label"
+                                                        for="expiryDate"
+                                                    >
                                                         Expiry Date
                                                     </label>
                                                 </div>
-                                                <input type="text" class="form-control mt-2 ms-2" id="expiryDateDetails" name="expiryDateDetails">
+                                                <input
+                                                    class="form-control mt-2 ms-2"
+                                                    id="expiryDateDetails"
+                                                    name="expiryDateDetails"
+                                                    type="text"
+                                                >
                                             </div>
                                         </div>
                                     </div>
@@ -1563,24 +1972,47 @@
                                 <hr>
                                 <div class="row gy-3">
                                     <div class="col-12">
-                                        <label class="form-label" for="CashFlowAndRelatedDocuments">
+                                        <label
+                                            class="form-label"
+                                            for="CashFlowAndRelatedDocuments"
+                                        >
                                             Cash Flow or other related documents:
                                         </label>
-                                        <textarea class="form-control" id="CashFlowAndRelatedDocuments" name="CashFlowAndRelatedDocuments" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="CashFlowAndRelatedDocuments"
+                                            name="CashFlowAndRelatedDocuments"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label class="form-label" for="SourceOfCapitalCredit">
+                                        <label
+                                            class="form-label"
+                                            for="SourceOfCapitalCredit"
+                                        >
                                             Source(s) of capital/credit:
                                         </label>
-                                        <textarea class="form-control" id="SourceOfCapitalCredit" name="SourceOfCapitalCredit" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="SourceOfCapitalCredit"
+                                            name="SourceOfCapitalCredit"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label class="form-label" for="AccountingSystem">
+                                        <label
+                                            class="form-label"
+                                            for="AccountingSystem"
+                                        >
                                             Accounting System:
                                         </label>
-                                        <textarea class="form-control" id="AccountingSystem" name="AccountingSystem" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="AccountingSystem"
+                                            name="AccountingSystem"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
-
 
                                 </div>
                                 <hr>
@@ -1588,34 +2020,74 @@
                                 <hr>
                                 <div class="row gy-3">
                                     <div class="col-12">
-                                        <label class="form-label" for="HiringAndCriteria">
+                                        <label
+                                            class="form-label"
+                                            for="HiringAndCriteria"
+                                        >
                                             Hiring and Criteria:
                                         </label>
-                                        <textarea class="form-control" id="HiringAndCriteria" name="HiringAndCriteria" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="HiringAndCriteria"
+                                            name="HiringAndCriteria"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label class="form-label" for="IncentivesToEmployees">
+                                        <label
+                                            class="form-label"
+                                            for="IncentivesToEmployees"
+                                        >
                                             Incentives to Employees:
                                         </label>
-                                        <textarea class="form-control" id="IncentivesToEmployees" name="IncentivesToEmployees" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="IncentivesToEmployees"
+                                            name="IncentivesToEmployees"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label class="form-label" for="TrainingAndDevelopment">
+                                        <label
+                                            class="form-label"
+                                            for="TrainingAndDevelopment"
+                                        >
                                             Training and Development:
                                         </label>
-                                        <textarea class="form-control" id="TrainingAndDevelopment" name="TrainingAndDevelopment" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="TrainingAndDevelopment"
+                                            name="TrainingAndDevelopment"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label class="form-label" for="SafetyMeasuresPracticed">
+                                        <label
+                                            class="form-label"
+                                            for="SafetyMeasuresPracticed"
+                                        >
                                             Safety Measures Practiced:
                                         </label>
-                                        <textarea class="form-control" id="SafetyMeasuresPracticed" name="SafetyMeasuresPracticed" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="SafetyMeasuresPracticed"
+                                            name="SafetyMeasuresPracticed"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                     <div class="col-12">
-                                        <label class="form-label" for="OtherEmployeeWelfare">
+                                        <label
+                                            class="form-label"
+                                            for="OtherEmployeeWelfare"
+                                        >
                                             Other Employee Welfare:
                                         </label>
-                                        <textarea class="form-control" id="OtherEmployeeWelfare" name="OtherEmployeeWelfare" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="OtherEmployeeWelfare"
+                                            name="OtherEmployeeWelfare"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                 </div>
                                 <hr>
@@ -1623,13 +2095,20 @@
                                 <hr>
                                 <div class="row gy-3">
                                     <div class="col-12">
-                                        <label class="form-label" for="OtherConcerns">
+                                        <label
+                                            class="form-label"
+                                            for="OtherConcerns"
+                                        >
                                             Other Concerns:
                                         </label>
-                                        <textarea class="form-control" id="OtherConcerns" name="OtherConcerns" rows="3"></textarea>
+                                        <textarea
+                                            class="form-control"
+                                            id="OtherConcerns"
+                                            name="OtherConcerns"
+                                            rows="3"
+                                        ></textarea>
                                     </div>
                                 </div>
-
 
                             </div>
                         </div>
@@ -2029,8 +2508,8 @@
                             </label>
                             <input
                                 class="fileUploads"
-                                id="IntentFile"
-                                name="IntentFile"
+                                id="intentFile"
+                                name="intentFile"
                                 type="file"
                                 accept="application/pdf"
                                 {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
@@ -2194,7 +2673,8 @@
                                     <div class="invalid-feedback">
                                         Please upload the Copy of Government Valid ID.
                                     </div>
-                                    <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size: 10MB</div>
+                                    <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size: 10MB
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -2362,7 +2842,9 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-12">
-                                                <label for="briefBackground">Brief Enterprise Background: <span class="requiredFields">
+                                                <label for="briefBackground">Brief Enterprise Background: <span
+                                                        class="requiredFields"
+                                                    >
                                                         *</span></label>
                                                 <textarea
                                                     class="form-control"
@@ -2376,7 +2858,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <label for="businessPermitNo">Business Permit No.: <span class="requiredFields">
+                                                <label for="businessPermitNo">Business Permit No.: <span
+                                                        class="requiredFields"
+                                                    >
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2392,7 +2876,9 @@
                                             </div>
 
                                             <div class="col-12 col-md-6">
-                                                <label for="yearRegistered">Year Registered: <span class="requiredFields">
+                                                <label for="yearRegistered">Year Registered: <span
+                                                        class="requiredFields"
+                                                    >
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2409,7 +2895,8 @@
                                             </div>
 
                                             <div class="col-12 col-md-6">
-                                                <label for="enterpriseRegistrationNo">Enterprise Registration No.: <span class="requiredFields">
+                                                <label for="enterpriseRegistrationNo">Enterprise Registration No.:
+                                                    <span class="requiredFields">
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2425,7 +2912,8 @@
                                             </div>
 
                                             <div class="col-12 col-md-6">
-                                                <label for="yearEnterpriseRegistered">Year Enterprise Registered: <span class="requiredFields">
+                                                <label for="yearEnterpriseRegistered">Year Enterprise Registered:
+                                                    <span class="requiredFields">
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2441,7 +2929,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="initialCapitalization">Initial Capitalization: <span class="requiredFields">
+                                                <label for="initialCapitalization">Initial Capitalization: <span
+                                                        class="requiredFields"
+                                                    >
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2456,7 +2946,9 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="presentCapitalization">Present Capitalization: <span class="requiredFields">
+                                                <label for="presentCapitalization">Present Capitalization: <span
+                                                        class="requiredFields"
+                                                    >
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2557,80 +3049,188 @@
                                                         <label>Business Activity:</label>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
-                                                                <input class="form-check-input" type="checkbox" id="re_foodProcessing" readonly>
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    id="re_foodProcessing"
+                                                                    type="checkbox"
+                                                                    readonly
+                                                                >
                                                             </div>
-                                                            <label class="form-check-label flex-grow-1" for="re_foodProcessing">
+                                                            <label
+                                                                class="form-check-label flex-grow-1"
+                                                                for="re_foodProcessing"
+                                                            >
                                                                 Food processing (please specify specific sector)
                                                             </label>
-                                                            <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_foodProcessingSpecificSector">
+                                                            <input
+                                                                class="form-control ml-3"
+                                                                id="re_foodProcessingSpecificSector"
+                                                                type="text"
+                                                                style="max-width: 300px;"
+                                                                readonly
+                                                            >
                                                         </div>
 
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
-                                                                <input class="form-check-input" type="checkbox" id="re_furniture" readonly>
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    id="re_furniture"
+                                                                    type="checkbox"
+                                                                    readonly
+                                                                >
                                                             </div>
-                                                            <label class="form-check-label flex-grow-1" for="re_furniture">
+                                                            <label
+                                                                class="form-check-label flex-grow-1"
+                                                                for="re_furniture"
+                                                            >
                                                                 Furniture (please specify specific sector)
                                                             </label>
-                                                            <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_furnitureSpecificSector">
+                                                            <input
+                                                                class="form-control ml-3"
+                                                                id="re_furnitureSpecificSector"
+                                                                type="text"
+                                                                style="max-width: 300px;"
+                                                                readonly
+                                                            >
                                                         </div>
 
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
-                                                                <input class="form-check-input" type="checkbox" id="re_naturalFibers" readonly>
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    id="re_naturalFibers"
+                                                                    type="checkbox"
+                                                                    readonly
+                                                                >
                                                             </div>
-                                                            <label class="form-check-label flex-grow-1" for="re_naturalFibers">
-                                                                Natural fibers, gifts and home decors and fashion accessories (please specify specific sector)
+                                                            <label
+                                                                class="form-check-label flex-grow-1"
+                                                                for="re_naturalFibers"
+                                                            >
+                                                                Natural fibers, gifts and home decors and fashion
+                                                                accessories (please specify specific sector)
                                                             </label>
-                                                            <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_naturalFibersSpecificSector">
+                                                            <input
+                                                                class="form-control ml-3"
+                                                                id="re_naturalFibersSpecificSector"
+                                                                type="text"
+                                                                style="max-width: 300px;"
+                                                                readonly
+                                                            >
                                                         </div>
 
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
-                                                                <input class="form-check-input" type="checkbox" id="re_metals" readonly>
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    id="re_metals"
+                                                                    type="checkbox"
+                                                                    readonly
+                                                                >
                                                             </div>
-                                                            <label class="form-check-label flex-grow-1" for="re_metals">
+                                                            <label
+                                                                class="form-check-label flex-grow-1"
+                                                                for="re_metals"
+                                                            >
                                                                 Metals and engineering (please specify specific sector)
                                                             </label>
-                                                            <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_metalsSpecificSector">
+                                                            <input
+                                                                class="form-control ml-3"
+                                                                id="re_metalsSpecificSector"
+                                                                type="text"
+                                                                style="max-width: 300px;"
+                                                                readonly
+                                                            >
                                                         </div>
 
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
-                                                                <input class="form-check-input" type="checkbox" id="re_aquatic" readonly>
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    id="re_aquatic"
+                                                                    type="checkbox"
+                                                                    readonly
+                                                                >
                                                             </div>
-                                                            <label class="form-check-label flex-grow-1" for="re_aquatic">
-                                                                Aquatic and marine resources (please specify specific sector)
+                                                            <label
+                                                                class="form-check-label flex-grow-1"
+                                                                for="re_aquatic"
+                                                            >
+                                                                Aquatic and marine resources (please specify specific
+                                                                sector)
                                                             </label>
-                                                            <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_aquaticSpecificSector">
+                                                            <input
+                                                                class="form-control ml-3"
+                                                                id="re_aquaticSpecificSector"
+                                                                type="text"
+                                                                style="max-width: 300px;"
+                                                                readonly
+                                                            >
                                                         </div>
 
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
-                                                                <input class="form-check-input" type="checkbox" id="re_horticulture" readonly>
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    id="re_horticulture"
+                                                                    type="checkbox"
+                                                                    readonly
+                                                                >
                                                             </div>
-                                                            <label class="form-check-label flex-grow-1" for="re_horticulture">
-                                                                Horticulture/Agriculture (please specify specific sector)
+                                                            <label
+                                                                class="form-check-label flex-grow-1"
+                                                                for="re_horticulture"
+                                                            >
+                                                                Horticulture/Agriculture (please specify specific
+                                                                sector)
                                                             </label>
-                                                            <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_horticultureSpecificSector">
+                                                            <input
+                                                                class="form-control ml-3"
+                                                                id="re_horticultureSpecificSector"
+                                                                type="text"
+                                                                style="max-width: 300px;"
+                                                                readonly
+                                                            >
                                                         </div>
 
                                                         <div class="d-flex align-items-center">
                                                             <div class="form-check mr-3">
-                                                                <input class="form-check-input" type="checkbox" id="re_others" readonly>
+                                                                <input
+                                                                    class="form-check-input"
+                                                                    id="re_others"
+                                                                    type="checkbox"
+                                                                    readonly
+                                                                >
                                                             </div>
-                                                            <label class="form-check-label flex-grow-1" for="re_others">
+                                                            <label
+                                                                class="form-check-label flex-grow-1"
+                                                                for="re_others"
+                                                            >
                                                                 Others, please specify
                                                             </label>
-                                                            <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_othersSpecificSector">
+                                                            <input
+                                                                class="form-control ml-3"
+                                                                id="re_othersSpecificSector"
+                                                                type="text"
+                                                                style="max-width: 300px;"
+                                                                readonly
+                                                            >
                                                         </div>
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-12">
                                                             <label for="re_specificProductOrService">
-                                                                Specific product or service the enterprise offers its customers:
+                                                                Specific product or service the enterprise offers its
+                                                                customers:
                                                             </label>
-                                                            <textarea class="form-control" id="re_specificProductOrService" name="specificProductOrService" rows="3" readonly></textarea>
+                                                            <textarea
+                                                                class="form-control"
+                                                                id="re_specificProductOrService"
+                                                                name="specificProductOrService"
+                                                                rows="3"
+                                                                readonly
+                                                            ></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="row g-3">
@@ -2638,33 +3238,85 @@
                                                             <label for="re_reasonsWhyAssistanceIsBeingSought">
                                                                 Reasons why assistance is being sought:
                                                             </label>
-                                                            <textarea class="form-control" id="re_reasonsWhyAssistanceIsBeingSought" name="reasonsWhyAssistanceIsBeingSought" rows="3" readonly></textarea>
+                                                            <textarea
+                                                                class="form-control"
+                                                                id="re_reasonsWhyAssistanceIsBeingSought"
+                                                                name="reasonsWhyAssistanceIsBeingSought"
+                                                                rows="3"
+                                                                readonly
+                                                            ></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-12">
                                                             <label class="form-label">
-                                                                3. Have you consulted any other individual/organization on any assistance?
+                                                                3. Have you consulted any other individual/organization
+                                                                on any assistance?
                                                             </label>
                                                             <div class="ms-3">
                                                                 <div class="form-check mb-2">
-                                                                    <input class="form-check-input" type="radio" name="consultationAnswer" id="re_consultationYes" value="yes" readonly>
-                                                                    <label class="form-check-label" for="re_consultationYes">
+                                                                    <input
+                                                                        class="form-check-input"
+                                                                        id="re_consultationYes"
+                                                                        name="consultationAnswer"
+                                                                        type="radio"
+                                                                        value="yes"
+                                                                        readonly
+                                                                    >
+                                                                    <label
+                                                                        class="form-check-label"
+                                                                        for="re_consultationYes"
+                                                                    >
                                                                         Yes, from what company/agency
                                                                     </label>
-                                                                    <div class="ms-4 mt-2" id="re_yesConsultationDetails">
-                                                                        <input type="text" class="form-control mb-3" id="re_fromWhatCompanyAgency" name="fromWhatCompanyAgency" readonly>
-                                                                        <label class="form-label">Please specify the type of assistance sought</label>
-                                                                        <textarea class="form-control" id="re_pleaseSpecifyTheTypeOfAssistanceSought" name="pleaseSpecifyTheTypeOfAssistanceSought" rows="3" readonly></textarea>
+                                                                    <div
+                                                                        class="ms-4 mt-2"
+                                                                        id="re_yesConsultationDetails"
+                                                                    >
+                                                                        <input
+                                                                            class="form-control mb-3"
+                                                                            id="re_fromWhatCompanyAgency"
+                                                                            name="fromWhatCompanyAgency"
+                                                                            type="text"
+                                                                            readonly
+                                                                        >
+                                                                        <label class="form-label">Please specify the
+                                                                            type of assistance sought</label>
+                                                                        <textarea
+                                                                            class="form-control"
+                                                                            id="re_pleaseSpecifyTheTypeOfAssistanceSought"
+                                                                            name="pleaseSpecifyTheTypeOfAssistanceSought"
+                                                                            rows="3"
+                                                                            readonly
+                                                                        ></textarea>
                                                                     </div>
                                                                 </div>
                                                                 <div class="form-check">
-                                                                    <input class="form-check-input" type="radio" name="consultationAnswer" id="re_consultationNo" value="no" readonly>
-                                                                    <label class="form-check-label" for="re_consultationNo">
+                                                                    <input
+                                                                        class="form-check-input"
+                                                                        id="re_consultationNo"
+                                                                        name="consultationAnswer"
+                                                                        type="radio"
+                                                                        value="no"
+                                                                        readonly
+                                                                    >
+                                                                    <label
+                                                                        class="form-check-label"
+                                                                        for="re_consultationNo"
+                                                                    >
                                                                         No, why not?
                                                                     </label>
-                                                                    <div class="ms-4 mt-2" id="re_noConsultationDetails">
-                                                                        <textarea class="form-control" id="re_whyNot" name="whyNot" rows="3" readonly></textarea>
+                                                                    <div
+                                                                        class="ms-4 mt-2"
+                                                                        id="re_noConsultationDetails"
+                                                                    >
+                                                                        <textarea
+                                                                            class="form-control"
+                                                                            id="re_whyNot"
+                                                                            name="whyNot"
+                                                                            rows="3"
+                                                                            readonly
+                                                                        ></textarea>
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -2672,26 +3324,50 @@
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-12">
-                                                            <label class="form-label" for="re_enterprisePlanForTheNext5Years">
+                                                            <label
+                                                                class="form-label"
+                                                                for="re_enterprisePlanForTheNext5Years"
+                                                            >
                                                                 4. Enterprise plan for the next 5 years:
                                                             </label>
-                                                            <textarea class="form-control" id="re_enterprisePlanForTheNext5Years" rows="3" readonly></textarea>
+                                                            <textarea
+                                                                class="form-control"
+                                                                id="re_enterprisePlanForTheNext5Years"
+                                                                rows="3"
+                                                                readonly
+                                                            ></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-12">
-                                                            <label class="form-label ms-2" for="re_nextTenYears">
+                                                            <label
+                                                                class="form-label ms-2"
+                                                                for="re_nextTenYears"
+                                                            >
                                                                 Next 10 years?
                                                             </label>
-                                                            <textarea class="form-control" id="re_nextTenYears" rows="3" readonly></textarea>
+                                                            <textarea
+                                                                class="form-control"
+                                                                id="re_nextTenYears"
+                                                                rows="3"
+                                                                readonly
+                                                            ></textarea>
                                                         </div>
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-12">
-                                                            <label class="form-label" for="re_currentAgreementAndAlliancesUndertaken">
+                                                            <label
+                                                                class="form-label"
+                                                                for="re_currentAgreementAndAlliancesUndertaken"
+                                                            >
                                                                 5. Current agreement and alliances undertaken:
                                                             </label>
-                                                            <textarea class="form-control" id="re_currentAgreementAndAlliancesUndertaken" rows="3" readonly></textarea>
+                                                            <textarea
+                                                                class="form-control"
+                                                                id="re_currentAgreementAndAlliancesUndertaken"
+                                                                rows="3"
+                                                                readonly
+                                                            ></textarea>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -3104,9 +3780,11 @@
                                     class="form-check-label"
                                     for="make_available"
                                 > - The applicant shall, at the earliest opportunity, make available to the DOST
-                                Regional Office No. <span class="text-decoration-underline">XI</span> (DOST <span class="text-decoration-underline">XI</span>) all information (manuals, procedures, etc.)
-                                required to establish the technology status of the selected core business
-                                functions and management systems;</label>
+                                    Regional Office No. <span class="text-decoration-underline">XI</span> (DOST <span
+                                        class="text-decoration-underline"
+                                    >XI</span>) all information (manuals, procedures, etc.)
+                                    required to establish the technology status of the selected core business
+                                    functions and management systems;</label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -3121,9 +3799,10 @@
                                 <label
                                     class="form-check-label"
                                     for="satisfied_requirements"
-                                > - If DOST <span class="text-decoration-underline">XI</span> is not satisfied that all the requirements for business registration
-                                are complied with, it shall inform the applicant of the observed deficiencies
-                                before starting the assessment;</label>
+                                > - If DOST <span class="text-decoration-underline">XI</span> is not satisfied that
+                                    all the requirements for business registration
+                                    are complied with, it shall inform the applicant of the observed deficiencies
+                                    before starting the assessment;</label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -3139,7 +3818,8 @@
                                     class="form-check-label"
                                     for="when_inputs_supplied"
                                 > - When the required inputs to the assessment are already supplied by the applicant,
-                                    including Attachment A, the DOST <span class="text-decoration-underline">XI</span> will assess the firm through the core
+                                    including Attachment A, the DOST <span class="text-decoration-underline">XI</span>
+                                    will assess the firm through the core
                                     business functions and management systems, whichever is applicable, to identify
                                     technology needs and verify compliance to standards vis-à-vis existing
                                     practices;</label>
@@ -3157,12 +3837,14 @@
                                 <label
                                     class="form-check-label"
                                     for="report_prepared"
-                                > - When the DOST <span class="text-decoration-underline">XI</span> has completed the technology assessment, a report will be prepared
-                                on the results of the assessment with accompanying recommendations and opportunities
-                                for improvement.  The report prepared will define the scope of activities, functions,
-                                management practices and locations assessed.  The applicant shall not claim or
-                                otherwise imply that the report applies to other locations, product or activities not
-                                covered by the report;</label>
+                                > - When the DOST <span class="text-decoration-underline">XI</span> has completed the
+                                    technology assessment, a report will be prepared
+                                    on the results of the assessment with accompanying recommendations and opportunities
+                                    for improvement. The report prepared will define the scope of activities, functions,
+                                    management practices and locations assessed. The applicant shall not claim or
+                                    otherwise imply that the report applies to other locations, product or activities
+                                    not
+                                    covered by the report;</label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -3178,7 +3860,7 @@
                                     class="form-check-label"
                                     for="report_permission"
                                 > - The applicant agrees that the report will not be used until permission has been
-                                granted by the DOST <span class="text-underline">XI</span>;</label>
+                                    granted by the DOST <span class="text-underline">XI</span>;</label>
                             </div>
                         </div>
                         <div class="col-12">
@@ -3194,8 +3876,8 @@
                                     class="form-check-label"
                                     for="receipt_acknowledgment"
                                 > - The applicant agrees that the receipt or acknowledgment of the report ends the
-                                assessment stage; any technical assistance ensuing from the recommendations of the
-                                report will be viewed as a separate project.</label>
+                                    assessment stage; any technical assistance ensuing from the recommendations of the
+                                    report will be viewed as a separate project.</label>
                             </div>
                         </div>
                     </div>

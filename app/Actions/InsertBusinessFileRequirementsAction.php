@@ -12,7 +12,9 @@ class InsertBusinessRequirementsFileAction
     public function execute(array $validatedInputs, int $businessId, string $firm_name)
     {
         $file_to_insert = [
-            'organizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'],
+            'OrganizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'],
+            'PlanLayoutPath' => $validatedInputs['PlanLayoutFileID_Data_Handler'],
+            'ProcessFlowPath' => $validatedInputs['ProcessFlowFileID_Data_Handler'],
             'IntentFilePath' => $validatedInputs['IntentFileID_Data_Handler'],
             'DSCFilePath' => $validatedInputs['DtiSecCdaFileID_Data_Handler'],
             'businessPermitFilePath' => $validatedInputs['BusinessPermitFileID_Data_Handler'],
@@ -23,7 +25,9 @@ class InsertBusinessRequirementsFileAction
         ];
 
         $fileNames = [
-            'organizationalStructurePath' => 'Organizational Structure',
+            'OrganizationalStructurePath' => 'Organizational Structure',
+            'PlanLayoutPath' => 'Plan Layout',
+            'ProcessFlowPath' => 'Process Flow',
             'IntentFilePath' => 'Intent File',
             'businessPermitFilePath' => 'Business Permit',
             'receiptFilePath' => 'Receipt',
