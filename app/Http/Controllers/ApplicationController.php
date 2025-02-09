@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\InsertBusinessRequirementsFileAction;
+use App\Actions\InsertBusinessFileRequirementsAction;
 use App\Events\ProjectEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -129,7 +129,7 @@ class ApplicationController extends Controller
             // $receiptFileID = $validatedInputs['receiptFile'];
             // $govFileID = $validatedInputs['govIdFile'];
 
-            $insertAction = new InsertBusinessRequirementsFileAction();
+            $insertAction = new InsertBusinessFileRequirementsAction();
             $insertAction->execute($validatedInputs, $businessId, $firm_name);
 
             $successful_inserts++;

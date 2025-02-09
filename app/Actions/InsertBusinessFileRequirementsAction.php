@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class InsertBusinessRequirementsFileAction
+class InsertBusinessFileRequirementsAction
 {
     public function execute(array $validatedInputs, int $businessId, string $firm_name)
     {

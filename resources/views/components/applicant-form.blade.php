@@ -771,9 +771,9 @@
                                 class="form-control"
                                 id="initialCapitalization"
                                 name="initialCapitalization"
-                                type="number"
+                                type="text"
                                 value="{{ old('initialCapitalization') }}"
-                                placeholder="0.00"
+                                placeholder="900,000.00"
                                 required
                             >
                             <div class="invalid-feedback">
@@ -787,9 +787,9 @@
                                 class="form-control"
                                 id="presentCapitalization"
                                 name="presentCapitalization"
-                                type="number"
+                                type="text"
                                 value="{{ old('presentCapitalization') }}"
-                                placeholder="0.00"
+                                placeholder="900,000.00"
                                 required
                             >
                             <div class="invalid-feedback">
@@ -2016,7 +2016,7 @@
 
                                 </div>
                                 <hr>
-                                <h6 class="my-4">Finance</h6>
+                                <h6 class="my-4">Human Resources</h6>
                                 <hr>
                                 <div class="row gy-3">
                                     <div class="col-12">
@@ -2937,7 +2937,7 @@
                                                     class="form-control"
                                                     id="re_initialCapitalization"
                                                     name="initialCapitalization"
-                                                    type="number"
+                                                    type="text"
                                                     value="{{ old('initialCapitalization') }}"
                                                     readonly
                                                 >
@@ -2954,7 +2954,7 @@
                                                     class="form-control"
                                                     id="re_presentCapitalization"
                                                     name="presentCapitalization"
-                                                    type="number"
+                                                    type="text"
                                                     value="{{ old('presentCapitalization') }}"
                                                     readonly
                                                 >

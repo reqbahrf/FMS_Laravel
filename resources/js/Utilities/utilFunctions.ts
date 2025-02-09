@@ -157,28 +157,26 @@ function closeOffcanvasInstances(offcanva_id: string) {
  * customFormatNumericInput('#parentDiv', '.numeric-input');
  */
 function customFormatNumericInput(
-    selectorOrParent: string | Element | JQuery<Element>, // Allow jQuery objects
+    selectorOrParent: string | Element | JQuery<Element>,
     inputSelectors: string | string[] | null = null
 ) {
     let inputSelector: string | string[] | null = inputSelectors;
     let parentContainer: JQuery<Element>;
 
+    // Determine parent container
     if (inputSelectors === null && typeof selectorOrParent === 'string') {
-        // If only one argument is provided and it's a string, treat it as the input selector
         inputSelector = selectorOrParent;
         parentContainer = $('body');
     } else if (
         inputSelectors !== null &&
         (selectorOrParent instanceof Element || selectorOrParent instanceof $)
     ) {
-        // If the second argument is provided and the first is an Element or jQuery object
         inputSelector = inputSelectors;
         parentContainer =
             selectorOrParent instanceof Element
                 ? $(selectorOrParent)
                 : selectorOrParent;
     } else {
-        // Default to body as the parent container
         parentContainer = $('body');
         inputSelector = inputSelectors;
     }
@@ -191,38 +189,31 @@ function customFormatNumericInput(
     // Join all selectors with comma for jQuery multiple selector
     const combinedSelector = selectors.join(', ');
 
-    // Find all matching inputs within the parent container
-    const $inputs = parentContainer.find(combinedSelector);
-
-    // Apply formatting to each input
-    $inputs.each(function () {
+    // Use event delegation instead of direct binding
+    parentContainer.on('input', combinedSelector, function() {
         const thisInput = $(this);
 
-        // Attach input event listener directly to this input
-        thisInput.on('input', function () {
-            // More strict regex: only allow digits and one decimal point
-            let value = thisInput
-                .val()
-                ?.toString()
-                .replace(/[^0-9.]/g, '');
+        // More strict regex: only allow digits and one decimal point
+        let value = thisInput
+            .val()
+            ?.toString()
+            .replace(/[^0-9.]/g, '');
 
-            // Ensure only one decimal point
-            const parts = value?.split('.');
-            if (parts && parts.length > 2) {
-                // If more than one decimal point, keep only the first part and first decimal point
-                value = `${parts[0]}.${parts[1]}`;
-            }
+        // Ensure only one decimal point
+        const parts = value?.split('.');
+        if (parts && parts.length > 2) {
+            value = `${parts[0]}.${parts[1]}`;
+        }
 
-            // Limit decimal places to 2
-            if (value?.includes('.')) {
-                const [integerPart, decimalPart] = value.split('.');
-                value = `${integerPart}.${decimalPart.substring(0, 2)}`;
-            }
+        // Limit decimal places to 2
+        if (value?.includes('.')) {
+            const [integerPart, decimalPart] = value.split('.');
+            value = `${integerPart}.${decimalPart.substring(0, 2)}`;
+        }
 
-            const formattedValue = value?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-            if (!formattedValue) return thisInput.val('');
-            thisInput.val(formattedValue);
-        });
+        const formattedValue = value?.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        if (!formattedValue) return thisInput.val('');
+        thisInput.val(formattedValue);
     });
 }
 

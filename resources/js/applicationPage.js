@@ -2,6 +2,7 @@ import {
     showToastFeedback,
     showProcessToast,
     hideProcessToast,
+    customFormatNumericInput
 } from './Utilities/utilFunctions';
 import { FormDraftHandler } from './Utilities/FormDraftHandler';
 import {
@@ -27,6 +28,17 @@ export function initializeForm() {
     if (!is_initialized) {
         is_initialized = true;
     }
+
+    customFormatNumericInput('form', ['#initialCapitalization', '#presentCapitalization']);
+    customFormatNumericInput('#productAndSupplyChainTable tbody', [
+        'tr td:nth-child(3) input.UnitCost',
+        'tr td:nth-child(4) input.VolumeUsed'
+    ]);
+    customFormatNumericInput('#productionTable', [
+        'tr td:nth-child(3) .UnitCost',
+        'tr td:nth-child(4) .AnnualCost'
+    ]);
+    customFormatNumericInput('#productionEquipmentTable', ['.Capacity'])
 
     const confirmButton = $('#confirmButton');
     confirmButton.off('click');
@@ -733,7 +745,7 @@ export function initializeForm() {
             hideProcessToast();
             showToastFeedback(
                 'text-bg-danger',
-                'An error occurred while submitting the form'
+                error[0] || error.responseJSON.message
             );
             console.error('Error submitting form:', error);
         }
