@@ -43,7 +43,7 @@ jobs:
             sudo -n chmod -R 755 .
             sudo -n chmod -R 777 storage bootstrap/cache
 
-           
+
             export COMPOSER_ALLOW_SUPERUSER=1
             composer install --no-interaction --no-plugins --no-scripts
             npm install
@@ -66,10 +66,10 @@ jobs:
             (crontab -l 2>/dev/null; echo "* * * * * cd /home/user/htdocs/srv656676.hstgr.cloud && php artisan schedule:run >> /home/user/htdocs/srv656676.hstgr.cloud/storage/logs/scheduler.log 2>&1") | crontab -
 
             php artisan migrate --force
-            # dev testing artisan command 
+            # dev testing artisan command
             # Force refresh database and run seeders
-            # php artisan migrate:fresh --force
-            # php artisan db:seed --force
+            php artisan migrate:fresh --force
+            php artisan db:seed --force
 
             php artisan optimize:clear
             php artisan optimize

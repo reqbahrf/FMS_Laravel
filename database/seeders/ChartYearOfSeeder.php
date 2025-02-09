@@ -27,7 +27,7 @@ class ChartYearOfSeeder extends Seeder
             'January' => ['Applicants' => 0]
         ]);
 
-        $projectLocalCategories = [
+        $projectLocalCategories = json_encode([
             'Region XI (Davao Region)' => [
                 'byProvince' => [
                     'Davao del Norte' => [
@@ -51,7 +51,7 @@ class ChartYearOfSeeder extends Seeder
                     ]
                 ]
             ]
-        ];
+        ]);
 
 
         ChartYearOf::create([
