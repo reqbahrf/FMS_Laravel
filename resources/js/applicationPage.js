@@ -33,6 +33,11 @@ export function initializeForm() {
 
     const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
+    const organizationalStructureInstance = InitializeFilePond(
+        'organizationalStructure',
+        { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+        'organizationalStructureID_Data_Handler'
+    );
     // Intent File
     const intentInstance = InitializeFilePond(
         'IntentFile',
@@ -241,6 +246,7 @@ export function initializeForm() {
         }
 
         const requiredFileInputs = [
+            'organizationalStructure',
             'IntentFile',
             'DtiSecCdafile',
             'businessPermitFile',
@@ -603,6 +609,7 @@ export function initializeForm() {
             }
         }
     );
+    //TODO: change to false own done with the testing
     function validateCurrentStep(stepIndex) {
         let isValid = true;
         const currentStep = $('#step-' + (stepIndex + 1)); // stepIndex is 0-based
@@ -999,6 +1006,7 @@ export function initializeForm() {
     );
 
     const FileMetaHiddenInputs = [
+        'organizationalStructureID_Data_Handler',
         'IntentFileID_Data_Handler',
         'DtiSecCdaFileID_Data_Handler',
         'BusinessPermitFileID_Data_Handler',

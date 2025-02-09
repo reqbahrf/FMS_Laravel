@@ -685,7 +685,7 @@
                                 Please enter the year enterprise was established.
                             </div>
                         </div>
-                        
+
 
                         <div class="col-12 col-md-6">
                             <label for="businessPermitNo">Business Permit No.: <span class="requiredFields">
@@ -725,7 +725,7 @@
                                 Please enter the year registered.
                             </div>
                         </div>
-                      
+
                         <div class="col-12 col-md-6">
                             <label for="enterpriseRegistrationNo">Enterprise Registration No.: <span class="requiredFields">
                                     *</span></label>
@@ -1151,7 +1151,7 @@
                                         </label>
                                         <input type="text" class="form-control ml-3" name="foodProcessingSpecificSector" id="foodProcessingSpecificSector" style="max-width: 300px;">
                                     </div>
-                        
+
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
                                             <input class="form-check-input" type="checkbox" name="furniture" id="furniture">
@@ -1161,7 +1161,7 @@
                                         </label>
                                         <input type="text" class="form-control ml-3" name="furnitureSpecificSector" id="furnitureSpecificSector" style="max-width: 300px;">
                                     </div>
-                        
+
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
                                             <input class="form-check-input" type="checkbox" name="naturalFibers" id="naturalFibers">
@@ -1171,7 +1171,7 @@
                                         </label>
                                         <input type="text" class="form-control ml-3" name="naturalFibersSpecificSector" id="naturalFibersSpecificSector" style="max-width: 300px;">
                                     </div>
-                        
+
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
                                             <input class="form-check-input" type="checkbox" name="metals" id="metals">
@@ -1181,7 +1181,7 @@
                                         </label>
                                         <input type="text" class="form-control ml-3" name="metalsSpecificSector" id="metalsSpecificSector" style="max-width: 300px;">
                                     </div>
-                        
+
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
                                             <input class="form-check-input" type="checkbox" name="aquatic" id="aquatic">
@@ -1191,7 +1191,7 @@
                                         </label>
                                         <input type="text" class="form-control ml-3" name="aquaticSpecificSector" id="aquaticSpecificSector" style="max-width: 300px;">
                                     </div>
-                        
+
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
                                             <input class="form-check-input" type="checkbox" name="horticulture" id="horticulture">
@@ -1201,7 +1201,7 @@
                                         </label>
                                         <input type="text" class="form-control ml-3" name="horticultureSpecificSector" style="max-width: 300px;">
                                     </div>
-                        
+
                                     <div class="d-flex align-items-center">
                                         <div class="form-check mr-3">
                                             <input class="form-check-input" type="checkbox" name="others" id="others">
@@ -1245,7 +1245,6 @@
                                                 <label class="form-label mt-2">Please specify the type of assistance sought</label>
                                                 <textarea class="form-control consultation-input" id="pleaseSpecifyTheTypeOfAssistanceSought" name="pleaseSpecifyTheTypeOfAssistanceSought" rows="3"></textarea>
                                             </div>
-                                            
                                             <div>
                                                 <div class="form-check">
                                                     <input class="form-check-input" type="radio" name="consultationAnswer" id="consultationNo" value="no">
@@ -1255,6 +1254,17 @@
                                                 </div>
                                                 <textarea class="form-control consultation-input" id="whyNot" name="whyNot" rows="3"></textarea>
                                             </div>
+                                        </div>
+                                        <div class="mt-3">
+                                            <label class="form-label" for="organizationalStructure">
+                                                Please attach Organizational Structure:
+                                            </label>
+                                            <input type="file" class="" id="organizationalStructure" name="organizationalStructure">
+                                            <div class="invalid-feedback">
+                                                Please upload the Organization Structure.
+                                            </div>
+                                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size: 10MB</div>
+                                            <input type="hidden" id="organizationalStructureID_Data_Handler" name="organizationalStructureID_Data_Handler">
                                         </div>
                                     </div>
                                 </div>
@@ -1282,8 +1292,8 @@
                                         <textarea class="form-control" id="currentAgreementAndAlliancesUndertaken" name="currentAgreementAndAlliancesUndertaken" rows="3"></textarea>
                                     </div>
                                 </div>
-                                
-                                
+
+
                             </div>
                         </div>
                         <div class="card p-0">
@@ -1546,7 +1556,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    
+
                                 </div>
                                 <hr>
                                 <h6 class="my-4">Finance</h6>
@@ -1570,7 +1580,7 @@
                                         </label>
                                         <textarea class="form-control" id="AccountingSystem" name="AccountingSystem" rows="3"></textarea>
                                     </div>
-                                    
+
 
                                 </div>
                                 <hr>
@@ -2380,7 +2390,7 @@
                                                     Please enter the business permit no.
                                                 </div>
                                             </div>
-                    
+
                                             <div class="col-12 col-md-6">
                                                 <label for="yearRegistered">Year Registered: <span class="requiredFields">
                                                         *</span></label>
@@ -2397,7 +2407,7 @@
                                                     Please enter the year registered.
                                                 </div>
                                             </div>
-                                          
+
                                             <div class="col-12 col-md-6">
                                                 <label for="enterpriseRegistrationNo">Enterprise Registration No.: <span class="requiredFields">
                                                         *</span></label>
@@ -2413,7 +2423,7 @@
                                                     Please enter the enterprise registration no.
                                                 </div>
                                             </div>
-                    
+
                                             <div class="col-12 col-md-6">
                                                 <label for="yearEnterpriseRegistered">Year Enterprise Registered: <span class="requiredFields">
                                                         *</span></label>
@@ -2554,7 +2564,7 @@
                                                             </label>
                                                             <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_foodProcessingSpecificSector">
                                                         </div>
-                                            
+
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
                                                                 <input class="form-check-input" type="checkbox" id="re_furniture" readonly>
@@ -2564,7 +2574,7 @@
                                                             </label>
                                                             <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_furnitureSpecificSector">
                                                         </div>
-                                            
+
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
                                                                 <input class="form-check-input" type="checkbox" id="re_naturalFibers" readonly>
@@ -2574,7 +2584,7 @@
                                                             </label>
                                                             <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_naturalFibersSpecificSector">
                                                         </div>
-                                            
+
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
                                                                 <input class="form-check-input" type="checkbox" id="re_metals" readonly>
@@ -2584,7 +2594,7 @@
                                                             </label>
                                                             <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_metalsSpecificSector">
                                                         </div>
-                                            
+
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
                                                                 <input class="form-check-input" type="checkbox" id="re_aquatic" readonly>
@@ -2594,7 +2604,7 @@
                                                             </label>
                                                             <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_aquaticSpecificSector">
                                                         </div>
-                                            
+
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
                                                                 <input class="form-check-input" type="checkbox" id="re_horticulture" readonly>
@@ -2604,7 +2614,7 @@
                                                             </label>
                                                             <input type="text" class="form-control ml-3" style="max-width: 300px;" readonly id="re_horticultureSpecificSector">
                                                         </div>
-                                            
+
                                                         <div class="d-flex align-items-center">
                                                             <div class="form-check mr-3">
                                                                 <input class="form-check-input" type="checkbox" id="re_others" readonly>
@@ -2738,7 +2748,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            
+
                                             <div class="col-12">
                                                 <div class="row">
                                                     <div class="col-12 col-md-3">

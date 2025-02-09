@@ -131,7 +131,7 @@ class ApplicationController extends Controller
 
 
             $file_to_insert = [
-
+                'organizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'],
                 'IntentFilePath' => $validatedInputs['IntentFileID_Data_Handler'],
                 'DSCFilePath' => $validatedInputs['DtiSecCdaFileID_Data_Handler'],
                 'businessPermitFilePath' => $validatedInputs['BusinessPermitFileID_Data_Handler'],
@@ -144,6 +144,7 @@ class ApplicationController extends Controller
             Log::info($file_to_insert);
 
             $fileNames = [
+                'organizationalStructurePath' => 'Organizational Structure',
                 'IntentFilePath' => 'Intent File',
                 'businessPermitFilePath' => 'Business Permit',
                 'receiptFilePath' => 'Receipt',

@@ -80,7 +80,7 @@ class NewRegistrationRequest extends FormRequest
             'equipments' => 'required',
             'working_capital' => 'required',
             'enterprise_level' => 'required|in:Micro Enterprise,Small Enterprise,Medium Enterprise,Large Enterprise',
-          
+
             //TNA Important Data
             'foodProcessing' => 'nullable|in:on,null',
             'foodProcessingSpecificSector' => 'nullable|string',
@@ -123,13 +123,13 @@ class NewRegistrationRequest extends FormRequest
 
             'nutritionEvaluation' => 'nullable|in:on,null',
             'nutritionEvaluationDetails' => 'nullable|string',
-            
+
             'barCode' => 'nullable|in:on,null',
             'barCodeDetails' => 'nullable|string',
-            
+
             'productLabel' => 'nullable|in:on,null',
             'productLabelDetails' => 'nullable|string',
-            
+
             'expiryDate' => 'nullable|in:on,null',
             'expiryDateDetails' => 'nullable|string',
 
@@ -142,7 +142,7 @@ class NewRegistrationRequest extends FormRequest
             'SafetyMeasuresPracticed' => 'nullable|string',
             'OtherEmployeeWelfare' => 'nullable|string',
             'OtherConcerns' => 'nullable|string',
-             
+
             //TNA Important Data
 
             'productAndSupply' => 'nullable|array',
@@ -161,6 +161,7 @@ class NewRegistrationRequest extends FormRequest
             'f_personnelIndPart' => 'nullable|integer|min:0',
             'exportMarket' => 'nullable|array',
             'localMarket' => 'nullable|array',
+            'organizationalStructure' => 'nullable|string',
             'IntentFile' =>   $isCooperator ? 'required|string' : 'nullable|string',
             'DSC_file_Selector' => $isCooperator ? 'required|string|in:DTI,SEC,CDA' : 'nullable|string|in:DTI,SEC,CDA',
             'DTI_SEC_CDA_File' => $isCooperator ? 'required|string' : 'nullable|string',
@@ -170,6 +171,7 @@ class NewRegistrationRequest extends FormRequest
             'receiptFile' => $isCooperator ? 'required|string' : 'nullable|string',
             'govIdFile' => $isCooperator ? 'required|string' : 'nullable|string',
             'GovIdSelector' => $isCooperator ? 'required|string|in:National ID,SSS ID,GSIS ID,Passport ID' : 'nullable|string|in:National ID,SSS ID,GSIS ID,Passport ID',
+            'organizationalStructureID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
             'IntentFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
             'DtiSecCdaFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
             'BusinessPermitFileID_Data_Handler' => $isCooperator ? 'required|string' : 'nullable|string',
