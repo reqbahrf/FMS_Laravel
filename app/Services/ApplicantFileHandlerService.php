@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Actions;
+namespace App\Services;
 
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-class InsertBusinessFileRequirementsAction
+class ApplicantFileHandlerService
 {
-    public function execute(array $validatedInputs, int $businessId, string $firm_name)
+    public static function storeFile(array $validatedInputs, int $businessId, string $firm_name): void
     {
         $file_to_insert = [
             'OrganizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'],
@@ -18,7 +18,7 @@ class InsertBusinessFileRequirementsAction
             'IntentFilePath' => $validatedInputs['IntentFileID_Data_Handler'],
             'DSCFilePath' => $validatedInputs['DtiSecCdaFileID_Data_Handler'],
             'businessPermitFilePath' => $validatedInputs['BusinessPermitFileID_Data_Handler'],
-            'FDA_LTOFilePath' => $validatedInputs['FdaLtoFileID_Data_Handler'],
+            'FDA_LTOFilePath' => $validatedInputs['FdaLtoFileID_Data_Handler'] ?? '',
             'receiptFilePath' => $validatedInputs['ReceiptFileID_Data_Handler'],
             'govFilePath' => $validatedInputs['GovIdFileID_Data_Handler'],
             'BIRFilePath' => $validatedInputs['BIRFileID_Data_Handler']
@@ -41,6 +41,16 @@ class InsertBusinessFileRequirementsAction
         $fileNames['DSCFilePath'] = $DSC_file_Name_Selector;
         $fileNames['FDA_LTOFilePath'] = $fda_lto_Name_Selector;
         $fileNames['govFilePath'] = $govId_Selector;
+
+        $file_to_insert = array_filter($file_to_insert);
+
+        if (empty($file_to_insert)) {
+            Log::warning('No files provided for storage', [
+                'business_id' => $businessId,
+                'firm_name' => $firm_name
+            ]);
+            return;
+        }
 
         foreach ($file_to_insert as $filekey => $filePath) {
             if (Storage::disk('public')->exists($filePath)) {
@@ -77,12 +87,31 @@ class InsertBusinessFileRequirementsAction
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
-                } else {
-                    throw new Exception("Failed to store file {$fileName}");
                 }
             } else {
                 throw new Exception("This file {$fileNames[$filekey]} does not exist");
             }
         }
+
     }
+
+  public static function getFileAsBase64(string $fileName, int $businessId): string
+  {
+      try {
+          $filePath = DB::table('requirements')
+              ->where('business_id', $businessId)
+              ->where('file_name', $fileName)
+              ->value('file_link');
+
+          if (!$filePath) {
+              throw new Exception("File {$fileName} not found for business ID {$businessId}");
+          }
+
+          return base64_encode(Storage::disk('private')->get($filePath));
+
+      } catch (Exception $e) {
+          throw new Exception('Error retrieving file as base64: ' . $e->getMessage());
+      }
+  }
+
 }
