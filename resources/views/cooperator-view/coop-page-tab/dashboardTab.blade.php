@@ -15,7 +15,7 @@
                             class="form-control"
                             id="project_title"
                             type="text"
-                            value="{{ $row->project_title }}"
+                            value="{{ $row->project_title ?? '' }}"
                             readonly
                         >
                     </div>
@@ -25,7 +25,7 @@
                             class="form-control"
                             id="firm_name"
                             type="text"
-                            value="{{ $row->firm_name }}"
+                            value="{{ $row->firm_name ?? '' }}"
                             readonly
                         >
                     </div>
@@ -35,7 +35,7 @@
                             class="form-control"
                             id="address"
                             type="text"
-                            value="{{ $row->landMark }}, {{ $row->barangay }} , {{ $row->city }}, {{ $row->province }}, {{ $row->region }}"
+                            value="{{ $row->landMark ?? '' }}, {{ $row->barangay ?? '' }} , {{ $row->city ?? '' }}, {{ $row->province ?? '' }}, {{ $row->region ?? '' }}"
                             readonly
                         >
                     </div>
@@ -45,7 +45,7 @@
                             class="form-control"
                             id="contact_person"
                             type="text"
-                            value="{{ $row->f_name }} {{ $row->l_name }}"
+                            value="{{ $row->f_name ?? '' }} {{ $row->l_name ?? '' }}"
                             readonly
                         >
                     </div>
@@ -55,7 +55,7 @@
                             class="form-control"
                             id="designation"
                             type="text"
-                            value="{{ $row->designation }}"
+                            value="{{ $row->designation ?? '' }}"
                             readonly
                         >
                     </div>
@@ -65,7 +65,7 @@
                             class="form-control"
                             id="landline"
                             type="text"
-                            value="{{ $row->landline }}"
+                            value="{{ $row->landline ?? '' }}"
                             readonly
                         >
                     </div>
@@ -75,7 +75,7 @@
                             class="form-control"
                             id="mobile_phone"
                             type="text"
-                            value="{{ $row->mobile_number }}"
+                            value="{{ $row->mobile_number ?? '' }}"
                             readonly
                         >
                     </div>
@@ -85,7 +85,7 @@
                             class="form-control"
                             id="email"
                             type="text"
-                            value="{{ $row->email }}"
+                            value="{{ $row->email ?? '' }}"
                             readonly
                         >
                     </div>
