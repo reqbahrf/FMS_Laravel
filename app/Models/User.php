@@ -45,6 +45,11 @@ class User extends Authenticatable  implements MustVerifyEmail, AuditableContrac
         'remember_token',
     ];
 
+    protected $auditExclude = [
+        'password',
+        'remember_token',
+    ];
+
     /**
      * Get the attributes that should be cast.
      *
