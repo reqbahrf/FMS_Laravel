@@ -1,102 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-    <meta
-        http-equiv="X-UA-Compatible"
-        content="ie=edge"
-    >
-    <title>Document</title>
-    <style>
-        #ProjectProposalForm {
-            size: A4;
-            margin: 2cm;
-            border: 1px solid #ccc;
-        }
-
-        #ProjectProposalForm {
-            width: 21cm;
-            min-height: 29.7cm;
-            margin: 0 auto;
-            padding: 2cm;
-            font-size: 12pt;
-        }
-
-        #ProjectProposalForm table {
-            width: 100% !important;
-            margin-bottom: 15pt;
-        }
-
-        #ProjectProposalForm td {
-            padding: 5pt;
-        }
-
-        #ProjectProposalForm p {
-            margin-bottom: 8pt;
-            line-height: 1.5;
-        }
-
-        #ProjectProposalForm .padding-md {
-            padding: 12pt;
-        }
-
-        #ProjectProposalForm input[type="text"] {
-            border: none;
-            border-bottom: 1px solid #000;
-            outline: none;
-            padding: 5pt;
-            width: 80%;
-        }
-
-        /* Convert common px values to pt */
-        #ProjectProposalForm .margin-sm {
-            margin: 8pt;
-        }
-
-        #ProjectProposalForm .padding-sm {
-            padding: 8pt;
-        }
-
-        #ProjectProposalForm .margin-md {
-            margin: 12pt;
-        }
-
-        #ProjectProposalForm .padding-md {
-            padding: 12pt;
-        }
-
-        #ProjectProposalForm table:not(#TopProposalTable) {
-            width: 100% !important;
-            border-collapse: collapse;
-            border: 1px solid #000;
-        }
-
-        #ProjectProposalForm table:not(#TopProposalTable) td {
-            border: 1px solid #000;
-            padding: 10px;
-        }
-
-        #ProjectProposalForm table:not(#TopProposalTable) tr {
-            border: 1px solid #000;
-        }
-
-        .section--title {
-            font-weight: bolder;
-        }
-
-        .section--sub--title {
-            font-weight: bold;
-        }
-    </style>
-</head>
-
-<body>
-    <div id="ProjectProposalForm">
+<div id="ProjectProposalForm">
         <div class="center">
             <img
                 src="media/image1.png"
@@ -156,7 +58,6 @@
                 </td>
             </tr>
         </table>
-
         <table
             id="CompanyProfileTable"
             style="border-collapse: collapse;"
@@ -854,8 +755,7 @@
         <p>
             Risk Management Plan -- proposed activities to address the risks and assumptions.
         </p>
+</div>
 
-    </div>
-</body>
 
-</html>
+
