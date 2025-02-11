@@ -11,7 +11,7 @@
         aria-live="assertive"
         aria-atomic="true"
     >
-        <div class="toast-header {{ session('error') ? 'text-bg-danger' : session('success') ? 'text-bg-success': session('status') ? 'text-bg-info' : '' }}">
+    <div class="toast-header {{ session('error') ? 'text-bg-danger' : (session('success') ? 'text-bg-success' : (session('status') ? 'text-bg-info' : '')) }}">
             <strong class="me-auto">{{ session('error') ? 'Error' : 'Success' }}</strong>
             <button
                 class="btn-close btn-close-white"
@@ -24,7 +24,7 @@
             class="toast-body"
             id="ssrsuccessToastBody"
         >
-            {{ session('error') ? session('error') : session('success') || session('status') }}
+            {{ session('error') ? session('error') : (session('success') ? session('success') : session('status')) }}
         </div>
     </div>
 </div>

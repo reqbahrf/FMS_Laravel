@@ -522,7 +522,7 @@
             document.write(new Date().getFullYear())
         </script> DOST - SETUP
     </footer>
-
+    <x-toast-ssr-notification />
     <script type="module">
         $(document).ready(function() {
             $('#login, #password').on('focus', function() {
