@@ -784,17 +784,13 @@ Form Styles
 */
 
 #TNAForm {
-    size: A4;
-    margin: 2cm;
-    border: 1px solid #ccc;
-}
-#TNAForm {
-    width: 21cm;
-    min-height: 29.7cm;
+    width: 100%;
+    max-width: 794px;
     margin: 0 auto;
     padding: 2cm;
-    font-size: 12pt;
+    border: 1px solid #ccc;
 }
+
 #TNAForm table {
     width: 100% !important;
     margin-bottom: 15pt;
@@ -823,12 +819,10 @@ Form Styles
 #TNAForm .padding-md { padding: 12pt; }
 
 #ProjectProposalForm {
-    font-family: Arial, sans-serif;
-    width: 21cm;
-    min-height: 29.7cm;
+    width: 100%;
+    max-width: 794px;
     margin: 0 auto;
     padding: 2cm;
-    font-size: 9pt;
     border: 1px solid #ccc;
 }
 :is(#ProjectProposalForm, #TNAForm) * {
