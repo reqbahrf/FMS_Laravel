@@ -9,6 +9,7 @@ type CustomFilePondConfig = FilePond.FilePondOptions & {
     allowFileTypeValidation?: boolean;
     allowFileSizeValidation?: boolean;
     allowRevert?: boolean;
+    captureMethod?: 'environment' | 'user' | null;
     maxFileSize?: string;
     server: {
         process: {
@@ -161,7 +162,7 @@ function InitializeFilePond(
     ) as HTMLInputElement;
     if (!element) {
         console.error(`Element with ID '${elementId}' not found.`);
-        return null;
+       throw new Error('Element not found');
     }
 
     const config: InitializeFilePondConfig = {
