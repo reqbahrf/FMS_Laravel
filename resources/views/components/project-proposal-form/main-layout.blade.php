@@ -10,50 +10,54 @@
         <table
             id="TopProposalTable"
             width="100%"
+            style="border-collapse: collapse;"
+            cellpadding="5"
         >
             <tr>
                 <td
                     style="text-align: center; font-weight: bold; font-size: larger;"
-                    colspan="2"
+                    colspan="9"
                 >PROJECT PROPOSAL</td>
             </tr>
             <tr>
-                <td style="font-weight: bold;">PROJECT TITLE:</td>
-                <td>(Must already be able to reflect the goal of the project)</td>
+                <td style="font-weight: bold; width: 25%;">PROJECT TITLE:</td>
+                <td style="width: 75%;" colspan="8"><input type="text" name="project_title" value="" placeholder="(Must already be able to reflect the goal of the project)"></td>
             </tr>
             <tr>
                 <td style="font-weight: bold;">PROPONENT:</td>
-                <td>(Indicate name and address of Firm)</td>
+                <td colspan="8"><input type="text" name="proponent" value="" placeholder="(Indicate name and address of Firm)"></td>
             </tr>
             <tr>
                 <td style="font-weight: bold;">PROJECT COST:</td>
-                <td>(Total project cost including counterpart of the proponent)</td>
+                <td colspan="8"><input type="text" name="project_cost" value="" placeholder="(Total project cost including counterpart of the proponent)"></td>
             </tr>
             <tr>
                 <td style="font-weight: bold;">AMOUNT REQUESTED:</td>
-                <td>(DOST-SETUP counterpart or amoount requested from DOST-SETUP)</td>
+                <td colspan="8"><input type="text" name="amount_requested" value="" placeholder="(DOST-SETUP counterpart or amoount requested from DOST-SETUP)"></td>
             </tr>
             <tr>
                 <td
                     style="font-weight: bold;"
-                    colspan="2"
+                    colspan="9"
                 >OBJECTIVES:</td>
             </tr>
             <tr>
-                <td></td>
-                <td>
-                    <p style="font-weight: bold;">General Objectives</p>
-                    <p style="font-weight: bold;">Specific Objectives:</p>
+                <td colspan="1"></td>
+                <td colspan="8">
+                    <p style="font-weight: bold;">General Objectives:</p><br>
+                    <textarea name="general_objectives" class="form-control"></textarea>
+                    <p style="font-weight: bold;">Specific Objectives:</p><br>
+                    <textarea name="specific_objectives" class="form-control"></textarea>
                 </td>
             </tr>
             <tr>
                 <td
                     style="font-weight: bold;"
-                    colspan="2"
+                    colspan="9"
                 >PROJECT BACKGROUND:</td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td colspan="9">
                     <p style="font-weight: bold;">A. Company Profile</p>
                 </td>
             </tr>
@@ -66,88 +70,117 @@
             cellpadding="5"
         >
             <tr>
-                <td width="20%"><b>Name of Firm</b></td>
-                <td colspan="6"></td>
+                <td>Name of Firm</td>
+                <td colspan="8"><input type="text" name="name_of_firm" value="" placeholder="XYZ Company"></td>
             </tr>
             <tr>
-                <td><b>Address</b></td>
-                <td colspan="6"></td>
+                <td>Address</td>
+                <td colspan="8"><input type="text" name="address" value="" placeholder="Purok 1, Barangay 1, City, Province"></td>
             </tr>
             <tr>
-                <td><b>Contact Person</b></td>
-                <td colspan="6"></td>
+                <td>Contact Person</td>
+                <td colspan="8"><input type="text" name="contact_person" value="" placeholder="John Doe"></td>
             </tr>
             <tr>
-                <td><b>Contact No.</b></td>
-                <td colspan="6"></td>
+                <td>Contact No</td>
+                <td colspan="8"><input type="text" name="contact_no" value="" placeholder="09123456789"></td>
             </tr>
             <tr>
-                <td><b>E-mail Address</b></td>
-                <td colspan="6"></td>
+                <td>E-mail Address</td>
+                <td colspan="8"><input type="text" name="email_address" value="" placeholder="xyzcompany@gmail.com"></td>
             </tr>
             <tr>
-                <td><b>Year-Established</b></td>
-                <td colspan="6"></td>
+                <td>Year-Established</td>
+                <td colspan="8"><input type="text" name="year_established" maxlength="4" value="" placeholder="2020"></td>
             </tr>
             <tr>
-                <td rowspan="3"><b>Type of Organization</b><br>(please check appropriate box in each row)</td>
-                <td><b>Single Proprietorship</b></td>
-                <td><b>Partnership</b></td>
-                <td><b>Cooperative</b></td>
-                <td><b>Corporation</b></td>
+                <td rowspan="3">Type of Organization<br>(please check appropriate box in each row)</td>
+                <td>
+                    <input type="radio" name="type_of_organization" value="Single Proprietorship">
+                    Single Proprietorship
+                </td>
+                <td>
+                    <input type="radio" name="type_of_organization" value="Partnership">
+                    Partnership
+                </td>
+                <td>
+                    <input type="radio" name="type_of_organization" value="Cooperative">
+                    Cooperative
+                </td>
+                <td colspan="2">
+                    <input type="radio" name="type_of_organization" value="Corporation">
+                    Corporation
+                </td>
             </tr>
             <tr>
-                <td><b>Profit</b></td>
-                <td><b>Non-Profit</b></td>
+                <td>
+                    <input type="radio" name="type_of_organization" value="Profit">
+                    Profit
+                </td>
+                <td>
+                    <input type="radio" name="type_of_organization" value="Non-Profit">
+                    Non-Profit
+                </td>
+                <td></td>
                 <td colspan="2"></td>
             </tr>
             <tr>
-                <td><b>Micro</b><br>(P3M Total Asset Value of less)</td>
-                <td><b>Small</b><br>(P3,000,001.00 - P15M Total Asset Value)</td>
-                <td colspan="2"><b>Medium</b><br>(P15,000,001.00 - P100M Total Asset Value)</td>
+                <td>
+                    <input type="radio" name="size_of_organization" value="Micro">
+                    Micro<br>(P3M Total Asset Value of less)
+                </td>
+                <td>
+                    <input type="radio" name="size_of_organization" value="Small">
+                    Small<br>(P3,000,001.00 - P15M Total Asset Value)
+                </td>
+                <td>
+                    <input type="radio" name="size_of_organization" value="Medium">
+                    Medium<br>(P15,000,001.00 - P100M Total Asset Value)
+                </td>
             </tr>
             <tr>
-                <td rowspan="6"><b>Number of Employee</b><br>(please indicate number of employee)</td>
-                <td colspan="1"><b>Type of Employment</b></td>
-                <td><b>Male</b></td>
-                <td><b>Female</b></td>
-                <td><b>Total</b></td>
+                <td rowspan="6">Number of Employee<br>(please indicate number of employee)</td>
+                <td colspan="1">Type of Employment</td>
+                <td>Male</td>
+                <td>Female</td>
+                <td>Total</td>
             </tr>
             <tr>
                 <td colspan="1">Direct Workers</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><input type="text" name="direct_workers_male" value=""></td>
+                <td><input type="text" name="direct_workers_female" value=""></td>
+                <td><input type="text" name="direct_workers_total" value=""></td>
             </tr>
             <tr>
                 <td colspan="1">Production</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><input type="text" name="production_male" value=""></td>
+                <td><input type="text" name="production_female" value=""></td>
+                <td><input type="text" name="production_total" value=""></td>
             </tr>
             <tr>
                 <td colspan="1">Non-Production</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><input type="text" name="non_production_male" value=""></td>
+                <td><input type="text" name="non_production_female" value=""></td>
+                <td><input type="text" name="non_production_total" value=""></td>
             </tr>
             <tr>
                 <td colspan="1">Indirect/Contract Workers</td>
-                <td></td>
-                <td></td>
+                <td><input type="text" name="indirect_contract_workers_male" value=""></td>
+                <td><input type="text" name="indirect_contract_workers_female" value=""></td>
+                <td><input type="text" name="indirect_contract_workers_total" value=""></td>
                 <td></td>
             </tr>
             <tr>
                 <td colspan="1">Total</td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td><input type="text" name="total_male" value=""></td>
+                <td><input type="text" name="total_female" value=""></td>
+                <td><input type="text" name="total" value=""></td>
             </tr>
             <tr>
                 <td rowspan="6"><b>Registration</b></td>
                 <td colspan="1"><b>Office</b></td>
                 <td><b>Registration Number</b></td>
-                <td colspan="2"><b>Date of Registration</b></td>
+                <td colspan="3"><b>Date of Registration</b></td>
             </tr>
             <tr>
                 <td colspan="1">DTI</td>

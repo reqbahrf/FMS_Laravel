@@ -809,12 +809,12 @@ Form Styles
 
 #TNAForm .padding-md { padding: 12pt; }
 
-#TNAForm input[type="text"] {
+:is(#TNAForm, #ProjectProposalForm) input[type="text"] {
     border: none;
     border-bottom: 1px solid #000;
     outline: none;
     padding: 5pt;
-    width: 80%;
+    width: 100%;
 }
 /* Convert common px values to pt */
 #TNAForm .margin-sm { margin: 8pt; }
@@ -823,17 +823,17 @@ Form Styles
 #TNAForm .padding-md { padding: 12pt; }
 
 #ProjectProposalForm {
-    size: A4;
-    margin: 2cm;
-    border: 1px solid #ccc;
-}
-
-#ProjectProposalForm {
+    font-family: Arial, sans-serif;
     width: 21cm;
     min-height: 29.7cm;
     margin: 0 auto;
     padding: 2cm;
-    font-size: 12pt;
+    font-size: 9pt;
+    border: 1px solid #ccc;
+}
+:is(#ProjectProposalForm, #TNAForm) * {
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
 }
 
 #ProjectProposalForm table {
@@ -852,14 +852,6 @@ Form Styles
 
 #ProjectProposalForm .padding-md {
     padding: 12pt;
-}
-
-#ProjectProposalForm input[type="text"] {
-    border: none;
-    border-bottom: 1px solid #000;
-    outline: none;
-    padding: 5pt;
-    width: 80%;
 }
 
 /* Convert common px values to pt */
