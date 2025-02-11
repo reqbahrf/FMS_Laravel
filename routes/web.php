@@ -25,7 +25,7 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PaymentRecordController;
 use App\Http\Controllers\ProjectLedgerController;
 use App\Http\Controllers\CooperatorViewController;
-use App\Http\Controllers\PasswordChangeController;
+use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\RejectionEmailController;
 use App\Http\Controllers\ProjectProposalController;

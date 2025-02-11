@@ -185,6 +185,7 @@
 
     </div>
     @vite('resources/js/app.ts')
+    <x-toast-ssr-notification />
     @vite('resources/js/staff/staffPage.js')
     <script>
         const USER_ID = '{{ Auth::user()->id }}';

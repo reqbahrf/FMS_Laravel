@@ -196,6 +196,7 @@
         </div>
     </div>
 </div>
+<x-toast-ssr-notification />
 <script>
     const protocol = window.location.protocol;
     const host = window.location.hostname;

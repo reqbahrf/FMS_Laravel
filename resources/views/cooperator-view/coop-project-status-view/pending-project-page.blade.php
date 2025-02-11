@@ -260,6 +260,7 @@
         </div>
     </main>
 </div>
+<x-toast-ssr-notification />
 <script type="module">
     const UPDATEFILE = '{{ route('Applicant-Requirements.update', ['Applicant_Requirement' => ':id']) }}'
 

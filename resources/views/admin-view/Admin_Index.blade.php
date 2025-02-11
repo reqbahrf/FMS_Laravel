@@ -226,6 +226,7 @@
         </div>
     </div>
     @vite('resources/js/app.ts')
+    <x-toast-ssr-notification />
     <script>
         const USER_ID = {{ Auth::user()->id }};
         const NOTIFICATION_ROUTE = '{{ route('notification.get') }}';
