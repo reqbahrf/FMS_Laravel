@@ -59,7 +59,7 @@ Route::controller(GoogleAuthController::class)->group(function () {
     Route::get('/auth/google-callback', 'handleGoogleAuth')->name('handle.google.Auth');
 });
 Route::get('/test', function () {
-    return view('components.project-proposal-form.main-layout');
+    return view('components.rtec-report-form.main');
 });
 Route::get('/signup', function () {
     return view('registerpage.signup');
