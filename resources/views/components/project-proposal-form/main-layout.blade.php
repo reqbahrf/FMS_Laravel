@@ -137,7 +137,7 @@
                 <input
                     name="name_of_firm"
                     type="text"
-                    value=""
+                    value="{{ $name_of_firm ?? '' }}"
                     placeholder="XYZ Company"
                 >
                 @else
@@ -152,9 +152,9 @@
                 <input
                     name="address"
                     type="text"
-                    value=""
+                    value="{{ $address ?? '' }}"
                     placeholder="Purok 1, Barangay 1, City, Province"
-                ></td>
+                >
                 @else
                     {{ $address ?? '' }}
                 @endif
@@ -167,7 +167,7 @@
                 <input
                     name="contact_person"
                     type="text"
-                    value=""
+                    value="{{ $contact_person ?? '' }}"
                     placeholder="John Doe"
                 >
                 @else
@@ -182,9 +182,9 @@
                 <input
                     name="contact_no"
                     type="text"
-                    value=""
+                    value="{{ $contact_no ?? '' }}"
                     placeholder="09123456789"
-                ></td>
+                >
                 @else
                     {{ $contact_no ?? '' }}
                 @endif
@@ -197,7 +197,7 @@
                 <input
                     name="email_address"
                     type="text"
-                    value=""
+                    value="{{ $email_address ?? '' }}"
                     placeholder="xyzcompany@gmail.com"
                 >
                 @else
@@ -212,7 +212,7 @@
                 <input
                     name="year_established"
                     type="text"
-                    value=""
+                    value="{{ $year_established ?? '' }}"
                     maxlength="4"
                     placeholder="2020"
                 >
@@ -229,6 +229,7 @@
                     name="type_of_organization"
                     type="radio"
                     value="Single Proprietorship"
+                    {{ $type_of_organization == 'Single Proprietorship' ? 'checked' : '' }}
                 >
                 @else
                     {{ $type_of_organization == 'Single Proprietorship' ? '/' : '' }}
@@ -241,6 +242,7 @@
                     name="type_of_organization"
                     type="radio"
                     value="Partnership"
+                    {{ $type_of_organization == 'Partnership' ? 'checked' : '' }}
                 >
                 @else
                     {{ $type_of_organization == 'Partnership' ? '/' : '' }}
@@ -253,6 +255,7 @@
                     name="type_of_organization"
                     type="radio"
                     value="Cooperative"
+                    {{ $type_of_organization == 'Cooperative' ? 'checked' : '' }}
                 >
                 @else
                     {{ $type_of_organization == 'Cooperative' ? '/' : '' }}
@@ -265,6 +268,7 @@
                     name="type_of_organization"
                     type="radio"
                     value="Corporation"
+                    {{ $type_of_organization == 'Corporation' ? 'checked' : '' }}
                 >
                 @else
                     {{ $type_of_organization == 'Corporation' ? '/' : '' }}
@@ -279,6 +283,7 @@
                     name="type_of_organization"
                     type="radio"
                     value="Profit"
+                    {{ $type_of_organization == 'Profit' ? 'checked' : '' }}
                 >
                 @else
                     {{ $type_of_organization == 'Profit' ? '/' : '' }}
@@ -291,6 +296,7 @@
                     name="type_of_organization"
                     type="radio"
                     value="Non-Profit"
+                    {{ $type_of_organization == 'Non-Profit' ? 'checked' : '' }}
                 >
                 @else
                     {{ $type_of_organization == 'Non-Profit' ? '/' : '' }}
@@ -307,6 +313,7 @@
                     name="size_of_organization"
                     type="radio"
                     value="Micro"
+                    {{ $size_of_organization == 'Micro' ? 'checked' : '' }}
                 >
                 @else
                     {{ $size_of_organization == 'Micro' ? '/' : '' }}
@@ -319,6 +326,7 @@
                     name="size_of_organization"
                     type="radio"
                     value="Small"
+                    {{ $size_of_organization == 'Small' ? 'checked' : '' }}
                 >
                 @else
                     {{ $size_of_organization == 'Small' ? '/' : '' }}
@@ -331,6 +339,7 @@
                     name="size_of_organization"
                     type="radio"
                     value="Medium"
+                    {{ $size_of_organization == 'Medium' ? 'checked' : '' }}
                 >
                 Medium<br>(P15,000,001.00 - P100M Total Asset Value)
                 @else
@@ -352,10 +361,10 @@
                 <input
                     name="direct_workers_male"
                     type="text"
-                    value=""
+                    value="{{ $direct_workers_male ?? '' }}"
                 >
                 @else
-                    {{ $direct_workers_male }}
+                    {{ $direct_workers_male ?? '' }}
                 @endif
             </td>
             <td>
@@ -363,10 +372,10 @@
                 <input
                     name="direct_workers_female"
                     type="text"
-                    value=""
+                    value="{{ $direct_workers_female ?? '' }}"
                 >
                 @else
-                    {{ $direct_workers_female }}
+                    {{ $direct_workers_female ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -374,10 +383,10 @@
                 <input
                     name="direct_workers_total"
                     type="text"
-                    value=""
+                    value="{{ $direct_workers_total ?? '' }}"
                 >
                 @else
-                    {{ $direct_workers_total }}
+                    {{ $direct_workers_total ?? '' }}
                 @endif
             </td>
         </tr>
@@ -388,10 +397,10 @@
                 <input
                     name="production_male"
                     type="text"
-                    value=""
+                    value="{{ $production_male ?? '' }}"
                 >
                 @else
-                    {{ $production_male }}
+                    {{ $production_male ?? '' }}
                 @endif
             </td>
             <td>
@@ -399,10 +408,10 @@
                 <input
                     name="production_female"
                     type="text"
-                    value=""
+                    value="{{ $production_female ?? '' }}"
                 >
                 @else
-                    {{ $production_female }}
+                    {{ $production_female ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -410,10 +419,10 @@
                 <input
                     name="production_total"
                     type="text"
-                    value=""
+                    value="{{ $production_total ?? '' }}"
                 >
                 @else
-                    {{ $production_total }}
+                    {{ $production_total ?? '' }}
                 @endif
             </td>
         </tr>
@@ -424,10 +433,10 @@
                 <input
                     name="non_production_male"
                     type="text"
-                    value=""
+                    value="{{ $non_production_male ?? '' }}"
                 >
                 @else
-                    {{ $non_production_male }}
+                    {{ $non_production_male ?? '' }}
                 @endif
             </td>
             <td>
@@ -435,10 +444,10 @@
                 <input
                     name="non_production_female"
                     type="text"
-                    value=""
+                    value="{{ $non_production_female ?? '' }}"
                 >
                 @else
-                    {{ $non_production_female }}
+                    {{ $non_production_female ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -446,10 +455,10 @@
                 <input
                     name="non_production_total"
                     type="text"
-                    value=""
+                    value="{{ $non_production_total ?? '' }}"
                 >
                 @else
-                    {{ $non_production_total }}
+                    {{ $non_production_total ?? '' }}
                 @endif
             </td>
         </tr>
@@ -460,10 +469,10 @@
                 <input
                     name="indirect_contract_workers_male"
                     type="text"
-                    value=""
+                    value="{{ $indirect_contract_workers_male ?? '' }}"
                 >
                 @else
-                    {{ $indirect_contract_workers_male }}
+                    {{ $indirect_contract_workers_male ?? '' }}
                 @endif
             </td>
             <td>
@@ -471,10 +480,10 @@
                 <input
                     name="indirect_contract_workers_female"
                     type="text"
-                    value=""
+                    value="{{ $indirect_contract_workers_female ?? '' }}"
                 >
                 @else
-                    {{ $indirect_contract_workers_female }}
+                    {{ $indirect_contract_workers_female ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -482,10 +491,10 @@
                 <input
                     name="indirect_contract_workers_total"
                     type="text"
-                    value=""
+                    value="{{ $indirect_contract_workers_total ?? '' }}"
                 >
                 @else
-                    {{ $indirect_contract_workers_total }}
+                    {{ $indirect_contract_workers_total ?? '' }}
                 @endif
             </td>
         </tr>
@@ -496,10 +505,10 @@
                 <input
                     name="total_male"
                     type="text"
-                    value=""
+                    value="{{ $total_male ?? '' }}"
                 >
                 @else
-                    {{ $total_male }}
+                    {{ $total_male ?? '' }}
                 @endif
             </td>
             <td>
@@ -507,10 +516,10 @@
                 <input
                     name="total_female"
                     type="text"
-                    value=""
+                    value="{{ $total_female ?? '' }}"
                 >
                 @else
-                    {{ $total_female }}
+                    {{ $total_female ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -518,10 +527,10 @@
                 <input
                     name="total"
                     type="text"
-                    value=""
+                    value="{{ $total ?? '' }}"
                 >
                 @else
-                    {{ $total }}
+                    {{ $total ?? '' }}
                 @endif
             </td>
         </tr>
@@ -538,10 +547,10 @@
                 <input
                     name="dti_registration_number"
                     type="text"
-                    value=""
+                    value="{{ $dti_registration_number ?? '' }}"
                 >
                 @else
-                    {{ $dti_registration_number }}
+                    {{ $dti_registration_number ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -549,10 +558,10 @@
                 <input
                     name="dti_date_of_registration"
                     type="text"
-                    value=""
+                    value="{{ $dti_date_of_registration ?? '' }}"
                 >
                 @else
-                    {{ $dti_date_of_registration }}
+                    {{ $dti_date_of_registration ?? '' }}
                 @endif
             </td>
         </tr>
@@ -563,10 +572,10 @@
                 <input
                     name="sec_registration_number"
                     type="text"
-                    value=""
+                    value="{{ $sec_registration_number ?? '' }}"
                 >
                 @else
-                    {{ $sec_registration_number }}
+                    {{ $sec_registration_number ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -574,10 +583,10 @@
                 <input
                     name="sec_date_of_registration"
                     type="text"
-                    value=""
+                    value="{{ $sec_date_of_registration ?? '' }}"
                 >
                 @else
-                    {{ $sec_date_of_registration }}
+                    {{ $sec_date_of_registration ?? '' }}
                 @endif
             </td>
         </tr>
@@ -588,10 +597,10 @@
                 <input
                     name="cda_registration_number"
                     type="text"
-                    value=""
+                    value="{{ $cda_registration_number ?? '' }}"
                 >
                 @else
-                    {{ $cda_registration_number }}
+                    {{ $cda_registration_number ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -599,10 +608,10 @@
                 <input
                     name="cda_date_of_registration"
                     type="text"
-                    value=""
+                    value="{{ $cda_date_of_registration ?? '' }}"
                 >
                 @else
-                    {{ $cda_date_of_registration }}
+                    {{ $cda_date_of_registration ?? '' }}
                 @endif
             </td>
         </tr>
@@ -613,17 +622,21 @@
                 <input
                     name="lgu_registration_number"
                     type="text"
-                    value=""
-                ></td>
+                    value="{{ $lgu_registration_number ?? '' }}"
+                >
+                @else
+                    {{ $lgu_registration_number ?? '' }}
+                @endif
+            </td>
             <td colspan="2">
                 @if ($isEdit)
                 <input
                     name="lgu_date_of_registration"
                     type="text"
-                    value=""
+                    value="{{ $lgu_date_of_registration ?? '' }}"
                 >
                 @else
-                    {{ $lgu_date_of_registration }}
+                    {{ $lgu_date_of_registration ?? '' }}
                 @endif
             </td>
         </tr>
@@ -638,10 +651,10 @@
                 <input
                     name="others_name_of_firm"
                     type="text"
-                    value=""
+                    value="{{ $others_name_of_firm ?? '' }}"
                 >
                 @else
-                    {{ $others_name_of_firm }}
+                    {{ $others_name_of_firm ?? '' }}
                 @endif
             </td>
             <td>
@@ -649,10 +662,10 @@
                 <input
                     name="others_registration_number"
                     type="text"
-                    value=""
+                    value="{{ $others_registration_number ?? '' }}"
                 >
                 @else
-                    {{ $others_registration_number }}
+                    {{ $others_registration_number ?? '' }}
                 @endif
             </td>
             <td colspan="2">
@@ -660,10 +673,10 @@
                 <input
                     name="others_date_of_registration"
                     type="text"
-                    value=""
+                    value="{{ $others_date_of_registration ?? '' }}"
                 >
                 @else
-                    {{ $others_date_of_registration }}
+                    {{ $others_date_of_registration ?? '' }}
                 @endif
             </td>
         </tr>
@@ -675,6 +688,7 @@
                     name="crop_animal_production_hunting_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($crop_animal_production_hunting_activity == 'checked')
                 >
                 @else
                   {{ $crop_animal_production_hunting_activity == 'checked' ? '/' : '' }}
@@ -687,6 +701,7 @@
                     name="chemicals_manufacturing_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($chemicals_manufacturing_activity == 'checked')
                 >
                 @else
                   {{ $chemicals_manufacturing_activity == 'checked' ? '/' : '' }}
@@ -701,6 +716,7 @@
                     name="forestry_logging_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($forestry_logging_activity == 'checked')
                 >
                 @else
                   {{ $forestry_logging_activity == 'checked' ? '/' : '' }}
@@ -713,6 +729,7 @@
                     name="pharmaceutical_manufacturing_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($pharmaceutical_manufacturing_activity == 'checked')
                 >
                 @else
                   {{ $pharmaceutical_manufacturing_activity == 'checked' ? '/' : '' }}
@@ -727,6 +744,7 @@
                     name="fishing_agriculture_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($fishing_and_agriculture_activity == 'checked')
                 >
                 @else
                   {{ $fishing_and_agriculture_activity == 'checked' ? '/' : '' }}
@@ -739,6 +757,7 @@
                     name="plastic_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($plastic_products_manufacturing_activity == 'checked')
                 >
                 @else
                   {{ $plastic_products_manufacturing_activity == 'checked' ? '/' : '' }}
@@ -753,6 +772,7 @@
                     name="food_processing_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($food_processing_activity == 'checked')
                 >
                 @else
                   {{ $food_processing_activity == 'checked' ? '/' : '' }}
@@ -765,6 +785,7 @@
                     name="non_metalllic_mineral_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($nonmetallic_mineral_products_manufacturing == 'checked')
                 >
                 @else
                   {{ $nonmetallic_mineral_products_manufacturing == 'checked' ? '/' : '' }}
@@ -776,9 +797,10 @@
             <td colspan="2">
                 @if ($isEdit)
                 <input
-                    name="beverageManufacturing"
+                    name="beverage_manufacturing_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($beverage_manufacturing_activity == 'checked')
                 >
                 @else
                   {{ $beverage_manufacturing_activity == 'checked' ? '/' : '' }}
@@ -791,6 +813,7 @@
                     name="fabricated_metal_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($fabricated_metal_products_manufacturing_activity == 'checked')
                 >
                 @else
                   {{ $fabricated_metal_products_manufacturing_activity == 'checked' ? '/' : '' }}
@@ -802,9 +825,10 @@
             <td colspan="2">
                 @if ($isEdit)
                 <input
-                    name="textileManufacturing"
+                    name="textile_manufacturing_activity"
                     type="checkbox"
                     value="checked"
+                    @checked($textile_manufacturing_activity == 'checked')
                 >
                 @else
                   {{ $textile_manufacturing_activity == 'checked' ? '/' : '' }}
@@ -817,11 +841,12 @@
                     name="machinery_and_equipment_not_elsewhere_classified_manufacturing"
                     type="checkbox"
                     value="checked"
+                    @checked($machinery_and_equipment_not_elsewhere_classified_manufacturing == 'checked')
                 >
-                Machinery and equipment, Not Elsewhere Classified (NEC) manufacturing
                 @else
-                  {{ $machinery_and_equipment_not_elsewhere_classified_manufacturing == 'checked' ? '/' : '' }}
+                {{ $machinery_and_equipment_not_elsewhere_classified_manufacturing == 'checked' ? '/' : '' }}
                 @endif
+                Machinery and equipment, Not Elsewhere Classified (NEC) manufacturing
             </td>
         </tr>
         <tr>
@@ -831,6 +856,7 @@
                     name="wearing_apparel_manufacturing"
                     type="checkbox"
                     value="checked"
+                    @checked($wearing_apparel_manufacturing == 'checked')
                 >
                 @else
                   {{ $wearing_apparel_manufacturing == 'checked' ? '/' : '' }}
@@ -843,6 +869,7 @@
                     name="other_transport_equipment_manufacturing"
                     type="checkbox"
                     value="checked"
+                    @checked($other_transport_equipment_manufacturing == 'checked')
                 >
                 @else
                   {{ $other_transport_equipment_manufacturing == 'checked' ? '/' : '' }}
@@ -857,6 +884,7 @@
                     name="leather_and_related_products_manufacturing"
                     type="checkbox"
                     value="checked"
+                    @checked($leather_and_related_products_manufacturing == 'checked')
                 >
                 @else
                   {{ $leather_and_related_products_manufacturing == 'checked' ? '/' : '' }}
@@ -869,6 +897,7 @@
                     name="furniture_manufacturing"
                     type="checkbox"
                     value="checked"
+                    @checked($furniture_manufacturing == 'checked')
                 >
                 @else
                   {{ $furniture_manufacturing == 'checked' ? '/' : '' }}
@@ -883,6 +912,7 @@
                     name="wood_and_products_of_wood_and_cork_manufacturing"
                     type="checkbox"
                     value="checked"
+                    @checked($wood_and_products_of_wood_and_cork_manufacturing == 'checked')
                 >
                 @else
                   {{ $wood_and_products_of_wood_and_cork_manufacturing == 'checked' ? '/' : '' }}
@@ -895,6 +925,7 @@
                     name="information_and_communication_manufacturing"
                     type="checkbox"
                     value="checked"
+                    @checked($information_and_communication_manufacturing == 'checked')
                 >
                 @else
                   {{ $information_and_communication_manufacturing == 'checked' ? '/' : '' }}
@@ -909,6 +940,7 @@
                     name="paper_and_paper_products_manufacturing"
                     type="checkbox"
                     value="checked"
+                    @checked($paper_and_paper_products_manufacturing == 'checked')
                 >
                 @else
                   {{ $paper_and_paper_products_manufacturing == 'checked' ? '/' : '' }}
@@ -921,6 +953,7 @@
                     name="other_regional_priority_industries_approved_by_the_regional_development_council_please_specify"
                     type="checkbox"
                     value="checked"
+                    @checked($other_regional_priority_industries_approved_by_the_regional_development_council_please_specify == 'checked')
                 >
                 @else
                   {{ $other_regional_priority_industries_approved_by_the_regional_development_council_please_specify == 'checked' ? '/' : '' }}
@@ -931,13 +964,21 @@
         <tr>
             <td><b>Products/Services</b></td>
             <td colspan="6">
-                <textarea name="products_services"></textarea>
+                @if ($isEdit)
+                <textarea name="products_services" class="form-control">{{ $products_services ?? '' }}</textarea>
+                @else
+                  {{ $products_services ?? '' }}
+                @endif
             </td>
         </tr>
         <tr>
             <td><b>Brief Enterprise Background</b></td>
             <td colspan="6">
-                <textarea name="brief_enterprise_background"></textarea>
+                @if ($isEdit)
+                <textarea name="brief_enterprise_background" class="form-control">{{ $brief_enterprise_background ?? '' }}</textarea>
+                @else
+                  {{ $brief_enterprise_background ?? '' }}
+                @endif
             </td>
         </tr>
     </table>
@@ -962,7 +1003,11 @@
         </tr>
         <tr>
             <td>
-                <textarea name="skills_and_expertise"></textarea>
+                @if ($isEdit)
+                   <textarea name="skills_and_expertise" class="form-control">{{ $skills_and_expertise ?? '' }}</textarea>
+                @else
+                  {{ $skills_and_expertise ?? '' }}
+                @endif
             </td>
         </tr>
         <tr>
@@ -972,7 +1017,11 @@
         </tr>
         <tr>
             <td>
-                <textarea name="compensation"></textarea>
+                @if ($isEdit)
+                   <textarea name="compensation" class="form-control">{{ $compensation ?? '' }}</textarea>
+                @else
+                  {{ $compensation ?? '' }}
+                @endif
             </td>
         </tr>
         <tr>
@@ -981,7 +1030,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                   <textarea name="plant_site_or_location" class="form-control">{{ $plant_site_or_location ?? '' }}</textarea>
+                @else
+                  {{ $plant_site_or_location ?? '' }}
+                @endif
+            </td>
         </tr>
         <tr>
             <td>
@@ -989,7 +1044,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                   <textarea name="capacity_volume_and_cost_of_production" class="form-control">{{ $capacity_volume_and_cost_of_production ?? '' }}</textarea>
+                @else
+                  {{ $capacity_volume_and_cost_of_production ?? '' }}
+                @endif
+            </td>
         </tr>
         <tr>
             <td>
@@ -997,7 +1058,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                   <textarea name="raw_materials_used_and_sources_of_raw_material" class="form-control">{{ $raw_materials_used_and_sources_of_raw_material ?? '' }}</textarea>
+                @else
+                  {{ $raw_materials_used_and_sources_of_raw_material ?? '' }}
+                @endif
+            </td>
         </tr>
     </table>
     <table
@@ -1015,7 +1082,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                   <textarea name="market_situation_product_demand_and_supply" class="form-control">{{ $market_situation_product_demand_and_supply ?? '' }}</textarea>
+                @else
+                  {{ $market_situation_product_demand_and_supply ?? '' }}
+                @endif
+            </td>
         </tr>
         <tr>
             <td>
@@ -1023,7 +1096,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                   <textarea name="product_specifications_and_product_price" class="form-control">{{ $product_specifications_and_product_price ?? '' }}</textarea>
+                @else
+                  {{ $product_specifications_and_product_price ?? '' }}
+                @endif
+            </td>
         </tr>
         <tr>
             <td>
@@ -1031,7 +1110,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                   <textarea name="distribution_channel_local_export" class="form-control">{{ $distribution_channel_local_export ?? '' }}</textarea>
+                @else
+                  {{ $distribution_channel_local_export ?? '' }}
+                @endif
+            </td>
         </tr>
         <tr>
             <td>
@@ -1047,7 +1132,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                   <textarea name="existing_problems_if_any" class="form-control">{{ $existing_problems_if_any ?? '' }}</textarea>
+                @else
+                  {{ $existing_problems_if_any ?? '' }}
+                @endif
+            </td>
         </tr>
         <tr>
             <td>
@@ -1055,7 +1146,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                   <textarea name="market_plans_strategies" class="form-control">{{ $market_plans_strategies ?? '' }}</textarea>
+                @else
+                  {{ $market_plans_strategies ?? '' }}
+                @endif
+            </td>
         </tr>
     </table>
     <table
@@ -1158,7 +1255,11 @@
         </tr>
         <tr>
             <td>
-
+                @if ($isEdit)
+                    <textarea name="list_of_equipment_fabricators" class="form-control">{{ $list_of_equipment_fabricators }}</textarea>
+                @else
+                    {{ $list_of_equipment_fabricators }}
+                @endif
             </td>
         </tr>
         <tr>
@@ -1168,7 +1269,11 @@
         </tr>
         <tr>
             <td>
-
+                @if ($isEdit)
+                    <textarea name="schedule_of_activities_for_proposed_project" class="form-control">{{ $schedule_of_activities_for_proposed_project }}</textarea>
+                @else
+                    {{ $schedule_of_activities_for_proposed_project }}
+                @endif
             </td>
         </tr>
         <tr>
@@ -1188,7 +1293,6 @@
                 </ol>
             </td>
         </tr>
-
     </table>
     <table id="WasteManagementTable">
         <tr>
@@ -1202,7 +1306,13 @@
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                    <textarea name="volume_of_waste_generated_monthly" class="form-control">{{ $volume_of_waste_generated_monthly }}</textarea>
+                @else
+                    {{ $volume_of_waste_generated_monthly }}
+                @endif
+            </td>
         </tr>
         <tr>
             <td>
@@ -1211,15 +1321,36 @@
             </td>
         </tr>
         <tr>
-            <td></td>
-        </tr>
-        <tr>
             <td>
-                <p class="section--sub--title">D. Methods of disposal</p>
+                @if ($isEdit)
+                    <textarea name="kinds_of_wastes" class="form-control">{{ $kinds_of_wastes }}</textarea>
+                @else
+                    {{ $kinds_of_wastes }}
+                @endif
             </td>
         </tr>
         <tr>
-            <td></td>
+            <td>
+                @if ($isEdit)
+                    <textarea name="methods_of_disposal" class="form-control">{{ $methods_of_disposal }}</textarea>
+                @else
+                    {{ $methods_of_disposal }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p class="section--sub--title">E. List of equipment fabricators (name and address)</p>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                @if ($isEdit)
+                    <textarea name="list_of_equipment_fabricators" class="form-control">{{ $list_of_equipment_fabricators }}</textarea>
+                @else
+                    {{ $list_of_equipment_fabricators }}
+                @endif
+            </td>
         </tr>
     </table>
     <table id="FinancialAsspectTable">
@@ -1251,7 +1382,11 @@
         </tr>
         <tr>
             <td>
-
+                @if ($isEdit)
+                    <textarea name="financial_constraints" class="form-control">{{ $financial_constraints ?? '' }}</textarea>
+                @else
+                    {{ $financial_constraints ?? '' }}
+                @endif
             </td>
         </tr>
         <tr>
@@ -1261,7 +1396,11 @@
         </tr>
         <tr>
             <td>
-
+                @if ($isEdit)
+                    <textarea name="cash_flow_financial_statement_balance_sheet" class="form-control">{{ $cash_flow_financial_statement_balance_sheet ?? '' }}</textarea>
+                @else
+                    {{ $cash_flow_financial_statement_balance_sheet ?? '' }}
+                @endif
             </td>
         </tr>
         <tr>
@@ -1455,9 +1594,9 @@
                         <th>RISK MANAGEMENT PLAN</th>
                     </tr>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td><input type="text" class="objects"></td>
+                        <td><input type="text" class="risks-and-assumptions"></td>
+                        <td><input type="text" class="risk-management-plan"></td>
                     </tr>
                 </table>
 
