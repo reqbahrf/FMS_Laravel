@@ -22,15 +22,15 @@ class GenerateEsignElement
                 $html .= '<div style="position: relative; min-height: 90pt;">';
 
                 // Top text
-                $html .= '<p style="margin: 0 0 2pt 0; text-align: left;">' . e($signature['topText'] ?? '') . '</p>';
+                $html .= '<p style="margin: 0 0 1pt 0; text-align: left; z-index: -1;">' . e($signature['topText'] ?? '') . '</p>';
 
                 // Signature container with relative positioning
-                $html .= '<div style="position: relative; height: 45pt; margin: 2pt 0;">';
-                $html .= '<img src="' . $signature['signatureData'] . '" alt="Signature" style="position: absolute; left: 0; top: 0; width: 135pt; height: auto; opacity: 0.9;">';
+                $html .= '<div style="position: absolute;top: 50%; left: 0; transform: translateY(-50%); height: auto; margin: 2pt 0; width: 100%;">';
+                $html .= '<img src="' . $signature['signatureData'] . '" alt="Signature" style="position: relative; left: 0; top: -50%; width: 190pt; height: auto; opacity: 0.9; z-index: 1;">';
                 $html .= '</div>';
 
                 // Name and bottom text
-                $html .= '<p style="margin: 0 0 2pt 0; text-align: center;">' . e($signature['name'] ?? '') . '</p>';
+                $html .= '<p style="margin: 0 0 1pt 0; text-align: center; z-index: -1;">' . e($signature['name'] ?? '') . '</p>';
                 $html .= '<div style="border-bottom: 0.75pt solid black; margin-bottom: 2pt;"></div>';
                 $html .= '<p style="margin: 0; text-align: left; font-weight: bold;">' . e($signature['bottomText'] ?? '') . '</p>';
 
