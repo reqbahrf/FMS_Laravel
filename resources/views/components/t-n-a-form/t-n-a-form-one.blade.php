@@ -1,4 +1,4 @@
-@props(['TNAdata', 'organizationalStructure'])
+@props(['TNAdata', 'organizationalStructure', 'isEditable'])
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>

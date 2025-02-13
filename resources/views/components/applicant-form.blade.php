@@ -1303,7 +1303,7 @@
                                         </label>
                                         <input
                                             class="form-control ml-3"
-                                            name="othersSpecificSector"
+                                            name="other_specific_sector"
                                             type="text"
                                             style="max-width: 300px;"
                                         >

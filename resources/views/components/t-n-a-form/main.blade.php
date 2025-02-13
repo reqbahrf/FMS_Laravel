@@ -534,10 +534,11 @@
         <br>&nbsp;
     </p>
 
-    <x-t-n-a-form.attachment-a :TNAdata="$TNAdata" />
+    <x-t-n-a-form.attachment-a :TNAdata="$TNAdata" :isEditable="$isEditable" />
     <x-t-n-a-form.t-n-a-form-one
         :TNAdata="$TNAdata"
         :organizationalStructure="$organizationalStructure"
+        :isEditable="$isEditable"
     />
 
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
