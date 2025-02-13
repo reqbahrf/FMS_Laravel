@@ -1146,21 +1146,21 @@
                                         <div class="form-check mr-3">
                                             <input
                                                 class="form-check-input"
-                                                id="foodProcessing"
-                                                name="foodProcessing"
+                                                id="food_processing_activity"
+                                                name="food_processing_activity"
                                                 type="checkbox"
                                             >
                                         </div>
                                         <label
                                             class="form-check-label flex-grow-1"
-                                            for="foodProcessing"
+                                            for="food_processing_activity"
                                         >
                                             Food processing (please specify specific sector)
                                         </label>
                                         <input
                                             class="form-control ml-3"
-                                            id="foodProcessingSpecificSector"
-                                            name="foodProcessingSpecificSector"
+                                            id="food_processing_specific_sector"
+                                            name="food_processing_specific_sector"
                                             type="text"
                                             style="max-width: 300px;"
                                         >
@@ -1170,8 +1170,8 @@
                                         <div class="form-check mr-3">
                                             <input
                                                 class="form-check-input"
-                                                id="furniture"
-                                                name="furniture"
+                                                id="furniture_activity"
+                                                name="furniture_activity"
                                                 type="checkbox"
                                             >
                                         </div>
@@ -1183,8 +1183,8 @@
                                         </label>
                                         <input
                                             class="form-control ml-3"
-                                            id="furnitureSpecificSector"
-                                            name="furnitureSpecificSector"
+                                            id="furniture_specific_sector"
+                                            name="furniture_specific_sector"
                                             type="text"
                                             style="max-width: 300px;"
                                         >
@@ -1194,22 +1194,22 @@
                                         <div class="form-check mr-3">
                                             <input
                                                 class="form-check-input"
-                                                id="naturalFibers"
-                                                name="naturalFibers"
+                                                id="natural_fibers_activity"
+                                                name="natural_fibers_activity"
                                                 type="checkbox"
                                             >
                                         </div>
                                         <label
                                             class="form-check-label flex-grow-1"
-                                            for="naturalFibers"
+                                            for="natural_fibers_activity"
                                         >
                                             Natural fibers, gifts and home decors and fashion accessories (please
                                             specify specific sector)
                                         </label>
                                         <input
                                             class="form-control ml-3"
-                                            id="naturalFibersSpecificSector"
-                                            name="naturalFibersSpecificSector"
+                                            id="natural_fibers_specific_sector"
+                                            name="natural_fibers_specific_sector"
                                             type="text"
                                             style="max-width: 300px;"
                                         >
@@ -1219,21 +1219,21 @@
                                         <div class="form-check mr-3">
                                             <input
                                                 class="form-check-input"
-                                                id="metals"
-                                                name="metals"
+                                                id="metals_and_engineering_activity"
+                                                name="metals_and_engineering_activity"
                                                 type="checkbox"
                                             >
                                         </div>
                                         <label
                                             class="form-check-label flex-grow-1"
-                                            for="metals"
+                                            for="metals_and_engineering_activity"
                                         >
                                             Metals and engineering (please specify specific sector)
                                         </label>
                                         <input
                                             class="form-control ml-3"
-                                            id="metalsSpecificSector"
-                                            name="metalsSpecificSector"
+                                            id="metals_and_engineering_specific_sector"
+                                            name="metals_and_engineering_specific_sector"
                                             type="text"
                                             style="max-width: 300px;"
                                         >
@@ -1243,8 +1243,8 @@
                                         <div class="form-check mr-3">
                                             <input
                                                 class="form-check-input"
-                                                id="aquatic"
-                                                name="aquatic"
+                                                id="aquatic_and_marine_activity"
+                                                name="aquatic_and_marine_activity"
                                                 type="checkbox"
                                             >
                                         </div>
@@ -1256,8 +1256,8 @@
                                         </label>
                                         <input
                                             class="form-control ml-3"
-                                            id="aquaticSpecificSector"
-                                            name="aquaticSpecificSector"
+                                            id="aquatic_and_marine_specific_sector"
+                                            name="aquatic_and_marine_specific_sector"
                                             type="text"
                                             style="max-width: 300px;"
                                         >
@@ -1267,20 +1267,20 @@
                                         <div class="form-check mr-3">
                                             <input
                                                 class="form-check-input"
-                                                id="horticulture"
-                                                name="horticulture"
+                                                id="horticulture_activity"
+                                                name="horticulture_activity"
                                                 type="checkbox"
                                             >
                                         </div>
                                         <label
                                             class="form-check-label flex-grow-1"
-                                            for="horticulture"
+                                            for="horticulture_activity"
                                         >
                                             Horticulture/Agriculture (please specify specific sector)
                                         </label>
                                         <input
                                             class="form-control ml-3"
-                                            name="horticultureSpecificSector"
+                                            name="horticulture_specific_sector"
                                             type="text"
                                             style="max-width: 300px;"
                                         >
@@ -1290,20 +1290,20 @@
                                         <div class="form-check mr-3">
                                             <input
                                                 class="form-check-input"
-                                                id="others"
-                                                name="others"
+                                                id="other_activity"
+                                                name="other_activity"
                                                 type="checkbox"
                                             >
                                         </div>
                                         <label
                                             class="form-check-label flex-grow-1"
-                                            for="others"
+                                            for="other_activity"
                                         >
                                             Others, please specify
                                         </label>
                                         <input
                                             class="form-control ml-3"
-                                            name="othersSpecificSector"
+                                            name="other_specific_sector"
                                             type="text"
                                             style="max-width: 300px;"
                                         >

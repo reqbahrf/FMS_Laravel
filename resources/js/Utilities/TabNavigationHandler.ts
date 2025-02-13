@@ -8,11 +8,12 @@ type HTMLContent = string;
  * @description Handles tab-based navigation in the application, including page loading, caching, and state management.
  */
 export default class NavigationHandler {
-    private tabContainer: JQuery;
+    private tabContainer: JQuery<HTMLElement>;
     private userRole: string;
     protected MappedUrlsRoutes: { [key: string]: Function };
     private PageFunctionsInitializer: Function;
-    private spinner: JQuery;
+    private tabNavItem: JQuery<HTMLElement>;
+    private spinner: JQuery<HTMLElement>;
     private currentPage: string | null;
 
     /**
@@ -32,6 +33,7 @@ export default class NavigationHandler {
         this.userRole = userRole;
         this.MappedUrlsRoutes = MappedUrlsRoutes;
         this.PageFunctionsInitializer = PageFunctionsInitializer;
+        this.tabNavItem = $('.nav-item a')
         this.spinner = $('.spinner');
         this.currentPage = null;
     }
@@ -40,7 +42,7 @@ export default class NavigationHandler {
      * Initializes the navigation handler by loading the last visited page or dashboard as default
      * @returns {void}
      */
-    init() {
+   public init(): void {
         const lastUrl = sessionStorage.getItem(`${this.userRole}LastUrl`);
         const lastActive = sessionStorage.getItem(`${this.userRole}LastActive`);
         if (lastUrl && lastActive) {
@@ -55,8 +57,8 @@ export default class NavigationHandler {
      * @param {string} activeLink - The ID of the link to be activated
      * @returns {void}
      */
-    _setActiveLink(activeLink: string) {
-        $('.nav-item a').removeClass('active');
+   private _setActiveLink(activeLink: string): void {
+    this.tabNavItem.removeClass('active');
         const defaultLink = 'dashboardLink';
         const linkToActivate = $('#' + (activeLink || defaultLink));
         linkToActivate.addClass('active');
@@ -69,7 +71,7 @@ export default class NavigationHandler {
      * @returns {Promise<void>}
      * @throws {Error} When page loading fails
      */
-    async loadPage(url: string, activeLink: string) : Promise<void> {
+   public async loadPage(url: string, activeLink: string) : Promise<void> {
         try {
             $(document).trigger('page:changing', {
                 from: this.currentPage,
@@ -129,12 +131,12 @@ export default class NavigationHandler {
         }
     }
 
-    async _getPageFunction(url:string, functions: Function) {
+    private async _getPageFunction(url:string, functions: Function): Promise<Function> {
         const urlRoute = this.MappedUrlsRoutes;
         return urlRoute[url](functions);
     }
 
-    async _initializePageContext(response: HTMLContent, activeLink: string, url: string): Promise<Function> {
+    private async _initializePageContext(response: HTMLContent, activeLink: string, url: string): Promise<Function> {
         // Load page functions
         const functions = await this.PageFunctionsInitializer();
 
@@ -146,12 +148,12 @@ export default class NavigationHandler {
         return functions;
     }
 
-    _persistNavigationState(url: string, activeLink: string) {
+    private _persistNavigationState(url: string, activeLink: string): void {
         sessionStorage.setItem(`${this.userRole}LastUrl`, url);
         sessionStorage.setItem(`${this.userRole}LastActive`, activeLink);
     }
 
-    _handlePageLoadError(error: Error) {
+    private _handlePageLoadError(error: Error): void {
         console.error('Page load error:', error);
         throw new Error(error.message || 'Failed to handle page response');
     }
@@ -160,7 +162,7 @@ export default class NavigationHandler {
      * Gets the current page
      * @returns {string|null} The current page
      */
-    getCurrentPage() {
+    public getCurrentPage(): string | null {
         return this.currentPage;
     }
 

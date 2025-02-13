@@ -5,19 +5,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\checkAdminUser;
 use App\Http\Middleware\CheckStaffUser;
-use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\ProxyController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\TestPDFGeneration;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Controllers\AdminViewController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FormDraftController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\ApplicationProcessForm\TNADocController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\GetApplicantController;
@@ -25,9 +24,9 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PaymentRecordController;
 use App\Http\Controllers\ProjectLedgerController;
 use App\Http\Controllers\CooperatorViewController;
-use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\RejectionEmailController;
+use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\staffGenerateSRController;
@@ -37,18 +36,20 @@ use App\Http\Controllers\SetProjectToLoadController;
 use App\Http\Controllers\StaffGeneratePDSController;
 use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\UserNotificationController;
+use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GetOngoingProjectController;
 use App\Http\Controllers\GetPendingProjectController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
+use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
-use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
-use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
+use App\Http\Controllers\ApplicationProcessForm\TNADocController;
+use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
 
 Route::get('/', function () {
     return view('index');
@@ -59,8 +60,10 @@ Route::controller(GoogleAuthController::class)->group(function () {
     Route::get('/auth/google-callback', 'handleGoogleAuth')->name('handle.google.Auth');
 });
 Route::get('/test', function () {
-    return view('components.project-proposal-form.main-layout');
+    return view('components.rtec-report-form.main');
 });
+
+Route::get('/test/pdf/generate', [TestPDFGeneration::class, 'generatePDF']);
 Route::get('/signup', function () {
     return view('registerpage.signup');
 })->name('registerpage.signup');

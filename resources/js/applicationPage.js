@@ -446,28 +446,28 @@ export function initializeForm() {
                 };
 
                 const BusinessActivities = {
-                    foodProcessing: $('#foodProcessing').is(':checked'),
+                    foodProcessing: $('#food_Processing_activity').is(':checked'),
                     foodProcessingSpecificSector: $(
-                        '#foodProcessingSpecificSector'
+                        '#food_processing_specific_sector'
                     ).val(),
-                    furniture: $('#furniture').is(':checked'),
+                    furniture: $('#furniture_activity').is(':checked'),
                     furnitureSpecificSector: $(
-                        '#furnitureSpecificSector'
+                        '#furniture_specific_sector'
                     ).val(),
-                    naturalFibers: $('#naturalFibers').is(':checked'),
+                    naturalFibers: $('#natural_fibers_activity').is(':checked'),
                     naturalFibersSpecificSector: $(
-                        '#naturalFibersSpecificSector'
+                        '#natural_fibers_specific_sector'
                     ).val(),
-                    metals: $('#metals').is(':checked'),
-                    metalsSpecificSector: $('#metalsSpecificSector').val(),
-                    aquatic: $('#aquatic').is(':checked'),
-                    aquaticSpecificSector: $('#aquaticSpecificSector').val(),
-                    horticulture: $('#horticulture').is(':checked'),
+                    metals: $('#metals_and_engineering_activity').is(':checked'),
+                    metalsSpecificSector: $('#metals_and_engineering_specific_sector').val(),
+                    aquatic: $('#aquatic_and_marine_activity').is(':checked'),
+                    aquaticSpecificSector: $('#aquatic_and_marine_specific_sector').val(),
+                    horticulture: $('#horticulture_activity').is(':checked'),
                     horticultureSpecificSector: $(
-                        '#horticultureSpecificSector'
+                        '#horticulture_specific_sector'
                     ).val(),
-                    others: $('#others').is(':checked'),
-                    othersSpecificSector: $('#othersSpecificSector').val(),
+                    others: $('#other_activity').is(':checked'),
+                    othersSpecificSector: $('#other_specific_sector').val(),
                 };
                 const OfficeLandMark = $('#officeLandmark').val();
                 const OfficeBarangay = 'Barangay ' + $('#officeBarangay').val();

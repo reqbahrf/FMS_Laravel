@@ -1,4 +1,4 @@
-@props(['TNAdata', 'organizationalStructure'])
+@props(['TNAdata', 'organizationalStructure', 'isEditable'])
 <p>&nbsp;</p>
 <p>&nbsp;</p>
 <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
@@ -23,11 +23,15 @@
     <tbody>
         <tr>
             <td style="">
+                @if ($isEditable)
                 <input
-                    name="BusinessActivity"
+                    name="food_processing_activity"
                     type="checkbox"
                     style="width: 100%;"
                 />
+                @else
+                {{ isset($TNAdata['food_Processing_activity']) && $TNAdata['food_Processing_activity'] == 'on' ? '/' : '' }}
+                @endIf
             </td>
             <td
                 style=""
@@ -40,11 +44,15 @@
         </tr>
         <tr>
             <td style="">
+                @if ($isEditable)
                 <input
-                    name="Furniture"
+                    name="furniture_activity"
                     type="checkbox"
                     style="width: 100%;"
                 />
+                @else
+                {{ isset($TNAdata['furniture_activity']) && $TNAdata['furniture_activity'] == 'on' ? '/' : '' }}
+                @endIf
             </td>
             <td
                 style=""
@@ -57,28 +65,15 @@
         </tr>
         <tr>
             <td style="">
+                @if ($isEditable)
                 <input
-                    name="Other"
+                    name="natural_fibers_activity"
                     type="checkbox"
                     style="width: 100%;"
                 />
-            </td>
-            <td
-                style=""
-                colspan="2"
-            >
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
-                        lang="en-US"
-                    >Other (please specify specific sector)</span></p>
-            </td>
-        </tr>
-        <tr>
-            <td style="">
-                <input
-                    name="NaturalFibers"
-                    type="checkbox"
-                    style="width: 100%;"
-                />
+                @else
+                {{ isset($TNAdata['natural_fibers_activity']) && $TNAdata['natural_fibers_activity'] == 'on' ? '/' : '' }}
+                @endIf
             </td>
             <td
                 style=""
@@ -90,26 +85,15 @@
         </tr>
         <tr>
             <td style="">
+                @if ($isEditable)
                 <input
-                    name="Accessories"
+                    name="metals_and_engineering_activity"
                     type="checkbox"
                     style="width: 100%;"
                 />
-            </td>
-            <td
-                style=""
-                colspan="2"
-            >
-                <p style=""><span lang="en-US">accessories (please specify specific sector)</span></p>
-            </td>
-        </tr>
-        <tr>
-            <td style="">
-                <input
-                    name="Metals"
-                    type="checkbox"
-                    style="width: 100%;"
-                />
+                @else
+                {{ isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on' ? '/' : '' }}
+                @endIf
             </td>
             <td
                 style=""
@@ -121,11 +105,15 @@
         </tr>
         <tr>
             <td style="">
+                @if ($isEditable)
                 <input
-                    name="Aquatic"
+                    name="aquatic_and_marine_activity"
                     type="checkbox"
                     style="width: 100%;"
                 />
+                @else
+                {{ isset($TNAdata['aquatic_and_marine_activity']) && $TNAdata['aquatic_and_marine_activity'] == 'on' ? '/' : '' }}
+                @endIf
             </td>
             <td
                 style=""
@@ -140,11 +128,15 @@
         </tr>
         <tr>
             <td style="">
+                @if ($isEditable)
                 <input
-                    name="Other"
+                    name="other_activity"
                     type="checkbox"
                     style="width: 100%;"
                 />
+                @else
+                {{ isset($TNAdata['other_activity']) && $TNAdata['other_activity'] == 'on' ? '/' : '' }}
+                @endIf
             </td>
             <td
                 style=""
@@ -158,11 +150,15 @@
         </tr>
         <tr>
             <td style="">
+                @if ($isEditable)
                 <input
-                    name="Horticulture"
+                    name="horticulture_activity"
                     type="checkbox"
                     style="width: 100%;"
                 />
+                @else
+                {{ isset($TNAdata['horticulture_activity']) && $TNAdata['horticulture_activity'] == 'on' ? '/' : '' }}
+                @endIf
             </td>
             <td
                 style=""
@@ -177,10 +173,15 @@
         </tr>
         <tr>
             <td style="">
+                @if ($isEditable)
                 <input
-                    name="Other"
+                    name="Other_activity"
                     type="checkbox"
                     style="width: 100%;"
+                />
+                @else
+                {{ isset($TNAdata['Other_activity']) && $TNAdata['Other_activity'] == 'on' ? '/' : '' }}
+                @endIf
                 >
             </td>
             <td style="">
@@ -206,7 +207,6 @@
 
         <tr>
             <td>
-
                 <textarea
                     name="specificProductOrService"
                     style="width:100%"
