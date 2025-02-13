@@ -37,10 +37,10 @@
                     >Name of Enterprise:
                         @if ($isEditable)
                             <input
-                                name="enterprise_name"
+                                name="firm_name"
                                 type="text"
                                 value="{{ $TNAdata['firm_name'] ?? '' }}"
-                                placeholder="Enterprise Name"
+                                placeholder="Name of Enterprise"
                             >
                         @else
                             {{ $TNAdata['firm_name'] ?? '' }}
@@ -80,13 +80,13 @@
                     >Business Permit No:
                         @if ($isEditable)
                             <input
-                                name="businessPermitNo"
+                                name="business_permit_No"
                                 type="text"
-                                value="{{ $TNAdata['businessPermitNo'] ?? '' }}"
+                                value="{{ $TNAdata['business_permit_No'] ?? '' }}"
                                 placeholder="Business Permit"
                             >
                         @else
-                            {{ $TNAdata['businessPermitNo'] ?? '' }}
+                            {{ $TNAdata['business_permit_No'] ?? '' }}
                         @endIf
                     </span></p>
             </td>
@@ -99,13 +99,13 @@
                     >Year Registered:
                         @if ($isEditable)
                             <input
-                                name="permitYearRegistered"
+                                name="permit_year_registered"
                                 type="text"
-                                value="{{ $TNAdata['permitYearRegistered'] ?? '' }}"
+                                value="{{ $TNAdata['permit_year_registered'] ?? '' }}"
                                 placeholder="Year"
                             >
                         @else
-                            {{ $TNAdata['permitYearRegistered'] ?? '' }}
+                            {{ $TNAdata['permit_year_registered'] ?? '' }}
                         @endIf
                     </span></p>
             </td>
@@ -120,13 +120,13 @@
                 </p>
                 @if ($isEditable)
                     <textarea
-                        name="briefBackground"
+                        name="brief_background"
                         style="width:100%"
-                    >{{ $TNAdata['briefBackground'] ?? '' }}</textarea>
+                    >{{ $TNAdata['brief_background'] ?? '' }}</textarea>
                 @else
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                             lang="en-US"
-                        >{{ $TNAdata['briefBackground'] ?? '' }}</span></p>
+                        >{{ $TNAdata['brief_background'] ?? '' }}</span></p>
                 @endIf
             </td>
         </tr>
@@ -137,11 +137,15 @@
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                         lang="en-US"
                     >Year enterprise was established:
+                    @if ($isEditable)
                         <input
                             name="yearEstablished"
                             type="text"
                             value="{{ $TNAdata['yearEstablished'] ?? '' }}"
                         >
+                    @else
+                        {{ $TNAdata['yearEstablished'] ?? '' }}
+                    @endIf
                     </span>
                 </p>
             </td>
@@ -151,12 +155,12 @@
                     >Initial Capitalization:
                         @if ($isEditable)
                             <input
-                                name="initialCapitalization"
+                                name="initial_capitalization"
                                 type="text"
-                                value="{{ $TNAdata['initialCapitalization'] ?? '' }}"
+                                value="{{ $TNAdata['initial_capitalization'] ?? '' }}"
                             >
                         @else
-                            {{ $TNAdata['initialCapitalization'] ?? '' }}
+                            {{ $TNAdata['initial_capitalization'] ?? '' }}
                         @endIf
                     </span></p>
             </td>
@@ -181,8 +185,8 @@
             <td style="">
                 @if ($isEditable)
                     <input
-                        id="type_of_organization_1"
-                        name="type_of_organization"
+                        id="enterpriseType"
+                        name="enterpriseType"
                         type="radio"
                         value="Single Proprietorship"
                         {{ $TNAdata['enterpriseType'] == 'Sole Proprietorship' ? 'checked' : '' }}
@@ -435,10 +439,10 @@
                                 id="present_capitalization"
                                 name="present_capitalization"
                                 type="text"
-                                value="{{ $TNAdata['presentCapitalization'] ?? '' }}"
+                                value="{{ $TNAdata['present_capitalization'] ?? '' }}"
                             >
                         @else
-                            {{ $TNAdata['presentCapitalization'] ?? '' }}
+                            {{ $TNAdata['present_capitalization'] ?? '' }}
                         @endIf
                     </span></p>
             </td>
@@ -655,7 +659,7 @@
             >
                 @if ($isEditable)
                     <input
-                        name="mumberOfEmployees"
+                        name="numberOfEmployees"
                         type="radio"
                         value="Small (1 - 9)"
                         {{ $TotalEmployees <= 9 && $TotalEmployees >= 1 ? 'checked' : '' }}
@@ -699,7 +703,7 @@
             >
                 @if ($isEditable)
                     <input
-                        name="mumberOfEmployees"
+                        name="numberOfEmployees"
                         type="radio"
                         value="Small (10 - 99)"
                         {{ $TotalEmployees <= 99 && $TotalEmployees >= 10 ? 'checked' : '' }}
@@ -743,7 +747,7 @@
             >
                 @if ($isEditable)
                     <input
-                        name="mumberOfEmployees"
+                        name="numberOfEmployees"
                         type="radio"
                         value="Small (100 - 199)"
                         {{ $TotalEmployees <= 199 && $TotalEmployees >= 100 ? 'checked' : '' }}

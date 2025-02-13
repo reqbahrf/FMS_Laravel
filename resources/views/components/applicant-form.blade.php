@@ -688,10 +688,9 @@
                                     *</span></label>
                             <input
                                 class="form-control"
-                                id="businessPermitNo"
-                                name="businessPermitNo"
+                                id="business_permit_No"
+                                name="business_permit_No"
                                 type="text"
-                                value="{{ old('businessPermitNo') }}"
                                 placeholder="Enter Business Permit No."
                                 required
                             >
@@ -785,10 +784,9 @@
                                     *</span></label>
                             <input
                                 class="form-control"
-                                id="presentCapitalization"
-                                name="presentCapitalization"
+                                id="present_capitalization"
+                                name="present_capitalization"
                                 type="text"
-                                value="{{ old('presentCapitalization') }}"
                                 placeholder="900,000.00"
                                 required
                             >
@@ -2848,8 +2846,8 @@
                                                         *</span></label>
                                                 <textarea
                                                     class="form-control"
-                                                    id="re_briefBackground"
-                                                    name="briefBackground"
+                                                    id="re_brief_background"
+                                                    name="brief_background"
                                                     rows="3"
                                                     readonly
                                                 ></textarea>
@@ -2858,16 +2856,14 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <label for="businessPermitNo">Business Permit No.: <span
+                                                <label for="re_business_permit_No">Business Permit No.: <span
                                                         class="requiredFields"
                                                     >
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
-                                                    id="re_businessPermitNo"
-                                                    name="businessPermitNo"
+                                                    id="re_business_permit_No"
                                                     type="text"
-                                                    value="{{ old('businessPermitNo') }}"
                                                     readonly
                                                 >
                                                 <div class="invalid-feedback">
@@ -2885,7 +2881,6 @@
                                                     id="re_yearRegistered"
                                                     name="yearRegistered"
                                                     type="date"
-                                                    value="{{ old('yearRegistered') }}"
                                                     max="{{ date('Y-m') }}"
                                                     readonly
                                                 >
@@ -2935,8 +2930,8 @@
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
-                                                    id="re_initialCapitalization"
-                                                    name="initialCapitalization"
+                                                    id="re_initial_capitalization"
+                                                    name="initial_capitalization"
                                                     type="text"
                                                     value="{{ old('initialCapitalization') }}"
                                                     readonly
@@ -2946,16 +2941,15 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="presentCapitalization">Present Capitalization: <span
+                                                <label for="re_present_capitalization">Present Capitalization: <span
                                                         class="requiredFields"
                                                     >
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
-                                                    id="re_presentCapitalization"
-                                                    name="presentCapitalization"
+                                                    id="re_present_capitalization"
+                                                    name="present_capitalization"
                                                     type="text"
-                                                    value="{{ old('presentCapitalization') }}"
                                                     readonly
                                                 >
                                                 <div class="invalid-feedback">

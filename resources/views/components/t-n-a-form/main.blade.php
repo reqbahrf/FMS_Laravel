@@ -579,7 +579,7 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         @if ($isEditable)
                             <input
-                                class="product"
+                                class="Product"
                                 type="text"
                                 value="{{ $production['product'] ?? '' }}"
                             />
@@ -590,7 +590,7 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         @if ($isEditable)
                             <input
-                                class="volumeProduction"
+                                class="VolumeProduction"
                                 type="text"
                                 value="{{ $production['volumeProduction'] ?? '' }}"
                             />
@@ -601,7 +601,7 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         @if ($isEditable)
                             <input
-                                class="unitCost"
+                                class="UnitCost"
                                 type="text"
                                 value="{{ $production['unitCost'] ?? '' }}"
                             />
@@ -612,7 +612,7 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         @if ($isEditable)
                             <input
-                                class="annualCost"
+                                class="AnnualCost"
                                 type="text"
                                 value="{{ $production['annualCost'] ?? '' }}"
                             />
@@ -661,7 +661,7 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         @if ($isEditable)
                             <input
-                                class="typeOfEquipment"
+                                class="TypeOfEquipment"
                                 type="text"
                                 value="{{ $productionEquipment['typeOfEquipment'] ?? '' }}"
                             />
@@ -672,7 +672,7 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         @if ($isEditable)
                             <input
-                                class="specification"
+                                class="Specification"
                                 type="text"
                                 value="{{ $productionEquipment['specification'] ?? '' }}"
                             />
@@ -683,7 +683,7 @@
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         @if ($isEditable)
                             <input
-                                class="capacity"
+                                class="Capacity"
                                 type="text"
                                 value="{{ $productionEquipment['capacity'] ?? '' }}"
                             />

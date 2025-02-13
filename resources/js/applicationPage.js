@@ -29,7 +29,7 @@ export function initializeForm() {
         is_initialized = true;
     }
 
-    customFormatNumericInput('form', ['#initialCapitalization', '#presentCapitalization']);
+    customFormatNumericInput('form', ['#initial_capitalization', '#present_capitalization']);
     customFormatNumericInput('#productAndSupplyChainTable tbody', [
         'tr td:nth-child(3) input.UnitCost',
         'tr td:nth-child(4) input.VolumeUsed'
@@ -416,14 +416,14 @@ export function initializeForm() {
                 $('#re_firm_name').val($('#firm_name').val());
                 $('#re_type_enterprise').val($('#enterpriseType').val());
                 const BusinessInfo = {
-                    Background: $('#briefBackground').val(),
-                    PermitNo: $('#businessPermitNo').val(),
-                    PermitYearRegistered: $('#permitYearRegistered').val(),
+                    Background: $('#brief_background').val(),
+                    PermitNo: $('#business_permit_No').val(),
+                    PermitYearRegistered: $('#permit_year_registered').val(),
                     RegistrationNo: $('#enterpriseRegistrationNo').val(),
                     RegistrationYear: $('#yearEnterpriseRegistered').val(),
                     BusinessType: $('#businessType').val(),
-                    InitialCapital: $('#initialCapitalization').val(),
-                    presentCapital: $('#presentCapitalization').val(),
+                    InitialCapital: $('#initial_capitalization').val(),
+                    presentCapital: $('#present_capitalization').val(),
                     specificProduct: $('#specificProductOrService').val(),
                     reasonsForAssistance: $(
                         '#reasonsWhyAssistanceIsBeingSought'
@@ -488,17 +488,17 @@ export function initializeForm() {
                 const FactoryFax = $('#factoryFaxNo').val();
                 const FactoryEmail = $('#factoryEmailAddress').val();
 
-                $('#re_briefBackground').val(BusinessInfo.Background);
-                $('#re_businessPermitNo').val(BusinessInfo.PermitNo);
-                $('#re_yearRegistered').val(BusinessInfo.PermitYearRegistered);
+                $('#re_brief_background').val(BusinessInfo.Background);
+                $('#re_business_permit_No').val(BusinessInfo.PermitNo);
+                $('#re_permit_year_registered').val(BusinessInfo.PermitYearRegistered);
                 $('#re_enterpriseRegistrationNo').val(
                     BusinessInfo.RegistrationNo
                 );
                 $('#re_yearEnterpriseRegistered').val(
                     BusinessInfo.RegistrationYear
                 );
-                $('#re_initialCapitalization').val(BusinessInfo.InitialCapital);
-                $('#re_presentCapitalization').val(BusinessInfo.presentCapital);
+                $('#re_initial_capitalization').val(BusinessInfo.InitialCapital);
+                $('#re_present_capitalization').val(BusinessInfo.presentCapital);
 
                 $('#re_OfficeAddress').val(
                     OfficeLandMark +

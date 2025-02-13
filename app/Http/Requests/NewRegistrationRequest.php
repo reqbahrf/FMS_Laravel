@@ -47,15 +47,15 @@ class NewRegistrationRequest extends FormRequest
 
             //TNA Important Data
             'enterpriseType' => 'required|in:Sole Proprietorship,Partnership,Corporation (Non-Profit),Corporation (Profit)',
-            'briefBackground' => 'required|string|max:1000',
+            'brief_background' => 'required|string|max:1000',
             'website' => 'nullable|string',
             'yearEstablished' => 'required|date_format:Y',
-            'businessPermitNo' => 'required|string|max:20',
-            'permitYearRegistered' => 'required|date_format:Y',
+            'business_permit_No' => 'required|string|max:20',
+            'permit_year_registered' => 'required|date_format:Y',
             'enterpriseRegistrationNo' => 'required|string|max:20',
             'yearEnterpriseRegistered' => 'required|date_format:Y',
-            'initialCapitalization' => 'required|string',
-            'presentCapitalization' => 'required|string',
+            'initial_capitalization' => 'required|string',
+            'present_capitalization' => 'required|string',
 
             'officeRegion' => 'required',
             'officeProvince' => 'required',
