@@ -11,26 +11,29 @@
 </head>
 <style>
     #TNAForm {
-        size: A4;
-        margin: 2cm;
-    }
-
-    #TNAForm {
         width: 21cm;
-        min-height: 29.7cm;
+        /* A4 width */
+        height: 29.7cm;
+        /* A4 height */
         margin: 0 auto;
-        padding: 2cm;
-        background: white;
-        font-size: 9pt;
+        box-sizing: border-box;
+        /* Include padding in width and height */
     }
 
-    #TNAForm table {
+    #TNAForm table#EnterpriseInformationTable {
         width: 100% !important;
-        margin-bottom: 15pt;
+        border-collapse: collapse;
+        border: 1px solid #000;
     }
 
-    #TNAForm td {
-        padding: 5pt;
+    #TNAForm #EnterpriseInformationTable tr {
+        border: 1px solid #000;
+        padding: 10px;
+    }
+
+    #TNAForm #EnterpriseInformationTable td {
+        border: 1px solid #000;
+        padding: 10px;
     }
 
     #TNAForm p {
@@ -69,7 +72,7 @@
 </style>
 
 <body>
-    <x-t-n-a-form.main :TNAdata="$TNAdata"/>
+    <x-t-n-a-form.main :TNAdata="$TNAdata" />
 </body>
 
 </html>

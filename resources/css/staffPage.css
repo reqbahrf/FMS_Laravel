@@ -791,13 +791,22 @@ Form Styles
     border: 1px solid #ccc;
 }
 
-#TNAForm table {
+#TNAForm table:is(#EnterpriseInformationTable){
     width: 100% !important;
-    margin-bottom: 15pt;
+    border-collapse: collapse;
+    border: 1px solid #000;
 }
-#TNAForm td {
-    padding: 5pt;
+#TNAForm :is(#EnterpriseInformationTable) tr {
+    border: 1px solid #000;
+    padding: 10px;
 }
+#TNAForm :is(#EnterpriseInformationTable) td {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+
+
 #TNAForm p {
     margin-bottom: 8pt;
     line-height: 1.5;

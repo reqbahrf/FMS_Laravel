@@ -11,7 +11,8 @@ export default defineConfig({
             ignored: [
                 '**/node_modules/**',
                 '**/resources/views/components/**',
-                '**/resources/views/StaffView/outputs/**',
+                '**/resources/views/staff-view/outputs/**',
+                '**/resources/views/application-process-forms/**',
                 '**/*.log',
                 '**/.git/**',
             ],

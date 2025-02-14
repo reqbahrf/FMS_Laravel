@@ -25,16 +25,16 @@
             lang="en-US"><u><strong>APPLICATION FOR TECHNOLOGY NEEDS ASSESSMENT</strong></u></span></p>
     <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
     <table
-        style="width: 585px;"
         cellpadding="7"
+        id="EnterpriseInformationTable"
     >
         <tbody>
             <tr>
                 <td
-                    style="border: 1px solid rgb(0, 0, 0);padding: 0cm 0.19cm;vertical-align: top;"
+                    style="padding: 0cm 0.19cm;vertical-align: center;"
                     colspan="3"
                 >
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
+                    <p style="line-height: 115%;text-align: left;background: transparent;">
                         <span lang="en-US">Name of Enterprise:&nbsp;
                             @if ($isEditable)
                                 <input
@@ -54,7 +54,7 @@
         </tbody>
         <tbody>
             <tr>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                <td style="padding: 0cm 0.19cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
                         <span lang="en-US">Contact Person:&nbsp;
                             @if ($isEditable)
@@ -72,7 +72,7 @@
                     </p>
                 </td>
                 <td
-                    style="border: 1px solid #000000;padding: 0cm 0.19cm;"
+                    style="padding: 0cm 0.19cm;"
                     colspan="2"
                 >
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
@@ -96,7 +96,7 @@
         <tbody>
             <tr>
                 <td
-                    style="border-top: 1px solid #000000;border-bottom: none;border-left: 1px solid #000000;border-right: 1px solid #000000;padding: 0cm 0.19cm;"
+                    style="padding: 0cm 0.19cm;"
                     rowspan="2"
                 >
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;">
@@ -118,7 +118,7 @@
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br>
                     </p>
                 </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                <td style="padding: 0cm 0.19cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
                             lang="en-US"
                         >Tel No.:
@@ -139,7 +139,7 @@
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br>
                     </p>
                 </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                <td style="padding: 0cm 0.19cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                             lang="en-US"
                         >Fax No.:
@@ -159,12 +159,9 @@
                     </p>
                 </td>
             </tr>
-        </tbody>
-        <tbody>
             <tr>
                 <td
-                    style="border: 1px solid #000000;padding: 0cm 0.19cm;"
-                    rowspan="2"
+                    style="padding: 0cm 0.19cm;"
                     colspan="2"
                 >
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
@@ -187,18 +184,11 @@
                     </p>
                 </td>
             </tr>
-            <tr>
-                <td
-                    style="border-top: none;border-bottom: 1px solid #000000;border-left: 1px solid #000000;border-right: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br>
-                    </p>
-                </td>
-            </tr>
         </tbody>
         <tbody>
             <tr>
                 <td
-                    style="border: 1px solid #000000;padding: 0cm 0.19cm;"
+                    style="padding: 0cm 0.19cm;"
                     rowspan="2"
                 >
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
@@ -221,7 +211,7 @@
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br>
                     </p>
                 </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                <td style="padding: 0cm 0.19cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
                             lang="en-US"
                         >Tel No.:
@@ -241,7 +231,7 @@
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br>
                     </p>
                 </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                <td style="padding: 0cm 0.19cm;">
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span
                             lang="en-US"
                         >Fax No.:&nbsp;
@@ -257,14 +247,13 @@
                             @else
                                 {{ $TNAdata['factoryFaxNo'] ?? '' }}
                             @endIf
-                        </span></p>
+                        </span>
+                    </p>
                 </td>
             </tr>
-        </tbody>
-        <tbody>
             <tr>
                 <td
-                    style="border: 1px solid #000000;padding: 0cm 0.19cm;"
+                    style="padding: 0cm 0.19cm;"
                     colspan="2"
                 >
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
@@ -291,7 +280,7 @@
         <tbody>
             <tr>
                 <td
-                    style="border: 1px solid rgb(0, 0, 0);padding: 0cm 0.19cm;vertical-align: top;"
+                    style="padding: 0cm 0.19cm;vertical-align: top;"
                     colspan="3"
                 >
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><span

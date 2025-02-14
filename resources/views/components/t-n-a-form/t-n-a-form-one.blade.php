@@ -19,6 +19,7 @@
 <table
     style="width: 553px;"
     cellpadding="7"
+    id="businessActivityTable"
 >
     <tbody>
         <tr>
