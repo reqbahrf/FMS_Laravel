@@ -1,4 +1,10 @@
-<table id="CompanyProfileTable" style="border-collapse: collapse; table-layout: fixed;" width="100%" border="1" cellpadding="5">
+<table
+    id="CompanyProfileTable"
+    style="border-collapse: collapse; table-layout: fixed;"
+    width="100%"
+    border="1"
+    cellpadding="5"
+>
     <tr>
         <td width="15%"></td>
         <td width="5%"></td>
@@ -16,8 +22,13 @@
     <tr>
         <td>Name of Firm</td>
         <td colspan="8">
-            @if ($isEdit)
-                <input name="name_of_firm" type="text" value="{{ $name_of_firm ?? '' }}" placeholder="XYZ Company">
+            @if ($isEditable)
+                <input
+                    name="name_of_firm"
+                    type="text"
+                    value="{{ $name_of_firm ?? '' }}"
+                    placeholder="XYZ Company"
+                >
             @else
                 {{ $name_of_firm ?? '' }}
             @endif
@@ -26,8 +37,13 @@
     <tr>
         <td>Address</td>
         <td colspan="8">
-            @if ($isEdit)
-                <input name="address" type="text" value="{{ $address ?? '' }}" placeholder="Purok 1, Barangay 1, City, Province">
+            @if ($isEditable)
+                <input
+                    name="address"
+                    type="text"
+                    value="{{ $address ?? '' }}"
+                    placeholder="Purok 1, Barangay 1, City, Province"
+                >
             @else
                 {{ $address ?? '' }}
             @endif
@@ -36,8 +52,13 @@
     <tr>
         <td>Contact Person</td>
         <td colspan="8">
-            @if ($isEdit)
-                <input name="contact_person" type="text" value="{{ $contact_person ?? '' }}" placeholder="John Doe">
+            @if ($isEditable)
+                <input
+                    name="contact_person"
+                    type="text"
+                    value="{{ $contact_person ?? '' }}"
+                    placeholder="John Doe"
+                >
             @else
                 {{ $contact_person ?? '' }}
             @endif
@@ -46,8 +67,13 @@
     <tr>
         <td>Contact No.</td>
         <td colspan="8">
-            @if ($isEdit)
-                <input name="contact_no" type="text" value="{{ $contact_no ?? '' }}" placeholder="09123456789">
+            @if ($isEditable)
+                <input
+                    name="contact_no"
+                    type="text"
+                    value="{{ $contact_no ?? '' }}"
+                    placeholder="09123456789"
+                >
             @else
                 {{ $contact_no ?? '' }}
             @endif
@@ -56,8 +82,13 @@
     <tr>
         <td>E-mail Address</td>
         <td colspan="8">
-            @if ($isEdit)
-                <input name="email_address" type="text" value="{{ $email_address ?? '' }}" placeholder="xyzcompany@gmail.com">
+            @if ($isEditable)
+                <input
+                    name="email_address"
+                    type="text"
+                    value="{{ $email_address ?? '' }}"
+                    placeholder="xyzcompany@gmail.com"
+                >
             @else
                 {{ $email_address ?? '' }}
             @endif
@@ -66,8 +97,14 @@
     <tr>
         <td>Year-Established</td>
         <td colspan="8">
-            @if ($isEdit)
-                <input name="year_established" type="text" value="{{ $year_established ?? '' }}" maxlength="4" placeholder="2020">
+            @if ($isEditable)
+                <input
+                    name="year_established"
+                    type="text"
+                    value="{{ $year_established ?? '' }}"
+                    maxlength="4"
+                    placeholder="2020"
+                >
             @else
                 {{ $year_established ?? '' }}
             @endif
@@ -75,33 +112,53 @@
     </tr>
     <tr>
         <td rowspan="3">Type of Organization<br>(please check appropriate box in each row)</td>
-        <td >
-            @if ($isEdit)
-                <input name="type_of_organization" type="radio" value="Single Proprietorship" {{ $type_of_organization ?? '' == 'Single Proprietorship' ? 'checked' : '' }}>
+        <td>
+            @if ($isEditable)
+                <input
+                    name="type_of_organization"
+                    type="radio"
+                    value="Single Proprietorship"
+                    {{ $type_of_organization ?? '' == 'Single Proprietorship' ? 'checked' : '' }}
+                >
             @else
                 {{ $type_of_organization ?? '' == 'Single Proprietorship' ? '/' : '' }}
             @endif
         </td>
         <td>Single Proprietorship</td>
         <td>
-            @if ($isEdit)
-                <input name="type_of_organization" type="radio" value="Partnership" {{ $type_of_organization ?? '' == 'Partnership' ? 'checked' : '' }}>
+            @if ($isEditable)
+                <input
+                    name="type_of_organization"
+                    type="radio"
+                    value="Partnership"
+                    {{ $type_of_organization ?? '' == 'Partnership' ? 'checked' : '' }}
+                >
             @else
                 {{ $type_of_organization ?? '' == 'Partnership' ? '/' : '' }}
             @endif
         </td>
         <td>Partnership</td>
         <td>
-            @if ($isEdit)
-                <input name="type_of_organization" type="radio" value="Cooperative" {{ $type_of_organization ?? '' == 'Cooperative' ? 'checked' : '' }}>
+            @if ($isEditable)
+                <input
+                    name="type_of_organization"
+                    type="radio"
+                    value="Cooperative"
+                    {{ $type_of_organization ?? '' == 'Cooperative' ? 'checked' : '' }}
+                >
             @else
                 {{ $type_of_organization ?? '' == 'Cooperative' ? '/' : '' }}
             @endif
         </td>
         <td>Cooperative</td>
         <td>
-            @if ($isEdit)
-                <input name="type_of_organization" type="radio" value="Corporation" {{ $type_of_organization ?? '' == 'Corporation' ? 'checked' : '' }}>
+            @if ($isEditable)
+                <input
+                    name="type_of_organization"
+                    type="radio"
+                    value="Corporation"
+                    {{ $type_of_organization ?? '' == 'Corporation' ? 'checked' : '' }}
+                >
             @else
                 {{ $type_of_organization ?? '' == 'Corporation' ? '/' : '' }}
             @endif
@@ -110,16 +167,26 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
-                <input name="profit_status" type="radio" value="Profit" {{ $profit_status ?? '' == 'Profit' ? 'checked' : '' }}>
+            @if ($isEditable)
+                <input
+                    name="profit_status"
+                    type="radio"
+                    value="Profit"
+                    {{ $profit_status ?? '' == 'Profit' ? 'checked' : '' }}
+                >
             @else
                 {{ $profit_status ?? '' == 'Profit' ? '/' : '' }}
             @endif
         </td>
         <td>Profit</td>
         <td>
-            @if ($isEdit)
-                <input name="profit_status" type="radio" value="Non-Profit" {{ $profit_status ?? '' == 'Non-Profit' ? 'checked' : '' }}>
+            @if ($isEditable)
+                <input
+                    name="profit_status"
+                    type="radio"
+                    value="Non-Profit"
+                    {{ $profit_status ?? '' == 'Non-Profit' ? 'checked' : '' }}
+                >
             @else
                 {{ $profit_status ?? '' == 'Non-Profit' ? '/' : '' }}
             @endif
@@ -129,24 +196,39 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
-                <input name="size_of_organization" type="radio" value="Micro" {{ $size_of_organization ?? '' == 'Micro' ? 'checked' : '' }}>
+            @if ($isEditable)
+                <input
+                    name="size_of_organization"
+                    type="radio"
+                    value="Micro"
+                    {{ $size_of_organization ?? '' == 'Micro' ? 'checked' : '' }}
+                >
             @else
                 {{ $size_of_organization ?? '' == 'Micro' ? '/' : '' }}
             @endif
         </td>
         <td>Micro<br>(P3M Total Asset Value or less)</td>
         <td>
-            @if ($isEdit)
-                <input name="size_of_organization" type="radio" value="Small" {{ $size_of_organization ?? '' == 'Small' ? 'checked' : '' }}>
+            @if ($isEditable)
+                <input
+                    name="size_of_organization"
+                    type="radio"
+                    value="Small"
+                    {{ $size_of_organization ?? '' == 'Small' ? 'checked' : '' }}
+                >
             @else
                 {{ $size_of_organization ?? '' == 'Small' ? '/' : '' }}
             @endif
         </td>
         <td>Small<br>(P3,000,001.00 - P15M Total Asset Value)</td>
         <td>
-            @if ($isEdit)
-                <input name="size_of_organization" type="radio" value="Medium" {{ $size_of_organization ?? '' == 'Medium' ? 'checked' : '' }}>
+            @if ($isEditable)
+                <input
+                    name="size_of_organization"
+                    type="radio"
+                    value="Medium"
+                    {{ $size_of_organization ?? '' == 'Medium' ? 'checked' : '' }}
+                >
             @else
                 {{ $size_of_organization ?? '' == 'Medium' ? '/' : '' }}
             @endif
@@ -163,22 +245,34 @@
     <tr>
         <td colspan="2">Direct Workers</td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="direct_workers_male" type="text" value="{{ $direct_workers_male ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="direct_workers_male"
+                    type="text"
+                    value="{{ $direct_workers_male ?? '' }}"
+                >
             @else
                 {{ $direct_workers_male ?? '' }}
             @endif
         </td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="direct_workers_female" type="text" value="{{ $direct_workers_female ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="direct_workers_female"
+                    type="text"
+                    value="{{ $direct_workers_female ?? '' }}"
+                >
             @else
                 {{ $direct_workers_female ?? '' }}
             @endif
         </td>
         <td colspan="3">
-            @if ($isEdit)
-                <input name="direct_workers_total" type="text" value="{{ $direct_workers_total ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="direct_workers_total"
+                    type="text"
+                    value="{{ $direct_workers_total ?? '' }}"
+                >
             @else
                 {{ $direct_workers_total ?? '' }}
             @endif
@@ -187,22 +281,34 @@
     <tr>
         <td colspan="2">Production</td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="production_male" type="text" value="{{ $production_male ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="production_male"
+                    type="text"
+                    value="{{ $production_male ?? '' }}"
+                >
             @else
                 {{ $production_male ?? '' }}
             @endif
         </td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="production_female" type="text" value="{{ $production_female ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="production_female"
+                    type="text"
+                    value="{{ $production_female ?? '' }}"
+                >
             @else
                 {{ $production_female ?? '' }}
             @endif
         </td>
         <td colspan="3">
-            @if ($isEdit)
-                <input name="production_total" type="text" value="{{ $production_total ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="production_total"
+                    type="text"
+                    value="{{ $production_total ?? '' }}"
+                >
             @else
                 {{ $production_total ?? '' }}
             @endif
@@ -211,22 +317,34 @@
     <tr>
         <td colspan="2">Non-Production</td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="non_production_male" type="text" value="{{ $non_production_male ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="non_production_male"
+                    type="text"
+                    value="{{ $non_production_male ?? '' }}"
+                >
             @else
                 {{ $non_production_male ?? '' }}
             @endif
         </td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="non_production_female" type="text" value="{{ $non_production_female ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="non_production_female"
+                    type="text"
+                    value="{{ $non_production_female ?? '' }}"
+                >
             @else
                 {{ $non_production_female ?? '' }}
             @endif
         </td>
         <td colspan="3">
-            @if ($isEdit)
-                <input name="non_production_total" type="text" value="{{ $non_production_total ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="non_production_total"
+                    type="text"
+                    value="{{ $non_production_total ?? '' }}"
+                >
             @else
                 {{ $non_production_total ?? '' }}
             @endif
@@ -235,22 +353,34 @@
     <tr>
         <td colspan="2">Indirect/Contract Workers</td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="indirect_contract_workers_male" type="text" value="{{ $indirect_contract_workers_male ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="indirect_contract_workers_male"
+                    type="text"
+                    value="{{ $indirect_contract_workers_male ?? '' }}"
+                >
             @else
                 {{ $indirect_contract_workers_male ?? '' }}
             @endif
         </td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="indirect_contract_workers_female" type="text" value="{{ $indirect_contract_workers_female ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="indirect_contract_workers_female"
+                    type="text"
+                    value="{{ $indirect_contract_workers_female ?? '' }}"
+                >
             @else
                 {{ $indirect_contract_workers_female ?? '' }}
             @endif
         </td>
         <td colspan="3">
-            @if ($isEdit)
-                <input name="indirect_contract_workers_total" type="text" value="{{ $indirect_contract_workers_total ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="indirect_contract_workers_total"
+                    type="text"
+                    value="{{ $indirect_contract_workers_total ?? '' }}"
+                >
             @else
                 {{ $indirect_contract_workers_total ?? '' }}
             @endif
@@ -259,29 +389,44 @@
     <tr>
         <td colspan="2">Total</td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="total_male" type="text" value="{{ $total_male ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="total_male"
+                    type="text"
+                    value="{{ $total_male ?? '' }}"
+                >
             @else
                 {{ $total_male ?? '' }}
             @endif
         </td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="total_female" type="text" value="{{ $total_female ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="total_female"
+                    type="text"
+                    value="{{ $total_female ?? '' }}"
+                >
             @else
                 {{ $total_female ?? '' }}
             @endif
         </td>
         <td colspan="3">
-            @if ($isEdit)
-                <input name="total" type="text" value="{{ $total ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="total"
+                    type="text"
+                    value="{{ $total ?? '' }}"
+                >
             @else
                 {{ $total ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td rowspan="7" colspan="1"><b>Registration</b></td>
+        <td
+            rowspan="7"
+            colspan="1"
+        ><b>Registration</b></td>
         <td colspan="2"><b>Office</b></td>
         <td colspan="2"><b>Registration Number</b></td>
         <td colspan="4"><b>Date of Registration</b></td>
@@ -289,15 +434,23 @@
     <tr>
         <td colspan="2">DTI</td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="dti_registration_number" type="text" value="{{ $dti_registration_number ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="dti_registration_number"
+                    type="text"
+                    value="{{ $dti_registration_number ?? '' }}"
+                >
             @else
                 {{ $dti_registration_number ?? '' }}
             @endif
         </td>
         <td colspan="4">
-            @if ($isEdit)
-                <input name="dti_date_of_registration" type="text" value="{{ $dti_date_of_registration ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="dti_date_of_registration"
+                    type="text"
+                    value="{{ $dti_date_of_registration ?? '' }}"
+                >
             @else
                 {{ $dti_date_of_registration ?? '' }}
             @endif
@@ -306,15 +459,23 @@
     <tr>
         <td colspan="2">SEC</td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="sec_registration_number" type="text" value="{{ $sec_registration_number ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="sec_registration_number"
+                    type="text"
+                    value="{{ $sec_registration_number ?? '' }}"
+                >
             @else
                 {{ $sec_registration_number ?? '' }}
             @endif
         </td>
         <td colspan="4">
-            @if ($isEdit)
-                <input name="sec_date_of_registration" type="text" value="{{ $sec_date_of_registration ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="sec_date_of_registration"
+                    type="text"
+                    value="{{ $sec_date_of_registration ?? '' }}"
+                >
             @else
                 {{ $sec_date_of_registration ?? '' }}
             @endif
@@ -323,15 +484,23 @@
     <tr>
         <td colspan="2">CDA</td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="cda_registration_number" type="text" value="{{ $cda_registration_number ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="cda_registration_number"
+                    type="text"
+                    value="{{ $cda_registration_number ?? '' }}"
+                >
             @else
                 {{ $cda_registration_number ?? '' }}
             @endif
         </td>
         <td colspan="4">
-            @if ($isEdit)
-                <input name="cda_date_of_registration" type="text" value="{{ $cda_date_of_registration ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="cda_date_of_registration"
+                    type="text"
+                    value="{{ $cda_date_of_registration ?? '' }}"
+                >
             @else
                 {{ $cda_date_of_registration ?? '' }}
             @endif
@@ -340,7 +509,7 @@
     <tr>
         <td colspan="2">LGU</td>
         <td colspan="2">
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="lgu_registration_number"
                     type="text"
@@ -351,7 +520,7 @@
             @endif
         </td>
         <td colspan="4">
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="lgu_date_of_registration"
                     type="text"
@@ -369,22 +538,34 @@
     </tr>
     <tr>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="others_name_of_firm" type="text" value="{{ $others_name_of_firm ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="others_name_of_firm"
+                    type="text"
+                    value="{{ $others_name_of_firm ?? '' }}"
+                >
             @else
                 {{ $others_name_of_firm ?? '' }}
             @endif
         </td>
         <td colspan="2">
-            @if ($isEdit)
-                <input name="others_registration_number" type="text" value="{{ $others_registration_number ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="others_registration_number"
+                    type="text"
+                    value="{{ $others_registration_number ?? '' }}"
+                >
             @else
                 {{ $others_registration_number ?? '' }}
             @endif
         </td>
         <td colspan="4">
-            @if ($isEdit)
-                <input name="others_date_of_registration" type="text" value="{{ $others_date_of_registration ?? '' }}">
+            @if ($isEditable)
+                <input
+                    name="others_date_of_registration"
+                    type="text"
+                    value="{{ $others_date_of_registration ?? '' }}"
+                >
             @else
                 {{ $others_date_of_registration ?? '' }}
             @endif
@@ -393,7 +574,7 @@
     <tr>
         <td rowspan="10"><b>Business Activity/ies:</b><br>(please check appropriate box)</td>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="crop_animal_production_hunting_activity"
                     type="checkbox"
@@ -408,7 +589,7 @@
             Crop and animal production, hunting, and related service activities
         </td>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="chemicals_manufacturing_activity"
                     type="checkbox"
@@ -425,7 +606,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="forestry_logging_activity"
                     type="checkbox"
@@ -440,16 +621,16 @@
             Forestry and Logging
         </td>
         <td>
-        @if ($isEdit)
-            <input
-                name="pharmaceutical_manufacturing_activity"
-                type="checkbox"
-                value="checked"
-                @checked($pharmaceutical_manufacturing_activity ?? '' == 'checked')
-            >
-        @else
-            {{ $pharmaceutical_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
-        @endif
+            @if ($isEditable)
+                <input
+                    name="pharmaceutical_manufacturing_activity"
+                    type="checkbox"
+                    value="checked"
+                    @checked($pharmaceutical_manufacturing_activity ?? '' == 'checked')
+                >
+            @else
+                {{ $pharmaceutical_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+            @endif
         </td>
         <td colspan="3">
             Basic pharmaceutical products and pharmaceutical preparations manufacturing
@@ -457,7 +638,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="fishing_agriculture_activity"
                     type="checkbox"
@@ -472,7 +653,7 @@
             Fishing and Agriculture
         </td>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="plastic_products_manufacturing_activity"
                     type="checkbox"
@@ -489,7 +670,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="food_processing_activity"
                     type="checkbox"
@@ -504,7 +685,7 @@
             Food Processing
         </td>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="non_metalllic_mineral_products_manufacturing_activity"
                     type="checkbox"
@@ -521,7 +702,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="beverage_manufacturing_activity"
                     type="checkbox"
@@ -536,7 +717,7 @@
             Beverage Manufacturing
         </td>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="fabricated_metal_products_manufacturing_activity"
                     type="checkbox"
@@ -553,7 +734,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="textile_manufacturing_activity"
                     type="checkbox"
@@ -568,7 +749,7 @@
             Textile Manufacturing
         </td>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="machinery_and_equipment_not_elsewhere_classified_manufacturing"
                     type="checkbox"
@@ -586,7 +767,7 @@
     <tr>
         <td>
 
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="wearing_apparel_manufacturing"
                     type="checkbox"
@@ -602,7 +783,7 @@
         </td>
         <td>
 
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="other_transport_equipment_manufacturing"
                     type="checkbox"
@@ -619,7 +800,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="leather_and_related_products_manufacturing"
                     type="checkbox"
@@ -635,7 +816,7 @@
         </td>
         <td>
 
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="furniture_manufacturing"
                     type="checkbox"
@@ -652,7 +833,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="wood_and_products_of_wood_and_cork_manufacturing"
                     type="checkbox"
@@ -667,17 +848,16 @@
             Wood and products of wood and cork manufacturing
         </td>
         <td>
-            @if ($isEdit)
-
-            <input
-                name="information_and_communication_manufacturing"
-                type="checkbox"
-                value="checked"
-                @checked($information_and_communication_manufacturing ?? '' == 'checked')
-            >
-        @else
-            {{ $information_and_communication_manufacturing ?? '' == 'checked' ? '/' : '' }}
-        @endif
+            @if ($isEditable)
+                <input
+                    name="information_and_communication_manufacturing"
+                    type="checkbox"
+                    value="checked"
+                    @checked($information_and_communication_manufacturing ?? '' == 'checked')
+                >
+            @else
+                {{ $information_and_communication_manufacturing ?? '' == 'checked' ? '/' : '' }}
+            @endif
         </td>
         <td colspan="3">
             Information and Communication manufacturing
@@ -686,7 +866,7 @@
     <tr>
         <td>
 
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="paper_and_paper_products_manufacturing"
                     type="checkbox"
@@ -702,7 +882,7 @@
         </td>
         <td>
 
-            @if ($isEdit)
+            @if ($isEditable)
                 <input
                     name="other_regional_priority_industries_approved_by_the_regional_development_council_please_specify"
                     type="checkbox"
@@ -722,8 +902,11 @@
     <tr>
         <td><b>Products/Services</b></td>
         <td colspan="8">
-            @if ($isEdit)
-                <textarea class="form-control" name="products_services">{{ $products_services ?? '' }}</textarea>
+            @if ($isEditable)
+                <textarea
+                    class="form-control"
+                    name="products_services"
+                >{{ $products_services ?? '' }}</textarea>
             @else
                 {{ $products_services ?? '' }}
             @endif
@@ -732,8 +915,11 @@
     <tr>
         <td><b>Brief Enterprise Background</b></td>
         <td colspan="8">
-            @if ($isEdit)
-                <textarea class="form-control" name="brief_enterprise_background">{{ $brief_enterprise_background ?? '' }}</textarea>
+            @if ($isEditable)
+                <textarea
+                    class="form-control"
+                    name="brief_enterprise_background"
+                >{{ $brief_enterprise_background ?? '' }}</textarea>
             @else
                 {{ $brief_enterprise_background ?? '' }}
             @endif
@@ -761,7 +947,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="skills_and_expertise"
@@ -778,7 +964,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="compensation"
@@ -795,7 +981,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="plant_site_or_location"
@@ -812,7 +998,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="capacity_volume_and_cost_of_production"
@@ -829,7 +1015,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="raw_materials_used_and_sources_of_raw_material"
@@ -856,7 +1042,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="market_situation_product_demand_and_supply"
@@ -873,7 +1059,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="product_specifications_and_product_price"
@@ -890,7 +1076,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="distribution_channel_local_export"
@@ -915,7 +1101,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="existing_problems_if_any"
@@ -932,7 +1118,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="market_plans_strategies"
@@ -979,26 +1165,24 @@
                 intervention</p>
         </td>
     </tr>
+</table>
+<table id="technicalConstraintTable">
     <tr>
-        <td>
-            <table id="technicalConstraintTable">
-                <tr>
-                    <td>Process/Existing Practice/Problem</th>
-                    <td>Proposed S&T Intervention</td>
-                    <td>Proposed S&T intervention-related equipment / skills upgrading</td>
-                    <td>Impact</th>
-                </tr>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-        </td>
+        <td>Process/Existing Practice/Problem</th>
+        <td>Proposed S&T Intervention</td>
+        <td>Proposed S&T intervention-related equipment / skills upgrading</td>
+        <td>Impact</th>
     </tr>
+    <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+<table width="100%">
     <tr>
         <td>
             <p class="section--title">Proposed Plant Layout</p>
@@ -1009,33 +1193,31 @@
             <p class="section--sub--title">D. Cost and specifications of S&T Intervention-Related Equipment</p>
         </td>
     </tr>
-    <tr>
-        <td>
-            <table id="equipmentTable">
-                <tr>
-                    <td>S&T Intervention-related equipment/specification</td>
-                    <td>Qty</td>
-                    <td>Unit Cost</td>
-                    <td>Total Cost</td>
-                </tr>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-                <tr>
-                    <td
-                        class="bold"
-                        colspan="3"
-                    >Total</td>
-                    <td></td>
-                </tr>
-            </table>
-        </td>
-    </tr>
+</table>
+    <table id="equipmentTable">
+        <tr>
+            <td>S&T Intervention-related equipment/specification</td>
+            <td>Qty</td>
+            <td>Unit Cost</td>
+            <td>Total Cost</td>
+        </tr>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+        <tr>
+            <td
+                class="bold"
+                colspan="3"
+            >Total</td>
+            <td></td>
+        </tr>
+    </table>
+    <table>
     <tr>
         <td>
             <p class="section--sub--title">E. List of equipment fabricators (name and address)</p>
@@ -1043,7 +1225,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="list_of_equipment_fabricators"
@@ -1060,7 +1242,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="schedule_of_activities_for_proposed_project"
@@ -1101,7 +1283,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="volume_of_waste_generated_monthly"
@@ -1119,7 +1301,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="kinds_of_wastes"
@@ -1131,7 +1313,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="methods_of_disposal"
@@ -1148,7 +1330,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="list_of_equipment_fabricators"
@@ -1188,7 +1370,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="financial_constraints"
@@ -1205,7 +1387,7 @@
     </tr>
     <tr>
         <td>
-            @if ($isEdit)
+            @if ($isEditable)
                 <textarea
                     class="form-control"
                     name="cash_flow_financial_statement_balance_sheet"
@@ -1220,175 +1402,169 @@
             <p class="section--sub--title">D. Budgetary Requirement for the proposed project</p>
         </td>
     </tr>
+</table>
+<table id="budgetTable">
     <tr>
-        <td>
-            <table id="budgetTable">
-                <tr>
-                    <th>Item of Expenditure</th>
-                    <th>Qty</th>
-                    <th>Unit Cost</th>
-                    <th>Cost</th>
-                    <th>SETUP</th>
-                    <th>LGIA</th>
-                    <th>Cooperator</th>
-                    <th>Total</th>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td
-                        class="bold"
-                        colspan="7"
-                    >Total</td>
-                    <td></td>
-                </tr>
-            </table>
-        </td>
+        <th>Item of Expenditure</th>
+        <th>Qty</th>
+        <th>Unit Cost</th>
+        <th>Cost</th>
+        <th>SETUP</th>
+        <th>LGIA</th>
+        <th>Cooperator</th>
+        <th>Total</th>
     </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td
+            class="bold"
+            colspan="7"
+        >Total</td>
+        <td></td>
+    </tr>
+</table>
+<table>
     <tr>
         <td>
             <p class="section--sub--title">E. Proposed Refund Structure</p>
         </td>
     </tr>
+</table>
+<table id="refundStructureTable">
     <tr>
-        <td>
-            <table id="refundStructureTable">
-                <tr>
-                    <th>Months</th>
-                    <th>Y1</th>
-                    <th>Y2</th>
-                    <th>Y3</th>
-                    <th>Y4</th>
-                    <th>Y5</th>
-                    <th>Total</th>
-                </tr>
-                <tr>
-                    <td>January</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>February</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>March</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>April</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>May</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>June</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>July</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>August</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>September</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>October</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>November</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>December</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td class="bold">Total</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </table>
-        </td>
+        <th>Months</th>
+        <th>Y1</th>
+        <th>Y2</th>
+        <th>Y3</th>
+        <th>Y4</th>
+        <th>Y5</th>
+        <th>Total</th>
+    </tr>
+    <tr>
+        <td>January</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>February</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>March</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>April</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>May</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>June</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>July</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>August</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>September</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>October</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>November</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td>December</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td class="bold">Total</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
     </tr>
 </table>
 <table id="riskManagementPlanTable">

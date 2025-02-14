@@ -1,6 +1,5 @@
-@php
-    $isEdit = false;
-@endphp
+@props(['isEditable' => false])
+
 <div id="ProjectProposalForm">
     <div class="center">
         <table
@@ -18,7 +17,7 @@
             <tr>
                 <td class="font-bold label-width">PROJECT TITLE:</td>
                 <td colspan="8">
-                    @if ($isEdit)
+                    @if ($isEditable)
                         <input
                             name="project_title"
                             type="text"
@@ -33,7 +32,7 @@
             <tr>
                 <td class="font-bold label-width">PROPONENT:</td>
                 <td colspan="8">
-                    @if ($isEdit)
+                    @if ($isEditable)
                         <input
                             name="proponent"
                             type="text"
@@ -48,7 +47,7 @@
             <tr>
                 <td class="font-bold label-width">PROJECT COST:</td>
                 <td colspan="8">
-                    @if ($isEdit)
+                    @if ($isEditable)
                         <input
                             name="project_cost"
                             type="text"
@@ -63,7 +62,7 @@
             <tr>
                 <td class="font-bold label-width">AMOUNT REQUESTED:</td>
                 <td colspan="8">
-                    @if ($isEdit)
+                    @if ($isEditable)
                         <input
                             name="amount_requested"
                             type="text"
@@ -85,7 +84,7 @@
                 <td colspan="1"></td>
                 <td colspan="8">
                     <p style="font-weight: bold;">General Objectives:</p><br>
-                    @if ($isEdit)
+                    @if ($isEditable)
                         <textarea
                             class="form-control"
                             name="general_objectives"
@@ -94,7 +93,7 @@
                         {{ $general_objectives ?? '' }}
                     @endif
                     <p style="font-weight: bold;">Specific Objectives:</p><br>
-                    @if ($isEdit)
+                    @if ($isEditable)
                         <textarea
                             class="form-control"
                             name="specific_objectives"
@@ -112,5 +111,5 @@
             </tr>
         </table>
     </div>
-    <x-project-proposal-form.company-profile-form :isEdit="$isEdit" />
+    <x-project-proposal-form.company-profile-form :isEditable="$isEditable" />
 </div>
