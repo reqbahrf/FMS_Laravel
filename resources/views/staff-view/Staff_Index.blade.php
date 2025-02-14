@@ -252,7 +252,8 @@
             GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}',
             REJECT_APPLICATION_TNA: '{{ route('send.rejection.email') }}',
             GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id']) }}',
-            GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal') }}'
+            GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal') }}',
+            GET_RTEC_REPORT: '{{ route('staff.Applicant.get.rtec-report') }}'
         }
 
         const REGISTRATIONFORM_SUBMISSION_ROUTE = '{{ route('staff.Project.SubmitNewProject') }}'

@@ -781,7 +781,7 @@ async function initializeStaffPageJs() {
                                     <input
                                         type="hidden"
                                         class="fee_applied"
-                                        value="${project.fee_applied}" 
+                                        value="${project.fee_applied}"
                                     />
                                     <input
                                         type="hidden"
@@ -1249,7 +1249,7 @@ async function initializeStaffPageJs() {
                     getAvailableQuarterlyReports(project_id);
                 }
             );
-            
+
             PaymentHistoryTable.on('click', '.delete--payment--Btn', function(e) {
                 const selectedRow = $(this).closest('tr');
                 const reference_number = selectedRow.find('td:eq(0)').text().trim();
@@ -5004,13 +5004,14 @@ ${output}</textarea
                 },
             });
 
-            const { TNAForm, ProjectProposalForm } = await import(
+            const { TNAForm, ProjectProposalForm, RTECReportForm } = await import(
                 './applicationProcessForm'
             );
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
             const ProjectProposalDocumentContainerModal = $(
                 '#projectProposalDocContainerModal'
             );
+            const RTECReportContainerModal = $('#rtecReportContainerModal');
 
             const tnaForm = new TNAForm(TNADocumentContainerModal);
             tnaForm.initializeTNAForm();
@@ -5018,6 +5019,8 @@ ${output}</textarea
                 ProjectProposalDocumentContainerModal
             );
             projectProposalForm.initializeProjectProposalForm();
+            const rtecReportForm = new RTECReportForm(RTECReportContainerModal);
+            rtecReportForm.initializeRTECReportForm();
 
             // const getTNAForm = async (business_Id) => {
             //     try {

@@ -28,6 +28,15 @@
                     Project Proposal
                 </a>
             </li>
+            <li class="nav-item">
+                <a
+                    class="nav-link default"
+                    href="#step-4"
+                >
+                    <span class="num">4</span>
+                    RTEC Report
+                </a>
+            </li>
         </ul>
         <div class="tab-content h-100">
             <div
@@ -430,6 +439,20 @@
                             </form>
                         </div>
                     </div>
+                </div>
+                <div class="tab-pane py-5" id="step-4" role="tabpanel" aria-labelledby="step-4">
+                    <div class="card h-100">
+                        <div class="card-header bg-primary">
+                            <div class="fw-bold fs-6 text-white">
+                                <i class="ri-file-list-3-fill"></i>
+                                RTEC Report
+                            </div>
+                        </div>
+                        <div class="card-body d-flex justify-content-end">
+                            <button class="btn btn-primary" type="button" data-bs-toggle="modal" data-bs-target="#rtecReportContainerModal"><i class="ri-eye-fill"></i> view RTEC Report</button>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

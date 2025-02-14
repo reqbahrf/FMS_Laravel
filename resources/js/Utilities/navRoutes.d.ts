@@ -31,6 +31,7 @@ declare module 'global' {
         GET_APPLICANTS: string;
         GET_TNA_DOCUMENT: string;
         GET_PROJECT_PROPOSAL: string;
+        GET_RTEC_REPORT: string;
     }
 
     interface STAFF_DASHBOARD_ROUTE {

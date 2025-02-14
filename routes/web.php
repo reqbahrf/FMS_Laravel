@@ -49,6 +49,7 @@ use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
+use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
 
 Route::get('/', function () {
@@ -283,6 +284,9 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
     Route::get('/Staff/Applicant/get/project-proposal', [ProjectProposalDocController::class, 'getProjectProposalForm'])
         ->name('staff.Applicant.get.project-proposal');
+
+    Route::get('/Staff/Applicant/get/rtec-report', [RTECReportDocController::class, 'getRTECReportForm'])
+        ->name('staff.Applicant.get.rtec-report');
 });
 
 //Staff Route End
