@@ -1,5 +1,5 @@
 @php
-    $isEdit = true;
+    $isEdit = false;
 @endphp
 <div id="ProjectProposalForm">
     <div class="center">

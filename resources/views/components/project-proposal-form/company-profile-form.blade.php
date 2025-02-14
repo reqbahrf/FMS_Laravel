@@ -1,25 +1,23 @@
-<table
-    id="CompanyProfileTable"
-    style="border-collapse: collapse;"
-    width="100%"
-    border="1"
-    cellpadding="5"
->
+<table id="CompanyProfileTable" style="border-collapse: collapse; table-layout: fixed;" width="100%" border="1" cellpadding="5">
     <tr>
-        <td colspan="9">
-            <p style="font-weight: bold;">A. Company Profile</p>
-        </td>
+        <td width="15%"></td>
+        <td width="5%"></td>
+        <td width="15%"></td>
+        <td width="5%"></td>
+        <td width="15%"></td>
+        <td width="5%"></td>
+        <td width="15%"></td>
+        <td width="5%"></td>
+        <td width="20%"></td>
+    </tr>
+    <tr>
+        <td colspan="9"><b>A. Company Profile</b></td>
     </tr>
     <tr>
         <td>Name of Firm</td>
         <td colspan="8">
             @if ($isEdit)
-                <input
-                    name="name_of_firm"
-                    type="text"
-                    value="{{ $name_of_firm ?? '' }}"
-                    placeholder="XYZ Company"
-                >
+                <input name="name_of_firm" type="text" value="{{ $name_of_firm ?? '' }}" placeholder="XYZ Company">
             @else
                 {{ $name_of_firm ?? '' }}
             @endif
@@ -29,12 +27,7 @@
         <td>Address</td>
         <td colspan="8">
             @if ($isEdit)
-                <input
-                    name="address"
-                    type="text"
-                    value="{{ $address ?? '' }}"
-                    placeholder="Purok 1, Barangay 1, City, Province"
-                >
+                <input name="address" type="text" value="{{ $address ?? '' }}" placeholder="Purok 1, Barangay 1, City, Province">
             @else
                 {{ $address ?? '' }}
             @endif
@@ -44,27 +37,17 @@
         <td>Contact Person</td>
         <td colspan="8">
             @if ($isEdit)
-                <input
-                    name="contact_person"
-                    type="text"
-                    value="{{ $contact_person ?? '' }}"
-                    placeholder="John Doe"
-                >
+                <input name="contact_person" type="text" value="{{ $contact_person ?? '' }}" placeholder="John Doe">
             @else
                 {{ $contact_person ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td>Contact No</td>
+        <td>Contact No.</td>
         <td colspan="8">
             @if ($isEdit)
-                <input
-                    name="contact_no"
-                    type="text"
-                    value="{{ $contact_no ?? '' }}"
-                    placeholder="09123456789"
-                >
+                <input name="contact_no" type="text" value="{{ $contact_no ?? '' }}" placeholder="09123456789">
             @else
                 {{ $contact_no ?? '' }}
             @endif
@@ -74,12 +57,7 @@
         <td>E-mail Address</td>
         <td colspan="8">
             @if ($isEdit)
-                <input
-                    name="email_address"
-                    type="text"
-                    value="{{ $email_address ?? '' }}"
-                    placeholder="xyzcompany@gmail.com"
-                >
+                <input name="email_address" type="text" value="{{ $email_address ?? '' }}" placeholder="xyzcompany@gmail.com">
             @else
                 {{ $email_address ?? '' }}
             @endif
@@ -89,13 +67,7 @@
         <td>Year-Established</td>
         <td colspan="8">
             @if ($isEdit)
-                <input
-                    name="year_established"
-                    type="text"
-                    value="{{ $year_established ?? '' }}"
-                    maxlength="4"
-                    placeholder="2020"
-                >
+                <input name="year_established" type="text" value="{{ $year_established ?? '' }}" maxlength="4" placeholder="2020">
             @else
                 {{ $year_established ?? '' }}
             @endif
@@ -103,401 +75,271 @@
     </tr>
     <tr>
         <td rowspan="3">Type of Organization<br>(please check appropriate box in each row)</td>
-        <td>
+        <td >
             @if ($isEdit)
-                <input
-                    name="type_of_organization"
-                    type="radio"
-                    value="Single Proprietorship"
-                    {{ $type_of_organization ?? '' == 'Single Proprietorship' ? 'checked' : '' }}
-                >
+                <input name="type_of_organization" type="radio" value="Single Proprietorship" {{ $type_of_organization ?? '' == 'Single Proprietorship' ? 'checked' : '' }}>
             @else
                 {{ $type_of_organization ?? '' == 'Single Proprietorship' ? '/' : '' }}
             @endif
-            Single Proprietorship
         </td>
+        <td>Single Proprietorship</td>
         <td>
             @if ($isEdit)
-                <input
-                    name="type_of_organization"
-                    type="radio"
-                    value="Partnership"
-                    {{ $type_of_organization ?? '' == 'Partnership' ? 'checked' : '' }}
-                >
+                <input name="type_of_organization" type="radio" value="Partnership" {{ $type_of_organization ?? '' == 'Partnership' ? 'checked' : '' }}>
             @else
                 {{ $type_of_organization ?? '' == 'Partnership' ? '/' : '' }}
             @endif
-            Partnership
         </td>
+        <td>Partnership</td>
         <td>
             @if ($isEdit)
-                <input
-                    name="type_of_organization"
-                    type="radio"
-                    value="Cooperative"
-                    {{ $type_of_organization ?? '' == 'Cooperative' ? 'checked' : '' }}
-                >
+                <input name="type_of_organization" type="radio" value="Cooperative" {{ $type_of_organization ?? '' == 'Cooperative' ? 'checked' : '' }}>
             @else
                 {{ $type_of_organization ?? '' == 'Cooperative' ? '/' : '' }}
             @endif
-            Cooperative
         </td>
-        <td colspan="2">
+        <td>Cooperative</td>
+        <td>
             @if ($isEdit)
-                <input
-                    name="type_of_organization"
-                    type="radio"
-                    value="Corporation"
-                    {{ $type_of_organization ?? '' == 'Corporation' ? 'checked' : '' }}
-                >
+                <input name="type_of_organization" type="radio" value="Corporation" {{ $type_of_organization ?? '' == 'Corporation' ? 'checked' : '' }}>
             @else
                 {{ $type_of_organization ?? '' == 'Corporation' ? '/' : '' }}
             @endif
-            Corporation
         </td>
+        <td>Corporation</td>
     </tr>
     <tr>
         <td>
             @if ($isEdit)
-                <input
-                    name="type_of_organization"
-                    type="radio"
-                    value="Profit"
-                    {{ $type_of_organization ?? '' == 'Profit' ? 'checked' : '' }}
-                >
+                <input name="profit_status" type="radio" value="Profit" {{ $profit_status ?? '' == 'Profit' ? 'checked' : '' }}>
             @else
-                {{ $type_of_organization ?? '' == 'Profit' ? '/' : '' }}
+                {{ $profit_status ?? '' == 'Profit' ? '/' : '' }}
             @endif
-            Profit
         </td>
+        <td>Profit</td>
         <td>
             @if ($isEdit)
-                <input
-                    name="type_of_organization"
-                    type="radio"
-                    value="Non-Profit"
-                    {{ $type_of_organization ?? '' == 'Non-Profit' ? 'checked' : '' }}
-                >
+                <input name="profit_status" type="radio" value="Non-Profit" {{ $profit_status ?? '' == 'Non-Profit' ? 'checked' : '' }}>
             @else
-                {{ $type_of_organization ?? '' == 'Non-Profit' ? '/' : '' }}
+                {{ $profit_status ?? '' == 'Non-Profit' ? '/' : '' }}
             @endif
-            Non-Profit
         </td>
-        <td></td>
-        <td colspan="2"></td>
+        <td>Non-Profit</td>
+        <td colspan="4"></td>
     </tr>
     <tr>
         <td>
             @if ($isEdit)
-                <input
-                    name="size_of_organization"
-                    type="radio"
-                    value="Micro"
-                    {{ $size_of_organization ?? '' == 'Micro' ? 'checked' : '' }}
-                >
+                <input name="size_of_organization" type="radio" value="Micro" {{ $size_of_organization ?? '' == 'Micro' ? 'checked' : '' }}>
             @else
                 {{ $size_of_organization ?? '' == 'Micro' ? '/' : '' }}
             @endif
-            Micro<br>(P3M Total Asset Value of less)
         </td>
+        <td>Micro<br>(P3M Total Asset Value or less)</td>
         <td>
             @if ($isEdit)
-                <input
-                    name="size_of_organization"
-                    type="radio"
-                    value="Small"
-                    {{ $size_of_organization ?? '' == 'Small' ? 'checked' : '' }}
-                >
+                <input name="size_of_organization" type="radio" value="Small" {{ $size_of_organization ?? '' == 'Small' ? 'checked' : '' }}>
             @else
                 {{ $size_of_organization ?? '' == 'Small' ? '/' : '' }}
             @endif
-            Small<br>(P3,000,001.00 - P15M Total Asset Value)
         </td>
+        <td>Small<br>(P3,000,001.00 - P15M Total Asset Value)</td>
         <td>
             @if ($isEdit)
-                <input
-                    name="size_of_organization"
-                    type="radio"
-                    value="Medium"
-                    {{ $size_of_organization ?? '' == 'Medium' ? 'checked' : '' }}
-                >
-                Medium<br>(P15,000,001.00 - P100M Total Asset Value)
+                <input name="size_of_organization" type="radio" value="Medium" {{ $size_of_organization ?? '' == 'Medium' ? 'checked' : '' }}>
             @else
                 {{ $size_of_organization ?? '' == 'Medium' ? '/' : '' }}
             @endif
         </td>
+        <td colspan="4">Medium<br>(P15,000,001.00 - P100M Total Asset Value)</td>
     </tr>
     <tr>
         <td rowspan="6">Number of Employee<br>(please indicate number of employee)</td>
-        <td colspan="1">Type of Employment</td>
-        <td>Male</td>
-        <td>Female</td>
-        <td colspan="2">Total</td>
+        <td colspan="2">Type of Employment</td>
+        <td colspan="2">Male</td>
+        <td colspan="2">Female</td>
+        <td colspan="3">Total</td>
     </tr>
     <tr>
-        <td colspan="1">Direct Workers</td>
-        <td>
+        <td colspan="2">Direct Workers</td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="direct_workers_male"
-                    type="text"
-                    value="{{ $direct_workers_male ?? '' }}"
-                >
+                <input name="direct_workers_male" type="text" value="{{ $direct_workers_male ?? '' }}">
             @else
                 {{ $direct_workers_male ?? '' }}
             @endif
         </td>
-        <td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="direct_workers_female"
-                    type="text"
-                    value="{{ $direct_workers_female ?? '' }}"
-                >
+                <input name="direct_workers_female" type="text" value="{{ $direct_workers_female ?? '' }}">
             @else
                 {{ $direct_workers_female ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="3">
             @if ($isEdit)
-                <input
-                    name="direct_workers_total"
-                    type="text"
-                    value="{{ $direct_workers_total ?? '' }}"
-                >
+                <input name="direct_workers_total" type="text" value="{{ $direct_workers_total ?? '' }}">
             @else
                 {{ $direct_workers_total ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td colspan="1">Production</td>
-        <td>
+        <td colspan="2">Production</td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="production_male"
-                    type="text"
-                    value="{{ $production_male ?? '' }}"
-                >
+                <input name="production_male" type="text" value="{{ $production_male ?? '' }}">
             @else
                 {{ $production_male ?? '' }}
             @endif
         </td>
-        <td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="production_female"
-                    type="text"
-                    value="{{ $production_female ?? '' }}"
-                >
+                <input name="production_female" type="text" value="{{ $production_female ?? '' }}">
             @else
                 {{ $production_female ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="3">
             @if ($isEdit)
-                <input
-                    name="production_total"
-                    type="text"
-                    value="{{ $production_total ?? '' }}"
-                >
+                <input name="production_total" type="text" value="{{ $production_total ?? '' }}">
             @else
                 {{ $production_total ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td colspan="1">Non-Production</td>
-        <td>
+        <td colspan="2">Non-Production</td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="non_production_male"
-                    type="text"
-                    value="{{ $non_production_male ?? '' }}"
-                >
+                <input name="non_production_male" type="text" value="{{ $non_production_male ?? '' }}">
             @else
                 {{ $non_production_male ?? '' }}
             @endif
         </td>
-        <td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="non_production_female"
-                    type="text"
-                    value="{{ $non_production_female ?? '' }}"
-                >
+                <input name="non_production_female" type="text" value="{{ $non_production_female ?? '' }}">
             @else
                 {{ $non_production_female ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="3">
             @if ($isEdit)
-                <input
-                    name="non_production_total"
-                    type="text"
-                    value="{{ $non_production_total ?? '' }}"
-                >
+                <input name="non_production_total" type="text" value="{{ $non_production_total ?? '' }}">
             @else
                 {{ $non_production_total ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td colspan="1">Indirect/Contract Workers</td>
-        <td>
+        <td colspan="2">Indirect/Contract Workers</td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="indirect_contract_workers_male"
-                    type="text"
-                    value="{{ $indirect_contract_workers_male ?? '' }}"
-                >
+                <input name="indirect_contract_workers_male" type="text" value="{{ $indirect_contract_workers_male ?? '' }}">
             @else
                 {{ $indirect_contract_workers_male ?? '' }}
             @endif
         </td>
-        <td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="indirect_contract_workers_female"
-                    type="text"
-                    value="{{ $indirect_contract_workers_female ?? '' }}"
-                >
+                <input name="indirect_contract_workers_female" type="text" value="{{ $indirect_contract_workers_female ?? '' }}">
             @else
                 {{ $indirect_contract_workers_female ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="3">
             @if ($isEdit)
-                <input
-                    name="indirect_contract_workers_total"
-                    type="text"
-                    value="{{ $indirect_contract_workers_total ?? '' }}"
-                >
+                <input name="indirect_contract_workers_total" type="text" value="{{ $indirect_contract_workers_total ?? '' }}">
             @else
                 {{ $indirect_contract_workers_total ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td colspan="1">Total</td>
-        <td>
+        <td colspan="2">Total</td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="total_male"
-                    type="text"
-                    value="{{ $total_male ?? '' }}"
-                >
+                <input name="total_male" type="text" value="{{ $total_male ?? '' }}">
             @else
                 {{ $total_male ?? '' }}
             @endif
         </td>
-        <td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="total_female"
-                    type="text"
-                    value="{{ $total_female ?? '' }}"
-                >
+                <input name="total_female" type="text" value="{{ $total_female ?? '' }}">
             @else
                 {{ $total_female ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="3">
             @if ($isEdit)
-                <input
-                    name="total"
-                    type="text"
-                    value="{{ $total ?? '' }}"
-                >
+                <input name="total" type="text" value="{{ $total ?? '' }}">
             @else
                 {{ $total ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td rowspan="7"><b>Registration</b></td>
-        <td colspan="1"><b>Office</b></td>
-        <td><b>Registration Number</b></td>
-        <td colspan="3"><b>Date of Registration</b></td>
+        <td rowspan="7" colspan="1"><b>Registration</b></td>
+        <td colspan="2"><b>Office</b></td>
+        <td colspan="2"><b>Registration Number</b></td>
+        <td colspan="4"><b>Date of Registration</b></td>
     </tr>
     <tr>
-        <td colspan="1">DTI</td>
-        <td>
+        <td colspan="2">DTI</td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="dti_registration_number"
-                    type="text"
-                    value="{{ $dti_registration_number ?? '' }}"
-                >
+                <input name="dti_registration_number" type="text" value="{{ $dti_registration_number ?? '' }}">
             @else
                 {{ $dti_registration_number ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="4">
             @if ($isEdit)
-                <input
-                    name="dti_date_of_registration"
-                    type="text"
-                    value="{{ $dti_date_of_registration ?? '' }}"
-                >
+                <input name="dti_date_of_registration" type="text" value="{{ $dti_date_of_registration ?? '' }}">
             @else
                 {{ $dti_date_of_registration ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td colspan="1">SEC</td>
-        <td>
+        <td colspan="2">SEC</td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="sec_registration_number"
-                    type="text"
-                    value="{{ $sec_registration_number ?? '' }}"
-                >
+                <input name="sec_registration_number" type="text" value="{{ $sec_registration_number ?? '' }}">
             @else
                 {{ $sec_registration_number ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="4">
             @if ($isEdit)
-                <input
-                    name="sec_date_of_registration"
-                    type="text"
-                    value="{{ $sec_date_of_registration ?? '' }}"
-                >
+                <input name="sec_date_of_registration" type="text" value="{{ $sec_date_of_registration ?? '' }}">
             @else
                 {{ $sec_date_of_registration ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td colspan="1">CDA</td>
-        <td>
+        <td colspan="2">CDA</td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="cda_registration_number"
-                    type="text"
-                    value="{{ $cda_registration_number ?? '' }}"
-                >
+                <input name="cda_registration_number" type="text" value="{{ $cda_registration_number ?? '' }}">
             @else
                 {{ $cda_registration_number ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="4">
             @if ($isEdit)
-                <input
-                    name="cda_date_of_registration"
-                    type="text"
-                    value="{{ $cda_date_of_registration ?? '' }}"
-                >
+                <input name="cda_date_of_registration" type="text" value="{{ $cda_date_of_registration ?? '' }}">
             @else
                 {{ $cda_date_of_registration ?? '' }}
             @endif
         </td>
     </tr>
     <tr>
-        <td colspan="1">LGU</td>
-        <td>
+        <td colspan="2">LGU</td>
+        <td colspan="2">
             @if ($isEdit)
                 <input
                     name="lgu_registration_number"
@@ -508,7 +350,7 @@
                 {{ $lgu_registration_number ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="4">
             @if ($isEdit)
                 <input
                     name="lgu_date_of_registration"
@@ -521,40 +363,28 @@
         </td>
     </tr>
     <tr>
-        <td colspan="1">Others, please specify</td>
-        <td></td>
+        <td colspan="2">Others, please specify</td>
         <td colspan="2"></td>
+        <td colspan="4"></td>
     </tr>
     <tr>
-        <td colspan="1">
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="others_name_of_firm"
-                    type="text"
-                    value="{{ $others_name_of_firm ?? '' }}"
-                >
+                <input name="others_name_of_firm" type="text" value="{{ $others_name_of_firm ?? '' }}">
             @else
                 {{ $others_name_of_firm ?? '' }}
             @endif
         </td>
-        <td>
+        <td colspan="2">
             @if ($isEdit)
-                <input
-                    name="others_registration_number"
-                    type="text"
-                    value="{{ $others_registration_number ?? '' }}"
-                >
+                <input name="others_registration_number" type="text" value="{{ $others_registration_number ?? '' }}">
             @else
                 {{ $others_registration_number ?? '' }}
             @endif
         </td>
-        <td colspan="2">
+        <td colspan="4">
             @if ($isEdit)
-                <input
-                    name="others_date_of_registration"
-                    type="text"
-                    value="{{ $others_date_of_registration ?? '' }}"
-                >
+                <input name="others_date_of_registration" type="text" value="{{ $others_date_of_registration ?? '' }}">
             @else
                 {{ $others_date_of_registration ?? '' }}
             @endif
@@ -562,7 +392,7 @@
     </tr>
     <tr>
         <td rowspan="10"><b>Business Activity/ies:</b><br>(please check appropriate box)</td>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="crop_animal_production_hunting_activity"
@@ -573,9 +403,11 @@
             @else
                 {{ $crop_animal_production_hunting_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Crop and animal production, hunting, and related service activities
         </td>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="chemicals_manufacturing_activity"
@@ -586,11 +418,13 @@
             @else
                 {{ $chemicals_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Chemicals and chemical products manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="forestry_logging_activity"
@@ -601,24 +435,28 @@
             @else
                 {{ $forestry_logging_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Forestry and Logging
         </td>
-        <td colspan="2">
-            @if ($isEdit)
-                <input
-                    name="pharmaceutical_manufacturing_activity"
-                    type="checkbox"
-                    value="checked"
-                    @checked($pharmaceutical_manufacturing_activity ?? '' == 'checked')
-                >
-            @else
-                {{ $pharmaceutical_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
-            @endif
+        <td>
+        @if ($isEdit)
+            <input
+                name="pharmaceutical_manufacturing_activity"
+                type="checkbox"
+                value="checked"
+                @checked($pharmaceutical_manufacturing_activity ?? '' == 'checked')
+            >
+        @else
+            {{ $pharmaceutical_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+        @endif
+        </td>
+        <td colspan="3">
             Basic pharmaceutical products and pharmaceutical preparations manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="fishing_agriculture_activity"
@@ -629,9 +467,11 @@
             @else
                 {{ $fishing_and_agriculture_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Fishing and Agriculture
         </td>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="plastic_products_manufacturing_activity"
@@ -642,11 +482,13 @@
             @else
                 {{ $plastic_products_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Rubber and plastic products manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="food_processing_activity"
@@ -657,9 +499,11 @@
             @else
                 {{ $food_processing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Food Processing
         </td>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="non_metalllic_mineral_products_manufacturing_activity"
@@ -670,11 +514,13 @@
             @else
                 {{ $nonmetallic_mineral_products_manufacturing ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Non-metallic mineral products manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="beverage_manufacturing_activity"
@@ -685,9 +531,11 @@
             @else
                 {{ $beverage_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Beverage Manufacturing
         </td>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="fabricated_metal_products_manufacturing_activity"
@@ -698,11 +546,13 @@
             @else
                 {{ $fabricated_metal_products_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Fabricated metal products manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="textile_manufacturing_activity"
@@ -713,9 +563,11 @@
             @else
                 {{ $textile_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Textile Manufacturing
         </td>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="machinery_and_equipment_not_elsewhere_classified_manufacturing"
@@ -726,11 +578,14 @@
             @else
                 {{ $machinery_and_equipment_not_elsewhere_classified_manufacturing ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Machinery and equipment, Not Elsewhere Classified (NEC) manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
+
             @if ($isEdit)
                 <input
                     name="wearing_apparel_manufacturing"
@@ -741,9 +596,12 @@
             @else
                 {{ $wearing_apparel_manufacturing ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Wearing apparel Manufacturing
         </td>
-        <td colspan="2">
+        <td>
+
             @if ($isEdit)
                 <input
                     name="other_transport_equipment_manufacturing"
@@ -754,11 +612,13 @@
             @else
                 {{ $other_transport_equipment_manufacturing ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Other transport equipment manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="leather_and_related_products_manufacturing"
@@ -769,9 +629,12 @@
             @else
                 {{ $leather_and_related_products_manufacturing ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Leather and related products manufacturing
         </td>
-        <td colspan="2">
+        <td>
+
             @if ($isEdit)
                 <input
                     name="furniture_manufacturing"
@@ -782,11 +645,13 @@
             @else
                 {{ $furniture_manufacturing ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Furniture manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
                 <input
                     name="wood_and_products_of_wood_and_cork_manufacturing"
@@ -797,24 +662,30 @@
             @else
                 {{ $wood_and_products_of_wood_and_cork_manufacturing ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Wood and products of wood and cork manufacturing
         </td>
-        <td colspan="2">
+        <td>
             @if ($isEdit)
-                <input
-                    name="information_and_communication_manufacturing"
-                    type="checkbox"
-                    value="checked"
-                    @checked($information_and_communication_manufacturing ?? '' == 'checked')
-                >
-            @else
-                {{ $information_and_communication_manufacturing ?? '' == 'checked' ? '/' : '' }}
-            @endif
+
+            <input
+                name="information_and_communication_manufacturing"
+                type="checkbox"
+                value="checked"
+                @checked($information_and_communication_manufacturing ?? '' == 'checked')
+            >
+        @else
+            {{ $information_and_communication_manufacturing ?? '' == 'checked' ? '/' : '' }}
+        @endif
+        </td>
+        <td colspan="3">
             Information and Communication manufacturing
         </td>
     </tr>
     <tr>
-        <td colspan="2">
+        <td>
+
             @if ($isEdit)
                 <input
                     name="paper_and_paper_products_manufacturing"
@@ -825,9 +696,12 @@
             @else
                 {{ $paper_and_paper_products_manufacturing ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+        <td colspan="3">
             Paper and paper products manufacturing
         </td>
-        <td colspan="2">
+        <td>
+
             @if ($isEdit)
                 <input
                     name="other_regional_priority_industries_approved_by_the_regional_development_council_please_specify"
@@ -838,17 +712,18 @@
             @else
                 {{ $other_regional_priority_industries_approved_by_the_regional_development_council_please_specify ?? '' == 'checked' ? '/' : '' }}
             @endif
+        </td>
+
+        <td colspan="3">
             Other regional priority industries approved by the Regional Development Council, please specify:
         </td>
     </tr>
+    <!-- Continue with remaining business activities in similar pattern -->
     <tr>
         <td><b>Products/Services</b></td>
-        <td colspan="6">
+        <td colspan="8">
             @if ($isEdit)
-                <textarea
-                    class="form-control"
-                    name="products_services"
-                >{{ $products_services ?? '' }}</textarea>
+                <textarea class="form-control" name="products_services">{{ $products_services ?? '' }}</textarea>
             @else
                 {{ $products_services ?? '' }}
             @endif
@@ -856,12 +731,9 @@
     </tr>
     <tr>
         <td><b>Brief Enterprise Background</b></td>
-        <td colspan="6">
+        <td colspan="8">
             @if ($isEdit)
-                <textarea
-                    class="form-control"
-                    name="brief_enterprise_background"
-                >{{ $brief_enterprise_background ?? '' }}</textarea>
+                <textarea class="form-control" name="brief_enterprise_background">{{ $brief_enterprise_background ?? '' }}</textarea>
             @else
                 {{ $brief_enterprise_background ?? '' }}
             @endif
