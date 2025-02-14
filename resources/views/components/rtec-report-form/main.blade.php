@@ -1,16 +1,10 @@
-<style>
-    #RTECReportForm {
-        width: 100%;
-        max-width: 794px;
-        margin: 0 auto;
-        padding: 2cm;
-        border: 1px solid #ccc;
-    }
-</style>
 <div id="RTECReportForm">
-    <table>
+    <table id="RTECReportInfoTable" width="100%">
         <tr>
-            <td colspan="2">RTEC REPORT</td>
+            <td
+                style="text-align: center; font-weight: bold; font-size: larger;"
+                colspan="2"
+            >RTEC REPORT</td>
         </tr>
         <tr>
             <td style="width: 20%;">Project Title:</td>
@@ -30,32 +24,38 @@
                 <span id="contact"></span>
             </td>
         </tr>
+        <tr>
+            <td rowspan="5" style="text-align: top; vertical-align: top;">Project Cost:</td>
+            <td>
+                <span id="project_cost"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Proponent:</td>
+            <td>
+                <span id="amount_requested"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>DOST-SETUP:</td>
+            <td>
+                <span id="dost_setup"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>DOST-LGIA:</td>
+            <td>
+                <span id="dost_lgia"></span>
+            </td>
+        </tr>
+        <tr>
+            <td>Total</td>
+            <td>
+                <span id="total"></span>
+            </td>
+        </tr>
     </table>
-
-    <div class="cost-table">
-        <table>
-            <thead>
-                <tr>
-                    <th></th>
-                    <th>Proponent</th>
-                    <th>DOST-SETUP</th>
-                    <th>DOST-LGIA</th>
-                    <th>Total</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>Project Cost:</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                    <td>-</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <table>
+    <table id="additionInfoTable" style="width: 100%;">
         <tbody>
             <tr>
                 <th colspan="2">I. Brief description of the project</th>
@@ -72,17 +72,17 @@
                 <td style="vertical-align: top;">c.</td>
                 <td>Expected Outputs/Impact/s of S&T intervention</td>
             </tr>
+            <tr>
+                <th colspan="2">II. Compliance of Requirements</th>
+            </tr>
         </tbody>
     </table>
-    <table>
+    <table id="complianceOfRequirementTable">
         <tbody>
             <tr>
-                <th colspan="3">II. Compliance of Requirements</th>
-            </tr>
-            <tr>
-                <th>Requirements</th>
-                <th>Complied</th>
-                <th>Not Complied</th>
+                <td style="text-align: center;">Requirements</td>
+                <td>Complied</td>
+                <td>Not Complied</th>
             </tr>
             <tr>
                 <td>Letter of intent to avail of SETUP assistance, stating commitment to refund the iFund support and
@@ -317,40 +317,46 @@
                 <td style="padding-left: 20px;">3.</td>
                 <td colspan="2">Technical constraints on the production line and proposed S&T Intervention</td>
             </tr>
-            <tr>
-                <td
-                    style="text-align: center;"
-                    colspan="2"
-                >Process/Existing Practice/Problem</td>
-                <td style="text-align: center;">Proposed S&T Intervention</td>
-                <td style="text-align: center;">Proposed S&T intervention-related equipment/skills upgrading</td>
-                <td style="text-align: center;">Impact</td>
-            </tr>
-            <tr>
-                <td colspan="2"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="2"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="2"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td colspan="2"></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
+        </tbody>
+    </table>
+    <table id="processExistingPracticeProblemTable">
+        <tr>
+            <td
+                style="text-align: center;"
+                colspan="2"
+            >Process/Existing Practice/Problem</td>
+            <td style="text-align: center;">Proposed S&T Intervention</td>
+            <td style="text-align: center;">Proposed S&T intervention-related equipment/skills upgrading</td>
+            <td style="text-align: center;">Impact</td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td colspan="2"></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
 
+    </table>
+    <table>
+        <tbody>
             <tr>
                 <td
                     style="text-align: left;"
@@ -363,6 +369,10 @@
                     colspan="4"
                 >4. Cost and specification of S&T Intervention Related Equipment</td>
             </tr>
+        </tbody>
+    </table>
+    <table id="equipmentTable">
+        <tbody>
             <tr>
                 <td
                     style="text-align: center;"
@@ -392,10 +402,14 @@
             </tr>
             <tr>
                 <td
-                    style="text-align: left;"
+                    style="text-align: center;"
                     colspan="4"
                 >Total</td>
             </tr>
+        </tbody>
+    </table>
+    <table>
+        <tbody>
             <tr>
                 <td
                     style="text-align: left;"
@@ -420,7 +434,6 @@
                 <td style="vertical-align: top;">f.</td>
                 <td colspan="3">Risk Management</td>
             </tr>
-
         </tbody>
     </table>
     <table>

@@ -834,7 +834,7 @@ Form Styles
     padding: 2cm;
     border: 1px solid #ccc;
 }
-:is(#ProjectProposalForm, #TNAForm) * {
+:is(#ProjectProposalForm, #TNAForm, #RTECReportForm) * {
     font-family: Arial, sans-serif;
     font-size: 9pt;
 }
@@ -887,6 +887,30 @@ Form Styles
 
 #ProjectProposalForm table:not(#TopProposalTable) tr {
     border: 1px solid #000;
+}
+
+#RTECReportForm {
+    width: 100%;
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
+}
+
+#RTECReportForm table:is(#complianceOfRequirementTable, #processExistingPracticeProblemTable, #equipmentTable) {
+    width: 100% !important;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+#RTECReportForm table:is(#complianceOfRequirementTable, #processExistingPracticeProblemTable, #equipmentTable) td {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+#RTECReportForm table:is(#complianceOfRequirementTable, #processExistingPracticeProblemTable, #equipmentTable) tr {
+    border: 1px solid #000;
+    padding: 10px;
 }
 
 .section--title {
