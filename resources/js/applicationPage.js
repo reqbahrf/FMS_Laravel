@@ -22,6 +22,7 @@ window.smartWizard = smartWizard;
 $(window).on('beforeunload', function () {
     return 'Are you sure you want to leave?';
 });
+const ApplicationForm = $('#applicationForm');
 let is_initialized = false;
 export function initializeForm() {
     new smartWizard();
@@ -39,9 +40,6 @@ export function initializeForm() {
         'tr td:nth-child(4) .AnnualCost'
     ]);
     customFormatNumericInput('#productionEquipmentTable', ['.Capacity'])
-
-    const confirmButton = $('#confirmButton');
-    confirmButton.off('click');
 
     const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
@@ -394,113 +392,114 @@ export function initializeForm() {
             if (stepIndex === 3) {
                 // Since stepIndex is 0-based, step-4 corresponds to index 3
                 $('.btn-success, .btn-secondary').show();
-
+                const inputField = ApplicationForm.find('input:not([readonly]), select:not([readonly]), textarea:not([readonly])');
+                const reviewInputsContainer = $('#reviewInputsContainer').find('input[readonly], select[readonly], textarea[readonly]');
                 let fullName =
-                    $('#prefix').val() +
+                    inputField.filter('#prefix').val() +
                     ' ' +
-                    $('#f_name').val() +
+                    inputField.filter('#f_name').val() +
                     ' ' +
-                    $('#middle_name').val() +
+                    inputField.filter('#middle_name').val() +
                     ' ' +
-                    $('#l_name').val() +
+                    inputField.filter('#l_name').val() +
                     ' ' +
-                    $('#suffix').val();
+                    inputField.filter('#suffix').val();
 
-                $('#re_Full_name').val(fullName);
-                $('#re_b_Date').val($('#b_date').val());
-                $('#re_designa').val($('#designation').val());
-                $('#re_Mobile_no').val($('#Mobile_no').val());
-                $('#re_landline').val($('#landline').val());
+                reviewInputsContainer.filter('#re_Full_name').val(fullName);
+                reviewInputsContainer.filter('#re_b_Date').val(inputField.filter('#b_date').val());
+                reviewInputsContainer.filter('#re_designa').val(inputField.filter('#designation').val());
+                reviewInputsContainer.filter('#re_Mobile_no').val(inputField.filter('#Mobile_no').val());
+                reviewInputsContainer.filter('#re_landline').val(inputField.filter('#landline').val());
 
                 // Business Info
-                $('#re_firm_name').val($('#firm_name').val());
-                $('#re_type_enterprise').val($('#enterpriseType').val());
+                reviewInputsContainer.filter('#re_firm_name').val(inputField.filter('#firm_name').val());
+                reviewInputsContainer.filter('#re_type_enterprise').val(inputField.filter('#enterpriseType').val());
                 const BusinessInfo = {
-                    Background: $('#brief_background').val(),
-                    PermitNo: $('#business_permit_No').val(),
-                    PermitYearRegistered: $('#permit_year_registered').val(),
-                    RegistrationNo: $('#enterpriseRegistrationNo').val(),
-                    RegistrationYear: $('#yearEnterpriseRegistered').val(),
-                    BusinessType: $('#businessType').val(),
-                    InitialCapital: $('#initial_capitalization').val(),
-                    presentCapital: $('#present_capitalization').val(),
-                    specificProduct: $('#specificProductOrService').val(),
-                    reasonsForAssistance: $(
+                    Background: inputField.filter('#brief_background').val(),
+                    PermitNo: inputField.filter('#business_permit_No').val(),
+                    PermitYearRegistered: inputField.filter('#permit_year_registered').val(),
+                    RegistrationNo: inputField.filter('#enterpriseRegistrationNo').val(),
+                    RegistrationYear: inputField.filter('#yearEnterpriseRegistered').val(),
+                    BusinessType: inputField.filter('#businessType').val(),
+                    InitialCapital: inputField.filter('#initial_capitalization').val(),
+                    presentCapital: inputField.filter('#present_capitalization').val(),
+                    specificProduct: inputField.filter('#specificProductOrService').val(),
+                    reasonsForAssistance: inputField.filter(
                         '#reasonsWhyAssistanceIsBeingSought'
                     ).val(),
-                    consultationAnswer: $(
+                    consultationAnswer: inputField.filter(
                         'input[name="consultationAnswer"]:checked'
                     ).val(),
-                    companyAgency: $('#fromWhatCompanyAgency').val(),
-                    assistanceType: $(
+                    companyAgency: inputField.filter('#fromWhatCompanyAgency').val(),
+                    assistanceType: inputField.filter(
                         '#pleaseSpecifyTheTypeOfAssistanceSought'
                     ).val(),
-                    whyNot: $('#whyNot').val(),
-                    enterprisePlanForTheNext5Years: $(
+                    whyNot: inputField.filter('#whyNot').val(),
+                    enterprisePlanForTheNext5Years: inputField.filter(
                         '#enterprisePlanForTheNext5Years'
                     ).val(),
-                    nextTenYears: $('#nextTenYears').val(),
-                    currentAgreementAndAlliancesUndertaken: $(
+                    nextTenYears: inputField.filter('#nextTenYears').val(),
+                    currentAgreementAndAlliancesUndertaken: inputField.filter(
                         '#currentAgreementAndAlliancesUndertaken'
                     ).val(),
                 };
 
                 const BusinessActivities = {
-                    foodProcessing: $('#food_Processing_activity').is(':checked'),
-                    foodProcessingSpecificSector: $(
+                    foodProcessing: inputField.filter('#food_Processing_activity').is(':checked'),
+                    foodProcessingSpecificSector: inputField.filter(
                         '#food_processing_specific_sector'
                     ).val(),
-                    furniture: $('#furniture_activity').is(':checked'),
-                    furnitureSpecificSector: $(
+                    furniture: inputField.filter('#furniture_activity').is(':checked'),
+                    furnitureSpecificSector: inputField.filter(
                         '#furniture_specific_sector'
                     ).val(),
-                    naturalFibers: $('#natural_fibers_activity').is(':checked'),
-                    naturalFibersSpecificSector: $(
+                    naturalFibers: inputField.filter('#natural_fibers_activity').is(':checked'),
+                    naturalFibersSpecificSector: inputField.filter(
                         '#natural_fibers_specific_sector'
                     ).val(),
-                    metals: $('#metals_and_engineering_activity').is(':checked'),
-                    metalsSpecificSector: $('#metals_and_engineering_specific_sector').val(),
-                    aquatic: $('#aquatic_and_marine_activity').is(':checked'),
-                    aquaticSpecificSector: $('#aquatic_and_marine_specific_sector').val(),
-                    horticulture: $('#horticulture_activity').is(':checked'),
-                    horticultureSpecificSector: $(
+                    metals: inputField.filter('#metals_and_engineering_activity').is(':checked'),
+                    metalsSpecificSector: inputField.filter('#metals_and_engineering_specific_sector').val(),
+                    aquatic: inputField.filter('#aquatic_and_marine_activity').is(':checked'),
+                    aquaticSpecificSector: inputField.filter('#aquatic_and_marine_specific_sector').val(),
+                    horticulture: inputField.filter('#horticulture_activity').is(':checked'),
+                    horticultureSpecificSector: inputField.filter(
                         '#horticulture_specific_sector'
                     ).val(),
-                    others: $('#other_activity').is(':checked'),
-                    othersSpecificSector: $('#other_specific_sector').val(),
+                    others: inputField.filter('#other_activity').is(':checked'),
+                    othersSpecificSector: inputField.filter('#other_specific_sector').val(),
                 };
-                const OfficeLandMark = $('#officeLandmark').val();
-                const OfficeBarangay = 'Barangay ' + $('#officeBarangay').val();
-                const OfficeCity = $('#officeCity').val();
-                const OfficeProvince = $('#officeProvince').val();
-                const OfficeRegion = $('#officeRegion').val();
-                const OfficeTeleNumber = $('#officeTelNo').val();
-                const OfficeFax = $('#officeFaxNo').val();
-                const OfficeEmail = $('#officeEmailAddress').val();
+                const OfficeLandMark = inputField.filter('#officeLandmark').val();
+                const OfficeBarangay = 'Barangay ' + inputField.filter('#officeBarangay').val();
+                const OfficeCity = inputField.filter('#officeCity').val();
+                const OfficeProvince = inputField.filter('#officeProvince').val();
+                const OfficeRegion = inputField.filter('#officeRegion').val();
+                const OfficeTeleNumber = inputField.filter('#officeTelNo').val();
+                const OfficeFax = inputField.filter('#officeFaxNo').val();
+                const OfficeEmail = inputField.filter('#officeEmailAddress').val();
 
-                const FactoryLandMark = $('#factoryLandmark').val();
+                const FactoryLandMark = inputField.filter('#factoryLandmark').val();
                 const FactoryBarangay =
-                    'Barangay ' + $('#factoryBarangay').val();
-                const FactoryCity = $('#factoryCity').val();
-                const FactoryProvince = $('#factoryProvince').val();
-                const FactoryRegion = $('#factoryRegion').val();
-                const FactoryTeleNumber = $('#factoryTelNo').val();
-                const FactoryFax = $('#factoryFaxNo').val();
-                const FactoryEmail = $('#factoryEmailAddress').val();
+                    'Barangay ' + inputField.filter('#factoryBarangay').val();
+                const FactoryCity = inputField.filter('#factoryCity').val();
+                const FactoryProvince = inputField.filter('#factoryProvince').val();
+                const FactoryRegion = inputField.filter('#factoryRegion').val();
+                const FactoryTeleNumber = inputField.filter('#factoryTelNo').val();
+                const FactoryFax = inputField.filter('#factoryFaxNo').val();
+                const FactoryEmail = inputField.filter('#factoryEmailAddress').val();
 
-                $('#re_brief_background').val(BusinessInfo.Background);
-                $('#re_business_permit_No').val(BusinessInfo.PermitNo);
-                $('#re_permit_year_registered').val(BusinessInfo.PermitYearRegistered);
-                $('#re_enterpriseRegistrationNo').val(
+                reviewInputsContainer.filter('#re_brief_background').val(BusinessInfo.Background);
+                reviewInputsContainer.filter('#re_business_permit_No').val(BusinessInfo.PermitNo);
+                reviewInputsContainer.filter('#re_permit_year_registered').val(BusinessInfo.PermitYearRegistered);
+                reviewInputsContainer.filter('#re_enterpriseRegistrationNo').val(
                     BusinessInfo.RegistrationNo
                 );
-                $('#re_yearEnterpriseRegistered').val(
+                reviewInputsContainer.filter('#re_yearEnterpriseRegistered').val(
                     BusinessInfo.RegistrationYear
                 );
-                $('#re_initial_capitalization').val(BusinessInfo.InitialCapital);
-                $('#re_present_capitalization').val(BusinessInfo.presentCapital);
+                reviewInputsContainer.filter('#re_initial_capitalization').val(BusinessInfo.InitialCapital);
+                reviewInputsContainer.filter('#re_present_capitalization').val(BusinessInfo.presentCapital);
 
-                $('#re_OfficeAddress').val(
+                reviewInputsContainer.filter('#re_OfficeAddress').val(
                     OfficeLandMark +
                         ', ' +
                         OfficeBarangay +
@@ -511,11 +510,11 @@ export function initializeForm() {
                         ', ' +
                         OfficeRegion
                 );
-                $('#re_officeEmailAddress').val(OfficeEmail);
-                $('#re_officeTelNo').val(OfficeTeleNumber);
-                $('#re_officeFaxNo').val(OfficeFax);
+                reviewInputsContainer.filter('#re_officeEmailAddress').val(OfficeEmail);
+                reviewInputsContainer.filter('#re_officeTelNo').val(OfficeTeleNumber);
+                reviewInputsContainer.filter('#re_officeFaxNo').val(OfficeFax);
 
-                $('#re_factoryAddress').val(
+                reviewInputsContainer.filter('#re_factoryAddress').val(
                     FactoryLandMark +
                         ', ' +
                         FactoryBarangay +
@@ -526,37 +525,37 @@ export function initializeForm() {
                         ', ' +
                         FactoryRegion
                 );
-                $('#re_factoryEmailAddress').val(FactoryEmail);
-                $('#re_factoryTelNo').val(FactoryTeleNumber);
-                $('#re_factoryFaxNo').val(FactoryFax);
+                reviewInputsContainer.filter('#re_factoryEmailAddress').val(FactoryEmail);
+                reviewInputsContainer.filter('#re_factoryTelNo').val(FactoryTeleNumber);
+                reviewInputsContainer.filter('#re_factoryFaxNo').val(FactoryFax);
 
-                $('#re_foodProcessing').prop(
+                reviewInputsContainer.filter('#re_foodProcessing').prop(
                     'checked',
                     BusinessActivities.foodProcessing
                 );
-                $('#re_foodProcessingSpecificSector').val(
+                reviewInputsContainer.filter('#re_foodProcessingSpecificSector').val(
                     BusinessActivities.foodProcessingSpecificSector
                 );
-                $('#re_furniture').prop(
+                reviewInputsContainer.filter('#re_furniture').prop(
                     'checked',
                     BusinessActivities.furniture
                 );
-                $('#re_furnitureSpecificSector').val(
+                reviewInputsContainer.filter('#re_furnitureSpecificSector').val(
                     BusinessActivities.furnitureSpecificSector
                 );
-                $('#re_naturalFibers').prop(
+                reviewInputsContainer.filter('#re_naturalFibers').prop(
                     'checked',
                     BusinessActivities.naturalFibers
                 );
-                $('#re_naturalFibersSpecificSector').val(
+                reviewInputsContainer.filter('#re_naturalFibersSpecificSector').val(
                     BusinessActivities.naturalFibersSpecificSector
                 );
-                $('#re_metals').prop('checked', BusinessActivities.metals);
-                $('#re_metalsSpecificSector').val(
+                reviewInputsContainer.filter('#re_metals').prop('checked', BusinessActivities.metals);
+                reviewInputsContainer.filter('#re_metalsSpecificSector').val(
                     BusinessActivities.metalsSpecificSector
                 );
-                $('#re_aquatic').prop('checked', BusinessActivities.aquatic);
-                $('#re_aquaticSpecificSector').val(
+                reviewInputsContainer.filter('#re_aquatic').prop('checked', BusinessActivities.aquatic);
+                reviewInputsContainer.filter('#re_aquaticSpecificSector').val(
                     BusinessActivities.aquaticSpecificSector
                 );
                 $('#re_horticulture').prop(
@@ -566,68 +565,68 @@ export function initializeForm() {
                 $('#re_horticultureSpecificSector').val(
                     BusinessActivities.horticultureSpecificSector
                 );
-                $('#re_others').prop('checked', BusinessActivities.others);
-                $('#re_othersSpecificSector').val(
+                reviewInputsContainer.filter('#re_others').prop('checked', BusinessActivities.others);
+                reviewInputsContainer.filter('#re_othersSpecificSector').val(
                     BusinessActivities.othersSpecificSector
                 );
 
-                $('#re_buildings').val($('#buildings').val());
-                $('#re_equipments').val($('#equipments').val());
-                $('#re_working_capital').val($('#working_capital').val());
-                $('#re_to_Assets').text($('#to_Assets').text());
-                $('#re_Enterprise_Level').text($('#Enterprise_Level').text());
-                $('#EnterpriseLevelInput').val($('#Enterprise_Level').text());
-                $('#re_LocalMar').val($('#LocalMar').val());
-                $('#re_ExportMar').val($('#ExportMar').val());
+                reviewInputsContainer.filter('#re_buildings').val(inputField.filter('#buildings').val());
+                reviewInputsContainer.filter('#re_equipments').val(inputField.filter('#equipments').val());
+                reviewInputsContainer.filter('#re_working_capital').val(inputField.filter('#working_capital').val());
+                reviewInputsContainer.filter('#re_to_Assets').text(inputField.filter('#to_Assets').text());
+                reviewInputsContainer.filter('#re_Enterprise_Level').text(inputField.filter('#Enterprise_Level').text());
+                reviewInputsContainer.filter('#EnterpriseLevelInput').val(inputField.filter('#Enterprise_Level').text());
+                reviewInputsContainer.filter('#re_LocalMar').val(inputField.filter('#LocalMar').val());
+                reviewInputsContainer.filter('#re_ExportMar').val(inputField.filter('#ExportMar').val());
 
                 // Personnel Info
-                $('#re_m_personnelDiRe').val($('#m_personnelDiRe').val());
-                $('#re_f_personnelDiRe').val($('#f_personnelDiRe').val());
-                $('#re_m_personnelDiPart').val($('#m_personnelDiPart').val());
-                $('#re_f_personnelDiPart').val($('#f_personnelDiPart').val());
+                reviewInputsContainer.filter('#re_m_personnelDiRe').val(inputField.filter('#m_personnelDiRe').val());
+                reviewInputsContainer.filter('#re_f_personnelDiRe').val(inputField.filter('#f_personnelDiRe').val());
+                reviewInputsContainer.filter('#re_m_personnelDiPart').val(inputField.filter('#m_personnelDiPart').val());
+                reviewInputsContainer.filter('#re_f_personnelDiPart').val(inputField.filter('#f_personnelDiPart').val());
 
                 // Retrieve and populate values for indirect personnel
-                $('#re_m_personnelIndRe').val($('#m_personnelIndRe').val());
-                $('#re_f_personnelIndRe').val($('#f_personnelIndRe').val());
-                $('#re_m_personnelIndPart').val($('#m_personnelIndPart').val());
-                $('#re_f_personnelIndPart').val($('#f_personnelIndPart').val());
+                reviewInputsContainer.filter('#re_m_personnelIndRe').val(inputField.filter('#m_personnelIndRe').val());
+                reviewInputsContainer.filter('#re_f_personnelIndRe').val(inputField.filter('#f_personnelIndRe').val());
+                reviewInputsContainer.filter('#re_m_personnelIndPart').val(inputField.filter('#m_personnelIndPart').val());
+                reviewInputsContainer.filter('#re_f_personnelIndPart').val(inputField.filter('#f_personnelIndPart').val());
 
                 // Object mapping file input IDs to their corresponding readonly input IDs
 
                 // Update the review section with consultation data
-                $('#re_specificProductOrService').val(
+                reviewInputsContainer.filter('#re_specificProductOrService').val(
                     BusinessInfo.specificProduct
                 );
-                $('#re_reasonsWhyAssistanceIsBeingSought').val(
+                reviewInputsContainer.filter('#re_reasonsWhyAssistanceIsBeingSought').val(
                     BusinessInfo.reasonsForAssistance
                 );
 
-                $('#re_enterprisePlanForTheNext5Years').val(
+                reviewInputsContainer.filter('#re_enterprisePlanForTheNext5Years').val(
                     BusinessInfo.enterprisePlanForTheNext5Years
                 );
-                $('#re_nextTenYears').val(BusinessInfo.nextTenYears);
-                $('#re_currentAgreementAndAlliancesUndertaken').val(
+                reviewInputsContainer.filter('#re_nextTenYears').val(BusinessInfo.nextTenYears);
+                reviewInputsContainer.filter('#re_currentAgreementAndAlliancesUndertaken').val(
                     BusinessInfo.currentAgreementAndAlliancesUndertaken
                 );
 
                 // Handle consultation radio buttons in review
                 if (BusinessInfo.consultationAnswer === 'yes') {
-                    $('#re_consultationYes').prop('checked', true);
-                    $('#re_consultationNo').prop('checked', false);
-                    $('#re_yesConsultationDetails').show();
-                    $('#re_noConsultationDetails').hide();
-                    $('#re_fromWhatCompanyAgency').val(
+                    reviewInputsContainer.filter('#re_consultationYes').prop('checked', true);
+                    reviewInputsContainer.filter('#re_consultationNo').prop('checked', false);
+                    reviewInputsContainer.filter('#re_yesConsultationDetails').show();
+                    reviewInputsContainer.filter('#re_noConsultationDetails').hide();
+                    reviewInputsContainer.filter('#re_fromWhatCompanyAgency').val(
                         BusinessInfo.companyAgency
                     );
-                    $('#re_pleaseSpecifyTheTypeOfAssistanceSought').val(
+                    reviewInputsContainer.filter('#re_pleaseSpecifyTheTypeOfAssistanceSought').val(
                         BusinessInfo.assistanceType
                     );
                 } else if (BusinessInfo.consultationAnswer === 'no') {
-                    $('#re_consultationYes').prop('checked', false);
-                    $('#re_consultationNo').prop('checked', true);
-                    $('#re_yesConsultationDetails').hide();
-                    $('#re_noConsultationDetails').show();
-                    $('#re_whyNot').val(BusinessInfo.whyNot);
+                    reviewInputsContainer.filter('#re_consultationYes').prop('checked', false);
+                    reviewInputsContainer.filter('#re_consultationNo').prop('checked', true);
+                    reviewInputsContainer.filter('#re_yesConsultationDetails').hide();
+                    reviewInputsContainer.filter('#re_noConsultationDetails').show();
+                    reviewInputsContainer.filter('#re_whyNot').val(BusinessInfo.whyNot);
                 }
             }
         }
@@ -657,43 +656,78 @@ export function initializeForm() {
         confirmationModal.show();
     };
 
-    const confirmTrueInfo = $('input[type="checkbox"]#detail_confirm');
-    const confirmAgreeInfo = $('input[type="checkbox"]#agree_terms');
-    const make_availableInfo = $('input[type="checkbox"]#make_available');
-    const satisfied_requirementsInfo = $('input[type="checkbox"]#satisfied_requirements');
-    const when_inputs_suppliedInfo = $('input[type="checkbox"]#when_inputs_supplied');
-    const report_preparedInfo = $('input[type="checkbox"]#report_prepared');
-    const report_permissionInfo = $('input[type="checkbox"]#report_permission');
-    const receipt_acknowledgmentInfo = $('input[type="checkbox"]#receipt_acknowledgment');
+let checkBoxValidationHandler;
+   // Checkbox Validation Handler
+class CheckboxValidationHandler {
+    constructor(config) {
+        this.checkboxIds = [
+            'detail_confirm',
+            'agree_terms',
+            'make_available',
+            'satisfied_requirements',
+            'when_inputs_supplied',
+            'report_prepared',
+            'report_permission',
+            'receipt_acknowledgment'
+        ];
+        this.confirmButtonId = config.confirmButtonId;
+        this.initialize();
+    }
 
-    $(confirmTrueInfo)
-        .add(confirmAgreeInfo)
-        .add(make_availableInfo)
-        .add(satisfied_requirementsInfo)
-        .add(when_inputs_suppliedInfo)
-        .add(report_preparedInfo)
-        .add(report_permissionInfo)
-        .add(receipt_acknowledgmentInfo)
-        .on('change', function () {
-            confirmButton.prop(
-                'disabled',
-                !$(confirmTrueInfo).is(':checked') ||
-                !$(confirmAgreeInfo).is(':checked') ||
-                !$(make_availableInfo).is(':checked') ||
-                !$(satisfied_requirementsInfo).is(':checked') ||
-                !$(when_inputs_suppliedInfo).is(':checked') ||
-                !$(report_preparedInfo).is(':checked') ||
-                !$(report_permissionInfo).is(':checked') ||
-                !$(receipt_acknowledgmentInfo).is(':checked')
-            );
-        });
+    initialize() {
+        // Create a single selector for all checkboxes
+        const checkboxSelector = this.checkboxIds
+        .map(id => `input[type="checkbox"]#${id}`)
+        .join(',');
+    this.checkboxes = $(checkboxSelector);
+    this.confirmButton = $(`#${this.confirmButtonId}`);
 
-    confirmButton.on('click', async function (event) {
-        event.preventDefault();
-        await submitForm();
-    });
+    if (!this.checkboxes.length) {
+        throw new Error('Required checkboxes not found in DOM');
+    }
+    if (!this.confirmButton.length) {
+        throw new Error('Confirm button not found in DOM');
+    }
 
-    const ApplicationForm = $('#applicationForm');
+        // Bind event handler
+        this.checkboxes.on('change', this.handleCheckboxChange.bind(this));
+
+        this.confirmButton.on('click', async (event) => {
+            event.preventDefault();
+            try {
+                await submitForm();
+            } catch (err) { 
+                showToastFeedback('text-bg-danger', err);
+            }
+        })
+    }
+
+    handleCheckboxChange() {
+        // Check if all checkboxes are checked using a single array operation
+        const allChecked = Array.from(this.checkboxes).every(
+            checkbox => checkbox.checked
+        );
+
+        // Update button state
+        this.confirmButton.prop('disabled', !allChecked);
+    }
+
+    // Clean up method to remove event listeners
+    destroy() {
+        this.checkboxes.off('change');
+    }
+}
+
+if(checkBoxValidationHandler) checkBoxValidationHandler.destroy();
+// Usage
+checkBoxValidationHandler = new CheckboxValidationHandler({
+    confirmButtonId: 'confirmButton'
+});
+
+// Clean up when needed
+// validationHandler.destroy();
+
+
 
     async function submitForm() {
         showProcessToast('Submitting form...');
@@ -777,17 +811,6 @@ export function initializeForm() {
             }
         });
 
-    const formatNumber = (input) => {
-        let value = input.value.replace(/,/g, ''); // Remove existing commas
-        value = value.replace(/[^\d.]/g, ''); // Remove non-numeric characters except for decimal point
-        value = value.replace(/(\.\d{2})\d+$/, '$1'); // Limit decimal points to 2
-
-        // Add commas every 3 digits
-        value = value.replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-
-        input.value = value;
-    };
-
     $('.num_only').on('input', function () {
         const input = $(this);
         const value = input.val().replace(/[^0-9.]/g, '');
@@ -796,7 +819,7 @@ export function initializeForm() {
 
     function updateEnterpriseLevel() {
         $('#buildings, #equipments, #working_capital').each(function () {
-            formatNumber($(this)[0]);
+            customFormatNumericInput($(this)[0]);
         });
 
         const buildingsValue =
