@@ -769,13 +769,13 @@
 
             @if ($isEditable)
                 <input
-                    name="wearing_apparel_manufacturing"
+                    name="wearing_apparel_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($wearing_apparel_manufacturing ?? '' == 'checked')
+                    @checked($wearing_apparel_manufacturing_activity ?? '' == 'checked')
                 >
             @else
-                {{ $wearing_apparel_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $wearing_apparel_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -785,13 +785,13 @@
 
             @if ($isEditable)
                 <input
-                    name="other_transport_equipment_manufacturing"
+                    name="other_transport_equipment_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($other_transport_equipment_manufacturing ?? '' == 'checked')
+                    @checked($other_transport_equipment_manufacturing_activity ?? '' == 'checked')
                 >
             @else
-                {{ $other_transport_equipment_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $other_transport_equipment_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -802,13 +802,13 @@
         <td>
             @if ($isEditable)
                 <input
-                    name="leather_and_related_products_manufacturing"
+                    name="leather_and_related_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($leather_and_related_products_manufacturing ?? '' == 'checked')
+                    @checked($leather_and_related_products_manufacturing_activity ?? '' == 'checked')
                 >
             @else
-                {{ $leather_and_related_products_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $leather_and_related_products_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -818,13 +818,13 @@
 
             @if ($isEditable)
                 <input
-                    name="furniture_manufacturing"
+                    name="furniture_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($furniture_manufacturing ?? '' == 'checked')
+                    @checked($furniture_manufacturing_activity ?? '' == 'checked')
                 >
             @else
-                {{ $furniture_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $furniture_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -835,13 +835,13 @@
         <td>
             @if ($isEditable)
                 <input
-                    name="wood_and_products_of_wood_and_cork_manufacturing"
+                    name="wood_and_products_of_wood_and_cork_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($wood_and_products_of_wood_and_cork_manufacturing ?? '' == 'checked')
+                    @checked($wood_and_products_of_wood_and_cork_manufacturing_activity ?? '' == 'checked')
                 >
             @else
-                {{ $wood_and_products_of_wood_and_cork_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $wood_and_products_of_wood_and_cork_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -850,13 +850,13 @@
         <td>
             @if ($isEditable)
                 <input
-                    name="information_and_communication_manufacturing"
+                    name="information_and_communication_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($information_and_communication_manufacturing ?? '' == 'checked')
+                    @checked($information_and_communication_manufacturing_activity ?? '' == 'checked')
                 >
             @else
-                {{ $information_and_communication_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $information_and_communication_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -868,13 +868,13 @@
 
             @if ($isEditable)
                 <input
-                    name="paper_and_paper_products_manufacturing"
+                    name="paper_and_paper_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($paper_and_paper_products_manufacturing ?? '' == 'checked')
+                    @checked($paper_and_paper_products_manufacturing_activity ?? '' == 'checked')
                 >
             @else
-                {{ $paper_and_paper_products_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $paper_and_paper_products_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -884,18 +884,29 @@
 
             @if ($isEditable)
                 <input
-                    name="other_regional_priority_industries_approved_by_the_regional_development_council_please_specify"
+                    name="other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($other_regional_priority_industries_approved_by_the_regional_development_council_please_specify ?? '' == 'checked')
+                    @checked(
+                        $other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity ??
+                            '' == 'checked')
                 >
             @else
-                {{ $other_regional_priority_industries_approved_by_the_regional_development_council_please_specify ?? '' == 'checked' ? '/' : '' }}
+                {{ $other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
 
         <td colspan="3">
-            Other regional priority industries approved by the Regional Development Council, please specify:
+            Other regional priority industries approved by the Regional Development Council, please specify: <br>
+            @if ($isEditable)
+                <input
+                    name="other_regional_priority_industries_please_specify_activity"
+                    type="text"
+                    value="{{ $other_regional_priority_industries_please_specify_activity ?? '' }}"
+                >
+            @else
+                {{ $other_regional_priority_industries_please_specify_activity ?? '' }}
+            @endif
         </td>
     </tr>
     <!-- Continue with remaining business activities in similar pattern -->
@@ -1174,12 +1185,61 @@
         <td>Impact</th>
     </tr>
     <tbody>
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+        @forelse ($technical_constraints_on_productionline_and_proposed_s_t_intervention ?? [] as $data)
+            <tr>
+                <td>
+                    @if ($isEditable)
+                        <textarea class="form-control process_existing_practice_problem">{{ $data['process_existing_practice_problem'] ?? '' }}</textarea>
+                    @else
+                        {{ $data['process_existing_practice_problem'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <textarea class="form-control proposed_s_t_intervention">{{ $data['proposed_s_t_intervention'] ?? '' }}</textarea>
+                    @else
+                        {{ $data['proposed_s_t_intervention'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <textarea class="form-control proposed_s_t_intervention_related_equipment_skills_upgrading">{{ $data['proposed_s_t_intervention_related_equipment_skills_upgrading'] ?? '' }}</textarea>
+                    @else
+                        {{ $data['proposed_s_t_intervention_related_equipment_skills_upgrading'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <textarea class="form-control impact">{{ $data['impact'] ?? '' }}</textarea>
+                    @else
+                        {{ $data['impact'] ?? '' }}
+                    @endif
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td>
+                    @if ($isEditable)
+                        <textarea class="form-control process_existing_practice_problem"></textarea>
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <textarea class="form-control proposed_s_t_intervention"></textarea>
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <textarea class="form-control proposed_s_t_intervention_related_equipment_skills_upgrading"></textarea>
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <textarea class="form-control impact"></textarea>
+                    @endif
+                </td>
+            </tr>
+        @endforelse
     </tbody>
 </table>
 <table width="100%">
@@ -1194,30 +1254,120 @@
         </td>
     </tr>
 </table>
-    <table id="equipmentTable">
-        <tr>
-            <td>S&T Intervention-related equipment/specification</td>
-            <td>Qty</td>
-            <td>Unit Cost</td>
-            <td>Total Cost</td>
-        </tr>
-        <tbody>
+<table id="equipmentTable">
+    @php
+        $total_cost = 0;
+    @endphp
+    <tr>
+        <td>S&T Intervention-related equipment/specification</td>
+        <td>Qty</td>
+        <td>(₱)Unit Cost</td>
+        <td>(₱)Total Cost</td>
+    </tr>
+    <tbody>
+        @forelse ($S_T_intervention_related_equipment ?? [] as $data)
+            @php
+                $row_total_cost = floatval($data['qty'] ?? 0) * floatval($data['unit_cost'] ?? 0);
+                $total_cost += $row_total_cost;
+            @endphp
             <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class=" S_T_intervention_related_equipment"
+                            type="text"
+                            value="{{ $data['S_T_intervention_related_equipment'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['S_T_intervention_related_equipment'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="qty"
+                            type="text"
+                            value="{{ $data['qty'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['qty'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="unit_cost"
+                            type="text"
+                            value="{{ $data['unit_cost'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['unit_cost'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="total_cost"
+                            type="text"
+                            value="{{ $data['total_cost'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['total_cost'] ?? '' }}
+                    @endif
+                </td>
             </tr>
-        </tbody>
-        <tr>
-            <td
-                class="bold"
-                colspan="3"
-            >Total</td>
-            <td></td>
-        </tr>
-    </table>
-    <table>
+        @empty
+            <tr>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="S_T_intervention_related_equipment"
+                            type="text"
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="qty"
+                            type="text"
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="unit_cost"
+                            type="text"
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="total_cost"
+                            type="text"
+                        >
+                    @else
+                        <input
+                            class="total_cost"
+                            type="text"
+                            readonly
+                        >
+                    @endif
+                </td>
+            </tr>
+        @endforelse
+    </tbody>
+    <tr>
+        <td
+            class="bold"
+            colspan="3"
+        >Total</td>
+        <td>{{ number_format($total_cost, 2) }}</td>
+    </tr>
+</table>
+<table>
     <tr>
         <td>
             <p class="section--sub--title">E. List of equipment fabricators (name and address)</p>
@@ -1323,23 +1473,6 @@
             @endif
         </td>
     </tr>
-    <tr>
-        <td>
-            <p class="section--sub--title">E. List of equipment fabricators (name and address)</p>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            @if ($isEditable)
-                <textarea
-                    class="form-control"
-                    name="list_of_equipment_fabricators"
-                >{{ $list_of_equipment_fabricators ?? '' }}</textarea>
-            @else
-                {{ $list_of_equipment_fabricators ?? '' }}
-            @endif
-        </td>
-    </tr>
 </table>
 <table id="FinancialAsspectTable">
     <tr>
@@ -1403,34 +1536,215 @@
         </td>
     </tr>
 </table>
-<table id="budgetTable">
-    <tr>
-        <th>Item of Expenditure</th>
-        <th>Qty</th>
-        <th>Unit Cost</th>
-        <th>Cost</th>
-        <th>SETUP</th>
-        <th>LGIA</th>
-        <th>Cooperator</th>
-        <th>Total</th>
-    </tr>
-    <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td
-            class="bold"
-            colspan="7"
-        >Total</td>
-        <td></td>
-    </tr>
+<table
+    id="budgetTable"
+    style="width: 100%; table-layout: fixed;"
+>
+    <tbody>
+        <tr>
+            <td width="20%"></td>
+            <td width="5%"></td>
+            <td width="10%"></td>
+            <td width="10%"></td>
+            <td width="10%"></td>
+            <td width="10%"></td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+        </tr>
+        <tr>
+            <td>Item of Expenditure</td>
+            <td>Qty</td>
+            <td>Unit Cost</td>
+            <td
+                style="text-align: center"
+                colspan="5"
+            >Cost</td>
+        </tr>
+
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>SETUP</td>
+            <td>LGIA</td>
+            <td>Cooperator</td>
+            <td colspan="2">Total</td>
+        </tr>
+        @php
+            $total_SETUP = 0;
+            $total_LGIA = 0;
+            $total_Cooperator = 0;
+            $grand_total = 0;
+        @endphp
+        @forelse ($budgetary_requirement ?? [] as $data)
+            @php
+                $row_SETUP = floatval($data['SETUP'] ?? 0);
+                $row_LGIA = floatval($data['LGIA'] ?? 0);
+                $row_Cooperator = floatval($data['Cooperator'] ?? 0);
+                $row_total_cost = $row_SETUP + $row_LGIA + $row_Cooperator;
+
+                $total_SETUP += $row_SETUP;
+                $total_LGIA += $row_LGIA;
+                $total_Cooperator += $row_Cooperator;
+                $grand_total += $row_total_cost;
+            @endphp
+            <tr>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="item_of_expenditure"
+                            type="text"
+                            value="{{ $data['item_of_expenditure'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['item_of_expenditure'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="qty"
+                            type="text"
+                            value="{{ $data['qty'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['qty'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="unit_cost"
+                            type="text"
+                            value="{{ $data['unit_cost'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['unit_cost'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="SETUP"
+                            type="text"
+                            value="{{ $data['SETUP'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['SETUP'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="LGIA"
+                            type="text"
+                            value="{{ $data['LGIA'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['LGIA'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Cooperator"
+                            type="text"
+                            value="{{ $data['Cooperator'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['Cooperator'] ?? '' }}
+                    @endif
+                </td>
+                <td colspan="2">
+                    @if ($isEditable)
+                        <input
+                            class="total_cost"
+                            type="text"
+                            value="{{ $data['total_cost'] ?? '' }}"
+                        >
+                    @else
+                        {{ $data['total_cost'] ?? '' }}
+                    @endif
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="item_of_expenditure"
+                            type="text"
+                            value=""
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="qty"
+                            type="text"
+                            value=""
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="unit_cost"
+                            type="text"
+                            value=""
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="SETUP"
+                            type="text"
+                            value=""
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="LGIA"
+                            type="text"
+                            value=""
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Cooperator"
+                            type="text"
+                            value=""
+                        >
+                    @endif
+                </td>
+                <td colspan="2">
+                    @if ($isEditable)
+                        <input
+                            class="total_cost"
+                            type="text"
+                            value=""
+                        >
+                    @endif
+                </td>
+            </tr>
+        @endforelse
+        <tr>
+            <td
+                class="bold"
+                colspan="3"
+            >Total</td>
+            <td>{{ number_format($total_SETUP, 2) }}</td>
+            <td>{{ number_format($total_LGIA, 2) }}</td>
+            <td>{{ number_format($total_Cooperator, 2) }}</td>
+            <td colspan="2">{{ number_format($grand_total, 2) }}</td>
+        </tr>
+    </tbody>
 </table>
 <table>
     <tr>
@@ -1439,133 +1753,958 @@
         </td>
     </tr>
 </table>
-<table id="refundStructureTable">
-    <tr>
-        <th>Months</th>
-        <th>Y1</th>
-        <th>Y2</th>
-        <th>Y3</th>
-        <th>Y4</th>
-        <th>Y5</th>
-        <th>Total</th>
-    </tr>
-    <tr>
-        <td>January</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>February</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>March</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>April</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>May</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>June</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>July</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>August</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>September</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>October</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>November</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td>December</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    <tr>
-        <td class="bold">Total</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
+<table id="refundStructureTable" style="width: 100%; table-layout: fixed;">
+    @php
+        $january_total = ($data['january_total'] ?? 0) ?? 0;
+        $february_total = ($data['february_total'] ?? 0) ?? 0;
+        $march_total = ($data['march_total'] ?? 0) ?? 0;
+        $april_total = ($data['april_total'] ?? 0) ?? 0;
+        $may_total = ($data['may_total'] ?? 0) ?? 0;
+        $june_total = ($data['june_total'] ?? 0) ?? 0;
+        $july_total = ($data['july_total'] ?? 0) ?? 0;
+        $august_total = ($data['august_total'] ?? 0) ?? 0;
+        $september_total = ($data['september_total'] ?? 0) ?? 0;
+        $october_total = ($data['october_total'] ?? 0) ?? 0;
+        $november_total = ($data['november_total'] ?? 0) ?? 0;
+        $december_total = ($data['december_total'] ?? 0) ?? 0;
+
+        $y1_total = 0;
+        $y2_total = 0;
+        $y3_total = 0;
+        $y4_total = 0;
+        $y5_total = 0;
+    @endphp
+    <tbody>
+        <tr>
+            <td width="14.3%"></td>
+            <td width="14.3%"></td>
+            <td width="14.3%"></td>
+            <td width="14.3%"></td>
+            <td width="14.3%"></td>
+            <td width="14.3%"></td>
+            <td width="14.3%"></td>
+        </tr>
+
+        <tr>
+            <th style="text-align: center;">Months</th>
+            <th style="text-align: center;">Y1</th>
+            <th style="text-align: center;">Y2</th>
+            <th style="text-align: center;">Y3</th>
+            <th style="text-align: center;">Y4</th>
+            <th style="text-align: center;">Y5</th>
+            <th style="text-align: center;">Total</th>
+        </tr>
+        <tr>
+            <td>January</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="january_Y1"
+                        type="text"
+                        name="january_Y1"
+                        value="{{ $january_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $january_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="january_Y2"
+                        type="text"
+                        name="january_Y2"
+                        value="{{ $january_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $january_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="january_Y3"
+                        type="text"
+                        name="january_Y3"
+                        value="{{ $january_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $january_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="january_Y4"
+                        type="text"
+                        name="january_Y4"
+                        value="{{ $january_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $january_Y4 ?? '' }}
+                @endif
+
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="january_Y5"
+                        type="text"
+                        name="january_Y5"
+                        value="{{ $january_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $january_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="january_total"
+                        type="text"
+                        name="january_total"
+                        value="{{ $january_total ?? '' }}"
+                    >
+                @else
+                    {{ $january_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>February</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="february_Y1"
+                        type="text"
+                        name="february_Y1"
+                        value="{{ $february_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $february_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="february_Y2"
+                        type="text"
+                        name="february_Y2"
+                        value="{{ $february_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $february_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="february_Y3"
+                        type="text"
+                        name="february_Y3"
+                        value="{{ $february_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $february_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="february_Y4"
+                        type="text"
+                        name="february_Y4"
+                        value="{{ $february_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $february_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="february_Y5"
+                        type="text"
+                        name="february_Y5"
+                        value="{{ $february_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $february_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="february_total"
+                        type="text"
+                        name="february_total"
+                        value="{{ $february_total ?? '' }}"
+                    >
+                @else
+                    {{ $february_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>March</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="march_Y1"
+                        type="text"
+                        name="march_Y1"
+                        value="{{ $march_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $march_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="march_Y2"
+                        type="text"
+                        name="march_Y2"
+                        value="{{ $march_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $march_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="march_Y3"
+                        type="text"
+                        name="march_Y3"
+                        value="{{ $march_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $march_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="march_Y4"
+                        type="text"
+                        name="march_Y4"
+                        value="{{ $march_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $march_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="march_Y5"
+                        type="text"
+                        name="march_Y5"
+                        value="{{ $march_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $march_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="march_total"
+                        type="text"
+                        name="march_total"
+                        value="{{ $march_total ?? '' }}"
+                    >
+                @else
+                    {{ $march_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>April</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="april_Y1"
+                        type="text"
+                        name="april_Y1"
+                        value="{{ $april_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $april_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="april_Y2"
+                        type="text"
+                        name="april_Y2"
+                        value="{{ $april_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $april_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="april_Y3"
+                        type="text"
+                        name="april_Y3"
+                        value="{{ $april_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $april_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="april_Y4"
+                        type="text"
+                        name="april_Y4"
+                        value="{{ $april_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $april_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="april_Y5"
+                        type="text"
+                        name="april_Y5"
+                        value="{{ $april_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $april_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="april_total"
+                        type="text"
+                        name="april_total"
+                        value="{{ $april_total ?? '' }}"
+                    >
+                @else
+                    {{ $april_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>May</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="may_Y1"
+                        type="text"
+                        name="may_Y1"
+                        value="{{ $may_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $may_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="may_Y2"
+                        type="text"
+                        name="may_Y2"
+                        value="{{ $may_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $may_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="may_Y3"
+                        type="text"
+                        name="may_Y3"
+                        value="{{ $may_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $may_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="may_Y4"
+                        type="text"
+                        name="may_Y4"
+                        value="{{ $may_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $may_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="may_Y5"
+                        type="text"
+                        name="may_Y5"
+                        value="{{ $may_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $may_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="may_total"
+                        type="text"
+                        name="may_total"
+                        value="{{ $may_total ?? '' }}"
+                    >
+                @else
+                    {{ $may_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>June</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="june_Y1"
+                        type="text"
+                        name="june_Y1"
+                        value="{{ $june_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $june_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="june_Y2"
+                        type="text"
+                        name="june_Y2"
+                        value="{{ $june_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $june_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="june_Y3"
+                        type="text"
+                        name="june_Y3"
+                        value="{{ $june_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $june_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="june_Y4"
+                        type="text"
+                        name="june_Y4"
+                        value="{{ $june_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $june_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="june_Y5"
+                        type="text"
+                        name="june_Y5"
+                        value="{{ $june_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $june_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="june_total"
+                        type="text"
+                        name="june_total"
+                        value="{{ $june_total ?? '' }}"
+                    >
+                @else
+                    {{ $june_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>July</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="july_Y1"
+                        type="text"
+                        name="july_Y1"
+                        value="{{ $july_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $july_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="july_Y2"
+                        type="text"
+                        name="july_Y2"
+                        value="{{ $july_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $july_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="july_Y3"
+                        type="text"
+                        name="july_Y3"
+                        value="{{ $july_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $july_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="july_Y4"
+                        type="text"
+                        name="july_Y4"
+                        value="{{ $july_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $july_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="july_Y5"
+                        type="text"
+                        name="july_Y5"
+                        value="{{ $july_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $july_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="july_total"
+                        type="text"
+                        name="july_total"
+                        value="{{ $july_total ?? '' }}"
+                    >
+                @else
+                    {{ $july_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>August</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="august_Y1"
+                        type="text"
+                        name="august_Y1"
+                        value="{{ $august_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $august_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="august_Y2"
+                        type="text"
+                        name="august_Y2"
+                        value="{{ $august_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $august_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="august_Y3"
+                        type="text"
+                        name="august_Y3"
+                        value="{{ $august_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $august_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="august_Y4"
+                        type="text"
+                        name="august_Y4"
+                        value="{{ $august_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $august_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="august_Y5"
+                        type="text"
+                        name="august_Y5"
+                        value="{{ $august_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $august_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="august_total"
+                        type="text"
+                        name="august_total"
+                        value="{{ $august_total ?? '' }}"
+                    >
+                @else
+                    {{ $august_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>September</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="september_Y1"
+                        type="text"
+                        name="september_Y1"
+                        value="{{ $september_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $september_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="september_Y2"
+                        type="text"
+                        name="september_Y2"
+                        value="{{ $september_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $september_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="september_Y3"
+                        type="text"
+                        name="september_Y3"
+                        value="{{ $september_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $september_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="september_Y4"
+                        type="text"
+                        name="september_Y4"
+                        value="{{ $september_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $september_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="september_Y5"
+                        type="text"
+                        name="september_Y5"
+                        value="{{ $september_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $september_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="september_total"
+                        type="text"
+                        name="september_total"
+                        value="{{ $september_total ?? '' }}"
+                    >
+                @else
+                    {{ $september_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>October</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="october_Y1"
+                        type="text"
+                        name="october_Y1"
+                        value="{{ $october_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $october_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="october_Y2"
+                        type="text"
+                        name="october_Y2"
+                        value="{{ $october_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $october_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="october_Y3"
+                        type="text"
+                        name="october_Y3"
+                        value="{{ $october_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $october_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="october_Y4"
+                        type="text"
+                        name="october_Y4"
+                        value="{{ $october_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $october_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="october_Y5"
+                        type="text"
+                        name="october_Y5"
+                        value="{{ $october_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $october_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="october_total"
+                        type="text"
+                        name="october_total"
+                        value="{{ $october_total ?? '' }}"
+                    >
+                @else
+                    {{ $october_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>November</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="november_Y1"
+                        type="text"
+                        name="november_Y1"
+                        value="{{ $november_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $november_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="november_Y2"
+                        type="text"
+                        name="november_Y2"
+                        value="{{ $november_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $november_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="november_Y3"
+                        type="text"
+                        name="november_Y3"
+                        value="{{ $november_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $november_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="november_Y4"
+                        type="text"
+                        name="november_Y4"
+                        value="{{ $november_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $november_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="november_Y5"
+                        type="text"
+                        name="november_Y5"
+                        value="{{ $november_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $november_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="november_total"
+                        type="text"
+                        name="november_total"
+                        value="{{ $november_total ?? '' }}"
+                    >
+                @else
+                    {{ $november_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>December</td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="december_Y1"
+                        type="text"
+                        name="december_Y1"
+                        value="{{ $december_Y1 ?? '' }}"
+                    >
+                @else
+                    {{ $december_Y1 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="december_Y2"
+                        type="text"
+                        name="december_Y2"
+                        value="{{ $december_Y2 ?? '' }}"
+                    >
+                @else
+                    {{ $december_Y2 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="december_Y3"
+                        type="text"
+                        name="december_Y3"
+                        value="{{ $december_Y3 ?? '' }}"
+                    >
+                @else
+                    {{ $december_Y3 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="december_Y4"
+                        type="text"
+                        name="december_Y4"
+                        value="{{ $december_Y4 ?? '' }}"
+                    >
+                @else
+                    {{ $december_Y4 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="december_Y5"
+                        type="text"
+                        name="december_Y5"
+                        value="{{ $december_Y5 ?? '' }}"
+                    >
+                @else
+                    {{ $december_Y5 ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                    <input
+                        class="december_total"
+                        type="text"
+                        name="december_total"
+                        value="{{ $december_total ?? '' }}"
+                    >
+                @else
+                    {{ $december_total ?? '' }}
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td class="bold">Total</td>
+            <td>{{ $y1_total }}</td>
+            <td>{{ $y2_total }}</td>
+            <td>{{ $y3_total }}</td>
+            <td>{{ $y4_total }}</td>
+            <td>{{ $y5_total }}</td>
+            <td>{{ $y1_total + $y2_total + $y3_total + $y4_total + $y5_total }}</td>
+        </tr>
+    </tbody>
 </table>
 <table id="riskManagementPlanTable">
     <tr>
