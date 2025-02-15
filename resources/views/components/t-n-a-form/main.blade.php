@@ -1,8 +1,7 @@
-@props(['TNAdata'])
+@props(['TNAdata', 'isEditable'])
 @php
     use App\Services\ApplicantFileHandlerService;
     try {
-        $isEditable = false;
         $organizationalStructure = ApplicantFileHandlerService::getFileAsBase64(
             'Organizational Structure',
             $TNAdata['business_id'],
@@ -16,7 +15,13 @@
         $processFlow = null;
     }
 @endphp
-<div id="TNAForm">
+<form
+    id="TNAForm"
+    @if ($isEditable) action="{{ route('staff.Applicant.set.tna', ['business_id' => $TNAdata['business_id'], 'application_id' => $TNAdata['application_id']]) }}"
+    method="POST" @endif
+>
+    @csrf
+    @method('PUT')
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><span
             lang="en-US"><strong>DOST TNA Form 01</strong></span></p>
     <p style="text-align: center;background: transparent;line-height: 108%;margin-bottom: 0.28cm;"><br>&nbsp;</p>
@@ -25,8 +30,8 @@
             lang="en-US"><u><strong>APPLICATION FOR TECHNOLOGY NEEDS ASSESSMENT</strong></u></span></p>
     <p style="line-height: 108%;text-align: left;margin-bottom: 0.28cm;background: transparent;"><br>&nbsp;</p>
     <table
-        cellpadding="7"
         id="EnterpriseInformationTable"
+        cellpadding="7"
     >
         <tbody>
             <tr>
@@ -195,14 +200,13 @@
                                     id="factory_address"
                                     name="factory_address"
                                     type="text"
-                                    value="{{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}"
+                                    value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}"
                                     placeholder="Factory Address"
                                 >
                             @else
-                                {{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}
+                                {{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}
                             @endIf
                         </span></p>
-                    >
                     <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br>
                     </p>
                 </td>
@@ -257,7 +261,6 @@
                                     id="factoryEmailAddress"
                                     name="factoryEmailAddress"
                                     type="text"
-                                    value="XI"
                                     value="{{ $TNAdata['factoryEmailAddress'] ?? '' }}"
                                     placeholder="E-mail Address"
                                 >
@@ -515,7 +518,10 @@
         <br>&nbsp;
     </p>
 
-    <x-t-n-a-form.attachment-a :TNAdata="$TNAdata" :isEditable="$isEditable" />
+    <x-t-n-a-form.attachment-a
+        :TNAdata="$TNAdata"
+        :isEditable="$isEditable"
+    />
     <x-t-n-a-form.t-n-a-form-one
         :TNAdata="$TNAdata"
         :organizationalStructure="$organizationalStructure"
@@ -543,11 +549,11 @@
     </ul>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <table
-        id="productionTable"
+        id="productionContainer"
         style="width: 100%; table-layout: fixed;"
         cellpadding="7"
     >
-    <tbody>
+        <tbody>
             <tr>
                 <th width="25%">Product</th>
                 <th width="25%">Volume of <br>Production/Year</th>
@@ -602,48 +608,48 @@
                     </td>
                 </tr>
             @empty
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Product"
-                            type="text"
-                            value=""
-                        />
-                    @endIf
-                    <br>
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="VolumeProduction"
-                            type="text"
-                            value=""
-                        />
-                    @endIf
-                    <br>
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="UnitCost"
-                            type="text"
-                            value=""
-                        />
-                    @endIf
-                    <br>
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="AnnualCost"
-                            type="text"
-                            value=""
-                        />
-                    @endIf
-                    <br>
-                </td>
-            </tr>
+                <tr>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="Product"
+                                type="text"
+                                value=""
+                            />
+                        @endIf
+                        <br>
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="VolumeProduction"
+                                type="text"
+                                value=""
+                            />
+                        @endIf
+                        <br>
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="UnitCost"
+                                type="text"
+                                value=""
+                            />
+                        @endIf
+                        <br>
+                    </td>
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="AnnualCost"
+                                type="text"
+                                value=""
+                            />
+                        @endIf
+                        <br>
+                    </td>
+                </tr>
             @endforelse
         </tbody>
     </table>
@@ -658,20 +664,20 @@
     </ul>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <table
-        id="productionEquipmentTable"
+        id="productionEquipmentContainer"
         style="width: 100%; table-layout: fixed;"
         cellpadding="7"
     >
         <tbody>
             <tr>
                 <th width="33.33%">
-                      Type of Equipment
+                    Type of Equipment
                 </th>
                 <th width="33.33%">
-                        Specifications
+                    Specifications
                 </th>
                 <th width="33.33%">
-                        Capacity
+                    Capacity
                 </th>
             </tr>
             @forelse ($TNAdata['productionEquipment'] ?? [] as $productionEquipment)
@@ -712,7 +718,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td >
+                    <td>
                         @if ($isEditable)
                             <input
                                 class="TypeOfEquipment"
@@ -721,7 +727,7 @@
                             />
                         @endIf
                     </td>
-                    <td >
+                    <td>
                         @if ($isEditable)
                             <input
                                 class="Specification"
@@ -730,7 +736,7 @@
                             />
                         @endIf
                     </td>
-                    <td >
+                    <td>
                         @if ($isEditable)
                             <input
                                 class="Capacity"
@@ -1643,4 +1649,10 @@
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-</div>
+    @if($isEditable)
+        <button
+            type="submit"
+            class="btn btn-primary text-end"
+        >Set TNA Form</button>
+    @endif
+</form>

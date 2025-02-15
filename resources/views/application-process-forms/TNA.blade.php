@@ -21,34 +21,34 @@
     }
 
     #TNAForm table#EnterpriseInformationTable,
-    #TNAForm table#productionTable,
-    #TNAForm table#productionEquipmentTable,
-    #TNAForm table#rawMaterialTable {
+    #TNAForm table#productionContainer,
+    #TNAForm table#productionEquipmentContainer,
+    #TNAForm table#productAndSupplyChainContainer {
         width: 100% !important;
         border-collapse: collapse;
         border: 1px solid #000;
     }
 
     #TNAForm #EnterpriseInformationTable tr,
-    #TNAForm #productionTable tr,
-    #TNAForm #productionEquipmentTable tr,
-    #TNAForm #rawMaterialTable tr {
+    #TNAForm #productionContainer tr,
+    #TNAForm #productionEquipmentContainer tr,
+    #TNAForm #productAndSupplyChainContainer tr {
         border: 1px solid #000;
         padding: 10px;
     }
 
     #TNAForm #EnterpriseInformationTable td,
-    #TNAForm #productionTable td,
-    #TNAForm #productionEquipmentTable td,
-    #TNAForm #rawMaterialTable td {
+    #TNAForm #productionContainer td,
+    #TNAForm #productionEquipmentContainer td,
+    #TNAForm #productAndSupplyChainContainer td {
         border: 1px solid #000;
         padding: 10px;
     }
 
     #TNAForm #EnterpriseInformationTable th,
-    #TNAForm #productionTable th,
-    #TNAForm #productionEquipmentTable th,
-    #TNAForm #rawMaterialTable th {
+    #TNAForm #productionContainer th,
+    #TNAForm #productionEquipmentContainer th,
+    #TNAForm #productAndSupplyChainContainer th {
         border: 1px solid #000;
         padding: 10px;
     }

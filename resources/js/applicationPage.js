@@ -14,6 +14,7 @@ import {
     RemoveRowHandler,
 } from './Utilities/AddAndRemoveTableRowHandler';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
+import BENCHMARKTableConfig from './Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
@@ -120,42 +121,7 @@ export function initializeForm() {
     handleFilePondSelectorDisabling('fdaLtoSelector', fdaLtoInstance);
     handleFilePondSelectorDisabling('GovIdSelector', govIdInstance);
 
-    const BENCHMARKTableConfig = {
-        productAndSupply: {
-            id: 'productAndSupplyChainContainer',
-            selectors: {
-                rowMaterial: '.RawMaterial',
-                source: '.Source',
-                unitCost: '.UnitCost',
-                volumeUsed: '.VolumeUsed',
-            },
-            requiredFields: ['rowMaterial', 'source', 'unitCost', 'volumeUsed'],
-        },
-        production: {
-            id: 'productionContainer',
-            selectors: {
-                product: '.Product',
-                volumeProduction: '.VolumeProduction',
-                unitCost: '.UnitCost',
-                annualCost: '.AnnualCost',
-            },
-            requiredFields: [
-                'product',
-                'volumeProduction',
-                'unitCost',
-                'annualCost',
-            ],
-        },
-        productionEquipment: {
-            id: 'productionEquipmentContainer',
-            selectors: {
-                typeOfEquipment: '.TypeOfEquipment',
-                specification: '.Specification',
-                capacity: '.Capacity',
-            },
-            requiredFields: ['typeOfEquipment', 'specification', 'capacity'],
-        },
-    };
+
 
     const beachMarkTableData = (BENCHMARKTableConfig) => {
         const data = TableDataExtractor(BENCHMARKTableConfig);
@@ -696,7 +662,7 @@ class CheckboxValidationHandler {
             event.preventDefault();
             try {
                 await submitForm();
-            } catch (err) { 
+            } catch (err) {
                 showToastFeedback('text-bg-danger', err);
             }
         })

@@ -34,9 +34,10 @@
                         name="food_processing_activity"
                         type="checkbox"
                         style="width: 100%;"
+                        @checked(isset($TNAdata['food_processing_activity']) && $TNAdata['food_processing_activity'] == 'on')
                     />
                 @else
-                    {{ isset($TNAdata['food_Processing_activity']) && $TNAdata['food_Processing_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['food_processing_activity']) && $TNAdata['food_processing_activity'] == 'on' ? '/' : '' }}
                 @endIf
             </td>
             <td
@@ -53,6 +54,7 @@
                             name="food_processing_specific_sector"
                             type="text"
                             style="width: 100%;"
+                            value="{{ $TNAdata['food_processing_specific_sector'] ?? '' }}"
                         />
                     @else
                         {{ $TNAdata['food_processing_specific_sector'] ?? '' }}
@@ -67,6 +69,7 @@
                         name="furniture_activity"
                         type="checkbox"
                         style="width: 100%;"
+                        @checked(isset($TNAdata['furniture_activity']) && $TNAdata['furniture_activity'] == 'on')
                     />
                 @else
                     {{ isset($TNAdata['furniture_activity']) && $TNAdata['furniture_activity'] == 'on' ? '/' : '' }}
@@ -86,6 +89,7 @@
                             name="furniture_specific_sector"
                             type="text"
                             style="width: 100%;"
+                            value="{{ $TNAdata['furniture_specific_sector'] ?? '' }}"
                         />
                     @else
                         {{ $TNAdata['furniture_specific_sector'] ?? '' }}
@@ -100,6 +104,7 @@
                         name="natural_fibers_activity"
                         type="checkbox"
                         style="width: 100%;"
+                        @checked(isset($TNAdata['natural_fibers_activity']) && $TNAdata['natural_fibers_activity'] == 'on')
                     />
                 @else
                     {{ isset($TNAdata['natural_fibers_activity']) && $TNAdata['natural_fibers_activity'] == 'on' ? '/' : '' }}
@@ -118,6 +123,7 @@
                             name="natural_fibers_specific_sector"
                             type="text"
                             style="width: 100%;"
+                            value="{{ $TNAdata['natural_fibers_specific_sector'] ?? '' }}"
                         />
                     @else
                         {{ $TNAdata['natural_fibers_specific_sector'] ?? '' }}
@@ -132,6 +138,7 @@
                         name="metals_and_engineering_activity"
                         type="checkbox"
                         style="width: 100%;"
+                        @checked(isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on')
                     />
                 @else
                     {{ isset($TNAdata['metals_and_engineering_activity']) && $TNAdata['metals_and_engineering_activity'] == 'on' ? '/' : '' }}
@@ -150,6 +157,7 @@
                             name="metals_and_engineering_specific_sector"
                             type="text"
                             style="width: 100%;"
+                            value="{{ $TNAdata['metals_and_engineering_specific_sector'] ?? '' }}"
                         />
                     @else
                         {{ $TNAdata['metals_and_engineering_specific_sector'] ?? '' }}
@@ -165,6 +173,7 @@
                         name="aquatic_and_marine_activity"
                         type="checkbox"
                         style="width: 100%;"
+                        @checked(isset($TNAdata['aquatic_and_marine_activity']) && $TNAdata['aquatic_and_marine_activity'] == 'on')
                     />
                 @else
                     {{ isset($TNAdata['aquatic_and_marine_activity']) && $TNAdata['aquatic_and_marine_activity'] == 'on' ? '/' : '' }}
@@ -181,6 +190,7 @@
                             name="aquatic_and_marine_specific_sector"
                             type="text"
                             style="width: 100%;"
+                            value="{{ $TNAdata['aquatic_and_marine_specific_sector'] ?? '' }}"
                         />
                     @else
                         {{ $TNAdata['aquatic_and_marine_specific_sector'] ?? '' }}
@@ -195,6 +205,7 @@
                         name="horticulture_activity"
                         type="checkbox"
                         style="width: 100%;"
+                        @checked(isset($TNAdata['horticulture_activity']) && $TNAdata['horticulture_activity'] == 'on')
                     />
                 @else
                     {{ isset($TNAdata['horticulture_activity']) && $TNAdata['horticulture_activity'] == 'on' ? '/' : '' }}
@@ -211,6 +222,7 @@
                             name="horticulture_specific_sector"
                             type="text"
                             style="width: 100%;"
+                            value="{{ $TNAdata['horticulture_specific_sector'] ?? '' }}"
                         />
                     @else
                         {{ $TNAdata['horticulture_specific_sector'] ?? '' }}
@@ -225,6 +237,7 @@
                         name="other_activity"
                         type="checkbox"
                         style="width: 100%;"
+                        @checked(isset($TNAdata['other_activity']) && $TNAdata['other_activity'] == 'on')
                     />
                 @else
                     {{ isset($TNAdata['other_activity']) && $TNAdata['other_activity'] == 'on' ? '/' : '' }}
@@ -240,6 +253,7 @@
                             name="other_specific_sector"
                             type="text"
                             style="width: 100%;"
+                            value="{{ $TNAdata['other_specific_sector'] ?? '' }}"
                         />
                     @else
                         {{ $TNAdata['other_specific_sector'] ?? '' }}
@@ -537,7 +551,7 @@
     </li>
 </ul>
 <table
-    id="rawMaterialTable"
+    id="productAndSupplyChainContainer"
     style="width: 100%; table-layout: fixed;"
     cellpadding="7"
 >
@@ -556,7 +570,7 @@
               Volume Used/Year
             </td>
         </tr>
-        @forelse ($TNA['productAndSupply'] ?? [] as $productInfo)
+        @forelse ($TNAdata['productAndSupply'] ?? [] as $productInfo)
             <tr>
                 <td>
                     @if ($isEditable)

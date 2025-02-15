@@ -2,6 +2,8 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Foundation\Http\FormRequest;
 
 class TNAFormRequest extends FormRequest
@@ -122,7 +124,7 @@ class TNAFormRequest extends FormRequest
             'yearEnterpriseRegistered' => 'nullable|string|max:10',
             'present_capitalization' => 'nullable|numeric',
             'CapitalClassification' => 'nullable|string|max:100',
-            'numberOfEmployees' => 'nullable|integer',
+            'numberOfEmployees' => 'nullable|string',
             'DirectWorkers' => 'nullable|integer',
             'production' => 'nullable|integer',
             'non_production' => 'nullable|integer',
@@ -135,6 +137,7 @@ class TNAFormRequest extends FormRequest
             'production.*.product' => 'nullable|string',
             'production.*.volumeProduction' => 'nullable|string',
             'production.*.unitCost' => 'nullable|string',
+            'production.*.annualCost' => 'nullable|string',
 
             'productionEquipment' => 'nullable|array',
             'productionEquipment.*.typeOfEquipment' => 'nullable|string',
@@ -150,5 +153,12 @@ class TNAFormRequest extends FormRequest
 
 
         ];
+    }
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'message' => 'Validation errors',
+            'errors' => $validator->errors()
+        ], 422));
     }
 }

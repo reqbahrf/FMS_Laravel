@@ -91,11 +91,23 @@
                             class="btn btn-primary"
                             data-bs-toggle="modal"
                             data-bs-target="#tnaDocContainerModal"
+                            data-action="view"
                             type="button"
                             id="viewTNA"
                         >
                             <i class="ri-file-list-3-fill me-1"></i>
                             View TNA document
+                        </button>
+                        <button
+                            class="btn btn-primary ms-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#tnaDocContainerModal"
+                            data-action="edit"
+                            type="button"
+                            id="editTNA"
+                        >
+                            <i class="ri-calendar-event-fill me-1"></i>
+                            Edit TNA
                         </button>
                     </div>
                 </div>

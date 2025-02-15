@@ -4169,7 +4169,7 @@ async function initializeStaffPageJs() {
                         '.businessInfo input'
                     );
 
-                    $('#viewTNA')
+                    $('#viewTNA, #editTNA')
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
                     $('#viewProjectProposal')
@@ -5015,42 +5015,15 @@ ${output}</textarea
 
             const tnaForm = new TNAForm(TNADocumentContainerModal);
             tnaForm.initializeTNAForm();
+
             const projectProposalForm = new ProjectProposalForm(
                 ProjectProposalDocumentContainerModal
             );
+
             projectProposalForm.initializeProjectProposalForm();
+
             const rtecReportForm = new RTECReportForm(RTECReportContainerModal);
             rtecReportForm.initializeRTECReportForm();
-
-            // const getTNAForm = async (business_Id) => {
-            //     try {
-            //         const response = await $.ajax({
-            //             type: 'GET',
-            //             url: APPLICANT_TAB_ROUTE.GET_TNA_DOCUMENT.replace(
-            //                 ':business_id',
-            //                 business_Id
-            //             ),
-            //         });
-            //         TNADocumentContainerModal.find('.modal-body').html(
-            //             response
-            //         );
-            //     } catch (error) {
-            //         showToastFeedback(
-            //             'text-bg-danger',
-            //             error.responseJSON.message
-            //         );
-            //     }
-            // };
-
-            // TNADocumentContainerModal.on(
-            //     'show.bs.modal',
-            //     async function (event) {
-            //         const business_Id = $(event.relatedTarget).attr(
-            //             'data-business-id'
-            //         );
-            //         await getTNAForm(business_Id);
-            //     }
-            // );
         },
     };
     return functions;
