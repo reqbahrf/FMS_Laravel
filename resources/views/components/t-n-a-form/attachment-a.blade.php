@@ -60,11 +60,11 @@
                             <input
                                 name="factory_address"
                                 type="text"
-                                value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}"
+                                value="{{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}"
                                 placeholder="Production Site"
                             >
                         @else
-                            {{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}
+                            {{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}
                         @endIf
                     </span></p>
             </td>
@@ -120,6 +120,7 @@
                 </p>
                 @if ($isEditable)
                     <textarea
+                        class="form-control"
                         name="brief_background"
                         style="width:100%"
                     >{{ $TNAdata['brief_background'] ?? '' }}</textarea>
@@ -189,10 +190,10 @@
                         name="enterpriseType"
                         type="radio"
                         value="Single Proprietorship"
-                        {{ $TNAdata['enterpriseType'] == 'Sole Proprietorship' ? 'checked' : '' }}
+                        {{ $TNAdata['enterpriseType'] ?? '' == 'Sole Proprietorship' ? 'checked' : '' }}
                     >
                 @else
-                    {{ $TNAdata['enterpriseType'] == 'Sole Proprietorship' ? '/' : '' }}
+                    {{ $TNAdata['enterpriseType'] ?? '' == 'Sole Proprietorship' ? '/' : '' }}
                 @endIf
             </td>
             <td
@@ -223,10 +224,10 @@
                         name="enterpriseType"
                         type="radio"
                         value="Cooperative"
-                        {{ $TNAdata['enterpriseType'] == 'Cooperative' ? 'checked' : '' }}
+                        {{ $TNAdata['enterpriseType'] ?? '' == 'Cooperative' ? 'checked' : '' }}
                     >
                 @else
-                    {{ $TNAdata['enterpriseType'] == 'Cooperative' ? '/' : '' }}
+                    {{ $TNAdata['enterpriseType'] ?? '' == 'Cooperative' ? '/' : '' }}
                 @endIf
             </td>
             <td
@@ -257,10 +258,10 @@
                         name="enterpriseType"
                         type="radio"
                         value="Partnership"
-                        {{ $TNAdata['enterpriseType'] == 'Partnership' ? 'checked' : '' }}
+                        {{ $TNAdata['enterpriseType'] ?? '' == 'Partnership' ? 'checked' : '' }}
                     >
                 @else
-                    {{ $TNAdata['enterpriseType'] == 'Partnership' ? '/' : '' }}
+                    {{ $TNAdata['enterpriseType'] ?? '' == 'Partnership' ? '/' : '' }}
                 @endIf
             </td>
             <td
@@ -291,10 +292,10 @@
                         name="enterpriseType"
                         type="radio"
                         value="Corporation"
-                        {{ in_array($TNAdata['enterpriseType'], ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? 'checked' : '' }}
+                        {{ in_array($TNAdata['enterpriseType'] ?? '', ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? 'checked' : '' }}
                     >
                 @else
-                    {{ in_array($TNAdata['enterpriseType'], ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? '/' : '' }}
+                    {{ in_array($TNAdata['enterpriseType'] ?? '', ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? '/' : '' }}
                 @endIf
             </td>
             <td
@@ -323,10 +324,10 @@
                         name="type_of_cooperation"
                         type="radio"
                         value="Profit"
-                        {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Profit)' ? 'checked' : '') }}
+                        {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] ?? '' == 'Corporation (Profit)' ? 'checked' : '') }}
                     >
                 @else
-                    {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Profit)' ? '/' : '') }}
+                    {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] ?? '' == 'Corporation (Profit)' ? '/' : '') }}
                 @endIf
                 <span lang="en-US">Profit</span>
             </td>
@@ -359,10 +360,10 @@
                         name="type_of_cooperation"
                         type="radio"
                         value="Non-profit"
-                        {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Non-Profit)' ? 'checked' : '') }}
+                        {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] ?? '' == 'Corporation (Non-Profit)' ? 'checked' : '') }}
                     ><span lang="en-US">Non-profit</span>
                 @else
-                    {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Non-Profit)' ? '/' : '') }}
+                    {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] ?? '' == 'Corporation (Non-Profit)' ? '/' : '') }}
                 @endIf
             </td>
         </tr>

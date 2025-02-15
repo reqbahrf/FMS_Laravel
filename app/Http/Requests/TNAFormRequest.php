@@ -35,14 +35,14 @@ class TNAFormRequest extends FormRequest
              'factoryFaxNo' => 'nullable|string|max:50',
              'factoryEmailAddress' => 'nullable|email|max:255',
              'website' => 'nullable|url|max:255',
- 
+
              // DOST Related Fields
              'dost_regional_office_no' => 'nullable|string|max:100',
              'dost_supplied' => 'nullable|string|max:255',
              'dost_regional_TNA' => 'nullable|string|max:255',
              'dost_permission' => 'nullable|string|max:255',
              'dost_undertake' => 'nullable|string|max:500',
- 
+
              // Production and Business Fields
              'ProductionProblemAndConcern' => 'nullable|string',
              'ProductionWasteManageSystem' => 'nullable|string',
@@ -51,13 +51,13 @@ class TNAFormRequest extends FormRequest
              'MaintenanceProgram' => 'nullable|string',
              'cGMPHACCPActivities' => 'nullable|string',
              'SuppliesPurchasingSystem' => 'nullable|string',
- 
+
              // Marketing Fields
              'MarketingPlan' => 'nullable|string',
              'MarketOutlets' => 'nullable|string',
              'PromotionalStrategies' => 'nullable|string',
              'MarketCompetitors' => 'nullable|string',
- 
+
              // Product Details
              'nutritionEvaluation' => 'nullable|string',
              'nutritionEvaluationDetails' => 'nullable|string',
@@ -67,12 +67,12 @@ class TNAFormRequest extends FormRequest
              'productLabelDetails' => 'nullable|string',
              'expiryDate' => 'nullable|string',
              'expiryDateDetails' => 'nullable|string',
- 
+
              // Financial Fields
              'CashFlowAndRelatedDocuments' => 'nullable|string',
              'SourceOfCapitalCredits' => 'nullable|string',
              'AccountingSystem' => 'nullable|string',
- 
+
              // Human Resource Fields
              'HiringAndCriteria' => 'nullable|string',
              'IncentivesToEmployees' => 'nullable|string',
@@ -80,7 +80,7 @@ class TNAFormRequest extends FormRequest
              'SafetyMeasuresPracticed' => 'nullable|string',
              'OtherEmployeeWelfare' => 'nullable|string',
              'OtherConcerns' => 'nullable|string',
- 
+
               // Checkbox fields
             'food_processing_activity' => 'nullable|in:on,off',
             'furniture_activity' => 'nullable|in:on,off',
@@ -88,6 +88,7 @@ class TNAFormRequest extends FormRequest
             'metals_and_engineering_activity' => 'nullable|in:on,off',
             'aquatic_and_marine_activity' => 'nullable|in:on,off',
             'horticulture_activity' => 'nullable|in:on,off',
+            'Other_activity' => 'nullable|in:on,off',
 
             // Specific sector fields for checkboxes
             'food_processing_specific_sector' => 'nullable|string|max:255',
@@ -96,6 +97,7 @@ class TNAFormRequest extends FormRequest
             'metals_and_engineering_specific_sector' => 'nullable|string|max:255',
             'aquatic_and_marine_specific_sector' => 'nullable|string|max:255',
             'horticulture_specific_sector' => 'nullable|string|max:255',
+            'Other_specific_sector' => 'nullable|string|max:255',
 
              // Fields from attachment-a.blade.php
              'business_permit_No' => 'nullable|string|max:100',

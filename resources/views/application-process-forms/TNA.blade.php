@@ -20,18 +20,27 @@
         /* Include padding in width and height */
     }
 
-    #TNAForm table#EnterpriseInformationTable {
+    #TNAForm table#EnterpriseInformationTable,
+    #TNAForm table#productionTable {
         width: 100% !important;
         border-collapse: collapse;
         border: 1px solid #000;
     }
 
-    #TNAForm #EnterpriseInformationTable tr {
+    #TNAForm #EnterpriseInformationTable tr,
+    #TNAForm #productionTable tr {
         border: 1px solid #000;
         padding: 10px;
     }
 
-    #TNAForm #EnterpriseInformationTable td {
+    #TNAForm #EnterpriseInformationTable td,
+    #TNAForm #productionTable td {
+        border: 1px solid #000;
+        padding: 10px;
+    }
+
+    #TNAForm #EnterpriseInformationTable th,
+    #TNAForm #productionTable th {
         border: 1px solid #000;
         padding: 10px;
     }

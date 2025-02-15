@@ -84,18 +84,25 @@ class NewRegistrationRequest extends FormRequest
             //TNA Important Data
             'food_processing_activity' => 'nullable|in:on,null',
             'food_processing_specific_sector' => 'nullable|string',
+
             'furniture_activity' => 'nullable|in:on,null',
             'furniture_specific_sector' => 'nullable|string',
+
             'natural_fibers_activity' => 'nullable|in:on,null',
             'natural_fibers_specific_sector' => 'nullable|string',
+
             'metals_and_engineering_activity' => 'nullable|in:on,null',
             'metals_and_engineering_specific_sector' => 'nullable|string',
+
             'aquatic_and_marine_activity' => 'nullable|in:on,null',
             'aquatic_and_marine_specific_sector' => 'nullable|string',
+
             'horticulture_activity' => 'nullable|in:on,null',
             'horticulture_specific_sector' => 'nullable|string',
+
             'other_activity' => 'nullable|in:on,null',
             'other_specific_sector' => 'nullable|string',
+            
             'specificProductOrService' => 'nullable|string',
             'reasonsWhyAssistanceIsBeingSought' => 'nullable|string',
 

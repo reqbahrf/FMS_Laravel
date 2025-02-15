@@ -14,7 +14,7 @@ class TestPDFGeneration extends Controller
         try {
             $TNAdata = $TNA->getTNAData(367, 356, 'tna_form');
             $DocHeader = view('staff-view.outputs.DocHeader')->render();
-            $html = view('application-process-forms.Project-proposal', ['TNAdata' => $TNAdata])->render();
+            $html = view('application-process-forms.TNA', ['TNAdata' => $TNAdata])->render();
 
             $mpdf = new Mpdf([
                 'mode' => 'utf-8',

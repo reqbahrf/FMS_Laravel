@@ -106,7 +106,6 @@
                                     id="office_address"
                                     name="office_address"
                                     type="text"
-                                    value="XI"
                                     value="{{ $TNAdata['office_address'] ?? ($TNAdata['officeLandmark'] ?? '') . ' ' . ($TNAdata['officeBarangay'] ?? '') . ' ' . ($TNAdata['officeCity'] ?? '') . ' ' . ($TNAdata['officeProvince'] ?? '') . ' ' . ($TNAdata['officeRegion'] ?? '') . ' ' . ($TNAdata['officeZipCode'] ?? '') }}"
                                     placeholder="Office Address"
                                 >
@@ -127,7 +126,6 @@
                                     id="officeTelNo"
                                     name="officeTelNo"
                                     type="text"
-                                    value="XI"
                                     value="{{ $TNAdata['officeTelNo'] ?? '' }}"
                                     placeholder="Tel No."
                                 >
@@ -148,7 +146,6 @@
                                     id="officeFaxNo"
                                     name="officeFaxNo"
                                     type="text"
-                                    value="XI"
                                     value="{{ $TNAdata['officeFaxNo'] ?? '' }}"
                                     placeholder="Fax No."
                                 >
@@ -172,7 +169,6 @@
                                     id="officeEmailAddress"
                                     name="officeEmailAddress"
                                     type="text"
-                                    value="XI"
                                     value="{{ $TNAdata['officeEmailAddress'] ?? '' }}"
                                     placeholder="E-mail Address"
                                 >
@@ -199,12 +195,11 @@
                                     id="factory_address"
                                     name="factory_address"
                                     type="text"
-                                    value="XI"
-                                    value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}"
+                                    value="{{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}"
                                     placeholder="Factory Address"
                                 >
                             @else
-                                {{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}
+                                {{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}
                             @endIf
                         </span></p>
                     >
@@ -220,7 +215,6 @@
                                     id="factoryTelNo"
                                     name="factoryTelNo"
                                     type="text"
-                                    value="XI"
                                     value="{{ $TNAdata['factoryTelNo'] ?? '' }}"
                                     placeholder="Tel No."
                                 >
@@ -240,7 +234,6 @@
                                     id="factoryFaxNo"
                                     name="factoryFaxNo"
                                     type="text"
-                                    value="XI"
                                     value="{{ $TNAdata['factoryFaxNo'] ?? '' }}"
                                     placeholder="Fax No."
                                 >
@@ -291,7 +284,6 @@
                                     id="website"
                                     name="website"
                                     type="text"
-                                    value="XI"
                                     value="{{ $TNAdata['website'] ?? '' }}"
                                     placeholder="Website"
                                 >
@@ -551,21 +543,20 @@
     </ul>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <table
-        style="width: 543px;"
+        id="productionTable"
+        style="width: 100%; table-layout: fixed;"
         cellpadding="7"
     >
-        <thead>
+    <tbody>
             <tr>
-                <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Product</th>
-                <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Volume of Production/Year</th>
-                <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Unit Cost of Production (₱)</th>
-                <th style="border: 1px solid #000000;padding: 0cm 0.19cm;">Annual Cost of Production (₱)</th>
+                <th width="25%">Product</th>
+                <th width="25%">Volume of <br>Production/Year</th>
+                <th width="25%">Unit Cost of <br>Production (₱)</th>
+                <th width="25%">Annual Cost of <br>Production (₱)</th>
             </tr>
-        </thead>
-        <tbody>
-            @foreach ($TNAdata['production'] ?? [] as $production)
+            @forelse ($TNAdata['production'] ?? [] as $production)
                 <tr>
-                    <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                    <td>
                         @if ($isEditable)
                             <input
                                 class="Product"
@@ -576,7 +567,7 @@
                             {{ $production['product'] ?? '' }}
                         @endIf
                     </td>
-                    <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                    <td>
                         @if ($isEditable)
                             <input
                                 class="VolumeProduction"
@@ -587,7 +578,7 @@
                             {{ $production['volumeProduction'] ?? '' }}
                         @endIf
                     </td>
-                    <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                    <td>
                         @if ($isEditable)
                             <input
                                 class="UnitCost"
@@ -598,7 +589,7 @@
                             {{ $production['unitCost'] ?? '' }}
                         @endIf
                     </td>
-                    <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
+                    <td>
                         @if ($isEditable)
                             <input
                                 class="AnnualCost"
@@ -610,7 +601,50 @@
                         @endIf
                     </td>
                 </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Product"
+                            type="text"
+                            value=""
+                        />
+                    @endIf
+                    <br>
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="VolumeProduction"
+                            type="text"
+                            value=""
+                        />
+                    @endIf
+                    <br>
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="UnitCost"
+                            type="text"
+                            value=""
+                        />
+                    @endIf
+                    <br>
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="AnnualCost"
+                            type="text"
+                            value=""
+                        />
+                    @endIf
+                    <br>
+                </td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;margin-left: 2.54cm;"><br>

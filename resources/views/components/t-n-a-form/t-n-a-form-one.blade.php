@@ -222,12 +222,12 @@
             <td style="">
                 @if ($isEditable)
                     <input
-                        name="Other_activity"
+                        name="other_activity"
                         type="checkbox"
                         style="width: 100%;"
                     />
                 @else
-                    {{ isset($TNAdata['Other_activity']) && $TNAdata['Other_activity'] == 'on' ? '/' : '' }}
+                    {{ isset($TNAdata['other_activity']) && $TNAdata['other_activity'] == 'on' ? '/' : '' }}
                 @endIf
             </td>
             <td style="">
