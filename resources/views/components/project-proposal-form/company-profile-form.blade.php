@@ -1773,6 +1773,11 @@
         $y3_total = 0;
         $y4_total = 0;
         $y5_total = 0;
+
+        $months = [
+        'January', 'February', 'March', 'April', 'May', 'June',
+        'July', 'August', 'September', 'October', 'November', 'December'
+    ];
     @endphp
     <tbody>
         <tr>
@@ -1794,907 +1799,37 @@
             <th style="text-align: center;">Y5</th>
             <th style="text-align: center;">Total</th>
         </tr>
+        @foreach ($months as $month)
         <tr>
-            <td>January</td>
+            <td>{{ ucfirst($month) }}</td>
+            @for ($year = 1; $year <= 5; $year++)
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="{{ $month }}_Y{{ $year }}"
+                            type="text"
+                            name="{{ $month }}_Y{{ $year }}"
+                            value="{{ ${$month . '_Y' . $year} ?? '' }}"
+                        >
+                    @else
+                        {{ ${$month . '_Y' . $year} ?? '' }}
+                    @endif
+                </td>
+            @endfor
             <td>
                 @if ($isEditable)
                     <input
-                        class="january_Y1"
+                        class="{{ $month }}_total"
                         type="text"
-                        name="january_Y1"
-                        value="{{ $january_Y1 ?? '' }}"
+                        name="{{ $month }}_total"
+                        value="{{ ${$month . '_total'} ?? '' }}"
                     >
                 @else
-                    {{ $january_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="january_Y2"
-                        type="text"
-                        name="january_Y2"
-                        value="{{ $january_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $january_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="january_Y3"
-                        type="text"
-                        name="january_Y3"
-                        value="{{ $january_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $january_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="january_Y4"
-                        type="text"
-                        name="january_Y4"
-                        value="{{ $january_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $january_Y4 ?? '' }}
-                @endif
-
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="january_Y5"
-                        type="text"
-                        name="january_Y5"
-                        value="{{ $january_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $january_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="january_total"
-                        type="text"
-                        name="january_total"
-                        value="{{ $january_total ?? '' }}"
-                    >
-                @else
-                    {{ $january_total ?? '' }}
+                    {{ ${$month . '_total'} ?? '' }}
                 @endif
             </td>
         </tr>
-        <tr>
-            <td>February</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="february_Y1"
-                        type="text"
-                        name="february_Y1"
-                        value="{{ $february_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $february_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="february_Y2"
-                        type="text"
-                        name="february_Y2"
-                        value="{{ $february_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $february_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="february_Y3"
-                        type="text"
-                        name="february_Y3"
-                        value="{{ $february_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $february_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="february_Y4"
-                        type="text"
-                        name="february_Y4"
-                        value="{{ $february_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $february_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="february_Y5"
-                        type="text"
-                        name="february_Y5"
-                        value="{{ $february_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $february_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="february_total"
-                        type="text"
-                        name="february_total"
-                        value="{{ $february_total ?? '' }}"
-                    >
-                @else
-                    {{ $february_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>March</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="march_Y1"
-                        type="text"
-                        name="march_Y1"
-                        value="{{ $march_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $march_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="march_Y2"
-                        type="text"
-                        name="march_Y2"
-                        value="{{ $march_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $march_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="march_Y3"
-                        type="text"
-                        name="march_Y3"
-                        value="{{ $march_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $march_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="march_Y4"
-                        type="text"
-                        name="march_Y4"
-                        value="{{ $march_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $march_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="march_Y5"
-                        type="text"
-                        name="march_Y5"
-                        value="{{ $march_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $march_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="march_total"
-                        type="text"
-                        name="march_total"
-                        value="{{ $march_total ?? '' }}"
-                    >
-                @else
-                    {{ $march_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>April</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="april_Y1"
-                        type="text"
-                        name="april_Y1"
-                        value="{{ $april_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $april_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="april_Y2"
-                        type="text"
-                        name="april_Y2"
-                        value="{{ $april_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $april_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="april_Y3"
-                        type="text"
-                        name="april_Y3"
-                        value="{{ $april_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $april_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="april_Y4"
-                        type="text"
-                        name="april_Y4"
-                        value="{{ $april_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $april_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="april_Y5"
-                        type="text"
-                        name="april_Y5"
-                        value="{{ $april_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $april_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="april_total"
-                        type="text"
-                        name="april_total"
-                        value="{{ $april_total ?? '' }}"
-                    >
-                @else
-                    {{ $april_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>May</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="may_Y1"
-                        type="text"
-                        name="may_Y1"
-                        value="{{ $may_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $may_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="may_Y2"
-                        type="text"
-                        name="may_Y2"
-                        value="{{ $may_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $may_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="may_Y3"
-                        type="text"
-                        name="may_Y3"
-                        value="{{ $may_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $may_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="may_Y4"
-                        type="text"
-                        name="may_Y4"
-                        value="{{ $may_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $may_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="may_Y5"
-                        type="text"
-                        name="may_Y5"
-                        value="{{ $may_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $may_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="may_total"
-                        type="text"
-                        name="may_total"
-                        value="{{ $may_total ?? '' }}"
-                    >
-                @else
-                    {{ $may_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>June</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="june_Y1"
-                        type="text"
-                        name="june_Y1"
-                        value="{{ $june_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $june_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="june_Y2"
-                        type="text"
-                        name="june_Y2"
-                        value="{{ $june_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $june_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="june_Y3"
-                        type="text"
-                        name="june_Y3"
-                        value="{{ $june_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $june_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="june_Y4"
-                        type="text"
-                        name="june_Y4"
-                        value="{{ $june_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $june_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="june_Y5"
-                        type="text"
-                        name="june_Y5"
-                        value="{{ $june_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $june_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="june_total"
-                        type="text"
-                        name="june_total"
-                        value="{{ $june_total ?? '' }}"
-                    >
-                @else
-                    {{ $june_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>July</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="july_Y1"
-                        type="text"
-                        name="july_Y1"
-                        value="{{ $july_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $july_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="july_Y2"
-                        type="text"
-                        name="july_Y2"
-                        value="{{ $july_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $july_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="july_Y3"
-                        type="text"
-                        name="july_Y3"
-                        value="{{ $july_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $july_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="july_Y4"
-                        type="text"
-                        name="july_Y4"
-                        value="{{ $july_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $july_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="july_Y5"
-                        type="text"
-                        name="july_Y5"
-                        value="{{ $july_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $july_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="july_total"
-                        type="text"
-                        name="july_total"
-                        value="{{ $july_total ?? '' }}"
-                    >
-                @else
-                    {{ $july_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>August</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="august_Y1"
-                        type="text"
-                        name="august_Y1"
-                        value="{{ $august_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $august_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="august_Y2"
-                        type="text"
-                        name="august_Y2"
-                        value="{{ $august_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $august_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="august_Y3"
-                        type="text"
-                        name="august_Y3"
-                        value="{{ $august_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $august_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="august_Y4"
-                        type="text"
-                        name="august_Y4"
-                        value="{{ $august_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $august_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="august_Y5"
-                        type="text"
-                        name="august_Y5"
-                        value="{{ $august_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $august_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="august_total"
-                        type="text"
-                        name="august_total"
-                        value="{{ $august_total ?? '' }}"
-                    >
-                @else
-                    {{ $august_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>September</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="september_Y1"
-                        type="text"
-                        name="september_Y1"
-                        value="{{ $september_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $september_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="september_Y2"
-                        type="text"
-                        name="september_Y2"
-                        value="{{ $september_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $september_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="september_Y3"
-                        type="text"
-                        name="september_Y3"
-                        value="{{ $september_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $september_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="september_Y4"
-                        type="text"
-                        name="september_Y4"
-                        value="{{ $september_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $september_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="september_Y5"
-                        type="text"
-                        name="september_Y5"
-                        value="{{ $september_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $september_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="september_total"
-                        type="text"
-                        name="september_total"
-                        value="{{ $september_total ?? '' }}"
-                    >
-                @else
-                    {{ $september_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>October</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="october_Y1"
-                        type="text"
-                        name="october_Y1"
-                        value="{{ $october_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $october_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="october_Y2"
-                        type="text"
-                        name="october_Y2"
-                        value="{{ $october_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $october_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="october_Y3"
-                        type="text"
-                        name="october_Y3"
-                        value="{{ $october_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $october_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="october_Y4"
-                        type="text"
-                        name="october_Y4"
-                        value="{{ $october_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $october_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="october_Y5"
-                        type="text"
-                        name="october_Y5"
-                        value="{{ $october_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $october_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="october_total"
-                        type="text"
-                        name="october_total"
-                        value="{{ $october_total ?? '' }}"
-                    >
-                @else
-                    {{ $october_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>November</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="november_Y1"
-                        type="text"
-                        name="november_Y1"
-                        value="{{ $november_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $november_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="november_Y2"
-                        type="text"
-                        name="november_Y2"
-                        value="{{ $november_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $november_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="november_Y3"
-                        type="text"
-                        name="november_Y3"
-                        value="{{ $november_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $november_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="november_Y4"
-                        type="text"
-                        name="november_Y4"
-                        value="{{ $november_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $november_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="november_Y5"
-                        type="text"
-                        name="november_Y5"
-                        value="{{ $november_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $november_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="november_total"
-                        type="text"
-                        name="november_total"
-                        value="{{ $november_total ?? '' }}"
-                    >
-                @else
-                    {{ $november_total ?? '' }}
-                @endif
-            </td>
-        </tr>
-        <tr>
-            <td>December</td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="december_Y1"
-                        type="text"
-                        name="december_Y1"
-                        value="{{ $december_Y1 ?? '' }}"
-                    >
-                @else
-                    {{ $december_Y1 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="december_Y2"
-                        type="text"
-                        name="december_Y2"
-                        value="{{ $december_Y2 ?? '' }}"
-                    >
-                @else
-                    {{ $december_Y2 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="december_Y3"
-                        type="text"
-                        name="december_Y3"
-                        value="{{ $december_Y3 ?? '' }}"
-                    >
-                @else
-                    {{ $december_Y3 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="december_Y4"
-                        type="text"
-                        name="december_Y4"
-                        value="{{ $december_Y4 ?? '' }}"
-                    >
-                @else
-                    {{ $december_Y4 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="december_Y5"
-                        type="text"
-                        name="december_Y5"
-                        value="{{ $december_Y5 ?? '' }}"
-                    >
-                @else
-                    {{ $december_Y5 ?? '' }}
-                @endif
-            </td>
-            <td>
-                @if ($isEditable)
-                    <input
-                        class="december_total"
-                        type="text"
-                        name="december_total"
-                        value="{{ $december_total ?? '' }}"
-                    >
-                @else
-                    {{ $december_total ?? '' }}
-                @endif
-            </td>
-        </tr>
+    @endforeach
         <tr>
             <td class="bold">Total</td>
             <td>{{ $y1_total }}</td>
@@ -2712,32 +1847,76 @@
             <p class="section--title">RISK MANAGEMENT</p>
         </td>
     </tr>
-    <tr>
-        <td>
-            <table id="riskTable">
-                <tr>
-                    <th>OBJECTIVES</th>
-                    <th>RISKS AND ASSUMPTIONS</th>
-                    <th>RISK MANAGEMENT PLAN</th>
-                </tr>
-                <tr>
-                    <td><input
-                            class="objects"
-                            type="text"
-                        ></td>
-                    <td><input
-                            class="risks-and-assumptions"
-                            type="text"
-                        ></td>
-                    <td><input
-                            class="risk-management-plan"
-                            type="text"
-                        ></td>
-                </tr>
-            </table>
-
-        </td>
-    </tr>
+</table>
+<table id="riskTable">
+    <tbody>
+        <tr>
+            <th>OBJECTIVES</th>
+            <th>RISKS AND ASSUMPTIONS</th>
+            <th>RISK MANAGEMENT PLAN</th>
+        </tr>
+        @forelse ($riskManagement ?? [] as $data)
+        <tr>
+            <td>
+                @if ($isEditable)
+                <input
+                    class="objectives"
+                    type="text"
+                >
+                @else
+                    {{ $data['objectives'] ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                <input
+                    class="risks_and_assumptions"
+                    type="text"
+                >
+                @else
+                    {{ $data['risks_and_assumptions'] ?? '' }}
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                <input
+                    class="risk_management_plan"
+                    type="text"
+                >
+                @else
+                    {{ $data['risk_management_plan'] ?? '' }}
+                @endif
+            </td>
+        </tr>
+        @empty
+        <tr>
+            <td>
+                @if ($isEditable)
+                <input
+                    class="objects"
+                    type="text"
+                >
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                <input
+                    class="risks-and-assumptions"
+                    type="text"
+                >
+                @endif
+            </td>
+            <td>
+                @if ($isEditable)
+                <input
+                    class="risk-management-plan"
+                    type="text"
+                >
+                @endif
+            </td>
+        </tr>
+        @endforelse
+    </tbody>
 </table>
 <p>
     <strong>Note:</strong> Risk -- refers to an uncertain event or condition that its occurrence has a negative

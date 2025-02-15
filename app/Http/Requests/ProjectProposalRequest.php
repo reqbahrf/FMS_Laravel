@@ -234,6 +234,12 @@ class ProjectProposalRequest extends FormRequest
              'october_total' => 'nullable',
              'november_total' => 'nullable',
              'december_total' => 'nullable',
+
+             //Risk Management
+             'riskManagement' => 'nullable|array',
+             'riskManagement.*.objectives' => 'nullable',
+             'riskManagement.*.risks_and_assumptions' => 'nullable',
+             'riskManagement.*.risk_management_plan' => 'nullable',
         ];
     }
 }
