@@ -791,22 +791,22 @@ Form Styles
     border: 1px solid #ccc;
 }
 
-#TNAForm table:is(#EnterpriseInformationTable, #productionTable){
+#TNAForm table:is(#EnterpriseInformationTable, #productionTable, #productionEquipmentTable, #rawMaterialTable){
     width: 100% !important;
     border-collapse: collapse;
     border: 1px solid #000;
 }
 
-#TNAForm :is(#EnterpriseInformationTable, #productionTable) th {
-    border: 1px solid #000;
+#TNAForm :is(#EnterpriseInformationTable, #productionTable, #productionEquipmentTable, #rawMaterialTable) th {
     padding: 10px;
+    border: 1px solid #000;
 }
-#TNAForm :is(#EnterpriseInformationTable, #productionTable) tr {
+#TNAForm :is(#EnterpriseInformationTable, #productionTable, #productionEquipmentTable, #rawMaterialTable) tr {
     border: 1px solid #000;
     padding: 10px;
 }
 
-#TNAForm :is(#EnterpriseInformationTable, #productionTable) td {
+#TNAForm :is(#EnterpriseInformationTable, #productionTable, #productionEquipmentTable, #rawMaterialTable) td {
     border: 1px solid #000;
     padding: 10px;
 }

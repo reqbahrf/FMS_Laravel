@@ -102,17 +102,17 @@ class NewRegistrationRequest extends FormRequest
 
             'other_activity' => 'nullable|in:on,null',
             'other_specific_sector' => 'nullable|string',
-            
+
             'specificProductOrService' => 'nullable|string',
             'reasonsWhyAssistanceIsBeingSought' => 'nullable|string',
 
-              //TNA Important Data
+            //TNA Important Data
             'consultationAnswer' => 'nullable|in:yes,no',
             'fromWhatCompanyAgency' => 'nullable|string',
             'pleaseSpecifyTheTypeOfAssistanceSought' => 'nullable|string',
             'whyNot' => 'nullable|string',
 
-              //TNA Important Data
+            //TNA Important Data
             'enterprisePlanForTheNext5Years' => 'nullable|string',
             'nextTenYears' => 'nullable|string',
             'currentAgreementAndAlliancesUndertaken' => 'nullable|string',
@@ -153,10 +153,20 @@ class NewRegistrationRequest extends FormRequest
             //TNA Important Data
 
             'productAndSupply' => 'nullable|array',
+            'productAndSupply.*.rowMaterial' => 'nullable|string',
+            'productAndSupply.*.source' => 'nullable|string',
+            'productAndSupply.*.unitCost' => 'nullable|string',
+            'productAndSupply.*.volumeUsed' => 'nullable|string',
 
             'production' => 'nullable|array',
+            'production.*.product' => 'nullable|string',
+            'production.*.volumeProduction' => 'nullable|string',
+            'production.*.unitCost' => 'nullable|string',
 
             'productionEquipment' => 'nullable|array',
+            'productionEquipment.*.typeOfEquipment' => 'nullable|string',
+            'productionEquipment.*.specification' => 'nullable|string',
+            'productionEquipment.*.capacity' => 'nullable|string',
 
             'm_personnelDiRe' => 'nullable|integer|min:0',
             'f_personnelDiRe' => 'nullable|integer|min:0',

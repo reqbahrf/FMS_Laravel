@@ -658,28 +658,23 @@
     </ul>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <table
-        style="width: 556px;"
+        id="productionEquipmentTable"
+        style="width: 100%; table-layout: fixed;"
         cellpadding="7"
     >
         <tbody>
             <tr>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;">
-                        <span lang="en-US"><strong>Type of Equipment</strong></span>
-                    </p>
-                </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;">
-                        <span lang="en-US"><strong>Specifications</strong></span>
-                    </p>
-                </td>
-                <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
-                    <p style="line-height: 115%;text-align: center;margin-bottom: 0.25cm;background: transparent;">
-                        <span lang="en-US"><strong>Capacity</strong></span>
-                    </p>
-                </td>
+                <th width="33.33%">
+                      Type of Equipment
+                </th>
+                <th width="33.33%">
+                        Specifications
+                </th>
+                <th width="33.33%">
+                        Capacity
+                </th>
             </tr>
-            @foreach ($TNAdata['productionEquipment'] ?? [] as $productionEquipment)
+            @forelse ($TNAdata['productionEquipment'] ?? [] as $productionEquipment)
                 <tr>
                     <td style="border: 1px solid #000000;padding: 0cm 0.19cm;">
                         @if ($isEditable)
@@ -715,7 +710,37 @@
                         @endIf
                     </td>
                 </tr>
-            @endforeach
+            @empty
+                <tr>
+                    <td >
+                        @if ($isEditable)
+                            <input
+                                class="TypeOfEquipment"
+                                type="text"
+                                value=""
+                            />
+                        @endIf
+                    </td>
+                    <td >
+                        @if ($isEditable)
+                            <input
+                                class="Specification"
+                                type="text"
+                                value=""
+                            />
+                        @endIf
+                    </td>
+                    <td >
+                        @if ($isEditable)
+                            <input
+                                class="Capacity"
+                                type="text"
+                                value=""
+                            />
+                        @endIf
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
@@ -1080,12 +1105,12 @@
                     @if ($isEditable)
                         <textarea
                             class="form-control"
-                            name="MarketOutlets"
+                            name="MarketOutletsAndNumber"
                             style="width: 100%;"
-                        >{{ $TNAdata['MarketOutlets'] ?? '' }}</textarea>
+                        >{{ $TNAdata['MarketOutletsAndNumber'] ?? '' }}</textarea>
                     @else
                         <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;">
-                            <span lang="en-US">{{ $TNAdata['MarketOutlets'] ?? '' }}</span>
+                            <span lang="en-US">{{ $TNAdata['MarketOutletsAndNumber'] ?? '' }}</span>
                         </p>
                     @endIf
                 </td>
