@@ -386,6 +386,20 @@ function hideProcessToast() {
     toastInstance.hide();
 }
 
+function serializeFormData(formData: JQuery.NameValuePair[]): {[key: string]: string | string[] } {
+    const FormDataObject: {[key: string]: string | string[] } = {};
+    formData.forEach((field) => {
+        if (field.name.includes('[]')) {
+            FormDataObject[field.name] = FormDataObject[field.name]
+                ? [...FormDataObject[field.name], field.value]
+                : [field.value];
+        } else {
+            FormDataObject[field.name] = field.value;
+        }
+    });
+    return FormDataObject;
+}
+
 export {
     showToastFeedback,
     formatNumberToCurrency,
@@ -398,4 +412,5 @@ export {
     createConfirmationModal,
     showProcessToast,
     hideProcessToast,
+    serializeFormData
 };

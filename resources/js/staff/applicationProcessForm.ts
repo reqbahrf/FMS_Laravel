@@ -1,5 +1,5 @@
 
-import { showProcessToast, showToastFeedback, hideProcessToast } from '../Utilities/utilFunctions';
+import { showProcessToast, showToastFeedback, hideProcessToast, serializeFormData } from '../Utilities/utilFunctions';
 import BENCHMARKTableConfig from '../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
  class TNAForm {
@@ -59,36 +59,31 @@ import { TableDataExtractor } from '../Utilities/TableDataExtractor';
     private initializeTNAFormSubmissionListener(): void {
         try {
             if(!this.TNAForm) throw new Error('Form not found');
-            console.log(this.TNAForm);
             const form = this.TNAForm;
+
             form.on('submit', async (event: JQuery.SubmitEvent) => {
                 event.preventDefault();
-                let FormDataObject: { [key: string]: string | string[] } = {};
+                try{
 
-                const url = form.attr('action');
-                const formData = form.serializeArray();
-                if(!url || !formData) throw new Error('Form data not found');
+                    const url = form.attr('action');
+                    const formData = form.serializeArray();
+                    if(!url || !formData || !formData.length) throw new Error('Form data not found');
 
-                $.each(formData, function (i, v) {
-                    if (v.name.includes('[]')) {
-                        FormDataObject[v.name] = FormDataObject[v.name]
-                            ? [...FormDataObject[v.name], v.value]
-                            : [v.value];
-                    } else {
-                        FormDataObject[v.name] = v.value;
-                    }
-                });
+                    let formDataObject: { [key: string]: string | string[] } = serializeFormData(formData);
 
-                FormDataObject = {
-                    ...FormDataObject,
-                    ...TableDataExtractor(BENCHMARKTableConfig),
-                };
-                await this.saveTNAForm(FormDataObject, url);
+                    formDataObject = {
+                        ...formDataObject,
+                        ...TableDataExtractor(BENCHMARKTableConfig),
+                    };
+                    await this.saveTNAForm(formDataObject, url);
+                }catch(SubmissionError: any) {
+                    console.warn('Error in Initializing TNA form' + SubmissionError);
+                    showToastFeedback('text-bg-danger', SubmissionError?.responseJSON?.message || SubmissionError?.message || 'Error in Setting TNA form');
+                }
             })
-
         }catch(error: any) {
             console.warn('Error in Setting TNA form' + error);
-            showToastFeedback('text-bg-danger', error.responseJSON.message || error.message);
+            showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message);
         }
     }
     initializeTNAForm() {
