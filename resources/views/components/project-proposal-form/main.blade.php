@@ -1,6 +1,11 @@
 @props(['isEditable' => false])
 
-<div id="ProjectProposalForm">
+<form
+    id="ProjectProposalForm"
+    @if ($isEditable)
+    action=""
+    @endif
+    @csrf
     <div class="center">
         <table
             id="TopProposalTable"
@@ -112,4 +117,4 @@
         </table>
     </div>
     <x-project-proposal-form.company-profile-form :isEditable="$isEditable" />
-</div>
+</form>

@@ -4172,7 +4172,7 @@ async function initializeStaffPageJs() {
                     $('#viewTNA, #editTNA')
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
-                    $('#viewProjectProposal')
+                    $('#viewProjectProposal, #editProjectProposal')
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
                     ApplicantDetails.filter('#firm_name').val(firmName);

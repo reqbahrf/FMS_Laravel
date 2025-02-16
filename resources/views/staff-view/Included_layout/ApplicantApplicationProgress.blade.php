@@ -188,11 +188,23 @@
                             class="btn btn-primary"
                             data-bs-toggle="modal"
                             data-bs-target="#projectProposalDocContainerModal"
+                            data-action="view"
                             type="button"
                             id="viewProjectProposal"
                         >
                             <i class="ri-file-list-3-fill me-1"></i>
                             View Project Proposal document
+                        </button>
+                        <button
+                            class="btn btn-primary ms-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#projectProposalDocContainerModal"
+                            data-action="edit"
+                            type="button"
+                            id="editProjectProposal"
+                        >
+                            <i class="ri-calendar-event-fill me-1"></i>
+                            Edit Project Proposal
                         </button>
                     </div>
                 </div>
