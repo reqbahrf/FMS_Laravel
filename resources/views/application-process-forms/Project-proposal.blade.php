@@ -27,7 +27,8 @@
         #ProjectProposalForm table#technicalConstraintTable,
         #ProjectProposalForm table#equipmentTable,
         #ProjectProposalForm table#budgetTable,
-        #ProjectProposalForm table#refundStructureTable {
+        #ProjectProposalForm table#refundStructureTable,
+        #ProjectProposalForm table#riskTable {
             width: 100% !important;
             border-collapse: collapse;
             border: 1px solid #000;
@@ -37,7 +38,8 @@
         #ProjectProposalForm #technicalConstraintTable tr,
         #ProjectProposalForm #equipmentTable tr,
         #ProjectProposalForm #budgetTable tr,
-        #ProjectProposalForm #refundStructureTable tr {
+        #ProjectProposalForm #refundStructureTable tr,
+        #ProjectProposalForm #riskTable tr {
             border: 1px solid #000;
             padding: 3px;
         }
@@ -46,7 +48,8 @@
         #ProjectProposalForm #technicalConstraintTable td,
         #ProjectProposalForm #equipmentTable td,
         #ProjectProposalForm #budgetTable td,
-        #ProjectProposalForm #refundStructureTable td {
+        #ProjectProposalForm #refundStructureTable td,
+        #ProjectProposalForm #riskTable td {
             border: 1px solid #000;
             padding: 3px;
         }

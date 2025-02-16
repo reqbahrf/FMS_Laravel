@@ -5,7 +5,8 @@
     @if ($isEditable)
     action="{{ route('staff.Applicant.set.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
     @endif
-    @csrf   
+>
+    @csrf
     <div class="center">
         <table
             id="TopProposalTable"
@@ -26,11 +27,11 @@
                         <input
                             name="project_title"
                             type="text"
-                            value="{{ $project_title ?? '' }}"
+                            value="{{ $ProjectProposaldata['project_title'] ?? '' }}"
                             placeholder="(Must already be able to reflect the goal of the project)"
                         >
                     @else
-                        {{ $project_title ?? '' }}
+                        {{ $ProjectProposaldata['project_title'] ?? '' }}
                     @endif
                 </td>
             </tr>
@@ -41,11 +42,11 @@
                         <input
                             name="proponent"
                             type="text"
-                            value="{{ $proponent ?? '' }}"
+                            value="{{ $ProjectProposaldata['proponent'] ?? '' }}"
                             placeholder="(Indicate name and address of Firm)"
                         >
                     @else
-                        {{ $proponent ?? '' }}
+                        {{ $ProjectProposaldata['proponent'] ?? '' }}
                     @endif
                 </td>
             </tr>
@@ -56,11 +57,11 @@
                         <input
                             name="project_cost"
                             type="text"
-                            value="{{ $project_cost ?? '' }}"
+                            value="{{ $ProjectProposaldata['project_cost'] ?? '' }}"
                             placeholder="(Total project cost including counterpart of the proponent)"
                         >
                     @else
-                        {{ $project_cost ?? '' }}
+                        {{ $ProjectProposaldata['project_cost'] ?? '' }}
                     @endif
                 </td>
             </tr>
@@ -71,11 +72,11 @@
                         <input
                             name="amount_requested"
                             type="text"
-                            value="{{ $amount_requested ?? '' }}"
+                            value="{{ $ProjectProposaldata['amount_requested'] ?? '' }}"
                             placeholder="(DOST-SETUP counterpart or amount requested from DOST-SETUP)"
                         >
                     @else
-                        {{ $amount_requested ?? '' }}
+                        {{ $ProjectProposaldata['amount_requested'] ?? '' }}
                     @endif
                 </td>
             </tr>
@@ -93,18 +94,18 @@
                         <textarea
                             class="form-control"
                             name="general_objectives"
-                        >{{ $general_objectives ?? '' }}</textarea>
+                        >{{ $ProjectProposaldata['general_objectives'] ?? '' }}</textarea>
                     @else
-                        {{ $general_objectives ?? '' }}
+                        {{ $ProjectProposaldata['general_objectives'] ?? '' }}
                     @endif
                     <p style="font-weight: bold;">Specific Objectives:</p><br>
                     @if ($isEditable)
                         <textarea
                             class="form-control"
                             name="specific_objectives"
-                        >{{ $specific_objectives ?? '' }}</textarea>
+                        >{{ $ProjectProposaldata['specific_objectives'] ?? '' }}</textarea>
                     @else
-                        {{ $specific_objectives ?? '' }}
+                        {{ $ProjectProposaldata['specific_objectives'] ?? '' }}
                     @endif
                 </td>
             </tr>
@@ -116,5 +117,8 @@
             </tr>
         </table>
     </div>
-    <x-project-proposal-form.company-profile-form :isEditable="$isEditable" />
+    <x-project-proposal-form.company-profile-form :isEditable="$isEditable" :ProjectProposaldata="$ProjectProposaldata" />
 </form>
+@if($isEditable)
+  <button class="btn btn-primary ms-auto" type="submit" form="ProjectProposalForm">SET</button>
+@endif

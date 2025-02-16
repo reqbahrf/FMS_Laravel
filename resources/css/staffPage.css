@@ -880,21 +880,21 @@ Form Styles
     padding: 12pt;
 }
 
-#ProjectProposalForm table:not(#TopProposalTable) {
+#ProjectProposalForm table:is(#CompanyProfileTable, #technicalConstraintTable, #equipmentTable, #budgetTable, #refundStructureTable, #riskTable) {
     width: 100% !important;
     border-collapse: collapse;
     border: 1px solid #000;
 }
 
-#ProjectProposalForm table:not(#TopProposalTable) th {
+#ProjectProposalForm table:is(#CompanyProfileTable, #technicalConstraintTable, #equipmentTable, #budgetTable, #refundStructureTable, #riskTable) th {
     border: 1px solid #000;
     padding: 10px;
 }
 
-#ProjectProposalForm table:not(#TopProposalTable) tr {
+#ProjectProposalForm table:is(#CompanyProfileTable, #technicalConstraintTable, #equipmentTable, #budgetTable, #refundStructureTable, #riskTable) tr {
     border: 1px solid #000;
 }
-#ProjectProposalForm table:not(#TopProposalTable) td {
+#ProjectProposalForm table:is(#CompanyProfileTable, #technicalConstraintTable, #equipmentTable, #budgetTable, #refundStructureTable, #riskTable) td {
     border: 1px solid #000;
     padding: 10px;
 }
@@ -935,4 +935,20 @@ Form Styles
 
 .section--sub--title {
     font-weight: bold;
+}
+
+.no-border,
+.no-border td,
+.no-border tr,
+table.no-border,
+table.no-border tr,
+table.no-border td {
+    border: none !important;
+    border-width: 0 !important;
+    border-collapse: collapse !important;
+}
+
+table.no-border {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
 }

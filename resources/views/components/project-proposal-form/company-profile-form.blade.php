@@ -1,20 +1,20 @@
+@props(['isEditable', 'ProjectProposaldata'])
 <table
     id="CompanyProfileTable"
     style="border-collapse: collapse; table-layout: fixed;"
     width="100%"
-    border="1"
     cellpadding="5"
 >
-    <tr>
+    <tr class="no-border">
         <td width="15%"></td>
-        <td width="5%"></td>
-        <td width="15%"></td>
-        <td width="5%"></td>
-        <td width="15%"></td>
-        <td width="5%"></td>
-        <td width="15%"></td>
-        <td width="5%"></td>
-        <td width="20%"></td>
+        <td width="5%" ></td>
+        <td width="15%" ></td>
+        <td width="5%" ></td>
+        <td width="15%" ></td>
+        <td width="5%" ></td>
+        <td width="15%" ></td>
+        <td width="5%" ></td>
+        <td width="20%" ></td>
     </tr>
     <tr>
         <td colspan="9"><b>A. Company Profile</b></td>
@@ -26,11 +26,11 @@
                 <input
                     name="name_of_firm"
                     type="text"
-                    value="{{ $name_of_firm ?? '' }}"
+                    value="{{ $ProjectProposaldata['name_of_firm'] ?? '' }}"
                     placeholder="XYZ Company"
                 >
             @else
-                {{ $name_of_firm ?? '' }}
+                {{ $ProjectProposaldata['name_of_firm'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -41,11 +41,11 @@
                 <input
                     name="address"
                     type="text"
-                    value="{{ $address ?? '' }}"
+                    value="{{ $ProjectProposaldata['address'] ?? '' }}"
                     placeholder="Purok 1, Barangay 1, City, Province"
                 >
             @else
-                {{ $address ?? '' }}
+                {{ $ProjectProposaldata['address'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -56,11 +56,11 @@
                 <input
                     name="contact_person"
                     type="text"
-                    value="{{ $contact_person ?? '' }}"
+                    value="{{ $ProjectProposaldata['contact_person'] ?? '' }}"
                     placeholder="John Doe"
                 >
             @else
-                {{ $contact_person ?? '' }}
+                {{ $ProjectProposaldata['contact_person'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -71,11 +71,11 @@
                 <input
                     name="contact_no"
                     type="text"
-                    value="{{ $contact_no ?? '' }}"
+                    value="{{ $ProjectProposaldata['contact_no'] ?? '' }}"
                     placeholder="09123456789"
                 >
             @else
-                {{ $contact_no ?? '' }}
+                {{ $ProjectProposaldata['contact_no'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -86,11 +86,11 @@
                 <input
                     name="email_address"
                     type="text"
-                    value="{{ $email_address ?? '' }}"
+                    value="{{ $ProjectProposaldata['email_address'] ?? '' }}"
                     placeholder="xyzcompany@gmail.com"
                 >
             @else
-                {{ $email_address ?? '' }}
+                {{ $ProjectProposaldata['email_address'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -101,12 +101,12 @@
                 <input
                     name="year_established"
                     type="text"
-                    value="{{ $year_established ?? '' }}"
+                    value="{{ $ProjectProposaldata['year_established'] ?? '' }}"
                     maxlength="4"
                     placeholder="2020"
                 >
             @else
-                {{ $year_established ?? '' }}
+                {{ $ProjectProposaldata['year_established'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -118,10 +118,10 @@
                     name="type_of_organization"
                     type="radio"
                     value="Single Proprietorship"
-                    {{ $type_of_organization ?? '' == 'Single Proprietorship' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['type_of_organization'] ?? '' == 'Single Proprietorship' ? 'checked' : '' }}
                 >
             @else
-                {{ $type_of_organization ?? '' == 'Single Proprietorship' ? '/' : '' }}
+                {{ $ProjectProposaldata['type_of_organization'] ?? '' == 'Single Proprietorship' ? '/' : '' }}
             @endif
         </td>
         <td>Single Proprietorship</td>
@@ -131,10 +131,10 @@
                     name="type_of_organization"
                     type="radio"
                     value="Partnership"
-                    {{ $type_of_organization ?? '' == 'Partnership' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['type_of_organization'] ?? '' == 'Partnership' ? 'checked' : '' }}
                 >
             @else
-                {{ $type_of_organization ?? '' == 'Partnership' ? '/' : '' }}
+                {{ $ProjectProposaldata['type_of_organization'] ?? '' == 'Partnership' ? '/' : '' }}
             @endif
         </td>
         <td>Partnership</td>
@@ -144,10 +144,10 @@
                     name="type_of_organization"
                     type="radio"
                     value="Cooperative"
-                    {{ $type_of_organization ?? '' == 'Cooperative' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['type_of_organization'] ?? '' == 'Cooperative' ? 'checked' : '' }}
                 >
             @else
-                {{ $type_of_organization ?? '' == 'Cooperative' ? '/' : '' }}
+                {{ $ProjectProposaldata['type_of_organization'] ?? '' == 'Cooperative' ? '/' : '' }}
             @endif
         </td>
         <td>Cooperative</td>
@@ -157,10 +157,10 @@
                     name="type_of_organization"
                     type="radio"
                     value="Corporation"
-                    {{ $type_of_organization ?? '' == 'Corporation' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['type_of_organization'] ?? '' == 'Corporation' ? 'checked' : '' }}
                 >
             @else
-                {{ $type_of_organization ?? '' == 'Corporation' ? '/' : '' }}
+                {{ $ProjectProposaldata['type_of_organization'] ?? '' == 'Corporation' ? '/' : '' }}
             @endif
         </td>
         <td>Corporation</td>
@@ -172,10 +172,10 @@
                     name="profit_status"
                     type="radio"
                     value="Profit"
-                    {{ $profit_status ?? '' == 'Profit' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['profit_status'] ?? '' == 'Profit' ? 'checked' : '' }}
                 >
             @else
-                {{ $profit_status ?? '' == 'Profit' ? '/' : '' }}
+                {{ $ProjectProposaldata['profit_status'] ?? '' == 'Profit' ? '/' : '' }}
             @endif
         </td>
         <td>Profit</td>
@@ -185,10 +185,10 @@
                     name="profit_status"
                     type="radio"
                     value="Non-Profit"
-                    {{ $profit_status ?? '' == 'Non-Profit' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['profit_status'] ?? '' == 'Non-Profit' ? 'checked' : '' }}
                 >
             @else
-                {{ $profit_status ?? '' == 'Non-Profit' ? '/' : '' }}
+                {{ $ProjectProposaldata['profit_status'] ?? '' == 'Non-Profit' ? '/' : '' }}
             @endif
         </td>
         <td>Non-Profit</td>
@@ -201,10 +201,10 @@
                     name="size_of_organization"
                     type="radio"
                     value="Micro"
-                    {{ $size_of_organization ?? '' == 'Micro' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['size_of_organization'] ?? '' == 'Micro' ? 'checked' : '' }}
                 >
             @else
-                {{ $size_of_organization ?? '' == 'Micro' ? '/' : '' }}
+                {{ $ProjectProposaldata['size_of_organization'] ?? '' == 'Micro' ? '/' : '' }}
             @endif
         </td>
         <td>Micro<br>(P3M Total Asset Value or less)</td>
@@ -214,10 +214,10 @@
                     name="size_of_organization"
                     type="radio"
                     value="Small"
-                    {{ $size_of_organization ?? '' == 'Small' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['size_of_organization'] ?? '' == 'Small' ? 'checked' : '' }}
                 >
             @else
-                {{ $size_of_organization ?? '' == 'Small' ? '/' : '' }}
+                {{ $ProjectProposaldata['size_of_organization'] ?? '' == 'Small' ? '/' : '' }}
             @endif
         </td>
         <td>Small<br>(P3,000,001.00 - P15M Total Asset Value)</td>
@@ -227,10 +227,10 @@
                     name="size_of_organization"
                     type="radio"
                     value="Medium"
-                    {{ $size_of_organization ?? '' == 'Medium' ? 'checked' : '' }}
+                    {{ $ProjectProposaldata['size_of_organization'] ?? '' == 'Medium' ? 'checked' : '' }}
                 >
             @else
-                {{ $size_of_organization ?? '' == 'Medium' ? '/' : '' }}
+                {{ $ProjectProposaldata['size_of_organization'] ?? '' == 'Medium' ? '/' : '' }}
             @endif
         </td>
         <td colspan="4">Medium<br>(P15,000,001.00 - P100M Total Asset Value)</td>
@@ -249,10 +249,10 @@
                 <input
                     name="direct_workers_male"
                     type="text"
-                    value="{{ $direct_workers_male ?? '' }}"
+                    value="{{ $ProjectProposaldata['direct_workers_male'] ?? '' }}"
                 >
             @else
-                {{ $direct_workers_male ?? '' }}
+                {{ $ProjectProposaldata['direct_workers_male'] ?? '' }}
             @endif
         </td>
         <td colspan="2">
@@ -260,10 +260,10 @@
                 <input
                     name="direct_workers_female"
                     type="text"
-                    value="{{ $direct_workers_female ?? '' }}"
+                    value="{{ $ProjectProposaldata['direct_workers_female'] ?? '' }}"
                 >
             @else
-                {{ $direct_workers_female ?? '' }}
+                {{ $ProjectProposaldata['direct_workers_female'] ?? '' }}
             @endif
         </td>
         <td colspan="3">
@@ -271,10 +271,10 @@
                 <input
                     name="direct_workers_total"
                     type="text"
-                    value="{{ $direct_workers_total ?? '' }}"
+                    value="{{ $ProjectProposaldata['direct_workers_total'] ?? '' }}"
                 >
             @else
-                {{ $direct_workers_total ?? '' }}
+                {{ $ProjectProposaldata['direct_workers_total'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -285,10 +285,10 @@
                 <input
                     name="production_male"
                     type="text"
-                    value="{{ $production_male ?? '' }}"
+                    value="{{ $ProjectProposaldata['production_male'] ?? '' }}"
                 >
             @else
-                {{ $production_male ?? '' }}
+                {{ $ProjectProposaldata['production_male'] ?? '' }}
             @endif
         </td>
         <td colspan="2">
@@ -296,10 +296,10 @@
                 <input
                     name="production_female"
                     type="text"
-                    value="{{ $production_female ?? '' }}"
+                    value="{{ $ProjectProposaldata['production_female'] ?? '' }}"
                 >
             @else
-                {{ $production_female ?? '' }}
+                {{ $ProjectProposaldata['production_female'] ?? '' }}
             @endif
         </td>
         <td colspan="3">
@@ -307,10 +307,10 @@
                 <input
                     name="production_total"
                     type="text"
-                    value="{{ $production_total ?? '' }}"
+                    value="{{ $ProjectProposaldata['production_total'] ?? '' }}"
                 >
             @else
-                {{ $production_total ?? '' }}
+                {{ $ProjectProposaldata['production_total'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -321,10 +321,10 @@
                 <input
                     name="non_production_male"
                     type="text"
-                    value="{{ $non_production_male ?? '' }}"
+                    value="{{ $ProjectProposaldata['non_production_male'] ?? '' }}"
                 >
             @else
-                {{ $non_production_male ?? '' }}
+                {{ $ProjectProposaldata['non_production_male'] ?? '' }}
             @endif
         </td>
         <td colspan="2">
@@ -332,10 +332,10 @@
                 <input
                     name="non_production_female"
                     type="text"
-                    value="{{ $non_production_female ?? '' }}"
+                    value="{{ $ProjectProposaldata['non_production_female'] ?? '' }}"
                 >
             @else
-                {{ $non_production_female ?? '' }}
+                {{ $ProjectProposaldata['non_production_female'] ?? '' }}
             @endif
         </td>
         <td colspan="3">
@@ -343,10 +343,10 @@
                 <input
                     name="non_production_total"
                     type="text"
-                    value="{{ $non_production_total ?? '' }}"
+                    value="{{ $ProjectProposaldata['non_production_total'] ?? '' }}"
                 >
             @else
-                {{ $non_production_total ?? '' }}
+                {{ $ProjectProposaldata['non_production_total'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -357,10 +357,10 @@
                 <input
                     name="indirect_contract_workers_male"
                     type="text"
-                    value="{{ $indirect_contract_workers_male ?? '' }}"
+                    value="{{ $ProjectProposaldata['indirect_contract_workers_male'] ?? '' }}"
                 >
             @else
-                {{ $indirect_contract_workers_male ?? '' }}
+                {{ $ProjectProposaldata['indirect_contract_workers_male'] ?? '' }}
             @endif
         </td>
         <td colspan="2">
@@ -368,10 +368,10 @@
                 <input
                     name="indirect_contract_workers_female"
                     type="text"
-                    value="{{ $indirect_contract_workers_female ?? '' }}"
+                    value="{{ $ProjectProposaldata['indirect_contract_workers_female'] ?? '' }}"
                 >
             @else
-                {{ $indirect_contract_workers_female ?? '' }}
+                {{ $ProjectProposaldata['indirect_contract_workers_female'] ?? '' }}
             @endif
         </td>
         <td colspan="3">
@@ -379,10 +379,10 @@
                 <input
                     name="indirect_contract_workers_total"
                     type="text"
-                    value="{{ $indirect_contract_workers_total ?? '' }}"
+                    value="{{ $ProjectProposaldata['indirect_contract_workers_total'] ?? '' }}"
                 >
             @else
-                {{ $indirect_contract_workers_total ?? '' }}
+                {{ $ProjectProposaldata['indirect_contract_workers_total'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -393,10 +393,10 @@
                 <input
                     name="total_male"
                     type="text"
-                    value="{{ $total_male ?? '' }}"
+                    value="{{ $ProjectProposaldata['total_male'] ?? '' }}"
                 >
             @else
-                {{ $total_male ?? '' }}
+                {{ $ProjectProposaldata['total_male'] ?? '' }}
             @endif
         </td>
         <td colspan="2">
@@ -404,21 +404,21 @@
                 <input
                     name="total_female"
                     type="text"
-                    value="{{ $total_female ?? '' }}"
+                    value="{{ $ProjectProposaldata['total_female'] ?? '' }}"
                 >
             @else
-                {{ $total_female ?? '' }}
+                {{ $ProjectProposaldata['total_female'] ?? '' }}
             @endif
         </td>
         <td colspan="3">
             @if ($isEditable)
                 <input
-                    name="total"
+                    name="employee_total"
                     type="text"
-                    value="{{ $total ?? '' }}"
+                    value="{{ $ProjectProposaldata['employee_total'] ?? '' }}"
                 >
             @else
-                {{ $total ?? '' }}
+                {{ $ProjectProposaldata['employee_total'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -438,10 +438,10 @@
                 <input
                     name="dti_registration_number"
                     type="text"
-                    value="{{ $dti_registration_number ?? '' }}"
+                    value="{{ $ProjectProposaldata['dti_registration_number'] ?? '' }}"
                 >
             @else
-                {{ $dti_registration_number ?? '' }}
+                {{ $ProjectProposaldata['dti_registration_number'] ?? '' }}
             @endif
         </td>
         <td colspan="4">
@@ -449,10 +449,10 @@
                 <input
                     name="dti_date_of_registration"
                     type="text"
-                    value="{{ $dti_date_of_registration ?? '' }}"
+                    value="{{ $ProjectProposaldata['dti_date_of_registration'] ?? '' }}"
                 >
             @else
-                {{ $dti_date_of_registration ?? '' }}
+                {{ $ProjectProposaldata['dti_date_of_registration'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -463,10 +463,10 @@
                 <input
                     name="sec_registration_number"
                     type="text"
-                    value="{{ $sec_registration_number ?? '' }}"
+                    value="{{ $ProjectProposaldata['sec_registration_number'] ?? '' }}"
                 >
             @else
-                {{ $sec_registration_number ?? '' }}
+                {{ $ProjectProposaldata['sec_registration_number'] ?? '' }}
             @endif
         </td>
         <td colspan="4">
@@ -474,10 +474,10 @@
                 <input
                     name="sec_date_of_registration"
                     type="text"
-                    value="{{ $sec_date_of_registration ?? '' }}"
+                    value="{{ $ProjectProposaldata['sec_date_of_registration'] ?? '' }}"
                 >
             @else
-                {{ $sec_date_of_registration ?? '' }}
+                {{ $ProjectProposaldata['sec_date_of_registration'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -488,10 +488,10 @@
                 <input
                     name="cda_registration_number"
                     type="text"
-                    value="{{ $cda_registration_number ?? '' }}"
+                    value="{{ $ProjectProposaldata['cda_registration_number'] ?? '' }}"
                 >
             @else
-                {{ $cda_registration_number ?? '' }}
+                {{ $ProjectProposaldata['cda_registration_number'] ?? '' }}
             @endif
         </td>
         <td colspan="4">
@@ -499,10 +499,10 @@
                 <input
                     name="cda_date_of_registration"
                     type="text"
-                    value="{{ $cda_date_of_registration ?? '' }}"
+                    value="{{ $ProjectProposaldata['cda_date_of_registration'] ?? '' }}"
                 >
             @else
-                {{ $cda_date_of_registration ?? '' }}
+                {{ $ProjectProposaldata['cda_date_of_registration'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -513,10 +513,10 @@
                 <input
                     name="lgu_registration_number"
                     type="text"
-                    value="{{ $lgu_registration_number ?? '' }}"
+                    value="{{ $ProjectProposaldata['lgu_registration_number'] ?? '' }}"
                 >
             @else
-                {{ $lgu_registration_number ?? '' }}
+                {{ $ProjectProposaldata['lgu_registration_number'] ?? '' }}
             @endif
         </td>
         <td colspan="4">
@@ -524,10 +524,10 @@
                 <input
                     name="lgu_date_of_registration"
                     type="text"
-                    value="{{ $lgu_date_of_registration ?? '' }}"
+                    value="{{ $ProjectProposaldata['lgu_date_of_registration'] ?? '' }}"
                 >
             @else
-                {{ $lgu_date_of_registration ?? '' }}
+                {{ $ProjectProposaldata['lgu_date_of_registration'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -542,10 +542,10 @@
                 <input
                     name="others_name_of_firm"
                     type="text"
-                    value="{{ $others_name_of_firm ?? '' }}"
+                    value="{{ $ProjectProposaldata['others_name_of_firm'] ?? '' }}"
                 >
             @else
-                {{ $others_name_of_firm ?? '' }}
+                {{ $ProjectProposaldata['others_name_of_firm'] ?? '' }}
             @endif
         </td>
         <td colspan="2">
@@ -553,10 +553,10 @@
                 <input
                     name="others_registration_number"
                     type="text"
-                    value="{{ $others_registration_number ?? '' }}"
+                    value="{{ $ProjectProposaldata['others_registration_number'] ?? '' }}"
                 >
             @else
-                {{ $others_registration_number ?? '' }}
+                {{ $ProjectProposaldata['others_registration_number'] ?? '' }}
             @endif
         </td>
         <td colspan="4">
@@ -564,10 +564,10 @@
                 <input
                     name="others_date_of_registration"
                     type="text"
-                    value="{{ $others_date_of_registration ?? '' }}"
+                    value="{{ $ProjectProposaldata['others_date_of_registration'] ?? '' }}"
                 >
             @else
-                {{ $others_date_of_registration ?? '' }}
+                {{ $ProjectProposaldata['others_date_of_registration'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -579,10 +579,10 @@
                     name="crop_animal_production_hunting_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($crop_animal_production_hunting_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $crop_animal_production_hunting_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -594,10 +594,10 @@
                     name="chemicals_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($chemicals_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['chemicals_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $chemicals_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['chemicals_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -611,10 +611,10 @@
                     name="forestry_logging_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($forestry_logging_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['forestry_logging_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $forestry_logging_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['forestry_logging_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -626,10 +626,10 @@
                     name="pharmaceutical_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($pharmaceutical_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $pharmaceutical_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -643,10 +643,10 @@
                     name="fishing_agriculture_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($fishing_and_agriculture_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['fishing_and_agriculture_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $fishing_and_agriculture_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['fishing_and_agriculture_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -658,10 +658,10 @@
                     name="plastic_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($plastic_products_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $plastic_products_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -675,10 +675,10 @@
                     name="food_processing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($food_processing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['food_processing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $food_processing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['food_processing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -690,10 +690,10 @@
                     name="non_metalllic_mineral_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($nonmetallic_mineral_products_manufacturing ?? '' == 'checked')
+                    @checked($ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $nonmetallic_mineral_products_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -707,10 +707,10 @@
                     name="beverage_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($beverage_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['beverage_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $beverage_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['beverage_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -722,10 +722,10 @@
                     name="fabricated_metal_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($fabricated_metal_products_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $fabricated_metal_products_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -739,10 +739,10 @@
                     name="textile_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($textile_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['textile_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $textile_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['textile_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -754,10 +754,10 @@
                     name="machinery_and_equipment_not_elsewhere_classified_manufacturing"
                     type="checkbox"
                     value="checked"
-                    @checked($machinery_and_equipment_not_elsewhere_classified_manufacturing ?? '' == 'checked')
+                    @checked($ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '' == 'checked')
                 >
             @else
-                {{ $machinery_and_equipment_not_elsewhere_classified_manufacturing ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -772,10 +772,10 @@
                     name="wearing_apparel_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($wearing_apparel_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $wearing_apparel_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -788,10 +788,10 @@
                     name="other_transport_equipment_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($other_transport_equipment_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $other_transport_equipment_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -805,10 +805,10 @@
                     name="leather_and_related_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($leather_and_related_products_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $leather_and_related_products_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -821,10 +821,10 @@
                     name="furniture_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($furniture_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['furniture_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $furniture_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['furniture_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -838,10 +838,10 @@
                     name="wood_and_products_of_wood_and_cork_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($wood_and_products_of_wood_and_cork_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $wood_and_products_of_wood_and_cork_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -853,10 +853,10 @@
                     name="information_and_communication_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($information_and_communication_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $information_and_communication_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -871,10 +871,10 @@
                     name="paper_and_paper_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($paper_and_paper_products_manufacturing_activity ?? '' == 'checked')
+                    @checked($ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '' == 'checked')
                 >
             @else
-                {{ $paper_and_paper_products_manufacturing_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -888,11 +888,11 @@
                     type="checkbox"
                     value="checked"
                     @checked(
-                        $other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity ??
+                        $ProjectProposaldata['other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'] ??
                             '' == 'checked')
                 >
             @else
-                {{ $other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity ?? '' == 'checked' ? '/' : '' }}
+                {{ $ProjectProposaldata['other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'] ?? '' == 'checked' ? '/' : '' }}
             @endif
         </td>
 
@@ -902,10 +902,10 @@
                 <input
                     name="other_regional_priority_industries_please_specify_activity"
                     type="text"
-                    value="{{ $other_regional_priority_industries_please_specify_activity ?? '' }}"
+                    value="{{ $ProjectProposaldata['other_regional_priority_industries_please_specify_activity'] ?? '' }}"
                 >
             @else
-                {{ $other_regional_priority_industries_please_specify_activity ?? '' }}
+                {{ $ProjectProposaldata['other_regional_priority_industries_please_specify_activity'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -917,9 +917,9 @@
                 <textarea
                     class="form-control"
                     name="products_services"
-                >{{ $products_services ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['products_services'] ?? '' }}</textarea>
             @else
-                {{ $products_services ?? '' }}
+                {{ $ProjectProposaldata['products_services'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -930,9 +930,9 @@
                 <textarea
                     class="form-control"
                     name="brief_enterprise_background"
-                >{{ $brief_enterprise_background ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['brief_enterprise_background'] ?? '' }}</textarea>
             @else
-                {{ $brief_enterprise_background ?? '' }}
+                {{ $ProjectProposaldata['brief_enterprise_background'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -962,9 +962,9 @@
                 <textarea
                     class="form-control"
                     name="skills_and_expertise"
-                >{{ $skills_and_expertise ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['skills_and_expertise'] ?? '' }}</textarea>
             @else
-                {{ $skills_and_expertise ?? '' }}
+                {{ $ProjectProposaldata['skills_and_expertise'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -979,9 +979,9 @@
                 <textarea
                     class="form-control"
                     name="compensation"
-                >{{ $compensation ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['compensation'] ?? '' }}</textarea>
             @else
-                {{ $compensation ?? '' }}
+                {{ $ProjectProposaldata['compensation'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -996,9 +996,9 @@
                 <textarea
                     class="form-control"
                     name="plant_site_or_location"
-                >{{ $plant_site_or_location ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['plant_site_or_location'] ?? '' }}</textarea>
             @else
-                {{ $plant_site_or_location ?? '' }}
+                {{ $ProjectProposaldata['plant_site_or_location'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1013,9 +1013,9 @@
                 <textarea
                     class="form-control"
                     name="capacity_volume_and_cost_of_production"
-                >{{ $capacity_volume_and_cost_of_production ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['capacity_volume_and_cost_of_production'] ?? '' }}</textarea>
             @else
-                {{ $capacity_volume_and_cost_of_production ?? '' }}
+                {{ $ProjectProposaldata['capacity_volume_and_cost_of_production'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1030,9 +1030,9 @@
                 <textarea
                     class="form-control"
                     name="raw_materials_used_and_sources_of_raw_material"
-                >{{ $raw_materials_used_and_sources_of_raw_material ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['raw_materials_used_and_sources_of_raw_material'] ?? '' }}</textarea>
             @else
-                {{ $raw_materials_used_and_sources_of_raw_material ?? '' }}
+                {{ $ProjectProposaldata['raw_materials_used_and_sources_of_raw_material'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1057,9 +1057,9 @@
                 <textarea
                     class="form-control"
                     name="market_situation_product_demand_and_supply"
-                >{{ $market_situation_product_demand_and_supply ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['market_situation_product_demand_and_supply'] ?? '' }}</textarea>
             @else
-                {{ $market_situation_product_demand_and_supply ?? '' }}
+                {{ $ProjectProposaldata['market_situation_product_demand_and_supply'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1074,9 +1074,9 @@
                 <textarea
                     class="form-control"
                     name="product_specifications_and_product_price"
-                >{{ $product_specifications_and_product_price ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['product_specifications_and_product_price'] ?? '' }}</textarea>
             @else
-                {{ $product_specifications_and_product_price ?? '' }}
+                {{ $ProjectProposaldata['product_specifications_and_product_price'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1091,9 +1091,9 @@
                 <textarea
                     class="form-control"
                     name="distribution_channel_local_export"
-                >{{ $distribution_channel_local_export ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['distribution_channel_local_export'] ?? '' }}</textarea>
             @else
-                {{ $distribution_channel_local_export ?? '' }}
+                {{ $ProjectProposaldata['distribution_channel_local_export'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1116,9 +1116,9 @@
                 <textarea
                     class="form-control"
                     name="existing_problems_if_any"
-                >{{ $existing_problems_if_any ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['existing_problems_if_any'] ?? '' }}</textarea>
             @else
-                {{ $existing_problems_if_any ?? '' }}
+                {{ $ProjectProposaldata['existing_problems_if_any'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1133,9 +1133,9 @@
                 <textarea
                     class="form-control"
                     name="market_plans_strategies"
-                >{{ $market_plans_strategies ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['market_plans_strategies'] ?? '' }}</textarea>
             @else
-                {{ $market_plans_strategies ?? '' }}
+                {{ $ProjectProposaldata['market_plans_strategies'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1177,40 +1177,40 @@
         </td>
     </tr>
 </table>
-<table id="technicalConstraintTable">
+<table id="technicalConstraintTable" style="table-layout: fixed; width: 100%; border-collapse: collapse">
     <tr>
-        <td>Process/Existing Practice/Problem</th>
-        <td>Proposed S&T Intervention</td>
-        <td>Proposed S&T intervention-related equipment / skills upgrading</td>
-        <td>Impact</th>
+        <td width="25%" style="text-align: center;">Process/Existing Practice/Problem</th>
+        <td width="25%" style="text-align: center;">Proposed S&T Intervention</td>
+        <td width="25%" style="text-align: center;">Proposed S&T intervention-related equipment / skills upgrading</td>
+        <td width="25%" style="text-align: center;">Impact</th>
     </tr>
     <tbody>
-        @forelse ($technical_constraints_on_productionline_and_proposed_s_t_intervention ?? [] as $data)
+        @forelse ($ProjectProposaldata['technicalConstraints'] ?? [] as $data)
             <tr>
                 <td>
                     @if ($isEditable)
-                        <textarea class="form-control process_existing_practice_problem">{{ $data['process_existing_practice_problem'] ?? '' }}</textarea>
+                        <textarea class="form-control Process_existing_practice_problem">{{ $data['processExistingPracticeProblem'] ?? '' }}</textarea>
                     @else
-                        {{ $data['process_existing_practice_problem'] ?? '' }}
+                        {{ $data['processExistingPracticeProblem'] ?? '' }}
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
-                        <textarea class="form-control proposed_s_t_intervention">{{ $data['proposed_s_t_intervention'] ?? '' }}</textarea>
+                        <textarea class="form-control Proposed_s_t_intervention">{{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}</textarea>
                     @else
-                        {{ $data['proposed_s_t_intervention'] ?? '' }}
+                        {{ $data['proposedSTInterventionRelatedEquipmentSkillsUpgrading'] ?? '' }}
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
-                        <textarea class="form-control proposed_s_t_intervention_related_equipment_skills_upgrading">{{ $data['proposed_s_t_intervention_related_equipment_skills_upgrading'] ?? '' }}</textarea>
+                        <textarea class="form-control Proposed_s_t_intervention_related_equipment_skills_upgrading">{{ $data['proposed_s_t_intervention_related_equipment_skills_upgrading'] ?? '' }}</textarea>
                     @else
                         {{ $data['proposed_s_t_intervention_related_equipment_skills_upgrading'] ?? '' }}
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
-                        <textarea class="form-control impact">{{ $data['impact'] ?? '' }}</textarea>
+                        <textarea class="form-control Impact">{{ $data['impact'] ?? '' }}</textarea>
                     @else
                         {{ $data['impact'] ?? '' }}
                     @endif
@@ -1220,22 +1220,22 @@
             <tr>
                 <td>
                     @if ($isEditable)
-                        <textarea class="form-control process_existing_practice_problem"></textarea>
+                        <textarea class="form-control Process_existing_practice_problem"></textarea>
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
-                        <textarea class="form-control proposed_s_t_intervention"></textarea>
+                        <textarea class="form-control Proposed_s_t_intervention"></textarea>
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
-                        <textarea class="form-control proposed_s_t_intervention_related_equipment_skills_upgrading"></textarea>
+                        <textarea class="form-control Proposed_s_t_intervention_related_equipment_skills_upgrading"></textarea>
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
-                        <textarea class="form-control impact"></textarea>
+                        <textarea class="form-control Impact"></textarea>
                     @endif
                 </td>
             </tr>
@@ -1254,18 +1254,18 @@
         </td>
     </tr>
 </table>
-<table id="equipmentTable">
+<table id="equipmentTable" style="table-layout: fixed; width: 100%; border-collapse: collapse">
     @php
         $total_cost = 0;
     @endphp
     <tr>
-        <td>S&T Intervention-related equipment/specification</td>
-        <td>Qty</td>
-        <td>(₱)Unit Cost</td>
-        <td>(₱)Total Cost</td>
+        <td style="text-align: center; width: 50%">S&T Intervention-related equipment/specification</td>
+        <td style="text-align: center; width: 10%">Qty</td>
+        <td style="text-align: center; width: 20%">(₱)Unit Cost</td>
+        <td style="text-align: center; width: 20%">(₱)Total Cost</td>
     </tr>
     <tbody>
-        @forelse ($S_T_intervention_related_equipment ?? [] as $data)
+        @forelse ($ProjectProposaldata['equipment'] ?? [] as $data)
             @php
                 $row_total_cost = floatval($data['qty'] ?? 0) * floatval($data['unit_cost'] ?? 0);
                 $total_cost += $row_total_cost;
@@ -1274,18 +1274,18 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class=" S_T_intervention_related_equipment"
+                            class="S_T_intervention_related_equipment"
                             type="text"
-                            value="{{ $data['S_T_intervention_related_equipment'] ?? '' }}"
+                            value="{{ $data['stInterventionRelatedEquipment'] ?? '' }}"
                         >
                     @else
-                        {{ $data['S_T_intervention_related_equipment'] ?? '' }}
+                        {{ $data['stInterventionRelatedEquipment'] ?? '' }}
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
                         <input
-                            class="qty"
+                            class="Qty"
                             type="text"
                             value="{{ $data['qty'] ?? '' }}"
                         >
@@ -1296,23 +1296,23 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="unit_cost"
+                            class="Unit_cost"
                             type="text"
-                            value="{{ $data['unit_cost'] ?? '' }}"
+                            value="{{ $data['unitCost'] ?? '' }}"
                         >
                     @else
-                        {{ $data['unit_cost'] ?? '' }}
+                        {{ $data['unitCost'] ?? '' }}
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
                         <input
-                            class="total_cost"
+                            class="Total_cost"
                             type="text"
-                            value="{{ $data['total_cost'] ?? '' }}"
+                            value="{{ $data['totalCost'] ?? '' }}"
                         >
                     @else
-                        {{ $data['total_cost'] ?? '' }}
+                        {{ $data['totalCost'] ?? '' }}
                     @endif
                 </td>
             </tr>
@@ -1329,7 +1329,7 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="qty"
+                            class="Qty"
                             type="text"
                         >
                     @endif
@@ -1337,7 +1337,7 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="unit_cost"
+                            class="Unit_cost"
                             type="text"
                         >
                     @endif
@@ -1345,14 +1345,8 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="total_cost"
+                            class="Total_cost"
                             type="text"
-                        >
-                    @else
-                        <input
-                            class="total_cost"
-                            type="text"
-                            readonly
                         >
                     @endif
                 </td>
@@ -1379,9 +1373,9 @@
                 <textarea
                     class="form-control"
                     name="list_of_equipment_fabricators"
-                >{{ $list_of_equipment_fabricators ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['list_of_equipment_fabricators'] ?? '' }}</textarea>
             @else
-                {{ $list_of_equipment_fabricators ?? '' }}
+                {{ $ProjectProposaldata['list_of_equipment_fabricators'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1396,9 +1390,9 @@
                 <textarea
                     class="form-control"
                     name="schedule_of_activities_for_proposed_project"
-                >{{ $schedule_of_activities_for_proposed_project ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['schedule_of_activities_for_proposed_project'] ?? '' }}</textarea>
             @else
-                {{ $schedule_of_activities_for_proposed_project ?? '' }}
+                {{ $ProjectProposaldata['schedule_of_activities_for_proposed_project'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1437,9 +1431,9 @@
                 <textarea
                     class="form-control"
                     name="volume_of_waste_generated_monthly"
-                >{{ $volume_of_waste_generated_monthly ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['volume_of_waste_generated_monthly'] ?? '' }}</textarea>
             @else
-                {{ $volume_of_waste_generated_monthly ?? '' }}
+                {{ $ProjectProposaldata['volume_of_waste_generated_monthly'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1455,9 +1449,9 @@
                 <textarea
                     class="form-control"
                     name="kinds_of_wastes"
-                >{{ $kinds_of_wastes ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['kinds_of_wastes'] ?? '' }}</textarea>
             @else
-                {{ $kinds_of_wastes ?? '' }}
+                {{ $ProjectProposaldata['kinds_of_wastes'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1467,9 +1461,9 @@
                 <textarea
                     class="form-control"
                     name="methods_of_disposal"
-                >{{ $methods_of_disposal ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['methods_of_disposal'] ?? '' }}</textarea>
             @else
-                {{ $methods_of_disposal ?? '' }}
+                {{ $ProjectProposaldata['methods_of_disposal'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1507,9 +1501,9 @@
                 <textarea
                     class="form-control"
                     name="financial_constraints"
-                >{{ $financial_constraints ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['financial_constraints'] ?? '' }}</textarea>
             @else
-                {{ $financial_constraints ?? '' }}
+                {{ $ProjectProposaldata['financial_constraints'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1524,9 +1518,9 @@
                 <textarea
                     class="form-control"
                     name="cash_flow_financial_statement_balance_sheet"
-                >{{ $cash_flow_financial_statement_balance_sheet ?? '' }}</textarea>
+                >{{ $ProjectProposaldata['cash_flow_financial_statement_balance_sheet'] ?? '' }}</textarea>
             @else
-                {{ $cash_flow_financial_statement_balance_sheet ?? '' }}
+                {{ $ProjectProposaldata['cash_flow_financial_statement_balance_sheet'] ?? '' }}
             @endif
         </td>
     </tr>
@@ -1541,7 +1535,7 @@
     style="width: 100%; table-layout: fixed;"
 >
     <tbody>
-        <tr>
+        <tr class="no-border">
             <td width="20%"></td>
             <td width="5%"></td>
             <td width="10%"></td>
@@ -1576,7 +1570,7 @@
             $total_Cooperator = 0;
             $grand_total = 0;
         @endphp
-        @forelse ($budgetary_requirement ?? [] as $data)
+        @forelse ($ProjectProposaldata['budget'] ?? [] as $data)
             @php
                 $row_SETUP = floatval($data['SETUP'] ?? 0);
                 $row_LGIA = floatval($data['LGIA'] ?? 0);
@@ -1592,18 +1586,18 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="item_of_expenditure"
+                            class="Item_of_expenditure"
                             type="text"
-                            value="{{ $data['item_of_expenditure'] ?? '' }}"
+                            value="{{ $data['itemOfExpenditure'] ?? '' }}"
                         >
                     @else
-                        {{ $data['item_of_expenditure'] ?? '' }}
+                        {{ $data['itemOfExpenditure'] ?? '' }}
                     @endif
                 </td>
                 <td>
                     @if ($isEditable)
                         <input
-                            class="qty"
+                            class="Qty"
                             type="text"
                             value="{{ $data['qty'] ?? '' }}"
                         >
@@ -1614,12 +1608,12 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="unit_cost"
+                            class="Unit_cost"
                             type="text"
-                            value="{{ $data['unit_cost'] ?? '' }}"
+                            value="{{ $data['unitCost'] ?? '' }}"
                         >
                     @else
-                        {{ $data['unit_cost'] ?? '' }}
+                        {{ $data['unitCost'] ?? '' }}
                     @endif
                 </td>
                 <td>
@@ -1627,10 +1621,10 @@
                         <input
                             class="SETUP"
                             type="text"
-                            value="{{ $data['SETUP'] ?? '' }}"
+                            value="{{ $data['setup'] ?? '' }}"
                         >
                     @else
-                        {{ $data['SETUP'] ?? '' }}
+                        {{ $data['setup'] ?? '' }}
                     @endif
                 </td>
                 <td>
@@ -1638,10 +1632,10 @@
                         <input
                             class="LGIA"
                             type="text"
-                            value="{{ $data['LGIA'] ?? '' }}"
+                            value="{{ $data['lgia'] ?? '' }}"
                         >
                     @else
-                        {{ $data['LGIA'] ?? '' }}
+                        {{ $data['lgia'] ?? '' }}
                     @endif
                 </td>
                 <td>
@@ -1649,21 +1643,21 @@
                         <input
                             class="Cooperator"
                             type="text"
-                            value="{{ $data['Cooperator'] ?? '' }}"
+                            value="{{ $data['cooperator'] ?? '' }}"
                         >
                     @else
-                        {{ $data['Cooperator'] ?? '' }}
+                        {{ $data['cooperator'] ?? '' }}
                     @endif
                 </td>
                 <td colspan="2">
                     @if ($isEditable)
                         <input
-                            class="total_cost"
+                            class="Total_cost"
                             type="text"
-                            value="{{ $data['total_cost'] ?? '' }}"
+                            value="{{ $data['totalCost'] ?? '' }}"
                         >
                     @else
-                        {{ $data['total_cost'] ?? '' }}
+                        {{ $data['totalCost'] ?? '' }}
                     @endif
                 </td>
             </tr>
@@ -1672,7 +1666,7 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="item_of_expenditure"
+                            class="Item_of_expenditure"
                             type="text"
                             value=""
                         >
@@ -1681,7 +1675,7 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="qty"
+                            class="Qty"
                             type="text"
                             value=""
                         >
@@ -1690,7 +1684,7 @@
                 <td>
                     @if ($isEditable)
                         <input
-                            class="unit_cost"
+                            class="Unit_cost"
                             type="text"
                             value=""
                         >
@@ -1726,7 +1720,7 @@
                 <td colspan="2">
                     @if ($isEditable)
                         <input
-                            class="total_cost"
+                            class="Total_cost"
                             type="text"
                             value=""
                         >
@@ -1755,18 +1749,18 @@
 </table>
 <table id="refundStructureTable" style="width: 100%; table-layout: fixed;">
     @php
-        $january_total = ($data['january_total'] ?? 0) ?? 0;
-        $february_total = ($data['february_total'] ?? 0) ?? 0;
-        $march_total = ($data['march_total'] ?? 0) ?? 0;
-        $april_total = ($data['april_total'] ?? 0) ?? 0;
-        $may_total = ($data['may_total'] ?? 0) ?? 0;
-        $june_total = ($data['june_total'] ?? 0) ?? 0;
-        $july_total = ($data['july_total'] ?? 0) ?? 0;
-        $august_total = ($data['august_total'] ?? 0) ?? 0;
-        $september_total = ($data['september_total'] ?? 0) ?? 0;
-        $october_total = ($data['october_total'] ?? 0) ?? 0;
-        $november_total = ($data['november_total'] ?? 0) ?? 0;
-        $december_total = ($data['december_total'] ?? 0) ?? 0;
+        $january_total = ($ProjectProposaldata['January_total'] ?? 0) ?? 0;
+        $february_total = ($ProjectProposaldata['February_total'] ?? 0) ?? 0;
+        $march_total = ($ProjectProposaldata['March_total'] ?? 0) ?? 0;
+        $april_total = ($ProjectProposaldata['April_total'] ?? 0) ?? 0;
+        $may_total = ($ProjectProposaldata['May_total'] ?? 0) ?? 0;
+        $june_total = ($ProjectProposaldata['June_total'] ?? 0) ?? 0;
+        $july_total = ($ProjectProposaldata['July_total'] ?? 0) ?? 0;
+        $august_total = ($ProjectProposaldata['August_total'] ?? 0) ?? 0;
+        $september_total = ($ProjectProposaldata['September_total'] ?? 0) ?? 0;
+        $october_total = ($ProjectProposaldata['October_total'] ?? 0) ?? 0;
+        $november_total = ($ProjectProposaldata['November_total'] ?? 0) ?? 0;
+        $december_total = ($ProjectProposaldata['December_total'] ?? 0) ?? 0;
 
         $y1_total = 0;
         $y2_total = 0;
@@ -1780,7 +1774,7 @@
     ];
     @endphp
     <tbody>
-        <tr>
+        <tr class="no-border">
             <td width="14.3%"></td>
             <td width="14.3%"></td>
             <td width="14.3%"></td>
@@ -1809,10 +1803,10 @@
                             class="{{ $month }}_Y{{ $year }}"
                             type="text"
                             name="{{ $month }}_Y{{ $year }}"
-                            value="{{ ${$month . '_Y' . $year} ?? '' }}"
+                            value="{{ $ProjectProposaldata[$month . '_Y' . $year] ?? '' }}"
                         >
                     @else
-                        {{ ${$month . '_Y' . $year} ?? '' }}
+                        {{ $ProjectProposaldata[$month . '_Y' . $year] ?? '' }}
                     @endif
                 </td>
             @endfor
@@ -1822,10 +1816,10 @@
                         class="{{ $month }}_total"
                         type="text"
                         name="{{ $month }}_total"
-                        value="{{ ${$month . '_total'} ?? '' }}"
+                        value="{{ $ProjectProposaldata[$month . '_total'] ?? '' }}"
                     >
                 @else
-                    {{ ${$month . '_total'} ?? '' }}
+                    {{ $ProjectProposaldata[$month . '_total'] ?? '' }}
                 @endif
             </td>
         </tr>
@@ -1848,19 +1842,19 @@
         </td>
     </tr>
 </table>
-<table id="riskTable">
+<table id="riskTable" style="table-layout: fixed; width: 100%; border-collapse: collapse">
     <tbody>
         <tr>
-            <th>OBJECTIVES</th>
-            <th>RISKS AND ASSUMPTIONS</th>
-            <th>RISK MANAGEMENT PLAN</th>
+            <th style="text-align: center; width: 33.33%">OBJECTIVES</th>
+            <th style="text-align: center; width: 33.33%">RISKS AND ASSUMPTIONS</th>
+            <th style="text-align: center; width: 33.33%">RISK MANAGEMENT PLAN</th>
         </tr>
-        @forelse ($riskManagement ?? [] as $data)
+        @forelse ($ProjectProposaldata['riskManagement'] ?? [] as $data)
         <tr>
             <td>
                 @if ($isEditable)
                 <input
-                    class="objectives"
+                    class="Objectives"
                     type="text"
                 >
                 @else
@@ -1870,21 +1864,21 @@
             <td>
                 @if ($isEditable)
                 <input
-                    class="risks_and_assumptions"
+                    class="Risks_and_assumptions"
                     type="text"
                 >
                 @else
-                    {{ $data['risks_and_assumptions'] ?? '' }}
+                    {{ $data['risksAndAssumptions'] ?? '' }}
                 @endif
             </td>
             <td>
                 @if ($isEditable)
                 <input
-                    class="risk_management_plan"
+                    class="Risk_management_plan"
                     type="text"
                 >
                 @else
-                    {{ $data['risk_management_plan'] ?? '' }}
+                    {{ $data['riskManagementPlan'] ?? '' }}
                 @endif
             </td>
         </tr>
@@ -1893,7 +1887,7 @@
             <td>
                 @if ($isEditable)
                 <input
-                    class="objects"
+                    class="Objectives"
                     type="text"
                 >
                 @endif
@@ -1901,7 +1895,7 @@
             <td>
                 @if ($isEditable)
                 <input
-                    class="risks-and-assumptions"
+                    class="Risks_and_assumptions"
                     type="text"
                 >
                 @endif
@@ -1909,7 +1903,7 @@
             <td>
                 @if ($isEditable)
                 <input
-                    class="risk-management-plan"
+                    class="Risk_management_plan"
                     type="text"
                 >
                 @endif

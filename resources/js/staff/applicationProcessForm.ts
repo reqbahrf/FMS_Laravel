@@ -1,6 +1,7 @@
 
 import { showProcessToast, showToastFeedback, hideProcessToast, serializeFormData } from '../Utilities/utilFunctions';
 import BENCHMARKTableConfig from '../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
+import PROJECT_PROPOSAL_TABLE_CONFIG from '../Form_Config/form-table-config/projectProposalTableConfig';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
 
 type Action = 'edit' | 'view'
@@ -84,6 +85,7 @@ type Action = 'edit' | 'view'
                 }
             })
         }catch(error: any) {
+            hideProcessToast();
             console.warn('Error in Setting TNA form' + error);
             showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting TNA form');
         }
@@ -153,6 +155,7 @@ type Action = 'edit' | 'view'
             showToastFeedback('text-bg-success', response.message);
 
         }catch(error: any) {
+            hideProcessToast();
             console.warn('Error in Setting Project Proposal form' + error);
             showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting Project Proposal form');
         }
@@ -174,7 +177,7 @@ type Action = 'edit' | 'view'
 
                     formDataObject = {
                         ...formDataObject,
-                        ...TableDataExtractor(BENCHMARKTableConfig),
+                        ...TableDataExtractor(PROJECT_PROPOSAL_TABLE_CONFIG),
                     };
                     await this._saveProjectProposalForm(formDataObject, url);
                 }catch(SubmissionError: any) {
