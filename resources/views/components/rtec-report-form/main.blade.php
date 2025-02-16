@@ -1,4 +1,4 @@
-<div id="RTECReportForm">
+<form id="RTECReportForm">
     <table id="RTECReportInfoTable" width="100%">
         <tr>
             <td
@@ -448,4 +448,4 @@
             </tr>
         </tbody>
     </table>
-</div>
+</form>

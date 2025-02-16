@@ -4169,12 +4169,10 @@ async function initializeStaffPageJs() {
                         '.businessInfo input'
                     );
 
-                    $('#viewTNA, #editTNA')
+                    $('#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport')
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
-                    $('#viewProjectProposal, #editProjectProposal')
-                        .attr('data-business-id', businessID)
-                        .attr('data-application-id', ApplicationID);
+
                     ApplicantDetails.filter('#firm_name').val(firmName);
                     ApplicantDetails.filter('#selected_userId').val(userID);
                     ApplicantDetails.filter('#selected_businessID').val(

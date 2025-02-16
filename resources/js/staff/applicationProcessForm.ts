@@ -54,6 +54,7 @@ type Action = 'edit' | 'view'
             showToastFeedback('text-bg-success', response.message);
 
         }catch(error: any) {
+            hideProcessToast();
             console.warn('Error in Setting TNA form' + error);
             showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting TNA form');
         }
@@ -214,36 +215,105 @@ type Action = 'edit' | 'view'
 
 class RTECReportForm {
     private RTECReportModalContainer: JQuery<HTMLElement>;
+    private RTECReportForm: JQuery<HTMLFormElement> | null;
 
     constructor(RTECReportModalContainer: JQuery<HTMLElement>) {
         this.RTECReportModalContainer = RTECReportModalContainer;
+        this.RTECReportForm = null;
     }
 
-    async getRTECReportForm(business_Id: string|undefined, application_Id: string|undefined) {
+    async getRTECReportForm(business_Id: string, application_Id: string, actionMode: Action) {
         try {
             const response = await $.ajax({
                 type: 'GET',
                 url: APPLICANT_TAB_ROUTE.GET_RTEC_REPORT.replace(
                     ':business_id',
-                    business_Id ?? ''
-                ).replace(':application_id', application_Id ?? ''),
+                    business_Id
+                ).replace(':application_id', application_Id).replace(':action', actionMode),
             });
             this.RTECReportModalContainer.find('.modal-body').html(response as string);
+            if(actionMode == 'edit') {
+                this.RTECReportForm = this._getFormInstance();
+                this._initializeRTECReportFormSubmissionListener();
+            }
         } catch (error: any) {
             console.warn('Error in Retrieving RTEC Report' + error);
-            showToastFeedback('text-bg-danger', error.responseJSON.message || error.message);
+            showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Retrieving RTEC Report');
+        }
+    }
+
+    private _getFormInstance(): JQuery<HTMLFormElement> {
+        return this.RTECReportModalContainer.find('.modal-body').find('form#RTECReportForm').first() as JQuery<HTMLFormElement>;
+    }
+
+    private async _saveRTECReportForm(RTECReportFormRequest: { [key: string]: string | string[] }, url: string): Promise<void> {
+        try {
+            showProcessToast('Setting RTEC Report form');
+            const response = await $.ajax({
+                type: 'PUT',
+                url: url,
+                data: JSON.stringify(RTECReportFormRequest),
+                contentType: 'application/json',
+                dataType: 'json',
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') || '',
+                }
+            });
+            hideProcessToast();
+            showToastFeedback('text-bg-success', response.message);
+
+        } catch (error: any) {
+            hideProcessToast();
+            console.warn('Error in Setting RTEC Report form' + error);
+            showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting RTEC Report form');
+        }
+    }
+
+    private _initializeRTECReportFormSubmissionListener(): void {
+        try{
+            if(!this.RTECReportForm) throw new Error('Form not found');
+            const form = this.RTECReportForm;
+
+            form.on('submit', async (event: JQuery.SubmitEvent) => {
+                event.preventDefault();
+               try {
+                    const url = form.attr('action');
+                    const formData = form.serializeArray();
+
+                    if(!url || !formData || !formData.length) throw new Error('Form data not found');
+
+                    let formDataObject: { [key: string]: string | string[] } = serializeFormData(formData);
+
+                    //TODO : add table config for this form table
+                    // formDataObject = {
+                    //     ...formDataObject,
+                    //     ...TableDataExtractor(BENCHMARKTableConfig),
+                    // };
+                    await this._saveRTECReportForm(formDataObject, url);
+
+               } catch (SubmissionError: any) {
+                console.warn('Error in Initializing RTEC Report form' + SubmissionError);
+                    showToastFeedback('text-bg-danger', SubmissionError?.responseJSON?.message || SubmissionError?.message || 'Error in Setting RTEC Report form');
+
+               }
+            });
+        }catch(error: any){
+            console.warn('Error in Setting RTEC Report form' + error);
+            showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting RTEC Report form');
         }
     }
 
     initializeRTECReportForm() {
         this.RTECReportModalContainer.on('show.bs.modal', async (event: any) => {
-            const business_Id = $(event.relatedTarget).attr('business-id');
-            const application_Id = $(event.relatedTarget).attr('application-id');
-            // if (!business_Id || !application_Id) {
-            //     showToastFeedback('text-bg-danger', 'Invalid data Business id or Application id');
-            //     return;
-            // }
-            await this.getRTECReportForm(business_Id, application_Id);
+            const business_Id = $(event.relatedTarget).attr('data-business-id');
+            const application_Id = $(event.relatedTarget).attr('data-application-id');
+            const actionMode = $(event.relatedTarget).attr('data-action') as Action;
+            if (!business_Id || !application_Id || !actionMode) {
+                showToastFeedback('text-bg-danger', 'Invalid data Business id or Application id');
+                return;
+            }
+            await this.getRTECReportForm(business_Id, application_Id, actionMode);
         });
     }
 }
