@@ -16,7 +16,7 @@ import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';
 import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
-import AdminDashboard from './AdminDashboard'
+import AdminDashboard from './AdminDashboard';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -102,9 +102,8 @@ activityLog.initPersonalActivityLog();
 async function initializeAdminPageJs() {
     const functions = {
         Dashboard: async () => {
-            const adminDashboard = new AdminDashboard()
+            const adminDashboard = new AdminDashboard();
             await adminDashboard.init();
-
         },
 
         /**
@@ -1814,9 +1813,21 @@ async function initializeAdminPageJs() {
                     staffUserTable.rows.add(
                         response.map((staff) => [
                             staff.id,
-                            `${staff?.prefix || ''} ${staff.f_name || ''} ${
-                                staff?.mid_name || ''
-                            } ${staff.l_name || ''} ${staff?.suffix || ''}`,
+                            /*html*/ `
+                            <div class="d-flex align-items-center justify-content-left gap-2">
+                                <div class="profile-logo d-flex align-items-center justify-content-center rounded-circle border border-1 border-white bg-primary text-white fw-bold" style="width: 40px; height: 40px; font-size: 1.25rem;">
+                                    ${staff.avatar
+                                        ? '<img src="' +
+                                          staff.avatar +
+                                          '" class="img-fluid rounded-circle">'
+                                        : staff.f_name.charAt(0)}
+                                </div>
+                                <div class="profile-name">
+                                    <p class="m-0 text-dark fw-semibold">
+                                        ${staff?.prefix || ''} ${staff.f_name || ''} ${staff?.mid_name || ''} ${staff.l_name || ''} ${staff?.suffix || ''}
+                                    </p>
+                                </div>
+                            </div>`,
                             staff.email,
                             staff.user_name,
                             /*html*/ `<span
