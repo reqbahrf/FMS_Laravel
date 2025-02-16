@@ -745,7 +745,7 @@ checkBoxValidationHandler = new CheckboxValidationHandler({
             hideProcessToast();
             showToastFeedback(
                 'text-bg-danger',
-                error[0] || error.responseJSON.message
+                error?.error || error?.responseJSON?.message || 'Error submitting form'
             );
             console.error('Error submitting form:', error);
         }
