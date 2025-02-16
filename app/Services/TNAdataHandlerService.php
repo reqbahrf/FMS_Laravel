@@ -40,7 +40,7 @@ class TNAdataHandlerService
                 'status' => 'Pending'
             ]);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception("Failed to set TNA data: " . $e->getMessage());
         }
     }
 

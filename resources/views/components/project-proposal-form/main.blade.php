@@ -1,4 +1,4 @@
-@props(['isEditable' => false])
+@props(['isEditable'])
 
 <form
     id="ProjectProposalForm"

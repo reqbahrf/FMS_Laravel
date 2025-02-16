@@ -2,8 +2,8 @@
 
 namespace App\Services;
 
-use App\Models\ApplicationForm;
 use Exception;
+use App\Models\ApplicationForm;
 
 class ProjectProposaldataHandlerService
 {
@@ -15,16 +15,29 @@ class ProjectProposaldataHandlerService
     public function setProjectProposalData(array $data, int $business_id, int $application_id, string $key = 'project_proposal_form')
     {
         try {
+            $existingRecord = $this->ProjectProposalForm->where([
+                'business_id' => $business_id,
+                'application_id' => $application_id,
+                'key' => $key
+            ])->first();
+
+            $mergedData = $existingRecord
+                ? array_merge($existingRecord->data, $data, [
+                    'business_id' => $business_id,
+                    'application_id' => $application_id
+                ])
+                : [...$data, 'business_id' => $business_id, 'application_id' => $application_id];
+
             $this->ProjectProposalForm->updateOrCreate([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
                 'key' => $key
             ], [
-                'data' => [...$data, 'business_id' => $business_id, 'application_id' => $application_id],
+                'data' => $mergedData,
                 'status' => 'Pending'
             ]);
         } catch (Exception $e) {
-            throw new Exception($e->getMessage());
+            throw new Exception("Failed to set project proposal data: " . $e->getMessage());
         }
     }
 
@@ -34,7 +47,7 @@ class ProjectProposaldataHandlerService
             $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', $key)
-                ->first();
+                ->firstOrFail();
             return $ProjectProposalForm ? $ProjectProposalForm->data : null;
         } catch (Exception $e) {
             throw new Exception('Error in getting Project Proposal data: ' . $e->getMessage());
