@@ -1,11 +1,11 @@
-@props(['isEditable'])
+@props(['ProjectProposaldata', 'isEditable'])
 
 <form
     id="ProjectProposalForm"
     @if ($isEditable)
-    action=""
+    action="{{ route('staff.Applicant.set.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
     @endif
-    @csrf
+    @csrf   
     <div class="center">
         <table
             id="TopProposalTable"

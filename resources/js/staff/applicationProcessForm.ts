@@ -117,8 +117,8 @@ type Action = 'edit' | 'view'
                 type: 'GET',
                 url: APPLICANT_TAB_ROUTE.GET_PROJECT_PROPOSAL.replace(
                     ':business_id',
-                    business_Id ?? ''
-                ),
+                    business_Id
+                ).replace(':application_id', application_Id).replace(':action', actionMode),
             });
             this.ProjectProposalModalContainer.find('.modal-body').html(response as string);
             if(actionMode == 'edit') {
@@ -192,8 +192,8 @@ type Action = 'edit' | 'view'
     initializeProjectProposalForm() {
         this.ProjectProposalModalContainer.on('show.bs.modal', async (event: any) => {
             try {
-                const business_Id = $(event.relatedTarget).attr('business-id');
-                const application_Id = $(event.relatedTarget).attr('application-id');
+                const business_Id = $(event.relatedTarget).attr('data-business-id');
+                const application_Id = $(event.relatedTarget).attr('data-application-id');
                 const actionMode = $(event.relatedTarget).attr('data-action') as Action;
                 if (!business_Id || !application_Id || !actionMode) {
                     showToastFeedback('text-bg-danger', 'Invalid data Business id or Application id');

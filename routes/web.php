@@ -285,10 +285,13 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::put('/Staff/Applicant/set/tna/{business_id}/{application_id}', [TNADocController::class, 'setTNAForm'])
         ->name('staff.Applicant.set.tna');
 
-    Route::get('/Staff/Applicant/get/project-proposal', [ProjectProposalDocController::class, 'getProjectProposalForm'])
+    Route::get('/Staff/Applicant/get/project-proposal/{business_id}/{application_id}/{action}', [ProjectProposalDocController::class, 'getProjectProposalForm'])
         ->name('staff.Applicant.get.project-proposal');
 
-    Route::get('/Staff/Applicant/get/rtec-report', [RTECReportDocController::class, 'getRTECReportForm'])
+    Route::put('/Staff/Applicant/set/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'setProjectProposalForm'])
+        ->name('staff.Applicant.set.project-proposal');
+
+    Route::get('/Staff/Applicant/get/rtec-report/{business_id}/{application_id}/{action}', [RTECReportDocController::class, 'getRTECReportForm'])
         ->name('staff.Applicant.get.rtec-report');
 });
 

@@ -4,18 +4,25 @@ namespace App\Http\Controllers\ApplicationProcessForm;
 
 use Exception;
 use Illuminate\Http\Request;
+use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-
+use App\Http\Requests\ProjectProposalRequest;
+use App\Services\ProjectProposaldataHandlerService;
 
 class ProjectProposalDocController extends Controller
 {
-    //TODO : Add service and Data handling logic based on the submitter Business_id
+    public function __construct(private ProjectProposaldataHandlerService $ProjectProposal)
+    {
+        $this->ProjectProposal = $ProjectProposal;
+    }
     public function getProjectProposalForm(Request $request){
         try{
             $action = $request->action;
             $business_id = $request->business_id;
             $application_id = $request->application_id;
+            $ProjectProposaldata = $this->ProjectProposal->getProjectProposalData($business_id, $application_id);
 
             switch($action){
                 case 'view':
@@ -28,13 +35,37 @@ class ProjectProposalDocController extends Controller
                     throw new Exception('Invalid action');
             }
 
-            return view('components.project-proposal-form.main', compact('isEditable'));
+            return view('components.project-proposal-form.main', compact('ProjectProposaldata','isEditable'));
         }catch(Exception $e){
             Log::error('Error in getProjectProposalForm: ', [
                 'business_id' => $business_id,
                 'error' => $e->getMessage()
             ]);
-            return response()->json(['message' => 'Error in getProjectProposalForm: ' + $e->getMessage()], 500);
+            return response()->json(['message' => 'Error in getProjectProposalForm: ' . $e->getMessage()], 500);
         }
+    }
+
+    public function setProjectProposalForm(ProjectProposalRequest $request)
+    {
+        try {
+            $validated = $request->validated();
+            DB::transaction(function () use ($validated, $request) {
+                $this->ProjectProposal->setProjectProposalData(
+                    $validated,
+                    $request->business_id,
+                    $request->application_id
+                );
+            });
+
+            return response()->json(['message' => 'Project Proposal data set successfully'], 200);
+
+        } catch (Exception $e) {
+            Log::error('Error setting Project Proposal data', [
+                'business_id' => $request->business_id,
+                'error' => $e->getMessage()
+            ]);
+            return response()->json(['message' => 'Error setting Project Proposal data' . $e->getMessage()], 500);
+        }
+
     }
 }

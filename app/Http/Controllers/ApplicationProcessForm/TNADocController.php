@@ -72,7 +72,7 @@ class TNADocController extends Controller
                 'business_id' => $request->business_id,
                 'error' => $e->getMessage()
             ]);
-            return response()->json(['message' => 'Error setting TNA data' + $e->getMessage()], 500);
+            return response()->json(['message' => 'Error setting TNA data' . $e->getMessage()], 500);
         }
     }
 }
