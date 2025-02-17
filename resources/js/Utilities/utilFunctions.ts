@@ -1,4 +1,5 @@
 import * as bootstrap from 'bootstrap';
+import * as jquery from 'jquery';
 const ProcessToast = $('#ProcessToast');
 const FeedbackToast = $('#ActionFeedbackToast');
 
@@ -217,6 +218,40 @@ function customFormatNumericInput(
     });
 }
 
+function yearInputs(parent: string | Element | JQuery, Selector: string | string[]): void {
+    let parentElement: JQuery | null = null;
+    let inputSelector: string | string[] | null = null;
+
+    if (parent instanceof $) {
+        parentElement = parent as JQuery;
+    } else if (typeof parent === 'string') {
+        parentElement = $(parent);
+    }
+
+    if(typeof Selector === 'string') {
+        inputSelector = Selector;
+    } else if(Array.isArray(Selector)) {
+        inputSelector = Selector.join(',');
+    }
+
+    if (!parentElement || !inputSelector) {
+        throw new Error('Parent element not found or input selector not found');
+    }
+
+    parentElement.on('input', inputSelector as string, function () {
+        const thisInput = $(this);
+        // Remove non-numeric characters and limit to 4 digits
+        let value = thisInput.val()?.toString().replace(/[^0-9]/g, '') as string;
+
+        // Limit to 4 digits by taking only the first 4 characters
+        if (value.length > 4) {
+            value = value.slice(0, 4);
+        }
+        thisInput.val(value);
+    });
+
+}
+
 /**
  * Parses a formatted number string (with thousand separators) back to a float.
  * Companion function to customFormatNumericInput.
@@ -412,5 +447,6 @@ export {
     createConfirmationModal,
     showProcessToast,
     hideProcessToast,
-    serializeFormData
+    serializeFormData,
+    yearInputs
 };

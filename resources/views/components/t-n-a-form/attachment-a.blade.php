@@ -336,17 +336,6 @@
             <td style="border: none;padding: 0cm;">
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
             </td>
-            <td
-                style="border: none;padding: 0cm;"
-                colspan="3"
-            >
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
-            </td>
-        </tr>
-        <tr>
-            <td style="border: none;padding: 0cm;">
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
-            </td>
             <td style="">
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
             </td>
@@ -361,10 +350,11 @@
                         type="radio"
                         value="Non-profit"
                         {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Non-Profit)' ? 'checked' : '') }}
-                    ><span lang="en-US">Non-profit</span>
+                    >
                 @else
                     {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Non-Profit)' ? '/' : '') }}
                 @endIf
+                <span lang="en-US">Non-profit</span>
             </td>
         </tr>
     </tbody>

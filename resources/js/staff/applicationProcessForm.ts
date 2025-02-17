@@ -3,14 +3,17 @@ import { showProcessToast, showToastFeedback, hideProcessToast, serializeFormDat
 import BENCHMARKTableConfig from '../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import PROJECT_PROPOSAL_TABLE_CONFIG from '../Form_Config/form-table-config/projectProposalTableConfig';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
+import TNAFormEvent from './application-form-events/tna-form-event';
 
 type Action = 'edit' | 'view'
  class TNAForm {
     private TNAModalContainer: JQuery<HTMLElement>;
     private TNAForm: JQuery<HTMLFormElement> | null
+    private TNAFormEvent: TNAFormEvent | null
     constructor(TNAModalContainer: JQuery<HTMLElement>) {
         this.TNAModalContainer = TNAModalContainer;
         this.TNAForm = null
+        this.TNAFormEvent = null;
     }
     private async _getTNAForm(business_Id: string, application_Id: string, actionMode: Action) {
         try {
@@ -25,6 +28,11 @@ type Action = 'edit' | 'view'
             if(actionMode == 'edit') {
                 this.TNAForm = this._getFormInstance();
                 this._initializeTNAFormSubmissionListener();
+                if(this.TNAFormEvent) {
+                    this.TNAFormEvent.destroy();
+                }
+                this.TNAFormEvent = new TNAFormEvent(this.TNAForm);
+
             }
         } catch (error: any) {
             console.warn('Error in Retrieving TNA form' + error);
