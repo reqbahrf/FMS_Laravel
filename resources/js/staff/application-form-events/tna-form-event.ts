@@ -1,7 +1,7 @@
 import {
     customFormatNumericInput,
     yearInputs,
-} from '../../Utilities/utilFunctions';
+} from '../../Utilities/input-utils';
 
 export default class TNAFormEvent {
     private form: JQuery<HTMLFormElement> | null;

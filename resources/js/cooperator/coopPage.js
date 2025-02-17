@@ -1,9 +1,9 @@
 import '../echo';
+import { customFormatNumericInput } from '../Utilities/input-utils';
 import {
     showToastFeedback,
     customDateFormatter,
     formatNumberToCurrency,
-    customFormatNumericInput,
     parseFormattedNumberToFloat,
     createConfirmationModal,
     showProcessToast,

@@ -1,11 +1,11 @@
 import '../echo';
+import {customFormatNumericInput} from '../Utilities/input-utils';
 import {
     showToastFeedback,
     formatNumberToCurrency,
     customDateFormatter,
     closeOffcanvasInstances,
     createConfirmationModal,
-    customFormatNumericInput,
     closeModal,
     showProcessToast,
     hideProcessToast,
