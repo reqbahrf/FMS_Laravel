@@ -1,4 +1,5 @@
 import '../echo';
+import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
     showToastFeedback,
     formatNumberToCurrency,
@@ -6,11 +7,10 @@ import {
     closeOffcanvasInstances,
     closeModal,
     sanitize,
-    createConfirmationModal,
     showProcessToast,
     hideProcessToast,
 } from '../Utilities/utilFunctions';
-import getProjectPaymentHistory from '../Utilities/ProjectPaymentHistory';
+import getProjectPaymentHistory from '../Utilities/project-payment-history';
 
 import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';
@@ -1816,11 +1816,13 @@ async function initializeAdminPageJs() {
                             /*html*/ `
                             <div class="d-flex align-items-center justify-content-left gap-2">
                                 <div class="profile-logo d-flex align-items-center justify-content-center rounded-circle border border-1 border-white bg-primary text-white fw-bold" style="width: 40px; height: 40px; font-size: 1.25rem;">
-                                    ${staff.avatar
-                                        ? '<img src="' +
-                                          staff.avatar +
-                                          '" class="img-fluid rounded-circle">'
-                                        : staff.f_name.charAt(0)}
+                                    ${
+                                        staff.avatar
+                                            ? '<img src="' +
+                                              staff.avatar +
+                                              '" class="img-fluid rounded-circle">'
+                                            : staff.f_name.charAt(0)
+                                    }
                                 </div>
                                 <div class="profile-name">
                                     <p class="m-0 text-dark fw-semibold">

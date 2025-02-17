@@ -2,8 +2,8 @@ import {
     showToastFeedback,
     showProcessToast,
     hideProcessToast,
-    customFormatNumericInput
 } from './Utilities/utilFunctions';
+import { customFormatNumericInput } from './Utilities/input-utils';
 import { FormDraftHandler } from './Utilities/FormDraftHandler';
 import {
     InitializeFilePond,
@@ -12,7 +12,7 @@ import {
 import {
     AddNewRowHandler,
     RemoveRowHandler,
-} from './Utilities/AddAndRemoveTableRowHandler';
+} from './Utilities/add-and-remove-table-row-handler';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
 import BENCHMARKTableConfig from './Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
@@ -31,16 +31,19 @@ export function initializeForm() {
         is_initialized = true;
     }
 
-    customFormatNumericInput('form', ['#initial_capitalization', '#present_capitalization']);
+    customFormatNumericInput('form', [
+        '#initial_capitalization',
+        '#present_capitalization',
+    ]);
     customFormatNumericInput('#productAndSupplyChainTable tbody', [
         'tr td:nth-child(3) input.UnitCost',
-        'tr td:nth-child(4) input.VolumeUsed'
+        'tr td:nth-child(4) input.VolumeUsed',
     ]);
     customFormatNumericInput('#productionTable', [
         'tr td:nth-child(3) .UnitCost',
-        'tr td:nth-child(4) .AnnualCost'
+        'tr td:nth-child(4) .AnnualCost',
     ]);
-    customFormatNumericInput('#productionEquipmentTable', ['.Capacity'])
+    customFormatNumericInput('#productionEquipmentTable', ['.Capacity']);
 
     const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
@@ -54,13 +57,13 @@ export function initializeForm() {
         'planLayout',
         { acceptedFileTypes: ['image/png', 'image/jpeg'] },
         'PlanLayoutFileID_Data_Handler'
-    )
+    );
 
     const processFlowInstance = InitializeFilePond(
         'processFlow',
         { acceptedFileTypes: ['image/png', 'image/jpeg'] },
         'ProcessFlowFileID_Data_Handler'
-    )
+    );
 
     // Intent File
     const intentInstance = InitializeFilePond(
@@ -121,8 +124,6 @@ export function initializeForm() {
     handleFilePondSelectorDisabling('fdaLtoSelector', fdaLtoInstance);
     handleFilePondSelectorDisabling('GovIdSelector', govIdInstance);
 
-
-
     const beachMarkTableData = (BENCHMARKTableConfig) => {
         const data = TableDataExtractor(BENCHMARKTableConfig);
         return data;
@@ -152,7 +153,6 @@ export function initializeForm() {
         '.removeRowButton',
         '#localMarketContainer, #exportMarketContainer'
     );
-
 
     $('input, select').on('focus', function () {
         if ($(this).attr('required')) {
@@ -246,12 +246,12 @@ export function initializeForm() {
             'BIRFile',
         ];
 
-
         let isValid = true;
 
         requiredFileInputs.forEach((inputId) => {
             const fileInputContainer = document.querySelector(`#${inputId}`);
-            const fileInput = fileInputContainer.querySelector('input[type="file"]');
+            const fileInput =
+                fileInputContainer.querySelector('input[type="file"]');
             if (!fileInput) {
                 return; // Skip this iteration
             }
@@ -267,7 +267,6 @@ export function initializeForm() {
                 ? parentDiv.querySelector('.invalid-feedback') ||
                   document.createElement('div')
                 : null;
-
 
             if (!invalidFeedback) {
                 // Create invalid feedback if it doesn't exist
@@ -305,10 +304,13 @@ export function initializeForm() {
         console.log('File uploads validation result:', isValid);
         return isValid;
     }
-    $('#yearEstablished, #yearEnterpriseRegistered, #permitYearRegistered').on('input', function(e) {
-        // Remove any non-numeric characters
-        e.target.value = e.target.value.replace(/[^0-9]/g, '');
-    });
+    $('#yearEstablished, #yearEnterpriseRegistered, #permitYearRegistered').on(
+        'input',
+        function (e) {
+            // Remove any non-numeric characters
+            e.target.value = e.target.value.replace(/[^0-9]/g, '');
+        }
+    );
 
     smartWizardInstance.on(
         'leaveStep',
@@ -358,8 +360,12 @@ export function initializeForm() {
             if (stepIndex === 3) {
                 // Since stepIndex is 0-based, step-4 corresponds to index 3
                 $('.btn-success, .btn-secondary').show();
-                const inputField = ApplicationForm.find('input:not([readonly]), select:not([readonly]), textarea:not([readonly])');
-                const reviewInputsContainer = $('#reviewInputsContainer').find('input[readonly], select[readonly], textarea[readonly]');
+                const inputField = ApplicationForm.find(
+                    'input:not([readonly]), select:not([readonly]), textarea:not([readonly])'
+                );
+                const reviewInputsContainer = $('#reviewInputsContainer').find(
+                    'input[readonly], select[readonly], textarea[readonly]'
+                );
                 let fullName =
                     inputField.filter('#prefix').val() +
                     ' ' +
@@ -372,158 +378,244 @@ export function initializeForm() {
                     inputField.filter('#suffix').val();
 
                 reviewInputsContainer.filter('#re_Full_name').val(fullName);
-                reviewInputsContainer.filter('#re_b_Date').val(inputField.filter('#b_date').val());
-                reviewInputsContainer.filter('#re_designa').val(inputField.filter('#designation').val());
-                reviewInputsContainer.filter('#re_Mobile_no').val(inputField.filter('#Mobile_no').val());
-                reviewInputsContainer.filter('#re_landline').val(inputField.filter('#landline').val());
+                reviewInputsContainer
+                    .filter('#re_b_Date')
+                    .val(inputField.filter('#b_date').val());
+                reviewInputsContainer
+                    .filter('#re_designa')
+                    .val(inputField.filter('#designation').val());
+                reviewInputsContainer
+                    .filter('#re_Mobile_no')
+                    .val(inputField.filter('#Mobile_no').val());
+                reviewInputsContainer
+                    .filter('#re_landline')
+                    .val(inputField.filter('#landline').val());
 
                 // Business Info
-                reviewInputsContainer.filter('#re_firm_name').val(inputField.filter('#firm_name').val());
-                reviewInputsContainer.filter('#re_type_enterprise').val(inputField.filter('#enterpriseType').val());
+                reviewInputsContainer
+                    .filter('#re_firm_name')
+                    .val(inputField.filter('#firm_name').val());
+                reviewInputsContainer
+                    .filter('#re_type_enterprise')
+                    .val(inputField.filter('#enterpriseType').val());
                 const BusinessInfo = {
                     Background: inputField.filter('#brief_background').val(),
                     PermitNo: inputField.filter('#business_permit_No').val(),
-                    PermitYearRegistered: inputField.filter('#permit_year_registered').val(),
-                    RegistrationNo: inputField.filter('#enterpriseRegistrationNo').val(),
-                    RegistrationYear: inputField.filter('#yearEnterpriseRegistered').val(),
+                    PermitYearRegistered: inputField
+                        .filter('#permit_year_registered')
+                        .val(),
+                    RegistrationNo: inputField
+                        .filter('#enterpriseRegistrationNo')
+                        .val(),
+                    RegistrationYear: inputField
+                        .filter('#yearEnterpriseRegistered')
+                        .val(),
                     BusinessType: inputField.filter('#businessType').val(),
-                    InitialCapital: inputField.filter('#initial_capitalization').val(),
-                    presentCapital: inputField.filter('#present_capitalization').val(),
-                    specificProduct: inputField.filter('#specificProductOrService').val(),
-                    reasonsForAssistance: inputField.filter(
-                        '#reasonsWhyAssistanceIsBeingSought'
-                    ).val(),
-                    consultationAnswer: inputField.filter(
-                        'input[name="consultationAnswer"]:checked'
-                    ).val(),
-                    companyAgency: inputField.filter('#fromWhatCompanyAgency').val(),
-                    assistanceType: inputField.filter(
-                        '#pleaseSpecifyTheTypeOfAssistanceSought'
-                    ).val(),
+                    InitialCapital: inputField
+                        .filter('#initial_capitalization')
+                        .val(),
+                    presentCapital: inputField
+                        .filter('#present_capitalization')
+                        .val(),
+                    specificProduct: inputField
+                        .filter('#specificProductOrService')
+                        .val(),
+                    reasonsForAssistance: inputField
+                        .filter('#reasonsWhyAssistanceIsBeingSought')
+                        .val(),
+                    consultationAnswer: inputField
+                        .filter('input[name="consultationAnswer"]:checked')
+                        .val(),
+                    companyAgency: inputField
+                        .filter('#fromWhatCompanyAgency')
+                        .val(),
+                    assistanceType: inputField
+                        .filter('#pleaseSpecifyTheTypeOfAssistanceSought')
+                        .val(),
                     whyNot: inputField.filter('#whyNot').val(),
-                    enterprisePlanForTheNext5Years: inputField.filter(
-                        '#enterprisePlanForTheNext5Years'
-                    ).val(),
+                    enterprisePlanForTheNext5Years: inputField
+                        .filter('#enterprisePlanForTheNext5Years')
+                        .val(),
                     nextTenYears: inputField.filter('#nextTenYears').val(),
-                    currentAgreementAndAlliancesUndertaken: inputField.filter(
-                        '#currentAgreementAndAlliancesUndertaken'
-                    ).val(),
+                    currentAgreementAndAlliancesUndertaken: inputField
+                        .filter('#currentAgreementAndAlliancesUndertaken')
+                        .val(),
                 };
 
                 const BusinessActivities = {
-                    foodProcessing: inputField.filter('#food_Processing_activity').is(':checked'),
-                    foodProcessingSpecificSector: inputField.filter(
-                        '#food_processing_specific_sector'
-                    ).val(),
-                    furniture: inputField.filter('#furniture_activity').is(':checked'),
-                    furnitureSpecificSector: inputField.filter(
-                        '#furniture_specific_sector'
-                    ).val(),
-                    naturalFibers: inputField.filter('#natural_fibers_activity').is(':checked'),
-                    naturalFibersSpecificSector: inputField.filter(
-                        '#natural_fibers_specific_sector'
-                    ).val(),
-                    metals: inputField.filter('#metals_and_engineering_activity').is(':checked'),
-                    metalsSpecificSector: inputField.filter('#metals_and_engineering_specific_sector').val(),
-                    aquatic: inputField.filter('#aquatic_and_marine_activity').is(':checked'),
-                    aquaticSpecificSector: inputField.filter('#aquatic_and_marine_specific_sector').val(),
-                    horticulture: inputField.filter('#horticulture_activity').is(':checked'),
-                    horticultureSpecificSector: inputField.filter(
-                        '#horticulture_specific_sector'
-                    ).val(),
+                    foodProcessing: inputField
+                        .filter('#food_Processing_activity')
+                        .is(':checked'),
+                    foodProcessingSpecificSector: inputField
+                        .filter('#food_processing_specific_sector')
+                        .val(),
+                    furniture: inputField
+                        .filter('#furniture_activity')
+                        .is(':checked'),
+                    furnitureSpecificSector: inputField
+                        .filter('#furniture_specific_sector')
+                        .val(),
+                    naturalFibers: inputField
+                        .filter('#natural_fibers_activity')
+                        .is(':checked'),
+                    naturalFibersSpecificSector: inputField
+                        .filter('#natural_fibers_specific_sector')
+                        .val(),
+                    metals: inputField
+                        .filter('#metals_and_engineering_activity')
+                        .is(':checked'),
+                    metalsSpecificSector: inputField
+                        .filter('#metals_and_engineering_specific_sector')
+                        .val(),
+                    aquatic: inputField
+                        .filter('#aquatic_and_marine_activity')
+                        .is(':checked'),
+                    aquaticSpecificSector: inputField
+                        .filter('#aquatic_and_marine_specific_sector')
+                        .val(),
+                    horticulture: inputField
+                        .filter('#horticulture_activity')
+                        .is(':checked'),
+                    horticultureSpecificSector: inputField
+                        .filter('#horticulture_specific_sector')
+                        .val(),
                     others: inputField.filter('#other_activity').is(':checked'),
-                    othersSpecificSector: inputField.filter('#other_specific_sector').val(),
+                    othersSpecificSector: inputField
+                        .filter('#other_specific_sector')
+                        .val(),
                 };
-                const OfficeLandMark = inputField.filter('#officeLandmark').val();
-                const OfficeBarangay = 'Barangay ' + inputField.filter('#officeBarangay').val();
+                const OfficeLandMark = inputField
+                    .filter('#officeLandmark')
+                    .val();
+                const OfficeBarangay =
+                    'Barangay ' + inputField.filter('#officeBarangay').val();
                 const OfficeCity = inputField.filter('#officeCity').val();
-                const OfficeProvince = inputField.filter('#officeProvince').val();
+                const OfficeProvince = inputField
+                    .filter('#officeProvince')
+                    .val();
                 const OfficeRegion = inputField.filter('#officeRegion').val();
-                const OfficeTeleNumber = inputField.filter('#officeTelNo').val();
+                const OfficeTeleNumber = inputField
+                    .filter('#officeTelNo')
+                    .val();
                 const OfficeFax = inputField.filter('#officeFaxNo').val();
-                const OfficeEmail = inputField.filter('#officeEmailAddress').val();
+                const OfficeEmail = inputField
+                    .filter('#officeEmailAddress')
+                    .val();
 
-                const FactoryLandMark = inputField.filter('#factoryLandmark').val();
+                const FactoryLandMark = inputField
+                    .filter('#factoryLandmark')
+                    .val();
                 const FactoryBarangay =
                     'Barangay ' + inputField.filter('#factoryBarangay').val();
                 const FactoryCity = inputField.filter('#factoryCity').val();
-                const FactoryProvince = inputField.filter('#factoryProvince').val();
+                const FactoryProvince = inputField
+                    .filter('#factoryProvince')
+                    .val();
                 const FactoryRegion = inputField.filter('#factoryRegion').val();
-                const FactoryTeleNumber = inputField.filter('#factoryTelNo').val();
+                const FactoryTeleNumber = inputField
+                    .filter('#factoryTelNo')
+                    .val();
                 const FactoryFax = inputField.filter('#factoryFaxNo').val();
-                const FactoryEmail = inputField.filter('#factoryEmailAddress').val();
+                const FactoryEmail = inputField
+                    .filter('#factoryEmailAddress')
+                    .val();
 
-                reviewInputsContainer.filter('#re_brief_background').val(BusinessInfo.Background);
-                reviewInputsContainer.filter('#re_business_permit_No').val(BusinessInfo.PermitNo);
-                reviewInputsContainer.filter('#re_permit_year_registered').val(BusinessInfo.PermitYearRegistered);
-                reviewInputsContainer.filter('#re_enterpriseRegistrationNo').val(
-                    BusinessInfo.RegistrationNo
-                );
-                reviewInputsContainer.filter('#re_yearEnterpriseRegistered').val(
-                    BusinessInfo.RegistrationYear
-                );
-                reviewInputsContainer.filter('#re_initial_capitalization').val(BusinessInfo.InitialCapital);
-                reviewInputsContainer.filter('#re_present_capitalization').val(BusinessInfo.presentCapital);
+                reviewInputsContainer
+                    .filter('#re_brief_background')
+                    .val(BusinessInfo.Background);
+                reviewInputsContainer
+                    .filter('#re_business_permit_No')
+                    .val(BusinessInfo.PermitNo);
+                reviewInputsContainer
+                    .filter('#re_permit_year_registered')
+                    .val(BusinessInfo.PermitYearRegistered);
+                reviewInputsContainer
+                    .filter('#re_enterpriseRegistrationNo')
+                    .val(BusinessInfo.RegistrationNo);
+                reviewInputsContainer
+                    .filter('#re_yearEnterpriseRegistered')
+                    .val(BusinessInfo.RegistrationYear);
+                reviewInputsContainer
+                    .filter('#re_initial_capitalization')
+                    .val(BusinessInfo.InitialCapital);
+                reviewInputsContainer
+                    .filter('#re_present_capitalization')
+                    .val(BusinessInfo.presentCapital);
 
-                reviewInputsContainer.filter('#re_OfficeAddress').val(
-                    OfficeLandMark +
-                        ', ' +
-                        OfficeBarangay +
-                        ', ' +
-                        OfficeCity +
-                        ', ' +
-                        OfficeProvince +
-                        ', ' +
-                        OfficeRegion
-                );
-                reviewInputsContainer.filter('#re_officeEmailAddress').val(OfficeEmail);
-                reviewInputsContainer.filter('#re_officeTelNo').val(OfficeTeleNumber);
+                reviewInputsContainer
+                    .filter('#re_OfficeAddress')
+                    .val(
+                        OfficeLandMark +
+                            ', ' +
+                            OfficeBarangay +
+                            ', ' +
+                            OfficeCity +
+                            ', ' +
+                            OfficeProvince +
+                            ', ' +
+                            OfficeRegion
+                    );
+                reviewInputsContainer
+                    .filter('#re_officeEmailAddress')
+                    .val(OfficeEmail);
+                reviewInputsContainer
+                    .filter('#re_officeTelNo')
+                    .val(OfficeTeleNumber);
                 reviewInputsContainer.filter('#re_officeFaxNo').val(OfficeFax);
 
-                reviewInputsContainer.filter('#re_factoryAddress').val(
-                    FactoryLandMark +
-                        ', ' +
-                        FactoryBarangay +
-                        ', ' +
-                        FactoryCity +
-                        ', ' +
-                        FactoryProvince +
-                        ', ' +
-                        FactoryRegion
-                );
-                reviewInputsContainer.filter('#re_factoryEmailAddress').val(FactoryEmail);
-                reviewInputsContainer.filter('#re_factoryTelNo').val(FactoryTeleNumber);
-                reviewInputsContainer.filter('#re_factoryFaxNo').val(FactoryFax);
+                reviewInputsContainer
+                    .filter('#re_factoryAddress')
+                    .val(
+                        FactoryLandMark +
+                            ', ' +
+                            FactoryBarangay +
+                            ', ' +
+                            FactoryCity +
+                            ', ' +
+                            FactoryProvince +
+                            ', ' +
+                            FactoryRegion
+                    );
+                reviewInputsContainer
+                    .filter('#re_factoryEmailAddress')
+                    .val(FactoryEmail);
+                reviewInputsContainer
+                    .filter('#re_factoryTelNo')
+                    .val(FactoryTeleNumber);
+                reviewInputsContainer
+                    .filter('#re_factoryFaxNo')
+                    .val(FactoryFax);
 
-                reviewInputsContainer.filter('#re_foodProcessing').prop(
-                    'checked',
-                    BusinessActivities.foodProcessing
-                );
-                reviewInputsContainer.filter('#re_foodProcessingSpecificSector').val(
-                    BusinessActivities.foodProcessingSpecificSector
-                );
-                reviewInputsContainer.filter('#re_furniture').prop(
-                    'checked',
-                    BusinessActivities.furniture
-                );
-                reviewInputsContainer.filter('#re_furnitureSpecificSector').val(
-                    BusinessActivities.furnitureSpecificSector
-                );
-                reviewInputsContainer.filter('#re_naturalFibers').prop(
-                    'checked',
-                    BusinessActivities.naturalFibers
-                );
-                reviewInputsContainer.filter('#re_naturalFibersSpecificSector').val(
-                    BusinessActivities.naturalFibersSpecificSector
-                );
-                reviewInputsContainer.filter('#re_metals').prop('checked', BusinessActivities.metals);
-                reviewInputsContainer.filter('#re_metalsSpecificSector').val(
-                    BusinessActivities.metalsSpecificSector
-                );
-                reviewInputsContainer.filter('#re_aquatic').prop('checked', BusinessActivities.aquatic);
-                reviewInputsContainer.filter('#re_aquaticSpecificSector').val(
-                    BusinessActivities.aquaticSpecificSector
-                );
+                reviewInputsContainer
+                    .filter('#re_foodProcessing')
+                    .prop('checked', BusinessActivities.foodProcessing);
+                reviewInputsContainer
+                    .filter('#re_foodProcessingSpecificSector')
+                    .val(BusinessActivities.foodProcessingSpecificSector);
+                reviewInputsContainer
+                    .filter('#re_furniture')
+                    .prop('checked', BusinessActivities.furniture);
+                reviewInputsContainer
+                    .filter('#re_furnitureSpecificSector')
+                    .val(BusinessActivities.furnitureSpecificSector);
+                reviewInputsContainer
+                    .filter('#re_naturalFibers')
+                    .prop('checked', BusinessActivities.naturalFibers);
+                reviewInputsContainer
+                    .filter('#re_naturalFibersSpecificSector')
+                    .val(BusinessActivities.naturalFibersSpecificSector);
+                reviewInputsContainer
+                    .filter('#re_metals')
+                    .prop('checked', BusinessActivities.metals);
+                reviewInputsContainer
+                    .filter('#re_metalsSpecificSector')
+                    .val(BusinessActivities.metalsSpecificSector);
+                reviewInputsContainer
+                    .filter('#re_aquatic')
+                    .prop('checked', BusinessActivities.aquatic);
+                reviewInputsContainer
+                    .filter('#re_aquaticSpecificSector')
+                    .val(BusinessActivities.aquaticSpecificSector);
                 $('#re_horticulture').prop(
                     'checked',
                     BusinessActivities.horticulture
@@ -531,68 +623,122 @@ export function initializeForm() {
                 $('#re_horticultureSpecificSector').val(
                     BusinessActivities.horticultureSpecificSector
                 );
-                reviewInputsContainer.filter('#re_others').prop('checked', BusinessActivities.others);
-                reviewInputsContainer.filter('#re_othersSpecificSector').val(
-                    BusinessActivities.othersSpecificSector
-                );
+                reviewInputsContainer
+                    .filter('#re_others')
+                    .prop('checked', BusinessActivities.others);
+                reviewInputsContainer
+                    .filter('#re_othersSpecificSector')
+                    .val(BusinessActivities.othersSpecificSector);
 
-                reviewInputsContainer.filter('#re_buildings').val(inputField.filter('#buildings').val());
-                reviewInputsContainer.filter('#re_equipments').val(inputField.filter('#equipments').val());
-                reviewInputsContainer.filter('#re_working_capital').val(inputField.filter('#working_capital').val());
-                reviewInputsContainer.filter('#re_to_Assets').text(inputField.filter('#to_Assets').text());
-                reviewInputsContainer.filter('#re_Enterprise_Level').text(inputField.filter('#Enterprise_Level').text());
-                reviewInputsContainer.filter('#EnterpriseLevelInput').val(inputField.filter('#Enterprise_Level').text());
-                reviewInputsContainer.filter('#re_LocalMar').val(inputField.filter('#LocalMar').val());
-                reviewInputsContainer.filter('#re_ExportMar').val(inputField.filter('#ExportMar').val());
+                reviewInputsContainer
+                    .filter('#re_buildings')
+                    .val(inputField.filter('#buildings').val());
+                reviewInputsContainer
+                    .filter('#re_equipments')
+                    .val(inputField.filter('#equipments').val());
+                reviewInputsContainer
+                    .filter('#re_working_capital')
+                    .val(inputField.filter('#working_capital').val());
+                reviewInputsContainer
+                    .filter('#re_to_Assets')
+                    .text(inputField.filter('#to_Assets').text());
+                reviewInputsContainer
+                    .filter('#re_Enterprise_Level')
+                    .text(inputField.filter('#Enterprise_Level').text());
+                reviewInputsContainer
+                    .filter('#EnterpriseLevelInput')
+                    .val(inputField.filter('#Enterprise_Level').text());
+                reviewInputsContainer
+                    .filter('#re_LocalMar')
+                    .val(inputField.filter('#LocalMar').val());
+                reviewInputsContainer
+                    .filter('#re_ExportMar')
+                    .val(inputField.filter('#ExportMar').val());
 
                 // Personnel Info
-                reviewInputsContainer.filter('#re_m_personnelDiRe').val(inputField.filter('#m_personnelDiRe').val());
-                reviewInputsContainer.filter('#re_f_personnelDiRe').val(inputField.filter('#f_personnelDiRe').val());
-                reviewInputsContainer.filter('#re_m_personnelDiPart').val(inputField.filter('#m_personnelDiPart').val());
-                reviewInputsContainer.filter('#re_f_personnelDiPart').val(inputField.filter('#f_personnelDiPart').val());
+                reviewInputsContainer
+                    .filter('#re_m_personnelDiRe')
+                    .val(inputField.filter('#m_personnelDiRe').val());
+                reviewInputsContainer
+                    .filter('#re_f_personnelDiRe')
+                    .val(inputField.filter('#f_personnelDiRe').val());
+                reviewInputsContainer
+                    .filter('#re_m_personnelDiPart')
+                    .val(inputField.filter('#m_personnelDiPart').val());
+                reviewInputsContainer
+                    .filter('#re_f_personnelDiPart')
+                    .val(inputField.filter('#f_personnelDiPart').val());
 
                 // Retrieve and populate values for indirect personnel
-                reviewInputsContainer.filter('#re_m_personnelIndRe').val(inputField.filter('#m_personnelIndRe').val());
-                reviewInputsContainer.filter('#re_f_personnelIndRe').val(inputField.filter('#f_personnelIndRe').val());
-                reviewInputsContainer.filter('#re_m_personnelIndPart').val(inputField.filter('#m_personnelIndPart').val());
-                reviewInputsContainer.filter('#re_f_personnelIndPart').val(inputField.filter('#f_personnelIndPart').val());
+                reviewInputsContainer
+                    .filter('#re_m_personnelIndRe')
+                    .val(inputField.filter('#m_personnelIndRe').val());
+                reviewInputsContainer
+                    .filter('#re_f_personnelIndRe')
+                    .val(inputField.filter('#f_personnelIndRe').val());
+                reviewInputsContainer
+                    .filter('#re_m_personnelIndPart')
+                    .val(inputField.filter('#m_personnelIndPart').val());
+                reviewInputsContainer
+                    .filter('#re_f_personnelIndPart')
+                    .val(inputField.filter('#f_personnelIndPart').val());
 
                 // Object mapping file input IDs to their corresponding readonly input IDs
 
                 // Update the review section with consultation data
-                reviewInputsContainer.filter('#re_specificProductOrService').val(
-                    BusinessInfo.specificProduct
-                );
-                reviewInputsContainer.filter('#re_reasonsWhyAssistanceIsBeingSought').val(
-                    BusinessInfo.reasonsForAssistance
-                );
+                reviewInputsContainer
+                    .filter('#re_specificProductOrService')
+                    .val(BusinessInfo.specificProduct);
+                reviewInputsContainer
+                    .filter('#re_reasonsWhyAssistanceIsBeingSought')
+                    .val(BusinessInfo.reasonsForAssistance);
 
-                reviewInputsContainer.filter('#re_enterprisePlanForTheNext5Years').val(
-                    BusinessInfo.enterprisePlanForTheNext5Years
-                );
-                reviewInputsContainer.filter('#re_nextTenYears').val(BusinessInfo.nextTenYears);
-                reviewInputsContainer.filter('#re_currentAgreementAndAlliancesUndertaken').val(
-                    BusinessInfo.currentAgreementAndAlliancesUndertaken
-                );
+                reviewInputsContainer
+                    .filter('#re_enterprisePlanForTheNext5Years')
+                    .val(BusinessInfo.enterprisePlanForTheNext5Years);
+                reviewInputsContainer
+                    .filter('#re_nextTenYears')
+                    .val(BusinessInfo.nextTenYears);
+                reviewInputsContainer
+                    .filter('#re_currentAgreementAndAlliancesUndertaken')
+                    .val(BusinessInfo.currentAgreementAndAlliancesUndertaken);
 
                 // Handle consultation radio buttons in review
                 if (BusinessInfo.consultationAnswer === 'yes') {
-                    reviewInputsContainer.filter('#re_consultationYes').prop('checked', true);
-                    reviewInputsContainer.filter('#re_consultationNo').prop('checked', false);
-                    reviewInputsContainer.filter('#re_yesConsultationDetails').show();
-                    reviewInputsContainer.filter('#re_noConsultationDetails').hide();
-                    reviewInputsContainer.filter('#re_fromWhatCompanyAgency').val(
-                        BusinessInfo.companyAgency
-                    );
-                    reviewInputsContainer.filter('#re_pleaseSpecifyTheTypeOfAssistanceSought').val(
-                        BusinessInfo.assistanceType
-                    );
+                    reviewInputsContainer
+                        .filter('#re_consultationYes')
+                        .prop('checked', true);
+                    reviewInputsContainer
+                        .filter('#re_consultationNo')
+                        .prop('checked', false);
+                    reviewInputsContainer
+                        .filter('#re_yesConsultationDetails')
+                        .show();
+                    reviewInputsContainer
+                        .filter('#re_noConsultationDetails')
+                        .hide();
+                    reviewInputsContainer
+                        .filter('#re_fromWhatCompanyAgency')
+                        .val(BusinessInfo.companyAgency);
+                    reviewInputsContainer
+                        .filter('#re_pleaseSpecifyTheTypeOfAssistanceSought')
+                        .val(BusinessInfo.assistanceType);
                 } else if (BusinessInfo.consultationAnswer === 'no') {
-                    reviewInputsContainer.filter('#re_consultationYes').prop('checked', false);
-                    reviewInputsContainer.filter('#re_consultationNo').prop('checked', true);
-                    reviewInputsContainer.filter('#re_yesConsultationDetails').hide();
-                    reviewInputsContainer.filter('#re_noConsultationDetails').show();
-                    reviewInputsContainer.filter('#re_whyNot').val(BusinessInfo.whyNot);
+                    reviewInputsContainer
+                        .filter('#re_consultationYes')
+                        .prop('checked', false);
+                    reviewInputsContainer
+                        .filter('#re_consultationNo')
+                        .prop('checked', true);
+                    reviewInputsContainer
+                        .filter('#re_yesConsultationDetails')
+                        .hide();
+                    reviewInputsContainer
+                        .filter('#re_noConsultationDetails')
+                        .show();
+                    reviewInputsContainer
+                        .filter('#re_whyNot')
+                        .val(BusinessInfo.whyNot);
                 }
             }
         }
@@ -622,78 +768,76 @@ export function initializeForm() {
         confirmationModal.show();
     };
 
-let checkBoxValidationHandler;
-   // Checkbox Validation Handler
-class CheckboxValidationHandler {
-    constructor(config) {
-        this.checkboxIds = [
-            'detail_confirm',
-            'agree_terms',
-            'make_available',
-            'satisfied_requirements',
-            'when_inputs_supplied',
-            'report_prepared',
-            'report_permission',
-            'receipt_acknowledgment'
-        ];
-        this.confirmButtonId = config.confirmButtonId;
-        this.initialize();
-    }
+    let checkBoxValidationHandler;
+    // Checkbox Validation Handler
+    class CheckboxValidationHandler {
+        constructor(config) {
+            this.checkboxIds = [
+                'detail_confirm',
+                'agree_terms',
+                'make_available',
+                'satisfied_requirements',
+                'when_inputs_supplied',
+                'report_prepared',
+                'report_permission',
+                'receipt_acknowledgment',
+            ];
+            this.confirmButtonId = config.confirmButtonId;
+            this.initialize();
+        }
 
-    initialize() {
-        // Create a single selector for all checkboxes
-        const checkboxSelector = this.checkboxIds
-        .map(id => `input[type="checkbox"]#${id}`)
-        .join(',');
-    this.checkboxes = $(checkboxSelector);
-    this.confirmButton = $(`#${this.confirmButtonId}`);
+        initialize() {
+            // Create a single selector for all checkboxes
+            const checkboxSelector = this.checkboxIds
+                .map((id) => `input[type="checkbox"]#${id}`)
+                .join(',');
+            this.checkboxes = $(checkboxSelector);
+            this.confirmButton = $(`#${this.confirmButtonId}`);
 
-    if (!this.checkboxes.length) {
-        throw new Error('Required checkboxes not found in DOM');
-    }
-    if (!this.confirmButton.length) {
-        throw new Error('Confirm button not found in DOM');
-    }
-
-        // Bind event handler
-        this.checkboxes.on('change', this.handleCheckboxChange.bind(this));
-
-        this.confirmButton.on('click', async (event) => {
-            event.preventDefault();
-            try {
-                await submitForm();
-            } catch (err) {
-                showToastFeedback('text-bg-danger', err);
+            if (!this.checkboxes.length) {
+                throw new Error('Required checkboxes not found in DOM');
             }
-        })
+            if (!this.confirmButton.length) {
+                throw new Error('Confirm button not found in DOM');
+            }
+
+            // Bind event handler
+            this.checkboxes.on('change', this.handleCheckboxChange.bind(this));
+
+            this.confirmButton.on('click', async (event) => {
+                event.preventDefault();
+                try {
+                    await submitForm();
+                } catch (err) {
+                    showToastFeedback('text-bg-danger', err);
+                }
+            });
+        }
+
+        handleCheckboxChange() {
+            // Check if all checkboxes are checked using a single array operation
+            const allChecked = Array.from(this.checkboxes).every(
+                (checkbox) => checkbox.checked
+            );
+
+            // Update button state
+            this.confirmButton.prop('disabled', !allChecked);
+        }
+
+        // Clean up method to remove event listeners
+        destroy() {
+            this.checkboxes.off('change');
+        }
     }
 
-    handleCheckboxChange() {
-        // Check if all checkboxes are checked using a single array operation
-        const allChecked = Array.from(this.checkboxes).every(
-            checkbox => checkbox.checked
-        );
+    if (checkBoxValidationHandler) checkBoxValidationHandler.destroy();
+    // Usage
+    checkBoxValidationHandler = new CheckboxValidationHandler({
+        confirmButtonId: 'confirmButton',
+    });
 
-        // Update button state
-        this.confirmButton.prop('disabled', !allChecked);
-    }
-
-    // Clean up method to remove event listeners
-    destroy() {
-        this.checkboxes.off('change');
-    }
-}
-
-if(checkBoxValidationHandler) checkBoxValidationHandler.destroy();
-// Usage
-checkBoxValidationHandler = new CheckboxValidationHandler({
-    confirmButtonId: 'confirmButton'
-});
-
-// Clean up when needed
-// validationHandler.destroy();
-
-
+    // Clean up when needed
+    // validationHandler.destroy();
 
     async function submitForm() {
         showProcessToast('Submitting form...');
@@ -745,7 +889,9 @@ checkBoxValidationHandler = new CheckboxValidationHandler({
             hideProcessToast();
             showToastFeedback(
                 'text-bg-danger',
-                error?.error || error?.responseJSON?.message || 'Error submitting form'
+                error?.error ||
+                    error?.responseJSON?.message ||
+                    'Error submitting form'
             );
             console.error('Error submitting form:', error);
         }
@@ -881,7 +1027,7 @@ checkBoxValidationHandler = new CheckboxValidationHandler({
             this.initializeAddressSelection();
         }
 
-       static populateSelect(selectElement, data, placeholder) {
+        static populateSelect(selectElement, data, placeholder) {
             const parsedData =
                 typeof data === 'string' ? JSON.parse(data) : data;
             $(selectElement).html(`<option value="">${placeholder}</option>`);
@@ -918,9 +1064,17 @@ checkBoxValidationHandler = new CheckboxValidationHandler({
             $(this.selectors.city).prop('disabled', true);
             $(this.selectors.barangay).prop('disabled', true);
 
-            AddressForm.populateSelect(this.selectors.province, [], 'Select Province');
+            AddressForm.populateSelect(
+                this.selectors.province,
+                [],
+                'Select Province'
+            );
             AddressForm.populateSelect(this.selectors.city, [], 'Select City');
-            AddressForm.populateSelect(this.selectors.barangay, [], 'Select Barangay');
+            AddressForm.populateSelect(
+                this.selectors.barangay,
+                [],
+                'Select Barangay'
+            );
 
             if (regionCode) {
                 API.fetchProvinces(regionCode).done((provinces) => {
@@ -942,7 +1096,11 @@ checkBoxValidationHandler = new CheckboxValidationHandler({
             $(this.selectors.barangay).prop('disabled', true);
 
             AddressForm.populateSelect(this.selectors.city, [], 'Select City');
-            AddressForm.populateSelect(this.selectors.barangay, [], 'Select Barangay');
+            AddressForm.populateSelect(
+                this.selectors.barangay,
+                [],
+                'Select Barangay'
+            );
 
             if (provinceCode) {
                 API.fetchCities(provinceCode).done((cities) => {
@@ -1092,7 +1250,9 @@ checkBoxValidationHandler = new CheckboxValidationHandler({
         if (!draftData.officeCity) return;
 
         // Load cities
-        const provinceCode = $('#officeProvince').find(':selected').data('code');
+        const provinceCode = $('#officeProvince')
+            .find(':selected')
+            .data('code');
         await loadLocationDropdown(
             '#officeCity',
             API.fetchCities(provinceCode),
@@ -1137,7 +1297,9 @@ checkBoxValidationHandler = new CheckboxValidationHandler({
         if (!draftData.factoryCity) return;
 
         // Load cities
-        const provinceCode = $('#factoryProvince').find(':selected').data('code');
+        const provinceCode = $('#factoryProvince')
+            .find(':selected')
+            .data('code');
         await loadLocationDropdown(
             '#factoryCity',
             API.fetchCities(provinceCode),

@@ -237,4 +237,4 @@
         STORE: "{{ route('form.setDraft') }}",
     }
 </script>
-@vite('resources/js/cooperator/coopPage.js')
+@vite('resources/js/cooperator/coop-page.js')
