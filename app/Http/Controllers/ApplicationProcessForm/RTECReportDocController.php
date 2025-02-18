@@ -16,6 +16,5 @@ class RTECReportDocController extends Controller
         }catch(Exception $e){
             Log::error('Error in getRTECReportForm: ', [$e->getMessage()]);
         }
-
     }
 }
