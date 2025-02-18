@@ -5014,7 +5014,7 @@ ${output}</textarea
             });
 
             const { TNAForm, ProjectProposalForm, RTECReportForm } =
-                await import('./applicationProcessForm');
+                await import('./application-process-form-class');
             const TNADocumentContainerModal = $('#tnaDocContainerModal');
             const ProjectProposalDocumentContainerModal = $(
                 '#projectProposalDocContainerModal'
