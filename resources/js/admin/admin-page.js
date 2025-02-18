@@ -2133,6 +2133,24 @@ async function initializeAdminPageJs() {
                 USER_ROLE,
                 'selectedStaff'
             );
+
+            const changeProfilePicStyle = (userProfile) => {
+                const tempElement = $('<div>').html(userProfile);
+
+                // Find the element with the style attribute you want to modify
+                const targetElement = tempElement.find('.profile-logo');
+
+                // Modify the style attribute (if the element is found)
+                if (targetElement.length > 0) {
+                    targetElement.css({
+                        width: '60px',
+                        height: '60px',
+                    });
+                }
+
+                // Get the modified HTML
+                return tempElement.html();
+            };
             VIEW_USER_OFFCANVAS.on('show.bs.offcanvas', function (e) {
                 try {
                     const triggerdButton = $(e.relatedTarget);
@@ -2141,8 +2159,11 @@ async function initializeAdminPageJs() {
                         .find('td:nth-child(1)')
                         .text()
                         .trim();
-                    const StaffName = buttonRow
+                    const userProfile = buttonRow
                         .find('td:nth-child(2)')
+                        .html();
+                    const StaffName = buttonRow
+                        .find('td:nth-child(2) .profile-name p')
                         .text()
                         .trim();
                     const Email = buttonRow
@@ -2156,7 +2177,7 @@ async function initializeAdminPageJs() {
 
                     const offcanvas = $(this);
 
-                    offcanvas.find('#StaffName').text(StaffName);
+                    offcanvas.find('#userProfile').html(changeProfilePicStyle(userProfile));
                     staffAuditLogs.getSelectedStaffActivityLog(staff_id);
                 } catch (error) {
                     showToastFeedback('text-bg-danger', error);
