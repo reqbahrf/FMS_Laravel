@@ -115,6 +115,9 @@
                     colspan="9"
                 >PROJECT BACKGROUND:</td>
             </tr>
+            <tr>
+                <td style="font-weight: bold;" colspan="9">A. Company Profile</td>
+            </tr>
         </table>
     </div>
     <x-project-proposal-form.company-profile-form :isEditable="$isEditable" :ProjectProposaldata="$ProjectProposaldata" />

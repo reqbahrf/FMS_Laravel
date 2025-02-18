@@ -122,6 +122,8 @@
         font-size: 9pt;
         margin-right: 2px;
     }
+
+    
 </style>
 <div id="containerSize">
     <div class="form-container">

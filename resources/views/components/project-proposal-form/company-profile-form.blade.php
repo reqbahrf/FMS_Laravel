@@ -6,7 +6,7 @@
     cellpadding="5"
 >
     <tr class="no-border">
-        <td width="15%"></td>
+        <td width="20%"></td>
         <td width="5%" ></td>
         <td width="15%" ></td>
         <td width="5%" ></td>
@@ -14,10 +14,7 @@
         <td width="5%" ></td>
         <td width="15%" ></td>
         <td width="5%" ></td>
-        <td width="20%" ></td>
-    </tr>
-    <tr>
-        <td colspan="9"><b>A. Company Profile</b></td>
+        <td width="15%" ></td>
     </tr>
     <tr>
         <td>Name of Firm</td>
