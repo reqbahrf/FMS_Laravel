@@ -38,12 +38,12 @@ export default class TNAFormEvent {
     destroy(): void {
         // Remove specific input event listeners
         if(!this.form || !this.yearInputSelectors) return;
-        this.yearInputSelectors?.forEach((selector) => {
-            this.form?.off('input', selector);
-        });
+        const yearInputSelectors = this.yearInputSelectors.join(',');
+        this.form?.off('input', yearInputSelectors);
 
         // Optional: Clear any references to prevent memory leaks
         this.form = null;
         this.yearInputSelectors = null;
+        this.numberInputSelectors = null;
     }
 }

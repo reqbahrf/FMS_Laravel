@@ -98,6 +98,7 @@
                 <input
                     name="year_established"
                     type="text"
+                    data-year-input
                     value="{{ $ProjectProposaldata['year_established'] ?? '' }}"
                     maxlength="4"
                     placeholder="2020"
@@ -246,6 +247,7 @@
                 <input
                     name="direct_workers_male"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['direct_workers_male'] ?? '' }}"
                 >
             @else
@@ -257,6 +259,7 @@
                 <input
                     name="direct_workers_female"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['direct_workers_female'] ?? '' }}"
                 >
             @else
@@ -268,6 +271,7 @@
                 <input
                     name="direct_workers_total"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['direct_workers_total'] ?? '' }}"
                 >
             @else
@@ -282,6 +286,7 @@
                 <input
                     name="production_male"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['production_male'] ?? '' }}"
                 >
             @else
@@ -293,6 +298,7 @@
                 <input
                     name="production_female"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['production_female'] ?? '' }}"
                 >
             @else
@@ -304,6 +310,7 @@
                 <input
                     name="production_total"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['production_total'] ?? '' }}"
                 >
             @else
@@ -318,6 +325,7 @@
                 <input
                     name="non_production_male"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['non_production_male'] ?? '' }}"
                 >
             @else
@@ -329,6 +337,7 @@
                 <input
                     name="non_production_female"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['non_production_female'] ?? '' }}"
                 >
             @else
@@ -340,6 +349,7 @@
                 <input
                     name="non_production_total"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['non_production_total'] ?? '' }}"
                 >
             @else
@@ -354,6 +364,7 @@
                 <input
                     name="indirect_contract_workers_male"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['indirect_contract_workers_male'] ?? '' }}"
                 >
             @else
@@ -365,6 +376,7 @@
                 <input
                     name="indirect_contract_workers_female"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['indirect_contract_workers_female'] ?? '' }}"
                 >
             @else
@@ -376,6 +388,7 @@
                 <input
                     name="indirect_contract_workers_total"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['indirect_contract_workers_total'] ?? '' }}"
                 >
             @else
@@ -390,6 +403,7 @@
                 <input
                     name="total_male"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['total_male'] ?? '' }}"
                 >
             @else
@@ -401,6 +415,7 @@
                 <input
                     name="total_female"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['total_female'] ?? '' }}"
                 >
             @else
@@ -412,6 +427,7 @@
                 <input
                     name="employee_total"
                     type="text"
+                    data-custom-numeric-input
                     value="{{ $ProjectProposaldata['employee_total'] ?? '' }}"
                 >
             @else
@@ -1273,6 +1289,7 @@
                         <input
                             class="S_T_intervention_related_equipment"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $data['stInterventionRelatedEquipment'] ?? '' }}"
                         >
                     @else
@@ -1284,6 +1301,7 @@
                         <input
                             class="Qty"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $data['qty'] ?? '' }}"
                         >
                     @else
@@ -1295,6 +1313,7 @@
                         <input
                             class="Unit_cost"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $data['unitCost'] ?? '' }}"
                         >
                     @else
@@ -1306,6 +1325,7 @@
                         <input
                             class="Total_cost"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $data['totalCost'] ?? '' }}"
                         >
                     @else
@@ -1328,6 +1348,7 @@
                         <input
                             class="Qty"
                             type="text"
+                            data-custom-numeric-input
                         >
                     @endif
                 </td>
@@ -1336,6 +1357,7 @@
                         <input
                             class="Unit_cost"
                             type="text"
+                            data-custom-numeric-input
                         >
                     @endif
                 </td>
@@ -1344,6 +1366,7 @@
                         <input
                             class="Total_cost"
                             type="text"
+                            data-custom-numeric-input
                         >
                     @endif
                 </td>
@@ -1618,6 +1641,7 @@
                         <input
                             class="SETUP"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $data['setup'] ?? '' }}"
                         >
                     @else
@@ -1629,6 +1653,7 @@
                         <input
                             class="LGIA"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $data['lgia'] ?? '' }}"
                         >
                     @else
@@ -1640,6 +1665,7 @@
                         <input
                             class="Cooperator"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $data['cooperator'] ?? '' }}"
                         >
                     @else
@@ -1651,6 +1677,7 @@
                         <input
                             class="Total_cost"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $data['totalCost'] ?? '' }}"
                         >
                     @else
@@ -1674,6 +1701,7 @@
                         <input
                             class="Qty"
                             type="text"
+                            data-custom-numeric-input
                             value=""
                         >
                     @endif
@@ -1683,6 +1711,7 @@
                         <input
                             class="Unit_cost"
                             type="text"
+                            data-custom-numeric-input
                             value=""
                         >
                     @endif
@@ -1692,6 +1721,7 @@
                         <input
                             class="SETUP"
                             type="text"
+                            data-custom-numeric-input
                             value=""
                         >
                     @endif
@@ -1701,6 +1731,7 @@
                         <input
                             class="LGIA"
                             type="text"
+                            data-custom-numeric-input
                             value=""
                         >
                     @endif
@@ -1710,6 +1741,7 @@
                         <input
                             class="Cooperator"
                             type="text"
+                            data-custom-numeric-input
                             value=""
                         >
                     @endif
@@ -1719,6 +1751,7 @@
                         <input
                             class="Total_cost"
                             type="text"
+                            data-custom-numeric-input
                             value=""
                         >
                     @endif
@@ -1799,6 +1832,7 @@
                         <input
                             class="{{ $month }}_Y{{ $year }}"
                             type="text"
+                            data-custom-numeric-input
                             name="{{ $month }}_Y{{ $year }}"
                             value="{{ $ProjectProposaldata[$month . '_Y' . $year] ?? '' }}"
                         >
@@ -1812,6 +1846,7 @@
                     <input
                         class="{{ $month }}_total"
                         type="text"
+                        data-custom-numeric-input
                         name="{{ $month }}_total"
                         value="{{ $ProjectProposaldata[$month . '_total'] ?? '' }}"
                     >

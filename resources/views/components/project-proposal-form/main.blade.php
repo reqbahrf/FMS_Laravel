@@ -57,6 +57,7 @@
                         <input
                             name="project_cost"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $ProjectProposaldata['project_cost'] ?? '' }}"
                             placeholder="(Total project cost including counterpart of the proponent)"
                         >
@@ -72,6 +73,7 @@
                         <input
                             name="amount_requested"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $ProjectProposaldata['amount_requested'] ?? '' }}"
                             placeholder="(DOST-SETUP counterpart or amount requested from DOST-SETUP)"
                         >

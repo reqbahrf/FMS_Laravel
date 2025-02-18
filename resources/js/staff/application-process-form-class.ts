@@ -3,8 +3,8 @@ import { showProcessToast, showToastFeedback, hideProcessToast, serializeFormDat
 import BENCHMARKTableConfig from '../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import PROJECT_PROPOSAL_TABLE_CONFIG from '../Form_Config/form-table-config/projectProposalTableConfig';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
-import TNAFormEvent from './application-form-events/tna-form-event';
-
+import TNAFormEvent from './application-form-events/TNAFormEvent';
+import ProposalFormEvent from './application-form-events/ProposalFormEvent';
 type Action = 'edit' | 'view'
  class TNAForm {
     private TNAModalContainer: JQuery<HTMLElement>;
@@ -27,9 +27,9 @@ type Action = 'edit' | 'view'
                 ).replace(':application_id', application_Id).replace(':action', actionMode),
             });
             this.TNAModalContainer.find('.modal-body').html(response as string);
+            this.TNAForm = this._getFormInstance();
             switch(actionMode) {
                 case 'edit':
-                    this.TNAForm = this._getFormInstance();
                     this._setupTNAFormSubmission();
                     if(this.TNAFormEvent) {
                         this.TNAFormEvent.destroy();
@@ -37,7 +37,6 @@ type Action = 'edit' | 'view'
                     this.TNAFormEvent = new TNAFormEvent(this.TNAForm);
                     break
                 case 'view':
-                    this.TNAForm = this._getFormInstance();
                     this._setupTNAPDFExport();
                     break
                 default:
@@ -144,10 +143,12 @@ type Action = 'edit' | 'view'
  class ProjectProposalForm {
     private ProjectProposalModalContainer: JQuery<HTMLElement>;
     private ProjectProposalForm: JQuery<HTMLFormElement> | null;
+    private ProjectProposalFormEvent: ProposalFormEvent | null;
     private GeneratePDFBtn: JQuery<HTMLElement> | null;
     constructor(ProjectProposalModalContainer: JQuery<HTMLElement>) {
         this.ProjectProposalModalContainer = ProjectProposalModalContainer;
         this.ProjectProposalForm = null
+        this.ProjectProposalFormEvent = null
         this.GeneratePDFBtn = null
     }
     //TODO: update this method handle Project Proposal data
@@ -165,6 +166,10 @@ type Action = 'edit' | 'view'
                 case 'edit':
                     this.ProjectProposalForm = this.__getFormInstance();
                     this._setupProjectProposalFormSubmissionListener();
+                    if(this.ProjectProposalFormEvent) {
+                        this.ProjectProposalFormEvent.destroy();
+                    }
+                    this.ProjectProposalFormEvent = new ProposalFormEvent(this.ProjectProposalForm);
                     break;
                 case 'view':
                     this._setupProjectProposalPDFExport();
@@ -249,7 +254,9 @@ type Action = 'edit' | 'view'
                 }
             })
 
-        } catch (error) {
+        } catch (error: any) {
+            console.warn('Error in Setting Project Proposal form' + error);
+            showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting Project Proposal form');
 
         }
     }
