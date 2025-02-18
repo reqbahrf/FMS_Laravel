@@ -36,11 +36,6 @@ class TNADocController extends Controller
                     break;
             }
 
-            if (!$TNAdata) {
-                Log::alert('TNA Data not found', ['business_id' => $business_id]);
-                return response()->json(['message' => 'TNA Data not found'], 404);
-            }
-
             return view('components.t-n-a-form.main', compact('TNAdata', 'isEditable'));
         } catch (\Exception $e) {
             Log::error('Error retrieving TNA data', [
@@ -71,7 +66,7 @@ class TNADocController extends Controller
                 'business_id' => $request->business_id,
                 'error' => $e->getMessage()
             ]);
-            return response()->json(['message' => 'Error setting TNA data' . $e->getMessage()], 500);
+            return response()->json(['error' => 'Error setting TNA data' . $e->getMessage()], 500);
         }
     }
     public function exportTNAFormToPDF(Request $request, GeneratePDFAction $generatePDF)

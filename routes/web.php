@@ -301,6 +301,13 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
     Route::get('/Staff/Applicant/get/rtec-report/{business_id}/{application_id}/{action}', [RTECReportDocController::class, 'getRTECReportForm'])
         ->name('staff.Applicant.get.rtec-report');
+
+    Route::put('/Staff/Applicant/set/rtec-report/{business_id}/{application_id}', [RTECReportDocController::class, 'setRTECReportForm'])
+        ->name('staff.Applicant.set.rtec-report');
+
+    Route::get('/Staff/Applicant/generate/rtec-report/{business_id}/{application_id}', [RTECReportDocController::class, 'exportRTECReportFormToPDF'])
+        ->name('staff.Applicant.generate.rtec-report')
+        ->middleware('signed');
 });
 
 //Staff Route End

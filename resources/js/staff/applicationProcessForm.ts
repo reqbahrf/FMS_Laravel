@@ -40,14 +40,12 @@ type Action = 'edit' | 'view'
                     this.TNAForm = this._getFormInstance();
                     this._setupTNAPDFExport();
                     break
-            }
-            if(actionMode == 'edit') {
-
+                default:
+                    throw new Error('Invalid action');
             }
         } catch (error: any) {
             console.warn('Error in Retrieving TNA form' + error);
-            showToastFeedback('text-bg-danger', error.responseJSON.message || error.message);
-            showToastFeedback('text-bg-danger', error.responseJSON.message || error.message);
+            showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message);
         }
     }
 
@@ -279,10 +277,12 @@ type Action = 'edit' | 'view'
 class RTECReportForm {
     private RTECReportModalContainer: JQuery<HTMLElement>;
     private RTECReportForm: JQuery<HTMLFormElement> | null;
+    private GeneratePDFBtn: JQuery<HTMLElement> | null;
 
     constructor(RTECReportModalContainer: JQuery<HTMLElement>) {
         this.RTECReportModalContainer = RTECReportModalContainer;
         this.RTECReportForm = null;
+        this.GeneratePDFBtn = null;
     }
 
     async getRTECReportForm(business_Id: string, application_Id: string, actionMode: Action) {
@@ -295,9 +295,16 @@ class RTECReportForm {
                 ).replace(':application_id', application_Id).replace(':action', actionMode),
             });
             this.RTECReportModalContainer.find('.modal-body').html(response as string);
-            if(actionMode == 'edit') {
-                this.RTECReportForm = this._getFormInstance();
-                this._initializeRTECReportFormSubmissionListener();
+            switch(actionMode){
+                case 'edit':
+                    this.RTECReportForm = this._getFormInstance();
+                    this._setupRTECFormSubmissionListener();
+                    break;
+                case 'view':
+                    this._setupRTECPDFExport();
+                    break;
+                default:
+                    throw new Error('Invalid action');
             }
         } catch (error: any) {
             console.warn('Error in Retrieving RTEC Report' + error);
@@ -333,7 +340,7 @@ class RTECReportForm {
         }
     }
 
-    private _initializeRTECReportFormSubmissionListener(): void {
+    private _setupRTECFormSubmissionListener(): void {
         try{
             if(!this.RTECReportForm) throw new Error('Form not found');
             const form = this.RTECReportForm;
@@ -361,6 +368,21 @@ class RTECReportForm {
 
                }
             });
+        }catch(error: any){
+            console.warn('Error in Setting RTEC Report form' + error);
+            showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting RTEC Report form');
+        }
+    }
+
+    private _setupRTECPDFExport(): void {
+        try{
+            this.GeneratePDFBtn = this.RTECReportModalContainer.find('button#exportRTECReportFormToPDF');
+
+            this.GeneratePDFBtn.on('click', async () => {
+                const generateUrl = this.GeneratePDFBtn?.attr('data-generated-url');
+                if(!generateUrl) throw new Error('Generate URL not found');
+                window.open(generateUrl, '_blank');
+            })
         }catch(error: any){
             console.warn('Error in Setting RTEC Report form' + error);
             showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting RTEC Report form');

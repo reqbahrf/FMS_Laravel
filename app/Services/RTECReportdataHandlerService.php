@@ -13,7 +13,7 @@ class RTECReportdataHandlerService
     public function setRTECReportData(array $data, int $business_id, int $application_id)
     {
         try {
-            $key = 'rtec_report';
+            $key = 'rtec_report_form';
             // Find the existing record
             $existingRecord = $this->RTECReportData->where([
                 'business_id' => $business_id,
@@ -43,7 +43,7 @@ class RTECReportdataHandlerService
     public function getRTECReportData(int $business_id, int $application_id)
     {
         try {
-            $key = 'rtec_report';
+            $key = 'rtec_report_form';
             $RTECReport = $this->RTECReportData->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', $key)

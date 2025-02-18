@@ -1,4 +1,9 @@
-<form id="RTECReportForm">
+@props(['RTECReportdata', 'isEditable'])
+<form id="RTECReportForm"
+@if($isEditable)
+action="{{ route('staff.Applicant.set.rtec-report', ['business_id' => $RTECReportdata['business_id'], 'application_id' => $RTECReportdata['application_id']]) }}"
+@endif
+>
     <table id="RTECReportInfoTable" width="100%">
         <tr>
             <td
@@ -58,7 +63,7 @@
     <table id="additionInfoTable" style="width: 100%;">
         <tbody>
             <tr>
-                <th colspan="2">I. Brief description of the project</th>
+                <th style="text-align: left;" colspan="2">I. Brief description of the project</th>
             </tr>
             <tr>
                 <td style="vertical-align: top;">a.</td>
@@ -73,7 +78,7 @@
                 <td>Expected Outputs/Impact/s of S&T intervention</td>
             </tr>
             <tr>
-                <th colspan="2">II. Compliance of Requirements</th>
+                <th style="text-align: left;" colspan="2">II. Compliance of Requirements</th>
             </tr>
         </tbody>
     </table>
@@ -280,7 +285,7 @@
     <table>
         <thead>
             <tr>
-                <th colspan="4">III. Highlights of Evaluation</th>
+                <th style="text-align: left;" colspan="4">III. Highlights of Evaluation</th>
             </tr>
         </thead>
         <tbody>
@@ -449,3 +454,22 @@
         </tbody>
     </table>
 </form>
+@if($isEditable)
+<div class="d-flex justify-content-end">
+    <button
+        type="submit"
+        form="RTECReportForm"
+        class="btn btn-primary text-end"
+    >Set TNA Form</button>
+</div>
+@else
+<div class="d-flex justify-content-end">
+    <button
+        type="button"
+        data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.rtec-report', ['business_id' => $RTECReportdata['business_id'], 'application_id' => $RTECReportdata['application_id']]) }}"
+        id="exportRTECReportFormToPDF"
+        class="btn btn-primary text-end"
+    >Export as PDF</button>
+</div>
+@endif
+
