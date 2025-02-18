@@ -10,10 +10,12 @@ type Action = 'edit' | 'view'
     private TNAModalContainer: JQuery<HTMLElement>;
     private TNAForm: JQuery<HTMLFormElement> | null
     private TNAFormEvent: TNAFormEvent | null
+    private GeneratePDFBtn: JQuery<HTMLButtonElement> | null
     constructor(TNAModalContainer: JQuery<HTMLElement>) {
         this.TNAModalContainer = TNAModalContainer;
         this.TNAForm = null
-        this.TNAFormEvent = null;
+        this.TNAFormEvent = null
+        this.GeneratePDFBtn = null
     }
     private async _getTNAForm(business_Id: string, application_Id: string, actionMode: Action) {
         try {
@@ -25,17 +27,26 @@ type Action = 'edit' | 'view'
                 ).replace(':application_id', application_Id).replace(':action', actionMode),
             });
             this.TNAModalContainer.find('.modal-body').html(response as string);
+            switch(actionMode) {
+                case 'edit':
+                    this.TNAForm = this._getFormInstance();
+                    this._setupTNAFormSubmission();
+                    if(this.TNAFormEvent) {
+                        this.TNAFormEvent.destroy();
+                    }
+                    this.TNAFormEvent = new TNAFormEvent(this.TNAForm);
+                    break
+                case 'view':
+                    this.TNAForm = this._getFormInstance();
+                    this._setupTNAPDFExport();
+                    break
+            }
             if(actionMode == 'edit') {
-                this.TNAForm = this._getFormInstance();
-                this._initializeTNAFormSubmissionListener();
-                if(this.TNAFormEvent) {
-                    this.TNAFormEvent.destroy();
-                }
-                this.TNAFormEvent = new TNAFormEvent(this.TNAForm);
 
             }
         } catch (error: any) {
             console.warn('Error in Retrieving TNA form' + error);
+            showToastFeedback('text-bg-danger', error.responseJSON.message || error.message);
             showToastFeedback('text-bg-danger', error.responseJSON.message || error.message);
         }
     }
@@ -68,7 +79,7 @@ type Action = 'edit' | 'view'
         }
     }
 
-    private _initializeTNAFormSubmissionListener(): void {
+    private _setupTNAFormSubmission(): void {
         try {
             if(!this.TNAForm) throw new Error('Form not found');
             const form = this.TNAForm;
@@ -95,6 +106,25 @@ type Action = 'edit' | 'view'
             })
         }catch(error: any) {
             hideProcessToast();
+            console.warn('Error in Setting TNA form' + error);
+            showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting TNA form');
+        }
+    }
+
+    private _setupTNAPDFExport(): void {
+        try{
+            this.GeneratePDFBtn = this.TNAModalContainer.find('#exportTNAFormToPDF');
+
+            if(!this.GeneratePDFBtn) throw new Error('Generate PDF Button not found');
+
+            this.GeneratePDFBtn.on('click', async () => {
+                const generateUrl = this.GeneratePDFBtn?.attr('data-generated-url');
+                if(!generateUrl) throw new Error('Generate URL not found');
+                window.open(generateUrl, '_blank');
+
+            })
+
+        }catch(error: any){
             console.warn('Error in Setting TNA form' + error);
             showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting TNA form');
         }

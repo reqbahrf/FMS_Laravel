@@ -285,6 +285,10 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::put('/Staff/Applicant/set/tna/{business_id}/{application_id}', [TNADocController::class, 'setTNAForm'])
         ->name('staff.Applicant.set.tna');
 
+    Route::get('/Staff/Applicant/generate/tna-document/{business_id}/{application_id}', [TNADocController::class, 'exportTNAFormToPDF'])
+        ->name('staff.Applicant.generate.tna-document')
+        ->middleware('signed');
+
     Route::get('/Staff/Applicant/get/project-proposal/{business_id}/{application_id}/{action}', [ProjectProposalDocController::class, 'getProjectProposalForm'])
         ->name('staff.Applicant.get.project-proposal');
 

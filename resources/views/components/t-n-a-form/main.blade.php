@@ -1649,10 +1649,21 @@
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
-    @if($isEditable)
-        <button
-            type="submit"
-            class="btn btn-primary text-end"
-        >Set TNA Form</button>
-    @endif
 </form>
+@if($isEditable)
+<div class="d-flex justify-content-end">
+    <button
+        type="submit"
+        class="btn btn-primary text-end"
+    >Set TNA Form</button>
+</div>
+@else
+<div class="d-flex justify-content-end">
+    <button
+        type="button"
+        data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.tna-document', ['business_id' => $TNAdata['business_id'], 'application_id' => $TNAdata['application_id']]) }}"
+        id="exportTNAFormToPDF"
+        class="btn btn-primary text-end"
+    >Export as PDF</button>
+</div>
+@endif

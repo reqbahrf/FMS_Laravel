@@ -1,10 +1,10 @@
 import * as DataTables from 'datatables.net';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
+import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
     showProcessToast,
     hideProcessToast,
     showToastFeedback,
-    createConfirmationModal,
 } from '../Utilities/utilFunctions';
 
 export default class PaymentHandler {

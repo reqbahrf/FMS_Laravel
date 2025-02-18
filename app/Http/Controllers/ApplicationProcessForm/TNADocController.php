@@ -4,6 +4,7 @@ namespace App\Http\Controllers\ApplicationProcessForm;
 
 use Exception;
 use Illuminate\Http\Request;
+use App\Actions\GeneratePDFAction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -12,10 +13,8 @@ use App\Services\TNAdataHandlerService;
 
 class TNADocController extends Controller
 {
-    public function __construct(private TNAdataHandlerService $TNA)
-    {
-        $this->TNA = $TNA;
-    }
+    public function __construct(private TNAdataHandlerService $TNAservice)
+    {}
 
     public function getTNAForm(Request $request)
     {
@@ -23,7 +22,7 @@ class TNADocController extends Controller
             $action = $request->action;
             $business_id = $request->business_id;
             $application_id = $request->application_id;
-            $TNAdata = $this->TNA->getTNAData($business_id, $application_id);
+            $TNAdata = $this->TNAservice->getTNAData($business_id, $application_id);
             switch ($action) {
                 case 'view':
                     $isEditable = false;
@@ -58,7 +57,7 @@ class TNADocController extends Controller
             $validated = $request->validated();
 
             DB::transaction(function () use ($validated, $request) {
-                $this->TNA->setTNAData(
+                $this->TNAservice->setTNAData(
                     $validated,
                     $request->business_id,
                     $request->application_id
@@ -74,5 +73,27 @@ class TNADocController extends Controller
             ]);
             return response()->json(['message' => 'Error setting TNA data' . $e->getMessage()], 500);
         }
+    }
+    public function exportTNAFormToPDF(Request $request, GeneratePDFAction $generatePDF)
+    {
+        try{
+            $business_id = $request->business_id;
+            $application_id = $request->application_id;
+            $TNAdata = $this->TNAservice->getTNAData($business_id, $application_id);
+
+            if (!$TNAdata) {
+                throw new Exception('TNA Data not found');
+            }
+
+            $htmlForm = view('application-process-forms.TNA', ['TNAdata' => $TNAdata, 'isEditable' => false])->render();
+            return $generatePDF->execute('TNA form', $htmlForm, false);
+        }catch(Exception $e){
+            Log::error('Error export TNA data', [
+                'business_id' => $request->business_id,
+                'error' => $e->getMessage()
+            ]);
+            return response()->json(['error' => 'Error export TNA data' . $e->getMessage()], 500);
+        }
+
     }
 }

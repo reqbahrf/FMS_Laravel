@@ -1,3 +1,4 @@
+@props(['TNAdata', 'isEditable' => false])
 <!DOCTYPE html>
 <html>
 
@@ -89,7 +90,7 @@
 </style>
 
 <body>
-    <x-t-n-a-form.main :TNAdata="$TNAdata" />
+    <x-t-n-a-form.main :TNAdata="$TNAdata" :isEditable="$isEditable" />
 </body>
 
 </html>

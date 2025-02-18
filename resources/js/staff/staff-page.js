@@ -17,7 +17,7 @@ import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';
 import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
-import ApplicantDataTable from '../Utilities/ApplicantDataTable';
+import ApplicantDataTable from '../Utilities/applicant-datatable';
 import PaymentHandler from './PaymentHandler';
 
 import DataTable from 'datatables.net-bs5';

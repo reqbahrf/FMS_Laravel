@@ -2,12 +2,14 @@
 
 namespace App\Actions;
 
+use GuzzleHttp\Psr7\Response;
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
 use InvalidArgumentException;
 use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class GeneratePDF
+class GeneratePDFAction
 {
     public static function execute(
         string $documentTitle,
@@ -15,7 +17,7 @@ class GeneratePDF
         bool $withHeader = false,
         array $customConfig = [],
         string $outputMode = 'I'
-    ): void {
+    ): StreamedResponse {
         try {
             // Default configuration
             $defaultConfig = [
@@ -59,7 +61,19 @@ class GeneratePDF
 
             // Generate PDF
             $outputFilename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $documentTitle) . '.pdf';
-            $mpdf->Output($outputFilename, $outputMode);
+            return response()->stream(
+                function() use ($mpdf, $outputFilename, $outputMode) {
+                    $mpdf->Output($outputFilename, $outputMode);
+                },
+                200,
+                [
+                    'Content-Type' => 'application/pdf',
+                    'Content-Disposition' => 'inline; filename="' . $outputFilename . '"',
+                    'Cache-Control' => 'no-cache, no-store, must-revalidate',
+                    'Pragma' => 'no-cache',
+                    'Expires' => '0'
+                ]
+            );
         } catch (MpdfException $e) {
             // Log Mpdf specific errors
             Log::error('PDF Generation Error (Mpdf): ' . $e->getMessage());
