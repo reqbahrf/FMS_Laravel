@@ -5,6 +5,7 @@ namespace App\Http\Controllers\ApplicationProcessForm;
 use Exception;
 use Illuminate\Http\Request;
 use PhpParser\Node\Stmt\TryCatch;
+use App\Actions\GeneratePDFAction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -67,5 +68,27 @@ class ProjectProposalDocController extends Controller
             return response()->json(['message' => 'Error setting Project Proposal data' . $e->getMessage()], 500);
         }
 
+    }
+
+    public function exportProjectProposalToPDF(Request $request, GeneratePDFAction $generatePDF)
+    {
+        try {
+            $business_id = $request->business_id;
+            $application_id = $request->application_id;
+            $ProjectProposaldata = $this->ProjectProposal->getProjectProposalData($business_id, $application_id);
+
+            if (!$ProjectProposaldata) {
+                throw new Exception('Project Proposal Data not found');
+            }
+
+            $htmlForm = view('application-process-forms.Project-proposal', ['ProjectProposaldata' => $ProjectProposaldata, 'isEditable' => false])->render();
+            return $generatePDF->execute('Project Proposal form', $htmlForm, true);
+        } catch (Exception $e) {
+            Log::error('Error export Project Proposal data', [
+                'business_id' => $request->business_id,
+                'error' => $e->getMessage()
+            ]);
+            return response()->json(['error' => 'Error export Project Proposal data' . $e->getMessage()], 500);
+        }
     }
 }

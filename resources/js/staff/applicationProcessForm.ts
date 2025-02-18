@@ -146,10 +146,11 @@ type Action = 'edit' | 'view'
  class ProjectProposalForm {
     private ProjectProposalModalContainer: JQuery<HTMLElement>;
     private ProjectProposalForm: JQuery<HTMLFormElement> | null;
-
+    private GeneratePDFBtn: JQuery<HTMLElement> | null;
     constructor(ProjectProposalModalContainer: JQuery<HTMLElement>) {
         this.ProjectProposalModalContainer = ProjectProposalModalContainer;
         this.ProjectProposalForm = null
+        this.GeneratePDFBtn = null
     }
     //TODO: update this method handle Project Proposal data
     async _getProjectProposalForm(business_Id: string, application_Id: string, actionMode: Action) {
@@ -162,9 +163,14 @@ type Action = 'edit' | 'view'
                 ).replace(':application_id', application_Id).replace(':action', actionMode),
             });
             this.ProjectProposalModalContainer.find('.modal-body').html(response as string);
-            if(actionMode == 'edit') {
-                this.ProjectProposalForm = this.__getFormInstance();
-                this._initializeProjectProposalFormSubmissionListener();
+            switch(actionMode){
+                case 'edit':
+                    this.ProjectProposalForm = this.__getFormInstance();
+                    this._setupProjectProposalFormSubmissionListener();
+                    break;
+                case 'view':
+                    this._setupProjectProposalPDFExport();
+                    break;
             }
         } catch (error: any) {
             console.warn('Error in Retrieving Project Proposal' + error);
@@ -200,7 +206,7 @@ type Action = 'edit' | 'view'
         }
     }
 
-    private _initializeProjectProposalFormSubmissionListener(): void {
+    private _setupProjectProposalFormSubmissionListener(): void {
         try {
             if(!this.ProjectProposalForm) throw new Error('Form not found');
             const form = this.ProjectProposalForm;
@@ -229,6 +235,25 @@ type Action = 'edit' | 'view'
             showToastFeedback('text-bg-danger', error?.responseJSON?.message || error?.message || 'Error in Setting Project Proposal form');
         }
 
+    }
+
+    private _setupProjectProposalPDFExport(): void {
+        try {
+            this.GeneratePDFBtn = this.ProjectProposalModalContainer.find('#exportProjectProposalFormToPDF');
+            if(!this.GeneratePDFBtn) throw new Error('Button not found');
+            this.GeneratePDFBtn.on('click', async () => {
+                try{
+                    const generateUrl = this.GeneratePDFBtn?.attr('data-generated-url');
+                    if(!generateUrl) throw new Error('Generate URL not found');
+                    window.open(generateUrl, '_blank');
+                }catch(error:any){
+                    throw error;
+                }
+            })
+
+        } catch (error) {
+
+        }
     }
 
     initializeProjectProposalForm() {

@@ -295,6 +295,10 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::put('/Staff/Applicant/set/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'setProjectProposalForm'])
         ->name('staff.Applicant.set.project-proposal');
 
+    Route::get('/Staff/Applicant/generate/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'exportProjectProposalToPDF'])
+        ->name('staff.Applicant.generate.project-proposal')
+        ->middleware('signed');
+
     Route::get('/Staff/Applicant/get/rtec-report/{business_id}/{application_id}/{action}', [RTECReportDocController::class, 'getRTECReportForm'])
         ->name('staff.Applicant.get.rtec-report');
 });

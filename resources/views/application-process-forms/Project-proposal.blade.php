@@ -1,3 +1,4 @@
+@props(['ProjectProposaldata', 'isEditable' => false])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -57,7 +58,7 @@
 </head>
 
 <body>
-    <x-project-proposal-form.main :isEditable=false />
+    <x-project-proposal-form.main :ProjectProposaldata="$ProjectProposaldata" :isEditable="$isEditable" />
 </body>
 
 </html>

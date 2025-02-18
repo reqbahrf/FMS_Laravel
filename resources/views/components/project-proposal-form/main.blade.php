@@ -121,4 +121,13 @@
 </form>
 @if($isEditable)
   <button class="btn btn-primary ms-auto" type="submit" form="ProjectProposalForm">SET</button>
+@else
+<div class="d-flex justify-content-end">
+    <button
+        type="button"
+        data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
+        id="exportProjectProposalFormToPDF"
+        class="btn btn-primary text-end"
+    >Export as PDF</button>
+</div>
 @endif
