@@ -73,6 +73,7 @@
                         <input
                             name="proponent_cost"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $RTECReportdata['proponent_cost'] ?? '' }}"
                             style="display: inline-block; width: 100px;"
                         >
@@ -90,6 +91,7 @@
                         <input
                             name="dost_setup_cost"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $RTECReportdata['dost_setup_cost'] ?? '' }}"
                             style="display: inline-block; width: 100px;"
                         >
@@ -107,6 +109,7 @@
                         <input
                             name="dost_lgia_cost"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $RTECReportdata['dost_lgia_cost'] ?? '' }}"
                             style="display: inline-block; width: 100px;"
                         >
@@ -124,6 +127,7 @@
                         <input
                             name="total_cost"
                             type="text"
+                            data-custom-numeric-input
                             value="{{ $RTECReportdata['total_cost'] ?? '' }}"
                             style="display: inline-block; width: 100px;"
                         >
@@ -369,7 +373,7 @@
                             @checked(($RTECReportdata['financial_statements_past_3'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ ($RTECReportdata['financial_statements_past_3'] ?? '') === 'not_complied' ? 'checked' : '' }}
+                        {{ ($RTECReportdata['financial_statements_past_3'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>

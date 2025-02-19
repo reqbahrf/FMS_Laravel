@@ -5,6 +5,7 @@ import PROJECT_PROPOSAL_TABLE_CONFIG from '../Form_Config/form-table-config/proj
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
 import TNAFormEvent from './application-form-events/TNAFormEvent';
 import ProposalFormEvent from './application-form-events/ProposalFormEvent';
+import RTECFormEvent from './application-form-events/RTECFormEvent';
 type Action = 'edit' | 'view'
  class TNAForm {
     private TNAModalContainer: JQuery<HTMLElement>;
@@ -284,11 +285,13 @@ type Action = 'edit' | 'view'
 class RTECReportForm {
     private RTECReportModalContainer: JQuery<HTMLElement>;
     private RTECReportForm: JQuery<HTMLFormElement> | null;
+    private RTECReportFormEvent: RTECFormEvent | null;
     private GeneratePDFBtn: JQuery<HTMLElement> | null;
 
     constructor(RTECReportModalContainer: JQuery<HTMLElement>) {
         this.RTECReportModalContainer = RTECReportModalContainer;
         this.RTECReportForm = null;
+        this.RTECReportFormEvent = null;
         this.GeneratePDFBtn = null;
     }
 
@@ -302,10 +305,14 @@ class RTECReportForm {
                 ).replace(':application_id', application_Id).replace(':action', actionMode),
             });
             this.RTECReportModalContainer.find('.modal-body').html(response as string);
+            this.RTECReportForm = this._getFormInstance();
             switch(actionMode){
                 case 'edit':
-                    this.RTECReportForm = this._getFormInstance();
                     this._setupRTECFormSubmissionListener();
+                    if(this.RTECReportFormEvent){
+                        this.RTECReportFormEvent.destroy();
+                    }
+                    this.RTECReportFormEvent = new RTECFormEvent(this.RTECReportForm);
                     break;
                 case 'view':
                     this._setupRTECPDFExport();
