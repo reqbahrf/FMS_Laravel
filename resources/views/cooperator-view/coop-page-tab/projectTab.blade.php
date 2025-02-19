@@ -8,11 +8,30 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th scope="col" width="30%" class="text-nowrap">Firm Name</th>
-                            <th scope="col" width="50%" class="text-nowrap">Project Title</th>
-                            <th scope="col" width="20%" class="text-nowrap text-center">Application Status</th>
+                            <th
+                                class="text-nowrap"
+                                scope="col"
+                                width="30%"
+                            >Firm Name</th>
+                            <th
+                                class="text-nowrap"
+                                scope="col"
+                                width="50%"
+                            >Project Title</th>
+                            <th
+                                class="text-nowrap text-center"
+                                scope="col"
+                                width="20%"
+                            >Application Status</th>
                         </tr>
                     </thead>
+                    @php
+                        $allProjectsCompleted = $businessInfos->every(function ($businessInfo) {
+                            return $businessInfo->applicationInfo->every(function ($application) {
+                                return $application->application_status === 'completed';
+                            });
+                        });
+                    @endphp
                     <tbody>
                         @if (($businessInfos && is_array($businessInfos)) || is_object($businessInfos))
                             @forelse ($businessInfos as $businessInfo)
@@ -20,7 +39,8 @@
                                     @foreach ($businessInfo->applicationInfo as $application)
                                         <tr>
                                             <td class="text-nowrap">{{ $businessInfo->firm_name }}</td>
-                                            <td class="text-nowrap">{{ $application->projectInfo->project_title ?? 'N/A' }}
+                                            <td class="text-nowrap">
+                                                {{ $application->projectInfo->project_title ?? 'N/A' }}
                                             </td>
                                             <td class="text-nowrap text-center">
                                                 @php
@@ -43,7 +63,10 @@
                                 @else
                                     <tr>
                                         <td class="text-nowrap">{{ $businessInfo->firm_name }}</td>
-                                        <td colspan="2" class="text-nowrap">No applications available</td>
+                                        <td
+                                            class="text-nowrap"
+                                            colspan="2"
+                                        >No applications available</td>
                                     </tr>
                                 @endif
                             @empty
@@ -67,11 +90,14 @@
                 </table>
             </div>
             <div class="d-flex justify-content-end">
-                <button
-                    class="btn btn-primary btn-sm"
-                    type="button"
-                    disabled
-                >Apply New Project</button>
+                <a
+                    class="btn btn-primary btn-sm {{ !$allProjectsCompleted ? 'disabled' : '' }}"
+                    href="{{ !$allProjectsCompleted ? '#' : route('registrationForm') }}"
+                    @if (!$allProjectsCompleted) aria-disabled="true"
+                        tabindex="-1"
+                    @else
+                        target="_blank" @endif
+                >Apply New Project</a>
             </div>
         </div>
     </div>
