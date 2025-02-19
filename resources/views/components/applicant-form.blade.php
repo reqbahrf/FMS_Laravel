@@ -1129,6 +1129,7 @@
                                 <input
                                     id="EnterpriseLevelInput"
                                     name="enterprise_level"
+                                    value="Small Enterprise"
                                     type="hidden"
                                 >
                             </div>

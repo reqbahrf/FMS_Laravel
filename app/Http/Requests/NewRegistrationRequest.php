@@ -79,7 +79,7 @@ class NewRegistrationRequest extends FormRequest
             'buildings' => 'required',
             'equipments' => 'required',
             'working_capital' => 'required',
-            'enterprise_level' => 'required|in:Micro Enterprise,Small Enterprise,Medium Enterprise,Large Enterprise',
+            'enterprise_level' => 'nullable|in:Micro Enterprise,Small Enterprise,Medium Enterprise,Large Enterprise',
 
             //TNA Important Data
             'food_processing_activity' => 'nullable|in:on,null',
