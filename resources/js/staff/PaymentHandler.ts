@@ -103,7 +103,7 @@ export default class PaymentHandler {
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            throw new Error('Failed to update payment records: ' + error);
+            throw new Error(error?.responseJSON?.message || error?.message || 'Failed to update payment records');
         }
     }
 

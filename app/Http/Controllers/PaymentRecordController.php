@@ -142,14 +142,16 @@ class PaymentRecordController extends Controller
 
             // Calculate the total refunded amount excluding the current record's amount
             $totalRefundedExcludingCurrent = $refundedAmount - $record->amount;
+            $totalAfterNewAmount = $newAmount + $totalRefundedExcludingCurrent;
+            $isExceedingRefundAmount = bccomp($totalAfterNewAmount, $actualRefundAmount, 2) > 0;
 
-            // Check if the new amount would exceed the total refund amount
-            if ($actualRefundAmount < $newAmount + $totalRefundedExcludingCurrent) {
+            if ($isExceedingRefundAmount) {
                 return response()->json([
                     'success' => false,
                     'message' => 'Payment amount would exceed the total refund amount allowed'
                 ], 422);
             }
+
             $record->update([
                 'Project_id' => $validated['project_id'],
                 'reference_number' => $validated['reference_number'],

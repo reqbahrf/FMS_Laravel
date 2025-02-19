@@ -1984,7 +1984,7 @@ async function initializeStaffPageJs() {
                             business_id: businessID,
                         },
                     });
-                    showToastFeedback('text-bg-success', data.message);
+                    showToastFeedback('text-bg-success', response?.message || response?.responseJSON?.message   );
                 } catch (error) {
                     showToastFeedback(
                         'text-bg-danger',
