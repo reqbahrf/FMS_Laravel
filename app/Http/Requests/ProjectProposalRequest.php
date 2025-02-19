@@ -144,9 +144,9 @@ class ProjectProposalRequest extends FormRequest
              'budget.*.itemOfExpenditure' => 'nullable|string',
              'budget.*.qty' => 'nullable|string',
              'budget.*.unitCost' => 'nullable|string',
-             'budget.*.setup' => 'nullable|string',
-             'budget.*.lgia' => 'nullable|string',
-             'budget.*.cooperator' => 'nullable|string',
+             'budget.*.setupCost' => 'nullable|string',
+             'budget.*.lgiaCost' => 'nullable|string',
+             'budget.*.cooperatorCost' => 'nullable|string',
              'budget.*.totalCost' => 'nullable|string',
 
              //E. Proposed Refund structure

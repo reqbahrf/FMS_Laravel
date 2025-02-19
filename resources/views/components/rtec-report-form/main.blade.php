@@ -32,12 +32,12 @@
             <td>
                 @if ($isEditable)
                     <input
-                        name="proponent_cost"
+                        name="proponent"
                         type="text"
-                        value="{{ $RTECReportdata['proponent_cost'] ?? '' }}"
+                        value="{{ $RTECReportdata['proponent'] ?? '' }}"
                     >
                 @else
-                    {{ $RTECReportdata['proponent_cost'] ?? '' }}
+                    {{ $RTECReportdata['proponent'] ?? '' }}
                 @endif
             </td>
         </tr>
