@@ -20,9 +20,9 @@ import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 window.smartWizard = smartWizard;
 //TODO: For testing purposes
-$(window).on('beforeunload', function () {
-    return 'Are you sure you want to leave?';
-});
+// $(window).on('beforeunload', function () {
+//     return 'Are you sure you want to leave?';
+// });
 const ApplicationForm = $('#applicationForm');
 let is_initialized = false;
 export function initializeForm() {

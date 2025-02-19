@@ -90,9 +90,9 @@ const navigationHandler = new CoopPageNavHandler(
 navigationHandler.init();
 window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
 
-$(window).on('beforeunload', function () {
-    return 'Are you sure you want to leave?';
-});
+// $(window).on('beforeunload', function () {
+//     return 'Are you sure you want to leave?';
+// });
 
 const activityLog = new ActivityLogHandler(
     ACTIVITY_LOG_MODAL,

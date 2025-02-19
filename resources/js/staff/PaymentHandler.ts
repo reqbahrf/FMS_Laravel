@@ -1,6 +1,7 @@
 import * as DataTables from 'datatables.net';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
 import createConfirmationModal from '../Utilities/confirmation-modal';
+import { formatNumberToCurrency } from '../Utilities/utilFunctions';
 import {
     showProcessToast,
     hideProcessToast,
@@ -25,8 +26,8 @@ export default class PaymentHandler {
         this.paymentHistoryDataTableInstance = DataTableInstance;
         this.project_id = project_id;
         this.paymentForm = $('#paymentForm');
-        this.totalPaid = $('#TotalPaid');
-        this.remainingBalance = $('#RemainingBalance');
+        this.totalPaid = $('#totalPaid');
+        this.remainingBalance = $('#remainingBalance');
         this.completeMarkBtn = $('#MarkCompletedProjectBtn');
         this.ActualAmount = ActualAmount;
         this.paymentProgress = null;
@@ -158,8 +159,8 @@ export default class PaymentHandler {
             const remainingAmount = fundedAmount - totatAmount;
             const percentage = Math.round((totatAmount / fundedAmount) * 100);
 
-            this.totalPaid.text(totatAmount);
-            this.remainingBalance.text(remainingAmount);
+            this.totalPaid.text(formatNumberToCurrency(totatAmount));
+            this.remainingBalance.text(formatNumberToCurrency(remainingAmount));
 
             percentage == 100
                 ? this._isRefundCompleted(true)
