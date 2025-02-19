@@ -300,8 +300,6 @@ export function initializeForm() {
                 fileInput.classList.remove('is-invalid');
             }
         });
-
-        console.log('File uploads validation result:', isValid);
         return isValid;
     }
     $('#yearEstablished, #yearEnterpriseRegistered, #permitYearRegistered').on(
@@ -321,13 +319,6 @@ export function initializeForm() {
             nextStepIndex,
             stepDirection
         ) {
-            console.log(
-                'Leave Step',
-                currentStepIndex,
-                nextStepIndex,
-                stepDirection
-            );
-
             if (nextStepIndex > currentStepIndex) {
                 // Combine regular input and file upload validation
                 const regularInputsValid =
@@ -347,14 +338,7 @@ export function initializeForm() {
         function (e, anchorObject, stepIndex, stepDirection, stepPosition) {
             const totalSteps = $('#smartwizard').find('ul li').length;
 
-            if (stepPosition != 'Last') {
-                $('.btn-success, .btn-secondary').hide();
-            }
-
-            if (stepIndex === totalSteps - 1 && stepPosition === 'last') {
-                console.log('Arriving at Last Step - Showing Buttons');
-            } else {
-                console.log('Not Arriving at Last Step - Hiding Buttons');
+            if (stepIndex !== totalSteps - 1 && stepPosition !== 'last') {
                 $('.btn-success, .btn-secondary').hide();
             }
             if (stepIndex === 3) {
@@ -855,7 +839,6 @@ export function initializeForm() {
                 ...getMarketProductsData(tableConfigurations),
             };
 
-            console.log(formDataObject);
             const response = await $.ajax({
                 type: 'POST',
                 url: REGISTRATIONFORM_SUBMISSION_ROUTE,
@@ -923,41 +906,54 @@ export function initializeForm() {
             }
         });
 
-    $('.num_only').on('input', function () {
-        const input = $(this);
-        const value = input.val().replace(/[^0-9.]/g, '');
-        input.val(value);
-    });
+    customFormatNumericInput('#personnelContainer', 'input');
 
     function updateEnterpriseLevel() {
-        $('#buildings, #equipments, #working_capital').each(function () {
-            customFormatNumericInput($(this)[0]);
-        });
+        // Cache DOM selections
+        const enterpriseLevelElement = $('span#Enterprise_Level');
+        const totalAssetsElement = $('span#to_Assets');
+        const enterpriseLevelInput = $('input#EnterpriseLevelInput');
 
-        const buildingsValue =
-            parseFloat($('#buildings').val().replace(/,/g, '')) || 0;
-        const equipmentsValue =
-            parseFloat($('#equipments').val().replace(/,/g, '')) || 0;
-        const workingCapitalValue =
-            parseFloat($('#working_capital').val().replace(/,/g, '')) || 0;
+        // Helper function to parse comma-separated numbers
+        const parseNumericInput = (selector) => {
+            const value = $(selector).val().replace(/,/g, '');
+            return parseFloat(value) || 0;
+        };
+
+        // Parse values, removing commas before parsing
+        const buildingsValue = parseNumericInput('#buildings');
+        const equipmentsValue = parseNumericInput('#equipments');
+        const workingCapitalValue = parseNumericInput('#working_capital');
+
+        // Calculate total
         const total = buildingsValue + equipmentsValue + workingCapitalValue;
-        $('#to_Assets').text(
-            total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
+
+        // Format total with comma separators
+        totalAssetsElement.text(
+            total.toLocaleString('en-US', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+            })
         );
-        if (total === 0) {
-            $('#EnterpriseLevelInput').text('');
-            return;
-        }
-        if (total < 3e6) {
-            $('#EnterpriseLevelInput').text('Micro Enterprise');
-        } else if (total < 15e6) {
-            $('#EnterpriseLevelInput').text('Small Enterprise');
-        } else if (total < 100e6) {
-            $('#EnterpriseLevelInput').text('Medium Enterprise');
-        } else {
-            $('#EnterpriseLevelInput').text('Large Enterprise');
-        }
+
+        // Determine enterprise level using a more declarative approach
+        const enterpriseLevels = [
+            { threshold: 3e6, level: 'Micro Enterprise' },
+            { threshold: 15e6, level: 'Small Enterprise' },
+            { threshold: 100e6, level: 'Medium Enterprise' },
+            { threshold: Infinity, level: 'Large Enterprise' },
+        ];
+
+        const enterpriseLevel = enterpriseLevels.findLast(
+            ({ threshold }) => total >= threshold
+        ).level;
+
+        enterpriseLevelElement.text(enterpriseLevel);
+        enterpriseLevelInput.val(enterpriseLevel);
     }
+
+    // Apply custom formatting to input fields
+    customFormatNumericInput('#buildings, #equipments, #working_capital');
 
     $('#buildings, #equipments, #working_capital').on(
         'input',

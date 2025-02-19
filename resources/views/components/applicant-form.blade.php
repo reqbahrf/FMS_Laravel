@@ -766,15 +766,18 @@
                         <div class="col-12 col-md-4">
                             <label for="initialCapitalization">Initial Capitalization: <span class="requiredFields">
                                     *</span></label>
-                            <input
-                                class="form-control"
-                                id="initialCapitalization"
-                                name="initial_capitalization"
-                                type="text"
-                                value="{{ old('initialCapitalization') }}"
-                                placeholder="900,000.00"
-                                required
-                            >
+                            <div class="input-group">
+                                <span class="input-group-text">₱</span>
+                                <input
+                                    class="form-control"
+                                    id="initial_capitalization"
+                                    name="initial_capitalization"
+                                    type="text"
+                                    value="{{ old('initialCapitalization') }}"
+                                    placeholder="900,000.00"
+                                    required
+                                >
+                            </div>
                             <div class="invalid-feedback">
                                 Please enter the initial capitalization.
                             </div>
@@ -782,6 +785,8 @@
                         <div class="col-12 col-md-4">
                             <label for="presentCapitalization">Present Capitalization: <span class="requiredFields">
                                     *</span></label>
+                            <div class="input-group">
+                                <span class="input-group-text">₱</span>
                             <input
                                 class="form-control"
                                 id="present_capitalization"
@@ -790,11 +795,11 @@
                                 placeholder="900,000.00"
                                 required
                             >
+                            </div>
                             <div class="invalid-feedback">
                                 Please enter the present capitalization.
                             </div>
                         </div>
-
                         <div class="card p-0">
                             <div class="card-header fw-bold">
                                 Office Address:
@@ -1129,7 +1134,6 @@
                                 <input
                                     id="EnterpriseLevelInput"
                                     name="enterprise_level"
-                                    value="Small Enterprise"
                                     type="hidden"
                                 >
                             </div>
@@ -2111,7 +2115,7 @@
 
                             </div>
                         </div>
-                        <div class="row p-0 mt-0 g-3">
+                        <div class="row p-0 mt-0 g-3" id="personnelContainer">
                             <div class="col-12 p-0">
                                 <div class="card">
                                     <div class="card-header fw-bold">
@@ -2154,7 +2158,6 @@
                                                                         type="text"
                                                                         value="{{ old('m_personnelDiRe') }}"
                                                                         placeholder="No. Male Regular"
-                                                                        pattern="[0-9]"
                                                                     >
 
                                                                 </div>
@@ -2168,7 +2171,6 @@
                                                                         type="text"
                                                                         value="{{ old('f_personnelDiRe') }}"
                                                                         placeholder="No. Female Regular"
-                                                                        pattern="[0-9]"
                                                                     >
                                                                 </div>
                                                             </div>
@@ -2190,7 +2192,7 @@
                                                                         type="text"
                                                                         value="{{ old('m_personnelDiPart') }}"
                                                                         placeholder="No. Male Part-time"
-                                                                        pattern="[0-9]"
+
                                                                     >
                                                                 </div>
                                                                 <div class="col-12">
@@ -2203,7 +2205,7 @@
                                                                         type="text"
                                                                         value="{{ old('f_personnelDiPart') }}"
                                                                         placeholder="Number of Female Part-time"
-                                                                        pattern="[0-9]"
+
                                                                     >
                                                                 </div>
                                                             </div>
@@ -2256,7 +2258,7 @@
                                                                         type="text"
                                                                         value="{{ old('m_personnelIndRe') }}"
                                                                         placeholder="No. Male Regular"
-                                                                        pattern="[0-9]"
+
                                                                     >
 
                                                                 </div>
@@ -2270,7 +2272,7 @@
                                                                         type="text"
                                                                         value="{{ old('f_personnelIndRe') }}"
                                                                         placeholder="No. Female Regular"
-                                                                        pattern="[0-9]"
+
                                                                     >
 
                                                                 </div>
@@ -2292,7 +2294,7 @@
                                                                         type="text"
                                                                         value="{{ old('m_personnelIndPart') }}"
                                                                         placeholder="No. Male Part-time"
-                                                                        pattern="[0-9]"
+
                                                                     >
 
                                                                 </div>
@@ -2305,7 +2307,7 @@
                                                                         type="text"
                                                                         value="{{ old('f_personnelIndPart') }}"
                                                                         placeholder="Number of Female Part-time"
-                                                                        pattern="[0-9]"
+
                                                                     >
                                                                 </div>
                                                             </div>
