@@ -637,7 +637,7 @@
                             <textarea
                                 class="form-control"
                                 id="briefBackground"
-                                name="briefBackground"
+                                name="brief_background"
                                 rows="3"
                                 placeholder="Enter Brief Enterprise Background"
                                 required
@@ -705,7 +705,7 @@
                             <input
                                 class="form-control"
                                 id="permitYearRegistered"
-                                name="permitYearRegistered"
+                                name="permit_year_registered"
                                 type="text"
                                 value=""
                                 placeholder="YYYY"
@@ -769,7 +769,7 @@
                             <input
                                 class="form-control"
                                 id="initialCapitalization"
-                                name="initialCapitalization"
+                                name="initial_capitalization"
                                 type="text"
                                 value="{{ old('initialCapitalization') }}"
                                 placeholder="900,000.00"
