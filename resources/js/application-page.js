@@ -945,17 +945,17 @@ export function initializeForm() {
             total.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')
         );
         if (total === 0) {
-            $('#Enterprise_Level').text('');
+            $('#EnterpriseLevelInput').text('');
             return;
         }
         if (total < 3e6) {
-            $('#Enterprise_Level').text('Micro Enterprise');
+            $('#EnterpriseLevelInput').text('Micro Enterprise');
         } else if (total < 15e6) {
-            $('#Enterprise_Level').text('Small Enterprise');
+            $('#EnterpriseLevelInput').text('Small Enterprise');
         } else if (total < 100e6) {
-            $('#Enterprise_Level').text('Medium Enterprise');
+            $('#EnterpriseLevelInput').text('Medium Enterprise');
         } else {
-            $('#Enterprise_Level').text('Large Enterprise');
+            $('#EnterpriseLevelInput').text('Large Enterprise');
         }
     }
 
