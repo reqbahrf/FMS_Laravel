@@ -278,36 +278,6 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
     Route::post('/send-rejection-email', [RejectionEmailController::class, 'sendRejectionEmail'])
         ->name('send.rejection.email');
-
-    Route::get('/Staff/Applicant/get/tna/{business_id}/{application_id}/{action}', [TNADocController::class, 'getTNAForm'])
-        ->name('staff.Applicant.get.tna');
-
-    Route::put('/Staff/Applicant/set/tna/{business_id}/{application_id}', [TNADocController::class, 'setTNAForm'])
-        ->name('staff.Applicant.set.tna');
-
-    Route::get('/Staff/Applicant/generate/tna-document/{business_id}/{application_id}', [TNADocController::class, 'exportTNAFormToPDF'])
-        ->name('staff.Applicant.generate.tna-document')
-        ->middleware('signed');
-
-    Route::get('/Staff/Applicant/get/project-proposal/{business_id}/{application_id}/{action}', [ProjectProposalDocController::class, 'getProjectProposalForm'])
-        ->name('staff.Applicant.get.project-proposal');
-
-    Route::put('/Staff/Applicant/set/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'setProjectProposalForm'])
-        ->name('staff.Applicant.set.project-proposal');
-
-    Route::get('/Staff/Applicant/generate/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'exportProjectProposalToPDF'])
-        ->name('staff.Applicant.generate.project-proposal')
-        ->middleware('signed');
-
-    Route::get('/Staff/Applicant/get/rtec-report/{business_id}/{application_id}/{action}', [RTECReportDocController::class, 'getRTECReportForm'])
-        ->name('staff.Applicant.get.rtec-report');
-
-    Route::put('/Staff/Applicant/set/rtec-report/{business_id}/{application_id}', [RTECReportDocController::class, 'setRTECReportForm'])
-        ->name('staff.Applicant.set.rtec-report');
-
-    Route::get('/Staff/Applicant/generate/rtec-report/{business_id}/{application_id}', [RTECReportDocController::class, 'exportRTECReportFormToPDF'])
-        ->name('staff.Applicant.generate.rtec-report')
-        ->middleware('signed');
 });
 
 //Staff Route End
@@ -382,6 +352,36 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
         ->name('Project.getOngoingProjects');
 
     Route::resource('/Project/ProjectProposal', ProjectProposalController::class);
+
+    Route::get('/Applicant/get/tna/{business_id}/{application_id}/{action}', [TNADocController::class, 'getTNAForm'])
+        ->name('staff.Applicant.get.tna');
+
+    Route::put('/Applicant/set/tna/{business_id}/{application_id}', [TNADocController::class, 'setTNAForm'])
+        ->name('staff.Applicant.set.tna');
+
+    Route::get('/Applicant/generate/tna-document/{business_id}/{application_id}', [TNADocController::class, 'exportTNAFormToPDF'])
+        ->name('staff.Applicant.generate.tna-document')
+        ->middleware('signed');
+
+    Route::get('/Applicant/get/project-proposal/{business_id}/{application_id}/{action}', [ProjectProposalDocController::class, 'getProjectProposalForm'])
+        ->name('staff.Applicant.get.project-proposal');
+
+    Route::put('/Applicant/set/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'setProjectProposalForm'])
+        ->name('staff.Applicant.set.project-proposal');
+
+    Route::get('/Applicant/generate/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'exportProjectProposalToPDF'])
+        ->name('staff.Applicant.generate.project-proposal')
+        ->middleware('signed');
+
+    Route::get('/Applicant/get/rtec-report/{business_id}/{application_id}/{action}', [RTECReportDocController::class, 'getRTECReportForm'])
+        ->name('staff.Applicant.get.rtec-report');
+
+    Route::put('/Applicant/set/rtec-report/{business_id}/{application_id}', [RTECReportDocController::class, 'setRTECReportForm'])
+        ->name('staff.Applicant.set.rtec-report');
+
+    Route::get('/Applicant/generate/rtec-report/{business_id}/{application_id}', [RTECReportDocController::class, 'exportRTECReportFormToPDF'])
+        ->name('staff.Applicant.generate.rtec-report')
+        ->middleware('signed');
 });
 
 // Notification Routes
