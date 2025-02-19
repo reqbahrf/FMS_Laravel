@@ -1779,24 +1779,30 @@
 </table>
 <table id="refundStructureTable" style="width: 100%; table-layout: fixed;">
     @php
-        $january_total = ($ProjectProposaldata['January_total'] ?? 0) ?? 0;
-        $february_total = ($ProjectProposaldata['February_total'] ?? 0) ?? 0;
-        $march_total = ($ProjectProposaldata['March_total'] ?? 0) ?? 0;
-        $april_total = ($ProjectProposaldata['April_total'] ?? 0) ?? 0;
-        $may_total = ($ProjectProposaldata['May_total'] ?? 0) ?? 0;
-        $june_total = ($ProjectProposaldata['June_total'] ?? 0) ?? 0;
-        $july_total = ($ProjectProposaldata['July_total'] ?? 0) ?? 0;
-        $august_total = ($ProjectProposaldata['August_total'] ?? 0) ?? 0;
-        $september_total = ($ProjectProposaldata['September_total'] ?? 0) ?? 0;
-        $october_total = ($ProjectProposaldata['October_total'] ?? 0) ?? 0;
-        $november_total = ($ProjectProposaldata['November_total'] ?? 0) ?? 0;
-        $december_total = ($ProjectProposaldata['December_total'] ?? 0) ?? 0;
+        use App\Services\NumberFormatterService as NF;
+        use App\Services\StructurePaymentYearService as SY;
 
-        $y1_total = 0;
-        $y2_total = 0;
-        $y3_total = 0;
-        $y4_total = 0;
-        $y5_total = 0;
+        $totals = SY::calculateTotals($ProjectProposaldata);
+
+        $january_total = NF::parseFormattedNumber($ProjectProposaldata['January_total'] ?? '');
+        $february_total = NF::parseFormattedNumber($ProjectProposaldata['February_total'] ?? '');
+        $march_total = NF::parseFormattedNumber($ProjectProposaldata['March_total'] ?? '');
+        $april_total = NF::parseFormattedNumber($ProjectProposaldata['April_total'] ?? '');
+        $may_total = NF::parseFormattedNumber($ProjectProposaldata['May_total'] ?? '');
+        $june_total = NF::parseFormattedNumber($ProjectProposaldata['June_total'] ?? '');
+        $july_total = NF::parseFormattedNumber($ProjectProposaldata['July_total'] ?? '');
+        $august_total = NF::parseFormattedNumber($ProjectProposaldata['August_total'] ?? '');
+        $september_total = NF::parseFormattedNumber($ProjectProposaldata['September_total'] ?? '');
+        $october_total = NF::parseFormattedNumber($ProjectProposaldata['October_total'] ?? '');
+        $november_total = NF::parseFormattedNumber($ProjectProposaldata['November_total'] ?? '');
+        $december_total = NF::parseFormattedNumber($ProjectProposaldata['December_total'] ?? '');
+
+        $y1_total = $totals['y1_total'];
+        $y2_total = $totals['y2_total'];
+        $y3_total = $totals['y3_total'];
+        $y4_total = $totals['y4_total'];
+        $y5_total = $totals['y5_total'];
+        $grand_total = $totals['grand_total'];
 
         $months = [
         'January', 'February', 'March', 'April', 'May', 'June',
@@ -1827,6 +1833,7 @@
         <tr>
             <td>{{ ucfirst($month) }}</td>
             @for ($year = 1; $year <= 5; $year++)
+
                 <td>
                     @if ($isEditable)
                         <input
@@ -1863,7 +1870,7 @@
             <td>{{ $y3_total }}</td>
             <td>{{ $y4_total }}</td>
             <td>{{ $y5_total }}</td>
-            <td>{{ $y1_total + $y2_total + $y3_total + $y4_total + $y5_total }}</td>
+            <td>{{ $grand_total }}</td>
         </tr>
     </tbody>
 </table>

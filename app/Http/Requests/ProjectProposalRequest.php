@@ -25,8 +25,8 @@ class ProjectProposalRequest extends FormRequest
               // Main Project Proposal Fields
               'project_title' => 'required|string|max:255',
               'proponent' => 'required|string|max:255',
-              'project_cost' => 'required|numeric|min:0',
-              'amount_requested' => 'required|numeric|min:0',
+              'project_cost' => 'required|string',
+              'amount_requested' => 'required|string',
               'general_objectives' => 'required|string',
               'specific_objectives' => 'required|string',
 
@@ -40,7 +40,7 @@ class ProjectProposalRequest extends FormRequest
 
               // Radio Button Fields
               'type_of_organization' => 'required|in:Single Proprietorship,Partnership,Cooperative,Corporation',
-              'profit_status' => 'required|in:Profit,Non-Profit',
+              'profit_status' => 'nullable|in:Profit,Non-Profit',
               'size_of_organization' => 'nullable|string',
 
               // Workforce Fields
