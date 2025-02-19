@@ -228,11 +228,9 @@ function InitializeFilePond(
                         load();
                         metaDataHandler.value = '';
                         metaDataHandler.setAttribute('data-unique-id', '');
-                    } else {
-                        error('Could not revert file');
                     }
-                } catch (err) {
-                    error('Could not revert file');
+                } catch (err:any) {
+                    error("Error: " + err?.message || err?.responseJSON?.message || 'Failed to revert file');
                 }
             },
             load: async (
@@ -245,11 +243,16 @@ function InitializeFilePond(
                     if (response.ok) {
                         const BlobData = (await response.blob()) as Blob;
                         load(BlobData);
+                    }else{
+                       error('File not found on the server or has been expired. Please try again');
                     }
-                } catch (error) {
-                    console.error('Error loading file:', error);
+                } catch (error:any) {
+                    error("Error: " + error?.message || error?.responseJSON?.message || 'Failed to load file');
                 }
             },
+        },
+        labelFileLoadError: (error) => {
+            return `Error: ${error?.body || error}`;
         },
         onremovefile: async (
             error: FilePond.FilePondErrorDescription | null,

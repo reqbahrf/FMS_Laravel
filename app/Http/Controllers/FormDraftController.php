@@ -85,12 +85,12 @@ class FormDraftController extends Controller
     {
         try {
             $tempFile = TemporaryFile::where('unique_id', $uniqueId)
-                ->firstOrFail();
-            $filePath = $tempFile->file_path;
+                ->first();
 
-            if (!Storage::disk('public')->exists($filePath)) {
-                return response()->json(['error' => 'File not found'], 404);
+            if (!$tempFile || !Storage::disk('public')->exists($tempFile->file_path)) {
+                throw new Exception('File not found on the server or has been expired. Please try again');
             }
+            $filePath = $tempFile->file_path;
             $file = Storage::disk('public')->get($filePath);
 
             return Response::make($file, 200)
@@ -101,7 +101,9 @@ class FormDraftController extends Controller
                 ->header('X-File-path', $tempFile->owner_id)
                 ->header('X-Unique-Id', $tempFile->unique_id);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            return response()->json([
+                'error' => $e->getMessage(),
+                ], 500);
         }
     }
 }
