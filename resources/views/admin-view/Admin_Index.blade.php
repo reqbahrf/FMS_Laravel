@@ -274,7 +274,7 @@
             UPDATE_PROJECT_FEE: '{{ route('admin.ProjectSettings.update') }}',
         };
     </script>
-    @vite('resources/js/admin/adminPage.js')
+    @vite('resources/js/admin/admin-page.js')
 </body>
 
 </html>

@@ -14,16 +14,16 @@ class TestPDFGeneration extends Controller
         try {
             $TNAdata = $TNA->getTNAData(367, 356, 'tna_form');
             $DocHeader = view('staff-view.outputs.DocHeader')->render();
-            $html = view('Forms.TNA', ['TNAdata' => $TNAdata])->render();
+            $html = view('application-process-forms.TNA', ['TNAdata' => $TNAdata])->render();
 
             $mpdf = new Mpdf([
                 'mode' => 'utf-8',
                 'format' => 'A4',
                 'orientation' => 'P',
                 'margin_top' => 35,
-                'margin_left' => 10,
-                'margin_right' => 10,
-                'margin_bottom' => 10,
+                'margin_left' => 25.4,
+                'margin_right' => 25.4,
+                'margin_bottom' => 25.4,
                 'default_font_size' => 9,
                 'default_font' => 'arial'
             ]);

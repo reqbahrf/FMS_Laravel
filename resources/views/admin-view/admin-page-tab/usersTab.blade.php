@@ -255,21 +255,10 @@
         <div class="container">
             <div class="card">
                 <div class="card-body">
-                    <span class="float-start m-2 me-4">
-                        <img
-                            class="rounded-circle img-thumbnail"
-                            src="assets/images/users/avatar-2.jpg"
-                            alt="avatar-2"
-                            style="height: 100px;"
-                        >
-                    </span>
-                    <div class="">
-                        <h4
-                            class="mt-1 mb-1"
-                            id="StaffName"
-                        >Michael Franklin</h4>
-                        <p class="font-13"> Authorised Brand Seller</p>
+                    <div id="userProfile">
 
+                    </div>
+                    <div class="">
                         <ul class="mb-0 list-inline">
                             <li class="list-inline-item me-3">
                                 <h6 class="mb-1">$ 25,184</h6>

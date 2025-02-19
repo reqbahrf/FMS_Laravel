@@ -1,9 +1,9 @@
 import {
-    createConfirmationModal,
     showProcessToast,
     hideProcessToast,
     showToastFeedback,
 } from '../Utilities/utilFunctions';
+import createConfirmationModal from '../Utilities/confirmation-modal';
 
 interface LocalDataStructure {
     [region: string]: {

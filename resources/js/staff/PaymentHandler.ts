@@ -1,55 +1,64 @@
 import * as DataTables from 'datatables.net';
-import getProjectPaymentHistory from '../Utilities/ProjectPaymentHistory';
-import { showProcessToast, hideProcessToast, showToastFeedback, createConfirmationModal } from '../Utilities/utilFunctions';
+import getProjectPaymentHistory from '../Utilities/project-payment-history';
+import createConfirmationModal from '../Utilities/confirmation-modal';
+import {
+    showProcessToast,
+    hideProcessToast,
+    showToastFeedback,
+} from '../Utilities/utilFunctions';
 
 export default class PaymentHandler {
-    private paymentHistoryDataTableInstance: DataTables.Api
-    private project_id: string
-    private completeMarkBtn: JQuery<HTMLButtonElement>
-    private paymentForm: JQuery<HTMLFormElement>
-    private totalPaid: JQuery<HTMLElement>
-    private remainingBalance: JQuery<HTMLElement>
-    private ActualAmount: string
-    private paymentProgress: ApexCharts | null
+    private paymentHistoryDataTableInstance: DataTables.Api;
+    private project_id: string;
+    private completeMarkBtn: JQuery<HTMLButtonElement>;
+    private paymentForm: JQuery<HTMLFormElement>;
+    private totalPaid: JQuery<HTMLElement>;
+    private remainingBalance: JQuery<HTMLElement>;
+    private ActualAmount: string;
+    private paymentProgress: ApexCharts | null;
 
-    constructor(DataTableInstance: DataTables.Api, project_id: string, ActualAmount: string) {
-       this.paymentHistoryDataTableInstance = DataTableInstance;
-       this.project_id = project_id;
-       this.paymentForm = $('#paymentForm');
-       this.totalPaid = $('#TotalPaid');
-       this.remainingBalance = $('#RemainingBalance');
-       this.completeMarkBtn = $('#MarkCompletedProjectBtn');
-       this.ActualAmount = ActualAmount;
-       this.paymentProgress = null;
+    constructor(
+        DataTableInstance: DataTables.Api,
+        project_id: string,
+        ActualAmount: string
+    ) {
+        this.paymentHistoryDataTableInstance = DataTableInstance;
+        this.project_id = project_id;
+        this.paymentForm = $('#paymentForm');
+        this.totalPaid = $('#TotalPaid');
+        this.remainingBalance = $('#RemainingBalance');
+        this.completeMarkBtn = $('#MarkCompletedProjectBtn');
+        this.ActualAmount = ActualAmount;
+        this.paymentProgress = null;
     }
 
-    static toUpdatePaymentRecord(selectedRow: JQuery<HTMLElement>, paymentForm: JQuery<HTMLFormElement>){
+    static toUpdatePaymentRecord(
+        selectedRow: JQuery<HTMLElement>,
+        paymentForm: JQuery<HTMLFormElement>
+    ) {
         const selected_transaction_id = selectedRow
-        .find('td:eq(0)')
-        .text()
-        .trim();
-    const selected_amount = selectedRow
-        .find('td:eq(1)')
-        .text()
-        .trim();
-    const selected_payment_method = selectedRow
-        .find('td:eq(2)')
-        .text()
-        .trim();
-    const selected_payment_status = selectedRow
-        .find('td:eq(3)')
-        .text()
-        .trim();
+            .find('td:eq(0)')
+            .text()
+            .trim();
+        const selected_amount = selectedRow.find('td:eq(1)').text().trim();
+        const selected_payment_method = selectedRow
+            .find('td:eq(2)')
+            .text()
+            .trim();
+        const selected_payment_status = selectedRow
+            .find('td:eq(3)')
+            .text()
+            .trim();
 
-    paymentForm.find('#reference_number').val(selected_transaction_id);
-    paymentForm.find('#paymentAmount').val(selected_amount);
-    paymentForm.find('#paymentMethod').val(selected_payment_method);
-    paymentForm.find('#paymentStatus').val(selected_payment_status);
-
+        paymentForm.find('#reference_number').val(selected_transaction_id);
+        paymentForm.find('#paymentAmount').val(selected_amount);
+        paymentForm.find('#paymentMethod').val(selected_payment_method);
+        paymentForm.find('#paymentStatus').val(selected_payment_status);
     }
-    async storePaymentRecords() : Promise<void> {
-        try{
-            const formData = this.paymentForm.serialize() + '&project_id=' + this.project_id;
+    async storePaymentRecords(): Promise<void> {
+        try {
+            const formData =
+                this.paymentForm.serialize() + '&project_id=' + this.project_id;
             showProcessToast('Storing Payment Record...');
             const response = await $.ajax({
                 type: 'POST',
@@ -61,45 +70,53 @@ export default class PaymentHandler {
                 },
                 data: formData,
             });
-            await this.getPaymentAndCalculation()
+            await this.getPaymentAndCalculation();
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
-        }catch(error:any){
-           throw new Error('Failed to store payment records: ' + error);
+        } catch (error: any) {
+            throw new Error('Failed to store payment records: ' + error);
         }
-
     }
 
-    async updatePaymentRecords() : Promise<void>{
-        try{
+    async updatePaymentRecords(): Promise<void> {
+        try {
             showProcessToast('Updating Payment Record...');
             const formData = this.paymentForm.serialize();
-            const reference_number = this.paymentForm.find('#reference_number').val() as string;
+            const reference_number = this.paymentForm
+                .find('#reference_number')
+                .val() as string;
             const response = await $.ajax({
                 type: 'PUT',
-                url: DASHBOARD_TAB_ROUTE.UPDATE_PAYMENT_RECORDS.replace(':reference_number', reference_number),
+                url: DASHBOARD_TAB_ROUTE.UPDATE_PAYMENT_RECORDS.replace(
+                    ':reference_number',
+                    reference_number
+                ),
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                         'content'
                     ),
                 },
                 data: formData + '&project_id=' + this.project_id,
-            })
-            await this.getPaymentAndCalculation()
+            });
+            await this.getPaymentAndCalculation();
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
-        }catch(error:any){
+        } catch (error: any) {
             throw new Error('Failed to update payment records: ' + error);
         }
-
     }
 
-    async deletePaymentRecord(reference_number: string, {options}: {options?: any}) {
-        try{
+    async deletePaymentRecord(
+        reference_number: string,
+        { options }: { options?: any }
+    ) {
+        try {
             const isConfirmed = await createConfirmationModal({
                 titleBg: 'bg-danger',
                 title: 'Delete Payment Record',
-                message: options?.confirm ?? `Are you sure you want to delete this payment record? ${reference_number}`,
+                message:
+                    options?.confirm ??
+                    `Are you sure you want to delete this payment record? ${reference_number}`,
                 confirmText: 'Yes',
                 cancelText: 'Cancel',
                 confirmButtonClass: 'btn-danger',
@@ -110,54 +127,57 @@ export default class PaymentHandler {
             showProcessToast('Deleting Payment Record...');
             const response = await $.ajax({
                 type: 'DELETE',
-                url: DASHBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(':reference_number', reference_number),
+                url: DASHBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
+                    ':reference_number',
+                    reference_number
+                ),
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                         'content'
                     ),
                 },
-            })
-            await this.getPaymentAndCalculation()
+            });
+            await this.getPaymentAndCalculation();
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
-        }catch(error){
+        } catch (error) {
             throw new Error('Error in deleting payment record: ' + error);
         }
-
     }
 
     async getPaymentAndCalculation(): Promise<void> {
-        try{
+        try {
             const totatAmount = await getProjectPaymentHistory(
                 this.project_id,
-                this.paymentHistoryDataTableInstance, 
+                this.paymentHistoryDataTableInstance,
                 true
-            )
-            const fundedAmount = parseFloat(this.ActualAmount.replace(/,/g, ''));
+            );
+            const fundedAmount = parseFloat(
+                this.ActualAmount.replace(/,/g, '')
+            );
             const remainingAmount = fundedAmount - totatAmount;
             const percentage = Math.round((totatAmount / fundedAmount) * 100);
 
             this.totalPaid.text(totatAmount);
             this.remainingBalance.text(remainingAmount);
-           
-            percentage == 100 
-                ? this._isRefundCompleted(true) 
+
+            percentage == 100
+                ? this._isRefundCompleted(true)
                 : this._isRefundCompleted(false);
 
-                this._InitializeviewCooperatorProgress(percentage);
-        }catch(error:any){
+            this._InitializeviewCooperatorProgress(percentage);
+        } catch (error: any) {
             throw new Error('Failed to get payment and calculation: ' + error);
         }
     }
 
     _isRefundCompleted(boolean: boolean) {
-       boolean 
-            ? this.completeMarkBtn.prop('disabled', false).show() 
+        boolean
+            ? this.completeMarkBtn.prop('disabled', false).show()
             : this.completeMarkBtn.prop('disabled', true).hide();
-        
-    };
+    }
 
-    _InitializeviewCooperatorProgress(percentage:number) {
+    _InitializeviewCooperatorProgress(percentage: number) {
         const options = {
             series: [percentage],
             chart: {

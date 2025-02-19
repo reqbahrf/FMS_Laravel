@@ -25,4 +25,9 @@ class ApplicationForm extends Model
     {
         return $this->belongsTo(BusinessInfo::class, 'business_id', 'id');
     }
+
+    public function applicationInfo(): BelongsTo
+    {
+        return $this->belongsTo(ApplicationInfo::class, 'application_id', 'id');
+    }
 }

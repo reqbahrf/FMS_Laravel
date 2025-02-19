@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ApplicantFileHandlerService;
 use App\Events\ProjectEvent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -11,13 +10,21 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NewRegistrationRequest;
+use App\Models\ApplicationForm;
 use App\Services\TNAdataHandlerService;
+use App\Services\ApplicantFileHandlerService;
+use Exception;
 
 class ApplicationController extends Controller
 {
+    public function __construct(
+        private ApplicationForm $applicationForm,
+        private TNAdataHandlerService $TNAdataHandlerService,
+        private ApplicantFileHandlerService $FileHandler
+    ) {}
 
     //Remove The NewRegistrationRequest Do do some testing
-    public function store(NewRegistrationRequest $request, TNAdataHandlerService $TNAdataHandlerService)
+    public function store(NewRegistrationRequest $request)
     {
 
         $user_name = Auth::user()->user_name;
@@ -129,7 +136,7 @@ class ApplicationController extends Controller
             // $receiptFileID = $validatedInputs['receiptFile'];
             // $govFileID = $validatedInputs['govIdFile'];
 
-            ApplicantFileHandlerService::storeFile($validatedInputs, $businessId, $firm_name);
+            $this->FileHandler->storeFile($validatedInputs, $businessId, $firm_name);
 
             $successful_inserts++;
 
@@ -143,8 +150,10 @@ class ApplicationController extends Controller
             $successful_inserts++;
 
             if ($successful_inserts == 6) {
+                $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
+                $this->TNAdataHandlerService->setTNAData($validatedInputs, $businessId, $applicationId);
                 DB::commit();
-                $TNAdataHandlerService->setTNAData($validatedInputs, $businessId, $applicationId);
+
                 $location = [
                     'region' => $office_region,
                     'province' => $office_province,
@@ -163,12 +172,47 @@ class ApplicationController extends Controller
                 return response()->json(['success' => 'All data successfully saved.', 'redirect' => route('Cooperator.index')], 200);
             } else {
                 DB::rollBack();
-                return response()->json(['error' => 'Data insertion failed.'], 500);
+                throw new Exception("Data insertion failed: Only {$successful_inserts} of 6 required insertions completed successfully.");
             }
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             DB::rollBack();
-            Log::error($e->getMessage());
-            return response()->json(['error' => 'An error occurred']);
+            Log::error("Error inserting data:", ['error' => $e->getMessage()]);
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
+
+    private function initializeApplicationProcessFormContainer(int $business_id, int $application_id)
+    {
+        try {
+            $initialData = [
+                'business_id' => $business_id,
+                'application_id' => $application_id
+            ];
+
+            $formsToCreate = [
+                [
+                    'business_id' => $business_id,
+                    'application_id' => $application_id,
+                    'key' => 'tna_form',
+                    'data' => $initialData
+                ],
+                [
+                    'business_id' => $business_id,
+                    'application_id' => $application_id,
+                    'key' => 'project_proposal_form',
+                    'data' => $initialData
+                ],
+                [
+                    'business_id' => $business_id,
+                    'application_id' => $application_id,
+                    'key' => 'rtec_report_form',
+                    'data' => $initialData
+                ]
+            ];
+
+            ApplicationForm::insert($formsToCreate);
+        } catch (Exception $e) {
+            throw new Exception("Failed to initialize application process form container: " . $e->getMessage());
         }
     }
 }

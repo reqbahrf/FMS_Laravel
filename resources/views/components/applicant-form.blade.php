@@ -2756,7 +2756,7 @@
                         <div class="col-md-12 mb-4">
                             <h5>Review and confirm the details provided before submission.</h5>
                         </div>
-                        <div class="row gy-3">
+                        <div class="row gy-3" id="reviewInputsContainer">
                             <div class="col-12">
                                 <div class="card">
                                     <div class="card-header">

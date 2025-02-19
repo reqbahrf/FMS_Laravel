@@ -22,6 +22,11 @@ return Application::configure(basePath: dirname(__DIR__))
             'OrgUser' => OrgUserMiddleware::class,
             'check.password.change' => CheckPasswordChangeRequired::class,
         ]);
+        //API testing
+        $middleware->validateCsrfTokens(except: [
+            '/Staff*',
+            '/login*',
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
         //

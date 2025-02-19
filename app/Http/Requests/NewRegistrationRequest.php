@@ -84,28 +84,35 @@ class NewRegistrationRequest extends FormRequest
             //TNA Important Data
             'food_processing_activity' => 'nullable|in:on,null',
             'food_processing_specific_sector' => 'nullable|string',
+
             'furniture_activity' => 'nullable|in:on,null',
             'furniture_specific_sector' => 'nullable|string',
+
             'natural_fibers_activity' => 'nullable|in:on,null',
             'natural_fibers_specific_sector' => 'nullable|string',
+
             'metals_and_engineering_activity' => 'nullable|in:on,null',
             'metals_and_engineering_specific_sector' => 'nullable|string',
+
             'aquatic_and_marine_activity' => 'nullable|in:on,null',
             'aquatic_and_marine_specific_sector' => 'nullable|string',
+
             'horticulture_activity' => 'nullable|in:on,null',
             'horticulture_specific_sector' => 'nullable|string',
+
             'other_activity' => 'nullable|in:on,null',
             'other_specific_sector' => 'nullable|string',
+
             'specificProductOrService' => 'nullable|string',
             'reasonsWhyAssistanceIsBeingSought' => 'nullable|string',
 
-              //TNA Important Data
+            //TNA Important Data
             'consultationAnswer' => 'nullable|in:yes,no',
             'fromWhatCompanyAgency' => 'nullable|string',
             'pleaseSpecifyTheTypeOfAssistanceSought' => 'nullable|string',
             'whyNot' => 'nullable|string',
 
-              //TNA Important Data
+            //TNA Important Data
             'enterprisePlanForTheNext5Years' => 'nullable|string',
             'nextTenYears' => 'nullable|string',
             'currentAgreementAndAlliancesUndertaken' => 'nullable|string',
@@ -146,10 +153,20 @@ class NewRegistrationRequest extends FormRequest
             //TNA Important Data
 
             'productAndSupply' => 'nullable|array',
+            'productAndSupply.*.rowMaterial' => 'nullable|string',
+            'productAndSupply.*.source' => 'nullable|string',
+            'productAndSupply.*.unitCost' => 'nullable|string',
+            'productAndSupply.*.volumeUsed' => 'nullable|string',
 
             'production' => 'nullable|array',
+            'production.*.product' => 'nullable|string',
+            'production.*.volumeProduction' => 'nullable|string',
+            'production.*.unitCost' => 'nullable|string',
 
             'productionEquipment' => 'nullable|array',
+            'productionEquipment.*.typeOfEquipment' => 'nullable|string',
+            'productionEquipment.*.specification' => 'nullable|string',
+            'productionEquipment.*.capacity' => 'nullable|string',
 
             'm_personnelDiRe' => 'nullable|integer|min:0',
             'f_personnelDiRe' => 'nullable|integer|min:0',

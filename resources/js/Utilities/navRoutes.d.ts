@@ -31,25 +31,21 @@ declare module 'global' {
         GET_APPLICANTS: string;
         GET_TNA_DOCUMENT: string;
         GET_PROJECT_PROPOSAL: string;
+        GET_RTEC_REPORT: string;
     }
 
-    interface STAFF_DASHBOARD_ROUTE {
+    interface ORG_USER_DASHBOARD_ROUTE {
         STORE_PAYMENT_RECORDS: string;
         UPDATE_PAYMENT_RECORDS: string;
         DELETE_PAYMENT_RECORDS: string;
         DELETE_PROJECT_LINK: string;
         DELETE_QUARTERLY_REPORT: string;
-    }
-
-    interface ADMIN_DASHBOARD_ROUTE {
         GET_DASHBOARD_CHARTS_DATA: string;
         GENERATE_DASHBOARD_REPORT: string;
     }
-
     // Declare NAV_ROUTES as a global variable
     global {
-        var DASHBOARD_TAB_ROUTE: ADMIN_DASHBOARD_ROUTE;
-        var DASHBOARD_TAB_ROUTE: STAFF_DASHBOARD_ROUTE;
+        var DASHBOARD_TAB_ROUTE: ORG_USER_DASHBOARD_ROUTE;
         var NAV_ROUTES: NavRoutes;
         var USER_ACTIVITY_LOG_ROUTE: string;
         var USERS_LIST_ROUTE: USERS_LIST_ROUTE;

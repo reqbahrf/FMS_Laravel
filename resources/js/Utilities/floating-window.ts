@@ -1,10 +1,7 @@
 let isFloatingWindowInitialized = false;
 
-interface FloatingWindowElements {
-    $window: JQuery<Element>;
-    $header: JQuery<Element>;
-    $closeButton: JQuery<Element>;
-}
+import { FloatingWindowElements } from './floating-window.d';
+
 export function InitializeFloatingWindow(elements: FloatingWindowElements) {
     if (!isFloatingWindowInitialized) {
         isFloatingWindowInitialized = true;

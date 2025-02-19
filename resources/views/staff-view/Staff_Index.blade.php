@@ -186,7 +186,7 @@
     </div>
     @vite('resources/js/app.ts')
     <x-toast-ssr-notification />
-    @vite('resources/js/staff/staffPage.js')
+    @vite('resources/js/staff/staff-page.js')
     <script>
         const USER_ID = '{{ Auth::user()->id }}';
         const AUTH_USER_NAME = '{{ Auth::user()->orgUserInfo->full_name }}';
@@ -251,8 +251,9 @@
             STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}',
             GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}',
             REJECT_APPLICATION_TNA: '{{ route('send.rejection.email') }}',
-            GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id']) }}',
-            GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal') }}'
+            GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id', ':action']) }}',
+            GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal', [':business_id', ':application_id', ':action']) }}',
+            GET_RTEC_REPORT: '{{ route('staff.Applicant.get.rtec-report', [':business_id', ':application_id', ':action']) }}'
         }
 
         const REGISTRATIONFORM_SUBMISSION_ROUTE = '{{ route('staff.Project.SubmitNewProject') }}'

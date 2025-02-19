@@ -1,11 +1,11 @@
 import '../echo';
+import { customFormatNumericInput } from '../Utilities/input-utils';
+import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
     showToastFeedback,
     customDateFormatter,
     formatNumberToCurrency,
-    customFormatNumericInput,
     parseFormattedNumberToFloat,
-    createConfirmationModal,
     showProcessToast,
     hideProcessToast,
     closeModal,
@@ -15,7 +15,7 @@ import QUARTERLY_REPORTING_FORM_CONFIG from '../Form_Config/QUARTERLY_REPORTING_
 import {
     AddNewRowHandler,
     RemoveRowHandler,
-} from '../Utilities/AddAndRemoveTableRowHandler';
+} from '../Utilities/add-and-remove-table-row-handler';
 import DarkMode from '../Utilities/DarkModeHandler';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import SmartWizard from 'smartwizard';

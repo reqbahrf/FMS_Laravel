@@ -60,11 +60,11 @@
                             <input
                                 name="factory_address"
                                 type="text"
-                                value="{{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}"
+                                value="{{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}"
                                 placeholder="Production Site"
                             >
                         @else
-                            {{ $TNAdata['factory_address'] ?? ($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '') }}
+                            {{ $TNAdata['factory_address'] ?? (($TNAdata['factoryLandmark'] ?? '') . ' ' . ($TNAdata['factoryBarangay'] ?? '') . ' ' . ($TNAdata['factoryCity'] ?? '') . ' ' . ($TNAdata['factoryProvince'] ?? '') . ' ' . ($TNAdata['factoryRegion'] ?? '') . ' ' . ($TNAdata['factoryZipCode'] ?? '')) }}
                         @endIf
                     </span></p>
             </td>
@@ -120,6 +120,7 @@
                 </p>
                 @if ($isEditable)
                     <textarea
+                        class="form-control"
                         name="brief_background"
                         style="width:100%"
                     >{{ $TNAdata['brief_background'] ?? '' }}</textarea>
@@ -291,10 +292,10 @@
                         name="enterpriseType"
                         type="radio"
                         value="Corporation"
-                        {{ in_array($TNAdata['enterpriseType'], ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? 'checked' : '' }}
+                        {{ in_array($TNAdata['enterpriseType'] ?? '', ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? 'checked' : '' }}
                     >
                 @else
-                    {{ in_array($TNAdata['enterpriseType'], ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? '/' : '' }}
+                    {{ in_array($TNAdata['enterpriseType'] ?? '', ['Corporation (Profit)', 'Corporation (Non-Profit)']) ? '/' : '' }}
                 @endIf
             </td>
             <td
@@ -335,17 +336,6 @@
             <td style="border: none;padding: 0cm;">
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
             </td>
-            <td
-                style="border: none;padding: 0cm;"
-                colspan="3"
-            >
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
-            </td>
-        </tr>
-        <tr>
-            <td style="border: none;padding: 0cm;">
-                <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
-            </td>
             <td style="">
                 <p style="line-height: 115%;text-align: left;margin-bottom: 0.25cm;background: transparent;"><br></p>
             </td>
@@ -360,10 +350,11 @@
                         type="radio"
                         value="Non-profit"
                         {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Non-Profit)' ? 'checked' : '') }}
-                    ><span lang="en-US">Non-profit</span>
+                    >
                 @else
                     {{ $TNA_data['type_of_cooperation'] ?? ($TNAdata['enterpriseType'] == 'Corporation (Non-Profit)' ? '/' : '') }}
                 @endIf
+                <span lang="en-US">Non-profit</span>
             </td>
         </tr>
     </tbody>

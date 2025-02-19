@@ -2,26 +2,25 @@
 
 namespace App\Services;
 
-use App\Models\ApplicationForm;
 use Exception;
+use App\Models\ApplicationForm;
 
-class TNAdataHandlerService
+class ProjectProposaldataHandlerService
 {
-    public function __construct(private ApplicationForm $TNAFormData)
-    {}
+    public function __construct(private ApplicationForm $ProjectProposalForm)
+    {
+        $this->ProjectProposalForm = $ProjectProposalForm;
+    }
 
-    public function setTNAData(array $data, int $business_id, int $application_id)
+    public function setProjectProposalData(array $data, int $business_id, int $application_id, string $key = 'project_proposal_form')
     {
         try {
-            $key = 'tna_form';
-            // Find the existing record
-            $existingRecord = $this->TNAFormData->where([
+            $existingRecord = $this->ProjectProposalForm->where([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
                 'key' => $key
             ])->first();
 
-            // If existing record exists, merge the data
             $mergedData = $existingRecord
                 ? array_merge($existingRecord->data, $data, [
                     'business_id' => $business_id,
@@ -29,8 +28,7 @@ class TNAdataHandlerService
                 ])
                 : [...$data, 'business_id' => $business_id, 'application_id' => $application_id];
 
-            // Update or create the record
-            $this->TNAFormData->updateOrCreate([
+            $this->ProjectProposalForm->updateOrCreate([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
                 'key' => $key
@@ -39,21 +37,20 @@ class TNAdataHandlerService
                 'status' => 'Pending'
             ]);
         } catch (Exception $e) {
-            throw new Exception("Failed to set TNA data: " . $e->getMessage());
+            throw new Exception("Failed to set project proposal data: " . $e->getMessage());
         }
     }
 
-    public function getTNAData(int $business_id, int $application_id)
+    public function getProjectProposalData(int $business_id, int $application_id, string $key = 'project_proposal_form')
     {
         try {
-            $key = 'tna_form';
-            $TNAForm = $this->TNAFormData->where('business_id', $business_id)
+            $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', $key)
-                ->first();
-            return $TNAForm ? $TNAForm->data : null;
+                ->firstOrFail();
+            return $ProjectProposalForm ? $ProjectProposalForm->data : null;
         } catch (Exception $e) {
-            throw new Exception('Error in getting TNA data: ' . $e->getMessage());
+            throw new Exception('Error in getting Project Proposal data: ' . $e->getMessage());
         }
     }
 }

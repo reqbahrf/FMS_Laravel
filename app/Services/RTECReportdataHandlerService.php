@@ -5,55 +5,54 @@ namespace App\Services;
 use App\Models\ApplicationForm;
 use Exception;
 
-class TNAdataHandlerService
+class RTECReportdataHandlerService
 {
-    public function __construct(private ApplicationForm $TNAFormData)
+    public function __construct(private ApplicationForm $RTECReportData)
     {}
 
-    public function setTNAData(array $data, int $business_id, int $application_id)
+    public function setRTECReportData(array $data, int $business_id, int $application_id)
     {
         try {
-            $key = 'tna_form';
+            $key = 'rtec_report_form';
             // Find the existing record
-            $existingRecord = $this->TNAFormData->where([
+            $existingRecord = $this->RTECReportData->where([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
                 'key' => $key
             ])->first();
 
-            // If existing record exists, merge the data
-            $mergedData = $existingRecord
+            $mergeData = $existingRecord
                 ? array_merge($existingRecord->data, $data, [
                     'business_id' => $business_id,
                     'application_id' => $application_id
                 ])
                 : [...$data, 'business_id' => $business_id, 'application_id' => $application_id];
 
-            // Update or create the record
-            $this->TNAFormData->updateOrCreate([
+            $this->RTECReportData->updateOrCreate([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
                 'key' => $key
             ], [
-                'data' => $mergedData,
+                'data' => $mergeData,
                 'status' => 'Pending'
             ]);
         } catch (Exception $e) {
-            throw new Exception("Failed to set TNA data: " . $e->getMessage());
+            throw new Exception("Failed to set RTEC Report data: " . $e->getMessage());
         }
     }
-
-    public function getTNAData(int $business_id, int $application_id)
+    public function getRTECReportData(int $business_id, int $application_id)
     {
         try {
-            $key = 'tna_form';
-            $TNAForm = $this->TNAFormData->where('business_id', $business_id)
+            $key = 'rtec_report_form';
+            $RTECReport = $this->RTECReportData->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', $key)
                 ->first();
-            return $TNAForm ? $TNAForm->data : null;
+            return $RTECReport ? $RTECReport->data : null;
         } catch (Exception $e) {
-            throw new Exception('Error in getting TNA data: ' . $e->getMessage());
+            throw new Exception('Error in getting RTEC Report data: ' . $e->getMessage());
         }
     }
+
 }
+

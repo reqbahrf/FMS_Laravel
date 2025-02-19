@@ -1,4 +1,5 @@
 import '../echo';
+import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
     showToastFeedback,
     formatNumberToCurrency,
@@ -6,17 +7,16 @@ import {
     closeOffcanvasInstances,
     closeModal,
     sanitize,
-    createConfirmationModal,
     showProcessToast,
     hideProcessToast,
 } from '../Utilities/utilFunctions';
-import getProjectPaymentHistory from '../Utilities/ProjectPaymentHistory';
+import getProjectPaymentHistory from '../Utilities/project-payment-history';
 
 import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';
 import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
-import AdminDashboard from './AdminDashboard'
+import AdminDashboard from './AdminDashboard';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -102,9 +102,8 @@ activityLog.initPersonalActivityLog();
 async function initializeAdminPageJs() {
     const functions = {
         Dashboard: async () => {
-            const adminDashboard = new AdminDashboard()
+            const adminDashboard = new AdminDashboard();
             await adminDashboard.init();
-
         },
 
         /**
@@ -1814,9 +1813,23 @@ async function initializeAdminPageJs() {
                     staffUserTable.rows.add(
                         response.map((staff) => [
                             staff.id,
-                            `${staff?.prefix || ''} ${staff.f_name || ''} ${
-                                staff?.mid_name || ''
-                            } ${staff.l_name || ''} ${staff?.suffix || ''}`,
+                            /*html*/ `
+                            <div class="d-flex align-items-center justify-content-left gap-2">
+                                <div class="profile-logo d-flex align-items-center justify-content-center rounded-circle border border-1 border-white bg-primary text-white fw-bold" style="width: 40px; height: 40px; font-size: 1.25rem;">
+                                    ${
+                                        staff.avatar
+                                            ? '<img src="' +
+                                              staff.avatar +
+                                              '" class="img-fluid rounded-circle">'
+                                            : staff.f_name.charAt(0)
+                                    }
+                                </div>
+                                <div class="profile-name">
+                                    <p class="m-0 text-dark fw-semibold">
+                                        ${staff?.prefix || ''} ${staff.f_name || ''} ${staff?.mid_name || ''} ${staff.l_name || ''} ${staff?.suffix || ''}
+                                    </p>
+                                </div>
+                            </div>`,
                             staff.email,
                             staff.user_name,
                             /*html*/ `<span
@@ -2120,6 +2133,24 @@ async function initializeAdminPageJs() {
                 USER_ROLE,
                 'selectedStaff'
             );
+
+            const changeProfilePicStyle = (userProfile) => {
+                const tempElement = $('<div>').html(userProfile);
+
+                // Find the element with the style attribute you want to modify
+                const targetElement = tempElement.find('.profile-logo');
+
+                // Modify the style attribute (if the element is found)
+                if (targetElement.length > 0) {
+                    targetElement.css({
+                        width: '60px',
+                        height: '60px',
+                    });
+                }
+
+                // Get the modified HTML
+                return tempElement.html();
+            };
             VIEW_USER_OFFCANVAS.on('show.bs.offcanvas', function (e) {
                 try {
                     const triggerdButton = $(e.relatedTarget);
@@ -2128,8 +2159,11 @@ async function initializeAdminPageJs() {
                         .find('td:nth-child(1)')
                         .text()
                         .trim();
-                    const StaffName = buttonRow
+                    const userProfile = buttonRow
                         .find('td:nth-child(2)')
+                        .html();
+                    const StaffName = buttonRow
+                        .find('td:nth-child(2) .profile-name p')
                         .text()
                         .trim();
                     const Email = buttonRow
@@ -2143,7 +2177,7 @@ async function initializeAdminPageJs() {
 
                     const offcanvas = $(this);
 
-                    offcanvas.find('#StaffName').text(StaffName);
+                    offcanvas.find('#userProfile').html(changeProfilePicStyle(userProfile));
                     staffAuditLogs.getSelectedStaffActivityLog(staff_id);
                 } catch (error) {
                     showToastFeedback('text-bg-danger', error);

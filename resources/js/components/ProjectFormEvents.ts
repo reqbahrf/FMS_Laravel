@@ -1,10 +1,8 @@
-
 import {
     formatNumberToCurrency,
-    customFormatNumericInput,
     parseFormattedNumberToFloat,
 } from '../Utilities/utilFunctions';
-
+import { customFormatNumericInput } from '../Utilities/input-utils';
 enum FormType {
     PIS = 'PIS',
     PDS = 'PDS',
@@ -355,7 +353,10 @@ export default class FormEvents {
     }
 
     SRFormEvents() {
-        const toggleDeleteRowButton = (container : JQuery, elementSelector : string) => {
+        const toggleDeleteRowButton = (
+            container: JQuery,
+            elementSelector: string
+        ) => {
             const element = container.find(elementSelector);
             const deleteRowButton = container
                 .children('.addAndRemoveButton_Container')
@@ -433,7 +434,7 @@ export default class FormEvents {
         const $closeButton = $('#close-button');
 
         $openButton.on('click', async function () {
-            const module = await import('../Utilities/FloatingWindow');
+            const module = await import('../Utilities/floating-window');
             if (module.InitializeFloatingWindow) {
                 module.InitializeFloatingWindow({
                     $content,

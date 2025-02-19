@@ -235,7 +235,7 @@
         }
         const REGISTRATIONFORM_SUBMISSION_ROUTE = "{{ route('applicationFormSubmit') }}"
     </script>
-    @vite('resources/js/applicationPage.js')
+    @vite('resources/js/application-page.js')
     <script type="module">
         $('#confirmModal .btn-primary').click(function() {
             window.location.href = '/'; // Redirect after confirmation
