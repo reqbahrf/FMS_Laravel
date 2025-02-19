@@ -217,10 +217,10 @@
                             name="Letter_of_intent"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['Letter_of_intent'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['Letter_of_intent'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['Letter_of_intent'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['Letter_of_intent'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -229,10 +229,10 @@
                             name="Letter_of_intent"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['Letter_of_intent'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['Letter_of_intent'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['Letter_of_intent'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['Letter_of_intent'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -244,10 +244,10 @@
                             name="TNA_form1"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['TNA_form1'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['TNA_form1'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['TNA_form1'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['TNA_form1'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -256,10 +256,10 @@
                             name="TNA_form1"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['TNA_form1'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['TNA_form1'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['TNA_form1'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['TNA_form1'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -271,10 +271,10 @@
                             name="TNA_form2"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['TNA_form2'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['TNA_form2'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['TNA_form2'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['TNA_form2'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -283,10 +283,10 @@
                             name="TNA_form2"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['TNA_form2'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['TNA_form2'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['TNA_form2'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['TNA_form2'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -298,10 +298,10 @@
                             name="SETUP_form1"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['SETUP_form1'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['SETUP_form1'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['SETUP_form1'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['SETUP_form1'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -310,10 +310,10 @@
                             name="SETUP_form1"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['SETUP_form1'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['SETUP_form1'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['SETUP_form1'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['SETUP_form1'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -325,10 +325,10 @@
                             name="business_permits"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['business_permits'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['business_permits'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['business_permits'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['business_permits'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -337,10 +337,10 @@
                             name="business_permits"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['business_permits'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['business_permits'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['business_permits'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['business_permits'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -354,10 +354,10 @@
                             name="financial_statements_past_3"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['financial_statements_past_3'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['financial_statements_past_3'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['financial_statements_past_3'] ?? '' == 'complied' ? 'checked' : '' }}
+                        {{ ($RTECReportdata['financial_statements_past_3'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -366,10 +366,10 @@
                             name="financial_statements_past_3"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['financial_statements_past_3'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['financial_statements_past_3'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['financial_statements_past_3'] ?? '' == 'not_complied' ? 'checked' : '' }}
+                        {{ ($RTECReportdata['financial_statements_past_3'] ?? '') === 'not_complied' ? 'checked' : '' }}
                     @endif
                 </td>
             </tr>
@@ -381,10 +381,10 @@
                             name="projected_financial_statements"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['projected_financial_statements'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['projected_financial_statements'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['projected_financial_statements'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['projected_financial_statements'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -393,10 +393,10 @@
                             name="projected_financial_statements"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['projected_financial_statements'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['projected_financial_statements'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['projected_financial_statements'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['projected_financial_statements'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -408,10 +408,10 @@
                             name="official_receipt"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['official_receipt'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['official_receipt'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['official_receipt'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['official_receipt'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -420,10 +420,10 @@
                             name="official_receipt"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['official_receipt'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['official_receipt'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['official_receipt'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['official_receipt'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -437,10 +437,10 @@
                             name="certificate_of_registration"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['certificate_of_registration'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['certificate_of_registration'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['certificate_of_registration'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['certificate_of_registration'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -449,10 +449,10 @@
                             name="certificate_of_registration"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['certificate_of_registration'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['certificate_of_registration'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['certificate_of_registration'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['certificate_of_registration'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -464,10 +464,10 @@
                             name="copy_articles_of_incorporation"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['copy_articles_of_incorporation'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['copy_articles_of_incorporation'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['copy_articles_of_incorporation'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['copy_articles_of_incorporation'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -476,10 +476,10 @@
                             name="copy_articles_of_incorporation"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['copy_articles_of_incorporation'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['copy_articles_of_incorporation'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['copy_articles_of_incorporation'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['copy_articles_of_incorporation'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -492,10 +492,10 @@
                             name="sworn_affidavit"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['sworn_affidavit'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['sworn_affidavit'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['sworn_affidavit'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['sworn_affidavit'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -504,10 +504,10 @@
                             name="sworn_affidavit"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['sworn_affidavit'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['sworn_affidavit'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['sworn_affidavit'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['sworn_affidavit'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -521,10 +521,10 @@
                             name="in_the_case_of_cooperative"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['in_the_case_of_cooperative'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['in_the_case_of_cooperative'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['in_the_case_of_cooperative'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['in_the_case_of_cooperative'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -533,10 +533,10 @@
                             name="in_the_case_of_cooperative"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['in_the_case_of_cooperative'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['in_the_case_of_cooperative'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['in_the_case_of_cooperative'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['in_the_case_of_cooperative'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -549,10 +549,10 @@
                             name="three_quotations"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['three_quotations'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['three_quotations'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['three_quotations'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['three_quotations'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -561,10 +561,10 @@
                             name="three_quotations"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['three_quotations'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['three_quotations'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['three_quotations'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['three_quotations'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>
@@ -576,10 +576,10 @@
                             name="complete_technical_design"
                             type="radio"
                             value="complied"
-                            @checked($RTECReportdata['complete_technical_design'] ?? '' == 'complied')
+                            @checked(($RTECReportdata['complete_technical_design'] ?? '') === 'complied')
                         >
                     @else
-                        {{ $RTECReportdata['complete_technical_design'] ?? '' == 'complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['complete_technical_design'] ?? '') === 'complied' ? '/' : '' }}
                     @endif
                 </td>
                 <td>
@@ -588,10 +588,10 @@
                             name="complete_technical_design"
                             type="radio"
                             value="not_complied"
-                            @checked($RTECReportdata['complete_technical_design'] ?? '' == 'not_complied')
+                            @checked(($RTECReportdata['complete_technical_design'] ?? '') === 'not_complied')
                         >
                     @else
-                        {{ $RTECReportdata['complete_technical_design'] ?? '' == 'not_complied' ? '/' : '' }}
+                        {{ ($RTECReportdata['complete_technical_design'] ?? '') === 'not_complied' ? '/' : '' }}
                     @endif
                 </td>
             </tr>

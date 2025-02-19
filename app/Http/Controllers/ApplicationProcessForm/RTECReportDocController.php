@@ -8,6 +8,7 @@ use App\Actions\GeneratePDFAction;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RTECRequest;
 use App\Services\RTECReportdataHandlerService;
 
 class RTECReportDocController extends Controller
@@ -40,7 +41,7 @@ class RTECReportDocController extends Controller
         }
     }
 
-    public function setRTECReportForm(Request $request)
+    public function setRTECReportForm(RTECRequest $request)
     {
         try{
             $validated = $request->validated();
