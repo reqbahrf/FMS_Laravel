@@ -569,3 +569,188 @@ ul#myTab li.nav-item button.tab-Nav:hover {
 -----------------------------------------------------------------
 
 */
+
+/*
+    Project Form CSS Start
+-----------------------------------------------------------------
+*/
+
+
+#TNAForm {
+    width: 100%;
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
+}
+
+#TNAForm table:is(#EnterpriseInformationTable, #productionContainer, #productionEquipmentContainer, #productAndSupplyChainContainer){
+    width: 100% !important;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+#TNAForm :is(#EnterpriseInformationTable, #productionContainer, #productionEquipmentContainer, #productAndSupplyChainContainer) th {
+    padding: 10px;
+    border: 1px solid #000;
+}
+#TNAForm :is(#EnterpriseInformationTable, #productionContainer, #productionEquipmentContainer, #productAndSupplyChainContainer) tr {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+#TNAForm :is(#EnterpriseInformationTable, #productionContainer, #productionEquipmentContainer, #productAndSupplyChainContainer) td {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+
+
+#TNAForm p {
+    margin-bottom: 8pt;
+    line-height: 1.5;
+}
+
+#TNAForm .padding-md { padding: 12pt; }
+
+:is(#TNAForm, #ProjectProposalForm, #RTECReportForm) input[type="text"] {
+    border: none;
+    border-bottom: 1px solid #000;
+    outline: none;
+    padding: 5pt;
+    width: 100%;
+}
+/* Convert common px values to pt */
+#TNAForm .margin-sm { margin: 8pt; }
+#TNAForm .padding-sm { padding: 8pt; }
+#TNAForm .margin-md { margin: 12pt; }
+#TNAForm .padding-md { padding: 12pt; }
+
+#ProjectProposalForm {
+    width: 100%;
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
+}
+:is(#ProjectProposalForm, #TNAForm, #RTECReportForm) * {
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+}
+
+#ProjectProposalForm table {
+    width: 100% !important;
+    margin-bottom: 15pt;
+}
+
+#ProjectProposalForm td {
+    padding: 5pt;
+}
+
+#ProjectProposalForm p {
+    margin-bottom: 8pt;
+    line-height: 1.5;
+}
+
+#ProjectProposalForm .padding-md {
+    padding: 12pt;
+}
+
+/* Convert common px values to pt */
+#ProjectProposalForm .margin-sm {
+    margin: 8pt;
+}
+
+#ProjectProposalForm .padding-sm {
+    padding: 8pt;
+}
+
+#ProjectProposalForm .margin-md {
+    margin: 12pt;
+}
+
+#ProjectProposalForm .padding-md {
+    padding: 12pt;
+}
+
+#ProjectProposalForm table:is(#CompanyProfileTable, #technicalConstraintTable, #equipmentTable, #budgetTable, #refundStructureTable, #riskTable) {
+    width: 100% !important;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+#ProjectProposalForm table:is(#CompanyProfileTable, #technicalConstraintTable, #equipmentTable, #budgetTable, #refundStructureTable, #riskTable) th {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+#ProjectProposalForm table:is(#CompanyProfileTable, #technicalConstraintTable, #equipmentTable, #budgetTable, #refundStructureTable, #riskTable) tr {
+    border: 1px solid #000;
+}
+#ProjectProposalForm table:is(#CompanyProfileTable, #technicalConstraintTable, #equipmentTable, #budgetTable, #refundStructureTable, #riskTable) td {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+
+#RTECReportForm {
+    width: 100%;
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
+}
+
+#RTECReportForm table {
+    width: 100% !important;
+    border-collapse: collapse;
+    margin-top: 10pt;
+    margin-bottom: 10pt;
+
+}
+
+#RTECReportForm table:is(#complianceOfRequirementTable, #processExistingPracticeProblemTable, #equipmentTable) {
+    width: 100% !important;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+#RTECReportForm table:is(#complianceOfRequirementTable, #processExistingPracticeProblemTable, #equipmentTable) th {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+#RTECReportForm table:is(#complianceOfRequirementTable, #processExistingPracticeProblemTable, #equipmentTable) td {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+#RTECReportForm table:is(#complianceOfRequirementTable, #processExistingPracticeProblemTable, #equipmentTable) tr {
+    border: 1px solid #000;
+    padding: 10px;
+}
+
+.section--title {
+    font-weight: bolder;
+}
+
+.section--sub--title {
+    font-weight: bold;
+}
+
+.no-border,
+.no-border td,
+.no-border tr,
+table.no-border,
+table.no-border tr,
+table.no-border td {
+    border: none !important;
+    border-width: 0 !important;
+    border-collapse: collapse !important;
+}
+
+table.no-border {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+

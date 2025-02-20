@@ -3,6 +3,7 @@
 </div>
 
 <!-- Modal -->
+@include('admin-view.admin-page-tab.included_layout.application-form-review-modal')
 <div
     class="modal fade"
     id="assignNewStaffModal"
@@ -249,7 +250,8 @@
                                 </tbody>
                             </table>
                         </div>
-                        <div class="col-12 col-md-6">
+                        {{-- TODO: Comment for now --}}
+                        {{-- <div class="col-12 col-md-6">
                             <label for="Applied">Date Applied:</label>
                             <input
                                 class="form-control"
@@ -268,7 +270,7 @@
                                 value=""
                                 readonly
                             >
-                        </div>
+                        </div> --}}
                         <div class="col-12 col-md-6">
                             <label for="evaluated">Evaluated by:</label>
                             <input

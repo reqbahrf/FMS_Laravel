@@ -351,6 +351,7 @@ async function initializeAdminPageJs() {
                     $('#approvalDetails').find('input[type="text"]');
 
                 const cooperatorName = row.find('td:eq(0)').text().trim();
+                const evaluated_by = inputs.filter('.evaluated_by_name').val();
                 const applicationId = inputs.filter('.application_id').val();
                 const designation = inputs.filter('.designation').val();
                 const businessId = inputs.filter('.business_id').val();
@@ -381,6 +382,7 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs
                     .filter('.cooperatorName')
                     .val(cooperatorName);
+                offCanvaReadonlyInputs.filter('#evaluated').val(evaluated_by);
                 offCanvaReadonlyInputs.filter('.designation').val(designation);
                 offCanvaReadonlyInputs.filter('#b_id').val(businessId);
                 offCanvaReadonlyInputs
@@ -403,7 +405,7 @@ async function initializeAdminPageJs() {
                     .val(formatNumberToCurrency(workingCapitalAssets));
 
                 const staffListSelector = $('#Assigned_to');
-                getProjectForms(businessId, applicationId);
+                getProjectFormList(businessId, applicationId);
                 getStafflist(staffListSelector);
             });
 
@@ -983,7 +985,31 @@ async function initializeAdminPageJs() {
                 }
             }
 
-            const getProjectForms = async (businessId, applicationId) => {
+            const formatFormKey = (key) => {
+                // Predefined map of specific acronyms to their uppercase versions
+                const acronymMap = {
+                    tna: 'TNA',
+                    rtec: 'RTEC',
+                };
+
+                return key
+                    .split('_')
+                    .map((word) => {
+                        // Check if the word is in our predefined acronym map
+                        if (acronymMap[word.toLowerCase()]) {
+                            return acronymMap[word.toLowerCase()];
+                        }
+                        // Check if the word is an acronym (all uppercase letters)
+                        if (/^[A-Z]+$/.test(word)) {
+                            return word; // Keep the word in its original uppercase form
+                        }
+                        // Otherwise, capitalize the first letter
+                        return word.charAt(0).toUpperCase() + word.slice(1);
+                    })
+                    .join(' ');
+            };
+
+            const getProjectFormList = async (businessId, applicationId) => {
                 const projectForm = $('#projectFormsTable tbody');
                 try {
                     const response = await $.ajax({
@@ -999,18 +1025,21 @@ async function initializeAdminPageJs() {
                         .map(
                             (form) => /*html*/ `
                         <tr>
-                            <td>${form.key ?? ''}</td>
+                            <td>${formatFormKey(form.key ?? '')}</td>
                             <td>${customDateFormatter(form.created_at ?? '')}</td>
                             <td>${customDateFormatter(form.updated_at ?? '')}</td>
                             <td>
                                 <button
                                     class="btn btn-primary viewForm"
                                     type="button"
-                                    data-bs-toggle="offcanvas"
-                                    data-bs-target="#formDetails"
-                                    aria-controls="formDetails"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#viewProjectForm"
+                                    data-form-key="${form.key}"
+                                    data-business-id="${businessId}"
+                                    data-application-id="${applicationId}"
+                                    aria-controls="viewProjectForm"
                                 >
-                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                <i class="ri-eye-line ri-1x"></i>
                                 </button>
                             </td>
                         </tr>
@@ -1031,6 +1060,58 @@ async function initializeAdminPageJs() {
                     `);
                 }
             };
+
+            const getProjectForm = async (
+                businessId,
+                applicationId,
+                formKey
+            ) => {
+                const projectFormModal = $('#viewProjectForm .modal-body');
+                try {
+                    let resourceToFetch = '';
+                    switch (formKey) {
+                        case 'tna_form':
+                            resourceToFetch =
+                                PROJECT_LIST_ROUTE.GET_TNA_DOCUMENT;
+                            break;
+                        case 'project_proposal_form':
+                            resourceToFetch =
+                                PROJECT_LIST_ROUTE.GET_PROJECT_PROPOSAL;
+                            break;
+                        case 'rtec_report_form':
+                            resourceToFetch =
+                                PROJECT_LIST_ROUTE.GET_RTEC_REPORT;
+                            break;
+                        default:
+                            throw new Error('Invalid form key');
+                    }
+                    const response = await $.ajax({
+                        url: resourceToFetch
+                            .replace(':business_id', businessId)
+                            .replace(':application_id', applicationId),
+                        type: 'GET',
+                    });
+                    projectFormModal.empty().html(response);
+                } catch (error) {
+                    throw error;
+                }
+            };
+
+            const projectFormModal = $('#viewProjectForm');
+            projectFormModal.on('show.bs.modal', async function (event) {
+                try {
+                    const btn = $(event.relatedTarget);
+                    const businessId = btn.attr('data-business-id');
+                    const applicationId = btn.attr('data-application-id');
+                    const formKey = btn.attr('data-form-key');
+                    await getProjectForm(businessId, applicationId, formKey);
+                } catch (error) {
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error?.message || 'Error in Retrieving Project Form'
+                    );
+                }
+            });
 
             const approvedProjectProposal = async (
                 businessId,

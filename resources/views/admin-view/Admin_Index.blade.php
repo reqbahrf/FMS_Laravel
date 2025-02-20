@@ -253,7 +253,11 @@
             GET_ONGOING_PROJECTS: '{{ route('Project.getOngoingProjects') }}',
             APPROVED_PROJECT: '{{ route('admin.Project.ApprovedProjectProposal') }}',
             GET_COMPLETED_PROJECTS: '{{ route('getCompletedProject') }}',
-            ASSIGNED_NEW_STAFF: '{{ route('admin.AssignNewStaff') }}'
+            ASSIGNED_NEW_STAFF: '{{ route('admin.AssignNewStaff') }}',
+
+            GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id', 'action' => 'view']) }}',
+            GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal', [':business_id', ':application_id', 'action' => 'view']) }}',
+            GET_RTEC_REPORT: '{{ route('staff.Applicant.get.rtec-report', [':business_id', ':application_id', 'action' => 'view']) }}',
 
         };
 
