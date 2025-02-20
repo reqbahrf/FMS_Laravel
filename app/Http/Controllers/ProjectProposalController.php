@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\ProjectProposalNotification;
 use App\Http\Requests\SubmitProjectProposalRequest;
 
+
+//TODO: deprecated this controller
 class ProjectProposalController extends Controller
 {
     /**
@@ -156,7 +158,7 @@ class ProjectProposalController extends Controller
                         'Project_id' => $proposalData['projectID'],
                         'application_status' => 'pending',
                     ]);
-    
+
                 ProjectProposal::updateOrCreate(
                     [
                         'application_id' => $ApplicationID
