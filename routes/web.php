@@ -271,7 +271,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         ->name('send.rejection.email');
 
 
-      //Staff Evaluation Schedule Set date
+    //Staff Evaluation Schedule Set date
     Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])
         ->name('staff.set.EvaluationSchedule');
 
@@ -279,7 +279,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
         ->name('staff.get.EvaluationSchedule');
 
-    Route::put('/staff/submit-applicant/to/admin/{business_id}/{application_id}', [SubmissionToAdminController::class, 'save'])
+    Route::put('/staff/submit-applicant/to/admin/{business_id}/{application_id}', [SubmissionToAdminController::class, 'submitToAdmin'])
         ->name('staff.submit.applicant.to.admin');
 });
 
@@ -338,6 +338,9 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
     Route::get('/activity/logs/user/{user_id}', [UserActivityLogController::class, 'getSelectedUserActivityLog'])
         ->name('activity.logs.user');
+
+    Route::put('/Admin/approved/project/{business_id}/{application_id}/{staff_id}', [AdminProjectController::class, 'approvedProject'])
+        ->name('admin.Project.ApprovedProject');
 });
 
 //Admin Route End
