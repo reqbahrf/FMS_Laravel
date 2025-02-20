@@ -5000,7 +5000,7 @@ ${output}</textarea
                 }
             );
 
-            ApplicantProgressContainer.smartWizard({
+            const smartWizardInstance = ApplicantProgressContainer.smartWizard({
                 selected: 0,
                 theme: 'dots',
                 transition: {
@@ -5010,8 +5010,23 @@ ${output}</textarea
                     showNextButton: true, // show/hide a Next button
                     showPreviousButton: true, // show/hide a Previous button
                     position: 'both buttom', // none/ top/ both bottom
+                    extraHtml: /*html*/ `<button class="btn btn-success hidden" id="submitToAdmin" data-action="DraftForm">Submit To Admin</button>`
                 },
             });
+
+            smartWizardInstance.on('showStep', function(e, anchorObject, stepIndex, stepDirection, stepPosition){
+
+                const submitToAdminBtn = ApplicantProgressContainer.find('#submitToAdmin');
+                console.log(stepPosition);
+                if(stepPosition !== 'last'){
+                    submitToAdminBtn.hide()
+                }else{
+                    submitToAdminBtn.show()
+                }
+
+            })
+
+
 
             const { TNAForm, ProjectProposalForm, RTECReportForm } =
                 await import('./application-process-form-class');
