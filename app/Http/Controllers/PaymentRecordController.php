@@ -138,12 +138,24 @@ class PaymentRecordController extends Controller
             // Get the project info
             $projectInfo = $record->projectInfo;
             $actualRefundAmount = $projectInfo->actual_amount_to_be_refund;
-            $refundedAmount = $projectInfo->refunded_amount;
 
             // Calculate the total refunded amount excluding the current record's amount
-            $totalRefundedExcludingCurrent = $refundedAmount - $record->amount;
+            $totalRefundedExcludingCurrent = PaymentRecord::where('project_id', $validated['project_id'])
+                ->where('id', '!=', $record->id) // Exclude the current record
+                ->where('payment_status', 'Paid')
+                ->sum('amount');
+
             $totalAfterNewAmount = $newAmount + $totalRefundedExcludingCurrent;
             $isExceedingRefundAmount = bccomp($totalAfterNewAmount, $actualRefundAmount, 2) > 0;
+
+            Log::info("check if exceeding refund amount", [
+                'projectInfo' => $projectInfo,
+                'actualRefundAmount' => $actualRefundAmount,
+                'refundedAmount' => $projectInfo->refunded_amount,
+                'totalRefundedExcludingCurrent' => $totalRefundedExcludingCurrent,
+                'totalAfterNewAmount' => $totalAfterNewAmount,
+                'isExceedingRefundAmount' => $isExceedingRefundAmount,
+            ]);
 
             if ($isExceedingRefundAmount) {
                 return response()->json([
@@ -155,7 +167,7 @@ class PaymentRecordController extends Controller
             $record->update([
                 'Project_id' => $validated['project_id'],
                 'reference_number' => $validated['reference_number'],
-                'amount' => number_format(str_replace(',', '', $validated['amount']), 2, '.', ''),
+                'amount' => $newAmount,
                 'payment_status' => $validated['paymentStatus'],
                 'payment_method' => $validated['paymentMethod'],
             ]);
