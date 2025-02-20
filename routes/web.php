@@ -50,6 +50,7 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
+use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
 use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
 
 Route::get('/', function () {
@@ -258,16 +259,6 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::post('/Staff/Project/Create-StatusReport', [staffGenerateSRController::class, 'index'])
         ->name('staff.Create-StatusReport');
 
-    //Staff Evaluation Schedule Set date
-    Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])
-        ->name('staff.set.EvaluationSchedule');
-
-    //Get evaluation schedule
-    Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
-        ->name('staff.get.EvaluationSchedule');
-
-
-
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
     Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class);
@@ -278,6 +269,18 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
     Route::post('/send-rejection-email', [RejectionEmailController::class, 'sendRejectionEmail'])
         ->name('send.rejection.email');
+
+
+      //Staff Evaluation Schedule Set date
+    Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])
+        ->name('staff.set.EvaluationSchedule');
+
+    //Get evaluation schedule
+    Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
+        ->name('staff.get.EvaluationSchedule');
+
+    Route::put('/staff/submit-applicant/to/admin/{business_id}/{application_id}', [SubmissionToAdminController::class, 'save'])
+        ->name('staff.submit.applicant.to.admin');
 });
 
 //Staff Route End
