@@ -906,7 +906,7 @@ export function initializeForm() {
             }
         });
 
-    customFormatNumericInput('#personnelContainer', 'input');
+    customFormatNumericInput($('div#personnelContainer'), 'input');
 
     function updateEnterpriseLevel() {
         // Cache DOM selections
