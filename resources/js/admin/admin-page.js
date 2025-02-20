@@ -347,15 +347,19 @@ async function initializeAdminPageJs() {
             $('#ApprovaltableBody').on('click', '.viewApproval', function () {
                 const row = $(this).closest('tr');
                 const inputs = row.find('input');
+                const approvedDetailContainer = $('#approvalDetails');
+                const approvedBtn = approvedDetailContainer.find(
+                    'button#approvedButton'
+                );
                 const offCanvaReadonlyInputs =
-                    $('#approvalDetails').find('input[type="text"]');
+                    approvedDetailContainer.find('input[type="text"]');
 
                 const cooperatorName = row.find('td:eq(0)').text().trim();
                 const evaluated_by = inputs.filter('.evaluated_by_name').val();
                 const applicationId = inputs.filter('.application_id').val();
                 const designation = inputs.filter('.designation').val();
                 const businessId = inputs.filter('.business_id').val();
-                const Project_id = inputs.filter('.Project_id').val();
+                const projectId = inputs.filter('.Project_id').val();
                 const businessAddress = inputs
                     .filter('.business_address')
                     .val();
@@ -403,6 +407,10 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs
                     .filter('#workingCapital')
                     .val(formatNumberToCurrency(workingCapitalAssets));
+
+                approvedBtn
+                    .attr('data-business-id', businessId)
+                    .attr('data-project-id', projectId);
 
                 const staffListSelector = $('#Assigned_to');
                 getProjectFormList(businessId, applicationId);
@@ -1164,19 +1172,29 @@ async function initializeAdminPageJs() {
 
             //Submit the Approved Proposal
             $('#approvedButton').on('click', function () {
-                const businessId = $('#b_id').val();
-                const projectId = $('#ProjectId').val();
-                const assignedStaff_Id = $('#Assigned_to').val();
+                try {
+                    const btn = $(this);
+                    const businessId = btn.attr('data-business-id');
+                    const projectId = btn.attr('data-project-id');
+                    const assignedStaff_Id = $('#Assigned_to').val();
 
-                if (
-                    typeof businessId !== 'undefined' &&
-                    typeof projectId !== 'undefined' &&
-                    typeof assignedStaff_Id !== 'undefined'
-                ) {
-                    approvedProjectProposal(
-                        businessId,
-                        projectId,
-                        assignedStaff_Id
+                    if (
+                        typeof businessId !== 'undefined' &&
+                        typeof projectId !== 'undefined' &&
+                        typeof assignedStaff_Id !== 'undefined'
+                    ) {
+                        approvedProjectProposal(
+                            businessId,
+                            projectId,
+                            assignedStaff_Id
+                        );
+                    }
+                } catch (error) {
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error.message ||
+                            error ||
+                            'Error in Approved Project Proposal'
                     );
                 }
             });
