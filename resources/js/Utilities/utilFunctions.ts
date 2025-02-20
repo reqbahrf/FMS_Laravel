@@ -3,8 +3,6 @@ import * as jquery from 'jquery';
 const ProcessToast = $('#ProcessToast');
 const FeedbackToast = $('#ActionFeedbackToast');
 
-
-
 /**import * as bootstrap from 'bootstrap';
  * Shows a Bootstrap toast notification with customizable status and message.
  * Uses a pre-defined toast element with ID 'ActionFeedbackToast'.
@@ -66,8 +64,13 @@ const customDateFormatter = (date: string): string => {
     let parsedDate: Date;
     let includeTime = false;
 
+    // Check if the date contains a 'T' (ISO 8601 format)
+    if (date.includes('T')) {
+        parsedDate = new Date(date); // Directly parse ISO 8601 datetime strings
+        includeTime = true;
+    }
     // Check if the date contains a space (likely a datetime string)
-    if (date.includes(' ')) {
+    else if (date.includes(' ')) {
         // For datetime strings, use the standard Date constructor
         parsedDate = new Date(date.replace(' ', 'T'));
         includeTime = true;
@@ -127,10 +130,6 @@ function closeOffcanvasInstances(offcanva_id: string) {
     }
 }
 
-
-
-
-
 /**
  * Parses a formatted number string (with thousand separators) back to a float.
  * Companion function to customFormatNumericInput.
@@ -151,8 +150,6 @@ function closeModal(modelId: string) {
 function sanitize(input: string) {
     return $('<div>').text(input).html(); // Escape special characters
 }
-
-
 
 /**
  * Shows a Bootstrap toast notification for ongoing processes.
@@ -198,8 +195,10 @@ function hideProcessToast() {
     toastInstance.hide();
 }
 
-function serializeFormData(formData: JQuery.NameValuePair[]): {[key: string]: string | string[] } {
-    const FormDataObject: {[key: string]: string | string[] } = {};
+function serializeFormData(formData: JQuery.NameValuePair[]): {
+    [key: string]: string | string[];
+} {
+    const FormDataObject: { [key: string]: string | string[] } = {};
     formData.forEach((field) => {
         if (field.name.includes('[]')) {
             FormDataObject[field.name] = FormDataObject[field.name]

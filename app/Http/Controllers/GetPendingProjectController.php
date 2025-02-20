@@ -41,6 +41,7 @@ class GetPendingProjectController extends Controller
                         'assets.building_value',
                         'assets.equipment_value',
                         'assets.working_capital',
+                        'application_info.id as application_id',
                         'application_info.application_status',
                         'project_info.Project_id',
                         'project_info.project_title',

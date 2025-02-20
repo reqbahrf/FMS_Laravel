@@ -351,6 +351,7 @@ async function initializeAdminPageJs() {
                     $('#approvalDetails').find('input[type="text"]');
 
                 const cooperatorName = row.find('td:eq(0)').text().trim();
+                const applicationId = inputs.filter('.application_id').val();
                 const designation = inputs.filter('.designation').val();
                 const businessId = inputs.filter('.business_id').val();
                 const Project_id = inputs.filter('.Project_id').val();
@@ -402,6 +403,7 @@ async function initializeAdminPageJs() {
                     .val(formatNumberToCurrency(workingCapitalAssets));
 
                 const staffListSelector = $('#Assigned_to');
+                getProjectForms(businessId, applicationId);
                 getStafflist(staffListSelector);
             });
 
@@ -840,6 +842,11 @@ async function initializeAdminPageJs() {
                                     />
                                     <input
                                         type="hidden"
+                                        class="application_id"
+                                        value="${project?.application_id}"
+                                    />
+                                    <input
+                                        type="hidden"
                                         class="mobile_number"
                                         value="${project?.applicant_mobile_number}"
                                     />
@@ -975,6 +982,55 @@ async function initializeAdminPageJs() {
                     );
                 }
             }
+
+            const getProjectForms = async (businessId, applicationId) => {
+                const projectForm = $('#projectFormsTable tbody');
+                try {
+                    const response = await $.ajax({
+                        url: PROJECT_LIST_ROUTE.GET_PROJECT_FORMS.replace(
+                            ':business_id',
+                            businessId
+                        ).replace(':application_id', applicationId),
+                        type: 'GET',
+                    });
+
+                    // Corrected mapping and HTML generation
+                    const formList = response
+                        .map(
+                            (form) => /*html*/ `
+                        <tr>
+                            <td>${form.key ?? ''}</td>
+                            <td>${customDateFormatter(form.created_at ?? '')}</td>
+                            <td>${customDateFormatter(form.updated_at ?? '')}</td>
+                            <td>
+                                <button
+                                    class="btn btn-primary viewForm"
+                                    type="button"
+                                    data-bs-toggle="offcanvas"
+                                    data-bs-target="#formDetails"
+                                    aria-controls="formDetails"
+                                >
+                                    <i class="ri-menu-unfold-4-line ri-1x"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `
+                        )
+                        .join(''); // Important: join the array of strings
+
+                    projectForm.empty().append(formList);
+                } catch (error) {
+                    console.error('Error fetching project forms:', error);
+                    // Consider showing a user-friendly error message
+                    projectForm.empty().append(`
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">
+                                Unable to load project forms
+                            </td>
+                        </tr>
+                    `);
+                }
+            };
 
             const approvedProjectProposal = async (
                 businessId,

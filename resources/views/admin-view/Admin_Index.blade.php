@@ -247,6 +247,7 @@
 
         const PROJECT_LIST_ROUTE = {
             GET_STAFFLIST: '{{ route('Users.index') }}',
+            GET_PROJECT_FORMS: '{{ route('admin.Project.GetProjectFormList', ['business_id' => ':business_id', 'application_id' => ':application_id']) }}',
             GET_APPROVED_PROJECTS: '{{ route('admin.Project.PendingProject') }}',
             GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails', ['business_id' => ':business_id', 'project_id' => ':project_id']) }}',
             GET_ONGOING_PROJECTS: '{{ route('Project.getOngoingProjects') }}',

@@ -21,7 +21,6 @@ class SubmissionToAdminController extends Controller
         Request $request,
         ProjectProposaldataHandlerService $ProjectProposal,
         SubmitToAdminService $SubmitToAdmin,
-        ProjectFeeService $ProjectFee,
         TNAdataHandlerService $TNA,
         RTECReportdataHandlerService $RTEC
     ) {

@@ -44,6 +44,7 @@ use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
+use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -341,6 +342,9 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
     Route::put('/Admin/approved/project/{business_id}/{application_id}/{staff_id}', [AdminProjectController::class, 'approvedProject'])
         ->name('admin.Project.ApprovedProject');
+
+    Route::get('/Admin/get/Project-Form/{business_id}/{application_id}', GetProjectFormListController::class)
+        ->name('admin.Project.GetProjectFormList');
 });
 
 //Admin Route End
