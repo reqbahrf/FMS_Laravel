@@ -93,4 +93,15 @@ class ProjectFeeService
     {
         return $this->projectSetting->where('key', 'fee_percentage')->exists();
     }
+
+    /**
+     * Calculate the project fee
+     *
+     * @param float $fund_amount The fund amount to be refunded
+     * @return float
+     */
+    public function calculateProjectFee(float $fund_amount): float
+    {
+        return $fund_amount * ($this->getProjectFee() / 100);
+    }
 }
