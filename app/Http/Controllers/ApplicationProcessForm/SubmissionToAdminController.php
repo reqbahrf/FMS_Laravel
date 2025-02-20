@@ -40,7 +40,7 @@ class SubmissionToAdminController extends Controller
                 'Project_id' => $extractedProjectData['Project_id'],
             ];
 
-            $SubmitToAdmin->updateProjectInfo($business_id, $application_id, $extractedProjectData);
+            $SubmitToAdmin->updateProjectInfo($business_id, $extractedProjectData);
             $SubmitToAdmin->updateApplicationInfo($business_id, $application_id, $extractedApplicationData);
 
         } catch (Exception $e) {

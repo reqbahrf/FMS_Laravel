@@ -55,4 +55,21 @@ class ProjectProposaldataHandlerService
             throw new Exception('Error in getting Project Proposal data: ' . $e->getMessage());
         }
     }
+
+    public function updateStatusToSubmitted(int $business_id, int $application_id)
+    {
+        try {
+            $key = 'project_proposal_form';
+            $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
+                ->where('application_id', $application_id)
+                ->where('key', $key)
+                ->first();
+            if (!$ProjectProposalForm) {
+                throw new Exception('Project Proposal Form not found');
+            }
+            $ProjectProposalForm->update(['status' => 'Submitted']);
+        } catch (Exception $e) {
+            throw new Exception('Error in updating Project Proposal status to Submitted: ' . $e->getMessage());
+        }
+    }
 }

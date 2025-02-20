@@ -56,4 +56,21 @@ class TNAdataHandlerService
             throw new Exception('Error in getting TNA data: ' . $e->getMessage());
         }
     }
+
+    public function updateStatusToSubmitted(int $business_id, int $application_id)
+    {
+        try {
+            $key = 'tna_form';
+            $TNAForm = $this->TNAFormData->where('business_id', $business_id)
+                ->where('application_id', $application_id)
+                ->where('key', $key)
+                ->first();
+            if (!$TNAForm) {
+                throw new Exception('TNA Form not found');
+            }
+            $TNAForm->update(['status' => 'Submitted']);
+        } catch (Exception $e) {
+            throw new Exception('Error in updating TNA status to Submitted: ' . $e->getMessage());
+        }
+    }
 }

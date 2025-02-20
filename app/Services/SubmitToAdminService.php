@@ -8,7 +8,7 @@ use Exception;
 
 class SubmitToAdminService
 {
-    public function updateProjectInfo(int $business_id,int $application_id, array $data){
+    public function updateProjectInfo(int $business_id, array $data){
         try {
             ProjectInfo::create([
                 'Project_id' => $data['Project_id'],
