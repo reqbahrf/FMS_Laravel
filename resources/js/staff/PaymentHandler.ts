@@ -75,7 +75,12 @@ export default class PaymentHandler {
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            throw new Error('Failed to store payment records: ' + error);
+            throw new Error(
+                'Error:' +
+                    (error?.responseJSON?.message ||
+                        error?.message ||
+                        'Failed to store payment records')
+            );
         }
     }
 
@@ -103,7 +108,11 @@ export default class PaymentHandler {
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            throw new Error(error?.responseJSON?.message || error?.message || 'Failed to update payment records');
+            throw new Error(
+                error?.responseJSON?.message ||
+                    error?.message ||
+                    'Failed to update payment records'
+            );
         }
     }
 

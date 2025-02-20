@@ -911,7 +911,12 @@ async function initializeStaffPageJs() {
                     }
                 } catch (error) {
                     hideProcessToast();
-                    showToastFeedback('text-bg-danger', error);
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error?.responseJSON?.message ||
+                            error?.message ||
+                            'Failed to save payment record'
+                    );
                 }
             });
 
