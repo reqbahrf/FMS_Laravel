@@ -12,9 +12,10 @@ class ProjectProposaldataHandlerService
         $this->ProjectProposalForm = $ProjectProposalForm;
     }
 
-    public function setProjectProposalData(array $data, int $business_id, int $application_id, string $key = 'project_proposal_form')
+    public function setProjectProposalData(array $data, int $business_id, int $application_id)
     {
         try {
+            $key = 'project_proposal_form';
             $existingRecord = $this->ProjectProposalForm->where([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
@@ -41,9 +42,10 @@ class ProjectProposaldataHandlerService
         }
     }
 
-    public function getProjectProposalData(int $business_id, int $application_id, string $key = 'project_proposal_form')
+    public function getProjectProposalData(int $business_id, int $application_id)
     {
         try {
+            $key = 'project_proposal_form';
             $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', $key)

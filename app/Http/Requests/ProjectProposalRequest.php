@@ -25,8 +25,8 @@ class ProjectProposalRequest extends FormRequest
               // Main Project Proposal Fields
               'project_title' => 'required|string|max:255',
               'proponent' => 'required|string|max:255',
-              'project_cost' => 'required|string',
-              'amount_requested' => 'required|string',
+              'project_cost' => 'required|string|regex:/^\d{1,3}(,\d{3})*(\.\d{1,2})?$/',
+              'amount_requested' => 'required|string|regex:/^\d{1,3}(,\d{3})*(\.\d{1,2})?$/',
               'general_objectives' => 'required|string',
               'specific_objectives' => 'required|string',
 
