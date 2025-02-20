@@ -247,12 +247,17 @@
 
         const PROJECT_LIST_ROUTE = {
             GET_STAFFLIST: '{{ route('Users.index') }}',
+            GET_PROJECT_FORMS: '{{ route('admin.Project.GetProjectFormList', ['business_id' => ':business_id', 'application_id' => ':application_id']) }}',
             GET_APPROVED_PROJECTS: '{{ route('admin.Project.PendingProject') }}',
             GET_PROJECTS_PROPOSAL: '{{ route('admin.Project.GetProposalDetails', ['business_id' => ':business_id', 'project_id' => ':project_id']) }}',
             GET_ONGOING_PROJECTS: '{{ route('Project.getOngoingProjects') }}',
             APPROVED_PROJECT: '{{ route('admin.Project.ApprovedProjectProposal') }}',
             GET_COMPLETED_PROJECTS: '{{ route('getCompletedProject') }}',
-            ASSIGNED_NEW_STAFF: '{{ route('admin.AssignNewStaff') }}'
+            ASSIGNED_NEW_STAFF: '{{ route('admin.AssignNewStaff') }}',
+
+            GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id', 'action' => 'view']) }}',
+            GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal', [':business_id', ':application_id', 'action' => 'view']) }}',
+            GET_RTEC_REPORT: '{{ route('staff.Applicant.get.rtec-report', [':business_id', ':application_id', 'action' => 'view']) }}',
 
         };
 

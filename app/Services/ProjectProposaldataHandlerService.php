@@ -12,9 +12,10 @@ class ProjectProposaldataHandlerService
         $this->ProjectProposalForm = $ProjectProposalForm;
     }
 
-    public function setProjectProposalData(array $data, int $business_id, int $application_id, string $key = 'project_proposal_form')
+    public function setProjectProposalData(array $data, int $business_id, int $application_id)
     {
         try {
+            $key = 'project_proposal_form';
             $existingRecord = $this->ProjectProposalForm->where([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
@@ -41,9 +42,10 @@ class ProjectProposaldataHandlerService
         }
     }
 
-    public function getProjectProposalData(int $business_id, int $application_id, string $key = 'project_proposal_form')
+    public function getProjectProposalData(int $business_id, int $application_id)
     {
         try {
+            $key = 'project_proposal_form';
             $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', $key)
@@ -51,6 +53,23 @@ class ProjectProposaldataHandlerService
             return $ProjectProposalForm ? $ProjectProposalForm->data : null;
         } catch (Exception $e) {
             throw new Exception('Error in getting Project Proposal data: ' . $e->getMessage());
+        }
+    }
+
+    public function updateStatusToSubmitted(int $business_id, int $application_id)
+    {
+        try {
+            $key = 'project_proposal_form';
+            $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
+                ->where('application_id', $application_id)
+                ->where('key', $key)
+                ->first();
+            if (!$ProjectProposalForm) {
+                throw new Exception('Project Proposal Form not found');
+            }
+            $ProjectProposalForm->update(['status' => 'Submitted']);
+        } catch (Exception $e) {
+            throw new Exception('Error in updating Project Proposal status to Submitted: ' . $e->getMessage());
         }
     }
 }

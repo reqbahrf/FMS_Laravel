@@ -14,20 +14,20 @@ class ProjectProposalNotification extends Notification implements ShouldBroadcas
 {
     use Queueable;
 
-    private ProjectInfo $ProposalInfo;
-    private string $Evaluated_By;
+    private array $ProposalInfo;
+    private int $Evaluated_By;
     private string $ProjectTitle;
     private string $Project_id;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($ProposalInfo, $Evaluated_by)
+    public function __construct(array $ProposalInfo, int $Evaluated_by)
     {
         $this->ProposalInfo = $ProposalInfo;
         $this->Evaluated_By = $Evaluated_by;
-        $this->ProjectTitle = $this->ProposalInfo->project_title;
-        $this->Project_id = $this->ProposalInfo->Project_id;
+        $this->ProjectTitle = $ProposalInfo['project_title'] ?? $ProposalInfo['Project_title'] ?? '';
+        $this->Project_id = $ProposalInfo['Project_id'] ?? $ProposalInfo['project_id'] ?? '';
     }
 
     /**
@@ -48,7 +48,7 @@ class ProjectProposalNotification extends Notification implements ShouldBroadcas
     {
         return [
             'title' => 'New project proposal',
-            'message' => ' Project proposal from ' . $this->Evaluated_By . ' Entitled ' . ' <strong> '. '"' . $this->ProjectTitle . '"' .' </strong>' . ' with Project id ' . ' <strong> ' . $this->Project_id . ' </strong>' . 'has been submitted.',
+            'message' => ' Project proposal from ' . $this->Evaluated_By . ' Entitled ' . ' <strong> ' . '"' . $this->ProjectTitle . '"' . ' </strong>' . ' with Project id ' . ' <strong> ' . $this->Project_id . ' </strong>' . 'has been submitted.',
         ];
     }
 

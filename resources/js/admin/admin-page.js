@@ -253,92 +253,86 @@ async function initializeAdminPageJs() {
                 '#CompletedpaymentTable'
             ).DataTable(paymentTableConfig);
 
-            const populateProjectProposalContainer = (data) => {
-                const ProjectProposalContainer = $('#projectProposalContainer');
+            //TODO: deprecate this function
+            // const populateProjectProposalContainer = (data) => {
+            //     const ProjectProposalContainer = $('#projectProposalContainer');
 
-                ProjectProposalContainer.find('#ProjectId').val(
-                    data.proposal_data.projectID
-                );
-                ProjectProposalContainer.find('#ProjectTitle').val(
-                    data.proposal_data.projectTitle
-                );
-                ProjectProposalContainer.find('#funded_Amount').val(
-                    data.proposal_data.fundAmount
-                );
+            //     ProjectProposalContainer.find('#ProjectId').val(
+            //         data.proposal_data.projectID
+            //     );
+            //     ProjectProposalContainer.find('#ProjectTitle').val(
+            //         data.proposal_data.projectTitle
+            //     );
+            //     ProjectProposalContainer.find('#funded_Amount').val(
+            //         data.proposal_data.fundAmount
+            //     );
 
-                ProjectProposalContainer.find(
-                    '#ExpectedOutputContainer'
-                ).append(
-                    data.proposal_data.expectedOutputs.map(
-                        (item) => `<li>${item}</li>`
-                    )
-                );
+            //     ProjectProposalContainer.find(
+            //         '#ExpectedOutputContainer'
+            //     ).append(
+            //         data.proposal_data.expectedOutputs.map(
+            //             (item) => `<li>${item}</li>`
+            //         )
+            //     );
 
-                ProjectProposalContainer.find(
-                    '#ApprovedEquipmentContainer'
-                ).append(
-                    data.proposal_data.equipmentDetails.map((item) => {
-                        return /*html*/ `<tr>
-                <td>${item.Qty}</td>
-                <td>${item.Actual_Particulars}</td>
-                <td>${item.Cost}</td>
-            </tr>`;
-                    })
-                );
+            //     ProjectProposalContainer.find(
+            //         '#ApprovedEquipmentContainer'
+            //     ).append(
+            //         data.proposal_data.equipmentDetails.map((item) => {
+            //             return /*html*/ `<tr>
+            //     <td>${item.Qty}</td>
+            //     <td>${item.Actual_Particulars}</td>
+            //     <td>${item.Cost}</td>
+            // </tr>`;
+            //         })
+            //     );
 
-                ProjectProposalContainer.find(
-                    '#ApprovedNonEquipmentContainer'
-                ).append(
-                    data.proposal_data.nonEquipmentDetails.map((item) => {
-                        return /*html*/ `<tr>
-                <td>${item.Qty}</td>
-                <td>${item.Actual_Particulars}</td>
-                <td>${item.Cost}</td>
-            </tr>`;
-                    })
-                );
-                ProjectProposalContainer.find('#To_Be_Refunded').val(
-                    formatNumberToCurrency(parseFloat(data.To_Be_Refunded))
-                );
-                ProjectProposalContainer.find('#Date_FundRelease').val(
-                    customDateFormatter(data.proposal_data.dateOfFundRelease)
-                );
-                ProjectProposalContainer.find('#Applied').val(
-                    customDateFormatter(data.date_applied)
-                );
-                ProjectProposalContainer.find('#evaluated').val(
-                    `${data?.prefix} ${data.f_name} ${data.mid_name} ${data.l_name} ${data?.suffix}`
-                );
-            };
+            //     ProjectProposalContainer.find(
+            //         '#ApprovedNonEquipmentContainer'
+            //     ).append(
+            //         data.proposal_data.nonEquipmentDetails.map((item) => {
+            //             return /*html*/ `<tr>
+            //     <td>${item.Qty}</td>
+            //     <td>${item.Actual_Particulars}</td>
+            //     <td>${item.Cost}</td>
+            // </tr>`;
+            //         })
+            //     );
+            //     ProjectProposalContainer.find('#To_Be_Refunded').val(
+            //         formatNumberToCurrency(parseFloat(data.To_Be_Refunded))
+            //     );
+            //     ProjectProposalContainer.find('#Date_FundRelease').val(
+            //         customDateFormatter(data.proposal_data.dateOfFundRelease)
+            //     );
+            //     ProjectProposalContainer.find('#Applied').val(
+            //         customDateFormatter(data.date_applied)
+            //     );
+            //     ProjectProposalContainer.find('#evaluated').val(
+            //         `${data?.prefix} ${data.f_name} ${data.mid_name} ${data.l_name} ${data?.suffix}`
+            //     );
+            // };
+            //TODO: deprecate this function
+            // const getProjectProposal = async (businessId, projectId) => {
+            //     try {
+            //         const response = await $.ajax({
+            //             headers: {
+            //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+            //                     'content'
+            //                 ),
+            //             },
+            //             url: PROJECT_LIST_ROUTE.GET_PROJECTS_PROPOSAL.replace(
+            //                 ':business_id',
+            //                 businessId
+            //             ).replace(':project_id', projectId),
+            //             type: 'GET',
+            //             dataType: 'json', // Expect a JSON response
+            //         });
 
-            /**
-             * Fetches a project proposal for a given business ID and project ID and updates the form fields with the response data.
-             *
-             * @param {number} businessId - The ID of the business.
-             * @param {number} projectId - The ID of the project.
-             * @return {Promise<void>} - A promise that resolves when the form fields are updated.
-             */
-            const getProjectProposal = async (businessId, projectId) => {
-                try {
-                    const response = await $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        url: PROJECT_LIST_ROUTE.GET_PROJECTS_PROPOSAL.replace(
-                            ':business_id',
-                            businessId
-                        ).replace(':project_id', projectId),
-                        type: 'GET',
-                        dataType: 'json', // Expect a JSON response
-                    });
-
-                    populateProjectProposalContainer(response);
-                } catch (error) {
-                    console.log('Error: ' + error);
-                }
-            };
+            //         populateProjectProposalContainer(response);
+            //     } catch (error) {
+            //         console.log('Error: ' + error);
+            //     }
+            // };
 
             /**
              * Event listener for the click event on the .viewApproval button.
@@ -353,14 +347,19 @@ async function initializeAdminPageJs() {
             $('#ApprovaltableBody').on('click', '.viewApproval', function () {
                 const row = $(this).closest('tr');
                 const inputs = row.find('input');
-                const offCanvaReadonlyInputs = $('#approvalDetails').find(
-                    'input, span.fee--label'
+                const approvedDetailContainer = $('#approvalDetails');
+                const approvedBtn = approvedDetailContainer.find(
+                    'button#approvedButton'
                 );
+                const offCanvaReadonlyInputs =
+                    approvedDetailContainer.find('input[type="text"]');
 
                 const cooperatorName = row.find('td:eq(0)').text().trim();
+                const evaluated_by = inputs.filter('.evaluated_by_name').val();
+                const applicationId = inputs.filter('.application_id').val();
                 const designation = inputs.filter('.designation').val();
                 const businessId = inputs.filter('.business_id').val();
-                const Project_id = inputs.filter('.Project_id').val();
+                const projectId = inputs.filter('.Project_id').val();
                 const businessAddress = inputs
                     .filter('.business_address')
                     .val();
@@ -387,6 +386,7 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs
                     .filter('.cooperatorName')
                     .val(cooperatorName);
+                offCanvaReadonlyInputs.filter('#evaluated').val(evaluated_by);
                 offCanvaReadonlyInputs.filter('.designation').val(designation);
                 offCanvaReadonlyInputs.filter('#b_id').val(businessId);
                 offCanvaReadonlyInputs
@@ -408,12 +408,12 @@ async function initializeAdminPageJs() {
                     .filter('#workingCapital')
                     .val(formatNumberToCurrency(workingCapitalAssets));
 
-                offCanvaReadonlyInputs
-                    .filter('span.fee--label')
-                    .text(fee_applied);
+                approvedBtn
+                    .attr('data-business-id', businessId)
+                    .attr('data-project-id', projectId);
+
                 const staffListSelector = $('#Assigned_to');
-                // Trigger additional actions
-                getProjectProposal(businessId, Project_id);
+                getProjectFormList(businessId, applicationId);
                 getStafflist(staffListSelector);
             });
 
@@ -833,45 +833,69 @@ async function initializeAdminPageJs() {
                     ForApprovalDataTable.rows.add(
                         data.map((project) => {
                             return [
-                                /*html*/ `${project.prefix ? project.prefix : ''}
-                                    ${project.f_name} ${project.mid_name}.
-                                    ${project.l_name}
-                                    ${project.suffix ? project.suffix : ''}
+                                /*html*/ `
+                                ${[
+                                    project?.applicant_prefix,
+                                    project?.applicant_f_name,
+                                    project?.applicant_mid_name,
+                                    project?.applicant_l_name,
+                                    project?.applicant_suffix,
+                                ]
+                                    .filter(Boolean)
+                                    .map(String)
+                                    .map((part) => part.trim())
+                                    .join(' ')}
                                     <input
                                         type="hidden"
                                         class="designation"
-                                        value="${project.designation}"
+                                        value="${project?.applicant_designation}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="application_id"
+                                        value="${project?.application_id}"
                                     />
                                     <input
                                         type="hidden"
                                         class="mobile_number"
-                                        value="${project.mobile_number}"
+                                        value="${project?.applicant_mobile_number}"
                                     />
                                     <input
                                         type="hidden"
                                         class="email"
-                                        value="${project.email}"
+                                        value="${project?.applicant_email}"
                                     />
                                     <input
                                         type="hidden"
                                         class="landline"
-                                        value="${project.landline ?? ''}"
+                                        value="${project?.applicant_landline ?? ''}"
                                     />`,
-                                /*html*/ `${project.firm_name}
+                                /*html*/ `${project?.firm_name}
                                     <input
                                         type="hidden"
                                         class="business_id"
-                                        value="${project.id}"
+                                        value="${project?.id}"
                                     />
                                     <input
                                         type="hidden"
                                         class="business_address"
-                                        value=" ${project.landMark} ${project.barangay}, ${project.city}, ${project.province}, ${project.region}, ${project.zip_code}"
+                                        value=" ${[
+                                            project?.landMark,
+                                            project?.barangay,
+                                            project?.city,
+                                            project?.province,
+                                            project?.region,
+                                            project?.zip_code,
+                                        ]
+                                            .filter(Boolean)
+                                            .map(String)
+                                            .map((part) => part.trim())
+                                            .join(', ')}"
                                     />
                                     <input
                                         type="hidden"
                                         class="type_of_enterprise"
-                                        value="${project.enterprise_type}"
+                                        value="${project?.enterprise_type}"
                                     />
                                     <input
                                         type="hidden"
@@ -898,6 +922,26 @@ async function initializeAdminPageJs() {
                                         type="hidden"
                                         class="Project_id"
                                         value="${project.Project_id}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="evaluated_by_id"
+                                        value="${project.evaluated_by_id}"
+                                    />
+                                    <input
+                                        type="hidden"
+                                        class="evaluated_by_name"
+                                        value="${[
+                                            project?.evaluated_by_prefix,
+                                            project?.evaluated_by_f_name,
+                                            project?.evaluated_by_mid_name,
+                                            project?.evaluated_by_l_name,
+                                            project?.evaluated_by_suffix,
+                                        ]
+                                            .filter(Boolean)
+                                            .map(String)
+                                            .map((part) => part.trim())
+                                            .join(' ')}"
                                     />
                                     <input
                                         type="hidden"
@@ -948,6 +992,134 @@ async function initializeAdminPageJs() {
                     );
                 }
             }
+
+            const formatFormKey = (key) => {
+                // Predefined map of specific acronyms to their uppercase versions
+                const acronymMap = {
+                    tna: 'TNA',
+                    rtec: 'RTEC',
+                };
+
+                return key
+                    .split('_')
+                    .map((word) => {
+                        // Check if the word is in our predefined acronym map
+                        if (acronymMap[word.toLowerCase()]) {
+                            return acronymMap[word.toLowerCase()];
+                        }
+                        // Check if the word is an acronym (all uppercase letters)
+                        if (/^[A-Z]+$/.test(word)) {
+                            return word; // Keep the word in its original uppercase form
+                        }
+                        // Otherwise, capitalize the first letter
+                        return word.charAt(0).toUpperCase() + word.slice(1);
+                    })
+                    .join(' ');
+            };
+
+            const getProjectFormList = async (businessId, applicationId) => {
+                const projectForm = $('#projectFormsTable tbody');
+                try {
+                    const response = await $.ajax({
+                        url: PROJECT_LIST_ROUTE.GET_PROJECT_FORMS.replace(
+                            ':business_id',
+                            businessId
+                        ).replace(':application_id', applicationId),
+                        type: 'GET',
+                    });
+
+                    // Corrected mapping and HTML generation
+                    const formList = response
+                        .map(
+                            (form) => /*html*/ `
+                        <tr>
+                            <td>${formatFormKey(form.key ?? '')}</td>
+                            <td>${customDateFormatter(form.created_at ?? '')}</td>
+                            <td>${customDateFormatter(form.updated_at ?? '')}</td>
+                            <td>
+                                <button
+                                    class="btn btn-primary viewForm"
+                                    type="button"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#viewProjectForm"
+                                    data-form-key="${form.key}"
+                                    data-business-id="${businessId}"
+                                    data-application-id="${applicationId}"
+                                    aria-controls="viewProjectForm"
+                                >
+                                <i class="ri-eye-line ri-1x"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `
+                        )
+                        .join(''); // Important: join the array of strings
+
+                    projectForm.empty().append(formList);
+                } catch (error) {
+                    console.error('Error fetching project forms:', error);
+                    // Consider showing a user-friendly error message
+                    projectForm.empty().append(`
+                        <tr>
+                            <td colspan="4" class="text-center text-danger">
+                                Unable to load project forms
+                            </td>
+                        </tr>
+                    `);
+                }
+            };
+
+            const getProjectForm = async (
+                businessId,
+                applicationId,
+                formKey
+            ) => {
+                const projectFormModal = $('#viewProjectForm .modal-body');
+                try {
+                    let resourceToFetch = '';
+                    switch (formKey) {
+                        case 'tna_form':
+                            resourceToFetch =
+                                PROJECT_LIST_ROUTE.GET_TNA_DOCUMENT;
+                            break;
+                        case 'project_proposal_form':
+                            resourceToFetch =
+                                PROJECT_LIST_ROUTE.GET_PROJECT_PROPOSAL;
+                            break;
+                        case 'rtec_report_form':
+                            resourceToFetch =
+                                PROJECT_LIST_ROUTE.GET_RTEC_REPORT;
+                            break;
+                        default:
+                            throw new Error('Invalid form key');
+                    }
+                    const response = await $.ajax({
+                        url: resourceToFetch
+                            .replace(':business_id', businessId)
+                            .replace(':application_id', applicationId),
+                        type: 'GET',
+                    });
+                    projectFormModal.empty().html(response);
+                } catch (error) {
+                    throw error;
+                }
+            };
+
+            const projectFormModal = $('#viewProjectForm');
+            projectFormModal.on('show.bs.modal', async function (event) {
+                try {
+                    const btn = $(event.relatedTarget);
+                    const businessId = btn.attr('data-business-id');
+                    const applicationId = btn.attr('data-application-id');
+                    const formKey = btn.attr('data-form-key');
+                    await getProjectForm(businessId, applicationId, formKey);
+                } catch (error) {
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error?.message || 'Error in Retrieving Project Form'
+                    );
+                }
+            });
 
             const approvedProjectProposal = async (
                 businessId,
@@ -1000,19 +1172,29 @@ async function initializeAdminPageJs() {
 
             //Submit the Approved Proposal
             $('#approvedButton').on('click', function () {
-                const businessId = $('#b_id').val();
-                const projectId = $('#ProjectId').val();
-                const assignedStaff_Id = $('#Assigned_to').val();
+                try {
+                    const btn = $(this);
+                    const businessId = btn.attr('data-business-id');
+                    const projectId = btn.attr('data-project-id');
+                    const assignedStaff_Id = $('#Assigned_to').val();
 
-                if (
-                    typeof businessId !== 'undefined' &&
-                    typeof projectId !== 'undefined' &&
-                    typeof assignedStaff_Id !== 'undefined'
-                ) {
-                    approvedProjectProposal(
-                        businessId,
-                        projectId,
-                        assignedStaff_Id
+                    if (
+                        typeof businessId !== 'undefined' &&
+                        typeof projectId !== 'undefined' &&
+                        typeof assignedStaff_Id !== 'undefined'
+                    ) {
+                        approvedProjectProposal(
+                            businessId,
+                            projectId,
+                            assignedStaff_Id
+                        );
+                    }
+                } catch (error) {
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error.message ||
+                            error ||
+                            'Error in Approved Project Proposal'
                     );
                 }
             });
@@ -2177,7 +2359,9 @@ async function initializeAdminPageJs() {
 
                     const offcanvas = $(this);
 
-                    offcanvas.find('#userProfile').html(changeProfilePicStyle(userProfile));
+                    offcanvas
+                        .find('#userProfile')
+                        .html(changeProfilePicStyle(userProfile));
                     staffAuditLogs.getSelectedStaffActivityLog(staff_id);
                 } catch (error) {
                     showToastFeedback('text-bg-danger', error);

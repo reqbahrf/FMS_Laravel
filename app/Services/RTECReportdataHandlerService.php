@@ -54,5 +54,22 @@ class RTECReportdataHandlerService
         }
     }
 
+    public function updateStatusToSubmitted(int $business_id, int $application_id)
+    {
+        try {
+            $key = 'rtec_report_form';
+            $RTECReport = $this->RTECReportData->where('business_id', $business_id)
+                ->where('application_id', $application_id)
+                ->where('key', $key)
+                ->first();
+            if (!$RTECReport) {
+                throw new Exception('RTEC Report Form not found');
+            }
+            $RTECReport->update(['status' => 'Submitted']);
+        } catch (Exception $e) {
+            throw new Exception('Error in updating RTEC Report status to Submitted: ' . $e->getMessage());
+        }
+    }
+
 }
 

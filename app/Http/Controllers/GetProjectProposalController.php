@@ -10,6 +10,8 @@ use Illuminate\Support\Facades\Log;
 
 class GetProjectProposalController extends Controller
 {
+
+    //TODO: deprecated this controller
     /**
      * Handle the incoming request.
      */
@@ -39,33 +41,20 @@ class GetProjectProposalController extends Controller
                 'org_users_info.mid_name',
                 'org_users_info.l_name',
                 'org_users_info.suffix',
-                'project_proposal.data as proposal_data',
             ])
                 ->join('project_info', 'project_info.business_id', '=', 'business_info.id')
                 ->join('org_users_info', 'project_info.evaluated_by_id', '=', 'org_users_info.id')
                 ->join('application_info', 'application_info.business_id', '=', 'business_info.id')
-                ->join('project_proposal', 'project_info.Project_id', '=', 'project_proposal.Project_id')
                 ->where('application_info.application_status', 'pending')
                 ->where('business_info.id', '=',   $business_id)
                 ->where('project_info.Project_id', '=',  $project_id)
                 ->first();
 
-            if ($projectProposal) {
-                $projectProposalArray = $projectProposal->toArray();
-
-                // Decode the JSON data in 'proposal_data' column if it's not null
-                if (!empty($projectProposalArray['proposal_data'])) {
-                    $projectProposalArray['proposal_data'] = json_decode($projectProposalArray['proposal_data'], true);
-                }
-
-                return response()->json($projectProposalArray);
-            } else {
-                return response()->json(['error' => 'No data found.'], 404);
-            }
+            return response()->json($projectProposal, 200);
         } catch (Exception $e) {
             Log::error('Error retrieving project proposal: ' . $e->getMessage());
 
-            return response()->json(['error' => 'Error retrieving project proposal'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

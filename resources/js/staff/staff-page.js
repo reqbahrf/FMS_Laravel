@@ -1984,7 +1984,10 @@ async function initializeStaffPageJs() {
                             business_id: businessID,
                         },
                     });
-                    showToastFeedback('text-bg-success', response?.message || response?.responseJSON?.message   );
+                    showToastFeedback(
+                        'text-bg-success',
+                        response?.message || response?.responseJSON?.message
+                    );
                 } catch (error) {
                     showToastFeedback(
                         'text-bg-danger',
@@ -4027,7 +4030,6 @@ async function initializeStaffPageJs() {
             await getOngoingProjects();
             await getCompletedProjects();
         },
-
         AddProject: async () => {
             const module = await import('../application-page');
             // If you know specific functions that need to be called
@@ -4102,6 +4104,9 @@ async function initializeStaffPageJs() {
                 async function () {
                     const row = $(this).closest('tr');
                     const fullName = row.find('td:nth-child(1)').text().trim();
+                    const actionBtn = ApplicantProgressContainer.find(
+                        '#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport, #submitToAdmin'
+                    );
                     const sex = row
                         .find("td:nth-child(1) input[name='sex']")
                         .val();
@@ -4178,9 +4183,7 @@ async function initializeStaffPageJs() {
                         '.businessInfo input'
                     );
 
-                    $(
-                        '#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport'
-                    )
+                    actionBtn
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
 
@@ -4238,6 +4241,62 @@ async function initializeStaffPageJs() {
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
                     getProposalDraft(ApplicationID);
+                }
+            );
+
+            ApplicantProgressContainer.on(
+                'click',
+                'button#submitToAdmin',
+                async function (e) {
+                    try {
+                        const isConfirmed = await createConfirmationModal({
+                            title: 'Submit to Admin',
+                            message:
+                                'Are you sure you want to submit this application to admin?',
+                            confirmText: 'Submit',
+                        });
+                        if (!isConfirmed) {
+                            return;
+                        }
+                        showProcessToast('Submitting to Admin...');
+
+                        const business_id =
+                            e.target.attributes['data-business-id'].value;
+                        const application_id =
+                            e.target.attributes['data-application-id'].value;
+
+                        if (!business_id || !application_id) {
+                            throw new Error(
+                                'Business ID or Application ID is missing'
+                            );
+                        }
+                        const response = await $.ajax({
+                            url: APPLICANT_TAB_ROUTE.SUBMIT_TO_ADMIN.replace(
+                                ':business_id',
+                                business_id
+                            ).replace(':application_id', application_id),
+                            type: 'PUT',
+                            headers: {
+                                'X-CSRF-TOKEN': $(
+                                    'meta[name="csrf-token"]'
+                                ).attr('content'),
+                            },
+                        });
+                        showToastFeedback(
+                            'text-bg-success',
+                            response?.message ||
+                                'Project submitted to admin successfully'
+                        );
+                        hideProcessToast();
+                    } catch (error) {
+                        hideProcessToast();
+                        showToastFeedback(
+                            'text-bg-danger',
+                            error?.responseJSON?.message ||
+                                error?.message ||
+                                'Error submitting application to admin'
+                        );
+                    }
                 }
             );
 
@@ -5000,7 +5059,7 @@ ${output}</textarea
                 }
             );
 
-            ApplicantProgressContainer.smartWizard({
+            const smartWizardInstance = ApplicantProgressContainer.smartWizard({
                 selected: 0,
                 theme: 'dots',
                 transition: {
@@ -5010,8 +5069,29 @@ ${output}</textarea
                     showNextButton: true, // show/hide a Next button
                     showPreviousButton: true, // show/hide a Previous button
                     position: 'both buttom', // none/ top/ both bottom
+                    extraHtml: /*html*/ `<button class="btn btn-success hidden" id="submitToAdmin" data-action="DraftForm">Submit To Admin</button>`,
                 },
             });
+
+            smartWizardInstance.on(
+                'showStep',
+                function (
+                    e,
+                    anchorObject,
+                    stepIndex,
+                    stepDirection,
+                    stepPosition
+                ) {
+                    const submitToAdminBtn =
+                        ApplicantProgressContainer.find('#submitToAdmin');
+                    console.log(stepPosition);
+                    if (stepPosition !== 'last') {
+                        submitToAdminBtn.hide();
+                    } else {
+                        submitToAdminBtn.show();
+                    }
+                }
+            );
 
             const { TNAForm, ProjectProposalForm, RTECReportForm } =
                 await import('./application-process-form-class');

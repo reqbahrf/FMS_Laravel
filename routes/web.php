@@ -44,12 +44,14 @@ use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
+use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
 use App\Http\Controllers\Coop_QuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
+use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
 use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
 
 Route::get('/', function () {
@@ -258,16 +260,6 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::post('/Staff/Project/Create-StatusReport', [staffGenerateSRController::class, 'index'])
         ->name('staff.Create-StatusReport');
 
-    //Staff Evaluation Schedule Set date
-    Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])
-        ->name('staff.set.EvaluationSchedule');
-
-    //Get evaluation schedule
-    Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
-        ->name('staff.get.EvaluationSchedule');
-
-
-
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
     Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class);
@@ -278,6 +270,18 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
     Route::post('/send-rejection-email', [RejectionEmailController::class, 'sendRejectionEmail'])
         ->name('send.rejection.email');
+
+
+    //Staff Evaluation Schedule Set date
+    Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])
+        ->name('staff.set.EvaluationSchedule');
+
+    //Get evaluation schedule
+    Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
+        ->name('staff.get.EvaluationSchedule');
+
+    Route::put('/staff/submit-applicant/to/admin/{business_id}/{application_id}', [SubmissionToAdminController::class, 'submitToAdmin'])
+        ->name('staff.submit.applicant.to.admin');
 });
 
 //Staff Route End
@@ -335,6 +339,12 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
 
     Route::get('/activity/logs/user/{user_id}', [UserActivityLogController::class, 'getSelectedUserActivityLog'])
         ->name('activity.logs.user');
+
+    Route::put('/Admin/approved/project/{business_id}/{application_id}/{staff_id}', [AdminProjectController::class, 'approvedProject'])
+        ->name('admin.Project.ApprovedProject');
+
+    Route::get('/Admin/get/Project-Form/{business_id}/{application_id}', GetProjectFormListController::class)
+        ->name('admin.Project.GetProjectFormList');
 });
 
 //Admin Route End

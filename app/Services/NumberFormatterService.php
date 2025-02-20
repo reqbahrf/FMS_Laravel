@@ -11,14 +11,15 @@ class NumberFormatterService
      * @param string|null $number Number string with possible thousand separators
      * @return float
      */
-    public static function parseFormattedNumber($number)
+    public static function parseFormattedNumber(string $number): float
     {
         if (is_null($number)) {
             return 0;
         }
 
-        // Remove thousand separators and convert to float
-        return (float) str_replace(',', '', $number);
+         // Remove thousand separators, format to 2 decimal places
+         $cleanNumber = str_replace(',', '', $number);
+         return floatval(number_format((float)$cleanNumber, 2, '.', ''));
     }
 
     /**

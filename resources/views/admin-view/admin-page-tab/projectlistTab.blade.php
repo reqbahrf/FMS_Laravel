@@ -3,6 +3,7 @@
 </div>
 
 <!-- Modal -->
+@include('admin-view.admin-page-tab.included_layout.application-form-review-modal')
 <div
     class="modal fade"
     id="assignNewStaffModal"
@@ -223,7 +224,7 @@
                 <div class="card-header bg-primary">
                     <h5 class="text-white mb-0">
                         <i class="ri-draft-fill"></i>
-                        Project Proposal
+                        Project Forms
                     </h5>
                 </div>
                 <div
@@ -231,110 +232,26 @@
                     id="projectProposalContainer"
                 >
                     <div class="row gy-2">
-                        <div class="col-12 col-md-3">
-                            <label for="ProjectId">Project Id:</label>
-                            <input
-                                class="form-control"
-                                id="ProjectId"
-                                type="text"
-                                value=""
-                                readonly
-                            >
-                        </div>
-                        <div class="col-12 col-md-9">
-                            <label for="ProjectTitle">Project Title:</label>
-                            <input
-                                class="form-control"
-                                id="ProjectTitle"
-                                type="text"
-                                value=""
-                                readonly
-                            >
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="Amount">Approved Amount:</label>
-                            <div class="input-group">
-                                <span class="input-group-text">₱</span>
-                                <input
-                                    class="form-control"
-                                    id="funded_Amount"
-                                    type="text"
-                                    value=""
-                                    readonly
-                                >
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <label for="To_Be_Refunded">Amount: <span class="text-muted fee--label"></span></label>
-                            <div class="input-group">
-                                <span class="input-group-text">₱</span>
-                                <input
-                                    class="form-control"
-                                    id="To_Be_Refunded"
-                                    type="text"
-                                    value=""
-                                    readonly
-                                >
-                            </div>
-                        </div>
-                        <hr>
                         <div class="col-12">
-                            <h6>Expected Outputs</h6>
-                            <ul id="ExpectedOutputContainer">
-
-                            </ul>
-                        </div>
-                        <div class="col-12">
-                            <h6>Approved Equipment</h6>
-                            <table class="table">
+                            <table
+                                class="table table-hover"
+                                id="projectFormsTable"
+                            >
                                 <thead>
                                     <tr>
-                                        <th
-                                            scope="col"
-                                            width="10%"
-                                        >Qty</th>
-                                        <th
-                                            scope="col"
-                                            width="70%"
-                                        >Particular</th>
-                                        <th
-                                            scope="col"
-                                            width="20%"
-                                        >Cost</th>
+                                        <th>Form Name</th>
+                                        <th>Created at</th>
+                                        <th>Updated at</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody id="ApprovedEquipmentContainer">
+                                <tbody>
 
                                 </tbody>
                             </table>
                         </div>
-                        <hr>
-                        <div class="col-12">
-                            <h6>Approved Non-Equipment</h6>
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th
-                                            scope="col"
-                                            width="10%"
-                                        >Qty</th>
-                                        <th
-                                            scope="col"
-                                            width="70%"
-                                        >Particular</th>
-                                        <th
-                                            scope="col"
-                                            width="20%"
-                                        >Cost</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="ApprovedNonEquipmentContainer">
-
-                                </tbody>
-                            </table>
-                        </div>
-                        <hr>
-                        <div class="col-12 col-md-6">
+                        {{-- TODO: Comment for now --}}
+                        {{-- <div class="col-12 col-md-6">
                             <label for="Applied">Date Applied:</label>
                             <input
                                 class="form-control"
@@ -353,7 +270,7 @@
                                 value=""
                                 readonly
                             >
-                        </div>
+                        </div> --}}
                         <div class="col-12 col-md-6">
                             <label for="evaluated">Evaluated by:</label>
                             <input
@@ -607,7 +524,10 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-4">
-                                <label for="amount_to_be_refunded" class="amount-to-be-refunded-label">Amount to be refunded:</label>
+                                <label
+                                    class="amount-to-be-refunded-label"
+                                    for="amount_to_be_refunded"
+                                >Amount to be refunded:</label>
                                 <div class="input-group">
                                     <span class="input-group-text">₱</span>
                                     <input
