@@ -2,9 +2,7 @@
 
 <form
     id="ProjectProposalForm"
-    @if ($isEditable)
-    action="{{ route('staff.Applicant.set.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
-    @endif
+    @if ($isEditable) action="{{ route('staff.Applicant.set.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}" @endif
 >
     @csrf
     <div class="center">
@@ -56,8 +54,8 @@
                     @if ($isEditable)
                         <input
                             name="project_cost"
-                            type="text"
                             data-custom-numeric-input
+                            type="text"
                             value="{{ $ProjectProposaldata['project_cost'] ?? '' }}"
                             placeholder="(Total project cost including counterpart of the proponent)"
                         >
@@ -72,8 +70,8 @@
                     @if ($isEditable)
                         <input
                             name="amount_requested"
-                            type="text"
                             data-custom-numeric-input
+                            type="text"
                             value="{{ $ProjectProposaldata['amount_requested'] ?? '' }}"
                             placeholder="(DOST-SETUP counterpart or amount requested from DOST-SETUP)"
                         >
@@ -118,21 +116,33 @@
                 >PROJECT BACKGROUND:</td>
             </tr>
             <tr>
-                <td style="font-weight: bold;" colspan="9">A. Company Profile</td>
+                <td
+                    style="font-weight: bold;"
+                    colspan="9"
+                >A. Company Profile</td>
             </tr>
         </table>
     </div>
-    <x-project-proposal-form.company-profile-form :isEditable="$isEditable" :ProjectProposaldata="$ProjectProposaldata" />
+    <x-project-proposal-form.company-profile-form
+        :isEditable="$isEditable"
+        :ProjectProposaldata="$ProjectProposaldata"
+    />
 </form>
-@if($isEditable)
-  <button class="btn btn-primary ms-auto" type="submit" form="ProjectProposalForm">SET</button>
-@else
-<div class="d-flex justify-content-end">
-    <button
-        type="button"
-        data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
-        id="exportProjectProposalFormToPDF"
-        class="btn btn-primary text-end"
-    >Export as PDF</button>
-</div>
+@if ($isEditable && auth()->user()->role === 'Staff')
+    <div class="d-flex justify-content-end">
+        <button
+            class="btn btn-primary ms-auto"
+            form="ProjectProposalForm"
+            type="submit"
+        >SET Project Proposal</button>
+    </div>
+@elseif (auth()->user()->role === 'Staff')
+    <div class="d-flex justify-content-end">
+        <button
+            class="btn btn-primary text-end"
+            id="exportProjectProposalFormToPDF"
+            data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
+            type="button"
+        >Export as PDF</button>
+    </div>
 @endif
