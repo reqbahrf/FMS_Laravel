@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\ProjectProposaldataHandlerService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
@@ -11,7 +12,7 @@ class GetPendingProjectController extends Controller
     /**
      * Handle the incoming request.
      */
-    public function __invoke()
+    public function __invoke(ProjectProposaldataHandlerService $service)
     {
         try {
             if (Cache::has('pendingProjects')) {
@@ -65,9 +66,8 @@ class GetPendingProjectController extends Controller
 
                 Cache::put('pendingProjects', $pendingProjects, 1800);
             }
-            
-                return response()->json($pendingProjects, 200);
 
+            return response()->json($pendingProjects, 200);
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

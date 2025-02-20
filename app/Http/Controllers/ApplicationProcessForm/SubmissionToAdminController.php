@@ -54,6 +54,9 @@ class SubmissionToAdminController extends Controller
     public function submitToAdmin(
         Request $request,
         SubmitToAdminService $SubmitToAdmin,
+        ProjectFeeService $ProjectFee,
+        ProjectProposaldataHandlerService $ProjectProposal,
+
     ) {
         try {
             $business_id = $request->business_id;
@@ -64,7 +67,13 @@ class SubmissionToAdminController extends Controller
                 return response()->json(['message' => 'Invalid request data'], 400);
             }
 
-            $SubmitToAdmin->submitForReview($business_id, $application_id, $staff_id);
+            $SubmitToAdmin->submitForReview(
+                $business_id,
+                $application_id,
+                $staff_id,
+                $ProjectFee,
+                $ProjectProposal
+            );
 
             return response()->json(['message' => 'Submitted for review successfully'], 200);
         } catch (Exception $e) {

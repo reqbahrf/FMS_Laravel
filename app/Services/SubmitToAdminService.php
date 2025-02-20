@@ -49,22 +49,43 @@ class SubmitToAdminService
         }
     }
 
-    public function store(
+    public function approved(
         int $business_id,
         int $application_id,
         int $staff_id,
         ProjectProposaldataHandlerService $ProjectProposal,
-        ProjectFeeService $ProjectFee,
         TNAdataHandlerService $TNA,
         RTECReportdataHandlerService $RTEC
 
     ) {
         try {
 
-            $projectProposalData = $ProjectProposal->getProjectProposalData(
-                $business_id,
-                $application_id
-            );
+            $this->updateApplicationInfo($business_id, $application_id, null, 'approved');
+            $ProjectProposal->updateStatusToSubmitted($business_id, $application_id);
+            $TNA->updateStatusToSubmitted($business_id, $application_id);
+            $RTEC->updateStatusToSubmitted($business_id, $application_id);
+
+            DB::commit();
+            Cache::forget('pendingProjects');
+            Cache::forget('applicants');
+            // $adminUser = User::where('role', 'Admin')->get();
+
+            return response()->json(['message' => 'Submitted to admin successfully'], 200);
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception('Failed to submit to admin: ' . $e->getMessage());
+        }
+    }
+
+    public function submitForReview(
+        int $business_id,
+        int $application_id,
+        int $staff_id,
+        ProjectFeeService $ProjectFee,
+        ProjectProposaldataHandlerService $ProjectProposal,
+    ) {
+        try {
+            $projectProposalData = $ProjectProposal->getProjectProposalData($business_id, $application_id);
 
             $projectId = $this->generateProjectId();
             $projectTitle = $projectProposalData['project_title'];
@@ -87,34 +108,18 @@ class SubmitToAdminService
             DB::beginTransaction();
 
             $this->updateProjectInfo($business_id, $extractedProjectData);
-            $this->updateApplicationInfo($business_id, $application_id, $extractedApplicationData, 'approved');
-            $ProjectProposal->updateStatusToSubmitted($business_id, $application_id);
-            $TNA->updateStatusToSubmitted($business_id, $application_id);
-            $RTEC->updateStatusToSubmitted($business_id, $application_id);
+            $this->updateApplicationInfo($business_id, $application_id, $extractedApplicationData, 'pending');
 
             DB::commit();
             Cache::forget('pendingProjects');
             Cache::forget('applicants');
             $adminUser = User::where('role', 'Admin')->get();
-
             Notification::send($adminUser, new ProjectProposalNotification([
                 'project_title' => $projectTitle,
                 'Project_id' => $projectId
             ], $staff_id));
-
-            return response()->json(['message' => 'Submitted to admin successfully'], 200);
         } catch (Exception $e) {
             DB::rollBack();
-            throw new Exception('Failed to submit to admin: ' . $e->getMessage());
-        }
-    }
-
-    public function submitForReview(int $business_id, int $application_id, int $staff_id)
-    {
-        try {
-
-            $this->updateApplicationInfo($business_id, $application_id, null, 'pending');
-        } catch (Exception $e) {
             throw new Exception('Failed to submit for review: ' . $e->getMessage());
         }
     }

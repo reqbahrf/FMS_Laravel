@@ -4270,7 +4270,7 @@ async function initializeStaffPageJs() {
                                 'Business ID or Application ID is missing'
                             );
                         }
-                        const response = $.ajax({
+                        const response = await $.ajax({
                             url: APPLICANT_TAB_ROUTE.SUBMIT_TO_ADMIN.replace(
                                 ':business_id',
                                 business_id
