@@ -34,12 +34,11 @@ class SubmissionToAdminController extends Controller
                 return response()->json(['message' => 'Invalid request data'], 400);
             }
 
-            $SubmitToAdmin->store(
+            $SubmitToAdmin->approved(
                 $business_id,
                 $application_id,
                 $staff_id,
                 $ProjectProposal,
-                $ProjectFee,
                 $TNA,
                 $RTEC
             );

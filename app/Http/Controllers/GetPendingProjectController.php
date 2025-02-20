@@ -48,19 +48,19 @@ class GetPendingProjectController extends Controller
                         'project_info.fund_amount',
                         'project_info.fee_applied',
                         'project_info.created_at as date_proposed',
-                        'org_users_info.prefix',
-                        'org_users_info.f_name',
-                        'org_users_info.mid_name',
-                        'org_users_info.l_name',
-                        'org_users_info.suffix',
-                        'coop_users_info.f_name',
-                        'coop_users_info.mid_name',
-                        'coop_users_info.l_name',
-                        'coop_users_info.suffix',
-                        'coop_users_info.designation',
-                        'coop_users_info.mobile_number',
-                        'coop_users_info.landline',
-                        'users.email'
+                        'org_users_info.prefix as evaluated_by_prefix',
+                        'org_users_info.f_name as evaluated_by_f_name',
+                        'org_users_info.mid_name as evaluated_by_mid_name',
+                        'org_users_info.l_name as evaluated_by_l_name',
+                        'org_users_info.suffix as evaluated_by_suffix',
+                        'coop_users_info.f_name as applicant_f_name',
+                        'coop_users_info.mid_name as applicant_mid_name',
+                        'coop_users_info.l_name as applicant_l_name',
+                        'coop_users_info.suffix as applicant_suffix',
+                        'coop_users_info.designation as applicant_designation',
+                        'coop_users_info.mobile_number as applicant_mobile_number',
+                        'coop_users_info.landline as applicant_landline',
+                        'users.email as applicant_email'
                     ])
                     ->get();
 
