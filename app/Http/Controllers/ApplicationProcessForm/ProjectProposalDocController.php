@@ -17,14 +17,14 @@ class ProjectProposalDocController extends Controller
     {
         $this->ProjectProposal = $ProjectProposal;
     }
-    public function getProjectProposalForm(Request $request){
-        try{
+    public function getProjectProposalForm(Request $request)
+    {
+        try {
             $action = $request->action;
             $business_id = $request->business_id;
             $application_id = $request->application_id;
             $ProjectProposaldata = $this->ProjectProposal->getProjectProposalData($business_id, $application_id);
-
-            switch($action){
+            switch ($action) {
                 case 'view':
                     $isEditable = false;
                     break;
@@ -35,8 +35,8 @@ class ProjectProposalDocController extends Controller
                     throw new Exception('Invalid action');
             }
 
-            return view('components.project-proposal-form.main', compact('ProjectProposaldata','isEditable'));
-        }catch(Exception $e){
+            return view('components.project-proposal-form.main', compact('ProjectProposaldata', 'isEditable'));
+        } catch (Exception $e) {
             Log::error('Error in getProjectProposalForm: ', [
                 'business_id' => $business_id,
                 'error' => $e->getMessage()
@@ -58,7 +58,6 @@ class ProjectProposalDocController extends Controller
             });
 
             return response()->json(['message' => 'Project Proposal data set successfully'], 200);
-
         } catch (Exception $e) {
             Log::error('Error setting Project Proposal data', [
                 'business_id' => $request->business_id,
@@ -66,7 +65,6 @@ class ProjectProposalDocController extends Controller
             ]);
             return response()->json(['message' => 'Error setting Project Proposal data' . $e->getMessage()], 500);
         }
-
     }
 
     public function exportProjectProposalToPDF(Request $request, GeneratePDFAction $generatePDF)

@@ -1,6 +1,7 @@
 <div
     class="modal fade"
     id="viewProjectForm"
+    data-bs-backdrop="static"
     aria-labelledby="viewProjectFormLabel"
     aria-hidden="true"
     tabindex="-1"
