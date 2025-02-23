@@ -7,7 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\PaymentRecord;
 use App\Services\StructurePaymentYearService;
 
-class CalculateQuarterlyPayments
+class PaymentProcessingService
 {
     /**
      * Execute the payment calculation and creation
@@ -29,7 +29,7 @@ class CalculateQuarterlyPayments
         $startDateCarbon = Carbon::parse($startDate);
 
         // Process each year's payments
-        foreach ($activeYears as $year => $amount) {
+        foreach ($activeYears as $year) {
             self::processYearlyPayments(
                 $year,
                 $startDateCarbon->copy(),
