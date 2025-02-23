@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\OrgUserInfo;
 use App\Models\ProjectInfo;
 use App\Jobs\ProcessPayment;
-use App\Models\ApplicationInfo;
 use App\Models\BusinessInfo;
-use App\Models\OrgUserInfo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Mail;
+use App\Models\ApplicationInfo;
 use App\Mail\ProjectApprovalMail;
-use App\Notifications\ProjectAssignmentNotification;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Cache;
 use App\Services\PaymentProcessingService;
 use App\Services\ProjectProposaldataHandlerService;
+use App\Notifications\ProjectAssignmentNotification;
 
 class AdminProjectController extends Controller
 {
@@ -78,11 +79,14 @@ class AdminProjectController extends Controller
             if (!$paymentStructure || !$fundReleaseDate) {
                 throw new Exception('Failed to retrieve payment structure and fund release date');
             }
-
-            PaymentProcessingService::processPayments($fundReleaseDate, $paymentStructure, $project->Project_id);
-
             DB::commit();
 
+            if (empty($fundReleaseDate) || !strtotime($fundReleaseDate)) {
+                Log::error('Invalid fund release date', ['fundReleaseDate' => $fundReleaseDate]);
+                throw new Exception('Invalid fund release date');
+            }
+
+            PaymentProcessingService::processPayments($fundReleaseDate, $paymentStructure, $project_id);
 
             return response()->json([
                 'message' => 'Project proposal approved successfully.',

@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\PaymentRecord;
 use App\Services\StructurePaymentYearService;
+use PhpParser\Node\Stmt\TryCatch;
 
 class PaymentProcessingService
 {
@@ -22,11 +23,11 @@ class PaymentProcessingService
     {
         try {
 
-            // Calculate year totals using the service
-            $yearTotals = StructurePaymentYearService::calculateTotals($paymentStructure);
+            // Clean the payment structure (remove _total keys and null values)
+            $cleanedStructure = self::cleanPaymentStructure($paymentStructure);
 
-            // Calculate active years (years with payments > 0)
-            $activeYears = self::calculateActiveYears($yearTotals);
+            // Get unique years with payments
+            $activeYears = self::getActiveYears($cleanedStructure);
 
             // Set the payment start date
             $startDateCarbon = Carbon::parse($startDate);
@@ -37,7 +38,7 @@ class PaymentProcessingService
                     $year,
                     $startDateCarbon->copy(),
                     $projectId,
-                    $paymentStructure
+                    $cleanedStructure
                 );
             }
         } catch (Exception $e) {
@@ -46,24 +47,44 @@ class PaymentProcessingService
     }
 
     /**
-     * Calculate which years have payments
+     * Clean payment structure by removing total keys and null values
      */
-    private static function calculateActiveYears(array $yearTotals): array
+    private static function cleanPaymentStructure(array $paymentStructure): array
     {
         try {
 
+            $cleaned = [];
+            foreach ($paymentStructure as $key => $value) {
+                // Skip if key ends with _total or value is null
+                if (str_ends_with($key, '_total') || is_null($value)) {
+                    continue;
+                }
+                $cleaned[$key] = $value;
+            }
+            return $cleaned;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 
-            $activeYears = [];
-            foreach ($yearTotals as $key => $value) {
-                if (str_starts_with($key, 'y') && str_ends_with($key, '_total')) {
-                    $amount = StructurePaymentYearService::parseNumber($value);
-                    if ($amount > 0) {
-                        $year = (int) substr($key, 1, 1);
-                        $activeYears[$year] = $amount;
+    /**
+     * Get unique years that have payments
+     */
+    private static function getActiveYears(array $cleanedStructure): array
+    {
+        try {
+
+            $years = [];
+            foreach ($cleanedStructure as $key => $value) {
+                if (preg_match('/Y(\d+)$/', $key, $matches)) {
+                    $year = (int) $matches[1];
+                    if (!in_array($year, $years)) {
+                        $years[] = $year;
                     }
                 }
             }
-            return $activeYears;
+            sort($years);
+            return $years;
         } catch (Exception $e) {
             throw $e;
         }
@@ -99,7 +120,13 @@ class PaymentProcessingService
 
             foreach ($months as $monthIndex => $month) {
                 $key = "{$month}_Y{$yearNumber}";
-                $monthAmount = StructurePaymentYearService::parseNumber($paymentStructure[$key] ?? '0');
+
+                // Skip if key doesn't exist or value is null
+                if (!isset($paymentStructure[$key])) {
+                    continue;
+                }
+
+                $monthAmount = StructurePaymentYearService::parseNumber($paymentStructure[$key]);
 
                 if ($monthAmount > 0) {
                     // For first year, adjust dates based on start date
