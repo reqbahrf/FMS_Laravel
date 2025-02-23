@@ -123,39 +123,59 @@ const getQuarterlyReportLinks = async () => {
 getQuarterlyReportLinks();
 
 $(function () {
-    $('.sideNavButtonSmallScreen').on('click', function () {
-        new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
-    });
+    // Cache selectors
+    const mobileNavOffcanvas = $('#MobileNavOffcanvas');
+    const sidenav = $('.sidenav');
+    const toggleLeftMargin = $('#toggle-left-margin');
+    const logoTitleLScreen = $('.logoTitleLScreen');
+    const sidenavLinks = $('.sidenav a span');
+    const hoverLink = $('#hover-link');
 
-    $('.sideNavButtonLargeScreen').on('click', function () {
-        $('.sidenav').toggleClass('expanded minimized');
-        $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
-        $('.logoTitleLScreen').toggle();
-        //side bar minimize
-        $('.sidenav a span').each(function () {
-            $(this).toggleClass('d-none');
-        });
+    // Debounce function
+    function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
 
-        $('.sidenav a').each(function () {
-            $(this).toggleClass('justify-content-center');
-        });
-        //size bar minimize rotation
-        $('#hover-link').toggleClass('rotate-icon');
-    });
+    // Side Nav toggle for small screen
+    $('.sideNavButtonSmallScreen').on(
+        'click',
+        debounce(function () {
+            new bootstrap.Offcanvas(mobileNavOffcanvas).show();
+        }, 300)
+    );
 
-    //  Sidebar dropdown
+    // Side Nav toggle for large screen
+    $('.sideNavButtonLargeScreen').on(
+        'click',
+        debounce(function () {
+            sidenav.toggleClass('expanded minimized');
+            toggleLeftMargin.toggleClass('navExpanded navMinimized');
+            logoTitleLScreen.toggle();
 
-    $('.querterlyReportTab').on('click', function () {
-        const activeNav = $(this).closest('li');
-        const sideBarTasks = activeNav
-            .find('.sidebarTasks')
-            .toggleClass('d-none');
-        activeNav
-            .find('.ri-arrow-right-s-line, .ri-arrow-down-s-line')
-            .toggleClass('d-block d-none');
-    });
+            // Minimize sidebar
+            sidenavLinks.each(function () {
+                $(this).toggleClass('d-none');
+            });
+
+            sidenav.find('a').each(function () {
+                $(this).toggleClass('justify-content-center');
+            });
+
+            // Sidebar minimize rotation
+            hoverLink.toggleClass('rotate-icon');
+        }, 300)
+    );
 });
 
+/**
+ * Initializes and returns an object containing asynchronous functions for various coop page sections.
+ *
+ * @returns {Promise<object>} An object containing functions for Dashboard, Requirements, Project, QuarterlyReport, and ReportedQuarterlyReport.
+ */
 async function initilizeCoopPageJs() {
     const functions = {
         Dashboard: async () => {
