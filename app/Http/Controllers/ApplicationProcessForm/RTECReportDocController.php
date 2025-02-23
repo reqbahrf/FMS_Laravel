@@ -13,16 +13,16 @@ use App\Services\RTECReportdataHandlerService;
 
 class RTECReportDocController extends Controller
 {
-    public function __construct(private RTECReportdataHandlerService $RTECReportService){}
+    public function __construct(private RTECReportdataHandlerService $RTECReportService) {}
     public function getRTECReportForm(Request $request)
     {
-        try{
+        try {
             $action = $request->action;
             $business_id = $request->business_id;
             $application_id = $request->application_id;
             $RTECReportdata = $this->RTECReportService->getRTECReportData($business_id, $application_id);
 
-            switch($action){
+            switch ($action) {
                 case 'view':
                     $isEditable = false;
                     break;
@@ -35,7 +35,7 @@ class RTECReportDocController extends Controller
             }
 
             return view('components.rtec-report-form.main', ['RTECReportdata' => $RTECReportdata, 'isEditable' => $isEditable]);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error in getRTECReportForm: ', [$e->getMessage()]);
             return response()->json(['message' => 'Error in getRTECReportForm: ' . $e->getMessage()], 500);
         }
@@ -43,7 +43,7 @@ class RTECReportDocController extends Controller
 
     public function setRTECReportForm(RTECRequest $request)
     {
-        try{
+        try {
             $validated = $request->validated();
             DB::transaction(function () use ($validated, $request) {
                 $this->RTECReportService->setRTECReportData(
@@ -54,8 +54,7 @@ class RTECReportDocController extends Controller
             });
 
             return response()->json(['message' => 'RTEC Report data set successfully'], 200);
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error in setRTECReportForm: ', [$e->getMessage()]);
             return response()->json(['error' => 'Error in setRTECReportForm: ' . $e->getMessage()], 500);
         }
@@ -63,7 +62,7 @@ class RTECReportDocController extends Controller
 
     public function exportRTECReportFormToPDF(Request $request, GeneratePDFAction $generatePDF)
     {
-        try{
+        try {
             $business_id = $request->business_id;
             $application_id = $request->application_id;
             $RTECReportdata = $this->RTECReportService->getRTECReportData($business_id, $application_id);
@@ -73,10 +72,10 @@ class RTECReportDocController extends Controller
             }
 
             $htmlForm = view('application-process-forms.RTEC-report', ['RTECReportdata' => $RTECReportdata, 'isEditable' => false])->render();
-            return $generatePDF->execute('RTECReportForm', $htmlForm);
-        }catch(Exception $e){
+            return $generatePDF->execute('RTECReportForm', $htmlForm, true);
+        } catch (Exception $e) {
             Log::error('Error in exportRTECReportFormToPDF: ', [
-               'Error' => $e->getMessage()
+                'Error' => $e->getMessage()
             ]);
             return response()->json(['error' => 'Error in exportRTECReportFormToPDF: ' . $e->getMessage()], 500);
         }

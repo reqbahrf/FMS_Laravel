@@ -181,8 +181,10 @@ class ApplicationController extends Controller
         }
     }
 
-    private function initializeApplicationProcessFormContainer(int $business_id, int $application_id)
-    {
+    private function initializeApplicationProcessFormContainer(
+        int $business_id,
+        int $application_id,
+    ) {
         try {
             $initialData = json_encode([
                 'business_id' => $business_id,

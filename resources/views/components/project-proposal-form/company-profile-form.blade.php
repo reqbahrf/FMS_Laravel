@@ -15,6 +15,14 @@
         <td width="15%"></td>
         <td width="5%"></td>
         <td width="15%"></td>
+        <td width="5%"></td>
+        <td width="15%"></td>
+        <td width="5%"></td>
+        <td width="15%"></td>
+        <td width="5%"></td>
+        <td width="15%"></td>
+        <td width="5%"></td>
+        <td width="15%"></td>
     </tr>
     <tr>
         <td>Name of Firm</td>
@@ -98,6 +106,7 @@
                 <input
                     name="year_established"
                     data-year-input
+                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['year_established'] ?? '' }}"
                     maxlength="4"
@@ -248,6 +257,7 @@
                     name="direct_workers_male"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['direct_workers_male'] ?? '' }}"
                 >
             @else
@@ -260,6 +270,7 @@
                     name="direct_workers_female"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['direct_workers_female'] ?? '' }}"
                 >
             @else
@@ -271,6 +282,7 @@
                 <input
                     name="direct_workers_total"
                     data-custom-numeric-input
+                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['direct_workers_total'] ?? '' }}"
                 >
@@ -287,6 +299,7 @@
                     name="production_male"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['production_male'] ?? '' }}"
                 >
             @else
@@ -299,6 +312,7 @@
                     name="production_female"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['production_female'] ?? '' }}"
                 >
             @else
@@ -310,6 +324,7 @@
                 <input
                     name="production_total"
                     data-custom-numeric-input
+                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['production_total'] ?? '' }}"
                 >
@@ -326,6 +341,7 @@
                     name="non_production_male"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['non_production_male'] ?? '' }}"
                 >
             @else
@@ -338,6 +354,7 @@
                     name="non_production_female"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['non_production_female'] ?? '' }}"
                 >
             @else
@@ -349,6 +366,7 @@
                 <input
                     name="non_production_total"
                     data-custom-numeric-input
+                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['non_production_total'] ?? '' }}"
                 >
@@ -365,6 +383,7 @@
                     name="indirect_contract_workers_male"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['indirect_contract_workers_male'] ?? '' }}"
                 >
             @else
@@ -377,6 +396,7 @@
                     name="indirect_contract_workers_female"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['indirect_contract_workers_female'] ?? '' }}"
                 >
             @else
@@ -388,6 +408,7 @@
                 <input
                     name="indirect_contract_workers_total"
                     data-custom-numeric-input
+                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['indirect_contract_workers_total'] ?? '' }}"
                 >
@@ -404,6 +425,7 @@
                     name="total_male"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['total_male'] ?? '' }}"
                 >
             @else
@@ -416,6 +438,7 @@
                     name="total_female"
                     data-custom-numeric-input
                     type="text"
+                    type="text"
                     value="{{ $ProjectProposaldata['total_female'] ?? '' }}"
                 >
             @else
@@ -427,6 +450,7 @@
                 <input
                     name="employee_total"
                     data-custom-numeric-input
+                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['employee_total'] ?? '' }}"
                 >
@@ -904,6 +928,9 @@
                         $ProjectProposaldata[
                             'other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'
                         ] ??
+                        $ProjectProposaldata[
+                            'other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'
+                        ] ??
                             '' == 'checked')
                 >
             @else
@@ -1196,7 +1223,27 @@
     id="technicalConstraintTable"
     style="table-layout: fixed; width: 100%; border-collapse: collapse"
 >
+<table
+    id="technicalConstraintTable"
+    style="table-layout: fixed; width: 100%; border-collapse: collapse"
+>
     <tr>
+        <td
+            style="text-align: center;"
+            width="25%"
+        >Process/Existing Practice/Problem</th>
+        <td
+            style="text-align: center;"
+            width="25%"
+        >Proposed S&T Intervention</td>
+        <td
+            style="text-align: center;"
+            width="25%"
+        >Proposed S&T intervention-related equipment / skills upgrading</td>
+        <td
+            style="text-align: center;"
+            width="25%"
+        >Impact</th>
         <td
             style="text-align: center;"
             width="25%"
@@ -1288,6 +1335,10 @@
     id="equipmentTable"
     style="table-layout: fixed; width: 100%; border-collapse: collapse"
 >
+<table
+    id="equipmentTable"
+    style="table-layout: fixed; width: 100%; border-collapse: collapse"
+>
     @php
         $total_cost = 0;
     @endphp
@@ -1310,6 +1361,7 @@
                             class="S_T_intervention_related_equipment"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                             value="{{ $data['stInterventionRelatedEquipment'] ?? '' }}"
                         >
                     @else
@@ -1321,6 +1373,7 @@
                         <input
                             class="Qty"
                             data-custom-numeric-input
+                            type="text"
                             type="text"
                             value="{{ $data['qty'] ?? '' }}"
                         >
@@ -1334,6 +1387,7 @@
                             class="Unit_cost"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                             value="{{ $data['unitCost'] ?? '' }}"
                         >
                     @else
@@ -1345,6 +1399,7 @@
                         <input
                             class="Total_cost"
                             data-custom-numeric-input
+                            type="text"
                             type="text"
                             value="{{ $data['totalCost'] ?? '' }}"
                         >
@@ -1369,6 +1424,7 @@
                             class="Qty"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                         >
                     @endif
                 </td>
@@ -1378,6 +1434,7 @@
                             class="Unit_cost"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                         >
                     @endif
                 </td>
@@ -1386,6 +1443,7 @@
                         <input
                             class="Total_cost"
                             data-custom-numeric-input
+                            type="text"
                             type="text"
                         >
                     @endif
@@ -1662,6 +1720,7 @@
                             class="SETUP"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                             value="{{ $data['setup'] ?? '' }}"
                         >
                     @else
@@ -1673,6 +1732,7 @@
                         <input
                             class="LGIA"
                             data-custom-numeric-input
+                            type="text"
                             type="text"
                             value="{{ $data['lgia'] ?? '' }}"
                         >
@@ -1686,6 +1746,7 @@
                             class="Cooperator"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                             value="{{ $data['cooperator'] ?? '' }}"
                         >
                     @else
@@ -1697,6 +1758,7 @@
                         <input
                             class="Total_cost"
                             data-custom-numeric-input
+                            type="text"
                             type="text"
                             value="{{ $data['totalCost'] ?? '' }}"
                         >
@@ -1722,6 +1784,7 @@
                             class="Qty"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                             value=""
                         >
                     @endif
@@ -1731,6 +1794,7 @@
                         <input
                             class="Unit_cost"
                             data-custom-numeric-input
+                            type="text"
                             type="text"
                             value=""
                         >
@@ -1742,6 +1806,7 @@
                             class="SETUP"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                             value=""
                         >
                     @endif
@@ -1751,6 +1816,7 @@
                         <input
                             class="LGIA"
                             data-custom-numeric-input
+                            type="text"
                             type="text"
                             value=""
                         >
@@ -1762,6 +1828,7 @@
                             class="Cooperator"
                             data-custom-numeric-input
                             type="text"
+                            type="text"
                             value=""
                         >
                     @endif
@@ -1771,6 +1838,7 @@
                         <input
                             class="Total_cost"
                             data-custom-numeric-input
+                            type="text"
                             type="text"
                             value=""
                         >
@@ -1850,6 +1918,19 @@
             'November',
             'December',
         ];
+            'January',
+            'February',
+            'March',
+            'April',
+            'May',
+            'June',
+            'July',
+            'August',
+            'September',
+            'October',
+            'November',
+            'December',
+        ];
     @endphp
     <tbody>
         <tr class="no-border">
@@ -1904,6 +1985,38 @@
                 </td>
             </tr>
         @endforeach
+            <tr>
+                <td>{{ ucfirst($month) }}</td>
+                @for ($year = 1; $year <= 5; $year++)
+                    <td>
+                        @if ($isEditable)
+                            <input
+                                class="{{ $month }}_Y{{ $year }}"
+                                name="{{ $month }}_Y{{ $year }}"
+                                data-custom-numeric-input
+                                type="text"
+                                value="{{ $ProjectProposaldata[$month . '_Y' . $year] ?? '' }}"
+                            >
+                        @else
+                            {{ $ProjectProposaldata[$month . '_Y' . $year] ?? '' }}
+                        @endif
+                    </td>
+                @endfor
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="{{ $month }}_total"
+                            name="{{ $month }}_total"
+                            data-custom-numeric-input
+                            type="text"
+                            value="{{ $ProjectProposaldata[$month . '_total'] ?? '' }}"
+                        >
+                    @else
+                        {{ $ProjectProposaldata[$month . '_total'] ?? '' }}
+                    @endif
+                </td>
+            </tr>
+        @endforeach
         <tr>
             <td class="bold">Total</td>
             <td>{{ $y1_total }}</td>
@@ -1922,6 +2035,10 @@
         </td>
     </tr>
 </table>
+<table
+    id="riskTable"
+    style="table-layout: fixed; width: 100%; border-collapse: collapse"
+>
 <table
     id="riskTable"
     style="table-layout: fixed; width: 100%; border-collapse: collapse"
@@ -1965,7 +2082,65 @@
                     @endif
                 </td>
             </tr>
+            <tr>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Objectives"
+                            type="text"
+                        >
+                    @else
+                        {{ $data['objectives'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Risks_and_assumptions"
+                            type="text"
+                        >
+                    @else
+                        {{ $data['risksAndAssumptions'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Risk_management_plan"
+                            type="text"
+                        >
+                    @else
+                        {{ $data['riskManagementPlan'] ?? '' }}
+                    @endif
+                </td>
+            </tr>
         @empty
+            <tr>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Objectives"
+                            type="text"
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Risks_and_assumptions"
+                            type="text"
+                        >
+                    @endif
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <input
+                            class="Risk_management_plan"
+                            type="text"
+                        >
+                    @endif
+                </td>
+            </tr>
             <tr>
                 <td>
                     @if ($isEditable)

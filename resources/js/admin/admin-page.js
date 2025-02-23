@@ -71,25 +71,52 @@ navigationHandler.init();
 window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
 
 $(function () {
-    $('.sideNavButtonSmallScreen').on('click', function () {
-        new bootstrap.Offcanvas($('#MobileNavOffcanvas')).show();
-    });
+    // Cache selectors
+    const mobileNavOffcanvas = $('#MobileNavOffcanvas');
+    const sidenav = $('.sidenav');
+    const toggleLeftMargin = $('#toggle-left-margin');
+    const logoTitleLScreen = $('.logoTitleLScreen');
+    const sidenavLinks = $('.sidenav a span');
+    const hoverLink = $('#hover-link');
 
-    $('.sideNavButtonLargeScreen').on('click', function () {
-        $('.sidenav').toggleClass('expanded minimized');
-        $('#toggle-left-margin').toggleClass('navExpanded navMinimized');
-        $('.logoTitleLScreen').toggle();
-        //side bar minimize
-        $('.sidenav a span').each(function () {
-            $(this).toggleClass('d-none');
-        });
+    // Debounce function
+    function debounce(func, delay) {
+        let timeout;
+        return function (...args) {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
 
-        $('.sidenav a').each(function () {
-            $(this).toggleClass('justify-content-center');
-        });
-        //size bar minimize rotation
-        $('#hover-link').toggleClass('rotate-icon');
-    });
+    // Side Nav toggle for small screen
+    $('.sideNavButtonSmallScreen').on(
+        'click',
+        debounce(function () {
+            new bootstrap.Offcanvas(mobileNavOffcanvas).show();
+        }, 300)
+    );
+
+    // Side Nav toggle for large screen
+    $('.sideNavButtonLargeScreen').on(
+        'click',
+        debounce(function () {
+            sidenav.toggleClass('expanded minimized');
+            toggleLeftMargin.toggleClass('navExpanded navMinimized');
+            logoTitleLScreen.toggle();
+
+            // Minimize sidebar
+            sidenavLinks.each(function () {
+                $(this).toggleClass('d-none');
+            });
+
+            sidenav.find('a').each(function () {
+                $(this).toggleClass('justify-content-center');
+            });
+
+            // Sidebar minimize rotation
+            hoverLink.toggleClass('rotate-icon');
+        }, 300)
+    );
 });
 
 const activityLog = new ActivityLogHandler(
@@ -98,7 +125,11 @@ const activityLog = new ActivityLogHandler(
     'personal'
 );
 activityLog.initPersonalActivityLog();
-
+/**
+ * Initializes the admin page by setting up event listeners and calling the necessary functions.
+ *
+ * @returns {Promise<void>} An object containing functions for Dashboard, ProjectList, ApplicantList, Users, and ProjectSettings.
+ */
 async function initializeAdminPageJs() {
     const functions = {
         Dashboard: async () => {
