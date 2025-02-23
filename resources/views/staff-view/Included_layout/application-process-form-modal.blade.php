@@ -8,7 +8,7 @@
     tabindex="-1"
 >
     <div
-        class="modal-dialog modal-lg"
+        class="modal-dialog modal-lg modal-dialog-scrollable"
         role="document"
     >
         <div class="modal-content">
@@ -51,7 +51,7 @@
     tabindex="-1"
 >
     <div
-        class="modal-dialog modal-lg"
+        class="modal-dialog modal-lg modal-dialog-scrollable"
         role="document"
     >
         <div class="modal-content">
@@ -94,7 +94,7 @@
     tabindex="-1"
 >
     <div
-        class="modal-dialog modal-lg"
+        class="modal-dialog modal-lg modal-dialog-scrollable"
         role="document"
     >
         <div class="modal-content">

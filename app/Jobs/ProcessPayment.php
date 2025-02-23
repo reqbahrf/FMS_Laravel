@@ -2,35 +2,40 @@
 
 namespace App\Jobs;
 
-use App\Actions\PaymentProcessingService;
+use App\Services\PaymentProcessingService;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
 class ProcessPayment implements ShouldQueue
 {
-    use Queueable;
-
-    protected $startDate;
-    protected $paymentStructure;
-    protected $projectId;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
     /**
      * Create a new job instance.
      */
     public function __construct(
-        string $startDate,
-        array $paymentStructure,
-        string $projectId
+        public string $startDate,
+        public array $paymentStructure,
+        public string $projectId
     ) {}
 
     /**
      * Execute the job.
      */
-    public function handle(): void
+    public function handle(PaymentProcessingService $service): void
     {
-        PaymentProcessingService::processPayments(
-            $this->startDate,
-            $this->paymentStructure,
-            $this->projectId
-        );
+        try {
+            $service->processPayments(
+                $this->startDate,
+                $this->paymentStructure,
+                $this->projectId
+            );
+        } catch (\Exception $e) {
+            Log::error('Error processing payment: ' . $e->getMessage());
+            throw $e; // Re-throw the exception to mark the job as failed
+        }
     }
 }

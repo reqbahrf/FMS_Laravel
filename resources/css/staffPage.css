@@ -823,7 +823,7 @@ Form Styles
 :is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]) {
     border: none;
     border-bottom: 1px solid #000;
-    outline: none;
+    outline: none;  
     padding: 5pt; /* Increased padding */
     width: 100%;
     background-color: #f9f9f9; /* Light background */
