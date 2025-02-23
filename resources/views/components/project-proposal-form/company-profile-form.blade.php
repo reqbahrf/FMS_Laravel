@@ -461,7 +461,7 @@
             @if ($isEditable)
                 <input
                     name="dti_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['dti_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -486,7 +486,7 @@
             @if ($isEditable)
                 <input
                     name="sec_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['sec_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -511,7 +511,7 @@
             @if ($isEditable)
                 <input
                     name="cda_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['cda_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -536,7 +536,7 @@
             @if ($isEditable)
                 <input
                     name="lgu_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['lgu_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -576,7 +576,7 @@
             @if ($isEditable)
                 <input
                     name="others_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['others_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -592,10 +592,10 @@
                     name="crop_animal_production_hunting_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -607,10 +607,10 @@
                     name="chemicals_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['chemicals_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['chemicals_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['chemicals_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['chemicals_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -624,10 +624,10 @@
                     name="forestry_logging_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['forestry_logging_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['forestry_logging_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['forestry_logging_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['forestry_logging_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -639,10 +639,10 @@
                     name="pharmaceutical_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -656,10 +656,10 @@
                     name="fishing_agriculture_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['fishing_and_agriculture_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['fishing_and_agriculture_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['fishing_and_agriculture_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['fishing_and_agriculture_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -671,10 +671,10 @@
                     name="plastic_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -688,10 +688,10 @@
                     name="food_processing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['food_processing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['food_processing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['food_processing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['food_processing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -703,10 +703,10 @@
                     name="non_metalllic_mineral_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -720,10 +720,10 @@
                     name="beverage_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['beverage_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['beverage_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['beverage_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['beverage_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -735,10 +735,10 @@
                     name="fabricated_metal_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -752,10 +752,10 @@
                     name="textile_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['textile_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['textile_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['textile_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['textile_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -767,10 +767,10 @@
                     name="machinery_and_equipment_not_elsewhere_classified_manufacturing"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -785,10 +785,10 @@
                     name="wearing_apparel_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -801,10 +801,10 @@
                     name="other_transport_equipment_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -818,10 +818,10 @@
                     name="leather_and_related_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -834,10 +834,10 @@
                     name="furniture_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['furniture_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['furniture_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['furniture_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['furniture_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -851,10 +851,10 @@
                     name="wood_and_products_of_wood_and_cork_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -866,10 +866,10 @@
                     name="information_and_communication_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -884,10 +884,10 @@
                     name="paper_and_paper_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -901,13 +901,14 @@
                     type="checkbox"
                     value="checked"
                     @checked(
-                        $ProjectProposaldata[
+                        ($ProjectProposaldata[
                             'other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'
                         ] ??
-                            '' == 'checked')
+                            '') ==
+                            'checked')
                 >
             @else
-                {{ $ProjectProposaldata['other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
 
@@ -1797,6 +1798,20 @@
         </td>
     </tr>
 </table>
+@if ($isEditable)
+    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <label
+            for="fund_release_date"
+            style="margin-right: 1rem;"
+        >Fund Release Date</label>
+        <input
+            id="fund_release_date"
+            name="fund_release_date"
+            type="date"
+            style="width: 75%;"
+        >
+    </div>
+@endif
 <table
     id="refundStructureTable"
     style="width: 100%; table-layout: fixed;"

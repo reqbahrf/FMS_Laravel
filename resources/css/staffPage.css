@@ -820,12 +820,21 @@ Form Styles
 
 #TNAForm .padding-md { padding: 12pt; }
 
-:is(#TNAForm, #ProjectProposalForm, #RTECReportForm) input[type="text"] {
+:is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]) {
     border: none;
     border-bottom: 1px solid #000;
     outline: none;
-    padding: 5pt;
+    padding: 5pt; /* Increased padding */
     width: 100%;
+    background-color: #f9f9f9; /* Light background */
+    border-radius: 4px; /* Rounded corners */
+    font-family: 'Arial', sans-serif; /* Font family */
+    font-size: 10px; /* Font size */
+}
+
+:is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]):focus {
+    border-bottom: 2px solid #007bff; /* Focus state */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Optional shadow */
 }
 /* Convert common px values to pt */
 #TNAForm .margin-sm { margin: 8pt; }
