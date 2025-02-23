@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Exception;
 use App\Models\ProjectInfo;
-use App\Actions\CalculateQuarterlyPayments;
+use App\Jobs\ProcessPayment;
 use App\Models\ApplicationInfo;
 use App\Models\BusinessInfo;
 use App\Models\OrgUserInfo;
@@ -14,11 +14,15 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\ProjectApprovalMail;
 use App\Notifications\ProjectAssignmentNotification;
+use App\Services\PaymentProcessingService;
+use App\Services\ProjectProposaldataHandlerService;
 
 class AdminProjectController extends Controller
 {
-    public function approvedProjectProposal(Request $request)
-    {
+    public function approvedProjectProposal(
+        Request $request,
+        ProjectProposaldataHandlerService $ProjectProposalService,
+    ) {
 
         $validated = $request->validate([
             'project_id' => 'required|string',
@@ -62,9 +66,23 @@ class AdminProjectController extends Controller
                 Cache::forget('pendingProjects');
                 Cache::forget('staffhandledProjects');
             }
+            $project_id = $project->Project_id;
+            $application_id = $application->id;
+            $business_id = $project->business_id;
 
-            CalculateQuarterlyPayments::execute(3, $project->actual_amount_to_be_refund, $project->Project_id);
+            if (!$project_id || !$application_id || !$business_id) {
+                throw new Exception('Project not found');
+            }
+            [$paymentStructure, $fundReleaseDate] = $ProjectProposalService->getRefundPaymentStructure($validated['business_id'], $application->id);
+
+            if (!$paymentStructure || !$fundReleaseDate) {
+                throw new Exception('Failed to retrieve payment structure and fund release date');
+            }
+
+            PaymentProcessingService::processPayments($fundReleaseDate, $paymentStructure, $project->Project_id);
+
             DB::commit();
+
 
             return response()->json([
                 'message' => 'Project proposal approved successfully.',
@@ -72,7 +90,6 @@ class AdminProjectController extends Controller
             ], 200);
         } catch (Exception $e) {
             DB::rollBack();
-
             return response()->json([
                 'message' => $e->getMessage(),
                 'status' => 'error',

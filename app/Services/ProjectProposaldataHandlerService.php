@@ -112,10 +112,21 @@ class ProjectProposaldataHandlerService
         }
     }
 
+    /**
+     * Retrieves the refund payment structure and fund release date for a given business and application.
+     *
+     * @param int $business_id The ID of the business.
+     * @param int $application_id The ID of the application.
+     *
+     * @return array An array containing the payment structure and fund release date.
+     * @throws Exception If there is an error retrieving the refund payment structure.
+     */
     public function getRefundPaymentStructure(int $business_id, int $application_id): array
     {
         try {
             $projectProposalData = $this->getProjectProposalData($business_id, $application_id);
+
+            $fundReleaseDate = $projectProposalData['fund_release_date'];
 
             $keys = [
                 'January_Y1',
@@ -199,7 +210,10 @@ class ProjectProposaldataHandlerService
             // Use array_intersect_key to filter the project proposal data
             $paymentStructure = array_intersect_key($projectProposalData, $keysArray);
 
-            return $paymentStructure;
+            return [
+                $paymentStructure,
+                $fundReleaseDate
+            ];
         } catch (Exception $e) {
             throw new Exception('Error in getting Refund Payment Structure: ' . $e->getMessage());
         }

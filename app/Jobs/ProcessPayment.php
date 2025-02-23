@@ -2,9 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Actions\PaymentProcessingService;
-use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Services\PaymentProcessingService;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 
 class ProcessPayment implements ShouldQueue
 {
@@ -20,7 +20,11 @@ class ProcessPayment implements ShouldQueue
         string $startDate,
         array $paymentStructure,
         string $projectId
-    ) {}
+    ) {
+        $this->startDate = $startDate;
+        $this->paymentStructure = $paymentStructure;
+        $this->projectId = $projectId;
+    }
 
     /**
      * Execute the job.
