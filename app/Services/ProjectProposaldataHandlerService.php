@@ -7,6 +7,7 @@ use App\Models\ApplicationForm;
 
 class ProjectProposaldataHandlerService
 {
+    private const PROJECT_PROPOSAL_FORM = 'project_proposal_form';
     public function __construct(private ApplicationForm $ProjectProposalForm)
     {
         $this->ProjectProposalForm = $ProjectProposalForm;
@@ -15,11 +16,10 @@ class ProjectProposaldataHandlerService
     public function setProjectProposalData(array $data, int $business_id, int $application_id)
     {
         try {
-            $key = 'project_proposal_form';
             $existingRecord = $this->ProjectProposalForm->where([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
-                'key' => $key
+                'key' => self::PROJECT_PROPOSAL_FORM
             ])->first();
 
             $mergedData = $existingRecord
@@ -32,7 +32,7 @@ class ProjectProposaldataHandlerService
             $this->ProjectProposalForm->updateOrCreate([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
-                'key' => $key
+                'key' => self::PROJECT_PROPOSAL_FORM
             ], [
                 'data' => $mergedData,
                 'status' => 'Pending'
@@ -45,11 +45,18 @@ class ProjectProposaldataHandlerService
     public function getProjectProposalData(int $business_id, int $application_id)
     {
         try {
-            $key = 'project_proposal_form';
             $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
                 ->where('application_id', $application_id)
-                ->where('key', $key)
-                ->firstOrFail();
+                ->where('key', self::PROJECT_PROPOSAL_FORM)
+                ->first();
+
+            if (!$ProjectProposalForm) {
+                $this->initializeProjectProposalData($business_id, $application_id);
+                $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
+                    ->where('application_id', $application_id)
+                    ->where('key', self::PROJECT_PROPOSAL_FORM)
+                    ->first();
+            }
             return $ProjectProposalForm ? $ProjectProposalForm->data : null;
         } catch (Exception $e) {
             throw new Exception('Error in getting Project Proposal data: ' . $e->getMessage());
@@ -59,10 +66,9 @@ class ProjectProposaldataHandlerService
     public function updateStatusToSubmitted(int $business_id, int $application_id)
     {
         try {
-            $key = 'project_proposal_form';
             $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
                 ->where('application_id', $application_id)
-                ->where('key', $key)
+                ->where('key', self::PROJECT_PROPOSAL_FORM)
                 ->first();
             if (!$ProjectProposalForm) {
                 throw new Exception('Project Proposal Form not found');
@@ -70,6 +76,39 @@ class ProjectProposaldataHandlerService
             $ProjectProposalForm->update(['status' => 'Submitted']);
         } catch (Exception $e) {
             throw new Exception('Error in updating Project Proposal status to Submitted: ' . $e->getMessage());
+        }
+    }
+
+    public function isDataExist(int $business_id, int $application_id): bool
+    {
+        try {
+            return $this->ProjectProposalForm->where('business_id', $business_id)
+                ->where('application_id', $application_id)
+                ->where('key', self::PROJECT_PROPOSAL_FORM)
+                ->exists();
+        } catch (Exception $e) {
+            throw new Exception('Error in checking Project Proposal data existence: ' . $e->getMessage());
+        }
+    }
+
+    public function initializeProjectProposalData(int $business_id, int $application_id)
+    {
+        try {
+            $initialData = [
+                'business_id' => $business_id,
+                'application_id' => $application_id
+            ];
+
+            $this->ProjectProposalForm->updateOrCreate([
+                'business_id' => $business_id,
+                'application_id' => $application_id,
+                'key' => self::PROJECT_PROPOSAL_FORM
+            ], [
+                'data' => $initialData,
+                'status' => 'Pending'
+            ]);
+        } catch (Exception $e) {
+            throw new Exception('Error in initializing Project Proposal data: ' . $e->getMessage());
         }
     }
 }
