@@ -15,14 +15,6 @@
         <td width="15%"></td>
         <td width="5%"></td>
         <td width="15%"></td>
-        <td width="5%"></td>
-        <td width="15%"></td>
-        <td width="5%"></td>
-        <td width="15%"></td>
-        <td width="5%"></td>
-        <td width="15%"></td>
-        <td width="5%"></td>
-        <td width="15%"></td>
     </tr>
     <tr>
         <td>Name of Firm</td>
@@ -106,7 +98,6 @@
                 <input
                     name="year_established"
                     data-year-input
-                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['year_established'] ?? '' }}"
                     maxlength="4"
@@ -257,7 +248,6 @@
                     name="direct_workers_male"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['direct_workers_male'] ?? '' }}"
                 >
             @else
@@ -270,7 +260,6 @@
                     name="direct_workers_female"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['direct_workers_female'] ?? '' }}"
                 >
             @else
@@ -282,7 +271,6 @@
                 <input
                     name="direct_workers_total"
                     data-custom-numeric-input
-                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['direct_workers_total'] ?? '' }}"
                 >
@@ -299,7 +287,6 @@
                     name="production_male"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['production_male'] ?? '' }}"
                 >
             @else
@@ -312,7 +299,6 @@
                     name="production_female"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['production_female'] ?? '' }}"
                 >
             @else
@@ -324,7 +310,6 @@
                 <input
                     name="production_total"
                     data-custom-numeric-input
-                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['production_total'] ?? '' }}"
                 >
@@ -341,7 +326,6 @@
                     name="non_production_male"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['non_production_male'] ?? '' }}"
                 >
             @else
@@ -354,7 +338,6 @@
                     name="non_production_female"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['non_production_female'] ?? '' }}"
                 >
             @else
@@ -366,7 +349,6 @@
                 <input
                     name="non_production_total"
                     data-custom-numeric-input
-                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['non_production_total'] ?? '' }}"
                 >
@@ -383,7 +365,6 @@
                     name="indirect_contract_workers_male"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['indirect_contract_workers_male'] ?? '' }}"
                 >
             @else
@@ -396,7 +377,6 @@
                     name="indirect_contract_workers_female"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['indirect_contract_workers_female'] ?? '' }}"
                 >
             @else
@@ -408,7 +388,6 @@
                 <input
                     name="indirect_contract_workers_total"
                     data-custom-numeric-input
-                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['indirect_contract_workers_total'] ?? '' }}"
                 >
@@ -425,7 +404,6 @@
                     name="total_male"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['total_male'] ?? '' }}"
                 >
             @else
@@ -438,7 +416,6 @@
                     name="total_female"
                     data-custom-numeric-input
                     type="text"
-                    type="text"
                     value="{{ $ProjectProposaldata['total_female'] ?? '' }}"
                 >
             @else
@@ -450,7 +427,6 @@
                 <input
                     name="employee_total"
                     data-custom-numeric-input
-                    type="text"
                     type="text"
                     value="{{ $ProjectProposaldata['employee_total'] ?? '' }}"
                 >
@@ -485,7 +461,7 @@
             @if ($isEditable)
                 <input
                     name="dti_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['dti_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -510,7 +486,7 @@
             @if ($isEditable)
                 <input
                     name="sec_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['sec_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -535,7 +511,7 @@
             @if ($isEditable)
                 <input
                     name="cda_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['cda_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -560,7 +536,7 @@
             @if ($isEditable)
                 <input
                     name="lgu_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['lgu_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -600,7 +576,7 @@
             @if ($isEditable)
                 <input
                     name="others_date_of_registration"
-                    type="text"
+                    type="date"
                     value="{{ $ProjectProposaldata['others_date_of_registration'] ?? '' }}"
                 >
             @else
@@ -616,10 +592,10 @@
                     name="crop_animal_production_hunting_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['crop_animal_production_hunting_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -631,10 +607,10 @@
                     name="chemicals_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['chemicals_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['chemicals_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['chemicals_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['chemicals_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -648,10 +624,10 @@
                     name="forestry_logging_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['forestry_logging_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['forestry_logging_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['forestry_logging_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['forestry_logging_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -663,10 +639,10 @@
                     name="pharmaceutical_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['pharmaceutical_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -680,10 +656,10 @@
                     name="fishing_agriculture_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['fishing_and_agriculture_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['fishing_and_agriculture_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['fishing_and_agriculture_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['fishing_and_agriculture_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -695,10 +671,10 @@
                     name="plastic_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['plastic_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -712,10 +688,10 @@
                     name="food_processing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['food_processing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['food_processing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['food_processing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['food_processing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -727,10 +703,10 @@
                     name="non_metalllic_mineral_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['non_metalllic_mineral_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -744,10 +720,10 @@
                     name="beverage_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['beverage_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['beverage_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['beverage_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['beverage_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -759,10 +735,10 @@
                     name="fabricated_metal_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['fabricated_metal_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -776,10 +752,10 @@
                     name="textile_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['textile_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['textile_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['textile_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['textile_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -791,10 +767,10 @@
                     name="machinery_and_equipment_not_elsewhere_classified_manufacturing"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['machinery_and_equipment_not_elsewhere_classified_manufacturing'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -809,10 +785,10 @@
                     name="wearing_apparel_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['wearing_apparel_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -825,10 +801,10 @@
                     name="other_transport_equipment_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['other_transport_equipment_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -842,10 +818,10 @@
                     name="leather_and_related_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['leather_and_related_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -858,10 +834,10 @@
                     name="furniture_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['furniture_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['furniture_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['furniture_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['furniture_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -875,10 +851,10 @@
                     name="wood_and_products_of_wood_and_cork_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['wood_and_products_of_wood_and_cork_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -890,10 +866,10 @@
                     name="information_and_communication_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['information_and_communication_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -908,10 +884,10 @@
                     name="paper_and_paper_products_manufacturing_activity"
                     type="checkbox"
                     value="checked"
-                    @checked($ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '' == 'checked')
+                    @checked(($ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '') == 'checked')
                 >
             @else
-                {{ $ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['paper_and_paper_products_manufacturing_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
         <td colspan="3">
@@ -925,16 +901,14 @@
                     type="checkbox"
                     value="checked"
                     @checked(
-                        $ProjectProposaldata[
+                        ($ProjectProposaldata[
                             'other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'
                         ] ??
-                        $ProjectProposaldata[
-                            'other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'
-                        ] ??
-                            '' == 'checked')
+                            '') ==
+                            'checked')
                 >
             @else
-                {{ $ProjectProposaldata['other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'] ?? '' == 'checked' ? '/' : '' }}
+                {{ ($ProjectProposaldata['other_regional_priority_industries_approved_by_the_regional_development_council_please_specify_activity'] ?? '') == 'checked' ? '/' : '' }}
             @endif
         </td>
 
@@ -1223,27 +1197,7 @@
     id="technicalConstraintTable"
     style="table-layout: fixed; width: 100%; border-collapse: collapse"
 >
-<table
-    id="technicalConstraintTable"
-    style="table-layout: fixed; width: 100%; border-collapse: collapse"
->
     <tr>
-        <td
-            style="text-align: center;"
-            width="25%"
-        >Process/Existing Practice/Problem</th>
-        <td
-            style="text-align: center;"
-            width="25%"
-        >Proposed S&T Intervention</td>
-        <td
-            style="text-align: center;"
-            width="25%"
-        >Proposed S&T intervention-related equipment / skills upgrading</td>
-        <td
-            style="text-align: center;"
-            width="25%"
-        >Impact</th>
         <td
             style="text-align: center;"
             width="25%"
@@ -1335,10 +1289,6 @@
     id="equipmentTable"
     style="table-layout: fixed; width: 100%; border-collapse: collapse"
 >
-<table
-    id="equipmentTable"
-    style="table-layout: fixed; width: 100%; border-collapse: collapse"
->
     @php
         $total_cost = 0;
     @endphp
@@ -1361,7 +1311,6 @@
                             class="S_T_intervention_related_equipment"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                             value="{{ $data['stInterventionRelatedEquipment'] ?? '' }}"
                         >
                     @else
@@ -1373,7 +1322,6 @@
                         <input
                             class="Qty"
                             data-custom-numeric-input
-                            type="text"
                             type="text"
                             value="{{ $data['qty'] ?? '' }}"
                         >
@@ -1387,7 +1335,6 @@
                             class="Unit_cost"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                             value="{{ $data['unitCost'] ?? '' }}"
                         >
                     @else
@@ -1399,7 +1346,6 @@
                         <input
                             class="Total_cost"
                             data-custom-numeric-input
-                            type="text"
                             type="text"
                             value="{{ $data['totalCost'] ?? '' }}"
                         >
@@ -1424,7 +1370,6 @@
                             class="Qty"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                         >
                     @endif
                 </td>
@@ -1434,7 +1379,6 @@
                             class="Unit_cost"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                         >
                     @endif
                 </td>
@@ -1443,7 +1387,6 @@
                         <input
                             class="Total_cost"
                             data-custom-numeric-input
-                            type="text"
                             type="text"
                         >
                     @endif
@@ -1720,7 +1663,6 @@
                             class="SETUP"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                             value="{{ $data['setup'] ?? '' }}"
                         >
                     @else
@@ -1732,7 +1674,6 @@
                         <input
                             class="LGIA"
                             data-custom-numeric-input
-                            type="text"
                             type="text"
                             value="{{ $data['lgia'] ?? '' }}"
                         >
@@ -1746,7 +1687,6 @@
                             class="Cooperator"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                             value="{{ $data['cooperator'] ?? '' }}"
                         >
                     @else
@@ -1758,7 +1698,6 @@
                         <input
                             class="Total_cost"
                             data-custom-numeric-input
-                            type="text"
                             type="text"
                             value="{{ $data['totalCost'] ?? '' }}"
                         >
@@ -1784,7 +1723,6 @@
                             class="Qty"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                             value=""
                         >
                     @endif
@@ -1794,7 +1732,6 @@
                         <input
                             class="Unit_cost"
                             data-custom-numeric-input
-                            type="text"
                             type="text"
                             value=""
                         >
@@ -1806,7 +1743,6 @@
                             class="SETUP"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                             value=""
                         >
                     @endif
@@ -1816,7 +1752,6 @@
                         <input
                             class="LGIA"
                             data-custom-numeric-input
-                            type="text"
                             type="text"
                             value=""
                         >
@@ -1828,7 +1763,6 @@
                             class="Cooperator"
                             data-custom-numeric-input
                             type="text"
-                            type="text"
                             value=""
                         >
                     @endif
@@ -1838,7 +1772,6 @@
                         <input
                             class="Total_cost"
                             data-custom-numeric-input
-                            type="text"
                             type="text"
                             value=""
                         >
@@ -1866,11 +1799,16 @@
     </tr>
 </table>
 @if ($isEditable)
-    <div>
+    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+        <label
+            for="fund_release_date"
+            style="margin-right: 1rem;"
+        >Fund Release Date</label>
         <input
+            id="fund_release_date"
             name="fund_release_date"
             type="date"
-            value="{{ $ProjectProposaldata['fund_release_date'] ?? '' }}"
+            style="width: 75%;"
         >
     </div>
 @endif
@@ -1905,19 +1843,6 @@
         $grand_total = $totals['grand_total'];
 
         $months = [
-            'January',
-            'February',
-            'March',
-            'April',
-            'May',
-            'June',
-            'July',
-            'August',
-            'September',
-            'October',
-            'November',
-            'December',
-        ];
             'January',
             'February',
             'March',
@@ -1985,38 +1910,6 @@
                 </td>
             </tr>
         @endforeach
-            <tr>
-                <td>{{ ucfirst($month) }}</td>
-                @for ($year = 1; $year <= 5; $year++)
-                    <td>
-                        @if ($isEditable)
-                            <input
-                                class="{{ $month }}_Y{{ $year }}"
-                                name="{{ $month }}_Y{{ $year }}"
-                                data-custom-numeric-input
-                                type="text"
-                                value="{{ $ProjectProposaldata[$month . '_Y' . $year] ?? '' }}"
-                            >
-                        @else
-                            {{ $ProjectProposaldata[$month . '_Y' . $year] ?? '' }}
-                        @endif
-                    </td>
-                @endfor
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="{{ $month }}_total"
-                            name="{{ $month }}_total"
-                            data-custom-numeric-input
-                            type="text"
-                            value="{{ $ProjectProposaldata[$month . '_total'] ?? '' }}"
-                        >
-                    @else
-                        {{ $ProjectProposaldata[$month . '_total'] ?? '' }}
-                    @endif
-                </td>
-            </tr>
-        @endforeach
         <tr>
             <td class="bold">Total</td>
             <td>{{ $y1_total }}</td>
@@ -2035,10 +1928,6 @@
         </td>
     </tr>
 </table>
-<table
-    id="riskTable"
-    style="table-layout: fixed; width: 100%; border-collapse: collapse"
->
 <table
     id="riskTable"
     style="table-layout: fixed; width: 100%; border-collapse: collapse"
@@ -2082,65 +1971,7 @@
                     @endif
                 </td>
             </tr>
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Objectives"
-                            type="text"
-                        >
-                    @else
-                        {{ $data['objectives'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Risks_and_assumptions"
-                            type="text"
-                        >
-                    @else
-                        {{ $data['risksAndAssumptions'] ?? '' }}
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Risk_management_plan"
-                            type="text"
-                        >
-                    @else
-                        {{ $data['riskManagementPlan'] ?? '' }}
-                    @endif
-                </td>
-            </tr>
         @empty
-            <tr>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Objectives"
-                            type="text"
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Risks_and_assumptions"
-                            type="text"
-                        >
-                    @endif
-                </td>
-                <td>
-                    @if ($isEditable)
-                        <input
-                            class="Risk_management_plan"
-                            type="text"
-                        >
-                    @endif
-                </td>
-            </tr>
             <tr>
                 <td>
                     @if ($isEditable)
