@@ -86,8 +86,9 @@ class AdminProjectController extends Controller
                 throw new Exception('Invalid fund release date');
             }
 
-            PaymentProcessingService::processPayments($fundReleaseDate, $paymentStructure, $project_id);
+            //PaymentProcessingService::processPayments($fundReleaseDate, $paymentStructure, $project_id);
 
+            ProcessPayment::dispatchAfterResponse($fundReleaseDate, $paymentStructure, $project_id);
             return response()->json([
                 'message' => 'Project proposal approved successfully.',
                 'status' => 'success',

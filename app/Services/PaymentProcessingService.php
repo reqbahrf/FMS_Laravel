@@ -11,6 +11,8 @@ use PhpParser\Node\Stmt\TryCatch;
 
 class PaymentProcessingService
 {
+
+    public function __construct(private StructurePaymentYearService $structurePaymentYearService) {}
     /**
      * Execute the payment calculation and creation
      *
@@ -19,22 +21,22 @@ class PaymentProcessingService
      * @param string $projectId Project identifier
      * @return void
      */
-    public static function processPayments(string $startDate, array $paymentStructure, string $projectId): void
+    public function processPayments(string $startDate, array $paymentStructure, string $projectId): void
     {
         try {
 
             // Clean the payment structure (remove _total keys and null values)
-            $cleanedStructure = self::cleanPaymentStructure($paymentStructure);
+            $cleanedStructure = $this->cleanPaymentStructure($paymentStructure);
 
             // Get unique years with payments
-            $activeYears = self::getActiveYears($cleanedStructure);
+            $activeYears = $this->getActiveYears($cleanedStructure);
 
             // Set the payment start date
             $startDateCarbon = Carbon::parse($startDate);
 
             // Process each year's payments
             foreach ($activeYears as $year) {
-                self::processYearlyPayments(
+                $this->processYearlyPayments(
                     $year,
                     $startDateCarbon->copy(),
                     $projectId,
@@ -49,7 +51,7 @@ class PaymentProcessingService
     /**
      * Clean payment structure by removing total keys and null values
      */
-    private static function cleanPaymentStructure(array $paymentStructure): array
+    private function cleanPaymentStructure(array $paymentStructure): array
     {
         try {
 
@@ -70,7 +72,7 @@ class PaymentProcessingService
     /**
      * Get unique years that have payments
      */
-    private static function getActiveYears(array $cleanedStructure): array
+    private function getActiveYears(array $cleanedStructure): array
     {
         try {
 
@@ -93,7 +95,7 @@ class PaymentProcessingService
     /**
      * Process payments for a specific year
      */
-    private static function processYearlyPayments(
+    private function processYearlyPayments(
         int $yearNumber,
         Carbon $startDate,
         string $projectId,
@@ -126,7 +128,7 @@ class PaymentProcessingService
                     continue;
                 }
 
-                $monthAmount = StructurePaymentYearService::parseNumber($paymentStructure[$key]);
+                $monthAmount = $this->structurePaymentYearService->parseNumber($paymentStructure[$key]);
 
                 if ($monthAmount > 0) {
                     // For first year, adjust dates based on start date
