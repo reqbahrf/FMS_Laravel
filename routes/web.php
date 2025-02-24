@@ -1,13 +1,11 @@
 <?php
 
-use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\checkAdminUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Controllers\ProxyController;
 use App\Http\Controllers\ReceiptController;
-use App\Http\Controllers\TestPDFGeneration;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Controllers\AdminViewController;
@@ -27,7 +25,6 @@ use App\Http\Controllers\CooperatorViewController;
 use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\RejectionEmailController;
 use App\Http\Controllers\Auth\GoogleAuthController;
-use App\Http\Controllers\ProjectProposalController;
 use App\Http\Controllers\StaffAddProjectController;
 use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\UserActivityLogController;
@@ -45,9 +42,8 @@ use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
-use App\Http\Controllers\Coop_QuarterlyReportController;
+use App\Http\Controllers\CoopQuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
@@ -65,8 +61,6 @@ Route::controller(GoogleAuthController::class)->group(function () {
 Route::get('/test', function () {
     return view('components.rtec-report-form.main');
 });
-
-Route::get('/test/pdf/generate', [TestPDFGeneration::class, 'generatePDF']);
 Route::get('/signup', function () {
     return view('registerpage.signup');
 })->name('registerpage.signup');
@@ -179,11 +173,12 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
             ->name('Cooperator.myProjects');
     });
 
-    Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', [Coop_QuarterlyReportController::class, 'getQuarterlyForm'])
+    Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', [CoopQuarterlyReportController::class, 'getQuarterlyForm'])
         ->name('CooperatorViewController')
         ->middleware('signed');
 
-    Route::resource('/Cooperator/QuarterlyReport', Coop_QuarterlyReportController::class);
+    Route::resource('/Cooperator/QuarterlyReport', CoopQuarterlyReportController::class)
+        ->only(['index', 'create', 'update']);
 
     Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
 
@@ -262,10 +257,12 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
-    Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class);
+    Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
     Route::get('/view-project-file/{id}', [StaffProjectRequirementController::class, 'viewFile'])
         ->name('view.project.file');
-    Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class);
+    Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class)
+        ->only(['index', 'store', 'update', 'destroy']);
     Route::get('/proxy', [ProxyController::class, 'proxy']);
 
     Route::post('/send-rejection-email', [RejectionEmailController::class, 'sendRejectionEmail'])
@@ -361,7 +358,6 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
     Route::get('/Project/get/OngoingProjects', GetOngoingProjectController::class)
         ->name('Project.getOngoingProjects');
 
-    Route::resource('/Project/ProjectProposal', ProjectProposalController::class);
 
     Route::get('/Applicant/get/tna/{business_id}/{application_id}/{action}', [TNADocController::class, 'getTNAForm'])
         ->name('staff.Applicant.get.tna');

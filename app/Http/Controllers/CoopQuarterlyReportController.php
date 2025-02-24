@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\SubmitQuarterlyReportRequest;
+use Exception;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\URL;
-use Illuminate\Support\Facades\Log;
-use Ramsey\Uuid\Type\Integer;
+use App\Http\Requests\SubmitQuarterlyReportRequest;
 
-class Coop_QuarterlyReportController extends Controller
+class CoopQuarterlyReportController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -81,7 +81,7 @@ class Coop_QuarterlyReportController extends Controller
             Log::info($reportId);
 
             if ($reportSubmitted === 'true' && $reportStatus === 'open') {
-                $Data = $this->getQuaterlyReport($reportId, $projectId, $quarter);
+                $Data = $this->getQuaterlyReportData($reportId, $projectId, $quarter);
 
                 $reportData = $Data->first()->report_file;
 
@@ -92,30 +92,6 @@ class Coop_QuarterlyReportController extends Controller
         } else {
             return view('cooperator-view.Cooperator_Index');
         }
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-     
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
     }
 
     /**
@@ -141,20 +117,18 @@ class Coop_QuarterlyReportController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 
-    private function getQuaterlyReport(string $reportId, String $projectId, String $quarter)
+
+    private function getQuaterlyReportData(string $reportId, String $projectId, String $quarter): OngoingQuarterlyReport
     {
-        return OngoingQuarterlyReport::whereRaw('SHA2(id, 256) = ?', $reportId)
-            ->whereRaw('SHA2(ongoing_project_id, 256) = ?', $projectId)
-            ->where('quarter', $quarter)
-            ->select(['report_file'])
-            ->get();
+        try {
+            return OngoingQuarterlyReport::whereRaw('SHA2(id, 256) = ?', $reportId)
+                ->whereRaw('SHA2(ongoing_project_id, 256) = ?', $projectId)
+                ->where('quarter', $quarter)
+                ->select(['report_file'])
+                ->get();
+        } catch (Exception $e) {
+            throw new Exception('Failed to get quarterly report: ' . $e->getMessage());
+        }
     }
 }
