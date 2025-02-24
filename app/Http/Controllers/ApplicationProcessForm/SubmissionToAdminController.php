@@ -7,7 +7,7 @@ use App\Models\User;
 use App\Models\ProjectInfo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Services\ProjectFeeService;
+use App\Services\Settings\ProjectFeeService;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Services\SubmitToAdminService;

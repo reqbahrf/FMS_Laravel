@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Settings;
 
 use App\Models\ProjectSetting;
 use Illuminate\Support\Facades\Log;

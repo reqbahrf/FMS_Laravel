@@ -8,10 +8,10 @@ use App\Models\ProjectInfo;
 use App\Models\ApplicationInfo;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use App\Services\Settings\ProjectFeeService;
 use Illuminate\Support\Facades\Notification;
-use App\Notifications\ProjectProposalNotification;
 use App\Services\NumberFormatterService as NF;
-use App\Services\RTECReportdataHandlerService;
+use App\Notifications\ProjectProposalNotification;
 use App\Services\ProjectProposaldataHandlerService;
 
 class SubmitToAdminService
@@ -49,33 +49,6 @@ class SubmitToAdminService
         }
     }
 
-    public function approved(
-        int $business_id,
-        int $application_id,
-        int $staff_id,
-        ProjectProposaldataHandlerService $ProjectProposal,
-        TNAdataHandlerService $TNA,
-        RTECReportdataHandlerService $RTEC
-
-    ) {
-        try {
-
-            $this->updateApplicationInfo($business_id, $application_id, null, 'approved');
-            $ProjectProposal->updateStatusToSubmitted($business_id, $application_id);
-            $TNA->updateStatusToSubmitted($business_id, $application_id);
-            $RTEC->updateStatusToSubmitted($business_id, $application_id);
-
-            DB::commit();
-            Cache::forget('pendingProjects');
-            Cache::forget('applicants');
-            // $adminUser = User::where('role', 'Admin')->get();
-
-            return response()->json(['message' => 'Submitted to admin successfully'], 200);
-        } catch (Exception $e) {
-            DB::rollBack();
-            throw new Exception('Failed to submit to admin: ' . $e->getMessage());
-        }
-    }
 
     public function submitForReview(
         int $business_id,

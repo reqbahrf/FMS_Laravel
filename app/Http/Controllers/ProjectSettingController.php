@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\ProjectFeeService;
+use App\Services\Settings\ProjectFeeService;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -22,8 +22,8 @@ class ProjectSettingController extends Controller
         try {
             $feePercentage = $request->validate([
                 'fee_percentage' => 'required|numeric|min:0|max:100'
-                ])['fee_percentage'];
-           return $projectFeeService->updateProjectFee($feePercentage);
+            ])['fee_percentage'];
+            return $projectFeeService->updateProjectFee($feePercentage);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }

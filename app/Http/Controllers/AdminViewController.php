@@ -4,14 +4,15 @@ namespace App\Http\Controllers;
 
 use Exception;
 use Illuminate\Http\Request;
-use App\Services\ProjectFeeService;
+use App\Services\Settings\ProjectFeeService;
 use App\Services\AdminDashboardService;
 use App\Actions\GetAvailableChartYearList;
 
 
 class AdminViewController extends Controller
 {
-    public function index(){
+    public function index()
+    {
         return view('admin-view.Admin_Index');
     }
     public function LoadDashboardTab(Request $request)
@@ -84,5 +85,4 @@ class AdminViewController extends Controller
             return view('admin-view.Admin_Index');
         }
     }
-
 }
