@@ -10,7 +10,10 @@ use Exception;
 class SetProjectToLoadController extends Controller
 {
     /**
-     * Handle the incoming request.
+     * Sets the project to load based on the provided business and application IDs.
+     * Cooperatoor view project Controller
+     * @param  Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function __invoke(Request $request)
     {

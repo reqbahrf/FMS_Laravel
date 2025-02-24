@@ -53,26 +53,12 @@ class ApplicantRequirementController extends Controller
 
             return response()->json($result, 200);
         } catch (FileNotFoundException $e) {
+            Log::error('File not found: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 404);
         } catch (Exception $e) {
+            Log::error('An error occurred: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 500);
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
     }
 
     /**
@@ -80,29 +66,27 @@ class ApplicantRequirementController extends Controller
      */
     public function show(Request $request)
     {
-        $validated = $request->validate([
-            'file_url' => 'required|string'
-        ]);
+        try {
+
+            $validated = $request->validate([
+                'file_url' => 'required|string'
+            ]);
 
 
-        if (!Storage::disk('private')->exists($validated['file_url'])) {
-            return response()->json(['error' => 'File not found'], 404);
+            if (!Storage::disk('private')->exists($validated['file_url'])) {
+                return response()->json(['error' => 'File not found'], 404);
+            }
+
+            $fileContent = Storage::disk('private')->get($validated['file_url']);
+
+            $base64File = base64_encode($fileContent);
+            return response()->json([
+                'base64File' =>  $base64File,
+            ], 200);
+        } catch (Exception $e) {
+            Log::error('An error occurred: ' . $e->getMessage());
+            return response()->json(['message' => $e->getMessage()], 500);
         }
-
-        $fileContent = Storage::disk('private')->get($validated['file_url']);
-
-        $base64File = base64_encode($fileContent);
-        return response()->json([
-            'base64File' =>  $base64File,
-        ], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Requirement $requirement)
-    {
-        //
     }
 
     /**
@@ -115,24 +99,16 @@ class ApplicantRequirementController extends Controller
         try {
             switch ($userRole) {
                 case 'Staff':
-                   return $this->updateReviewedFile($request, $id);
-                break;
+                    return $this->updateReviewedFile($request, $id);
+                    break;
                 case 'Cooperator':
                     return $this->uploadNewFile($request, $id);
-                break;
+                    break;
             }
-        }catch (Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json(['error' => 'Something went wrong'], 500);
+        } catch (Exception $e) {
+            Log::error('An error occurred: ' . $e->getMessage());
+            return response()->json(['message' => $e->getMessage() || 'Something went wrong'], 500);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Requirement $requirement)
-    {
-        //
     }
 
     protected function updateReviewedFile($request, $id)
@@ -155,11 +131,10 @@ class ApplicantRequirementController extends Controller
                 'updated_at' => now(),
             ]);
             return response()->json(['success' => 'File Reviewed'], 200);
-        }catch (Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json(['error' => 'Something went wrong'], 500);
+        } catch (Exception $e) {
+            Log::error('An error occurred: ' . $e->getMessage());
+            return response()->json(['message' => $e->getMessage() || 'Something went wrong'], 500);
         }
-
     }
 
     protected function uploadNewFile($request, $id)
@@ -173,23 +148,21 @@ class ApplicantRequirementController extends Controller
         try {
             $filePath = Storage::disk('private')->exists($validated['file_link']);
 
-            if(!$filePath)
-            {
-                return response()->json(['message' => 'File does not exist'], 500);
+            if (!$filePath) {
+                throw new Exception("File not found: " . $validated['file_link']);
             }
 
             $ToBeUpdatedFile = Requirement::where('id', $id)
-                 ->where('file_link', $validated['file_link'])
-                 ->where('remarks', 'Rejected')
-                 ->where('can_edit', true)
-                 ->first();
+                ->where('file_link', $validated['file_link'])
+                ->where('remarks', 'Rejected')
+                ->where('can_edit', true)
+                ->first();
 
-            if(!$ToBeUpdatedFile){
-                     return response()->json(['message' => 'Action is not allowed'], 500);
+            if (!$ToBeUpdatedFile) {
+                return response()->json(['message' => 'Action is not allowed'], 500);
             }
 
-            if(Storage::disk('private')->delete($validated['file_link']))
-            {
+            if (Storage::disk('private')->delete($validated['file_link'])) {
 
                 $validated['file']->storeAs('private', $validated['file_link']);
                 $ToBeUpdatedFile->update([
@@ -197,15 +170,11 @@ class ApplicantRequirementController extends Controller
                     'remarks' => 'Pending',
                 ]);
                 return response()->json(['success' => 'File Uploaded'], 200);
-            }else {
-
-                return response()->json(['error' => 'Something went wrong'], 500);
+            } else {
+                throw new Exception('Failed to delete file');
             }
-
         } catch (Exception $e) {
-            Log::error($e->getMessage());
-            return response()->json(['error' => 'Something went wrong'], 500);
+            return response()->json(['message' => $e->getMessage() || 'Something went wrong'], 500);
         }
-
     }
 }

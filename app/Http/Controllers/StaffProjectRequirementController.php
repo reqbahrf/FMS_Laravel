@@ -33,12 +33,6 @@ class StaffProjectRequirementController extends Controller
             return response()->json(['error' => 'Error fetching project links'], 500);
         }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create() {}
-
     /**
      * Store a newly created resource in storage.
      */
@@ -67,18 +61,6 @@ class StaffProjectRequirementController extends Controller
         return response()->file($filePath, ['Content-Type' => mime_content_type($filePath)]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id) {}
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -239,7 +221,8 @@ class StaffProjectRequirementController extends Controller
         }
     }
 
-    private function ensureProtocol($url) {
+    private function ensureProtocol($url)
+    {
         // Remove any leading/trailing whitespace
         $url = trim($url);
 
