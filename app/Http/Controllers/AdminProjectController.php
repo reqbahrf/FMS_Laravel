@@ -35,37 +35,21 @@ class AdminProjectController extends Controller
 
             DB::beginTransaction();
 
-            $project = ProjectInfo::where('Project_id', $validated['project_id'])
-                ->where('business_id', $validated['business_id'])
-                ->firstOrFail();
-
-            $project->handled_by_id = $validated['assigned_staff_id'];
-            $project->save();
-
-            $application = ApplicationInfo::where('business_id', $validated['business_id'])
-                ->firstOrFail();
-            $application->application_status = 'approved';
-            $application->save();
+            $project = $this->asignStaffToProject($validated['project_id'], $validated['assigned_staff_id'], $validated['business_id']);
+            $application = $this->updateApplicationStatusToApproved($validated['business_id']);
 
             // Get the business info and associated user
             $business = BusinessInfo::with('userInfo.user')->findOrFail($validated['business_id']);
 
             // Send email notification to business owner
-            if ($business->userInfo && $business->userInfo->user) {
-                Mail::to($business->userInfo->user->email)->send(new ProjectApprovalMail($project));
-            }
+            $this->emailCooperatoor($business, $project);
 
             // Send notification to assigned staff's user account
             $assignedStaff = OrgUserInfo::with('user')->findOrFail($validated['assigned_staff_id']);
-            if ($assignedStaff->user) {
-                $assignedStaff->user->notify(new ProjectAssignmentNotification($project));
-            }
+            $this->notifyAssignedStaff($assignedStaff, $project);
 
             if ($project->wasChanged('handled_by_id')) {
-                Cache::forget('handled_projects' . $validated['assigned_staff_id']);
-                Cache::forget('ongoing_projects');
-                Cache::forget('pendingProjects');
-                Cache::forget('staffhandledProjects');
+                $this->clearCache($validated['assigned_staff_id']);
             }
             $project_id = $project->Project_id;
             $application_id = $application->id;
@@ -85,8 +69,6 @@ class AdminProjectController extends Controller
                 Log::error('Invalid fund release date', ['fundReleaseDate' => $fundReleaseDate]);
                 throw new Exception('Invalid fund release date');
             }
-
-            //PaymentProcessingService::processPayments($fundReleaseDate, $paymentStructure, $project_id);
 
             ProcessPayment::dispatchAfterResponse($fundReleaseDate, $paymentStructure, $project_id);
             return response()->json([
@@ -112,12 +94,7 @@ class AdminProjectController extends Controller
 
         try {
 
-            $project = ProjectInfo::where('Project_id', $validated['project_id'])
-                ->where('business_id', $validated['business_id'])
-                ->firstOrFail();
-
-            $project->handled_by_id = $validated['staff_id'];
-            $project->save();
+            $project = $this->asignStaffToProject($validated['project_id'], $validated['staff_id'], $validated['business_id']);
 
             Cache::forget('handled_projects' . $validated['staff_id']);
 
@@ -136,6 +113,70 @@ class AdminProjectController extends Controller
                 'message' => $e->getMessage(),
                 'status' => 'error',
             ], 500);
+        }
+    }
+
+
+    private function asignStaffToProject(int $project_id, int $staff_id, int $business_id): ProjectInfo
+    {
+        try {
+            $project = ProjectInfo::where('Project_id', $project_id)
+                ->where('business_id', $business_id)
+                ->firstOrFail();
+
+            $project->handled_by_id = $staff_id;
+            $project->save();
+
+            return $project;
+        } catch (Exception $e) {
+            throw new Exception('Failed to assign staff to project: ' . $e->getMessage() || 'Failed to assign staff to project');
+        }
+    }
+    private function updateApplicationStatusToApproved(int $businessId): ApplicationInfo
+    {
+        try {
+            $application = ApplicationInfo::where('business_id', $businessId)
+                ->firstOrFail();
+            $application->application_status = 'approved';
+            $application->save();
+
+            return $application;
+        } catch (Exception $e) {
+            throw new Exception('Failed to update application status: ' . $e->getMessage() || 'Failed to update application status');
+        }
+    }
+
+    private function emailCooperatoor(BusinessInfo $business, ProjectInfo $project)
+    {
+        try {
+            if ($business->userInfo && $business->userInfo->user) {
+                Mail::to($business->userInfo->user->email)->send(new ProjectApprovalMail($project));
+            }
+        } catch (Exception $e) {
+            throw new Exception('Failed to send email to business owner: ' . $e->getMessage() || 'Failed to send email to business owner');
+        }
+    }
+
+    private function notifyAssignedStaff(OrgUserInfo $staff, ProjectInfo $project): void
+    {
+        try {
+            if ($staff->user) {
+                $staff->user->notify(new ProjectAssignmentNotification($project));
+            }
+        } catch (Exception $e) {
+            throw new Exception('Failed to notify assigned staff: ' . $e->getMessage() || 'Failed to notify assigned staff');
+        }
+    }
+
+    private function clearCache(int $staffId): void
+    {
+        try {
+            Cache::forget('handled_projects' . $staffId);
+            Cache::forget('ongoing_projects');
+            Cache::forget('pendingProjects');
+            Cache::forget('staffhandledProjects');
+        } catch (Exception $e) {
+            throw new Exception('Failed to clear cache: ' . $e->getMessage());
         }
     }
 }
