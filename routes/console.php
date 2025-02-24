@@ -9,5 +9,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote')->hourly();
 
 Schedule::command('reports:close')->daily();
+Schedule::command('app:check-due-payments')->dailyAt('09:00');
 Schedule::command('app:cleanup-temporary-files')->daily();
 Schedule::command('form-drafts:clean')->daily();
