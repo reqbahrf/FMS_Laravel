@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\checkAdminUser;
 use App\Http\Middleware\CheckStaffUser;
 use App\Http\Controllers\ProxyController;
-use App\Http\Controllers\ReceiptController;
 use App\Http\Controllers\ScheduleController;
 use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Controllers\AdminViewController;
