@@ -220,8 +220,6 @@
             DELETE_QUARTERLY_REPORT: '{{ route('Manage-QuarterlyReport.destroy', ':record_id') }}',
             UPDATE_OR_CREATE_PROJECT_LEDGER: '{{ route('staff.Dashboard.ProjectLedger') }}',
             GET_PROJECT_LEDGER: '{{ route('staff.Dashboard.ProjectLedger.index', ':project_id') }}',
-            GET_UPLOADED_RECEIPTS: '{{ route('receipts.show', ':project_id') }}'
-
         }
 
         const GENERATE_SHEETS_ROUTE = {
@@ -248,8 +246,6 @@
             setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
             getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
             SHOW_REQUIREMENT_FILE: '{{ route('Requirements.view') }}',
-            STORE_PROJECT_PROPOSAL: '{{ route('ProjectProposal.store') }}',
-            GET_PROJECT_PROPOSAL_DRAFT: '{{ route('ProjectProposal.show', ':ApplicationId') }}',
             REJECT_APPLICATION_TNA: '{{ route('send.rejection.email') }}',
             GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id', ':action']) }}',
             GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal', [':business_id', ':application_id', ':action']) }}',
