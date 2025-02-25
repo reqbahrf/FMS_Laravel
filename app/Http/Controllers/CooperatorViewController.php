@@ -92,12 +92,17 @@ class CooperatorViewController extends Controller
 
                     if ($paymentInfo->isNotEmpty()) {
                         $filteredPaymentInfo = $paymentInfo->filter(function ($payment) {
-                            return in_array($payment->payment_status, ['Pending', 'Due']);
+                            return in_array($payment->payment_status, ['Pending', 'Due', 'Overdue']);
                         });
-                        $earliestPayment = $filteredPaymentInfo->sortBy('due_date')->first();
+
+                        $sortedPaymentInfo = $filteredPaymentInfo->sortBy(function ($payment) {
+                            return array_search($payment->payment_status, ['Overdue', 'Due', 'Pending']);
+                        });
+
+                        $earliestPayment = $sortedPaymentInfo->sortBy('due_date')->first();
 
                         if ($earliestPayment) {
-                            $upcomingPayment = [
+                            $bannerData = [
                                 'amount' => $earliestPayment->amount,
                                 'payment_status' => $earliestPayment->payment_status,
                                 'payment_method' => $earliestPayment->payment_method,
@@ -110,14 +115,14 @@ class CooperatorViewController extends Controller
                                 'actual_amount_to_be_refund' => $projectInfo->actual_amount_to_be_refund ?? [],
                                 'refunded_amount' => $projectInfo->refunded_amount ?? []
                             ],
-                            'upcomingPayment' => $upcomingPayment ?? []
+                            'bannerData' => $bannerData ?? []
                         ], 200);
                     }
                 }
             }
             return response()->json([
                 'progress' => [],
-                'upcomingPayment' => []
+                'bannerData' => []
             ], 200);
         } catch (Exception $e) {
             Log::error($e->getMessage());
