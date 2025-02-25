@@ -129,7 +129,9 @@ class CooperatorViewController extends Controller
     public function LoadRefundTab(Request $request)
     {
         if ($request->ajax()) {
-            $refundStructure = PaymentRecord::where('Project_id', $this->session_project_id)->get();
+            $refundStructure = PaymentRecord::where('Project_id', $this->session_project_id)
+                ->get()
+                ->sortBy('due_date');
 
             return view('cooperator-view.coop-page-tab.refund-tab', compact('refundStructure'));
         } else {
