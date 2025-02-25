@@ -34,10 +34,14 @@ class CheckDuePayments extends Command
      */
     public function handle()
     {
-        $this->info('Checking due payments...');
         try {
+
+
+            $this->info('Checking due payments...');
             $projectIDs = $this->getUniqueProjectIds();
+            $this->updatePaymentStatus($projectIDs);
             foreach ($projectIDs as $projectId) {
+                $this->updatePaymentStatus($projectId);
                 $duePayments = $this->getDuePayments($projectId);
                 if ($duePayments->isNotEmpty()) {
                     $this->info("Found " . $duePayments->count() . " due payments for project ID: {$projectId}" . " that will be due on: " . Carbon::now()->addDays(15)->format('Y-m-d'));
@@ -61,14 +65,46 @@ class CheckDuePayments extends Command
             throw $e;
         }
     }
+    protected function updatePaymentStatus(string $projectId): void
+    {
+        try {
+            $this->info("Updating payment status for project ID: {$projectId}");
+
+            $currentDate = now()->format('Y-m-d');
+            $pendingPayments = PaymentRecord::where('Project_id', $projectId)
+                ->where('payment_status', 'Pending')->get();
+
+            $duePaymentIds = [];
+            $overduePaymentIds = [];
+
+            foreach ($pendingPayments as $payment) {
+                if ($payment->due_date->format('Y-m-d') == $currentDate) {
+                    $duePaymentIds[] = $payment->id;
+                } else if ($payment->due_date->format('Y-m-d') < $currentDate) {
+                    $overduePaymentIds[] = $payment->id;
+                }
+            }
+
+            if (!empty($duePaymentIds)) {
+                $this->info("Found " . count($duePaymentIds) . " due payments for project ID: {$projectId}");
+                PaymentRecord::whereIn('id', $duePaymentIds)->update(['payment_status' => 'Due']);
+            }
+            if (!empty($overduePaymentIds)) {
+                $this->info("Found " . count($overduePaymentIds) . " overdue payments for project ID: {$projectId}");
+                PaymentRecord::whereIn('id', $overduePaymentIds)->update(['payment_status' => 'Overdue']);
+            }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
 
     protected function getDuePayments(string $projectId): Collection
     {
         try {
 
-            $this->info("Getting due payments for project ID: {$projectId}");
+            $this->info("Getting due or overdue payments for project ID: {$projectId}");
             $dueDate = now()->addDays(15);
-            $duePayments = PaymentRecord::wherein('payment_status', ['Due', 'Overdue', 'Pending'])
+            $duePayments = PaymentRecord::wherein('payment_status', ['Due', 'Overdue'])
                 ->whereDate('due_date', $dueDate)
                 ->where('Project_id', $projectId)
                 ->get();
