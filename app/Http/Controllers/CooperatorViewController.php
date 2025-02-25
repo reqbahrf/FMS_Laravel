@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use App\Models\ApplicationInfo;
+use App\Models\PaymentRecord;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,16 @@ use App\Services\GetCooperatorInfoService;
 
 class CooperatorViewController extends Controller
 {
+    protected $username;
+    protected $session_business_id;
+    protected $session_project_id;
+
+    public function __construct()
+    {
+        $this->username = Auth::user()->user_name;
+        $this->session_business_id = Session::get('business_id');
+        $this->session_project_id = Session::get('project_id');
+    }
     public function index(GetCooperatorInfoService $getCooperatorInfoService)
     {
         $userName = Auth::user()->user_name;
@@ -118,8 +129,9 @@ class CooperatorViewController extends Controller
     public function LoadRefundTab(Request $request)
     {
         if ($request->ajax()) {
+            $refundStructure = PaymentRecord::where('Project_id', $this->session_project_id)->get();
 
-            return view('cooperator-view.coop-page-tab.refund-tab');
+            return view('cooperator-view.coop-page-tab.refund-tab', compact('refundStructure'));
         } else {
             return view('cooperator-view.Cooperator_Index');
         }
