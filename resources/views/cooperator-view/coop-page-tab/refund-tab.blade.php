@@ -1,5 +1,5 @@
 <div class="p-3">
-    <h4>Requirements</h4>
+    <h4>Refund Progress:</h4>
 </div>
 {{-- Receipt modal --}}
 <!-- Modal -->
@@ -100,40 +100,35 @@
         <div class="col-12">
             <div class="card shadow-sm rounded-sm">
                 <div class="card-header bg-primary">
-                    <h6 class="text-white mb-0">Expense Receipt</h6>
+                    <h6 class="text-white mb-0">Refund Structure</h6>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table">
                             <thead class="thead-dark">
                                 <tr>
-                                    <th scope="col">Receipt Name</th>
-                                    <th scope="col">Description</th>
-                                    <th scope="col">Receipt File</th>
-                                    <th scope="col">Date Uploaded</th>
-                                    <th scope="col">Remark</th>
-                                    <th scope="col">Comment</th>
+                                    <th scope="col">Reference Number</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">Payment Status</th>
+                                    <th scope="col">Payment Method</th>
+                                    <th scope="col">Quarter</th>
+                                    <th scope="col">Due Date</th>
+                                    <th scope="col">Date Completed</th>
                                 </tr>
                             </thead>
-                            <tbody id="expenseReceipt_tbody">
+                            <tbody id="refundProgress_tbody">
                                 <tr>
                                     <td></td>
                                     <td></td>
-                                    <td>Where the receipt infomation are displayed</td>
+                                    <td>Where the refund progress infomation are displayed</td>
+                                    <td></td>
+                                    <td></td>
                                     <td></td>
                                     <td></td>
                                 </tr>
                                 <!-- Add more rows as needed -->
                             </tbody>
                         </table>
-                    </div>
-                    <div class="text-end">
-                        <button
-                            class="btn btn-primary"
-                            data-bs-toggle="modal"
-                            data-bs-target="#receiptModal"
-                            type="button"
-                        >Upload Receipt</button>
                     </div>
                 </div>
             </div>

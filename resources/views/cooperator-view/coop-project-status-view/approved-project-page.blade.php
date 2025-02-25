@@ -214,16 +214,9 @@
         PROJECT: '{{ route('Cooperator.myProjects') }}',
         QUARTERLY_REPORT: '/Cooperator/QuarterlyReport',
     }
-    console.log(NAV_ROUTES.QUARTERLY_REPORT)
 
     const DASHBOARD_TAB_ROUTE = {
         GET_COOPERATOR_PROGRESS: '{{ route('Cooperator.Progress') }}',
-
-    }
-
-    const REQUIREMENTS_ROUTE = {
-        STORE_RECEIPTS: '{{ route('receipts.store') }}',
-        GET_RECEIPTS: '{{ route('receipts.index') }}',
     }
 
     const QUARTERLY_REPORT_ROUTE = {
