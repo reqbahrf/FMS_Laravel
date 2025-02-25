@@ -39,7 +39,7 @@ class ProjectInfo extends Model
         'refunded_amount' => 'float'
     ];
 
-    public function paymentInfo() : HasMany
+    public function paymentInfo(): HasMany
     {
         return $this->hasMany(PaymentRecord::class, 'Project_id', 'Project_id');
     }
@@ -57,10 +57,5 @@ class ProjectInfo extends Model
     public function previousQuarterlyReport(): HasMany
     {
         return $this->hasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
-    }
-
-    public function projectProposalInfo() : HasOne
-    {
-        return $this->HasOne(ProjectProposal::class, 'Project_id', 'Project_id');
     }
 }
