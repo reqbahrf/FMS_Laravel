@@ -101,7 +101,7 @@ class CooperatorViewController extends Controller
                                 'amount' => $earliestPayment->amount,
                                 'payment_status' => $earliestPayment->payment_status,
                                 'payment_method' => $earliestPayment->payment_method,
-                                'due_date' => $earliestPayment->due_date,
+                                'due_date' => $earliestPayment->due_date->format('Y-m-d'),
                             ] ?? [];
                         }
 
@@ -117,7 +117,7 @@ class CooperatorViewController extends Controller
             }
             return response()->json([
                 'progress' => [],
-                'paymentList' => []
+                'upcomingPayment' => []
             ], 200);
         } catch (Exception $e) {
             Log::error($e->getMessage());

@@ -124,35 +124,15 @@
         </div>
     </div>
     <div class="col-12 col-md-8">
-        <div class="card shadow-sm rounded-sm">
+        <div
+            class="card shadow-sm rounded-sm"
+            id="upcomingPaymentContainer"
+        >
             <div class="card-header bg-primary">
-                <h6 class="text-white mb-0">Refund History:</h6>
+                <h6 class="text-white mb-0">Upcoming Payment</h6>
             </div>
             <div class="card-body">
-                <table
-                    class="table"
-                    id="PaymentTable"
-                >
-                    <thead>
-                        <tr>
-                            <th
-                                class="text-center"
-                                width="20%"
-                            >Amount</th>
-                            <th
-                                class="text-center"
-                                width="20%"
-                            >Payment Method</th>
-                            <th
-                                class="text-center"
-                                width="20%"
-                            >Payment Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
 
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>
