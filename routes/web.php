@@ -156,7 +156,7 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
             ->name('Cooperator.Progress');
 
         Route::get('/Cooperator/Requirements',  'LoadRefundTab')
-            ->name('Cooperator.Requirements');
+            ->name('Cooperator.refund');
 
         Route::get('/Cooperator/myProjects',  'LoadCooperatorProjectsTab')
             ->name('Cooperator.myProjects');

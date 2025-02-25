@@ -37,7 +37,7 @@
                     class="mb-2 d-flex align-items-center"
                     id="requirementTab"
                     href="#"
-                    onclick="loadPage('{{ route('Cooperator.Requirements') }}','requirementTab');"
+                    onclick="loadPage('{{ route('Cooperator.refund') }}','requirementTab');"
                 >
                     <i class="ri-file-list-2-fill ri-2x"></i>
                     <span class="nav-text ml-2">Requirements</span>
@@ -129,7 +129,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="requirementTab"
                         href="#"
-                        onclick="loadPage('{{ route('Cooperator.Requirements') }}','requirementTab');"
+                        onclick="loadPage('{{ route('Cooperator.refund') }}','requirementTab');"
                     >
                         <i class="ri-file-list-2-fill ri-2x"></i>
                         <span class="nav-text ml-2">Requirements</span>
@@ -210,7 +210,7 @@
 
     const NAV_ROUTES = {
         DASHBOARD: '{{ route('Cooperator.dashboard') }}',
-        REQUIREMENTS: '{{ route('Cooperator.Requirements') }}',
+        REFUND_STRUCTURE: '{{ route('Cooperator.refund') }}',
         PROJECT: '{{ route('Cooperator.myProjects') }}',
         QUARTERLY_REPORT: '/Cooperator/QuarterlyReport',
     }

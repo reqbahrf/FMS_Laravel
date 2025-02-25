@@ -73,7 +73,7 @@ notificationManager.setupEventListeners();
 
 const urlMapFunction = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
-    [NAV_ROUTES.REQUIREMENTS]: (functions) => functions.Requirements,
+    [NAV_ROUTES.REFUND_STRUCTURE]: (functions) => functions.Refund,
     [NAV_ROUTES.PROJECT]: (functions) => functions.Project,
     [NAV_ROUTES.QUARTERLY_REPORT]: (functions, reportSubmitted) =>
         reportSubmitted
@@ -117,7 +117,14 @@ const getQuarterlyReportLinks = async () => {
         QuarterlyReportContainer.html(
             response ? response.html : '<li>No quarterly report</li>'
         );
-    } catch (error) {}
+    } catch (error) {
+        showToastFeedback(
+            'text-bg-danger',
+            error?.responseJSON?.message ||
+                error?.message ||
+                'Error in getting quarterly report'
+        );
+    }
 };
 
 getQuarterlyReportLinks();
