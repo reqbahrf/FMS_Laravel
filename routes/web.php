@@ -87,8 +87,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])
         ->name('logout');
 
-    Route::resource('/receipts', ReceiptController::class);
-
     Route::get('/Applicant-Requirements/{business_id}', [ApplicantRequirementController::class, 'index'])
         ->name('Requirements.index');
 
@@ -128,14 +126,6 @@ Route::post('/login', [AuthController::class, 'login'])
 
 Route::get('/password/reset', fn() => view('auth.passwordReset.resetRequest'))
     ->name('password.request');
-
-
-Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])
-    ->name('password.email');
-
-
-Route::post('/password/email', [PasswordResetController::class, 'sendResetLink'])
-    ->name('password.email');
 
 Route::get('/password/reset/{token}', fn($token) => view('auth.passwordReset.resetForm', ['token' => $token]))
     ->name('password.reset');
@@ -179,10 +169,6 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
 
     Route::resource('/Cooperator/QuarterlyReport', CoopQuarterlyReportController::class)
         ->only(['index', 'create', 'update']);
-
-    Route::post('upload/Img', [ReceiptController::class, 'img_upload']);
-
-    Route::delete('delete/Img/{uniqueId}', [ReceiptController::class, 'img_revert']);
 });
 
 //Cooperator Routes End
