@@ -17,6 +17,7 @@ import ActivityLogHandler from '../Utilities/ActivityLogHandler';
 import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
 import AdminDashboard from './AdminDashboard';
+import ProjectFee from './ProjectFee';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -2402,46 +2403,7 @@ async function initializeAdminPageJs() {
             await getStaffUserLists();
         },
         ProjectSettings: () => {
-            const ProjectFeeForm = $('#projectFeeForm');
-
-            ProjectFeeForm.on('submit', async function (event) {
-                event.preventDefault();
-                const isConfirmed = await createConfirmationModal({
-                    title: 'Update Project Fee',
-                    titleBg: 'bg-primary',
-                    message: 'Are you sure you want to update the project fee?',
-                    confirmText: 'Yes',
-                    confirmButtonClass: 'btn-primary',
-                    cancelText: 'No',
-                });
-                if (!isConfirmed) {
-                    return;
-                }
-                showProcessToast('Updating Project Fee...');
-                try {
-                    const formData = new FormData(this);
-                    const response = await $.ajax({
-                        type: 'POST',
-                        url: PROJECT_SETTINGS_ROUTE.UPDATE_PROJECT_FEE,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        processData: false, // Don't process the data
-                        contentType: false, // Let jQuery set the content type based on formData
-                        data: formData,
-                    });
-                    hideProcessToast();
-                    showToastFeedback('text-bg-success', response.message);
-                } catch (error) {
-                    hideProcessToast();
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
-                }
-            });
+            const projectFee = new ProjectFee();
         },
     };
     return functions;
