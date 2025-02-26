@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Services\Settings\ProjectFeeService;
 use App\Services\AdminDashboardService;
 use App\Actions\GetAvailableChartYearList;
-
+use App\Services\Settings\NotifyOnService;
 
 class AdminViewController extends Controller
 {
@@ -76,11 +76,23 @@ class AdminViewController extends Controller
         }
     }
 
-    public function LoadProjectSettingTab(Request $request, ProjectFeeService $projectFeeService)
-    {
+    public function LoadProjectSettingTab(
+        Request $request,
+        ProjectFeeService $projectFeeService,
+        NotifyOnService $notifyOnService
+    ) {
         if ($request->ajax()) {
             $fee_percentage = $projectFeeService->getProjectFee();
-            return view('admin-view.admin-page-tab.projectSettingsTab', compact('fee_percentage'));
+            $notify_duration = $notifyOnService->getNotifyDuration();
+            $notify_interval = $notifyOnService->getNotifyEvery();
+            return view(
+                'admin-view.admin-page-tab.projectSettingsTab',
+                compact(
+                    'fee_percentage',
+                    'notify_duration',
+                    'notify_interval'
+                )
+            );
         } else {
             return view('admin-view.Admin_Index');
         }

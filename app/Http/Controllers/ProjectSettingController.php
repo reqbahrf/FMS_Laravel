@@ -2,30 +2,40 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\Settings\ProjectFeeService;
-use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Http\Request;
+use App\Models\ProjectSetting;
+use Illuminate\Http\JsonResponse;
 
 class ProjectSettingController extends Controller
 {
-    public function getFee(ProjectFeeService $projectFeeService)
-    {
+    public function updateProjectSetting(
+        Request $request
+    ): JsonResponse {
         try {
-            return $projectFeeService->getProjectFee();
+            $newSettings = $request->validate([
+                'fee_percentage' => 'required|numeric|min:0|max:100',
+                'notify_duration' => 'required|numeric|min:0',
+                'notify_interval' => 'required|numeric|min:0',
+            ]);
+
+            foreach ($newSettings as $key => $value) {
+                $this->updateOrCreateSetting($key, $value);
+            }
+
+
+            return response()->json(['message' => 'Project settings updated successfully'], 200);
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 
-    public function updateFee(Request $request, ProjectFeeService $projectFeeService)
+    protected function updateOrCreateSetting(string $key, mixed $value)
     {
         try {
-            $feePercentage = $request->validate([
-                'fee_percentage' => 'required|numeric|min:0|max:100'
-            ])['fee_percentage'];
-            return $projectFeeService->updateProjectFee($feePercentage);
+            ProjectSetting::updateOrCreate(['key' => $key], ['value' => $value]);
         } catch (Exception $e) {
-            return response()->json(['error' => $e->getMessage()], 500);
+            throw $e;
         }
     }
 }

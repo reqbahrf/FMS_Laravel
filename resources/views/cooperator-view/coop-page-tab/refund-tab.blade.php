@@ -60,6 +60,7 @@
                                                     'Completed' => 'success',
                                                     'Failed' => 'danger',
                                                     'Due' => 'danger',
+                                                    'Overdue' => 'danger',
                                                     default => 'primary',
                                                 } }}"
                                             >{{ $refund->payment_status }}</span>

@@ -276,7 +276,7 @@
         };
 
         const PROJECT_SETTINGS_ROUTE = {
-            UPDATE_PROJECT_FEE: '{{ route('admin.ProjectSettings.update') }}',
+            UPDATE_PROJECT_SETTINGS: '{{ route('admin.ProjectSettings.update') }}',
         };
     </script>
     @vite('resources/js/admin/admin-page.js')
