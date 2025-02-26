@@ -4,18 +4,25 @@ namespace App\Console\Commands;
 
 use App\Models\NotificationLog;
 use Exception;
-use App\Models\User;
-use App\Models\ProjectInfo;
 use App\Models\PaymentRecord;
 use Illuminate\Support\Carbon;
 use Illuminate\Console\Command;
 use App\Notifications\DuePayment;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Log;
+use App\Services\Settings\NotifyOnService;
 
 
 class CheckDuePayments extends Command
 {
+
+    public function __construct(
+        protected NotifyOnService $notifyOn,
+        protected PaymentRecord $payment,
+        protected NotificationLog $notificationLog
+    ) {
+        parent::__construct();
+    }
     /**
      * The name and signature of the console command.
      *
@@ -60,26 +67,38 @@ class CheckDuePayments extends Command
             }
             return Command::SUCCESS;
         } catch (Exception $e) {
-            Log::error('Error checking due payments: ' . $e->getMessage());
+            $this->error('Error checking due payments: ' . $e->getMessage());
             return Command::FAILURE;
         }
     }
     protected function getUniqueProjectIds(): Collection
     {
         try {
-            $projectID = PaymentRecord::distinct()->pluck('Project_id');
+            $projectID = $this->payment->distinct()->pluck('Project_id');
             return $projectID;
         } catch (Exception $e) {
             throw $e;
         }
     }
+
+    /**
+     * Updates payment status for a specific project based on due dates.
+     *
+     * Retrieves pending and due payments for the project, then categorizes them as 'Due'
+     * (due today) or 'Overdue' (past due date) based on comparison with the current date.
+     * Updates the payment status in the database accordingly.
+     *
+     * @param string $projectId The ID of the project to update payment statuses for
+     * @return void
+     * @throws Exception If there's an error during the update process
+     */
     protected function updatePaymentStatus(string $projectId): void
     {
         try {
             $this->info("Updating payment status first for project ID: {$projectId}");
 
             $currentDate = now()->format('Y-m-d');
-            $pendingPayments = PaymentRecord::where('Project_id', $projectId)
+            $pendingPayments = $this->payment->where('Project_id', $projectId)
                 ->whereIn('payment_status', ['Pending', 'Due'])->get();
 
             $duePaymentIds = [];
@@ -95,23 +114,33 @@ class CheckDuePayments extends Command
 
             if (!empty($duePaymentIds)) {
                 $this->info("Found " . count($duePaymentIds) . " due payments for project ID: {$projectId}");
-                PaymentRecord::whereIn('id', $duePaymentIds)->update(['payment_status' => 'Due']);
+                $this->payment->whereIn('id', $duePaymentIds)->update(['payment_status' => 'Due']);
             }
             if (!empty($overduePaymentIds)) {
                 $this->info("Found " . count($overduePaymentIds) . " overdue payments for project ID: {$projectId}");
-                PaymentRecord::whereIn('id', $overduePaymentIds)->update(['payment_status' => 'Overdue']);
+                $this->payment->whereIn('id', $overduePaymentIds)->update(['payment_status' => 'Overdue']);
             }
         } catch (Exception $e) {
             throw $e;
         }
     }
 
+    /**
+     * Retrieves all due or overdue payments for a specific project.
+     *
+     * Queries the database for payment records with status 'Due' or 'Overdue'
+     * that are associated with the given project ID.
+     *
+     * @param string $projectId The ID of the project to retrieve payments for
+     * @return Collection A collection of due or overdue payment records
+     * @throws Exception If there's an error during the retrieval process
+     */
     protected function getDuePayments(string $projectId): Collection
     {
         try {
 
             $this->info("Getting due or overdue payments for project ID: {$projectId}");
-            $duePayments = PaymentRecord::wherein('payment_status', ['Due', 'Overdue'])
+            $duePayments = $this->payment->wherein('payment_status', ['Due', 'Overdue'])
                 ->where('Project_id', $projectId)
                 ->get();
 
@@ -121,13 +150,24 @@ class CheckDuePayments extends Command
         }
     }
 
+    /**
+     * Retrieves upcoming due payments for a specific project.
+     *
+     * Queries the database for payment records with status 'Pending' that will be due
+     * on a future date determined by the notification duration setting.
+     *
+     * @param string $projectId The ID of the project to retrieve upcoming payments for
+     * @return Collection A collection of upcoming due payment records
+     * @throws Exception If there's an error during the retrieval process
+     */
     protected function getUpcomingDuePayments(string $projectId): Collection
     {
         try {
 
             $this->info("Getting upcoming due payments for project ID: {$projectId}");
-            $dueDate = now()->addDays(15);
-            $duePayments = PaymentRecord::where('payment_status', 'Pending')
+            $durationSetting = $this->notifyOn->getNotifyDuration();
+            $dueDate = now()->addDays($durationSetting);
+            $duePayments = $this->payment->where('payment_status', 'Pending')
                 ->whereDate('due_date', $dueDate)
                 ->where('Project_id', $projectId)
                 ->get();
@@ -151,15 +191,37 @@ class CheckDuePayments extends Command
         }
     }
 
-    protected function sendEmailAndNotification(int $paymentId, string $dueDate, string $projectId, string $dueAmount, string $status): void
-    {
+    /**
+     * Sends email and notification to users about payment status if not already sent within the notification interval.
+     *
+     * Checks if a notification has already been sent for the payment within the configured interval.
+     * If not, finds the associated user through project relationships and sends a notification.
+     * Records the notification in the notification log.
+     *
+     * @param int $paymentId The ID of the payment record
+     * @param string $dueDate The due date of the payment
+     * @param string $projectId The ID of the project associated with the payment
+     * @param string $dueAmount The amount due for the payment
+     * @param string $status The current status of the payment (Due, Overdue, etc.)
+     * @return void
+     * @throws Exception If there's an error during the notification process
+     */
+    protected function sendEmailAndNotification(
+        int $paymentId,
+        string $dueDate,
+        string $projectId,
+        string $dueAmount,
+        string $status
+    ): void {
         try {
             $this->info('Checking if notification already sent for Payment ID: ' . $paymentId);
 
-            $notificationExists = NotificationLog::where('reference_id', $paymentId)
+            $notifyInterval = $this->notifyOn->getNotifyEvery();
+            $this->info('Notification interval: ' . $notifyInterval);
+            $notificationExists = $this->notificationLog->where('reference_id', $paymentId)
                 ->where('reference_type', 'payment')
                 ->where('notification_type', $status)
-                ->where('created_at', '>=', now()->subDays(7))
+                ->where('created_at', '>=', now()->subDays($notifyInterval))
                 ->exists();
 
             if ($notificationExists) {
@@ -169,7 +231,7 @@ class CheckDuePayments extends Command
 
             $this->info('Sending email and notification for Project ID: ' . $projectId);
             // Retrieve the user associated with the project
-            $notifiableUser = ProjectInfo::with('businessInfo.userInfo.user')
+            $notifiableUser = $this->payment::with('businessInfo.userInfo.user')
                 ->where('Project_id', $projectId)
                 ->first();
 
@@ -181,7 +243,7 @@ class CheckDuePayments extends Command
             $user = $notifiableUser->businessInfo->userInfo->user;
             $user->notify(new DuePayment($dueDate, $projectId, $dueAmount, $status));
 
-            NotificationLog::create([
+            $this->notificationLog->create([
                 'user_id' => $user->id,
                 'reference_type' => 'payment',
                 'reference_id' => $paymentId,
