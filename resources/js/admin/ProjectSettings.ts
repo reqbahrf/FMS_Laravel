@@ -4,20 +4,21 @@ import {
     hideProcessToast,
     showToastFeedback,
 } from '../Utilities/utilFunctions';
-export default class ProjectFee {
-    private ProjectFeeForm: JQuery<HTMLFormElement>;
+export default class ProjectSettings {
+    private ProjectSettingsForm: JQuery<HTMLFormElement>;
     constructor() {
-        this.ProjectFeeForm = $('#projectFeeForm');
-        this.initializeProjectFee();
+        this.ProjectSettingsForm = $('#projectSettingsForm');
+        this.initializeProjectSettings();
     }
 
-    private initializeProjectFee(): void {
-        this.ProjectFeeForm.on('submit', async function (event) {
+    private initializeProjectSettings(): void {
+        this.ProjectSettingsForm.on('submit', async function (event) {
             event.preventDefault();
             const isConfirmed = await createConfirmationModal({
-                title: 'Update Project Fee',
+                title: 'Update Project Settings',
                 titleBg: 'bg-primary',
-                message: 'Are you sure you want to update the project fee?',
+                message:
+                    'Are you sure you want to update the project settings?',
                 confirmText: 'Yes',
                 confirmButtonClass: 'btn-primary',
                 cancelText: 'No',
@@ -25,12 +26,13 @@ export default class ProjectFee {
             if (!isConfirmed) {
                 return;
             }
-            showProcessToast('Updating Project Fee...');
+
+            showProcessToast('Updating Project Settings...');
             try {
                 const formData = new FormData(this);
                 const response = await $.ajax({
                     type: 'POST',
-                    url: PROJECT_SETTINGS_ROUTE.UPDATE_PROJECT_FEE,
+                    url: PROJECT_SETTINGS_ROUTE.UPDATE_PROJECT_SETTINGS,
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                             'content'

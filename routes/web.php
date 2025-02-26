@@ -300,7 +300,7 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
     Route::get('/Admin/Project/Pending-Project', GetPendingProjectController::class)
         ->name('admin.Project.PendingProject');
 
-    Route::post('/Admin/Project-Settings', [ProjectSettingController::class, 'updateFee'])
+    Route::post('/Admin/Project-Settings', [ProjectSettingController::class, 'updateProjectSetting'])
         ->name('admin.ProjectSettings.update');
 
     Route::get('/Admin/Project/ProposalDetails/{business_id}/{project_id}', GetProjectProposalController::class)

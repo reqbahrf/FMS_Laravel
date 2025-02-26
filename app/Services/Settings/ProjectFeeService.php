@@ -10,6 +10,7 @@ use Exception;
 
 class ProjectFeeService
 {
+    public const FEE_PERCENTAGE_KEY = 'fee_percentage';
     public function __construct(private ProjectSetting $projectSetting)
     {
         $this->projectSetting = $projectSetting;
@@ -24,7 +25,7 @@ class ProjectFeeService
     public function getProjectFee(): float
     {
         try {
-            $feeSetting = $this->projectSetting->where('key', 'fee_percentage')->firstOrFail();
+            $feeSetting = $this->projectSetting->where('key', self::FEE_PERCENTAGE_KEY)->firstOrFail();
 
             $feeValue = floatval($feeSetting->value);
 
@@ -64,12 +65,12 @@ class ProjectFeeService
 
         try {
             $updated = $this->projectSetting->updateOrCreate(
-                ['key' => 'fee_percentage'],
+                ['key' => self::FEE_PERCENTAGE_KEY],
                 ['value' => number_format($fee_percentage, 2)]
             );
 
             Log::info('Project fee percentage updated', [
-                'fee_percentage' => $fee_percentage,
+                'new_fee_percentage' => $fee_percentage,
                 'updated' => $updated
             ]);
 
@@ -91,7 +92,7 @@ class ProjectFeeService
      */
     public function feeSettingExists(): bool
     {
-        return $this->projectSetting->where('key', 'fee_percentage')->exists();
+        return $this->projectSetting->where('key', self::FEE_PERCENTAGE_KEY)->exists();
     }
 
     /**

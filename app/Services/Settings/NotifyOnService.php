@@ -13,6 +13,9 @@ use App\Models\ProjectSetting;
  */
 class NotifyOnService
 {
+    public const DURATION_KEY = 'duration_before_deadline';
+    public const INTERVAL_KEY = 'notify_interval';
+
     public function __construct(
         private ProjectSetting $projectSetting
     ) {}
@@ -27,7 +30,7 @@ class NotifyOnService
     {
         try {
             $dayDurationBeforeDeadline = $this->projectSetting
-                ->where('key', 'duration_before_deadline')
+                ->where('key', self::DURATION_KEY)
                 ->first()
                 ->value ?? 15;
 
@@ -47,7 +50,7 @@ class NotifyOnService
     {
         try {
             $dayDurationBeforeDeadline = $this->projectSetting
-                ->where('key', 'notify_every')
+                ->where('key', self::INTERVAL_KEY)
                 ->first()
                 ->value ?? 5;
 
@@ -68,7 +71,7 @@ class NotifyOnService
     {
         try {
             $this->projectSetting->updateOrCreate(
-                ['key' => 'duration_before_deadline'],
+                ['key' => self::DURATION_KEY],
                 ['value' => $dayDurationBeforeDeadline]
             );
         } catch (Exception $e) {
@@ -87,7 +90,7 @@ class NotifyOnService
     {
         try {
             $this->projectSetting->updateOrCreate(
-                ['key' => 'notify_every'],
+                ['key' => self::INTERVAL_KEY],
                 ['value' => $dayDurationBeforeDeadline]
             );
         } catch (Exception $e) {
@@ -104,7 +107,7 @@ class NotifyOnService
     public function notifyDurationExists(): bool
     {
         return $this->projectSetting
-            ->where('key', 'duration_before_deadline')
+            ->where('key', self::DURATION_KEY)
             ->exists();
     }
 }

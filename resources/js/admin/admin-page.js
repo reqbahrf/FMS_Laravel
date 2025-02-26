@@ -17,7 +17,7 @@ import ActivityLogHandler from '../Utilities/ActivityLogHandler';
 import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
 import AdminDashboard from './AdminDashboard';
-import ProjectFee from './ProjectFee';
+import ProjectSettings from './ProjectSettings';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -2403,7 +2403,7 @@ async function initializeAdminPageJs() {
             await getStaffUserLists();
         },
         ProjectSettings: () => {
-            const projectFee = new ProjectFee();
+            const projectFee = new ProjectSettings();
         },
     };
     return functions;
