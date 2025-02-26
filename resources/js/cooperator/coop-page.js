@@ -187,7 +187,6 @@ async function initilizeCoopPageJs() {
     const functions = {
         Dashboard: async () => {
             let progressDataChart;
-            console.log('this is called');
             const progressPercentage = (percentage = 0) => {
                 const options = {
                     series: [percentage],
@@ -299,15 +298,14 @@ async function initilizeCoopPageJs() {
                         }
                     );
                     const data = (await response?.json()) || {};
-                    console.log(data);
 
                     // Handle empty array case
                     const progress = data.progress ? data.progress : {};
-                    const paymentList = data.paymentList
-                        ? data.paymentList
+                    const paymentBannerData = data.bannerData
+                        ? data.bannerData
                         : {};
 
-                    paymentTableProcess(paymentList);
+                    createPaymentBanner(paymentBannerData);
 
                     const actual_amount =
                         parseFloat(progress?.actual_amount_to_be_refund) || 0;
@@ -326,32 +324,60 @@ async function initilizeCoopPageJs() {
                 }
             };
 
-            const paymentTableProcess = (data) => {
-                const paymentTable = $('#PaymentTable').find('tbody');
-                paymentTable.empty();
-                if (!data) {
-                    const row = /*html*/ `<tr><td colspan="3" class="text-center">No payment yet</td></tr>`;
-                    paymentTable.append(row);
-                } else {
-                    $.each(data, function (key, value) {
-                        const statusClass =
-                            value.payment_status === 'Paid'
-                                ? 'bg-success'
-                                : 'bg-danger';
-                        const row = /*html*/ `<tr>
-                            <td class="text-center">
-                                ${formatNumberToCurrency(value.amount)}
-                            </td>
-                            <td class="text-center">${value.payment_method}</td>
-                            <td class="text-center">
-                                <span class="badge rounded-pill ${statusClass}"
-                                    >${value.payment_status}</span
-                                >
-                            </td>
-                        </tr>`;
-                        paymentTable.append(row);
-                    });
+            const createPaymentBanner = (paymentBannerData) => {
+                const container = $('#upcomingPaymentContainer').find(
+                    '.card-body'
+                );
+
+                if (!paymentBannerData) {
+                    return; // Don't create a banner if no payment info
                 }
+
+                let bannerClass, borderColor, icon, title, message;
+
+                switch (paymentBannerData.payment_status) {
+                    case 'Overdue':
+                        bannerClass = 'alert-danger';
+                        borderColor = '#842029';
+                        icon = 'bi-exclamation-octagon-fill';
+                        title = 'Payment Overdue!';
+                        message =
+                            'Your payment is overdue. Please settle it immediately to avoid penalties or service interruptions.';
+                        break;
+                    case 'Due':
+                        bannerClass = 'alert-info';
+                        borderColor = '#0c5460';
+                        icon = 'bi-exclamation-circle-fill';
+                        title = 'Payment Due Soon!';
+                        message =
+                            'Your payment is due soon. Please ensure timely payment to avoid overdue charges.';
+                        break;
+                    case 'Pending':
+                        bannerClass = 'alert-warning';
+                        borderColor = '#856404';
+                        icon = 'bi-hourglass-split';
+                        title = 'Payment Upcoming!';
+                        message =
+                            'We kindly remind you to complete your payment promptly to ensure there are no delays in processing.';
+                        break;
+                    default:
+                        return; // Exit if the status doesn't match expected values
+                }
+
+                const banner =
+                    $(/*html*/ `<div class="alert ${bannerClass} d-flex align-items-center p-4 border rounded shadow-sm" role="alert" style="background-color: #fff3cd; border-left: 5px solid ${borderColor};">
+                        <div class="me-3 fs-4 text-warning">
+                            <i class="bi ${icon}"></i>
+                        </div>
+                        <div>
+                            <strong class="fs-5 text-dark">${title}</strong><br>
+                            <span class="text-dark ms-2">Amount: <span class="fw-bold text-primary">₱${formatNumberToCurrency(paymentBannerData.amount)}</span></span><br>
+                            <span class="text-dark ms-2">Due Date: <span class="fw-bold">${customDateFormatter(paymentBannerData.due_date)}</span></span><br>
+                            <span class="text-dark ms-2 text-muted">${message}</span>
+                        </div>
+                    </div>`);
+
+                container.empty().append(banner);
             };
 
             await getProgress();

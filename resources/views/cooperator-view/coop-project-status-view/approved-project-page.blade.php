@@ -39,8 +39,8 @@
                     href="#"
                     onclick="loadPage('{{ route('Cooperator.refund') }}','requirementTab');"
                 >
-                    <i class="ri-file-list-2-fill ri-2x"></i>
-                    <span class="nav-text ml-2">Requirements</span>
+                    <i class="ri-money-dollar-circle-fill ri-2x"></i>
+                    <span class="nav-text ml-2">Payments</span>
                 </a>
             </li>
             <li class="nav-item main-Nav mb-2">
