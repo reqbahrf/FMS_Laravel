@@ -129,7 +129,7 @@
             id="upcomingPaymentContainer"
         >
             <div class="card-header bg-primary">
-                <h6 class="text-white mb-0">Upcoming Payment</h6>
+                <h6 class="text-white mb-0">Payment</h6>
             </div>
             <div class="card-body">
 
