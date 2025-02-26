@@ -39,7 +39,6 @@ class CheckDuePayments extends Command
 
             $this->info('Checking due payments...');
             $projectIDs = $this->getUniqueProjectIds();
-            $this->updatePaymentStatus($projectIDs);
             foreach ($projectIDs as $projectId) {
                 $this->updatePaymentStatus($projectId);
                 $duePayments = $this->getDuePayments($projectId);
