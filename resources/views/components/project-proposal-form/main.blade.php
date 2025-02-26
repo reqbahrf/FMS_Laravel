@@ -2,7 +2,7 @@
 
 <form
     id="ProjectProposalForm"
-    @if ($isEditable) action="{{ route('staff.Applicant.set.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}" @endif
+    @if ($isEditable) action="{{ URL::signedRoute('staff.Applicant.set.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}" @endif
 >
     @csrf
     <div class="center">

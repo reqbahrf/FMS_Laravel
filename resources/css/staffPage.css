@@ -823,7 +823,7 @@ Form Styles
 :is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]) {
     border: none;
     border-bottom: 1px solid #000;
-    outline: none;  
+    outline: none;
     padding: 5pt; /* Increased padding */
     width: 100%;
     background-color: #f9f9f9; /* Light background */
@@ -833,8 +833,8 @@ Form Styles
 }
 
 :is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]):focus {
-    border-bottom: 2px solid #007bff; /* Focus state */
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Optional shadow */
+    border-bottom: 2px solid #318791; /* Focus state */
+    box-shadow: 0 0 5px rgba(49, 135, 145, 0.5); /* Optional shadow */
 }
 /* Convert common px values to pt */
 #TNAForm .margin-sm { margin: 8pt; }
