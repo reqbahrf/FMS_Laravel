@@ -2,7 +2,7 @@
 
 namespace App\Actions;
 
-use GuzzleHttp\Psr7\Response;
+use Exception;
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
 use InvalidArgumentException;
@@ -62,7 +62,7 @@ class GeneratePDFAction
             // Generate PDF
             $outputFilename = preg_replace('/[^a-zA-Z0-9_-]/', '_', $documentTitle) . '.pdf';
             return response()->stream(
-                function() use ($mpdf, $outputFilename, $outputMode) {
+                function () use ($mpdf, $outputFilename, $outputMode) {
                     $mpdf->Output($outputFilename, $outputMode);
                 },
                 200,
@@ -78,7 +78,7 @@ class GeneratePDFAction
             // Log Mpdf specific errors
             Log::error('PDF Generation Error (Mpdf): ' . $e->getMessage());
             throw $e;
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             // Log other unexpected errors
             Log::error('PDF Generation Error: ' . $e->getMessage());
             throw $e;

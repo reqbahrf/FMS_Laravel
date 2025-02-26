@@ -1,7 +1,7 @@
 @props(['RTECReportdata', 'isEditable'])
 <form
     id="RTECReportForm"
-    @if ($isEditable) action="{{ route('staff.Applicant.set.rtec-report', ['business_id' => $RTECReportdata['business_id'], 'application_id' => $RTECReportdata['application_id']]) }}" @endif
+    @if ($isEditable) action="{{ URL::signedRoute('staff.Applicant.set.rtec-report', ['business_id' => $RTECReportdata['business_id'], 'application_id' => $RTECReportdata['application_id']]) }}" @endif
 >
     <table
         id="RTECReportInfoTable"

@@ -17,7 +17,7 @@
 @endphp
 <form
     id="TNAForm"
-    @if ($isEditable) action="{{ route('staff.Applicant.set.tna', ['business_id' => $TNAdata['business_id'], 'application_id' => $TNAdata['application_id']]) }}"
+    @if ($isEditable) action="{{ URL::signedRoute('staff.Applicant.set.tna', ['business_id' => $TNAdata['business_id'], 'application_id' => $TNAdata['application_id']]) }}"
     method="POST" @endif
 >
     @csrf
@@ -1654,6 +1654,7 @@
     <div class="d-flex justify-content-end">
         <button
             class="btn btn-primary text-end"
+            form="TNAForm"
             type="submit"
         >Set TNA Form</button>
     </div>
