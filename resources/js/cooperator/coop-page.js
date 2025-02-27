@@ -176,6 +176,17 @@ $(function () {
             hoverLink.toggleClass('rotate-icon');
         }, 300)
     );
+
+    $('.querterlyReportTab').on('click', function () {
+        const activeNav = $(this).closest('li');
+        const sideBarTasks = activeNav
+            .find('.sidebarTasks')
+            .toggleClass('d-none');
+
+        activeNav
+            .find('.ri-arrow-right-s-line, .ri-arrow-down-s-line')
+            .toggleClass('d-block d-none');
+    });
 });
 
 /**
