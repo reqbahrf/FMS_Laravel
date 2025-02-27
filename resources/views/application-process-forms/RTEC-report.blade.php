@@ -52,6 +52,7 @@
     <x-rtec-report-form.main
         :RTECReportdata="$RTECReportdata"
         :isEditable="$isEditable"
+        :isExporting="true"
     />
 </body>
 

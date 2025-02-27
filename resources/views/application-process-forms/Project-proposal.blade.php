@@ -22,6 +22,7 @@
             box-sizing: border-box;
             /* Include padding in width and height */
         }
+
         table {
             width: 100%;
             border-collapse: collapse;
@@ -73,41 +74,40 @@
             border-spacing: 0 !important;
         }
 
+        #ProjectProposalForm table {
+            width: 100% !important;
+            margin-bottom: 15pt;
+        }
 
-#ProjectProposalForm table {
-    width: 100% !important;
-    margin-bottom: 15pt;
-}
+        #ProjectProposalForm td {
+            padding: 5pt;
+        }
 
-#ProjectProposalForm td {
-    padding: 5pt;
-}
+        #ProjectProposalForm p {
+            margin-bottom: 8pt;
+            line-height: 1.5;
+        }
 
-#ProjectProposalForm p {
-    margin-bottom: 8pt;
-    line-height: 1.5;
-}
+        #ProjectProposalForm .padding-md {
+            padding: 12pt;
+        }
 
-#ProjectProposalForm .padding-md {
-    padding: 12pt;
-}
+        /* Convert common px values to pt */
+        #ProjectProposalForm .margin-sm {
+            margin: 8pt;
+        }
 
-/* Convert common px values to pt */
-#ProjectProposalForm .margin-sm {
-    margin: 8pt;
-}
+        #ProjectProposalForm .padding-sm {
+            padding: 8pt;
+        }
 
-#ProjectProposalForm .padding-sm {
-    padding: 8pt;
-}
+        #ProjectProposalForm .margin-md {
+            margin: 12pt;
+        }
 
-#ProjectProposalForm .margin-md {
-    margin: 12pt;
-}
-
-#ProjectProposalForm .padding-md {
-    padding: 12pt;
-}
+        #ProjectProposalForm .padding-md {
+            padding: 12pt;
+        }
     </style>
 </head>
 
@@ -115,6 +115,7 @@
     <x-project-proposal-form.main
         :ProjectProposaldata="$ProjectProposaldata"
         :isEditable="$isEditable"
+        :isExporting="true"
     />
 </body>
 
