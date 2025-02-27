@@ -89,24 +89,18 @@
             <tr>
                 <td colspan="1"></td>
                 <td colspan="8">
-                    <p style="font-weight: bold;">General Objectives:</p><br>
-                    @if ($isEditable)
-                        <textarea
-                            class="form-control"
-                            name="general_objectives"
-                        >{{ $ProjectProposaldata['general_objectives'] ?? '' }}</textarea>
-                    @else
-                        {{ $ProjectProposaldata['general_objectives'] ?? '' }}
-                    @endif
-                    <p style="font-weight: bold;">Specific Objectives:</p><br>
-                    @if ($isEditable)
-                        <textarea
-                            class="form-control"
-                            name="specific_objectives"
-                        >{{ $ProjectProposaldata['specific_objectives'] ?? '' }}</textarea>
-                    @else
-                        {{ $ProjectProposaldata['specific_objectives'] ?? '' }}
-                    @endif
+                    <p style="font-weight: bold;">General Objectives:</p>
+                    <x-custom-input.list-text-formatter
+                        name="general_objectives"
+                        :is-editable="$isEditable"
+                        :text="$ProjectProposaldata['general_objectives'] ?? ''"
+                    />
+                    <p style="font-weight: bold;">Specific Objectives:</p>
+                    <x-custom-input.list-text-formatter
+                        name="specific_objectives"
+                        :is-editable="$isEditable"
+                        :text="$ProjectProposaldata['specific_objectives'] ?? ''"
+                    />
                 </td>
             </tr>
             <tr>
