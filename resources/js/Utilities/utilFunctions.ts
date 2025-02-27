@@ -57,30 +57,22 @@ const formatNumberToCurrency = (value: number) => {
 };
 
 const customDateFormatter = (date: string): string => {
-    // If the date is empty or invalid, return an empty string
     if (!date) return '';
 
-    // Try parsing the date string, handling both date-only and datetime formats
     let parsedDate: Date;
     let includeTime = false;
 
-    // Check if the date contains a 'T' (ISO 8601 format)
     if (date.includes('T')) {
-        parsedDate = new Date(date); // Directly parse ISO 8601 datetime strings
+        parsedDate = new Date(date);
         includeTime = true;
-    }
-    // Check if the date contains a space (likely a datetime string)
-    else if (date.includes(' ')) {
-        // For datetime strings, use the standard Date constructor
+    } else if (date.includes(' ')) {
         parsedDate = new Date(date.replace(' ', 'T'));
         includeTime = true;
     } else {
-        // For date-only strings, use Date.UTC to avoid timezone issues
         const [year, month, day] = date.split('-').map(Number);
         parsedDate = new Date(Date.UTC(year, month - 1, day));
     }
 
-    // Check if the date is valid
     if (isNaN(parsedDate.getTime())) {
         console.warn(`Invalid date input: ${date}`);
         return '';
@@ -92,7 +84,6 @@ const customDateFormatter = (date: string): string => {
         year: 'numeric',
     };
 
-    // Add time formatting if the original input included time
     if (includeTime) {
         dateOptions.hour = '2-digit';
         dateOptions.minute = '2-digit';
@@ -137,7 +128,7 @@ function closeOffcanvasInstances(offcanva_id: string) {
  * @param {string} value - The formatted number string to parse
  * @returns {number} The parsed float value, or 0 if parsing fails
  */
-function parseFormattedNumberToFloat(value: string) {
+function parseFormattedNumberToFloat(value: string): number {
     return parseFloat(value?.replace(/,/g, '')) || 0;
 }
 
@@ -195,6 +186,12 @@ function hideProcessToast() {
     toastInstance.hide();
 }
 
+/**
+ * Converts JQuery form data array into a structured object
+ * Handles both regular form fields and array fields (with '[]' in the name)
+ * @param formData - Array of name-value pairs from a form
+ * @returns An object with form field names as keys and their values
+ */
 function serializeFormData(formData: JQuery.NameValuePair[]): {
     [key: string]: string | string[];
 } {

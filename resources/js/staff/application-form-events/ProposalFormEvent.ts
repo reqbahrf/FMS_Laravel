@@ -1,5 +1,11 @@
-import { customFormatNumericInput } from '../../Utilities/input-utils';
-import { yearInputs } from '../../Utilities/input-utils';
+import {
+    customFormatNumericInput,
+    yearInputs,
+} from '../../Utilities/input-utils';
+import {
+    parseFormattedNumberToFloat,
+    formatNumberToCurrency,
+} from '../../Utilities/utilFunctions';
 export default class ProposalFormEvent {
     private form: JQuery<HTMLFormElement> | null;
     private numberInputSelectors: string[] | null;
@@ -97,15 +103,6 @@ export default class ProposalFormEvent {
     }
 
     /**
-     * Parses a string with thousand separators to a float
-     */
-    private _parseNumericValue(value: string | undefined): number {
-        if (!value) return 0;
-        // Remove thousand separators and convert to float
-        return parseFloat(value.toString().replace(/,/g, '')) || 0;
-    }
-
-    /**
      * Calculates the total for a specific month across all years
      */
     private _calculateMonthTotal(month: string): void {
@@ -116,13 +113,11 @@ export default class ProposalFormEvent {
         // Sum values for this month across all years
         for (let year = 1; year <= 5; year++) {
             const value = this.form.find(`.${month}_Y${year}`).val();
-            total += this._parseNumericValue(value as string);
+            total += parseFormattedNumberToFloat(value as string);
         }
 
         // Format the total with thousand separator
-        const formattedTotal = total
-            .toFixed(2)
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        const formattedTotal = formatNumberToCurrency(total);
 
         // Update the month total input
         this.form
@@ -142,13 +137,11 @@ export default class ProposalFormEvent {
         this.monthNames.forEach((month) => {
             if (!this.form) return;
             const value = this.form.find(`.${month}_Y${year}`).val();
-            total += this._parseNumericValue(value as string);
+            total += parseFormattedNumberToFloat(value as string);
         });
 
         // Format the total with thousand separator
-        const formattedTotal = total
-            .toFixed(2)
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        const formattedTotal = formatNumberToCurrency(total);
 
         // Update the year total cell (the +1 accounts for the first column being the month names)
         this.form
@@ -177,13 +170,11 @@ export default class ProposalFormEvent {
                         ')'
                 )
                 .text();
-            total += this._parseNumericValue(yearTotalText);
+            total += parseFormattedNumberToFloat(yearTotalText);
         }
 
         // Format the grand total with thousand separator
-        const formattedTotal = total
-            .toFixed(2)
-            .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+        const formattedTotal = formatNumberToCurrency(total);
 
         // Update the grand total cell
         this.form
