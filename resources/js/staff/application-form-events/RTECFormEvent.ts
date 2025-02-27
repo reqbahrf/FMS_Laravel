@@ -11,13 +11,21 @@ export default class RTECFormEvent {
     }
 
     private _getNumericInputs(): string[] {
-        if(!this.form) return [];
-        return this.form.find('[data-custom-numeric-input]').map((idx, el) => (el.getAttribute('name') ? `input[name="${el.getAttribute('name')}"]` : `input.${el.getAttribute('class')}`)).toArray().filter(Boolean);
+        if (!this.form) return [];
+        return this.form
+            .find('[data-custom-numeric-input]')
+            .map((idx, el) =>
+                el.getAttribute('name')
+                    ? `input[name="${el.getAttribute('name')}"]`
+                    : `input.${el.getAttribute('class')}`
+            )
+            .toArray()
+            .filter(Boolean);
     }
 
     destroy(): void {
         // Remove specific input event listeners
-        if(!this.form || !this.numberInputSelectors) return;
+        if (!this.form || !this.numberInputSelectors) return;
         this.form.off('input', this.numberInputSelectors.join(','));
         // Optional: Clear any references to prevent memory leaks
         this.form = null;
