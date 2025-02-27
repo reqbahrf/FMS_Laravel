@@ -33,7 +33,6 @@
         height: 8vh;
         background-color: var(--bs-topnav-color);
         transition: all 0.5s ease;
-
     }
 
     :is(nav, footer) .hide {
@@ -50,7 +49,6 @@
         height: auto;
     }
 
-
     :is(nav, footer) #logoTitle {
         right: 50px;
         animation: logo-whole-text 1s forwards;
@@ -60,7 +58,6 @@
         height: 13vh;
         width: 40vw;
     }
-
 
     :is(nav, footer) .sideTextMain::after {
         content: "DOST-SETUP";
@@ -74,7 +71,7 @@
     }
 
     :is(nav, footer) .sideTextSec::after {
-        content: "Fund Monitoring Sys";
+        content: "Fund Monitoring System";
         position: absolute;
         top: 50%;
         font-family: 'Arial', sans-serif !important;
@@ -107,6 +104,7 @@
             opacity: 0;
             transform: translateX(-20px);
         }
+
         to {
             opacity: 1;
             transform: translateX(0);
@@ -118,6 +116,7 @@
             opacity: 0;
             transform: translateX(-20px);
         }
+
         to {
             opacity: 1;
             transform: translateX(0);
@@ -137,20 +136,44 @@
     }
 </style>
 <!-- Confirmation modal start -->
-<div class="modal fade" id="confirmModal" tabindex="-1" role="dialog" aria-labelledby="confirmModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
+<div
+    class="modal fade"
+    id="confirmModal"
+    role="dialog"
+    aria-labelledby="confirmModalLabel"
+    aria-hidden="true"
+    tabindex="-1"
+>
+    <div
+        class="modal-dialog"
+        role="document"
+    >
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="confirmModalLabel">Confirmation</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h5
+                    class="modal-title"
+                    id="confirmModalLabel"
+                >Confirmation</h5>
+                <button
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    type="button"
+                    aria-label="Close"
+                ></button>
             </div>
             <div class="modal-body">
                 Are you sure you want to go to the Home page?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <a href="/" class="btn btn-primary">Confirm</a>
+                <button
+                    class="btn btn-secondary"
+                    data-dismiss="modal"
+                    type="button"
+                >Cancel</button>
+                <a
+                    class="btn btn-primary"
+                    href="/"
+                >Confirm</a>
             </div>
         </div>
     </div>
@@ -159,27 +182,56 @@
 <div class="p-1 shadow-lg z-3 {{ Request::is('/') ? 'position-fixed' : '' }} bg-white header-cont w-100">
     <div class="container-flex px-0 px-md-5 px-lg-5">
         <nav class="navbar navbar-expand-md">
-            <a href="/" class="d-flex justify-content-between text-dark text-decoration-none">
-               <x-app-logo />
+            <a
+                class="d-flex justify-content-between text-dark text-decoration-none"
+                href="/"
+            >
+                <x-app-logo />
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button
+                class="navbar-toggler"
+                data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"
+                type="button"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation"
+            >
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <div
+                class="collapse navbar-collapse justify-content-end"
+                id="navbarNav"
+            >
                 <ul class="navbar-nav align-items-center">
                     <li class="nav-item">
-                        <a href="#" id="home" class="nav-link {{ Request::route()->getName() == 'home' ? 'active' : '' }}" data-bs-toggle="modal" data-bs-target="#confirmModal">Home</a>
+                        <a
+                            class="nav-link {{ Request::route()->getName() == 'home' ? 'active' : '' }}"
+                            id="home"
+                            data-bs-toggle="modal"
+                            data-bs-target="#confirmModal"
+                            href="#"
+                        >Home</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">FAQs</a>
+                        <a
+                            class="nav-link"
+                            href="#"
+                        >FAQs</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#" class="nav-link">About</a>
+                        <a
+                            class="nav-link"
+                            href="#"
+                        >About</a>
                     </li>
                     <li class="nav-item">
-                        <a href="/login" class="nav-link login">Login</a>
+                        <a
+                            class="nav-link login"
+                            href="/login"
+                        >Login</a>
                     </li>
                 </ul>
             </div>

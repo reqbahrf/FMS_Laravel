@@ -239,7 +239,7 @@
         }
 
         .logo-container .sideTextSec::after {
-            content: "Fund Monitoring Sys";
+            content: "Fund Monitoring System";
             position: absolute;
             top: 50%;
             font-family: 'Arial', sans-serif !important;
