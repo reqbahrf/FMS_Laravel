@@ -12,7 +12,7 @@ class ListTextFormatter extends Component
      * Create a new component instance.
      */
     /**
-     * The objectives text to format.
+     * The delimited text to format.
      *
      * @var string
      */
@@ -48,7 +48,7 @@ class ListTextFormatter extends Component
     }
 
     /**
-     * Format the objectives text, converting lines starting with * to bullet points.
+     * Format the delimited text, converting lines starting with * to bullet points.
      *
      * @return string
      */
