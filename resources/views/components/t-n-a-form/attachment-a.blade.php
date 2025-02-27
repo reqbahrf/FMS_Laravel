@@ -190,10 +190,10 @@
                         name="enterpriseType"
                         type="radio"
                         value="Single Proprietorship"
-                        {{ ($TNAdata['enterpriseType'] ?? '') == 'Sole Proprietorship' ? 'checked' : '' }}
+                        {{ in_array($TNAdata['enterpriseType'] ?? '', ['Sole Proprietorship', 'Single Proprietorship']) ? 'checked' : '' }}
                     >
                 @else
-                    {{ ($TNAdata['enterpriseType'] ?? '') == 'Sole Proprietorship' ? '/' : '' }}
+                    {{ in_array($TNAdata['enterpriseType'] ?? '', ['Sole Proprietorship', 'Single Proprietorship']) ? '/' : '' }}
                 @endIf
             </td>
             <td

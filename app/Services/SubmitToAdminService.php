@@ -62,7 +62,7 @@ class SubmitToAdminService
 
             $projectId = $this->generateProjectId();
             $projectTitle = $projectProposalData['project_title'];
-            $fundAmount = NF::parseFormattedNumber($projectProposalData['project_cost']);
+            $fundAmount = NF::parseFormattedNumber($projectProposalData['amount_requested']);
             $actualAmountToBeRefund = $ProjectFee->calculateProjectFee($fundAmount) + $fundAmount;
 
             $extractedProjectData = [

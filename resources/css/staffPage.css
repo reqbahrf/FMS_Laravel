@@ -785,6 +785,7 @@ Form Styles
 
 #TNAForm {
     width: 100%;
+    min-width: 794px;
     max-width: 794px;
     margin: 0 auto;
     padding: 2cm;
@@ -844,11 +845,14 @@ Form Styles
 
 #ProjectProposalForm {
     width: 100%;
+    min-width: 794px;
     max-width: 794px;
     margin: 0 auto;
     padding: 2cm;
     border: 1px solid #ccc;
 }
+
+
 :is(#ProjectProposalForm, #TNAForm, #RTECReportForm) * {
     font-family: Arial, sans-serif;
     font-size: 9pt;
@@ -912,6 +916,7 @@ Form Styles
 #RTECReportForm {
     width: 100%;
     max-width: 794px;
+    min-width: 794px;
     margin: 0 auto;
     padding: 2cm;
     border: 1px solid #ccc;

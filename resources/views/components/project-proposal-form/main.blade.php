@@ -1,9 +1,12 @@
-@props(['ProjectProposaldata', 'isEditable'])
+@props(['ProjectProposaldata', 'isEditable', 'isExporting' => false])
 
 <form
     id="ProjectProposalForm"
     @if ($isEditable) action="{{ URL::signedRoute('staff.Applicant.set.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}" @endif
 >
+    @if (!$isExporting)
+        <x-document-header />
+    @endif
     @csrf
     <div class="center">
         <table
@@ -89,24 +92,18 @@
             <tr>
                 <td colspan="1"></td>
                 <td colspan="8">
-                    <p style="font-weight: bold;">General Objectives:</p><br>
-                    @if ($isEditable)
-                        <textarea
-                            class="form-control"
-                            name="general_objectives"
-                        >{{ $ProjectProposaldata['general_objectives'] ?? '' }}</textarea>
-                    @else
-                        {{ $ProjectProposaldata['general_objectives'] ?? '' }}
-                    @endif
-                    <p style="font-weight: bold;">Specific Objectives:</p><br>
-                    @if ($isEditable)
-                        <textarea
-                            class="form-control"
-                            name="specific_objectives"
-                        >{{ $ProjectProposaldata['specific_objectives'] ?? '' }}</textarea>
-                    @else
-                        {{ $ProjectProposaldata['specific_objectives'] ?? '' }}
-                    @endif
+                    <p style="font-weight: bold;">General Objectives:</p>
+                    <x-custom-input.list-text-formatter
+                        name="general_objectives"
+                        :is-editable="$isEditable"
+                        :text="$ProjectProposaldata['general_objectives'] ?? ''"
+                    />
+                    <p style="font-weight: bold;">Specific Objectives:</p>
+                    <x-custom-input.list-text-formatter
+                        name="specific_objectives"
+                        :is-editable="$isEditable"
+                        :text="$ProjectProposaldata['specific_objectives'] ?? ''"
+                    />
                 </td>
             </tr>
             <tr>
@@ -128,21 +125,23 @@
         :ProjectProposaldata="$ProjectProposaldata"
     />
 </form>
-@if ($isEditable && auth()->user()->role === 'Staff')
-    <div class="d-flex justify-content-end">
-        <button
-            class="btn btn-primary ms-auto"
-            form="ProjectProposalForm"
-            type="submit"
-        >SET Project Proposal</button>
-    </div>
-@elseif (auth()->user()->role === 'Staff')
-    <div class="d-flex justify-content-end">
-        <button
-            class="btn btn-primary text-end"
-            id="exportProjectProposalFormToPDF"
-            data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
-            type="button"
-        >Export as PDF</button>
-    </div>
+@if (!$isExporting)
+    @if ($isEditable && auth()->user()->role === 'Staff')
+        <div class="d-flex justify-content-end">
+            <button
+                class="btn btn-primary ms-auto"
+                form="ProjectProposalForm"
+                type="submit"
+            >SET Project Proposal</button>
+        </div>
+    @elseif (auth()->user()->role === 'Staff')
+        <div class="d-flex justify-content-end">
+            <button
+                class="btn btn-primary text-end"
+                id="exportProjectProposalFormToPDF"
+                data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
+                type="button"
+            >Export as PDF</button>
+        </div>
+    @endif
 @endif

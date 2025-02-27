@@ -1,8 +1,11 @@
-@props(['RTECReportdata', 'isEditable'])
+@props(['RTECReportdata', 'isEditable', 'isExporting' => false])
 <form
     id="RTECReportForm"
     @if ($isEditable) action="{{ URL::signedRoute('staff.Applicant.set.rtec-report', ['business_id' => $RTECReportdata['business_id'], 'application_id' => $RTECReportdata['application_id']]) }}" @endif
 >
+    @if (!$isExporting)
+        <x-document-header />
+    @endif
     <table
         id="RTECReportInfoTable"
         width="100%"
@@ -963,21 +966,23 @@
         </tbody>
     </table>
 </form>
-@if ($isEditable && auth()->user()->role === 'Staff')
-    <div class="d-flex justify-content-end">
-        <button
-            class="btn btn-primary text-end"
-            form="RTECReportForm"
-            type="submit"
-        >Set RTEC Report Form</button>
-    </div>
-@elseif (auth()->user()->role === 'Staff')
-    <div class="d-flex justify-content-end">
-        <button
-            class="btn btn-primary text-end"
-            id="exportRTECReportFormToPDF"
-            data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.rtec-report', ['business_id' => $RTECReportdata['business_id'], 'application_id' => $RTECReportdata['application_id']]) }}"
-            type="button"
-        >Export as PDF</button>
-    </div>
+@if (!$isExporting)
+    @if ($isEditable && auth()->user()->role === 'Staff')
+        <div class="d-flex justify-content-end">
+            <button
+                class="btn btn-primary text-end"
+                form="RTECReportForm"
+                type="submit"
+            >Set RTEC Report Form</button>
+        </div>
+    @elseif (auth()->user()->role === 'Staff')
+        <div class="d-flex justify-content-end">
+            <button
+                class="btn btn-primary text-end"
+                id="exportRTECReportFormToPDF"
+                data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.rtec-report', ['business_id' => $RTECReportdata['business_id'], 'application_id' => $RTECReportdata['application_id']]) }}"
+                type="button"
+            >Export as PDF</button>
+        </div>
+    @endif
 @endif

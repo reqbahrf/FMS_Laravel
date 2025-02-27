@@ -1,4 +1,4 @@
-@props(['TNAdata', 'isEditable'])
+@props(['TNAdata', 'isEditable', 'isExporting' => false])
 @php
     use App\Services\ApplicantFileHandlerService;
     try {
@@ -1650,6 +1650,7 @@
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
 </form>
+@if (!$isExporting)
 @if ($isEditable && auth()->user()->role === 'Staff')
     <div class="d-flex justify-content-end">
         <button
@@ -1667,4 +1668,5 @@
             type="button"
         >Export as PDF</button>
     </div>
+@endif
 @endif

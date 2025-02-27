@@ -117,7 +117,7 @@ class AdminProjectController extends Controller
     }
 
 
-    private function asignStaffToProject(int $project_id, int $staff_id, int $business_id): ProjectInfo
+    private function asignStaffToProject(string $project_id, int $staff_id, int $business_id): ProjectInfo
     {
         try {
             $project = ProjectInfo::where('Project_id', $project_id)

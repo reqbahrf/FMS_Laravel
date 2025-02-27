@@ -90,7 +90,11 @@
 </style>
 
 <body>
-    <x-t-n-a-form.main :TNAdata="$TNAdata" :isEditable="$isEditable" />
+    <x-t-n-a-form.main
+        :TNAdata="$TNAdata"
+        :isEditable="$isEditable"
+        :isExporting="true"
+    />
 </body>
 
 </html>
