@@ -177,6 +177,7 @@ export default class ProposalFormEvent {
         const formattedTotal = formatNumberToCurrency(total);
 
         // Update the grand total cell
+        this.form.find('input[name="amount_requested"]').val(formattedTotal);
         this.form
             .find('#refundStructureTable tr:last-child td:last-child')
             .text(formattedTotal);
