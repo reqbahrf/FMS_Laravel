@@ -58,7 +58,7 @@ class ListTextFormatter extends Component
             return '';
         }
 
-        $lines = explode("\n", e($this->text));
+        $lines = explode("\n", $this->text);
         $formattedLines = [];
         $inList = false;
 
@@ -70,7 +70,7 @@ class ListTextFormatter extends Component
                     $formattedLines[] = '<ul class="">';
                     $inList = true;
                 }
-                $formattedLines[] = '<li>' . trim(substr($trimmedLine, 1)) . '</li>';
+                $formattedLines[] = '<li>' . e(trim(substr($trimmedLine, 1))) . '</li>';
             } else {
                 if ($inList) {
                     $formattedLines[] = '</ul>';
@@ -78,7 +78,7 @@ class ListTextFormatter extends Component
                 }
 
                 if (!empty($trimmedLine)) {
-                    $formattedLines[] = '<p>' . $trimmedLine . '</p>';
+                    $formattedLines[] = '<p>' . e($trimmedLine) . '</p>';
                 }
             }
         }
