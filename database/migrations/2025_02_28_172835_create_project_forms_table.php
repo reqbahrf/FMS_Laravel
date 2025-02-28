@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('project_forms', function (Blueprint $table) {
             $table->id();
             $table->char('project_info_id', 15)->collation('utf8mb4_bin');
-            $table->bigInteger('application_form_id')->unsigned();
+            $table->bigInteger('application_info_id')->unsigned();
             $table->bigInteger('business_info_id')->unsigned();
             $table->string('key', 64);
             $table->json('data');
