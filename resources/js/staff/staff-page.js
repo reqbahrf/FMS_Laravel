@@ -2025,78 +2025,10 @@ async function initializeStaffPageJs() {
                         'text-bg-danger',
                         error.responseJSON.message
                     );
+                } finally {
+                    await getHandleProject();
                 }
             });
-
-            // function InitializeviewCooperatorProgress(percentage) {
-            //     const options = {
-            //         series: [percentage],
-            //         chart: {
-            //             type: 'radialBar',
-            //             width: '100%',
-            //             height: '200px',
-            //             sparkline: {
-            //                 enabled: true,
-            //             },
-            //         },
-            //         colors: ['#00D8B6'],
-            //         plotOptions: {
-            //             radialBar: {
-            //                 startAngle: -90,
-            //                 endAngle: 90,
-            //                 track: {
-            //                     background: '#e7e7e7',
-            //                     strokeWidth: '97%',
-            //                     margin: 5, // margin is in pixels
-            //                     dropShadow: {
-            //                         enabled: true,
-            //                         top: 2,
-            //                         left: 0,
-            //                         color: '#999',
-            //                         opacity: 1,
-            //                         blur: 2,
-            //                     },
-            //                 },
-            //                 dataLabels: {
-            //                     name: {
-            //                         show: false,
-            //                     },
-            //                     value: {
-            //                         offsetY: -2,
-            //                         fontSize: '22px',
-            //                     },
-            //                 },
-            //             },
-            //         },
-            //         grid: {
-            //             padding: {
-            //                 top: -10,
-            //             },
-            //         },
-            //         fill: {
-            //             type: 'gradient',
-            //             gradient: {
-            //                 shade: 'light',
-            //                 shadeIntensity: 0.4,
-            //                 inverseColors: false,
-            //                 opacityFrom: 1,
-            //                 opacityTo: 1,
-            //                 stops: [0, 50, 53, 91],
-            //             },
-            //         },
-            //         labels: ['Average Results'],
-            //     };
-
-            //     if (paymentProgress) {
-            //         paymentProgress.destroy();
-            //     }
-
-            //     paymentProgress = new ApexCharts(
-            //         document.querySelector('#progressPercentage'),
-            //         options
-            //     );
-            //     paymentProgress.render();
-            // }
 
             /**
              * This function sends an AJAX request to the server to get the available
@@ -2338,19 +2270,10 @@ async function initializeStaffPageJs() {
 
                     // Check if response is JSON (error message)
                     const contentType = response.type;
-                    if (contentType === 'application/json') {
-                        // Read the blob as text to get error message
-                        const reader = new FileReader();
-                        reader.onload = function () {
-                            const errorData = JSON.parse(this.result);
-                            hideProcessToast();
-                            showToastFeedback(
-                                'text-bg-danger',
-                                errorData.message || 'Failed to generate PDF'
-                            );
-                        };
-                        reader.readAsText(response);
-                        return;
+                    if (contentType !== 'application/json') {
+                        throw new Error(
+                            'Failed generating PDF: ' + response?.message
+                        );
                     }
 
                     // If we get here, it's a PDF response
@@ -2375,35 +2298,13 @@ async function initializeStaffPageJs() {
                     }, 1000);
                 } catch (error) {
                     console.error('Error generating PDF:', error);
-
-                    if (error.responseType === 'blob') {
-                        // Handle blob error response
-                        const reader = new FileReader();
-                        reader.onload = function () {
-                            try {
-                                const errorData = JSON.parse(this.result);
-                                hideProcessToast();
-                                showToastFeedback(
-                                    'text-bg-danger',
-                                    errorData.message || 'Error generating PDF'
-                                );
-                            } catch (e) {
-                                hideProcessToast();
-                                showToastFeedback(
-                                    'text-bg-danger',
-                                    'An error occurred while generating the PDF'
-                                );
-                            }
-                        };
-                        reader.readAsText(error.response);
-                    } else {
-                        hideProcessToast();
-                        showToastFeedback(
-                            'text-bg-danger',
-                            error.message ||
-                                'An error occurred while generating the PDF'
-                        );
-                    }
+                    hideProcessToast();
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error?.responseJSON?.message ||
+                            error?.message ||
+                            'An error occurred while generating the PDF'
+                    );
                 }
             }
 
