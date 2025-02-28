@@ -10,7 +10,7 @@ class ProjectForm extends Model
     protected $table = "project_forms";
     protected $fillable = [
         'project_info_id',
-        'application_form_id',
+        'application_info_id',
         'business_info_id',
         'key',
         'data',

@@ -2203,6 +2203,7 @@ async function initializeStaffPageJs() {
             const toggleDocumentSelector = () =>
                 $('#selectDOC_toGenerate').toggleClass('d-none');
 
+            //TODO: refactor this method
             /**
              * Attaches a click event listener to elements with the class `ExportPDF` within the `#SheetFormDocumentContainer` element.
              *
@@ -2257,33 +2258,22 @@ async function initializeStaffPageJs() {
                     const response = await $.ajax({
                         type: 'POST',
                         url: route_url,
+                        contentType: 'application/pdf',
                         data: data,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
                             ),
                         },
-                        xhrFields: {
-                            responseType: 'blob',
-                        },
+                        // xhrFields: {
+                        //     responseType: 'blob',
+                        // },
                     });
 
-                    // Check if response is JSON (error message)
-                    const contentType = response.type;
-                    if (contentType !== 'application/json') {
-                        throw new Error(
-                            'Failed generating PDF: ' + response?.message
-                        );
-                    }
-
-                    // If we get here, it's a PDF response
-                    const blob = new Blob([response], {
-                        type: 'application/pdf',
-                    });
-                    const url = window.URL.createObjectURL(blob);
+                    // const url = window.URL.createObjectURL(blob);
 
                     // Open PDF in new window
-                    window.open(url, '_blank');
+                    window.open(response, '_blank');
 
                     // Show success message
                     hideProcessToast();

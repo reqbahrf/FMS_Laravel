@@ -12,8 +12,11 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FormDraftController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
+use App\Http\Controllers\StaffSRDocController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\ApplicationController;
+use App\Http\Controllers\StaffPDSDocController;
+use App\Http\Controllers\StaffPISDocController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\GetApplicantController;
@@ -25,12 +28,9 @@ use App\Http\Controllers\ProjectSettingController;
 use App\Http\Controllers\RejectionEmailController;
 use App\Http\Controllers\Auth\GoogleAuthController;
 use App\Http\Controllers\StaffAddProjectController;
-use App\Http\Controllers\staffGenerateSRController;
 use App\Http\Controllers\UserActivityLogController;
 use App\Http\Controllers\AdminManageStaffController;
 use App\Http\Controllers\SetProjectToLoadController;
-use App\Http\Controllers\StaffGeneratePDSController;
-use App\Http\Controllers\StaffGeneratePISController;
 use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GetOngoingProjectController;
@@ -38,15 +38,15 @@ use App\Http\Controllers\GetPendingProjectController;
 use App\Http\Controllers\GetProjectProposalController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\Auth\PasswordChangeController;
+use App\Http\Controllers\CoopQuarterlyReportController;
 use App\Http\Controllers\GetCompletedProjectController;
 use App\Http\Controllers\ApplicantRequirementController;
-use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
-use App\Http\Controllers\CoopQuarterlyReportController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
+use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
 use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
 
 Route::get('/', function () {
@@ -229,14 +229,23 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [GenerateFormController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');
 
-    Route::post('/Staff/Project/Create-InformationSheet', [StaffGeneratePISController::class, 'index'])
-        ->name('staff.Create-InformationSheet');
+    Route::put('/Staff/Project/set/InformationSheet', [StaffPISDocController::class, 'setPISData'])
+        ->name('staff.Project.set.InformationSheet');
 
-    Route::post('/Staff/Project/Create-DataSheet', [StaffGeneratePDSController::class, 'index'])
-        ->name('staff.Create-DataSheet');
+    Route::get('/Staff/Project/get/InformationSheet', [StaffPISDocController::class, 'getPDFDocument'])
+        ->name('staff.Project.get.InformationSheet');
 
-    Route::post('/Staff/Project/Create-StatusReport', [staffGenerateSRController::class, 'index'])
-        ->name('staff.Create-StatusReport');
+    Route::put('/Staff/Project/set/DataSheet', [StaffPDSDocController::class, 'setPDSData'])
+        ->name('staff.Project.set.DataSheet');
+
+    Route::get('/Staff/Project/get/DataSheet', [StaffPDSDocController::class, 'getPDFDocument'])
+        ->name('staff.Project.get.DataSheet');
+
+    Route::put('/Staff/Project/set/StatusReport', [StaffSRDocController::class, 'setSRData'])
+        ->name('staff.Project.set.StatusReport');
+
+    Route::get('/Staff/Project/get/StatusReport', [StaffSRDocController::class, 'getPDFDocument'])
+        ->name('staff.Project.get.StatusReport');
 
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
