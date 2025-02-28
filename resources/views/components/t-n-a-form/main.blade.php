@@ -1651,22 +1651,22 @@
     <p style="line-height: 100%;text-align: left;margin-bottom: 0cm;background: transparent;"><br></p>
 </form>
 @if (!$isExporting)
-@if ($isEditable && auth()->user()->role === 'Staff')
-    <div class="d-flex justify-content-end">
-        <button
-            class="btn btn-primary text-end"
-            form="TNAForm"
-            type="submit"
-        >Set TNA Form</button>
-    </div>
-@elseif (auth()->user()->role === 'Staff')
-    <div class="d-flex justify-content-end">
-        <button
-            class="btn btn-primary text-end"
-            id="exportTNAFormToPDF"
-            data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.tna-document', ['business_id' => $TNAdata['business_id'], 'application_id' => $TNAdata['application_id']]) }}"
-            type="button"
-        >Export as PDF</button>
-    </div>
-@endif
+    @if ($isEditable && auth()->user()->role === 'Staff')
+        <div class="d-flex justify-content-end">
+            <button
+                class="btn btn-primary text-end"
+                form="TNAForm"
+                type="submit"
+            >Set TNA Form</button>
+        </div>
+    @elseif (auth()->user()->role === 'Staff')
+        <div class="d-flex justify-content-end">
+            <button
+                class="btn btn-primary text-end"
+                id="exportTNAFormToPDF"
+                data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.tna-document', ['business_id' => $TNAdata['business_id'], 'application_id' => $TNAdata['application_id']]) }}"
+                type="button"
+            >Export as PDF</button>
+        </div>
+    @endif
 @endif
