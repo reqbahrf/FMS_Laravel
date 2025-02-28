@@ -1662,7 +1662,7 @@ async function initializeStaffPageJs() {
                         title: 'Save Requirements',
                         titleBg: 'bg-primary',
                         message:
-                            'Are you sure you want to save this Requirements?',
+                            'Are you sure you want to save this requirements?',
                         confirmText: 'Yes',
                         confirmButtonClass: 'btn-primary',
                         cancelText: 'No',
@@ -1688,7 +1688,7 @@ async function initializeStaffPageJs() {
                         title: 'Update Requirements',
                         titleBg: 'bg-primary',
                         message:
-                            'Are you sure you want to update this Requirements?',
+                            'Are you sure you want to update this requirements?',
                         confirmText: 'Yes',
                         confirmButtonClass: 'btn-primary',
                         cancelText: 'No',
@@ -2145,7 +2145,7 @@ async function initializeStaffPageJs() {
                 const isConfirmed = await createConfirmationModal({
                     title: 'Retrieve Selected Form',
                     titleBg: 'bg-primary',
-                    message: 'Are you sure you want to Retrieve this form?',
+                    message: 'Are you sure you want to retrieve this form?',
                     confirmText: 'Yes',
                     confirmButtonClass: 'btn-primary',
                     cancelText: 'No',
@@ -2292,7 +2292,7 @@ async function initializeStaffPageJs() {
                 const isconfirmed = await createConfirmationModal({
                     title: 'Export to PDF',
                     titleBg: 'bg-primary',
-                    message: 'Are you sure you want to Export this to PDF?',
+                    message: 'Are you sure you want to export this to PDF?',
                     confirmText: 'Yes',
                     confirmButtonClass: 'btn-primary',
                     cancelText: 'No',
@@ -2692,7 +2692,7 @@ async function initializeStaffPageJs() {
                     title: 'Create Quarterly Report',
                     titleBg: 'bg-primary',
                     message:
-                        'Are you sure you want to Create this Quarterly Report?',
+                        'Are you sure you want to create this quarterly report?',
                     confirmText: 'Yes',
                     confirmButtonClass: 'btn-primary',
                     cancelText: 'No',
@@ -4724,374 +4724,6 @@ async function initializeStaffPageJs() {
                     );
                 }
             });
-
-            const toggleDeleteRowButton = (container, elementSelector) => {
-                const element = container.find(elementSelector);
-                const deleteRowButton = container
-                    .children('.addAndRemoveButton_Container')
-                    .find('.removeRowButton');
-                element.length === 1
-                    ? deleteRowButton.prop('disabled', true)
-                    : deleteRowButton.prop('disabled', false);
-            };
-
-            $('.addNewRowButton').on('click', function () {
-                const container = $(this).closest('.card-body');
-
-                const table = container.find('table');
-                if (table.length) {
-                    const lastRow = table.find('tbody tr:last-child');
-                    const newRow = lastRow.clone();
-                    newRow.find('input, textarea').val('');
-                    table.find('tbody').append(newRow);
-                    toggleDeleteRowButton(container, 'tbody tr');
-                } else {
-                    const divContainer = container.find('.input_list');
-                    const newDiv = divContainer.last().clone();
-                    newDiv.find('input, textarea').val('');
-                    container.append(newDiv);
-                    toggleDeleteRowButton(container, '.input_list');
-                }
-            });
-
-            $('.removeRowButton').on('click', function () {
-                const container = $(this).closest('.card-body');
-
-                const table = container.find('table');
-                if (table.length) {
-                    const lastRow = table.find('tbody tr:last-child');
-                    lastRow.remove();
-                    toggleDeleteRowButton(container, 'tbody tr');
-                } else {
-                    const divContainer = container.find('.input_list');
-                    divContainer.last().remove();
-                    toggleDeleteRowButton(container, '.input_list');
-                }
-            });
-
-            $('#projectProposal .card-body').each(function () {
-                const container = $(this);
-
-                const table = container.find('table');
-                if (table.length) {
-                    toggleDeleteRowButton(container, 'tbody tr');
-                } else {
-                    toggleDeleteRowButton(container, '.input_list');
-                }
-            });
-
-            const equipmentAndNonEquipmentTablesConfigs = {
-                equipmentDetails: {
-                    id: 'EquipmentTable',
-                    selectors: {
-                        Qty: '.EquipmentQTY',
-                        Actual_Particulars: '.Particulars',
-                        Cost: '.EquipmentCost',
-                    },
-                    requiredFields: ['Qty', 'Actual_Particulars', 'Cost'],
-                },
-                nonEquipmentDetails: {
-                    id: 'NonEquipmentTable',
-                    selectors: {
-                        Qty: '.NonEquipmentQTY',
-                        Actual_Particulars: '.NonParticulars',
-                        Cost: '.NonEquipmentCost',
-                    },
-                    requiredFields: ['Qty', 'Actual_Particulars', 'Cost'],
-                },
-            };
-
-            function projectProposalFormData() {
-                const FormContainer = $('#projectProposal');
-                const FormData = FormContainer.serializeArray();
-                let FormDataObjects = {};
-
-                $.each(FormData, function (i, v) {
-                    if (v.name.includes('[]')) {
-                        FormDataObjects[v.name] = FormDataObjects[v.name]
-                            ? [...FormDataObjects[v.name], v.value]
-                            : [v.value];
-                    } else {
-                        FormDataObjects[v.name] = v.value;
-                    }
-                });
-
-                return (FormDataObjects = {
-                    ...FormDataObjects,
-                    ...TableDataExtractor(
-                        equipmentAndNonEquipmentTablesConfigs
-                    ),
-                });
-            }
-
-            const revertbutton = $('.revertButton');
-
-            const populateProjectProposalForm = (draftData) => {
-                storeInitialValues('projectID', draftData.projectID);
-                storeInitialValues('projectTitle', draftData.projectTitle);
-                storeInitialValues(
-                    'dateOfFundRelease',
-                    draftData.dateOfFundRelease
-                );
-                storeInitialValues('fundAmount', draftData.fundAmount);
-
-                $('#projectID').val(draftData.projectID);
-                $('#projectTitle').val(draftData.projectTitle);
-                $('#dateOfFundRelease').val(draftData.dateOfFundRelease);
-                $('#fundAmount').val(draftData.fundAmount);
-
-                // Populate expected outputs
-                const expectedOutputsContainer = $(
-                    '#ExpectedOutputTextareaContainer .input_list'
-                );
-                expectedOutputsContainer.empty();
-                draftData.expectedOutputs.forEach((output, index) => {
-                    const outputKey = `expectedOutputs[${index}]`;
-                    storeInitialValues(outputKey, output);
-                    expectedOutputsContainer.append(/*html*/ `
-                        <div class="col-12 mb-2">
-                            <textarea
-                                class="form-control"
-                                name="expectedOutputs[]"
-                                rows="3"
-                                data-initial-key="${outputKey}"
-                            >
-${output}</textarea
-                            >
-                        </div>
-                    `);
-                });
-
-                // Populate equipment details
-                const equipmentTableBody = $('#EquipmentTable body tr');
-                equipmentTableBody.empty();
-                draftData.equipmentDetails.forEach((equipment, index) => {
-                    const qtyKey = `equipmentQty[${index}]`;
-                    const particularsKey = `equipmentParticulars[${index}]`;
-                    const costKey = `equipmentCost[${index}]`;
-
-                    storeInitialValues(qtyKey, equipment.Qty);
-                    storeInitialValues(
-                        particularsKey,
-                        equipment.Actual_Particulars
-                    );
-                    storeInitialValues(costKey, equipment.Cost || '');
-
-                    equipmentTableBody.append(/*html*/ `
-                        <tr>
-                            <td>
-                                <input
-                                    type="number"
-                                    class="form-control EquipmentQTY"
-                                    data-initial-key="${qtyKey}"
-                                    value="${equipment.Qty}"
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    class="form-control Particulars"
-                                    data-initial-key="${particularsKey}"
-                                    value="${equipment.Actual_Particulars}"
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    class="form-control EquipmentCost"
-                                    data-initial-key="${costKey}"
-                                    value="${equipment.Cost || ''}"
-                                />
-                            </td>
-                        </tr>
-                    `);
-                });
-
-                // Populate non-equipment details
-                const nonEquipmentTableBody = $('#NonEquipmentTable body tr');
-                nonEquipmentTableBody.empty();
-                draftData.nonEquipmentDetails.forEach((nonEquipment, index) => {
-                    const qtyKey = `nonEquipmentQty[${index}]`;
-                    const particularsKey = `nonEquipmentParticulars[${index}]`;
-                    const costKey = `nonEquipmentCost[${index}]`;
-
-                    storeInitialValues(qtyKey, nonEquipment.Qty);
-                    storeInitialValues(
-                        particularsKey,
-                        nonEquipment.Actual_Particulars
-                    );
-                    storeInitialValues(costKey, nonEquipment.Cost || '');
-
-                    nonEquipmentTableBody.append(/*html*/ `
-                        <tr>
-                            <td>
-                                <input
-                                    type="number"
-                                    class="form-control NonEquipmentQTY"
-                                    data-initial-key="${qtyKey}"
-                                    value="${nonEquipment.Qty}"
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    class="form-control NonParticulars"
-                                    data-initial-key="${particularsKey}"
-                                    value="${nonEquipment.Actual_Particulars}"
-                                />
-                            </td>
-                            <td>
-                                <input
-                                    type="text"
-                                    class="form-control NonEquipmentCost"
-                                    data-initial-key="${costKey}"
-                                    value="${nonEquipment.Cost || ''}"
-                                />
-                            </td>
-                        </tr>
-                    `);
-                });
-                trackChanges();
-            };
-            const storeInitialValues = (key, value) => {
-                ProjectProposalFormInitialValue[key] = value;
-            };
-
-            const clearInitialValues = () => {
-                ProjectProposalFormInitialValue = {};
-            };
-
-            // Function to track changes in form inputs
-            function trackChanges() {
-                $('#projectProposal').on(
-                    'input',
-                    'input, textarea',
-                    function () {
-                        let isModified = false;
-
-                        // Check if any field has been modified
-                        $('#projectProposal')
-                            .find('input, textarea')
-                            .each(function () {
-                                const key = $(this).data('initial-key');
-                                const currentValue = $(this).val();
-                                const initialValue =
-                                    ProjectProposalFormInitialValue[key];
-
-                                if (currentValue !== initialValue) {
-                                    isModified = true;
-                                    return false; // Exit loop if a modification is found
-                                }
-                            });
-
-                        // Enable or disable the revert button based on whether there are changes
-                        revertbutton.prop('disabled', !isModified);
-                    }
-                );
-            }
-
-            // Handle revert button click
-            revertbutton.on('click', function () {
-                // Revert all fields to their initial values
-                $('#projectProposal')
-                    .find('input, textarea')
-                    .each(function () {
-                        const key = $(this).data('initial-key');
-                        const initialValue =
-                            ProjectProposalFormInitialValue[key];
-                        $(this).val(initialValue);
-                    });
-
-                // Disable the revert button again after reverting
-                revertbutton.prop('disabled', true);
-            });
-
-            const getProposalDraft = async (applicationID) => {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url: APPLICANT_TAB_ROUTE.GET_PROJECT_PROPOSAL_DRAFT.replace(
-                            ':ApplicationId',
-                            applicationID
-                        ),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                    });
-
-                    response ? populateProjectProposalForm(response) : null;
-                } catch (error) {
-                    console.error(error);
-                }
-            };
-
-            //submit project proposal
-            $('#DraftProjectProposal, #submitProjectProposal').on(
-                'click',
-                async function (event) {
-                    const action = $(this).data('action');
-                    event.preventDefault();
-
-                    const thisAction =
-                        action == 'DraftForm' ? 'Draft' : 'Submit';
-
-                    const isconfirmed = await createConfirmationModal({
-                        title: `${thisAction} Project Proposal`,
-                        titleBg: 'bg-primary',
-                        message: `Are you sure you want to ${thisAction} this file?`,
-                        confirmText: 'Yes',
-                        confirmButtonClass: 'btn-primary',
-                        cancelText: 'No',
-                    });
-
-                    if (!isconfirmed) {
-                        return;
-                    }
-
-                    showProcessToast(`${thisAction}ing Project Proposal...`);
-
-                    const application_Id = $('#selected_applicationId').val();
-                    const business_id = $('#selected_businessID').val();
-
-                    const formdata = projectProposalFormData();
-                    console.log(formdata);
-                    formdata.action = action;
-                    formdata.application_id = application_Id;
-                    formdata.business_id = business_id;
-
-                    try {
-                        const response = await $.ajax({
-                            type: 'POST',
-                            url: APPLICANT_TAB_ROUTE.STORE_PROJECT_PROPOSAL,
-                            headers: {
-                                'X-CSRF-TOKEN': $(
-                                    'meta[name="csrf-token"]'
-                                ).attr('content'),
-                            },
-                            data: formdata,
-                        });
-
-                        if (response.success === 'true') {
-                            hideProcessToast();
-                            closeOffcanvasInstances('#applicantDetails');
-                            setTimeout(() => {
-                                showToastFeedback(
-                                    'text-bg-success',
-                                    response.message
-                                );
-                            }, 500);
-                        }
-                    } catch (error) {
-                        hideProcessToast();
-                        showToastFeedback(
-                            'text-bg-danger',
-                            error.responseJSON.message
-                        );
-                    }
-                }
-            );
 
             const smartWizardInstance = ApplicantProgressContainer.smartWizard({
                 selected: 0,
