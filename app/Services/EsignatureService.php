@@ -1,24 +1,17 @@
 <?php
 
-namespace App\Actions;
+namespace App\Services;
 
 use Exception;
 
-//TODO: deprecate this action class and use service class instead
-class GenerateEsignElement
+class EsignatureService
 {
-    /**
-     * Generate HTML for e-signature elements
-     *
-     * @param array $esignatures Array of signature data
-     * @param string $startAt Where to start the first signature ('left', 'center', 'right')
-     * @param int $signaturePerRow Number of signatures per row
-     * @param string $layout Layout style ('default' or 'formal')
-     * @return string HTML output
-     * @throws Exception
-     */
-    public function execute(array $esignatures, string $startAt = 'left', int $signaturePerRow = 3, string $layout = 'formal'): string
-    {
+    public function create(
+        array $esignatures,
+        string $startAt = 'left',
+        int $signaturePerRow = 3,
+        string $layout = 'formal',
+    ): string {
         try {
             // Validate parameters
             $startAt = in_array(strtolower($startAt), ['left', 'center', 'right']) ? strtolower($startAt) : 'left';
