@@ -1,12 +1,31 @@
 import SignaturePad from 'signature_pad';
+
+type Layout = 'default' | 'formal';
+
 class EsignatureHandler {
     private container: JQuery;
     private signaturePads: SignaturePad[];
-    private esignatures: { name: string; topText?: string; bottomText?: string; signatureData: string }[];
-    constructor(containerSelector: string) {
+    private esignatures: {
+        layout: Layout;
+        name: string;
+        topText?: string;
+        bottomText?: string;
+        position?: string;
+        date?: string;
+        signatureData: string;
+    }[];
+    private layout: Layout;
+    private hasDate: boolean;
+    constructor(
+        containerSelector: string,
+        layout: Layout = 'default',
+        hasDate: boolean = false
+    ) {
         this.container = $(containerSelector);
         this.signaturePads = [];
-        this.esignatures = []; // Array to store signature data
+        this.esignatures = [];
+        this.layout = layout;
+        this.hasDate = hasDate;
         this.initialize();
     }
 
@@ -25,16 +44,21 @@ class EsignatureHandler {
             <i class="ri-subtract-fill"></i>
             </button>`;
         const btnContainer = document.createElement('div');
-        btnContainer.classList.add('d-flex', 'justify-content-end', 'mb-2', 'addAndRemoveButton_Container');
+        btnContainer.classList.add(
+            'd-flex',
+            'justify-content-end',
+            'mb-2',
+            'addAndRemoveButton_Container'
+        );
         btnContainer.innerHTML = addRowBtn + deleteRowBtn;
         this.container.find('.card-body').prepend(btnContainer);
     }
 
-    initializeSignaturePad(canvas: HTMLCanvasElement) : SignaturePad {
+    initializeSignaturePad(canvas: HTMLCanvasElement): SignaturePad {
         const ratio = Math.max(window.devicePixelRatio || 1, 1);
         canvas.width = canvas.offsetWidth * ratio;
         canvas.height = canvas.offsetHeight * ratio;
-        const ctx = canvas.getContext('2d');  
+        const ctx = canvas.getContext('2d');
         ctx?.scale(ratio, ratio);
 
         return new SignaturePad(canvas, {
@@ -44,7 +68,9 @@ class EsignatureHandler {
     }
 
     initializeFirstSignaturePad() {
-        const firstCanvas = this.container.find('.esignature-canvas')[0] as HTMLCanvasElement;
+        const firstCanvas = this.container.find(
+            '.esignature-canvas'
+        )[0] as HTMLCanvasElement;
         if (firstCanvas) {
             const firstPad = this.initializeSignaturePad(firstCanvas);
             if (firstPad) {
@@ -75,7 +101,9 @@ class EsignatureHandler {
 
         container.find('.esignature-row:last').after(newRow);
 
-        const newPad = this.initializeSignaturePad(newCanvas[0] as HTMLCanvasElement);
+        const newPad = this.initializeSignaturePad(
+            newCanvas[0] as HTMLCanvasElement
+        );
         if (newPad) {
             this.signaturePads.push(newPad);
         }
@@ -112,9 +140,11 @@ class EsignatureHandler {
             reader.onload = (e) => {
                 const img = new Image();
                 img.onload = () => {
-                    const canvas = row.find('.esignature-canvas')[0] as HTMLCanvasElement;
+                    const canvas = row.find(
+                        '.esignature-canvas'
+                    )[0] as HTMLCanvasElement;
                     const ctx = canvas.getContext('2d');
-                    if(!ctx) return
+                    if (!ctx) return;
                     ctx.clearRect(0, 0, canvas.width, canvas.height);
                     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
                 };
@@ -125,35 +155,52 @@ class EsignatureHandler {
     }
 
     handleResize() {
-        this.container.find('.esignature-canvas').each((index, canvasElement) => {
-            const canvas = canvasElement as HTMLCanvasElement;
-            const ratio = Math.max(window.devicePixelRatio || 1, 1);
-            canvas.width = canvas.offsetWidth * ratio;
-            canvas.height = canvas.offsetHeight * ratio;
-            const ctx = canvas.getContext('2d');
-            ctx?.scale(ratio, ratio);
+        this.container
+            .find('.esignature-canvas')
+            .each((index, canvasElement) => {
+                const canvas = canvasElement as HTMLCanvasElement;
+                const ratio = Math.max(window.devicePixelRatio || 1, 1);
+                canvas.width = canvas.offsetWidth * ratio;
+                canvas.height = canvas.offsetHeight * ratio;
+                const ctx = canvas.getContext('2d');
+                ctx?.scale(ratio, ratio);
 
-            // Reinitialize signature pad and redraw from data URL if available
-            if (this.signaturePads[index]) {
-                const oldDataUrl = this.signaturePads[index].toDataURL(); // Get the old signature
-                this.signaturePads[index] = this.initializeSignaturePad(canvas as HTMLCanvasElement);
-                if (oldDataUrl !== "data:,") { // Check if the old signature was not empty
-                    const img = new Image();
-                    img.onload = () => {
-                        ctx?.drawImage(img, 0, 0, canvas.width / ratio, canvas.height / ratio);
-                    };
-                    img.src = oldDataUrl;
+                // Reinitialize signature pad and redraw from data URL if available
+                if (this.signaturePads[index]) {
+                    const oldDataUrl = this.signaturePads[index].toDataURL(); // Get the old signature
+                    this.signaturePads[index] = this.initializeSignaturePad(
+                        canvas as HTMLCanvasElement
+                    );
+                    if (oldDataUrl !== 'data:,') {
+                        // Check if the old signature was not empty
+                        const img = new Image();
+                        img.onload = () => {
+                            ctx?.drawImage(
+                                img,
+                                0,
+                                0,
+                                canvas.width / ratio,
+                                canvas.height / ratio
+                            );
+                        };
+                        img.src = oldDataUrl;
+                    }
                 }
-            }
-        });
+            });
     }
 
     attachEventListeners() {
         // Use "this" to refer to the instance within the event handlers
         this.container.on('click', '.add-row-btn', () => this.addRow());
-        this.container.on('click', '.delete-row-btn', (event) => this.deleteRow(event.currentTarget));
-        this.container.on('click', '.clear-signature', (event) => this.clearSignature(event.currentTarget));
-        this.container.on('change', '.esignature-image', (event) => this.handleImageUpload(event.target));
+        this.container.on('click', '.delete-row-btn', (event) =>
+            this.deleteRow(event.currentTarget)
+        );
+        this.container.on('click', '.clear-signature', (event) =>
+            this.clearSignature(event.currentTarget)
+        );
+        this.container.on('change', '.esignature-image', (event) =>
+            this.handleImageUpload(event.target)
+        );
         $(window).on('resize', () => this.handleResize());
     }
 
@@ -162,7 +209,9 @@ class EsignatureHandler {
         this.esignatures = []; // Clear previous signatures
         this.container.find('.esignature-row').each((index, rowData) => {
             const row = $(rowData);
-            const canvas = row.find('.esignature-canvas')[0] as HTMLCanvasElement;
+            const canvas = row.find(
+                '.esignature-canvas'
+            )[0] as HTMLCanvasElement;
             const signaturePad = this.signaturePads[index];
             let signatureData;
             // Check if the signature is drawn or an image is uploaded
@@ -171,17 +220,24 @@ class EsignatureHandler {
             } else {
                 signatureData = canvas.toDataURL(); // This will capture uploaded images
             }
-    
+
             const name = row.find('.esignature-name').val() as string;
             const topText = row.find('.esignature-top-text').val() as string;
-            const bottomText = row.find('.esignature-bottom-text').val() as string;
+            const bottomText = row
+                .find('.esignature-bottom-text')
+                .val() as string;
+            const position = row.find('.esignature-position').val() as string;
+            const date = row.find('.esignature-date').val() as string;
 
-            if (name || topText || bottomText || signatureData) {
+            if (name || signatureData) {
                 this.esignatures.push({
+                    layout: this.layout,
                     name,
                     topText,
                     bottomText,
-                    signatureData
+                    position,
+                    date,
+                    signatureData,
                 });
             }
         });

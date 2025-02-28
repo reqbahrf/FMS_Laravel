@@ -2210,7 +2210,9 @@ async function initializeStaffPageJs() {
                         };
                         // Initialize signature handler if not already initialized
                         window.esignatureHandler = new EsignatureHandler(
-                            '#esignature-section'
+                            '#esignature-section',
+                            'formal',
+                            true
                         );
                     } catch (error) {
                         showToastFeedback('text-bg-danger', error);

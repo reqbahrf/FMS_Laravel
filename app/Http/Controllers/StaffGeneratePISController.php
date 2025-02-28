@@ -13,10 +13,10 @@ class StaffGeneratePISController extends Controller
     {
         try {
             $validatedData = $request->validated();
-            $esignatureElement = $generateEsignElement->execute($validatedData['signatures']);
+            $esignatureElement = $generateEsignElement->execute($validatedData['signatures'], 'left', 1, 'default');
 
             try {
-                $html = view('staff-view.outputs.ProjectInformationSheet', [...$validatedData, 'esignatureElement' => $esignatureElement])->render();
+                $html = view('staff-view.outputs.project-information-sheet', [...$validatedData, 'esignatureElement' => $esignatureElement])->render();
                 $DocHeader = view('staff-view.outputs.DocHeader')->render();
             } catch (Exception $e) {
                 return response()->json([
@@ -40,8 +40,8 @@ class StaffGeneratePISController extends Controller
                 $mpdf->SetHTMLHeader($DocHeader);
                 $mpdf->WriteHTML($html);
 
-              $mpdf->Output('PIS-document' . date('Y-m-d') . '.pdf', 'I');
-              return;
+                $mpdf->Output('PIS-document' . date('Y-m-d') . '.pdf', 'I');
+                return;
             } catch (\Mpdf\MpdfException $e) {
                 return response()->json([
                     'message' => 'Error generating PDF',

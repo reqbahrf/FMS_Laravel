@@ -19,6 +19,7 @@ yarn-error.log
 /.idea
 /.vscode
 .qodo
+start_dev.sh
 
 
 # windsurf rules
