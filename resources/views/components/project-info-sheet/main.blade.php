@@ -38,7 +38,7 @@
                                 name="projectTitle"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectTitle"
+                                :value="$projectInfoSheetData['projectTitle']"
                             />
                         </strong>
                     </td>
@@ -53,7 +53,7 @@
                             name="firmName"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$firmName"
+                            :value="$projectInfoSheetData['firmName']"
                         />
                     </td>
                     <td class="tg-7zrl"></td>
@@ -75,7 +75,7 @@
                             name="name"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$name"
+                            :value="$projectInfoSheetData['name']"
                         />
                     </td>
                     <td class="tg-7zrl">sex:
@@ -83,7 +83,7 @@
                             name="sex"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$sex"
+                            :value="$projectInfoSheetData['sex']"
                         />
                     </td>
                     <td class="tg-7zrl">Age:
@@ -91,7 +91,7 @@
                             name="age"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$age"
+                            :value="$projectInfoSheetData['age']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -112,7 +112,7 @@
                             name="typeOfOrganization"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$typeOfOrganization"
+                            :value="$projectInfoSheetData['typeOfOrganization']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -132,7 +132,7 @@
                             name="businessAddress"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$businessAddress"
+                            :value="$projectInfoSheetData['businessAddress']"
                         /></td>
                     <td class="tg-7zrl"> </td>
                     <td class="tg-7zrl"> </td>
@@ -144,7 +144,7 @@
                             name="landline"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$landline"
+                            :value="$projectInfoSheetData['landline']"
                         />
                     </td>
                     <td
@@ -154,7 +154,7 @@
                             name="fax"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$fax"
+                            :value="$projectInfoSheetData['fax']"
                         /> </td>
                     <td class="tg-7zrl"> </td>
                 </tr>
@@ -167,7 +167,7 @@
                             name="mobile_phone"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$mobile_phone"
+                            :value="$projectInfoSheetData['mobile_phone']"
                         />
                     </td>
                     <td
@@ -178,7 +178,7 @@
                             name="email"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$email"
+                            :value="$projectInfoSheetData['email']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -196,7 +196,7 @@
                             name="totalAssets"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$totalAssets"
+                            :value="$projectInfoSheetData['totalAssets']"
                         />
                     </td>
                     <td
@@ -215,7 +215,7 @@
                             name="land"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$land"
+                            :value="$projectInfoSheetData['land']"
                         />
                     </td>
                 </tr>
@@ -230,7 +230,7 @@
                             name="building"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$building"
+                            :value="$projectInfoSheetData['building']"
                         />
                     </td>
                 </tr>
@@ -245,7 +245,7 @@
                             name="equipment"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$equipment"
+                            :value="$projectInfoSheetData['equipment']"
                         />
                     </td>
                 </tr>
@@ -260,7 +260,7 @@
                             name="workingCapital"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$workingCapital"
+                            :value="$projectInfoSheetData['workingCapital']"
                         />
                     </td>
                 </tr>
@@ -277,7 +277,7 @@
                             name="TotalmanMonths"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$TotalmanMonths"
+                            :value="$projectInfoSheetData['TotalmanMonths']"
                         />&nbsp;&nbsp;man-mouth</td>
                     <td
                         class="tg-8d8j"
@@ -310,14 +310,14 @@
                             name="Regular_male"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Regular_male"
+                            :value="$projectInfoSheetData['Regular_male']"
                         /></td>
                     <td class="tg-7zrl">
                         <x-custom-input.input
                             name="Regular_female"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Regular_female"
+                            :value="$projectInfoSheetData['Regular_female']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -325,7 +325,7 @@
                             name="Regular_subtotal"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Regular_subtotal"
+                            :value="$projectInfoSheetData['Regular_subtotal']"
                         />
                     </td>
                     <td class="tg-7zrl"></td>
@@ -341,7 +341,7 @@
                             name="Parttime_male"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Parttime_male"
+                            :value="$projectInfoSheetData['Parttime_male']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -349,7 +349,7 @@
                             name="Parttime_female"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Parttime_female"
+                            :value="$projectInfoSheetData['Parttime_female']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -357,7 +357,7 @@
                             name="Parttime_subtotal"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Parttime_subtotal"
+                            :value="$projectInfoSheetData['Parttime_subtotal']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -382,7 +382,7 @@
                             name="Regu_Subcont_male"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Regu_Subcont_male"
+                            :value="$projectInfoSheetData['Regu_Subcont_male']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -390,7 +390,7 @@
                             name="Regu_Subcont_female"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Regu_Subcont_female"
+                            :value="$projectInfoSheetData['Regu_Subcont_female']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -398,7 +398,7 @@
                             name="Regu_Subcont_subtotal"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Regu_Subcont_subtotal"
+                            :value="$projectInfoSheetData['Regu_Subcont_subtotal']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -413,7 +413,7 @@
                             name="Subcont_Parttime_male"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Subcont_Parttime_male"
+                            :value="$projectInfoSheetData['Subcont_Parttime_male']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -421,7 +421,7 @@
                             name="Subcont_Parttime_female"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Subcont_Parttime_female"
+                            :value="$projectInfoSheetData['Subcont_Parttime_female']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -429,7 +429,7 @@
                             name="Subcont_Parttime_subtotal"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Subcont_Parttime_subtotal"
+                            :value="$projectInfoSheetData['Subcont_Parttime_subtotal']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -454,7 +454,7 @@
                             name="Indirect_Regular_male"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Indirect_Regular_male"
+                            :value="$projectInfoSheetData['Indirect_Regular_male']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -462,7 +462,7 @@
                             name="Indirect_Regular_female"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Indirect_Regular_female"
+                            :value="$projectInfoSheetData['Indirect_Regular_female']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -470,7 +470,7 @@
                             name="Indirect_Regular_subtotal"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Indirect_Regular_subtotal"
+                            :value="$projectInfoSheetData['Indirect_Regular_subtotal']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -484,14 +484,14 @@
                             name="Indirect_Parttime_male"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Indirect_Parttime_male"
+                            :value="$projectInfoSheetData['Indirect_Parttime_male']"
                         /></td>
                     <td class="tg-7zrl">
                         <x-custom-input.input
                             name="Indirect_Parttime_female"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Indirect_Parttime_female"
+                            :value="$projectInfoSheetData['Indirect_Parttime_female']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -499,7 +499,7 @@
                             name="Indirect_Parttime_subtotal"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$Indirect_Parttime_subtotal"
+                            :value="$projectInfoSheetData['Indirect_Parttime_subtotal']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -538,7 +538,7 @@
                             name="localProduct"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$localProduct"
+                            :value="$projectInfoSheetData['localProduct']"
                         />
                     </td>
 
@@ -563,7 +563,7 @@
                             name="exportProduct"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$exportProduct"
+                            :value="$projectInfoSheetData['exportProduct']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -588,7 +588,7 @@
                             name="totalGrossSales"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$totalGrossSales"
+                            :value="$projectInfoSheetData['totalGrossSales']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -612,7 +612,7 @@
                             name="localProduct_Val"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$localProduct_Val"
+                            :value="$projectInfoSheetData['localProduct_Val']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -636,7 +636,7 @@
                             name="exportProduct_Val"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$exportProduct_Val"
+                            :value="$projectInfoSheetData['exportProduct_Val']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -673,7 +673,7 @@
                             name="productionTechnology_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$productionTechnology_checkbox"
+                            :value="$projectInfoSheetData['productionTechnology_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -687,14 +687,14 @@
                             name="process_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$process_checkbox"
+                            :value="$projectInfoSheetData['process_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl"><x-custom-input.input
                             name="processDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$processDefinition"
+                            :value="$projectInfoSheetData['processDefinition']"
                         /></td>
                 </tr>
                 <tr>
@@ -706,14 +706,14 @@
                             name="equipment_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$equipment_checkbox"
+                            :value="$projectInfoSheetData['equipment_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl"><x-custom-input.input
                             name="equipmentDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$equipmentDefinition"
+                            :value="$projectInfoSheetData['equipmentDefinition']"
                         /></td>
                 </tr>
                 <tr>
@@ -727,7 +727,7 @@
                             name="qualityControl_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$qualityControl_checkbox"
+                            :value="$projectInfoSheetData['qualityControl_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -735,7 +735,7 @@
                             name="qualityControlDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$qualityControlDefinition"
+                            :value="$projectInfoSheetData['qualityControlDefinition']"
                         />
                     </td>
                 </tr>
@@ -750,7 +750,7 @@
                             name="productionTechnology1_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$productionTechnology1_checkbox"
+                            :value="$projectInfoSheetData['productionTechnology1_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl"> </td>
@@ -764,14 +764,14 @@
                             name="packagingLabeling_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$packagingLabeling_checkbox"
+                            :value="$projectInfoSheetData['packagingLabeling_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl"> <x-custom-input.input
                             name="packagingLabelingDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$packagingLabelingDefinition"
+                            :value="$projectInfoSheetData['packagingLabelingDefinition']"
                         /></td>
                 </tr>
                 <tr>
@@ -783,13 +783,13 @@
                             name="postHarvest_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$postHarvest_checkbox"
-                        />{{ ($postHarvest_checkbox ?? '') == 'on' ? '✓' : ' ' }}</td>
+                            :value="$projectInfoSheetData['postHarvest_checkbox']"
+                        /></td>
                     <td class="tg-7zrl"><x-custom-input.input
                             name="postHarvestDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$postHarvestDefinition"
+                            :value="$projectInfoSheetData['postHarvestDefinition']"
                         /></td>
                 </tr>
                 <tr>
@@ -801,14 +801,14 @@
                             name="marketAssistance_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$marketAssistance_checkbox"
+                            :value="$projectInfoSheetData['marketAssistance_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl"><x-custom-input.input
                             name="marketAssistanceDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$marketAssistanceDefinition"
+                            :value="$projectInfoSheetData['marketAssistanceDefinition']"
                         /></td>
                 </tr>
                 <tr>
@@ -820,14 +820,14 @@
                             name="humanResourceTraining_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$humanResourceTraining_checkbox"
+                            :value="$projectInfoSheetData['humanResourceTraining_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl"><x-custom-input.input
                             name="humanResourceTrainingDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$humanResourceTrainingDefinition"
+                            :value="$projectInfoSheetData['humanResourceTrainingDefinition']"
                         /></td>
                 </tr>
                 <tr>
@@ -840,7 +840,7 @@
                             name="consultanceServices_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$consultanceServices_checkbox"
+                            :value="$projectInfoSheetData['consultanceServices_checkbox']"
                         />
                     </td>
                     <td class="tg-7zrl">
@@ -848,7 +848,7 @@
                             name="consultanceServicesDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$consultanceServicesDefinition"
+                            :value="$projectInfoSheetData['consultanceServicesDefinition']"
                         />
                     </td>
                 </tr>
@@ -863,13 +863,13 @@
                             name="otherServices_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"
-                            :value="$otherServices_checkbox"
+                            :value="$projectInfoSheetData['otherServices_checkbox']"
                         /></td>
                     <td class="tg-7zrl"><x-custom-input.input
                             name="otherServicesDefinition"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$otherServicesDefinition"
+                            :value="$projectInfoSheetData['otherServicesDefinition']"
                         /></td>
                 </tr>
             </tbody>
