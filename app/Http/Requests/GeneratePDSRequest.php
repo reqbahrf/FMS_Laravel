@@ -34,7 +34,7 @@ class GeneratePDSRequest extends FormRequest
             'email' => 'required|email|max:64',
             'reportingQuarter' => 'required|in:Q1,Q2,Q3,Q4',
             'buildingAsset' => 'required|string|max:15',
-            'EquipmentAsset' => 'required|string|max:15',
+            'equipmentAsset' => 'required|string|max:15',
             'workingCapitalAsset' => 'required|string|max:15',
             'EnterpriseClass' => 'required|in:Micro,Small,Medium',
             'DireRegularMale' => 'nullable|max:10',
