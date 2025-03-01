@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use Exception;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class EsignatureService
 {
@@ -167,5 +169,98 @@ class EsignatureService
         $html .= '</td>';
 
         return $html;
+    }
+
+    public function storeSignature(
+        mixed $uniqueId,
+        string $documentIdentifier,
+        array $signatureData,
+    ): array {
+        return $this->processMultipleSignatures($signatureData, $uniqueId, $documentIdentifier);
+    }
+
+    public function processSignature(
+        array $signatureData,
+        mixed $uniqueId,
+        string $documentIdentifier
+    ): array {
+        try {
+            // Extract the base64 image data
+            $base64Data = $signatureData['signatureData'] ?? null;
+
+            if (empty($base64Data)) {
+                throw new Exception('Signature data is missing or empty');
+            }
+
+            // Validate that it's a base64 image
+            if (!preg_match('/^data:image\/(\w+);base64,/', $base64Data, $matches)) {
+                throw new Exception('Invalid signature data format');
+            }
+
+            // Extract the image type and actual base64 content
+            $imageType = $matches[1];
+            $base64Content = substr($base64Data, strpos($base64Data, ',') + 1);
+            $decodedImage = base64_decode($base64Content);
+
+            if (!$decodedImage) {
+                throw new Exception('Failed to decode base64 image data');
+            }
+
+            // Generate a unique filename
+            $filename = 'signature_' . $uniqueId . '_' . $documentIdentifier . '_' . Str::uuid() . '.' . $imageType;
+            $storagePath = 'signatures/' . $filename;
+
+            // Store the file in Laravel's storage
+            if (!Storage::disk('private')->put($storagePath, $decodedImage)) {
+                throw new Exception('Failed to store signature image');
+            }
+
+            // Create a reference to the stored file
+            $fileReference = storage_path('app/private/' . $storagePath);
+
+            // Return modified array with file reference instead of base64 data
+            $result = $signatureData;
+            $result['signatureData'] = $fileReference;
+
+            return $result;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function processMultipleSignatures(
+        array $signaturesData,
+        mixed $uniqueId,
+        string $documentIdentifier
+    ): array {
+        try {
+
+            $processedSignatures = [];
+            foreach ($signaturesData as $signatureData) {
+                $processedSignatures[] = $this->processSignature(
+                    $signatureData,
+                    $uniqueId,
+                    $documentIdentifier
+                );
+            }
+            return $processedSignatures;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    public function getBase64Signature(array $signatureData): array
+    {
+        try {
+            $restoredSignatures = [];
+            foreach ($signatureData as $signature) {
+                $base64Data = Storage::disk('private')->get($signature['signatureData']);
+                $signature['signatureData'] = base64_encode($base64Data);
+                $restoredSignatures[] = $signature;
+            }
+            return $restoredSignatures;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }
