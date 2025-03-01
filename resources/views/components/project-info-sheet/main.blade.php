@@ -702,7 +702,7 @@
                         class="tg-7zrl"
                         colspan="5"
                     >&nbsp;&nbsp;&nbsp;&nbsp;A.1.2
-                        Equiment<x-custom-input.input
+                        Equipment<x-custom-input.input
                             name="equipment_checkbox"
                             type="checkbox"
                             :isEditable="$isEditable"

@@ -1,3 +1,4 @@
+@props(['projectDataSheetData', 'isEditable', 'isExporting' => false])
 <form id="projectDataSheetForm">
     <div class="form-container">
         <table
@@ -15,7 +16,7 @@
                         name="projectTitle"
                         type="text"
                         :isEditable="$isEditable"
-                        :value="$projectTitle"
+                        :value="$projectDataSheetData['projectTitle']"
                     />
                 </td>
             </tr>
@@ -29,7 +30,7 @@
                         name="firmName"
                         type="text"
                         :isEditable="$isEditable"
-                        :value="$firmName"
+                        :value="$projectDataSheetData['firmName']"
                     />
                 </td>
             </tr>
@@ -43,7 +44,7 @@
                         name="address"
                         type="text"
                         :isEditable="$isEditable"
-                        :value="$address"
+                        :value="$projectDataSheetData['address']"
                     />
                 </td>
             </tr>
@@ -54,7 +55,7 @@
                         name="ContactPerson"
                         type="text"
                         :isEditable="$isEditable"
-                        :value="$ContactPerson"
+                        :value="$projectDataSheetData['ContactPerson']"
                     />
                 </td>
                 <td class="label">Designation:</td>
@@ -63,7 +64,7 @@
                         name="Designation"
                         type="text"
                         :isEditable="$isEditable"
-                        :value="$Designation"
+                        :value="$projectDataSheetData['Designation']"
                     />
                 </td>
             </tr>
@@ -79,7 +80,7 @@
                             name="landline"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$landline"
+                            :value="$projectDataSheetData['landline']"
                         />
                     </span>
                     <span class="contact-label">Mobile Phone:&nbsp;&nbsp;</span>
@@ -88,7 +89,7 @@
                             name="mobile"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$mobile"
+                            :value="$projectDataSheetData['mobile']"
                         />
                     </span>
                     <span class="contact-label">Email Address:&nbsp;&nbsp;</span>&nbsp;&nbsp;
@@ -97,7 +98,7 @@
                             name="email"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$email"
+                            :value="$projectDataSheetData['email']"
                         />
                     </span>
                 </td>
@@ -110,7 +111,7 @@
                             name="reportingQuarter"
                             type="radio"
                             :isEditable="$isEditable"
-                            :value="$reportingQuarter == 'Q1'"
+                            :value="$projectDataSheetData['reportingQuarter'] == 'Q1'"
                         /> 1st
                         Quarter </label>
                     &nbsp;&nbsp;
@@ -119,7 +120,7 @@
                             name="reportingQuarter"
                             type="radio"
                             :isEditable="$isEditable"
-                            :value="$reportingQuarter == 'Q2'"
+                            :value="$projectDataSheetData['reportingQuarter'] == 'Q2'"
                         /> 2nd
                         Quarter </label>
                     &nbsp;&nbsp;
@@ -128,7 +129,7 @@
                             name="reportingQuarter"
                             type="radio"
                             :isEditable="$isEditable"
-                            :value="$reportingQuarter == 'Q3'"
+                            :value="$projectDataSheetData['reportingQuarter'] == 'Q3'"
                         /> 3rd
                         Quarter </label>
                     &nbsp;&nbsp;
@@ -137,7 +138,7 @@
                             name="reportingQuarter"
                             type="radio"
                             :isEditable="$isEditable"
-                            :value="$reportingQuarter == 'Q4'"
+                            :value="$projectDataSheetData['reportingQuarter'] == 'Q4'"
                         /> 4th
                         Quarter </label>
                 </td>
@@ -204,7 +205,7 @@
                             name="buildingAsset"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$buildingAsset"
+                            :value="$projectDataSheetData['buildingAsset']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -221,7 +222,7 @@
                             name="equipmentAsset"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$equipmentAsset"
+                            :value="$projectDataSheetData['equipmentAsset']"
                         /></td>
                 </tr>
                 <tr>
@@ -233,7 +234,7 @@
                             name="workingCapitalAsset"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$workingCapitalAsset"
+                            :value="$projectDataSheetData['workingCapitalAsset']"
                         /></td>
                 </tr>
                 <tr>
@@ -247,7 +248,7 @@
                                 name="EnterpriseClass"
                                 type="radio"
                                 :isEditable="$isEditable"
-                                :value="$EnterpriseClass == 'Micro'"
+                                :value="$projectDataSheetData['EnterpriseClass'] == 'Micro'"
                             />
                             Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)</label>
                         <label>
@@ -255,7 +256,7 @@
                                 name="EnterpriseClass"
                                 type="radio"
                                 :isEditable="$isEditable"
-                                :value="$EnterpriseClass == 'Small'"
+                                :value="$projectDataSheetData['EnterpriseClass'] == 'Small'"
                             />
                             Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)</label>
                         <label>
@@ -263,7 +264,7 @@
                                 name="EnterpriseClass"
                                 type="radio"
                                 :isEditable="$isEditable"
-                                :value="$EnterpriseClass == 'Medium'"
+                                :value="$projectDataSheetData['EnterpriseClass'] == 'Medium'"
                             />
                             Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)</label>
                     </td>
@@ -330,13 +331,13 @@
                             name="DireRegularMale"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$DireRegularMale"
+                            :value="$projectDataSheetData['DireRegularMale']"
                         /> <br></td>
                     <td class="tg-8d8j"><x-custom-input.input
                             name="DireRegularFemale"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$DireRegularFemale"
+                            :value="$projectDataSheetData['DireRegularFemale']"
                         /> <br></td>
                     <td
                         class="tg-8d8j"
@@ -345,7 +346,7 @@
                             name="DireRegularTotalWorkday"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$DireRegularTotalWorkday"
+                            :value="$projectDataSheetData['DireRegularTotalWorkday']"
                         /> <br></td>
                     <td
                         class="tg-8d8j"
@@ -354,7 +355,7 @@
                             name="DireRegularTotalManMonth"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$DireRegularTotalManMonth"
+                            :value="$projectDataSheetData['DireRegularTotalManMonth']"
                         /> <br> </td>
                     <td
                         class="tg-8d8j"
@@ -363,7 +364,7 @@
                             name="RemarkDirectLabor"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$RemarkDirectLabor"
+                            :value="$projectDataSheetData['RemarkDirectLabor']"
                         /><br> </td>
                 </tr>
                 <tr>
@@ -372,13 +373,13 @@
                             name="ParttimeMale"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$ParttimeMale"
+                            :value="$projectDataSheetData['ParttimeMale']"
                         /></td>
                     <td class="tg-8d8j"> <br><x-custom-input.input
                             name="ParttimeFemale"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$ParttimeFemale"
+                            :value="$projectDataSheetData['ParttimeFemale']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -387,7 +388,7 @@
                             name="ParttimeTotalWorkday"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$ParttimeTotalWorkday"
+                            :value="$projectDataSheetData['ParttimeTotalWorkday']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -396,7 +397,7 @@
                             name="ParttimeTotalManMonth"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$ParttimeTotalManMonth"
+                            :value="$projectDataSheetData['ParttimeTotalManMonth']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -405,7 +406,7 @@
                             name="RemarkParttime"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$RemarkParttime"
+                            :value="$projectDataSheetData['RemarkParttime']"
                         /></td>
                 </tr>
                 <tr>
@@ -431,13 +432,13 @@
                             name="IndiRegularMale"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiRegularMale"
+                            :value="$projectDataSheetData['IndiRegularMale']"
                         /></td>
                     <td class="tg-8d8j"> <br><x-custom-input.input
                             name="IndiRegularFemale"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiRegularFemale"
+                            :value="$projectDataSheetData['IndiRegularFemale']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -446,7 +447,7 @@
                             name="IndiRegularTotalWorkday"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiRegularTotalWorkday"
+                            :value="$projectDataSheetData['IndiRegularTotalWorkday']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -455,7 +456,7 @@
                             name="IndiRegularTotalManMonth"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiRegularTotalManMonth"
+                            :value="$projectDataSheetData['IndiRegularTotalManMonth']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -464,7 +465,7 @@
                             name="IndiRegularRemark"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiRegularRemark"
+                            :value="$projectDataSheetData['IndiRegularRemark']"
                         /></td>
                 </tr>
                 <tr>
@@ -473,13 +474,13 @@
                             name="IndiParttimeMale"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiParttimeMale"
+                            :value="$projectDataSheetData['IndiParttimeMale']"
                         /></td>
                     <td class="tg-8d8j"> <br><x-custom-input.input
                             name="IndiParttimeFemale"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiParttimeFemale"
+                            :value="$projectDataSheetData['IndiParttimeFemale']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -488,7 +489,7 @@
                             name="IndiParttimeTotalWorkday"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiParttimeTotalWorkday"
+                            :value="$projectDataSheetData['IndiParttimeTotalWorkday']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -497,7 +498,7 @@
                             name="IndiParttimeTotalManMonth"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiParttimeTotalManMonth"
+                            :value="$projectDataSheetData['IndiParttimeTotalManMonth']"
                         /></td>
                     <td
                         class="tg-8d8j"
@@ -506,7 +507,7 @@
                             name="IndiParttimeRemark"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$IndiParttimeRemark"
+                            :value="$projectDataSheetData['IndiParttimeRemark']"
                         /></td>
                 </tr>
                 <tr>
@@ -521,7 +522,7 @@
                             name="TotalEmployment"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$TotalEmployment"
+                            :value="$projectDataSheetData['TotalEmployment']"
                         /></td>
                     <td
                         class="tg-cly1"
@@ -530,7 +531,7 @@
                             name="TotalManMonth"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$TotalManMonth"
+                            :value="$projectDataSheetData['TotalManMonth']"
                         /></td>
                 </tr>
                 <tr>
@@ -558,12 +559,12 @@
                         colspan="2"
                     >Net Sales</td>
                 </tr>
-                @forelse ($exportProduct as $index => $product)
+                @forelse ($projectDataSheetData['exportProduct'] as $index => $product)
                     <tr>
                         @if ($index === 0)
                             <td
                                 class="tg-0lax"
-                                rowspan="{{ count($exportProduct) }}"
+                                rowspan="{{ count($projectDataSheetData['exportProduct']) }}"
                             >&nbsp;&nbsp;3.1 Export Market
                             </td>
                         @endif
@@ -675,12 +676,12 @@
                         </tr>
                     @endfor
                 @endforelse
-                @forelse ($localProduct as $index => $product)
+                @forelse ($projectDataSheetData['localProduct'] as $index => $product)
                     <tr>
                         @if ($index === 0)
                             <td
                                 class="tg-0lax"
-                                rowspan="{{ count($localProduct) }}"
+                                rowspan="{{ count($projectDataSheetData['localProduct']) }}"
                             >&nbsp;&nbsp;3.1 Export Market
                             </td>
                         @endif
@@ -808,15 +809,15 @@
                     <td
                         class="tg-8d8j"
                         colspan="2"
-                    > <br>{{ $totalGrossSales }} </td>
+                    > <br>{{ $projectDataSheetData['totalGrossSales'] }} </td>
                     <td
                         class="tg-8d8j"
                         colspan="2"
-                    > <br>{{ $totalProductionCost }}</td>
+                    > <br>{{ $projectDataSheetData['totalProductionCost'] }}</td>
                     <td
                         class="tg-8d8j"
                         colspan="2"
-                    > <br>{{ $totalNetSales }}</td>
+                    > <br>{{ $projectDataSheetData['totalNetSales'] }}</td>
                 </tr>
 
                 <tr>
@@ -837,7 +838,7 @@
                             name="ExportOutlet"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$ExportOutlet"
+                            :value="$projectDataSheetData['ExportOutlet']"
                         />
                     </td>
                 </tr>
@@ -853,7 +854,7 @@
                             name="LocalOutlet"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$LocalOutlet"
+                            :value="$projectDataSheetData['LocalOutlet']"
                         />
                     </td>
                 </tr>
@@ -900,7 +901,7 @@
                             name="CurrentgrossSales"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$CurrentgrossSales"
+                            :value="$projectDataSheetData['CurrentgrossSales']"
                         />
                     </td>
                     <td
@@ -911,7 +912,7 @@
                             name="PreviousgrossSales"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$PreviousgrossSales"
+                            :value="$projectDataSheetData['PreviousgrossSales']"
                         />
                     </td>
                     <td
@@ -922,7 +923,7 @@
                             name="TotalgrossSales"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$TotalgrossSales"
+                            :value="$projectDataSheetData['TotalgrossSales']"
                         />
                     </td>
                 </tr>
@@ -937,8 +938,9 @@
                         colspan="6"
                     >
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                        {{ $CurrentgrossSales }}-{{ $PreviousgrossSales }}&nbsp;&nbsp;&nbsp;/
-                        {{ $PreviousgrossSales }} X 100 = {{ $totalgrossSales_percent }}
+                        {{ $projectDataSheetData['CurrentgrossSales'] }}-{{ $projectDataSheetData['PreviousgrossSales'] }}&nbsp;&nbsp;&nbsp;/
+                        {{ $projectDataSheetData['PreviousgrossSales'] }} X 100 =
+                        {{ $projectDataSheetData['totalgrossSales_percent'] }}
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </td>
                 </tr>
@@ -972,7 +974,7 @@
                             name="CurrentEmployment"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$CurrentEmployment"
+                            :value="$projectDataSheetData['CurrentEmployment']"
                         />
                     </td>
                     <td
@@ -983,7 +985,7 @@
                             name="PreviousEmployment"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$PreviousEmployment"
+                            :value="$projectDataSheetData['PreviousEmployment']"
                         />
                     </td>
                     <td
@@ -994,7 +996,7 @@
                             name="TotalEmploymentGenerated"
                             type="text"
                             :isEditable="$isEditable"
-                            :value="$TotalEmploymentGenerated"
+                            :value="$projectDataSheetData['TotalEmploymentGenerated']"
                         />
                     </td>
                 </tr>
