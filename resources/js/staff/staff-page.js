@@ -19,6 +19,7 @@ import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
 import ApplicantDataTable from '../Utilities/applicant-datatable';
 import PaymentHandler from './PaymentHandler';
+import ProjectInfoSheet from './project-form-class/ProjectInfoSheet';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -827,7 +828,7 @@ async function initializeStaffPageJs() {
                                        }
                                    })()}"
                                     >${project.application_status}</span
-                                >`,
+                                ><input type="hidden" class="application_id" value="${project.application_id}">`,
                                 /*html*/ `<button
                                     class="btn btn-primary handleProjectbtn"
                                     type="button"
@@ -1148,6 +1149,9 @@ async function initializeStaffPageJs() {
                         .find('td:eq(5)')
                         .text()
                         .trim();
+                    const application_id = handledProjectRow
+                        .find('input.application_id')
+                        .val();
                     const project_id = handledProjectRow
                         .find('td:eq(0)')
                         .text()
@@ -1261,6 +1265,14 @@ async function initializeStaffPageJs() {
                         .html(
                             /*html*/ `${formatNumberToCurrency(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
                         );
+
+                    const projectInfoSheet = new ProjectInfoSheet(
+                        $('#SheetFormDocumentContainer'),
+                        project_id,
+                        business_id,
+                        application_id
+                    );
+                    console.log(projectInfoSheet);
 
                     //TODO initialize Payment Object here
                     handleProjectOffcanvasContent(project_status);

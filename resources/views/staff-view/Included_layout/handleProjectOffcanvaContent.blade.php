@@ -496,46 +496,86 @@
         role="tabpanel"
         aria-labelledby="nav-sheets-tab"
     >
-    <div class="container-fluid h-100" id="SheetFormDocumentContainer">
-        <div class="h-100 mt-2" id="selectDOC_toGenerate">
-            <nav aria-label="breadcrumb">
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item active" aria-current="page">Select Document</li>
-                </ol>
-            </nav>
-            <div class="row gy-3">
-                <div class="col-12 text-center mb-4">
-                    <h4 class="display-6">Please Select a Document to Generate</h4>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">Project Information Sheet</h5>
-                            <button class="btn btn-primary w-100 mt-3" id="PISbtn" data-form-type="PIS">Load</button>
-                        </div>
+        <div
+            class="container-fluid h-100"
+            id="SheetFormDocumentContainer"
+        >
+            <div
+                class="h-100 mt-2"
+                id="selectDOC_toGenerate"
+            >
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li
+                            class="breadcrumb-item active"
+                            aria-current="page"
+                        >Select Document</li>
+                    </ol>
+                </nav>
+                <div class="row gy-3">
+                    <div class="col-12 text-center mb-4">
+                        <h4 class="display-6">Please Select a Document to Generate</h4>
                     </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">Project Data Sheet</h5>
-                            <div class="input-group mt-3">
-                                <select class="form-select" id="Select_quarter_to_Generate"></select>
-                                <button class="btn btn-primary" id="PSbtn" data-form-type="PDS">Load</button>
+                    <div class="col-12 col-md-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body text-center">
+                                <h5 class="card-title fw-bold">Project Information Sheet</h5>
+                                <div class="input-group mt-3">
+                                    <select
+                                        class="form-select"
+                                        id="pis_year_to_create"
+                                    ></select>
+                                    <button
+                                        class="btn btn-primary"
+                                        id="createPISbtn"
+                                    >Create</button>
+                                </div>
+                                <div class="input-group mt-3">
+                                    <select
+                                        class="form-select"
+                                        id="pis_year_to_load"
+                                    ></select>
+                                    <button
+                                        class="btn btn-primary"
+                                        id="loadPISbtn"
+                                        data-form-type="PIS"
+                                    >Load</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="col-12 col-md-4">
-                    <div class="card h-100 shadow-sm">
-                        <div class="card-body text-center">
-                            <h5 class="card-title fw-bold">Status Report Sheet</h5>
-                            <button class="btn btn-primary w-100 mt-3" id="SRbtn" data-form-type="SR">Load</button>
+                    <div class="col-12 col-md-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body text-center">
+                                <h5 class="card-title fw-bold">Project Data Sheet</h5>
+                                <div class="input-group mt-3">
+                                    <select
+                                        class="form-select"
+                                        id="Select_quarter_to_Generate"
+                                    ></select>
+                                    <button
+                                        class="btn btn-primary"
+                                        id="PSbtn"
+                                        data-form-type="PDS"
+                                    >Load</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12 col-md-4">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-body text-center">
+                                <h5 class="card-title fw-bold">Status Report Sheet</h5>
+                                <button
+                                    class="btn btn-primary w-100 mt-3"
+                                    id="SRbtn"
+                                    data-form-type="SR"
+                                >Load</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
     </div>
 </div>

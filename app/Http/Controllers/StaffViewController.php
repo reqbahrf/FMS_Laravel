@@ -146,6 +146,7 @@ class StaffViewController extends Controller
                         'handled_by.l_name as handled_by_l_name',
                         'handled_by.suffix as handled_by_suffix',
                         'handled_by.user_name as staffUserName',
+                        'application_info.id as application_id',
                         'application_info.created_at as date_applied',
                         'application_info.application_status'
                     )

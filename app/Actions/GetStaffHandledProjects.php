@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Actions;
 
@@ -8,13 +8,13 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Collection;
 
-class GetStaffHandledProjects 
+class GetStaffHandledProjects
 {
-    public static function execute(int $org_userId) : Collection
+    public static function execute(int $org_userId): Collection
     {
 
         try {
-          
+
             if (Cache::has('handled_projects' . $org_userId)) {
                 $handledProjects = Cache::get('handled_projects' . $org_userId);
             } else {
@@ -59,9 +59,9 @@ class GetStaffHandledProjects
                         'coop_users_info.mobile_number',
                         'coop_users_info.landline',
                         'application_info.created_at as date_applied',
+                        'application_info.id as application_id',
                         'application_info.application_status',
                         'project_info.updated_at as date_approved',
-
                     )->get();
 
                 Cache::put('handled_projects' . $org_userId, $handledProjects, 1800);
@@ -71,6 +71,5 @@ class GetStaffHandledProjects
         } catch (Exception $e) {
             throw $e;
         }
-
     }
 }
