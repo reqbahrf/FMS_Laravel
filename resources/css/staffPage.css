@@ -974,3 +974,89 @@ table.no-border {
     border-collapse: separate !important;
     border-spacing: 0 !important;
 }
+
+/*
+--------------------------------------------------------
+  Project Information Sheet Styles
+--------------------------------------------------------
+*/
+
+#projectInfoSheetForm {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#projectInfoSheetForm .tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    width: 100%;
+    margin: 0px auto;
+}
+
+#projectInfoSheetForm .tg td {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    padding: 4px;
+    word-break: normal;
+}
+
+#projectInfoSheetForm .tg th {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: normal;
+    padding: 4px;
+    word-break: normal;
+}
+
+#projectInfoSheetForm .tg .tg-cly1 {
+    text-align: left;
+    vertical-align: middle
+}
+
+#projectInfoSheetForm .tg .tg-bobw {
+    font-weight: bold;
+    text-align: center;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-wa1i {
+    font-weight: bold;
+    margin: 20px;
+    text-align: center;
+    vertical-align: middle
+}
+
+#projectInfoSheetForm .tg .tg-hvke {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-j6zm {
+    font-weight: bold;
+    text-align: left;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-8d8j {
+    text-align: center;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-7zrl {
+    text-align: left;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-0lax {
+    text-align: left;
+    vertical-align: top
+}
+
