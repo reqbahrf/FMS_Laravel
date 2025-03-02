@@ -1,20 +1,28 @@
 @props(['projectInfoSheetData', 'isEditable', 'isExporting' => false])
 <div id="formWrapper">
-    <nav aria-label="breadcrumb">
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a
-                    class="revertToSelectDoc"
-                    href="#"
-                >Select Document</a></li>
-            <li
-                class="breadcrumb-item active"
-                aria-current="page"
-            >Project Information Sheet</li>
-        </ol>
-    </nav>
+    @if (!$isExporting)
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a
+                        class="revertToSelectDoc"
+                        href="#"
+                    >Select Document</a></li>
+                <li
+                    class="breadcrumb-item active"
+                    aria-current="page"
+                >Project Information Sheet</li>
+            </ol>
+        </nav>
+    @endif
     <form
         class="mt-3"
         id="projectInfoSheetForm"
+        @if ($isEditable) action="{{ URL::signedRoute('staff.Project.set.information-sheet', [
+            'projectId' => $projectInfoSheetData['project_info_id'],
+            'applicationId' => $projectInfoSheetData['application_info_id'],
+            'businessId' => $projectInfoSheetData['business_info_id'],
+            'forYear' => $projectInfoSheetData['for_period'],
+        ]) }}" @endif
     >
         <div class="tg-wrap">
             <table
@@ -34,7 +42,7 @@
                             class="tg-7zrl"
                             style="text-align: left; border: none;"
                         >For the Period:
-                            {{ date('Y') }}</td>
+                            {{ $projectInfoSheetData['for_period'] }}</td>
                     </tr>
                     <tr>
                         <td
@@ -892,4 +900,33 @@
             {!! $esignatureElement ?? '' !!}
         </div>
     </form>
+    @if (!$isExporting)
+        @if (!$isExporting)
+            <div
+                class="position-sticky bottom-0 py-1 mt-4"
+                style="z-index: 1000;"
+            >
+                <div class="container">
+                    @if ($isEditable)
+                        <div class="d-flex justify-content-end">
+                            <button
+                                class="btn btn-primary"
+                                form="projectInfoSheetForm"
+                                type="submit"
+                            >Set Document Data</button>
+                        </div>
+                    @else
+                        <div class="d-flex justify-content-end">
+                            <button
+                                class="btn btn-primary"
+                                id="exportProjectInfoSheetFormToPDF"
+                                data-generated-url="{{ URL::signedRoute('staff.Project.generate.information-sheet-document', ['projectId' => $projectInfoSheetData['project_info_id'], 'applicationId' => $projectInfoSheetData['application_info_id'], 'businessId' => $projectInfoSheetData['business_info_id'], 'forYear' => $projectInfoSheetData['for_period']]) }}"
+                                type="button"
+                            >Export as PDF</button>
+                        </div>
+                    @endif
+                </div>
+            </div>
+        @endif
+    @endif
 </div>

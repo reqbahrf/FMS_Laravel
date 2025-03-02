@@ -74,7 +74,7 @@ export default class ProjectInfoSheet {
                     //this.FormEvent = new ProjectInfoSheetEvent(this.Form);
                     break;
                 case 'view':
-                    // this._setupProjectInfoSheetPDFExport();
+                    this._setupPDFExport();
                     break;
                 default:
                     throw new Error('Invalid action');
@@ -195,7 +195,7 @@ export default class ProjectInfoSheet {
             const response = await $.ajax({
                 type: 'PUT',
                 url: url,
-                data: ProjectInfoSheetRequest,
+                data: JSON.stringify(ProjectInfoSheetRequest),
                 contentType: 'application/json',
                 dataType: 'json',
                 processData: false,
@@ -212,6 +212,30 @@ export default class ProjectInfoSheet {
         } catch (error: any) {
             console.warn('Error in Setting Project Info Sheet' + error);
             hideProcessToast();
+            showToastFeedback(
+                'text-bg-danger',
+                error?.responseJSON?.message ||
+                    error?.message ||
+                    'Error in Setting Project Info Sheet'
+            );
+        }
+    }
+
+    private _setupPDFExport(): void {
+        try {
+            this.generatePDFBtn = this.FormContainer.find(
+                'button#exportProjectInfoSheetFormToPDF'
+            );
+            if (!this.generatePDFBtn)
+                throw new Error('Generate PDF Button not found');
+            this.generatePDFBtn.on('click', async () => {
+                const generateUrl =
+                    this.generatePDFBtn?.attr('data-generated-url');
+                if (!generateUrl) throw new Error('Generate URL not found');
+                window.open(generateUrl, '_blank');
+            });
+        } catch (error: any) {
+            console.warn('Error in Setting Project Info Sheet' + error);
             showToastFeedback(
                 'text-bg-danger',
                 error?.responseJSON?.message ||

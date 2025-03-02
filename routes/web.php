@@ -243,8 +243,9 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::get('/Staff/Project/get/information-sheet/{projectId}/{applicationId}/{businessId}/{action}/{forYear}', 'getProjectInfoSheetForm')
             ->name('staff.Project.get.information-sheet');
 
-        Route::get('/Staff/Project/generate/information-sheet-document/{projectId}/{applicationId}/{businessId}', 'getProjectInfoSheetForm')
-            ->name('staff.Project.generate.information-sheet-document');
+        Route::get('/Staff/Project/generate/information-sheet-document/{projectId}/{applicationId}/{businessId}/{forYear}', 'getExportPIS')
+            ->name('staff.Project.generate.information-sheet-document')
+            ->middleware('signed');
     });
 
     Route::controller(StaffPDSDocController::class)->group(function () {

@@ -88,17 +88,26 @@ class StaffPISDocController extends Controller
             return response()->json(['message' => 'Error retrieving Project Information Sheet form' . $e->getMessage()], 500);
         }
     }
-    public function getPDFDocument(
+    public function getExportPIS(
         Request $request,
-        GenerateEsignElement $generateEsignElement,
         GeneratePDFAction $generatePDFAction
     ): JsonResponse | StreamedResponse {
         try {
-            $validatedData = $request->validated();
-            $esignatureElement = $generateEsignElement->execute($validatedData['signatures'], 'left', 1, 'default');
+            $projectId = $request->projectId;
+            $applicationId = $request->applicationId;
+            $businessId = $request->businessId;
+            $forYear = $request->forYear;
+
+            $projectInfoSheetData = $this->projectInfoSheetDataHandlerService
+                ->getProjectInfoSheetData(
+                    $projectId,
+                    $forYear,
+                    $businessId,
+                    $applicationId
+                );
 
             try {
-                $html = view('staff-view.outputs.project-information-sheet', [...$validatedData, 'esignatureElement' => $esignatureElement])->render();
+                $html = view('project-forms.Project-infomation-sheet', compact('projectInfoSheetData'))->render();
             } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Error generating information sheet template',

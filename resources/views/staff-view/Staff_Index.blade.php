@@ -230,7 +230,6 @@
             GET_ALL_YEARS_RECORDS: '{{ route('staff.Project.get.all.years.records', ['projectId' => ':project_id', 'businessId' => ':business_id', 'applicationId' => ':application_id']) }}',
             SET_PROJECT_INFORMATION_SHEET_DATA: '{{ route('staff.Project.set.information-sheet', ['projectId' => ':project_id', 'applicationId' => ':application_id', 'businessId' => ':business_id', 'forYear' => ':year']) }}',
             GET_PROJECT_INFORMATION_SHEET_FORM: '{{ route('staff.Project.get.information-sheet', ['projectId' => ':project_id', 'applicationId' => ':application_id', 'businessId' => ':business_id', 'action' => ':action', 'forYear' => ':year']) }}',
-            GENERATE_PROJECT_INFORMATION_SHEET: '{{ route('staff.Project.generate.information-sheet-document', ['projectId' => ':project_id', 'applicationId' => ':application_id', 'businessId' => ':business_id']) }}',
 
             SET_DATA_SHEET_DATA: '',
             GENERATE_DATA_SHEET_REPORT: '{{ route('staff.Project.get.DataSheet') }}',
