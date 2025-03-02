@@ -821,7 +821,7 @@ Form Styles
 
 #TNAForm .padding-md { padding: 12pt; }
 
-:is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]) {
+:is(#TNAForm, #ProjectProposalForm, #RTECReportForm, #projectInfoSheetForm) :is(input[type="text"], input[type="date"]) {
     border: none;
     border-bottom: 1px solid #000;
     outline: none;
@@ -833,7 +833,7 @@ Form Styles
     font-size: 10px; /* Font size */
 }
 
-:is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]):focus {
+:is(#TNAForm, #ProjectProposalForm, #RTECReportForm, #projectInfoSheetForm) :is(input[type="text"], input[type="date"]):focus {
     border-bottom: 2px solid #318791; /* Focus state */
     box-shadow: 0 0 5px rgba(49, 135, 145, 0.5); /* Optional shadow */
 }
@@ -983,7 +983,11 @@ table.no-border {
 
 #projectInfoSheetForm {
     width: 100%;
+    min-width: 794px;
+    max-width: 794px;
     margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
 }
 
 #projectInfoSheetForm .tg {

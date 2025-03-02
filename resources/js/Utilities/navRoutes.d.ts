@@ -46,6 +46,11 @@ declare module 'global' {
     interface UPDATE_PROJECT_SETTINGS_ROUTE {
         UPDATE_PROJECT_SETTINGS: string;
     }
+    interface GENERATE_PROJECT_SHEETS_ROUTE {
+        CREATE_PROJECT_INFORMATION_SHEET_FORM: string;
+        GET_PROJECT_INFORMATION_SHEET_FORM: string;
+        GET_ALL_YEARS_RECORDS: string;
+    }
     // Declare NAV_ROUTES as a global variable
     global {
         var DASHBOARD_TAB_ROUTE: ORG_USER_DASHBOARD_ROUTE;
@@ -53,6 +58,7 @@ declare module 'global' {
         var USER_ACTIVITY_LOG_ROUTE: string;
         var USERS_LIST_ROUTE: USERS_LIST_ROUTE;
         var DRAFT_ROUTE: DRAFT_ROUTE;
+        var GENERATE_SHEETS_ROUTE: GENERATE_PROJECT_SHEETS_ROUTE;
         var PROJECT_SETTINGS_ROUTE: UPDATE_PROJECT_SETTINGS_ROUTE;
         var APPLICANT_TAB_ROUTE: APPLICANT_TAB_ROUTE;
         var PROJECTS_PAYMENT_RECORDS_ROUTE: string;

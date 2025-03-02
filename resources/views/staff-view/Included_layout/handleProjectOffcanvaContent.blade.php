@@ -535,6 +535,13 @@
                                         class="form-select"
                                         id="pis_year_to_load"
                                     ></select>
+                                    <select
+                                        class="form-select"
+                                        id="pis_action_to_load"
+                                    >
+                                        <option value="edit">Edit</option>
+                                        <option value="view">View</option>
+                                    </select>
                                     <button
                                         class="btn btn-primary"
                                         id="loadPISbtn"

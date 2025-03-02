@@ -18,8 +18,8 @@
     @if ($type == 'text' || $type == 'number')
         {{ $value ?? '' }}
     @elseif($type == 'checkbox' || $type == 'radio')
-        {{ $value === true || $value === 'on' || $value === 1 ? '✓' : '' }}
+        {{ ($value ?? '') === true || ($value ?? '') === 'on' || ($value ?? '') === 1 ? '✓' : '' }}
     @elseif($type == 'date')
-        {{ $value instanceof \Carbon\Carbon ? $value->format('Y-m-d') : $value }}
+        {{ $value instanceof \Carbon\Carbon ? $value->format('Y-m-d') : $value ?? '' }}
     @endif
 @endif

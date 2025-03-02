@@ -14,7 +14,10 @@ class ProjectForm extends Model
         'business_info_id',
         'key',
         'data',
-        'status'
+    ];
+
+    protected $casts = [
+        'data' => 'array',
     ];
 
     public function projectInfo(): BelongsTo

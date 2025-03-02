@@ -2131,62 +2131,62 @@ async function initializeStaffPageJs() {
                 }
             };
 
-            FormDocumentContainer.on(
-                'click',
-                'button[data-form-type]',
-                async function () {
-                    try {
-                        cleanupFormHandlers();
-                        const formType = $(this).data('form-type');
-                        const Project_id = $('#ProjectID').val();
-                        const QuartertoUsed = $(
-                            '#Select_quarter_to_Generate'
-                        ).val();
-                        await GET_PROJECT_SHEET_FORM(
-                            formType,
-                            Project_id,
-                            QuartertoUsed
-                        );
-                        // Initialize form events if not already initialized
+            // FormDocumentContainer.on(
+            //     'click',
+            //     'button[data-form-type]',
+            //     async function () {
+            //         try {
+            //             cleanupFormHandlers();
+            //             const formType = $(this).data('form-type');
+            //             const Project_id = $('#ProjectID').val();
+            //             const QuartertoUsed = $(
+            //                 '#Select_quarter_to_Generate'
+            //             ).val();
+            //             await GET_PROJECT_SHEET_FORM(
+            //                 formType,
+            //                 Project_id,
+            //                 QuartertoUsed
+            //             );
+            //             // Initialize form events if not already initialized
 
-                        window.formEvents = {
-                            [formType]: new FormEvents(formType),
-                        };
-                        // Initialize signature handler if not already initialized
-                        window.esignatureHandler = new EsignatureHandler(
-                            '#esignature-section',
-                            'formal',
-                            true
-                        );
-                    } catch (error) {
-                        showToastFeedback('text-bg-danger', error);
-                    }
-                }
-            );
-            const cleanupFormHandlers = () => {
-                // Cleanup form events
-                if (window.formEvents) {
-                    Object.keys(window.formEvents).forEach((key) => {
-                        // Add any cleanup needed for FormEvents
-                        delete window.formEvents[key];
-                    });
-                    delete window.formEvents;
-                }
+            //             window.formEvents = {
+            //                 [formType]: new FormEvents(formType),
+            //             };
+            //             // Initialize signature handler if not already initialized
+            //             window.esignatureHandler = new EsignatureHandler(
+            //                 '#esignature-section',
+            //                 'formal',
+            //                 true
+            //             );
+            //         } catch (error) {
+            //             showToastFeedback('text-bg-danger', error);
+            //         }
+            //     }
+            // );
+            // const cleanupFormHandlers = () => {
+            //     // Cleanup form events
+            //     if (window.formEvents) {
+            //         Object.keys(window.formEvents).forEach((key) => {
+            //             // Add any cleanup needed for FormEvents
+            //             delete window.formEvents[key];
+            //         });
+            //         delete window.formEvents;
+            //     }
 
-                // Cleanup signature handler
-                if (window.esignatureHandler) {
-                    if (Array.isArray(window.esignatureHandler.signaturePads)) {
-                        window.esignatureHandler.signaturePads.forEach(
-                            (pad) => {
-                                if (pad && typeof pad.clear === 'function') {
-                                    pad.clear();
-                                }
-                            }
-                        );
-                    }
-                    delete window.esignatureHandler;
-                }
-            };
+            //     // Cleanup signature handler
+            //     if (window.esignatureHandler) {
+            //         if (Array.isArray(window.esignatureHandler.signaturePads)) {
+            //             window.esignatureHandler.signaturePads.forEach(
+            //                 (pad) => {
+            //                     if (pad && typeof pad.clear === 'function') {
+            //                         pad.clear();
+            //                     }
+            //                 }
+            //             );
+            //         }
+            //         delete window.esignatureHandler;
+            //     }
+            // };
 
             //TODO: Make this reusable and efficient
 
@@ -2201,16 +2201,16 @@ async function initializeStaffPageJs() {
              * @param {Event} event - The click event object.
              * @return {void}
              */
-            FormDocumentContainer.on(
-                'click',
-                '.breadcrumb-item:not(.active) a',
-                function () {
-                    $(
-                        '#PISFormContainer , #PDSFormContainer, #SRFormContainer'
-                    ).remove();
-                    toggleDocumentSelector();
-                }
-            );
+            // FormDocumentContainer.on(
+            //     'click',
+            //     '.breadcrumb-item:not(.active) a',
+            //     function () {
+            //         $(
+            //             '#PISFormContainer , #PDSFormContainer, #SRFormContainer'
+            //         ).remove();
+            //         toggleDocumentSelector();
+            //     }
+            // );
 
             const toggleDocumentSelector = () =>
                 $('#selectDOC_toGenerate').toggleClass('d-none');

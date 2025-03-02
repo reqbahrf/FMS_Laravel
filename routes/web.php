@@ -229,23 +229,40 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [GenerateFormController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');
 
-    Route::put('/Staff/Project/set/InformationSheet', [StaffPISDocController::class, 'setPISData'])
-        ->name('staff.Project.set.InformationSheet');
+    Route::controller(StaffPISDocController::class)->group(function () {
 
-    Route::get('/Staff/Project/get/InformationSheet', [StaffPISDocController::class, 'getPDFDocument'])
-        ->name('staff.Project.get.InformationSheet');
+        Route::post('/Staff/Project/create/information-sheet/', 'createPISData')
+            ->name('staff.Project.create.information-sheet');
 
-    Route::put('/Staff/Project/set/DataSheet', [StaffPDSDocController::class, 'setPDSData'])
-        ->name('staff.Project.set.DataSheet');
+        Route::get('/Staff/Project/get/all/years/records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
+            ->name('staff.Project.get.all.years.records');
 
-    Route::get('/Staff/Project/get/DataSheet', [StaffPDSDocController::class, 'getPDFDocument'])
-        ->name('staff.Project.get.DataSheet');
+        Route::put('/Staff/Project/set/information-sheet/{projectId}/{applicationId}/{businessId}/{forYear}', 'setPISData')
+            ->name('staff.Project.set.information-sheet');
 
-    Route::put('/Staff/Project/set/StatusReport', [StaffSRDocController::class, 'setSRData'])
-        ->name('staff.Project.set.StatusReport');
+        Route::get('/Staff/Project/get/information-sheet/{projectId}/{applicationId}/{businessId}/{action}/{forYear}', 'getProjectInfoSheetForm')
+            ->name('staff.Project.get.information-sheet');
 
-    Route::get('/Staff/Project/get/StatusReport', [StaffSRDocController::class, 'getPDFDocument'])
-        ->name('staff.Project.get.StatusReport');
+        Route::get('/Staff/Project/generate/information-sheet-document/{projectId}/{applicationId}/{businessId}', 'getProjectInfoSheetForm')
+            ->name('staff.Project.generate.information-sheet-document');
+    });
+
+    Route::controller(StaffPDSDocController::class)->group(function () {
+        Route::put('/Staff/Project/set/DataSheet', 'setPDSData')
+            ->name('staff.Project.set.DataSheet');
+
+        Route::get('/Staff/Project/get/DataSheet', 'getPDFDocument')
+            ->name('staff.Project.get.DataSheet');
+    });
+
+
+    Route::controller(StaffSRDocController::class)->group(function () {
+        Route::put('/Staff/Project/set/StatusReport', 'setSRData')
+            ->name('staff.Project.set.StatusReport');
+
+        Route::get('/Staff/Project/get/StatusReport', 'getPDFDocument')
+            ->name('staff.Project.get.StatusReport');
+    });
 
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
