@@ -558,11 +558,18 @@
                                 <div class="input-group mt-3">
                                     <select
                                         class="form-select"
-                                        id="Select_quarter_to_Generate"
+                                        id="pds_quarter_to_load"
                                     ></select>
+                                    <select
+                                        class="form-select"
+                                        id="pds_action_to_load"
+                                    >
+                                        <option value="edit">Edit</option>
+                                        <option value="view">View</option>
+                                    </select>
                                     <button
                                         class="btn btn-primary"
-                                        id="PSbtn"
+                                        id="loadPDSbtn"
                                         data-form-type="PDS"
                                     >Load</button>
                                 </div>

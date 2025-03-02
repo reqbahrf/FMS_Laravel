@@ -6,18 +6,18 @@ import {
 } from '../../Utilities/utilFunctions';
 
 import createConfirmationModal from '../../Utilities/confirmation-modal';
+import ProjectClass from './ProjectClass';
 
 type Action = 'edit' | 'view';
-export default class ProjectInfoSheet {
+export default class ProjectInfoSheet extends ProjectClass {
     private loadPISBtn: JQuery<HTMLElement>;
     private createPISBtn: JQuery<HTMLElement>;
-    private FormContainer: JQuery<HTMLElement>;
+    protected FormContainer: JQuery<HTMLElement>;
     private Form: JQuery<HTMLFormElement> | null;
     private FormEvent: null;
     private generatePDFBtn: JQuery<HTMLElement> | null;
     private pisYearToCreate: JQuery<HTMLSelectElement>;
     private pisYearToLoad: JQuery<HTMLSelectElement>;
-    private documentBtnSelectors: JQuery<HTMLElement>;
     private project_id: string;
     private business_Id: string;
     private application_Id: string;
@@ -27,11 +27,11 @@ export default class ProjectInfoSheet {
         business_Id: string,
         application_Id: string
     ) {
+        super(FormContainer);
         this.pisYearToCreate = FormContainer.find('select#pis_year_to_create');
         this.pisYearToLoad = FormContainer.find('select#pis_year_to_load');
         this.loadPISBtn = FormContainer.find('#loadPISbtn');
         this.createPISBtn = FormContainer.find('#createPISbtn');
-        this.documentBtnSelectors = FormContainer.find('#selectDOC_toGenerate');
         this.project_id = project_id;
         this.business_Id = business_Id;
         this.application_Id = application_Id;
@@ -86,14 +86,6 @@ export default class ProjectInfoSheet {
                 error?.responseJSON?.message || error?.message
             );
         }
-    }
-
-    private _toggleDocumentBtnVisibility(): void {
-        this.documentBtnSelectors.toggleClass('d-none');
-    }
-
-    private _removeForm() {
-        this.FormContainer.find('#formWrapper').remove();
     }
 
     private async _createProjectInfoSheet(
@@ -372,14 +364,5 @@ export default class ProjectInfoSheet {
                 }
             });
         }
-
-        this.FormContainer.on(
-            'click',
-            '.breadcrumb-item:not(.active) a',
-            () => {
-                this._removeForm();
-                this._toggleDocumentBtnVisibility();
-            }
-        );
     }
 }

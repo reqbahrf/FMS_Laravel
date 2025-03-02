@@ -20,6 +20,7 @@ import DarkMode from '../Utilities/DarkModeHandler';
 import ApplicantDataTable from '../Utilities/applicant-datatable';
 import PaymentHandler from './PaymentHandler';
 import ProjectInfoSheet from './project-form-class/ProjectInfoSheet';
+import ProjectDataSheet from './project-form-class/ProjectDataSheet';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -1265,14 +1266,22 @@ async function initializeStaffPageJs() {
                         .html(
                             /*html*/ `${formatNumberToCurrency(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
                         );
+                    const formContainer = $('#SheetFormDocumentContainer');
 
                     const projectInfoSheet = new ProjectInfoSheet(
-                        $('#SheetFormDocumentContainer'),
+                        formContainer,
                         project_id,
                         business_id,
                         application_id
                     );
-                    console.log(projectInfoSheet);
+
+                    const projectDataSheet = new ProjectDataSheet(
+                        formContainer,
+                        project_id,
+                        business_id,
+                        application_id
+                    );
+                    console.log(projectDataSheet);
 
                     //TODO initialize Payment Object here
                     handleProjectOffcanvasContent(project_status);
@@ -2053,31 +2062,31 @@ async function initializeStaffPageJs() {
              *
              * @returns {Promise<void>}
              */
-            const getAvailableQuarterlyReports = async (Project_id) => {
-                try {
-                    const QuarterlySelector = $('#Select_quarter_to_Generate');
-                    QuarterlySelector.empty();
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
-                            ':project_id',
-                            Project_id
-                        ),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                    });
-                    if (response && response.html) {
-                        QuarterlySelector.append(response.html);
-                    }
-                } catch (error) {
-                    throw new Error(
-                        'Error fetching quarterly reports: ' + error
-                    );
-                }
-            };
+            // const getAvailableQuarterlyReports = async (Project_id) => {
+            //     try {
+            //         const QuarterlySelector = $('#pds_quarter_to_load');
+            //         QuarterlySelector.empty();
+            //         const response = await $.ajax({
+            //             type: 'GET',
+            //             url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
+            //                 ':project_id',
+            //                 Project_id
+            //             ),
+            //             headers: {
+            //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+            //                     'content'
+            //                 ),
+            //             },
+            //         });
+            //         if (response && response.html) {
+            //             QuarterlySelector.append(response.html);
+            //         }
+            //     } catch (error) {
+            //         throw new Error(
+            //             'Error fetching quarterly reports: ' + error
+            //         );
+            //     }
+            // };
 
             const FormDocumentContainer = $('#SheetFormDocumentContainer');
 

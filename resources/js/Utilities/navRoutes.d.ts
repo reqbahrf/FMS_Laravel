@@ -49,6 +49,9 @@ declare module 'global' {
     interface GENERATE_PROJECT_SHEETS_ROUTE {
         CREATE_PROJECT_INFORMATION_SHEET_FORM: string;
         GET_PROJECT_INFORMATION_SHEET_FORM: string;
+        GET_DATA_SHEET_REPORT_FORM: string;
+
+        GET_AVAILABLE_QUARTERLY_REPORT: string;
         GET_ALL_YEARS_RECORDS: string;
     }
     // Declare NAV_ROUTES as a global variable
