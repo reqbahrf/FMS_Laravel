@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StaffPDSDocController extends Controller
 {
+    public function __construct(
+        private ProjectDataSheetDataHandlerService $projectDataSheetDataHandlerService
+    ) {}
     public function getPDFDocument(
         Request $request,
         GenerateEsignElement $generateEsignElement,
@@ -44,6 +47,38 @@ class StaffPDSDocController extends Controller
             return response()->json([
                 'message' => 'An unexpected error occurred',
                 'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    public function getProjectDataSheetForm(Request $request)
+    {
+        try {
+            $action = $request->action;
+            $projectId = $request->projectId;
+            $applicationId = $request->applicationId;
+            $businessId = $request->businessId;
+            $quarter = $request->quarter;
+            $projectDataSheetData = $this->projectDataSheetDataHandlerService->getProjectDataSheetData(
+                $projectId,
+                $businessId,
+                $applicationId,
+                $quarter
+            );
+            switch ($action) {
+                case 'view':
+                    $isEditable = false;
+                    break;
+                case 'edit':
+                    $isEditable = true;
+                    break;
+                default:
+                    throw new Exception('Invalid action');
+            }
+            return view('components.project-data-sheet.main', compact('projectDataSheetData', 'isEditable'));
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An unexpected error occurred ' . $e->getMessage(),
             ], 500);
         }
     }

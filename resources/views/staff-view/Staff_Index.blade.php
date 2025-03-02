@@ -232,9 +232,9 @@
             GET_PROJECT_INFORMATION_SHEET_FORM: '{{ route('staff.Project.get.information-sheet', ['projectId' => ':project_id', 'applicationId' => ':application_id', 'businessId' => ':business_id', 'action' => ':action', 'forYear' => ':year']) }}',
 
             SET_DATA_SHEET_DATA: '',
-            GENERATE_DATA_SHEET_REPORT: '{{ route('staff.Project.get.DataSheet') }}',
+            GET_DATA_SHEET_REPORT_FORM: '{{ route('staff.Project.get.data-sheet', ['projectId' => ':project_id', 'businessId' => ':business_id', 'applicationId' => ':application_id', 'action' => ':action', 'quarter' => ':quarter']) }}',
             SET_STATUS_REPORT_DATA: '',
-            GENERATE_STATUS_REPORT: '{{ route('staff.Project.get.StatusReport') }}',
+            GET_STATUS_REPORT: '{{ route('staff.Project.get.StatusReport') }}',
         }
 
         //Project Tab

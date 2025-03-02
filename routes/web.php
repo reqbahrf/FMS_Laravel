@@ -249,11 +249,14 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     });
 
     Route::controller(StaffPDSDocController::class)->group(function () {
-        Route::put('/Staff/Project/set/DataSheet', 'setPDSData')
-            ->name('staff.Project.set.DataSheet');
+        Route::put('/Staff/Project/set/dataSheet', 'setPDSData')
+            ->name('staff.Project.set.data-sheet');
 
-        Route::get('/Staff/Project/get/DataSheet', 'getPDFDocument')
-            ->name('staff.Project.get.DataSheet');
+        Route::get('/Staff/Project/get/data-sheet/{projectId}/{businessId}/{applicationId}/{action}/{quarter}', 'getProjectDataSheetForm')
+            ->name('staff.Project.get.data-sheet');
+
+        Route::get('/Staff/Project/get/dataSheet', 'getPDFDocument')
+            ->name('staff.Project.get.dataSheet');
     });
 
 
