@@ -15,7 +15,10 @@ export default class CoopPageNavHandler extends NavigationHandler {
         );
     }
 
-    async _getPageFunction(url: string, functions: Function): Promise<Function> {
+    protected async _getPageFunction(
+        url: string,
+        functions: Function
+    ): Promise<Function> {
         const urlRoute = this.getUrlRoutes();
         const parsedUrl = new URL(url);
         const urlParts = parsedUrl.pathname.split('/');
@@ -23,19 +26,21 @@ export default class CoopPageNavHandler extends NavigationHandler {
         // Check for quarterly report route
         const quarterlyReportUrlPath = urlParts.slice(0, 3).join('/');
         const reportSubmitted = urlParts[urlParts.length - 1] === 'true';
-        console.log('quarterlyReportUrlPath', quarterlyReportUrlPath)
-        const isQuarterlyReportRoute = quarterlyReportUrlPath === NAV_ROUTES.QUARTERLY_REPORT;
+        console.log('quarterlyReportUrlPath', quarterlyReportUrlPath);
+        const isQuarterlyReportRoute =
+            quarterlyReportUrlPath === NAV_ROUTES.QUARTERLY_REPORT;
         const isReportSubmitted = reportSubmitted === true;
 
-        if(!isQuarterlyReportRoute && !isReportSubmitted) {
+        if (!isQuarterlyReportRoute && !isReportSubmitted) {
             return await urlRoute[url](functions);
         }
         if (isQuarterlyReportRoute && !isReportSubmitted) {
             return await urlRoute[NAV_ROUTES.QUARTERLY_REPORT](functions);
         } else {
-            return await urlRoute[NAV_ROUTES.QUARTERLY_REPORT](functions, isReportSubmitted);
+            return await urlRoute[NAV_ROUTES.QUARTERLY_REPORT](
+                functions,
+                isReportSubmitted
+            );
         }
     }
-
-   
 }

@@ -24,9 +24,9 @@
             <li class="nav-item main-Nav mb-2">
                 <a
                     class="mb-2 d-flex align-items-center"
-                    id="dashboardLink"
+                    id="dashboardTab"
                     href="#"
-                    onclick="loadPage('{{ route('Cooperator.dashboard') }}','dashboardLink');"
+                    onclick="loadPage('{{ route('Cooperator.dashboard') }}','dashboardTab');"
                 >
                     <i class="ri-dashboard-3-fill ri-2x"></i>
                     <span class="nav-text ml-2">Dashboard</span>
@@ -35,9 +35,9 @@
             <li class="nav-item main-Nav mb-2">
                 <a
                     class="mb-2 d-flex align-items-center"
-                    id="requirementTab"
+                    id="paymentTab"
                     href="#"
-                    onclick="loadPage('{{ route('Cooperator.refund') }}','requirementTab');"
+                    onclick="loadPage('{{ route('Cooperator.refund') }}','paymentTab');"
                 >
                     <i class="ri-money-dollar-circle-fill ri-2x"></i>
                     <span class="nav-text ml-2">Payments</span>
@@ -116,9 +116,9 @@
                 <li class="nav-item main-Nav mb-2">
                     <a
                         class="mb-2 d-flex align-items-center"
-                        id="InformationTab"
+                        id="dashboardTab"
                         href="#"
-                        onclick="loadPage('{{ route('Cooperator.dashboard') }}','InformationTab');"
+                        onclick="loadPage('{{ route('Cooperator.dashboard') }}','dashboardTab');"
                     >
                         <i class="ri-dashboard-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Dashboard</span>
@@ -127,12 +127,12 @@
                 <li class="nav-item main-Nav mb-2">
                     <a
                         class="mb-2 d-flex align-items-center"
-                        id="requirementTab"
+                        id="paymentTab"
                         href="#"
-                        onclick="loadPage('{{ route('Cooperator.refund') }}','requirementTab');"
+                        onclick="loadPage('{{ route('Cooperator.refund') }}','paymentTab');"
                     >
-                        <i class="ri-file-list-2-fill ri-2x"></i>
-                        <span class="nav-text ml-2">Requirements</span>
+                        <i class="ri-money-dollar-circle-fill ri-2x"></i>
+                        <span class="nav-text ml-2">Payments</span>
                     </a>
                 </li>
                 <li class="nav-item main-Nav mb-2">

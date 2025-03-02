@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Database\Eloquent\Collection;
 use App\Http\Requests\SubmitQuarterlyReportRequest;
 
 class CoopQuarterlyReportController extends Controller
@@ -119,7 +120,7 @@ class CoopQuarterlyReportController extends Controller
 
 
 
-    private function getQuaterlyReportData(string $reportId, String $projectId, String $quarter): OngoingQuarterlyReport
+    private function getQuaterlyReportData(string $reportId, String $projectId, String $quarter): Collection
     {
         try {
             return OngoingQuarterlyReport::whereRaw('SHA2(id, 256) = ?', $reportId)
