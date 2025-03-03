@@ -5284,30 +5284,6 @@
         </font>
     </p>
     {!! $esignatureElement !!}
-    <p style="margin-bottom: 0.28cm"><br>
-        <br>
-
-    </p>
-    <div title="footer">
-        <p
-            style="line-height: 100%; margin-top: 0.66cm; margin-bottom: 0cm; border-top: none; border-bottom: 1.50pt solid #000000; border-left: none; border-right: none; padding-top: 0cm; padding-bottom: 0.04cm; padding-left: 0cm; padding-right: 0cm">
-            <br>
-
-        </p>
-
-    </div>
-    <htmlpagefooter name="page-footer">
-        <p style="line-height: 100%; margin-bottom: 0cm">
-            <font face="Arial Narrow, sans-serif">
-                <font
-                    style="font-size: 10pt"
-                    size="2"
-                >SETUP
-                    Guidelines (Revision 3.0) Annex A-3: SETUP Form 003 – Status
-                    Report Page 3 of 3</font>
-            </font>
-        </p>
-    </htmlpagefooter>
 </body>
 
 </html>

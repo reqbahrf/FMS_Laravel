@@ -1039,7 +1039,10 @@
                 </div>
             </div>
     </form>
-    <x-esignature.esignature-main />
+    <x-esignature.esignature-main
+        :hasDate="true"
+        :layout="'formal'"
+    />
     <div class="d-flex justify-content-end p-3">
         <button
             class="btn btn-primary ExportPDF"

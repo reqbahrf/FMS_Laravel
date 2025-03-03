@@ -2268,12 +2268,21 @@ async function initializeStaffPageJs() {
                         },
                     });
 
-                    // Check if response is JSON (error message)
+                    // Check if response is a PDF (should be application/pdf)
                     const contentType = response.type;
-                    if (contentType !== 'application/json') {
-                        throw new Error(
-                            'Failed generating PDF: ' + response?.message
-                        );
+                    console.log(contentType);
+                    if (contentType === 'application/json') {
+                        // If we get JSON, it's probably an error message
+                        const reader = new FileReader();
+                        reader.onload = function () {
+                            const errorJson = JSON.parse(reader.result);
+                            throw new Error(
+                                'Failed generating PDF: ' +
+                                    (errorJson.message || 'Unknown error')
+                            );
+                        };
+                        reader.readAsText(response);
+                        return; // Stop execution while we process the error
                     }
 
                     // If we get here, it's a PDF response

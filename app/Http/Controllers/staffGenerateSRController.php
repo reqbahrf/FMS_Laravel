@@ -14,7 +14,7 @@ class staffGenerateSRController extends Controller
     {
         try {
             $ValidatedData = $request->validated();
-            $esignatureElement = $generateEsignElement->execute($ValidatedData['signatures']);
+            $esignatureElement = $generateEsignElement->execute($ValidatedData['signatures'], 'left', 1, 'default');
 
             try {
                 $html = view('staff-view.outputs.StatusReport', [...$ValidatedData, 'esignatureElement' => $esignatureElement])->render();

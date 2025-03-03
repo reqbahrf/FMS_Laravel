@@ -409,8 +409,7 @@ async function initilizeCoopPageJs() {
             );
 
             customFormatNumericInput(
-                '#directLaborCard, #indirectLaborCard',
-                'input'
+                '#directLaborCard input, #indirectLaborCard input'
             );
             customFormatNumericInput(
                 '.ExportData, .LocalData',
@@ -606,17 +605,17 @@ async function initilizeCoopPageJs() {
 
         ReportedQuarterlyReport: () => {
             console.log('initilizeCoopPageJs.ReportedQuarterlyReport');
-            customFormatNumericInput(
-                '#BuildingAsset, #Equipment, #WorkingCapital'
-            );
-            customFormatNumericInput(
-                '#directLaborCard, #indirectLaborCard',
-                'input'
-            );
-            customFormatNumericInput(
-                '.ExportData, .LocalData',
-                'tr td:nth-child(n+3):nth-child(-n+6) input'
-            );
+            // customFormatNumericInput(
+            //     '#BuildingAsset, #Equipment, #WorkingCapital'
+            // );
+            // customFormatNumericInput(
+            //     '#directLaborCard, #indirectLaborCard',
+            //     'input'
+            // );
+            // customFormatNumericInput(
+            //     '.ExportData, .LocalData',
+            //     'tr td:nth-child(n+3):nth-child(-n+6) input'
+            // );
 
             AddNewRowHandler(
                 '.addNewProductRow',

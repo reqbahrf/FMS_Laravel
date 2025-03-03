@@ -3,6 +3,7 @@
 namespace App\Actions;
 
 use Exception;
+use Carbon\Carbon;
 
 class GenerateEsignElement
 {
@@ -165,7 +166,7 @@ class GenerateEsignElement
 
         // Date
         $html .= '<div style="margin-top: 10pt;">';
-        $html .= '<p style="margin: 0; font-weight: bold; text-decoration: underline;">' . e($signature['date'] ?? '') . '</p>';
+        $html .= '<p style="margin: 0; font-weight: bold; text-decoration: underline;">' . e(Carbon::parse($signature['date'])->format('F d, Y') ?? '') . '</p>';
         $html .= '<p style="margin: 0; font-size: 9pt;">Date</p>';
         $html .= '</div>';
 
