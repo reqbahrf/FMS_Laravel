@@ -190,13 +190,35 @@ function hideProcessToast() {
  * Converts JQuery form data array into a structured object
  * Handles both regular form fields and array fields (with '[]' in the name)
  * @param formData - Array of name-value pairs from a form
+ * @param filterOptions - Optional filtering options
  * @returns An object with form field names as keys and their values
  */
-function serializeFormData(formData: JQuery.NameValuePair[]): {
-    [key: string]: string | string[];
-} {
+function serializeFormData(
+    formData: JQuery.NameValuePair[],
+    filterOptions?: {
+        includeWithAttribute?: string;
+        includeWithClass?: string;
+    }
+): { [key: string]: string | string[] } {
     const FormDataObject: { [key: string]: string | string[] } = {};
+
     formData.forEach((field) => {
+        if (filterOptions) {
+            const input = $(`[name="${field.name}"]`);
+
+            if (
+                filterOptions.includeWithAttribute &&
+                !input.is(`[${filterOptions.includeWithAttribute}]`)
+            ) {
+                return;
+            }
+            if (
+                filterOptions.includeWithClass &&
+                !input.hasClass(filterOptions.includeWithClass)
+            ) {
+                return;
+            }
+        }
         if (field.name.includes('[]')) {
             FormDataObject[field.name] = FormDataObject[field.name]
                 ? [...FormDataObject[field.name], field.value]
@@ -205,6 +227,7 @@ function serializeFormData(formData: JQuery.NameValuePair[]): {
             FormDataObject[field.name] = field.value;
         }
     });
+
     return FormDataObject;
 }
 
