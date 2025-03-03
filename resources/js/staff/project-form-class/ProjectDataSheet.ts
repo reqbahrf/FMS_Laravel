@@ -138,4 +138,34 @@ export default class ProjectDataSheet extends ProjectClass {
             });
         }
     }
+
+    public destroy(): void {
+        // Remove event listeners
+        if (this.loadPDSBtn) {
+            this.loadPDSBtn.off('click');
+        }
+
+        // Remove form and clear references
+        if (this.Form) {
+            this.Form.remove();
+            this.Form = null;
+        }
+
+        // Clear DOM references
+        const quarterlySelector = this.FormContainer.find(
+            'select#pds_quarter_to_load'
+        );
+        quarterlySelector.empty();
+        this.loadPDSBtn = null;
+
+        // Clear other properties
+        this.selectedQuarter = null;
+        this.project_id = '';
+        this.business_Id = '';
+        this.application_Id = '';
+        this.documentBtnSelectors.removeClass('d-none');
+
+        // Remove any appended elements from FormContainer
+        this.FormContainer.find('#formWrapper').remove();
+    }
 }

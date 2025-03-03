@@ -365,4 +365,35 @@ export default class ProjectInfoSheet extends ProjectClass {
             });
         }
     }
+
+    public destroy(): void {
+        // Remove event listeners
+        if (this.loadPISBtn) {
+            this.loadPISBtn.off('click');
+        }
+        if (this.createPISBtn) {
+            this.createPISBtn.off('click');
+        }
+
+        // Remove form and clear references
+        if (this.Form) {
+            this.Form.remove();
+            this.Form = null;
+        }
+
+        // Clear DOM references
+        this.pisYearToCreate.empty();
+        this.pisYearToLoad.empty();
+        this.generatePDFBtn = null;
+
+        // Clear other properties
+        this.project_id = '';
+        this.business_Id = '';
+        this.application_Id = '';
+        this.FormEvent = null;
+        this.documentBtnSelectors.removeClass('d-none');
+
+        // Remove any appended elements from FormContainer
+        this.FormContainer.find('#formWrapper').remove();
+    }
 }

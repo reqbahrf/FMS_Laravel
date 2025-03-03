@@ -992,7 +992,7 @@ table.no-border {
 
 #projectInfoSheetForm .tg {
     border-collapse: collapse;
-    border-spacing: 0;
+    border-spacing: 10;
     width: 100%;
     margin: 0px auto;
 }
@@ -1003,8 +1003,8 @@ table.no-border {
     border-width: 1px;
     font-family: Arial, sans-serif;
     font-size: 9pt;
-    padding: 4px;
-    word-break: normal;
+    padding: 10px;
+    word-break: break-all;
 }
 
 #projectInfoSheetForm .tg th {
@@ -1092,8 +1092,8 @@ Project Data Sheet Styles
     border-width: 1px;
     font-family: Arial, sans-serif;
     font-size: 9pt;
-    padding: 4px;
-    word-break: normal;
+    padding: 5px;
+    word-break: break-all;
 }
 
 #projectDataSheetForm .tg td.no-border {

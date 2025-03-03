@@ -65,7 +65,10 @@
                 </tr>
                 <tr>
                     <td class="label">Contact Person:</td>
-                    <td class="input">
+                    <td
+                        class="input"
+                        style="width: 50%;"
+                    >
                         <x-custom-input.input
                             name="ContactPerson"
                             type="text"
@@ -74,7 +77,10 @@
                         />
                     </td>
                     <td class="label">Designation:</td>
-                    <td class="input">
+                    <td
+                        class="input"
+                        style="width: 50%;"
+                    >
                         <x-custom-input.input
                             name="Designation"
                             type="text"
@@ -89,8 +95,11 @@
                         class="contactData"
                         colspan="3"
                     >
-                        <span class="contact-label">Landline:&nbsp;&nbsp;</span>
-                        <span class="input">
+                        <span class="contact-label">Landline:</span>
+                        <span
+                            class="input"
+                            style="width: 19%; display: inline-block;"
+                        >
                             <x-custom-input.input
                                 name="landline"
                                 type="text"
@@ -98,8 +107,11 @@
                                 :value="$projectDataSheetData['landline'] ?? ''"
                             />
                         </span>
-                        <span class="contact-label">Mobile Phone:&nbsp;&nbsp;</span>
-                        <span class="input">
+                        <span class="contact-label">Mobile Phone:</span>
+                        <span
+                            class="input"
+                            style="width: 19%; display: inline-block;"
+                        >
                             <x-custom-input.input
                                 name="mobile"
                                 type="text"
@@ -107,8 +119,11 @@
                                 :value="$projectDataSheetData['mobile'] ?? ''"
                             />
                         </span>
-                        <span class="contact-label">Email Address:&nbsp;&nbsp;</span>&nbsp;&nbsp;
-                        <span class="input">
+                        <span class="contact-label">Email Address:</span>
+                        <span
+                            class="input"
+                            style="width: 19%; display: inline-block;"
+                        >
                             <x-custom-input.input
                                 name="email"
                                 type="text"
@@ -161,7 +176,10 @@
             </table>
         </div>
         <div class="tg-wrap">
-            <table class="tg">
+            <table
+                class="tg"
+                style="table-layout: fixed;"
+            >
                 <tbody>
                     <tr>
                         <td
@@ -170,7 +188,15 @@
                         ></td>
                         <td
                             class="no-border"
-                            style="width: 8.88%;"
+                            style="width: 11.88%;"
+                        ></td>
+                        <td
+                            class="no-border"
+                            style="width: 11.88%;"
+                        ></td>
+                        <td
+                            class="no-border"
+                            style="width: 11.88%;"
                         ></td>
                         <td
                             class="no-border"
@@ -178,31 +204,23 @@
                         ></td>
                         <td
                             class="no-border"
-                            style="width: 8.88%;"
+                            style="width: 6.88%;"
                         ></td>
                         <td
                             class="no-border"
-                            style="width: 8.88%;"
+                            style="width: 6.88%;"
                         ></td>
                         <td
                             class="no-border"
-                            style="width: 8.88%;"
+                            style="width: 7.88%;"
                         ></td>
                         <td
                             class="no-border"
-                            style="width: 8.88%;"
+                            style="width: 7.88%;"
                         ></td>
                         <td
                             class="no-border"
-                            style="width: 8.88%;"
-                        ></td>
-                        <td
-                            class="no-border"
-                            style="width: 8.88%;"
-                        ></td>
-                        <td
-                            class="no-border"
-                            style="width: 8.88%;"
+                            style="width: 7.88%;"
                         ></td>
                     </tr>
                     <tr>
@@ -558,9 +576,11 @@
                     </tr>
                     <tr>
                         <td class="tg-8d8j"> <br><br></td>
-                        <td class="tg-baqh">Name of Product </td>
-                        <td class="tg-baqh">Packaging Details</td>
-                        <td class="tg-baqh">Volume of Production</td>
+                        <td class="tg-baqh">Name of <br>Product </td>
+                        <td class="tg-baqh">Packaging <br>Details
+                        </td>
+                        <td class="tg-baqh">Volume <br>of <br>Production
+                        </td>
                         <td
                             class="tg-baqh"
                             colspan="2"

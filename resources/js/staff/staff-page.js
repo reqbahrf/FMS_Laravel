@@ -1133,6 +1133,9 @@ async function initializeStaffPageJs() {
                 }
             };
 
+            let pisClass;
+            let pdsClass;
+
             $('#handledProjectTableBody').on(
                 'click',
                 '.handleProjectbtn',
@@ -1268,20 +1271,27 @@ async function initializeStaffPageJs() {
                         );
                     const formContainer = $('#SheetFormDocumentContainer');
 
-                    const projectInfoSheet = new ProjectInfoSheet(
+                    if (pisClass) {
+                        pisClass.destroy();
+                    }
+
+                    if (pdsClass) {
+                        pdsClass.destroy();
+                    }
+
+                    pisClass = new ProjectInfoSheet(
                         formContainer,
                         project_id,
                         business_id,
                         application_id
                     );
 
-                    const projectDataSheet = new ProjectDataSheet(
+                    pdsClass = new ProjectDataSheet(
                         formContainer,
                         project_id,
                         business_id,
                         application_id
                     );
-                    console.log(projectDataSheet);
 
                     //TODO initialize Payment Object here
                     handleProjectOffcanvasContent(project_status);
