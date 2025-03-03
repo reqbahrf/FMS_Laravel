@@ -10,7 +10,7 @@
                 <li
                     class="breadcrumb-item active"
                     aria-current="page"
-                >Project Information Sheet</li>
+                >Project Data Sheet</li>
             </ol>
         </nav>
     @endif
@@ -30,8 +30,9 @@
                         <x-custom-input.input
                             name="projectTitle"
                             type="text"
+                            readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['projectTitle'] ?? ''"
+                            :value="$projectInfo['projectTitle'] ?? ''"
                         />
                     </td>
                 </tr>
@@ -44,8 +45,9 @@
                         <x-custom-input.input
                             name="firmName"
                             type="text"
+                            readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['firmName'] ?? ''"
+                            :value="$projectInfo['firmName'] ?? ''"
                         />
                     </td>
                 </tr>
@@ -58,8 +60,9 @@
                         <x-custom-input.input
                             name="address"
                             type="text"
+                            readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['address'] ?? ''"
+                            :value="$projectInfo['address'] ?? ''"
                         />
                     </td>
                 </tr>
@@ -72,8 +75,9 @@
                         <x-custom-input.input
                             name="ContactPerson"
                             type="text"
+                            readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['ContactPerson'] ?? ''"
+                            :value="$projectInfo['ContactPerson'] ?? ''"
                         />
                     </td>
                     <td class="label">Designation:</td>
@@ -84,8 +88,9 @@
                         <x-custom-input.input
                             name="Designation"
                             type="text"
+                            readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['Designation'] ?? ''"
+                            :value="$projectInfo['Designation'] ?? ''"
                         />
                     </td>
                 </tr>
@@ -103,8 +108,9 @@
                             <x-custom-input.input
                                 name="landline"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['landline'] ?? ''"
+                                :value="$projectInfo['landline'] ?? ''"
                             />
                         </span>
                         <span class="contact-label">Mobile Phone:</span>
@@ -115,8 +121,9 @@
                             <x-custom-input.input
                                 name="mobile"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['mobile'] ?? ''"
+                                :value="$projectInfo['mobile'] ?? ''"
                             />
                         </span>
                         <span class="contact-label">Email Address:</span>
@@ -127,8 +134,9 @@
                             <x-custom-input.input
                                 name="email"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['email'] ?? ''"
+                                :value="$projectInfo['email'] ?? ''"
                             />
                         </span>
                     </td>
@@ -140,8 +148,9 @@
                             <x-custom-input.input
                                 name="reportingQuarter"
                                 type="radio"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q1'"
+                                :value="($projectData['reportingQuarter'] ?? '') == 'Q1'"
                             /> 1st
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -149,8 +158,9 @@
                             <x-custom-input.input
                                 name="reportingQuarter"
                                 type="radio"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q2'"
+                                :value="($projectData['reportingQuarter'] ?? '') == 'Q2'"
                             /> 2nd
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -158,8 +168,9 @@
                             <x-custom-input.input
                                 name="reportingQuarter"
                                 type="radio"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q3'"
+                                :value="($projectData['reportingQuarter'] ?? '') == 'Q3'"
                             /> 3rd
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -167,8 +178,9 @@
                             <x-custom-input.input
                                 name="reportingQuarter"
                                 type="radio"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q4'"
+                                :value="($projectData['reportingQuarter'] ?? '') == 'Q4'"
                             /> 4th
                             Quarter </label>
                     </td>

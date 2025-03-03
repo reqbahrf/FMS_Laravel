@@ -15,11 +15,13 @@ class input extends Component
         public string $name,
         public string $type,
         public string $class,
+        public bool $readonly = false,
         public string $value = '',
         public bool $isEditable,
-    )
-    {
-        //
+    ) {
+
+        // Ensure isEditable is false when readonly is true
+        $this->isEditable = $this->isEditable && !$this->readonly;
     }
 
     /**

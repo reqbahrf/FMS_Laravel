@@ -4,6 +4,8 @@
             class="{{ $class ?? '' }}"
             name="{{ $name ?? '' }}"
             type="{{ $type }}"
+            {{ $attributes->only('readonly') }}
+            @if ($attributes->has('readonly')) @disabled(true) @endif
             @if ($value === true || $value === 'on' || $value === 1) checked @endif
         >
     @else
@@ -11,6 +13,7 @@
             class="{{ $class ?? '' }}"
             type="{{ $type }}"
             value="{{ $value ?? '' }}"
+            {{ $attributes->only('readonly') }}
             @isset($name) name="{{ $name }}" @endisset
         >
     @endif
