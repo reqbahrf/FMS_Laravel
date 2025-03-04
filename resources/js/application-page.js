@@ -929,12 +929,7 @@ export function initializeForm() {
         const total = buildingsValue + equipmentsValue + workingCapitalValue;
 
         // Format total with comma separators
-        totalAssetsElement.text(
-            total.toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-            })
-        );
+        totalAssetsElement.text(formatNumberToCurrency(total));
 
         // Determine enterprise level using a more declarative approach
         const enterpriseLevels = [
@@ -944,10 +939,11 @@ export function initializeForm() {
             { threshold: Infinity, level: 'Large Enterprise' },
         ];
 
-        const enterpriseLevel = enterpriseLevels.findLast(
-            ({ threshold }) => total >= threshold
-        ).level;
+        const enterpriseLevel =
+            enterpriseLevels.findLast(({ threshold }) => total >= threshold)
+                ?.level ?? 'Micro Enterprise';
 
+        console.log(enterpriseLevel);
         enterpriseLevelElement.text(enterpriseLevel);
         enterpriseLevelInput.val(enterpriseLevel);
     }
