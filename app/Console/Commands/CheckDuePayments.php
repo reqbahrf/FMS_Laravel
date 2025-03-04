@@ -231,16 +231,16 @@ class CheckDuePayments extends Command
 
             $this->info('Sending email and notification for Project ID: ' . $projectId);
             // Retrieve the user associated with the project
-            $notifiableUser = $this->payment::with('businessInfo.userInfo.user')
+            $notifiableUser = $this->payment::with('projectInfo.businessInfo.userInfo.user')
                 ->where('Project_id', $projectId)
                 ->first();
 
-            if (!$notifiableUser || !$notifiableUser->businessInfo || !$notifiableUser->businessInfo->userInfo || !$notifiableUser->businessInfo->userInfo->user) {
+            if (!$notifiableUser || !$notifiableUser->projectInfo || !$notifiableUser->projectInfo->businessInfo || !$notifiableUser->projectInfo->businessInfo->userInfo || !$notifiableUser->projectInfo->businessInfo->userInfo->user) {
                 $this->info('No notifiable user found for Project ID: ' . $projectId);
                 return;
             }
             // Assuming 'user' is the relationship that contains the User model
-            $user = $notifiableUser->businessInfo->userInfo->user;
+            $user = $notifiableUser->projectInfo->businessInfo->userInfo->user;
             $user->notify(new DuePayment($dueDate, $projectId, $dueAmount, $status));
 
             $this->notificationLog->create([
