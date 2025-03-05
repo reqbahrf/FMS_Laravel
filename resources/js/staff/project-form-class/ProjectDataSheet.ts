@@ -7,6 +7,7 @@ import {
 
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';
+import ReportedQuarterlyReportEvent from '../../Utilities/ReportedQuarterlyReportEvent';
 
 type Action = 'edit' | 'view';
 
@@ -32,25 +33,16 @@ export default class ProjectDataSheet extends ProjectClass {
         this._getAvailableQuartersReport();
     }
 
-    private async _getProjectDataSheet(
-        project_id: string,
-        business_Id: string,
-        application_Id: string,
-        actionMode: Action,
-        quarter: string
-    ) {
+    private async _getProjectDataSheet(url: string, actionMode: Action) {
         try {
             showProcessToast('Loading Project Data Sheet...');
             const response = await $.ajax({
                 type: 'GET',
-                url: GENERATE_SHEETS_ROUTE.GET_DATA_SHEET_REPORT_FORM.replace(
-                    ':project_id',
-                    project_id
-                )
-                    .replace(':business_id', business_Id)
-                    .replace(':application_id', application_Id)
-                    .replace(':action', actionMode)
-                    .replace(':quarter', quarter),
+                url: url,
+                headers: {
+                    'X-ACTION_MODE': actionMode,
+                },
+                dataType: 'html',
             });
             this._toggleDocumentBtnVisibility();
             this.FormContainer.append(response as string);
@@ -114,6 +106,9 @@ export default class ProjectDataSheet extends ProjectClass {
                 const btn = $(e.currentTarget);
                 const inputGroup = btn.closest('.input-group');
                 const select = inputGroup.find('select#pds_quarter_to_load');
+                const url = select
+                    .find('option:selected')
+                    .attr('data-view-url') as string;
                 const action = inputGroup
                     .find('select#pds_action_to_load')
                     .val() as Action;
@@ -128,13 +123,7 @@ export default class ProjectDataSheet extends ProjectClass {
                 if (!isConfirmed) {
                     return;
                 }
-                this._getProjectDataSheet(
-                    this.project_id,
-                    this.business_Id,
-                    this.application_Id,
-                    action,
-                    quarter
-                );
+                this._getProjectDataSheet(url, action);
             });
         }
     }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Exception;
 use App\Models\ProjectForm;
+use App\Models\OngoingQuarterlyReport;
 
 class ProjectDataSheetDataHandlerService
 {
@@ -72,6 +73,19 @@ class ProjectDataSheetDataHandlerService
             return $ProjectDataSheet ? $ProjectDataSheet->data : [];
         } catch (Exception $e) {
             throw new Exception('Error in getting Project Data Sheet data: ' . $e->getMessage());
+        }
+    }
+
+    public function getQuaterlyReportData(string $reportId, string $projectId, string $quarter): OngoingQuarterlyReport
+    {
+        try {
+            return OngoingQuarterlyReport::where('id', $reportId)
+                ->where('ongoing_project_id', $projectId)
+                ->where('quarter', $quarter)
+                ->select(['report_file'])
+                ->first();
+        } catch (Exception $e) {
+            throw new Exception('Failed to get quarterly report: ' . $e->getMessage());
         }
     }
 

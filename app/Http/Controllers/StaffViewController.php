@@ -166,7 +166,6 @@ class StaffViewController extends Controller
 
             $OngoingQuarterlyReport = OngoingQuarterlyReport::where('ongoing_project_id', $ProjectID)
                 ->whereNotNull('report_file')
-                ->select('quarter')
                 ->get()
                 ->sortBy(function ($report) {
                     list($quarter, $year) = explode(' ', $report->quarter);
@@ -175,7 +174,7 @@ class StaffViewController extends Controller
 
             $html = '';
             foreach ($OngoingQuarterlyReport as $report) {
-                $html .= '<option data-id="' . $report->id . '" value="' . $report->quarter . '">' . $report->quarter . '</option>';
+                $html .= '<option data-view-url="' . $report->url . '" value="' . $report->quarter . '">' . $report->quarter . '</option>';
             }
 
             return response()->json(['html' => $html], 200);

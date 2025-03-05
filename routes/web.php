@@ -160,11 +160,12 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
             ->name('Cooperator.myProjects');
     });
 
-    Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', [CoopQuarterlyReportController::class, 'getQuarterlyForm'])
-        ->name('CooperatorViewController')
-        ->middleware('signed');
 
     Route::controller(CoopQuarterlyReportController::class)->group(function () {
+
+        Route::get('/Cooperator/QuarterlyReport/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', 'getQuarterlyForm')
+            ->name('coop.quarterly.report.form')
+            ->middleware('signed');
 
         Route::get('/Cooperator/QuarterlyReport', 'index')
             ->name('QuarterlyReport.index');
@@ -265,6 +266,10 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::controller(PDSDocController::class)->group(function () {
         Route::put('/Staff/Project/set/dataSheet', 'setPDSData')
             ->name('staff.Project.set.data-sheet');
+
+        Route::get('/Staff/Project/get/quarterly-report-url/{id}/{projectId}/{quarter}/{reportStatus}/{reportSubmitted}', 'getQuarterlyReportfor')
+            ->name('staff.quarterly.report.form')
+            ->middleware('signed');
 
         Route::get('/Staff/Project/get/data-sheet/{projectId}/{businessId}/{applicationId}/{action}/{quarter}', 'getProjectDataSheetForm')
             ->name('staff.Project.get.data-sheet');

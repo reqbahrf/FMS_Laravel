@@ -84,6 +84,28 @@ class PDSDocController extends Controller
         }
     }
 
+    public function getQuarterlyReportfor(Request $request)
+    {
+        try {
+            $reportId = $request->id;
+            $projectId = $request->projectId;
+            $quarter = $request->quarter;
+            $reportStatus = $request->reportStatus;
+            $reportSubmitted = $request->reportSubmitted;
+            $isEditable = $request->header('X-ACTION_MODE') == 'edit' ? true : false;
+
+            $Data = $this->projectDataSheetDataHandlerService->getQuaterlyReportData($reportId, $projectId, $quarter);
+
+            $reportData = $Data->report_file;
+
+            return view('components.reported-quarterly-form-data.main', compact('reportId', 'projectId', 'quarter', 'reportStatus', 'reportData', 'isEditable'));
+        } catch (Exception $e) {
+            return response()->json([
+                'message' => 'An unexpected error occurred ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
     public function setPDSData(
         GeneratePDSRequest $request,
         ProjectDataSheetDataHandlerService $projectDataSheetDataHandlerService

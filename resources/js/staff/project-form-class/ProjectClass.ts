@@ -17,16 +17,14 @@ export default class ProjectClass {
     }
 
     protected _init(): void {
-        // Only attach the event listener if it hasn't been attached before
         if (!ProjectClass.breadcrumbEventAttached) {
-            this.FormContainer.on(
+            this.FormContainer.off(
                 'click',
-                '.breadcrumb-item:not(.active) a',
-                () => {
-                    this._removeForm();
-                    this._toggleDocumentBtnVisibility();
-                }
-            );
+                '.breadcrumb-item:not(.active) a'
+            ).on('click', '.breadcrumb-item:not(.active) a', () => {
+                this._removeForm();
+                this._toggleDocumentBtnVisibility();
+            });
             ProjectClass.breadcrumbEventAttached = true;
         }
     }
