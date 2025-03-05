@@ -9,6 +9,7 @@ import {
     showProcessToast,
     hideProcessToast,
     closeModal,
+    serializeFormData,
 } from '../Utilities/utilFunctions';
 import { FormDraftHandler } from '../Utilities/FormDraftHandler';
 import QUARTERLY_REPORTING_FORM_CONFIG from '../Form_Config/QUARTERLY_REPORTING_CONFIG';
@@ -518,9 +519,7 @@ async function initilizeCoopPageJs() {
                 );
             });
 
-            confirmButton.on('click', function () {
-                submitQuarterlyForm();
-            });
+            confirmButton.on('click', submitQuarterlyForm);
 
             const QuarterlyForm = $('#quarterlyForm');
 
@@ -528,15 +527,12 @@ async function initilizeCoopPageJs() {
                 showProcessToast('Submitting Quarterly Report...');
 
                 const formData = QuarterlyForm.serializeArray();
-                const quarterId = QuarterlyForm.data('quarter-id');
+                const url = QuarterlyForm.attr('action');
                 const quarterProject = QuarterlyForm.data('quarter-project');
                 const quarterPeriod = QuarterlyForm.data('quarter-period');
                 const quarterStatus = QuarterlyForm.data('quarter-status');
 
-                let dataObject = {};
-                $.each(formData, function (i, v) {
-                    dataObject[v.name] = v.value;
-                });
+                let dataObject = serializeFormData(formData);
 
                 dataObject = {
                     ...dataObject,
@@ -554,10 +550,7 @@ async function initilizeCoopPageJs() {
                         'X-Quarter-Status': quarterStatus,
                     },
                     type: 'PUT',
-                    url: QUARTERLY_REPORT_ROUTE.STORE_REPORT.replace(
-                        ':quarterId',
-                        quarterId
-                    ),
+                    url: url,
                     data: JSON.stringify(dataObject), // Send the new data object
                     contentType: 'application/json', // Set content type to JSON
                     success: function (response) {
@@ -570,13 +563,16 @@ async function initilizeCoopPageJs() {
                                 response.message
                             );
                         }, 500);
+                        getQuarterlyReportLinks();
+                        loadPage(response.reportedFormUrl, response.navId);
                     },
                     error: function (xhr, status, error) {
                         hideProcessToast();
                         showToastFeedback(
                             'text-bg-danger',
-                            'Failed to submit quarterly report'
+                            error.responseJSON.message
                         );
+                        getQuarterlyReportLinks();
                     },
                 });
             }

@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\URL;
 use App\Models\OngoingQuarterlyReport;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Database\Eloquent\Collection;
+use App\Actions\GenerateQuarterlyReportUrlAction;
 use App\Http\Requests\SubmitQuarterlyReportRequest;
 
 class CoopQuarterlyReportController extends Controller
@@ -27,18 +28,12 @@ class CoopQuarterlyReportController extends Controller
 
             $html = '';
             foreach ($quarterlyReportsLinks as $index => $report) {
-                $signedUrl = URL::signedRoute('CooperatorViewController', [
-                    'id' => $report->id,
-                    'projectId' => $report->ongoing_project_id,
-                    'quarter' => $report->quarter,
-                    'reportStatus' => $report->report_status,
-                    'reportSubmitted' => $report->report_file_state,
-                ]);
+                $signedUrl = GenerateQuarterlyReportUrlAction::execute($report);
 
                 $reportStatusClass = $report->report_status == 'open' ? 'success' : 'secondary';
                 $html .= '<li>';
-                $html .= '<a href="#" id="querterlyReportTab' . ($index + 1) . '" ';
-                $html .= ($report->report_status == 'closed') ? 'class="disabled" onclick="return false;"' : 'onclick="loadPage(\'' . $signedUrl . '\', \'querterlyReportTab' . ($index + 1) . '\');">';
+                $html .= '<a href="#" id="querterlyReportTab' . str_replace(' ', '', $report->quarter) . '" ';
+                $html .= ($report->report_status == 'closed') ? 'class="disabled" onclick="return false;"' : 'onclick="loadPage(\'' . $signedUrl . '\', \'querterlyReportTab' . str_replace(' ', '', $report->quarter) . '\');">';
                 $html .= '<span class="position-relative">' . $report->quarter . '</span>';
                 $html .= '<span class="badge rounded-pill text-bg-' . $reportStatusClass . '">';
                 $html .= ucfirst($report->report_status);
@@ -63,7 +58,7 @@ class CoopQuarterlyReportController extends Controller
     {
         if ($request->ajax()) {
 
-            return view('cooperator-view.outputs.quarterlyReport');
+            return view('cooperator-view.coop-page-tab.quarterly-report-form-tab');
         } else {
             return view('cooperator-view.Cooperator_Index');
         }
@@ -84,11 +79,11 @@ class CoopQuarterlyReportController extends Controller
             if ($reportSubmitted === 'true' && $reportStatus === 'open') {
                 $Data = $this->getQuaterlyReportData($reportId, $projectId, $quarter);
 
-                $reportData = $Data->first()->report_file;
+                $reportData = $Data->report_file;
 
                 return view('QuarterlyReportedForm.coopQuarterly', compact('reportId', 'projectId', 'quarter', 'reportStatus', 'reportData'));
             } else if ($reportSubmitted === 'false' && $reportStatus === 'open') {
-                return view('cooperator-view.outputs.quarterlyReport', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
+                return view('cooperator-view.coop-page-tab.quarterly-report-form-tab', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
             }
         } else {
             return view('cooperator-view.Cooperator_Index');
@@ -104,15 +99,26 @@ class CoopQuarterlyReportController extends Controller
         $quarterPeriod = $request->header('X-Quarter-Period');
         $quarterStatus = $request->header('X-Quarter-Status');
         try {
-            OngoingQuarterlyReport::where('id', $id)
+            $report = OngoingQuarterlyReport::where('id', $id)
                 ->where('ongoing_project_id', $quarterProject)
                 ->where('quarter', $quarterPeriod)
                 ->where('report_status', $quarterStatus)
-                ->update([
-                    'report_file' => json_encode($request->validated()),
+                ->first();
+
+            if ($report) {
+                $report->update([
+                    'report_file' => $request->validated(),
                 ]);
 
-            return response()->json(['success' => true, 'message' => 'Quarterly report submitted successfully.']);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Quarterly report submitted successfully.',
+                    'reportedFormUrl' => GenerateQuarterlyReportUrlAction::execute($report),
+                    'navId' => 'querterlyReportTab' . str_replace(' ', '', $report->quarter)
+                ]);
+            } else {
+                return response()->json(['message' => 'Report not found'], 404);
+            }
         } catch (\Exception $e) {
             return response()->json(['message' => $e->getMessage()], 500);
         }
@@ -120,14 +126,14 @@ class CoopQuarterlyReportController extends Controller
 
 
 
-    private function getQuaterlyReportData(string $reportId, string $projectId, string $quarter): Collection
+    private function getQuaterlyReportData(string $reportId, string $projectId, string $quarter): OngoingQuarterlyReport
     {
         try {
             return OngoingQuarterlyReport::where('id', $reportId)
                 ->where('ongoing_project_id', $projectId)
                 ->where('quarter', $quarter)
                 ->select(['report_file'])
-                ->get();
+                ->first();
         } catch (Exception $e) {
             throw new Exception('Failed to get quarterly report: ' . $e->getMessage());
         }

@@ -387,6 +387,7 @@ export default class ReportedQuarterlyReportEvent {
                 success: function (response) {
                     hideProcessToast();
                     showToastFeedback('text-bg-success', response.message);
+                    form.find('.revertButton').prop('disabled', true);
                 },
                 error: function (error) {
                     hideProcessToast();

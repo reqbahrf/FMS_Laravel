@@ -949,69 +949,6 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            async function getUploadedReceipts(projectId) {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url: DASHBOARD_TAB_ROUTE.GET_UPLOADED_RECEIPTS.replace(
-                            ':project_id',
-                            projectId
-                        ),
-                    });
-
-                    UploadedReceiptDataTable.clear();
-                    UploadedReceiptDataTable.rows.add(
-                        response.map((receipt) => [
-                            /*html*/ `${receipt.receipt_name}
-                                <input
-                                    type="hidden"
-                                    class="receipt_id"
-                                    value="${receipt.id}"
-                                />
-                                <input
-                                    type="hidden"
-                                    class="receipt_description"
-                                    value="${receipt.receipt_description}"
-                                /> `,
-                            /*html*/ `<img
-                                src="data:image/png;base64,${receipt.receipt_image}"
-                                alt="${receipt.receipt_name}"
-                                style="max-width: 100px; max-height: 100px;"
-                            />`,
-                            customDateFormatter(receipt.created_at),
-                            /*html*/ `<span
-                                    class="badge ${
-                                        receipt.remark === 'Pending'
-                                            ? 'bg-info'
-                                            : receipt.remark === 'Approved'
-                                              ? 'bg-success'
-                                              : receipt.remark === 'Rejected'
-                                                ? 'bg-danger'
-                                                : ''
-                                    }"
-                                    >${receipt.remark}</span
-                                >
-                                <input
-                                    type="hidden"
-                                    class="comment"
-                                    value="${receipt.comment}"
-                                />`,
-                            /*html*/ `<button
-                                class="btn btn-primary btn-sm viewReceipt"
-                                data-receipt-id="${receipt.ongoing_project_id}"
-                            >
-                                View
-                            </button>`,
-                        ])
-                    );
-                    UploadedReceiptDataTable.draw();
-                } catch (error) {
-                    throw new Error(
-                        'Error fetching uploaded receipts: ' + error
-                    );
-                }
-            }
-
             $('#paymentModal').on('show.bs.modal', function (event) {
                 const button = $(event.relatedTarget);
                 const action = button.data('action');
@@ -1300,12 +1237,19 @@ async function initializeStaffPageJs() {
                         project_id,
                         actual_amount
                     );
-                    await paymentHandler.getPaymentAndCalculation();
-                    await getUploadedReceipts(project_id);
-                    await getProjectLedger(project_id);
-                    await getProjectLinks(project_id);
-                    await getQuarterlyReports(project_id);
-                    //getAvailableQuarterlyReports(project_id);
+                    const results = await Promise.allSettled([
+                        paymentHandler.getPaymentAndCalculation(),
+                        getProjectLedger(project_id),
+                        getProjectLinks(project_id),
+                        getQuarterlyReports(project_id),
+                    ]);
+
+                    results.forEach((result) => {
+                        if (result.status === 'rejected') {
+                            console.error('Promise failed:', result.reason);
+                        }
+                    });
+                    // getAvailableQuarterlyReports(project_id);
                 }
             );
 
@@ -1329,64 +1273,6 @@ async function initializeStaffPageJs() {
                         });
                 }
             );
-
-            const getAmountRefund = () => {
-                const fundedAmountText = $('#FundedAmount').text();
-                const actualAmount = fundedAmountText
-                    .split('(')[0]
-                    .trim()
-                    .replace(/[^\d.]/g, '');
-                console.log(actualAmount);
-                return actualAmount;
-            };
-
-            /**
-             * Calculates and displays payment statistics for a project.
-             *
-             * @async
-             * @param {number|string} project_id - The project identifier
-             * @param {string} actual_amount - Total funded amount (currency string)
-             * @param {DataTable.Api} paymentDataTableInstance - DataTable for payment history
-             * @throws {Error} If payment history fetch fails
-             *
-             * @description
-             * Fetches payment history, calculates statistics (total paid, remaining balance,
-             * completion percentage), and updates the UI with payment information and progress.
-             */
-            const getPaymentHistoryAndCalculation = async (
-                project_id,
-                actual_amount,
-                paymentDataTableInstance
-            ) => {
-                try {
-                    const totalAmount = await getProjectPaymentHistory(
-                        project_id,
-                        paymentDataTableInstance,
-                        true
-                    );
-
-                    const fundedAmount = parseFloat(
-                        actual_amount.replace(/,/g, '')
-                    );
-                    const remainingAmount = fundedAmount - totalAmount;
-                    const percentage = Math.round(
-                        (totalAmount / fundedAmount) * 100
-                    );
-                    $('#totalPaid').text(formatNumberToCurrency(totalAmount));
-                    $('#remainingBalance').text(
-                        formatNumberToCurrency(remainingAmount)
-                    );
-
-                    percentage == 100
-                        ? isRefundCompleted(true)
-                        : isRefundCompleted(false);
-                    setTimeout(() => {
-                        InitializeviewCooperatorProgress(percentage);
-                    }, 500);
-                } catch (error) {
-                    throw new Error('Error fetching payment history: ' + error);
-                }
-            };
 
             const RequirementContainer = $('#RequirementContainer');
 
