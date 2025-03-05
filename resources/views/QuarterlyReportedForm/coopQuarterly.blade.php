@@ -790,7 +790,6 @@
                                             </thead>
                                             <tbody class="LocalData table-group-divider">
                                                 @forelse($reportData['LocalProduct'] as $localProduct)
-                                    
                                                     <tr class="table_row">
                                                         <td><input
                                                                 class="form-control productName"

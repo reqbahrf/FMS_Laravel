@@ -1139,7 +1139,7 @@ async function initializeStaffPageJs() {
             $('#handledProjectTableBody').on(
                 'click',
                 '.handleProjectbtn',
-                function () {
+                async function () {
                     const handledProjectRow = $(this).closest('tr');
                     const hiddenInputs = handledProjectRow.find(
                         'input[type="hidden"]'
@@ -1300,12 +1300,12 @@ async function initializeStaffPageJs() {
                         project_id,
                         actual_amount
                     );
-                    paymentHandler.getPaymentAndCalculation();
-                    getUploadedReceipts(project_id);
-                    getProjectLedger(project_id);
-                    getProjectLinks(project_id);
-                    getQuarterlyReports(project_id);
-                    getAvailableQuarterlyReports(project_id);
+                    await paymentHandler.getPaymentAndCalculation();
+                    await getUploadedReceipts(project_id);
+                    await getProjectLedger(project_id);
+                    await getProjectLinks(project_id);
+                    await getQuarterlyReports(project_id);
+                    //getAvailableQuarterlyReports(project_id);
                 }
             );
 
@@ -2655,7 +2655,7 @@ async function initializeStaffPageJs() {
              * Retrieves quarterly reports for a given project ID and populates the quarterly table body with the response data.
              *
              * @param {number} project_id - The ID of the project for which to retrieve quarterly reports
-             * @return {void}
+             * @return {Promise<void>}
              */
             const getQuarterlyReports = async (project_id) => {
                 const TableContainer = $('#quarterlyTableBody');
