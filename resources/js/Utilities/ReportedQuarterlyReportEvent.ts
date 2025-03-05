@@ -13,7 +13,7 @@ import {
 } from './utilFunctions';
 import createConfirmationModal from './confirmation-modal';
 import { TableDataExtractor } from './TableDataExtractor';
-export default class QuarterlyReportEvent {
+export default class ReportedQuarterlyReportEvent {
     private form: JQuery<HTMLFormElement>;
     private exportAndLocalTableBody: JQuery<HTMLElement>;
     private inputContainers: JQuery<HTMLElement>;
@@ -104,7 +104,7 @@ export default class QuarterlyReportEvent {
         });
 
         this.initialData['ProductionAndSalesInputs'] = TableDataExtractor(
-            QuarterlyReportEvent.ExportAndLocalMktTableConfig
+            ReportedQuarterlyReportEvent.ExportAndLocalMktTableConfig
         );
     }
 
@@ -367,7 +367,7 @@ export default class QuarterlyReportEvent {
             formDataObject = {
                 ...formDataObject,
                 ...TableDataExtractor(
-                    QuarterlyReportEvent.ExportAndLocalMktTableConfig
+                    ReportedQuarterlyReportEvent.ExportAndLocalMktTableConfig
                 ),
             };
 

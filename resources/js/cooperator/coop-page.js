@@ -23,7 +23,7 @@ import { TableDataExtractor } from '../Utilities/TableDataExtractor';
 import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';
 import CoopPageNavHandler from './CoopPageNavHandler';
-import QuarterlyReportEvent from '../Utilities/QuarterlyReportEvent';
+import ReportedQuarterlyReportEvent from '../Utilities/ReportedQuarterlyReportEvent';
 
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
@@ -606,7 +606,7 @@ async function initilizeCoopPageJs() {
         },
 
         ReportedQuarterlyReport: () => {
-            const reportFormEvent = new QuarterlyReportEvent();
+            const reportFormEvent = new ReportedQuarterlyReportEvent();
             reportFormEvent.initEditMode();
             reportFormEvent.initStoreInitialValue();
             reportFormEvent.initInputEventFormatter();
