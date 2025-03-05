@@ -19,8 +19,8 @@ export default class ReportedQuarterlyReportEvent {
     private inputContainers: JQuery<HTMLElement>;
     private productAndSalesInputContainer: JQuery<HTMLElement>;
     private initialData: { [key: string]: any };
-    constructor() {
-        this.form = $('#ReportedQuarterlyData');
+    constructor(form: JQuery<HTMLFormElement>) {
+        this.form = form;
         this.inputContainers = this.form.find(
             '#AssetsInputs, #EmploymentInputs, #marketOutletInputs'
         );

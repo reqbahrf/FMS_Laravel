@@ -12,7 +12,7 @@ type Action = 'edit' | 'view';
 export default class ProjectInfoSheet extends ProjectClass {
     private loadPISBtn: JQuery<HTMLElement>;
     private createPISBtn: JQuery<HTMLElement>;
-    protected FormContainer: JQuery<HTMLElement>;
+    protected formContainer: JQuery<HTMLElement>;
     private Form: JQuery<HTMLFormElement> | null;
     private FormEvent: null;
     private generatePDFBtn: JQuery<HTMLElement> | null;
@@ -22,20 +22,20 @@ export default class ProjectInfoSheet extends ProjectClass {
     private business_Id: string;
     private application_Id: string;
     constructor(
-        FormContainer: JQuery<HTMLElement>,
+        formContainer: JQuery<HTMLElement>,
         project_id: string,
         business_Id: string,
         application_Id: string
     ) {
-        super(FormContainer);
-        this.pisYearToCreate = FormContainer.find('select#pis_year_to_create');
-        this.pisYearToLoad = FormContainer.find('select#pis_year_to_load');
-        this.loadPISBtn = FormContainer.find('#loadPISbtn');
-        this.createPISBtn = FormContainer.find('#createPISbtn');
+        super(formContainer);
+        this.pisYearToCreate = formContainer.find('select#pis_year_to_create');
+        this.pisYearToLoad = formContainer.find('select#pis_year_to_load');
+        this.loadPISBtn = formContainer.find('#loadPISbtn');
+        this.createPISBtn = formContainer.find('#createPISbtn');
         this.project_id = project_id;
         this.business_Id = business_Id;
         this.application_Id = application_Id;
-        this.FormContainer = FormContainer;
+        this.formContainer = formContainer;
         this.Form = null;
         this.FormEvent = null;
         this.generatePDFBtn = null;
@@ -63,7 +63,7 @@ export default class ProjectInfoSheet extends ProjectClass {
                     .replace(':year', year),
             });
             this._toggleDocumentBtnVisibility();
-            this.FormContainer.append(response as string);
+            this.formContainer.append(response as string);
             this.Form = this._getFormInstance();
             switch (actionMode) {
                 case 'edit':
@@ -173,9 +173,9 @@ export default class ProjectInfoSheet extends ProjectClass {
     }
 
     private _getFormInstance(): JQuery<HTMLFormElement> {
-        return this.FormContainer.find(
-            'form#projectInfoSheetForm'
-        ).first() as JQuery<HTMLFormElement>;
+        return this.formContainer
+            .find('form#projectInfoSheetForm')
+            .first() as JQuery<HTMLFormElement>;
     }
 
     private async _saveProjectInfoSheet(
@@ -215,7 +215,7 @@ export default class ProjectInfoSheet extends ProjectClass {
 
     private _setupPDFExport(): void {
         try {
-            this.generatePDFBtn = this.FormContainer.find(
+            this.generatePDFBtn = this.formContainer.find(
                 'button#exportProjectInfoSheetFormToPDF'
             );
             if (!this.generatePDFBtn)
@@ -238,9 +238,9 @@ export default class ProjectInfoSheet extends ProjectClass {
     }
 
     private _setupProjectInfoSheetSubmission(): void {
-        if (!this.Form) throw new Error('Form not found');
-        const form = this.Form;
         try {
+            if (!this.Form) throw new Error('Form not found');
+            const form = this.Form;
             form.on('submit', async (event: JQuery.SubmitEvent) => {
                 event.preventDefault();
                 try {
@@ -393,7 +393,7 @@ export default class ProjectInfoSheet extends ProjectClass {
         this.FormEvent = null;
         this.documentBtnSelectors.removeClass('d-none');
 
-        // Remove any appended elements from FormContainer
-        this.FormContainer.find('#formWrapper').remove();
+        // Remove any appended elements from formContainer
+        this.formContainer.find('#formWrapper').remove();
     }
 }

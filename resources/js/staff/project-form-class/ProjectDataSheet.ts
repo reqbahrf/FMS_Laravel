@@ -8,27 +8,30 @@ import {
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';
 import ReportedQuarterlyReportEvent from '../../Utilities/ReportedQuarterlyReportEvent';
+import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
 
 type Action = 'edit' | 'view';
 
 export default class ProjectDataSheet extends ProjectClass {
     private selectedQuarter: string | null;
-    private Form: JQuery<HTMLFormElement> | null;
+    private form: JQuery<HTMLFormElement> | null;
+    private formEvent: ReportedQuarterlyReportEvent | null;
     private loadPDSBtn: JQuery<HTMLElement> | null;
     constructor(
-        protected FormContainer: JQuery<HTMLElement>,
+        protected formContainer: JQuery<HTMLElement>,
         private project_id: string,
         private business_Id: string,
         private application_Id: string
     ) {
-        super(FormContainer);
-        this.FormContainer = FormContainer;
+        super(formContainer);
+        this.formContainer = formContainer;
         this.project_id = project_id;
         this.business_Id = business_Id;
         this.application_Id = application_Id;
         this.selectedQuarter = null;
-        this.Form = null;
-        this.loadPDSBtn = FormContainer.find('#loadPDSbtn');
+        this.form = null;
+        this.formEvent = null;
+        this.loadPDSBtn = formContainer.find('#loadPDSbtn');
         this._setupProjectDataSheetBtnEvent();
         this._getAvailableQuartersReport();
     }
@@ -45,10 +48,15 @@ export default class ProjectDataSheet extends ProjectClass {
                 dataType: 'html',
             });
             this._toggleDocumentBtnVisibility();
-            this.FormContainer.append(response as string);
-            this.Form = this._getFormInstance();
+            this.formContainer.append(response as string);
+            this.form = this._getFormInstance();
+            this.formEvent = new ReportedQuarterlyReportEvent(this.form);
             switch (actionMode) {
                 case 'edit':
+                    this.formEvent.initInputEventFormatter();
+                    this.formEvent.initStoreInitialValue();
+                    this.formEvent.initEditMode();
+                    this._setupProjectDataSheetSubmission();
                     break;
                 case 'view':
                     break;
@@ -68,7 +76,7 @@ export default class ProjectDataSheet extends ProjectClass {
 
     private async _getAvailableQuartersReport() {
         try {
-            const quarterlySelector = this.FormContainer.find(
+            const quarterlySelector = this.formContainer.find(
                 'select#pds_quarter_to_load'
             );
             quarterlySelector.empty();
@@ -94,10 +102,81 @@ export default class ProjectDataSheet extends ProjectClass {
         }
     }
 
+    private async _setupProjectDataSheetSubmission() {
+        try {
+            if (!this.form) throw new Error('Form not found');
+            const form = this.form;
+            form.on('submit', async (event: JQuery.SubmitEvent) => {
+                event.preventDefault();
+                try {
+                    const url = form.attr('action');
+                    const formData = form.serializeArray();
+                    if (!url || !formData || !formData.length)
+                        throw new Error('Form data not found');
+                    let formDataObject: { [key: string]: string | string[] } = {
+                        ...serializeFormData(formData),
+                        ...TableDataExtractor(
+                            ReportedQuarterlyReportEvent.ExportAndLocalMktTableConfig
+                        ),
+                    };
+                    await this._saveProjectDataSheet(formDataObject, url);
+                } catch (SubmissionError: any) {
+                    console.warn(
+                        'Error in Project Data Sheet Submission' +
+                            SubmissionError
+                    );
+                    showToastFeedback(
+                        'text-bg-danger',
+                        SubmissionError?.responseJSON?.message ||
+                            SubmissionError?.message ||
+                            'Error in Setting Project Data Sheet'
+                    );
+                }
+            });
+        } catch (error: any) {
+            console.warn('Error in Setting Project Data Sheet' + error);
+            showToastFeedback(
+                'text-bg-danger',
+                error?.responseJSON?.message ||
+                    error?.message ||
+                    'Error in Setting Project Data Sheet'
+            );
+        }
+    }
+
+    private async _saveProjectDataSheet(
+        formDataObject: {
+            [key: string]: string | string[];
+        },
+        url: string
+    ): Promise<void> {
+        try {
+            showProcessToast('Updating Project Data Sheet...');
+            const response = await $.ajax({
+                type: 'PUT',
+                url: url,
+                data: JSON.stringify(formDataObject),
+                contentType: 'application/json',
+                dataType: 'json',
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN':
+                        $('meta[name="csrf-token"]').attr('content') || '',
+                },
+            });
+            hideProcessToast();
+            showToastFeedback(
+                'text-bg-success',
+                response?.message || 'Successfuly Saved'
+            );
+        } catch (error: any) {
+            throw error;
+        }
+    }
     private _getFormInstance(): JQuery<HTMLFormElement> {
-        return this.FormContainer.find(
-            'form#projectDataSheetForm'
-        ).first() as JQuery<HTMLFormElement>;
+        return this.formContainer
+            .find('form#ReportedQuarterlyData')
+            .first() as JQuery<HTMLFormElement>;
     }
 
     private _setupProjectDataSheetBtnEvent(): void {
@@ -135,13 +214,13 @@ export default class ProjectDataSheet extends ProjectClass {
         }
 
         // Remove form and clear references
-        if (this.Form) {
-            this.Form.remove();
-            this.Form = null;
+        if (this.form) {
+            this.form.remove();
+            this.form = null;
         }
 
         // Clear DOM references
-        const quarterlySelector = this.FormContainer.find(
+        const quarterlySelector = this.formContainer.find(
             'select#pds_quarter_to_load'
         );
         quarterlySelector.empty();
@@ -154,7 +233,7 @@ export default class ProjectDataSheet extends ProjectClass {
         this.application_Id = '';
         this.documentBtnSelectors.removeClass('d-none');
 
-        // Remove any appended elements from FormContainer
-        this.FormContainer.find('#formWrapper').remove();
+        // Remove any appended elements from formContainer
+        this.formContainer.find('#formWrapper').remove();
     }
 }
