@@ -12,11 +12,11 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FormDraftController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
-use App\Http\Controllers\StaffSRDocController;
+use App\Http\Controllers\ProjectForm\SRDocController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\StaffPDSDocController;
-use App\Http\Controllers\StaffPISDocController;
+use App\Http\Controllers\ProjectForm\PDSDocController;
+use App\Http\Controllers\ProjectForm\PISDocController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\GetApplicantController;
@@ -243,7 +243,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [GenerateFormController::class, 'getProjectSheetsForm'])
         ->name('getProjectSheetsForm');
 
-    Route::controller(StaffPISDocController::class)->group(function () {
+    Route::controller(PISDocController::class)->group(function () {
 
         Route::post('/Staff/Project/create/information-sheet/', 'createPISData')
             ->name('staff.Project.create.information-sheet');
@@ -262,7 +262,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
             ->middleware('signed');
     });
 
-    Route::controller(StaffPDSDocController::class)->group(function () {
+    Route::controller(PDSDocController::class)->group(function () {
         Route::put('/Staff/Project/set/dataSheet', 'setPDSData')
             ->name('staff.Project.set.data-sheet');
 
@@ -274,7 +274,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     });
 
 
-    Route::controller(StaffSRDocController::class)->group(function () {
+    Route::controller(SRDocController::class)->group(function () {
         Route::put('/Staff/Project/set/StatusReport', 'setSRData')
             ->name('staff.Project.set.StatusReport');
 

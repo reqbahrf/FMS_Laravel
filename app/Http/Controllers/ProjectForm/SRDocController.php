@@ -2,17 +2,21 @@
 
 namespace App\Http\Controllers;
 
+namespace App\Http\Controllers\ProjectForm;
+
 use Exception;
 use Mpdf\Mpdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Actions\GeneratePDFAction;
+use App\Http\Controllers\Controller;
 use App\Actions\GenerateEsignElement;
 use App\Http\Requests\GenerateSRRequest;
 use App\Services\StatusReportDataHandlerService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class StaffSRDocController extends Controller
+
+class SRDocController extends Controller
 {
     public function getPDFDocument(
         Request $request,

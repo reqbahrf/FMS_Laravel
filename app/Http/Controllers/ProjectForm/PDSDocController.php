@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ProjectForm;
 
 use Exception;
 use Mpdf\Mpdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Actions\GeneratePDFAction;
+use App\Http\Controllers\Controller;
 use App\Actions\GenerateEsignElement;
 use App\Http\Requests\GeneratePDSRequest;
 use App\Services\ProjectDataSheetDataHandlerService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class StaffPDSDocController extends Controller
+class PDSDocController extends Controller
 {
     public function __construct(
         private ProjectDataSheetDataHandlerService $projectDataSheetDataHandlerService

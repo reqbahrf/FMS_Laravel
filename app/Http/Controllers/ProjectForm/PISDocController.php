@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\ProjectForm;
 
 use Exception;
 use Mpdf\Mpdf;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 use App\Actions\GeneratePDFAction;
-use App\Actions\GenerateEsignElement;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\GeneratePISRequest;
 use App\Services\ProjectInfoSheetDataHandlerService;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class StaffPISDocController extends Controller
+class PISDocController extends Controller
 {
     public function __construct(
         private ProjectInfoSheetDataHandlerService $projectInfoSheetDataHandlerService
