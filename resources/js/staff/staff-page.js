@@ -2583,11 +2583,11 @@ async function initializeStaffPageJs() {
                                 <td class="text-center">
                                     <span
                                         class="badge rounded-pill ${
-                                            report.Coop_Response === 'submitted'
+                                            report.coop_response === 'Submitted'
                                                 ? 'bg-success'
                                                 : 'text-bg-secondary'
                                         }"
-                                        >${report.Coop_Response}
+                                        >${report.coop_response}
                                     </span>
                                 </td>
                                 <td class="text-center">
