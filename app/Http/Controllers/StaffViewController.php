@@ -175,7 +175,7 @@ class StaffViewController extends Controller
 
             $html = '';
             foreach ($OngoingQuarterlyReport as $report) {
-                $html .= '<option value="' . $report->quarter . '">' . $report->quarter . '</option>';
+                $html .= '<option data-id="' . $report->id . '" value="' . $report->quarter . '">' . $report->quarter . '</option>';
             }
 
             return response()->json(['html' => $html], 200);

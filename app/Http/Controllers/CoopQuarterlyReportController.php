@@ -28,8 +28,8 @@ class CoopQuarterlyReportController extends Controller
             $html = '';
             foreach ($quarterlyReportsLinks as $index => $report) {
                 $signedUrl = URL::signedRoute('CooperatorViewController', [
-                    'id' => hash('sha256', $report->id),
-                    'projectId' => hash('sha256', $report->ongoing_project_id),
+                    'id' => $report->id,
+                    'projectId' => $report->ongoing_project_id,
                     'quarter' => $report->quarter,
                     'reportStatus' => $report->report_status,
                     'reportSubmitted' => $report->report_file_state,
@@ -104,12 +104,12 @@ class CoopQuarterlyReportController extends Controller
         $quarterPeriod = $request->header('X-Quarter-Period');
         $quarterStatus = $request->header('X-Quarter-Status');
         try {
-            OngoingQuarterlyReport::whereRaw('SHA2(id, 256) = ?', $id)
-                ->whereRaw('SHA2(ongoing_project_id, 256) = ?', $quarterProject)
+            OngoingQuarterlyReport::where('id', $id)
+                ->where('ongoing_project_id', $quarterProject)
                 ->where('quarter', $quarterPeriod)
                 ->where('report_status', $quarterStatus)
                 ->update([
-                    'report_file' => json_encode($request->all()),
+                    'report_file' => json_encode($request->validated()),
                 ]);
 
             return response()->json(['success' => true, 'message' => 'Quarterly report submitted successfully.']);
@@ -120,11 +120,11 @@ class CoopQuarterlyReportController extends Controller
 
 
 
-    private function getQuaterlyReportData(string $reportId, String $projectId, String $quarter): Collection
+    private function getQuaterlyReportData(string $reportId, string $projectId, string $quarter): Collection
     {
         try {
-            return OngoingQuarterlyReport::whereRaw('SHA2(id, 256) = ?', $reportId)
-                ->whereRaw('SHA2(ongoing_project_id, 256) = ?', $projectId)
+            return OngoingQuarterlyReport::where('id', $reportId)
+                ->where('ongoing_project_id', $projectId)
                 ->where('quarter', $quarter)
                 ->select(['report_file'])
                 ->get();
