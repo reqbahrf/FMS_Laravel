@@ -27,13 +27,12 @@ class CoopQuarterlyReportController extends Controller
                 ->get();
 
             $html = '';
-            foreach ($quarterlyReportsLinks as $index => $report) {
-                $signedUrl = GenerateQuarterlyReportUrlAction::execute($report);
+            foreach ($quarterlyReportsLinks as $report) {
 
                 $reportStatusClass = $report->report_status == 'open' ? 'success' : 'secondary';
                 $html .= '<li>';
                 $html .= '<a href="#" id="querterlyReportTab' . str_replace(' ', '', $report->quarter) . '" ';
-                $html .= ($report->report_status == 'closed') ? 'class="disabled" onclick="return false;"' : 'onclick="loadPage(\'' . $signedUrl . '\', \'querterlyReportTab' . str_replace(' ', '', $report->quarter) . '\');">';
+                $html .= ($report->report_status == 'closed') ? 'class="disabled" onclick="return false;"' : 'onclick="loadPage(\'' . $report->url . '\', \'querterlyReportTab' . str_replace(' ', '', $report->quarter) . '\');">';
                 $html .= '<span class="position-relative">' . $report->quarter . '</span>';
                 $html .= '<span class="badge rounded-pill text-bg-' . $reportStatusClass . '">';
                 $html .= ucfirst($report->report_status);

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use App\Models\OngoingQuarterlyReport;
+use App\Actions\GenerateQuarterlyReportUrlAction;
 
 class StaffQuarterlyReportController extends Controller
 {
@@ -18,23 +20,21 @@ class StaffQuarterlyReportController extends Controller
         ]);
 
         try {
-            $ongoingReports = OngoingQuarterlyReport::Select(
+            $ongoingReports = OngoingQuarterlyReport::select(
                 'id',
+                'ongoing_project_id',
                 'quarter',
                 'report_file',
                 'open_until',
                 'report_status',
             )->where('ongoing_project_id', $validated['project_id'])->get();
 
-            $ongoingReports->each(function ($report) {
-                $report->Coop_Response = $report->report_file ? 'submitted' : 'no submission';
-                $report->remaining_days = $report->open_until ? round(now()->diffInDays(Carbon::parse($report->open_until))) : 'Not set';
-            });
-
             return response()->json($ongoingReports->makeHidden('report_file'), 200);
         } catch (\Exception $e) {
+            Log::error('Error fetching quarterly reports: ' . $e->getMessage());
+
             return response()->json([
-                'message' => $e->getMessage(),
+                'message' => 'An error occurred while fetching quarterly reports',
                 'status' => 'error'
             ], 500);
         }
