@@ -164,8 +164,22 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
         ->name('CooperatorViewController')
         ->middleware('signed');
 
-    Route::resource('/Cooperator/QuarterlyReport', CoopQuarterlyReportController::class)
-        ->only(['index', 'create', 'update']);
+    Route::controller(CoopQuarterlyReportController::class)->group(function () {
+
+        Route::get('/Cooperator/QuarterlyReport', 'index')
+            ->name('QuarterlyReport.index');
+
+        Route::get('/Cooperator/QuarterlyReport/create', 'create')
+            ->name('QuarterlyReport.create');
+
+        Route::put('/Cooperator/QuarterlyReport/{id}', 'update')
+            ->name('QuarterlyReport.update')
+            ->middleware('signed');
+    });
+
+    // Route::resource('/Cooperator/QuarterlyReport', CoopQuarterlyReportController::class)
+    //     ->only(['index', 'create'])
+    //     ->middleware('signed:relative');
 });
 
 //Cooperator Routes End

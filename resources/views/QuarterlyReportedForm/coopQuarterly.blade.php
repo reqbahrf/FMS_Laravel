@@ -24,11 +24,12 @@
 </div>
 <div class="m-2 m-md-3">
     <form
-        id="updateQuarterlyData"
+        id="ReportedQuarterlyData"
         data-quarter-id="{{ $reportId }}"
         data-quarter-project="{{ $projectId }}"
         data-quarter-period="{{ $quarter }}"
         data-quarter-status="{{ $reportStatus }}"
+        action="{{ URL::signedRoute('QuarterlyReport.update', $reportId) }}"
     >
         <div class="card mb-3">
             <div
