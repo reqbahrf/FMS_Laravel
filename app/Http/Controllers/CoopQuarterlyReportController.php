@@ -105,7 +105,7 @@ class CoopQuarterlyReportController extends Controller
 
             if ($report) {
                 $report->update([
-                    'report_file' => $request->validated(),
+                    'report_file' => [...$request->validated(), 'quarter' => $quarterPeriod],
                 ]);
 
                 return response()->json([

@@ -354,7 +354,7 @@
                         > </td>
                     </tr>
                     @php
-                        use App\Services\NumberFormatterService;
+                        use App\Services\NumberFormatterService as NF;
 
                         function calculateTotalEmployment($data)
                         {
@@ -362,68 +362,36 @@
                             $totalManMonth = 0;
 
                             // Process Direct Labor Regular
-                            $maleDirectRegular = NumberFormatterService::parseFormattedNumber(
-                                $data['male_Dir_Regular'] ?? '0',
-                            );
-                            $femaleDirectRegular = NumberFormatterService::parseFormattedNumber(
-                                $data['female_Dir_Regular'] ?? '0',
-                            );
-                            $workdaysDirectRegular = NumberFormatterService::parseFormattedNumber(
-                                $data['workday_Dir_Regular'] ?? '0',
-                            );
+                            $maleDirectRegular = NF::parseFormattedNumber($data['male_Dir_Regular'] ?? '0');
+                            $femaleDirectRegular = NF::parseFormattedNumber($data['female_Dir_Regular'] ?? '0');
+                            $workdaysDirectRegular = NF::parseFormattedNumber($data['workday_Dir_Regular'] ?? '0');
                             $directRegularManMonth =
                                 ($maleDirectRegular + $femaleDirectRegular) * ($workdaysDirectRegular / 20);
-                            $data['DireRegularTotalManMonth'] = NumberFormatterService::formatNumber(
-                                $directRegularManMonth,
-                            );
+                            $data['DireRegularTotalManMonth'] = NF::formatNumber($directRegularManMonth);
 
                             // Process Direct Labor Part-time
-                            $maleDirectPartTime = NumberFormatterService::parseFormattedNumber(
-                                $data['male_Dir_PartT'] ?? '0',
-                            );
-                            $femaleDirectPartTime = NumberFormatterService::parseFormattedNumber(
-                                $data['female_Dir_PartT'] ?? '0',
-                            );
-                            $workdaysDirectPartTime = NumberFormatterService::parseFormattedNumber(
-                                $data['workday_Dir_PartT'] ?? '0',
-                            );
+                            $maleDirectPartTime = NF::parseFormattedNumber($data['male_Dir_PartT'] ?? '0');
+                            $femaleDirectPartTime = NF::parseFormattedNumber($data['female_Dir_PartT'] ?? '0');
+                            $workdaysDirectPartTime = NF::parseFormattedNumber($data['workday_Dir_PartT'] ?? '0');
                             $directPartTimeManMonth =
                                 ($maleDirectPartTime + $femaleDirectPartTime) * ($workdaysDirectPartTime / 20);
-                            $data['ParttimeTotalManMonth'] = NumberFormatterService::formatNumber(
-                                $directPartTimeManMonth,
-                            );
+                            $data['ParttimeTotalManMonth'] = NF::formatNumber($directPartTimeManMonth);
 
                             // Process Indirect Labor Regular
-                            $maleIndirectRegular = NumberFormatterService::parseFormattedNumber(
-                                $data['male_Indir_Regular'] ?? '0',
-                            );
-                            $femaleIndirectRegular = NumberFormatterService::parseFormattedNumber(
-                                $data['female_Indir_Regular'] ?? '0',
-                            );
-                            $workdaysIndirectRegular = NumberFormatterService::parseFormattedNumber(
-                                $data['workday_Indir_Regular'] ?? '0',
-                            );
+                            $maleIndirectRegular = NF::parseFormattedNumber($data['male_Indir_Regular'] ?? '0');
+                            $femaleIndirectRegular = NF::parseFormattedNumber($data['female_Indir_Regular'] ?? '0');
+                            $workdaysIndirectRegular = NF::parseFormattedNumber($data['workday_Indir_Regular'] ?? '0');
                             $indirectRegularManMonth =
                                 ($maleIndirectRegular + $femaleIndirectRegular) * ($workdaysIndirectRegular / 20);
-                            $data['IndiRegularTotalManMonth'] = NumberFormatterService::formatNumber(
-                                $indirectRegularManMonth,
-                            );
+                            $data['IndiRegularTotalManMonth'] = NF::formatNumber($indirectRegularManMonth);
 
                             // Process Indirect Labor Part-time
-                            $maleIndirectPartTime = NumberFormatterService::parseFormattedNumber(
-                                $data['male_Indir_PartT'] ?? '0',
-                            );
-                            $femaleIndirectPartTime = NumberFormatterService::parseFormattedNumber(
-                                $data['female_Indir_PartT'] ?? '0',
-                            );
-                            $workdaysIndirectPartTime = NumberFormatterService::parseFormattedNumber(
-                                $data['workday_Indir_PartT'] ?? '0',
-                            );
+                            $maleIndirectPartTime = NF::parseFormattedNumber($data['male_Indir_PartT'] ?? '0');
+                            $femaleIndirectPartTime = NF::parseFormattedNumber($data['female_Indir_PartT'] ?? '0');
+                            $workdaysIndirectPartTime = NF::parseFormattedNumber($data['workday_Indir_PartT'] ?? '0');
                             $indirectPartTimeManMonth =
                                 ($maleIndirectPartTime + $femaleIndirectPartTime) * ($workdaysIndirectPartTime / 20);
-                            $data['IndiParttimeTotalManMonth'] = NumberFormatterService::formatNumber(
-                                $indirectPartTimeManMonth,
-                            );
+                            $data['IndiParttimeTotalManMonth'] = NF::formatNumber($indirectPartTimeManMonth);
 
                             // Calculate totals
                             $totalNumPersonnel =
@@ -443,8 +411,8 @@
                                 $indirectPartTimeManMonth;
 
                             // Set the totals
-                            $data['TotalEmployment'] = NumberFormatterService::formatNumber($totalNumPersonnel, 0);
-                            $data['TotalManMonth'] = NumberFormatterService::formatNumber($totalManMonth);
+                            $data['TotalEmployment'] = NF::formatNumber($totalNumPersonnel, 0);
+                            $data['TotalManMonth'] = NF::formatNumber($totalManMonth);
 
                             return $data;
                         }
@@ -766,14 +734,14 @@
                                         : '0';
 
                                     // Parse the values
-                                    $grossSales = NumberFormatterService::parseFormattedNumber($grossSalesRaw);
-                                    $productionCost = NumberFormatterService::parseFormattedNumber($productionCostRaw);
+                                    $grossSales = NF::parseFormattedNumber($grossSalesRaw);
+                                    $productionCost = NF::parseFormattedNumber($productionCostRaw);
 
                                     // Calculate net sales
                                     $netSales = $grossSales - $productionCost;
 
                                     // Update the product with calculated net sales
-                                    $product['netSales'] = NumberFormatterService::formatNumber($netSales);
+                                    $product['netSales'] = NF::formatNumber($netSales);
 
                                     // Add to totals
                                     $totalGrossSales += $grossSales;
@@ -794,14 +762,14 @@
                                         : '0';
 
                                     // Parse the values
-                                    $grossSales = NumberFormatterService::parseFormattedNumber($grossSalesRaw);
-                                    $productionCost = NumberFormatterService::parseFormattedNumber($productionCostRaw);
+                                    $grossSales = NF::parseFormattedNumber($grossSalesRaw);
+                                    $productionCost = NF::parseFormattedNumber($productionCostRaw);
 
                                     // Calculate net sales
                                     $netSales = $grossSales - $productionCost;
 
                                     // Update the product with calculated net sales
-                                    $product['netSales'] = NumberFormatterService::formatNumber($netSales);
+                                    $product['netSales'] = NF::formatNumber($netSales);
 
                                     // Add to totals
                                     $totalGrossSales += $grossSales;
@@ -811,11 +779,10 @@
                             }
 
                             // Update the totals in the data array
-                            $data['totalGrossSales'] = '₱ ' . NumberFormatterService::formatNumber($totalGrossSales);
-                            $data['totalProductionCost'] =
-                                '₱ ' . NumberFormatterService::formatNumber($totalProductionCost);
-                            $data['totalNetSales'] = '₱ ' . NumberFormatterService::formatNumber($totalNetSales);
-                            $data['CurrentgrossSales_val'] = NumberFormatterService::formatNumber($totalGrossSales);
+                            $data['totalGrossSales'] = '₱ ' . NF::formatNumber($totalGrossSales);
+                            $data['totalProductionCost'] = '₱ ' . NF::formatNumber($totalProductionCost);
+                            $data['totalNetSales'] = '₱ ' . NF::formatNumber($totalNetSales);
+                            $data['CurrentgrossSales_val'] = NF::formatNumber($totalGrossSales);
 
                             return $data;
                         }
@@ -1143,31 +1110,51 @@
                             class="tg-baqh"
                             colspan="4"
                             rowspan="2"
-                        >Gross Sales Generated = Gross Sales Q4 - Gross
-                            Sales Q3</td>
+                        >Gross Sales Generated = Gross Sales {{ $currentQuarter['quarter'] ?? '' }} - Gross
+                            Sales {{ $previousQuarter['quarter'] ?? '' }}</td>
                         <td
                             class="tg-baqh"
                             colspan="2"
-                        >Gross Sales&nbsp;&nbsp;&nbsp;Q4(for the reporting period)</td>
+                        >Gross Sales {{ $currentQuarter['quarter'] ?? '' }}<br>(for the reporting period)
+                        </td>
                         <td
                             class="tg-baqh"
                             colspan="2"
-                        >Cross Sales&nbsp;&nbsp;&nbsp;Q3(Previous Quarter)</td>
+                        >Cross Sales {{ $previousQuarter['quarter'] ?? '' }}<br>(Previous Quarter)</td>
                         <td
                             class="tg-baqh"
                             colspan="2"
-                        >TOTAL GROSS&nbsp;&nbsp;&nbsp;SALES GENERATED</td>
+                        >TOTAL GROSS SALES GENERATED</td>
                     </tr>
+                    @php
+                        $previousGrossSales = 0;
+                        if ($previousQuarter != null) {
+                            foreach ($previousQuarter['ExportProduct'] ?? [] as $exportProduct) {
+                                $previousGrossSales += (float) str_replace(',', '', $exportProduct['grossSales']);
+                            }
+                            foreach ($previousQuarter['LocalProduct'] as $localProduct) {
+                                $previousGrossSales += (float) str_replace(',', '', $localProduct['grossSales']);
+                            }
+                        }
+                        $previous_quarter_gross_sales = NF::parseFormattedNumber(
+                            $previousQuarter['PreviousgrossSales'] ?? number_format($previousGrossSales),
+                        );
+                        $current_quarter_gross_sales = NF::parseFormattedNumber(
+                            $currentQuarter['CurrentgrossSales_val'] ?? '',
+                        );
+
+                        $total_gross_sales = (float) $current_quarter_gross_sales - $previous_quarter_gross_sales;
+                    @endphp
                     <tr>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         >
                             <x-custom-input.input
-                                name="CurrentgrossSales"
+                                name="CurrentgrossSales_val"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$currentQuarter['CurrentgrossSales'] ?? ''"
+                                :value="'₱' . ($currentQuarter['CurrentgrossSales_val'] ?? '')"
                             />
                         </td>
                         <td
@@ -1178,18 +1165,23 @@
                                 name="PreviousgrossSales"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$currentQuarter['PreviousgrossSales'] ?? ''"
+                                :value="'₱' .
+                                    ' ' .
+                                    ($previousQuarter['PreviousgrossSales'] ?? NF::formatNumber($previousGrossSales))"
                             />
                         </td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         >
+
                             <x-custom-input.input
                                 name="TotalgrossSales"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$currentQuarter['TotalgrossSales'] ?? ''"
+                                :value="'₱' .
+                                    ' ' .
+                                    ($currentQuarter['TotalgrossSales'] ?? NF::formatNumber($total_gross_sales))"
                             />
                         </td>
                     </tr>
@@ -1204,14 +1196,25 @@
                             class="tg-8d8j"
                             colspan="6"
                         >
+                            @php
+                                $total_gross_sales_percent =
+                                    ((float) ($current_quarter_gross_sales - $previous_quarter_gross_sales) /
+                                        $previous_quarter_gross_sales) *
+                                    100;
+                            @endphp
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                            {{-- {{ $currentQuarter['CurrentgrossSales'] ?? '' }}-{{ $currentQuarter['PreviousgrossSales'] ?? '' }}&nbsp;&nbsp;&nbsp;/
-                            {{ $currentQuarter['PreviousgrossSales'] ?? '' }} X 100 =
-                            {{ $currentQuarter['totalgrossSales_percent'] ?? '' }} --}}
+                            <span
+                                class="CurrentgrossSales_val_cal">{{ $currentQuarter['CurrentgrossSales_val'] ?? '' }}</span>
+                            -
+                            <span class="PreviousgrossSales_val_cal">
+                                {{ NF::formatNumber($previous_quarter_gross_sales) }}</span>&nbsp;&nbsp;&nbsp;
+                            X 100 / =
+                            <span class="totalgrossSales_percent">
+                                {{ NF::formatNumber($total_gross_sales_percent) . '' . '%' }}</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td
                             class="tg-0lax"
                             colspan="4"
@@ -1282,7 +1285,7 @@
                             {{ $PreviousEmployment ?? '' }} X 100 = {{ $totalEmployment_percent ?? '' }}
                             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
             {!! $esignatureElement ?? '' !!}
