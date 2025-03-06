@@ -44,9 +44,14 @@ export default class ProjectDataSheet extends ProjectClass {
             this._toggleDocumentBtnVisibility();
             this.formContainer.append(response as string);
             this.form = this._getFormInstance();
-            this.formEvent = new ReportedQuarterlyReportEvent(this.form);
+            if (this.formEvent) {
+                this.formEvent.destroy();
+            }
             switch (actionMode) {
                 case 'edit':
+                    this.formEvent = new ReportedQuarterlyReportEvent(
+                        this.form
+                    );
                     this.formEvent.initInputEventFormatter();
                     this.formEvent.initStoreInitialValue();
                     this.formEvent.initEditMode();
