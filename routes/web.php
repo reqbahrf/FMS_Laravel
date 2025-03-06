@@ -139,7 +139,7 @@ Route::controller(PasswordResetController::class)->group(function () {
 
 
 
-Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verified'])->group(function () {
+Route::middleware(['coopUser', 'check.password.change', 'verified'])->group(function () {
     Route::post('/Cooperator/Projects', SetProjectToLoadController::class)
         ->name('Cooperator.Projects');
 
@@ -175,7 +175,8 @@ Route::middleware([CheckCooperatorUser::class, 'check.password.change', 'verifie
 
         Route::put('/Cooperator/QuarterlyReport/{id}', 'update')
             ->name('QuarterlyReport.update')
-            ->middleware('signed');
+            ->middleware('signed')
+            ->withoutMiddleware('coopUser');
     });
 
     // Route::resource('/Cooperator/QuarterlyReport', CoopQuarterlyReportController::class)
@@ -301,13 +302,15 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         ->name('send.rejection.email');
 
 
-    //Staff Evaluation Schedule Set date
-    Route::put('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'setEvaluationSchedule'])
-        ->name('staff.set.EvaluationSchedule');
+    Route::controller(ScheduleController::class)->group(function () {
+        Route::put('/staff/Applicant/Evaluation-Schedule', 'setEvaluationSchedule')
+            ->name('staff.set.EvaluationSchedule');
 
-    //Get evaluation schedule
-    Route::get('/staff/Applicant/Evaluation-Schedule', [ScheduleController::class, 'getScheduledDate'])
-        ->name('staff.get.EvaluationSchedule');
+        //Get evaluation schedule
+        Route::get('/staff/Applicant/Evaluation-Schedule', 'getScheduledDate')
+            ->name('staff.get.EvaluationSchedule');
+    });
+    //Staff Evaluation Schedule Set date
 
     Route::put('/staff/submit-applicant/to/admin/{business_id}/{application_id}', [SubmissionToAdminController::class, 'submitToAdmin'])
         ->name('staff.submit.applicant.to.admin');
@@ -355,13 +358,20 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
     Route::get('/Admin/Project/ProposalDetails/{business_id}/{project_id}', GetProjectProposalController::class)
         ->name('admin.Project.GetProposalDetails');
 
-    Route::post('/Admin/Project/Approved-Project', [AdminProjectController::class, 'approvedProjectProposal'])
-        ->name('admin.Project.ApprovedProjectProposal');
+    Route::controller(AdminProjectController::class)->group(function () {
+        Route::post('/Admin/Project/Approved-Project', 'approvedProjectProposal')
+            ->name('admin.Project.ApprovedProjectProposal');
+
+        Route::post('/Admin/Assign-New-Staff', 'assignNewStaff')
+            ->name('admin.AssignNewStaff');
+
+        Route::put('/Admin/approved/project/{business_id}/{application_id}/{staff_id}', 'approvedProject')
+            ->name('admin.Project.ApprovedProject');
+    });
+
 
     Route::resource('/Admin/Users', AdminManageStaffController::class);
 
-    Route::post('/Admin/Assign-New-Staff', [AdminProjectController::class, 'assignNewStaff'])
-        ->name('admin.AssignNewStaff');
 
     Route::get('/generate-pdf-report/{yearToLoad?}', [AdminReportController::class, 'generatePDFReport'])
         ->name('admin.Dashboard.generateReport');
@@ -369,8 +379,6 @@ Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(funct
     Route::get('/activity/logs/user/{user_id}', [UserActivityLogController::class, 'getSelectedUserActivityLog'])
         ->name('activity.logs.user');
 
-    Route::put('/Admin/approved/project/{business_id}/{application_id}/{staff_id}', [AdminProjectController::class, 'approvedProject'])
-        ->name('admin.Project.ApprovedProject');
 
     Route::get('/Admin/get/Project-Form/{business_id}/{application_id}', GetProjectFormListController::class)
         ->name('admin.Project.GetProjectFormList');
@@ -391,38 +399,44 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
         ->name('Project.getOngoingProjects');
 
 
-    Route::get('/Applicant/get/tna/{business_id}/{application_id}/{action}', [TNADocController::class, 'getTNAForm'])
-        ->name('staff.Applicant.get.tna');
+    Route::controller(TNADocController::class)->group(function () {
+        Route::get('/Applicant/get/tna/{business_id}/{application_id}/{action}', 'getTNAForm')
+            ->name('staff.Applicant.get.tna');
 
-    Route::put('/Applicant/set/tna/{business_id}/{application_id}', [TNADocController::class, 'setTNAForm'])
-        ->name('staff.Applicant.set.tna')
-        ->middleware('signed');
+        Route::put('/Applicant/set/tna/{business_id}/{application_id}', 'setTNAForm')
+            ->name('staff.Applicant.set.tna')
+            ->middleware('signed');
 
-    Route::get('/Applicant/generate/tna-document/{business_id}/{application_id}', [TNADocController::class, 'exportTNAFormToPDF'])
-        ->name('staff.Applicant.generate.tna-document')
-        ->middleware('signed');
+        Route::get('/Applicant/generate/tna-document/{business_id}/{application_id}', 'exportTNAFormToPDF')
+            ->name('staff.Applicant.generate.tna-document')
+            ->middleware('signed');
+    });
 
-    Route::get('/Applicant/get/project-proposal/{business_id}/{application_id}/{action}', [ProjectProposalDocController::class, 'getProjectProposalForm'])
-        ->name('staff.Applicant.get.project-proposal');
+    Route::controller(ProjectProposalDocController::class)->group(function () {
+        Route::get('/Applicant/get/project-proposal/{business_id}/{application_id}/{action}', 'getProjectProposalForm')
+            ->name('staff.Applicant.get.project-proposal');
 
-    Route::put('/Applicant/set/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'setProjectProposalForm'])
-        ->name('staff.Applicant.set.project-proposal')
-        ->middleware('signed');
+        Route::put('/Applicant/set/project-proposal/{business_id}/{application_id}', 'setProjectProposalForm')
+            ->name('staff.Applicant.set.project-proposal')
+            ->middleware('signed');
 
-    Route::get('/Applicant/generate/project-proposal/{business_id}/{application_id}', [ProjectProposalDocController::class, 'exportProjectProposalToPDF'])
-        ->name('staff.Applicant.generate.project-proposal')
-        ->middleware('signed');
+        Route::get('/Applicant/generate/project-proposal/{business_id}/{application_id}', 'exportProjectProposalToPDF')
+            ->name('staff.Applicant.generate.project-proposal')
+            ->middleware('signed');
+    });
 
-    Route::get('/Applicant/get/rtec-report/{business_id}/{application_id}/{action}', [RTECReportDocController::class, 'getRTECReportForm'])
-        ->name('staff.Applicant.get.rtec-report');
+    Route::controller(RTECReportDocController::class)->group(function () {
+        Route::get('/Applicant/get/rtec-report/{business_id}/{application_id}/{action}', 'getRTECReportForm')
+            ->name('staff.Applicant.get.rtec-report');
 
-    Route::put('/Applicant/set/rtec-report/{business_id}/{application_id}', [RTECReportDocController::class, 'setRTECReportForm'])
-        ->name('staff.Applicant.set.rtec-report')
-        ->middleware('signed');
+        Route::put('/Applicant/set/rtec-report/{business_id}/{application_id}', 'setRTECReportForm')
+            ->name('staff.Applicant.set.rtec-report')
+            ->middleware('signed');
 
-    Route::get('/Applicant/generate/rtec-report/{business_id}/{application_id}', [RTECReportDocController::class, 'exportRTECReportFormToPDF'])
-        ->name('staff.Applicant.generate.rtec-report')
-        ->middleware('signed');
+        Route::get('/Applicant/generate/rtec-report/{business_id}/{application_id}', 'exportRTECReportFormToPDF')
+            ->name('staff.Applicant.generate.rtec-report')
+            ->middleware('signed');
+    });
 });
 
 // Notification Routes
