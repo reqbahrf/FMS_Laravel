@@ -150,8 +150,6 @@ export default class ProjectDataSheet extends ProjectClass {
         // Clear other properties
         this.selectedQuarter = null;
         this.project_id = '';
-        this.business_Id = '';
-        this.application_Id = '';
         this.documentBtnSelectors.removeClass('d-none');
 
         // Remove any appended elements from formContainer
