@@ -402,4 +402,38 @@ export default class ReportedQuarterlyReportEvent {
             });
         });
     }
+
+    public destroy(): void {
+        // Remove all event listeners from form elements
+        this.form.off('submit');
+
+        // Remove event listeners from input containers
+        this.inputContainers.off('click', '.editButton');
+        this.inputContainers.off('click', '.revertButton');
+
+        // Remove event listeners from product and sales container
+        this.productAndSalesInputContainer.off('click', '.editButton');
+        this.productAndSalesInputContainer.off('click', '.revertButton');
+
+        // Remove event listeners from export and local table body
+        this.exportAndLocalTableBody.off(
+            'input',
+            'tr td:nth-child(n+4):nth-child(-n+5) input'
+        );
+
+        // Remove add/remove row handlers
+        $(document).off('click', '.addNewProductRow');
+        $(document).off('click', '.removeRowButton');
+
+        // Clear references to DOM elements
+        this.form = $();
+        this.exportAndLocalTableBody = $();
+        this.inputContainers = $();
+        this.productAndSalesInputContainer = $();
+
+        // Clear stored data
+        this.initialData = {};
+
+        console.warn('ReportedQuarterlyReportEvent destroyed');
+    }
 }
