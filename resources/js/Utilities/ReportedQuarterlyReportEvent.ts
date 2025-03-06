@@ -19,8 +19,10 @@ export default class ReportedQuarterlyReportEvent {
     private inputContainers: JQuery<HTMLElement>;
     private productAndSalesInputContainer: JQuery<HTMLElement>;
     private initialData: { [key: string]: any };
+    private exportUrl: string | null;
     constructor(form: JQuery<HTMLFormElement>) {
         this.form = form;
+        this.exportUrl = null;
         this.inputContainers = this.form.find(
             '#AssetsInputs, #EmploymentInputs, #marketOutletInputs'
         );
@@ -106,6 +108,14 @@ export default class ReportedQuarterlyReportEvent {
         this.initialData['ProductionAndSalesInputs'] = TableDataExtractor(
             ReportedQuarterlyReportEvent.ExportAndLocalMktTableConfig
         );
+    }
+
+    public initExportUrl(): void {
+        this.exportUrl = this.form.attr('data-generated-url') as string;
+    }
+
+    public getExportUrl(): string {
+        return this.exportUrl as string;
     }
 
     private _storeInitialValues(container: JQuery<HTMLElement>): {

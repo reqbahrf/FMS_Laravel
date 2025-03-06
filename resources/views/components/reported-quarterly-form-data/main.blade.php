@@ -521,7 +521,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="ExportData table-group-divider">
-                                                    @forelse ($reportData['ExportProduct'] as $exportProduct)
+                                                    @forelse ($reportData['ExportProduct'] ?? [] as $exportProduct)
                                                         <tr class="table_row">
                                                             <td>
                                                                 <input
@@ -821,7 +821,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody class="LocalData table-group-divider">
-                                                    @forelse($reportData['LocalProduct'] as $localProduct)
+                                                    @forelse($reportData['LocalProduct'] ?? [] as $localProduct)
                                                         <tr class="table_row">
                                                             <td><input
                                                                     class="form-control productName"

@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\GetAvailableChartYearList;
-use App\Actions\GetStaffHandledProjects;
 use Exception;
 use App\Models\ChartYearOf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Models\OngoingQuarterlyReport;
+use App\Actions\GetStaffHandledProjects;
+use App\Actions\GetAvailableChartYearList;
 
 
 
@@ -172,14 +173,17 @@ class StaffViewController extends Controller
                     return sprintf('%04d%02d', $year, array_search($quarter, ['Q1', 'Q2', 'Q3', 'Q4']));
                 });
 
+            Log::info($OngoingQuarterlyReport);
+
             $html = '';
             foreach ($OngoingQuarterlyReport as $report) {
-                $html .= '<option data-view-url="' . $report->url . '" value="' . $report->quarter . '">' . $report->quarter . '</option>';
+                $preview_pds_url = URL::signedRoute('staff.Project.get.data-sheet', ['projectId' => $report->ongoing_project_id, 'quarter' => $report->quarter]);
+                $html .= '<option data-form-url="' . $report->url . '" data-preview-pds-url="' . $preview_pds_url . '" value="' . $report->quarter . '">' . $report->quarter . '</option>';
             }
 
             return response()->json(['html' => $html], 200);
         } catch (Exception $e) {
-            response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }

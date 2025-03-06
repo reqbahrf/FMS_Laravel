@@ -272,11 +272,12 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
             ->name('staff.quarterly.report.form')
             ->middleware('signed');
 
-        Route::get('/Staff/Project/get/data-sheet/{projectId}/{businessId}/{applicationId}/{action}/{quarter}', 'getProjectDataSheetForm')
+        Route::get('/Staff/Project/get/data-sheet/{projectId}/{quarter}', 'getProjectDataSheetForm')
             ->name('staff.Project.get.data-sheet');
 
-        Route::get('/Staff/Project/get/dataSheet', 'getPDFDocument')
-            ->name('staff.Project.get.dataSheet');
+        Route::get('/Staff/Project/generate/data-sheet-document/{projectId}/{quarter}', 'getPDFDocument')
+            ->name('staff.Project.generate.data-sheet-document')
+            ->middleware('signed');
     });
 
 

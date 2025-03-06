@@ -2,8 +2,10 @@
 
 namespace App\Services;
 
+use App\Actions\GetPreviousQuarterAction;
 use Exception;
 use App\Models\ProjectForm;
+use App\Models\ProjectInfo;
 use App\Models\OngoingQuarterlyReport;
 
 class ProjectDataSheetDataHandlerService
@@ -11,7 +13,8 @@ class ProjectDataSheetDataHandlerService
     private const PROJECT_DATA_SHEET = 'project_data_sheet';
 
     public function __construct(
-        private ProjectForm $projectDataSheet
+        private ProjectForm $projectDataSheet,
+        private GetPreviousQuarterAction $getPreviousQuarter
     ) {}
 
     public function setProjectDataSheetData(
@@ -86,6 +89,50 @@ class ProjectDataSheetDataHandlerService
                 ->first();
         } catch (Exception $e) {
             throw new Exception('Failed to get quarterly report: ' . $e->getMessage());
+        }
+    }
+
+    public function getCooperatorReportedData(string $projectId, string $quarter): object
+    {
+        try {
+            $previousQuarter = $this->getPreviousQuarter->execute($quarter);
+
+            return ProjectInfo::select(
+                'project_info.Project_id',
+                'project_info.project_title',
+                'business_info.firm_name',
+                'business_info.landMark',
+                'business_info.barangay',
+                'business_info.city',
+                'business_info.province',
+                'business_info.region',
+                'business_info.zip_code',
+                'coop_users_info.f_name',
+                'coop_users_info.mid_name',
+                'coop_users_info.l_name',
+                'coop_users_info.suffix',
+                'coop_users_info.designation',
+                'coop_users_info.landline',
+                'coop_users_info.mobile_number',
+                'users.email'
+            )
+                ->join('business_info', 'project_info.business_id', '=', 'business_info.id')
+                ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
+                ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+                ->where('project_info.Project_id', $projectId)
+                ->with([
+                    'currentQuarterlyReport' => function ($query) use ($quarter) {
+                        $query->select('ongoing_project_id', 'quarter', 'report_file')
+                            ->where('quarter',  $quarter);
+                    },
+                    'previousQuarterlyReport' => function ($query) use ($previousQuarter) {
+                        $query->select('ongoing_project_id', 'quarter', 'report_file')
+                            ->where('quarter',  $previousQuarter);
+                    }
+                ])
+                ->first();
+        } catch (Exception $e) {
+            throw new Exception('Failed to retrieve project data sheet data: ' . $e->getMessage());
         }
     }
 

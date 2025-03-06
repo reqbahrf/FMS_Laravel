@@ -1,4 +1,4 @@
-@props(['projectDataSheetData', 'isEditable', 'isExporting' => false])
+@props(['projectDataSheetData', 'isEditable' => false, 'isExporting' => false, 'projectId', 'quarter'])
 <div id="formWrapper">
     @if (!$isExporting)
         <nav aria-label="breadcrumb">
@@ -32,7 +32,7 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectInfo['projectTitle'] ?? ''"
+                            :value="$projectDataSheetData['projectTitle'] ?? ''"
                         />
                     </td>
                 </tr>
@@ -47,7 +47,7 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectInfo['firmName'] ?? ''"
+                            :value="$projectDataSheetData['firmName'] ?? ''"
                         />
                     </td>
                 </tr>
@@ -62,7 +62,7 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectInfo['address'] ?? ''"
+                            :value="$projectDataSheetData['address'] ?? ''"
                         />
                     </td>
                 </tr>
@@ -77,7 +77,7 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectInfo['ContactPerson'] ?? ''"
+                            :value="$projectDataSheetData['ContactPerson'] ?? ''"
                         />
                     </td>
                     <td class="label">Designation:</td>
@@ -90,7 +90,7 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectInfo['Designation'] ?? ''"
+                            :value="$projectDataSheetData['Designation'] ?? ''"
                         />
                     </td>
                 </tr>
@@ -110,7 +110,7 @@
                                 type="text"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="$projectInfo['landline'] ?? ''"
+                                :value="$projectDataSheetData['landline'] ?? ''"
                             />
                         </span>
                         <span class="contact-label">Mobile Phone:</span>
@@ -123,7 +123,7 @@
                                 type="text"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="$projectInfo['mobile'] ?? ''"
+                                :value="$projectDataSheetData['mobile'] ?? ''"
                             />
                         </span>
                         <span class="contact-label">Email Address:</span>
@@ -136,7 +136,7 @@
                                 type="text"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="$projectInfo['email'] ?? ''"
+                                :value="$projectDataSheetData['email'] ?? ''"
                             />
                         </span>
                     </td>
@@ -150,7 +150,7 @@
                                 type="radio"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="($projectData['reportingQuarter'] ?? '') == 'Q1'"
+                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q1'"
                             /> 1st
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -160,7 +160,7 @@
                                 type="radio"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="($projectData['reportingQuarter'] ?? '') == 'Q2'"
+                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q2'"
                             /> 2nd
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -170,7 +170,7 @@
                                 type="radio"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="($projectData['reportingQuarter'] ?? '') == 'Q3'"
+                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q3'"
                             /> 3rd
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -180,7 +180,7 @@
                                 type="radio"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="($projectData['reportingQuarter'] ?? '') == 'Q4'"
+                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q4'"
                             /> 4th
                             Quarter </label>
                     </td>
@@ -1089,7 +1089,7 @@
                             <button
                                 class="btn btn-primary"
                                 id="exportProjectDataSheetFormToPDF"
-                                data-generated-url=""
+                                data-generated-url="{{ route('staff.Project.generate.data-sheet-document', [$projectId, $quarter]) }}"
                                 type="button"
                             >Export as PDF</button>
                         </div>

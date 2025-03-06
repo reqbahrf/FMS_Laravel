@@ -11,6 +11,7 @@ use App\Http\Controllers\Controller;
 use App\Actions\GenerateEsignElement;
 use App\Http\Requests\GeneratePDSRequest;
 use App\Services\ProjectDataSheetDataHandlerService;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PDSDocController extends Controller
@@ -20,15 +21,23 @@ class PDSDocController extends Controller
     ) {}
     public function getPDFDocument(
         Request $request,
-        GenerateEsignElement $generateEsignElement,
         GeneratePDFAction $generatePDFAction
     ): JsonResponse | StreamedResponse {
         try {
-            $validatedData = $request->validated();
-            $esignatureElement = $generateEsignElement->execute($validatedData['signatures']);
+            $validatedData = $request->validate([
+                'projectId' => 'required|string|exists:project_info,Project_id',
+                'quarter' => 'required|string',
+            ]);
+
+            $project_id = $validatedData['projectId'];
+            $quarter = $validatedData['quarter'];
+            $reportData = $this->projectDataSheetDataHandlerService->getCooperatorReportedData($project_id, $quarter);
+            $currentQuarter = $reportData->currentQuarterReport->report_file;
+            $previousQuarter = $reportData->previousQuarterReport->report_file;
+            $reportData = $reportData->report_file;
 
             try {
-                $html = view('staff-view.outputs.ProjectDataSheet', [...$validatedData, 'esignatureElement' => $esignatureElement])->render();
+                $html = view('components.project-data-sheet.main', compact('reportData', 'currentQuarter', 'previousQuarter'))->render();
             } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Error generating project data sheet template',
@@ -55,28 +64,14 @@ class PDSDocController extends Controller
     public function getProjectDataSheetForm(Request $request)
     {
         try {
-            $action = $request->action;
             $projectId = $request->projectId;
-            $applicationId = $request->applicationId;
-            $businessId = $request->businessId;
             $quarter = $request->quarter;
-            $projectDataSheetData = $this->projectDataSheetDataHandlerService->getProjectDataSheetData(
-                $projectId,
-                $businessId,
-                $applicationId,
-                $quarter
-            );
-            switch ($action) {
-                case 'view':
-                    $isEditable = false;
-                    break;
-                case 'edit':
-                    $isEditable = true;
-                    break;
-                default:
-                    throw new Exception('Invalid action');
-            }
-            return view('components.project-data-sheet.main', compact('projectDataSheetData', 'isEditable'));
+
+            $reportData = $this->projectDataSheetDataHandlerService->getCooperatorReportedData($projectId, $quarter);
+            $currentQuarter = $reportData->currentQuarterlyReport->first()->report_file;
+            $previousQuarter = $reportData->previousQuarterlyReport->first()->report_file;
+
+            return view('components.project-data-sheet.main', compact('reportData', 'currentQuarter', 'previousQuarter', 'projectId', 'quarter'));
         } catch (Exception $e) {
             return response()->json([
                 'message' => 'An unexpected error occurred ' . $e->getMessage(),

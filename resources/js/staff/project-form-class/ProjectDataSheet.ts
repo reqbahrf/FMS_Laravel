@@ -11,10 +11,10 @@ import ReportedQuarterlyReportEvent from '../../Utilities/ReportedQuarterlyRepor
 type Action = 'edit' | 'view';
 
 export default class ProjectDataSheet extends ProjectClass {
-    private selectedQuarter: string | null;
     private form: JQuery<HTMLFormElement> | null;
     private formEvent: ReportedQuarterlyReportEvent | null;
-    private loadPDSBtn: JQuery<HTMLElement> | null;
+    private loadPDSBtn: JQuery<HTMLButtonElement> | null;
+    private previewPDSBtn: JQuery<HTMLButtonElement> | null;
     constructor(
         protected formContainer: JQuery<HTMLElement>,
         private project_id: string
@@ -22,15 +22,18 @@ export default class ProjectDataSheet extends ProjectClass {
         super(formContainer);
         this.formContainer = formContainer;
         this.project_id = project_id;
-        this.selectedQuarter = null;
         this.form = null;
         this.formEvent = null;
         this.loadPDSBtn = formContainer.find('#loadPDSbtn');
+        this.previewPDSBtn = formContainer.find('#previewPDSbtn');
         this._setupProjectDataSheetBtnEvent();
         this._getAvailableQuartersReport();
     }
 
-    private async _getProjectDataSheet(url: string, actionMode: Action) {
+    private async _getProjectDataSheet(
+        url: string,
+        actionMode: Action = 'view'
+    ) {
         try {
             showProcessToast('Loading Project Data Sheet...');
             const response = await $.ajax({
@@ -64,10 +67,13 @@ export default class ProjectDataSheet extends ProjectClass {
             hideProcessToast();
         } catch (error: any) {
             console.warn('Error in Retrieving Project Data Sheet' + error);
+            console.log(error);
             hideProcessToast();
             showToastFeedback(
                 'text-bg-danger',
-                error?.responseJSON?.message || error?.message
+                error?.responseJSON?.message ||
+                    error?.message ||
+                    'Error in Retrieving Project Data Sheet'
             );
         }
     }
@@ -75,7 +81,7 @@ export default class ProjectDataSheet extends ProjectClass {
     private async _getAvailableQuartersReport() {
         try {
             const quarterlySelector = this.formContainer.find(
-                'select#pds_quarter_to_load'
+                'select#pds_quarter_to_load, select#pds_year_to_export'
             );
             quarterlySelector.empty();
             const response = await $.ajax({
@@ -113,7 +119,7 @@ export default class ProjectDataSheet extends ProjectClass {
                 const select = inputGroup.find('select#pds_quarter_to_load');
                 const url = select
                     .find('option:selected')
-                    .attr('data-view-url') as string;
+                    .attr('data-form-url') as string;
                 const action = inputGroup
                     .find('select#pds_action_to_load')
                     .val() as Action;
@@ -131,12 +137,39 @@ export default class ProjectDataSheet extends ProjectClass {
                 this._getProjectDataSheet(url, action);
             });
         }
+        if (this.previewPDSBtn) {
+            this.previewPDSBtn.on('click', async (e) => {
+                const btn = $(e.currentTarget);
+                const inputGroup = btn.closest('.input-group');
+                const select = inputGroup.find('select#pds_year_to_export');
+                const url = select
+                    .find('option:selected')
+                    .attr('data-preview-pds-url') as string;
+                const quarter = select.val() as string;
+
+                const isConfirmed = await createConfirmationModal({
+                    title: 'Preview Project Data Sheet',
+                    message: `Are you sure you want to preview a Project Data Sheet for Project ${this.project_id} in year ${quarter}?`,
+                    confirmText: 'Yes',
+                    cancelText: 'No',
+                });
+                if (!isConfirmed) {
+                    return;
+                }
+                this._getProjectDataSheet(url);
+            });
+        }
     }
 
     public destroy(): void {
         // Remove event listeners
         if (this.loadPDSBtn) {
             this.loadPDSBtn.off('click');
+            this.loadPDSBtn = null;
+        }
+        if (this.previewPDSBtn) {
+            this.previewPDSBtn.off('click');
+            this.previewPDSBtn = null;
         }
 
         // Remove form and clear references
@@ -147,13 +180,11 @@ export default class ProjectDataSheet extends ProjectClass {
 
         // Clear DOM references
         const quarterlySelector = this.formContainer.find(
-            'select#pds_quarter_to_load'
+            'select#pds_quarter_to_load, select#pds_year_to_export'
         );
         quarterlySelector.empty();
-        this.loadPDSBtn = null;
 
         // Clear other properties
-        this.selectedQuarter = null;
         this.project_id = '';
         this.documentBtnSelectors.removeClass('d-none');
 

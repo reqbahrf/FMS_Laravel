@@ -573,6 +573,16 @@
                                         data-form-type="PDS"
                                     >Load</button>
                                 </div>
+                                <div class="input-group mt-3">
+                                    <select
+                                        class="form-select"
+                                        id="pds_year_to_export"
+                                    ></select>
+                                    <button
+                                        class="btn btn-primary"
+                                        id="previewPDSbtn"
+                                    >Export</button>
+                                </div>
                             </div>
                         </div>
                     </div>
