@@ -1,28 +1,28 @@
 <style>
-    #smartwizard th {
+    #quarterlyForm #smartwizard th {
         font-size: clamp(0.75rem, 1vw, 0.8125rem);
     }
 
-    #smartwizard th.theader {
+    #quarterlyForm #smartwizard th.theader {
         font-size: 2.5rem;
     }
 
-    .volumeUnit {
+    #quarterlyForm .volumeUnit {
         max-width: 130px;
     }
 
-    .netSales_val {
+    #quarterlyForm .netSales_val {
         pointer-events: none;
     }
 
-    span.requiredFields {
+    #quarterlyForm span.requiredFields {
         color: red;
     }
 
     @media screen and (max-width: 768px) {
 
-        .table th,
-        .table td {
+        #quarterlyForm .table th,
+        #quarterlyForm .table td {
             min-width: 35vw;
         }
     }
@@ -39,6 +39,7 @@
                 data-quarter-project="{{ $projectId }}"
                 data-quarter-period="{{ $quarter }}"
                 data-quarter-status="{{ $reportStatus }}"
+                action="{{ URL::signedRoute('QuarterlyReport.update', $reportId) }}"
             >
                 <div
                     class="my-4"
@@ -466,7 +467,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="table-responsive">
-                                                    <table class="table Export-Outlet" id="ExportOutletTable">
+                                                    <table
+                                                        class="table Export-Outlet"
+                                                        id="ExportOutletTable"
+                                                    >
                                                         <thead>
                                                             <tr>
                                                                 <th scope="col">Name of Product</th>
@@ -609,7 +613,10 @@
                                                     </div>
                                                 </div>
                                                 <div class="table-responsive">
-                                                    <table class="table local-Outlet" id="LocalOutletTable">
+                                                    <table
+                                                        class="table local-Outlet"
+                                                        id="LocalOutletTable"
+                                                    >
                                                         <thead>
                                                             <tr>
                                                                 <th scope="col">Name of Product</th>

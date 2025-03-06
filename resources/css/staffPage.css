@@ -821,7 +821,7 @@ Form Styles
 
 #TNAForm .padding-md { padding: 12pt; }
 
-:is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]) {
+:is(#TNAForm, #ProjectProposalForm, #RTECReportForm, #projectInfoSheetForm, #projectDataSheetForm) :is(input[type="text"], input[type="date"]) {
     border: none;
     border-bottom: 1px solid #000;
     outline: none;
@@ -833,7 +833,7 @@ Form Styles
     font-size: 10px; /* Font size */
 }
 
-:is(#TNAForm, #ProjectProposalForm, #RTECReportForm) :is(input[type="text"], input[type="date"]):focus {
+:is(#TNAForm, #ProjectProposalForm, #RTECReportForm, #projectInfoSheetForm, #projectDataSheetForm) :is(input[type="text"], input[type="date"]):focus {
     border-bottom: 2px solid #318791; /* Focus state */
     box-shadow: 0 0 5px rgba(49, 135, 145, 0.5); /* Optional shadow */
 }
@@ -853,7 +853,7 @@ Form Styles
 }
 
 
-:is(#ProjectProposalForm, #TNAForm, #RTECReportForm) * {
+:is(#ProjectProposalForm, #TNAForm, #RTECReportForm, #projectInfoSheetForm, #projectDataSheetForm) * {
     font-family: Arial, sans-serif;
     font-size: 9pt;
 }
@@ -973,4 +973,227 @@ table.no-border td {
 table.no-border {
     border-collapse: separate !important;
     border-spacing: 0 !important;
+}
+
+/*
+--------------------------------------------------------
+  Project Information Sheet Styles
+--------------------------------------------------------
+*/
+
+#projectInfoSheetForm {
+    width: 100%;
+    min-width: 794px;
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
+}
+
+#projectInfoSheetForm .tg {
+    border-collapse: collapse;
+    border-spacing: 10;
+    width: 100%;
+    margin: 0px auto;
+}
+
+#projectInfoSheetForm .tg td {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    padding: 10px;
+    word-break: break-all;
+}
+
+#projectInfoSheetForm .tg th {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: normal;
+    padding: 4px;
+    word-break: normal;
+}
+
+#projectInfoSheetForm .tg .tg-cly1 {
+    text-align: left;
+    vertical-align: middle
+}
+
+#projectInfoSheetForm .tg .tg-bobw {
+    font-weight: bold;
+    text-align: center;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-wa1i {
+    font-weight: bold;
+    margin: 20px;
+    text-align: center;
+    vertical-align: middle
+}
+
+#projectInfoSheetForm .tg .tg-hvke {
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: bold;
+    text-align: left;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-j6zm {
+    font-weight: bold;
+    text-align: left;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-8d8j {
+    text-align: center;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-7zrl {
+    text-align: left;
+    vertical-align: bottom
+}
+
+#projectInfoSheetForm .tg .tg-0lax {
+    text-align: left;
+    vertical-align: top
+}
+
+/*
+--------------------------------------------------------
+Project Data Sheet Styles
+--------------------------------------------------------
+*/
+
+#projectDataSheetForm {
+    width: 100%;
+    min-width: 794px;
+    max-width: 794px;
+    margin: 0 auto;
+    padding: 2cm;
+    border: 1px solid #ccc;
+}
+
+#projectDataSheetForm .tg {
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0px auto;
+    width: 100%;
+}
+
+#projectDataSheetForm .tg td {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    padding: 5px;
+    word-break: break-all;
+}
+
+#projectDataSheetForm .tg td.no-border {
+    border: none;
+}
+
+#projectDataSheetForm .tg th {
+    border-color: black;
+    border-style: solid;
+    border-width: 1px;
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+    font-weight: normal;
+    padding: 4px;
+    word-break: normal;
+}
+
+#projectDataSheetForm .tg-8d8j {
+    font-size: 9pt;
+    font-family: Arial, sans-serif;
+    text-align: left;
+    vertical-align: bottom
+}
+
+#projectDataSheetForm #containerSize {
+    width: 100%;
+    margin: 0 auto;
+}
+
+#projectDataSheetForm.form-group {
+    font-family: Arial, sans-serif;
+    font-size: 9pt;
+}
+
+#projectDataSheetForm .main-content {
+    font-family: Arial, sans-serif;
+    width: 100%;
+    max-width: 794px;
+    margin: 0 auto;
+    line-height: 1.5;
+    padding-bottom: 20px;
+}
+
+#projectDataSheetForm table .ProjectInfo {
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    table-layout: fixed;
+}
+
+#projectDataSheetForm .ProjectInfo td:nth-child(1) {
+    width: 15%;
+}
+
+#projectDataSheetForm .ProjectInfo td:nth-child(2) {
+    width: 85%;
+}
+
+#projectDataSheetForm .label {
+    width: 10%;
+    font-size: 9pt;
+    font-weight: normal;
+    vertical-align: top;
+}
+
+#projectDataSheetForm .input {
+    font-weight: bold;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+    font-size: 9pt;
+}
+
+#projectDataSheetForm .table--headerText {
+    font-weight: bold;
+    font-size: 9pt;
+}
+
+#projectDataSheetForm .small-label {
+    width: 10%;
+    font-weight: bold;
+    vertical-align: top;
+}
+
+#projectDataSheetForm .small-input {
+    width: 30%;
+    border-bottom: 1px solid #000;
+    padding-bottom: 5px;
+}
+
+#projectDataSheetForm input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+#projectDataSheetForm .bottomBorder {
+    width: 100%;
+    border: 0px;
+}
+
+#projectDataSheetForm .contact-label {
+    font-weight: normal;
+    font-size: 9pt;
+    margin-right: 2px;
 }

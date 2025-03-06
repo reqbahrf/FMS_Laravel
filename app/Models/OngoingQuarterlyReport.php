@@ -2,9 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use App\Actions\GenerateQuarterlyReportUrlAction;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OngoingQuarterlyReport extends Model
 {
@@ -25,7 +27,12 @@ class OngoingQuarterlyReport extends Model
         'report_file' => 'array'
     ];
 
-    protected $appends = ['report_file_state'];
+    protected $appends = [
+        'report_file_state',
+        'url',
+        'coop_response',
+        'remaining_days'
+    ];
 
     public function projectInfo(): BelongsTo
     {
@@ -35,5 +42,24 @@ class OngoingQuarterlyReport extends Model
     public function getReportFileStateAttribute(): string
     {
         return !empty($this->report_file) ? 'true' : 'false';
+    }
+
+    public function getUrlAttribute(): string
+    {
+        return GenerateQuarterlyReportUrlAction::execute($this);
+    }
+
+    public function getCoopResponseAttribute(): string
+    {
+        return $this->report_file ? 'Submitted' : 'Not Submitted';
+    }
+
+    public function getRemainingDaysAttribute(): string
+    {
+        if (!$this->open_until) {
+            return 'Not set';
+        }
+
+        return round(now()->diffInDays(Carbon::parse($this->open_until)));
     }
 }

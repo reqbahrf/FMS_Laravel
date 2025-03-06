@@ -49,7 +49,7 @@ class ProjectInfo extends Model
         return $this->BelongsTo(BusinessInfo::class, 'business_id', 'id');
     }
 
-    public function quarterlyReport(): HasMany
+    public function currentQuarterlyReport(): HasMany
     {
         return $this->HasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
     }

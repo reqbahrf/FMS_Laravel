@@ -19,6 +19,8 @@ import NavigationHandler from '../Utilities/TabNavigationHandler';
 import DarkMode from '../Utilities/DarkModeHandler';
 import ApplicantDataTable from '../Utilities/applicant-datatable';
 import PaymentHandler from './PaymentHandler';
+import ProjectInfoSheet from './project-form-class/ProjectInfoSheet';
+import ProjectDataSheet from './project-form-class/ProjectDataSheet';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -827,7 +829,7 @@ async function initializeStaffPageJs() {
                                        }
                                    })()}"
                                     >${project.application_status}</span
-                                >`,
+                                ><input type="hidden" class="application_id" value="${project.application_id}">`,
                                 /*html*/ `<button
                                     class="btn btn-primary handleProjectbtn"
                                     type="button"
@@ -946,69 +948,6 @@ async function initializeStaffPageJs() {
                     );
                 }
             });
-
-            async function getUploadedReceipts(projectId) {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url: DASHBOARD_TAB_ROUTE.GET_UPLOADED_RECEIPTS.replace(
-                            ':project_id',
-                            projectId
-                        ),
-                    });
-
-                    UploadedReceiptDataTable.clear();
-                    UploadedReceiptDataTable.rows.add(
-                        response.map((receipt) => [
-                            /*html*/ `${receipt.receipt_name}
-                                <input
-                                    type="hidden"
-                                    class="receipt_id"
-                                    value="${receipt.id}"
-                                />
-                                <input
-                                    type="hidden"
-                                    class="receipt_description"
-                                    value="${receipt.receipt_description}"
-                                /> `,
-                            /*html*/ `<img
-                                src="data:image/png;base64,${receipt.receipt_image}"
-                                alt="${receipt.receipt_name}"
-                                style="max-width: 100px; max-height: 100px;"
-                            />`,
-                            customDateFormatter(receipt.created_at),
-                            /*html*/ `<span
-                                    class="badge ${
-                                        receipt.remark === 'Pending'
-                                            ? 'bg-info'
-                                            : receipt.remark === 'Approved'
-                                              ? 'bg-success'
-                                              : receipt.remark === 'Rejected'
-                                                ? 'bg-danger'
-                                                : ''
-                                    }"
-                                    >${receipt.remark}</span
-                                >
-                                <input
-                                    type="hidden"
-                                    class="comment"
-                                    value="${receipt.comment}"
-                                />`,
-                            /*html*/ `<button
-                                class="btn btn-primary btn-sm viewReceipt"
-                                data-receipt-id="${receipt.ongoing_project_id}"
-                            >
-                                View
-                            </button>`,
-                        ])
-                    );
-                    UploadedReceiptDataTable.draw();
-                } catch (error) {
-                    throw new Error(
-                        'Error fetching uploaded receipts: ' + error
-                    );
-                }
-            }
 
             $('#paymentModal').on('show.bs.modal', function (event) {
                 const button = $(event.relatedTarget);
@@ -1131,10 +1070,13 @@ async function initializeStaffPageJs() {
                 }
             };
 
+            let pisClass;
+            let pdsClass;
+
             $('#handledProjectTableBody').on(
                 'click',
                 '.handleProjectbtn',
-                function () {
+                async function () {
                     const handledProjectRow = $(this).closest('tr');
                     const hiddenInputs = handledProjectRow.find(
                         'input[type="hidden"]'
@@ -1148,6 +1090,9 @@ async function initializeStaffPageJs() {
                         .find('td:eq(5)')
                         .text()
                         .trim();
+                    const application_id = handledProjectRow
+                        .find('input.application_id')
+                        .val();
                     const project_id = handledProjectRow
                         .find('td:eq(0)')
                         .text()
@@ -1261,6 +1206,29 @@ async function initializeStaffPageJs() {
                         .html(
                             /*html*/ `${formatNumberToCurrency(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
                         );
+                    const formContainer = $('#SheetFormDocumentContainer');
+
+                    if (pisClass) {
+                        pisClass.destroy();
+                    }
+
+                    if (pdsClass) {
+                        pdsClass.destroy();
+                    }
+
+                    pisClass = new ProjectInfoSheet(
+                        formContainer,
+                        project_id,
+                        business_id,
+                        application_id
+                    );
+
+                    pdsClass = new ProjectDataSheet(
+                        formContainer,
+                        project_id,
+                        business_id,
+                        application_id
+                    );
 
                     //TODO initialize Payment Object here
                     handleProjectOffcanvasContent(project_status);
@@ -1269,12 +1237,19 @@ async function initializeStaffPageJs() {
                         project_id,
                         actual_amount
                     );
-                    paymentHandler.getPaymentAndCalculation();
-                    getUploadedReceipts(project_id);
-                    getProjectLedger(project_id);
-                    getProjectLinks(project_id);
-                    getQuarterlyReports(project_id);
-                    getAvailableQuarterlyReports(project_id);
+                    const results = await Promise.allSettled([
+                        paymentHandler.getPaymentAndCalculation(),
+                        getProjectLedger(project_id),
+                        getProjectLinks(project_id),
+                        getQuarterlyReports(project_id),
+                    ]);
+
+                    results.forEach((result) => {
+                        if (result.status === 'rejected') {
+                            console.error('Promise failed:', result.reason);
+                        }
+                    });
+                    // getAvailableQuarterlyReports(project_id);
                 }
             );
 
@@ -1298,64 +1273,6 @@ async function initializeStaffPageJs() {
                         });
                 }
             );
-
-            const getAmountRefund = () => {
-                const fundedAmountText = $('#FundedAmount').text();
-                const actualAmount = fundedAmountText
-                    .split('(')[0]
-                    .trim()
-                    .replace(/[^\d.]/g, '');
-                console.log(actualAmount);
-                return actualAmount;
-            };
-
-            /**
-             * Calculates and displays payment statistics for a project.
-             *
-             * @async
-             * @param {number|string} project_id - The project identifier
-             * @param {string} actual_amount - Total funded amount (currency string)
-             * @param {DataTable.Api} paymentDataTableInstance - DataTable for payment history
-             * @throws {Error} If payment history fetch fails
-             *
-             * @description
-             * Fetches payment history, calculates statistics (total paid, remaining balance,
-             * completion percentage), and updates the UI with payment information and progress.
-             */
-            const getPaymentHistoryAndCalculation = async (
-                project_id,
-                actual_amount,
-                paymentDataTableInstance
-            ) => {
-                try {
-                    const totalAmount = await getProjectPaymentHistory(
-                        project_id,
-                        paymentDataTableInstance,
-                        true
-                    );
-
-                    const fundedAmount = parseFloat(
-                        actual_amount.replace(/,/g, '')
-                    );
-                    const remainingAmount = fundedAmount - totalAmount;
-                    const percentage = Math.round(
-                        (totalAmount / fundedAmount) * 100
-                    );
-                    $('#totalPaid').text(formatNumberToCurrency(totalAmount));
-                    $('#remainingBalance').text(
-                        formatNumberToCurrency(remainingAmount)
-                    );
-
-                    percentage == 100
-                        ? isRefundCompleted(true)
-                        : isRefundCompleted(false);
-                    setTimeout(() => {
-                        InitializeviewCooperatorProgress(percentage);
-                    }, 500);
-                } catch (error) {
-                    throw new Error('Error fetching payment history: ' + error);
-                }
-            };
 
             const RequirementContainer = $('#RequirementContainer');
 
@@ -2041,31 +1958,31 @@ async function initializeStaffPageJs() {
              *
              * @returns {Promise<void>}
              */
-            const getAvailableQuarterlyReports = async (Project_id) => {
-                try {
-                    const QuarterlySelector = $('#Select_quarter_to_Generate');
-                    QuarterlySelector.empty();
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
-                            ':project_id',
-                            Project_id
-                        ),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                    });
-                    if (response && response.html) {
-                        QuarterlySelector.append(response.html);
-                    }
-                } catch (error) {
-                    throw new Error(
-                        'Error fetching quarterly reports: ' + error
-                    );
-                }
-            };
+            // const getAvailableQuarterlyReports = async (Project_id) => {
+            //     try {
+            //         const QuarterlySelector = $('#pds_quarter_to_load');
+            //         QuarterlySelector.empty();
+            //         const response = await $.ajax({
+            //             type: 'GET',
+            //             url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
+            //                 ':project_id',
+            //                 Project_id
+            //             ),
+            //             headers: {
+            //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+            //                     'content'
+            //                 ),
+            //             },
+            //         });
+            //         if (response && response.html) {
+            //             QuarterlySelector.append(response.html);
+            //         }
+            //     } catch (error) {
+            //         throw new Error(
+            //             'Error fetching quarterly reports: ' + error
+            //         );
+            //     }
+            // };
 
             const FormDocumentContainer = $('#SheetFormDocumentContainer');
 
@@ -2119,62 +2036,62 @@ async function initializeStaffPageJs() {
                 }
             };
 
-            FormDocumentContainer.on(
-                'click',
-                'button[data-form-type]',
-                async function () {
-                    try {
-                        cleanupFormHandlers();
-                        const formType = $(this).data('form-type');
-                        const Project_id = $('#ProjectID').val();
-                        const QuartertoUsed = $(
-                            '#Select_quarter_to_Generate'
-                        ).val();
-                        await GET_PROJECT_SHEET_FORM(
-                            formType,
-                            Project_id,
-                            QuartertoUsed
-                        );
-                        // Initialize form events if not already initialized
+            // FormDocumentContainer.on(
+            //     'click',
+            //     'button[data-form-type]',
+            //     async function () {
+            //         try {
+            //             cleanupFormHandlers();
+            //             const formType = $(this).data('form-type');
+            //             const Project_id = $('#ProjectID').val();
+            //             const QuartertoUsed = $(
+            //                 '#Select_quarter_to_Generate'
+            //             ).val();
+            //             await GET_PROJECT_SHEET_FORM(
+            //                 formType,
+            //                 Project_id,
+            //                 QuartertoUsed
+            //             );
+            //             // Initialize form events if not already initialized
 
-                        window.formEvents = {
-                            [formType]: new FormEvents(formType),
-                        };
-                        // Initialize signature handler if not already initialized
-                        window.esignatureHandler = new EsignatureHandler(
-                            '#esignature-section',
-                            'formal',
-                            true
-                        );
-                    } catch (error) {
-                        showToastFeedback('text-bg-danger', error);
-                    }
-                }
-            );
-            const cleanupFormHandlers = () => {
-                // Cleanup form events
-                if (window.formEvents) {
-                    Object.keys(window.formEvents).forEach((key) => {
-                        // Add any cleanup needed for FormEvents
-                        delete window.formEvents[key];
-                    });
-                    delete window.formEvents;
-                }
+            //             window.formEvents = {
+            //                 [formType]: new FormEvents(formType),
+            //             };
+            //             // Initialize signature handler if not already initialized
+            //             window.esignatureHandler = new EsignatureHandler(
+            //                 '#esignature-section',
+            //                 'formal',
+            //                 true
+            //             );
+            //         } catch (error) {
+            //             showToastFeedback('text-bg-danger', error);
+            //         }
+            //     }
+            // );
+            // const cleanupFormHandlers = () => {
+            //     // Cleanup form events
+            //     if (window.formEvents) {
+            //         Object.keys(window.formEvents).forEach((key) => {
+            //             // Add any cleanup needed for FormEvents
+            //             delete window.formEvents[key];
+            //         });
+            //         delete window.formEvents;
+            //     }
 
-                // Cleanup signature handler
-                if (window.esignatureHandler) {
-                    if (Array.isArray(window.esignatureHandler.signaturePads)) {
-                        window.esignatureHandler.signaturePads.forEach(
-                            (pad) => {
-                                if (pad && typeof pad.clear === 'function') {
-                                    pad.clear();
-                                }
-                            }
-                        );
-                    }
-                    delete window.esignatureHandler;
-                }
-            };
+            //     // Cleanup signature handler
+            //     if (window.esignatureHandler) {
+            //         if (Array.isArray(window.esignatureHandler.signaturePads)) {
+            //             window.esignatureHandler.signaturePads.forEach(
+            //                 (pad) => {
+            //                     if (pad && typeof pad.clear === 'function') {
+            //                         pad.clear();
+            //                     }
+            //                 }
+            //             );
+            //         }
+            //         delete window.esignatureHandler;
+            //     }
+            // };
 
             //TODO: Make this reusable and efficient
 
@@ -2189,20 +2106,21 @@ async function initializeStaffPageJs() {
              * @param {Event} event - The click event object.
              * @return {void}
              */
-            FormDocumentContainer.on(
-                'click',
-                '.breadcrumb-item:not(.active) a',
-                function () {
-                    $(
-                        '#PISFormContainer , #PDSFormContainer, #SRFormContainer'
-                    ).remove();
-                    toggleDocumentSelector();
-                }
-            );
+            // FormDocumentContainer.on(
+            //     'click',
+            //     '.breadcrumb-item:not(.active) a',
+            //     function () {
+            //         $(
+            //             '#PISFormContainer , #PDSFormContainer, #SRFormContainer'
+            //         ).remove();
+            //         toggleDocumentSelector();
+            //     }
+            // );
 
             const toggleDocumentSelector = () =>
                 $('#selectDOC_toGenerate').toggleClass('d-none');
 
+            //TODO: refactor this method
             /**
              * Attaches a click event listener to elements with the class `ExportPDF` within the `#SheetFormDocumentContainer` element.
              *
@@ -2257,17 +2175,18 @@ async function initializeStaffPageJs() {
                     const response = await $.ajax({
                         type: 'POST',
                         url: route_url,
+                        contentType: 'application/pdf',
                         data: data,
                         headers: {
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                                 'content'
                             ),
                         },
-                        xhrFields: {
-                            responseType: 'blob',
-                        },
+                        // xhrFields: {
+                        //     responseType: 'blob',
+                        // },
                     });
-
+                    
                     // Check if response is a PDF (should be application/pdf)
                     const contentType = response.type;
                     console.log(contentType);
@@ -2290,9 +2209,8 @@ async function initializeStaffPageJs() {
                         type: 'application/pdf',
                     });
                     const url = window.URL.createObjectURL(blob);
-
                     // Open PDF in new window
-                    window.open(url, '_blank');
+                    window.open(response, '_blank');
 
                     // Show success message
                     hideProcessToast();
@@ -2643,7 +2561,7 @@ async function initializeStaffPageJs() {
              * Retrieves quarterly reports for a given project ID and populates the quarterly table body with the response data.
              *
              * @param {number} project_id - The ID of the project for which to retrieve quarterly reports
-             * @return {void}
+             * @return {Promise<void>}
              */
             const getQuarterlyReports = async (project_id) => {
                 const TableContainer = $('#quarterlyTableBody');
@@ -2685,11 +2603,11 @@ async function initializeStaffPageJs() {
                                 <td class="text-center">
                                     <span
                                         class="badge rounded-pill ${
-                                            report.Coop_Response === 'submitted'
+                                            report.coop_response === 'Submitted'
                                                 ? 'bg-success'
                                                 : 'text-bg-secondary'
                                         }"
-                                        >${report.Coop_Response}
+                                        >${report.coop_response}
                                     </span>
                                 </td>
                                 <td class="text-center">

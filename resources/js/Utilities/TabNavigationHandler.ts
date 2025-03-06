@@ -1,7 +1,6 @@
 import { showToastFeedback } from './utilFunctions';
 import 'jquery';
 
-
 type HTMLContent = string;
 /**
  * @class NavigationHandler
@@ -12,7 +11,7 @@ export default class NavigationHandler {
     private userRole: string;
     protected MappedUrlsRoutes: { [key: string]: Function };
     private PageFunctionsInitializer: Function;
-    private tabNavItem: JQuery<HTMLElement>;
+    private tabNavItem: JQuery<HTMLElement> | null;
     private spinner: JQuery<HTMLElement>;
     private currentPage: string | null;
 
@@ -33,7 +32,7 @@ export default class NavigationHandler {
         this.userRole = userRole;
         this.MappedUrlsRoutes = MappedUrlsRoutes;
         this.PageFunctionsInitializer = PageFunctionsInitializer;
-        this.tabNavItem = $('.nav-item a')
+        this.tabNavItem = null;
         this.spinner = $('.spinner');
         this.currentPage = null;
     }
@@ -42,13 +41,13 @@ export default class NavigationHandler {
      * Initializes the navigation handler by loading the last visited page or dashboard as default
      * @returns {void}
      */
-   public init(): void {
+    public init(): void {
         const lastUrl = sessionStorage.getItem(`${this.userRole}LastUrl`);
         const lastActive = sessionStorage.getItem(`${this.userRole}LastActive`);
         if (lastUrl && lastActive) {
             this.loadPage(lastUrl, lastActive);
         } else {
-            this.loadPage(NAV_ROUTES.DASHBOARD, 'dashboardLink');
+            this.loadPage(NAV_ROUTES.DASHBOARD, 'dashboardTab');
         }
     }
 
@@ -57,8 +56,9 @@ export default class NavigationHandler {
      * @param {string} activeLink - The ID of the link to be activated
      * @returns {void}
      */
-   private _setActiveLink(activeLink: string): void {
-    this.tabNavItem.removeClass('active');
+    private _setActiveLink(activeLink: string): void {
+        this.tabNavItem?.removeClass('active');
+        this.tabNavItem = $('#' + activeLink);
         const defaultLink = 'dashboardLink';
         const linkToActivate = $('#' + (activeLink || defaultLink));
         linkToActivate.addClass('active');
@@ -71,7 +71,7 @@ export default class NavigationHandler {
      * @returns {Promise<void>}
      * @throws {Error} When page loading fails
      */
-   public async loadPage(url: string, activeLink: string) : Promise<void> {
+    public async loadPage(url: string, activeLink: string): Promise<void> {
         try {
             $(document).trigger('page:changing', {
                 from: this.currentPage,
@@ -112,7 +112,11 @@ export default class NavigationHandler {
      * @throws {Error} When handling page response fails
      * @private
      */
-    async _handleLoadPageResponse(response: HTMLContent, activeLink: string, url: string): Promise<void> {
+    async _handleLoadPageResponse(
+        response: HTMLContent,
+        activeLink: string,
+        url: string
+    ): Promise<void> {
         try {
             const functions = await this._initializePageContext(
                 response,
@@ -131,12 +135,19 @@ export default class NavigationHandler {
         }
     }
 
-    private async _getPageFunction(url:string, functions: Function): Promise<Function> {
+    protected async _getPageFunction(
+        url: string,
+        functions: Function
+    ): Promise<Function> {
         const urlRoute = this.MappedUrlsRoutes;
         return urlRoute[url](functions);
     }
 
-    private async _initializePageContext(response: HTMLContent, activeLink: string, url: string): Promise<Function> {
+    protected async _initializePageContext(
+        response: HTMLContent,
+        activeLink: string,
+        url: string
+    ): Promise<Function> {
         // Load page functions
         const functions = await this.PageFunctionsInitializer();
 

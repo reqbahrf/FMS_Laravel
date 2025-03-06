@@ -49,7 +49,7 @@ function showToastFeedback(status: string, message: string) {
  * @param {number} value - The number to be formatted.
  * @returns {string} The formatted number as a string with exactly 2 decimal places.
  */
-const formatNumberToCurrency = (value: number) => {
+const formatNumberToCurrency = (value: number): string => {
     return value.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
@@ -109,7 +109,7 @@ const customDateFormatter = (date: string): string => {
  * closeOffcanvasInstances('#filterOffcanvas');
  * closeOffcanvasInstances('#menuOffcanvas');
  */
-function closeOffcanvasInstances(offcanva_id: string) {
+function closeOffcanvasInstances(offcanva_id: string): void {
     const offcanvasElement = $(offcanva_id).get(0);
     if (!offcanvasElement) {
         console.warn(`No offcanvas element found for selector: ${offcanva_id}`);
@@ -132,13 +132,13 @@ function parseFormattedNumberToFloat(value: string): number {
     return parseFloat(value?.replace(/,/g, '')) || 0;
 }
 
-function closeModal(modelId: string) {
+function closeModal(modelId: string): void {
     const model = bootstrap.Modal.getInstance(modelId);
     if (!model) return console.warn(`No modal instance found for ${modelId}`);
     model.hide();
 }
 
-function sanitize(input: string) {
+function sanitize(input: string): string {
     return $('<div>').text(input).html(); // Escape special characters
 }
 
@@ -157,7 +157,7 @@ function sanitize(input: string) {
  * // Show custom processing message
  * showProcessToast('Uploading files...');
  */
-function showProcessToast(message = 'Processing...') {
+function showProcessToast(message = 'Processing...'): void {
     const toastInstance = new bootstrap.Toast(ProcessToast[0]);
 
     // Set the message if provided, otherwise show default spinner
@@ -178,7 +178,7 @@ function showProcessToast(message = 'Processing...') {
  * await saveData();
  * hideProcessToast();
  */
-function hideProcessToast() {
+function hideProcessToast(): void {
     const toastInstance = bootstrap.Toast.getInstance(ProcessToast[0]);
     if (!toastInstance) {
         return console.warn('No process toast instance found.');
@@ -190,13 +190,35 @@ function hideProcessToast() {
  * Converts JQuery form data array into a structured object
  * Handles both regular form fields and array fields (with '[]' in the name)
  * @param formData - Array of name-value pairs from a form
+ * @param filterOptions - Optional filtering options
  * @returns An object with form field names as keys and their values
  */
-function serializeFormData(formData: JQuery.NameValuePair[]): {
-    [key: string]: string | string[];
-} {
+function serializeFormData(
+    formData: JQuery.NameValuePair[],
+    filterOptions?: {
+        includeWithAttribute?: string;
+        includeWithClass?: string;
+    }
+): { [key: string]: string | string[] } {
     const FormDataObject: { [key: string]: string | string[] } = {};
+
     formData.forEach((field) => {
+        if (filterOptions) {
+            const input = $(`[name="${field.name}"]`);
+
+            if (
+                filterOptions.includeWithAttribute &&
+                !input.is(`[${filterOptions.includeWithAttribute}]`)
+            ) {
+                return;
+            }
+            if (
+                filterOptions.includeWithClass &&
+                !input.hasClass(filterOptions.includeWithClass)
+            ) {
+                return;
+            }
+        }
         if (field.name.includes('[]')) {
             FormDataObject[field.name] = FormDataObject[field.name]
                 ? [...FormDataObject[field.name], field.value]
@@ -205,6 +227,7 @@ function serializeFormData(formData: JQuery.NameValuePair[]): {
             FormDataObject[field.name] = field.value;
         }
     });
+
     return FormDataObject;
 }
 

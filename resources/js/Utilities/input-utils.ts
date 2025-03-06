@@ -54,7 +54,7 @@ function customFormatNumericInput(
     const combinedSelector = selectors.join(', ');
 
     // Use event delegation instead of direct binding
-    parentContainer.on('input', combinedSelector, function() {
+    parentContainer.on('input', combinedSelector, function () {
         const thisInput = $(this);
 
         // More strict regex: only allow digits and one decimal point
@@ -81,7 +81,10 @@ function customFormatNumericInput(
     });
 }
 
-function yearInputs(parent: string | Element | JQuery, Selector: string | string[]): void {
+function yearInputs(
+    parent: string | Element | JQuery,
+    Selector: string | string[]
+): void {
     let parentElement: JQuery | null = null;
     let inputSelector: string | string[] | null = null;
 
@@ -91,9 +94,9 @@ function yearInputs(parent: string | Element | JQuery, Selector: string | string
         parentElement = $(parent);
     }
 
-    if(typeof Selector === 'string') {
+    if (typeof Selector === 'string') {
         inputSelector = Selector;
-    } else if(Array.isArray(Selector)) {
+    } else if (Array.isArray(Selector)) {
         inputSelector = Selector.join(',');
     }
 
@@ -104,7 +107,10 @@ function yearInputs(parent: string | Element | JQuery, Selector: string | string
     parentElement.on('input', inputSelector as string, function () {
         const thisInput = $(this);
         // Remove non-numeric characters and limit to 4 digits
-        let value = thisInput.val()?.toString().replace(/[^0-9]/g, '') as string;
+        let value = thisInput
+            .val()
+            ?.toString()
+            .replace(/[^0-9]/g, '') as string;
 
         // Limit to 4 digits by taking only the first 4 characters
         if (value.length > 4) {
@@ -112,7 +118,6 @@ function yearInputs(parent: string | Element | JQuery, Selector: string | string
         }
         thisInput.val(value);
     });
-
 }
 
 export { customFormatNumericInput, yearInputs };

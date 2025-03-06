@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Actions\GetAvailableChartYearList;
-use App\Actions\GetStaffHandledProjects;
 use Exception;
 use App\Models\ChartYearOf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use App\Models\OngoingQuarterlyReport;
+use App\Actions\GetStaffHandledProjects;
+use App\Actions\GetAvailableChartYearList;
 
 
 
@@ -146,6 +147,7 @@ class StaffViewController extends Controller
                         'handled_by.l_name as handled_by_l_name',
                         'handled_by.suffix as handled_by_suffix',
                         'handled_by.user_name as staffUserName',
+                        'application_info.id as application_id',
                         'application_info.created_at as date_applied',
                         'application_info.application_status'
                     )
@@ -165,21 +167,23 @@ class StaffViewController extends Controller
 
             $OngoingQuarterlyReport = OngoingQuarterlyReport::where('ongoing_project_id', $ProjectID)
                 ->whereNotNull('report_file')
-                ->select('quarter')
                 ->get()
                 ->sortBy(function ($report) {
                     list($quarter, $year) = explode(' ', $report->quarter);
                     return sprintf('%04d%02d', $year, array_search($quarter, ['Q1', 'Q2', 'Q3', 'Q4']));
                 });
 
+            Log::info($OngoingQuarterlyReport);
+
             $html = '';
             foreach ($OngoingQuarterlyReport as $report) {
-                $html .= '<option value="' . $report->quarter . '">' . $report->quarter . '</option>';
+                $preview_pds_url = URL::signedRoute('staff.Project.get.data-sheet', ['projectId' => $report->ongoing_project_id, 'quarter' => $report->quarter]);
+                $html .= '<option data-form-url="' . $report->url . '" data-preview-pds-url="' . $preview_pds_url . '" value="' . $report->quarter . '">' . $report->quarter . '</option>';
             }
 
             return response()->json(['html' => $html], 200);
         } catch (Exception $e) {
-            response()->json(['error' => $e->getMessage()], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 }
