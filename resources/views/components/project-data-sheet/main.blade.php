@@ -1132,7 +1132,7 @@
                             foreach ($previousQuarter['ExportProduct'] ?? [] as $exportProduct) {
                                 $previousGrossSales += (float) str_replace(',', '', $exportProduct['grossSales']);
                             }
-                            foreach ($previousQuarter['LocalProduct'] as $localProduct) {
+                            foreach ($previousQuarter['LocalProduct'] ?? [] as $localProduct) {
                                 $previousGrossSales += (float) str_replace(',', '', $localProduct['grossSales']);
                             }
                         }
