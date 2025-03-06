@@ -1223,12 +1223,7 @@ async function initializeStaffPageJs() {
                         application_id
                     );
 
-                    pdsClass = new ProjectDataSheet(
-                        formContainer,
-                        project_id,
-                        business_id,
-                        application_id
-                    );
+                    pdsClass = new ProjectDataSheet(formContainer, project_id);
 
                     //TODO initialize Payment Object here
                     handleProjectOffcanvasContent(project_status);
@@ -1391,14 +1386,11 @@ async function initializeStaffPageJs() {
                                     .removeClass('is-valid');
                             }
                         } catch (error) {
-                            console.error('Error fetching the link:', error);
+                            console.warn('Error fetching the link:', error);
                             linkConstInstance
                                 .find('input[name="requirements_link"]')
                                 .addClass('is-invalid')
                                 .removeClass('is-valid');
-                            throw new Error(
-                                'Error fetching the link: ' + error
-                            );
                         } finally {
                             linkConstInstance.find('.spinner-border').remove();
                         }
@@ -2186,7 +2178,7 @@ async function initializeStaffPageJs() {
                         //     responseType: 'blob',
                         // },
                     });
-                    
+
                     // Check if response is a PDF (should be application/pdf)
                     const contentType = response.type;
                     console.log(contentType);
