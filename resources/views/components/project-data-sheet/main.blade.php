@@ -324,7 +324,8 @@
                                     :isEditable="$isEditable"
                                     :value="$totalAssets < 3000000 ? 'Micro' : ''"
                                 />
-                                Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)</label>
+                                Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)
+                            </label>
                             <label>
                                 <x-custom-input.input
                                     name="EnterpriseClass"
@@ -332,7 +333,8 @@
                                     :isEditable="$isEditable"
                                     :value="$totalAssets >= 3000000 && $totalAssets < 15000000 ? 'Small' : ''"
                                 />
-                                Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)</label>
+                                Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)
+                            </label>
                             <label>
                                 <x-custom-input.input
                                     name="EnterpriseClass"
@@ -340,7 +342,8 @@
                                     :isEditable="$isEditable"
                                     :value="$totalAssets >= 15000000 && $totalAssets < 100000000 ? 'Medium' : ''"
                                 />
-                                Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)</label>
+                                Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)
+                            </label>
                         </td>
                     </tr>
                     <tr>
@@ -416,9 +419,6 @@
 
                             return $data;
                         }
-
-                        // You can use this function in your controller before passing data to the view
-                        // or directly in your blade template like this:
                         $currentQuarter = calculateTotalEmployment($currentQuarter ?? []);
                     @endphp
                     <tr>
@@ -1311,7 +1311,7 @@
                             <button
                                 class="btn btn-primary"
                                 id="exportProjectDataSheetFormToPDF"
-                                data-generated-url="{{ route('staff.Project.generate.data-sheet-document', [$projectId, $quarter]) }}"
+                                data-generated-url="{{ URL::signedRoute('staff.Project.generate.data-sheet-document', ['projectId' => $projectId, 'quarter' => $quarter]) }}"
                                 type="button"
                             >Export as PDF</button>
                         </div>

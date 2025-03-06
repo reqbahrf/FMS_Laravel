@@ -1,3 +1,12 @@
+@props([
+    'reportData',
+    'currentQuarter',
+    'previousQuarter',
+    'isEditable' => false,
+    'isExporting' => false,
+    'projectId',
+    'quarter',
+])
 <!DOCTYPE html>
 <html lang="en">
 
@@ -11,7 +20,7 @@
         http-equiv="X-UA-Compatible"
         content="ie=edge"
     >
-    <title>Document</title>
+    <title>Project Data Sheet</title>
     <style type="text/css">
         body {
             font-family: Arial, sans-serif;
@@ -67,9 +76,10 @@
             font-size: 9pt;
         }
 
-        .main-content {
+        #projectDataSheetForm {
             font-family: Arial, sans-serif;
             width: 100%;
+            min-width: 794px;
             max-width: 794px;
             margin: 0 auto;
             line-height: 1.5;
@@ -141,9 +151,13 @@
 
 <body>
     <x-project-data-sheet.main
-        :projectDataSheetData="$projectDataSheetData"
+        :reportData="$reportData"
+        :currentQuarter="$currentQuarter"
+        :previousQuarter="$previousQuarter"
         :isEditable="$isEditable"
         :isExporting="true"
+        :projectId="$projectId"
+        :quarter="$quarter"
     />
 </body>
 
