@@ -2,13 +2,11 @@ import {
     showProcessToast,
     showToastFeedback,
     hideProcessToast,
-    serializeFormData,
 } from '../../Utilities/utilFunctions';
 
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';
 import ReportedQuarterlyReportEvent from '../../Utilities/ReportedQuarterlyReportEvent';
-import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
 
 type Action = 'edit' | 'view';
 
@@ -19,15 +17,11 @@ export default class ProjectDataSheet extends ProjectClass {
     private loadPDSBtn: JQuery<HTMLElement> | null;
     constructor(
         protected formContainer: JQuery<HTMLElement>,
-        private project_id: string,
-        private business_Id: string,
-        private application_Id: string
+        private project_id: string
     ) {
         super(formContainer);
         this.formContainer = formContainer;
         this.project_id = project_id;
-        this.business_Id = business_Id;
-        this.application_Id = application_Id;
         this.selectedQuarter = null;
         this.form = null;
         this.formEvent = null;
@@ -56,7 +50,6 @@ export default class ProjectDataSheet extends ProjectClass {
                     this.formEvent.initInputEventFormatter();
                     this.formEvent.initStoreInitialValue();
                     this.formEvent.initEditMode();
-                    this._setupProjectDataSheetSubmission();
                     break;
                 case 'view':
                     break;
@@ -99,78 +92,6 @@ export default class ProjectDataSheet extends ProjectClass {
             console.warn(
                 'Error in Retrieving Available Quarters Report' + error
             );
-        }
-    }
-
-    private async _setupProjectDataSheetSubmission() {
-        try {
-            if (!this.form) throw new Error('Form not found');
-            const form = this.form;
-            form.on('submit', async (event: JQuery.SubmitEvent) => {
-                event.preventDefault();
-                try {
-                    const url = form.attr('action');
-                    const formData = form.serializeArray();
-                    if (!url || !formData || !formData.length)
-                        throw new Error('Form data not found');
-                    let formDataObject: { [key: string]: string | string[] } = {
-                        ...serializeFormData(formData),
-                        ...TableDataExtractor(
-                            ReportedQuarterlyReportEvent.ExportAndLocalMktTableConfig
-                        ),
-                    };
-                    await this._saveProjectDataSheet(formDataObject, url);
-                } catch (SubmissionError: any) {
-                    console.warn(
-                        'Error in Project Data Sheet Submission' +
-                            SubmissionError
-                    );
-                    showToastFeedback(
-                        'text-bg-danger',
-                        SubmissionError?.responseJSON?.message ||
-                            SubmissionError?.message ||
-                            'Error in Setting Project Data Sheet'
-                    );
-                }
-            });
-        } catch (error: any) {
-            console.warn('Error in Setting Project Data Sheet' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting Project Data Sheet'
-            );
-        }
-    }
-
-    private async _saveProjectDataSheet(
-        formDataObject: {
-            [key: string]: string | string[];
-        },
-        url: string
-    ): Promise<void> {
-        try {
-            showProcessToast('Updating Project Data Sheet...');
-            const response = await $.ajax({
-                type: 'PUT',
-                url: url,
-                data: JSON.stringify(formDataObject),
-                contentType: 'application/json',
-                dataType: 'json',
-                processData: false,
-                headers: {
-                    'X-CSRF-TOKEN':
-                        $('meta[name="csrf-token"]').attr('content') || '',
-                },
-            });
-            hideProcessToast();
-            showToastFeedback(
-                'text-bg-success',
-                response?.message || 'Successfuly Saved'
-            );
-        } catch (error: any) {
-            throw error;
         }
     }
     private _getFormInstance(): JQuery<HTMLFormElement> {

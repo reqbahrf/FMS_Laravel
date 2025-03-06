@@ -503,7 +503,7 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                        @endIf
+                                        @endif
                                         <div class="table-responsive">
                                             <table
                                                 class="table Export-Outlet"
@@ -779,7 +779,7 @@
                                 <strong>3.2 Local Market</strong>
                                 <div class="row p-0">
                                     <div class="col-12">
-                                        @if (!$isEditable)
+                                        @if ($isEditable)
                                             <div class="mt-2">
                                                 <div
                                                     class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
@@ -803,7 +803,7 @@
                                                     </button>
                                                 </div>
                                             </div>
-                                        @endIf
+                                        @endif
                                         <div class="table-responsive">
                                             <table
                                                 class="table Local-Outlet"
