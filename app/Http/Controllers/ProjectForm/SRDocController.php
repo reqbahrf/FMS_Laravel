@@ -40,7 +40,7 @@ class SRDocController extends Controller
 
             return response()->json(['message' => 'Project Status Report form created successfully'], 200);
         } catch (Exception $e) {
-            return response()->json(['message' => 'Error creating Project Status Report form ' . $e->getMessage()], 500);
+            return response()->json(['message' => $e->getMessage()], 500);
         }
     }
     public function getAllYearsRecords(Request $request)

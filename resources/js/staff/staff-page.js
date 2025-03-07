@@ -1968,7 +1968,7 @@ async function initializeStaffPageJs() {
             //         QuarterlySelector.empty();
             //         const response = await $.ajax({
             //             type: 'GET',
-            //             url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
+            //             url: PROJECT_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
             //                 ':project_id',
             //                 Project_id
             //             ),
@@ -2010,7 +2010,7 @@ async function initializeStaffPageJs() {
                 try {
                     const response = await $.ajax({
                         type: 'GET',
-                        url: GENERATE_SHEETS_ROUTE.GET_PROJECT_SHEET_FORM.replace(
+                        url: PROJECT_SHEETS_ROUTE.GET_PROJECT_SHEET_FORM.replace(
                             ':type',
                             formType
                         )
@@ -2162,9 +2162,9 @@ async function initializeStaffPageJs() {
                     const ExportPDF_BUTTON_DATA_VALUE =
                         $(this).attr('data-to-export');
                     const route_url = {
-                        PIS: GENERATE_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
-                        PDS: GENERATE_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
-                        SR: GENERATE_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
+                        PIS: PROJECT_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
+                        PDS: PROJECT_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
+                        SR: PROJECT_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
                     }[ExportPDF_BUTTON_DATA_VALUE];
 
                     // Get form data

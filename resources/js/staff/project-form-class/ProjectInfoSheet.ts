@@ -53,7 +53,7 @@ export default class ProjectInfoSheet extends ProjectClass {
         try {
             const response = await $.ajax({
                 type: 'GET',
-                url: GENERATE_SHEETS_ROUTE.GET_PROJECT_INFORMATION_SHEET_FORM.replace(
+                url: PROJECT_SHEETS_ROUTE.GET_PROJECT_INFORMATION_SHEET_FORM.replace(
                     ':project_id',
                     project_id
                 )
@@ -108,7 +108,7 @@ export default class ProjectInfoSheet extends ProjectClass {
             showProcessToast();
             const response = await $.ajax({
                 type: 'POST',
-                url: GENERATE_SHEETS_ROUTE.CREATE_PROJECT_INFORMATION_SHEET_FORM,
+                url: PROJECT_SHEETS_ROUTE.CREATE_PROJECT_INFORMATION_SHEET_FORM,
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                         'content'
@@ -132,7 +132,7 @@ export default class ProjectInfoSheet extends ProjectClass {
                 error?.responseJSON?.message || error?.message
             );
         } finally {
-            this._getAllYearsRecords(project_id, business_Id, application_Id);
+            this._getAllYearsRecords(project_id, application_Id, business_Id);
         }
     }
 
@@ -144,14 +144,14 @@ export default class ProjectInfoSheet extends ProjectClass {
         try {
             const response = await $.ajax({
                 type: 'GET',
-                url: GENERATE_SHEETS_ROUTE.GET_ALL_YEARS_RECORDS.replace(
+                url: PROJECT_SHEETS_ROUTE.GET_PROJECT_INFORMATION_YEAR_RECORDS.replace(
                     ':project_id',
                     project_id
                 )
                     .replace(':business_id', business_Id)
                     .replace(':application_id', application_Id),
             });
-            this.appendAllYearsRecords(response);
+            this._appendAllYearsRecords(response);
         } catch (error: any) {
             console.error(
                 'Error in Getting All Project Info Sheet' +
@@ -160,7 +160,7 @@ export default class ProjectInfoSheet extends ProjectClass {
         }
     }
 
-    private appendAllYearsRecords(yearsResponse: string[]): void {
+    private _appendAllYearsRecords(yearsResponse: string[]): void {
         this.pisYearToLoad.empty();
         yearsResponse.forEach((year) => {
             this.pisYearToLoad.append(

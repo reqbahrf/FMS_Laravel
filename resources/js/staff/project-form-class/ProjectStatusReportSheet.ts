@@ -25,17 +25,19 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         application_id: string
     ) {
         super(formContainer);
+        this.loadSRBtn = formContainer.find('#loadSRbtn');
+        this.createSRBtn = formContainer.find('#createSRbtn');
+        this.psrYearToCreate = formContainer.find('select#psr_year_to_create');
+        this.psrYearToLoad = formContainer.find('select#psr_year_to_load');
         this.project_id = project_id;
         this.business_id = business_id;
         this.application_id = application_id;
         this.formContainer = formContainer;
         this.form = null;
         this.formEvent = null;
-        this.loadSRBtn = formContainer.find('#loadSRbtn');
-        this.createSRBtn = formContainer.find('#createSRbtn');
         this.generatePDFBtn = null;
-        this.psrYearToCreate = formContainer.find('select#psr_year_to_create');
-        this.psrYearToLoad = formContainer.find('select#psr_year_to_load');
+        this._setupProjectStatusReportBtnEvent();
+        this._getAllYearsRecords(project_id, application_id, business_id);
     }
 
     private async _getProjectStatusReportSheet(
@@ -48,7 +50,14 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         try {
             const response = await $.ajax({
                 type: 'GET',
-                url: '',
+                url: PROJECT_SHEETS_ROUTE.GET_STATUS_REPORT_DATA.replace(
+                    ':project_id',
+                    project_id
+                )
+                    .replace(':application_id', application_id)
+                    .replace(':business_id', business_id)
+                    .replace(':action', actionMode)
+                    .replace(':year', year),
             });
             this._toggleDocumentBtnVisibility();
             this.formContainer.append(response as string);
@@ -87,16 +96,14 @@ export default class ProjectStatusReportSheet extends ProjectClass {
             showProcessToast('Creating Project Status Report...');
             const response = await $.ajax({
                 type: 'POST',
-                url: '',
+                url: PROJECT_SHEETS_ROUTE.CREATE_STATUS_REPORT_FORM,
                 data: {
                     project_id: project_id,
                     application_id: application_id,
                     business_id: business_id,
                     for_year: year,
                 },
-                contentType: 'application/json',
                 dataType: 'json',
-                processData: false,
                 headers: {
                     'X-CSRF-TOKEN':
                         $('meta[name="csrf-token"]').attr('content') || '',
@@ -107,6 +114,8 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         } catch (error: any) {
             hideProcessToast();
             this._handleError(error, true);
+        } finally {
+            this._getAllYearsRecords(project_id, application_id, business_id);
         }
     }
 
@@ -171,7 +180,12 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         try {
             const response = await $.ajax({
                 type: 'GET',
-                url: '',
+                url: PROJECT_SHEETS_ROUTE.GET_STATUS_REPORT_YEAR_RECORDS.replace(
+                    ':project_id',
+                    project_id
+                )
+                    .replace(':application_id', application_Id)
+                    .replace(':business_id', business_Id),
             });
             this._appendAllYearsRecords(response);
         } catch (error) {
@@ -281,6 +295,9 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         }
         if (this.createSRBtn) {
             this.createSRBtn.off('click');
+        }
+        if (this.generatePDFBtn) {
+            this.generatePDFBtn.off('click');
         }
 
         if (this.form) {

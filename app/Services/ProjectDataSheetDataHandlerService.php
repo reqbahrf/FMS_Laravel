@@ -79,7 +79,7 @@ class ProjectDataSheetDataHandlerService
         }
     }
 
-    public function getQuaterlyReportData(string $reportId, string $projectId, string $quarter): OngoingQuarterlyReport
+    public function getQuarterlyReportData(string $reportId, string $projectId, string $quarter): OngoingQuarterlyReport
     {
         try {
             return OngoingQuarterlyReport::where('id', $reportId)

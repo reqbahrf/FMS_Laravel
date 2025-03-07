@@ -94,6 +94,10 @@ class StatusReportDataHandlerService
         int $application_info_id
     ): void {
         try {
+            if ($this->isDataExists($project_info_id, $for_year, $business_info_id, $application_info_id)) {
+                throw new Exception('Data already exists');
+            }
+
             $initialData = [
                 'project_info_id' => $project_info_id,
                 'business_info_id' => $business_info_id,
@@ -112,7 +116,7 @@ class StatusReportDataHandlerService
                 ]
             );
         } catch (Exception $e) {
-            throw new Exception("Failed to initialize status report data: " . $e->getMessage());
+            throw new Exception("Failed to create status report data: " . $e->getMessage());
         }
     }
 

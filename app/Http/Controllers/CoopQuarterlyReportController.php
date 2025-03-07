@@ -74,7 +74,7 @@ class CoopQuarterlyReportController extends Controller
             Log::info($reportId);
 
             if ($reportSubmitted === 'true' && $reportStatus === 'open') {
-                $Data = $this->getQuaterlyReportData($reportId, $projectId, $quarter);
+                $Data = $this->getQuarterlyReportData($reportId, $projectId, $quarter);
 
                 $reportData = $Data->report_file;
 
@@ -124,7 +124,7 @@ class CoopQuarterlyReportController extends Controller
 
 
 
-    private function getQuaterlyReportData(string $reportId, string $projectId, string $quarter): OngoingQuarterlyReport
+    private function getQuarterlyReportData(string $reportId, string $projectId, string $quarter): OngoingQuarterlyReport
     {
         try {
             return OngoingQuarterlyReport::where('id', $reportId)
