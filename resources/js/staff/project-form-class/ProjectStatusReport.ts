@@ -90,7 +90,7 @@ export default class ProjectStatusReport extends ProjectClass {
                     project_id: project_id,
                     application_id: application_id,
                     business_id: business_id,
-                    year: year,
+                    for_year: year,
                 },
                 contentType: 'application/json',
                 dataType: 'json',
