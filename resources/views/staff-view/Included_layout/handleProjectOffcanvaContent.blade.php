@@ -534,7 +534,9 @@
                                     <select
                                         class="form-select"
                                         id="pis_year_to_load"
-                                    ></select>
+                                    >
+                                        <option selected>No Record Found</option>
+                                    </select>
                                     <select
                                         class="form-select"
                                         id="pis_action_to_load"
@@ -590,11 +592,36 @@
                         <div class="card h-100 shadow-sm">
                             <div class="card-body text-center">
                                 <h5 class="card-title fw-bold">Status Report Sheet</h5>
-                                <button
-                                    class="btn btn-primary w-100 mt-3"
-                                    id="SRbtn"
-                                    data-form-type="SR"
-                                >Load</button>
+                                <div class="input-group mt-3">
+                                    <select
+                                        class="form-select"
+                                        id="psr_year_to_create"
+                                    >
+                                    </select>
+                                    <button
+                                        class="btn btn-primary"
+                                        id="createSRbtn"
+                                    >Create</button>
+                                </div>
+                                <div class="input-group mt-3">
+                                    <select
+                                        class="form-select"
+                                        id="psr_year_to_load"
+                                    >
+                                        <option selected>No Record Found</option>
+                                    </select>
+                                    <select
+                                        class="form-select"
+                                        id="psr_action_to_load"
+                                    >
+                                        <option value="edit">Edit</option>
+                                        <option value="view">View</option>
+                                    </select>
+                                    <button
+                                        class="btn btn-primary"
+                                        id="loadSRbtn"
+                                    >Load</button>
+                                </div>
                             </div>
                         </div>
                     </div>
