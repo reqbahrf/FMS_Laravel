@@ -5,7 +5,7 @@ namespace App\Services;
 class NumberFormatterService
 {
 
-     /**
+    /**
      * Convert a formatted number string to a float
      *
      * @param string|null $number Number string with possible thousand separators
@@ -17,9 +17,9 @@ class NumberFormatterService
             return 0;
         }
 
-         // Remove thousand separators, format to 2 decimal places
-         $cleanNumber = str_replace(',', '', $number);
-         return floatval(number_format((float)$cleanNumber, 2, '.', ''));
+        // Remove thousand separators, format to 2 decimal places
+        $cleanNumber = str_replace(',', '', $number);
+        return floatval(number_format((float)$cleanNumber, 2, '.', ''));
     }
 
     /**
@@ -29,9 +29,8 @@ class NumberFormatterService
      * @param int $decimals Number of decimal places
      * @return string
      */
-    public static function formatNumber($number, $decimals = 2)
+    public static function formatNumber(float $number, $decimals = 2): string
     {
         return number_format($number, $decimals, '.', ',');
     }
-
 }

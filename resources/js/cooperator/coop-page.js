@@ -601,8 +601,8 @@ async function initilizeCoopPageJs() {
         },
 
         ReportedQuarterlyReport: () => {
-            this.form = $('#ReportedQuarterlyData');
-            const reportFormEvent = new ReportedQuarterlyReportEvent(this.form);
+            const form = $('#ReportedQuarterlyData');
+            const reportFormEvent = new ReportedQuarterlyReportEvent(form);
             reportFormEvent.initEditMode();
             reportFormEvent.initStoreInitialValue();
             reportFormEvent.initInputEventFormatter();

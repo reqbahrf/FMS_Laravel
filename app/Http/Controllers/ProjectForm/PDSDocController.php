@@ -24,20 +24,15 @@ class PDSDocController extends Controller
         GeneratePDFAction $generatePDFAction
     ): JsonResponse | StreamedResponse {
         try {
-            $validatedData = $request->validate([
-                'projectId' => 'required|string|exists:project_info,Project_id',
-                'quarter' => 'required|string',
-            ]);
 
-            $project_id = $validatedData['projectId'];
-            $quarter = $validatedData['quarter'];
-            $reportData = $this->projectDataSheetDataHandlerService->getCooperatorReportedData($project_id, $quarter);
-            $currentQuarter = $reportData->currentQuarterReport->report_file;
-            $previousQuarter = $reportData->previousQuarterReport->report_file;
-            $reportData = $reportData->report_file;
+            $projectId = $request->projectId;
+            $quarter = $request->quarter;
+            $reportData = $this->projectDataSheetDataHandlerService->getCooperatorReportedData($projectId, $quarter);
+            $currentQuarter = $reportData->currentQuarterlyReport->first()->report_file;
+            $previousQuarter = $reportData->previousQuarterlyReport->first()->report_file;
 
             try {
-                $html = view('components.project-data-sheet.main', compact('reportData', 'currentQuarter', 'previousQuarter'))->render();
+                $html = view('project-forms.data-sheet', compact('reportData', 'currentQuarter', 'previousQuarter', 'projectId', 'quarter'))->render();
             } catch (Exception $e) {
                 return response()->json([
                     'message' => 'Error generating project data sheet template',

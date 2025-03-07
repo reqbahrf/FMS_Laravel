@@ -14,6 +14,7 @@ export default class ProjectDataSheet extends ProjectClass {
     private form: JQuery<HTMLFormElement> | null;
     private formEvent: ReportedQuarterlyReportEvent | null;
     private loadPDSBtn: JQuery<HTMLButtonElement> | null;
+    private generatePDFBtn: JQuery<HTMLButtonElement> | null;
     private previewPDSBtn: JQuery<HTMLButtonElement> | null;
     constructor(
         protected formContainer: JQuery<HTMLElement>,
@@ -26,6 +27,7 @@ export default class ProjectDataSheet extends ProjectClass {
         this.formEvent = null;
         this.loadPDSBtn = formContainer.find('#loadPDSbtn');
         this.previewPDSBtn = formContainer.find('#previewPDSbtn');
+        this.generatePDFBtn = null;
         this._setupProjectDataSheetBtnEvent();
         this._getAvailableQuartersReport();
     }
@@ -60,14 +62,13 @@ export default class ProjectDataSheet extends ProjectClass {
                     this.formEvent.initEditMode();
                     break;
                 case 'view':
+                    this._setupPDFExport();
                     break;
                 default:
                     throw new Error('Invalid action');
             }
             hideProcessToast();
         } catch (error: any) {
-            console.warn('Error in Retrieving Project Data Sheet' + error);
-            console.log(error);
             hideProcessToast();
             showToastFeedback(
                 'text-bg-danger',
@@ -161,6 +162,24 @@ export default class ProjectDataSheet extends ProjectClass {
         }
     }
 
+    private _setupPDFExport(): void {
+        try {
+            this.generatePDFBtn = this.formContainer.find(
+                'button#exportProjectDataSheetFormToPDF'
+            );
+            if (!this.generatePDFBtn)
+                throw new Error('Generate PDF Button not found');
+            this.generatePDFBtn.on('click', async () => {
+                const generateUrl =
+                    this.generatePDFBtn?.attr('data-generated-url');
+                if (!generateUrl) throw new Error('Generate URL not found');
+                window.open(generateUrl, '_blank');
+            });
+        } catch (error) {
+            console.warn('Error in setting up PDF export' + error);
+        }
+    }
+
     public destroy(): void {
         // Remove event listeners
         if (this.loadPDSBtn) {
@@ -170,6 +189,10 @@ export default class ProjectDataSheet extends ProjectClass {
         if (this.previewPDSBtn) {
             this.previewPDSBtn.off('click');
             this.previewPDSBtn = null;
+        }
+        if (this.generatePDFBtn) {
+            this.generatePDFBtn.off('click');
+            this.generatePDFBtn = null;
         }
 
         // Remove form and clear references

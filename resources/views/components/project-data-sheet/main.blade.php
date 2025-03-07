@@ -1,4 +1,12 @@
-@props(['projectDataSheetData', 'isEditable' => false, 'isExporting' => false, 'projectId', 'quarter'])
+@props([
+    'reportData',
+    'currentQuarter',
+    'previousQuarter',
+    'isEditable' => false,
+    'isExporting' => false,
+    'projectId',
+    'quarter',
+])
 <div id="formWrapper">
     @if (!$isExporting)
         <nav aria-label="breadcrumb">
@@ -32,7 +40,7 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['projectTitle'] ?? ''"
+                            :value="$reportData->project_title ?? ''"
                         />
                     </td>
                 </tr>
@@ -47,7 +55,7 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['firmName'] ?? ''"
+                            :value="$reportData->firm_name ?? ''"
                         />
                     </td>
                 </tr>
@@ -62,7 +70,17 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['address'] ?? ''"
+                            :value="$reportData->landMark .
+                                ', ' .
+                                $reportData->barangay .
+                                ', ' .
+                                $reportData->city .
+                                ', ' .
+                                $reportData->province .
+                                ', ' .
+                                $reportData->region .
+                                ', ' .
+                                $reportData->zip_code"
                         />
                     </td>
                 </tr>
@@ -77,7 +95,13 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['ContactPerson'] ?? ''"
+                            :value="$reportData->f_name .
+                                ' ' .
+                                $reportData->mid_name .
+                                ' ' .
+                                $reportData->l_name .
+                                ' ' .
+                                $reportData->suffix"
                         />
                     </td>
                     <td class="label">Designation:</td>
@@ -90,7 +114,7 @@
                             type="text"
                             readonly
                             :isEditable="$isEditable"
-                            :value="$projectDataSheetData['Designation'] ?? ''"
+                            :value="$reportData->designation ?? ''"
                         />
                     </td>
                 </tr>
@@ -110,7 +134,7 @@
                                 type="text"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['landline'] ?? ''"
+                                :value="$reportData->landline ?? ''"
                             />
                         </span>
                         <span class="contact-label">Mobile Phone:</span>
@@ -123,7 +147,7 @@
                                 type="text"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['mobile'] ?? ''"
+                                :value="$reportData->mobile ?? ''"
                             />
                         </span>
                         <span class="contact-label">Email Address:</span>
@@ -136,7 +160,7 @@
                                 type="text"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['email'] ?? ''"
+                                :value="$reportData->email ?? ''"
                             />
                         </span>
                     </td>
@@ -150,7 +174,6 @@
                                 type="radio"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q1'"
                             /> 1st
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -160,7 +183,7 @@
                                 type="radio"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q2'"
+                                :value="isset($quarter) && str_starts_with($quarter, 'Q2') ? 'Q2' : ''"
                             /> 2nd
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -170,7 +193,7 @@
                                 type="radio"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q3'"
+                                :value="isset($quarter) && str_starts_with($quarter, 'Q3') ? 'Q3' : ''"
                             /> 3rd
                             Quarter </label>
                         &nbsp;&nbsp;
@@ -180,7 +203,7 @@
                                 type="radio"
                                 readonly
                                 :isEditable="$isEditable"
-                                :value="($projectDataSheetData['reportingQuarter'] ?? '') == 'Q4'"
+                                :value="isset($quarter) && str_starts_with($quarter, 'Q4') ? 'Q4' : ''"
                             /> 4th
                             Quarter </label>
                     </td>
@@ -247,10 +270,10 @@
                             class="tg-8d8j"
                             colspan="6"
                         >₱<x-custom-input.input
-                                name="buildingAsset"
+                                name="Building"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['buildingAsset'] ?? ''"
+                                :value="$currentQuarter['Building'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
@@ -264,10 +287,10 @@
                             class="tg-8d8j"
                             colspan="6"
                         > <x-custom-input.input
-                                name="equipmentAsset"
+                                name="Equipment"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['equipmentAsset'] ?? ''"
+                                :value="$currentQuarter['Equipment'] ?? ''"
                             /></td>
                     </tr>
                     <tr>
@@ -276,14 +299,20 @@
                             class="tg-8d8j"
                             colspan="6"
                         > <x-custom-input.input
-                                name="workingCapitalAsset"
+                                name="WorkingCapital"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['workingCapitalAsset'] ?? ''"
+                                :value="$currentQuarter['WorkingCapital'] ?? ''"
                             /></td>
                     </tr>
                     <tr>
                         <td class="tg-wa1i">Classification of Enterprise: </td>
+                        @php
+                            $building = floatval(str_replace(',', '', $currentQuarter['Building'] ?? 0));
+                            $equipment = floatval(str_replace(',', '', $currentQuarter['Equipment'] ?? 0));
+                            $workingCapital = floatval(str_replace(',', '', $currentQuarter['WorkingCapital'] ?? 0));
+                            $totalAssets = $building + $equipment + $workingCapital;
+                        @endphp
                         <td
                             class="tg-nrix"
                             colspan="9"
@@ -293,25 +322,28 @@
                                     name="EnterpriseClass"
                                     type="radio"
                                     :isEditable="$isEditable"
-                                    :value="($projectDataSheetData['EnterpriseClass'] ?? '') == 'Micro'"
+                                    :value="$totalAssets < 3000000 ? 'Micro' : ''"
                                 />
-                                Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)</label>
+                                Micro(assets&nbsp;&nbsp;&nbsp;Less than 3M)
+                            </label>
                             <label>
                                 <x-custom-input.input
                                     name="EnterpriseClass"
                                     type="radio"
                                     :isEditable="$isEditable"
-                                    :value="($projectDataSheetData['EnterpriseClass'] ?? '') == 'Small'"
+                                    :value="$totalAssets >= 3000000 && $totalAssets < 15000000 ? 'Small' : ''"
                                 />
-                                Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)</label>
+                                Small(assets&nbsp;&nbsp;&nbsp;of 3M to 15M)
+                            </label>
                             <label>
                                 <x-custom-input.input
                                     name="EnterpriseClass"
                                     type="radio"
                                     :isEditable="$isEditable"
-                                    :value="($projectDataSheetData['EnterpriseClass'] ?? '') == 'Medium'"
+                                    :value="$totalAssets >= 15000000 && $totalAssets < 100000000 ? 'Medium' : ''"
                                 />
-                                Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)</label>
+                                Medium(assets&nbsp;&nbsp;&nbsp;15M to 100M)
+                            </label>
                         </td>
                     </tr>
                     <tr>
@@ -324,6 +356,71 @@
                             colspan="3"
                         > </td>
                     </tr>
+                    @php
+                        use App\Services\NumberFormatterService as NF;
+
+                        function calculateTotalEmployment($data)
+                        {
+                            $totalNumPersonnel = 0;
+                            $totalManMonth = 0;
+
+                            // Process Direct Labor Regular
+                            $maleDirectRegular = NF::parseFormattedNumber($data['male_Dir_Regular'] ?? '0');
+                            $femaleDirectRegular = NF::parseFormattedNumber($data['female_Dir_Regular'] ?? '0');
+                            $workdaysDirectRegular = NF::parseFormattedNumber($data['workday_Dir_Regular'] ?? '0');
+                            $directRegularManMonth =
+                                ($maleDirectRegular + $femaleDirectRegular) * ($workdaysDirectRegular / 20);
+                            $data['DireRegularTotalManMonth'] = NF::formatNumber($directRegularManMonth);
+
+                            // Process Direct Labor Part-time
+                            $maleDirectPartTime = NF::parseFormattedNumber($data['male_Dir_PartT'] ?? '0');
+                            $femaleDirectPartTime = NF::parseFormattedNumber($data['female_Dir_PartT'] ?? '0');
+                            $workdaysDirectPartTime = NF::parseFormattedNumber($data['workday_Dir_PartT'] ?? '0');
+                            $directPartTimeManMonth =
+                                ($maleDirectPartTime + $femaleDirectPartTime) * ($workdaysDirectPartTime / 20);
+                            $data['ParttimeTotalManMonth'] = NF::formatNumber($directPartTimeManMonth);
+
+                            // Process Indirect Labor Regular
+                            $maleIndirectRegular = NF::parseFormattedNumber($data['male_Indir_Regular'] ?? '0');
+                            $femaleIndirectRegular = NF::parseFormattedNumber($data['female_Indir_Regular'] ?? '0');
+                            $workdaysIndirectRegular = NF::parseFormattedNumber($data['workday_Indir_Regular'] ?? '0');
+                            $indirectRegularManMonth =
+                                ($maleIndirectRegular + $femaleIndirectRegular) * ($workdaysIndirectRegular / 20);
+                            $data['IndiRegularTotalManMonth'] = NF::formatNumber($indirectRegularManMonth);
+
+                            // Process Indirect Labor Part-time
+                            $maleIndirectPartTime = NF::parseFormattedNumber($data['male_Indir_PartT'] ?? '0');
+                            $femaleIndirectPartTime = NF::parseFormattedNumber($data['female_Indir_PartT'] ?? '0');
+                            $workdaysIndirectPartTime = NF::parseFormattedNumber($data['workday_Indir_PartT'] ?? '0');
+                            $indirectPartTimeManMonth =
+                                ($maleIndirectPartTime + $femaleIndirectPartTime) * ($workdaysIndirectPartTime / 20);
+                            $data['IndiParttimeTotalManMonth'] = NF::formatNumber($indirectPartTimeManMonth);
+
+                            // Calculate totals
+                            $totalNumPersonnel =
+                                $maleDirectRegular +
+                                $femaleDirectRegular +
+                                $maleDirectPartTime +
+                                $femaleDirectPartTime +
+                                $maleIndirectRegular +
+                                $femaleIndirectRegular +
+                                $maleIndirectPartTime +
+                                $femaleIndirectPartTime;
+
+                            $totalManMonth =
+                                $directRegularManMonth +
+                                $directPartTimeManMonth +
+                                $indirectRegularManMonth +
+                                $indirectPartTimeManMonth;
+
+                            // Set the totals
+                            $data['TotalEmployment'] = NF::formatNumber($totalNumPersonnel, 0);
+                            $data['TotalManMonth'] = NF::formatNumber($totalManMonth);
+
+                            return $data;
+                        }
+                        $currentQuarter = calculateTotalEmployment($currentQuarter ?? []);
+                    @endphp
                     <tr>
                         <td class="tg-8d8j"> <br><br></td>
                         <td
@@ -341,7 +438,7 @@
                             colspan="2"
                             rowspan="2"
                         >Total Man-Month=no. of Work
-                            Days/20 x no Personnel)</td>
+                            Days/20 x no Personnel</td>
                         <td
                             class="tg-baqh"
                             colspan="3"
@@ -373,34 +470,37 @@
                     <tr>
                         <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.1a Regular</td>
                         <td class="tg-8d8j"><x-custom-input.input
-                                name="DireRegularMale"
+                                class="maleInput"
+                                name="male_Dir_Regular"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['DireRegularMale'] ?? ''"
+                                :value="$currentQuarter['male_Dir_Regular'] ?? ''"
                             /> <br></td>
                         <td class="tg-8d8j"><x-custom-input.input
-                                name="DireRegularFemale"
+                                class="femaleInput"
+                                name="female_Dir_Regular"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['DireRegularFemale'] ?? ''"
+                                :value="$currentQuarter['female_Dir_Regular'] ?? ''"
                             /> <br></td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         ><x-custom-input.input
-                                name="DireRegularTotalWorkday"
+                                class="workdayInput"
+                                name="workday_Dir_Regular"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['DireRegularTotalWorkday'] ?? ''"
+                                :value="$currentQuarter['workday_Dir_Regular'] ?? ''"
                             /> <br></td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         ><x-custom-input.input
-                                name="DireRegularTotalManMonth"
+                                name="DireRegularTotalManMonth totalManMonth"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['DireRegularTotalManMonth'] ?? ''"
+                                :value="$currentQuarter['DireRegularTotalManMonth'] ?? ''"
                             /> <br> </td>
                         <td
                             class="tg-8d8j"
@@ -409,40 +509,45 @@
                                 name="RemarkDirectLabor"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['RemarkDirectLabor'] ?? ''"
+                                :value="$currentQuarter['RemarkDirectLabor'] ?? ''"
                             /><br> </td>
                     </tr>
                     <tr>
                         <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.1b Part-time </td>
                         <td class="tg-8d8j"> <br><x-custom-input.input
-                                name="ParttimeMale"
+                                class="maleInput"
+                                name="male_Dir_PartT"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['ParttimeMale'] ?? ''"
+                                :value="$currentQuarter['male_Dir_PartT'] ?? ''"
                             /></td>
                         <td class="tg-8d8j"> <br><x-custom-input.input
-                                name="ParttimeFemale"
+                                class="femaleInput"
+                                name="female_Dir_PartT"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['ParttimeFemale'] ?? ''"
+                                :value="$currentQuarter['female_Dir_PartT'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         > <br><x-custom-input.input
-                                name="ParttimeTotalWorkday"
+                                name="workday_Dir_PartT workdayInput"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['ParttimeTotalWorkday'] ?? ''"
+                                readonly
+                                :value="$currentQuarter['workday_Dir_PartT'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         > <br><x-custom-input.input
+                                class="form-control totalManMonth"
                                 name="ParttimeTotalManMonth"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['ParttimeTotalManMonth'] ?? ''"
+                                :value="$currentQuarter['ParttimeTotalManMonth'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
@@ -451,7 +556,7 @@
                                 name="RemarkParttime"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['RemarkParttime'] ?? ''"
+                                :value="$currentQuarter['RemarkParttime'] ?? ''"
                             /></td>
                     </tr>
                     <tr>
@@ -474,25 +579,25 @@
                     <tr>
                         <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.2a Regular </td>
                         <td class="tg-8d8j"> <br><x-custom-input.input
-                                name="IndiRegularMale"
+                                name="male_Indir_Regular"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiRegularMale'] ?? ''"
+                                :value="$currentQuarter['male_Indir_Regular'] ?? ''"
                             /></td>
                         <td class="tg-8d8j"> <br><x-custom-input.input
-                                name="IndiRegularFemale"
+                                name="female_Indir_Regular"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiRegularFemale'] ?? ''"
+                                :value="$currentQuarter['female_Indir_Regular'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         > <br><x-custom-input.input
-                                name="IndiRegularTotalWorkday"
+                                name="workday_Indir_Regular"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiRegularTotalWorkday'] ?? ''"
+                                :value="$currentQuarter['workday_Indir_Regular'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
@@ -501,7 +606,8 @@
                                 name="IndiRegularTotalManMonth"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiRegularTotalManMonth'] ?? ''"
+                                readonly
+                                :value="$currentQuarter['IndiRegularTotalManMonth'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
@@ -510,31 +616,32 @@
                                 name="IndiRegularRemark"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiRegularRemark'] ?? ''"
+                                readonly
+                                :value="$currentQuarter['IndiRegularRemark'] ?? ''"
                             /></td>
                     </tr>
                     <tr>
-                        <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.2bPart-time</td>
+                        <td class="tg-cly1">&nbsp;&nbsp;&nbsp;2.2b Part-time</td>
                         <td class="tg-8d8j"> <br><x-custom-input.input
-                                name="IndiParttimeMale"
+                                name="male_Indir_PartT"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiParttimeMale'] ?? ''"
+                                :value="$currentQuarter['male_Indir_PartT'] ?? ''"
                             /></td>
                         <td class="tg-8d8j"> <br><x-custom-input.input
-                                name="IndiParttimeFemale"
+                                name="female_Indir_PartT"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiParttimeFemale'] ?? ''"
+                                :value="$currentQuarter['female_Indir_PartT'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         > <br><x-custom-input.input
-                                name="IndiParttimeTotalWorkday"
+                                name="workday_Indir_PartT"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiParttimeTotalWorkday'] ?? ''"
+                                :value="$currentQuarter['workday_Indir_PartT'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
@@ -543,7 +650,7 @@
                                 name="IndiParttimeTotalManMonth"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiParttimeTotalManMonth'] ?? ''"
+                                :value="$currentQuarter['IndiParttimeTotalManMonth'] ?? ''"
                             /></td>
                         <td
                             class="tg-8d8j"
@@ -552,7 +659,7 @@
                                 name="IndiParttimeRemark"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['IndiParttimeRemark'] ?? ''"
+                                :value="$currentQuarter['IndiParttimeRemark'] ?? ''"
                             /></td>
                     </tr>
                     <tr>
@@ -567,7 +674,7 @@
                                 name="TotalEmployment"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['TotalEmployment'] ?? ''"
+                                :value="$currentQuarter['TotalEmployment'] ?? ''"
                             /></td>
                         <td
                             class="tg-cly1"
@@ -576,7 +683,7 @@
                                 name="TotalManMonth"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['TotalManMonth'] ?? ''"
+                                :value="$currentQuarter['TotalManMonth'] ?? ''"
                             /></td>
                     </tr>
                     <tr>
@@ -606,12 +713,89 @@
                             colspan="2"
                         >Net Sales</td>
                     </tr>
-                    @forelse ($projectDataSheetData['exportProduct'] ?? [] as $index => $product)
+                    @php
+
+                        function calculateProductTotals($data)
+                        {
+                            // Initialize totals
+                            $totalGrossSales = 0;
+                            $totalProductionCost = 0;
+                            $totalNetSales = 0;
+
+                            // Process export products
+                            if (isset($data['ExportProduct']) && is_array($data['ExportProduct'])) {
+                                foreach ($data['ExportProduct'] as &$product) {
+                                    // Remove currency symbol if present
+                                    $grossSalesRaw = isset($product['grossSales'])
+                                        ? str_replace('₱ ', '', $product['grossSales'])
+                                        : '0';
+                                    $productionCostRaw = isset($product['estimatedCostOfProduction'])
+                                        ? str_replace('₱ ', '', $product['estimatedCostOfProduction'])
+                                        : '0';
+
+                                    // Parse the values
+                                    $grossSales = NF::parseFormattedNumber($grossSalesRaw);
+                                    $productionCost = NF::parseFormattedNumber($productionCostRaw);
+
+                                    // Calculate net sales
+                                    $netSales = $grossSales - $productionCost;
+
+                                    // Update the product with calculated net sales
+                                    $product['netSales'] = NF::formatNumber($netSales);
+
+                                    // Add to totals
+                                    $totalGrossSales += $grossSales;
+                                    $totalProductionCost += $productionCost;
+                                    $totalNetSales += $netSales;
+                                }
+                            }
+
+                            // Process local products
+                            if (isset($data['LocalProduct']) && is_array($data['LocalProduct'])) {
+                                foreach ($data['LocalProduct'] as &$product) {
+                                    // Remove currency symbol if present
+                                    $grossSalesRaw = isset($product['grossSales'])
+                                        ? str_replace('₱ ', '', $product['grossSales'])
+                                        : '0';
+                                    $productionCostRaw = isset($product['estimatedCostOfProduction'])
+                                        ? str_replace('₱ ', '', $product['estimatedCostOfProduction'])
+                                        : '0';
+
+                                    // Parse the values
+                                    $grossSales = NF::parseFormattedNumber($grossSalesRaw);
+                                    $productionCost = NF::parseFormattedNumber($productionCostRaw);
+
+                                    // Calculate net sales
+                                    $netSales = $grossSales - $productionCost;
+
+                                    // Update the product with calculated net sales
+                                    $product['netSales'] = NF::formatNumber($netSales);
+
+                                    // Add to totals
+                                    $totalGrossSales += $grossSales;
+                                    $totalProductionCost += $productionCost;
+                                    $totalNetSales += $netSales;
+                                }
+                            }
+
+                            // Update the totals in the data array
+                            $data['totalGrossSales'] = '₱ ' . NF::formatNumber($totalGrossSales);
+                            $data['totalProductionCost'] = '₱ ' . NF::formatNumber($totalProductionCost);
+                            $data['totalNetSales'] = '₱ ' . NF::formatNumber($totalNetSales);
+                            $data['CurrentgrossSales_val'] = NF::formatNumber($totalGrossSales);
+
+                            return $data;
+                        }
+
+                        // You can use this function in your controller or directly in your blade template
+                        $currentQuarter = calculateProductTotals($currentQuarter ?? []);
+                    @endphp
+                    @forelse ($currentQuarter['ExportProduct'] ?? [] as $index => $product)
                         <tr>
                             @if ($index === 0)
                                 <td
                                     class="tg-0lax"
-                                    rowspan="{{ count($projectDataSheetData['exportProduct']) }}"
+                                    rowspan="{{ count($currentQuarter['ExportProduct']) }}"
                                 >&nbsp;&nbsp;3.1 Export Market
                                 </td>
                             @endif
@@ -620,20 +804,21 @@
                                     class="productName"
                                     type="text"
                                     :isEditable="$isEditable"
-                                    :value="$product['productName'] ?? ''"
+                                    :value="$product['ProductName'] ?? ''"
                                 />
                             </td>
                             <td class="tg-8d8j"><x-custom-input.input
                                     class="packingDetails"
                                     type="text"
                                     :isEditable="$isEditable"
-                                    :value="$product['packingDetails'] ?? ''"
+                                    :value="$product['PackingDetails'] ?? ''"
                                 /></td>
                             <td class="tg-8d8j"><x-custom-input.input
                                     class="volumeOfProduction"
                                     type="text"
                                     :isEditable="$isEditable"
-                                    :value="$product['volumeOfProduction'] ?? ''"
+                                    :value="$product['volumeOfProduction']['value'] ??
+                                        '' . ' ' . $product['volumeOfProduction']['unit']"
                                 /></td>
                             <td
                                 class="tg-8d8j"
@@ -651,7 +836,7 @@
                                     class="productionCost"
                                     type="text"
                                     :isEditable="$isEditable"
-                                    :value="'₱ ' . $product['productionCost'] ?? ''"
+                                    :value="'₱ ' . $product['estimatedCostOfProduction'] ?? ''"
                                 /></td>
                             <td
                                 class="tg-8d8j"
@@ -723,13 +908,13 @@
                             </tr>
                         @endfor
                     @endforelse
-                    @forelse ($projectDataSheetData['localProduct'] ?? [] as $index => $product)
+                    @forelse ($currentQuarter['LocalProduct'] ?? [] as $index => $product)
                         <tr>
                             @if ($index === 0)
                                 <td
                                     class="tg-0lax"
-                                    rowspan="{{ count($projectDataSheetData['localProduct']) }}"
-                                >&nbsp;&nbsp;3.1 Export Market
+                                    rowspan="{{ count($currentQuarter['LocalProduct']) }}"
+                                >&nbsp;&nbsp;3.2 Local Market
                                 </td>
                             @endif
                             <td class="tg-8d8j">
@@ -737,7 +922,7 @@
                                     class="productName"
                                     type="text"
                                     :isEditable="$isEditable"
-                                    :value="$product['productName'] ?? ''"
+                                    :value="$product['ProductName'] ?? ''"
                                 />
                             </td>
                             <td class="tg-8d8j">
@@ -745,7 +930,7 @@
                                     class="packingDetails"
                                     type="text"
                                     :isEditable="$isEditable"
-                                    :value="$product['packingDetails'] ?? ''"
+                                    :value="$product['PackingDetails'] ?? ''"
                                 />
                             </td>
                             <td class="tg-8d8j">
@@ -753,7 +938,8 @@
                                     class="volumeOfProduction"
                                     type="text"
                                     :isEditable="$isEditable"
-                                    :value="$product['volumeOfProduction'] ?? ''"
+                                    :value="$product['volumeOfProduction']['value'] ??
+                                        '' . ' ' . $product['volumeOfProduction']['unit']"
                                 />
                             </td>
                             <td
@@ -772,7 +958,7 @@
                                     class="productionCost"
                                     type="text"
                                     :isEditable="$isEditable"
-                                    :value="'₱ ' . $product['productionCost'] ?? ''"
+                                    :value="'₱ ' . $product['estimatedCostOfProduction'] ?? ''"
                                 /></td>
                             <td
                                 class="tg-8d8j"
@@ -856,15 +1042,15 @@
                         <td
                             class="tg-8d8j"
                             colspan="2"
-                        > <br>{{ $projectDataSheetData['totalGrossSales'] ?? '' }} </td>
+                        > <br>{{ $currentQuarter['totalGrossSales'] ?? '' }} </td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
-                        > <br>{{ $projectDataSheetData['totalProductionCost'] ?? '' }}</td>
+                        > <br>{{ $currentQuarter['totalProductionCost'] ?? '' }}</td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
-                        > <br>{{ $projectDataSheetData['totalNetSales'] ?? '' }}</td>
+                        > <br>{{ $currentQuarter['totalNetSales'] ?? '' }}</td>
                     </tr>
 
                     <tr>
@@ -882,10 +1068,10 @@
                         >
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <x-custom-input.input
-                                name="ExportOutlet"
+                                name="Market_Export"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['ExportOutlet'] ?? ''"
+                                :value="$currentQuarter['Market_Export'] ?? ''"
                             />
                         </td>
                     </tr>
@@ -898,10 +1084,10 @@
                         >
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                             <x-custom-input.input
-                                name="LocalOutlet"
+                                name="Market_local"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['LocalOutlet'] ?? ''"
+                                :value="$currentQuarter['Market_local'] ?? ''"
                             />
                         </td>
                     </tr>
@@ -924,31 +1110,51 @@
                             class="tg-baqh"
                             colspan="4"
                             rowspan="2"
-                        >Gross Sales Generated = Gross Sales Q4 - Gross
-                            Sales Q3</td>
+                        >Gross Sales Generated = Gross Sales {{ $currentQuarter['quarter'] ?? '' }} - Gross
+                            Sales {{ $previousQuarter['quarter'] ?? '' }}</td>
                         <td
                             class="tg-baqh"
                             colspan="2"
-                        >Gross Sales&nbsp;&nbsp;&nbsp;Q4(for the reporting period)</td>
+                        >Gross Sales {{ $currentQuarter['quarter'] ?? '' }}<br>(for the reporting period)
+                        </td>
                         <td
                             class="tg-baqh"
                             colspan="2"
-                        >Cross Sales&nbsp;&nbsp;&nbsp;Q3(Previous Quarter)</td>
+                        >Cross Sales {{ $previousQuarter['quarter'] ?? '' }}<br>(Previous Quarter)</td>
                         <td
                             class="tg-baqh"
                             colspan="2"
-                        >TOTAL GROSS&nbsp;&nbsp;&nbsp;SALES GENERATED</td>
+                        >TOTAL GROSS SALES GENERATED</td>
                     </tr>
+                    @php
+                        $previousGrossSales = 0;
+                        if ($previousQuarter != null) {
+                            foreach ($previousQuarter['ExportProduct'] ?? [] as $exportProduct) {
+                                $previousGrossSales += (float) str_replace(',', '', $exportProduct['grossSales']);
+                            }
+                            foreach ($previousQuarter['LocalProduct'] ?? [] as $localProduct) {
+                                $previousGrossSales += (float) str_replace(',', '', $localProduct['grossSales']);
+                            }
+                        }
+                        $previous_quarter_gross_sales = NF::parseFormattedNumber(
+                            $previousQuarter['PreviousgrossSales'] ?? number_format($previousGrossSales),
+                        );
+                        $current_quarter_gross_sales = NF::parseFormattedNumber(
+                            $currentQuarter['CurrentgrossSales_val'] ?? '',
+                        );
+
+                        $total_gross_sales = (float) $current_quarter_gross_sales - $previous_quarter_gross_sales;
+                    @endphp
                     <tr>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         >
                             <x-custom-input.input
-                                name="CurrentgrossSales"
+                                name="CurrentgrossSales_val"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['CurrentgrossSales'] ?? ''"
+                                :value="'₱' . ($currentQuarter['CurrentgrossSales_val'] ?? '')"
                             />
                         </td>
                         <td
@@ -959,18 +1165,23 @@
                                 name="PreviousgrossSales"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['PreviousgrossSales'] ?? ''"
+                                :value="'₱' .
+                                    ' ' .
+                                    ($previousQuarter['PreviousgrossSales'] ?? NF::formatNumber($previousGrossSales))"
                             />
                         </td>
                         <td
                             class="tg-8d8j"
                             colspan="2"
                         >
+
                             <x-custom-input.input
                                 name="TotalgrossSales"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['TotalgrossSales'] ?? ''"
+                                :value="'₱' .
+                                    ' ' .
+                                    ($currentQuarter['TotalgrossSales'] ?? NF::formatNumber($total_gross_sales))"
                             />
                         </td>
                     </tr>
@@ -985,14 +1196,25 @@
                             class="tg-8d8j"
                             colspan="6"
                         >
+                            @php
+                                $total_gross_sales_percent =
+                                    ((float) ($current_quarter_gross_sales - $previous_quarter_gross_sales) /
+                                        $previous_quarter_gross_sales) *
+                                    100;
+                            @endphp
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>
-                            {{ $projectDataSheetData['CurrentgrossSales'] ?? '' }}-{{ $projectDataSheetData['PreviousgrossSales'] ?? '' }}&nbsp;&nbsp;&nbsp;/
-                            {{ $projectDataSheetData['PreviousgrossSales'] ?? '' }} X 100 =
-                            {{ $projectDataSheetData['totalgrossSales_percent'] ?? '' }}
+                            <span
+                                class="CurrentgrossSales_val_cal">{{ $currentQuarter['CurrentgrossSales_val'] ?? '' }}</span>
+                            -
+                            <span class="PreviousgrossSales_val_cal">
+                                {{ NF::formatNumber($previous_quarter_gross_sales) }}</span>&nbsp;&nbsp;&nbsp;
+                            X 100 / =
+                            <span class="totalgrossSales_percent">
+                                {{ NF::formatNumber($total_gross_sales_percent) . '' . '%' }}</span>
                             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td
                             class="tg-0lax"
                             colspan="4"
@@ -1022,7 +1244,7 @@
                                 name="CurrentEmployment"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['CurrentEmployment'] ?? ''"
+                                :value="$currentQuarter['CurrentEmployment'] ?? ''"
                             />
                         </td>
                         <td
@@ -1033,7 +1255,7 @@
                                 name="PreviousEmployment"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['PreviousEmployment'] ?? ''"
+                                :value="$currentQuarter['PreviousEmployment'] ?? ''"
                             />
                         </td>
                         <td
@@ -1044,7 +1266,7 @@
                                 name="TotalEmploymentGenerated"
                                 type="text"
                                 :isEditable="$isEditable"
-                                :value="$projectDataSheetData['TotalEmploymentGenerated'] ?? ''"
+                                :value="$currentQuarter['TotalEmploymentGenerated'] ?? ''"
                             />
                         </td>
                     </tr>
@@ -1063,7 +1285,7 @@
                             {{ $PreviousEmployment ?? '' }} X 100 = {{ $totalEmployment_percent ?? '' }}
                             <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </td>
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
             {!! $esignatureElement ?? '' !!}
@@ -1089,7 +1311,7 @@
                             <button
                                 class="btn btn-primary"
                                 id="exportProjectDataSheetFormToPDF"
-                                data-generated-url="{{ route('staff.Project.generate.data-sheet-document', [$projectId, $quarter]) }}"
+                                data-generated-url="{{ URL::signedRoute('staff.Project.generate.data-sheet-document', ['projectId' => $projectId, 'quarter' => $quarter]) }}"
                                 type="button"
                             >Export as PDF</button>
                         </div>
