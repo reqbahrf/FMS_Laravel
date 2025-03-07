@@ -21,6 +21,7 @@ import ApplicantDataTable from '../Utilities/applicant-datatable';
 import PaymentHandler from './PaymentHandler';
 import ProjectInfoSheet from './project-form-class/ProjectInfoSheet';
 import ProjectDataSheet from './project-form-class/ProjectDataSheet';
+import ProjectStatusReportSheet from './project-form-class/ProjectStatusReportSheet';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -1072,6 +1073,7 @@ async function initializeStaffPageJs() {
 
             let pisClass;
             let pdsClass;
+            let psrClass;
 
             $('#handledProjectTableBody').on(
                 'click',
@@ -1224,6 +1226,16 @@ async function initializeStaffPageJs() {
                     );
 
                     pdsClass = new ProjectDataSheet(formContainer, project_id);
+
+                    if (psrClass) {
+                        psrClass.destroy();
+                    }
+                    psrClass = new ProjectStatusReportSheet(
+                        formContainer,
+                        project_id,
+                        business_id,
+                        application_id
+                    );
 
                     //TODO initialize Payment Object here
                     handleProjectOffcanvasContent(project_status);

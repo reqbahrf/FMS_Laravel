@@ -7,13 +7,14 @@ import {
 } from '../../Utilities/utilFunctions';
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 type Action = 'edit' | 'view';
-export default class ProjectStatusReport extends ProjectClass {
+export default class ProjectStatusReportSheet extends ProjectClass {
     private loadSRBtn: JQuery<HTMLButtonElement>;
     private createSRBtn: JQuery<HTMLButtonElement>;
     private generatePDFBtn: JQuery<HTMLButtonElement> | null;
     private psrYearToCreate: JQuery<HTMLSelectElement>;
     private psrYearToLoad: JQuery<HTMLSelectElement>;
     private form: JQuery<HTMLFormElement> | null;
+    private formEvent: null;
     private project_id: string;
     private business_id: string;
     private application_id: string;
@@ -29,6 +30,7 @@ export default class ProjectStatusReport extends ProjectClass {
         this.application_id = application_id;
         this.formContainer = formContainer;
         this.form = null;
+        this.formEvent = null;
         this.loadSRBtn = formContainer.find('#loadSRbtn');
         this.createSRBtn = formContainer.find('#createSRbtn');
         this.generatePDFBtn = null;
@@ -271,5 +273,29 @@ export default class ProjectStatusReport extends ProjectClass {
         } catch (error: any) {
             this._handleError(error, true);
         }
+    }
+
+    public destroy(): void {
+        if (this.loadSRBtn) {
+            this.loadSRBtn.off('click');
+        }
+        if (this.createSRBtn) {
+            this.createSRBtn.off('click');
+        }
+
+        if (this.form) {
+            this.form.remove();
+            this.form = null;
+        }
+
+        this.psrYearToCreate.empty();
+        this.psrYearToLoad.empty();
+        this.generatePDFBtn = null;
+
+        this.project_id = '';
+        this.business_id = '';
+        this.application_id = '';
+        this.formEvent = null;
+        this.documentBtnSelectors.removeClass('d-none');
     }
 }
