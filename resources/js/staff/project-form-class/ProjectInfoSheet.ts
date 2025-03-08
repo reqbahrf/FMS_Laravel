@@ -1,9 +1,11 @@
 import {
-    showProcessToast,
-    showToastFeedback,
-    hideProcessToast,
     serializeFormData,
 } from '../../Utilities/utilFunctions';
+import {
+    showProcessToast,
+    hideProcessToast,
+    showToastFeedback,
+} from '../../Utilities/feedback-toast';
 
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';

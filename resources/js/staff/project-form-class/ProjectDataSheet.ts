@@ -2,7 +2,7 @@ import {
     showProcessToast,
     showToastFeedback,
     hideProcessToast,
-} from '../../Utilities/utilFunctions';
+} from '../../Utilities/feedback-toast';
 
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';

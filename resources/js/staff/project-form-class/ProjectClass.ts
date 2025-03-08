@@ -1,4 +1,4 @@
-import { showToastFeedback } from '../../Utilities/utilFunctions';
+import { showToastFeedback } from '../../Utilities/feedback-toast';
 
 export default class ProjectClass {
     protected documentBtnSelectors: JQuery<HTMLElement>;
