@@ -2,14 +2,16 @@ import '../echo';
 import { customFormatNumericInput } from '../Utilities/input-utils';
 import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
-    showToastFeedback,
     formatNumberToCurrency,
     customDateFormatter,
     closeOffcanvasInstances,
     closeModal,
+} from '../Utilities/utilFunctions';
+import {
+    showToastFeedback,
     showProcessToast,
     hideProcessToast,
-} from '../Utilities/utilFunctions';
+} from '../Utilities/feedback-toast';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
 import FormEvents from '../components/ProjectFormEvents';
 import EsignatureHandler from '../Utilities/EsignatureHandler';

@@ -1,4 +1,7 @@
-import { customDateFormatter, showToastFeedback } from './utilFunctions';
+import { customDateFormatter } from './utilFunctions';
+import {
+    showToastFeedback,
+} from '../Utilities/feedback-toast';
 import * as bootstrap from 'bootstrap';
 import 'jquery';
 

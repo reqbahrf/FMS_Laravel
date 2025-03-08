@@ -1,4 +1,7 @@
-import { showToastFeedback } from './utilFunctions';
+
+import {
+    showToastFeedback,
+} from '../Utilities/feedback-toast';
 import 'jquery';
 
 type HTMLContent = string;

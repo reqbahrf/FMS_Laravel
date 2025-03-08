@@ -1,10 +1,12 @@
 import ProjectClass from './ProjectClass';
 import {
-    hideProcessToast,
-    serializeFormData,
-    showProcessToast,
-    showToastFeedback,
+    serializeFormData
 } from '../../Utilities/utilFunctions';
+import {
+    showProcessToast,
+    hideProcessToast,
+    showToastFeedback,
+} from '../../Utilities/feedback-toast';
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 type Action = 'edit' | 'view';
 export default class ProjectStatusReportSheet extends ProjectClass {

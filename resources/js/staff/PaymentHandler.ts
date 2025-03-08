@@ -6,7 +6,7 @@ import {
     showProcessToast,
     hideProcessToast,
     showToastFeedback,
-} from '../Utilities/utilFunctions';
+} from '../Utilities/feedback-toast';
 
 export default class PaymentHandler {
     private paymentHistoryDataTableInstance: DataTables.Api;
