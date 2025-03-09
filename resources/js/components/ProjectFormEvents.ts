@@ -1,5 +1,5 @@
 import {
-    formatNumberToCurrency,
+    formatNumber,
     parseFormattedNumberToFloat,
 } from '../Utilities/utilFunctions';
 import { customFormatNumericInput } from '../Utilities/input-utils';
@@ -52,7 +52,7 @@ export default class FormEvents {
             );
             const totalAssests =
                 landAssets + buildingAssets + equipmentAssets + workingCapital;
-            $('#totalAssests').val(formatNumberToCurrency(totalAssests));
+            $('#totalAssests').val(formatNumber(totalAssests));
         }
 
         $('#land_val, #building_val, #equipment_val, #workingCapital_val').on(
@@ -86,7 +86,7 @@ export default class FormEvents {
 
                 manMonthTotal += subtotal;
             });
-            $('#TotalmanMonths').val(formatNumberToCurrency(manMonthTotal));
+            $('#TotalmanMonths').val(formatNumber(manMonthTotal));
         };
 
         $('#totalEmploymentContainer').on(
@@ -111,7 +111,7 @@ export default class FormEvents {
                 $('#exportProduct_Val').val() as string
             );
             const totalGrossSales = localProduct + exportProduct;
-            $('#totalGrossSales').val(formatNumberToCurrency(totalGrossSales));
+            $('#totalGrossSales').val(formatNumber(totalGrossSales));
 
             console.log(totalGrossSales);
         };
@@ -141,7 +141,7 @@ export default class FormEvents {
                     (totalMalePersonel + totalFemalePersonel) * (workDays / 20);
                 $(this)
                     .find('.totalManMonth')
-                    .val(formatNumberToCurrency(thisRowManMonth));
+                    .val(formatNumber(thisRowManMonth));
 
                 totalNumPersonel += totalMalePersonel + totalFemalePersonel;
 
@@ -149,8 +149,8 @@ export default class FormEvents {
                     $(this).find('.totalManMonth').val() as string
                 );
             });
-            $('#TotalManMonth').val(formatNumberToCurrency(totalManMonth));
-            $('#TotalEmployment').val(formatNumberToCurrency(totalNumPersonel));
+            $('#TotalManMonth').val(formatNumber(totalManMonth));
+            $('#TotalEmployment').val(formatNumber(totalNumPersonel));
         };
 
         $('#totalEmployment').on(
@@ -194,7 +194,7 @@ export default class FormEvents {
 
                 let netSales = grossSales - productionCost;
 
-                let FormattedNetSales = formatNumberToCurrency(netSales);
+                let FormattedNetSales = formatNumber(netSales);
 
                 tableRow.find('.netSales_val').val(FormattedNetSales);
 
@@ -203,19 +203,13 @@ export default class FormEvents {
                 totalNetSales += netSales;
             });
 
-            $('#totalGrossSales').val(
-                `₱ ${formatNumberToCurrency(totalGrossSales)}`
-            );
+            $('#totalGrossSales').val(`₱ ${formatNumber(totalGrossSales)}`);
             $('#totalProductionCost').val(
-                `₱ ${formatNumberToCurrency(totalProductionCost)}`
+                `₱ ${formatNumber(totalProductionCost)}`
             );
-            $('#totalNetSales').val(
-                `₱ ${formatNumberToCurrency(totalNetSales)}`
-            );
+            $('#totalNetSales').val(`₱ ${formatNumber(totalNetSales)}`);
 
-            $('.CurrentgrossSales_val').val(
-                formatNumberToCurrency(totalGrossSales)
-            );
+            $('.CurrentgrossSales_val').val(formatNumber(totalGrossSales));
         };
 
         $('#localProducts, #exportProducts').on(
@@ -234,9 +228,7 @@ export default class FormEvents {
                 );
                 const netSales = grossSales - estimatedProductionCost;
 
-                $productRow
-                    .find('.netSales_val')
-                    .val(formatNumberToCurrency(netSales));
+                $productRow.find('.netSales_val').val(formatNumber(netSales));
 
                 calculateTotals();
             }
@@ -264,15 +256,15 @@ export default class FormEvents {
 
             increaseInProductivityRow
                 .find('.CurrentgrossSales_val_cal')
-                .text(formatNumberToCurrency(CurrentgrossSales));
+                .text(formatNumber(CurrentgrossSales));
 
             increaseInProductivityRow
                 .find('.PreviousgrossSales_val_cal')
-                .text(formatNumberToCurrency(PreviousgrossSales));
+                .text(formatNumber(PreviousgrossSales));
 
             const TotalgrossSales = CurrentgrossSales - PreviousgrossSales;
             CurrentAndPreviousgrossSales.find('.TotalgrossSales_val').val(
-                formatNumberToCurrency(TotalgrossSales)
+                formatNumber(TotalgrossSales)
             );
 
             const increaseInProductivityByPercent =
@@ -426,33 +418,33 @@ export default class FormEvents {
             customFormatNumericInput(`.${inputClass}`);
         });
 
-        const $openButton = $('#open-floating-window');
-        const $content = $('#floating-content');
-        const $input = $('#projectLedgerLink') as JQuery<HTMLInputElement>;
-        const $window = $('#floating-window');
-        const $header = $('#floating-header');
-        const $closeButton = $('#close-button');
+        const openButton = $('#open-floating-window');
+        const content = $('#floating-content');
+        const input = $('#projectLedgerLink') as JQuery<HTMLInputElement>;
+        const window = $('#floating-window');
+        const header = $('#floating-header');
+        const closeButton = $('#close-button');
 
-        $openButton.on('click', async function () {
+        openButton.on('click', async function () {
             const module = await import('../Utilities/floating-window');
             if (module.InitializeFloatingWindow) {
                 module.InitializeFloatingWindow({
-                    $content,
-                    $input,
-                    $window,
-                    $header,
-                    $closeButton,
+                    content,
+                    input,
+                    window,
+                    header,
+                    closeButton,
                 });
             }
 
-            const url = $input?.val()?.trim();
+            const url = input?.val()?.trim();
             if (!url) {
                 alert('Please enter a valid URL!');
                 return;
             }
-            $content.html('<p>Loading...</p>');
-            $content.html(`<iframe src="${url}"></iframe>`);
-            $window.show();
+            content.html('<p>Loading...</p>');
+            content.html(`<iframe src="${url}"></iframe>`);
+            window.show();
         });
     }
 }

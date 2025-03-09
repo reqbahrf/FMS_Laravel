@@ -5,7 +5,7 @@ import {
 } from './add-and-remove-table-row-handler';
 import {
     parseFormattedNumberToFloat,
-    formatNumberToCurrency,
+    formatNumber,
     serializeFormData,
 } from './utilFunctions';
 import {
@@ -145,7 +145,7 @@ export default class ReportedQuarterlyReportEvent {
                     row.find('.estimatedCostOfProduction_val').val() as string
                 ) as number;
                 const netSales = grossSales - estimatedCostOfProduction;
-                const formattedNetSales = formatNumberToCurrency(netSales);
+                const formattedNetSales = formatNumber(netSales);
                 row.find('.netSales_val').val(formattedNetSales);
             }
         );

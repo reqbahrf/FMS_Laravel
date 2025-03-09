@@ -1,6 +1,6 @@
 import * as DataTables from 'datatables.net';
-import 'laravel-echo'
-import { formatNumberToCurrency, customDateFormatter } from './utilFunctions';
+import 'laravel-echo';
+import { formatNumber, customDateFormatter } from './utilFunctions';
 
 /**
  * Manages applicant data table functionality with real-time collaborative viewing features.
@@ -22,7 +22,7 @@ export default class ApplicantDataTable {
     private dataTableRoute: string;
     private applicantDataTableInstance: DataTables.Api;
     private currentlyViewingApplicantId: number | null;
-    private echoChannel: ReturnType<typeof Echo['channel']> | null;
+    private echoChannel: ReturnType<(typeof Echo)['channel']> | null;
     private userName: string;
 
     constructor(userName: string) {
@@ -118,14 +118,20 @@ export default class ApplicantDataTable {
             this.echoChannel = Echo.private(this.applicantViewingChannel);
 
             if (!this.echoChannel) return;
-            this.echoChannel.listenForWhisper('viewing', (e: { applicant_id: number; reviewed_by: string }) => {
-                this._updateViewingState(e.applicant_id, e.reviewed_by);
-            });
+            this.echoChannel.listenForWhisper(
+                'viewing',
+                (e: { applicant_id: number; reviewed_by: string }) => {
+                    this._updateViewingState(e.applicant_id, e.reviewed_by);
+                }
+            );
 
             // When viewing ends
-            this.echoChannel.listenForWhisper('viewing-closed', (e: { applicant_id: number }) => {
-                this._removeViewingState(e.applicant_id);
-            });
+            this.echoChannel.listenForWhisper(
+                'viewing-closed',
+                (e: { applicant_id: number }) => {
+                    this._removeViewingState(e.applicant_id);
+                }
+            );
 
             Echo.join(this.applicantViewingChannel)
                 .here((staff: string) => {
@@ -286,7 +292,7 @@ export default class ApplicantDataTable {
      * 5. Add transformed rows to DataTable
      * 6. Redraw DataTable
      *
-     * @requires formatNumberToCurrency - Utility function to format numeric values
+     * @requires formatNumber - Utility function to format numeric values
      * @requires customDateFormatter - Utility function to format dates
      *
      * @example
@@ -424,20 +430,20 @@ export default class ApplicantDataTable {
                                     <strong>Assets:</strong> <br />
                                     <span class="ps-2"
                                         >Building:
-                                        ${formatNumberToCurrency(
+                                        ${formatNumber(
                                             parseFloat(item.building_value)
                                         )}</span
                                     ><br />
                                     <span class="ps-2"
                                         >Equipment:
-                                        ${formatNumberToCurrency(
+                                        ${formatNumber(
                                             parseFloat(item.equipment_value)
                                         )}</span
                                     >
                                     <br />
                                     <span class="ps-2"
                                         >Working Capital:
-                                        ${formatNumberToCurrency(
+                                        ${formatNumber(
                                             parseFloat(item.working_capital)
                                         )}</span
                                     >

@@ -4,7 +4,7 @@ import {
 } from '../../Utilities/input-utils';
 import {
     parseFormattedNumberToFloat,
-    formatNumberToCurrency,
+    formatNumber,
 } from '../../Utilities/utilFunctions';
 export default class ProposalFormEvent {
     private form: JQuery<HTMLFormElement> | null;
@@ -117,7 +117,7 @@ export default class ProposalFormEvent {
         }
 
         // Format the total with thousand separator
-        const formattedTotal = formatNumberToCurrency(total);
+        const formattedTotal = formatNumber(total);
 
         // Update the month total input
         this.form
@@ -141,7 +141,7 @@ export default class ProposalFormEvent {
         });
 
         // Format the total with thousand separator
-        const formattedTotal = formatNumberToCurrency(total);
+        const formattedTotal = formatNumber(total);
 
         // Update the year total cell (the +1 accounts for the first column being the month names)
         this.form
@@ -174,7 +174,7 @@ export default class ProposalFormEvent {
         }
 
         // Format the grand total with thousand separator
-        const formattedTotal = formatNumberToCurrency(total);
+        const formattedTotal = formatNumber(total);
 
         // Update the grand total cell
         this.form.find('input[name="amount_requested"]').val(formattedTotal);

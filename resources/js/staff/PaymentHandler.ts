@@ -1,7 +1,7 @@
 import * as DataTables from 'datatables.net';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
 import createConfirmationModal from '../Utilities/confirmation-modal';
-import { formatNumberToCurrency } from '../Utilities/utilFunctions';
+import { formatNumber } from '../Utilities/utilFunctions';
 import {
     showProcessToast,
     hideProcessToast,
@@ -168,8 +168,8 @@ export default class PaymentHandler {
             const remainingAmount = fundedAmount - totatAmount;
             const percentage = Math.round((totatAmount / fundedAmount) * 100);
 
-            this.totalPaid.text(formatNumberToCurrency(totatAmount));
-            this.remainingBalance.text(formatNumberToCurrency(remainingAmount));
+            this.totalPaid.text(formatNumber(totatAmount));
+            this.remainingBalance.text(formatNumber(remainingAmount));
 
             percentage == 100
                 ? this._isRefundCompleted(true)
