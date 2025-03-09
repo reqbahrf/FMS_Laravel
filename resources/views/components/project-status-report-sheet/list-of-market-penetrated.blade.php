@@ -7,8 +7,14 @@
         vertical-align: top;
     }
 
-    #listOfMarketPenetrated th {
-        background-color: #f2f2f2;
+    #listOfMarketPenetrated .existing-market-col {
+        text-align: center;
+        width: 25%;
+    }
+
+    #listOfMarketPenetrated .new-market-col {
+        text-align: center;
+        width: 75%;
     }
 </style>
 <div
@@ -19,8 +25,11 @@
     <table>
         <thead>
             <tr>
-                <th>Existing Market</th>
-                <th colspan="2">New Market</th>
+                <th class="existing-market-col">Existing Market</th>
+                <th
+                    class="new-market-col"
+                    colspan="2"
+                >New Market</th>
             </tr>
             <tr>
                 <th></th>
@@ -30,10 +39,27 @@
         </thead>
         <tbody>
             <tr>
-                <td>Walk-in customers; Kooperatiba ng Sto. Tomas; Tea Barrel Coffee Shop (Sto. Tomas); DepEd schools in
-                    East and West Districts of Sto. Tomas, Carmen, West Kapalong, and Talaingod, Davao del Norte</td>
-                <td></td>
-                <td></td>
+                <td>
+                    <x-custom-input.list-text-formatter
+                        name="existingMarket"
+                        :text="''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.list-text-formatter
+                        name="newMarketSpecifyPlace"
+                        :text="''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.list-text-formatter
+                        name="newMarketEffectiveDate"
+                        :text="''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
             </tr>
         </tbody>
     </table>

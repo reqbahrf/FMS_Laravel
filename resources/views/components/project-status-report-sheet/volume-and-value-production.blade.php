@@ -1,3 +1,4 @@
+@props(['projectStatusReportData', 'isEditable' => false])
 <style>
     #volumeAndValueProduction th,
     #volumeAndValueProduction td {
@@ -5,10 +6,6 @@
         padding: 8px;
         text-align: left;
         vertical-align: top;
-    }
-
-    #volumeAndValueProduction th {
-        background-color: #f2f2f2;
     }
 
     #volumeAndValueProduction .product-col {
@@ -31,7 +28,9 @@
     class=""
     id="volumeAndValueProduction"
 >
-    <p>Volume and value of production including sales generated:</p>
+    <br>
+    <br>
+    <span>•&nbsp;Volume and value of production including sales generated:</span>
 
     <table>
         <thead>
@@ -44,23 +43,60 @@
         </thead>
         <tbody>
             <tr>
-                <td>Assorted bread, pastries and short orders</td>
-                <td></td>
-                <td>3<sup>rd</sup> Quarter 2023</td>
-                <td>₱ 2,457,000.00</td>
+                <td>
+                    <x-custom-input.input
+                        class="nameOfProductService"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="volumeOfProduction"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    @if ($isEditable)
+                        <select class="sales-generated-quarter_selector">
+                            <option value="1">1ˢᵗ Quarter</option>
+                            <option value="2">2ⁿᵈ Quarter</option>
+                            <option value="3">3ʳᵈ Quarter</option>
+                            <option value="4">4ᵗʰ Quarter</option>
+                        </select>
+                    @else
+                        <span>{{ $projectStatusReportData['QuarterSelector'] ?? '' }}</span>
+                    @endif
+                    <x-custom-input.input
+                        class="forYear"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="grossSales"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
             </tr>
-            <tr>
-                <td>Assorted bread, pastries and short orders</td>
-                <td></td>
-                <td>4<sup>th</sup> Quarter 2023</td>
-                <td>₱ 1,116,000.00</td>
-            </tr>
+        <tfoot>
             <tr>
                 <td style="font-weight: bold;">Total</td>
                 <td></td>
                 <td></td>
-                <td style="font-weight: bold;">₱ 3,573,500.00</td>
+                <td style="font-weight: bold;">
+                    <span
+                        class="volumeAndValueTotalGrossSales">{{ $projectStatusReportData['GrossSales'] ?? '' }}</span>
+                </td>
             </tr>
+        </tfoot>
         </tbody>
     </table>
 </div>

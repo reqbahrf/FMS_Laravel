@@ -1,47 +1,76 @@
+@props(['projectStatusReportData', 'isEditable' => false])
 <style>
     #statusFundUtilization td {
-        padding: 8px;
         text-align: left;
         border: none;
     }
 
     #statusFundUtilization .label-col {
-        width: 40%;
-        vertical-align: top;
+        width: 65%;
+        vertical-align: middle;
     }
 
     #statusFundUtilization .colon-col {
-        width: 5%;
-        vertical-align: top;
+        width: 1%;
+        vertical-align: middle;
     }
 
     #statusFundUtilization .value-col {
-        width: 55%;
-        vertical-align: top;
+        width: 34%;
+        vertical-align: middle;
     }
 </style>
 <div
     class=""
     id="statusFundUtilization"
 >
-    <p>Status of Fund Utilization:</p>
-    <p>2015</p>
+    <span>•&nbsp;Status of Fund Utilization:</span>
+    <br>
+    <br>
+    <span>{{ $projectStatusReportData['for_period'] }}</span>
 
     <table>
         <tr>
             <td class="label-col">Total Approved Project Cost</td>
             <td class="colon-col">:</td>
-            <td class="value-col">₱ 523,700.00</td>
+            <td class="value-col">
+                <x-custom-input.input
+                    class="totalApprovedProjectCost"
+                    type="text"
+                    value=""
+                    :isEditable="$isEditable"
+                />
+            </td>
         </tr>
         <tr>
-            <td class="label-col">Amount Utilized per Financial Report (as of June 2024)</td>
+            <td class="label-col">Amount Utilized per Financial Report (as of <x-custom-input.input
+                    class="amountUtilizedPerFinancialReportAsOf"
+                    type="text"
+                    value=""
+                    style="width: 20%;"
+                    :isEditable="$isEditable"
+                />)</td>
             <td class="colon-col">:</td>
-            <td class="value-col">₱ 526,300.00</td>
+            <td class="value-col">
+                <x-custom-input.input
+                    class="amountUtilizedPerFinancialReport"
+                    type="text"
+                    value=""
+                    :isEditable="$isEditable"
+                />
+            </td>
         </tr>
         <tr>
             <td class="label-col">Remarks on Status of Utilization</td>
             <td class="colon-col">:</td>
-            <td class="value-col">Excess amounting to ₱2,600.00 was shouldered by the cooperator.</td>
+            <td class="value-col">
+                <x-custom-input.input
+                    class="remarksOnStatusOfUtilization"
+                    type="text"
+                    value=""
+                    :isEditable="$isEditable"
+                />
+            </td>
         </tr>
     </table>
 </div>

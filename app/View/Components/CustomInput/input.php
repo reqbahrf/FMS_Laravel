@@ -15,6 +15,7 @@ class input extends Component
         public string $name,
         public string $type,
         public string $class,
+        public string $style,
         public bool $readonly = false,
         public string $value = '',
         public bool $isEditable,

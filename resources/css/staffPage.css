@@ -1209,6 +1209,11 @@ Project Data Sheet Styles
     min-width: 794px;
     max-width: 794px;
     margin: 0 auto;
-    padding: 2cm;
+    padding: 1cm;
     border: 1px solid #ccc;
+}
+
+#projectStatusReportSheetForm table {
+    width: 100% !important;
+    border-collapse: collapse;
 }

@@ -1,3 +1,4 @@
+@props(['quarter', 'isEditable' => false])
 <style>
     #newEmploymentGenerated th,
     #newEmploymentGenerated td {
@@ -15,9 +16,12 @@
     id="newEmploymentGenerated"
 >
     <p>No. of new employment generated from the project:</p>
-    <p>1<sup>st</sup> Quarter</p>
+    <p>{{ $quarter ?? '1ˢᵗ' }} Quarter</p>
 
-    <table>
+    <table
+        class=""
+        id="newEmploymentGeneratedForQuarter{{ $quarter ?? 1 }}"
+    >
         <thead>
             <tr>
                 <th>No. of Employees</th>
@@ -28,10 +32,38 @@
         </thead>
         <tbody>
             <tr>
-                <td>6</td>
-                <td>2</td>
-                <td>4</td>
-                <td>0</td>
+                <td>
+                    <x-custom-input.input
+                        class="noOfEmployees"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="noOfMale"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="noOfFemale"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="noOfPersonWithDisability"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
             </tr>
         </tbody>
     </table>

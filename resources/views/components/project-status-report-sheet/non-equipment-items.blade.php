@@ -1,3 +1,4 @@
+@props(['projectStatusReportData', 'isEditable' => false])
 <style>
     #nonEquipmentItems th,
     #nonEquipmentItems td {
@@ -5,10 +6,6 @@
         padding: 8px;
         text-align: left;
         vertical-align: top;
-    }
-
-    #nonEquipmentItems th {
-        background-color: #f2f2f2;
     }
 
     #nonEquipmentItems .qty-col {
@@ -31,7 +28,7 @@
     class=""
     id="nonEquipmentItems"
 >
-    <p>Non-equipment items provided (packaging, etc.):</p>
+    <span>•&nbsp;Non-equipment items provided (packaging, etc.):</span>
 
     <table>
         <thead>
@@ -52,31 +49,62 @@
         </thead>
         <tbody>
             <tr>
-                <td></td>
-                <td>OHS Training</td>
-                <td></td>
-                <td></td>
-                <td>OHS Training</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>5s Training</td>
-                <td></td>
-                <td></td>
-                <td>5s Training</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td>GMP Assessment</td>
-                <td>12,500.00</td>
-                <td></td>
-                <td>GMP Assessment</td>
-                <td>12,500.00</td>
-                <td></td>
+                <td>
+                    <x-custom-input.input
+                        class="approvedQty"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="approvedParticulars"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="approvedCost"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="actualQty"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="actualParticulars"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="actualCost"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="remarksJustification"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
             </tr>
         </tbody>
     </table>

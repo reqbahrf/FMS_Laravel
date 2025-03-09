@@ -1,13 +1,10 @@
+@props(['projectStatusReportData', 'isEditable' => false])
 <style>
     #newIndirectEmploymentFromTheProject th,
     #newIndirectEmploymentFromTheProject td {
         border: 1px solid black;
         padding: 8px;
         text-align: center;
-    }
-
-    #newIndirectEmploymentFromTheProject th {
-        background-color: #f2f2f2;
     }
 
     #newIndirectEmploymentFromTheProject .quarter-col {
@@ -42,25 +39,66 @@
                 <td
                     class="quarter-col"
                     colspan="2"
-                >1<sup>st</sup> Quarter</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td
-                    class="quarter-col"
-                    colspan="2"
-                >2<sup>nd</sup> Quarter</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                >
+                    @if ($isEditable)
+                        <select class="sales-generated-quarter_selector">
+                            <option value="1">1ˢᵗ Quarter</option>
+                            <option value="2">2ⁿᵈ Quarter</option>
+                            <option value="3">3ʳᵈ Quarter</option>
+                            <option value="4">4ᵗʰ Quarter</option>
+                        </select>
+                    @else
+                        {{ $projectStatusReportData['QuarterSelector'] ?? '' }}
+                    @endif
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="forward-male"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="forward-female"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="forward-total"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="backward-male"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="backward-female"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="backward-total"
+                        type="text"
+                        value=""
+                        :isEditable="$isEditable"
+                    />
+                </td>
             </tr>
             <tr>
                 <td
