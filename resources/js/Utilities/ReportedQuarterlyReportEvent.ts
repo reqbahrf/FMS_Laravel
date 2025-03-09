@@ -6,11 +6,13 @@ import {
 import {
     parseFormattedNumberToFloat,
     formatNumberToCurrency,
+    serializeFormData,
+} from './utilFunctions';
+import {
     showProcessToast,
     hideProcessToast,
-    serializeFormData,
     showToastFeedback,
-} from './utilFunctions';
+} from '../Utilities/feedback-toast';
 import createConfirmationModal from './confirmation-modal';
 import { TableDataExtractor } from './TableDataExtractor';
 export default class ReportedQuarterlyReportEvent {

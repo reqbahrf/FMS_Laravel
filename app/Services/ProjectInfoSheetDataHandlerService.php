@@ -95,15 +95,16 @@ class ProjectInfoSheetDataHandlerService
         int $application_info_id
     ): void {
         try {
+            if ($this->isDataExists($project_info_id, $forYear, $business_info_id, $application_info_id)) {
+                throw new Exception('Data already exists');
+            }
+
             $initialData = [
                 'project_info_id' => $project_info_id,
                 'business_info_id' => $business_info_id,
                 'application_info_id' => $application_info_id,
                 'for_period' => $forYear
             ];
-            if ($this->isDataExists($project_info_id, $forYear, $business_info_id, $application_info_id)) {
-                throw new Exception('Data already exists');
-            }
 
             $this->ProjectInfoSheet->updateOrCreate([
                 'project_info_id' => $project_info_id,

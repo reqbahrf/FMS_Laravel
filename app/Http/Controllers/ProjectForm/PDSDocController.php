@@ -84,7 +84,7 @@ class PDSDocController extends Controller
             $reportSubmitted = $request->reportSubmitted;
             $isEditable = $request->header('X-ACTION_MODE') == 'edit' ? true : false;
 
-            $Data = $this->projectDataSheetDataHandlerService->getQuaterlyReportData($reportId, $projectId, $quarter);
+            $Data = $this->projectDataSheetDataHandlerService->getQuarterlyReportData($reportId, $projectId, $quarter);
 
             $reportData = $Data->report_file;
 

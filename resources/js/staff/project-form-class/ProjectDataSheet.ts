@@ -2,7 +2,7 @@ import {
     showProcessToast,
     showToastFeedback,
     hideProcessToast,
-} from '../../Utilities/utilFunctions';
+} from '../../Utilities/feedback-toast';
 
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';
@@ -87,7 +87,7 @@ export default class ProjectDataSheet extends ProjectClass {
             quarterlySelector.empty();
             const response = await $.ajax({
                 type: 'GET',
-                url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
+                url: PROJECT_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
                     ':project_id',
                     this.project_id
                 ),

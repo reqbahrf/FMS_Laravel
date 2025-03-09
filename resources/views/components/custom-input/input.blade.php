@@ -4,7 +4,7 @@
             class="{{ $class ?? '' }}"
             name="{{ $name ?? '' }}"
             type="{{ $type }}"
-            {{ $attributes->only('readonly', 'class') }}
+            {{ $attributes->only('readonly', 'class', 'style') }}
             @if ($attributes->has('readonly')) @disabled(true) @endif
             @if ($value === true || $value === 'on' || $value === 1 || $value !== '') checked @endif
         >
@@ -13,7 +13,8 @@
             class="{{ $class ?? '' }}"
             type="{{ $type }}"
             value="{{ $value ?? '' }}"
-            {{ $attributes->only('readonly', 'class') }}
+            @isset($style) style="{{ $style }}" @endisset
+            {{ $attributes->only('readonly', 'class', 'style') }}
             @isset($name) name="{{ $name }}" @endisset
         >
     @endif

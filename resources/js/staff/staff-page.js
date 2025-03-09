@@ -2,14 +2,16 @@ import '../echo';
 import { customFormatNumericInput } from '../Utilities/input-utils';
 import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
-    showToastFeedback,
     formatNumberToCurrency,
     customDateFormatter,
     closeOffcanvasInstances,
     closeModal,
+} from '../Utilities/utilFunctions';
+import {
+    showToastFeedback,
     showProcessToast,
     hideProcessToast,
-} from '../Utilities/utilFunctions';
+} from '../Utilities/feedback-toast';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
 import FormEvents from '../components/ProjectFormEvents';
 import EsignatureHandler from '../Utilities/EsignatureHandler';
@@ -21,6 +23,7 @@ import ApplicantDataTable from '../Utilities/applicant-datatable';
 import PaymentHandler from './PaymentHandler';
 import ProjectInfoSheet from './project-form-class/ProjectInfoSheet';
 import ProjectDataSheet from './project-form-class/ProjectDataSheet';
+import ProjectStatusReportSheet from './project-form-class/ProjectStatusReportSheet';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -1072,6 +1075,7 @@ async function initializeStaffPageJs() {
 
             let pisClass;
             let pdsClass;
+            let psrClass;
 
             $('#handledProjectTableBody').on(
                 'click',
@@ -1224,6 +1228,16 @@ async function initializeStaffPageJs() {
                     );
 
                     pdsClass = new ProjectDataSheet(formContainer, project_id);
+
+                    if (psrClass) {
+                        psrClass.destroy();
+                    }
+                    psrClass = new ProjectStatusReportSheet(
+                        formContainer,
+                        project_id,
+                        business_id,
+                        application_id
+                    );
 
                     //TODO initialize Payment Object here
                     handleProjectOffcanvasContent(project_status);
@@ -1956,7 +1970,7 @@ async function initializeStaffPageJs() {
             //         QuarterlySelector.empty();
             //         const response = await $.ajax({
             //             type: 'GET',
-            //             url: GENERATE_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
+            //             url: PROJECT_SHEETS_ROUTE.GET_AVAILABLE_QUARTERLY_REPORT.replace(
             //                 ':project_id',
             //                 Project_id
             //             ),
@@ -1998,7 +2012,7 @@ async function initializeStaffPageJs() {
                 try {
                     const response = await $.ajax({
                         type: 'GET',
-                        url: GENERATE_SHEETS_ROUTE.GET_PROJECT_SHEET_FORM.replace(
+                        url: PROJECT_SHEETS_ROUTE.GET_PROJECT_SHEET_FORM.replace(
                             ':type',
                             formType
                         )
@@ -2150,9 +2164,9 @@ async function initializeStaffPageJs() {
                     const ExportPDF_BUTTON_DATA_VALUE =
                         $(this).attr('data-to-export');
                     const route_url = {
-                        PIS: GENERATE_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
-                        PDS: GENERATE_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
-                        SR: GENERATE_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
+                        PIS: PROJECT_SHEETS_ROUTE.GENERATE_PROJECT_INFORMATION_SHEET,
+                        PDS: PROJECT_SHEETS_ROUTE.GENERATE_DATA_SHEET_REPORT,
+                        SR: PROJECT_SHEETS_ROUTE.GENERATE_STATUS_REPORT,
                     }[ExportPDF_BUTTON_DATA_VALUE];
 
                     // Get form data

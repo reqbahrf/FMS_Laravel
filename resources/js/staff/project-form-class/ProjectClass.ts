@@ -1,3 +1,5 @@
+import { showToastFeedback } from '../../Utilities/feedback-toast';
+
 export default class ProjectClass {
     protected documentBtnSelectors: JQuery<HTMLElement>;
     private static breadcrumbEventAttached: boolean = false;
@@ -14,6 +16,16 @@ export default class ProjectClass {
 
     protected _removeForm(): void {
         this.formContainer.find('#formWrapper').remove();
+    }
+    protected _handleError(error: any, withToast: boolean = false): void {
+        console.error('An error occurred:', error);
+        if (withToast)
+            showToastFeedback(
+                'text-bg-danger',
+                error?.responseJSON?.message ||
+                    error?.message ||
+                    'An unexpected error occurred.'
+            );
     }
 
     protected _init(): void {

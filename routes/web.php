@@ -250,7 +250,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::post('/Staff/Project/create/information-sheet/', 'createPISData')
             ->name('staff.Project.create.information-sheet');
 
-        Route::get('/Staff/Project/get/all/years/records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
+        Route::get('/Staff/Project/get/all-years-records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
             ->name('staff.Project.get.all.years.records');
 
         Route::put('/Staff/Project/set/information-sheet/{projectId}/{applicationId}/{businessId}/{forYear}', 'setPISData')
@@ -282,11 +282,22 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
 
     Route::controller(SRDocController::class)->group(function () {
-        Route::put('/Staff/Project/set/StatusReport', 'setSRData')
-            ->name('staff.Project.set.StatusReport');
 
-        Route::get('/Staff/Project/get/StatusReport', 'getPDFDocument')
-            ->name('staff.Project.get.StatusReport');
+        Route::post('/Staff/Project/create/status-report', 'createSRData')
+            ->name('staff.Project.create.status-report');
+
+        Route::get('/Staff/Project/get/all-years-records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
+            ->name('staff.Project.get.all.years.records');
+
+        Route::put('/Staff/Project/set/status-report/{projectId}/{applicationId}/{businessId}/{forYear}', 'setStatusReportData')
+            ->name('staff.Project.set.status-report');
+
+        Route::get('/Staff/Project/get/status-report/{projectId}/{applicationId}/{businessId}/{action}/{forYear}', 'getProjectStatusReportForm')
+            ->name('staff.Project.get.status-report');
+
+        Route::get('/Staff/Project/generate/status-report-document/{projectId}/{applicationId}/{businessId}/{forYear}', 'getExportSR')
+            ->name('staff.Project.generate.status-report-document')
+            ->middleware('signed');
     });
 
     //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);

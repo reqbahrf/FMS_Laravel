@@ -1,5 +1,6 @@
 
-import { showProcessToast, showToastFeedback, hideProcessToast, serializeFormData } from '../Utilities/utilFunctions';
+import { showProcessToast, showToastFeedback, hideProcessToast } from '../Utilities/feedback-toast';
+import { serializeFormData } from '../Utilities/utilFunctions';
 import BENCHMARKTableConfig from '../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import PROJECT_PROPOSAL_TABLE_CONFIG from '../Form_Config/form-table-config/projectProposalTableConfig';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
