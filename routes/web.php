@@ -292,7 +292,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::put('/Staff/Project/set/status-report/{projectId}/{applicationId}/{businessId}/{forYear}', 'setSRData')
             ->name('staff.Project.set.status-report');
 
-        Route::get('/Staff/Project/get/status-report/{projectId}/{applicationId}/{businessId}/{action}/{forYear}', 'getPDFDocument')
+        Route::get('/Staff/Project/get/status-report/{projectId}/{applicationId}/{businessId}/{action}/{forYear}', 'getProjectStatusReportForm')
             ->name('staff.Project.get.status-report');
 
         Route::get('/Staff/Project/generate/status-report-document/{projectId}/{applicationId}/{businessId}/{forYear}', 'getExportSR')

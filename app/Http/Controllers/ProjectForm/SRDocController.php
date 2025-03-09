@@ -61,6 +61,37 @@ class SRDocController extends Controller
             return response()->json(['message' => 'Error getting all years records ' . $e->getMessage()], 500);
         }
     }
+
+    public function getProjectStatusReportForm(Request $request)
+    {
+        try {
+            $action = $request->action;
+            $projectId = $request->projectId;
+            $applicationId = $request->applicationId;
+            $businessId = $request->businessId;
+            $forYear = $request->forYear;
+            $projectStatusReportData = $this->statusReportDataHandlerService
+                ->getStatusReportSheetData(
+                    $projectId,
+                    $forYear,
+                    $businessId,
+                    $applicationId
+                );
+            switch ($action) {
+                case 'view':
+                    $isEditable = false;
+                    break;
+                case 'edit':
+                    $isEditable = true;
+                    break;
+                default:
+                    throw new Exception('Invalid action');
+            }
+            return view('components.project-status-report-sheet.main', compact('projectStatusReportData', 'isEditable'));
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Error getting project status report form ' . $e->getMessage()], 500);
+        }
+    }
     public function getExportSR(
         Request $request,
         GeneratePDFAction $generatePDFAction
