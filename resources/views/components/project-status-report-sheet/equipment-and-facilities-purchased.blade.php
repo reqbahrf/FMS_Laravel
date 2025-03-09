@@ -3,13 +3,13 @@
     #equipmentAndFacilitiesPurchased th,
     #equipmentAndFacilitiesPurchased td {
         border: 1px solid black;
-        padding: 8px;
+        padding: 2px;
         text-align: left;
         vertical-align: top;
     }
 
     #equipmentAndFacilitiesPurchased .qty-col {
-        width: 3%;
+        width: 5%;
     }
 
     #equipmentAndFacilitiesPurchased .particulars-col {
@@ -40,14 +40,22 @@
     <table>
         <thead>
             <tr>
-                <th colspan="3">Approved S&T Intervention Related Equipment</th>
-                <th colspan="3">Actual S&T Intervention Related Equipment Acquired</th>
+                <th
+                    style="text-align: center; width: 30%"
+                    colspan="3"
+                >Approved S&T Intervention Related Equipment</th>
+                <th
+                    style="text-align: center; width: 30%"
+                    colspan="3"
+                >Actual S&T Intervention Related Equipment Acquired</th>
                 <th
                     class="receipt-col"
+                    style="text-align: center; width: 20%"
                     rowspan="2"
                 >Indicate if with Acknowledgement Receipt of Equipment</th>
                 <th
                     class="remarks-col"
+                    style="text-align: center; width: 20%"
                     rowspan="2"
                 >Remarks/ Justification</th>
             </tr>

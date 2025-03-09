@@ -63,4 +63,31 @@
             :isEditable="$isEditable"
         />
     </form>
+    @if (!$isExporting)
+        <div
+            class="position-sticky bottom-0 py-1 mt-4"
+            style="z-index: 1000;"
+        >
+            <div class="container">
+                @if ($isEditable)
+                    <div class="d-flex justify-content-end">
+                        <button
+                            class="btn btn-primary"
+                            form="projectInfoSheetForm"
+                            type="submit"
+                        >Set Document Data</button>
+                    </div>
+                @else
+                    <div class="d-flex justify-content-end">
+                        <button
+                            class="btn btn-primary"
+                            id="exportProjectStatusReportFormToPDF"
+                            data-generated-url="{{ URL::signedRoute('staff.Project.generate.status-report-document', ['projectId' => $projectStatusReportData['project_info_id'], 'applicationId' => $projectStatusReportData['application_info_id'], 'businessId' => $projectStatusReportData['business_info_id'], 'forYear' => $projectStatusReportData['for_period']]) }}"
+                            type="button"
+                        >Export as PDF</button>
+                    </div>
+                @endif
+            </div>
+        </div>
+    @endif
 </div>

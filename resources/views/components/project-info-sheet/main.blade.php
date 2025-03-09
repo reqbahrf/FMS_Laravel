@@ -901,32 +901,30 @@
         </div>
     </form>
     @if (!$isExporting)
-        @if (!$isExporting)
-            <div
-                class="position-sticky bottom-0 py-1 mt-4"
-                style="z-index: 1000;"
-            >
-                <div class="container">
-                    @if ($isEditable)
-                        <div class="d-flex justify-content-end">
-                            <button
-                                class="btn btn-primary"
-                                form="projectInfoSheetForm"
-                                type="submit"
-                            >Set Document Data</button>
-                        </div>
-                    @else
-                        <div class="d-flex justify-content-end">
-                            <button
-                                class="btn btn-primary"
-                                id="exportProjectInfoSheetFormToPDF"
-                                data-generated-url="{{ URL::signedRoute('staff.Project.generate.information-sheet-document', ['projectId' => $projectInfoSheetData['project_info_id'], 'applicationId' => $projectInfoSheetData['application_info_id'], 'businessId' => $projectInfoSheetData['business_info_id'], 'forYear' => $projectInfoSheetData['for_period']]) }}"
-                                type="button"
-                            >Export as PDF</button>
-                        </div>
-                    @endif
-                </div>
+        <div
+            class="position-sticky bottom-0 py-1 mt-4"
+            style="z-index: 1000;"
+        >
+            <div class="container">
+                @if ($isEditable)
+                    <div class="d-flex justify-content-end">
+                        <button
+                            class="btn btn-primary"
+                            form="projectInfoSheetForm"
+                            type="submit"
+                        >Set Document Data</button>
+                    </div>
+                @else
+                    <div class="d-flex justify-content-end">
+                        <button
+                            class="btn btn-primary"
+                            id="exportProjectInfoSheetFormToPDF"
+                            data-generated-url="{{ URL::signedRoute('staff.Project.generate.information-sheet-document', ['projectId' => $projectInfoSheetData['project_info_id'], 'applicationId' => $projectInfoSheetData['application_info_id'], 'businessId' => $projectInfoSheetData['business_info_id'], 'forYear' => $projectInfoSheetData['for_period']]) }}"
+                            type="button"
+                        >Export as PDF</button>
+                    </div>
+                @endif
             </div>
-        @endif
+        </div>
     @endif
 </div>
