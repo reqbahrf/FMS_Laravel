@@ -37,7 +37,7 @@
     <br>
     <span>{{ $projectStatusReportData['for_period'] }}</span>
 
-    <table>
+    <table id="equipmentAndFacilitiesTable">
         <thead>
             <tr>
                 <th
@@ -69,6 +69,74 @@
             </tr>
         </thead>
         <tbody>
+            @forelse ($projectStatusReportData['list_of_equipment_and_facilities_purchased'] ?? [] as $item)
+            <tr>
+                <td>
+                    <x-custom-input.input
+                        class="approvedQty"
+                        type="text"
+                        :value="$item['approved_qty'] ?? ''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="approvedParticulars"
+                        type="text"
+                        :value="$item['approved_particulars'] ?? ''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="approvedCost"
+                        type="text"
+                        :value="$item['approved_cost'] ?? ''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="actualQty"
+                        type="text"
+                        :value="$item['actual_qty'] ?? ''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="actualParticulars"
+                        type="text"
+                        :value="$item['actual_particulars'] ?? ''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="actualCost"
+                        type="text"
+                        :value="$item['actual_cost'] ?? ''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="indicateIfWithAcknowledgementReceipt"
+                        type="text"
+                        :value="$item['indicate_if_with_acknowledgement_receipt'] ?? ''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+                <td>
+                    <x-custom-input.input
+                        class="remarksJustification"
+                        type="text"
+                        :value="$item['remarks_justification'] ?? ''"
+                        :isEditable="$isEditable"
+                    />
+                </td>
+            </tr>
+            @empty
             <tr>
                 <td>
                     <x-custom-input.input
@@ -135,6 +203,7 @@
                     />
                 </td>
             </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

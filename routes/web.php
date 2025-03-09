@@ -289,7 +289,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::get('/Staff/Project/get/all-years-records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
             ->name('staff.Project.get.all.years.records');
 
-        Route::put('/Staff/Project/set/status-report/{projectId}/{applicationId}/{businessId}/{forYear}', 'setSRData')
+        Route::put('/Staff/Project/set/status-report/{projectId}/{applicationId}/{businessId}/{forYear}', 'setStatusReportData')
             ->name('staff.Project.set.status-report');
 
         Route::get('/Staff/Project/get/status-report/{projectId}/{applicationId}/{businessId}/{action}/{forYear}', 'getProjectStatusReportForm')

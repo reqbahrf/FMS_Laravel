@@ -35,9 +35,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="totalAmountToBeRefunded"
+                    name="total_amount_to_be_refunded"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['total_amount_to_be_refunded'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -47,9 +47,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="approvedRefundSchedule"
+                    name="approved_refund_schedule"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['approved_refund_schedule'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -59,9 +59,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="totalAmountAlreadyDue"
+                    name="total_amount_already_due"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['total_amount_already_due'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -71,9 +71,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="totalAmountRefunded"
+                    name="total_amount_refunded"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['total_amount_refunded'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -83,9 +83,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="unsettledRefund"
+                    name="unsettled_refund"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['unsettled_refund'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -95,9 +95,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="refundDelayedSince"
+                    name="refund_delayed_since"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['refund_delayed_since'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>

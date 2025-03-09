@@ -133,7 +133,7 @@ export default class ProjectStatusReportSheet extends ProjectClass {
 
     private _getFormInstance(): JQuery<HTMLFormElement> {
         return this.formContainer
-            .find('form#projectStatusReportForm')
+            .find('form#projectStatusReportSheetForm')
             .first() as JQuery<HTMLFormElement>;
     }
 

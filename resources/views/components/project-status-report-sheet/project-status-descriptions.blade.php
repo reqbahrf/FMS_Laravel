@@ -24,8 +24,8 @@
         <tr>
             <td>
                 <x-custom-input.list-text-formatter
-                    name="projectStatusDescription"
-                    :text="''"
+                    name="improvement_in_production_efficiency"
+                    :text="$projectStatusReportData['improvement_in_production_efficiency'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -36,8 +36,8 @@
         <tr>
             <td>
                 <x-custom-input.list-text-formatter
-                    name="projectStatusDescription"
-                    :text="''"
+                    name="problems_met_actions_taken"
+                    :text="$projectStatusReportData['problems_met_actions_taken'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -48,8 +48,8 @@
         <tr>
             <td>
                 <x-custom-input.list-text-formatter
-                    name="projectStatusDescription"
-                    :text="''"
+                    name="action_plan"
+                    :text="$projectStatusReportData['action_plan'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -60,8 +60,8 @@
         <tr>
             <td>
                 <x-custom-input.list-text-formatter
-                    name="projectStatusDescription"
-                    :text="''"
+                    name="linkages_promotional_plan"
+                    :text="$projectStatusReportData['linkages_promotional_plan'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>

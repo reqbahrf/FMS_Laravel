@@ -30,7 +30,7 @@
 >
     <span>•&nbsp;Non-equipment items provided (packaging, etc.):</span>
 
-    <table>
+    <table id="nonEquipmentItemsTable">
         <thead>
             <tr>
                 <th colspan="3">Approved Items of Expenditure</th>
@@ -48,64 +48,125 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <x-custom-input.input
-                        class="approvedQty"
-                        type="text"
-                        value=""
-                        :isEditable="$isEditable"
-                    />
-                </td>
-                <td>
-                    <x-custom-input.input
-                        class="approvedParticulars"
-                        type="text"
-                        value=""
-                        :isEditable="$isEditable"
-                    />
-                </td>
-                <td>
-                    <x-custom-input.input
-                        class="approvedCost"
-                        type="text"
-                        value=""
-                        :isEditable="$isEditable"
-                    />
-                </td>
-                <td>
-                    <x-custom-input.input
-                        class="actualQty"
-                        type="text"
-                        value=""
-                        :isEditable="$isEditable"
-                    />
-                </td>
-                <td>
-                    <x-custom-input.input
-                        class="actualParticulars"
-                        type="text"
-                        value=""
-                        :isEditable="$isEditable"
-                    />
-                </td>
-                <td>
-                    <x-custom-input.input
-                        class="actualCost"
-                        type="text"
-                        value=""
-                        :isEditable="$isEditable"
-                    />
-                </td>
-                <td>
-                    <x-custom-input.input
-                        class="remarksJustification"
-                        type="text"
-                        value=""
-                        :isEditable="$isEditable"
-                    />
-                </td>
-            </tr>
+            @forelse ($projectStatusReportData['non_equipment_items'] ?? [] as $item)
+                <tr>
+                    <td>
+                        <x-custom-input.input
+                            class="approvedQty"
+                            type="text"
+                            :value="$item['approved_qty'] ?? ''"
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="approvedParticulars"
+                            type="text"
+                            :value="$item['approved_particulars'] ?? ''"
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="approvedCost"
+                            type="text"
+                            :value="$item['approved_cost'] ?? ''"
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="actualQty"
+                            type="text"
+                            :value="$item['actual_qty'] ?? ''"
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="actualParticulars"
+                            type="text"
+                            :value="$item['actual_particulars'] ?? ''"
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="actualCost"
+                            type="text"
+                            :value="$item['actual_cost'] ?? ''"
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="remarksJustification"
+                            type="text"
+                            :value="$item['remarks_justification'] ?? ''"
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td>
+                        <x-custom-input.input
+                            class="approvedQty"
+                            type="text"
+                            value=""
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="approvedParticulars"
+                            type="text"
+                            value=""
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="approvedCost"
+                            type="text"
+                            value=""
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="actualQty"
+                            type="text"
+                            value=""
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="actualParticulars"
+                            type="text"
+                            value=""
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="actualCost"
+                            type="text"
+                            value=""
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="remarksJustification"
+                            type="text"
+                            value=""
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

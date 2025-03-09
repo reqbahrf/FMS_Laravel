@@ -40,10 +40,10 @@
                 style="text-align: center;"
                 colspan="3"
             ><strong>SETUP Form 003 – Status Report (as of <x-custom-input.input
-                        name="asOf"
+                        name="status_report_as_of"
                         type="text"
-                        value=""
                         style="width: 10%;"
+                        :value="$projectStatusReportData['status_report_as_of'] ?? ''"
                         :isEditable="$isEditable"
                     />)</strong></td>
         </tr>
@@ -52,9 +52,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="projectTitle"
+                    name="project_title"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['project_title'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -64,9 +64,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="projectCooperator"
+                    name="project_cooperator"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['project_cooperator'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -76,9 +76,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="projectDuration"
+                    name="project_duration"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['project_duration'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -88,9 +88,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="amountOfSetupAssistance"
+                    name="amount_of_setup_assistance"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['amount_of_setup_assistance'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -100,9 +100,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="dateFundsReleased"
+                    name="date_funds_released"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['date_funds_released'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -112,9 +112,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    name="refundPeriod"
+                    name="refund_period"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['refund_period'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>

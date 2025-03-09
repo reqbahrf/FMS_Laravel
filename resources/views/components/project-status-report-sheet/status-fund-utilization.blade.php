@@ -35,27 +35,27 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    class="totalApprovedProjectCost"
+                    class="total_approved_project_cost"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['total_approved_project_cost'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
         </tr>
         <tr>
             <td class="label-col">Amount Utilized per Financial Report (as of <x-custom-input.input
-                    class="amountUtilizedPerFinancialReportAsOf"
+                    class="amount_utilized_per_financial_report_as_of"
                     type="text"
-                    value=""
                     style="width: 20%;"
+                    :value="$projectStatusReportData['amount_utilized_per_financial_report_as_of'] ?? ''"
                     :isEditable="$isEditable"
                 />)</td>
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    class="amountUtilizedPerFinancialReport"
+                    class="amount_utilized_per_financial_report"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['amount_utilized_per_financial_report'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>
@@ -65,9 +65,9 @@
             <td class="colon-col">:</td>
             <td class="value-col">
                 <x-custom-input.input
-                    class="remarksOnStatusOfUtilization"
+                    class="remarks_on_status_of_utilization"
                     type="text"
-                    value=""
+                    :value="$projectStatusReportData['remarks_on_status_of_utilization'] ?? ''"
                     :isEditable="$isEditable"
                 />
             </td>

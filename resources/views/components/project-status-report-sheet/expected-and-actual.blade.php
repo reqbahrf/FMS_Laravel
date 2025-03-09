@@ -24,8 +24,8 @@
     class=""
     id="expectedAndActual"
 >
-<br>
-<br>
+    <br>
+    <br>
     <span>•&nbsp;Expected Output vs. Actual Accomplishment (include training and consultancy service/s to be
         provided):</span>
     <br>
@@ -43,22 +43,22 @@
             <tr>
                 <td>
                     <x-custom-input.list-text-formatter
-                        name="expectedOutput"
-                        :text="''"
+                        name="expected_output"
+                        :text="$projectStatusReportData['expected_output'] ?? ''"
                         :isEditable="$isEditable"
                     />
                 </td>
                 <td>
                     <x-custom-input.list-text-formatter
-                        name="actualAccomplishment"
-                        :text="''"
+                        name="actual_accomplishment"
+                        :text="$projectStatusReportData['actual_accomplishment'] ?? ''"
                         :isEditable="$isEditable"
                     />
                 </td>
                 <td>
                     <x-custom-input.list-text-formatter
-                        name="remarksJustification"
-                        :text="''"
+                        name="remarks_justification"
+                        :text="$projectStatusReportData['remarks_justification'] ?? ''"
                         :isEditable="$isEditable"
                     />
                 </td>

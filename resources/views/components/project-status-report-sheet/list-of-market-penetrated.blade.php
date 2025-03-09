@@ -41,22 +41,22 @@
             <tr>
                 <td>
                     <x-custom-input.list-text-formatter
-                        name="existingMarket"
-                        :text="''"
+                        name="existing_market"
+                        :text="$projectStatusReportData['existing_market'] ?? ''"
                         :isEditable="$isEditable"
                     />
                 </td>
                 <td>
                     <x-custom-input.list-text-formatter
-                        name="newMarketSpecifyPlace"
-                        :text="''"
+                        name="new_market_specify_place"
+                        :text="$projectStatusReportData['new_market_specify_place'] ?? ''"
                         :isEditable="$isEditable"
                     />
                 </td>
                 <td>
                     <x-custom-input.list-text-formatter
-                        name="newMarketEffectiveDate"
-                        :text="''"
+                        name="new_market_effective_date"
+                        :text="$projectStatusReportData['new_market_effective_date'] ?? ''"
                         :isEditable="$isEditable"
                     />
                 </td>
