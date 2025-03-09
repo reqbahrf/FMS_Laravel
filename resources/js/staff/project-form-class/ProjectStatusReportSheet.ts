@@ -1,7 +1,5 @@
 import ProjectClass from './ProjectClass';
-import {
-    serializeFormData
-} from '../../Utilities/utilFunctions';
+import { serializeFormData } from '../../Utilities/utilFunctions';
 import {
     showProcessToast,
     hideProcessToast,
@@ -88,7 +86,7 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         try {
             const isConfirmed = await createConfirmationModal({
                 title: 'Create Project Status Report',
-                message: `Are you sure you want to create a new Project Status Report for Project ${project_id} in year ${year}?`,
+                message: `Are you sure you want to create a new project status report for project ${project_id} in year ${year}?`,
                 confirmText: 'Yes',
                 cancelText: 'No',
             });
