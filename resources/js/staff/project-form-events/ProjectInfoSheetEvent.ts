@@ -14,11 +14,15 @@ export default class ProjectInfoSheetEvent {
         this.assetsInput = this.form.find(
             '#land_val, #building_val, #equipment_val, #workingCapital_val'
         );
-        this.employmentInput = this.form.find('#totalEmploymentContainer');
+        this.employmentInput = this.form.find('tr.employment--inputs');
         this.localAndExportProductInput = this.form.find(
             '#localProduct_Val, #exportProduct_Val'
         );
-        this.attachListeners();
+        console.log(this.assetsInput);
+        this._attachListeners();
+        this._calculateTotalAssets();
+        this._calculateTotalEmploymentGenerated();
+        this._calculateTotalGrossSales();
     }
 
     private _calculateTotalAssets() {
@@ -37,9 +41,9 @@ export default class ProjectInfoSheetEvent {
         this.form.find('#totalAssests').val(formatNumber(totalAssets));
     }
 
-    private calculateTotalEmploymentGenerated() {
+    private _calculateTotalEmploymentGenerated() {
         let manMonthTotal = 0;
-        this.form.find('#totalEmploymentContainer tr').each(function () {
+        this.employmentInput.each(function () {
             const thisTableRow = $(this);
             const male = parseFormattedNumberToFloat(
                 thisTableRow.find('.maleInput').val() as string
@@ -51,12 +55,10 @@ export default class ProjectInfoSheetEvent {
             thisTableRow.find('.thisRowSubtotal').val(formatNumber(subtotal));
             manMonthTotal += subtotal;
         });
-        this.form
-            .find('#totalEmploymentGenerated')
-            .val(formatNumber(manMonthTotal));
+        this.form.find('#TotalmanMonths').val(formatNumber(manMonthTotal));
     }
 
-    private calculateTotalGrossSales() {
+    private _calculateTotalGrossSales() {
         const localProductVal = this.form
             .find('#localProduct_Val')
             .val() as string;
@@ -69,7 +71,7 @@ export default class ProjectInfoSheetEvent {
         this.form.find('#totalGrossSales').val(formatNumber(totalGrossSales));
     }
 
-    private attachListeners() {
+    private _attachListeners() {
         const self = this;
         this.assetsInput.on('input', function () {
             const thisInputId = $(this).attr('id');
@@ -83,14 +85,14 @@ export default class ProjectInfoSheetEvent {
             function () {
                 const thisInputId = $(this).attr('id');
                 customFormatNumericInput(`#${thisInputId}`);
-                self.calculateTotalEmploymentGenerated();
+                self._calculateTotalEmploymentGenerated();
             }
         );
 
         this.localAndExportProductInput.on('input', function () {
             const thisInputId = $(this).attr('id');
             customFormatNumericInput(`#${thisInputId}`);
-            self.calculateTotalGrossSales();
+            self._calculateTotalGrossSales();
         });
     }
 }

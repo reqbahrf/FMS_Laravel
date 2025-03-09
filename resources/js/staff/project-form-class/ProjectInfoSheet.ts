@@ -1,6 +1,4 @@
-import {
-    serializeFormData,
-} from '../../Utilities/utilFunctions';
+import { serializeFormData } from '../../Utilities/utilFunctions';
 import {
     showProcessToast,
     hideProcessToast,
@@ -9,6 +7,7 @@ import {
 
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';
+import ProjectInfoSheetEvent from '../project-form-events/ProjectInfoSheetEvent';
 
 type Action = 'edit' | 'view';
 export default class ProjectInfoSheet extends ProjectClass {
@@ -16,7 +15,7 @@ export default class ProjectInfoSheet extends ProjectClass {
     private createPISBtn: JQuery<HTMLElement>;
     protected formContainer: JQuery<HTMLElement>;
     private Form: JQuery<HTMLFormElement> | null;
-    private FormEvent: null;
+    private formEvent: ProjectInfoSheetEvent | null;
     private generatePDFBtn: JQuery<HTMLElement> | null;
     private pisYearToCreate: JQuery<HTMLSelectElement>;
     private pisYearToLoad: JQuery<HTMLSelectElement>;
@@ -39,7 +38,7 @@ export default class ProjectInfoSheet extends ProjectClass {
         this.application_Id = application_Id;
         this.formContainer = formContainer;
         this.Form = null;
-        this.FormEvent = null;
+        this.formEvent = null;
         this.generatePDFBtn = null;
         this._setupProjectInfoSheetBtnEvent();
         this._getAllYearsRecords(project_id, application_Id, business_Id);
@@ -70,10 +69,7 @@ export default class ProjectInfoSheet extends ProjectClass {
             switch (actionMode) {
                 case 'edit':
                     this._setupProjectInfoSheetSubmission();
-                    if (this.FormEvent) {
-                        // this.FormEvent.destroy();
-                    }
-                    //this.FormEvent = new ProjectInfoSheetEvent(this.Form);
+                    this.formEvent = new ProjectInfoSheetEvent(this.Form);
                     break;
                 case 'view':
                     this._setupPDFExport();
@@ -392,7 +388,7 @@ export default class ProjectInfoSheet extends ProjectClass {
         this.project_id = '';
         this.business_Id = '';
         this.application_Id = '';
-        this.FormEvent = null;
+        this.formEvent = null;
         this.documentBtnSelectors.removeClass('d-none');
 
         // Remove any appended elements from formContainer
