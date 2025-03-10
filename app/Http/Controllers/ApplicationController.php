@@ -66,7 +66,7 @@ class ApplicationController extends Controller
             // Business Info table
             $firm_name = $validatedInputs['firm_name'];
             $enterprise_type = $validatedInputs['enterpriseType'];
-            $enterprise_level = ($request->input('enterprise_level'));
+            $enterprise_level = $validatedInputs['enterprise_level'];
             $office_region = $validatedInputs['officeRegion'];
             $office_province = $validatedInputs['officeProvince'];
             $office_city = $validatedInputs['officeCity'];
