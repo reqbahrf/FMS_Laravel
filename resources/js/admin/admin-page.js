@@ -1,16 +1,18 @@
 import '../echo';
 import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
-    showToastFeedback,
     formatNumber,
     customDateFormatter,
     closeOffcanvasInstances,
     closeModal,
     sanitize,
-    showProcessToast,
-    hideProcessToast,
 } from '../Utilities/utilFunctions';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
+import {
+    hideProcessToast,
+    showProcessToast,
+    showToastFeedback,
+} from '../Utilities/feedback-toast';
 
 import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';

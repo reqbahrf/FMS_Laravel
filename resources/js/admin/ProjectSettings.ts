@@ -3,7 +3,7 @@ import {
     showProcessToast,
     hideProcessToast,
     showToastFeedback,
-} from '../Utilities/utilFunctions';
+} from '../Utilities/feedback-toast';
 export default class ProjectSettings {
     private ProjectSettingsForm: JQuery<HTMLFormElement>;
     constructor() {

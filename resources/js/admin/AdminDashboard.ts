@@ -2,7 +2,7 @@ import {
     showProcessToast,
     hideProcessToast,
     showToastFeedback,
-} from '../Utilities/utilFunctions';
+} from '../Utilities/feedback-toast';
 import createConfirmationModal from '../Utilities/confirmation-modal';
 
 interface LocalDataStructure {
@@ -527,7 +527,6 @@ export default class AdminDashboard {
 
         this.loadDefaultFilter();
 
-
         this.filterBySelector.on('change', () => {
             const selectedFilter = this.filterBySelector.val() as string;
             this.updateSpecificLocationSelector(selectedFilter);
@@ -539,7 +538,6 @@ export default class AdminDashboard {
                 this.specificLocationSelector.val() as string;
             this.filterAndUpdateCharts(selectedFilter, selectedLocation);
         });
-
     }
     private loadDefaultFilter(): void {
         if (!this.localData) {
@@ -568,7 +566,9 @@ export default class AdminDashboard {
         cityLocations = [...new Set(cityLocations)].sort();
 
         // Add locations to selector
-        this.specificLocationSelector.append($('<option>').text('Select Location'));
+        this.specificLocationSelector.append(
+            $('<option>').text('Select Location')
+        );
         cityLocations.forEach((city) => {
             this.specificLocationSelector.append(
                 $('<option>').val(city).text(city)
