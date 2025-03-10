@@ -216,9 +216,12 @@
                             colspan="3"
                         > &nbsp;&nbsp;₱
                             <x-custom-input.input
+                                id="totalAssests"
                                 name="totalAssets"
                                 type="text"
+                                style="width: 90%;"
                                 :isEditable="$isEditable"
+                                readonly
                                 :value="$projectInfoSheetData['totalAssets'] ?? ''"
                             />
                         </td>
@@ -233,10 +236,12 @@
                         <td
                             class="tg-8d8j"
                             colspan="3"
-                        > &nbsp;&nbsp;₱
+                        >&nbsp;&nbsp;₱
                             <x-custom-input.input
+                                id="land_val"
                                 name="land"
                                 type="text"
+                                style="width: 90%;"
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['land'] ?? ''"
                             />
@@ -250,8 +255,10 @@
                             colspan="3"
                         > &nbsp;&nbsp;₱
                             <x-custom-input.input
+                                id="building_val"
                                 name="building"
                                 type="text"
+                                style="width: 90%;"
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['building'] ?? ''"
                             />
@@ -265,8 +272,10 @@
                             colspan="3"
                         > &nbsp;&nbsp;₱
                             <x-custom-input.input
+                                id="equipment_val"
                                 name="equipment"
                                 type="text"
+                                style="width: 90%;"
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['equipment'] ?? ''"
                             />
@@ -280,14 +289,16 @@
                             colspan="3"
                         >&nbsp;&nbsp;₱
                             <x-custom-input.input
+                                id="workingCapital_val"
                                 name="workingCapital"
                                 type="text"
+                                style="width: 90%;"
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['workingCapital'] ?? ''"
                             />
                         </td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-wa1i"
                             colspan="2"
@@ -297,8 +308,10 @@
                             class="tg-wa1i"
                             colspan="3"
                         ><x-custom-input.input
+                                id="TotalmanMonths"
                                 name="TotalmanMonths"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['TotalmanMonths'] ?? ''"
                             />&nbsp;&nbsp;man-mouth</td>
@@ -307,14 +320,14 @@
                             colspan="1"
                         ><br /><br /></td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-7zrl"
                             colspan="5"
                         >Direct&nbsp;Employment:</td>
                         <td class="tg-7zrl"></td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-0lax"
                             colspan="2"
@@ -324,12 +337,14 @@
                         <td class="tg-7zrl">Sub-total</td>
                         <td class="tg-7zrl"></td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-0lax"
                             colspan="2"
                         >Regular</td>
                         <td class="tg-7zrl"><x-custom-input.input
+                                class="maleInput"
+                                id="Regular_male"
                                 name="Regular_male"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -337,6 +352,8 @@
                             /></td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="femaleInput"
+                                id="Regular_female"
                                 name="Regular_female"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -345,8 +362,11 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="thisRowSubtotal"
+                                id="Regular_subtotal"
                                 name="Regular_subtotal"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['Regular_subtotal'] ?? ''"
                             />
@@ -354,13 +374,15 @@
                         <td class="tg-7zrl"></td>
                     </tr>
 
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-0lax"
                             colspan="2"
                         > Part-Time</td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="maleInput"
+                                id="Parttime_male"
                                 name="Parttime_male"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -369,6 +391,8 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="femaleInput"
+                                id="Parttime_female"
                                 name="Parttime_female"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -377,15 +401,18 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="thisRowSubtotal"
+                                id="Parttime_subtotal"
                                 name="Parttime_subtotal"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['Parttime_subtotal'] ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-0lax"
                             colspan="2"
@@ -395,13 +422,15 @@
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-0lax"
                             colspan="2"
                         > Regular</td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="maleInput"
+                                id="Regu_Subcont_male"
                                 name="Regu_Subcont_male"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -410,6 +439,8 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="femaleInput"
+                                id="Regu_Subcont_female"
                                 name="Regu_Subcont_female"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -418,21 +449,26 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="thisRowSubtotal"
+                                id="Regu_Subcont_subtotal"
                                 name="Regu_Subcont_subtotal"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['Regu_Subcont_subtotal'] ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-0lax"
                             colspan="2"
                         > Part-Time</td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="maleInput"
+                                id="Subcont_Parttime_male"
                                 name="Subcont_Parttime_male"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -441,6 +477,8 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="femaleInput"
+                                id="Subcont_Parttime_female"
                                 name="Subcont_Parttime_female"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -449,15 +487,18 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="thisRowSubtotal"
+                                id="Subcont_Parttime_subtotal"
                                 name="Subcont_Parttime_subtotal"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['Subcont_Parttime_subtotal'] ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-7zrl"
                             colspan="2"
@@ -467,13 +508,15 @@
                         <td class="tg-7zrl">Sub-total</td>
                         <td class="tg-7zrl"> </td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-7zrl"
                             colspan="2"
                         >*Regular </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="maleInput"
+                                id="Indirect_Regular_male"
                                 name="Indirect_Regular_male"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -482,6 +525,8 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="femaleInput"
+                                id="Indirect_Regular_female"
                                 name="Indirect_Regular_female"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -490,27 +535,36 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="thisRowSubtotal"
+                                id="Indirect_Regular_subtotal"
                                 name="Indirect_Regular_subtotal"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['Indirect_Regular_subtotal'] ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl"> </td>
                     </tr>
-                    <tr>
+                    <tr class="employment--inputs">
                         <td
                             class="tg-7zrl"
                             colspan="2"
                         >*Part-time</td>
-                        <td class="tg-7zrl"><x-custom-input.input
+                        <td class="tg-7zrl">
+                            <x-custom-input.input
+                                class="maleInput"
+                                id="Indirect_Parttime_male"
                                 name="Indirect_Parttime_male"
                                 type="text"
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['Indirect_Parttime_male'] ?? ''"
-                            /></td>
+                            />
+                        </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="femaleInput"
+                                id="Indirect_Parttime_female"
                                 name="Indirect_Parttime_female"
                                 type="text"
                                 :isEditable="$isEditable"
@@ -519,8 +573,11 @@
                         </td>
                         <td class="tg-7zrl">
                             <x-custom-input.input
+                                class="thisRowSubtotal"
+                                id="Indirect_Parttime_subtotal"
                                 name="Indirect_Parttime_subtotal"
                                 type="text"
+                                readonly
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['Indirect_Parttime_subtotal'] ?? ''"
                             />
@@ -606,10 +663,13 @@
                             colspan="3"
                             rowspan="2"
                         >
-                            &nbsp;&nbsp;<br>
+                            &nbsp;&nbsp;<br>₱
                             <x-custom-input.input
+                                id="totalGrossSales"
                                 name="totalGrossSales"
                                 type="text"
+                                style="width: 90%"
+                                readonly
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['totalGrossSales'] ?? ''"
                             />
@@ -630,12 +690,14 @@
                             colspan="3"
                             rowspan="2"
                         >
-                            &nbsp;&nbsp;<br>&nbsp;&nbsp;
+                            &nbsp;&nbsp;<br>&nbsp;&nbsp;₱
                             <x-custom-input.input
+                                id="localProduct_Val"
                                 name="localProduct_Val"
                                 type="text"
+                                style="width: 90%"
                                 :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['localProduct_Val'] ?? ''"
+                                :value="'₱' . $projectInfoSheetData['localProduct_Val'] ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl"> </td>
@@ -654,12 +716,14 @@
                             colspan="3"
                             rowspan="2"
                         >
-                            &nbsp;&nbsp;<br>&nbsp;&nbsp;
+                            &nbsp;&nbsp;<br>&nbsp;&nbsp;₱
                             <x-custom-input.input
+                                id="exportProduct_Val"
                                 name="exportProduct_Val"
                                 type="text"
+                                style="width: 90%"
                                 :isEditable="$isEditable"
-                                :value="$projectInfoSheetData['exportProduct_Val'] ?? ''"
+                                :value="'₱' . $projectInfoSheetData['exportProduct_Val'] ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl"> </td>

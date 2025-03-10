@@ -13,6 +13,7 @@
                 >Project Status Report Sheet</li>
             </ol>
         </nav>
+        <x-floating-window />
     @endif
     <form
         class="mt-3"

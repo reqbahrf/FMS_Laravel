@@ -7,7 +7,7 @@ import * as jquery from 'jquery';
  * @param {number} value - The number to be formatted.
  * @returns {string} The formatted number as a string with exactly 2 decimal places.
  */
-const formatNumberToCurrency = (value: number): string => {
+const formatNumber = (value: number): string => {
     return value.toLocaleString('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2,
@@ -146,7 +146,7 @@ function serializeFormData(
 }
 
 export {
-    formatNumberToCurrency,
+    formatNumber,
     customDateFormatter,
     closeOffcanvasInstances,
     parseFormattedNumberToFloat,

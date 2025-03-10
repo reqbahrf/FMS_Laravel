@@ -2,7 +2,7 @@ import '../echo';
 import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
     showToastFeedback,
-    formatNumberToCurrency,
+    formatNumber,
     customDateFormatter,
     closeOffcanvasInstances,
     closeModal,
@@ -331,7 +331,7 @@ async function initializeAdminPageJs() {
             //         })
             //     );
             //     ProjectProposalContainer.find('#To_Be_Refunded').val(
-            //         formatNumberToCurrency(parseFloat(data.To_Be_Refunded))
+            //         formatNumber(parseFloat(data.To_Be_Refunded))
             //     );
             //     ProjectProposalContainer.find('#Date_FundRelease').val(
             //         customDateFormatter(data.proposal_data.dateOfFundRelease)
@@ -432,13 +432,13 @@ async function initializeAdminPageJs() {
                 offCanvaReadonlyInputs.filter('.emailAddress').val(email);
                 offCanvaReadonlyInputs
                     .filter('#building')
-                    .val(formatNumberToCurrency(buildingAssets));
+                    .val(formatNumber(buildingAssets));
                 offCanvaReadonlyInputs
                     .filter('#equipment')
-                    .val(formatNumberToCurrency(equipmentAssets));
+                    .val(formatNumber(equipmentAssets));
                 offCanvaReadonlyInputs
                     .filter('#workingCapital')
-                    .val(formatNumberToCurrency(workingCapitalAssets));
+                    .val(formatNumber(workingCapitalAssets));
 
                 approvedBtn
                     .attr('data-business-id', businessId)
@@ -545,24 +545,14 @@ async function initializeAdminPageJs() {
                         .val(businessDetails.enterprise_level);
                     readonlyInputs
                         .filter('.building')
-                        .val(
-                            formatNumberToCurrency(
-                                businessDetails.building_assets
-                            )
-                        );
+                        .val(formatNumber(businessDetails.building_assets));
                     readonlyInputs
                         .filter('.equipment')
-                        .val(
-                            formatNumberToCurrency(
-                                businessDetails.equipment_assets
-                            )
-                        );
+                        .val(formatNumber(businessDetails.equipment_assets));
                     readonlyInputs
                         .filter('.workingCapital')
                         .val(
-                            formatNumberToCurrency(
-                                businessDetails.working_capital_assets
-                            )
+                            formatNumber(businessDetails.working_capital_assets)
                         );
 
                     readonlyInputs
@@ -573,11 +563,7 @@ async function initializeAdminPageJs() {
                         .val(projectDetails.project_title);
                     readonlyInputs
                         .filter('.funded_amount')
-                        .val(
-                            formatNumberToCurrency(
-                                projectDetails.project_fund_amount
-                            )
-                        );
+                        .val(formatNumber(projectDetails.project_fund_amount));
                     readonlyInputs
                         .filter('.amount-to-be-refunded-label')
                         .html(
@@ -586,16 +572,14 @@ async function initializeAdminPageJs() {
                     readonlyInputs
                         .filter('.amount_to_be_refunded')
                         .val(
-                            formatNumberToCurrency(
+                            formatNumber(
                                 projectDetails.project_amount_to_be_refunded
                             )
                         );
                     readonlyInputs
                         .filter('.refunded')
                         .val(
-                            formatNumberToCurrency(
-                                projectDetails.project_refunded_amount
-                            )
+                            formatNumber(projectDetails.project_refunded_amount)
                         );
                     readonlyInputs
                         .filter('.date_applied')
@@ -753,24 +737,14 @@ async function initializeAdminPageJs() {
                         .val(businessDetails.enterprise_level);
                     readonlyInputs
                         .filter('.building')
-                        .val(
-                            formatNumberToCurrency(
-                                businessDetails.building_assets
-                            )
-                        );
+                        .val(formatNumber(businessDetails.building_assets));
                     readonlyInputs
                         .filter('.equipment')
-                        .val(
-                            formatNumberToCurrency(
-                                businessDetails.equipment_assets
-                            )
-                        );
+                        .val(formatNumber(businessDetails.equipment_assets));
                     readonlyInputs
                         .filter('.workingCapital')
                         .val(
-                            formatNumberToCurrency(
-                                businessDetails.working_capital_assets
-                            )
+                            formatNumber(businessDetails.working_capital_assets)
                         );
 
                     readonlyInputs
@@ -781,24 +755,18 @@ async function initializeAdminPageJs() {
                         .val(projectDetails.project_title);
                     readonlyInputs
                         .filter('.funded_amount')
-                        .val(
-                            formatNumberToCurrency(
-                                projectDetails.project_fund_amount
-                            )
-                        );
+                        .val(formatNumber(projectDetails.project_fund_amount));
                     readonlyInputs
                         .filter('.amount_to_be_refunded')
                         .val(
-                            formatNumberToCurrency(
+                            formatNumber(
                                 projectDetails.project_amount_to_be_refunded
                             )
                         );
                     readonlyInputs
                         .filter('.refunded')
                         .val(
-                            formatNumberToCurrency(
-                                projectDetails.project_refunded_amount
-                            )
+                            formatNumber(projectDetails.project_refunded_amount)
                         );
                     readonlyInputs
                         .filter('.date_applied')
@@ -1396,9 +1364,9 @@ async function initializeAdminPageJs() {
                                         value="${Ongoing.landline ?? ''}"
                                     />`,
                                 `${
-                                    formatNumberToCurrency(amount_refunded) +
+                                    formatNumber(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)
+                                    formatNumber(to_be_refunded)
                                 }<span class="badge text-white bg-primary">${percentage}%</span>`,
                                 /*html*/ `<button
                                     class="btn btn-primary ongoingProjectInfo"
@@ -1584,9 +1552,9 @@ async function initializeAdminPageJs() {
                                         value="${completed.landline ?? ''}"
                                     />`,
                                 /*html*/ `${
-                                    formatNumberToCurrency(amount_refunded) +
+                                    formatNumber(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)
+                                    formatNumber(to_be_refunded)
                                 }
                                     <span class="badge text-white bg-primary"
                                         >${percentage}%</span
@@ -1759,7 +1727,7 @@ async function initializeAdminPageJs() {
                                         <span class="ps-2 building_assets"
                                             >Building:
                                             <span class="building_value"
-                                                >${formatNumberToCurrency(
+                                                >${formatNumber(
                                                     parseFloat(
                                                         item.building_value
                                                     )
@@ -1769,7 +1737,7 @@ async function initializeAdminPageJs() {
                                         <span class="ps-2 equipment_assets"
                                             >Equipment:
                                             <span class="equipment_value"
-                                                >${formatNumberToCurrency(
+                                                >${formatNumber(
                                                     parseFloat(
                                                         item.equipment_value
                                                     )
@@ -1781,7 +1749,7 @@ async function initializeAdminPageJs() {
                                             class="ps-2 working_capital_assets"
                                             >Working Capital:
                                             <span class="working_capital"
-                                                >${formatNumberToCurrency(
+                                                >${formatNumber(
                                                     parseFloat(
                                                         item.working_capital
                                                     )

@@ -1,4 +1,4 @@
-import { formatNumberToCurrency } from './Utilities/utilFunctions';
+import { formatNumber } from './Utilities/utilFunctions';
 import {
     showToastFeedback,
     showProcessToast,
@@ -930,7 +930,7 @@ export function initializeForm() {
         const total = buildingsValue + equipmentsValue + workingCapitalValue;
 
         // Format total with comma separators
-        totalAssetsElement.text(formatNumberToCurrency(total));
+        totalAssetsElement.text(formatNumber(total));
 
         // Determine enterprise level using a more declarative approach
         const enterpriseLevels = [

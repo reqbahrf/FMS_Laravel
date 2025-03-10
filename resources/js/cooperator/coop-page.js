@@ -3,7 +3,7 @@ import { customFormatNumericInput } from '../Utilities/input-utils';
 import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
     customDateFormatter,
-    formatNumberToCurrency,
+    formatNumber,
     parseFormattedNumberToFloat,
     closeModal,
     serializeFormData,
@@ -331,7 +331,7 @@ async function initilizeCoopPageJs() {
                             ? Math.ceil((refunded_amount / actual_amount) * 100)
                             : 0;
                     paymentTextPer.html(
-                        /*html*/ `<h5>${formatNumberToCurrency(refunded_amount)} / ${formatNumberToCurrency(actual_amount)}</h5>`
+                        /*html*/ `<h5>${formatNumber(refunded_amount)} / ${formatNumber(actual_amount)}</h5>`
                     );
                     await progressPercentage(percentage);
                 } catch (error) {
@@ -386,7 +386,7 @@ async function initilizeCoopPageJs() {
                         </div>
                         <div>
                             <strong class="fs-5 text-dark">${title}</strong><br>
-                            <span class="text-dark ms-2">Amount: <span class="fw-bold text-primary">₱${formatNumberToCurrency(paymentBannerData.amount)}</span></span><br>
+                            <span class="text-dark ms-2">Amount: <span class="fw-bold text-primary">₱${formatNumber(paymentBannerData.amount)}</span></span><br>
                             <span class="text-dark ms-2">Due Date: <span class="fw-bold">${customDateFormatter(paymentBannerData.due_date)}</span></span><br>
                             <span class="text-dark ms-2 text-muted">${message}</span>
                         </div>
@@ -442,7 +442,7 @@ async function initilizeCoopPageJs() {
                             row.find('.estimatedCostOfProduction_val').val()
                         );
                     const netSales = grossSales - estimatedCostOfProduction;
-                    const formattedNetSales = formatNumberToCurrency(netSales);
+                    const formattedNetSales = formatNumber(netSales);
 
                     row.find('.netSales_val').val(formattedNetSales);
                 }

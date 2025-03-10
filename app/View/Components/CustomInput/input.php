@@ -14,6 +14,7 @@ class input extends Component
     public function __construct(
         public string $name,
         public string $type,
+        public string $id,
         public string $class,
         public string $style,
         public bool $readonly = false,

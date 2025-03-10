@@ -2,7 +2,7 @@ import '../echo';
 import { customFormatNumericInput } from '../Utilities/input-utils';
 import createConfirmationModal from '../Utilities/confirmation-modal';
 import {
-    formatNumberToCurrency,
+    formatNumber,
     customDateFormatter,
     closeOffcanvasInstances,
     closeModal,
@@ -796,9 +796,9 @@ async function initializeStaffPageJs() {
                                         value="${project.email}"
                                     />`,
                                 /*html*/ `${
-                                    formatNumberToCurrency(refunded_amount) +
+                                    formatNumber(refunded_amount) +
                                     '/' +
-                                    formatNumberToCurrency(Actual_Amount)
+                                    formatNumber(Actual_Amount)
                                 }<span
                                         class="badge ms-1 text-white bg-primary"
                                         >${percentage}%
@@ -1173,9 +1173,7 @@ async function initializeStaffPageJs() {
                         .val(projectTitle);
                     offCanvaReadonlyInputs
                         .filter('#ApprovedAmount')
-                        .val(
-                            formatNumberToCurrency(parseFloat(approved_amount))
-                        );
+                        .val(formatNumber(parseFloat(approved_amount)));
                     offCanvaReadonlyInputs
                         .filter('#appliedDate')
                         .val(customDateFormatter(dateApplied));
@@ -1197,18 +1195,18 @@ async function initializeStaffPageJs() {
                         .val(enterpriseLevel);
                     offCanvaReadonlyInputs
                         .filter('#buildingAsset')
-                        .val(formatNumberToCurrency(buildingAsset));
+                        .val(formatNumber(buildingAsset));
                     offCanvaReadonlyInputs
                         .filter('#equipmentAsset')
-                        .val(formatNumberToCurrency(equipmentAsset));
+                        .val(formatNumber(equipmentAsset));
                     offCanvaReadonlyInputs
                         .filter('#workingCapitalAsset')
-                        .val(formatNumberToCurrency(workingCapitalAsset));
+                        .val(formatNumber(workingCapitalAsset));
 
                     offCanvaReadonlyInputs
                         .filter('#FundedAmount')
                         .html(
-                            /*html*/ `${formatNumberToCurrency(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
+                            /*html*/ `${formatNumber(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
                         );
                     const formContainer = $('#SheetFormDocumentContainer');
 
@@ -2993,7 +2991,7 @@ async function initializeStaffPageJs() {
                         .val(values.ProjectTitle);
                     readonlyInputs
                         .filter('#Amount')
-                        .val(formatNumberToCurrency(values.Amount));
+                        .val(formatNumber(values.Amount));
                     readonlyInputs.filter('#Applied').val(values.Applied);
                     readonlyInputs.filter('#evaluated').val(values.evaluated);
                     readonlyInputs
@@ -3001,13 +2999,13 @@ async function initializeStaffPageJs() {
                         .val(values.Assigned_to);
                     readonlyInputs
                         .filter('#building')
-                        .val(formatNumberToCurrency(values.building));
+                        .val(formatNumber(values.building));
                     readonlyInputs
                         .filter('#equipment')
-                        .val(formatNumberToCurrency(values.equipment));
+                        .val(formatNumber(values.equipment));
                     readonlyInputs
                         .filter('#workingCapital')
-                        .val(formatNumberToCurrency(values.workingCapital));
+                        .val(formatNumber(values.workingCapital));
                 }
             );
 
@@ -3108,24 +3106,14 @@ async function initializeStaffPageJs() {
                         .val(businessDetails.enterprise_level);
                     readonlyInputs
                         .filter('.building')
-                        .val(
-                            formatNumberToCurrency(
-                                businessDetails.building_assets
-                            )
-                        );
+                        .val(formatNumber(businessDetails.building_assets));
                     readonlyInputs
                         .filter('.equipment')
-                        .val(
-                            formatNumberToCurrency(
-                                businessDetails.equipment_assets
-                            )
-                        );
+                        .val(formatNumber(businessDetails.equipment_assets));
                     readonlyInputs
                         .filter('.workingCapital')
                         .val(
-                            formatNumberToCurrency(
-                                businessDetails.working_capital_assets
-                            )
+                            formatNumber(businessDetails.working_capital_assets)
                         );
 
                     readonlyInputs
@@ -3136,11 +3124,7 @@ async function initializeStaffPageJs() {
                         .val(projectDetails.project_title);
                     readonlyInputs
                         .filter('.funded_amount')
-                        .val(
-                            formatNumberToCurrency(
-                                projectDetails.project_fund_amount
-                            )
-                        );
+                        .val(formatNumber(projectDetails.project_fund_amount));
                     readonlyInputs
                         .filter('.amount-to-be-refunded-label')
                         .html(
@@ -3149,16 +3133,14 @@ async function initializeStaffPageJs() {
                     readonlyInputs
                         .filter('.amount_to_be_refunded')
                         .val(
-                            formatNumberToCurrency(
+                            formatNumber(
                                 projectDetails.project_amount_to_be_refunded
                             )
                         );
                     readonlyInputs
                         .filter('.refunded')
                         .val(
-                            formatNumberToCurrency(
-                                projectDetails.project_refunded_amount
-                            )
+                            formatNumber(projectDetails.project_refunded_amount)
                         );
                     readonlyInputs
                         .filter('.date_applied')
@@ -3268,24 +3250,14 @@ async function initializeStaffPageJs() {
                         .val(businessDetails.enterprise_level);
                     readonlyInputs
                         .filter('.building')
-                        .val(
-                            formatNumberToCurrency(
-                                businessDetails.building_assets
-                            )
-                        );
+                        .val(formatNumber(businessDetails.building_assets));
                     readonlyInputs
                         .filter('.equipment')
-                        .val(
-                            formatNumberToCurrency(
-                                businessDetails.equipment_assets
-                            )
-                        );
+                        .val(formatNumber(businessDetails.equipment_assets));
                     readonlyInputs
                         .filter('.workingCapital')
                         .val(
-                            formatNumberToCurrency(
-                                businessDetails.working_capital_assets
-                            )
+                            formatNumber(businessDetails.working_capital_assets)
                         );
 
                     readonlyInputs
@@ -3296,24 +3268,18 @@ async function initializeStaffPageJs() {
                         .val(projectDetails.project_title);
                     readonlyInputs
                         .filter('.funded_amount')
-                        .val(
-                            formatNumberToCurrency(
-                                projectDetails.project_fund_amount
-                            )
-                        );
+                        .val(formatNumber(projectDetails.project_fund_amount));
                     readonlyInputs
                         .filter('.amount_to_be_refunded')
                         .val(
-                            formatNumberToCurrency(
+                            formatNumber(
                                 projectDetails.project_amount_to_be_refunded
                             )
                         );
                     readonlyInputs
                         .filter('.refunded')
                         .val(
-                            formatNumberToCurrency(
-                                projectDetails.project_refunded_amount
-                            )
+                            formatNumber(projectDetails.project_refunded_amount)
                         );
                     readonlyInputs
                         .filter('.date_applied')
@@ -3667,9 +3633,9 @@ async function initializeStaffPageJs() {
                                         value="${Ongoing.landline ?? ''}"
                                     />`,
                                 /*html*/ `${
-                                    formatNumberToCurrency(amount_refunded) +
+                                    formatNumber(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)
+                                    formatNumber(to_be_refunded)
                                 }
                                     <span class="badge text-white bg-primary"
                                         >${percentage}%</span
@@ -3869,9 +3835,9 @@ async function initializeStaffPageJs() {
                                         value="${completed.landline ?? ''}"
                                     />`,
                                 /*html*/ `${
-                                    formatNumberToCurrency(amount_refunded) +
+                                    formatNumber(amount_refunded) +
                                     ' / ' +
-                                    formatNumberToCurrency(to_be_refunded)
+                                    formatNumber(to_be_refunded)
                                 }
                                     <span class="badge text-white bg-primary"
                                         >${percentage}%</span
