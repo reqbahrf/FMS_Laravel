@@ -1810,6 +1810,11 @@
             type="date"
             style="width: 75%;"
         >
+        <button
+            class="btn btn-primary"
+            id="calculateRefundStructure"
+            type="button"
+        >Calculate</button>
     </div>
 @endif
 <table
