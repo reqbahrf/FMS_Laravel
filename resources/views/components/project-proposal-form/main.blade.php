@@ -72,6 +72,7 @@
                 <td colspan="8">
                     @if ($isEditable)
                         <input
+                            id="amount_requested"
                             name="amount_requested"
                             data-custom-numeric-input
                             type="text"
