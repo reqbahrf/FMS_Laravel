@@ -17,6 +17,23 @@ class NewRegistrationRequest extends FormRequest
     }
 
     /**
+     * Prepare the data for validation.
+     */
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'm_personnelDiRe' => $this->m_personnelDiRe ?? 0,
+            'f_personnelDiRe' => $this->f_personnelDiRe ?? 0,
+            'm_personnelDiPart' => $this->m_personnelDiPart ?? 0,
+            'f_personnelDiPart' => $this->f_personnelDiPart ?? 0,
+            'm_personnelIndRe' => $this->m_personnelIndRe ?? 0,
+            'f_personnelIndRe' => $this->f_personnelIndRe ?? 0,
+            'm_personnelIndPart' => $this->m_personnelIndPart ?? 0,
+            'f_personnelIndPart' => $this->f_personnelIndPart ?? 0,
+        ]);
+    }
+
+    /**
      * Get the validation rules that apply to the request.
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
@@ -168,14 +185,14 @@ class NewRegistrationRequest extends FormRequest
             'productionEquipment.*.specification' => 'nullable|string',
             'productionEquipment.*.capacity' => 'nullable|string',
 
-            'm_personnelDiRe' => 'nullable|integer|min:0|default:0',
-            'f_personnelDiRe' => 'nullable|integer|min:0|default:0',
-            'm_personnelDiPart' => 'nullable|integer|min:0|default:0',
-            'f_personnelDiPart' => 'nullable|integer|min:0|default:0',
-            'm_personnelIndRe' => 'nullable|integer|min:0|default:0',
-            'f_personnelIndRe' => 'nullable|integer|min:0|default:0',
-            'm_personnelIndPart' => 'nullable|integer|min:0|default:0',
-            'f_personnelIndPart' => 'nullable|integer|min:0|default:0',
+            'm_personnelDiRe' => 'nullable|integer|min:0',
+            'f_personnelDiRe' => 'nullable|integer|min:0',
+            'm_personnelDiPart' => 'nullable|integer|min:0',
+            'f_personnelDiPart' => 'nullable|integer|min:0',
+            'm_personnelIndRe' => 'nullable|integer|min:0',
+            'f_personnelIndRe' => 'nullable|integer|min:0',
+            'm_personnelIndPart' => 'nullable|integer|min:0',
+            'f_personnelIndPart' => 'nullable|integer|min:0',
             'exportMarket' => 'nullable|array',
             'localMarket' => 'nullable|array',
             'organizationalStructure' =>  $isCooperator ? 'required|string' : 'nullable|string',
