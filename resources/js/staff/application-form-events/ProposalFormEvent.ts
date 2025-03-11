@@ -111,7 +111,6 @@ export default class ProposalFormEvent {
     private _initTableTotalsCalculator(): void {
         if (!this.tableRefundStructure) return;
 
-        // Attach event listener to all numeric inputs for totals calculation
         this.tableRefundStructure.on(
             'input',
             '[data-custom-numeric-input]',
@@ -127,17 +126,14 @@ export default class ProposalFormEvent {
     private _calculateAllTotals(): void {
         if (!this.form || !this.monthNames) return;
 
-        // Calculate totals for each month across all years
         this.monthNames.forEach((month) => {
             this._calculateMonthTotal(month);
         });
 
-        // Calculate yearly totals
         for (let year = 1; year <= 5; year++) {
             this._calculateYearTotal(year);
         }
 
-        // Calculate grand total
         this._calculateGrandTotal();
     }
 
@@ -149,16 +145,13 @@ export default class ProposalFormEvent {
 
         let total = 0;
 
-        // Sum values for this month across all years
         for (let year = 1; year <= 5; year++) {
             const value = this.form.find(`.${month}_Y${year}`).val();
             total += parseFormattedNumberToFloat(value as string);
         }
 
-        // Format the total with thousand separator
         const formattedTotal = formatNumber(total);
 
-        // Update the month total input
         this.tableRefundStructure.find(`.${month}_total`).val(formattedTotal);
     }
 
@@ -170,17 +163,14 @@ export default class ProposalFormEvent {
 
         let total = 0;
 
-        // Sum values for all months in this year
         this.monthNames.forEach((month) => {
             if (!this.form) return;
             const value = this.form.find(`.${month}_Y${year}`).val();
             total += parseFormattedNumberToFloat(value as string);
         });
 
-        // Format the total with thousand separator
         const formattedTotal = formatNumber(total);
 
-        // Update the year total cell (the +1 accounts for the first column being the month names)
         this.tableRefundStructure
             .find('tr:last-child td:nth-child(' + (year + 1) + ')')
             .text(formattedTotal);
@@ -194,7 +184,6 @@ export default class ProposalFormEvent {
 
         let total = 0;
 
-        // Sum all year totals
         for (let year = 1; year <= 5; year++) {
             const yearTotalText = this.tableRefundStructure
                 .find('tr:last-child td:nth-child(' + (year + 1) + ')')
@@ -202,10 +191,8 @@ export default class ProposalFormEvent {
             total += parseFormattedNumberToFloat(yearTotalText);
         }
 
-        // Format the grand total with thousand separator
         const formattedTotal = formatNumber(total);
 
-        // Update the grand total cell
         this.tableRefundStructure
             .find('tr:last-child td:last-child')
             .text(formattedTotal);
@@ -271,46 +258,51 @@ export default class ProposalFormEvent {
         const months: string[] = Object.keys(monthTotals);
         let grandTotal: number = 0;
 
-        // Calculate the exact end date (month and year)
         let endDate = new Date(fundReleaseDate);
-        endDate.setMonth(endDate.getMonth() + totalMonths - 1); // -1 because we're starting from the fund release month
+        endDate.setMonth(endDate.getMonth() + totalMonths - 1);
 
-        // Populate the table - using calendar years correctly
         let currentDate = new Date(fundReleaseDate);
         let monthsRemaining = totalMonths;
 
-        // Loop through each month for the total duration
         while (monthsRemaining > 0) {
             const currentMonth = currentDate.getMonth();
-            const yearIndex = Math.floor(
+            let yearIndex = Math.floor(
                 currentDate.getFullYear() - fundReleaseDate.getFullYear() + 1
             );
 
-            if (yearIndex > 5) break; // Safety check
+            if (yearIndex > 5) {
+                yearIndex = 5;
+            }
+
+            // if (yearIndex > 5) break;
 
             const monthName = months[currentMonth];
             let payment = baseMonthlyPayment;
 
-            // Add remainder to the last payment
             if (monthsRemaining === 1 && remainder > 0) {
                 payment += remainder;
+                remainder = 0;
             }
 
-            // Format and set the payment
             const formattedPayment = formatNumber(payment);
-            this._setTableValue(monthName, yearIndex, formattedPayment);
 
-            // Update totals
+            const targetMonth =
+                yearIndex === 5 &&
+                currentDate.getFullYear() > fundReleaseDate.getFullYear() + 4
+                    ? 'December'
+                    : monthName;
+            console.log('targetMonth', targetMonth);
+            const targetYear = yearIndex;
+
+            this._setTableValue(targetMonth, targetYear, formattedPayment);
+
             yearTotals[`y${yearIndex}`] += payment;
-            monthTotals[monthName] += payment;
+            monthTotals[targetMonth] += payment;
             grandTotal += payment;
-
-            // Move to next month
             currentDate.setMonth(currentDate.getMonth() + 1);
             monthsRemaining--;
         }
 
-        // Update year totals in the table
         for (let year = 1; year <= 5; year++) {
             const formattedYearTotal = formatNumber(yearTotals[`y${year}`]);
             this.tableRefundStructure
@@ -325,7 +317,15 @@ export default class ProposalFormEvent {
         const input: JQuery<HTMLInputElement> = this.tableRefundStructure.find(
             `.${month}_Y${year}`
         );
-        if (input.length) {
+        if (month === 'December' && year === 5 && input.length) {
+            const initialValue = input.val() as string;
+            const parsedInitialValue =
+                parseFormattedNumberToFloat(initialValue);
+            const parsedValue = parseFormattedNumberToFloat(value);
+            const finalValue = parsedInitialValue + parsedValue;
+            const formattedFinalValue = formatNumber(finalValue);
+            input.val(formattedFinalValue);
+        } else {
             input.val(value);
         }
     }
@@ -381,7 +381,6 @@ export default class ProposalFormEvent {
     }
 
     destroy(): void {
-        // Remove specific input event listeners
         if (
             !this.form ||
             !this.numberInputSelectors ||
@@ -390,7 +389,8 @@ export default class ProposalFormEvent {
             return;
         this.form.off('input', this.numberInputSelectors.join(','));
         this.form.off('input', this.yearInputSelectors.join(','));
-        // Optional: Clear any references to prevent memory leaks
+        this.form.off('input', '[data-custom-numeric-input]');
+        this.tableRefundStructure.off('input', '[data-custom-numeric-input]');
         this.form = null;
         this.numberInputSelectors = null;
         this.yearInputSelectors = null;
