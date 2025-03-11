@@ -821,7 +821,7 @@ Form Styles
 
 #TNAForm .padding-md { padding: 12pt; }
 
-:is(#TNAForm, #ProjectProposalForm, #RTECReportForm, #projectInfoSheetForm, #projectDataSheetForm, #projectStatusReportSheetForm) :is(input[type="text"], input[type="date"]) {
+:is(#TNAForm, #ProjectProposalForm, #RTECReportForm, #projectInfoSheetForm, #projectDataSheetForm, #projectStatusReportSheetForm) :is(input[type="text"], input[type="date"], input[type="number"]) {
     border: none;
     border-bottom: 1px solid #000;
     outline: none;

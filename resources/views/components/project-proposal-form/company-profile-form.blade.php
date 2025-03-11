@@ -1799,17 +1799,31 @@
     </tr>
 </table>
 @if ($isEditable)
-    <div style="display: flex; align-items: center; margin-bottom: 1rem;">
+    <div style="display: flex; align-items: center; margin-bottom: 1rem; justify-content: space-between; gap: 1rem;">
         <label
             for="fund_release_date"
             style="margin-right: 1rem;"
-        >Fund Release Date</label>
-        <input
-            id="fund_release_date"
-            name="fund_release_date"
-            type="date"
-            style="width: 75%;"
-        >
+        >Fund Release Date:
+            <input
+                id="fund_release_date"
+                name="fund_release_date"
+                type="date"
+                value="{{ $ProjectProposaldata['fundReleaseDate'] ?? '' }}"
+            >
+        </label>
+        <label
+            for="refund_duration"
+            style="margin-right: 1rem;"
+        >Refund Duration:
+            <input
+                id="refund_duration"
+                name="refund_duration"
+                type="number"
+                value="{{ $ProjectProposaldata['refundDuration'] ?? 3 }}"
+                min="1"
+                max="5"
+            >
+        </label>
         <button
             class="btn btn-primary"
             id="calculateRefundStructure"

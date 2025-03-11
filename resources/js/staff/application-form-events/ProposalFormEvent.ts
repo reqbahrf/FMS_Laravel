@@ -53,8 +53,8 @@ export default class ProposalFormEvent {
 
         customFormatNumericInput(this.form, this.numberInputSelectors);
         yearInputs(this.form, this.yearInputSelectors);
-        // this._initTableTotalsCalculator();
-        // this._calculateAllTotals();
+        this._initTableTotalsCalculator();
+        this._calculateAllTotals();
     }
 
     private _getNumericInputs(): string[] {
@@ -87,18 +87,20 @@ export default class ProposalFormEvent {
      * Extracts month names from the table inputs
      */
     private _getMonthNames(): string[] {
-        if (!this.form) return [];
+        if (!this.tableRefundStructure) return [];
 
         const months: string[] = [];
-        this.form.find('[data-custom-numeric-input]').each(function () {
-            const name = $(this).attr('name');
-            if (name && name.includes('_Y')) {
-                const month = name.split('_Y')[0];
-                if (!months.includes(month)) {
-                    months.push(month);
+        this.tableRefundStructure
+            .find('[data-custom-numeric-input]')
+            .each(function () {
+                const name = $(this).attr('name');
+                if (name && name.includes('_Y')) {
+                    const month = name.split('_Y')[0];
+                    if (!months.includes(month)) {
+                        months.push(month);
+                    }
                 }
-            }
-        });
+            });
 
         return months;
     }
@@ -106,14 +108,18 @@ export default class ProposalFormEvent {
     /**
      * Initialize the table totals calculator
      */
-    // private _initTableTotalsCalculator(): void {
-    //     if (!this.form) return;
+    private _initTableTotalsCalculator(): void {
+        if (!this.tableRefundStructure) return;
 
-    //     // Attach event listener to all numeric inputs for totals calculation
-    //     this.form.on('input', '[data-custom-numeric-input]', () => {
-    //         this._calculateAllTotals();
-    //     });
-    // }
+        // Attach event listener to all numeric inputs for totals calculation
+        this.tableRefundStructure.on(
+            'input',
+            '[data-custom-numeric-input]',
+            () => {
+                this._calculateAllTotals();
+            }
+        );
+    }
 
     /**
      * Calculates all totals in the table
@@ -153,9 +159,7 @@ export default class ProposalFormEvent {
         const formattedTotal = formatNumber(total);
 
         // Update the month total input
-        this.form
-            .find(`#refundStructureTable .${month}_total`)
-            .val(formattedTotal);
+        this.tableRefundStructure.find(`.${month}_total`).val(formattedTotal);
     }
 
     /**
@@ -177,12 +181,8 @@ export default class ProposalFormEvent {
         const formattedTotal = formatNumber(total);
 
         // Update the year total cell (the +1 accounts for the first column being the month names)
-        this.form
-            .find(
-                '#refundStructureTable tr:last-child td:nth-child(' +
-                    (year + 1) +
-                    ')'
-            )
+        this.tableRefundStructure
+            .find('tr:last-child td:nth-child(' + (year + 1) + ')')
             .text(formattedTotal);
     }
 
@@ -190,18 +190,14 @@ export default class ProposalFormEvent {
      * Calculates the grand total of all values
      */
     private _calculateGrandTotal(): void {
-        if (!this.form) return;
+        if (!this.tableRefundStructure) return;
 
         let total = 0;
 
         // Sum all year totals
         for (let year = 1; year <= 5; year++) {
-            const yearTotalText = this.form
-                .find(
-                    '#refundStructureTable tr:last-child td:nth-child(' +
-                        (year + 1) +
-                        ')'
-                )
+            const yearTotalText = this.tableRefundStructure
+                .find('tr:last-child td:nth-child(' + (year + 1) + ')')
                 .text();
             total += parseFormattedNumberToFloat(yearTotalText);
         }
@@ -210,8 +206,8 @@ export default class ProposalFormEvent {
         const formattedTotal = formatNumber(total);
 
         // Update the grand total cell
-        this.form
-            .find('#refundStructureTable tr:last-child td:last-child')
+        this.tableRefundStructure
+            .find('tr:last-child td:last-child')
             .text(formattedTotal);
     }
 
@@ -220,7 +216,6 @@ export default class ProposalFormEvent {
         refundDurationYears: number,
         totalAmount: number
     ): void {
-        console.log(fundReleaseDate, refundDurationYears, totalAmount);
         if (
             !(fundReleaseDate instanceof Date) ||
             isNaN(fundReleaseDate.getTime())
@@ -249,9 +244,6 @@ export default class ProposalFormEvent {
             totalAmount / totalMonths
         );
         let remainder: number = totalAmount - baseMonthlyPayment * totalMonths;
-
-        const startMonth: number = fundReleaseDate.getMonth(); // 0-11 for Jan-Dec
-        const startYear: number = 1; // Start with Y1
 
         const yearTotals: YearTotals = {
             y1: 0,
@@ -358,8 +350,9 @@ export default class ProposalFormEvent {
                         ?.find('#fund_release_date')
                         .val() as string;
                     const refundDurationYears =
-                        (this.form?.find('#refund_duration').val() as number) ||
-                        3;
+                        parseInt(
+                            this.form?.find('#refund_duration').val() as string
+                        ) || 3;
                     const totalAmount = this.form
                         ?.find('#amount_requested')
                         .val() as string;
