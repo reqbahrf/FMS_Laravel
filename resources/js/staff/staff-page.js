@@ -1430,7 +1430,7 @@ async function initializeStaffPageJs() {
                     });
                     ProjectFileLinkDataTable.clear();
                     ProjectFileLinkDataTable.rows.add(
-                        response.map((link) => {
+                        response.data.map((link) => {
                             // For internal files, create a route to view the file using its ID
                             const viewButton = link.is_external
                                 ? link.file_link.match(/^https?:\/\//i)
@@ -1460,7 +1460,9 @@ async function initializeStaffPageJs() {
                                         class="linkID"
                                         value="${link.id}"
                                     />`,
-                                link.file_link,
+                                link.is_external
+                                    ? `<span class="badge badge-pill bg-secondary ml-2">External</span>&nbsp;${link.file_link} `
+                                    : `<span class="badge badge-pill bg-primary ml-2">Internal</span>&nbsp;Internal Saved File `,
                                 customDateFormatter(link.created_at),
                                 /*html*/ `${viewButton}
                                     <button
@@ -1484,10 +1486,6 @@ async function initializeStaffPageJs() {
                     );
                     ProjectFileLinkDataTable.draw();
                 } catch (error) {
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error?.responseJSON.message
-                    );
                     throw new Error('Error fetching project links: ' + error);
                 }
             };
