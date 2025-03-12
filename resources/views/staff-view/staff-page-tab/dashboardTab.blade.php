@@ -417,11 +417,6 @@
                         id="requirements_file"
                         type="file"
                     >
-                    <input
-                        id="uploaded_requirement_unique_id"
-                        name="uploaded_requirement_unique_id"
-                        type="hidden"
-                    >
                 </div>
             </div>
             <div class="modal-footer">

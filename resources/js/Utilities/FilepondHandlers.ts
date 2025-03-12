@@ -152,17 +152,19 @@ const baseFilePondConfig: CustomFilePondConfig = {
 function InitializeFilePond(
     elementId: string,
     options: Partial<InitializeFilePondConfig>,
-    hiddenInputId: string | null,
+    hiddenInputId: string | null = null,
     selectorId: string | null = null
 ): FilePond.FilePond | null {
     const element = document.getElementById(elementId) as HTMLInputElement;
     const elementName = element.name;
-    const metaDataHandler = document.querySelector(
-        `input[type="hidden"][id="${hiddenInputId}"]`
-    ) as HTMLInputElement;
+    const metaDataHandler = hiddenInputId
+        ? (document.querySelector(
+              `input[type="hidden"][id="${hiddenInputId}"]`
+          ) as HTMLInputElement)
+        : null;
     if (!element) {
         console.error(`Element with ID '${elementId}' not found.`);
-       throw new Error('Element not found');
+        throw new Error('Element not found');
     }
 
     const config: InitializeFilePondConfig = {
@@ -181,17 +183,18 @@ function InitializeFilePond(
 
                     if (data.unique_id && data.file_path) {
                         element.setAttribute('data-unique-id', data.unique_id);
-                        metaDataHandler.value = data.file_path;
-                        metaDataHandler.setAttribute(
-                            'data-unique-id',
-                            data.unique_id
-                        );
-                        metaDataHandler.setAttribute(
-                            'data-file-input-name',
-                            elementName
-                        );
                         element.setAttribute('data-file-path', data.file_path);
-
+                        if (metaDataHandler) {
+                            metaDataHandler.value = data.file_path;
+                            metaDataHandler.setAttribute(
+                                'data-unique-id',
+                                data.unique_id
+                            );
+                            metaDataHandler.setAttribute(
+                                'data-file-input-name',
+                                elementName
+                            );
+                        }
                         if (selectorId) {
                             document
                                 .getElementById(selectorId)
@@ -226,28 +229,39 @@ function InitializeFilePond(
 
                     if (response.ok) {
                         load();
+                        if (!metaDataHandler) return;
                         metaDataHandler.value = '';
                         metaDataHandler.setAttribute('data-unique-id', '');
                     }
-                } catch (err:any) {
-                    error("Error: " + err?.message || err?.responseJSON?.message || 'Failed to revert file');
+                } catch (err: any) {
+                    error(
+                        'Error: ' + err?.message ||
+                            err?.responseJSON?.message ||
+                            'Failed to revert file'
+                    );
                 }
             },
             load: async (
                 source: string,
                 load: (file: Blob | File) => void,
-                error: (errorText: string) => void,
+                error: (errorText: string) => void
             ) => {
                 try {
                     const response = await fetch(source);
                     if (response.ok) {
                         const BlobData = (await response.blob()) as Blob;
                         load(BlobData);
-                    }else{
-                       error('File not found on the server or has been expired. Please try again');
+                    } else {
+                        error(
+                            'File not found on the server or has been expired. Please try again'
+                        );
                     }
-                } catch (error:any) {
-                    error("Error: " + error?.message || error?.responseJSON?.message || 'Failed to load file');
+                } catch (error: any) {
+                    error(
+                        'Error: ' + error?.message ||
+                            error?.responseJSON?.message ||
+                            'Failed to load file'
+                    );
                 }
             },
         },

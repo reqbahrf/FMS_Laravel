@@ -2,30 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TemporaryFileUploadRequest;
 use App\Models\TemporaryFile;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class FileUploadController extends Controller
 {
     /**
      * Handle the incoming request.
      */
-    public function upload(Request $request)
+    public function upload(TemporaryFileUploadRequest $request)
     {
-
         try {
-
-            $request->validate([
-                key($request->allFiles()) => [
-                    'required',
-                    'file',
-                    'max:10240', // 10MB max
-                    'mimes:pdf,jpg,jpeg,png,webp' // allowed file types
-                    ]
-                ]);
+            // The request is already validated by TemporaryFileUploadRequest
 
             $file = $request->file(key($request->allFiles()));
             $uniqueId = '_' . uniqid();
@@ -33,8 +26,12 @@ class FileUploadController extends Controller
             $fileName = $file->hashName();
             $filePath = $file->storeAs("tmp/$uniqueId", $fileName, 'public');
 
+            // Get authenticated user ID if available
+            $ownerId = Auth::id() ?? null;
+
             // Store file information in the database
-           TemporaryFile::create([
+            TemporaryFile::create([
+                'owner_id' => $ownerId,
                 'unique_id' => $uniqueId,
                 'file_name' => $fileName,
                 'file_path' => $filePath,
@@ -43,6 +40,7 @@ class FileUploadController extends Controller
             ]);
 
             return response()->json([
+                'status' => 'success',
                 'unique_id' => $uniqueId,
                 'file_path' => $filePath,
             ]);

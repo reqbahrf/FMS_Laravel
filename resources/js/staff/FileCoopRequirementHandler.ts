@@ -19,55 +19,25 @@ interface ProjectFileItem {
     updated_at: string;
 }
 export default class FileCoopRequirementHandler {
+    private dataTableInstance: DataTables.Api;
     private requirementContainer: JQuery<HTMLElement>;
     private actionModal: JQuery<HTMLElement>;
+    private fileInput: JQuery<HTMLInputElement>;
+    private uploadTypeRadio: JQuery<HTMLElement>;
     private filePondInstance: FilePond | null;
-    constructor() {
+    constructor(DataTableInstance: DataTables.Api) {
+        this.dataTableInstance = DataTableInstance;
         this.requirementContainer = $('#requirementModal');
         this.actionModal = $('#projectLinkUpdateModal');
+        this.fileInput = this.requirementContainer.find('#requirements_file');
+        this.uploadTypeRadio = this.requirementContainer.find(
+            '[name="requirement_upload_type"]'
+        );
         this.filePondInstance = null;
+        this._initEventListener();
     }
 
-    private static projectlinkDataTable: DataTables.Api = $(
-        '#linkTable'
-    ).DataTable({
-        autoWidth: false,
-        columns: [
-            {
-                title: 'File Name',
-            },
-            {
-                title: 'Link',
-            },
-            {
-                title: 'Date Created',
-            },
-            {
-                title: 'Action',
-                className: 'text-center',
-            },
-        ],
-        columnDefs: [
-            {
-                targets: 0,
-                width: '15%',
-            },
-            {
-                targets: 1,
-                width: '40%',
-            },
-            {
-                targets: 2,
-                width: '20%',
-            },
-            {
-                targets: 3,
-                width: '10%',
-            },
-        ],
-    });
-
-    private async _getProjectLinks(project_id: string) {
+    public async getProjectLinks(project_id: string) {
         try {
             const response = await $.ajax({
                 type: 'GET',
@@ -81,8 +51,8 @@ export default class FileCoopRequirementHandler {
                     ),
                 },
             });
-            FileCoopRequirementHandler.projectlinkDataTable.clear();
-            FileCoopRequirementHandler.projectlinkDataTable.rows.add(
+            this.dataTableInstance.clear();
+            this.dataTableInstance.rows.add(
                 response.data.map((item: ProjectFileItem) => {
                     // For internal files, create a route to view the file using its ID
                     const viewButton = item.is_external
@@ -137,7 +107,7 @@ export default class FileCoopRequirementHandler {
                     ];
                 })
             );
-            FileCoopRequirementHandler.projectlinkDataTable.draw();
+            this.dataTableInstance.draw();
         } catch (error: any) {
             throw new Error(
                 'Error fetching project links: ' +
@@ -177,8 +147,8 @@ export default class FileCoopRequirementHandler {
                 },
             });
 
-            this._getProjectLinks(project_id);
-            closeModal('#projectLinkUpdateModal');
+            this.getProjectLinks(project_id);
+            closeModal('#requirementModal');
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
@@ -200,11 +170,9 @@ export default class FileCoopRequirementHandler {
         try {
             showProcessToast('Saving Project File...');
             const name = this.requirementContainer
-                .find('#requirements_file_name')
-                .val();
-            const file_path = this.requirementContainer
-                .find('#requirements_link')
-                .val();
+                .find('input#requirements_file_name')
+                .val() as string;
+            const file_path = this.fileInput.attr('data-file-path') as string;
             const response = await $.ajax({
                 type: 'POST',
                 url: DASHBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
@@ -221,11 +189,10 @@ export default class FileCoopRequirementHandler {
                     file_path: file_path,
                 },
             });
-            this._getProjectLinks(project_id);
+            this.getProjectLinks(project_id);
             closeModal('#requirementModal');
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
-            //toggleRequirementUploadType();
         } catch (error: any) {
             hideProcessToast();
             showToastFeedback(
@@ -238,13 +205,11 @@ export default class FileCoopRequirementHandler {
     }
     private _toggleRequirementUploadType() {
         const self = this;
-        const uploadTypeRadios = $('[name="requirement_upload_type"]');
-        const linkContainer = $('.linkContainer');
-        const fileContainer = $('.FileContainer');
-        const saveButton = $('button[data-selected-action]');
-
-        // Remove any existing event listeners first
-        uploadTypeRadios.off('change');
+        const linkContainer = this.requirementContainer.find('.linkContainer');
+        const fileContainer = this.requirementContainer.find('.FileContainer');
+        const saveButton = this.requirementContainer.find(
+            'button[data-selected-action]'
+        );
 
         // Reset containers and inputs to initial state
         linkContainer.show();
@@ -252,13 +217,13 @@ export default class FileCoopRequirementHandler {
         saveButton.attr('data-selected-action', 'ProjectLink');
 
         // Reset all inputs
-        $('#requirements_name').val('');
-        $('#requirements_link').val('');
-        $('#requirements_file').val('');
-        $('#requirements_file_name').val('');
+        this.requirementContainer.find('#requirements_name').val('');
+        this.requirementContainer.find('#requirements_link').val('');
+        this.requirementContainer.find('#requirements_file').val('');
+        this.requirementContainer.find('#requirements_file_name').val('');
 
         // Re-add event listeners
-        uploadTypeRadios.on('change', function () {
+        this.uploadTypeRadio.on('change', function () {
             const instance = this as HTMLInputElement;
             if (instance.value === 'link') {
                 linkContainer.show();
@@ -266,8 +231,10 @@ export default class FileCoopRequirementHandler {
                 self.filePondInstance?.destroy();
 
                 // Reset file input
-                $('#requirements_file').val('');
-                $('#requirements_file_name').val('');
+                self.requirementContainer.find('#requirements_file').val('');
+                self.requirementContainer
+                    .find('#requirements_file_name')
+                    .val('');
 
                 // Update save button action
                 saveButton.attr('data-selected-action', 'ProjectLink');
@@ -289,8 +256,8 @@ export default class FileCoopRequirementHandler {
                 );
 
                 // Reset link inputs
-                $('#requirements_name').val('');
-                $('#requirements_link').val('');
+                self.requirementContainer.find('#requirements_name').val('');
+                self.requirementContainer.find('#requirements_link').val('');
 
                 // Update save button action
                 saveButton.attr('data-selected-action', 'ProjectFile');
@@ -355,26 +322,43 @@ export default class FileCoopRequirementHandler {
         this.requirementContainer
             .find('button[data-selected-action]')
             .on('click', async function () {
-                let action = $(this).attr('data-selected-action');
-                const projectID = $('#ProjectID').val() as string;
-                const businesID = $('input#hiddenbusiness_id').val() as string;
+                try {
+                    const action = $(this).attr('data-selected-action');
+                    const projectID = $('#ProjectID').val() as string;
+                    const businesID = $(
+                        'input#hiddenbusiness_id'
+                    ).val() as string;
 
-                const isConfirmed = await createConfirmationModal({
-                    title: 'Save Requirements',
-                    titleBg: 'bg-primary',
-                    message: 'Are you sure you want to save this requirements?',
-                    confirmText: 'Yes',
-                    confirmButtonClass: 'btn-primary',
-                    cancelText: 'No',
-                });
-                if (!isConfirmed) {
-                    return;
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Save Requirements',
+                        titleBg: 'bg-primary',
+                        message:
+                            'Are you sure you want to save this requirements?',
+                        confirmText: 'Yes',
+                        confirmButtonClass: 'btn-primary',
+                        cancelText: 'No',
+                    });
+                    if (!isConfirmed) {
+                        return;
+                    }
+                    switch (action) {
+                        case 'ProjectLink':
+                            self._saveProjectFileLink(projectID, action);
+                            break;
+                        case 'ProjectFile':
+                            self._saveProjectFile(projectID, action, businesID);
+                            break;
+                        default:
+                            throw new Error('Invalid action type');
+                    }
+                } catch (error: any) {
+                    showToastFeedback(
+                        'text-bg-danger',
+                        error?.responseJSON?.message ||
+                            error?.responseJSON?.error ||
+                            'An unexpected error occurred. Please try again later.'
+                    );
                 }
-                action === 'ProjectLink'
-                    ? self._saveProjectFileLink(projectID, action)
-                    : action === 'ProjectFile'
-                      ? self._saveProjectFile(projectID, action, businesID)
-                      : null;
             });
 
         this.requirementContainer
@@ -418,11 +402,10 @@ export default class FileCoopRequirementHandler {
                         data: updatedProjectLinks + '&project_id=' + projectID,
                     });
 
-                    self._getProjectLinks(projectID);
+                    self.getProjectLinks(projectID);
                     closeModal('#projectLinkUpdateModal');
                     hideProcessToast();
                     showToastFeedback('text-bg-success', response.message);
-                    //toggleRequirementUploadType();
                 } catch (error: any) {
                     hideProcessToast();
                     showToastFeedback(
@@ -441,16 +424,11 @@ export default class FileCoopRequirementHandler {
 
             const file_id = selectedRow.find('input.linkID').val() as string;
             const projectName = selectedRow.find('td:eq(0)').text().trim();
-
-            console.log(is_external);
-            // Extract only the link part, excluding the badge
             let projectLink = '';
             if (is_external == 'true') {
-                // For external links, get the text after the badge
                 const cellContent = selectedRow.find('td:eq(1)').text();
                 projectLink = cellContent.split('External')[1].trim();
             } else {
-                // For internal files, we don't need to extract the actual link
                 projectLink = 'Internal Saved File';
             }
 
@@ -463,5 +441,52 @@ export default class FileCoopRequirementHandler {
                 .val(projectLink)
                 .prop('readonly', is_external == '1' ? false : true);
         });
+
+        this._toggleRequirementUploadType();
+    }
+
+    /**
+     * Destroys the instance by removing all event listeners and cleaning up resources
+     * to prevent memory leaks. Call this method when the component is no longer needed.
+     */
+    public destroy(): void {
+        // Clean up FilePond instance if it exists
+        if (this.filePondInstance) {
+            this.filePondInstance.destroy();
+            this.filePondInstance = null;
+        }
+
+        // Remove all event listeners from the requirement container
+        if (this.requirementContainer.length) {
+            // Remove delegated event for input[name="requirements_link"]
+            this.requirementContainer.off(
+                'blur',
+                'input[name="requirements_link"]'
+            );
+
+            this.uploadTypeRadio.off('change');
+
+            // Remove click event from buttons
+            this.requirementContainer
+                .find('button[data-selected-action]')
+                .off('click');
+            this.requirementContainer
+                .find('button#UpdateProjectLink')
+                .off('click');
+        }
+
+        // Remove show.bs.modal event listener from actionModal
+        if (this.actionModal.length) {
+            this.actionModal.off('show.bs.modal');
+        }
+
+        // Remove event listeners from upload type radios
+        $('[name="requirement_upload_type"]').off('change');
+
+        // Clear references to DOM elements to help with garbage collection
+        this.requirementContainer = $();
+        this.uploadTypeRadio = $();
+        this.actionModal = $();
+        this.fileInput = $();
     }
 }
