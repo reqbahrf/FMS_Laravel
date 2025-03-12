@@ -24,6 +24,7 @@ import PaymentHandler from './PaymentHandler';
 import ProjectInfoSheet from './project-form-class/ProjectInfoSheet';
 import ProjectDataSheet from './project-form-class/ProjectDataSheet';
 import ProjectStatusReportSheet from './project-form-class/ProjectStatusReportSheet';
+import FileCoopRequirementHandler from '../staff/FileCoopRequirementHandler';
 
 import DataTable from 'datatables.net-bs5';
 import 'datatables.net-bs5/css/dataTables.bootstrap5.min.css';
@@ -43,6 +44,7 @@ import 'datatables.net-scroller-bs5';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
+import { InitializeFilePond } from '../Utilities/FilepondHandlers';
 window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
@@ -975,32 +977,6 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            // let paymentHandler;
-            // //TODO: refactor this function in the future
-            // function retrieve_the_selected_record_TO_UPDATE(selected_row) {
-            //     const selected_transaction_id = selected_row
-            //         .find('td:eq(0)')
-            //         .text()
-            //         .trim();
-            //     const selected_amount = selected_row
-            //         .find('td:eq(1)')
-            //         .text()
-            //         .trim();
-            //     const selected_payment_method = selected_row
-            //         .find('td:eq(2)')
-            //         .text()
-            //         .trim();
-            //     const selected_payment_status = selected_row
-            //         .find('td:eq(3)')
-            //         .text()
-            //     .trim();
-
-            //     $('#reference_number').val(selected_transaction_id);
-            //     $('#paymentAmount').val(selected_amount);
-            //     $('#paymentMethod').val(selected_payment_method);
-            //     $('#paymentStatus').val(selected_payment_status);
-            // }
-
             const ProjectLedgerInput = $('#projectLedgerLink');
             const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');
 
@@ -1076,6 +1052,7 @@ async function initializeStaffPageJs() {
             let pisClass;
             let pdsClass;
             let psrClass;
+            let projectFileClass;
 
             $('#handledProjectTableBody').on(
                 'click',
@@ -1225,6 +1202,14 @@ async function initializeStaffPageJs() {
                         application_id
                     );
 
+                    if (projectFileClass) {
+                        projectFileClass.destroy();
+                    }
+
+                    projectFileClass = new FileCoopRequirementHandler(
+                        ProjectFileLinkDataTable
+                    );
+
                     pdsClass = new ProjectDataSheet(formContainer, project_id);
 
                     if (psrClass) {
@@ -1247,7 +1232,7 @@ async function initializeStaffPageJs() {
                     const results = await Promise.allSettled([
                         paymentHandler.getPaymentAndCalculation(),
                         getProjectLedger(project_id),
-                        getProjectLinks(project_id),
+                        projectFileClass.getProjectLinks(project_id),
                         getQuarterlyReports(project_id),
                     ]);
 
@@ -1281,453 +1266,18 @@ async function initializeStaffPageJs() {
                 }
             );
 
-            const RequirementContainer = $('#RequirementContainer');
+            //     // Add event listener to file input to update file name
+            //     $('#requirements_file')
+            //         .off('change')
+            //         .on('change', function (e) {
+            //             const fileName = e.target.files[0]
+            //                 ? e.target.files[0].name
+            //                 : '';
+            //             $('#requirements_file_name').val(fileName);
+            //         });
+            // }
 
-            const uploadFileRequirements =
-                document.getElementById('requirements_file');
-
-            //TODO: use reuseable filepond form the Utilities js folder
-            const FilePondInstance = FilePond.create(uploadFileRequirements, {
-                allowMultiple: false,
-                allowFileTypeValidation: true,
-                allowFileSizeValidation: true,
-                acceptedFileTypes: ['application/pdf', 'image/*'],
-                allowRevert: true,
-                maxFileSize: '10MB',
-                server: {
-                    process: {
-                        url: '/FileRequirementsUpload',
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        onload: (response) => {
-                            const data = JSON.parse(response);
-                            if (data.unique_id && data.file_path) {
-                                uploadFileRequirements.setAttribute(
-                                    'data-unique_id',
-                                    data.unique_id
-                                );
-                                uploadFileRequirements.setAttribute(
-                                    'data-file_path',
-                                    data.file_path
-                                );
-                            }
-                            return data.unique_id;
-                        },
-                        onerror: (error) => {
-                            console.error(error);
-                        },
-                    },
-                    revert: (load, error) => {
-                        const unique_id =
-                            uploadFileRequirements.getAttribute(
-                                'data-unique_id'
-                            );
-                        const file_path =
-                            uploadFileRequirements.getAttribute(
-                                'data-file_path'
-                            );
-                        if (unique_id && file_path) {
-                            try {
-                                const response = fetch(
-                                    `/FileRequirementsRevert/${unique_id}`,
-                                    {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'X-CSRF-TOKEN': $(
-                                                'meta[name="csrf-token"]'
-                                            ).attr('content'),
-                                        },
-                                        body: JSON.stringify({
-                                            unique_id: unique_id,
-                                            file_path: file_path,
-                                        }),
-                                    }
-                                );
-                                if (response.ok) {
-                                    load();
-                                } else {
-                                    error();
-                                }
-                            } catch (error) {
-                                error();
-                            }
-                        }
-                    },
-                },
-            });
-
-            //link validation
-            RequirementContainer.on(
-                'blur',
-                'input[name="requirements_link"]',
-                async function () {
-                    const linkConstInstance = $(this).closest('.linkContainer');
-                    const inputField = $(this);
-                    const inputtedLink = $(this).val();
-                    const proxyUrl = `/proxy?url=${encodeURIComponent(
-                        inputtedLink
-                    )}`;
-
-                    if (inputtedLink) {
-                        const spinner = /*html*/ `<div
-                            class="spinner-border spinner-border-sm text-primary ms-3"
-                            role="status"
-                            style="width: 1rem; height: 1rem; border-width: 2px; border-radius: 50%;"
-                        >
-                            <span class="visually-hidden"></span>
-                        </div>`;
-
-                        inputField.after(spinner);
-                        try {
-                            const response = await fetch(proxyUrl);
-                            const data = await response.json();
-                            if (data.status === 200) {
-                                linkConstInstance
-                                    .find('input[name="requirements_link"]')
-                                    .addClass('is-valid')
-                                    .removeClass('is-invalid');
-                            } else {
-                                linkConstInstance
-                                    .find('input[name="requirements_link"]')
-                                    .addClass('is-invalid')
-                                    .removeClass('is-valid');
-                            }
-                        } catch (error) {
-                            console.warn('Error fetching the link:', error);
-                            linkConstInstance
-                                .find('input[name="requirements_link"]')
-                                .addClass('is-invalid')
-                                .removeClass('is-valid');
-                        } finally {
-                            linkConstInstance.find('.spinner-border').remove();
-                        }
-                    } else {
-                        linkConstInstance
-                            .find('input[name="requirements_link"]')
-                            .removeClass(['is-valid', 'is-invalid']);
-                    }
-                }
-            );
-
-            const getProjectLinks = async (Project_id) => {
-                try {
-                    const response = await $.ajax({
-                        type: 'GET',
-                        url:
-                            DASHBOARD_TAB_ROUTE.GET_PROJECT_LINKS +
-                            '?project_id=' +
-                            Project_id,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                    });
-                    ProjectFileLinkDataTable.clear();
-                    ProjectFileLinkDataTable.rows.add(
-                        response.map((link) => {
-                            // For internal files, create a route to view the file using its ID
-                            const viewButton = link.is_external
-                                ? link.file_link.match(/^https?:\/\//i)
-                                    ? /*html*/ `<a
-                                          class="btn btn-outline-primary btn-sm"
-                                          target="_blank"
-                                          href="${link.file_link}"
-                                          ><i class="ri-eye-fill"></i
-                                      ></a>`
-                                    : /*html*/ `<a
-                                          class="btn btn-outline-primary btn-sm"
-                                          target="_blank"
-                                          href="https://${link.file_link}"
-                                          ><i class="ri-eye-fill"></i
-                                      ></a>`
-                                : /*html*/ `<a
-                                      class="btn btn-outline-primary btn-sm"
-                                      target="_blank"
-                                      href="/view-project-file/${link.id}"
-                                      ><i class="ri-eye-fill"></i
-                                  ></a>`;
-
-                            return [
-                                /*html*/ `${link.file_name}
-                                    <input
-                                        type="hidden"
-                                        class="linkID"
-                                        value="${link.id}"
-                                    />`,
-                                link.file_link,
-                                customDateFormatter(link.created_at),
-                                /*html*/ `${viewButton}
-                                    <button
-                                        class="btn btn-primary btn-sm updateLinkRecord"
-                                        data-is-external="${link.is_external}"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#projectLinkModal"
-                                    >
-                                        <i class="ri-pencil-fill"></i>
-                                    </button>
-                                    <button
-                                        class="btn btn-danger btn-sm deleteRecord"
-                                        data-bs-toggle="modal"
-                                        data-bs-target="#deleteRecordModal"
-                                        data-delete-record-type="projectLink"
-                                    >
-                                        <i class="ri-delete-bin-6-fill"></i>
-                                    </button>`,
-                            ];
-                        })
-                    );
-                    ProjectFileLinkDataTable.draw();
-                } catch (error) {
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error?.responseJSON.message
-                    );
-                    throw new Error('Error fetching project links: ' + error);
-                }
-            };
-
-            const SaveProjectFileLinks = async (projectID, action) => {
-                try {
-                    showProcessToast('Saving Project Link...');
-                    let requirementLinks = {};
-                    const linkContainer =
-                        RequirementContainer.find('.linkContainer');
-                    linkContainer.each(function () {
-                        let name = $(this)
-                            .find('input[name="requirements_name"]')
-                            .val();
-                        let link = $(this)
-                            .find('input[name="requirements_link"]')
-                            .val();
-                        requirementLinks[name] = link;
-                    });
-
-                    const response = await $.ajax({
-                        type: 'POST',
-                        url: DASHBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        data: {
-                            action: action,
-                            project_id: projectID,
-                            linklist: requirementLinks,
-                        },
-                    });
-
-                    getProjectLinks(projectID);
-                    closeModal('#requirementModal');
-                    hideProcessToast();
-                    showToastFeedback('text-bg-success', response.message);
-                } catch (error) {
-                    hideProcessToast();
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
-                }
-            };
-            const SaveProjectFile = async (projectID, action, businesID) => {
-                try {
-                    showProcessToast('Saving Project File...');
-                    const name = $('#requirements_file_name').val();
-                    const file_path =
-                        uploadFileRequirements.getAttribute('data-file_path');
-                    const response = await $.ajax({
-                        type: 'POST',
-                        url: DASHBOARD_TAB_ROUTE.STORE_PROJECT_FILES,
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        data: {
-                            action: action,
-                            business_id: businesID,
-                            project_id: projectID,
-                            name: name,
-                            file_path: file_path,
-                        },
-                    });
-                    getProjectLinks(projectID);
-                    closeModal('#requirementModal');
-                    hideProcessToast();
-                    showToastFeedback('text-bg-success', response.message);
-                    toggleRequirementUploadType();
-                } catch (error) {
-                    hideProcessToast();
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
-                }
-            };
-
-            //Save the inputted links to the database
-            $('button[data-selected-action]')
-                .off('click')
-                .on('click', async function () {
-                    let action = $(this).attr('data-selected-action');
-                    const projectID = $('#ProjectID').val();
-                    const businesID = $('input#hiddenbusiness_id').val();
-
-                    const isConfirmed = await createConfirmationModal({
-                        title: 'Save Requirements',
-                        titleBg: 'bg-primary',
-                        message:
-                            'Are you sure you want to save this requirements?',
-                        confirmText: 'Yes',
-                        confirmButtonClass: 'btn-primary',
-                        cancelText: 'No',
-                    });
-                    if (!isConfirmed) {
-                        return;
-                    }
-                    action === 'ProjectLink'
-                        ? SaveProjectFileLinks(projectID, action)
-                        : action === 'ProjectFile'
-                          ? SaveProjectFile(projectID, action, businesID)
-                          : null;
-                });
-
-            $('#UpdateProjectLink').on('click', async () => {
-                try {
-                    const projectID = $('#ProjectID').val();
-                    const updatedProjectLinks =
-                        $('#projectLinkForm').serialize();
-                    const file_id = $('input#HiddenFileIDToUpdate').val();
-
-                    const isConfirmed = await createConfirmationModal({
-                        title: 'Update Requirements',
-                        titleBg: 'bg-primary',
-                        message:
-                            'Are you sure you want to update this requirements?',
-                        confirmText: 'Yes',
-                        confirmButtonClass: 'btn-primary',
-                        cancelText: 'No',
-                    });
-
-                    if (!isConfirmed) {
-                        return;
-                    }
-
-                    showProcessToast('Updating...');
-
-                    const response = await $.ajax({
-                        type: 'PUT',
-                        url: DASHBOARD_TAB_ROUTE.UPDATE_PROJECT_LINKS.replace(
-                            ':file_id',
-                            file_id
-                        ),
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        data: updatedProjectLinks + '&project_id=' + projectID,
-                    });
-
-                    getProjectLinks(projectID);
-                    closeModal('#projectLinkModal');
-                    hideProcessToast();
-                    showToastFeedback('text-bg-success', response.message);
-                    toggleRequirementUploadType();
-                } catch (error) {
-                    hideProcessToast();
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error.responseJSON.message
-                    );
-                }
-            });
-
-            $('#projectLinkModal').on('show.bs.modal', function (event) {
-                const triggeredbutton = $(event.relatedTarget);
-                const selectedRow = triggeredbutton.closest('tr');
-                const is_external = triggeredbutton.attr('data-is-external');
-                console.log(is_external);
-
-                const file_id = selectedRow.find('input.linkID').val();
-                const projectName = selectedRow.find('td:eq(0)').text();
-                const projectLink = selectedRow.find('td:eq(1)').text();
-
-                const modal = $(this);
-                modal.find('input#HiddenFileIDToUpdate').val(file_id);
-                modal.find('input#HiddenProjectNameToUpdate').val(projectName);
-                modal.find('input#projectNameUpdated').val(projectName);
-                modal
-                    .find('textarea#projectLink')
-                    .val(projectLink)
-                    .prop('readonly', is_external == '1' ? false : true);
-            });
-
-            //TODO: refactor this logic of this function
-            // Function to toggle requirement upload type containers
-            function toggleRequirementUploadType() {
-                const uploadTypeRadios = $('[name="requirement_upload_type"]');
-                const linkContainer = $('.linkContainer');
-                const fileContainer = $('.FileContainer');
-                const saveButton = $('button[data-selected-action]');
-
-                // Remove any existing event listeners first
-                uploadTypeRadios.off('change');
-
-                // Reset containers and inputs to initial state
-                linkContainer.show();
-                fileContainer.hide();
-                saveButton.attr('data-selected-action', 'ProjectLink');
-
-                // Reset all inputs
-                $('#requirements_name').val('');
-                $('#requirements_link').val('');
-                $('#requirements_file').val('');
-                $('#requirements_file_name').val('');
-
-                // Re-add event listeners
-                uploadTypeRadios.on('change', function () {
-                    if (this.value === 'link') {
-                        linkContainer.show();
-                        fileContainer.hide();
-
-                        // Reset file input
-                        $('#requirements_file').val('');
-                        $('#requirements_file_name').val('');
-
-                        // Update save button action
-                        saveButton.attr('data-selected-action', 'ProjectLink');
-                    } else {
-                        linkContainer.hide();
-                        fileContainer.show();
-
-                        // Reset link inputs
-                        $('#requirements_name').val('');
-                        $('#requirements_link').val('');
-
-                        // Update save button action
-                        saveButton.attr('data-selected-action', 'ProjectFile');
-                    }
-                });
-
-                // Add event listener to file input to update file name
-                $('#requirements_file')
-                    .off('change')
-                    .on('change', function (e) {
-                        const fileName = e.target.files[0]
-                            ? e.target.files[0].name
-                            : '';
-                        $('#requirements_file_name').val(fileName);
-                    });
-            }
-
-            toggleRequirementUploadType();
+            // toggleRequirementUploadType();
 
             /**
              * Event listener for showing the delete confirmation modal.
@@ -1814,7 +1364,7 @@ async function initializeStaffPageJs() {
                                 uniqueVal
                             ),
                         afterDelete: async (project_id) =>
-                            await getProjectLinks(project_id),
+                            await projectFileClass.getProjectLinks(project_id),
                     },
                     quarterlyRecord: {
                         getMessage: () => {

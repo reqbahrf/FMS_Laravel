@@ -305,7 +305,8 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class)
         ->only(['index', 'store', 'update', 'destroy']);
     Route::get('/view-project-file/{id}', [StaffProjectRequirementController::class, 'viewFile'])
-        ->name('view.project.file');
+        ->name('view.project.file')
+        ->middleware('signed');
     Route::resource('/Staff/Project/Manage-QuarterlyReport', StaffQuarterlyReportController::class)
         ->only(['index', 'store', 'update', 'destroy']);
     Route::get('/proxy', [ProxyController::class, 'proxy']);

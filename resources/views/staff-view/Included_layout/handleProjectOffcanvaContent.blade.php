@@ -327,27 +327,6 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12 uploadedReceiptContent">
-                <div class="card shadow-sm p-0">
-                    <div class="card-header bg-primary">
-                        <h5 class="text-white p-0">Uploaded Receipts</h5>
-                    </div>
-                    <div class="card-body">
-                        <div class="row">
-                            <div class="col-12">
-                                <table
-                                    class="table table-hover table-sm"
-                                    id="uploadedReceiptTable"
-                                    style="width:100%"
-                                >
-                                    <tbody id="uploadedReceiptTableBody">
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
         </div>
     </div>
     <div

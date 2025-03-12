@@ -99,7 +99,7 @@
 {{-- Project Links Record Modal Start --}}
 <div
     class="modal fade"
-    id="projectLinkModal"
+    id="projectLinkUpdateModal"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     aria-labelledby="projectLinkModalLabel"
@@ -416,11 +416,6 @@
                         class="form-control"
                         id="requirements_file"
                         type="file"
-                    >
-                    <input
-                        id="uploaded_unique_id"
-                        name="uploaded_unique_id"
-                        type="hidden"
                     >
                 </div>
             </div>
