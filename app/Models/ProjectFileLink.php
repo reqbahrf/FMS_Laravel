@@ -16,6 +16,7 @@ class ProjectFileLink extends Model
         'Project_id',
         'file_name',
         'file_link',
+        'is_external',
     ];
 
     public function Project_id(): BelongsTo

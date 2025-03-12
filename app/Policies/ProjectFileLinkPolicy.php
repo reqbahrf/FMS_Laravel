@@ -45,7 +45,7 @@ class ProjectFileLinkPolicy
      */
     public function delete(User $user, ProjectFileLink $projectFileLink): bool
     {
-        return false;
+        return $this->userCanAccessFile($user, $projectFileLink);
     }
 
     /**

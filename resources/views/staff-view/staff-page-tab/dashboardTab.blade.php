@@ -418,8 +418,8 @@
                         type="file"
                     >
                     <input
-                        id="uploaded_unique_id"
-                        name="uploaded_unique_id"
+                        id="uploaded_requirement_unique_id"
+                        name="uploaded_requirement_unique_id"
                         type="hidden"
                     >
                 </div>

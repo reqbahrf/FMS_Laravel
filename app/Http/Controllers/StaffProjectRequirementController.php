@@ -14,6 +14,7 @@ use App\Models\ProjectFileLink;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StaffProjectRequirementController extends Controller
 {
@@ -80,13 +81,13 @@ class StaffProjectRequirementController extends Controller
     }
 
     /**
-     * Display the specified file with hash verification.
+     * Display the specified file with hash verification using streaming.
      *
      * @param Request $request
      * @param int $id
-     * @return BinaryFileResponse
+     * @return Response|BinaryFileResponse|StreamedResponse
      */
-    public function viewFile(Request $request, int $id): BinaryFileResponse
+    public function viewFile(Request $request, int $id)
     {
         try {
             // Get the authenticated user
@@ -102,10 +103,38 @@ class StaffProjectRequirementController extends Controller
                 'ip' => $request->ip()
             ]);
 
-            return response()->file(
-                $fileDetails['path'],
-                ['Content-Type' => $fileDetails['mime_type']]
-            );
+            $path = $fileDetails['path'];
+            $mimeType = $fileDetails['mime_type'];
+            $fileName = basename($path);
+
+            // Get file size
+            $size = filesize($path);
+
+            // Check if file is larger than 1MB (adjust this threshold as needed)
+            if ($size > 1024 * 1024) {
+                return response()->stream(
+                    function () use ($path) {
+                        $file = fopen($path, 'rb');
+                        while (!feof($file)) {
+                            echo fread($file, 1024 * 64); // Stream in 64KB chunks
+                            flush();
+                        }
+                        fclose($file);
+                    },
+                    200,
+                    [
+                        'Content-Type' => $mimeType,
+                        'Content-Disposition' => 'inline; filename="' . $fileName . '"',
+                        'Content-Length' => $size,
+                    ]
+                );
+            } else {
+                // For smaller files, use the standard file response
+                return response()->file(
+                    $path,
+                    ['Content-Type' => $mimeType]
+                );
+            }
         } catch (ModelNotFoundException $e) {
             abort(404, 'File not found');
         } catch (AuthorizationException $e) {
@@ -175,7 +204,7 @@ class StaffProjectRequirementController extends Controller
             return response()->json(['error' => 'File link not found.'], 404);
         } catch (Exception $e) {
             Log::error('Error deleting project link: ' . $e->getMessage());
-            return response()->json(['error' => 'An unexpected error occurred. Please try again later.'], 500);
+            return response()->json(['error' => $e->getMessage()], 500);
         }
     }
 

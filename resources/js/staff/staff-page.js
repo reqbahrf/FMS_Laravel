@@ -43,6 +43,7 @@ import 'datatables.net-scroller-bs5';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
+import { InitializeFilePond } from '../Utilities/FilepondHandlers';
 window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
@@ -1282,84 +1283,7 @@ async function initializeStaffPageJs() {
             );
 
             const RequirementContainer = $('#RequirementContainer');
-
-            const uploadFileRequirements =
-                document.getElementById('requirements_file');
-
-            //TODO: use reuseable filepond form the Utilities js folder
-            const FilePondInstance = FilePond.create(uploadFileRequirements, {
-                allowMultiple: false,
-                allowFileTypeValidation: true,
-                allowFileSizeValidation: true,
-                acceptedFileTypes: ['application/pdf', 'image/*'],
-                allowRevert: true,
-                maxFileSize: '10MB',
-                server: {
-                    process: {
-                        url: '/FileRequirementsUpload',
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        onload: (response) => {
-                            const data = JSON.parse(response);
-                            if (data.unique_id && data.file_path) {
-                                uploadFileRequirements.setAttribute(
-                                    'data-unique_id',
-                                    data.unique_id
-                                );
-                                uploadFileRequirements.setAttribute(
-                                    'data-file_path',
-                                    data.file_path
-                                );
-                            }
-                            return data.unique_id;
-                        },
-                        onerror: (error) => {
-                            console.error(error);
-                        },
-                    },
-                    revert: (load, error) => {
-                        const unique_id =
-                            uploadFileRequirements.getAttribute(
-                                'data-unique_id'
-                            );
-                        const file_path =
-                            uploadFileRequirements.getAttribute(
-                                'data-file_path'
-                            );
-                        if (unique_id && file_path) {
-                            try {
-                                const response = fetch(
-                                    `/FileRequirementsRevert/${unique_id}`,
-                                    {
-                                        method: 'DELETE',
-                                        headers: {
-                                            'Content-Type': 'application/json',
-                                            'X-CSRF-TOKEN': $(
-                                                'meta[name="csrf-token"]'
-                                            ).attr('content'),
-                                        },
-                                        body: JSON.stringify({
-                                            unique_id: unique_id,
-                                            file_path: file_path,
-                                        }),
-                                    }
-                                );
-                                if (response.ok) {
-                                    load();
-                                } else {
-                                    error();
-                                }
-                            } catch (error) {
-                                error();
-                            }
-                        }
-                    },
-                },
-            });
+            let UploadedRequirementFilePondInstance;
 
             //link validation
             RequirementContainer.on(
@@ -1529,7 +1453,9 @@ async function initializeStaffPageJs() {
                     hideProcessToast();
                     showToastFeedback(
                         'text-bg-danger',
-                        error.responseJSON.message
+                        error?.responseJSON?.message ||
+                            error?.responseJSON?.error ||
+                            'An unexpected error occurred. Please try again later.'
                     );
                 }
             };
@@ -1694,6 +1620,7 @@ async function initializeStaffPageJs() {
                     if (this.value === 'link') {
                         linkContainer.show();
                         fileContainer.hide();
+                        UploadedRequirementFilePondInstance?.destroy();
 
                         // Reset file input
                         $('#requirements_file').val('');
@@ -1704,6 +1631,23 @@ async function initializeStaffPageJs() {
                     } else {
                         linkContainer.hide();
                         fileContainer.show();
+
+                        UploadedRequirementFilePondInstance =
+                            InitializeFilePond(
+                                'requirements_file',
+                                {
+                                    allowMultiple: false,
+                                    allowFileTypeValidation: true,
+                                    allowFileSizeValidation: true,
+                                    acceptedFileTypes: [
+                                        'application/pdf',
+                                        'image/*',
+                                    ],
+                                    allowRevert: true,
+                                    maxFileSize: '15MB',
+                                },
+                                'uploaded_requirement_unique_id'
+                            );
 
                         // Reset link inputs
                         $('#requirements_name').val('');

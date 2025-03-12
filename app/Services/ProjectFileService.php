@@ -97,7 +97,7 @@ class ProjectFileService
         $fileLink = $this->projectFileLinkRepository->findOrFail($id);
 
         // Check if the user has permission to delete this file
-        if (!$user->can('delete', $fileLink)) {
+        if ($user && !$user->can('delete', $fileLink)) {
             throw new AuthorizationException('You do not have permission to delete this file');
         }
 
