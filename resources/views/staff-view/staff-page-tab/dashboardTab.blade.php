@@ -99,7 +99,7 @@
 {{-- Project Links Record Modal Start --}}
 <div
     class="modal fade"
-    id="projectLinkModal"
+    id="projectLinkUpdateModal"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     aria-labelledby="projectLinkModalLabel"

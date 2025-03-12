@@ -35,6 +35,9 @@ declare module 'global' {
     }
 
     interface ORG_USER_DASHBOARD_ROUTE {
+        GET_PROJECT_LINKS: string;
+        STORE_PROJECT_FILES: string;
+        UPDATE_PROJECT_LINKS: string;
         STORE_PAYMENT_RECORDS: string;
         UPDATE_PAYMENT_RECORDS: string;
         DELETE_PAYMENT_RECORDS: string;

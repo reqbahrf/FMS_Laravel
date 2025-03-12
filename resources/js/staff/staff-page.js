@@ -1393,7 +1393,7 @@ async function initializeStaffPageJs() {
                                         class="btn btn-primary btn-sm updateLinkRecord"
                                         data-is-external="${item.is_external}"
                                         data-bs-toggle="modal"
-                                        data-bs-target="#projectLinkModal"
+                                        data-bs-target="#projectLinkUpdateModal"
                                     >
                                         <i class="ri-pencil-fill"></i>
                                     </button>
@@ -1560,7 +1560,7 @@ async function initializeStaffPageJs() {
                     });
 
                     getProjectLinks(projectID);
-                    closeModal('#projectLinkModal');
+                    closeModal('#projectLinkUpdateModal');
                     hideProcessToast();
                     showToastFeedback('text-bg-success', response.message);
                     toggleRequirementUploadType();
@@ -1573,7 +1573,7 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            $('#projectLinkModal').on('show.bs.modal', function (event) {
+            $('#projectLinkUpdateModal').on('show.bs.modal', function (event) {
                 const triggeredbutton = $(event.relatedTarget);
                 const selectedRow = triggeredbutton.closest('tr');
                 const is_external = triggeredbutton.attr('data-is-external');
