@@ -1577,11 +1577,21 @@ async function initializeStaffPageJs() {
                 const triggeredbutton = $(event.relatedTarget);
                 const selectedRow = triggeredbutton.closest('tr');
                 const is_external = triggeredbutton.attr('data-is-external');
-                console.log(is_external);
 
                 const file_id = selectedRow.find('input.linkID').val();
-                const projectName = selectedRow.find('td:eq(0)').text();
-                const projectLink = selectedRow.find('td:eq(1)').text();
+                const projectName = selectedRow.find('td:eq(0)').text().trim();
+
+                console.log(is_external);
+                // Extract only the link part, excluding the badge
+                let projectLink = '';
+                if (is_external == 'true') {
+                    // For external links, get the text after the badge
+                    const cellContent = selectedRow.find('td:eq(1)').text();
+                    projectLink = cellContent.split('External')[1].trim();
+                } else {
+                    // For internal files, we don't need to extract the actual link
+                    projectLink = 'Internal Saved File';
+                }
 
                 const modal = $(this);
                 modal.find('input#HiddenFileIDToUpdate').val(file_id);
