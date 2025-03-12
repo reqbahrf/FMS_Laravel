@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 use App\Services\ProjectFileService;
 use Illuminate\Auth\Access\AuthorizationException;
 use App\Http\Resources\ProjectFileLinkCollection;
+use App\Models\ProjectFileLink;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
@@ -59,6 +60,9 @@ class StaffProjectRequirementController extends Controller
         $validated = $request->validate([
             'action' => 'required|string|in:ProjectLink,ProjectFile',
         ]);
+        if (!$request->user()->can('create', ProjectFileLink::class)) {
+            return response()->json(['error' => 'You do not have permission to create this project link'], 403);
+        }
 
         try {
             switch ($validated['action']) {
@@ -147,9 +151,9 @@ class StaffProjectRequirementController extends Controller
             );
 
             return response()->json(['message' => 'Project link updated successfully.'], 200);
-        } catch (\Illuminate\Database\Eloquent\ModelNotFoundException $e) {
+        } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'Project link not found'], 404);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Error updating project link: ' . $e->getMessage());
             return response()->json(['error' => 'An unexpected error occurred. Please try again later.'], 500);
         }
@@ -158,13 +162,14 @@ class StaffProjectRequirementController extends Controller
     /**
      * Remove the specified resource from storage.
      *
+     * @param Request $request
      * @param string $id
      * @return JsonResponse
      */
-    public function destroy(string $id): JsonResponse
+    public function destroy(Request $request, string $id): JsonResponse
     {
         try {
-            $this->projectFileService->deleteProjectLink($id);
+            $this->projectFileService->deleteProjectLink($request->user(), $id);
             return response()->json(['message' => 'Project link deleted successfully.'], 200);
         } catch (ModelNotFoundException $e) {
             return response()->json(['error' => 'File link not found.'], 404);
@@ -195,7 +200,7 @@ class StaffProjectRequirementController extends Controller
             );
 
             return response()->json(['message' => 'Project links added successfully.'], 200);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             Log::error('Error saving project links: ' . $e->getMessage());
             return response()->json(['error' => 'An unexpected error occurred. Please try again later.'], 500);
         }

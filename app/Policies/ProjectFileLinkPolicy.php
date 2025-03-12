@@ -13,7 +13,7 @@ class ProjectFileLinkPolicy
      */
     public function viewAny(User $user): bool
     {
-        return false;
+        return $user->isStaff();
     }
 
     /**
@@ -29,7 +29,7 @@ class ProjectFileLinkPolicy
      */
     public function create(User $user): bool
     {
-        return false;
+        return $user->isStaff();
     }
 
     /**
@@ -37,7 +37,7 @@ class ProjectFileLinkPolicy
      */
     public function update(User $user, ProjectFileLink $projectFileLink): bool
     {
-        return false;
+        return $this->userCanAccessFile($user, $projectFileLink);
     }
 
     /**

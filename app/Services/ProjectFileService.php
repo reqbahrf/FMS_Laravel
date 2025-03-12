@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use Illuminate\Support\Str;
 use App\Models\BusinessInfo;
 use App\Models\ProjectFileLink;
@@ -91,9 +92,14 @@ class ProjectFileService
      * @param string $id
      * @return bool
      */
-    public function deleteProjectLink(string $id): bool
+    public function deleteProjectLink(User $user, string $id): bool
     {
         $fileLink = $this->projectFileLinkRepository->findOrFail($id);
+
+        // Check if the user has permission to delete this file
+        if (!$user->can('delete', $fileLink)) {
+            throw new AuthorizationException('You do not have permission to delete this file');
+        }
 
         if (!$fileLink->is_external) {
             $this->deletePhysicalFile($fileLink->file_link);
