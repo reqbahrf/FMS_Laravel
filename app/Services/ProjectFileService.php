@@ -50,7 +50,7 @@ class ProjectFileService
         $fileLink = $this->projectFileLinkRepository->findOrFail($id);
 
         // Check if the user has permission to view this file
-        if ($user && !$this->userCanAccessFile($fileLink, $user)) {
+        if ($user && !$user->can('view', $fileLink)) {
             throw new AuthorizationException('You do not have permission to view this file');
         }
 
@@ -67,30 +67,7 @@ class ProjectFileService
         ];
     }
 
-    /**
-     * Check if a user has permission to access a file.
-     *
-     * @param \App\Models\ProjectFileLink $fileLink
-     * @param \App\Models\User $user
-     * @return bool
-     */
-    protected function userCanAccessFile(ProjectFileLink $fileLink, $user): bool
-    {
-        // Get the project ID associated with this file
-        $projectId = $fileLink->Project_id;
 
-        // If no project is associated, deny access
-        if (!$projectId) {
-            return false;
-        }
-
-        // Check if user is a staff member with access to this project
-        if ($user->isStaff() && $user->orgUserInfo->handledThisProject($projectId)) {
-            return true;
-        }
-
-        return false;
-    }
 
     /**
      * Update project link.
