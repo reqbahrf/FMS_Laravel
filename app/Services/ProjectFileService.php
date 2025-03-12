@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Collection;
 use App\Repositories\ProjectFileLinkRepository;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class ProjectFileService
 {
@@ -36,14 +37,23 @@ class ProjectFileService
     }
 
     /**
-     * Get file details for viewing.
+     * Get file details for viewing with authorization check.
      *
      * @param int $id
+     * @param \App\Models\User|null $user
      * @return array
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Database\Eloquent\ModelNotFoundException
      */
-    public function getFileForViewing(int $id): array
+    public function getFileForViewing(int $id, $user = null): array
     {
         $fileLink = $this->projectFileLinkRepository->findOrFail($id);
+
+        // Check if the user has permission to view this file
+        if ($user && !$this->userCanAccessFile($fileLink, $user)) {
+            throw new AuthorizationException('You do not have permission to view this file');
+        }
+
         $filePath = storage_path("app/private/{$fileLink->file_link}");
 
         if (!file_exists($filePath)) {
@@ -52,8 +62,34 @@ class ProjectFileService
 
         return [
             'path' => $filePath,
-            'mime_type' => mime_content_type($filePath)
+            'mime_type' => mime_content_type($filePath),
+            'file_name' => $fileLink->file_name
         ];
+    }
+
+    /**
+     * Check if a user has permission to access a file.
+     *
+     * @param \App\Models\ProjectFileLink $fileLink
+     * @param \App\Models\User $user
+     * @return bool
+     */
+    protected function userCanAccessFile(ProjectFileLink $fileLink, $user): bool
+    {
+        // Get the project ID associated with this file
+        $projectId = $fileLink->Project_id;
+
+        // If no project is associated, deny access
+        if (!$projectId) {
+            return false;
+        }
+
+        // Check if user is a staff member with access to this project
+        if ($user->isStaff() && $user->orgUserInfo->handledThisProject($projectId)) {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -126,7 +162,7 @@ class ProjectFileService
     public function saveProjectFile(int $businessId, string $projectId, string $name, string $filePath): bool
     {
         if (!Storage::disk('public')->exists($filePath)) {
-            throw new \Illuminate\Contracts\Filesystem\FileNotFoundException("File not found: {$filePath}");
+            throw new FileNotFoundException("File not found: {$filePath}");
         }
 
         $firmName = BusinessInfo::where('id', $businessId)
@@ -136,19 +172,14 @@ class ProjectFileService
         $business_path = "Businesses/{$firmName->firm_name}_{$businessId}";
         $projectFilePath = $business_path . "/project_files{$projectId}";
 
-        // Ensure directory exists
         Storage::disk('private')->makeDirectory($projectFilePath . '/requirements', 0755, true);
 
-        // Create safe filename
         $newFileName = time() . '_' . Str::slug($name, '_');
 
-        // Final destination path
         $finalPath = "{$projectFilePath}/requirements/{$newFileName}";
 
-        // Move file
         $this->moveFileFromPublicToPrivate($filePath, $finalPath);
 
-        // Create database record
         return $this->projectFileLinkRepository->create([
             'Project_id' => $projectId,
             'file_name' => $name,

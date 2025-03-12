@@ -68,6 +68,10 @@ class User extends Authenticatable  implements MustVerifyEmail, AuditableContrac
     {
         return $this->role === $role;
     }
+    public function isStaff(): bool
+    {
+        return $this->role === 'Staff';
+    }
 
     public function orgUserInfo(): HasOne
     {

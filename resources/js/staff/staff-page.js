@@ -1430,44 +1430,44 @@ async function initializeStaffPageJs() {
                     });
                     ProjectFileLinkDataTable.clear();
                     ProjectFileLinkDataTable.rows.add(
-                        response.data.map((link) => {
+                        response.data.map((item) => {
                             // For internal files, create a route to view the file using its ID
-                            const viewButton = link.is_external
-                                ? link.file_link.match(/^https?:\/\//i)
+                            const viewButton = item.is_external
+                                ? item.file_link.match(/^https?:\/\//i)
                                     ? /*html*/ `<a
                                           class="btn btn-outline-primary btn-sm"
                                           target="_blank"
-                                          href="${link.file_link}"
+                                          href="${item.file_link}"
                                           ><i class="ri-eye-fill"></i
                                       ></a>`
                                     : /*html*/ `<a
                                           class="btn btn-outline-primary btn-sm"
                                           target="_blank"
-                                          href="https://${link.file_link}"
+                                          href="https://${item.file_link}"
                                           ><i class="ri-eye-fill"></i
                                       ></a>`
                                 : /*html*/ `<a
                                       class="btn btn-outline-primary btn-sm"
                                       target="_blank"
-                                      href="/view-project-file/${link.id}"
+                                      href="/view-project-file/${item.id}"
                                       ><i class="ri-eye-fill"></i
                                   ></a>`;
 
                             return [
-                                /*html*/ `${link.file_name}
+                                /*html*/ `${item.file_name}
                                     <input
                                         type="hidden"
                                         class="linkID"
-                                        value="${link.id}"
+                                        value="${item.id}"
                                     />`,
-                                link.is_external
-                                    ? `<span class="badge badge-pill bg-secondary ml-2">External</span>&nbsp;${link.file_link} `
+                                item.is_external
+                                    ? `<span class="badge badge-pill bg-secondary ml-2">External</span>&nbsp;${item.file_link} `
                                     : `<span class="badge badge-pill bg-primary ml-2">Internal</span>&nbsp;Internal Saved File `,
-                                customDateFormatter(link.created_at),
+                                customDateFormatter(item.created_at),
                                 /*html*/ `${viewButton}
                                     <button
                                         class="btn btn-primary btn-sm updateLinkRecord"
-                                        data-is-external="${link.is_external}"
+                                        data-is-external="${item.is_external}"
                                         data-bs-toggle="modal"
                                         data-bs-target="#projectLinkModal"
                                     >

@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Services\ProjectFileService;
+use Illuminate\Auth\Access\AuthorizationException;
 use App\Http\Resources\ProjectFileLinkCollection;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
@@ -77,21 +78,46 @@ class StaffProjectRequirementController extends Controller
     /**
      * Display the specified file.
      *
+     * @param Request $request
      * @param int $id
      * @return BinaryFileResponse
      */
-    public function viewFile(int $id): BinaryFileResponse
+    public function viewFile(Request $request, int $id): BinaryFileResponse
     {
         try {
-            $fileDetails = $this->projectFileService->getFileForViewing($id);
+            // Get the authenticated user
+            $user = $request->user();
+
+            // Get file details with authorization check
+            $fileDetails = $this->projectFileService->getFileForViewing($id, $user);
+
+            // Log the file access for audit purposes
+            Log::info('File accessed', [
+                'file_id' => $id,
+                'user_id' => $user->id,
+                'ip' => $request->ip()
+            ]);
+
             return response()->file(
                 $fileDetails['path'],
                 ['Content-Type' => $fileDetails['mime_type']]
             );
         } catch (ModelNotFoundException $e) {
             abort(404, 'File not found');
+        } catch (AuthorizationException $e) {
+            // Handle unauthorized access attempts
+            Log::warning('Unauthorized file access attempt', [
+                'file_id' => $id,
+                'user_id' => $request->user()->id ?? 'unauthenticated',
+                'ip' => $request->ip()
+            ]);
+            abort(403, 'You do not have permission to view this file');
         } catch (Exception $e) {
-            Log::error('Error viewing file: ' . $e->getMessage());
+            Log::error('Error viewing file: ' . $e->getMessage(), [
+                'file_id' => $id,
+                'user_id' => $request->user()->id ?? 'unauthenticated',
+                'exception' => get_class($e)
+            ]);
             abort(500, 'Error accessing file');
         }
     }
