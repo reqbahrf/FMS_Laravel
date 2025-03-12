@@ -76,7 +76,7 @@ class StaffProjectRequirementController extends Controller
     }
 
     /**
-     * Display the specified file.
+     * Display the specified file with hash verification.
      *
      * @param Request $request
      * @param int $id

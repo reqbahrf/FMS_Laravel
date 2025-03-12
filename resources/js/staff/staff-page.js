@@ -1449,7 +1449,7 @@ async function initializeStaffPageJs() {
                                 : /*html*/ `<a
                                       class="btn btn-outline-primary btn-sm"
                                       target="_blank"
-                                      href="/view-project-file/${item.id}"
+                                      href="${item.access_url}"
                                       ><i class="ri-eye-fill"></i
                                   ></a>`;
 
