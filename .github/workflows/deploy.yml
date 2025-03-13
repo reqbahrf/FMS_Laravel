@@ -32,12 +32,16 @@ jobs:
               git config --global --add safe.directory /srv656676.hstgr.cloud
               git clone ${{ secrets.REPO_URL }} srv656676.hstgr.cloud
               cd srv656676.hstgr.cloud
+              # remove start_dev.sh in the production environment
+              rm -f start_dev.sh
             else
               cd srv656676.hstgr.cloud
               git clean -fd
               git reset --hard HEAD
               git fetch origin main
               git reset --hard origin/main
+              # remove start_dev.sh in the production environment
+              rm -f start_dev.sh
             fi
 
             sudo -n chown -R user:user .
@@ -49,7 +53,7 @@ jobs:
             composer install --no-interaction --no-plugins --no-scripts
             npm install
             npm run build
-            
+
             php artisan down
 
             # Update Supervisor configurations
