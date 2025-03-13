@@ -224,7 +224,6 @@
 
         const PROJECT_SHEETS_ROUTE = {
             GET_AVAILABLE_QUARTERLY_REPORT: '{{ route('Staff.Project.getQuarterReport', ':project_id') }}',
-            GET_PROJECT_SHEET_FORM: '{{ route('getProjectSheetsForm', ['type' => ':type', 'projectId' => ':project_id', 'quarter' => ':quarter_of']) }}',
 
             CREATE_PROJECT_INFORMATION_SHEET_FORM: '{{ route('staff.Project.create.information-sheet') }}',
             GET_PROJECT_INFORMATION_YEAR_RECORDS: '{{ route('staff.Project.get.all.years.records', ['projectId' => ':project_id', 'businessId' => ':business_id', 'applicationId' => ':application_id']) }}',
