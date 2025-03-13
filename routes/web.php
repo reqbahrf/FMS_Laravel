@@ -224,11 +224,14 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::put('/Staff/Dashboard/updateProjectState', [UpdateProjectStateController::class, 'updateProjectState'])
         ->name('staff.Dashboard.updateProjectState');
 
-    Route::put('/Staff/Dashboard/ProjectLedger', [ProjectLedgerController::class, 'saveOrupdate'])
-        ->name('staff.Dashboard.ProjectLedger');
+    Route::controller(ProjectLedgerController::class)->group(function () {
+        Route::put('/Staff/Dashboard/ProjectLedger', 'saveOrupdate')
+            ->name('staff.Dashboard.ProjectLedger');
 
-    Route::get('/Staff/Dashboard/ProjectLedger/{ProjectId}', [ProjectLedgerController::class, 'index'])
-        ->name('staff.Dashboard.ProjectLedger.index');
+        Route::get('/Staff/Dashboard/ProjectLedger/{ProjectId}', 'index')
+            ->name('staff.Dashboard.ProjectLedger.index');
+    });
+
 
     Route::get('/Staff/Project/AddProject', function (Request $request) {
         if ($request->ajax()) {
@@ -299,8 +302,6 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
             ->name('staff.Project.generate.status-report-document')
             ->middleware('signed');
     });
-
-    //Route::resource('/Staff/Project/PaymentRecord', PaymentRecordController::class);
 
     Route::resource('/Staff/Project/ProjectLink', StaffProjectRequirementController::class)
         ->only(['index', 'store', 'update', 'destroy']);
