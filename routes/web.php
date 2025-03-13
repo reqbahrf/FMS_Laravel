@@ -18,7 +18,6 @@ use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\ProjectForm\PDSDocController;
 use App\Http\Controllers\ProjectForm\PISDocController;
 use App\Http\Controllers\AdminProjectController;
-use App\Http\Controllers\GenerateFormController;
 use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\PaymentRecordController;
@@ -243,10 +242,6 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::post('/Staff/Submit-New-Projects', [StaffAddProjectController::class, 'store'])
         ->name('staff.Project.SubmitNewProject');
 
-
-
-    Route::get('/Staff/Project/getForm/{type}/{projectId}/{quarter?}', [GenerateFormController::class, 'getProjectSheetsForm'])
-        ->name('getProjectSheetsForm');
 
     Route::controller(PISDocController::class)->group(function () {
 
