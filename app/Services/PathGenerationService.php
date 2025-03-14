@@ -56,6 +56,14 @@ class PathGenerationService
         return $project->business_id;
     }
 
+    /**
+     * Generate the final path for a file.
+     *
+     * @param string $basePath The base path
+     * @param string $fileName The file name
+     * @param string $filePath The file path
+     * @return string The formatted final path
+     */
     public function generateFinalPath(string $basePath, string $fileName, string $filePath): string
     {
         $newFileName = $fileName . '-' . uniqid(time()) . '.' . pathinfo($filePath, PATHINFO_EXTENSION);
