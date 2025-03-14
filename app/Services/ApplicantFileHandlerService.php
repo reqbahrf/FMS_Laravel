@@ -9,7 +9,11 @@ use Illuminate\Support\Facades\Storage;
 
 class ApplicantFileHandlerService
 {
-    public static function storeFile(array $validatedInputs, int $businessId, string $firm_name): void
+
+    public function __construct(
+        private PathGenerationService $pathGenerationService
+    ) {}
+    public function storeFile(array $validatedInputs, int $businessId, string $firm_name): void
     {
         $file_to_insert = [
             'OrganizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'],
@@ -57,15 +61,13 @@ class ApplicantFileHandlerService
                 $fileName = $fileNames[$filekey];
                 $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
 
-                $business_path = "Businesses/{$firm_name}_{$businessId}";
-                $projectFilePath = $business_path . '/requirements';
+                $requirementsPath = $this->pathGenerationService->generateRequirementsPath($businessId);
 
-                if (!Storage::disk('private')->exists($projectFilePath)) {
-                    Storage::disk('private')->makeDirectory($projectFilePath, 0755, true);
+                if (!Storage::disk('private')->exists($requirementsPath)) {
+                    Storage::disk('private')->makeDirectory($requirementsPath, 0755, true);
                 }
 
-                $newFileName = uniqid(time() . '_') . '_' . pathinfo($fileName, PATHINFO_FILENAME) . '.' . $fileExtension;
-                $finalPath = str_replace(' ', '_', $projectFilePath . '/' . $newFileName);
+                $finalPath = $this->pathGenerationService->generateFinalPath($requirementsPath, $fileName, $fileExtension);
 
                 $sourceStream = Storage::disk('public')->readStream($filePath);
                 $result = Storage::disk('private')->writeStream($finalPath, $sourceStream);
@@ -92,26 +94,23 @@ class ApplicantFileHandlerService
                 throw new Exception("This file {$fileNames[$filekey]} does not exist");
             }
         }
-
     }
 
-  public static function getFileAsBase64(string $fileName, int $businessId): string
-  {
-      try {
-          $filePath = DB::table('requirements')
-              ->where('business_id', $businessId)
-              ->where('file_name', $fileName)
-              ->value('file_link');
+    public function getFileAsBase64(string $fileName, int $businessId): string
+    {
+        try {
+            $filePath = DB::table('requirements')
+                ->where('business_id', $businessId)
+                ->where('file_name', $fileName)
+                ->value('file_link');
 
-          if (!$filePath) {
-              throw new Exception("File {$fileName} not found for business ID {$businessId}");
-          }
+            if (!$filePath) {
+                throw new Exception("File {$fileName} not found for business ID {$businessId}");
+            }
 
-          return base64_encode(Storage::disk('private')->get($filePath));
-
-      } catch (Exception $e) {
-          throw new Exception('Error retrieving file as base64: ' . $e->getMessage());
-      }
-  }
-
+            return base64_encode(Storage::disk('private')->get($filePath));
+        } catch (Exception $e) {
+            throw new Exception('Error retrieving file as base64: ' . $e->getMessage());
+        }
+    }
 }

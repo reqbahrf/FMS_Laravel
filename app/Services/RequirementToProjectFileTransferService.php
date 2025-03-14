@@ -15,15 +15,20 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 class RequirementToProjectFileTransferService
 {
     protected $projectFileLinkRepository;
+    protected $pathGenerationService;
 
     /**
      * Create a new service instance.
      *
      * @param ProjectFileLinkRepository $projectFileLinkRepository
+     * @param PathGenerationService $pathGenerationService
      */
-    public function __construct(ProjectFileLinkRepository $projectFileLinkRepository)
-    {
+    public function __construct(
+        ProjectFileLinkRepository $projectFileLinkRepository,
+        PathGenerationService $pathGenerationService
+    ) {
         $this->projectFileLinkRepository = $projectFileLinkRepository;
+        $this->pathGenerationService = $pathGenerationService;
     }
 
     /**
@@ -37,25 +42,23 @@ class RequirementToProjectFileTransferService
     public function transferFile(Requirement $requirement, string $projectId, ?string $newFileName = null): bool
     {
         try {
-
             $sourceFilePath = storage_path("app/private/{$requirement->file_link}");
             if (!file_exists($sourceFilePath)) {
                 throw new FileNotFoundException("Source file not found: {$sourceFilePath}");
             }
 
-            $project = ProjectInfo::where('Project_id', $projectId)->firstOrFail();
-            $businessId = $project->business_id;
-            $business = BusinessInfo::where('id', $businessId)->firstOrFail();
-
             $fileName = $newFileName ?: $requirement->file_name;
 
-            $businessPath = "Businesses/{$business->firm_name}_{$businessId}";
-            $projectFilePath = "{$businessPath}/project_files{$projectId}";
+            $requirementsPath = $this->pathGenerationService->generateRequirementsPath(
+                $this->pathGenerationService->getBusinessIdFromProject($projectId)
+            );
 
-            Storage::disk('private')->makeDirectory("{$projectFilePath}/requirements", 0755, true);
+            if (!Storage::disk('private')->exists($requirementsPath)) {
+                Storage::disk('private')->makeDirectory($requirementsPath, 0755, true);
+            }
 
-            $destinationFileName = time() . '_' . Str::slug($fileName, '_');
-            $destinationPath = "{$projectFilePath}/requirements/{$destinationFileName}";
+            $destinationFileName = Str::slug($fileName, '_') . '_' . time();
+            $destinationPath = "{$requirementsPath}/{$destinationFileName}";
 
             $success = $this->copyFileWithinPrivateStorage($requirement->file_link, $destinationPath);
 
