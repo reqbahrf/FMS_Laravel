@@ -96,7 +96,7 @@ class ApplicantFileHandlerService
         }
     }
 
-    public function getFileAsBase64(string $fileName, int $businessId): string
+    public static function getFileAsBase64(string $fileName, int $businessId): string
     {
         try {
             $filePath = DB::table('requirements')
