@@ -15,15 +15,20 @@ use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 class ProjectFileService
 {
     protected $projectFileLinkRepository;
+    protected $pathGenerationService;
 
     /**
      * Create a new service instance.
      *
      * @param ProjectFileLinkRepository $projectFileLinkRepository
+     * @param PathGenerationService $pathGenerationService
      */
-    public function __construct(ProjectFileLinkRepository $projectFileLinkRepository)
-    {
+    public function __construct(
+        ProjectFileLinkRepository $projectFileLinkRepository,
+        PathGenerationService $pathGenerationService
+    ) {
         $this->projectFileLinkRepository = $projectFileLinkRepository;
+        $this->pathGenerationService = $pathGenerationService;
     }
 
     /**
@@ -148,18 +153,14 @@ class ProjectFileService
             throw new FileNotFoundException("File not found: {$filePath}");
         }
 
-        $firmName = BusinessInfo::where('id', $businessId)
-            ->select('firm_name')
-            ->firstOrFail();
+        // Using centralized path generation service
+        $requirementsPath = $this->pathGenerationService->generateRequirementsPath($businessId, $projectId);
 
-        $business_path = "Businesses/{$firmName->firm_name}_{$businessId}";
-        $projectFilePath = $business_path . "/project_files{$projectId}";
+        if (!Storage::disk('private')->exists($requirementsPath)) {
+            Storage::disk('private')->makeDirectory($requirementsPath, 0755, true);
+        }
 
-        Storage::disk('private')->makeDirectory($projectFilePath . '/requirements', 0755, true);
-
-        $newFileName = time() . '_' . Str::slug($name, '_');
-
-        $finalPath = "{$projectFilePath}/requirements/{$newFileName}";
+        $finalPath = $this->pathGenerationService->generateFinalPath($requirementsPath, $name, $filePath);
 
         $this->moveFileFromPublicToPrivate($filePath, $finalPath);
 

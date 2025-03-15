@@ -2,10 +2,11 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class CoopUserInfo extends Model
 {
@@ -32,7 +33,7 @@ class CoopUserInfo extends Model
         'birth_date' => 'date',
     ];
 
-    public function user()
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'user_name', 'user_name');
     }
@@ -44,8 +45,7 @@ class CoopUserInfo extends Model
 
     public function getFullNameAttribute()
     {
-        return
-            ($this->prefix ? $this->prefix . ' ' : '')
+        return ($this->prefix ? $this->prefix . ' ' : '')
             . ' ' . $this->f_name . ' ' .
             ($this->mid_name ? substr($this->mid_name, 0, 1) . '.' : '')
             . ' ' . $this->l_name . ' ' .
