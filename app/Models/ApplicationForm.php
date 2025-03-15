@@ -15,6 +15,10 @@ class ApplicationForm extends Model
         'key',
         'data',
         'status',
+        'reviewed_by',
+        'modified_by',
+        'reviewed_at',
+        'modified_at',
     ];
 
     protected $casts = [

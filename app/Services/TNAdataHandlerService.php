@@ -5,6 +5,7 @@ namespace App\Services;
 use Exception;
 use App\Models\User;
 use App\Models\ApplicationForm;
+use Illuminate\Support\Facades\Log;
 
 class TNAdataHandlerService
 {
@@ -37,11 +38,10 @@ class TNAdataHandlerService
                 'key' => self::TNA_FORM
             ])->first();
 
-            $documentStatus = $data['document_status'];
-            $filteredData = array_diff_key($data, array_flip(['document_status']));
+            $documentStatus = $data['tna_doc_status'];
+            $filteredData = array_diff_key($data, array_flip(['tna_doc_status']));
             $statusData = $this->reviewedOrModifiedByStatus($documentStatus, $user);
 
-            // If existing record exists, merge the data
             $mergedData = $existingRecord
                 ? array_merge($existingRecord->data, $filteredData, [
                     'business_id' => $business_id,

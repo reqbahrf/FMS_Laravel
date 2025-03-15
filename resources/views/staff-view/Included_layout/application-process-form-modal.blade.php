@@ -17,6 +17,7 @@
                     class="modal-title"
                     id="tnaDocumentContainerModalLabel"
                 >TNA Document</h5>
+                <span id="documentStatus"></span>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"

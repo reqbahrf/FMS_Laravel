@@ -24,7 +24,7 @@ class TNAFormRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'document_status' => 'required|in:pending,reviewed',
+            'tna_doc_status' => 'required|in:pending,reviewed',
             // Company Information
             'firm_name' => 'nullable|string|max:255',
             'contact_person' => 'nullable|string|max:255',

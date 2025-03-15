@@ -1652,9 +1652,20 @@
 </form>
 @if (!$isExporting)
     @if ($isEditable && auth()->user()->role === 'Staff')
-        <div class="d-flex justify-content-end">
+        <div class="d-flex align-items-center justify-content-end">
+            <select
+                class="form-select w-25"
+                name="tna_doc_status"
+                form="TNAForm"
+            >
+                <option
+                    value="pending"
+                    selected
+                >Pending</option>
+                <option value="reviewed">Reviewed</option>
+            </select>
             <button
-                class="btn btn-primary text-end"
+                class="btn btn-primary ms-2"
                 form="TNAForm"
                 type="submit"
             >Set TNA Form</button>
