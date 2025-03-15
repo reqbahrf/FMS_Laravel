@@ -17,6 +17,16 @@ class ProjectProposalDocController extends Controller
     {
         $this->ProjectProposal = $ProjectProposal;
     }
+    public function getProjectProposalStatus(Request $request)
+    {
+        try {
+            $business_id = $request->business_id;
+            $application_id = $request->application_id;
+            return $this->ProjectProposal->getProjectProposalStatus($business_id, $application_id);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Error in getProjectProposalStatus: ' . $e->getMessage()], 500);
+        }
+    }
     public function getProjectProposalForm(Request $request)
     {
         try {
@@ -52,6 +62,7 @@ class ProjectProposalDocController extends Controller
             DB::transaction(function () use ($validated, $request) {
                 $this->ProjectProposal->setProjectProposalData(
                     $validated,
+                    $request->user(),
                     $request->business_id,
                     $request->application_id
                 );

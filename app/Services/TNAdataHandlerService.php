@@ -5,6 +5,7 @@ namespace App\Services;
 use Exception;
 use App\Models\User;
 use App\Models\ApplicationForm;
+use App\Actions\DocumentStatusAction as DSA;
 use Illuminate\Support\Facades\Log;
 
 class TNAdataHandlerService
@@ -20,7 +21,7 @@ class TNAdataHandlerService
                 ->where('application_id', $application_id)
                 ->where('key', self::TNA_FORM)
                 ->select('status', 'reviewed_by', 'reviewed_at', 'modified_by', 'modified_at')
-                ->firstOrFail();
+                ->first();
 
             return $TNAStatus;
         } catch (Exception $e) {
@@ -40,7 +41,7 @@ class TNAdataHandlerService
 
             $documentStatus = $data['tna_doc_status'];
             $filteredData = array_diff_key($data, array_flip(['tna_doc_status']));
-            $statusData = $this->reviewedOrModifiedByStatus($documentStatus, $user);
+            $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
 
             $mergedData = $existingRecord
                 ? array_merge($existingRecord->data, $filteredData, [
@@ -134,28 +135,6 @@ class TNAdataHandlerService
             ]);
         } catch (Exception $e) {
             throw new Exception('Error in initializing TNA data: ' . $e->getMessage());
-        }
-    }
-
-    private function reviewedOrModifiedByStatus(string $status, User $user): array
-    {
-        switch ($status) {
-            case 'reviewed':
-                return [
-                    'reviewed_by' => $user->id,
-                    'reviewed_at' => now(),
-                    'modified_by' => null,
-                    'modified_at' => null
-                ];
-            case 'pending':
-                return [
-                    'reviewed_by' => null,
-                    'reviewed_at' => null,
-                    'modified_by' => $user->id,
-                    'modified_at' => now()
-                ];
-            default:
-                throw new Exception('Invalid status');
         }
     }
 }

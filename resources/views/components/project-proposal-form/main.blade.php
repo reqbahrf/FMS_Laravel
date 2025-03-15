@@ -129,11 +129,22 @@
 @if (!$isExporting)
     @if ($isEditable && auth()->user()->role === 'Staff')
         <div class="d-flex justify-content-end">
+            <select
+                class="form-select w-25"
+                name="project_proposal_doc_status"
+                form="ProjectProposalForm"
+            >
+                <option
+                    value="pending"
+                    selected
+                >Pending</option>
+                <option value="reviewed">Reviewed</option>
+            </select>
             <button
-                class="btn btn-primary ms-auto"
+                class="btn btn-primary ms-2"
                 form="ProjectProposalForm"
                 type="submit"
-            >SET Project Proposal</button>
+            >Set Project Proposal</button>
         </div>
     @elseif (auth()->user()->role === 'Staff')
         <div class="d-flex justify-content-end">
