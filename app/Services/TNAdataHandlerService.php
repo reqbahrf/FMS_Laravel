@@ -2,15 +2,32 @@
 
 namespace App\Services;
 
-use App\Models\ApplicationForm;
 use Exception;
+use App\Models\User;
+use App\Models\ApplicationForm;
 
 class TNAdataHandlerService
 {
     private const TNA_FORM = 'tna_form';
-    public function __construct(private ApplicationForm $TNAFormData) {}
+    public function __construct(
+        private ApplicationForm $TNAFormData
+    ) {}
+    public function getTNAStatus(int $business_id, int $application_id): ApplicationForm
+    {
+        try {
+            $TNAStatus = $this->TNAFormData->where('business_id', $business_id)
+                ->where('application_id', $application_id)
+                ->where('key', self::TNA_FORM)
+                ->select('status', 'reviewed_by', 'reviewed_at', 'modified_by', 'modified_at')
+                ->firstOrFail();
 
-    public function setTNAData(array $data, int $business_id, int $application_id)
+            return $TNAStatus;
+        } catch (Exception $e) {
+            throw new Exception('Error in getting TNA status: ' . $e->getMessage());
+        }
+    }
+
+    public function setTNAData(array $data, User $user, int $business_id, int $application_id)
     {
         try {
             // Find the existing record
@@ -20,13 +37,17 @@ class TNAdataHandlerService
                 'key' => self::TNA_FORM
             ])->first();
 
+            $documentStatus = $data['document_status'];
+            $filteredData = array_diff_key($data, array_flip(['document_status']));
+            $statusData = $this->reviewedOrModifiedByStatus($documentStatus, $user);
+
             // If existing record exists, merge the data
             $mergedData = $existingRecord
-                ? array_merge($existingRecord->data, $data, [
+                ? array_merge($existingRecord->data, $filteredData, [
                     'business_id' => $business_id,
                     'application_id' => $application_id
                 ])
-                : [...$data, 'business_id' => $business_id, 'application_id' => $application_id];
+                : [...$filteredData, 'business_id' => $business_id, 'application_id' => $application_id];
 
             // Update or create the record
             $this->TNAFormData->updateOrCreate([
@@ -34,8 +55,12 @@ class TNAdataHandlerService
                 'application_id' => $application_id,
                 'key' => self::TNA_FORM
             ], [
+                'reviewed_by' => $statusData['reviewed_by'],
+                'modified_by' => $statusData['modified_by'],
+                'reviewed_at' => $statusData['reviewed_at'],
+                'modified_at' => $statusData['modified_at'],
                 'data' => $mergedData,
-                'status' => 'Pending'
+                'status' => $documentStatus
             ]);
         } catch (Exception $e) {
             throw new Exception("Failed to set TNA data: " . $e->getMessage());
@@ -109,6 +134,28 @@ class TNAdataHandlerService
             ]);
         } catch (Exception $e) {
             throw new Exception('Error in initializing TNA data: ' . $e->getMessage());
+        }
+    }
+
+    private function reviewedOrModifiedByStatus(string $status, User $user): array
+    {
+        switch ($status) {
+            case 'reviewed':
+                return [
+                    'reviewed_by' => $user->id,
+                    'reviewed_at' => now(),
+                    'modified_by' => null,
+                    'modified_at' => null
+                ];
+            case 'pending':
+                return [
+                    'reviewed_by' => null,
+                    'reviewed_at' => null,
+                    'modified_by' => $user->id,
+                    'modified_at' => now()
+                ];
+            default:
+                throw new Exception('Invalid status');
         }
     }
 }

@@ -13,8 +13,19 @@ use App\Services\TNAdataHandlerService;
 
 class TNADocController extends Controller
 {
-    public function __construct(private TNAdataHandlerService $TNAservice)
-    {}
+    public function __construct(private TNAdataHandlerService $TNAservice) {}
+
+    public function getTNAStatus(Request $request)
+    {
+        try {
+            $business_id = $request->business_id;
+            $application_id = $request->application_id;
+            $TNAStatus = $this->TNAservice->getTNAStatus($business_id, $application_id);
+            return response()->json($TNAStatus, 200);
+        } catch (Exception $e) {
+            return response()->json(['message' => 'Error retrieving TNA status'], 500);
+        }
+    }
 
     public function getTNAForm(Request $request)
     {
@@ -48,20 +59,20 @@ class TNADocController extends Controller
 
     public function setTNAForm(TNAFormRequest $request)
     {
-        try{
+        try {
             $validated = $request->validated();
 
             DB::transaction(function () use ($validated, $request) {
                 $this->TNAservice->setTNAData(
                     $validated,
+                    $request->user(),
                     $request->business_id,
                     $request->application_id
                 );
             });
 
             return response()->json(['message' => 'TNA data set successfully'], 200);
-
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error setting TNA data', [
                 'business_id' => $request->business_id,
                 'error' => $e->getMessage()
@@ -71,7 +82,7 @@ class TNADocController extends Controller
     }
     public function exportTNAFormToPDF(Request $request, GeneratePDFAction $generatePDF)
     {
-        try{
+        try {
             $business_id = $request->business_id;
             $application_id = $request->application_id;
             $TNAdata = $this->TNAservice->getTNAData($business_id, $application_id);
@@ -82,13 +93,12 @@ class TNADocController extends Controller
 
             $htmlForm = view('application-process-forms.TNA', ['TNAdata' => $TNAdata, 'isEditable' => false])->render();
             return $generatePDF->execute('TNA form', $htmlForm, false);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error('Error export TNA data', [
                 'business_id' => $request->business_id,
                 'error' => $e->getMessage()
             ]);
             return response()->json(['error' => 'Error export TNA data' . $e->getMessage()], 500);
         }
-
     }
 }
