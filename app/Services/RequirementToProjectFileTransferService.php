@@ -10,6 +10,7 @@ use App\Models\BusinessInfo;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Repositories\ProjectFileLinkRepository;
+use Illuminate\Database\Eloquent\Collection;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
 
 class RequirementToProjectFileTransferService
@@ -80,26 +81,25 @@ class RequirementToProjectFileTransferService
     /**
      * Transfer multiple files from Requirements to ProjectFileLinks.
      *
-     * @param array $requirementIds Array of requirement IDs to transfer
+     * @param Requirement $requirements The source requirements
      * @param string $projectId The destination project ID
      * @return array Results with success/failure information for each requirement
      */
-    public function transferMultipleFiles(array $requirementIds, string $projectId): array
+    public function transferMultipleFiles(Collection $requirements, string $projectId): array
     {
         $results = [];
 
-        foreach ($requirementIds as $requirementId) {
+        foreach ($requirements as $requirement) {
             try {
-                $requirement = Requirement::findOrFail($requirementId);
                 $success = $this->transferFile($requirement, $projectId);
 
-                $results[$requirementId] = [
+                $results[$requirement->id] = [
                     'success' => $success,
                     'file_name' => $requirement->file_name,
                     'message' => $success ? 'File transferred successfully' : 'Failed to transfer file'
                 ];
             } catch (Exception $e) {
-                $results[$requirementId] = [
+                $results[$requirement->id] = [
                     'success' => false,
                     'message' => $e->getMessage()
                 ];

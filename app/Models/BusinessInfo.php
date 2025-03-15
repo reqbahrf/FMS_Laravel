@@ -35,32 +35,32 @@ class BusinessInfo extends Model
 
     public function userInfo(): BelongsTo
     {
-        return $this->BelongsTo(CoopUserInfo::class, 'user_info_id', 'id');
+        return $this->belongsTo(CoopUserInfo::class, 'user_info_id', 'id');
     }
 
     public function applicationInfo(): HasMany
     {
-        return $this->HasMany(ApplicationInfo::class, 'business_id', 'id');
+        return $this->hasMany(ApplicationInfo::class, 'business_id', 'id');
     }
 
     public function projectInfo(): HasMany
     {
-        return $this->HasMany(ProjectInfo::class, 'business_id', 'id');
+        return $this->hasMany(ProjectInfo::class, 'business_id', 'id');
     }
 
     public function assetsInfo(): HasOne
     {
-        return $this->HasOne(Assets::class, 'id', 'id');
+        return $this->hasOne(Assets::class, 'id', 'id');
     }
 
     public function personnelInfo(): HasOne
     {
-        return $this->HasOne(Personnel::class, 'id', 'id');
+        return $this->hasOne(Personnel::class, 'id', 'id');
     }
 
     public function requirementInfo(): HasMany
     {
-        return $this->HasMany(Requirement::class, 'business_id', 'id');
+        return $this->hasMany(Requirement::class, 'business_id', 'id');
     }
 
     protected static function booted()

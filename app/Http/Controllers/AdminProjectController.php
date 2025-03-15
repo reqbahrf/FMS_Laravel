@@ -3,9 +3,13 @@
 namespace App\Http\Controllers;
 
 use Exception;
+use App\Models\User;
 use App\Models\OrgUserInfo;
 use App\Models\ProjectInfo;
 use App\Jobs\ProcessPayment;
+use App\Jobs\SendProjectApprovalEmail;
+use App\Jobs\NotifyAssignedStaff;
+use App\Jobs\TransferRequirementFiles;
 use App\Models\BusinessInfo;
 use Illuminate\Http\Request;
 use App\Models\ApplicationInfo;
@@ -17,12 +21,14 @@ use Illuminate\Support\Facades\Cache;
 use App\Services\PaymentProcessingService;
 use App\Services\ProjectProposaldataHandlerService;
 use App\Notifications\ProjectAssignmentNotification;
+use App\Services\RequirementToProjectFileTransferService;
 
 class AdminProjectController extends Controller
 {
     public function approvedProjectProposal(
         Request $request,
         ProjectProposaldataHandlerService $ProjectProposalService,
+        RequirementToProjectFileTransferService $fileTransferService
     ) {
 
         $validated = $request->validate([
@@ -38,19 +44,6 @@ class AdminProjectController extends Controller
             $project = $this->asignStaffToProject($validated['project_id'], $validated['assigned_staff_id'], $validated['business_id']);
             $application = $this->updateApplicationStatusToApproved($validated['business_id']);
 
-            // Get the business info and associated user
-            $business = BusinessInfo::with('userInfo.user')->findOrFail($validated['business_id']);
-
-            // Send email notification to business owner
-            $this->emailCooperatoor($business, $project);
-
-            // Send notification to assigned staff's user account
-            $assignedStaff = OrgUserInfo::with('user')->findOrFail($validated['assigned_staff_id']);
-            $this->notifyAssignedStaff($assignedStaff, $project);
-
-            if ($project->wasChanged('handled_by_id')) {
-                $this->clearCache($validated['assigned_staff_id']);
-            }
             $project_id = $project->Project_id;
             $application_id = $application->id;
             $business_id = $project->business_id;
@@ -63,14 +56,13 @@ class AdminProjectController extends Controller
             if (!$paymentStructure || !$fundReleaseDate) {
                 throw new Exception('Failed to retrieve payment structure and fund release date');
             }
-            DB::commit();
-
             if (empty($fundReleaseDate) || !strtotime($fundReleaseDate)) {
                 Log::error('Invalid fund release date', ['fundReleaseDate' => $fundReleaseDate]);
                 throw new Exception('Invalid fund release date');
             }
+            DB::commit();
 
-            ProcessPayment::dispatchAfterResponse($fundReleaseDate, $paymentStructure, $project_id);
+            $this->dispatchBackgroundJobs($validated, $project, $fileTransferService, $fundReleaseDate, $paymentStructure);
             return response()->json([
                 'message' => 'Project proposal approved successfully.',
                 'status' => 'success',
@@ -82,6 +74,46 @@ class AdminProjectController extends Controller
                 'status' => 'error',
             ], 500);
         }
+    }
+
+    private function dispatchBackgroundJobs(
+        array $validated,
+        ProjectInfo $project,
+        RequirementToProjectFileTransferService $fileTransferService,
+        string $fundReleaseDate,
+        array $paymentStructure
+    ): void {
+        // Get business info for background jobs
+        $business = BusinessInfo::with('userInfo.user', 'requirementInfo')
+            ->findOrFail($validated['business_id']);
+
+        // File transfer job
+        if ($business->requirementInfo->isNotEmpty()) {
+            TransferRequirementFiles::dispatchAfterResponse(
+                $business->requirementInfo,
+                $validated['project_id'],
+                $fileTransferService
+            );
+        }
+
+        // Email notification job
+        if ($business->userInfo && $business->userInfo->user) {
+            SendProjectApprovalEmail::dispatchAfterResponse($business->userInfo->user, $project);
+        }
+
+        // Staff notification job
+        $orgUserInfo = OrgUserInfo::with('user')->findOrFail($validated['assigned_staff_id']);
+        if ($orgUserInfo && $orgUserInfo->user) {
+            NotifyAssignedStaff::dispatchAfterResponse($orgUserInfo, $project);
+        }
+
+        // Clear cache if needed
+        if ($project->wasChanged('handled_by_id')) {
+            $this->clearCache($validated['assigned_staff_id']);
+        }
+
+        // Payment processing job
+        ProcessPayment::dispatchAfterResponse($fundReleaseDate, $paymentStructure, $project->Project_id);
     }
 
     public function assignNewStaff(Request $request)
@@ -146,11 +178,11 @@ class AdminProjectController extends Controller
         }
     }
 
-    private function emailCooperatoor(BusinessInfo $business, ProjectInfo $project)
+    private function emailCooperatoor(User $user, ProjectInfo $project)
     {
         try {
-            if ($business->userInfo && $business->userInfo->user) {
-                Mail::to($business->userInfo->user->email)->send(new ProjectApprovalMail($project));
+            if ($user->email) {
+                Mail::to($user->email)->send(new ProjectApprovalMail($project));
             }
         } catch (Exception $e) {
             throw new Exception('Failed to send email to business owner: ' . $e->getMessage() || 'Failed to send email to business owner');
