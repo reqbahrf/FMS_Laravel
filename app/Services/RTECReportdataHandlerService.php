@@ -13,16 +13,31 @@ class RTECReportdataHandlerService
     public function __construct(
         private ApplicationForm $RTECReportData
     ) {}
-    public function getRTECReportStatus(int $business_id, int $application_id): ApplicationForm
+    public function getRTECReportStatus(int $business_id, int $application_id): array
     {
         try {
             $RTECReportStatus = $this->RTECReportData->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', self::RTEC_REPORT_FORM)
-                ->select('status', 'reviewed_by', 'reviewed_at', 'modified_by', 'modified_at')
+                ->select('status', 'reviewed_at', 'modified_at')
+                ->with('reviewer')
+                ->with('modifier')
                 ->first();
 
-            return $RTECReportStatus;
+            if (!$RTECReportStatus) {
+                return [
+                    'status' => null,
+                    'reviewer_name' => null,
+                    'modifier_name' => null,
+                    'reviewed_at' => null,
+                    'modified_at' => null
+                ];
+            }
+
+            $RTECReportStatus['reviewer_name'] = $RTECReportStatus->reviewer ? $RTECReportStatus->reviewer->getFullNameAttribute() : null;
+            $RTECReportStatus['modifier_name'] = $RTECReportStatus->modifier ? $RTECReportStatus->modifier->getFullNameAttribute() : null;
+
+            return $RTECReportStatus->toArray();
         } catch (Exception $e) {
             throw new Exception('Error in getting RTEC Report status: ' . $e->getMessage());
         }

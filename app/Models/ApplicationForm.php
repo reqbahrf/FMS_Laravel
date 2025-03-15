@@ -34,4 +34,14 @@ class ApplicationForm extends Model
     {
         return $this->belongsTo(ApplicationInfo::class, 'application_id', 'id');
     }
+
+    public function reviewer(): BelongsTo
+    {
+        return $this->belongsTo(OrgUserInfo::class, 'reviewed_by', 'id');
+    }
+
+    public function modifier(): BelongsTo
+    {
+        return $this->belongsTo(OrgUserInfo::class, 'modified_by', 'id');
+    }
 }

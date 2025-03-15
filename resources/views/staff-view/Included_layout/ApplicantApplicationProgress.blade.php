@@ -100,9 +100,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
                                 <td class="text-end">
                                     <button
                                         class="btn btn-primary"
@@ -217,9 +217,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
                                 <td class="text-end">
                                     <button
                                         class="btn btn-primary"
@@ -277,9 +277,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
                                 <td class="text-end">
                                     <button
                                         class="btn btn-primary"

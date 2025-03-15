@@ -5,6 +5,7 @@ namespace App\Services;
 use Exception;
 use App\Models\User;
 use App\Models\ApplicationForm;
+use App\Models\OrgUserInfo;
 use App\Actions\DocumentStatusAction as DSA;
 use Illuminate\Support\Facades\Log;
 
@@ -14,17 +15,46 @@ class TNAdataHandlerService
     public function __construct(
         private ApplicationForm $TNAFormData
     ) {}
-    public function getTNAStatus(int $business_id, int $application_id): ApplicationForm
+    /**
+     * Get TNA status with user information
+     *
+     * @param int $business_id
+     * @param int $application_id
+     * @return array
+     * @throws Exception
+     */
+    public function getTNAStatus(int $business_id, int $application_id): array
     {
         try {
-            $TNAStatus = $this->TNAFormData->where('business_id', $business_id)
-                ->where('application_id', $application_id)
-                ->where('key', self::TNA_FORM)
-                ->select('status', 'reviewed_by', 'reviewed_at', 'modified_by', 'modified_at')
+            // Get the TNA status with a single query
+            $TNAStatus = $this->TNAFormData
+                ->where([
+                    'business_id' => $business_id,
+                    'application_id' => $application_id,
+                    'key' => self::TNA_FORM
+                ])
+                ->select('status', 'reviewed_at', 'modified_at', 'reviewed_by', 'modified_by')
+                ->with('reviewer')
+                ->with('modifier')
                 ->first();
 
-            return $TNAStatus;
+            if (!$TNAStatus) {
+                return [
+                    'status' => null,
+                    'reviewer_name' => null,
+                    'modifier_name' => null,
+                    'reviewed_at' => null,
+                    'modified_at' => null
+                ];
+            }
+
+            // Add null checks before accessing properties
+            $TNAStatus['reviewer_name'] = $TNAStatus->reviewer ? $TNAStatus->reviewer->getFullNameAttribute() : null;
+            $TNAStatus['modifier_name'] = $TNAStatus->modifier ? $TNAStatus->modifier->getFullNameAttribute() : null;
+
+            return $TNAStatus->toArray();
         } catch (Exception $e) {
+            Log::error('Error in getting TNA status: ' . $e->getMessage());
             throw new Exception('Error in getting TNA status: ' . $e->getMessage());
         }
     }

@@ -15,15 +15,31 @@ class ProjectProposaldataHandlerService
         $this->ProjectProposalForm = $ProjectProposalForm;
     }
 
-    public function getProjectProposalStatus(int $business_id, int $application_id)
+    public function getProjectProposalStatus(int $business_id, int $application_id): array
     {
         try {
             $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', self::PROJECT_PROPOSAL_FORM)
-                ->select('status', 'reviewed_by', 'reviewed_at', 'modified_by', 'modified_at')
+                ->select('status', 'reviewed_at', 'modified_at')
+                ->with('reviewer')
+                ->with('modifier')
                 ->first();
-            return $ProjectProposalForm ?: null;
+
+            if (!$ProjectProposalForm) {
+                return [
+                    'status' => null,
+                    'reviewer_name' => null,
+                    'modifier_name' => null,
+                    'reviewed_at' => null,
+                    'modified_at' => null
+                ];
+            }
+
+            $ProjectProposalForm['reviewer_name'] = $ProjectProposalForm->reviewer ? $ProjectProposalForm->reviewer->getFullNameAttribute() : null;
+            $ProjectProposalForm['modifier_name'] = $ProjectProposalForm->modifier ? $ProjectProposalForm->modifier->getFullNameAttribute() : null;
+
+            return $ProjectProposalForm->toArray();
         } catch (Exception $e) {
             throw new Exception('Error in getting Project Proposal status: ' . $e->getMessage());
         }

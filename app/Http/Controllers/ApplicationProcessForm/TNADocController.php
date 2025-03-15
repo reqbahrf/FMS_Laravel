@@ -15,7 +15,7 @@ class TNADocController extends Controller
 {
     public function __construct(private TNAdataHandlerService $TNAservice) {}
 
-    public function getTNAStatus(Request $request)
+    public function getTNAFormStatus(Request $request)
     {
         try {
             $business_id = $request->business_id;

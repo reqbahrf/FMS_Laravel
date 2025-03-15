@@ -3065,7 +3065,9 @@ async function initializeStaffPageJs() {
             const ApplicantProgressContainer = $('#ApplicationProgress');
             const RequirementsTable = $('#requirementsTables');
 
-            let ProjectProposalFormInitialValue = {};
+            let tnaForm;
+            let projectProposalForm;
+            let rtecReportForm;
 
             $('#evaluationSchedule-datepicker').on('change', function () {
                 const selectedDate = new Date(this.value);
@@ -3220,7 +3222,12 @@ async function initializeStaffPageJs() {
 
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
-                    getProposalDraft(ApplicationID);
+
+                    tnaForm.setId(businessID, ApplicationID);
+                    projectProposalForm.setId(businessID, ApplicationID);
+                    rtecReportForm.setId(businessID, ApplicationID);
+
+                    console.log(tnaForm, projectProposalForm, rtecReportForm);
                 }
             );
 
@@ -3283,21 +3290,9 @@ async function initializeStaffPageJs() {
             );
 
             ApplicantDetailsContainer.on('hidden.bs.offcanvas', function () {
-                const FormContainer =
-                    ApplicantDetailsContainer.find('#projectProposal');
-                const ApplicantID = ApplicantDetailsContainer.find(
-                    '#selected_applicationId'
-                ).val();
                 applicantTable.broadcastClosedViewingEvent();
 
-                FormContainer.find('input, textarea').val('');
-                FormContainer.find(
-                    '.input_list, #EquipmentTableBody, #NonEquipmentTableBody'
-                ).each(function () {
-                    $(this).children().slice(1).remove();
-                });
                 RequirementsTable.empty();
-                clearInitialValues();
             });
 
             const getApplicantRequirements = async (businessID) => {
@@ -3715,16 +3710,16 @@ async function initializeStaffPageJs() {
             );
             const RTECReportContainerModal = $('#rtecReportContainerModal');
 
-            const tnaForm = new TNAForm(TNADocumentContainerModal);
+            tnaForm = new TNAForm(TNADocumentContainerModal);
             tnaForm.initializeTNAForm();
 
-            const projectProposalForm = new ProjectProposalForm(
+            projectProposalForm = new ProjectProposalForm(
                 ProjectProposalDocumentContainerModal
             );
 
             projectProposalForm.initializeProjectProposalForm();
 
-            const rtecReportForm = new RTECReportForm(RTECReportContainerModal);
+            rtecReportForm = new RTECReportForm(RTECReportContainerModal);
             rtecReportForm.initializeRTECReportForm();
         },
     };

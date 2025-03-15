@@ -257,8 +257,11 @@
             getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
             SHOW_REQUIREMENT_FILE: '{{ route('Requirements.view') }}',
             REJECT_APPLICATION_TNA: '{{ route('send.rejection.email') }}',
+            GET_TNA_FORM_STATUS: '{{ route('staff.Applicant.get.tna.status', [':business_id', ':application_id']) }}',
             GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id', ':action']) }}',
+            GET_PROJECT_PROPOSAL_STATUS: '{{ route('staff.Applicant.get.project-proposal-status', [':business_id', ':application_id']) }}',
             GET_PROJECT_PROPOSAL: '{{ route('staff.Applicant.get.project-proposal', [':business_id', ':application_id', ':action']) }}',
+            GET_RTEC_REPORT_STATUS: '{{ route('staff.Applicant.get.rtec-report-status', [':business_id', ':application_id']) }}',
             GET_RTEC_REPORT: '{{ route('staff.Applicant.get.rtec-report', [':business_id', ':application_id', ':action']) }}',
             SUBMIT_TO_ADMIN: '{{ route('staff.submit.applicant.to.admin', [':business_id', ':application_id']) }}'
         }

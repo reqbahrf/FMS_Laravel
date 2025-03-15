@@ -3,7 +3,10 @@ import {
     showToastFeedback,
     hideProcessToast,
 } from '../Utilities/feedback-toast';
-import { serializeFormData } from '../Utilities/utilFunctions';
+import {
+    customDateFormatter,
+    serializeFormData,
+} from '../Utilities/utilFunctions';
 import BENCHMARKTableConfig from '../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import PROJECT_PROPOSAL_TABLE_CONFIG from '../Form_Config/form-table-config/projectProposalTableConfig';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
@@ -16,11 +19,61 @@ class TNAForm {
     private TNAForm: JQuery<HTMLFormElement> | null;
     private TNAFormEvent: TNAFormEvent | null;
     private GeneratePDFBtn: JQuery<HTMLButtonElement> | null;
+    private business_Id: string | null;
+    private application_Id: string | null;
+    private statusTable: JQuery<HTMLTableElement> | null;
     constructor(TNAModalContainer: JQuery<HTMLElement>) {
         this.TNAModalContainer = TNAModalContainer;
+        this.statusTable = $('table#tnaTable');
+        this.business_Id = null;
+        this.application_Id = null;
         this.TNAForm = null;
         this.TNAFormEvent = null;
         this.GeneratePDFBtn = null;
+    }
+    public setId(business_Id: string, application_Id: string): void {
+        this.business_Id = business_Id;
+        this.application_Id = application_Id;
+        this._getTNAFormStatus();
+    }
+    private async _getTNAFormStatus(): Promise<void> {
+        try {
+            if (!this.business_Id || !this.application_Id) {
+                throw new Error('Business ID or Application ID not found');
+            }
+            const response = await $.ajax({
+                type: 'GET',
+                url: APPLICANT_TAB_ROUTE.GET_TNA_FORM_STATUS.replace(
+                    ':business_id',
+                    this.business_Id
+                ).replace(':application_id', this.application_Id),
+            });
+            this._updateStatusTable(response);
+        } catch (error: any) {
+            console.warn('Error in Retrieving TNA form status' + error);
+            showToastFeedback(
+                'text-bg-danger',
+                error?.responseJSON?.message || error?.message
+            );
+        }
+    }
+    private _updateStatusTable(response: any) {
+        this.statusTable?.find('tbody td:nth-child(-n+3)').empty();
+        this.statusTable
+            ?.find('tbody td:nth-child(1)')
+            .html(
+                /*html*/ `<span class="badge rounded-pill bg-${response.status == 'pending' ? 'secondary' : 'success'} text-center">${response.status}</span>`
+            );
+        this.statusTable
+            ?.find('tbody td:nth-child(2)')
+            .html(
+                /*html*/ `${response.reviewer_name || ''}&nbsp;<span class="badge rounded-pill bg-success text-center">${customDateFormatter(response.reviewed_at) || 'Not Reviewed yet'}</span>`
+            );
+        this.statusTable
+            ?.find('tbody td:nth-child(3)')
+            .html(
+                /*html*/ `${response.modifier_name || ''}&nbsp;<span class="badge rounded-pill bg-success text-center">${customDateFormatter(response.modified_at) || 'Not Modified yet'}</span>`
+            );
     }
     private async _getTNAForm(
         business_Id: string,
@@ -97,6 +150,8 @@ class TNAForm {
                     error?.message ||
                     'Error in Setting TNA form'
             );
+        } finally {
+            this._getTNAFormStatus();
         }
     }
 
@@ -171,11 +226,14 @@ class TNAForm {
         }
     }
     initializeTNAForm() {
+        console.log('this is initializeTNAForm');
         this.TNAModalContainer.on('show.bs.modal', async (event: any) => {
-            const business_Id = $(event.relatedTarget).attr('data-business-id');
-            const application_Id = $(event.relatedTarget).attr(
-                'data-application-id'
-            );
+            const business_Id =
+                this.business_Id ||
+                $(event.relatedTarget).attr('data-business-id');
+            const application_Id =
+                this.application_Id ||
+                $(event.relatedTarget).attr('data-application-id');
             const actionMode = $(event.relatedTarget).attr(
                 'data-action'
             ) as Action;
@@ -196,14 +254,67 @@ class ProjectProposalForm {
     private ProjectProposalForm: JQuery<HTMLFormElement> | null;
     private ProjectProposalFormEvent: ProposalFormEvent | null;
     private GeneratePDFBtn: JQuery<HTMLElement> | null;
+    private business_Id: string | null;
+    private application_Id: string | null;
+    private statusTable: JQuery<HTMLElement> | null;
     constructor(ProjectProposalModalContainer: JQuery<HTMLElement>) {
         this.ProjectProposalModalContainer = ProjectProposalModalContainer;
+        this.statusTable = $('table#projectProposalTable');
+        this.business_Id = null;
+        this.application_Id = null;
         this.ProjectProposalForm = null;
         this.ProjectProposalFormEvent = null;
         this.GeneratePDFBtn = null;
     }
-    //TODO: update this method handle Project Proposal data
-    async _getProjectProposalForm(
+    public setId(business_Id: string, application_Id: string): void {
+        this.business_Id = business_Id;
+        this.application_Id = application_Id;
+        this._getProjectProposalFormStatus();
+    }
+    private async _getProjectProposalFormStatus(): Promise<void> {
+        try {
+            if (!this.business_Id || !this.application_Id) {
+                throw new Error('Business ID or Application ID not found');
+            }
+            const response = await $.ajax({
+                type: 'GET',
+                url: APPLICANT_TAB_ROUTE.GET_PROJECT_PROPOSAL_STATUS.replace(
+                    ':business_id',
+                    this.business_Id
+                ).replace(':application_id', this.application_Id),
+            });
+            this._updateStatusTable(response);
+        } catch (error: any) {
+            console.warn(
+                'Error in Retrieving Project Proposal form status' + error
+            );
+            showToastFeedback(
+                'text-bg-danger',
+                error?.responseJSON?.message || error?.message
+            );
+        }
+    }
+
+    private _updateStatusTable(response: any) {
+        this.statusTable?.find('tbody td:nth-child(-n+3)').empty();
+        this.statusTable
+            ?.find('tbody td:nth-child(1)')
+            .html(
+                /*html*/ `<span class="badge rounded-pill bg-${response.status == 'pending' ? 'secondary' : 'success'} text-center">${response.status}</span>`
+            );
+        this.statusTable
+            ?.find('tbody td:nth-child(2)')
+            .html(
+                /*html*/ `${response.reviewer_name || ''}&nbsp;<span class="badge rounded-pill bg-success text-center">${customDateFormatter(response.reviewed_at) || 'Not Reviewed yet'}</span>`
+            );
+        this.statusTable
+            ?.find('tbody td:nth-child(3)')
+            .html(
+                /*html*/ `${response.modifier_name || ''}&nbsp;<span class="badge rounded-pill bg-success text-center">${customDateFormatter(response.modified_at) || 'Not Modified yet'}</span>`
+            );
+    }
+
+    private async _getProjectProposalForm(
         business_Id: string,
         application_Id: string,
         actionMode: Action
@@ -280,6 +391,8 @@ class ProjectProposalForm {
                     error?.message ||
                     'Error in Setting Project Proposal form'
             );
+        } finally {
+            this._getProjectProposalFormStatus();
         }
     }
 
@@ -360,12 +473,12 @@ class ProjectProposalForm {
             'show.bs.modal',
             async (event: any) => {
                 try {
-                    const business_Id = $(event.relatedTarget).attr(
-                        'data-business-id'
-                    );
-                    const application_Id = $(event.relatedTarget).attr(
-                        'data-application-id'
-                    );
+                    const business_Id =
+                        this.business_Id ||
+                        $(event.relatedTarget).attr('data-business-id');
+                    const application_Id =
+                        this.application_Id ||
+                        $(event.relatedTarget).attr('data-application-id');
                     const actionMode = $(event.relatedTarget).attr(
                         'data-action'
                     ) as Action;
@@ -402,15 +515,62 @@ class RTECReportForm {
     private RTECReportForm: JQuery<HTMLFormElement> | null;
     private RTECReportFormEvent: RTECFormEvent | null;
     private GeneratePDFBtn: JQuery<HTMLElement> | null;
+    private business_Id: string | null;
+    private application_Id: string | null;
+    private statusTable: JQuery<HTMLElement> | null;
 
     constructor(RTECReportModalContainer: JQuery<HTMLElement>) {
         this.RTECReportModalContainer = RTECReportModalContainer;
+        this.statusTable = $('table#rtecReportTable');
         this.RTECReportForm = null;
         this.RTECReportFormEvent = null;
         this.GeneratePDFBtn = null;
+        this.business_Id = null;
+        this.application_Id = null;
     }
 
-    async getRTECReportForm(
+    public setId(business_Id: string, application_Id: string): void {
+        this.business_Id = business_Id;
+        this.application_Id = application_Id;
+        this._getRTECReportFormStatus();
+    }
+
+    private async _getRTECReportFormStatus(): Promise<void> {
+        try {
+            if (!this.business_Id || !this.application_Id) {
+                throw new Error('Business ID or Application ID not found');
+            }
+            const response = await $.ajax({
+                url: APPLICANT_TAB_ROUTE.GET_RTEC_REPORT_STATUS.replace(
+                    ':business_id',
+                    this.business_Id
+                ).replace(':application_id', this.application_Id),
+            });
+            this._updateStatusTable(response);
+        } catch (error: any) {
+            console.warn('Error in Retrieving RTEC Report' + error);
+        }
+    }
+
+    private _updateStatusTable(response: any) {
+        this.statusTable?.find('tbody td:nth-child(-n+3)').empty();
+        this.statusTable
+            ?.find('tbody td:nth-child(1)')
+            .html(
+                /*html*/ `<span class="badge rounded-pill bg-${response.status == 'pending' ? 'secondary' : 'success'} text-center">${response.status}</span>`
+            );
+        this.statusTable
+            ?.find('tbody td:nth-child(2)')
+            .html(
+                /*html*/ `${response.reviewer_name || ''}&nbsp;<span class="badge rounded-pill bg-success text-center">${customDateFormatter(response.reviewed_at) || 'Not Reviewed yet'}</span>`
+            );
+        this.statusTable
+            ?.find('tbody td:nth-child(3)')
+            .html(
+                /*html*/ `${response.modifier_name || ''}&nbsp;<span class="badge rounded-pill bg-success text-center">${customDateFormatter(response.modified_at) || 'Not Modified yet'}</span>`
+            );
+    }
+    private async _getRTECReportForm(
         business_Id: string,
         application_Id: string,
         actionMode: Action
@@ -491,6 +651,8 @@ class RTECReportForm {
                     error?.message ||
                     'Error in Setting RTEC Report form'
             );
+        } finally {
+            this._getRTECReportFormStatus();
         }
     }
 
@@ -568,12 +730,12 @@ class RTECReportForm {
         this.RTECReportModalContainer.on(
             'show.bs.modal',
             async (event: any) => {
-                const business_Id = $(event.relatedTarget).attr(
-                    'data-business-id'
-                );
-                const application_Id = $(event.relatedTarget).attr(
-                    'data-application-id'
-                );
+                const business_Id =
+                    this.business_Id ||
+                    $(event.relatedTarget).attr('data-business-id');
+                const application_Id =
+                    this.application_Id ||
+                    $(event.relatedTarget).attr('data-application-id');
                 const actionMode = $(event.relatedTarget).attr(
                     'data-action'
                 ) as Action;
@@ -584,7 +746,7 @@ class RTECReportForm {
                     );
                     return;
                 }
-                await this.getRTECReportForm(
+                await this._getRTECReportForm(
                     business_Id,
                     application_Id,
                     actionMode
