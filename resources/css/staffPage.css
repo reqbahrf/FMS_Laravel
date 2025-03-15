@@ -770,6 +770,23 @@ ul#myTab li.nav-item button.tab-Nav:hover {
     -ms-transform: translateX(-50%);
     -o-transform: translateX(-50%);
 }
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) {
+    width: 100% !important;
+    table-layout: fixed;
+}
+
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) th:nth-child(-n+3),
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) td:nth-child(-n+3) {
+    width: 23.33%;
+}
+
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) th:nth-child(4),
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) td:nth-child(4) {
+    width: 21%;
+}
+
+
+
 
 /*
 Staff Applicant Tab CSS End

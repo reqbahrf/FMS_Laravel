@@ -3075,20 +3075,9 @@ async function initializeStaffPageJs() {
                     this.value = this.min;
                 }
             });
-            customFormatNumericInput('#EquipmentTableBody', [
-                '.EquipmentCost',
-                '.EquipmentQTY',
-            ]);
-            customFormatNumericInput('#NonEquipmentTableBody', [
-                '.NonEquipmentQTY',
-                '.NonEquipmentCost',
-            ]);
-
-            customFormatNumericInput('#fundAmount');
 
             const applicantTable = new ApplicantDataTable(AUTH_USER_NAME);
             await applicantTable.init();
-            //TODO: update this the logic of this
             $('#ApplicantTableBody').on(
                 'click',
                 '.applicantDetailsBtn',
@@ -3287,6 +3276,8 @@ async function initializeStaffPageJs() {
                                 error?.message ||
                                 'Error submitting application to admin'
                         );
+                    } finally {
+                        closeOffcanvasInstances('#applicantDetails');
                     }
                 }
             );
