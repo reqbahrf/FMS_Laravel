@@ -48,6 +48,7 @@ class RTECReportDocController extends Controller
             DB::transaction(function () use ($validated, $request) {
                 $this->RTECReportService->setRTECReportData(
                     $validated,
+                    $request->user(),
                     $request->business_id,
                     $request->application_id
                 );

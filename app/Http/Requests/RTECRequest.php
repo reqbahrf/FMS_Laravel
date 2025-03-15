@@ -22,6 +22,7 @@ class RTECRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'rtec_report_doc_status' => 'required|string|in:pending,reviewed',
             'project_title' => 'nullable|string|max:64',
             'proponent' => 'nullable|string|max:64',
             'contact_person' => 'nullable|string|max:64',
