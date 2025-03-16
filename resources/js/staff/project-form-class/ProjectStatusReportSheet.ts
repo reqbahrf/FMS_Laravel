@@ -18,6 +18,7 @@ export default class ProjectStatusReportSheet extends ProjectClass {
     private project_id: string;
     private business_id: string;
     private application_id: string;
+    private dropdownItems: JQuery<HTMLElement>;
     constructor(
         formContainer: JQuery<HTMLElement>,
         project_id: string,
@@ -29,6 +30,9 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         this.createSRBtn = formContainer.find('#createSRbtn');
         this.psrYearToCreate = formContainer.find('select#psr_year_to_create');
         this.psrYearToLoad = formContainer.find('select#psr_year_to_load');
+        this.dropdownItems = formContainer.find(
+            '#psrActionDropdown .dropdown-item'
+        );
         this.project_id = project_id;
         this.business_id = business_id;
         this.application_id = application_id;
@@ -129,14 +133,25 @@ export default class ProjectStatusReportSheet extends ProjectClass {
 
     private _appendAllYearsRecords(yearsResponse: string[]): void {
         this.psrYearToLoad.empty();
-        yearsResponse.forEach((year) => {
+        if (!yearsResponse || !yearsResponse.length) {
             this.psrYearToLoad.append(
                 $('<option>', {
-                    value: year,
-                    text: year,
+                    value: '',
+                    text: 'No Year Records Found',
+                    disabled: true,
+                    selected: true,
                 })
             );
-        });
+        } else {
+            yearsResponse.forEach((year) => {
+                this.psrYearToLoad.append(
+                    $('<option>', {
+                        value: year,
+                        text: year,
+                    })
+                );
+            });
+        }
     }
 
     private _getFormInstance(): JQuery<HTMLFormElement> {
@@ -288,25 +303,50 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                     selectedYear
                 );
             });
-            this.loadSRBtn.on('click', (e: JQuery.TriggeredEvent) => {
-                const btn = $(e.currentTarget);
-                const inputGroup = btn.closest('.input-group');
-                const select = inputGroup.find('select#psr_year_to_load');
-                const action = inputGroup
-                    .find('select#psr_action_to_load')
-                    .val() as Action;
-                const selectedYear = select.val() as string;
-                if (!selectedYear) {
-                    showToastFeedback('error', 'Please select a year first');
-                    return;
+            if (!this.loadSRBtn) {
+                throw new Error('Load SR Button not found');
+            }
+            this.dropdownItems.on('click', async (e: JQuery.ClickEvent) => {
+                e.preventDefault();
+                try {
+                    const clickedItem = $(e.currentTarget);
+                    const action = clickedItem.data('value') as Action;
+                    const select = clickedItem
+                        .closest('.input-group')
+                        .find('select#psr_year_to_load');
+                    const selectedYear = select.val() as string;
+                    if (!selectedYear) {
+                        showToastFeedback(
+                            'error',
+                            'Please select a year first'
+                        );
+                        return;
+                    }
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Load Project Status Report',
+                        message: `Are you sure you want to ${action} Project Status Report for Project ${this.project_id} in year ${selectedYear}?`,
+                        confirmText: 'Yes',
+                        cancelText: 'No',
+                    });
+
+                    if (!isConfirmed) {
+                        return;
+                    }
+
+                    this._getProjectStatusReportSheet(
+                        this.project_id,
+                        this.application_id,
+                        this.business_id,
+                        action,
+                        selectedYear
+                    );
+                } catch (error: any) {
+                    this._handleError(
+                        'Error in Loading Project Status Report: ',
+                        error,
+                        true
+                    );
                 }
-                this._getProjectStatusReportSheet(
-                    this.project_id,
-                    this.application_id,
-                    this.business_id,
-                    action,
-                    selectedYear
-                );
             });
         } catch (error: any) {
             this._handleError(
@@ -326,6 +366,11 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         }
         if (this.generatePDFBtn) {
             this.generatePDFBtn.off('click');
+        }
+
+        if (this.dropdownItems) {
+            this.dropdownItems.off('click');
+            this.dropdownItems = $();
         }
 
         if (this.form) {

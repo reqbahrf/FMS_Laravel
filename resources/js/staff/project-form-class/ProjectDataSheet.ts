@@ -16,6 +16,7 @@ export default class ProjectDataSheet extends ProjectClass {
     private loadPDSBtn: JQuery<HTMLButtonElement> | null;
     private generatePDFBtn: JQuery<HTMLButtonElement> | null;
     private previewPDSBtn: JQuery<HTMLButtonElement> | null;
+    private dropdownItems: JQuery<HTMLElement>;
     constructor(
         protected formContainer: JQuery<HTMLElement>,
         private project_id: string
@@ -26,6 +27,9 @@ export default class ProjectDataSheet extends ProjectClass {
         this.form = null;
         this.formEvent = null;
         this.loadPDSBtn = formContainer.find('#loadPDSbtn');
+        this.dropdownItems = formContainer.find(
+            '#pdsActionDropdown .dropdown-item'
+        );
         this.previewPDSBtn = formContainer.find('#previewPDSbtn');
         this.generatePDFBtn = null;
         this._setupProjectDataSheetBtnEvent();
@@ -102,8 +106,7 @@ export default class ProjectDataSheet extends ProjectClass {
         } catch (error: any) {
             this._handleError(
                 'Error in Retrieving Available Quarters Report: ',
-                error,
-                true
+                error
             );
         }
     }
@@ -115,32 +118,56 @@ export default class ProjectDataSheet extends ProjectClass {
 
     private _setupProjectDataSheetBtnEvent(): void {
         try {
+            // Setup loadPDSBtn click event
             if (!this.loadPDSBtn) {
                 throw new Error('Load PDS Button not found');
             }
-            this.loadPDSBtn.on('click', async (e: JQuery.TriggeredEvent) => {
-                const btn = $(e.currentTarget);
-                const inputGroup = btn.closest('.input-group');
-                const select = inputGroup.find('select#pds_quarter_to_load');
-                const url = select
-                    .find('option:selected')
-                    .attr('data-form-url') as string;
-                const action = inputGroup
-                    .find('select#pds_action_to_load')
-                    .val() as Action;
-                const quarter = select.val() as string;
+            this.dropdownItems.on('click', async (e: JQuery.ClickEvent) => {
+                e.preventDefault();
 
-                const isConfirmed = await createConfirmationModal({
-                    title: 'Load Project Data Sheet',
-                    message: `Are you sure you want to load a Project Data Sheet for Project ${this.project_id} in quarter ${quarter}?`,
-                    confirmText: 'Yes',
-                    cancelText: 'No',
-                });
-                if (!isConfirmed) {
-                    return;
+                try {
+                    const clickedItem = $(e.currentTarget);
+                    const action = clickedItem.data('value') as Action;
+                    const select = clickedItem
+                        .closest('.input-group')
+                        .find('select#pds_quarter_to_load');
+                    const selectedQuarter = select.val() as string;
+
+                    if (
+                        !selectedQuarter ||
+                        selectedQuarter === 'No Quarter Records Found' ||
+                        selectedQuarter === 'No Record Found'
+                    ) {
+                        showToastFeedback(
+                            'text-bg-danger',
+                            'Please select a quarter to load'
+                        );
+                        return;
+                    }
+
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Load Project Data Sheet',
+                        message: `Are you sure you want to ${action} Project Data Sheet for Project ${this.project_id} in quarter ${selectedQuarter}?`,
+                        confirmText: 'Yes',
+                        cancelText: 'No',
+                    });
+
+                    if (!isConfirmed) {
+                        return;
+                    }
+
+                    const url = select
+                        .find('option:selected')
+                        .attr('data-form-url') as string;
+                    await this._getProjectDataSheet(url, action);
+                } catch (error: any) {
+                    this._handleError(
+                        'Error in Loading Project Data Sheet: ',
+                        error
+                    );
                 }
-                this._getProjectDataSheet(url, action);
             });
+
             if (!this.previewPDSBtn) {
                 throw new Error('Preview PDS Button not found');
             }
@@ -162,7 +189,7 @@ export default class ProjectDataSheet extends ProjectClass {
                 if (!isConfirmed) {
                     return;
                 }
-                this._getProjectDataSheet(url);
+                await this._getProjectDataSheet(url);
             });
         } catch (error: any) {
             this._handleError('Error in Setting Project Data Sheet: ', error);
@@ -200,6 +227,10 @@ export default class ProjectDataSheet extends ProjectClass {
         if (this.generatePDFBtn) {
             this.generatePDFBtn.off('click');
             this.generatePDFBtn = null;
+        }
+        if (this.dropdownItems) {
+            this.dropdownItems.off('click');
+            this.dropdownItems = $();
         }
 
         // Remove form and clear references
