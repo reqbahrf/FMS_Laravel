@@ -1,4 +1,4 @@
-<div>
+<div class="sticky-top position-sticky text-end">
     <style>
         #floating-window {
             position: absolute;
@@ -108,11 +108,17 @@
         }
     </style>
 
-    <button id="open-floating-window" class="btn btn-primary">Load Resource</button>
+    <button
+        class="btn btn-primary"
+        id="open-floating-window"
+    >Load Resource</button>
     <div id="floating-window">
         <div id="floating-header">
             Floating Window - Project Ledger viewer
-            <button id="close-button" class="btn-close"></button>
+            <button
+                class="btn-close"
+                id="close-button"
+            ></button>
         </div>
         <div id="floating-content">
             <p>Loading...</p>

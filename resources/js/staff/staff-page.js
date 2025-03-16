@@ -345,35 +345,6 @@ async function initializeStaffPageJs() {
                 order: [[4, 'asc']],
             });
 
-            const UploadedReceiptDataTable = $(
-                '#uploadedReceiptTable'
-            ).DataTable({
-                autoWidth: false,
-                responsive: true,
-                columns: [
-                    {
-                        title: 'Receipt Name',
-                        width: '20%',
-                    },
-                    {
-                        title: 'Receipt Image',
-                        width: '25%',
-                    },
-                    {
-                        title: 'Uploaded Date',
-                        width: '20%',
-                    },
-                    {
-                        title: 'Status',
-                        width: '10%',
-                    },
-                    {
-                        title: 'Action',
-                        width: '10%',
-                    },
-                ],
-            });
-
             function populateYearDropdown(selectElementId) {
                 const $select = $(`#${selectElementId}`);
                 const currentYear = new Date().getFullYear();
@@ -1914,7 +1885,6 @@ async function initializeStaffPageJs() {
 
             await getDashboardChartData();
             await getHandleProject();
-            console.log('resolved');
         },
         Projects: async () => {
             const ApprovedDataTable = $('#approvedTable').DataTable({

@@ -9,7 +9,10 @@
 ])
 <div id="formWrapper">
     @if (!$isExporting)
-        <nav aria-label="breadcrumb">
+        <nav
+            class="sticky-top position-sticky"
+            aria-label="breadcrumb"
+        >
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a
                         class="revertToSelectDoc"
@@ -1297,7 +1300,7 @@
     @if (!$isExporting)
         @if (!$isExporting)
             <div
-                class="position-sticky bottom-0 py-1 mt-4"
+                class="position-sticky bottom-0 py-5 mt-4"
                 style="z-index: 1000;"
             >
                 <div class="container">

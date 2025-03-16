@@ -457,7 +457,7 @@
             aria-label="Close"
         ></button>
     </div>
-    <div class="offcanvas-body overflow-x-hidden">
+    <div class="offcanvas-body mt-3 pt-0 overflow-hidden">
         {{-- Project Navigation Tabs --}}
         @include('staff-view.Included_layout.handleProjectOffcanvaContent')
     </div>

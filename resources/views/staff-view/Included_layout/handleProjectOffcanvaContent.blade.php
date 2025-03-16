@@ -1,4 +1,4 @@
-<nav>
+<nav class="sticky-top bg-light">
     <div
         class="nav nav-tabs"
         id="nav-tab"
@@ -55,7 +55,7 @@
 
 {{-- Project Navigation Tabs Contents --}}
 <div
-    class="tab-content h-100 mt-3"
+    class="tab-content h-100 mt-3 overflow-x-scroll"
     id="nav-tabContent"
 >
     <div

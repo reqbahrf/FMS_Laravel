@@ -6,6 +6,7 @@ import {
     showToastFeedback,
 } from '../../Utilities/feedback-toast';
 import createConfirmationModal from '../../Utilities/confirmation-modal';
+import ProjectStatusReportEvent from '../project-form-events/ProjectStatusReportEvent';
 type Action = 'edit' | 'view';
 export default class ProjectStatusReportSheet extends ProjectClass {
     private loadSRBtn: JQuery<HTMLButtonElement>;
@@ -14,7 +15,7 @@ export default class ProjectStatusReportSheet extends ProjectClass {
     private psrYearToCreate: JQuery<HTMLSelectElement>;
     private psrYearToLoad: JQuery<HTMLSelectElement>;
     private form: JQuery<HTMLFormElement> | null;
-    private formEvent: null;
+    private formEvent: ProjectStatusReportEvent | null;
     private project_id: string;
     private business_id: string;
     private application_id: string;
@@ -69,6 +70,7 @@ export default class ProjectStatusReportSheet extends ProjectClass {
             switch (actionMode) {
                 case 'edit':
                     this._setupProjectStatusReportSubmission();
+                    this.formEvent = new ProjectStatusReportEvent(this.form);
                     break;
                 case 'view':
                     this._setupPDFExport();
