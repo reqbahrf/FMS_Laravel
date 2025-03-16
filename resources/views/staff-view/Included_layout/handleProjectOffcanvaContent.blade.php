@@ -578,7 +578,7 @@
                                     <button
                                         class="btn btn-primary"
                                         id="previewPDSbtn"
-                                    >Export</button>
+                                    >Preview</button>
                                 </div>
                             </div>
                         </div>
