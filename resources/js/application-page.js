@@ -11,8 +11,8 @@ import {
     handleFilePondSelectorDisabling,
 } from './Utilities/FilepondHandlers';
 import {
-    AddNewRowHandler,
-    RemoveRowHandler,
+    addNewRowHandler,
+    removeRowHandler,
 } from './Utilities/add-and-remove-table-row-handler';
 import APPLICATION_FORM_CONFIG from './Form_Config/APPLICATION_CONFIG';
 import BENCHMARKTableConfig from './Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
@@ -131,26 +131,26 @@ export function initializeForm() {
     };
 
     //TODO: fix these handler
-    AddNewRowHandler(
+    addNewRowHandler(
         '.addProductAndSupplyChainRow',
         '#productAndSupplyChainContainer'
     );
-    RemoveRowHandler('.removeRowButton', '#productAndSupplyChainContainer');
+    removeRowHandler('.removeRowButton', '#productAndSupplyChainContainer');
 
-    AddNewRowHandler('.addProductionRow', '#productionContainer');
-    RemoveRowHandler('.removeRowButton', '#productionContainer');
+    addNewRowHandler('.addProductionRow', '#productionContainer');
+    removeRowHandler('.removeRowButton', '#productionContainer');
 
-    AddNewRowHandler(
+    addNewRowHandler(
         '.addProductionEquipmentRow',
         '#productionEquipmentContainer'
     );
-    RemoveRowHandler('.removeRowButton', '#productionEquipmentContainer');
+    removeRowHandler('.removeRowButton', '#productionEquipmentContainer');
 
-    AddNewRowHandler(
+    addNewRowHandler(
         '.addNewProductRow',
         '#localMarketContainer, #exportMarketContainer'
     );
-    RemoveRowHandler(
+    removeRowHandler(
         '.removeRowButton',
         '#localMarketContainer, #exportMarketContainer'
     );

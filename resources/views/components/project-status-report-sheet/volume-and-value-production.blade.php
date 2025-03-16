@@ -30,6 +30,20 @@
 >
     <br>
     <br>
+    @if ($isEditable)
+        <div style="text-align: right;">
+            <button
+                class="btn btn-sm btn-success"
+                id="addVolumeAndValueProductionRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeVolumeAndValueProductionRow"
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
     <span>•&nbsp;Volume and value of production including sales generated:</span>
     <table id="volumeAndValueProductionTable">
         <thead>

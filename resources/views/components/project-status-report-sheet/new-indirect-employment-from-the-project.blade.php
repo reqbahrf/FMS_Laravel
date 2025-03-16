@@ -15,6 +15,20 @@
     class=""
     id="newIndirectEmploymentFromTheProject"
 >
+    @if ($isEditable)
+        <div style="text-align: right;">
+            <button
+                class="btn btn-sm btn-success"
+                id="addNewIndirectEmploymentRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeNewIndirectEmploymentRow"
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
     <p>No. of new indirect employment from the project:</p>
 
     <table>

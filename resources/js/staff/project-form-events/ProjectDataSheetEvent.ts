@@ -2,6 +2,10 @@ import {
     formatNumber,
     parseFormattedNumberToFloat,
 } from '../../Utilities/utilFunctions';
+import {
+    addNewRowHandler,
+    removeRowHandler,
+} from '../../Utilities/add-and-remove-table-row-handler';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 
 export default class ProjectDataSheetEvent {

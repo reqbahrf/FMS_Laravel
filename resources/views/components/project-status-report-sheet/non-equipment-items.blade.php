@@ -28,6 +28,20 @@
     class=""
     id="nonEquipmentItems"
 >
+    @if ($isEditable)
+        <div style="text-align: right;">
+            <button
+                class="btn btn-sm btn-success"
+                id="addNonEquipmentRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeNonEquipmentRow"
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
     <span>•&nbsp;Non-equipment items provided (packaging, etc.):</span>
 
     <table id="nonEquipmentItemsTable">

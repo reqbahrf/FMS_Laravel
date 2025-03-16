@@ -1,4 +1,8 @@
 import { InitializeFloatingWindow } from '../../Utilities/floating-window';
+import {
+    addNewRowHandler,
+    removeRowHandler,
+} from '../../Utilities/add-and-remove-table-row-handler';
 export default class ProjectStatusReportEvent {
     private form: JQuery<HTMLFormElement>;
     private parentFormWrapper: JQuery<HTMLElement>;
@@ -9,6 +13,47 @@ export default class ProjectStatusReportEvent {
         this.floatingWindowContainer =
             this.parentFormWrapper.find('#floating-window');
         this._initializeFloatingWindow();
+        this._initializeAddAndRemoveTableRow();
+    }
+
+    private _initializeAddAndRemoveTableRow() {
+        console.log('Initializing add and remove table row');
+        try {
+            addNewRowHandler(
+                '#addEquipmentAndFacilitiesRow',
+                '#equipmentAndFacilitiesPurchased'
+            );
+            removeRowHandler(
+                '#removeEquipmentAndFacilitiesRow',
+                '#equipmentAndFacilitiesPurchased'
+            );
+
+            addNewRowHandler('#addNonEquipmentRow', '#nonEquipmentItems');
+            removeRowHandler('#removeNonEquipmentRow', '#nonEquipmentItems');
+
+            addNewRowHandler(
+                '#addVolumeAndValueProductionRow',
+                '#volumeAndValueProduction'
+            );
+            removeRowHandler(
+                '#removeVolumeAndValueProductionRow',
+                '#volumeAndValueProduction'
+            );
+
+            addNewRowHandler(
+                '#addNewIndirectEmploymentRow',
+                '#newIndirectEmploymentFromTheProject'
+            );
+            removeRowHandler(
+                '#removeNewIndirectEmploymentRow',
+                '#newIndirectEmploymentFromTheProject'
+            );
+        } catch (error) {
+            console.error(
+                'Error initializing add and remove table row:',
+                error
+            );
+        }
     }
 
     private _initializeFloatingWindow() {
