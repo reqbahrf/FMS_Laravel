@@ -15,11 +15,15 @@
         </nav>
         <x-floating-window />
     @endif
+
     <form
         class="mt-3"
         id="projectStatusReportSheetForm"
         @if ($isEditable) action="{{ URL::signedRoute('staff.Project.set.status-report', ['projectId' => $projectStatusReportData['project_info_id'], 'applicationId' => $projectStatusReportData['application_info_id'], 'businessId' => $projectStatusReportData['business_info_id'], 'forYear' => $projectStatusReportData['for_period']]) }}" @endif
     >
+        @if (!$isExporting)
+            <x-document-header />
+        @endif
         <x-project-status-report-sheet.project-info
             :projectStatusReportData="$projectStatusReportData"
             :isEditable="$isEditable"

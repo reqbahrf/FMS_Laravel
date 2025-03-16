@@ -23,7 +23,10 @@
         </nav>
     @endif
     <form id="projectDataSheetForm">
-        <div class="form-container">
+        @if (!$isExporting)
+            <x-document-header />
+        @endif
+        <div class="form-container mt-4">
             <table
                 class="ProjectInfo"
                 style="overflow: hidden"

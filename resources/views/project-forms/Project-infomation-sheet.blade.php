@@ -24,9 +24,9 @@
         #projectInfoSheetForm .row--description {
             font-size: 9pt;
             vertical-align: middle !important;
-            word-wrap: break-word;
+            word-wrap: break-word !important;
             font-style: italic;
-            text-align: justify;
+            text-align: justify !important;
             font-family: Arial, sans-serif;
         }
 

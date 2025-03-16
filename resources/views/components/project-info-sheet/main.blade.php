@@ -772,7 +772,7 @@
                         <td
                             class="tg-7zrl"
                             colspan="2"
-                        >Country of Destination:</td>
+                        >Country/ies of Destination:</td>
                         <td
                             class="tg-8d8j"
                             colspan="3"

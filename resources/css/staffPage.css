@@ -1022,15 +1022,14 @@ table.no-border {
     font-family: Arial, sans-serif;
     font-size: 9pt;
     padding: 1pt;
-    word-break: break-all;
 }
 
 #projectInfoSheetForm .row--description {
     font-size: 9pt;
     vertical-align: middle !important;
-    word-wrap: break-word;
+    word-wrap: break-word !important;
     font-style: italic;
-    text-align: justify;
+    text-align: justify !important;
     font-family: Arial, sans-serif;
 }
 
