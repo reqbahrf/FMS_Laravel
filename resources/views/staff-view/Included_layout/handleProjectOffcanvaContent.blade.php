@@ -55,7 +55,7 @@
 
 {{-- Project Navigation Tabs Contents --}}
 <div
-    class="tab-content h-100 mt-3 overflow-x-scroll"
+    class="tab-content h-100 mt-5 overflow-x-scroll"
     id="nav-tabContent"
 >
     <div

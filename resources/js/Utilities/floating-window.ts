@@ -2,11 +2,11 @@ import { showToastFeedback } from './feedback-toast';
 import { FloatingWindowElements } from './floating-window.d';
 
 export class FloatingWindow {
-    private window: JQuery<HTMLElement>;
-    private header: JQuery<HTMLElement>;
-    private closeButton: JQuery<HTMLElement>;
-    private content: JQuery<HTMLElement>;
-    private input: JQuery<HTMLInputElement>;
+    private f_window: JQuery<HTMLElement>;
+    private f_header: JQuery<HTMLElement>;
+    private f_closeButton: JQuery<HTMLElement>;
+    private f_content: JQuery<HTMLElement>;
+    private f_input: JQuery<HTMLInputElement>;
 
     private isDragging: boolean = false;
     private isResizing: boolean = false;
@@ -19,47 +19,56 @@ export class FloatingWindow {
     private static isInitialized: boolean = false;
 
     constructor(elements: FloatingWindowElements) {
-        const { window, header, closeButton, content, input } = elements;
+        const { f_window, f_header, f_closeButton, f_content, f_input } =
+            elements;
 
-        if (!window || !header || !closeButton || !content || !input) {
+        if (
+            !f_window ||
+            !f_header ||
+            !f_closeButton ||
+            !f_content ||
+            !f_input
+        ) {
             console.error('Required elements for floating window are missing.');
             throw new Error('Missing required elements for floating window');
         }
 
-        this.window = window;
-        this.header = header;
-        this.closeButton = closeButton;
-        this.content = content;
-        this.input = input;
+        this.f_window = f_window;
+        this.f_header = f_header;
+        this.f_closeButton = f_closeButton;
+        this.f_content = f_content;
+        this.f_input = f_input;
 
         this.initializeEventHandlers();
     }
 
     private initializeEventHandlers(): void {
         // Close window
-        this.closeButton.on('click', () => {
+        this.f_closeButton.on('click', () => {
             this.hide();
         });
 
         // Dragging
-        this.header.on('mousedown', (e) => {
+        this.f_header.on('mousedown', (e) => {
             this.isDragging = true;
-            if (this.window && this.window.length > 0) {
-                this.startX = e.clientX - (this.window.offset()?.left || 0);
-                this.startY = e.clientY - (this.window.offset()?.top || 0);
+            if (this.f_window && this.f_window.length > 0) {
+                const offset = this.f_window.offset() || { left: 0, top: 0 };
+                this.startX = e.clientX - offset.left;
+                this.startY = e.clientY - offset.top;
             }
         });
 
         // Resizing
-        $('.resizer').on('mousedown', (e) => {
+        this.f_window.find('.resizer').on('mousedown', (e) => {
             this.isResizing = true;
             this.startX = e.clientX;
             this.startY = e.clientY;
-            if (this.window && this.window.length > 0) {
-                this.startWidth = this.window.width() || 0;
-                this.startHeight = this.window.height() || 0;
+            if (this.f_window && this.f_window.length > 0) {
+                this.startWidth = this.f_window.width() || 0;
+                this.startHeight = this.f_window.height() || 0;
             }
-            this.resizeType = $(e.currentTarget).attr('class')?.split(' ')[1] || '';
+            this.resizeType =
+                $(e.currentTarget).attr('class')?.split(' ')[1] || '';
             e.preventDefault();
         });
 
@@ -83,8 +92,8 @@ export class FloatingWindow {
     private handleDragging(e: JQuery.MouseMoveEvent): void {
         const viewportWidth: number = $(window).width() || 0;
         const viewportHeight: number = $(window).height() || 0;
-        const windowWidth: number = this.window.outerWidth() || 0;
-        const windowHeight: number = this.window.outerHeight() || 0;
+        const windowWidth: number = this.f_window.outerWidth() || 0;
+        const windowHeight: number = this.f_window.outerHeight() || 0;
 
         // Calculate new position
         let newLeft: number = e.clientX - this.startX;
@@ -94,16 +103,16 @@ export class FloatingWindow {
         newLeft = Math.max(0, Math.min(newLeft, viewportWidth - windowWidth));
         newTop = Math.max(0, Math.min(newTop, viewportHeight - windowHeight));
 
-        this.window.css({
+        this.f_window.css({
             left: newLeft,
             top: newTop,
         });
     }
 
     private handleResizing(e: JQuery.MouseMoveEvent): void {
-        const viewportWidth: number = this.window.width() || 0;
-        const viewportHeight: number = this.window.height() || 0;
-        const windowPosition = this.window.offset() || { left: 0, top: 0 };
+        const viewportWidth: number = $(window).width() || 0;
+        const viewportHeight: number = $(window).height() || 0;
+        const windowPosition = this.f_window.offset() || { left: 0, top: 0 };
 
         let newWidth: number = this.startWidth;
         let newHeight: number = this.startHeight;
@@ -116,11 +125,11 @@ export class FloatingWindow {
                 break;
             case 'resizer-l':
                 newWidth = this.startWidth - (e.clientX - this.startX);
-                newX = e.clientX;
+                newX = windowPosition.left + (e.clientX - this.startX);
                 break;
             case 'resizer-t':
                 newHeight = this.startHeight - (e.clientY - this.startY);
-                newY = e.clientY;
+                newY = windowPosition.top + (e.clientY - this.startY);
                 break;
             case 'resizer-b':
                 newHeight = this.startHeight + (e.clientY - this.startY);
@@ -128,13 +137,13 @@ export class FloatingWindow {
             case 'resizer-tr':
                 newWidth = this.startWidth + (e.clientX - this.startX);
                 newHeight = this.startHeight - (e.clientY - this.startY);
-                newY = e.clientY;
+                newY = windowPosition.top + (e.clientY - this.startY);
                 break;
             case 'resizer-tl':
                 newWidth = this.startWidth - (e.clientX - this.startX);
                 newHeight = this.startHeight - (e.clientY - this.startY);
-                newX = e.clientX;
-                newY = e.clientY;
+                newX = windowPosition.left + (e.clientX - this.startX);
+                newY = windowPosition.top + (e.clientY - this.startY);
                 break;
             case 'resizer-br':
                 newWidth = this.startWidth + (e.clientX - this.startX);
@@ -143,17 +152,20 @@ export class FloatingWindow {
             case 'resizer-bl':
                 newWidth = this.startWidth - (e.clientX - this.startX);
                 newHeight = this.startHeight + (e.clientY - this.startY);
-                newX = e.clientX;
+                newX = windowPosition.left + (e.clientX - this.startX);
                 break;
         }
 
+        // Constrain to viewport boundaries
         if (newX < 0) {
             newX = 0;
-            newWidth = windowPosition.left + (this.window.outerWidth() || 0) - newX;
+            newWidth =
+                windowPosition.left + (this.f_window.outerWidth() || 0) - newX;
         }
         if (newY < 0) {
             newY = 0;
-            newHeight = windowPosition.top + (this.window.outerHeight() || 0) - newY;
+            newHeight =
+                windowPosition.top + (this.f_window.outerHeight() || 0) - newY;
         }
         if (newX + newWidth > viewportWidth) {
             newWidth = viewportWidth - newX;
@@ -164,17 +176,25 @@ export class FloatingWindow {
 
         // Ensure minimum size and update position only when necessary
         if (newWidth > 100 && newHeight > 100) {
-            this.window.css({
+            this.f_window.css({
                 width: newWidth,
                 height: newHeight,
             });
 
             // Only update position for left and top resizing
-            if (['resizer-l', 'resizer-tl', 'resizer-bl'].includes(this.resizeType)) {
-                this.window.css('left', newX);
+            if (
+                ['resizer-l', 'resizer-tl', 'resizer-bl'].includes(
+                    this.resizeType
+                )
+            ) {
+                this.f_window.css('left', newX);
             }
-            if (['resizer-t', 'resizer-tl', 'resizer-tr'].includes(this.resizeType)) {
-                this.window.css('top', newY);
+            if (
+                ['resizer-t', 'resizer-tl', 'resizer-tr'].includes(
+                    this.resizeType
+                )
+            ) {
+                this.f_window.css('top', newY);
             }
         }
     }
@@ -183,15 +203,15 @@ export class FloatingWindow {
      * Open the floating window and load the URL from the input field
      */
     public open(): void {
-        const url = this.input?.val()?.trim();
+        const url = this.f_input?.val()?.trim();
         if (!url) {
             showToastFeedback('text-bg-danger', 'Please enter a valid URL.');
             return;
         }
 
-        this.content.html(`<p>Loading...</p>`);
-        this.content.html(`<iframe src="${url}"></iframe>`);
-        this.window.show();
+        this.f_content.html(`<p>Loading...</p>`);
+        this.f_content.html(`<iframe src="${url}"></iframe>`);
+        this.f_window.show();
     }
 
     /**
@@ -204,21 +224,23 @@ export class FloatingWindow {
             return;
         }
 
-        this.input.val(url);
-        this.content.html(`<p>Loading...</p>`);
-        this.content.html(`<iframe src="${url}"></iframe>`);
-        this.window.show();
+        this.f_input.val(url);
+        this.f_content.html(`<p>Loading...</p>`);
+        this.f_content.html(`<iframe src="${url}"></iframe>`);
+        this.f_window.show();
     }
 
     /**
      * Hide the floating window
      */
     public hide(): void {
-        this.window.hide();
+        this.f_window.hide();
     }
 }
 
 // Export a factory function for backward compatibility
-export function InitializeFloatingWindow(elements: FloatingWindowElements): FloatingWindow {
+export function InitializeFloatingWindow(
+    elements: FloatingWindowElements
+): FloatingWindow {
     return new FloatingWindow(elements);
 }
