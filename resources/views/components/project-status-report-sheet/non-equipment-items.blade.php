@@ -66,49 +66,49 @@
                 <tr>
                     <td>
                         <x-custom-input.input
-                            class="approvedQty"
+                            class="approved_qty"
                             type="text"
-                            :value="$item['approved_qty'] ?? ''"
+                            :value="$item['Approved']['qty'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="approvedParticulars"
+                            class="approved_particulars"
                             type="text"
-                            :value="$item['approved_particulars'] ?? ''"
+                            :value="$item['Approved']['particulars'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="approvedCost"
+                            class="approved_cost"
                             type="text"
-                            :value="$item['approved_cost'] ?? ''"
+                            :value="$item['Approved']['cost'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="actualQty"
+                            class="actual_qty"
                             type="text"
-                            :value="$item['actual_qty'] ?? ''"
+                            :value="$item['Actual']['qty'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="actualParticulars"
+                            class="actual_particulars"
                             type="text"
-                            :value="$item['actual_particulars'] ?? ''"
+                            :value="$item['Actual']['particulars'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="actualCost"
+                            class="actual_cost"
                             type="text"
-                            :value="$item['actual_cost'] ?? ''"
+                            :value="$item['Actual']['cost'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
@@ -125,7 +125,7 @@
                 <tr>
                     <td>
                         <x-custom-input.input
-                            class="approvedQty"
+                            class="approved_qty"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -133,7 +133,7 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="approvedParticulars"
+                            class="approved_particulars"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -141,7 +141,7 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="approvedCost"
+                            class="approved_cost"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -149,7 +149,7 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="actualQty"
+                            class="actual_qty"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -157,7 +157,7 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="actualParticulars"
+                            class="actual_particulars"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -165,7 +165,7 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="actualCost"
+                            class="actual_cost"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -173,7 +173,7 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="remarksJustification"
+                            class="remarks"
                             type="text"
                             value=""
                             :isEditable="$isEditable"

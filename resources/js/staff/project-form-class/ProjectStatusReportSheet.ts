@@ -7,6 +7,14 @@ import {
 } from '../../Utilities/feedback-toast';
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectStatusReportEvent from '../project-form-events/ProjectStatusReportEvent';
+import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
+import {
+    EquipmentTableConfig,
+    EmploymentGeneratedTableConfig,
+    IndirectEmploymentTableConfig,
+    NonEquipmentTableConfig,
+    salesTableConfig,
+} from './table-config/project-status-report-table-config';
 type Action = 'edit' | 'view';
 export default class ProjectStatusReportSheet extends ProjectClass {
     private loadSRBtn: JQuery<HTMLButtonElement>;
@@ -257,6 +265,14 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                         throw new Error('Form data not found');
                     let formDataObject: { [key: string]: string | string[] } =
                         serializeFormData(formData);
+                    formDataObject = {
+                        ...formDataObject,
+                        ...TableDataExtractor(EquipmentTableConfig),
+                        ...TableDataExtractor(NonEquipmentTableConfig),
+                        ...TableDataExtractor(salesTableConfig),
+                        ...TableDataExtractor(EmploymentGeneratedTableConfig),
+                        ...TableDataExtractor(IndirectEmploymentTableConfig),
+                    };
                     await this._saveStatusReport(formDataObject, url);
                 } catch (SubmissionError: any) {
                     this._handleError(

@@ -55,46 +55,53 @@
             </tr>
         </thead>
         <tbody>
+            @php
+                use App\Services\NumberFormatterService as NF;
+                $totalGrossSales = 0;
+            @endphp
             @forelse ($projectStatusReportData['volume_and_value_production'] ?? [] as $item)
+                @php
+                    $totalGrossSales += NF::parseFormattedNumberToFloat($item['grossSales'] ?? 0);
+                @endphp
                 <tr>
                     <td>
                         <x-custom-input.input
-                            class="nameOfProductService"
+                            class="name_of_product_service"
                             type="text"
-                            :value="$item['name_of_product_service'] ?? ''"
+                            :value="$item['productService'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="volumeOfProduction"
+                            class="volume_of_production"
                             type="text"
-                            :value="$item['volume_of_production'] ?? ''"
+                            :value="$item['volumeOfProduction'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         @if ($isEditable)
-                            <select class="sales-generated-quarter_selector">
+                            <select class="sales_quarter_specify">
                                 <option
                                     value="1ˢᵗ Quarter"
-                                    {{ $item['quarter_selector'] == '1ˢᵗ Quarter' ? 'selected' : '' }}
+                                    {{ $item['salesQuarter'] == '1ˢᵗ Quarter' ? 'selected' : '' }}
                                 >1ˢᵗ Quarter</option>
                                 <option
                                     value="2ⁿᵈ Quarter"
-                                    {{ $item['quarter_selector'] == '2ⁿᵈ Quarter' ? 'selected' : '' }}
+                                    {{ $item['salesQuarter'] == '2ⁿᵈ Quarter' ? 'selected' : '' }}
                                 >2ⁿᵈ Quarter</option>
                                 <option
                                     value="3ʳᵈ Quarter"
-                                    {{ $item['quarter_selector'] == '3ʳᵈ Quarter' ? 'selected' : '' }}
+                                    {{ $item['salesQuarter'] == '3ʳᵈ Quarter' ? 'selected' : '' }}
                                 >3ʳᵈ Quarter</option>
                                 <option
                                     value="4ᵗʰ Quarter"
-                                    {{ $item['quarter_selector'] == '4ᵗʰ Quarter' ? 'selected' : '' }}
+                                    {{ $item['salesQuarter'] == '4ᵗʰ Quarter' ? 'selected' : '' }}
                                 >4ᵗʰ Quarter</option>
                             </select>
                         @else
-                            <span>{{ $item['quarter_selector'] ?? '' }}</span>
+                            <span>{{ $item['salesQuarter'] ?? '' }}</span>
                         @endif
                         <x-custom-input.input
                             class="for_year"
@@ -105,9 +112,9 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="grossSales"
+                            class="sales_gross_sales"
                             type="text"
-                            :value="$item['gross_sales'] ?? ''"
+                            :value="$item['grossSales'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
@@ -116,7 +123,7 @@
                 <tr>
                     <td>
                         <x-custom-input.input
-                            class="nameOfProductService"
+                            class="name_of_product_service"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -124,7 +131,7 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="volumeOfProduction"
+                            class="volume_of_production"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -132,7 +139,7 @@
                     </td>
                     <td>
                         @if ($isEditable)
-                            <select class="sales-generated-quarter_selector">
+                            <select class="sales_quarter_specify">
                                 <option value="1ˢᵗ Quarter">1ˢᵗ Quarter</option>
                                 <option value="2ⁿᵈ Quarter">2ⁿᵈ Quarter</option>
                                 <option value="3ʳᵈ Quarter">3ʳᵈ Quarter</option>
@@ -150,7 +157,7 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="grossSales"
+                            class="sales_gross_sales"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -165,8 +172,7 @@
                 <td></td>
                 <td></td>
                 <td style="font-weight: bold;">
-                    <span
-                        class="volumeAndValueTotalGrossSales">{{ $projectStatusReportData['total_gross_sales'] ?? '' }}</span>
+                    <span class="volumeAndValueTotalGrossSales">{{ NF::formatNumber($totalGrossSales) ?? '0' }}</span>
                 </td>
             </tr>
         </tfoot>
