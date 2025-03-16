@@ -15,11 +15,22 @@
     <title>Project Information Sheet</title>
     <style type="text/css">
         #projectInfoSheetForm {
+            min-width: 794px;
+            max-width: 794px;
             width: 100%;
             margin: 0 auto;
         }
 
-        .tg {
+        #projectInfoSheetForm .row--description {
+            font-size: 9pt;
+            vertical-align: middle !important;
+            word-wrap: break-word;
+            font-style: italic;
+            text-align: justify;
+            font-family: Arial, sans-serif;
+        }
+
+        #projectInfoSheetForm table {
             border-collapse: collapse;
             border-spacing: 0;
             width: 100%;
@@ -32,7 +43,7 @@
             border-width: 1px;
             font-family: Arial, sans-serif;
             font-size: 9pt;
-            padding: 4px;
+            padding: 1pt;
             word-break: normal;
         }
 
@@ -43,7 +54,7 @@
             font-family: Arial, sans-serif;
             font-size: 9pt;
             font-weight: normal;
-            padding: 4px;
+            padding: 1pt;
             word-break: normal;
         }
 

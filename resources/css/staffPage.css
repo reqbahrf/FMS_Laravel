@@ -1009,6 +1009,7 @@ table.no-border {
 
 #projectInfoSheetForm .tg {
     border-collapse: collapse;
+    table-layout: fixed;
     border-spacing: 10;
     width: 100%;
     margin: 0px auto;
@@ -1020,8 +1021,17 @@ table.no-border {
     border-width: 1px;
     font-family: Arial, sans-serif;
     font-size: 9pt;
-    padding: 10px;
+    padding: 1pt;
     word-break: break-all;
+}
+
+#projectInfoSheetForm .row--description {
+    font-size: 9pt;
+    vertical-align: middle !important;
+    word-wrap: break-word;
+    font-style: italic;
+    text-align: justify;
+    font-family: Arial, sans-serif;
 }
 
 #projectInfoSheetForm .tg th {

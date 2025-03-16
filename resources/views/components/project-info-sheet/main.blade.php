@@ -31,6 +31,16 @@
                 style="overflow: hidden"
                 autosize="1"
             >
+                <thead>
+                    <tr>
+                        <th style="border: none; width: 15%;"></th>
+                        <th style="border: none; width: 15%;"></th>
+                        <th style="border: none; width: 10%;"></th>
+                        <th style="border: none; width: 10%;"></th>
+                        <th style="border: none; width: 10%;"></th>
+                        <th style="border: none; width: 40%;"></th>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr>
                         <td
@@ -65,7 +75,7 @@
                                 />
                             </strong>
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Indicate here the exact title of the project</td>
                     </tr>
                     <tr>
                         <td
@@ -79,7 +89,9 @@
                                 :value="$projectInfoSheetData['firmName'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"></td>
+                        <td class="tg-7zrl row--description">Indicate the name of the company if available (usually if
+                            registered); if
+                            not use surname of owner and add enterprises at the end e.g. Perez Enterprises </td>
                     </tr>
                     <tr>
                         <td
@@ -117,14 +129,20 @@
                                 :value="$projectInfoSheetData['age'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Indicate the owner and the contact person of the company;
+                            in some instances
+                            the owner may be different from the contact person who generally is the one available more
+                            frequently</td>
                     </tr>
                     <tr>
                         <td
                             class="tg-j6zm"
                             colspan="5"
                         >Type of Organization Enterprize:</td>
-                        <td class="tg-7zrl"> </td>
+                        <td
+                            class="tg-7zrl row--description"
+                            rowspan="2"
+                        >Can be a cooperative, single ownership, partnership or corporation</td>
                     </tr>
                     <tr>
                         <td
@@ -138,27 +156,28 @@
                                 :value="$projectInfoSheetData['typeOfOrganization'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td
                             class="tg-j6zm"
                             colspan="5"
                         >Business Address:</td>
-                        <td class="tg-7zrl"> </td>
+                        <td
+                            class="tg-7zrl row--description"
+                            rowspan="2"
+                        >Please complete the address where the factory is located not where the display area or show
+                            room is located</td>
                     </tr>
                     <tr>
                         <td
                             class="tg-8d8j"
-                            colspan="4"
+                            colspan="5"
                         ><x-custom-input.input
                                 name="businessAddress"
                                 type="text"
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['businessAddress'] ?? ''"
                             /></td>
-                        <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td class="tg-j6zm">Contact Details: </td>
@@ -179,7 +198,10 @@
                                 :isEditable="$isEditable"
                                 :value="$projectInfoSheetData['fax'] ?? ''"
                             /> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td
+                            class="tg-7zrl row--description"
+                            rowspan="2"
+                        >If email address is not available use DOST Regional office email address as alternative</td>
                     </tr>
                     <tr>
                         <td
@@ -204,7 +226,6 @@
                                 :value="$projectInfoSheetData['email'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
                     </tr>
                     <tr>
                         <td
@@ -226,9 +247,11 @@
                             />
                         </td>
                         <td
-                            class="tg-8d8j"
+                            class="tg-8d8j row--description"
                             rowspan="5"
-                        > <br><br><br><br></td>
+                        >Please indicate the estimated value of total assets of the SME prior to SET-UP assistance; Need
+                            not be the exact figure but should check to ensure that data provided are realistic and as
+                            close to the real value as possible</td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -318,7 +341,7 @@
                         <td
                             class="tg-8d8j"
                             colspan="1"
-                        ><br /><br /></td>
+                        ></td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -335,7 +358,9 @@
                         <td class="tg-7zrl">Male</td>
                         <td class="tg-7zrl">Female</td>
                         <td class="tg-7zrl">Sub-total</td>
-                        <td class="tg-7zrl"></td>
+                        <td class="tg-7zrl row--description">Refers to the number of employees directly hired by the
+                            SME/company and
+                            working in the factory/SME itself</td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -371,7 +396,7 @@
                                 :value="$projectInfoSheetData['Regular_subtotal'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"></td>
+                        <td class="tg-7zrl row--description">Works eight hours/day five days/week</td>
                     </tr>
 
                     <tr class="employment--inputs">
@@ -410,7 +435,8 @@
                                 :value="$projectInfoSheetData['Parttime_subtotal'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Works less than eight hours per day or less than five days
+                            per week</td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -420,7 +446,9 @@
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Refers to the number of employees hired by sub-contractors
+                            of the SME;
+                            these do not work in the factory itself and are paid by the sub-contractor himself.</td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -458,7 +486,7 @@
                                 :value="$projectInfoSheetData['Regu_Subcont_subtotal'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Same as company hire definition</td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -496,7 +524,7 @@
                                 :value="$projectInfoSheetData['Subcont_Parttime_subtotal'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Same as company hire definition</td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -506,7 +534,10 @@
                         <td class="tg-7zrl">Male</td>
                         <td class="tg-7zrl">Female</td>
                         <td class="tg-7zrl">Sub-total</td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Manufactures components/parts of the whole product; as
+                            this is very
+                            difficult to measure it is sufficient to only account for the 1st degree employment effect
+                        </td>
                     </tr>
                     <tr class="employment--inputs">
                         <td
@@ -594,7 +625,10 @@
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl"> </td>
                         <td class="tg-7zrl"> </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Total volume of products produced within the period
+                            (reckoned on semester
+                            basis - Jan/June and July/Dec); Please report volume of production for the semester closest
+                            to the date of project approval. </td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -622,10 +656,10 @@
                             />
                         </td>
 
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Refers to products sold within the Philippines</td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Refers to products sold outside of the Philippines</td>
                     </tr>
                     <tr>
                         <td
@@ -674,7 +708,9 @@
                                 :value="$projectInfoSheetData['totalGrossSales'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Total value of products produced during the period closest
+                            to the date of
+                            project approval; Include inventory losses; </td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -700,10 +736,10 @@
                                 :value="$projectInfoSheetData['localProduct_Val'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Peso value of products sold in the Philippines</td>
                     </tr>
                     <tr>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl"></td>
                     </tr>
                     <tr>
                         <td
@@ -726,7 +762,8 @@
                                 :value="$projectInfoSheetData['exportProduct_Val'] ?? ''"
                             />
                         </td>
-                        <td class="tg-7zrl"> </td>
+                        <td class="tg-7zrl row--description">Peso value of products sold outside of the Philippines
+                        </td>
                     </tr>
                     <tr>
                         <td class="tg-7zrl"> </td>
@@ -739,8 +776,15 @@
                         <td
                             class="tg-8d8j"
                             colspan="3"
-                        > &nbsp;&nbsp;</td>
-                        <td class="tg-7zrl"> </td>
+                        >
+                            <x-custom-input.input
+                                name="country_of_destination"
+                                type="text"
+                                :isEditable="$isEditable"
+                                :value="$projectInfoSheetData['country_of_destination'] ?? ''"
+                            />
+                        </td>
+                        <td class="tg-7zrl row--description">Refers to countries where products are sold if any</td>
                     </tr>
                     <tr>
                         <td
