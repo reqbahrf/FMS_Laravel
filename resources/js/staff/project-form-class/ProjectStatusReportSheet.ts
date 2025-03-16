@@ -73,7 +73,11 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                     throw new Error('Invalid action');
             }
         } catch (error: any) {
-            this._handleError(error, true);
+            this._handleError(
+                'Error in Getting Project Status Report: ',
+                error,
+                true
+            );
         }
     }
 
@@ -113,7 +117,11 @@ export default class ProjectStatusReportSheet extends ProjectClass {
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
             hideProcessToast();
-            this._handleError(error, true);
+            this._handleError(
+                'Error in Creating Project Status Report: ',
+                error,
+                true
+            );
         } finally {
             this._getAllYearsRecords(project_id, application_id, business_id);
         }
@@ -162,7 +170,11 @@ export default class ProjectStatusReportSheet extends ProjectClass {
             );
         } catch (error: any) {
             hideProcessToast();
-            this._handleError(error, true);
+            this._handleError(
+                'Error in Saving Project Status Report: ',
+                error,
+                true
+            );
         } finally {
             this._getAllYearsRecords(
                 this.project_id,
@@ -188,8 +200,12 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                     .replace(':business_id', business_Id),
             });
             this._appendAllYearsRecords(response);
-        } catch (error) {
-            this._handleError(error, true);
+        } catch (error: any) {
+            this._handleError(
+                'Error in Getting Project Status Report Year Records: ',
+                error,
+                true
+            );
         }
     }
 
@@ -207,7 +223,7 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                 window.open(generateUrl, '_blank');
             });
         } catch (error: any) {
-            this._handleError(error, true);
+            this._handleError('Error in Setting up PDF Export: ', error, true);
         }
     }
 
@@ -226,11 +242,19 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                         serializeFormData(formData);
                     await this._saveStatusReport(formDataObject, url);
                 } catch (SubmissionError: any) {
-                    this._handleError(SubmissionError, true);
+                    this._handleError(
+                        'Error in saving Project Status Report: ',
+                        SubmissionError,
+                        true
+                    );
                 }
             });
         } catch (error: any) {
-            this._handleError(error, true);
+            this._handleError(
+                'Error in Setting up Project Status Report Submission: ',
+                error,
+                true
+            );
         }
     }
     private _setupProjectStatusReportBtnEvent(): void {
@@ -285,7 +309,11 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                 );
             });
         } catch (error: any) {
-            this._handleError(error, true);
+            this._handleError(
+                'Error in Setting up Project Status Report Button Event: ',
+                error,
+                true
+            );
         }
     }
 

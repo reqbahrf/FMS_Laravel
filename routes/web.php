@@ -248,8 +248,8 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::post('/Staff/Project/create/information-sheet/', 'createPISData')
             ->name('staff.Project.create.information-sheet');
 
-        Route::get('/Staff/Project/get/all-years-records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
-            ->name('staff.Project.get.all.years.records');
+        Route::get('/Staff/Project/get/pis/all-years-records/{projectId}/{businessId}/{applicationId}', 'getPISAllYearsRecords')
+            ->name('staff.Project.get.pis.all.years.records');
 
         Route::put('/Staff/Project/set/information-sheet/{projectId}/{applicationId}/{businessId}/{forYear}', 'setPISData')
             ->name('staff.Project.set.information-sheet');
@@ -284,8 +284,8 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::post('/Staff/Project/create/status-report', 'createSRData')
             ->name('staff.Project.create.status-report');
 
-        Route::get('/Staff/Project/get/all-years-records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
-            ->name('staff.Project.get.all.years.records');
+        Route::get('/Staff/Project/get/sr/all-years-records/{projectId}/{businessId}/{applicationId}', 'getSRAllYearsRecords')
+            ->name('staff.Project.get.sr.all.years.records');
 
         Route::put('/Staff/Project/set/status-report/{projectId}/{applicationId}/{businessId}/{forYear}', 'setStatusReportData')
             ->name('staff.Project.set.status-report');

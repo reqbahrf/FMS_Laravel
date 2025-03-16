@@ -70,11 +70,10 @@ export default class ProjectDataSheet extends ProjectClass {
             hideProcessToast();
         } catch (error: any) {
             hideProcessToast();
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Retrieving Project Data Sheet'
+            this._handleError(
+                'Error in Retrieving Project Data Sheet: ',
+                error,
+                true
             );
         }
     }
@@ -100,9 +99,11 @@ export default class ProjectDataSheet extends ProjectClass {
             if (response && response.html) {
                 quarterlySelector.append(response.html);
             }
-        } catch (error) {
-            console.warn(
-                'Error in Retrieving Available Quarters Report' + error
+        } catch (error: any) {
+            this._handleError(
+                'Error in Retrieving Available Quarters Report: ',
+                error,
+                true
             );
         }
     }
@@ -113,7 +114,10 @@ export default class ProjectDataSheet extends ProjectClass {
     }
 
     private _setupProjectDataSheetBtnEvent(): void {
-        if (this.loadPDSBtn) {
+        try {
+            if (!this.loadPDSBtn) {
+                throw new Error('Load PDS Button not found');
+            }
             this.loadPDSBtn.on('click', async (e: JQuery.TriggeredEvent) => {
                 const btn = $(e.currentTarget);
                 const inputGroup = btn.closest('.input-group');
@@ -137,8 +141,9 @@ export default class ProjectDataSheet extends ProjectClass {
                 }
                 this._getProjectDataSheet(url, action);
             });
-        }
-        if (this.previewPDSBtn) {
+            if (!this.previewPDSBtn) {
+                throw new Error('Preview PDS Button not found');
+            }
             this.previewPDSBtn.on('click', async (e) => {
                 const btn = $(e.currentTarget);
                 const inputGroup = btn.closest('.input-group');
@@ -159,6 +164,8 @@ export default class ProjectDataSheet extends ProjectClass {
                 }
                 this._getProjectDataSheet(url);
             });
+        } catch (error: any) {
+            this._handleError('Error in Setting Project Data Sheet: ', error);
         }
     }
 
@@ -176,7 +183,7 @@ export default class ProjectDataSheet extends ProjectClass {
                 window.open(generateUrl, '_blank');
             });
         } catch (error) {
-            console.warn('Error in setting up PDF export' + error);
+            this._handleError('Error in Setting PDF Export: ', error);
         }
     }
 

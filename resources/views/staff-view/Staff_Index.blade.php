@@ -226,7 +226,7 @@
             GET_AVAILABLE_QUARTERLY_REPORT: '{{ route('Staff.Project.getQuarterReport', ':project_id') }}',
 
             CREATE_PROJECT_INFORMATION_SHEET_FORM: '{{ route('staff.Project.create.information-sheet') }}',
-            GET_PROJECT_INFORMATION_YEAR_RECORDS: '{{ route('staff.Project.get.all.years.records', ['projectId' => ':project_id', 'businessId' => ':business_id', 'applicationId' => ':application_id']) }}',
+            GET_PROJECT_INFORMATION_YEAR_RECORDS: '{{ route('staff.Project.get.pis.all.years.records', ['projectId' => ':project_id', 'businessId' => ':business_id', 'applicationId' => ':application_id']) }}',
             SET_PROJECT_INFORMATION_SHEET_DATA: '{{ route('staff.Project.set.information-sheet', ['projectId' => ':project_id', 'applicationId' => ':application_id', 'businessId' => ':business_id', 'forYear' => ':year']) }}',
             GET_PROJECT_INFORMATION_SHEET_FORM: '{{ route('staff.Project.get.information-sheet', ['projectId' => ':project_id', 'applicationId' => ':application_id', 'businessId' => ':business_id', 'action' => ':action', 'forYear' => ':year']) }}',
 
@@ -234,7 +234,7 @@
             GET_DATA_SHEET_REPORT_FORM: '{{ route('staff.Project.get.data-sheet', ['projectId' => ':project_id', 'businessId' => ':business_id', 'applicationId' => ':application_id', 'action' => ':action', 'quarter' => ':quarter']) }}',
 
             CREATE_STATUS_REPORT_FORM: '{{ route('staff.Project.create.status-report') }}',
-            GET_STATUS_REPORT_YEAR_RECORDS: '{{ route('staff.Project.get.all.years.records', ['projectId' => ':project_id', 'businessId' => ':business_id', 'applicationId' => ':application_id']) }}',
+            GET_STATUS_REPORT_YEAR_RECORDS: '{{ route('staff.Project.get.sr.all.years.records', ['projectId' => ':project_id', 'businessId' => ':business_id', 'applicationId' => ':application_id']) }}',
             SET_STATUS_REPORT_DATA: '{{ route('staff.Project.set.status-report', ['projectId' => ':project_id', 'applicationId' => ':application_id', 'businessId' => ':business_id', 'forYear' => ':year']) }}',
             GET_STATUS_REPORT_DATA: '{{ route('staff.Project.get.status-report', ['projectId' => ':project_id', 'applicationId' => ':application_id', 'businessId' => ':business_id', 'action' => ':action', 'forYear' => ':year']) }}',
 

@@ -697,7 +697,7 @@
                                 type="text"
                                 style="width: 90%"
                                 :isEditable="$isEditable"
-                                :value="'₱' . $projectInfoSheetData['localProduct_Val'] ?? ''"
+                                :value="$projectInfoSheetData['localProduct_Val'] ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl"> </td>
@@ -723,7 +723,7 @@
                                 type="text"
                                 style="width: 90%"
                                 :isEditable="$isEditable"
-                                :value="'₱' . $projectInfoSheetData['exportProduct_Val'] ?? ''"
+                                :value="$projectInfoSheetData['exportProduct_Val'] ?? ''"
                             />
                         </td>
                         <td class="tg-7zrl"> </td>
