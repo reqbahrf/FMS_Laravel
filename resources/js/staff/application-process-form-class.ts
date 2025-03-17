@@ -60,6 +60,52 @@ abstract class BaseApplicationForm {
         this._getFormStatus();
     }
 
+    protected _updateStatusModalLabel(): void {
+        // Get status label text once and trim it
+        const statusLabel =
+            this.statusTable?.find('tbody td:nth-child(1)')?.text()?.trim() ||
+            '';
+
+        // Determine badge text based on status
+        let badgeText: string;
+        switch (statusLabel) {
+            case 'pending':
+                badgeText = 'Modified By:';
+                break;
+            case 'reviewed':
+                badgeText = 'Reviewed By:';
+                break;
+            default:
+                badgeText = 'Not Reviewed';
+                break;
+        }
+        // Get the appropriate label element based on status
+        let label: JQuery<HTMLElement>;
+        switch (statusLabel) {
+            case 'pending':
+                label =
+                    this.statusTable?.find('tbody td:nth-child(3)')?.clone() ||
+                    $('<span></span>');
+                break;
+            case 'reviewed':
+                label =
+                    this.statusTable?.find('tbody td:nth-child(2)')?.clone() ||
+                    $('<span></span>');
+                break;
+            default:
+                label =
+                    this.statusTable?.find('tbody td:nth-child(1)')?.clone() ||
+                    $('<span></span>');
+                break;
+        }
+
+        // Update the modal container
+        const statusLabelElement = this.modalContainer.find('#statusLabel');
+        statusLabelElement.empty();
+        statusLabelElement.append(badgeText);
+        statusLabelElement.append(label);
+    }
+
     /**
      * Get status of the form from the server
      */
@@ -97,12 +143,12 @@ abstract class BaseApplicationForm {
         this.statusTable
             ?.find('tbody td:nth-child(2)')
             .html(
-                /*html*/ `${response.reviewer_name || ''}&nbsp;<span class="badge rounded-pill bg-success text-center">${customDateFormatter(response.reviewed_at) || 'Not Reviewed yet'}</span>`
+                /*html*/ `<span class="badge rounded-pill bg-success text-center">${response.reviewer_name ? response.reviewer_name + '@' : ''}&nbsp;${customDateFormatter(response.reviewed_at) || 'Not Reviewed yet'}</span>`
             );
         this.statusTable
             ?.find('tbody td:nth-child(3)')
             .html(
-                /*html*/ `${response.modifier_name || ''}&nbsp;<span class="badge rounded-pill bg-success text-center">${customDateFormatter(response.modified_at) || 'Not Modified yet'}</span>`
+                /*html*/ `<span class="badge rounded-pill bg-success text-center">${response.modifier_name ? response.modifier_name + '@' : ''}&nbsp;${customDateFormatter(response.modified_at) || 'Not Modified yet'}</span>`
             );
     }
 
@@ -318,6 +364,7 @@ class TNAForm extends BaseApplicationForm {
     }
 
     protected _setupFormByActionMode(actionMode: Action): void {
+        this._updateStatusModalLabel();
         switch (actionMode) {
             case 'edit':
                 this._setupFormSubmission(BENCHMARKTableConfig);

@@ -17,7 +17,11 @@
                     class="modal-title"
                     id="tnaDocumentContainerModalLabel"
                 >TNA Document</h5>
-                <span id="documentStatus"></span>
+                &nbsp;&nbsp;&nbsp;
+                <div
+                    class="d-flex align-items-center"
+                    id="statusLabel"
+                ></div>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
