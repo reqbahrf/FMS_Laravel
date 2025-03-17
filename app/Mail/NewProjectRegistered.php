@@ -43,6 +43,6 @@ class NewProjectRegistered extends Mailable
     public function build()
     {
         return $this->subject('Welcome to Project Registration')
-            ->markdown('emailContent.newProjectUser');
+            ->markdown('mail.new-project-user');
     }
 }

@@ -39,7 +39,7 @@ class ApplicationRejectionMail extends Mailable
 
     public function build()
     {
-        return $this->markdown('emailContent.application-rejection')
+        return $this->markdown('mail.application-rejection')
             ->subject('Application Status Update');
     }
 }

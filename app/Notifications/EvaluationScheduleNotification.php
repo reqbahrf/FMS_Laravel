@@ -45,11 +45,11 @@ class EvaluationScheduleNotification extends Notification
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-                    ->markdown('emailContent.evaluation', [
-                        'evaluationDate' => $this->evaluationDate,
-                        'notifiable' => $notifiable,
-                        'isRescheduled' => $this->isRescheduled
-                    ]);
+            ->markdown('mail.evaluation', [
+                'evaluationDate' => $this->evaluationDate,
+                'notifiable' => $notifiable,
+                'isRescheduled' => $this->isRescheduled
+            ]);
     }
 
     /**
@@ -77,16 +77,15 @@ class EvaluationScheduleNotification extends Notification
 
     public function findExisting($notifiable)
     {
-    return $notifiable->notifications()
-                      ->where('type', self::class)
-                      ->where('notifiable_id', $notifiable->id)
-                      ->first();
+        return $notifiable->notifications()
+            ->where('type', self::class)
+            ->where('notifiable_id', $notifiable->id)
+            ->first();
     }
 
     public function setIsRescheduled($isRescheduled)
     {
 
         $this->isRescheduled = $isRescheduled;
-
     }
 }

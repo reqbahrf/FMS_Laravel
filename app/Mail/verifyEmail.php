@@ -23,7 +23,7 @@ class verifyEmail extends Mailable
 
     public function build()
     {
-        return $this->markdown('emailContent.confirmEmail')
+        return $this->markdown('mail.confirm-email')
             ->with([
                 'userName' => $this->user->user_name,
                 'otp' => $this->user->otp,

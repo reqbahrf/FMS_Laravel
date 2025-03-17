@@ -39,7 +39,7 @@ class ProjectApprovalMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'emailContent.project-approval',
+            markdown: 'mail.project-approval',
             with: [
                 'project' => $this->project,
             ],
