@@ -34,7 +34,7 @@ class CooperatorViewController extends Controller
         $notifications = $this->authUser->notifications;
         $businessInfos = $getCooperatorInfoService->getAllCoopInfo();
 
-        return view('cooperator-view.Cooperator_Index', compact(['notifications', 'businessInfos']));
+        return view('cooperator-view.cooperator_index', compact(['notifications', 'businessInfos']));
     }
 
 
@@ -68,9 +68,9 @@ class CooperatorViewController extends Controller
                 ->first();
 
 
-            return view('cooperator-view.coop-page-tab.dashboardTab', compact('row'));
+            return view('cooperator-view.coop-page-tab.dashboard-tab', compact('row'));
         } else {
-            return view('cooperator-view.Cooperator_Index');
+            return view('cooperator-view.cooperator_index');
         }
     }
 
@@ -141,7 +141,7 @@ class CooperatorViewController extends Controller
 
             return view('cooperator-view.coop-page-tab.refund-tab', compact('refundStructure'));
         } else {
-            return view('cooperator-view.Cooperator_Index');
+            return view('cooperator-view.cooperator_index');
         }
     }
 
@@ -150,9 +150,9 @@ class CooperatorViewController extends Controller
         if ($request->ajax()) {
 
             $businessInfos = $getCooperatorInfoService->getAllCoopInfo();
-            return view('cooperator-view.coop-page-tab.projectTab', compact('businessInfos'));
+            return view('cooperator-view.coop-page-tab.project-tab', compact('businessInfos'));
         } else {
-            return view('cooperator-view.Cooperator_Index');
+            return view('cooperator-view.cooperator_index');
         }
     }
 }
