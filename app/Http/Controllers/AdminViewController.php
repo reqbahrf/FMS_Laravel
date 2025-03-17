@@ -13,14 +13,14 @@ class AdminViewController extends Controller
 {
     public function index()
     {
-        return view('admin-view.Admin_Index');
+        return view('admin-view.admin-index');
     }
     public function LoadDashboardTab(Request $request)
     {
         if ($request->ajax()) {
-            return view('admin-view.admin-page-tab.dashboardTab');
+            return view('admin-view.admin-page-tab.dashboard-tab');
         } else {
-            return view('admin-view.Admin_Index');
+            return view('admin-view.admin-index');
         }
     }
 
@@ -28,9 +28,9 @@ class AdminViewController extends Controller
     {
 
         if ($request->ajax()) {
-            return view('admin-view.admin-page-tab.projectlistTab');
+            return view('admin-view.admin-page-tab.projectlist-tab');
         } else {
-            return view('admin-view.Admin_Index');
+            return view('admin-view.admin-index');
         }
     }
 
@@ -60,9 +60,9 @@ class AdminViewController extends Controller
     public function LoadApplicantTab(Request $request)
     {
         if ($request->ajax()) {
-            return view('admin-view.admin-page-tab.applicantlistTab');
+            return view('admin-view.admin-page-tab.applicant-list-tab');
         } else {
-            return view('admin-view.Admin_Index');
+            return view('admin-view.admin-index');
         }
     }
 
@@ -70,9 +70,9 @@ class AdminViewController extends Controller
     {
 
         if ($request->ajax()) {
-            return view('admin-view.admin-page-tab.usersTab');
+            return view('admin-view.admin-page-tab.users-tab');
         } else {
-            return view('admin-view.Admin_Index');
+            return view('admin-view.admin-index');
         }
     }
 
@@ -86,7 +86,7 @@ class AdminViewController extends Controller
             $notify_duration = $notifyOnService->getNotifyDuration();
             $notify_interval = $notifyOnService->getNotifyEvery();
             return view(
-                'admin-view.admin-page-tab.projectSettingsTab',
+                'admin-view.admin-page-tab.project-settings-tab',
                 compact(
                     'fee_percentage',
                     'notify_duration',
@@ -94,7 +94,7 @@ class AdminViewController extends Controller
                 )
             );
         } else {
-            return view('admin-view.Admin_Index');
+            return view('admin-view.admin-index');
         }
     }
 }

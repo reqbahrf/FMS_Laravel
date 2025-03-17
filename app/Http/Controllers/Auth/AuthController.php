@@ -112,7 +112,7 @@ class AuthController extends Controller
 
                         if ($orgUserInfo) {
                             $this->userLoginAudit();
-                            return response()->json(['success' => 'Login successfully', 'redirect' => route(strtolower($user->role) . '.index')], 200);
+                            return response()->json(['success' => 'Login successfully', 'redirect' => route($user->role . '.index')], 200);
                         }
                         break;
                 }
