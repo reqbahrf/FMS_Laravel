@@ -44,7 +44,6 @@ class NewStaffRegistered extends Mailable
     public function build()
     {
         return $this->subject('Welcome, ' . $this->orgUserInfo->f_name . '')
-            ->markdown('emailContent.newStaffUser');
-
+            ->markdown('mail.new-staff-user');
     }
 }
