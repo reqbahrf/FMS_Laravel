@@ -128,9 +128,9 @@
 </form>
 @if (!$isExporting)
     @if ($isEditable && auth()->user()->role === 'Staff')
-        <div class="d-flex justify-content-end">
+        <div class="sticky-bottom d-flex justify-content-end">
             <select
-                class="form-select w-25"
+                class="form-select w-25 pe-auto"
                 name="project_proposal_doc_status"
                 form="ProjectProposalForm"
             >
@@ -147,9 +147,9 @@
             >Set Project Proposal</button>
         </div>
     @elseif (auth()->user()->role === 'Staff')
-        <div class="d-flex justify-content-end">
+        <div class="sticky-bottom d-flex justify-content-end pe-auto">
             <button
-                class="btn btn-primary text-end"
+                class="btn btn-primary text-end pe-auto"
                 id="exportProjectProposalFormToPDF"
                 data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.project-proposal', ['business_id' => $ProjectProposaldata['business_id'], 'application_id' => $ProjectProposaldata['application_id']]) }}"
                 type="button"

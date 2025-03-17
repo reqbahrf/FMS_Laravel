@@ -1693,13 +1693,13 @@
     </form>
     @if (!$isExporting)
         <div
-            class="position-skicky buttom-0 py-1 mt-4"
+            class="sticky-bottom buttom-0 py-1 mt-4 pe-none"
             style="z-index:1000;"
         >
             @if ($isEditable && auth()->user()->role === 'Staff')
                 <div class="d-flex align-items-center justify-content-end">
                     <select
-                        class="form-select w-25"
+                        class="form-select w-25 pe-auto"
                         name="tna_doc_status"
                         form="TNAForm"
                     >
@@ -1710,7 +1710,7 @@
                         <option value="reviewed">Reviewed</option>
                     </select>
                     <button
-                        class="btn btn-primary ms-2"
+                        class="btn btn-primary ms-2 pe-auto"
                         form="TNAForm"
                         type="submit"
                     >Set TNA Form</button>
@@ -1718,7 +1718,7 @@
             @elseif (auth()->user()->role === 'Staff')
                 <div class="d-flex justify-content-end">
                     <button
-                        class="btn btn-primary text-end"
+                        class="btn btn-primary text-end pe-auto"
                         id="exportTNAFormToPDF"
                         data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.tna-document', ['business_id' => $TNAdata['business_id'], 'application_id' => $TNAdata['application_id']]) }}"
                         type="button"
