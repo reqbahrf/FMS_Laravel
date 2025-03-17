@@ -100,7 +100,7 @@ abstract class BaseApplicationForm {
         }
 
         // Update the modal container
-        const statusLabelElement = this.modalContainer.find('#statusLabel');
+        const statusLabelElement = this.modalContainer.find('.status-label');
         statusLabelElement.empty();
         statusLabelElement.append(badgeText);
         statusLabelElement.append(label);
@@ -412,6 +412,7 @@ class ProjectProposalForm extends BaseApplicationForm {
     }
 
     protected _setupFormByActionMode(actionMode: Action): void {
+        this._updateStatusModalLabel();
         switch (actionMode) {
             case 'edit':
                 this.form = this.__getFormInstance();
@@ -467,9 +468,10 @@ class RTECReportForm extends BaseApplicationForm {
     }
 
     protected _setupFormByActionMode(actionMode: Action): void {
+        this._updateStatusModalLabel();
         switch (actionMode) {
             case 'edit':
-                this._setupFormSubmission(); // Note: No table config provided in original
+                this._setupFormSubmission();
                 this._createFormEvent();
                 break;
             case 'view':

@@ -18,10 +18,7 @@
                     id="tnaDocumentContainerModalLabel"
                 >TNA Document</h5>
                 &nbsp;&nbsp;&nbsp;
-                <div
-                    class="d-flex align-items-center"
-                    id="statusLabel"
-                ></div>
+                <div class="d-flex align-items-center status-label"></div>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -65,6 +62,8 @@
                     class="modal-title"
                     id="projectProposalDocumentContainerModalLabel"
                 >Project Proposal Document</h5>
+                &nbsp;&nbsp;&nbsp;
+                <div class="d-flex align-items-center status-label"></div>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
@@ -108,6 +107,8 @@
                     class="modal-title"
                     id="rtecReportDocumentContainerModalLabel"
                 >RTEC Report Document</h5>
+                &nbsp;&nbsp;&nbsp;
+                <div class="d-flex align-items-center status-label"></div>
                 <button
                     class="btn-close"
                     data-bs-dismiss="modal"
