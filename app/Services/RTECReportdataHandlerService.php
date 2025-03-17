@@ -19,7 +19,7 @@ class RTECReportdataHandlerService
             $RTECReportStatus = $this->RTECReportData->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', self::RTEC_REPORT_FORM)
-                ->select('status', 'reviewed_at', 'modified_at')
+                ->select('status', 'reviewed_at', 'modified_at', 'reviewed_by', 'modified_by')
                 ->with('reviewer')
                 ->with('modifier')
                 ->first();

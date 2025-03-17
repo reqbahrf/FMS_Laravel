@@ -21,7 +21,7 @@ class ProjectProposaldataHandlerService
             $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
                 ->where('application_id', $application_id)
                 ->where('key', self::PROJECT_PROPOSAL_FORM)
-                ->select('status', 'reviewed_at', 'modified_at')
+                ->select('status', 'reviewed_at', 'modified_at', 'reviewed_by', 'modified_by')
                 ->with('reviewer')
                 ->with('modifier')
                 ->first();
@@ -71,8 +71,8 @@ class ProjectProposaldataHandlerService
                 'key' => self::PROJECT_PROPOSAL_FORM
             ], [
                 'reviewed_by' => $statusData['reviewed_by'],
-                'reviewed_at' => $statusData['reviewed_at'],
                 'modified_by' => $statusData['modified_by'],
+                'reviewed_at' => $statusData['reviewed_at'],
                 'modified_at' => $statusData['modified_at'],
                 'data' => $mergedData,
                 'status' => $documentStatus,

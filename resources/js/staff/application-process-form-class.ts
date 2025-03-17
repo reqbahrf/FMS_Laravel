@@ -24,20 +24,19 @@ type Action = 'edit' | 'view';
 abstract class BaseApplicationForm {
     protected modalContainer: JQuery<HTMLElement>;
     protected form: JQuery<HTMLFormElement> | null;
-    protected formEvent: any | null; // Base type for different event handlers
+    protected formEvent: any | null;
     protected generatePDFBtn: JQuery<HTMLElement> | null;
     protected business_Id: string | null;
     protected application_Id: string | null;
     protected statusTable: JQuery<HTMLElement> | null;
 
-    // Abstract properties that must be implemented by child classes
     protected abstract formSelector: string;
     protected abstract pdfButtonSelector: string;
     protected abstract routeKeys: {
         getStatus: string;
         getForm: string;
     };
-    protected abstract formName: string; // For error messages and toast notifications
+    protected abstract formName: string;
 
     constructor(
         modalContainer: JQuery<HTMLElement>,
@@ -368,7 +367,7 @@ class ProjectProposalForm extends BaseApplicationForm {
     protected _setupFormByActionMode(actionMode: Action): void {
         switch (actionMode) {
             case 'edit':
-                this.form = this.__getFormInstance(); // Maintain original method name for compatibility
+                this.form = this.__getFormInstance();
                 this._setupFormSubmission(PROJECT_PROPOSAL_TABLE_CONFIG);
                 this._createFormEvent();
                 break;
