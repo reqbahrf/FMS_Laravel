@@ -1,4 +1,4 @@
-<div class="sticky-top position-sticky text-end">
+<div class="sticky-top position-sticky text-end pe-none">
     <style>
         #floating-window {
             position: absolute;
@@ -109,27 +109,27 @@
     </style>
 
     <button
-        class="btn btn-primary"
+        class="btn btn-primary m-5 pe-auto"
         id="open-floating-window"
     >Load Resource</button>
-    <div id="floating-window">
-        <div id="floating-header">
-            Floating Window - Project Ledger viewer
-            <button
-                class="btn-close"
-                id="close-button"
-            ></button>
-        </div>
-        <div id="floating-content">
-            <p>Loading...</p>
-        </div>
-        <div class="resizer resizer-r"></div>
-        <div class="resizer resizer-l"></div>
-        <div class="resizer resizer-t"></div>
-        <div class="resizer resizer-b"></div>
-        <div class="resizer resizer-tr"></div>
-        <div class="resizer resizer-tl"></div>
-        <div class="resizer resizer-br"></div>
-        <div class="resizer resizer-bl"></div>
+</div>
+<div id="floating-window">
+    <div id="floating-header">
+        Floating Window - Project Ledger viewer
+        <button
+            class="btn-close"
+            id="close-button"
+        ></button>
     </div>
+    <div id="floating-content">
+        <p>Loading...</p>
+    </div>
+    <div class="resizer resizer-r"></div>
+    <div class="resizer resizer-l"></div>
+    <div class="resizer resizer-t"></div>
+    <div class="resizer resizer-b"></div>
+    <div class="resizer resizer-tr"></div>
+    <div class="resizer resizer-tl"></div>
+    <div class="resizer resizer-br"></div>
+    <div class="resizer resizer-bl"></div>
 </div>

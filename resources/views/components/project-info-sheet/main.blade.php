@@ -1013,14 +1013,14 @@
     </form>
     @if (!$isExporting)
         <div
-            class="position-sticky bottom-0 pb-5 mt-4"
+            class="position-sticky bottom-0 pb-5 mt-4 pe-none"
             style="z-index: 1000;"
         >
             <div class="container">
                 @if ($isEditable)
                     <div class="d-flex justify-content-end">
                         <button
-                            class="btn btn-primary"
+                            class="btn btn-primary pe-auto"
                             form="projectInfoSheetForm"
                             type="submit"
                         >Set Document Data</button>
@@ -1028,7 +1028,7 @@
                 @else
                     <div class="d-flex justify-content-end">
                         <button
-                            class="btn btn-primary"
+                            class="btn btn-primary pe-auto"
                             id="exportProjectInfoSheetFormToPDF"
                             data-generated-url="{{ URL::signedRoute('staff.Project.generate.information-sheet-document', ['projectId' => $projectInfoSheetData['project_info_id'], 'applicationId' => $projectInfoSheetData['application_info_id'], 'businessId' => $projectInfoSheetData['business_info_id'], 'forYear' => $projectInfoSheetData['for_period']]) }}"
                             type="button"
