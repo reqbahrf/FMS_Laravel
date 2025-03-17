@@ -17,7 +17,7 @@ return new class extends Migration
             $table->char('Project_id', 15)->collation('utf8mb4_bin');
             $table->string('reference_number', 64)->unique();
             $table->decimal('amount', 10, 2);
-            $table->enum('payment_status', ['Due', 'Pending', 'Paid', 'Overdue'])->default('Due');
+            $table->enum('payment_status', ['Due', 'Pending', 'Paid', 'Overdue'])->default('Pending');
             $table->string('payment_method');
             $table->timestamps();
             $table->foreign('Project_id')->references('Project_id')->on('project_info')->onDelete('cascade')->onUpdate('cascade');

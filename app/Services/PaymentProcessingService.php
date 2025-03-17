@@ -162,7 +162,7 @@ class PaymentProcessingService
                         'Project_id' => $projectId,
                         'reference_number' => Str::random(10),
                         'amount' => $monthAmount,
-                        'payment_status' => 'Due',
+                        'payment_status' => 'Pending',
                         'payment_method' => 'N/A',
                         'quarter' => 'Q' . ceil(($dueDate->month) / 3) . ' ' . $dueDate->year,
                         'due_date' => $dueDate->toDateString(),
