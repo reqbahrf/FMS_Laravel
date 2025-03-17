@@ -770,6 +770,23 @@ ul#myTab li.nav-item button.tab-Nav:hover {
     -ms-transform: translateX(-50%);
     -o-transform: translateX(-50%);
 }
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) {
+    width: 100% !important;
+    table-layout: fixed;
+}
+
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) th:nth-child(-n+3),
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) td:nth-child(-n+3) {
+    width: 23.33%;
+}
+
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) th:nth-child(4),
+:is(#tnaTable, #projectProposalTable, #rtecReportTable) td:nth-child(4) {
+    width: 21%;
+}
+
+
+
 
 /*
 Staff Applicant Tab CSS End
@@ -992,6 +1009,7 @@ table.no-border {
 
 #projectInfoSheetForm .tg {
     border-collapse: collapse;
+    table-layout: fixed;
     border-spacing: 10;
     width: 100%;
     margin: 0px auto;
@@ -1003,8 +1021,16 @@ table.no-border {
     border-width: 1px;
     font-family: Arial, sans-serif;
     font-size: 9pt;
-    padding: 10px;
-    word-break: break-all;
+    padding: 1pt;
+}
+
+#projectInfoSheetForm .row--description {
+    font-size: 9pt;
+    vertical-align: middle !important;
+    word-wrap: break-word !important;
+    font-style: italic;
+    text-align: justify !important;
+    font-family: Arial, sans-serif;
 }
 
 #projectInfoSheetForm .tg th {

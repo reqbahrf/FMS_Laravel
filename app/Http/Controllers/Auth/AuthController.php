@@ -43,7 +43,7 @@ class AuthController extends Controller
         ]);
 
         try {
-          $user = User::create([
+            $user = User::create([
                 'user_name' => $request->username,
                 'email' => $request->email,
                 'password' => Hash::make($request->password),
@@ -64,7 +64,6 @@ class AuthController extends Controller
                 'message' => 'Account created successfully. Please verify your email.',
                 'redirect' => route('verification.notice')
             ]);
-
         } catch (Exception $e) {
             Log::error('Signup failed: ' . $e->getMessage());
             return response()->json([
@@ -82,11 +81,12 @@ class AuthController extends Controller
             'remember' => 'in:on,off',
         ]);
 
-        try{
+        try {
 
             $credentials = [
                 $this->username() => $request->login,
-                'password' => $request->password];
+                'password' => $request->password
+            ];
 
             if (Auth::attempt($credentials, $request->has('remember'))) {
                 $user = Auth::user();
@@ -112,23 +112,22 @@ class AuthController extends Controller
 
                         if ($orgUserInfo) {
                             $this->userLoginAudit();
-                            return response()->json(['success' => 'Login successfully', 'redirect' => route($user->role . '.index')], 200);
+                            return response()->json(['success' => 'Login successfully', 'redirect' => route(strtolower($user->role) . '.index')], 200);
                         }
                         break;
                 }
             }
             return response()->json(['error' => 'Invalid credentials'], 401);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 401);
         }
-
     }
 
     protected function username()
     {
         $input = request()->input('login');
 
-        if(filter_var($input, FILTER_VALIDATE_EMAIL)){
+        if (filter_var($input, FILTER_VALIDATE_EMAIL)) {
             return 'email';
         }
         return 'user_name';

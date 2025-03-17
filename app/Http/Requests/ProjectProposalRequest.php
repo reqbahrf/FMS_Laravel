@@ -22,6 +22,7 @@ class ProjectProposalRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'project_proposal_doc_status' => 'nullable|in:reviewed,pending',
             // Main Project Proposal Fields
             'project_title' => 'nullable|string|max:255',
             'proponent' => 'nullable|string|max:255',

@@ -2,8 +2,8 @@
     <h4 class="p-3">Applicant:</h4>
 </div>
 <div>
-    @include('staff-view.Included_layout.TNA_rejectionModal')
-    @include('staff-view.Included_layout.application-process-form-modal')
+    @include('staff-view.included-layout.tna-rejection-modal')
+    @include('staff-view.included-layout.application-process-form-modal')
     <div
         class="offcanvas offcanvas-end"
         id="applicantDetails"
@@ -246,7 +246,7 @@
                     </div>
                 </div>
                 <div class="col-12">
-                    @include('staff-view.Included_layout.ApplicantApplicationProgress')
+                    @include('staff-view.included-layout.applicant-application-progress')
                 </div>
             </div>
         </div>

@@ -1,3 +1,24 @@
+interface TableConfig {
+    id: string;
+    selectors: ColumnSelector;
+    requiredFields: string[];
+}
+
+interface TableData {
+    [key: string]: any[];
+}
+
+type ColumnSelector = {
+    [key: string]:
+        | string
+        | {
+              [subKey: string]:
+                  | string
+                  | {
+                        [deepKey: string]: string;
+                    };
+          };
+};
 /**
  * Extracts and processes data from multiple HTML tables based on provided configurations.
  *
@@ -29,7 +50,7 @@
  *       product: '.product-class',
  *       location: '.location-class',
  *       volume: { value: '.volume-class', unit: '.unit-class' }, // Composite selector for volume
- *       details: { 
+ *       details: {
  *         origin: { country: '.origin-country', city: '.origin-city' } // Deeply nested selector
  *       }
  *     },
@@ -57,41 +78,25 @@
  *   ]
  * }
  */
-interface TableConfig {
-    id: string;
-    selectors: ColumnSelector;
-    requiredFields: string[];
-}
-
-interface TableData {
-    [key: string]: any[];
-}
-
-type ColumnSelector = {
-    [key: string]: string | {
-        [subKey: string]: string | {
-            [deepKey: string]: string
-        }
-    }
-};
-
-const TableDataExtractor = (tableConfigs: { [key: string]: TableConfig }): TableData => {
-    try{
+const TableDataExtractor = (tableConfigs: {
+    [key: string]: TableConfig;
+}): TableData => {
+    try {
         let tableData: TableData = {};
         for (const tableKey in tableConfigs) {
             const table_id = tableConfigs[tableKey].id;
             const columnSelector = tableConfigs[tableKey].selectors;
             const requiredFields = tableConfigs[tableKey].requiredFields;
-    
+
             tableData[tableKey] = ProcessTableInputData(
                 table_id,
                 columnSelector,
                 requiredFields
             );
         }
-    
+
         return tableData;
-    }catch(error){
+    } catch (error) {
         throw new Error('Error in TableDataExtractor:' + error);
     }
 };
@@ -103,7 +108,7 @@ const TableDataExtractor = (tableConfigs: { [key: string]: TableConfig }): Table
  * and filters out rows that do not have all required fields filled. It supports both simple selectors (for single values)
  * and composite selectors (for fields that require multiple input values, represented as nested objects). The function
  * uses jQuery to find and extract values from the table cells.
- * 
+ *
  * **Note:** This function depends on jQuery for DOM manipulation.
  *
  * @param {string} table_id - The ID of the HTML table to extract data from (without the '#' prefix).
@@ -156,8 +161,12 @@ const TableDataExtractor = (tableConfigs: { [key: string]: TableConfig }): Table
  *
  * @requires jQuery - This function depends on jQuery for DOM manipulation.
  */
-const ProcessTableInputData = (table_id: string, columnSelector: ColumnSelector, requiredFields: string[]): Array<any> => {
-    try{
+const ProcessTableInputData = (
+    table_id: string,
+    columnSelector: ColumnSelector,
+    requiredFields: string[]
+): Array<any> => {
+    try {
         const table = $(`#${table_id}`);
         if (table.length === 0) {
             throw new Error(`Table with ID '${table_id}' not found`);
@@ -174,24 +183,38 @@ const ProcessTableInputData = (table_id: string, columnSelector: ColumnSelector,
 
                 if (typeof selector === 'string') {
                     // Simple selector
-                    rowData[column] = row.find(selector).val() || row.find(selector).text().trim();
+                    rowData[column] =
+                        row.find(selector).val() ||
+                        row.find(selector).text().trim();
                 } else if (typeof selector === 'object') {
                     // Composite or nested selector
                     rowData[column] = {};
                     for (const subKey in selector) {
                         if (typeof selector[subKey] === 'string') {
-                            rowData[column][subKey] = row
-                                .find(selector[subKey] as string)
-                                .val() || row.find(selector[subKey] as string).text().trim();
+                            rowData[column][subKey] =
+                                row.find(selector[subKey] as string).val() ||
+                                row
+                                    .find(selector[subKey] as string)
+                                    .text()
+                                    .trim();
                         } else if (typeof selector[subKey] === 'object') {
                             // Deep nested selector
                             if (!rowData[column][subKey]) {
                                 rowData[column][subKey] = {};
                             }
                             for (const deepKey in selector[subKey]) {
-                                rowData[column][subKey][deepKey] = row
-                                    .find(selector[subKey][deepKey] as string)
-                                    .val() || row.find(selector[subKey][deepKey] as string).text().trim();
+                                rowData[column][subKey][deepKey] =
+                                    row
+                                        .find(
+                                            selector[subKey][deepKey] as string
+                                        )
+                                        .val() ||
+                                    row
+                                        .find(
+                                            selector[subKey][deepKey] as string
+                                        )
+                                        .text()
+                                        .trim();
                             }
                         }
                     }
@@ -222,8 +245,8 @@ const ProcessTableInputData = (table_id: string, columnSelector: ColumnSelector,
         });
 
         return processedData;
-    }catch(error){
-       throw new Error('Error in ProcessTableInputData:' + error);
+    } catch (error) {
+        throw new Error('Error in ProcessTableInputData:' + error);
     }
 };
 

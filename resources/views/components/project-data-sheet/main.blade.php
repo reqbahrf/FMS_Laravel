@@ -9,7 +9,10 @@
 ])
 <div id="formWrapper">
     @if (!$isExporting)
-        <nav aria-label="breadcrumb">
+        <nav
+            class="sticky-top position-sticky"
+            aria-label="breadcrumb"
+        >
             <ol class="breadcrumb">
                 <li class="breadcrumb-item"><a
                         class="revertToSelectDoc"
@@ -23,7 +26,10 @@
         </nav>
     @endif
     <form id="projectDataSheetForm">
-        <div class="form-container">
+        @if (!$isExporting)
+            <x-document-header />
+        @endif
+        <div class="form-container mt-4">
             <table
                 class="ProjectInfo"
                 style="overflow: hidden"
@@ -1293,15 +1299,12 @@
     </form>
     @if (!$isExporting)
         @if (!$isExporting)
-            <div
-                class="position-sticky bottom-0 py-1 mt-4"
-                style="z-index: 1000;"
-            >
+            <div class="position-sticky bottom-0 py-5 mt-4 pe-none">
                 <div class="container">
                     @if ($isEditable)
                         <div class="d-flex justify-content-end">
                             <button
-                                class="btn btn-primary"
+                                class="btn btn-primary pe-auto"
                                 form="projectDataSheetForm"
                                 type="submit"
                             >Set Document Data</button>
@@ -1309,7 +1312,7 @@
                     @else
                         <div class="d-flex justify-content-end">
                             <button
-                                class="btn btn-primary"
+                                class="btn btn-primary pe-auto"
                                 id="exportProjectDataSheetFormToPDF"
                                 data-generated-url="{{ URL::signedRoute('staff.Project.generate.data-sheet-document', ['projectId' => $projectId, 'quarter' => $quarter]) }}"
                                 type="button"

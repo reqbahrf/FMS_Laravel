@@ -1,7 +1,7 @@
 import { customFormatNumericInput } from './input-utils';
 import {
-    AddNewRowHandler,
-    RemoveRowHandler,
+    addNewRowHandler,
+    removeRowHandler,
 } from './add-and-remove-table-row-handler';
 import {
     parseFormattedNumberToFloat,
@@ -86,11 +86,11 @@ export default class ReportedQuarterlyReportEvent {
             'tr td:nth-child(n+3):nth-child(-n+6) input'
         );
 
-        AddNewRowHandler(
+        addNewRowHandler(
             '.addNewProductRow',
             'div.productLocal, div.productExport'
         );
-        RemoveRowHandler(
+        removeRowHandler(
             '.removeRowButton',
             'div.productLocal, div.productExport'
         );

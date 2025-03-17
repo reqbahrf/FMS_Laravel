@@ -4,6 +4,8 @@ namespace App\Services;
 
 use Exception;
 use App\Models\ApplicationForm;
+use App\Actions\DocumentStatusAction as DSA;
+use App\Models\User;
 
 class ProjectProposaldataHandlerService
 {
@@ -13,7 +15,37 @@ class ProjectProposaldataHandlerService
         $this->ProjectProposalForm = $ProjectProposalForm;
     }
 
-    public function setProjectProposalData(array $data, int $business_id, int $application_id)
+    public function getProjectProposalStatus(int $business_id, int $application_id): array
+    {
+        try {
+            $ProjectProposalForm = $this->ProjectProposalForm->where('business_id', $business_id)
+                ->where('application_id', $application_id)
+                ->where('key', self::PROJECT_PROPOSAL_FORM)
+                ->select('status', 'reviewed_at', 'modified_at', 'reviewed_by', 'modified_by')
+                ->with('reviewer')
+                ->with('modifier')
+                ->first();
+
+            if (!$ProjectProposalForm) {
+                return [
+                    'status' => null,
+                    'reviewer_name' => null,
+                    'modifier_name' => null,
+                    'reviewed_at' => null,
+                    'modified_at' => null
+                ];
+            }
+
+            $ProjectProposalForm['reviewer_name'] = $ProjectProposalForm->reviewer ? $ProjectProposalForm->reviewer->getFullNameAttribute() : null;
+            $ProjectProposalForm['modifier_name'] = $ProjectProposalForm->modifier ? $ProjectProposalForm->modifier->getFullNameAttribute() : null;
+
+            return $ProjectProposalForm->toArray();
+        } catch (Exception $e) {
+            throw new Exception('Error in getting Project Proposal status: ' . $e->getMessage());
+        }
+    }
+
+    public function setProjectProposalData(array $data, User $user, int $business_id, int $application_id)
     {
         try {
             $existingRecord = $this->ProjectProposalForm->where([
@@ -22,20 +54,28 @@ class ProjectProposaldataHandlerService
                 'key' => self::PROJECT_PROPOSAL_FORM
             ])->first();
 
+            $documentStatus = $data['project_proposal_doc_status'];
+            $filteredData = array_diff_key($data, array_flip(['project_proposal_doc_status']));
+            $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
+
             $mergedData = $existingRecord
-                ? array_merge($existingRecord->data, $data, [
+                ? array_merge($existingRecord->data, $filteredData, [
                     'business_id' => $business_id,
                     'application_id' => $application_id
                 ])
-                : [...$data, 'business_id' => $business_id, 'application_id' => $application_id];
+                : [...$filteredData, 'business_id' => $business_id, 'application_id' => $application_id];
 
             $this->ProjectProposalForm->updateOrCreate([
                 'business_id' => $business_id,
                 'application_id' => $application_id,
                 'key' => self::PROJECT_PROPOSAL_FORM
             ], [
+                'reviewed_by' => $statusData['reviewed_by'],
+                'modified_by' => $statusData['modified_by'],
+                'reviewed_at' => $statusData['reviewed_at'],
+                'modified_at' => $statusData['modified_at'],
                 'data' => $mergedData,
-                'status' => 'Pending'
+                'status' => $documentStatus,
             ]);
         } catch (Exception $e) {
             throw new Exception("Failed to set project proposal data: " . $e->getMessage());

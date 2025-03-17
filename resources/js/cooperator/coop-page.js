@@ -16,8 +16,8 @@ import {
 import { FormDraftHandler } from '../Utilities/FormDraftHandler';
 import QUARTERLY_REPORTING_FORM_CONFIG from '../Form_Config/QUARTERLY_REPORTING_CONFIG';
 import {
-    AddNewRowHandler,
-    RemoveRowHandler,
+    addNewRowHandler,
+    removeRowHandler,
 } from '../Utilities/add-and-remove-table-row-handler';
 import DarkMode from '../Utilities/DarkModeHandler';
 import 'smartwizard/dist/css/smart_wizard_all.css';
@@ -420,11 +420,11 @@ async function initilizeCoopPageJs() {
                 'tr td:nth-child(n+3):nth-child(-n+6) input'
             );
 
-            AddNewRowHandler(
+            addNewRowHandler(
                 '.addNewProductRow',
                 'div.productLocal, div.productExport'
             );
-            RemoveRowHandler(
+            removeRowHandler(
                 '.removeRowButton',
                 'div.productLocal, div.productExport'
             );

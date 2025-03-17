@@ -17,15 +17,24 @@ export default class ProjectClass {
     protected _removeForm(): void {
         this.formContainer.find('#formWrapper').remove();
     }
-    protected _handleError(error: any, withToast: boolean = false): void {
-        console.error('An error occurred:', error);
+    protected _handleError(
+        prefix: string,
+        error: any,
+        withToast: boolean = false
+    ): void {
+        console.error(prefix + this._processMessage(error));
         if (withToast)
             showToastFeedback(
                 'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'An unexpected error occurred.'
+                prefix + this._processMessage(error)
             );
+    }
+    private _processMessage(error: any): string {
+        return (
+            error?.responseJSON?.message ||
+            error?.message ||
+            'An unexpected error occurred.'
+        );
     }
 
     protected _init(): void {

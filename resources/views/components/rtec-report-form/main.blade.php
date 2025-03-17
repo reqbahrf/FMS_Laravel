@@ -968,17 +968,25 @@
 </form>
 @if (!$isExporting)
     @if ($isEditable && auth()->user()->role === 'Staff')
-        <div class="d-flex justify-content-end">
+        <div class="sticky-bottom d-flex justify-content-end pe-none">
+            <select
+                class="form-select w-25 pe-auto"
+                name="rtec_report_doc_status"
+                form="RTECReportForm"
+            >
+                <option value="pending">Pending</option>
+                <option value="reviewed">Reviewed</option>
+            </select>
             <button
-                class="btn btn-primary text-end"
+                class="btn btn-primary ms-2 pe-auto"
                 form="RTECReportForm"
                 type="submit"
             >Set RTEC Report Form</button>
         </div>
     @elseif (auth()->user()->role === 'Staff')
-        <div class="d-flex justify-content-end">
+        <div class="sticky-bottom d-flex justify-content-end pe-none">
             <button
-                class="btn btn-primary text-end"
+                class="btn btn-primary text-end pe-auto"
                 id="exportRTECReportFormToPDF"
                 data-generated-url="{{ URL::signedRoute('staff.Applicant.generate.rtec-report', ['business_id' => $RTECReportdata['business_id'], 'application_id' => $RTECReportdata['application_id']]) }}"
                 type="button"

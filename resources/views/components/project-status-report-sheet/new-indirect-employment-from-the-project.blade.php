@@ -15,9 +15,23 @@
     class=""
     id="newIndirectEmploymentFromTheProject"
 >
+    @if ($isEditable)
+        <div style="text-align: right;">
+            <button
+                class="btn btn-sm btn-success"
+                id="addNewIndirectEmploymentRow"
+                type="button"
+            ><i class="ri-add-line"></i></button>
+            <button
+                class="btn btn-sm btn-danger"
+                id="removeNewIndirectEmploymentRow"
+                type="button"
+            ><i class="ri-subtract-line"></i></button>
+        </div>
+    @endif
     <p>No. of new indirect employment from the project:</p>
 
-    <table>
+    <table id="indirectEmploymentTable">
         <thead>
             <tr>
                 <th colspan="2">No. of Indirect Employment</th>
@@ -42,7 +56,7 @@
                         colspan="2"
                     >
                         @if ($isEditable)
-                            <select class="sales-generated-quarter_selector">
+                            <select class="quarter_selector">
                                 <option
                                     value="1ˢᵗ Quarter"
                                     {{ $item['quarter_selector'] === '1ˢᵗ Quarter' ? 'selected' : '' }}
@@ -61,14 +75,14 @@
                                 >4ᵗʰ Quarter</option>
                             </select>
                         @else
-                            <span>{{ $item['quarter_selector'] ?? '' }}</span>
+                            <span>{{ $item['indirectEmploymentQuarter'] ?? '' }}</span>
                         @endif
                     </td>
                     <td>
                         <x-custom-input.input
                             class="forward-male"
                             type="text"
-                            :value="$item['forward_male'] ?? ''"
+                            :value="$item['indirectEmploymentForwardMale'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
@@ -76,7 +90,7 @@
                         <x-custom-input.input
                             class="forward-female"
                             type="text"
-                            :value="$item['forward_female'] ?? ''"
+                            :value="$item['indirectEmploymentForwardFemale'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
@@ -84,7 +98,7 @@
                         <x-custom-input.input
                             class="forward-total"
                             type="text"
-                            :value="$item['forward_total'] ?? ''"
+                            :value="$item['indirectEmploymentForwardTotal'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
@@ -92,7 +106,7 @@
                         <x-custom-input.input
                             class="backward-male"
                             type="text"
-                            :value="$item['backward_male'] ?? ''"
+                            :value="$item['indirectEmploymentBackwardMale'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
@@ -100,7 +114,7 @@
                         <x-custom-input.input
                             class="backward-female"
                             type="text"
-                            :value="$item['backward_female'] ?? ''"
+                            :value="$item['indirectEmploymentBackwardFemale'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
@@ -108,7 +122,7 @@
                         <x-custom-input.input
                             class="backward-total"
                             type="text"
-                            :value="$item['backward_total'] ?? ''"
+                            :value="$item['indirectEmploymentBackwardTotal'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
@@ -120,7 +134,7 @@
                         colspan="2"
                     >
                         @if ($isEditable)
-                            <select class="sales-generated-quarter_selector">
+                            <select class="quarter_selector">
                                 <option value="1">1ˢᵗ Quarter</option>
                                 <option value="2">2ⁿᵈ Quarter</option>
                                 <option value="3">3ʳᵈ Quarter</option>

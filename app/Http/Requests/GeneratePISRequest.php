@@ -62,6 +62,7 @@ class GeneratePISRequest extends FormRequest
             'totalGrossSales' => 'nullable|string',
             'localProduct_Val' => 'nullable|string',
             'exportProduct_Val' => 'nullable|string',
+            'country_of_destination' => 'nullable|string',
             'productionTechnology_checkbox' => 'nullable|string',
             'process_checkbox' => 'nullable|string',
             'processDefinition' => 'nullable|string',

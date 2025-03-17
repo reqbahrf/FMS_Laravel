@@ -15,6 +15,10 @@ class ApplicationForm extends Model
         'key',
         'data',
         'status',
+        'reviewed_by',
+        'modified_by',
+        'reviewed_at',
+        'modified_at',
     ];
 
     protected $casts = [
@@ -29,5 +33,15 @@ class ApplicationForm extends Model
     public function applicationInfo(): BelongsTo
     {
         return $this->belongsTo(ApplicationInfo::class, 'application_id', 'id');
+    }
+
+    public function reviewer(): BelongsTo
+    {
+        return $this->belongsTo(OrgUserInfo::class, 'reviewed_by', 'id');
+    }
+
+    public function modifier(): BelongsTo
+    {
+        return $this->belongsTo(OrgUserInfo::class, 'modified_by', 'id');
     }
 }

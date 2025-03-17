@@ -43,7 +43,7 @@ class SRDocController extends Controller
             return response()->json(['message' => $e->getMessage()], 500);
         }
     }
-    public function getAllYearsRecords(Request $request)
+    public function getSRAllYearsRecords(Request $request)
     {
         try {
             $projectId = $request->projectId;

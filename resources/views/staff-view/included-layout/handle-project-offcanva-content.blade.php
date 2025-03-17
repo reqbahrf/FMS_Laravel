@@ -1,4 +1,4 @@
-<nav>
+<nav class="sticky-top bg-light">
     <div
         class="nav nav-tabs"
         id="nav-tab"
@@ -55,7 +55,7 @@
 
 {{-- Project Navigation Tabs Contents --}}
 <div
-    class="tab-content h-100 mt-3"
+    class="tab-content h-100 mt-5 overflow-x-scroll"
     id="nav-tabContent"
 >
     <div
@@ -439,10 +439,6 @@
                                             id="yearSelect"
                                             name="year"
                                         >
-                                            <option value="2024">2024</option>
-                                            <option value="2025">2025</option>
-                                            <option value="2026">2026</option>
-                                            <option value="2027">2027</option>
                                         </select>
                                     </div>
                                 </div>
@@ -516,18 +512,28 @@
                                     >
                                         <option selected>No Record Found</option>
                                     </select>
-                                    <select
-                                        class="form-select"
-                                        id="pis_action_to_load"
-                                    >
-                                        <option value="edit">Edit</option>
-                                        <option value="view">View</option>
-                                    </select>
                                     <button
-                                        class="btn btn-primary"
+                                        class="btn btn-primary dropdown-toggle"
                                         id="loadPISbtn"
                                         data-form-type="PIS"
-                                    >Load</button>
+                                        data-bs-toggle="dropdown"
+                                        type="button"
+                                    >Action</button>
+                                    <ul
+                                        class="dropdown-menu"
+                                        id="pisActionDropdown"
+                                    >
+                                        <li><a
+                                                class="dropdown-item"
+                                                data-value="edit"
+                                                href="#"
+                                            >Edit</a></li>
+                                        <li><a
+                                                class="dropdown-item"
+                                                data-value="view"
+                                                href="#"
+                                            >View</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -541,18 +547,28 @@
                                         class="form-select"
                                         id="pds_quarter_to_load"
                                     ></select>
-                                    <select
-                                        class="form-select"
-                                        id="pds_action_to_load"
-                                    >
-                                        <option value="edit">Edit</option>
-                                        <option value="view">View</option>
-                                    </select>
                                     <button
-                                        class="btn btn-primary"
+                                        class="btn btn-primary dropdown-toggle"
                                         id="loadPDSbtn"
                                         data-form-type="PDS"
-                                    >Load</button>
+                                        data-bs-toggle="dropdown"
+                                        type="button"
+                                    >Action</button>
+                                    <ul
+                                        class="dropdown-menu"
+                                        id="pdsActionDropdown"
+                                    >
+                                        <li><a
+                                                class="dropdown-item"
+                                                data-value="edit"
+                                                href="#"
+                                            >Edit</a></li>
+                                        <li><a
+                                                class="dropdown-item"
+                                                data-value="view"
+                                                href="#"
+                                            >View</a></li>
+                                    </ul>
                                 </div>
                                 <div class="input-group mt-3">
                                     <select
@@ -562,7 +578,7 @@
                                     <button
                                         class="btn btn-primary"
                                         id="previewPDSbtn"
-                                    >Export</button>
+                                    >Preview</button>
                                 </div>
                             </div>
                         </div>
@@ -587,19 +603,29 @@
                                         class="form-select"
                                         id="psr_year_to_load"
                                     >
-                                        <option selected>No Record Found</option>
-                                    </select>
-                                    <select
-                                        class="form-select"
-                                        id="psr_action_to_load"
-                                    >
-                                        <option value="edit">Edit</option>
-                                        <option value="view">View</option>
                                     </select>
                                     <button
-                                        class="btn btn-primary"
+                                        class="btn btn-primary dropdown-toggle"
                                         id="loadSRbtn"
-                                    >Load</button>
+                                        data-form-type="PSR"
+                                        data-bs-toggle="dropdown"
+                                        type="button"
+                                    >Action</button>
+                                    <ul
+                                        class="dropdown-menu"
+                                        id="psrActionDropdown"
+                                    >
+                                        <li><a
+                                                class="dropdown-item"
+                                                data-value="edit"
+                                                href="#"
+                                            >Edit</a></li>
+                                        <li><a
+                                                class="dropdown-item"
+                                                data-value="view"
+                                                href="#"
+                                            >View</a></li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>

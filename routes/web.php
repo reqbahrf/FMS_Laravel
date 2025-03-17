@@ -248,8 +248,8 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::post('/Staff/Project/create/information-sheet/', 'createPISData')
             ->name('staff.Project.create.information-sheet');
 
-        Route::get('/Staff/Project/get/all-years-records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
-            ->name('staff.Project.get.all.years.records');
+        Route::get('/Staff/Project/get/pis/all-years-records/{projectId}/{businessId}/{applicationId}', 'getPISAllYearsRecords')
+            ->name('staff.Project.get.pis.all.years.records');
 
         Route::put('/Staff/Project/set/information-sheet/{projectId}/{applicationId}/{businessId}/{forYear}', 'setPISData')
             ->name('staff.Project.set.information-sheet');
@@ -284,8 +284,8 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::post('/Staff/Project/create/status-report', 'createSRData')
             ->name('staff.Project.create.status-report');
 
-        Route::get('/Staff/Project/get/all-years-records/{projectId}/{businessId}/{applicationId}', 'getAllYearsRecords')
-            ->name('staff.Project.get.all.years.records');
+        Route::get('/Staff/Project/get/sr/all-years-records/{projectId}/{businessId}/{applicationId}', 'getSRAllYearsRecords')
+            ->name('staff.Project.get.sr.all.years.records');
 
         Route::put('/Staff/Project/set/status-report/{projectId}/{applicationId}/{businessId}/{forYear}', 'setStatusReportData')
             ->name('staff.Project.set.status-report');
@@ -409,6 +409,9 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
 
 
     Route::controller(TNADocController::class)->group(function () {
+        Route::get('/Applicant/get/tna-status/{business_id}/{application_id}', 'getTNAFormStatus')
+            ->name('staff.Applicant.get.tna.status');
+
         Route::get('/Applicant/get/tna/{business_id}/{application_id}/{action}', 'getTNAForm')
             ->name('staff.Applicant.get.tna');
 
@@ -422,6 +425,9 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
     });
 
     Route::controller(ProjectProposalDocController::class)->group(function () {
+        Route::get('/Applicant/get/project-proposal-status/{business_id}/{application_id}', 'getProjectProposalStatus')
+            ->name('staff.Applicant.get.project-proposal-status');
+
         Route::get('/Applicant/get/project-proposal/{business_id}/{application_id}/{action}', 'getProjectProposalForm')
             ->name('staff.Applicant.get.project-proposal');
 
@@ -435,6 +441,9 @@ Route::middleware(['OrgUser', 'check.password.change'])->group(function () {
     });
 
     Route::controller(RTECReportDocController::class)->group(function () {
+        Route::get('/Applicant/get/rtec-report-status/{business_id}/{application_id}', 'getRTECReportStatus')
+            ->name('staff.Applicant.get.rtec-report-status');
+
         Route::get('/Applicant/get/rtec-report/{business_id}/{application_id}/{action}', 'getRTECReportForm')
             ->name('staff.Applicant.get.rtec-report');
 

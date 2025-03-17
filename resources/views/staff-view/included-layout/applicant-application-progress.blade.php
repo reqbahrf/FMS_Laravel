@@ -86,30 +86,50 @@
                             TNA
                         </div>
                     </div>
-                    <div class="card-body d-flex justify-content-end">
-                        <button
-                            class="btn btn-primary"
-                            id="viewTNA"
-                            data-bs-toggle="modal"
-                            data-bs-target="#tnaDocContainerModal"
-                            data-action="view"
-                            type="button"
-                        >
-                            <i class="ri-file-list-3-fill me-1"></i>
-                            View Document
-                        </button>
-                        <button
-                            class="btn btn-primary ms-2"
-                            id="editTNA"
-                            data-bs-toggle="modal"
-                            data-bs-target="#tnaDocContainerModal"
-                            data-action="edit"
-                            type="button"
-                        >
-                            <i class="ri-file-edit-fill me-1"></i>
-                            Edit
-                        </button>
-                    </div>
+                    <table
+                        class="table table-hover align-middle"
+                        id="tnaTable"
+                    >
+                        <thead>
+                            <tr>
+                                <th class="fw-bold text-center">Document Status</th>
+                                <th class="fw-bold text-center">Reviewed by</th>
+                                <th class="fw-bold text-center">Last Modified by</th>
+                                <th class="fw-bold text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-end">
+                                    <button
+                                        class="btn btn-primary"
+                                        id="viewTNA"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#tnaDocContainerModal"
+                                        data-action="view"
+                                        type="button"
+                                    >
+                                        <i class="ri-file-list-3-fill me-1"></i>
+                                        View
+                                    </button>
+                                    <button
+                                        class="btn btn-primary ms-2"
+                                        id="editTNA"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#tnaDocContainerModal"
+                                        data-action="edit"
+                                        type="button"
+                                    >
+                                        <i class="ri-file-edit-fill me-1"></i>
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <!-- Where Conduct TNA Info Displayed -->
                 <div class="card h-100 mt-3">
@@ -183,30 +203,51 @@
                             Project Proposal
                         </div>
                     </div>
-                    <div class="card-body d-flex justify-content-end">
-                        <button
-                            class="btn btn-primary"
-                            id="viewProjectProposal"
-                            data-bs-toggle="modal"
-                            data-bs-target="#projectProposalDocContainerModal"
-                            data-action="view"
-                            type="button"
-                        >
-                            <i class="ri-file-list-3-fill me-1"></i>
-                            View document
-                        </button>
-                        <button
-                            class="btn btn-primary ms-2"
-                            id="editProjectProposal"
-                            data-bs-toggle="modal"
-                            data-bs-target="#projectProposalDocContainerModal"
-                            data-action="edit"
-                            type="button"
-                        >
-                            <i class="ri-file-edit-fill me-1"></i>
-                            Edit
-                        </button>
-                    </div>
+                    <table
+                        class="table table-hover align-middle"
+                        id="projectProposalTable"
+                    >
+                        <thead>
+                            <tr>
+                                <th class="fw-bold text-center">Document Status</th>
+                                <th class="fw-bold text-center">Reviewed by</th>
+                                <th class="fw-bold text-center">Last Modified by</th>
+                                <th class="fw-bold text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-end">
+                                    <button
+                                        class="btn btn-primary"
+                                        id="viewProjectProposal"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#projectProposalDocContainerModal"
+                                        data-action="view"
+                                        type="button"
+                                    >
+                                        <i class="ri-file-list-3-fill me-1"></i>
+                                        View
+                                    </button>
+                                    <button
+                                        class="btn btn-primary ms-2"
+                                        id="editProjectProposal"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#projectProposalDocContainerModal"
+                                        data-action="edit"
+                                        type="button"
+                                    >
+                                        <i class="ri-file-edit-fill me-1"></i>
+                                        Edit
+                                    </button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+
                 </div>
             </div>
             <div
@@ -222,24 +263,44 @@
                             RTEC Report
                         </div>
                     </div>
-                    <div class="card-body d-flex justify-content-end">
-                        <button
-                            class="btn btn-primary"
-                            id="viewRTECReport"
-                            data-bs-toggle="modal"
-                            data-bs-target="#rtecReportContainerModal"
-                            data-action="view"
-                            type="button"
-                        ><i class="ri-file-list-3-fill me-1"></i>View Document</button>
-                        <button
-                            class="btn btn-primary ms-2"
-                            id="editRTECReport"
-                            data-bs-toggle="modal"
-                            data-bs-target="#rtecReportContainerModal"
-                            data-action="edit"
-                            type="button"
-                        ><i class="ri-file-edit-fill me-1"></i>Edit</button>
-                    </div>
+                    <table
+                        class="table table-hover align-middle"
+                        id="rtecReportTable"
+                    >
+                        <thead>
+                            <tr>
+                                <th class="fw-bold text-center">Document Status</th>
+                                <th class="fw-bold text-center">Reviewed by</th>
+                                <th class="fw-bold text-center">Last Modified by</th>
+                                <th class="fw-bold text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-center"></td>
+                                <td class="text-end">
+                                    <button
+                                        class="btn btn-primary"
+                                        id="viewRTECReport"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#rtecReportContainerModal"
+                                        data-action="view"
+                                        type="button"
+                                    ><i class="ri-file-list-3-fill me-1"></i>View</button>
+                                    <button
+                                        class="btn btn-primary ms-2"
+                                        id="editRTECReport"
+                                        data-bs-toggle="modal"
+                                        data-bs-target="#rtecReportContainerModal"
+                                        data-action="edit"
+                                        type="button"
+                                    ><i class="ri-file-edit-fill me-1"></i>Edit</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

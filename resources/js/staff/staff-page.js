@@ -345,35 +345,6 @@ async function initializeStaffPageJs() {
                 order: [[4, 'asc']],
             });
 
-            const UploadedReceiptDataTable = $(
-                '#uploadedReceiptTable'
-            ).DataTable({
-                autoWidth: false,
-                responsive: true,
-                columns: [
-                    {
-                        title: 'Receipt Name',
-                        width: '20%',
-                    },
-                    {
-                        title: 'Receipt Image',
-                        width: '25%',
-                    },
-                    {
-                        title: 'Uploaded Date',
-                        width: '20%',
-                    },
-                    {
-                        title: 'Status',
-                        width: '10%',
-                    },
-                    {
-                        title: 'Action',
-                        width: '10%',
-                    },
-                ],
-            });
-
             function populateYearDropdown(selectElementId) {
                 const $select = $(`#${selectElementId}`);
                 const currentYear = new Date().getFullYear();
@@ -1542,130 +1513,6 @@ async function initializeStaffPageJs() {
                 },
             };
 
-            const EquipmentTableConfig = {
-                EquipmentData: {
-                    id: 'equipmentTable',
-                    selectors: {
-                        Approved: {
-                            qty: '.approved_qty',
-                            particulars: '.approved_particulars',
-                            cost: '.approved_cost',
-                        },
-                        Actual: {
-                            qty: '.actual_qty',
-                            particulars: '.actual_particulars',
-                            cost: '.actual_cost',
-                        },
-                        acknowledgement: '.acknowledgement',
-                        remarks: '.remarks',
-                    },
-                    requiredFields: [
-                        'Approved.qty',
-                        'Approved.particulars',
-                        'Approved.cost',
-                        'Actual.qty',
-                        'Actual.particulars',
-                        'Actual.cost',
-                        'acknowledgement',
-                        'remarks',
-                    ],
-                },
-            };
-
-            const NonEquipmentTableConfig = {
-                NonEquipmentData: {
-                    id: 'nonEquipmentTable',
-                    selectors: {
-                        Approved: {
-                            qty: '.non_equipment_approved_qty',
-                            particulars: '.non_equipment_approved_particulars',
-                            cost: '.non_equipment_approved_cost',
-                        },
-                        Actual: {
-                            qty: '.non_equipment_actual_qty',
-                            particulars: '.non_equipment_actual_particulars',
-                            cost: '.non_equipment_actual_cost',
-                        },
-                        remarks: '.non_equipment_remarks',
-                    },
-                    requiredFields: [
-                        'Approved.qty',
-                        'Approved.particulars',
-                        'Approved.cost',
-                        'Actual.qty',
-                        'Actual.particulars',
-                        'Actual.cost',
-                        'remarks',
-                    ],
-                },
-            };
-
-            const salesTableConfig = {
-                SalesData: {
-                    id: 'salesTable',
-                    selectors: {
-                        ProductService: '.sales_product_service',
-                        SalesVolumeProduction: '.sales_volume_production',
-                        SalesQuarter: '.sales_quarter_specify',
-                        GrossSales: '.sales_gross_sales',
-                    },
-                    requiredFields: [
-                        'ProductService',
-                        'SalesVolumeProduction',
-                        'SalesQuarter',
-                        'GrossSales',
-                    ],
-                },
-            };
-
-            const EmploymentGeneratedTableConfig = {
-                EmploymentGeneratedData: {
-                    id: 'employmentGeneratedTable',
-                    selectors: {
-                        Employment_total: '.employment_total',
-                        Employment_Male: '.employment_male',
-                        Employment_Female: '.employment_female',
-                        Employment_PWD: '.employment_pwd',
-                    },
-                    requiredFields: [
-                        'Employment_total',
-                        'Employment_Male',
-                        'Employment_Female',
-                        'Employment_PWD',
-                    ],
-                },
-            };
-
-            const IndirectEmploymentTableConfig = {
-                IndirectEmploymentData: {
-                    id: 'indirectEmploymentTable',
-                    selectors: {
-                        IndirectEmployment_total: '.indirect_employment_total',
-                        IndirectEmployment_ForwardMale:
-                            '.indirect_employment_forward_male',
-                        IndirectEmployment_ForwardFemale:
-                            '.indirect_employment_forward_female',
-                        InderectEmplyment_ForwardTotal:
-                            '.indirect_employment_forward_total',
-                        IndirectEmployment_BackwardMale:
-                            '.indirect_employment_backward_male',
-                        IndirectEmployment_BackwardFemale:
-                            '.indirect_employment_backward_female',
-                        IndirectEmployment_BackwardTotal:
-                            '.indirect_employment_backward_total',
-                    },
-                    requiredFields: [
-                        'IndirectEmployment_total',
-                        'IndirectEmployment_ForwardMale',
-                        'IndirectEmployment_ForwardFemale',
-                        'InderectEmplyment_ForwardTotal',
-                        'IndirectEmployment_BackwardMale',
-                        'IndirectEmployment_BackwardFemale',
-                        'IndirectEmployment_BackwardTotal',
-                    ],
-                },
-            };
-
             /**
              * Handles the submission of the Create Quarterly Report form.
              *
@@ -1914,7 +1761,6 @@ async function initializeStaffPageJs() {
 
             await getDashboardChartData();
             await getHandleProject();
-            console.log('resolved');
         },
         Projects: async () => {
             const ApprovedDataTable = $('#approvedTable').DataTable({
@@ -3065,7 +2911,9 @@ async function initializeStaffPageJs() {
             const ApplicantProgressContainer = $('#ApplicationProgress');
             const RequirementsTable = $('#requirementsTables');
 
-            let ProjectProposalFormInitialValue = {};
+            let tnaForm;
+            let projectProposalForm;
+            let rtecReportForm;
 
             $('#evaluationSchedule-datepicker').on('change', function () {
                 const selectedDate = new Date(this.value);
@@ -3075,20 +2923,9 @@ async function initializeStaffPageJs() {
                     this.value = this.min;
                 }
             });
-            customFormatNumericInput('#EquipmentTableBody', [
-                '.EquipmentCost',
-                '.EquipmentQTY',
-            ]);
-            customFormatNumericInput('#NonEquipmentTableBody', [
-                '.NonEquipmentQTY',
-                '.NonEquipmentCost',
-            ]);
-
-            customFormatNumericInput('#fundAmount');
 
             const applicantTable = new ApplicantDataTable(AUTH_USER_NAME);
             await applicantTable.init();
-            //TODO: update this the logic of this
             $('#ApplicantTableBody').on(
                 'click',
                 '.applicantDetailsBtn',
@@ -3231,7 +3068,12 @@ async function initializeStaffPageJs() {
 
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
-                    getProposalDraft(ApplicationID);
+
+                    tnaForm.setId(businessID, ApplicationID);
+                    projectProposalForm.setId(businessID, ApplicationID);
+                    rtecReportForm.setId(businessID, ApplicationID);
+
+                    console.log(tnaForm, projectProposalForm, rtecReportForm);
                 }
             );
 
@@ -3287,26 +3129,16 @@ async function initializeStaffPageJs() {
                                 error?.message ||
                                 'Error submitting application to admin'
                         );
+                    } finally {
+                        closeOffcanvasInstances('#applicantDetails');
                     }
                 }
             );
 
             ApplicantDetailsContainer.on('hidden.bs.offcanvas', function () {
-                const FormContainer =
-                    ApplicantDetailsContainer.find('#projectProposal');
-                const ApplicantID = ApplicantDetailsContainer.find(
-                    '#selected_applicationId'
-                ).val();
                 applicantTable.broadcastClosedViewingEvent();
 
-                FormContainer.find('input, textarea').val('');
-                FormContainer.find(
-                    '.input_list, #EquipmentTableBody, #NonEquipmentTableBody'
-                ).each(function () {
-                    $(this).children().slice(1).remove();
-                });
                 RequirementsTable.empty();
-                clearInitialValues();
             });
 
             const getApplicantRequirements = async (businessID) => {
@@ -3724,16 +3556,16 @@ async function initializeStaffPageJs() {
             );
             const RTECReportContainerModal = $('#rtecReportContainerModal');
 
-            const tnaForm = new TNAForm(TNADocumentContainerModal);
+            tnaForm = new TNAForm(TNADocumentContainerModal);
             tnaForm.initializeTNAForm();
 
-            const projectProposalForm = new ProjectProposalForm(
+            projectProposalForm = new ProjectProposalForm(
                 ProjectProposalDocumentContainerModal
             );
 
             projectProposalForm.initializeProjectProposalForm();
 
-            const rtecReportForm = new RTECReportForm(RTECReportContainerModal);
+            rtecReportForm = new RTECReportForm(RTECReportContainerModal);
             rtecReportForm.initializeRTECReportForm();
         },
     };

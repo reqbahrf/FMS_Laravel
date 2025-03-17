@@ -15,7 +15,6 @@ return new class extends Migration
         Schema::create('org_users_info', function (Blueprint $table) {
             $table->id();
             $table->string('user_name', 64);
-            $table->string('profile_pic', 500)->nullable();
             $table->string('prefix', 15)->nullable();
             $table->string('f_name', 30);
             $table->string('mid_name', 30)->nullable();

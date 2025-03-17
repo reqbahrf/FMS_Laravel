@@ -28,8 +28,8 @@ class PDSDocController extends Controller
             $projectId = $request->projectId;
             $quarter = $request->quarter;
             $reportData = $this->projectDataSheetDataHandlerService->getCooperatorReportedData($projectId, $quarter);
-            $currentQuarter = $reportData->currentQuarterlyReport->first()->report_file;
-            $previousQuarter = $reportData->previousQuarterlyReport->first()->report_file;
+            $currentQuarter = $reportData->currentQuarterlyReport->report_file;
+            $previousQuarter = $reportData->previousQuarterlyReport->report_file;
 
             try {
                 $html = view('project-forms.data-sheet', compact('reportData', 'currentQuarter', 'previousQuarter', 'projectId', 'quarter'))->render();
@@ -63,8 +63,8 @@ class PDSDocController extends Controller
             $quarter = $request->quarter;
 
             $reportData = $this->projectDataSheetDataHandlerService->getCooperatorReportedData($projectId, $quarter);
-            $currentQuarter = $reportData->currentQuarterlyReport->first()->report_file;
-            $previousQuarter = $reportData->previousQuarterlyReport->first()->report_file;
+            $currentQuarter = $reportData->currentQuarterlyReport->report_file;
+            $previousQuarter = $reportData->previousQuarterlyReport->report_file;
 
             return view('components.project-data-sheet.main', compact('reportData', 'currentQuarter', 'previousQuarter', 'projectId', 'quarter'));
         } catch (Exception $e) {

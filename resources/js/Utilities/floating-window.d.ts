@@ -2,11 +2,11 @@
 import * as $ from 'jquery';
 
 interface FloatingWindowElements {
-    content: JQuery<HTMLElement>;
-    input: JQuery<HTMLInputElement>;
-    window: JQuery<HTMLElement>;
-    header: JQuery<HTMLElement>;
-    closeButton: JQuery<HTMLElement>;
+    f_window: JQuery<HTMLElement>;
+    f_header: JQuery<HTMLElement>;
+    f_closeButton: JQuery<HTMLElement>;
+    f_content: JQuery<HTMLElement>;
+    f_input: JQuery<HTMLInputElement>;
 }
 
 export function InitializeFloatingWindow(

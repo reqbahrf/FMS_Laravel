@@ -19,6 +19,7 @@ export default class ProjectInfoSheet extends ProjectClass {
     private generatePDFBtn: JQuery<HTMLElement> | null;
     private pisYearToCreate: JQuery<HTMLSelectElement>;
     private pisYearToLoad: JQuery<HTMLSelectElement>;
+    private dropdownItems: JQuery<HTMLElement>;
     private project_id: string;
     private business_Id: string;
     private application_Id: string;
@@ -33,6 +34,9 @@ export default class ProjectInfoSheet extends ProjectClass {
         this.pisYearToLoad = formContainer.find('select#pis_year_to_load');
         this.loadPISBtn = formContainer.find('#loadPISbtn');
         this.createPISBtn = formContainer.find('#createPISbtn');
+        this.dropdownItems = formContainer.find(
+            '#pisActionDropdown .dropdown-item'
+        );
         this.project_id = project_id;
         this.business_Id = business_Id;
         this.application_Id = application_Id;
@@ -78,10 +82,10 @@ export default class ProjectInfoSheet extends ProjectClass {
                     throw new Error('Invalid action');
             }
         } catch (error: any) {
-            console.warn('Error in Retrieving Project Info Sheet' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message || error?.message
+            this._handleError(
+                'Error in Getting Project Info Sheet: ',
+                error,
+                true
             );
         }
     }
@@ -123,11 +127,11 @@ export default class ProjectInfoSheet extends ProjectClass {
             hideProcessToast();
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            console.warn('Error in Creating Project Info Sheet' + error);
             hideProcessToast();
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message || error?.message
+            this._handleError(
+                'Error in Creating Project Info Sheet: ',
+                error,
+                true
             );
         } finally {
             this._getAllYearsRecords(project_id, application_Id, business_Id);
@@ -151,23 +155,31 @@ export default class ProjectInfoSheet extends ProjectClass {
             });
             this._appendAllYearsRecords(response);
         } catch (error: any) {
-            console.error(
-                'Error in Getting All Project Info Sheet' +
-                    error?.responseJSON?.message || error?.message
-            );
+            this._handleError('Error in Getting All Years Records: ', error);
         }
     }
 
     private _appendAllYearsRecords(yearsResponse: string[]): void {
         this.pisYearToLoad.empty();
-        yearsResponse.forEach((year) => {
+        if (!yearsResponse || !yearsResponse.length) {
             this.pisYearToLoad.append(
                 $('<option>', {
-                    value: year,
-                    text: year,
+                    value: '',
+                    text: 'No Year Records Found',
+                    disabled: true,
+                    selected: true,
                 })
             );
-        });
+        } else {
+            yearsResponse.forEach((year) => {
+                this.pisYearToLoad.append(
+                    $('<option>', {
+                        value: year,
+                        text: year,
+                    })
+                );
+            });
+        }
     }
 
     private _getFormInstance(): JQuery<HTMLFormElement> {
@@ -200,13 +212,11 @@ export default class ProjectInfoSheet extends ProjectClass {
                 response?.message || 'Successfuly Saved'
             );
         } catch (error: any) {
-            console.warn('Error in Setting Project Info Sheet' + error);
             hideProcessToast();
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting Project Info Sheet'
+            this._handleError(
+                'Error in Saving Project Info Sheet: ',
+                error,
+                true
             );
         }
     }
@@ -225,13 +235,7 @@ export default class ProjectInfoSheet extends ProjectClass {
                 window.open(generateUrl, '_blank');
             });
         } catch (error: any) {
-            console.warn('Error in Setting Project Info Sheet' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting Project Info Sheet'
-            );
+            this._handleError('Error in Setting PDF Export: ', error, true);
         }
     }
 
@@ -252,25 +256,18 @@ export default class ProjectInfoSheet extends ProjectClass {
 
                     await this._saveProjectInfoSheet(formDataObject, url);
                 } catch (SubmissionError: any) {
-                    console.warn(
-                        'Error in Initializing Project Info Sheet' +
-                            SubmissionError
-                    );
-                    showToastFeedback(
-                        'text-bg-danger',
-                        SubmissionError?.responseJSON?.message ||
-                            SubmissionError?.message ||
-                            'Error in Setting Project Info Sheet'
+                    this._handleError(
+                        'Error in Setting Project Info Sheet: ',
+                        SubmissionError,
+                        true
                     );
                 }
             });
         } catch (error: any) {
-            console.warn('Error in Setting Project Info Sheet' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting Project Info Sheet'
+            this._handleError(
+                'Error in Setting Project Info Sheet: ',
+                error,
+                true
             );
         }
     }
@@ -279,88 +276,105 @@ export default class ProjectInfoSheet extends ProjectClass {
      * Uses consistent jQuery approach to find the select element in the same input-group
      */
     private _setupProjectInfoSheetBtnEvent(): void {
-        if (!this.createPISBtn.length) {
-            console.error('Create PIS Button not found');
-            return;
-        }
-
-        const currentYear = new Date().getFullYear();
-        const pisYearToCreate = this.pisYearToCreate;
-        for (let i = 0; i < 4; i++) {
-            const year = currentYear + i;
-            const option = $('<option>', {
-                value: year,
-                text: year,
-            });
-            pisYearToCreate.append(option);
-        }
-
-        this.createPISBtn.on('click', (e: JQuery.TriggeredEvent) => {
-            const btn = $(e.currentTarget);
-            const inputGroup = btn.closest('.input-group');
-            const select = inputGroup.find('select#pis_year_to_create');
-            const selectedYear = select.val() as string;
-
-            if (!selectedYear) {
-                showToastFeedback('error', 'Please select a year first');
-                return;
+        try {
+            if (!this.createPISBtn.length) {
+                throw new Error('Create PIS Button not found');
             }
 
-            this._createProjectInfoSheet(
-                this.project_id,
-                this.application_Id,
-                this.business_Id,
-                selectedYear
-            );
-        });
+            const currentYear = new Date().getFullYear();
+            const pisYearToCreate = this.pisYearToCreate;
+            for (let i = 0; i < 4; i++) {
+                const year = currentYear + i;
+                const option = $('<option>', {
+                    value: year,
+                    text: year,
+                });
+                pisYearToCreate.append(option);
+            }
 
-        // Similarly for the Load PIS button if needed
-        if (this.loadPISBtn.length) {
-            this.loadPISBtn.on('click', async (e: JQuery.TriggeredEvent) => {
-                try {
-                    const btn = $(e.currentTarget);
-                    const inputGroup = btn.closest('.input-group');
-                    const select = inputGroup.find('select#pis_year_to_load');
-                    const action = inputGroup
-                        .find('select#pis_action_to_load')
-                        .val() as Action;
-                    const selectedYear = select.val() as string;
+            this.createPISBtn.on('click', (e: JQuery.TriggeredEvent) => {
+                const btn = $(e.currentTarget);
+                const inputGroup = btn.closest('.input-group');
+                const select = inputGroup.find('select#pis_year_to_create');
+                const selectedYear = select.val() as string;
 
-                    const isConfirmed = await createConfirmationModal({
-                        title: 'Load Project Information Sheet',
-                        message: `Are you sure you want to load Project Information Sheet for Project ${this.project_id} in year ${selectedYear}?`,
-                        confirmText: 'Yes',
-                    });
-
-                    if (!isConfirmed) {
-                        return;
-                    }
-
-                    if (!selectedYear) {
-                        showToastFeedback(
-                            'error',
-                            'Please select a year to load'
-                        );
-                        return;
-                    }
-
-                    showProcessToast('Loading Project Information Sheet...');
-                    await this._getProjectInfoSheet(
-                        this.project_id,
-                        this.business_Id,
-                        this.application_Id,
-                        action,
-                        selectedYear
-                    );
-                    hideProcessToast();
-                } catch (error: any) {
-                    showToastFeedback(
-                        'error',
-                        error?.responseJSON?.message || error?.message
-                    );
-                    hideProcessToast();
+                if (!selectedYear) {
+                    throw new Error('Please select a year first');
                 }
+
+                this._createProjectInfoSheet(
+                    this.project_id,
+                    this.application_Id,
+                    this.business_Id,
+                    selectedYear
+                );
             });
+
+            // Set up event handlers for the dropdown menu items
+            if (this.loadPISBtn.length) {
+                // Handle dropdown items click events
+                this.dropdownItems.on('click', async (e: JQuery.ClickEvent) => {
+                    e.preventDefault();
+
+                    try {
+                        const clickedItem = $(e.currentTarget);
+                        const action = clickedItem.data('value') as Action;
+                        const select = clickedItem
+                            .closest('.input-group')
+                            .find('select#pis_year_to_load');
+                        const selectedYear = select.val() as string;
+
+                        if (
+                            !selectedYear ||
+                            selectedYear === 'No Year Records Found' ||
+                            selectedYear === 'No Record Found'
+                        ) {
+                            showToastFeedback(
+                                'text-bg-danger',
+                                'Please select a year to load'
+                            );
+                            return;
+                        }
+
+                        const isConfirmed = await createConfirmationModal({
+                            title: 'Load Project Information Sheet',
+                            message: `Are you sure you want to ${action} Project Information Sheet for Project ${this.project_id} in year ${selectedYear}?`,
+                            confirmText: 'Yes',
+                            cancelText: 'No',
+                        });
+
+                        if (!isConfirmed) {
+                            return;
+                        }
+
+                        showProcessToast(
+                            'Loading Project Information Sheet...'
+                        );
+                        await this._getProjectInfoSheet(
+                            this.project_id,
+                            this.business_Id,
+                            this.application_Id,
+                            action,
+                            selectedYear
+                        );
+                        hideProcessToast();
+                    } catch (error: any) {
+                        hideProcessToast();
+                        this._handleError(
+                            'Error in Loading Project Info Sheet: ',
+                            error,
+                            true
+                        );
+                    }
+                });
+            }
+        } catch (error: any) {
+            hideProcessToast();
+            this._handleError(
+                'Error in Setting Project Info Sheet: ',
+                error,
+                true
+            );
         }
     }
 
@@ -373,6 +387,10 @@ export default class ProjectInfoSheet extends ProjectClass {
             this.createPISBtn.off('click');
         }
 
+        if (this.dropdownItems) {
+            this.dropdownItems.off('click');
+        }
+
         // Remove form and clear references
         if (this.Form) {
             this.Form.remove();
@@ -380,6 +398,7 @@ export default class ProjectInfoSheet extends ProjectClass {
         }
 
         // Clear DOM references
+        this.dropdownItems.empty();
         this.pisYearToCreate.empty();
         this.pisYearToLoad.empty();
         this.generatePDFBtn = null;

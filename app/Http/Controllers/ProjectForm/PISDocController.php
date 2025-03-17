@@ -40,7 +40,7 @@ class PISDocController extends Controller
         }
     }
 
-    public function getAllYearsRecords(Request $request)
+    public function getPISAllYearsRecords(Request $request)
     {
         try {
             $projectId = $request->projectId;

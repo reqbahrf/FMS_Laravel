@@ -14,6 +14,17 @@ use App\Services\RTECReportdataHandlerService;
 class RTECReportDocController extends Controller
 {
     public function __construct(private RTECReportdataHandlerService $RTECReportService) {}
+    public function getRTECReportStatus(Request $request)
+    {
+        try {
+            $business_id = $request->business_id;
+            $application_id = $request->application_id;
+            return $this->RTECReportService->getRTECReportStatus($business_id, $application_id);
+        } catch (Exception $e) {
+            Log::error('Error in getRTECReportStatus: ', [$e->getMessage()]);
+            return response()->json(['error' => 'Error in getRTECReportStatus: ' . $e->getMessage()], 500);
+        }
+    }
     public function getRTECReportForm(Request $request)
     {
         try {
@@ -48,6 +59,7 @@ class RTECReportDocController extends Controller
             DB::transaction(function () use ($validated, $request) {
                 $this->RTECReportService->setRTECReportData(
                     $validated,
+                    $request->user(),
                     $request->business_id,
                     $request->application_id
                 );

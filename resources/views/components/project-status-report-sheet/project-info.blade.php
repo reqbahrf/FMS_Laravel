@@ -9,24 +9,20 @@
         padding: 8px;
         text-align: left;
         border: none;
-        /* Remove borders */
     }
 
     #projectInfo .label-col {
         width: 24%;
-        /* Adjust as needed */
         vertical-align: top;
     }
 
     #projectInfo .colon-col {
         width: 1%;
-        /* Adjust as needed */
         vertical-align: top;
     }
 
     #projectInfo .value-col {
         width: 75%;
-        /* Adjust as needed */
         vertical-align: top;
     }
 </style>

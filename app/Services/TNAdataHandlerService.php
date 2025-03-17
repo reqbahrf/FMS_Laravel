@@ -2,15 +2,64 @@
 
 namespace App\Services;
 
-use App\Models\ApplicationForm;
 use Exception;
+use App\Models\User;
+use App\Models\ApplicationForm;
+use App\Models\OrgUserInfo;
+use App\Actions\DocumentStatusAction as DSA;
+use Illuminate\Support\Facades\Log;
 
 class TNAdataHandlerService
 {
     private const TNA_FORM = 'tna_form';
-    public function __construct(private ApplicationForm $TNAFormData) {}
+    public function __construct(
+        private ApplicationForm $TNAFormData
+    ) {}
+    /**
+     * Get TNA status with user information
+     *
+     * @param int $business_id
+     * @param int $application_id
+     * @return array
+     * @throws Exception
+     */
+    public function getTNAStatus(int $business_id, int $application_id): array
+    {
+        try {
+            // Get the TNA status with a single query
+            $TNAStatus = $this->TNAFormData
+                ->where([
+                    'business_id' => $business_id,
+                    'application_id' => $application_id,
+                    'key' => self::TNA_FORM
+                ])
+                ->select('status', 'reviewed_at', 'modified_at', 'reviewed_by', 'modified_by')
+                ->with('reviewer')
+                ->with('modifier')
+                ->first();
 
-    public function setTNAData(array $data, int $business_id, int $application_id)
+            if (!$TNAStatus) {
+                return [
+                    'status' => null,
+                    'reviewer_name' => null,
+                    'modifier_name' => null,
+                    'reviewed_at' => null,
+                    'modified_at' => null
+                ];
+            }
+
+            // Add null checks before accessing properties
+            $TNAStatus['reviewer_name'] = $TNAStatus->reviewer ? $TNAStatus->reviewer->getFullNameAttribute() : null;
+            $TNAStatus['modifier_name'] = $TNAStatus->modifier ? $TNAStatus->modifier->getFullNameAttribute() : null;
+
+            return $TNAStatus->toArray();
+        } catch (Exception $e) {
+            Log::error('Error in getting TNA status: ' . $e->getMessage());
+            throw new Exception('Error in getting TNA status: ' . $e->getMessage());
+        }
+    }
+
+    public function setTNAData(array $data, User $user, int $business_id, int $application_id)
     {
         try {
             // Find the existing record
@@ -20,13 +69,16 @@ class TNAdataHandlerService
                 'key' => self::TNA_FORM
             ])->first();
 
-            // If existing record exists, merge the data
+            $documentStatus = $data['tna_doc_status'];
+            $filteredData = array_diff_key($data, array_flip(['tna_doc_status']));
+            $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
+
             $mergedData = $existingRecord
-                ? array_merge($existingRecord->data, $data, [
+                ? array_merge($existingRecord->data, $filteredData, [
                     'business_id' => $business_id,
                     'application_id' => $application_id
                 ])
-                : [...$data, 'business_id' => $business_id, 'application_id' => $application_id];
+                : [...$filteredData, 'business_id' => $business_id, 'application_id' => $application_id];
 
             // Update or create the record
             $this->TNAFormData->updateOrCreate([
@@ -34,8 +86,12 @@ class TNAdataHandlerService
                 'application_id' => $application_id,
                 'key' => self::TNA_FORM
             ], [
+                'reviewed_by' => $statusData['reviewed_by'],
+                'modified_by' => $statusData['modified_by'],
+                'reviewed_at' => $statusData['reviewed_at'],
+                'modified_at' => $statusData['modified_at'],
                 'data' => $mergedData,
-                'status' => 'Pending'
+                'status' => $documentStatus
             ]);
         } catch (Exception $e) {
             throw new Exception("Failed to set TNA data: " . $e->getMessage());
