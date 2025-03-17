@@ -255,7 +255,7 @@
             UPDATE_APPLICANT_REQUIREMENTS: '{{ route('Applicant-Requirements.update', ['Applicant_Requirement' => ':id']) }}',
             setEvaluationScheduleDate: '{{ route('staff.set.EvaluationSchedule') }}',
             getEvaluationScheduleDate: '{{ route('staff.get.EvaluationSchedule') }}',
-            SHOW_REQUIREMENT_FILE: '{{ route('Requirements.view') }}',
+
             REJECT_APPLICATION_TNA: '{{ route('send.rejection.email') }}',
             GET_TNA_FORM_STATUS: '{{ route('staff.Applicant.get.tna.status', [':business_id', ':application_id']) }}',
             GET_TNA_DOCUMENT: '{{ route('staff.Applicant.get.tna', [':business_id', ':application_id', ':action']) }}',

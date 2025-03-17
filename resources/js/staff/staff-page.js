@@ -3292,33 +3292,18 @@ async function initializeStaffPageJs() {
                 hideProcessToast();
             });
 
-            //retrieve and display file function as base64 format for both pdf and img type
+            //retrieve and display file using direct streaming instead of base64
             async function retrieveAndDisplayFile(fileUrl, fileType) {
                 try {
-                    const response = await $.ajax({
-                        url: APPLICANT_TAB_ROUTE.SHOW_REQUIREMENT_FILE,
-                        method: 'GET',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        data: {
-                            file_url: fileUrl,
-                        },
-                    });
+                    // Create a URL for the file stream
 
                     const fileContent = $('#fileContent');
                     fileContent.empty(); // Clear any previous content
 
                     if (fileType === 'pdf') {
                         // Display PDF in an iframe
-                        const base64PDF =
-                            'data:application/pdf;base64,' +
-                            response.base64File +
-                            '';
                         const embed = $('<iframe>', {
-                            src: base64PDF,
+                            src: fileUrl,
                             type: 'application/pdf',
                             width: '100%',
                             height: '100%',
@@ -3329,7 +3314,7 @@ async function initializeStaffPageJs() {
                     } else {
                         // Display Image
                         const img = $('<img>', {
-                            src: `data:${fileType};base64,${response.base64File}`,
+                            src: fileUrl,
                             class: 'img-fluid',
                         });
                         fileContent.append(img);

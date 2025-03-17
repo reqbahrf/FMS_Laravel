@@ -88,10 +88,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/Applicant-Requirements/{business_id}', [ApplicantRequirementController::class, 'index'])
         ->name('Requirements.index');
 
-    Route::get('/Applicant-Requirement/view', [ApplicantRequirementController::class, 'show'])
-        ->name('Requirements.view');
+    Route::get('/Applicant-Requirement/view/{id}', [ApplicantRequirementController::class, 'show'])
+        ->name('Requirements.show')
+        ->middleware('signed');
 
-    Route::resource('/Applicant-Requirements', ApplicantRequirementController::class);
+    Route::resource('/Applicant-Requirements', ApplicantRequirementController::class)
+        ->only(['update']);
 
     Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
 
