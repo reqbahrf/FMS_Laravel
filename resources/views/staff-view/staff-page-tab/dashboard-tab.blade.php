@@ -459,7 +459,7 @@
     </div>
     <div class="offcanvas-body mt-3 pt-0 overflow-hidden">
         {{-- Project Navigation Tabs --}}
-        @include('staff-view.Included_layout.handleProjectOffcanvaContent')
+        @include('staff-view.included-layout.handle-project-offcanva-content')
     </div>
     <div class="approvedProjectContent">
         <div class="d-flex justify-content-end p-3 projectDetailsTabMenu">
