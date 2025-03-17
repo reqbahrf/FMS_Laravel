@@ -3,7 +3,7 @@
 </div>
 
 <!-- Modal -->
-@include('admin-view.admin-page-tab.included_layout.application-form-review-modal')
+@include('admin-view.admin-page-tab.included-layout.application-form-review-modal')
 <div
     class="modal fade"
     id="assignNewStaffModal"
