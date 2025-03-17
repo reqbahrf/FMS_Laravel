@@ -7,6 +7,7 @@ import {
     customDateFormatter,
     serializeFormData,
 } from '../Utilities/utilFunctions';
+import { processError } from '../Utilities/error-handler-util';
 import BENCHMARKTableConfig from '../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import PROJECT_PROPOSAL_TABLE_CONFIG from '../Form_Config/form-table-config/projectProposalTableConfig';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
@@ -50,11 +51,7 @@ class TNAForm {
             });
             this._updateStatusTable(response);
         } catch (error: any) {
-            console.warn('Error in Retrieving TNA form status' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message || error?.message
-            );
+            processError('Error in Retrieving TNA form status', error);
         }
     }
     private _updateStatusTable(response: any) {
@@ -107,11 +104,7 @@ class TNAForm {
                     throw new Error('Invalid action');
             }
         } catch (error: any) {
-            console.warn('Error in Retrieving TNA form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message || error?.message
-            );
+            processError('Error in Retrieving TNA form: ', error);
         }
     }
 
@@ -143,13 +136,7 @@ class TNAForm {
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
             hideProcessToast();
-            console.warn('Error in Setting TNA form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting TNA form'
-            );
+            processError('Error in Setting TNA form: ', error);
         } finally {
             this._getTNAFormStatus();
         }
@@ -177,26 +164,16 @@ class TNAForm {
                     };
                     await this._saveTNAForm(formDataObject, url);
                 } catch (SubmissionError: any) {
-                    console.warn(
-                        'Error in Initializing TNA form' + SubmissionError
-                    );
-                    showToastFeedback(
-                        'text-bg-danger',
-                        SubmissionError?.responseJSON?.message ||
-                            SubmissionError?.message ||
-                            'Error in Setting TNA form'
+                    processError(
+                        'Error in Setting TNA form: ',
+                        SubmissionError,
+                        true
                     );
                 }
             });
         } catch (error: any) {
             hideProcessToast();
-            console.warn('Error in Setting TNA form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting TNA form'
-            );
+            processError('Error in Setting TNA form: ', error);
         }
     }
 
@@ -216,35 +193,31 @@ class TNAForm {
                 window.open(generateUrl, '_blank');
             });
         } catch (error: any) {
-            console.warn('Error in Setting TNA form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting TNA form'
-            );
+            processError('Error in Setting TNA form: ', error, true);
         }
     }
     initializeTNAForm() {
         console.log('this is initializeTNAForm');
         this.TNAModalContainer.on('show.bs.modal', async (event: any) => {
-            const business_Id =
-                this.business_Id ||
-                $(event.relatedTarget).attr('data-business-id');
-            const application_Id =
-                this.application_Id ||
-                $(event.relatedTarget).attr('data-application-id');
-            const actionMode = $(event.relatedTarget).attr(
-                'data-action'
-            ) as Action;
-            if (!business_Id || !application_Id || !actionMode) {
-                showToastFeedback(
-                    'text-bg-danger',
-                    'Invalid data Business id or Application id'
-                );
-                return;
+            try {
+                const business_Id =
+                    this.business_Id ||
+                    $(event.relatedTarget).attr('data-business-id');
+                const application_Id =
+                    this.application_Id ||
+                    $(event.relatedTarget).attr('data-application-id');
+                const actionMode = $(event.relatedTarget).attr(
+                    'data-action'
+                ) as Action;
+                if (!business_Id || !application_Id || !actionMode) {
+                    throw new Error(
+                        'Invalid data Business id or Application id'
+                    );
+                }
+                await this._getTNAForm(business_Id, application_Id, actionMode);
+            } catch (error: any) {
+                processError('Error in Setting TNA form: ', error, true);
             }
-            await this._getTNAForm(business_Id, application_Id, actionMode);
         });
     }
 }
@@ -285,12 +258,10 @@ class ProjectProposalForm {
             });
             this._updateStatusTable(response);
         } catch (error: any) {
-            console.warn(
-                'Error in Retrieving Project Proposal form status' + error
-            );
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message || error?.message
+            processError(
+                'Error in Retrieving Project Proposal form status: ',
+                error,
+                true
             );
         }
     }
@@ -348,10 +319,10 @@ class ProjectProposalForm {
                     break;
             }
         } catch (error: any) {
-            console.warn('Error in Retrieving Project Proposal' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error.responseJSON.message || error.message
+            processError(
+                'Error in Retrieving Project Proposal form: ',
+                error,
+                true
             );
         }
     }
@@ -384,12 +355,10 @@ class ProjectProposalForm {
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
             hideProcessToast();
-            console.warn('Error in Setting Project Proposal form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting Project Proposal form'
+            processError(
+                'Error in Setting Project Proposal form: ',
+                error,
+                true
             );
         } finally {
             this._getProjectProposalFormStatus();
@@ -418,25 +387,18 @@ class ProjectProposalForm {
                     };
                     await this._saveProjectProposalForm(formDataObject, url);
                 } catch (SubmissionError: any) {
-                    console.warn(
-                        'Error in Initializing Project Proposal form' +
-                            SubmissionError
-                    );
-                    showToastFeedback(
-                        'text-bg-danger',
-                        SubmissionError?.responseJSON?.message ||
-                            SubmissionError?.message ||
-                            'Error in Setting Project Proposal form'
+                    processError(
+                        'Error in Setting Project Proposal form: ',
+                        SubmissionError,
+                        true
                     );
                 }
             });
         } catch (error: any) {
-            console.warn('Error in Setting Project Proposal form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting Project Proposal form'
+            processError(
+                'Error in Setting Project Proposal form: ',
+                error,
+                true
             );
         }
     }
@@ -458,12 +420,10 @@ class ProjectProposalForm {
                 }
             });
         } catch (error: any) {
-            console.warn('Error in Setting Project Proposal form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting Project Proposal form'
+            processError(
+                'Error in Setting Project Proposal form: ',
+                error,
+                true
             );
         }
     }
@@ -495,14 +455,10 @@ class ProjectProposalForm {
                         actionMode
                     );
                 } catch (error: any) {
-                    console.warn(
-                        'Error in Retrieving Project Proposal' + error
-                    );
-                    showToastFeedback(
-                        'text-bg-danger',
-                        error?.responseJSON?.message ||
-                            error?.message ||
-                            'Error in Retrieving Project Proposal'
+                    processError(
+                        'Error in Setting Project Proposal form: ',
+                        error,
+                        true
                     );
                 }
             }
@@ -548,7 +504,7 @@ class RTECReportForm {
             });
             this._updateStatusTable(response);
         } catch (error: any) {
-            console.warn('Error in Retrieving RTEC Report' + error);
+            processError('Error in Retrieving RTEC Report: ', error, true);
         }
     }
 
@@ -606,13 +562,7 @@ class RTECReportForm {
                     throw new Error('Invalid action');
             }
         } catch (error: any) {
-            console.warn('Error in Retrieving RTEC Report' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Retrieving RTEC Report'
-            );
+            processError('Error in Retrieving RTEC Report form: ', error, true);
         }
     }
 
@@ -644,13 +594,7 @@ class RTECReportForm {
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
             hideProcessToast();
-            console.warn('Error in Setting RTEC Report form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting RTEC Report form'
-            );
+            processError('Error in Setting RTEC Report form: ', error, true);
         } finally {
             this._getRTECReportFormStatus();
         }
@@ -680,26 +624,15 @@ class RTECReportForm {
                     // };
                     await this._saveRTECReportForm(formDataObject, url);
                 } catch (SubmissionError: any) {
-                    console.warn(
-                        'Error in Initializing RTEC Report form' +
-                            SubmissionError
-                    );
-                    showToastFeedback(
-                        'text-bg-danger',
-                        SubmissionError?.responseJSON?.message ||
-                            SubmissionError?.message ||
-                            'Error in Setting RTEC Report form'
+                    processError(
+                        'Error in Setting RTEC Report form: ',
+                        SubmissionError,
+                        true
                     );
                 }
             });
         } catch (error: any) {
-            console.warn('Error in Setting RTEC Report form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting RTEC Report form'
-            );
+            processError('Error in Setting RTEC Report form: ', error, true);
         }
     }
 
@@ -716,13 +649,7 @@ class RTECReportForm {
                 window.open(generateUrl, '_blank');
             });
         } catch (error: any) {
-            console.warn('Error in Setting RTEC Report form' + error);
-            showToastFeedback(
-                'text-bg-danger',
-                error?.responseJSON?.message ||
-                    error?.message ||
-                    'Error in Setting RTEC Report form'
-            );
+            processError('Error in Setting RTEC Report form: ', error, true);
         }
     }
 
@@ -730,27 +657,33 @@ class RTECReportForm {
         this.RTECReportModalContainer.on(
             'show.bs.modal',
             async (event: any) => {
-                const business_Id =
-                    this.business_Id ||
-                    $(event.relatedTarget).attr('data-business-id');
-                const application_Id =
-                    this.application_Id ||
-                    $(event.relatedTarget).attr('data-application-id');
-                const actionMode = $(event.relatedTarget).attr(
-                    'data-action'
-                ) as Action;
-                if (!business_Id || !application_Id || !actionMode) {
-                    showToastFeedback(
-                        'text-bg-danger',
-                        'Invalid data Business id or Application id'
+                try {
+                    const business_Id =
+                        this.business_Id ||
+                        $(event.relatedTarget).attr('data-business-id');
+                    const application_Id =
+                        this.application_Id ||
+                        $(event.relatedTarget).attr('data-application-id');
+                    const actionMode = $(event.relatedTarget).attr(
+                        'data-action'
+                    ) as Action;
+                    if (!business_Id || !application_Id || !actionMode) {
+                        throw new Error(
+                            'Invalid data Business id or Application id'
+                        );
+                    }
+                    await this._getRTECReportForm(
+                        business_Id,
+                        application_Id,
+                        actionMode
                     );
-                    return;
+                } catch (error) {
+                    processError(
+                        'Error in Setting RTEC Report form: ',
+                        error,
+                        true
+                    );
                 }
-                await this._getRTECReportForm(
-                    business_Id,
-                    application_Id,
-                    actionMode
-                );
             }
         );
     }
