@@ -53,7 +53,7 @@ class OrgUserInfo extends Model
         return $this->hasMany(ProjectInfo::class, 'handled_by_id');
     }
 
-    public function handledThisProject(string $projectId): bool
+    public function isHandlingThisProject(string $projectId): bool
     {
         return $this->handledProjects()->where('Project_id', $projectId)->exists();
     }

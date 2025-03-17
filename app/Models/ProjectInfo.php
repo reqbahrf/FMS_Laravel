@@ -46,16 +46,28 @@ class ProjectInfo extends Model
 
     public function businessInfo(): BelongsTo
     {
-        return $this->BelongsTo(BusinessInfo::class, 'business_id', 'id');
+        return $this->belongsTo(BusinessInfo::class, 'business_id', 'id');
     }
 
-    public function currentQuarterlyReport(): HasMany
+    public function currentQuarterlyReport(?string $quarter = null): HasOne
     {
-        return $this->HasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
+        $relation = $this->hasOne(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
+
+        if ($quarter) {
+            $relation->where('quarter', $quarter);
+        }
+
+        return $relation;
     }
 
-    public function previousQuarterlyReport(): HasMany
+    public function previousQuarterlyReport(?string $quarter = null): HasOne
     {
-        return $this->hasMany(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
+        $relation = $this->hasOne(OngoingQuarterlyReport::class, 'ongoing_project_id', 'Project_id');
+
+        if ($quarter) {
+            $relation->where('quarter', $quarter);
+        }
+
+        return $relation;
     }
 }

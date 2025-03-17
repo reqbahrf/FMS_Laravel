@@ -75,7 +75,7 @@ class ProjectFileLinkPolicy
         }
 
         // Check if user is a staff member with access to this project
-        if ($user->isStaff() && $user->orgUserInfo->handledThisProject($projectId)) {
+        if ($user->isStaff() && $user->orgUserInfo->isHandlingThisProject($projectId)) {
             return true;
         }
 
