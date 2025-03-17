@@ -57,13 +57,13 @@ class ProjectFileService
 
         // Check if the user has permission to view this file
         if ($user && !$user->can('view', $fileLink)) {
-            throw new AuthorizationException('You do not have permission to view this file');
+            throw new AuthorizationException('You do not have permission to view this file', 403);
         }
 
         $filePath = storage_path("app/private/{$fileLink->file_link}");
 
         if (!file_exists($filePath)) {
-            throw new FileNotFoundException("File not found: {$filePath}");
+            throw new FileNotFoundException("File not found: {$filePath}", 404);
         }
 
         return [

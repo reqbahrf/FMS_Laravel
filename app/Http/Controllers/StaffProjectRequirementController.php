@@ -5,16 +5,16 @@ namespace App\Http\Controllers;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\ProjectFileLink;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\Services\ProjectFileService;
-use Illuminate\Auth\Access\AuthorizationException;
 use App\Http\Resources\ProjectFileLinkCollection;
-use App\Models\ProjectFileLink;
+use Illuminate\Auth\Access\AuthorizationException;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use Symfony\Component\HttpFoundation\File\Exception\FileNotFoundException;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class StaffProjectRequirementController extends Controller
 {
@@ -87,7 +87,7 @@ class StaffProjectRequirementController extends Controller
      * @param int $id
      * @return Response|BinaryFileResponse|StreamedResponse
      */
-    public function viewFile(Request $request, int $id)
+    public function viewFile(Request $request, int $id): Response|BinaryFileResponse|StreamedResponse
     {
         try {
             // Get the authenticated user
@@ -95,13 +95,6 @@ class StaffProjectRequirementController extends Controller
 
             // Get file details with authorization check
             $fileDetails = $this->projectFileService->getFileForViewing($id, $user);
-
-            // Log the file access for audit purposes
-            Log::info('File accessed', [
-                'file_id' => $id,
-                'user_id' => $user->id,
-                'ip' => $request->ip()
-            ]);
 
             $path = $fileDetails['path'];
             $mimeType = $fileDetails['mime_type'];
@@ -116,7 +109,7 @@ class StaffProjectRequirementController extends Controller
                     function () use ($path) {
                         $file = fopen($path, 'rb');
                         while (!feof($file)) {
-                            echo fread($file, 1024 * 64); // Stream in 64KB chunks
+                            echo fread($file, 1024 * 64);
                             flush();
                         }
                         fclose($file);
