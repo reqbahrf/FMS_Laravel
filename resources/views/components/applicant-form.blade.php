@@ -616,16 +616,14 @@
                                     Proprietorship</option>
                                 <option value="Partnership">Partnership
                                 </option>
-                                <option value="Corporation">Corporation</option>
-                                {{-- TODO: Edit the Enum values of the database for Non-Profit and Profit --}}
-                                {{-- <option
+                                <option
                                     value="Corporation (Non-Profit)"
                                 >Corporation (Non-Profit)
                                 </option>
                                 <option
                                     value="Corporation (Profit)"
                                 >Corporation (Profit)
-                                </option> --}}
+                                </option>
                             </select>
                             <div class="invalid-feedback">
                                 Please select a type of enterprise.
