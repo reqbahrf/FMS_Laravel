@@ -81,30 +81,6 @@
             /* Adjust the width as needed */
         }
 
-        fieldset legend {
-            position: absolute;
-            /* Set position to absolute */
-            top: -20px;
-            /* Adjust this value to move legend up */
-            /* Match the background color to your form or page background */
-            color: #495057;
-            border-radius: 0.25rem;
-            padding: 0.5rem;
-            font-size: 1rem;
-            font-weight: bold;
-            left: 10px;
-            /* Adjust horizontally if needed */
-        }
-
-        /* Additional styling to ensure the fieldset and its contents look integrated */
-        fieldset {
-            position: relative;
-            /* Added position relative */
-            padding: 2rem;
-            border: 2px solid #dee2e6;
-            border-radius: 0.25rem;
-        }
-
         .form-label {
             font-weight: bold;
         }
