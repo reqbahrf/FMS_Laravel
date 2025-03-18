@@ -144,7 +144,13 @@ activityLog.initPersonalActivityLog();
 async function initializeStaffPageJs() {
     const functions = {
         Dashboard: async () => {
-            let paymentHandler;
+            let classInstance = {
+                paymentHandler: null,
+                pisClass: null,
+                pdsClass: null,
+                psrClass: null,
+                projectFileClass: null,
+            };
 
             const yearToLoadSelector = $('#yearSelector');
             //Foramt Input with Id paymentAmount
@@ -905,10 +911,10 @@ async function initializeStaffPageJs() {
                     }
                     switch (submissionMethod) {
                         case 'add':
-                            await paymentHandler.storePaymentRecords();
+                            await classInstance.paymentHandler.storePaymentRecords();
                             break;
                         case 'update':
-                            await paymentHandler.updatePaymentRecords();
+                            await classInstance.paymentHandler.updatePaymentRecords();
                             break;
                         default:
                             throw new Error('Submission method is not defined');
@@ -950,19 +956,27 @@ async function initializeStaffPageJs() {
             const ProjectLedgerInput = $('#projectLedgerLink');
             const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');
 
-            //TODO: refactor this function in the future
             ProjectLedgerSubmitBtn.on('click', function () {
                 const project_id = $('#ProjectID').val();
                 const ProjectLedgerLink = $('#projectLedgerLink').val();
                 const action = $(this).attr('data-action');
-                console.log(action);
-                if (action === 'edit') {
-                    ProjectLedgerInput.prop('readonly', false);
-                    $(this).attr('data-action', 'save').text('Save');
-                } else if (action === 'save') {
-                    updateOrCreateProjectLedger(project_id, ProjectLedgerLink);
-                } else {
-                    console.error('Action is not defined');
+                try {
+                    switch (action) {
+                        case 'edit':
+                            ProjectLedgerInput.prop('readonly', false);
+                            $(this).attr('data-action', 'save').text('Save');
+                            break;
+                        case 'save':
+                            updateOrCreateProjectLedger(
+                                project_id,
+                                ProjectLedgerLink
+                            );
+                            break;
+                        default:
+                            throw new Error('Action is not defined');
+                    }
+                } catch (error) {
+                    processError('Failed to save project ledger', error);
                 }
             });
 
@@ -1163,38 +1177,39 @@ async function initializeStaffPageJs() {
                             );
                         const formContainer = $('#SheetFormDocumentContainer');
 
-                        if (pisClass) {
-                            pisClass.destroy();
+                        if (classInstance.pisClass) {
+                            classInstance.pisClass.destroy();
                         }
 
-                        if (pdsClass) {
-                            pdsClass.destroy();
+                        if (classInstance.pdsClass) {
+                            classInstance.pdsClass.destroy();
                         }
 
-                        pisClass = new ProjectInfoSheet(
+                        classInstance.pisClass = new ProjectInfoSheet(
                             formContainer,
                             project_id,
                             business_id,
                             application_id
                         );
 
-                        if (projectFileClass) {
-                            projectFileClass.destroy();
+                        if (classInstance.projectFileClass) {
+                            classInstance.projectFileClass.destroy();
                         }
 
-                        projectFileClass = new FileCoopRequirementHandler(
-                            ProjectFileLinkDataTable
-                        );
+                        classInstance.projectFileClass =
+                            new FileCoopRequirementHandler(
+                                ProjectFileLinkDataTable
+                            );
 
-                        pdsClass = new ProjectDataSheet(
+                        classInstance.pdsClass = new ProjectDataSheet(
                             formContainer,
                             project_id
                         );
 
-                        if (psrClass) {
-                            psrClass.destroy();
+                        if (classInstance.psrClass) {
+                            classInstance.psrClass.destroy();
                         }
-                        psrClass = new ProjectStatusReportSheet(
+                        classInstance.psrClass = new ProjectStatusReportSheet(
                             formContainer,
                             project_id,
                             business_id,
@@ -1202,18 +1217,20 @@ async function initializeStaffPageJs() {
                         );
 
                         handleProjectOffcanvasContent(project_status);
-                        if (paymentHandler) {
-                            paymentHandler.destroy();
+                        if (classInstance.paymentHandler) {
+                            classInstance.paymentHandler.destroy();
                         }
-                        paymentHandler = new PaymentHandler(
+                        classInstance.paymentHandler = new PaymentHandler(
                             PaymentHistoryDataTable,
                             project_id,
                             actual_amount
                         );
                         const results = await Promise.allSettled([
-                            paymentHandler.getPaymentAndCalculation(),
+                            classInstance.paymentHandler.getPaymentAndCalculation(),
                             getProjectLedger(project_id),
-                            projectFileClass.getProjectLinks(project_id),
+                            classInstance.projectFileClass.getProjectLinks(
+                                project_id
+                            ),
                             getQuarterlyReports(project_id),
                         ]);
 
