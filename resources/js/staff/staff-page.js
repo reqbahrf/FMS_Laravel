@@ -3261,87 +3261,108 @@ async function initializeStaffPageJs() {
             //View applicant requirements
             RequirementsTable.on('click', '.viewReq', async function () {
                 showProcessToast('Retrieving file...');
-                const row = $(this).closest('tr');
-                const fileID = row
-                    .find('input[type="hidden"][name="file_id"]')
-                    .val();
-                const file_Name = row.find('td:nth-child(1)').text();
-                const fileUrl = row
-                    .find('input[type="hidden"][name="file_url"]')
-                    .val();
-                const fileType = row.find('td:nth-child(2)').text();
-                const uploadedDate = row
-                    .find('input[type="hidden"][name="created_at"]')
-                    .val();
-                const updatedDate = row
-                    .find('input[type="hidden"][name="updated_at"]')
-                    .val();
-                const uploader = $('#contact_person').val();
+                try {
+                    const row = $(this).closest('tr');
+                    const fileID = row
+                        .find('input[type="hidden"][name="file_id"]')
+                        .val();
+                    const file_Name = row.find('td:nth-child(1)').text();
+                    const fileUrl = row
+                        .find('input[type="hidden"][name="file_url"]')
+                        .val();
+                    const fileType = row.find('td:nth-child(2)').text();
+                    const uploadedDate = row
+                        .find('input[type="hidden"][name="created_at"]')
+                        .val();
+                    const updatedDate = row
+                        .find('input[type="hidden"][name="updated_at"]')
+                        .val();
+                    const uploader = $('#contact_person').val();
 
-                const reviewFileModalInput =
-                    ReviewFileModalContainer.find('input');
+                    const reviewFileModalInput =
+                        ReviewFileModalContainer.find('input');
 
-                reviewFileModalInput.filter('#selectedFile_ID').val(fileID);
-                reviewFileModalInput.filter('#fileName').val(file_Name);
-                reviewFileModalInput.filter('#filetype').val(fileType);
-                reviewFileModalInput.filter('#file_url').val(fileUrl);
-                reviewFileModalInput.filter('#fileUploaded').val(uploadedDate);
-                reviewFileModalInput.filter('#fileUploadedBy').val(updatedDate);
-                reviewFileModalInput.filter('#fileUploadedBy').val(uploader);
-                await retrieveAndDisplayFile(fileUrl, fileType);
-                hideProcessToast();
+                    reviewFileModalInput.filter('#selectedFile_ID').val(fileID);
+                    reviewFileModalInput.filter('#fileName').val(file_Name);
+                    reviewFileModalInput.filter('#filetype').val(fileType);
+                    reviewFileModalInput.filter('#file_url').val(fileUrl);
+                    reviewFileModalInput
+                        .filter('#fileUploaded')
+                        .val(uploadedDate);
+                    reviewFileModalInput
+                        .filter('#fileUploadedBy')
+                        .val(updatedDate);
+                    reviewFileModalInput
+                        .filter('#fileUploadedBy')
+                        .val(uploader);
+
+                    // Wait for the file to be fully loaded
+                    await retrieveAndDisplayFile(fileUrl, fileType);
+                } catch (error) {
+                    console.error('Error viewing file:', error);
+                    showToastFeedback(
+                        'text-bg-danger',
+                        'Failed to load file. Please try again.'
+                    );
+                } finally {
+                    hideProcessToast();
+                }
             });
 
-            //retrieve and display file function as base64 format for both pdf and img type
             async function retrieveAndDisplayFile(fileUrl, fileType) {
-                try {
-                    const response = await $.ajax({
-                        url: APPLICANT_TAB_ROUTE.SHOW_REQUIREMENT_FILE,
-                        method: 'GET',
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                'content'
-                            ),
-                        },
-                        data: {
-                            file_url: fileUrl,
-                        },
-                    });
+                return new Promise((resolve, reject) => {
+                    try {
+                        const fileContent =
+                            ReviewFileModalContainer.find('#fileContent');
+                        fileContent.empty();
 
-                    const fileContent = $('#fileContent');
-                    fileContent.empty(); // Clear any previous content
+                        if (fileType === 'pdf') {
+                            const embed = $('<iframe>', {
+                                src: fileUrl,
+                                type: 'application/pdf',
+                                width: '100%',
+                                height: '100%',
+                                frameborder: '0',
+                                allow: 'fullscreen',
+                            });
 
-                    if (fileType === 'pdf') {
-                        // Display PDF in an iframe
-                        const base64PDF =
-                            'data:application/pdf;base64,' +
-                            response.base64File +
-                            '';
-                        const embed = $('<iframe>', {
-                            src: base64PDF,
-                            type: 'application/pdf',
-                            width: '100%',
-                            height: '100%',
-                            frameborder: '0',
-                            allow: 'fullscreen',
-                        });
-                        fileContent.append(embed);
-                    } else {
-                        // Display Image
-                        const img = $('<img>', {
-                            src: `data:${fileType};base64,${response.base64File}`,
-                            class: 'img-fluid',
-                        });
-                        fileContent.append(img);
+                            embed.on('load', function () {
+                                resolve();
+                            });
+
+                            embed.on('error', function () {
+                                reject(new Error('Failed to load PDF'));
+                            });
+
+                            fileContent.append(embed);
+                        } else {
+                            const img = $('<img>', {
+                                src: fileUrl,
+                                class: 'img-fluid',
+                            });
+                            img.on('load', function () {
+                                resolve();
+                            });
+                            img.on('error', function () {
+                                reject(new Error('Failed to load image'));
+                            });
+
+                            fileContent.append(img);
+                        }
+
+                        // Show the modal
+                        const reviewFileModal = new bootstrap.Modal(
+                            ReviewFileModalContainer[0]
+                        );
+                        reviewFileModal.show();
+                    } catch (error) {
+                        reject(
+                            new Error(
+                                'Error in file retrieval and display: ' + error
+                            )
+                        );
                     }
-                } catch (error) {
-                    console.log(error);
-                } finally {
-                    const reviewFileModal = new bootstrap.Modal(
-                        $('#reviewFileModal')[0]
-                    );
-                    reviewFileModal.show();
-                }
+                });
             }
 
             //TODO: need some working

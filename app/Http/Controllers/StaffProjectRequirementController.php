@@ -108,11 +108,10 @@ class StaffProjectRequirementController extends Controller
                 return response()->stream(
                     function () use ($path) {
                         $file = fopen($path, 'rb');
-                        while (!feof($file)) {
-                            echo fread($file, 1024 * 64);
-                            flush();
+                        fpassthru($file);
+                        if (is_resource($file)) {
+                            fclose($file);
                         }
-                        fclose($file);
                     },
                     200,
                     [

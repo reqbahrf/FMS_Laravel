@@ -5,10 +5,12 @@ namespace App\Http\Controllers;
 use Exception;
 use App\Models\Requirement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
-use Illuminate\Support\Facades\Log;
 
 
 class ApplicantRequirementController extends Controller
@@ -41,7 +43,7 @@ class ApplicantRequirementController extends Controller
                 return [
                     'id' => $file->id,
                     'file_name' => $file->file_name,
-                    'full_url' => $file->file_link,
+                    'full_url' => $this->generateSecureFileUrl($file->id, $file->file_link),
                     'file_type' => $file->file_type,
                     'can_edit' => $file->can_edit,
                     'remarks' => $file->remarks,
@@ -63,26 +65,45 @@ class ApplicantRequirementController extends Controller
 
     /**
      * Display the specified resource.
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Illuminate\Http\Response
      */
-    public function show(Request $request)
+    public function show(Request $request, $id)
     {
         try {
+            // Retrieve the file path from the database using the ID
+            $requirement = Requirement::findOrFail($id);
+            $filePath = $requirement->file_link;
 
-            $validated = $request->validate([
-                'file_url' => 'required|string'
-            ]);
+            $fullPath = storage_path("app/private/{$filePath}");
 
-
-            if (!Storage::disk('private')->exists($validated['file_url'])) {
+            if (!file_exists($fullPath)) {
                 return response()->json(['error' => 'File not found'], 404);
             }
 
-            $fileContent = Storage::disk('private')->get($validated['file_url']);
+            // Get file mime type
+            $mimeType = mime_content_type($fullPath);
+            $size = filesize($fullPath);
 
-            $base64File = base64_encode($fileContent);
-            return response()->json([
-                'base64File' =>  $base64File,
-            ], 200);
+            // Create a stream response
+            return response()->stream(
+                function () use ($fullPath) {
+                    $stream = fopen($fullPath, 'rb');
+                    fpassthru($stream);
+                    if (is_resource($stream)) {
+                        fclose($stream);
+                    }
+                },
+                200,
+                [
+                    'Content-Type' => $mimeType,
+                    'Content-Disposition' => 'inline; filename="' . basename($filePath) . '"',
+                    'Content-Length' => $size,
+                    'Cache-Control' => 'no-cache, no-store, must-revalidate',
+                ]
+            );
         } catch (Exception $e) {
             Log::error('An error occurred: ' . $e->getMessage());
             return response()->json(['message' => $e->getMessage()], 500);
@@ -176,5 +197,13 @@ class ApplicantRequirementController extends Controller
         } catch (Exception $e) {
             return response()->json(['message' => $e->getMessage() || 'Something went wrong'], 500);
         }
+    }
+
+    protected function generateSecureFileUrl(int $fileId): string
+    {
+        // Use only the file ID in the URL, not the actual file path
+        return URL::signedRoute('Requirements.show', [
+            'id' => $fileId,
+        ]);
     }
 }
