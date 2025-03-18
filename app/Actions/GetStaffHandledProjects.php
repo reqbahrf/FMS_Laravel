@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -61,8 +62,12 @@ class GetStaffHandledProjects
                         'application_info.created_at as date_applied',
                         'application_info.id as application_id',
                         'application_info.application_status',
-                        'project_info.updated_at as date_approved',
-                    )->get();
+                        'project_info.created_at as date_approved',
+                    )->get()->map(function ($project) {
+                        $project->date_applied = Carbon::parse($project->date_applied)->format('Y-m-d');
+                        $project->date_approved = Carbon::parse($project->date_approved)->format('Y-m-d');
+                        return $project;
+                    });
 
                 Cache::put('handled_projects' . $org_userId, $handledProjects, 1800);
             }

@@ -37,7 +37,7 @@ export default class PaymentHandler {
         selectedRow: JQuery<HTMLElement>,
         paymentForm: JQuery<HTMLFormElement>
     ) {
-        const selected_transaction_id = selectedRow
+        const selected_reference_id = selectedRow
             .find('td:eq(0)')
             .text()
             .trim();
@@ -51,7 +51,7 @@ export default class PaymentHandler {
             .text()
             .trim();
 
-        paymentForm.find('#reference_number').val(selected_transaction_id);
+        paymentForm.find('#reference_number').val(selected_reference_id);
         paymentForm.find('#paymentAmount').val(selected_amount);
         paymentForm.find('#paymentMethod').val(selected_payment_method);
         paymentForm.find('#paymentStatus').val(selected_payment_status);
@@ -255,5 +255,40 @@ export default class PaymentHandler {
             options
         );
         this.paymentProgress.render();
+    }
+
+    /**
+     * Destroys the PaymentHandler instance by cleaning up resources
+     * and removing event listeners to prevent memory leaks.
+     */
+    destroy(): void {
+        try {
+            // Destroy the ApexCharts instance if it exists
+            if (this.paymentProgress) {
+                this.paymentProgress.destroy();
+                this.paymentProgress = null;
+            }
+
+            // Remove any jQuery event listeners that might have been attached
+            if (this.paymentForm) {
+                this.paymentForm.off();
+            }
+
+            if (this.completeMarkBtn) {
+                this.completeMarkBtn.off();
+            }
+
+            // Clear references to DOM elements
+            this.paymentForm = null as unknown as JQuery<HTMLFormElement>;
+            this.totalPaid = null as unknown as JQuery<HTMLElement>;
+            this.remainingBalance = null as unknown as JQuery<HTMLElement>;
+            this.completeMarkBtn = null as unknown as JQuery<HTMLButtonElement>;
+
+            // Clean up any other resources or event handlers
+
+            console.info('PaymentHandler instance destroyed successfully');
+        } catch (error: any) {
+            console.error('Error destroying PaymentHandler instance:', error);
+        }
     }
 }

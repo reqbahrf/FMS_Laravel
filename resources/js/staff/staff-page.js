@@ -45,6 +45,7 @@ import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 import { TableDataExtractor } from '../Utilities/TableDataExtractor';
 import { InitializeFilePond } from '../Utilities/FilepondHandlers';
+import { processError } from '../Utilities/error-handler-util';
 window.smartWizard = smartWizard;
 let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
@@ -202,9 +203,6 @@ async function initializeStaffPageJs() {
                 responsive: true,
                 columns: [
                     {
-                        title: 'ID',
-                    },
-                    {
                         title: 'Project Title',
                     },
                     {
@@ -217,6 +215,9 @@ async function initializeStaffPageJs() {
                         title: 'Refund Progress',
                     },
                     {
+                        title: 'Date Approved',
+                    },
+                    {
                         title: 'Status',
                     },
                     {
@@ -226,11 +227,11 @@ async function initializeStaffPageJs() {
                 columnDefs: [
                     {
                         targets: 0,
-                        width: '10%',
+                        width: '20%',
                     },
                     {
                         targets: 1,
-                        width: '20%',
+                        width: '15%',
                     },
                     {
                         targets: 2,
@@ -239,11 +240,12 @@ async function initializeStaffPageJs() {
                     {
                         targets: 3,
                         width: '15%',
+                        className: 'text-end',
                     },
                     {
                         targets: 4,
                         width: '15%',
-                        className: 'text-end',
+                        className: 'text-center',
                     },
                     {
                         targets: 5,
@@ -377,9 +379,6 @@ async function initializeStaffPageJs() {
             let ChartData = null;
             const createMonthlyDataChart = (applicant, ongoing, completed) => {
                 const monthlyDataChart = {
-                    theme: {
-                        mode: 'light',
-                    },
                     series: [
                         {
                             name: 'Applicant',
@@ -673,8 +672,7 @@ async function initializeStaffPageJs() {
                                 (refunded_amount / Actual_Amount) * 100
                             );
                             return [
-                                project.Project_id,
-                                project.project_title,
+                                /*html*/ `<p class="project-title">${project.project_title}</p><input type="hidden" class="project-id" value="${project.Project_id}">`,
                                 /*html*/ `<p class="firm_name">
                                         ${project.firm_name}
                                     </p>
@@ -791,6 +789,7 @@ async function initializeStaffPageJs() {
                                         class="actual_amount"
                                         value="${Actual_Amount}"
                                     />`,
+                                customDateFormatter(project.date_approved),
                                 /*html*/ `<span
                                    class="badge ${(() => {
                                        switch (project.application_status) {
@@ -803,7 +802,7 @@ async function initializeStaffPageJs() {
                                            default:
                                                return '';
                                        }
-                                   })()}"
+                                   })()} project-status"
                                     >${project.application_status}</span
                                 ><input type="hidden" class="application_id" value="${project.application_id}">`,
                                 /*html*/ `<button
@@ -829,7 +828,7 @@ async function initializeStaffPageJs() {
             /**
              * Handles the content of the project offcanvas based on the project status.
              *
-             * @param {string} project_status - The status of the project (approved, ongoing, completed)
+             * @param {string<'approved' | 'ongoing' | 'completed'>} project_status - The status of the project (approved, ongoing, completed)
              * @return {Promise<void>} A promise that resolves when the offcanvas content has been updated
              */
             async function handleProjectOffcanvasContent(project_status) {
@@ -1029,190 +1028,207 @@ async function initializeStaffPageJs() {
                 'click',
                 '.handleProjectbtn',
                 async function () {
-                    const handledProjectRow = $(this).closest('tr');
-                    const hiddenInputs = handledProjectRow.find(
-                        'input[type="hidden"]'
-                    );
-                    const offCanvaReadonlyInputs = $('#handleProjectOff').find(
-                        'input, #FundedAmount'
-                    );
-
-                    // Cache values from the row
-                    const project_status = handledProjectRow
-                        .find('td:eq(5)')
-                        .text()
-                        .trim();
-                    const application_id = handledProjectRow
-                        .find('input.application_id')
-                        .val();
-                    const project_id = handledProjectRow
-                        .find('td:eq(0)')
-                        .text()
-                        .trim();
-                    const projectTitle = handledProjectRow
-                        .find('td:eq(1)')
-                        .text()
-                        .trim();
-                    const firmName = handledProjectRow
-                        .find('td:eq(2) p.firm_name')
-                        .text()
-                        .trim();
-                    const cooperatorName = handledProjectRow
-                        .find('td:eq(3) p.owner_name')
-                        .text()
-                        .trim();
-
-                    // Cache hidden input values
-                    const business_id = hiddenInputs
-                        .filter('.business_id')
-                        .val();
-                    const birthDate = new Date(
-                        hiddenInputs.filter('.birth_date').val()
-                    );
-                    const dateApplied = hiddenInputs
-                        .filter('.dateApplied')
-                        .val();
-                    const sex = hiddenInputs.filter('.sex').val();
-                    const landline = hiddenInputs.filter('.landline').val();
-                    const mobilePhone = hiddenInputs
-                        .filter('.mobile_phone')
-                        .val();
-                    const email = hiddenInputs.filter('.email').val();
-                    const enterpriseType = hiddenInputs
-                        .filter('.business_enterprise_type')
-                        .val();
-                    const enterpriseLevel = hiddenInputs
-                        .filter('.business_enterprise_level')
-                        .val();
-                    const buildingAsset = parseFloat(
-                        hiddenInputs.filter('.building_value').val()
-                    );
-                    const equipmentAsset = parseFloat(
-                        hiddenInputs.filter('.equipment_value').val()
-                    );
-                    const workingCapitalAsset = parseFloat(
-                        hiddenInputs.filter('.working_capital').val()
-                    );
-                    const approved_amount = hiddenInputs
-                        .filter('.approved_amount')
-                        .val();
-                    const actual_amount = hiddenInputs
-                        .filter('.actual_amount')
-                        .val();
-
-                    const fee_applied = hiddenInputs
-                        .filter('.fee_applied')
-                        .val();
-
-                    // Calculate age
-                    const age = Math.floor(
-                        (new Date() - birthDate) /
-                            (365.25 * 24 * 60 * 60 * 1000)
-                    );
-
-                    // Update form fields
-                    offCanvaReadonlyInputs
-                        .filter('#hiddenbusiness_id')
-                        .val(business_id);
-                    offCanvaReadonlyInputs.filter('#age').val(age);
-                    offCanvaReadonlyInputs.filter('#ProjectID').val(project_id);
-                    offCanvaReadonlyInputs
-                        .filter('#ProjectTitle')
-                        .val(projectTitle);
-                    offCanvaReadonlyInputs
-                        .filter('#ApprovedAmount')
-                        .val(formatNumber(parseFloat(approved_amount)));
-                    offCanvaReadonlyInputs
-                        .filter('#appliedDate')
-                        .val(customDateFormatter(dateApplied));
-                    offCanvaReadonlyInputs.filter('#FirmName').val(firmName);
-                    offCanvaReadonlyInputs
-                        .filter('#CooperatorName')
-                        .val(cooperatorName);
-                    offCanvaReadonlyInputs.filter('#sex').val(sex);
-                    offCanvaReadonlyInputs.filter('#landline').val(landline);
-                    offCanvaReadonlyInputs
-                        .filter('#mobilePhone')
-                        .val(mobilePhone);
-                    offCanvaReadonlyInputs.filter('#email').val(email);
-                    offCanvaReadonlyInputs
-                        .filter('#enterpriseType')
-                        .val(enterpriseType);
-                    offCanvaReadonlyInputs
-                        .filter('#EnterpriseLevel')
-                        .val(enterpriseLevel);
-                    offCanvaReadonlyInputs
-                        .filter('#buildingAsset')
-                        .val(formatNumber(buildingAsset));
-                    offCanvaReadonlyInputs
-                        .filter('#equipmentAsset')
-                        .val(formatNumber(equipmentAsset));
-                    offCanvaReadonlyInputs
-                        .filter('#workingCapitalAsset')
-                        .val(formatNumber(workingCapitalAsset));
-
-                    offCanvaReadonlyInputs
-                        .filter('#FundedAmount')
-                        .html(
-                            /*html*/ `${formatNumber(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
+                    try {
+                        const handledProjectRow = $(this).closest('tr');
+                        const hiddenInputs = handledProjectRow.find(
+                            'input[type="hidden"]'
                         );
-                    const formContainer = $('#SheetFormDocumentContainer');
+                        const offCanvaReadonlyInputs = $(
+                            '#handleProjectOff'
+                        ).find('input, #FundedAmount');
 
-                    if (pisClass) {
-                        pisClass.destroy();
-                    }
+                        // Cache values from the row
+                        const project_status = handledProjectRow
+                            .find('span.project-status')
+                            .text()
+                            .trim();
+                        const application_id = hiddenInputs
+                            .filter('.application_id')
+                            .val();
+                        const project_id = hiddenInputs
+                            .filter('.project-id')
+                            .val();
+                        const projectTitle = handledProjectRow
+                            .find('p.project-title')
+                            .text()
+                            .trim();
+                        const firmName = handledProjectRow
+                            .find('p.firm_name')
+                            .text()
+                            .trim();
+                        const cooperatorName = handledProjectRow
+                            .find('p.owner_name')
+                            .text()
+                            .trim();
 
-                    if (pdsClass) {
-                        pdsClass.destroy();
-                    }
+                        // Cache hidden input values
+                        const business_id = hiddenInputs
+                            .filter('.business_id')
+                            .val();
+                        const birthDate = new Date(
+                            hiddenInputs.filter('.birth_date').val()
+                        );
+                        const dateApplied = hiddenInputs
+                            .filter('.dateApplied')
+                            .val();
+                        const sex = hiddenInputs.filter('.sex').val();
+                        const landline = hiddenInputs.filter('.landline').val();
+                        const mobilePhone = hiddenInputs
+                            .filter('.mobile_phone')
+                            .val();
+                        const email = hiddenInputs.filter('.email').val();
+                        const enterpriseType = hiddenInputs
+                            .filter('.business_enterprise_type')
+                            .val();
+                        const enterpriseLevel = hiddenInputs
+                            .filter('.business_enterprise_level')
+                            .val();
+                        const buildingAsset = parseFloat(
+                            hiddenInputs.filter('.building_value').val()
+                        );
+                        const equipmentAsset = parseFloat(
+                            hiddenInputs.filter('.equipment_value').val()
+                        );
+                        const workingCapitalAsset = parseFloat(
+                            hiddenInputs.filter('.working_capital').val()
+                        );
+                        const approved_amount = hiddenInputs
+                            .filter('.approved_amount')
+                            .val();
+                        const actual_amount = hiddenInputs
+                            .filter('.actual_amount')
+                            .val();
 
-                    pisClass = new ProjectInfoSheet(
-                        formContainer,
-                        project_id,
-                        business_id,
-                        application_id
-                    );
+                        const fee_applied = hiddenInputs
+                            .filter('.fee_applied')
+                            .val();
 
-                    if (projectFileClass) {
-                        projectFileClass.destroy();
-                    }
+                        // Calculate age
+                        const age = Math.floor(
+                            (new Date() - birthDate) /
+                                (365.25 * 24 * 60 * 60 * 1000)
+                        );
 
-                    projectFileClass = new FileCoopRequirementHandler(
-                        ProjectFileLinkDataTable
-                    );
+                        // Update form fields
+                        offCanvaReadonlyInputs
+                            .filter('#hiddenbusiness_id')
+                            .val(business_id);
+                        offCanvaReadonlyInputs.filter('#age').val(age);
+                        offCanvaReadonlyInputs
+                            .filter('#ProjectID')
+                            .val(project_id);
+                        offCanvaReadonlyInputs
+                            .filter('#ProjectTitle')
+                            .val(projectTitle);
+                        offCanvaReadonlyInputs
+                            .filter('#ApprovedAmount')
+                            .val(formatNumber(parseFloat(approved_amount)));
+                        offCanvaReadonlyInputs
+                            .filter('#appliedDate')
+                            .val(customDateFormatter(dateApplied));
+                        offCanvaReadonlyInputs
+                            .filter('#FirmName')
+                            .val(firmName);
+                        offCanvaReadonlyInputs
+                            .filter('#CooperatorName')
+                            .val(cooperatorName);
+                        offCanvaReadonlyInputs.filter('#sex').val(sex);
+                        offCanvaReadonlyInputs
+                            .filter('#landline')
+                            .val(landline);
+                        offCanvaReadonlyInputs
+                            .filter('#mobilePhone')
+                            .val(mobilePhone);
+                        offCanvaReadonlyInputs.filter('#email').val(email);
+                        offCanvaReadonlyInputs
+                            .filter('#enterpriseType')
+                            .val(enterpriseType);
+                        offCanvaReadonlyInputs
+                            .filter('#EnterpriseLevel')
+                            .val(enterpriseLevel);
+                        offCanvaReadonlyInputs
+                            .filter('#buildingAsset')
+                            .val(formatNumber(buildingAsset));
+                        offCanvaReadonlyInputs
+                            .filter('#equipmentAsset')
+                            .val(formatNumber(equipmentAsset));
+                        offCanvaReadonlyInputs
+                            .filter('#workingCapitalAsset')
+                            .val(formatNumber(workingCapitalAsset));
 
-                    pdsClass = new ProjectDataSheet(formContainer, project_id);
+                        offCanvaReadonlyInputs
+                            .filter('#FundedAmount')
+                            .html(
+                                /*html*/ `${formatNumber(parseFloat(actual_amount))} <span class="fee_text text-muted">(applied ${fee_applied} %)</span>`
+                            );
+                        const formContainer = $('#SheetFormDocumentContainer');
 
-                    if (psrClass) {
-                        psrClass.destroy();
-                    }
-                    psrClass = new ProjectStatusReportSheet(
-                        formContainer,
-                        project_id,
-                        business_id,
-                        application_id
-                    );
-
-                    //TODO initialize Payment Object here
-                    handleProjectOffcanvasContent(project_status);
-                    paymentHandler = new PaymentHandler(
-                        PaymentHistoryDataTable,
-                        project_id,
-                        actual_amount
-                    );
-                    const results = await Promise.allSettled([
-                        paymentHandler.getPaymentAndCalculation(),
-                        getProjectLedger(project_id),
-                        projectFileClass.getProjectLinks(project_id),
-                        getQuarterlyReports(project_id),
-                    ]);
-
-                    results.forEach((result) => {
-                        if (result.status === 'rejected') {
-                            console.error('Promise failed:', result.reason);
+                        if (pisClass) {
+                            pisClass.destroy();
                         }
-                    });
-                    // getAvailableQuarterlyReports(project_id);
+
+                        if (pdsClass) {
+                            pdsClass.destroy();
+                        }
+
+                        pisClass = new ProjectInfoSheet(
+                            formContainer,
+                            project_id,
+                            business_id,
+                            application_id
+                        );
+
+                        if (projectFileClass) {
+                            projectFileClass.destroy();
+                        }
+
+                        projectFileClass = new FileCoopRequirementHandler(
+                            ProjectFileLinkDataTable
+                        );
+
+                        pdsClass = new ProjectDataSheet(
+                            formContainer,
+                            project_id
+                        );
+
+                        if (psrClass) {
+                            psrClass.destroy();
+                        }
+                        psrClass = new ProjectStatusReportSheet(
+                            formContainer,
+                            project_id,
+                            business_id,
+                            application_id
+                        );
+
+                        handleProjectOffcanvasContent(project_status);
+                        if (paymentHandler) {
+                            paymentHandler.destroy();
+                        }
+                        paymentHandler = new PaymentHandler(
+                            PaymentHistoryDataTable,
+                            project_id,
+                            actual_amount
+                        );
+                        const results = await Promise.allSettled([
+                            paymentHandler.getPaymentAndCalculation(),
+                            getProjectLedger(project_id),
+                            projectFileClass.getProjectLinks(project_id),
+                            getQuarterlyReports(project_id),
+                        ]);
+
+                        results.forEach((result) => {
+                            if (result.status === 'rejected') {
+                                console.error('Promise failed:', result.reason);
+                            }
+                        });
+                    } catch (error) {
+                        processError(
+                            'Error loading project details: ',
+                            error,
+                            true
+                        );
+                    }
                 }
             );
 
@@ -1834,7 +1850,6 @@ async function initializeStaffPageJs() {
             const CompletedDataTable = $('#completedTable').DataTable({
                 responsive: true,
                 autoWidth: false,
-                fixedColumns: true,
                 columns: [
                     {
                         title: 'Project #',
