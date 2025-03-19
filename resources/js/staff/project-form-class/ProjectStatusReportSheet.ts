@@ -6,7 +6,7 @@ import {
     showToastFeedback,
 } from '../../Utilities/feedback-toast';
 import createConfirmationModal from '../../Utilities/confirmation-modal';
-import ProjectStatusReportEvent from '../project-form-events/ProjectStatusReportEvent';
+import ProjectStatusReportEvent from '../project-form-class-events/ProjectStatusReportEvent';
 import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
 import {
     EquipmentTableConfig,
@@ -270,7 +270,6 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                         ...TableDataExtractor(EquipmentTableConfig),
                         ...TableDataExtractor(NonEquipmentTableConfig),
                         ...TableDataExtractor(salesTableConfig),
-                        ...TableDataExtractor(EmploymentGeneratedTableConfig),
                         ...TableDataExtractor(IndirectEmploymentTableConfig),
                     };
                     await this._saveStatusReport(formDataObject, url);

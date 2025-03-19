@@ -61,7 +61,7 @@
             @endphp
             @forelse ($projectStatusReportData['volume_and_value_production'] ?? [] as $item)
                 @php
-                    $totalGrossSales += NF::parseFormattedNumberToFloat($item['grossSales'] ?? 0);
+                    $totalGrossSales += NF::parseFormattedNumber($item['grossSales'] ?? 0);
                 @endphp
                 <tr>
                     <td>
@@ -85,28 +85,28 @@
                             <select class="sales_quarter_specify">
                                 <option
                                     value="1ˢᵗ Quarter"
-                                    {{ $item['salesQuarter'] == '1ˢᵗ Quarter' ? 'selected' : '' }}
+                                    {{ ($item['salesQuarter']['quarter'] ?? '') == '1ˢᵗ Quarter' ? 'selected' : '' }}
                                 >1ˢᵗ Quarter</option>
                                 <option
                                     value="2ⁿᵈ Quarter"
-                                    {{ $item['salesQuarter'] == '2ⁿᵈ Quarter' ? 'selected' : '' }}
+                                    {{ ($item['salesQuarter']['quarter'] ?? '') == '2ⁿᵈ Quarter' ? 'selected' : '' }}
                                 >2ⁿᵈ Quarter</option>
                                 <option
                                     value="3ʳᵈ Quarter"
-                                    {{ $item['salesQuarter'] == '3ʳᵈ Quarter' ? 'selected' : '' }}
+                                    {{ ($item['salesQuarter']['quarter'] ?? '') == '3ʳᵈ Quarter' ? 'selected' : '' }}
                                 >3ʳᵈ Quarter</option>
                                 <option
                                     value="4ᵗʰ Quarter"
-                                    {{ $item['salesQuarter'] == '4ᵗʰ Quarter' ? 'selected' : '' }}
+                                    {{ ($item['salesQuarter']['quarter'] ?? '') == '4ᵗʰ Quarter' ? 'selected' : '' }}
                                 >4ᵗʰ Quarter</option>
                             </select>
                         @else
-                            <span>{{ $item['salesQuarter'] ?? '' }}</span>
+                            <span>{{ $item['salesQuarter']['quarter'] ?? '' }}</span>
                         @endif
                         <x-custom-input.input
                             class="for_year"
                             type="text"
-                            :value="$item['for_year'] ?? ''"
+                            :value="$item['salesQuarter']['year'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>

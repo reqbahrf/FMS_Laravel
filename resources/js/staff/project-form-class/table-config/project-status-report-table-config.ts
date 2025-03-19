@@ -62,7 +62,10 @@ const salesTableConfig = {
         selectors: {
             productService: '.name_of_product_service',
             volumeOfProduction: '.volume_of_production',
-            salesQuarter: '.sales_quarter_specify',
+            salesQuarter: {
+                quarter: '.sales_quarter_specify',
+                year: '.for_year',
+            },
             grossSales: '.sales_gross_sales',
         },
         requiredFields: [
