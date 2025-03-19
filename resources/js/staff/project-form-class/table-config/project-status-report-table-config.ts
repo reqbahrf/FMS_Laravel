@@ -100,21 +100,21 @@ const IndirectEmploymentTableConfig = {
         id: 'indirectEmploymentTable',
         selectors: {
             indirectEmploymentQuarter: '.quarter_selector',
-            indirectEmploymentForwardMale: '.forward_male',
-            indirectEmploymentForwardFemale: '.forward_female',
-            indirectEmploymentForwardTotal: '.forward_total',
-            indirectEmploymentBackwardMale: '.backward_male',
-            indirectEmploymentBackwardFemale: '.backward_female',
-            indirectEmploymentBackwardTotal: '.backward_total',
+            indirectEmploymentForward: {
+                male: '.forward_male',
+                female: '.forward_female',
+            },
+            indirectEmploymentBackward: {
+                male: '.backward_male',
+                female: '.backward_female',
+            },
         },
         requiredFields: [
             'indirectEmploymentQuarter',
-            'indirectEmploymentForwardMale',
-            'indirectEmploymentForwardFemale',
-            'indirectEmploymentForwardTotal',
-            'indirectEmploymentBackwardMale',
-            'indirectEmploymentBackwardFemale',
-            'indirectEmploymentBackwardTotal',
+            'indirectEmploymentForward.male',
+            'indirectEmploymentForward.female',
+            'indirectEmploymentBackward.male',
+            'indirectEmploymentBackward.female',
         ],
     },
 };

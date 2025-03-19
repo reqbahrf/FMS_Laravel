@@ -1,4 +1,3 @@
-@props(['projectStatusReportData', 'isEditable' => false])
 <style>
     #newIndirectEmploymentFromTheProject th,
     #newIndirectEmploymentFromTheProject td {
@@ -49,7 +48,7 @@
             </tr>
         </thead>
         <tbody>
-            @forelse ($projectStatusReportData['new_indirect_employment_from_the_project'] ?? [] as $item)
+            @forelse ($newIndirectEmploymentFromTheProject ?? [] as $index => $item)
                 <tr>
                     <td
                         class="quarter-col"
@@ -59,19 +58,19 @@
                             <select class="quarter_selector">
                                 <option
                                     value="1ˢᵗ Quarter"
-                                    {{ $item['quarter_selector'] === '1ˢᵗ Quarter' ? 'selected' : '' }}
+                                    {{ ($item['indirectEmploymentQuarter'] ?? '') == '1ˢᵗ Quarter' ? 'selected' : '' }}
                                 >1ˢᵗ Quarter</option>
                                 <option
                                     value="2ⁿᵈ Quarter"
-                                    {{ $item['quarter_selector'] === '2ⁿᵈ Quarter' ? 'selected' : '' }}
+                                    {{ ($item['indirectEmploymentQuarter'] ?? '') == '2ⁿᵈ Quarter' ? 'selected' : '' }}
                                 >2ⁿᵈ Quarter</option>
                                 <option
                                     value="3ʳᵈ Quarter"
-                                    {{ $item['quarter_selector'] === '3ʳᵈ Quarter' ? 'selected' : '' }}
+                                    {{ ($item['indirectEmploymentQuarter'] ?? '') == '3ʳᵈ Quarter' ? 'selected' : '' }}
                                 >3ʳᵈ Quarter</option>
                                 <option
                                     value="4ᵗʰ Quarter"
-                                    {{ $item['quarter_selector'] === '4ᵗʰ Quarter' ? 'selected' : '' }}
+                                    {{ ($item['indirectEmploymentQuarter'] ?? '') == '4ᵗʰ Quarter' ? 'selected' : '' }}
                                 >4ᵗʰ Quarter</option>
                             </select>
                         @else
@@ -80,51 +79,41 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="forward-male"
+                            class="forward_male"
                             type="text"
-                            :value="$item['indirectEmploymentForwardMale'] ?? ''"
+                            :value="$item['indirectEmploymentForward']['male'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="forward-female"
+                            class="forward_female"
                             type="text"
-                            :value="$item['indirectEmploymentForwardFemale'] ?? ''"
+                            :value="$item['indirectEmploymentForward']['female'] ?? ''"
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        {{ $totals['rows'][$index]['indirectEmploymentForward']['total'] ?? '' }}
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="backward_male"
+                            type="text"
+                            :value="$item['indirectEmploymentBackward']['male'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="forward-total"
+                            class="backward_female"
                             type="text"
-                            :value="$item['indirectEmploymentForwardTotal'] ?? ''"
+                            :value="$item['indirectEmploymentBackward']['female'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
-                        <x-custom-input.input
-                            class="backward-male"
-                            type="text"
-                            :value="$item['indirectEmploymentBackwardMale'] ?? ''"
-                            :isEditable="$isEditable"
-                        />
-                    </td>
-                    <td>
-                        <x-custom-input.input
-                            class="backward-female"
-                            type="text"
-                            :value="$item['indirectEmploymentBackwardFemale'] ?? ''"
-                            :isEditable="$isEditable"
-                        />
-                    </td>
-                    <td>
-                        <x-custom-input.input
-                            class="backward-total"
-                            type="text"
-                            :value="$item['indirectEmploymentBackwardTotal'] ?? ''"
-                            :isEditable="$isEditable"
-                        />
+                        {{ $totals['rows'][$index]['indirectEmploymentBackward']['total'] ?? '' }}
                     </td>
                 </tr>
             @empty
@@ -135,16 +124,16 @@
                     >
                         @if ($isEditable)
                             <select class="quarter_selector">
-                                <option value="1">1ˢᵗ Quarter</option>
-                                <option value="2">2ⁿᵈ Quarter</option>
-                                <option value="3">3ʳᵈ Quarter</option>
-                                <option value="4">4ᵗʰ Quarter</option>
+                                <option value="1ˢᵗ Quarter">1ˢᵗ Quarter</option>
+                                <option value="2ⁿᵈ Quarter">2ⁿᵈ Quarter</option>
+                                <option value="3ʳᵈ Quarter">3ʳᵈ Quarter</option>
+                                <option value="4ᵗʰ Quarter">4ᵗʰ Quarter</option>
                             </select>
                         @endif
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="forward-male"
+                            class="forward_male"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -152,7 +141,18 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="forward-female"
+                            class="forward_female"
+                            type="text"
+                            value=""
+                            :isEditable="$isEditable"
+                        />
+                    </td>
+                    <td>
+                        0
+                    </td>
+                    <td>
+                        <x-custom-input.input
+                            class="backward_male"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
@@ -160,35 +160,14 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="forward-total"
+                            class="backward_female"
                             type="text"
                             value=""
                             :isEditable="$isEditable"
                         />
                     </td>
                     <td>
-                        <x-custom-input.input
-                            class="backward-male"
-                            type="text"
-                            value=""
-                            :isEditable="$isEditable"
-                        />
-                    </td>
-                    <td>
-                        <x-custom-input.input
-                            class="backward-female"
-                            type="text"
-                            value=""
-                            :isEditable="$isEditable"
-                        />
-                    </td>
-                    <td>
-                        <x-custom-input.input
-                            class="backward-total"
-                            type="text"
-                            value=""
-                            :isEditable="$isEditable"
-                        />
+                        0
                     </td>
                 </tr>
             @endforelse
@@ -199,12 +178,12 @@
                     class="quarter-col"
                     colspan="2"
                 >Total</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>{{ $totals['grand']['forward']['male'] ?? 0 }}</td>
+                <td>{{ $totals['grand']['forward']['female'] ?? 0 }}</td>
+                <td>{{ $totals['grand']['forward']['total'] ?? 0 }}</td>
+                <td>{{ $totals['grand']['backward']['male'] ?? 0 }}</td>
+                <td>{{ $totals['grand']['backward']['female'] ?? 0 }}</td>
+                <td>{{ $totals['grand']['backward']['total'] ?? 0 }}</td>
             </tr>
         </tfoot>
     </table>

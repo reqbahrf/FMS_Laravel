@@ -60,7 +60,7 @@
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.new-indirect-employment-from-the-project
-            :projectStatusReportData="$projectStatusReportData"
+            :new-indirect-employment-from-the-project="$projectStatusReportData['new_indirect_employment_from_the_project']"
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.list-of-market-penetrated

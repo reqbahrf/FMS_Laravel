@@ -74,13 +74,11 @@ class GenerateSRRequest extends FormRequest
 
 
             'new_indirect_employment_from_the_project' => 'nullable|array',
-            'new_indirect_employment_from_the_project.*.indirectEmploymentQuarter' => 'nullable|string|max:5',
-            'new_indirect_employment_from_the_project.*.indirectEmploymentForwardMale' => 'nullable|string',
-            'new_indirect_employment_from_the_project.*.indirectEmploymentForwardFemale' => 'nullable|string',
-            'new_indirect_employment_from_the_project.*.indirectEmploymentForwardTotal' => 'nullable|string',
-            'new_indirect_employment_from_the_project.*.indirectEmploymentBackwardMale' => 'nullable|string',
-            'new_indirect_employment_from_the_project.*.indirectEmploymentBackwardFemale' => 'nullable|string',
-            'new_indirect_employment_from_the_project.*.indirectEmploymentBackwardTotal' => 'nullable|string',
+            'new_indirect_employment_from_the_project.*.indirectEmploymentQuarter' => 'nullable|string|in:1ˢᵗ Quarter,2ⁿᵈ Quarter,3ʳᵈ Quarter,4ᵗʰ Quarter',
+            'new_indirect_employment_from_the_project.*.indirectEmploymentForward.male' => 'nullable|string',
+            'new_indirect_employment_from_the_project.*.indirectEmploymentForward.female' => 'nullable|string',
+            'new_indirect_employment_from_the_project.*.indirectEmploymentBackward.male' => 'nullable|string',
+            'new_indirect_employment_from_the_project.*.indirectEmploymentBackward.female' => 'nullable|string',
 
             'existing_market' => 'nullable|string',
             'new_market_specify_place' => 'nullable|string',
