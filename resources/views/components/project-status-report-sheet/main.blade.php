@@ -52,7 +52,7 @@
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.volume-and-value-production
-            :projectStatusReportData="$projectStatusReportData"
+            :volume-and-value-production="$projectStatusReportData['volume_and_value_production']"
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.new-employment-generated
