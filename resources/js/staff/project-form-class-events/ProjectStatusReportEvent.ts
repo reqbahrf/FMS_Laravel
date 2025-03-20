@@ -9,10 +9,13 @@ import {
     parseFormattedNumberToFloat,
 } from '../../Utilities/utilFunctions';
 import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
+import VolumeValueProductionEvent from './VolumeValueProductionEvent';
 export default class ProjectStatusReportEvent {
-    private form: JQuery<HTMLFormElement>;
+    protected form: JQuery<HTMLFormElement>;
     private parentFormWrapper: JQuery<HTMLElement>;
     private floatingWindowContainer: JQuery<HTMLElement>;
+    private volumeValueProductionEvent: VolumeValueProductionEvent;
+
     constructor(form: JQuery<HTMLFormElement>) {
         this.form = form;
         this.parentFormWrapper = this.form.closest('#formWrapper');
@@ -23,6 +26,11 @@ export default class ProjectStatusReportEvent {
         this._initializeAddAndRemoveTableRow();
         this._initializeIndirectEmploymentCalculation();
         this._initializeQuarterTablesHandlers();
+
+        // Initialize the volume value production event handler
+        this.volumeValueProductionEvent = new VolumeValueProductionEvent(
+            this.form
+        );
     }
 
     private _initializeInputFormatters() {
@@ -95,15 +103,6 @@ export default class ProjectStatusReportEvent {
 
             addNewRowHandler('#addNonEquipmentRow', '#nonEquipmentItems');
             removeRowHandler('#removeNonEquipmentRow', '#nonEquipmentItems');
-
-            addNewRowHandler(
-                '#addVolumeAndValueProductionRow',
-                '#volumeAndValueProduction'
-            );
-            removeRowHandler(
-                '#removeVolumeAndValueProductionRow',
-                '#volumeAndValueProduction'
-            );
 
             addNewRowHandler(
                 '#addNewIndirectEmploymentRow',
@@ -455,5 +454,25 @@ export default class ProjectStatusReportEvent {
             // Return an empty result if there's an error
             return { newEmploymentGenerated: {} };
         }
+    }
+
+    /**
+     * Extract all form data including volume and value production data
+     *
+     * @returns Combined data from all form sections
+     */
+    public extractAllFormData() {
+        // Extract employment data
+        const employmentData = this.extractEmploymentGeneratedData();
+
+        // Extract volume and value production data using the specialized handler
+        // const volumeValueData =
+        //     this.volumeValueProductionEvent.extractVolumeValueData();
+
+        // Combine all data
+        return {
+            ...employmentData,
+            // ...volumeValueData,
+        };
     }
 }

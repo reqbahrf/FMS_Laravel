@@ -6,7 +6,6 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\Support\Facades\Log;
 use Illuminate\View\Component;
-use App\Services\NumberFormatterService as NF;
 
 
 class NewIndirectEmploymentFromTheProject extends Component
