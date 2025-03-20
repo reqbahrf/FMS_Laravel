@@ -21,9 +21,14 @@ class VolumeAndValueProduction extends Component
     public $isEditable;
 
     /**
-     * Processed data for the view
+     * Processed data for the view, grouped primarily by year
      */
     public $groupedData;
+
+    /**
+     * Year totals for quick access
+     */
+    public $yearTotals;
 
     /**
      * Total gross sales
@@ -35,7 +40,6 @@ class VolumeAndValueProduction extends Component
      */
     public function __construct($volumeAndValueProduction = [], $isEditable = false)
     {
-
         $this->volumeAndValueProduction = $volumeAndValueProduction;
         $this->isEditable = $isEditable;
 
@@ -44,11 +48,12 @@ class VolumeAndValueProduction extends Component
 
     /**
      * Process the volume and value production data
-     * Group by year and quarter for subtotals
+     * Group by year first, then by quarter for subtotals
      */
     private function processData(): void
     {
         $this->groupedData = [];
+        $this->yearTotals = [];
         $this->totalGrossSales = 0;
 
         $items = $this->volumeAndValueProduction ?? [];
@@ -60,13 +65,14 @@ class VolumeAndValueProduction extends Component
             'volumeAndValueProductionKeys' => is_array($this->volumeAndValueProduction) ? array_keys($this->volumeAndValueProduction) : 'not an array'
         ]);
 
-        // Group data by year and quarter
+        // Group data by year first, then by quarter
         foreach ($items as $item) {
             $year = $item['salesQuarter']['year'] ?? 'N/A';
             $quarter = $item['salesQuarter']['quarter'] ?? 'N/A';
 
             if (!isset($this->groupedData[$year])) {
                 $this->groupedData[$year] = [];
+                $this->yearTotals[$year] = 0;
             }
 
             if (!isset($this->groupedData[$year][$quarter])) {
@@ -74,22 +80,33 @@ class VolumeAndValueProduction extends Component
             }
 
             $this->groupedData[$year][$quarter][] = $item;
+
+            // Add to the totals
+            $itemGrossSales = NF::parseFormattedNumber($item['grossSales'] ?? 0);
+            $this->yearTotals[$year] += $itemGrossSales;
+            $this->totalGrossSales += $itemGrossSales;
         }
 
-        // Sort years and quarters
+        // Sort years numerically
         ksort($this->groupedData);
-        foreach ($this->groupedData as $year => $quarters) {
-            ksort($this->groupedData[$year]);
-        }
 
-        // Calculate totals
+        // Sort quarters within each year using a custom sort function
         foreach ($this->groupedData as $year => $quarters) {
-            foreach ($quarters as $quarter => $items) {
-                foreach ($items as $item) {
-                    $itemGrossSales = NF::parseFormattedNumber($item['grossSales'] ?? 0);
-                    $this->totalGrossSales += $itemGrossSales;
-                }
-            }
+            // Define the quarter order
+            $quarterOrder = [
+                '1ˢᵗ Quarter' => 1,
+                '2ⁿᵈ Quarter' => 2,
+                '3ʳᵈ Quarter' => 3,
+                '4ᵗʰ Quarter' => 4,
+                'N/A' => 5
+            ];
+
+            // Custom sort using the quarter order
+            uksort($this->groupedData[$year], function ($a, $b) use ($quarterOrder) {
+                $orderA = $quarterOrder[$a] ?? 999;
+                $orderB = $quarterOrder[$b] ?? 999;
+                return $orderA - $orderB;
+            });
         }
     }
 
@@ -106,18 +123,32 @@ class VolumeAndValueProduction extends Component
     }
 
     /**
-     * Calculate year total
+     * Calculate year total - now used in the template
      */
-    // public function calculateYearTotal($quarters): float
-    // {
-    //     $total = 0;
-    //     foreach ($quarters as $quarterItems) {
-    //         foreach ($quarterItems as $item) {
-    //             $total += NF::parseFormattedNumber($item['grossSales'] ?? 0);
-    //         }
-    //     }
-    //     return $total;
-    // }
+    public function calculateYearTotal($quarters): float
+    {
+        $total = 0;
+        foreach ($quarters as $quarterItems) {
+            foreach ($quarterItems as $item) {
+                $total += NF::parseFormattedNumber($item['grossSales'] ?? 0);
+            }
+        }
+        return $total;
+    }
+
+    /**
+     * Define quarter labels for sorting and display
+     */
+    public function getQuarterOrder(): array
+    {
+        return [
+            '1ˢᵗ Quarter' => 1,
+            '2ⁿᵈ Quarter' => 2,
+            '3ʳᵈ Quarter' => 3,
+            '4ᵗʰ Quarter' => 4,
+            'N/A' => 5
+        ];
+    }
 
     /**
      * Get the view / contents that represent the component.

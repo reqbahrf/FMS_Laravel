@@ -5,6 +5,7 @@ import {
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
 import * as bootstrap from 'bootstrap';
+import { showToastFeedback } from '../../Utilities/feedback-toast';
 
 /**
  * VolumeValueProductionEvent class
@@ -12,7 +13,7 @@ import * as bootstrap from 'bootstrap';
  * Provides specialized functionality for the Volume and Value Production table, including:
  * - Modal confirmation for adding/removing rows
  * - Real-time calculation of totals based on quarters and years
- * - Grouping data by year and quarter similar to the PHP backend
+ * - Strict grouping of data by year, with quarters as a secondary grouping
  */
 export default class VolumeValueProductionEvent {
     private form: JQuery<HTMLFormElement>;
@@ -65,6 +66,9 @@ export default class VolumeValueProductionEvent {
         // Initialize real-time calculation
         this._initializeRealTimeCalculation();
 
+        // Organize existing rows by year
+        this._reorganizeRowsByYear();
+
         // Calculate totals on initialization
         this._calculateTotals();
     }
@@ -75,8 +79,8 @@ export default class VolumeValueProductionEvent {
     private _createModals(): void {
         // Only create modals if they don't already exist
         if (!this.modalAdded && $('#volumeValueAddRowModal').length === 0) {
-            // Create Add Row Modal
-            const addModalHtml = `
+            // Create Add Row Modal - with year as the primary selection
+            const addModalHtml = /*html*/ `
                 <div class="modal fade" id="volumeValueAddRowModal" tabindex="-1" aria-labelledby="volumeValueAddRowModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -86,6 +90,10 @@ export default class VolumeValueProductionEvent {
                             </div>
                             <div class="modal-body">
                                 <div class="mb-3">
+                                    <label for="volumeValueAddRowYearInput" class="form-label"><strong>Year</strong></label>
+                                    <input type="text" class="form-control" id="volumeValueAddRowYearInput" value="${new Date().getFullYear()}">
+                                </div>
+                                <div class="mb-3">
                                     <label for="volumeValueAddRowQuarterSelect" class="form-label">Select Quarter</label>
                                     <select class="form-select" id="volumeValueAddRowQuarterSelect">
                                         <option value="1ˢᵗ Quarter">1ˢᵗ Quarter</option>
@@ -93,10 +101,6 @@ export default class VolumeValueProductionEvent {
                                         <option value="3ʳᵈ Quarter">3ʳᵈ Quarter</option>
                                         <option value="4ᵗʰ Quarter">4ᵗʰ Quarter</option>
                                     </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="volumeValueAddRowYearInput" class="form-label">Year</label>
-                                    <input type="text" class="form-control" id="volumeValueAddRowYearInput" value="${new Date().getFullYear()}">
                                 </div>
                             </div>
                             <div class="modal-footer">
@@ -109,7 +113,7 @@ export default class VolumeValueProductionEvent {
             `;
 
             // Create Remove Row Modal
-            const removeModalHtml = `
+            const removeModalHtml = /*html*/ `
                 <div class="modal fade" id="volumeValueRemoveRowModal" tabindex="-1" aria-labelledby="volumeValueRemoveRowModalLabel" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
@@ -119,8 +123,8 @@ export default class VolumeValueProductionEvent {
                             </div>
                             <div class="modal-body">
                                 <div class="mb-3">
-                                    <label for="volumeValueRemoveRowQuarterSelect" class="form-label">Select Quarter and Year</label>
-                                    <select class="form-select" id="volumeValueRemoveRowQuarterSelect">
+                                    <label for="volumeValueRemoveRowSelect" class="form-label">Select Year and Quarter</label>
+                                    <select class="form-select" id="volumeValueRemoveRowSelect">
                                         <!-- Options will be populated dynamically -->
                                     </select>
                                 </div>
@@ -172,9 +176,9 @@ export default class VolumeValueProductionEvent {
                 const removeModal = new bootstrap.Modal(
                     $('#volumeValueRemoveRowModal')[0]
                 );
-                // Dynamically populate the quarter dropdown with existing quarters
-                this._populateQuarterYearDropdown(
-                    '#volumeValueRemoveRowQuarterSelect'
+                // Dynamically populate the year/quarter dropdown
+                this._populateYearQuarterDropdown(
+                    '#volumeValueRemoveRowSelect'
                 );
                 removeModal.show();
             } else {
@@ -202,8 +206,8 @@ export default class VolumeValueProductionEvent {
         $('#volumeValueRemoveRowConfirm')
             .off('click')
             .on('click', () => {
-                const quarterSelect = $('#volumeValueRemoveRowQuarterSelect');
-                const selectedQY = quarterSelect.val() as string;
+                const quarterYearSelect = $('#volumeValueRemoveRowSelect');
+                const selectedQY = quarterYearSelect.val() as string;
 
                 if (selectedQY) {
                     const [quarter, year] = selectedQY.split('|');
@@ -231,13 +235,65 @@ export default class VolumeValueProductionEvent {
             'change',
             'select.sales_quarter_specify, input.for_year',
             () => {
+                // When year changes, reorganize the rows
+                this._reorganizeRowsByYear();
                 this._calculateTotals();
             }
         );
     }
 
     /**
+     * Reorganize the existing rows to be strictly grouped by year
+     * This ensures consistent year grouping regardless of the order rows were added
+     */
+    private _reorganizeRowsByYear(): void {
+        const tbody = this.table.find('tbody');
+        const rows = tbody
+            .find('tr:not(.subtotal-row):not(.year-total-row)')
+            .get();
+
+        if (rows.length <= 1) return;
+
+        // Sort the rows by year first, then by quarter
+        rows.sort((a, b) => {
+            const aYear =
+                parseInt($(a).find('input.for_year').val() as string) || 0;
+            const bYear =
+                parseInt($(b).find('input.for_year').val() as string) || 0;
+
+            // Primary sort by year
+            if (aYear !== bYear) {
+                return aYear - bYear;
+            }
+
+            // Secondary sort by quarter within the same year
+            const quartersOrder: { [key: string]: number } = {
+                '1ˢᵗ Quarter': 1,
+                '2ⁿᵈ Quarter': 2,
+                '3ʳᵈ Quarter': 3,
+                '4ᵗʰ Quarter': 4,
+                Unknown: 5,
+            };
+
+            const aQuarter = $(a)
+                .find('select.sales_quarter_specify')
+                .val() as string;
+            const bQuarter = $(b)
+                .find('select.sales_quarter_specify')
+                .val() as string;
+
+            return quartersOrder[aQuarter] - quartersOrder[bQuarter];
+        });
+
+        // Reattach the sorted rows to the tbody
+        $.each(rows, function (_, row) {
+            tbody.append(row);
+        });
+    }
+
+    /**
      * Add a new row to the table for the specified quarter and year
+     * Enforces strict grouping by year
      * @param quarter The quarter to add (e.g., "1ˢᵗ Quarter")
      * @param year The year to add (e.g., "2023")
      */
@@ -245,7 +301,7 @@ export default class VolumeValueProductionEvent {
         const tbody = this.table.find('tbody');
 
         // Create a new row
-        const newRow = $(`
+        const newRow = $(/*html*/ `
             <tr>
                 <td>
                     <input class="name_of_product_service" type="text" value="">
@@ -272,39 +328,18 @@ export default class VolumeValueProductionEvent {
         newRow.find('select.sales_quarter_specify').val(quarter);
         newRow.find('input.for_year').val(year);
 
-        // Find the appropriate position to insert the new row
-        let inserted = false;
-
-        // Loop through existing rows to find the right position
-        const rows = tbody.find('tr:not(.subtotal-row):not(.year-total-row)');
-
-        rows.each(function () {
-            const rowQuarter = $(this)
-                .find('select.sales_quarter_specify')
-                .val() as string;
-            const rowYear = $(this).find('input.for_year').val() as string;
-
-            // If we find a matching quarter and year, insert after the last matching row
-            if (rowQuarter === quarter && rowYear === year) {
-                $(this).after(newRow);
-                inserted = true;
-                return false; // Break the loop
-            }
-        });
-
-        // If no matching row was found, append to the end
-        if (!inserted) {
-            // If there are no rows, add to the beginning
-            if (rows.length === 0) {
-                tbody.prepend(newRow);
-            } else {
-                // Otherwise, append after the last row
-                rows.last().after(newRow);
-            }
-        }
+        // Add the row to the table
+        tbody.append(newRow);
+        showToastFeedback(
+            'text-bg-success',
+            `Row for quarter ${quarter} and year ${year} added successfully!`
+        );
 
         // Initialize formatters for the new row
         customFormatNumericInput(newRow, 'td input.sales_gross_sales');
+
+        // Reorganize all rows to ensure year-based grouping
+        this._reorganizeRowsByYear();
 
         // Recalculate totals
         this._calculateTotals();
@@ -332,6 +367,10 @@ export default class VolumeValueProductionEvent {
         // Remove the last matching row
         if (matchingRows.length > 0) {
             matchingRows.last().remove();
+            showToastFeedback(
+                'text-bg-success',
+                `Row for quarter ${quarter} and year ${year} removed successfully!`
+            );
 
             // Recalculate totals
             this._calculateTotals();
@@ -347,63 +386,94 @@ export default class VolumeValueProductionEvent {
     }
 
     /**
-     * Populate the quarter/year dropdown with existing data from the table
+     * Populate the year/quarter dropdown with existing data from the table
+     * Groups data strictly by year first, then by quarter
      * @param selectSelector The selector for the dropdown to populate
      */
-    private _populateQuarterYearDropdown(selectSelector: string): void {
+    private _populateYearQuarterDropdown(selectSelector: string): void {
         const select = $(selectSelector);
         select.empty();
 
         const tbody = this.table.find('tbody');
         const rows = tbody.find('tr:not(.subtotal-row):not(.year-total-row)');
 
-        // Track unique quarter/year combinations
-        const quarterYearCombos = new Set<string>();
+        // Group all data by year
+        const yearBasedGroups: {
+            [year: string]: Array<{
+                quarter: string;
+                row: JQuery<HTMLElement>;
+            }>;
+        } = {};
 
         rows.each(function () {
-            const quarter = $(this)
+            const $row = $(this);
+            const year = $row.find('input.for_year').val() as string;
+            const quarter = $row
                 .find('select.sales_quarter_specify')
                 .val() as string;
-            const year = $(this).find('input.for_year').val() as string;
 
-            if (quarter && year) {
-                const combo = `${quarter}|${year}`;
-                quarterYearCombos.add(combo);
+            if (year) {
+                // Initialize the year array if it doesn't exist
+                if (!yearBasedGroups[year]) {
+                    yearBasedGroups[year] = [];
+                }
+
+                // Add this row's data to the year group
+                yearBasedGroups[year].push({ quarter, row: $row });
             }
         });
 
-        // Add options to the select, sorted by year and quarter
-        const sortedCombos = Array.from(quarterYearCombos).sort((a, b) => {
-            const [quarterA, yearA] = a.split('|');
-            const [quarterB, yearB] = b.split('|');
+        // Sort years numerically
+        const sortedYears = Object.keys(yearBasedGroups).sort((a, b) => {
+            return parseInt(a) - parseInt(b);
+        });
 
-            // First sort by year
-            if (yearA !== yearB) {
-                return yearA.localeCompare(yearB);
-            }
+        // Create option groups for each year
+        for (const year of sortedYears) {
+            const entries = yearBasedGroups[year];
 
-            // Then sort by quarter
-            const quarterNumbers: { [key: string]: number } = {
+            // Create an optgroup for the year
+            const optgroup = $(`<optgroup label="Year ${year}"></optgroup>`);
+
+            // Sort quarters within the year
+            const quartersOrder: { [key: string]: number } = {
                 '1ˢᵗ Quarter': 1,
                 '2ⁿᵈ Quarter': 2,
                 '3ʳᵈ Quarter': 3,
                 '4ᵗʰ Quarter': 4,
+                Unknown: 5,
             };
 
-            return quarterNumbers[quarterA] - quarterNumbers[quarterB];
-        });
+            entries.sort((a, b) => {
+                return quartersOrder[a.quarter] - quartersOrder[b.quarter];
+            });
 
-        sortedCombos.forEach((combo) => {
-            const [quarter, year] = combo.split('|');
+            // Generate option for each entry in this year
+            for (let i = 0; i < entries.length; i++) {
+                const { quarter } = entries[i];
+                const combo = `${quarter}|${year}`;
+
+                // Create descriptive label that emphasizes the year grouping
+                const label = `${year} - ${quarter}`;
+
+                optgroup.append(`<option value="${combo}">${label}</option>`);
+            }
+
+            // Add the year group to the select
+            select.append(optgroup);
+        }
+
+        // If there are no entries, add a placeholder
+        if (sortedYears.length === 0) {
             select.append(
-                `<option value="${combo}">${quarter} - ${year}</option>`
+                '<option value="" disabled selected>No entries available</option>'
             );
-        });
+        }
     }
 
     /**
      * Calculate and update totals for the Volume and Value Production table
-     * Groups data by year and quarter, similar to the PHP backend
+     * Groups data by year first, then by quarter
      */
     private _calculateTotals(): void {
         const tbody = this.table.find('tbody');
@@ -455,8 +525,10 @@ export default class VolumeValueProductionEvent {
         let yearTotals: { [year: string]: number } = {};
         let grandTotal = 0;
 
-        // Sort years
-        const sortedYears = Object.keys(groupedData).sort();
+        // Sort years numerically
+        const sortedYears = Object.keys(groupedData).sort((a, b) => {
+            return parseInt(a) - parseInt(b);
+        });
 
         for (const year of sortedYears) {
             if (!yearTotals[year]) {

@@ -31,6 +31,17 @@
         background-color: #e0e0e0;
         font-weight: bold;
     }
+
+    #volumeAndValueProduction .year-heading {
+        background-color: #f0f0f0;
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    #volumeAndValueProduction .grand-total-row {
+        background-color: #d0d0d0;
+        font-weight: bold;
+    }
 </style>
 <div
     class=""
@@ -135,21 +146,49 @@
                                 style="text-align: left;"
                                 colspan="3"
                             >
-                                Total
+                                {{ $quarter }} {{ $year }} Total
                             </td>
                             <td style="font-weight: bold;">
                                 {{ NF::formatNumber($calculateQuarterTotal($quarterItems)) }}
                             </td>
                         </tr>
                     @endforeach
+
+                    <!-- Year Total Row -->
+                    <tr class="year-total-row">
+                        <td
+                            style="text-align: left;"
+                            colspan="3"
+                        >
+                            {{ $year }} Annual Total
+                        </td>
+                        <td style="font-weight: bold;">
+                            {{ NF::formatNumber($yearTotals[$year] ?? 0) }}
+                        </td>
+                    </tr>
                 @endforeach
+
+                <!-- Grand Total (only if there are multiple years) -->
+                @if (count($groupedData) > 1)
+                    <tr class="grand-total-row">
+                        <td
+                            style="text-align: left;"
+                            colspan="3"
+                        >
+                            Grand Total
+                        </td>
+                        <td style="font-weight: bold;">
+                            {{ NF::formatNumber($totalGrossSales) }}
+                        </td>
+                    </tr>
+                @endif
             @else
                 <tr>
                     <td>
                         <x-custom-input.input
                             class="name_of_product_service"
                             type="text"
-                            value=""
+                            value="{{ date('Y') }}"
                             :isEditable="$isEditable"
                         />
                     </td>
