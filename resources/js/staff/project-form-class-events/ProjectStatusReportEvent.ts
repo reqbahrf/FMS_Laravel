@@ -4,6 +4,10 @@ import {
     removeRowHandler,
 } from '../../Utilities/add-and-remove-table-row-handler';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
+import {
+    formatNumber,
+    parseFormattedNumberToFloat,
+} from '../../Utilities/utilFunctions';
 export default class ProjectStatusReportEvent {
     private form: JQuery<HTMLFormElement>;
     private parentFormWrapper: JQuery<HTMLElement>;
@@ -16,6 +20,7 @@ export default class ProjectStatusReportEvent {
         this._initializeInputFormatters();
         this._initializeFloatingWindow();
         this._initializeAddAndRemoveTableRow();
+        this._initializeIndirectEmploymentCalculation();
     }
 
     private _initializeInputFormatters() {
@@ -140,5 +145,113 @@ export default class ProjectStatusReportEvent {
                 console.error('Error initializing floating window:', error);
             }
         });
+    }
+
+    /**
+     * Initialize real-time calculation for indirect employment data
+     */
+    private _initializeIndirectEmploymentCalculation() {
+        const table = this.form.find('table#indirectEmploymentTable');
+        const tbody = table.find('tbody');
+
+        // Event delegation for input changes
+        tbody.on(
+            'input',
+            'td input.forward_male, td input.forward_female, td input.backward_male, td input.backward_female',
+            () => {
+                console.log('Input changed');
+                this._calculateIndirectEmploymentTotals(table);
+            }
+        );
+        this._calculateIndirectEmploymentTotals(table);
+        this.form
+            .find(
+                '#addNewIndirectEmploymentRow, #removeNewIndirectEmploymentRow'
+            )
+            .on('click', () => {
+                setTimeout(() => {
+                    this._calculateIndirectEmploymentTotals(table);
+                }, 100);
+            });
+    }
+
+    /**
+     * Calculate totals for indirect employment data
+     * This mirrors the PHP backend calculation logic
+     */
+    private _calculateIndirectEmploymentTotals(table: JQuery<HTMLElement>) {
+        const rows = table.find('tbody tr');
+
+        // Initialize grand totals
+        const grandTotals = {
+            forward: {
+                male: 0,
+                female: 0,
+                total: 0,
+            },
+            backward: {
+                male: 0,
+                female: 0,
+                total: 0,
+            },
+        };
+
+        // Process each row
+        rows.each((_, row) => {
+            const $row = $(row);
+
+            // Get values from inputs
+            const forwardMale = parseFormattedNumberToFloat(
+                $row.find('input.forward_male').val() as string
+            );
+            const forwardFemale = parseFormattedNumberToFloat(
+                $row.find('input.forward_female').val() as string
+            );
+            const backwardMale = parseFormattedNumberToFloat(
+                $row.find('input.backward_male').val() as string
+            );
+            const backwardFemale = parseFormattedNumberToFloat(
+                $row.find('input.backward_female').val() as string
+            );
+
+            // Calculate row totals
+            const forwardTotal = forwardMale + forwardFemale;
+            const backwardTotal = backwardMale + backwardFemale;
+
+            // Update row total cells
+            $row.find('td.forward_total').text(formatNumber(forwardTotal));
+            $row.find('td.backward_total').text(formatNumber(backwardTotal));
+
+            // Add to grand totals
+            grandTotals.forward.male += forwardMale;
+            grandTotals.forward.female += forwardFemale;
+            grandTotals.backward.male += backwardMale;
+            grandTotals.backward.female += backwardFemale;
+        });
+
+        grandTotals.forward.total =
+            grandTotals.forward.male + grandTotals.forward.female;
+        grandTotals.backward.total =
+            grandTotals.backward.male + grandTotals.backward.female;
+
+        const tfoot = table.find('tfoot');
+        tfoot
+            .find('td.forward_male_total')
+            .text(formatNumber(grandTotals.forward.male, false));
+        tfoot
+            .find('td.forward_female_total')
+            .text(formatNumber(grandTotals.forward.female, false));
+        tfoot
+            .find('td.forward_total_sum')
+            .text(formatNumber(grandTotals.forward.total, false));
+        tfoot
+            .find('td.backward_male_total')
+            .text(formatNumber(grandTotals.backward.male, false));
+        tfoot
+            .find('td.backward_female_total')
+            .text(formatNumber(grandTotals.backward.female, false));
+        tfoot
+            .find('td.backward_total_sum')
+            .text(formatNumber(grandTotals.backward.total, false));
     }
 }

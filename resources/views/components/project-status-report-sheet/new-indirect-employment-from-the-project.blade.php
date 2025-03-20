@@ -1,4 +1,20 @@
 <style>
+    #newIndirectEmploymentFromTheProject table {
+        width: 100%;
+        table-layout: fixed;
+    }
+
+    #newInderectEmploymentFromTheProject .quarter-col {
+        text-align: center;
+        width: 50%;
+    }
+
+    #newIndirectEmploymentFromTheProject .forward-col,
+    #newIndirectEmploymentFromTheProject .backward-col {
+        text-align: center;
+        width: 25%;
+    }
+
     #newIndirectEmploymentFromTheProject th,
     #newIndirectEmploymentFromTheProject td {
         border: 1px solid black;
@@ -33,9 +49,18 @@
     <table id="indirectEmploymentTable">
         <thead>
             <tr>
-                <th colspan="2">No. of Indirect Employment</th>
-                <th colspan="3">Forward</th>
-                <th colspan="3">Backward</th>
+                <th
+                    class="quarter-col"
+                    colspan="2"
+                >No. of Indirect Employment</th>
+                <th
+                    class="forward-col"
+                    colspan="3"
+                >Forward</th>
+                <th
+                    class="backward-col"
+                    colspan="3"
+                >Backward</th>
             </tr>
             <tr>
                 <th colspan="2"></th>
@@ -93,7 +118,7 @@
                             :isEditable="$isEditable"
                         />
                     </td>
-                    <td>
+                    <td class="forward_total">
                         {{ $totals['rows'][$index]['indirectEmploymentForward']['total'] ?? '' }}
                     </td>
                     <td>
@@ -112,7 +137,7 @@
                             :isEditable="$isEditable"
                         />
                     </td>
-                    <td>
+                    <td class="backward_total">
                         {{ $totals['rows'][$index]['indirectEmploymentBackward']['total'] ?? '' }}
                     </td>
                 </tr>
@@ -147,7 +172,7 @@
                             :isEditable="$isEditable"
                         />
                     </td>
-                    <td>
+                    <td class="forward_total">
                         0
                     </td>
                     <td>
@@ -166,7 +191,7 @@
                             :isEditable="$isEditable"
                         />
                     </td>
-                    <td>
+                    <td class="backward_total">
                         0
                     </td>
                 </tr>
@@ -178,12 +203,12 @@
                     class="quarter-col"
                     colspan="2"
                 >Total</td>
-                <td>{{ $totals['grand']['forward']['male'] ?? 0 }}</td>
-                <td>{{ $totals['grand']['forward']['female'] ?? 0 }}</td>
-                <td>{{ $totals['grand']['forward']['total'] ?? 0 }}</td>
-                <td>{{ $totals['grand']['backward']['male'] ?? 0 }}</td>
-                <td>{{ $totals['grand']['backward']['female'] ?? 0 }}</td>
-                <td>{{ $totals['grand']['backward']['total'] ?? 0 }}</td>
+                <td class="forward_male_total">{{ $totals['grand']['forward']['male'] ?? 0 }}</td>
+                <td class="forward_female_total">{{ $totals['grand']['forward']['female'] ?? 0 }}</td>
+                <td class="forward_total_sum">{{ $totals['grand']['forward']['total'] ?? 0 }}</td>
+                <td class="backward_male_total">{{ $totals['grand']['backward']['male'] ?? 0 }}</td>
+                <td class="backward_female_total">{{ $totals['grand']['backward']['female'] ?? 0 }}</td>
+                <td class="backward_total_sum">{{ $totals['grand']['backward']['total'] ?? 0 }}</td>
             </tr>
         </tfoot>
     </table>
