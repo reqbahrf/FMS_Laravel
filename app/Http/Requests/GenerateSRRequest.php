@@ -72,6 +72,31 @@ class GenerateSRRequest extends FormRequest
             'volume_and_value_production.*.salesQuarter.year' => 'nullable|date_format:Y',
             'volume_and_value_production.*.grossSales' => 'nullable|string',
 
+            // Updated validation for new employment generated with quarters
+            'newEmploymentGenerated' => 'nullable|array',
+            'newEmploymentGenerated.quarter1' => 'nullable|array',
+            'newEmploymentGenerated.quarter1.noOfEmployees' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter1.noOfMale' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter1.noOfFemale' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter1.noOfPersonWithDisability' => 'nullable|string|numeric',
+
+            'newEmploymentGenerated.quarter2' => 'nullable|array',
+            'newEmploymentGenerated.quarter2.noOfEmployees' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter2.noOfMale' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter2.noOfFemale' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter2.noOfPersonWithDisability' => 'nullable|string|numeric',
+
+            'newEmploymentGenerated.quarter3' => 'nullable|array',
+            'newEmploymentGenerated.quarter3.noOfEmployees' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter3.noOfMale' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter3.noOfFemale' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter3.noOfPersonWithDisability' => 'nullable|string|numeric',
+
+            'newEmploymentGenerated.quarter4' => 'nullable|array',
+            'newEmploymentGenerated.quarter4.noOfEmployees' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter4.noOfMale' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter4.noOfFemale' => 'nullable|string|numeric',
+            'newEmploymentGenerated.quarter4.noOfPersonWithDisability' => 'nullable|string|numeric',
 
             'new_indirect_employment_from_the_project' => 'nullable|array',
             'new_indirect_employment_from_the_project.*.indirectEmploymentQuarter' => 'nullable|string|in:1ˢᵗ Quarter,2ⁿᵈ Quarter,3ʳᵈ Quarter,4ᵗʰ Quarter',

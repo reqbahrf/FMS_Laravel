@@ -8,6 +8,7 @@ import {
     formatNumber,
     parseFormattedNumberToFloat,
 } from '../../Utilities/utilFunctions';
+import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
 export default class ProjectStatusReportEvent {
     private form: JQuery<HTMLFormElement>;
     private parentFormWrapper: JQuery<HTMLElement>;
@@ -365,5 +366,94 @@ export default class ProjectStatusReportEvent {
         newQuarterTable.find('input').val('');
 
         container.append(newQuarterTable);
+    }
+
+    /**
+     * Extract data from all employment quarter tables
+     *
+     * This method extracts data from all quarter tables in the new employment generated section.
+     * It returns an object with a 'newEmploymentGenerated' key containing data for each quarter.
+     * Each quarter's data includes the number of employees, males, females, and persons with disability.
+     *
+     * @returns {Object} An object with newEmploymentGenerated data organized by quarters
+     *
+     * Example return value:
+     * {
+     *   newEmploymentGenerated: {
+     *     quarter1: {
+     *       noOfEmployees: "10",
+     *       noOfMale: "6",
+     *       noOfFemale: "4",
+     *       noOfPersonWithDisability: "1"
+     *     },
+     *     quarter2: {
+     *       noOfEmployees: "15",
+     *       noOfMale: "8",
+     *       noOfFemale: "7",
+     *       noOfPersonWithDisability: "2"
+     *     }
+     *   }
+     * }
+     */
+    public extractEmploymentGeneratedData(): {
+        newEmploymentGenerated: { [key: string]: any };
+    } {
+        try {
+            const container = this.form.find('#newEmploymentGenerated');
+            const quarterTables = container.find('.quarter-table');
+            const result: { newEmploymentGenerated: { [key: string]: any } } = {
+                newEmploymentGenerated: {},
+            };
+
+            // Configure TableDataExtractor for each quarter table
+            const tableConfigs: { [key: string]: any } = {};
+
+            quarterTables.each((index, quarterTableElement) => {
+                const $quarterTable = $(quarterTableElement);
+                const quarterNum = $quarterTable.attr('data-quarter');
+                const tableId = `newEmploymentGeneratedForQuarter${quarterNum}`;
+
+                // Create a configuration for this quarter's table
+                tableConfigs[`quarter${quarterNum}`] = {
+                    id: tableId,
+                    selectors: {
+                        noOfEmployees: 'td input.noOfEmployees',
+                        noOfMale: 'td input.noOfMale',
+                        noOfFemale: 'td input.noOfFemale',
+                        noOfPersonWithDisability:
+                            'td input.noOfPersonWithDisability',
+                    },
+                    requiredFields: [], // We don't require any specific fields to be filled
+                };
+            });
+
+            if (Object.keys(tableConfigs).length > 0) {
+                // Extract data using TableDataExtractor
+                const extractedData = TableDataExtractor(tableConfigs);
+
+                // Process the extracted data into the desired format
+                for (const quarterKey in extractedData) {
+                    // Since each table only has one row, we can take the first item
+                    if (extractedData[quarterKey].length > 0) {
+                        result.newEmploymentGenerated[quarterKey] =
+                            extractedData[quarterKey][0];
+                    } else {
+                        // Create an empty object if no data was found
+                        result.newEmploymentGenerated[quarterKey] = {
+                            noOfEmployees: '',
+                            noOfMale: '',
+                            noOfFemale: '',
+                            noOfPersonWithDisability: '',
+                        };
+                    }
+                }
+            }
+
+            return result;
+        } catch (error) {
+            console.error('Error extracting employment generated data:', error);
+            // Return an empty result if there's an error
+            return { newEmploymentGenerated: {} };
+        }
     }
 }
