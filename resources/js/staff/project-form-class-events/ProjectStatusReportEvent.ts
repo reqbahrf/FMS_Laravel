@@ -21,6 +21,7 @@ export default class ProjectStatusReportEvent {
         this._initializeFloatingWindow();
         this._initializeAddAndRemoveTableRow();
         this._initializeIndirectEmploymentCalculation();
+        this._initializeQuarterTablesHandlers();
     }
 
     private _initializeInputFormatters() {
@@ -75,6 +76,9 @@ export default class ProjectStatusReportEvent {
                 'td input.backward_female',
             ]
         );
+
+        // Add numeric formatters for employment tables
+        this._initializeEmploymentInputFormatters();
     }
 
     private _initializeAddAndRemoveTableRow() {
@@ -253,5 +257,113 @@ export default class ProjectStatusReportEvent {
         tfoot
             .find('td.backward_total_sum')
             .text(formatNumber(grandTotals.backward.total, false));
+    }
+
+    /**
+     * Initialize formatters for employment table inputs
+     */
+    private _initializeEmploymentInputFormatters() {
+        customFormatNumericInput(this.form.find('#newEmploymentGenerated'), [
+            'td input.noOfEmployees',
+            'td input.noOfMale',
+            'td input.noOfFemale',
+            'td input.noOfPersonWithDisability',
+        ]);
+    }
+
+    /**
+     * Initialize event handlers for adding and removing quarter tables
+     */
+    private _initializeQuarterTablesHandlers() {
+        try {
+            console.log('Initializing quarter tables handlers');
+
+            const container = this.form.find('#newEmploymentGenerated');
+            const addButton = container.find('#addQuarterTableButton');
+            const removeButton = container.find('#removeQuarterTableButton');
+            const quarterTablesContainer = container.find(
+                '#quarterTablesContainer'
+            );
+
+            addButton.off('click').on('click', () => {
+                const quarterTables =
+                    quarterTablesContainer.find('.quarter-table');
+                const currentQuarterCount = quarterTables.length;
+
+                if (currentQuarterCount < 4) {
+                    const nextQuarterNum = currentQuarterCount + 1;
+                    this._addNewQuarterTable(
+                        quarterTablesContainer,
+                        nextQuarterNum
+                    );
+
+                    removeButton.prop('disabled', false);
+
+                    if (nextQuarterNum === 4) {
+                        addButton.prop('disabled', true);
+                    }
+
+                    this._initializeEmploymentInputFormatters();
+                }
+            });
+
+            removeButton.off('click').on('click', () => {
+                const quarterTables =
+                    quarterTablesContainer.find('.quarter-table');
+                const currentQuarterCount = quarterTables.length;
+
+                if (currentQuarterCount > 1) {
+                    quarterTablesContainer
+                        .find('.quarter-table:last-child')
+                        .remove();
+
+                    if (currentQuarterCount - 1 === 1) {
+                        removeButton.prop('disabled', true);
+                    }
+                    addButton.prop('disabled', false);
+                }
+            });
+        } catch (error) {
+            console.error('Error initializing quarter tables handlers:', error);
+        }
+    }
+
+    /**
+     * Add a new quarter table to the container
+     * @param container The container element to add the quarter table to
+     * @param quarterNum The quarter number (1-4)
+     */
+    private _addNewQuarterTable(
+        container: JQuery<HTMLElement>,
+        quarterNum: number
+    ) {
+        let suffix = '';
+        switch (quarterNum) {
+            case 1:
+                suffix = 'ˢᵗ';
+                break;
+            case 2:
+                suffix = 'ⁿᵈ';
+                break;
+            case 3:
+                suffix = 'ʳᵈ';
+                break;
+            case 4:
+                suffix = 'ᵗʰ';
+                break;
+        }
+
+        const firstQuarterTable = container.find('.quarter-table:first-child');
+        const newQuarterTable = firstQuarterTable.clone();
+
+        newQuarterTable.attr('data-quarter', quarterNum);
+        newQuarterTable.find('p').text(`${quarterNum}${suffix} Quarter`);
+        newQuarterTable
+            .find('table')
+            .attr('id', `newEmploymentGeneratedForQuarter${quarterNum}`);
+
+        newQuarterTable.find('input').val('');
+
+        container.append(newQuarterTable);
     }
 }
