@@ -200,7 +200,6 @@ export default class ProjectStatusReportEvent {
         rows.each((_, row) => {
             const $row = $(row);
 
-            // Get values from inputs
             const forwardMale = parseFormattedNumberToFloat(
                 $row.find('input.forward_male').val() as string
             );
@@ -214,15 +213,16 @@ export default class ProjectStatusReportEvent {
                 $row.find('input.backward_female').val() as string
             );
 
-            // Calculate row totals
             const forwardTotal = forwardMale + forwardFemale;
             const backwardTotal = backwardMale + backwardFemale;
 
-            // Update row total cells
-            $row.find('td.forward_total').text(formatNumber(forwardTotal));
-            $row.find('td.backward_total').text(formatNumber(backwardTotal));
+            $row.find('td.forward_total').text(
+                formatNumber(forwardTotal, false)
+            );
+            $row.find('td.backward_total').text(
+                formatNumber(backwardTotal, false)
+            );
 
-            // Add to grand totals
             grandTotals.forward.male += forwardMale;
             grandTotals.forward.female += forwardFemale;
             grandTotals.backward.male += backwardMale;
