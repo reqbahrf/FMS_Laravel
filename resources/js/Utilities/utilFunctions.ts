@@ -5,12 +5,13 @@ import * as jquery from 'jquery';
  * Formats a number value to a string with a fixed number of decimal places.
  *
  * @param {number} value - The number to be formatted.
+ * @param {boolean} [isWithDecimal=true] - Whether to include decimal places.
  * @returns {string} The formatted number as a string with exactly 2 decimal places.
  */
-const formatNumber = (value: number): string => {
+const formatNumber = (value: number, isWithDecimal: boolean = true): string => {
     return value.toLocaleString('en-US', {
-        minimumFractionDigits: 2,
-        maximumFractionDigits: 2,
+        minimumFractionDigits: isWithDecimal ? 2 : 0,
+        maximumFractionDigits: isWithDecimal ? 2 : 0,
     });
 };
 

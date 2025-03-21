@@ -62,7 +62,10 @@ const salesTableConfig = {
         selectors: {
             productService: '.name_of_product_service',
             volumeOfProduction: '.volume_of_production',
-            salesQuarter: '.sales_quarter_specify',
+            salesQuarter: {
+                quarter: '.sales_quarter_specify',
+                year: '.for_year',
+            },
             grossSales: '.sales_gross_sales',
         },
         requiredFields: [
@@ -97,21 +100,21 @@ const IndirectEmploymentTableConfig = {
         id: 'indirectEmploymentTable',
         selectors: {
             indirectEmploymentQuarter: '.quarter_selector',
-            indirectEmploymentForwardMale: '.forward_male',
-            indirectEmploymentForwardFemale: '.forward_female',
-            indirectEmploymentForwardTotal: '.forward_total',
-            indirectEmploymentBackwardMale: '.backward_male',
-            indirectEmploymentBackwardFemale: '.backward_female',
-            indirectEmploymentBackwardTotal: '.backward_total',
+            indirectEmploymentForward: {
+                male: '.forward_male',
+                female: '.forward_female',
+            },
+            indirectEmploymentBackward: {
+                male: '.backward_male',
+                female: '.backward_female',
+            },
         },
         requiredFields: [
             'indirectEmploymentQuarter',
-            'indirectEmploymentForwardMale',
-            'indirectEmploymentForwardFemale',
-            'indirectEmploymentForwardTotal',
-            'indirectEmploymentBackwardMale',
-            'indirectEmploymentBackwardFemale',
-            'indirectEmploymentBackwardTotal',
+            'indirectEmploymentForward.male',
+            'indirectEmploymentForward.female',
+            'indirectEmploymentBackward.male',
+            'indirectEmploymentBackward.female',
         ],
     },
 };

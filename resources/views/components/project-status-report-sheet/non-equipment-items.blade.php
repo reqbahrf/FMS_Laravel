@@ -114,9 +114,9 @@
                     </td>
                     <td>
                         <x-custom-input.input
-                            class="remarksJustification"
+                            class="remarks"
                             type="text"
-                            :value="$item['remarks_justification'] ?? ''"
+                            :value="$item['remarks'] ?? ''"
                             :isEditable="$isEditable"
                         />
                     </td>

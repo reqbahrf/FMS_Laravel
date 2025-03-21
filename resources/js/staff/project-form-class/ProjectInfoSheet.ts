@@ -7,7 +7,7 @@ import {
 
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import ProjectClass from './ProjectClass';
-import ProjectInfoSheetEvent from '../project-form-events/ProjectInfoSheetEvent';
+import ProjectInfoSheetEvent from '../project-form-class-events/ProjectInfoSheetEvent';
 
 type Action = 'edit' | 'view';
 export default class ProjectInfoSheet extends ProjectClass {

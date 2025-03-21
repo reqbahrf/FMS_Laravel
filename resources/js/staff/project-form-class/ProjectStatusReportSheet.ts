@@ -6,7 +6,7 @@ import {
     showToastFeedback,
 } from '../../Utilities/feedback-toast';
 import createConfirmationModal from '../../Utilities/confirmation-modal';
-import ProjectStatusReportEvent from '../project-form-events/ProjectStatusReportEvent';
+import ProjectStatusReportEvent from '../project-form-class-events/ProjectStatusReportEvent';
 import { TableDataExtractor } from '../../Utilities/TableDataExtractor';
 import {
     EquipmentTableConfig,
@@ -171,7 +171,9 @@ export default class ProjectStatusReportSheet extends ProjectClass {
     }
 
     private async _saveStatusReport(
-        ProjectStatusReportRequest: { [key: string]: string | string[] },
+        ProjectStatusReportRequest: {
+            [key: string]: string | string[] | { [key: string]: any };
+        },
         url: string
     ): Promise<void> {
         try {
@@ -263,14 +265,18 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                     const formData = form.serializeArray();
                     if (!url || !formData || !formData.length)
                         throw new Error('Form data not found');
-                    let formDataObject: { [key: string]: string | string[] } =
-                        serializeFormData(formData);
+                    let formDataObject: {
+                        [key: string]:
+                            | string
+                            | string[]
+                            | { [key: string]: any };
+                    } = serializeFormData(formData);
                     formDataObject = {
                         ...formDataObject,
                         ...TableDataExtractor(EquipmentTableConfig),
                         ...TableDataExtractor(NonEquipmentTableConfig),
                         ...TableDataExtractor(salesTableConfig),
-                        ...TableDataExtractor(EmploymentGeneratedTableConfig),
+                        ...this.formEvent?.extractEmploymentGeneratedData(),
                         ...TableDataExtractor(IndirectEmploymentTableConfig),
                     };
                     await this._saveStatusReport(formDataObject, url);

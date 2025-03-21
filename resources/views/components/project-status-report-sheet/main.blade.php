@@ -52,15 +52,15 @@
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.volume-and-value-production
-            :projectStatusReportData="$projectStatusReportData"
+            :volume-and-value-production="$projectStatusReportData['volume_and_value_production']"
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.new-employment-generated
-            :projectStatusReportData="$projectStatusReportData"
+            :new-employment-generated="$projectStatusReportData['newEmploymentGenerated']"
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.new-indirect-employment-from-the-project
-            :projectStatusReportData="$projectStatusReportData"
+            :new-indirect-employment-from-the-project="$projectStatusReportData['new_indirect_employment_from_the_project']"
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.list-of-market-penetrated
