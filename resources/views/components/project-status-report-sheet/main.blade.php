@@ -56,7 +56,7 @@
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.new-employment-generated
-            :projectStatusReportData="$projectStatusReportData"
+            :new-employment-generated="$projectStatusReportData['newEmploymentGenerated']"
             :isEditable="$isEditable"
         />
         <x-project-status-report-sheet.new-indirect-employment-from-the-project

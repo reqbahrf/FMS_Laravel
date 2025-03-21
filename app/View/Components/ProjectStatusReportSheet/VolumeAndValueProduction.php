@@ -58,13 +58,6 @@ class VolumeAndValueProduction extends Component
 
         $items = $this->volumeAndValueProduction ?? [];
 
-        // Debug: Log the extracted items
-        Log::debug('VolumeAndValueProduction processData - extracted items:', [
-            'itemsCount' => count($items),
-            'hasVolumeAndValueKey' => isset($this->volumeAndValueProduction),
-            'volumeAndValueProductionKeys' => is_array($this->volumeAndValueProduction) ? array_keys($this->volumeAndValueProduction) : 'not an array'
-        ]);
-
         // Group data by year first, then by quarter
         foreach ($items as $item) {
             $year = $item['salesQuarter']['year'] ?? 'N/A';
