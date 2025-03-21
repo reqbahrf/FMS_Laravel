@@ -1,89 +1,178 @@
 import * as bootstrap from 'bootstrap';
 import * as jquery from 'jquery';
-const ProcessToast = $('#ProcessToast');
-const FeedbackToast = $('#ActionFeedbackToast');
 
-/**import * as bootstrap from 'bootstrap';
+// Container references
+const toastFeedbackContainer = $('#toastFeedbackContainer');
+const toastProcessContainer = $('#toastProcessContainer');
+
+// Counter to generate unique IDs for toast instances
+let toastCounter = 0;
+
+// Map of status keywords to Bootstrap utility classes
+const STATUS_MAP: Record<string, string> = {
+    success: 'text-bg-success',
+    error: 'text-bg-danger',
+    info: 'text-bg-info',
+    warning: 'text-bg-warning',
+    // Add more mappings as needed
+};
+
+/**
  * Shows a Bootstrap toast notification with customizable status and message.
- * Uses a pre-defined toast element with ID 'ActionFeedbackToast'.
+ * Creates a new toast instance for each call to allow stacking.
  *
- * @param {string} status - Bootstrap text background class for the toast header
+ * @param {string} status - Either a simple status keyword ('success', 'error', 'info', 'warning')
+ *                         or a direct Bootstrap text background class
  *                         (e.g., 'text-bg-success', 'text-bg-danger', 'text-bg-warning')
  * @param {string} message - The message to display in the toast body
+ * @param {boolean} [autohide=true] - Whether to automatically hide the toast
+ * @param {number} [delay=5000] - Delay in milliseconds before autohiding the toast
  *
  * @example
- * // Show success message
+ * // Using simple status keywords
+ * showToastFeedback('success', 'Operation completed successfully!');
+ * showToastFeedback('error', 'An error occurred while processing your request.', false);
+ *
+ * @example
+ * // Using direct Bootstrap classes (backward compatibility)
  * showToastFeedback('text-bg-success', 'Operation completed successfully!');
- *
- * @example
- * // Show error message
- * showToastFeedback('text-bg-danger', 'An error occurred while processing your request.');
- *
- * @example
- * // Show warning message
- * showToastFeedback('text-bg-warning', 'Please review your input.');
+ * showToastFeedback('text-bg-danger', 'An error occurred while processing your request.', false);
  */
-function showToastFeedback(status: string, message: string) {
-    const toastInstance = new bootstrap.Toast(FeedbackToast[0]);
+function showToastFeedback(
+    status: string,
+    message: string,
+    autohide: boolean = true,
+    delay: number = 5000
+) {
+    // Check if status is a key in our map, otherwise use it directly
+    const bootstrapClass: string = STATUS_MAP[status.toLowerCase()] || status;
 
-    FeedbackToast.find('.toast-header').removeClass([
-        'text-bg-danger',
-        'text-bg-success',
-        'text-bg-warning',
-        'text-bg-info',
-        'text-bg-primary',
-        'text-bg-light',
-        'text-bg-dark',
-    ]);
+    // Create a unique ID for this toast
+    const toastId = `feedback-toast-${toastCounter++}`;
 
-    FeedbackToast.find('.toast-body').text('');
-    FeedbackToast.find('.toast-header').addClass(status);
-    FeedbackToast.find('.toast-body').text(message);
+    // Create the toast HTML
+    const toastHTML = /*html*/ `
+        <div id="${toastId}" class="toast align-items-center mb-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="${autohide}" data-bs-delay="${delay}">
+            <div class="toast-header ${bootstrapClass}">
+                <strong class="me-auto">Message</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        </div>
+    `;
 
+    // Append the new toast to the container
+    toastFeedbackContainer.append(toastHTML);
+
+    // Get the new toast element and initialize it
+    const toastElement = $(`#${toastId}`);
+    const toastInstance = new bootstrap.Toast(toastElement[0]);
+
+    // Show the toast
     toastInstance.show();
+
+    // Remove the element from DOM after it's hidden (for cleanup)
+    toastElement.on('hidden.bs.toast', function () {
+        toastElement.remove();
+    });
+
+    return { id: toastId, element: toastElement, instance: toastInstance };
 }
 
 /**
  * Shows a Bootstrap toast notification for ongoing processes.
- * Uses a pre-defined toast element with ID 'ProcessToast'.
+ * Creates a new toast instance for each call to allow stacking.
  *
- * @param {string} [message='Processing...'] - Custom message to display in the toast.
- *                                            If not provided, shows default 'Processing...' message
+ * @param {string} [message='Processing...'] - Custom message to display in the toast
+ * @param {boolean} [autohide=false] - Whether to automatically hide the toast
+ * @returns {Object} Toast object with id, element, and instance references
  *
  * @example
  * // Show default processing message
- * showProcessToast();
+ * const processToast = showProcessToast();
  *
  * @example
- * // Show custom processing message
- * showProcessToast('Uploading files...');
+ * // Show custom processing message that auto-hides
+ * showProcessToast('Uploading files...', true);
  */
-function showProcessToast(message = 'Processing...'): void {
-    const toastInstance = new bootstrap.Toast(ProcessToast[0]);
+function showProcessToast(
+    message: string = 'Processing...',
+    autohide: boolean = false
+): any {
+    // Create a unique ID for this toast
+    const toastId = `process-toast-${toastCounter++}`;
 
-    // Set the message if provided, otherwise show default spinner
-    if (message) {
-        ProcessToast.find('#ProcessToastBody').html(message);
-    }
+    // Create the toast HTML
+    const toastHTML = /*html*/ `
+        <div id="${toastId}" class="toast align-items-center mb-2" role="alert" aria-live="assertive" aria-atomic="true" data-bs-autohide="${autohide}">
+            <div class="toast-header text-bg-success">
+                <div class="spinner-border spinner-border-sm me-2" role="status">
+                    <span class="visually-hidden">Loading...</span>
+                </div>
+                <strong class="me-auto">Processing...</strong>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                ${message}
+            </div>
+        </div>
+    `;
 
+    // Append the new toast to the container
+    toastProcessContainer.append(toastHTML);
+
+    // Get the new toast element and initialize it
+    const toastElement = $(`#${toastId}`);
+    const toastInstance = new bootstrap.Toast(toastElement[0]);
+
+    // Show the toast
     toastInstance.show();
+
+    // Remove the element from DOM after it's hidden (for cleanup)
+    toastElement.on('hidden.bs.toast', function () {
+        toastElement.remove();
+    });
+
+    return { id: toastId, element: toastElement, instance: toastInstance };
 }
 
 /**
- * Hides the currently displayed process toast.
- * Safely handles cases where the toast instance might not exist.
+ * Hides a specific process toast.
+ *
+ * @param {string|Object} toast - Either a toast ID string or toast object returned from showProcessToast
+ * @example
+ * // Hide toast by ID
+ * hideProcessToast('process-toast-1');
  *
  * @example
- * // Hide process toast after operation completes
- * showProcessToast('Saving data...');
- * await saveData();
- * hideProcessToast();
+ * // Hide toast by object
+ * const toast = showProcessToast('Saving data...');
+ * // ... after process completes
+ * hideProcessToast(toast);
  */
-function hideProcessToast(): void {
-    const toastInstance = bootstrap.Toast.getInstance(ProcessToast[0]);
-    if (!toastInstance) {
-        return console.warn('No process toast instance found.');
+function hideProcessToast(toast: string | any): void {
+    let toastId;
+
+    if (typeof toast === 'string') {
+        toastId = toast;
+    } else if (toast && toast.id) {
+        toastId = toast.id;
+    } else {
+        return console.warn('Invalid toast reference provided.');
     }
+
+    const toastElement = $(`#${toastId}`);
+    if (toastElement.length === 0) {
+        return console.warn(`Toast with ID ${toastId} not found.`);
+    }
+
+    const toastInstance = bootstrap.Toast.getInstance(toastElement[0]);
+    if (!toastInstance) {
+        return console.warn(`No toast instance found for ID ${toastId}.`);
+    }
+
     toastInstance.hide();
 }
 export { showToastFeedback, showProcessToast, hideProcessToast };
