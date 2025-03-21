@@ -40,8 +40,8 @@ export default class ProjectDataSheet extends ProjectClass {
         url: string,
         actionMode: Action = 'view'
     ) {
+        const processToast = showProcessToast('Loading Project Data Sheet...');
         try {
-            showProcessToast('Loading Project Data Sheet...');
             const response = await $.ajax({
                 type: 'GET',
                 url: url,
@@ -71,9 +71,9 @@ export default class ProjectDataSheet extends ProjectClass {
                 default:
                     throw new Error('Invalid action');
             }
-            hideProcessToast();
+            hideProcessToast(processToast);
         } catch (error: any) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             this._handleError(
                 'Error in Retrieving Project Data Sheet: ',
                 error,

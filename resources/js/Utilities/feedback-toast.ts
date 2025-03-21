@@ -43,7 +43,11 @@ function showToastFeedback(
     message: string,
     autohide: boolean = true,
     delay: number = 5000
-) {
+): {
+    id: string;
+    element: JQuery<HTMLElement>;
+    instance: bootstrap.Toast;
+} | void {
     // Check if status is a key in our map, otherwise use it directly
     const bootstrapClass: string = STATUS_MAP[status.toLowerCase()] || status;
 
@@ -78,7 +82,9 @@ function showToastFeedback(
         toastElement.remove();
     });
 
-    return { id: toastId, element: toastElement, instance: toastInstance };
+    return !autohide
+        ? { id: toastId, element: toastElement, instance: toastInstance }
+        : undefined;
 }
 
 /**
@@ -100,7 +106,7 @@ function showToastFeedback(
 function showProcessToast(
     message: string = 'Processing...',
     autohide: boolean = false
-): any {
+): { id: string; element: JQuery<HTMLElement>; instance: bootstrap.Toast } {
     // Create a unique ID for this toast
     const toastId = `process-toast-${toastCounter++}`;
 
@@ -111,7 +117,7 @@ function showProcessToast(
                 <div class="spinner-border spinner-border-sm me-2" role="status">
                     <span class="visually-hidden">Loading...</span>
                 </div>
-                <strong class="me-auto">Processing...</strong>
+                <strong class="me-auto">${message}</strong>
                 <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
             </div>
             <div class="toast-body">
@@ -152,7 +158,15 @@ function showProcessToast(
  * // ... after process completes
  * hideProcessToast(toast);
  */
-function hideProcessToast(toast: string | any): void {
+function hideProcessToast(
+    toast:
+        | string
+        | {
+              id: string;
+              element: JQuery<HTMLElement>;
+              instance: bootstrap.Toast;
+          }
+): void {
     let toastId;
 
     if (typeof toast === 'string') {

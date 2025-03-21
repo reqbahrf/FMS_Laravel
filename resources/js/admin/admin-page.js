@@ -615,7 +615,7 @@ async function initializeAdminPageJs() {
                 if (!inConfirm) {
                     return;
                 }
-                showProcessToast('Assigning new staff...');
+                const processToast = showProcessToast('Assigning new staff...');
                 const formdata = new FormData(this);
                 formdata.append('project_id', $('#OngoingProjectID').val());
                 formdata.append('business_id', $('#OngoingBusinessId').val());
@@ -635,12 +635,12 @@ async function initializeAdminPageJs() {
                         dataType: 'json', // Expect a JSON response
                     });
 
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback('text-bg-success', response.message);
                     getOngoingProjects();
                     closeModal('#assignNewStaffModal');
                 } catch (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.message
@@ -1140,7 +1140,7 @@ async function initializeAdminPageJs() {
                     return;
                 }
 
-                showProcessToast('Approving Project...');
+                const processToast = showProcessToast('Approving Project...');
                 $.ajax({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -1156,7 +1156,7 @@ async function initializeAdminPageJs() {
                     },
                     success: function (response) {
                         if (response.status === 'success') {
-                            hideProcessToast();
+                            hideProcessToast(processToast);
                             showToastFeedback(
                                 'text-bg-success',
                                 response.message
@@ -1166,7 +1166,7 @@ async function initializeAdminPageJs() {
                         }
                     },
                     error: function (xhr, status, error) {
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         showToastFeedback('text-bg-danger', error);
                     },
                 });
@@ -2103,8 +2103,8 @@ async function initializeAdminPageJs() {
             })();
 
             const addStaffUser = async (form) => {
+                const processToast = showProcessToast('Adding Staff User...');
                 try {
-                    showProcessToast('Adding Staff User...');
                     // Create FormData object from the form element
                     const formData = new FormData(form);
 
@@ -2121,11 +2121,11 @@ async function initializeAdminPageJs() {
                         data: formData,
                     });
                     getStaffUserLists();
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     closeModal('#AddUserModal');
                     showToastFeedback('text-bg-success', response.success);
                 } catch (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.message
@@ -2134,20 +2134,22 @@ async function initializeAdminPageJs() {
             };
 
             const updateStaffUser = async (user_name) => {
+                const isConfirmed = await createConfirmationModal({
+                    title: 'Update Access Status',
+                    titleBg: 'bg-primary',
+                    message:
+                        'Are you sure you want to update the access status?',
+                    confirmText: 'Yes',
+                    confirmButtonClass: 'btn-primary',
+                    cancelText: 'No',
+                });
+                if (!isConfirmed) {
+                    return;
+                }
+                const processToast = showProcessToast(
+                    'Updating Access Status...'
+                );
                 try {
-                    const isConfirmed = await createConfirmationModal({
-                        title: 'Update Access Status',
-                        titleBg: 'bg-primary',
-                        message:
-                            'Are you sure you want to update the access status?',
-                        confirmText: 'Yes',
-                        confirmButtonClass: 'btn-primary',
-                        cancelText: 'No',
-                    });
-                    if (!isConfirmed) {
-                        return;
-                    }
-                    showProcessToast('Updating Access Status...');
                     const toggleStaffAccess = $('#toggleStaffAccess').prop(
                         'checked'
                     )
@@ -2169,10 +2171,10 @@ async function initializeAdminPageJs() {
                         },
                     });
                     getStaffUserLists();
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback('text-bg-success', response.success);
                 } catch (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.message
@@ -2181,20 +2183,20 @@ async function initializeAdminPageJs() {
             };
 
             const deleteStaffUser = async (user_name) => {
+                const isConfirmed = await createConfirmationModal({
+                    title: 'Delete User',
+                    titleBg: 'bg-danger',
+                    message:
+                        'Are you sure you want to delete this user their might still projects handled by this user?',
+                    confirmText: 'Yes',
+                    confirmButtonClass: 'btn-danger',
+                    cancelText: 'No',
+                });
+                if (!isConfirmed) {
+                    return;
+                }
+                const processToast = showProcessToast('Deleting User...');
                 try {
-                    const isConfirmed = await createConfirmationModal({
-                        title: 'Delete User',
-                        titleBg: 'bg-danger',
-                        message:
-                            'Are you sure you want to delete this user their might still projects handled by this user?',
-                        confirmText: 'Yes',
-                        confirmButtonClass: 'btn-danger',
-                        cancelText: 'No',
-                    });
-                    if (!isConfirmed) {
-                        return;
-                    }
-                    showProcessToast('Deleting User...');
                     const response = await $.ajax({
                         type: 'DELETE',
                         url: USERS_LIST_ROUTE.DELETE_STAFF_USER.replace(
@@ -2208,10 +2210,10 @@ async function initializeAdminPageJs() {
                         },
                     });
                     getStaffUserLists();
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback('text-bg-success', response.success);
                 } catch (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.message

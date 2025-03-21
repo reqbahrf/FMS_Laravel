@@ -96,18 +96,18 @@ export default class ProjectInfoSheet extends ProjectClass {
         business_Id: string,
         year: string
     ): Promise<void> {
-        try {
-            const isConfirmed = await createConfirmationModal({
-                title: 'Create Project Info Sheet',
-                message: `Are you sure you want to create a new Project Info Sheet for Project ${project_id} in year ${year}?`,
-                confirmText: 'Yes',
-                cancelText: 'No',
-            });
+        const isConfirmed = await createConfirmationModal({
+            title: 'Create Project Info Sheet',
+            message: `Are you sure you want to create a new Project Info Sheet for Project ${project_id} in year ${year}?`,
+            confirmText: 'Yes',
+            cancelText: 'No',
+        });
 
-            if (!isConfirmed) {
-                return;
-            }
-            showProcessToast();
+        if (!isConfirmed) {
+            return;
+        }
+        const processToast = showProcessToast();
+        try {
             const response = await $.ajax({
                 type: 'POST',
                 url: PROJECT_SHEETS_ROUTE.CREATE_PROJECT_INFORMATION_SHEET_FORM,
@@ -124,10 +124,10 @@ export default class ProjectInfoSheet extends ProjectClass {
                     for_year: year,
                 },
             });
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             this._handleError(
                 'Error in Creating Project Info Sheet: ',
                 error,
@@ -192,8 +192,8 @@ export default class ProjectInfoSheet extends ProjectClass {
         ProjectInfoSheetRequest: { [key: string]: string | string[] },
         url: string
     ): Promise<void> {
+        const processToast = showProcessToast('Saving Project Info Sheet...');
         try {
-            showProcessToast('Saving Project Info Sheet...');
             const response = await $.ajax({
                 type: 'PUT',
                 url: url,
@@ -206,13 +206,13 @@ export default class ProjectInfoSheet extends ProjectClass {
                         $('meta[name="csrf-token"]').attr('content') || '',
                 },
             });
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback(
                 'text-bg-success',
                 response?.message || 'Successfuly Saved'
             );
         } catch (error: any) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             this._handleError(
                 'Error in Saving Project Info Sheet: ',
                 error,
@@ -315,41 +315,42 @@ export default class ProjectInfoSheet extends ProjectClass {
                 // Handle dropdown items click events
                 this.dropdownItems.on('click', async (e: JQuery.ClickEvent) => {
                     e.preventDefault();
+                    const clickedItem = $(e.currentTarget);
+                    const action = clickedItem.data('value') as Action;
+                    const select = clickedItem
+                        .closest('.input-group')
+                        .find('select#pis_year_to_load');
+                    const selectedYear = select.val() as string;
+
+                    if (
+                        !selectedYear ||
+                        selectedYear === 'No Year Records Found' ||
+                        selectedYear === 'No Record Found'
+                    ) {
+                        showToastFeedback(
+                            'text-bg-danger',
+                            'Please select a year to load'
+                        );
+                        return;
+                    }
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Load Project Information Sheet',
+                        message: `Are you sure you want to ${action} Project Information Sheet for Project ${this.project_id} in year ${selectedYear}?`,
+                        confirmText: 'Yes',
+                        cancelText: 'No',
+                    });
+
+                    if (!isConfirmed) {
+                        return;
+                    }
+                    const processToast = showProcessToast(
+                        'Loading Project Information Sheet...'
+                    );
 
                     try {
-                        const clickedItem = $(e.currentTarget);
-                        const action = clickedItem.data('value') as Action;
-                        const select = clickedItem
-                            .closest('.input-group')
-                            .find('select#pis_year_to_load');
-                        const selectedYear = select.val() as string;
 
-                        if (
-                            !selectedYear ||
-                            selectedYear === 'No Year Records Found' ||
-                            selectedYear === 'No Record Found'
-                        ) {
-                            showToastFeedback(
-                                'text-bg-danger',
-                                'Please select a year to load'
-                            );
-                            return;
-                        }
 
-                        const isConfirmed = await createConfirmationModal({
-                            title: 'Load Project Information Sheet',
-                            message: `Are you sure you want to ${action} Project Information Sheet for Project ${this.project_id} in year ${selectedYear}?`,
-                            confirmText: 'Yes',
-                            cancelText: 'No',
-                        });
 
-                        if (!isConfirmed) {
-                            return;
-                        }
-
-                        showProcessToast(
-                            'Loading Project Information Sheet...'
-                        );
                         await this._getProjectInfoSheet(
                             this.project_id,
                             this.business_Id,
@@ -357,9 +358,9 @@ export default class ProjectInfoSheet extends ProjectClass {
                             action,
                             selectedYear
                         );
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                     } catch (error: any) {
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         this._handleError(
                             'Error in Loading Project Info Sheet: ',
                             error,
@@ -369,7 +370,6 @@ export default class ProjectInfoSheet extends ProjectClass {
                 });
             }
         } catch (error: any) {
-            hideProcessToast();
             this._handleError(
                 'Error in Setting Project Info Sheet: ',
                 error,

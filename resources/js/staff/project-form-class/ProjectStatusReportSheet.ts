@@ -101,17 +101,17 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         business_id: string,
         year: string
     ): Promise<void> {
+        const isConfirmed = await createConfirmationModal({
+            title: 'Create Project Status Report',
+            message: `Are you sure you want to create a new project status report for project ${project_id} in year ${year}?`,
+            confirmText: 'Yes',
+            cancelText: 'No',
+        });
+        if (!isConfirmed) {
+            return;
+        }
+        const processToast = showProcessToast('Creating Project Status Report...');
         try {
-            const isConfirmed = await createConfirmationModal({
-                title: 'Create Project Status Report',
-                message: `Are you sure you want to create a new project status report for project ${project_id} in year ${year}?`,
-                confirmText: 'Yes',
-                cancelText: 'No',
-            });
-            if (!isConfirmed) {
-                return;
-            }
-            showProcessToast('Creating Project Status Report...');
             const response = await $.ajax({
                 type: 'POST',
                 url: PROJECT_SHEETS_ROUTE.CREATE_STATUS_REPORT_FORM,
@@ -127,10 +127,10 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                         $('meta[name="csrf-token"]').attr('content') || '',
                 },
             });
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             this._handleError(
                 'Error in Creating Project Status Report: ',
                 error,
@@ -176,8 +176,8 @@ export default class ProjectStatusReportSheet extends ProjectClass {
         },
         url: string
     ): Promise<void> {
+        const processToast = showProcessToast('Saving Project Status Report...');
         try {
-            showProcessToast('Saving Project Status Report...');
             const response = await $.ajax({
                 type: 'PUT',
                 url: url,
@@ -190,13 +190,13 @@ export default class ProjectStatusReportSheet extends ProjectClass {
                         $('meta[name="csrf-token"]').attr('content') || '',
                 },
             });
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback(
                 'text-bg-success',
                 response?.message || 'Successfuly Saved'
             );
         } catch (error: any) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             this._handleError(
                 'Error in Saving Project Status Report: ',
                 error,
