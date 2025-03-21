@@ -364,7 +364,9 @@ export default class ReportedQuarterlyReportEvent {
             if (!isConfirmed) {
                 return;
             }
-            showProcessToast('Updating Quarterly Report...');
+            const processToast = showProcessToast(
+                'Updating Quarterly Report...'
+            );
             const form = $(this);
             const url = form.attr('action');
             form.find('button[type="submit"]').prop('disabled', true);
@@ -397,12 +399,12 @@ export default class ReportedQuarterlyReportEvent {
                 data: JSON.stringify(formDataObject),
                 contentType: 'application/json',
                 success: function (response) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback('text-bg-success', response.message);
                     form.find('.revertButton').prop('disabled', true);
                 },
                 error: function (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error?.responseJSON?.message ||

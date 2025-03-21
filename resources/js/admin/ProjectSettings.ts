@@ -27,7 +27,7 @@ export default class ProjectSettings {
                 return;
             }
 
-            showProcessToast('Updating Project Settings...');
+            const processToast = showProcessToast('Updating Project Settings...');
             try {
                 const formData = new FormData(this);
                 const response = await $.ajax({
@@ -42,10 +42,10 @@ export default class ProjectSettings {
                     contentType: false, // Let jQuery set the content type based on formData
                     data: formData,
                 });
-                hideProcessToast();
+                hideProcessToast(processToast);
                 showToastFeedback('text-bg-success', response.message);
             } catch (error: any) {
-                hideProcessToast();
+                hideProcessToast(processToast);
                 showToastFeedback(
                     'text-bg-danger',
                     error?.responseJSON?.message ||

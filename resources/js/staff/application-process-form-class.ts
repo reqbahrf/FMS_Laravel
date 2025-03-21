@@ -208,8 +208,8 @@ abstract class BaseApplicationForm {
         formRequest: { [key: string]: string | string[] },
         url: string
     ): Promise<void> {
+        const processToast = showProcessToast(`Setting ${this.formName} form...`);
         try {
-            showProcessToast(`Setting ${this.formName} form...`);
             const response = await $.ajax({
                 type: 'PUT',
                 url: url,
@@ -222,10 +222,10 @@ abstract class BaseApplicationForm {
                         $('meta[name="csrf-token"]').attr('content') || '',
                 },
             });
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             processError(
                 `Error in Setting ${this.formName} form:`,
                 error,
@@ -272,7 +272,6 @@ abstract class BaseApplicationForm {
                 }
             });
         } catch (error: any) {
-            hideProcessToast();
             processError(
                 `Error in Setting ${this.formName} form:`,
                 error,

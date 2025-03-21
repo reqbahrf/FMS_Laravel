@@ -117,8 +117,8 @@ export default class FileCoopRequirementHandler {
     }
 
     private async _saveProjectFileLink(project_id: string, action: string) {
+        const processToast = showProcessToast('Saving Project Link...');
         try {
-            showProcessToast('Saving Project Link...');
             let requirementLinks: { [key: string]: string } = {};
             const linkContainer =
                 this.requirementContainer.find('.linkContainer');
@@ -149,10 +149,10 @@ export default class FileCoopRequirementHandler {
 
             this.getProjectLinks(project_id);
             closeModal('#requirementModal');
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback(
                 'text-bg-danger',
                 error?.responseJSON?.message ||
@@ -167,8 +167,8 @@ export default class FileCoopRequirementHandler {
         action: string,
         business_id: string
     ) {
+        const processToast = showProcessToast('Saving Project File...');
         try {
-            showProcessToast('Saving Project File...');
             const name = this.requirementContainer
                 .find('input#requirements_file_name')
                 .val() as string;
@@ -191,10 +191,10 @@ export default class FileCoopRequirementHandler {
             });
             this.getProjectLinks(project_id);
             closeModal('#requirementModal');
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback(
                 'text-bg-danger',
                 error?.responseJSON?.message ||
@@ -364,29 +364,29 @@ export default class FileCoopRequirementHandler {
         this.requirementContainer
             .find('button#UpdateProjectLink')
             .on('click', async function () {
+                const projectID = $('#ProjectID').val() as string;
+                const updatedProjectLinks =
+                    $('#projectLinkForm').serialize();
+                const file_id = $(
+                    'input#HiddenFileIDToUpdate'
+                ).val() as string;
+
+                const isConfirmed = await createConfirmationModal({
+                    title: 'Update Requirements',
+                    titleBg: 'bg-primary',
+                    message:
+                        'Are you sure you want to update this requirements?',
+                    confirmText: 'Yes',
+                    confirmButtonClass: 'btn-primary',
+                    cancelText: 'No',
+                });
+
+                if (!isConfirmed) {
+                    return;
+                }
+
+                const processToast = showProcessToast('Updating...');
                 try {
-                    const projectID = $('#ProjectID').val() as string;
-                    const updatedProjectLinks =
-                        $('#projectLinkForm').serialize();
-                    const file_id = $(
-                        'input#HiddenFileIDToUpdate'
-                    ).val() as string;
-
-                    const isConfirmed = await createConfirmationModal({
-                        title: 'Update Requirements',
-                        titleBg: 'bg-primary',
-                        message:
-                            'Are you sure you want to update this requirements?',
-                        confirmText: 'Yes',
-                        confirmButtonClass: 'btn-primary',
-                        cancelText: 'No',
-                    });
-
-                    if (!isConfirmed) {
-                        return;
-                    }
-
-                    showProcessToast('Updating...');
 
                     const response = await $.ajax({
                         type: 'PUT',
@@ -404,10 +404,10 @@ export default class FileCoopRequirementHandler {
 
                     self.getProjectLinks(projectID);
                     closeModal('#projectLinkUpdateModal');
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback('text-bg-success', response.message);
                 } catch (error: any) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error?.responseJSON?.message ||

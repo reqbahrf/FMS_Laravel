@@ -859,7 +859,7 @@ export default class AdminDashboard {
                 cancelText: 'No',
             });
             if (!isConfirmed) return;
-            showProcessToast('Generating Report...');
+            const processToast = showProcessToast('Generating Report...');
             try {
                 const response = await $.ajax({
                     type: 'GET',
@@ -884,7 +884,7 @@ export default class AdminDashboard {
                     const reader = new FileReader();
                     reader.onload = function () {
                         const errorData = JSON.parse(this.result as string);
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         showToastFeedback(
                             'text-bg-danger',
                             errorData.message || 'Failed to generate PDF'
@@ -904,7 +904,7 @@ export default class AdminDashboard {
                 window.open(url, '_blank');
 
                 // Show success message
-                hideProcessToast();
+                hideProcessToast(processToast);
                 showToastFeedback(
                     'text-bg-success',
                     'PDF generated successfully'

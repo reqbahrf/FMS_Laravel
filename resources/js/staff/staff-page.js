@@ -905,7 +905,6 @@ async function initializeStaffPageJs() {
                         confirmButtonClass: 'btn-primary',
                         cancelText: 'No',
                     });
-
                     if (!isConfirmed) {
                         return;
                     }
@@ -920,7 +919,6 @@ async function initializeStaffPageJs() {
                             throw new Error('Submission method is not defined');
                     }
                 } catch (error) {
-                    hideProcessToast();
                     showToastFeedback(
                         'text-bg-danger',
                         error?.responseJSON?.message ||
@@ -1436,7 +1434,7 @@ async function initializeStaffPageJs() {
                 const afterDeleteFn = recordData.afterDelete;
                 const deleteRoute = deleteRouteFn(uniqueVal);
 
-                showProcessToast('Deleting Record...');
+                const processToast = showProcessToast('Deleting Record...');
 
                 try {
                     const project_id = $('#ProjectID').val();
@@ -1450,7 +1448,7 @@ async function initializeStaffPageJs() {
                         },
                     });
 
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback('text-bg-success', response.message);
                     closeModal('#deleteRecordModal');
                     modal.hide();
@@ -1459,7 +1457,7 @@ async function initializeStaffPageJs() {
                         await afterDeleteFn(project_id);
                     }
                 } catch (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.message
@@ -1570,7 +1568,9 @@ async function initializeStaffPageJs() {
                 if (!isConfirmed) {
                     return;
                 }
-                showProcessToast();
+                const processToast = showProcessToast(
+                    'Creating Quarterly Report...'
+                );
                 const project_id = $('#ProjectID').val();
                 const formData =
                     $(this).serialize() + '&project_id=' + project_id;
@@ -1585,11 +1585,11 @@ async function initializeStaffPageJs() {
                     },
                     success: function (response) {
                         getQuarterlyReports(project_id);
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         showToastFeedback('text-bg-success', response.message);
                     },
                     error: function (error) {
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         showToastFeedback(
                             'text-bg-danger',
                             error.responseJSON.message
@@ -3113,18 +3113,19 @@ async function initializeStaffPageJs() {
                 'click',
                 'button#submitToAdmin',
                 async function (e) {
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Submit to Admin',
+                        message:
+                            'Are you sure you want to submit this application to admin?',
+                        confirmText: 'Submit',
+                    });
+                    if (!isConfirmed) {
+                        return;
+                    }
+                    const processToast = showProcessToast(
+                        'Submitting to Admin...'
+                    );
                     try {
-                        const isConfirmed = await createConfirmationModal({
-                            title: 'Submit to Admin',
-                            message:
-                                'Are you sure you want to submit this application to admin?',
-                            confirmText: 'Submit',
-                        });
-                        if (!isConfirmed) {
-                            return;
-                        }
-                        showProcessToast('Submitting to Admin...');
-
                         const business_id =
                             e.target.attributes['data-business-id'].value;
                         const application_id =
@@ -3152,9 +3153,9 @@ async function initializeStaffPageJs() {
                             response?.message ||
                                 'Project submitted to admin successfully'
                         );
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                     } catch (error) {
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         showToastFeedback(
                             'text-bg-danger',
                             error?.responseJSON?.message ||
@@ -3292,7 +3293,7 @@ async function initializeStaffPageJs() {
             }
             //View applicant requirements
             RequirementsTable.on('click', '.viewReq', async function () {
-                showProcessToast('Retrieving file...');
+                const processToast = showProcessToast('Retrieving file...');
                 try {
                     const row = $(this).closest('tr');
                     const fileID = row
@@ -3337,7 +3338,7 @@ async function initializeStaffPageJs() {
                         'Failed to load file. Please try again.'
                     );
                 } finally {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                 }
             });
 
@@ -3416,7 +3417,7 @@ async function initializeStaffPageJs() {
                 if (!isconfimed) {
                     return;
                 }
-                showProcessToast();
+                const processToast = showProcessToast();
                 const formData = $(this).serialize() + '&action=' + action;
                 try {
                     const response = await $.ajax({
@@ -3433,12 +3434,12 @@ async function initializeStaffPageJs() {
                         },
                         processData: false,
                     });
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     setTimeout(() => {
                         showToastFeedback('text-bg-success', response.success);
                     }, 500);
                 } catch (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.error
@@ -3471,7 +3472,9 @@ async function initializeStaffPageJs() {
                 if (!confirmed) {
                     return;
                 }
-                showProcessToast('Setting evaluation date...');
+                const processToast = showProcessToast(
+                    'Setting evaluation date...'
+                );
                 try {
                     const response = await $.ajax({
                         type: 'PUT',
@@ -3489,7 +3492,7 @@ async function initializeStaffPageJs() {
                         },
                     });
                     if (response.success == true) {
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         await getEvaluationScheduledDate(
                             business_id,
                             application_id
@@ -3497,7 +3500,7 @@ async function initializeStaffPageJs() {
                         showToastFeedback('text-bg-success', response.message);
                     }
                 } catch (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.error
@@ -3537,7 +3540,7 @@ async function initializeStaffPageJs() {
                     return;
                 }
 
-                showProcessToast('Rejecting applicant...');
+                const processToast = showProcessToast('Rejecting applicant...');
                 const formData = new FormData(this);
                 try {
                     const response = await $.ajax({
@@ -3554,12 +3557,12 @@ async function initializeStaffPageJs() {
                     });
 
                     if (response.success == true) {
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         closeModal('#tnaEvaluationResultModal');
                         showToastFeedback('text-bg-success', response.message);
                     }
                 } catch (error) {
-                    hideProcessToast();
+                    hideProcessToast(processToast);
                     showToastFeedback(
                         'text-bg-danger',
                         error.responseJSON.error

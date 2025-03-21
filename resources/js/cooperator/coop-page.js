@@ -525,7 +525,9 @@ async function initilizeCoopPageJs() {
             const QuarterlyForm = $('#quarterlyForm');
 
             function submitQuarterlyForm() {
-                showProcessToast('Submitting Quarterly Report...');
+                const processToast = showProcessToast(
+                    'Submitting Quarterly Report...'
+                );
 
                 const formData = QuarterlyForm.serializeArray();
                 const url = QuarterlyForm.attr('action');
@@ -556,7 +558,7 @@ async function initilizeCoopPageJs() {
                     contentType: 'application/json', // Set content type to JSON
                     success: function (response) {
                         // Handle the response if needed
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         setTimeout(() => {
                             confirmationModal.hide();
                             showToastFeedback(
@@ -568,7 +570,7 @@ async function initilizeCoopPageJs() {
                         loadPage(response.reportedFormUrl, response.navId);
                     },
                     error: function (xhr, status, error) {
-                        hideProcessToast();
+                        hideProcessToast(processToast);
                         showToastFeedback(
                             'text-bg-danger',
                             error.responseJSON.message

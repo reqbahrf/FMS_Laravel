@@ -825,7 +825,7 @@ export function initializeForm() {
     // validationHandler.destroy();
 
     async function submitForm() {
-        showProcessToast('Submitting form...');
+        const processToast = showProcessToast('Submitting form...');
         try {
             let formDataObject = {};
             const form = ApplicationForm.find(':input:not([readonly])');
@@ -857,7 +857,7 @@ export function initializeForm() {
 
             if (response.success) {
                 const message = response.success;
-                hideProcessToast();
+                hideProcessToast(processToast);
 
                 setTimeout(() => {
                     showToastFeedback('text-bg-success', message);
@@ -870,7 +870,7 @@ export function initializeForm() {
                 }
             }
         } catch (error) {
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback(
                 'text-bg-danger',
                 error?.error ||
