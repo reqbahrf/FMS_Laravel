@@ -43,11 +43,8 @@ import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
-import { TableDataExtractor } from '../Utilities/TableDataExtractor';
-import { InitializeFilePond } from '../Utilities/FilepondHandlers';
 import { processError } from '../Utilities/error-handler-util';
 window.smartWizard = smartWizard;
-let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
 

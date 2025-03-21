@@ -1,0 +1,297 @@
+<?php
+
+namespace App\Services;
+
+use App\Events\ProjectEvent;
+use App\Models\ApplicationForm;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
+
+class ApplicationRegistrationService
+{
+    public function __construct(
+        private TNAdataHandlerService $TNAdataHandlerService,
+        private ApplicantFileHandlerService $fileHandler,
+        private ApplicationForm $applicationForm
+    ) {}
+
+    /**
+     * Register a new application with all related data
+     *
+     * @param array $validatedInputs The validated request inputs
+     * @return array The result array with status and data
+     */
+    public function registerApplication(array $validatedInputs): array
+    {
+        $user_name = Auth::user()->user_name;
+        $successful_inserts = 0;
+
+        DB::beginTransaction();
+
+        try {
+            // Process and store personal info
+            $personalInfoId = $this->storePersonalInfo($validatedInputs, $user_name);
+            $successful_inserts++;
+
+            // Process and store business info
+            $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfoId);
+            $businessId = $businessInfo['businessId'];
+            $successful_inserts++;
+
+            // Process and store assets
+            $this->storeAssets($validatedInputs, $businessId);
+            $successful_inserts++;
+
+            // Process and store personnel
+            $this->storePersonnel($validatedInputs, $businessId);
+            $successful_inserts++;
+
+            // Store files
+            $firm_name = $validatedInputs['firm_name'];
+            $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
+            $successful_inserts++;
+
+            // Create application record
+            $applicationId = $this->createApplicationRecord($businessId);
+            $successful_inserts++;
+
+            if ($successful_inserts == 6) {
+                $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
+                $this->TNAdataHandlerService->setTNAData($validatedInputs, request()->user(), $businessId, $applicationId);
+                DB::commit();
+
+                $location = [
+                    'region' => $businessInfo['region'],
+                    'province' => $businessInfo['province'],
+                    'city' => $businessInfo['city'],
+                    'barangay' => $businessInfo['barangay'],
+                ];
+
+                // Trigger event
+                event(new ProjectEvent(
+                    $businessId,
+                    $businessInfo['enterprise_type'],
+                    $businessInfo['enterprise_level'],
+                    $location,
+                    'NEW_APPLICANT'
+                ));
+
+                Cache::forget('applicants');
+
+                return [
+                    'status' => 'success',
+                    'message' => 'All data successfully saved.',
+                    'redirect' => route('Cooperator.index')
+                ];
+            } else {
+                DB::rollBack();
+                throw new Exception("Data insertion failed: Only {$successful_inserts} of 6 required insertions completed successfully.");
+            }
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error("Error inserting data:", ['error' => $e->getMessage()]);
+
+            return [
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ];
+        }
+    }
+
+    /**
+     * Store personal information in the database
+     *
+     * @param array $validatedInputs
+     * @param string $user_name
+     * @return int The personal info ID
+     */
+    private function storePersonalInfo(array $validatedInputs, string $user_name): int
+    {
+        $name_prefix = $validatedInputs['prefix'];
+        $f_name = $validatedInputs['f_name'];
+        $mid_name = $validatedInputs['middle_name'];
+        $l_name = $validatedInputs['l_name'];
+        $name_suffix = $validatedInputs['suffix'];
+        $sex = $validatedInputs['sex'];
+        $b_date = $validatedInputs['b_date'];
+        $designation = $validatedInputs['designation'];
+        $country_mobile_code = $validatedInputs['country_code'];
+        $mobile_number = $validatedInputs['Mobile_no'];
+        $full_mobile_number = $country_mobile_code . $mobile_number;
+        $landline = $validatedInputs['landline'];
+
+        return DB::table('coop_users_info')->insertGetId([
+            'user_name' => $user_name,
+            'prefix' => $name_prefix,
+            'f_name' => $f_name,
+            'mid_name' => $mid_name,
+            'l_name' => $l_name,
+            'suffix' => $name_suffix,
+            'sex' => $sex,
+            'birth_date' => $b_date,
+            'designation' => $designation,
+            'mobile_number' => $full_mobile_number,
+            'landline' => $landline,
+        ]);
+    }
+
+    /**
+     * Store business information in the database
+     *
+     * @param array $validatedInputs
+     * @param int $personalInfoId
+     * @return array The business info including ID and location details
+     */
+    private function storeBusinessInfo(array $validatedInputs, int $personalInfoId): array
+    {
+        $firm_name = $validatedInputs['firm_name'];
+        $enterprise_type = $validatedInputs['enterpriseType'];
+        $enterprise_level = $validatedInputs['enterprise_level'];
+        $office_region = $validatedInputs['officeRegion'];
+        $office_province = $validatedInputs['officeProvince'];
+        $office_city = $validatedInputs['officeCity'];
+        $office_barangay = $validatedInputs['officeBarangay'];
+        $office_landmark = $validatedInputs['officeLandmark'];
+        $office_zipcode = $validatedInputs['officeZipcode'];
+        $export_market = json_encode($validatedInputs['exportMarket']);
+        $local_market = json_encode($validatedInputs['localMarket']);
+
+        $businessId = DB::table('business_info')->insertGetId([
+            'user_info_id' => $personalInfoId,
+            'firm_name' => $firm_name,
+            'enterprise_type' => $enterprise_type,
+            'enterprise_level' => $enterprise_level,
+            'zip_code' => $office_zipcode,
+            'landmark' => $office_landmark,
+            'barangay' => $office_barangay,
+            'city' => $office_city,
+            'province' => $office_province,
+            'region' => $office_region,
+            'Export_Mkt_Outlet' => $export_market,
+            'Local_Mkt_Outlet' => $local_market,
+        ]);
+
+        return [
+            'businessId' => $businessId,
+            'enterprise_type' => $enterprise_type,
+            'enterprise_level' => $enterprise_level,
+            'region' => $office_region,
+            'province' => $office_province,
+            'city' => $office_city,
+            'barangay' => $office_barangay,
+        ];
+    }
+
+    /**
+     * Store assets information in the database
+     *
+     * @param array $validatedInputs
+     * @param int $businessId
+     * @return bool
+     */
+    private function storeAssets(array $validatedInputs, int $businessId): bool
+    {
+        $building_value = str_replace(',', '', ($validatedInputs['buildings']));
+        $equipment_value = str_replace(',', '', ($validatedInputs['equipments']));
+        $working_capital = str_replace(',', '', ($validatedInputs['working_capital']));
+
+        return DB::table('assets')->insert([
+            'id' => $businessId,
+            'building_value' => $building_value,
+            'equipment_value' => $equipment_value,
+            'working_capital' => $working_capital,
+        ]);
+    }
+
+    /**
+     * Store personnel information in the database
+     *
+     * @param array $validatedInputs
+     * @param int $businessId
+     * @return bool
+     */
+    private function storePersonnel(array $validatedInputs, int $businessId): bool
+    {
+        $m_personnelDiRe = $validatedInputs['m_personnelDiRe'];
+        $f_personnelDiRe = $validatedInputs['f_personnelDiRe'];
+        $m_personnelDiPart = $validatedInputs['m_personnelDiPart'];
+        $f_personnelDiPart = $validatedInputs['f_personnelDiPart'];
+        $m_personnelIndRe = $validatedInputs['m_personnelIndRe'];
+        $f_personnelIndRe = $validatedInputs['f_personnelIndRe'];
+        $m_personnelIndPart = $validatedInputs['m_personnelIndPart'];
+        $f_personnelIndPart = $validatedInputs['f_personnelIndPart'];
+
+        return DB::table('personnel')->insert([
+            'id' => $businessId,
+            'male_direct_re' => $m_personnelDiRe,
+            'female_direct_re' => $f_personnelDiRe,
+            'male_direct_part' => $m_personnelDiPart,
+            'female_direct_part' => $f_personnelDiPart,
+            'male_indirect_re' => $m_personnelIndRe,
+            'female_indirect_re' => $f_personnelIndRe,
+            'male_indirect_part' => $m_personnelIndPart,
+            'female_indirect_part' => $f_personnelIndPart,
+        ]);
+    }
+
+    /**
+     * Create a new application record in the database
+     *
+     * @param int $businessId
+     * @return int The application ID
+     */
+    private function createApplicationRecord(int $businessId): int
+    {
+        return DB::table('application_info')->insertGetId([
+            'business_id' => $businessId,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+    }
+
+    /**
+     * Initialize the application process form container
+     *
+     * @param int $business_id
+     * @param int $application_id
+     * @return void
+     * @throws Exception
+     */
+    public function initializeApplicationProcessFormContainer(int $business_id, int $application_id): void
+    {
+        try {
+            $initialData = json_encode([
+                'business_id' => $business_id,
+                'application_id' => $application_id
+            ]);
+
+            $formsToCreate = [
+                [
+                    'business_id' => $business_id,
+                    'application_id' => $application_id,
+                    'key' => 'tna_form',
+                    'data' => $initialData
+                ],
+                [
+                    'business_id' => $business_id,
+                    'application_id' => $application_id,
+                    'key' => 'project_proposal_form',
+                    'data' => $initialData
+                ],
+                [
+                    'business_id' => $business_id,
+                    'application_id' => $application_id,
+                    'key' => 'rtec_report_form',
+                    'data' => $initialData
+                ]
+            ];
+
+            ApplicationForm::insert($formsToCreate);
+        } catch (Exception $e) {
+            throw new Exception("Failed to initialize application process form container: " . $e->getMessage());
+        }
+    }
+}
