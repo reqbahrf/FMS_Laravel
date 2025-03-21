@@ -200,6 +200,7 @@
             PROJECT: '{{ route('staff.Project') }}',
             ADD_PROJECT: '{{ route('staff.Project.AddProject') }}',
             APPLICANT: '{{ route('staff.Applicant') }}',
+            ADD_APPLICANT: '{{ route('staff.Project.get.add.applicant-form') }}',
 
 
         };

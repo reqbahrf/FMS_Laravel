@@ -12,11 +12,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FormDraftController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
-use App\Http\Controllers\ProjectForm\SRDocController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\ProjectForm\PDSDocController;
-use App\Http\Controllers\ProjectForm\PISDocController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\PasswordResetController;
@@ -34,7 +31,10 @@ use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GetOngoingProjectController;
 use App\Http\Controllers\GetPendingProjectController;
+use App\Http\Controllers\ProjectForm\SRDocController;
 use App\Http\Controllers\GetProjectProposalController;
+use App\Http\Controllers\ProjectForm\PDSDocController;
+use App\Http\Controllers\ProjectForm\PISDocController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\CoopQuarterlyReportController;
@@ -43,6 +43,7 @@ use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
+use App\Http\Controllers\applicant_project\CreateApplicantController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
 use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
@@ -243,6 +244,9 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
     Route::post('/Staff/Submit-New-Projects', [StaffAddProjectController::class, 'store'])
         ->name('staff.Project.SubmitNewProject');
+
+    Route::get('Staff/Project/get/add/applicant-form', [CreateApplicantController::class, 'index'])
+        ->name('staff.Project.get.add.applicant-form');
 
 
     Route::controller(PISDocController::class)->group(function () {

@@ -64,6 +64,7 @@ notificationManager.setupEventListeners();
 const urlMapFunctions = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
     [NAV_ROUTES.PROJECT]: (functions) => functions.Projects,
+    [NAV_ROUTES.ADD_APPLICANT]: (functions) => functions.AddApplicant,
     [NAV_ROUTES.ADD_PROJECT]: (functions) => functions.AddProject,
     [NAV_ROUTES.APPLICANT]: (functions) => functions.Applicant,
 };
@@ -1938,7 +1939,31 @@ async function initializeStaffPageJs() {
             const addProjectBtn = $('#addProjectManualy');
 
             addProjectBtn.on('click', async () => {
-                await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink');
+                try {
+                    const AddApplicantOrProjectHandler = (
+                        await import('./AddApplicantOrProjectHandler')
+                    ).default;
+
+                    // Create a new instance which returns a promise
+                    const userChoice =
+                        await AddApplicantOrProjectHandler.create();
+
+                    // Based on the user's choice, navigate to the appropriate page
+                    if (userChoice === 'applicant') {
+                        // Navigate to add applicant page
+                        await loadPage(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
+                    } else if (userChoice === 'project') {
+                        // Navigate to add project page
+                        await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink');
+                    }
+                    // If modal was dismissed without a choice, we don't navigate anywhere
+                } catch (error) {
+                    console.log(
+                        'Modal was dismissed or an error occurred:',
+                        error
+                    );
+                    // Optionally handle the error or dismissal case
+                }
             });
 
             $('#ApprovedtableBody').on(
@@ -2896,6 +2921,7 @@ async function initializeStaffPageJs() {
             await getOngoingProjects();
             await getCompletedProjects();
         },
+        AddApplicant: async () => {},
         AddProject: async () => {
             const module = await import('../application-page');
             // If you know specific functions that need to be called
