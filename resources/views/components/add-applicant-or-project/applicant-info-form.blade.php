@@ -172,43 +172,6 @@
                     <hr>
                 </div>
             </div>
-            <div class="d-flex flex-row justify-content-end mb-3">
-                <div class="d-flex flex-column align-items-start">
-                    <h5 class="mb-3">Mode of Application:</h5>
-                    <div>
-                        <div class="form-check mb-2">
-                            <input
-                                class="form-check-input"
-                                id="mode1"
-                                name="mode"
-                                type="radio"
-                                value="1"
-                            >
-                            <label
-                                class="form-check-label"
-                                for="mode1"
-                            >Fill the application form in applicant's stead</label>
-                            <div class="form-text text-muted">Will redirect to applicant's application page</div>
-                        </div>
-                        <div class="form-check">
-                            <input
-                                class="form-check-input"
-                                id="mode2"
-                                name="mode"
-                                type="radio"
-                                value="2"
-                            >
-                            <label
-                                class="form-check-label"
-                                for="mode2"
-                            >Let the applicant fill-up the form</label>
-                            <div class="form-text text-muted">Will send the application form to the applicant's email
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
             <div class="row">
                 <div class="col-12 text-end">
                     <button

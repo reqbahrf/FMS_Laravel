@@ -41,11 +41,6 @@ class ApplicantInfoRequest extends FormRequest
             'mobile_no' => 'required|string|regex:/^[0-9]{10}$/',
             'landline' => 'nullable|string|max:20',
 
-            // Mode of Application
-            //1 - Fill the application form in applicant's stead
-            //2 - Let the applicant fill-up the form by sending the form to the applicant's email
-            'mode' => 'required|in:1,2',
-
         ];
     }
 
