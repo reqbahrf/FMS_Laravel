@@ -20,12 +20,12 @@ class ApplicationInfo extends Model
         'date_applied',
         'application_status',
         'Evaluation_date',
-        'is_added_by_staff',
-        'added_by',
+        'is_assisted',
+        'assisted_by',
     ];
 
     protected $casts = [
-        'is_added_by_staff' => 'boolean',
+        'is_assisted' => 'boolean',
     ];
 
     public function businessInfo(): BelongsTo

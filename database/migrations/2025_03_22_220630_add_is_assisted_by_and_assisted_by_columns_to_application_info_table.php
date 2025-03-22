@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('application_info', function (Blueprint $table) {
-            $table->boolean('is_assisted_by')->default(false)->after('Evaluation_status');
-            $table->bigInteger('assisted_by')->unsigned()->nullable()->after('is_assisted_by');
+            $table->boolean('is_assisted')->default(false)->after('Evaluation_status');
+            $table->bigInteger('assisted_by')->unsigned()->nullable()->after('is_assisted');
 
             $table->foreign('assisted_by')->references('id')->on('org_users_info')->onDelete('set null')->onUpdate('cascade');
         });
@@ -25,7 +25,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('application_info', function (Blueprint $table) {
-            $table->dropColumn('is_assisted_by');
+            $table->dropColumn('is_assisted');
             $table->dropColumn('assisted_by');
         });
     }

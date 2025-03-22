@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Exception;
 use App\Models\User;
+use App\Models\FormDraft;
 use App\Events\ProjectEvent;
 use App\Models\ApplicationForm;
 use Illuminate\Support\Facades\DB;
@@ -15,6 +16,7 @@ use App\Actions\GenerateUniqueUsernameAction;
 
 class RegistrationService
 {
+    private const DRAFT_PREFIX = 'ASSIST_REGISTRATION_';
     public function __construct(
         private TNAdataHandlerService $TNAdataHandlerService,
         private ApplicantFileHandlerService $fileHandler,
@@ -111,6 +113,7 @@ class RegistrationService
         $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
         $initial_password = str_replace('-', '', $validatedInputs['b_date']);
 
+        DB::beginTransaction();
         $user = User::create([
             'user_name' => $username,
             'email' => $validatedInputs['email'],
@@ -134,6 +137,9 @@ class RegistrationService
             'landline' => $validatedInputs['landline'],
         ]);
 
+        $this->draftApplicantPersonalInfo($user, $validatedInputs);
+        DB::commit();
+
         return $user;
     }
 
@@ -142,7 +148,35 @@ class RegistrationService
         $email = $user->email;
     }
 
-    public function draftApplicantPersonalInfo(array $validatedInputs) {}
+    /**
+     * Create a draft for applicant personal information
+     *
+     * @param User $user The user to create a draft for
+     * @return FormDraft|null
+     * @throws Exception If draft already exists
+     */
+    private function draftApplicantPersonalInfo(User $user, array $validatedInputs)
+    {
+        try {
+            $draftType = self::DRAFT_PREFIX . 'personal_info_' . $user->id;
+
+            if (FormDraft::where('draft_type', $draftType)
+                ->where('owner_id', $user->id)
+                ->exists()
+            ) {
+                throw new Exception('This draft already exists');
+            }
+
+            $draft = new FormDraft();
+            $draft->draft_type = $draftType;
+            $draft->owner_id = $user->id;
+            $draft->form_data = $validatedInputs;
+            $draft->save();
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
 
 
     /**
@@ -285,12 +319,16 @@ class RegistrationService
      * Create a new application record in the database
      *
      * @param int $businessId
+     * @param bool $isAssistedBy optional
+     * @param int $assistedBy optional
      * @return int The application ID
      */
-    private function createApplicationRecord(int $businessId): int
+    private function createApplicationRecord(int $businessId, ?bool $isAssistedBy = false, ?int $assistedBy = null): int
     {
         return DB::table('application_info')->insertGetId([
             'business_id' => $businessId,
+            'is_assisted_by' => $isAssistedBy,
+            'assisted_by' => $assistedBy,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
