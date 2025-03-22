@@ -3,13 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewRegistrationRequest;
-use App\Services\ApplicationRegistrationService;
+use App\Services\RegistrationService;
 use Illuminate\Http\JsonResponse;
 
 class ApplicationController extends Controller
 {
     public function __construct(
-        private ApplicationRegistrationService $applicationRegistrationService,
+        private RegistrationService $registrationService,
     ) {}
     /**
      * Store a new application with all related data
@@ -21,7 +21,7 @@ class ApplicationController extends Controller
     {
         $validatedInputs = $request->validated();
 
-        $result = $this->applicationRegistrationService->registerApplication($validatedInputs);
+        $result = $this->registrationService->registerApplication($validatedInputs);
 
         if ($result['status'] === 'success') {
             return response()->json([

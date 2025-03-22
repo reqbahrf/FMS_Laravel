@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
-class ApplicationRegistrationService
+class RegistrationService
 {
     public function __construct(
         private TNAdataHandlerService $TNAdataHandlerService,
