@@ -20,6 +20,12 @@ class ApplicationInfo extends Model
         'date_applied',
         'application_status',
         'Evaluation_date',
+        'is_added_by_staff',
+        'added_by',
+    ];
+
+    protected $casts = [
+        'is_added_by_staff' => 'boolean',
     ];
 
     public function businessInfo(): BelongsTo
@@ -32,8 +38,8 @@ class ApplicationInfo extends Model
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
     }
 
-    public function projectProposalInfo() : HasOne
+    public function addedByStaff(): BelongsTo
     {
-        return $this->hasOne(ProjectProposal::class, 'application_id', 'id');
+        return $this->belongsTo(OrgUserInfo::class, 'added_by', 'id');
     }
 }
