@@ -202,14 +202,14 @@
                         <div class="col-12 col-md-2">
                             <label
                                 class="form-label"
-                                for="middle_name"
+                                for="mid_name"
                             >Middle Name:</label>
                             <input
                                 class="form-control"
-                                id="middle_name"
-                                name="middle_name"
+                                id="mid_name"
+                                name="mid_name"
                                 type="text"
-                                value="{{ old('middle_name') }}"
+                                value="{{ old('mid_name') }}"
                                 placeholder="Doe"
                             >
                         </div>

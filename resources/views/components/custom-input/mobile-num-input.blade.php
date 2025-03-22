@@ -1,6 +1,5 @@
 <div class="col-12 col-md-6">
-    <label for="Mobile_no">Mobile Number: <span
-            class="requiredFields">*</span></label>
+    <label for="Mobile_no">Mobile Number: <span class="requiredFields">*</span></label>
     <div class="input-group">
         <select
             class="form-select"
@@ -211,10 +210,10 @@
         </select>
         <input
             class="form-control"
-            id="Mobile_no"
-            name="Mobile_no"
+            id="mobile_no"
+            name="mobile_no"
             type="tel"
-            value="{{ old('Mobile_no') }}"
+            value="{{ old('mobile_no') }}"
             title="Please enter a valid mobile number in the format XXX-XXX-XXXX"
             placeholder="965-453-5432"
             pattern="\d{3}-\d{3}-\d{4}"

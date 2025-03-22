@@ -58,9 +58,6 @@ Route::controller(GoogleAuthController::class)->group(function () {
     Route::get('/auth-with/google', 'AuthenticateWithGoogle')->name('auth-with.google');
     Route::get('/auth/google-callback', 'handleGoogleAuth')->name('handle.google.Auth');
 });
-Route::get('/test', function () {
-    return view('components.rtec-report-form.main');
-});
 Route::get('/signup', function () {
     return view('registerpage.signup');
 })->name('registerpage.signup');
@@ -69,16 +66,19 @@ Route::post('/signup/submit', [AuthController::class, 'signup'])
     ->name('signup');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/application', function () {
+    Route::get('/application/{id}', function () {
         return view('registerpage.application');
-    })->name('registrationForm');
+    })->name('registrationForm')
+        ->middleware('signed');
+
+    Route::post('/application/submit/{id}', [ApplicationController::class, 'store'])
+        ->name('applicationFormSubmit')
+        ->middleware('signed');
 
     Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
 
     Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
 
-    Route::post('/application/submit', [ApplicationController::class, 'store'])
-        ->name('applicationFormSubmit');
 
     Route::get('/notification', [UserNotificationController::class, 'getUserNotifications'])
         ->middleware('auth')

@@ -45,12 +45,12 @@
                 <div class="col-md-3">
                     <label
                         class="form-label"
-                        for="firstName"
+                        for="f_name"
                     >First Name: <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
-                        id="firstName"
-                        name="firstName"
+                        id="f_name"
+                        name="f_name"
                         type="text"
                         required
                     >
@@ -61,12 +61,12 @@
                 <div class="col-md-2">
                     <label
                         class="form-label"
-                        for="middleName"
+                        for="mid_name"
                     >Middle Name:</label>
                     <input
                         class="form-control"
-                        id="middleName"
-                        name="middleName"
+                        id="mid_name"
+                        name="mid_name"
                         type="text"
                     >
                     <div class="invalid-feedback">Please enter a valid middle name.</div>
@@ -76,12 +76,12 @@
                 <div class="col-md-3">
                     <label
                         class="form-label"
-                        for="lastName"
+                        for="l_name"
                     >Last Name: <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
-                        id="lastName"
-                        name="lastName"
+                        id="l_name"
+                        name="l_name"
                         type="text"
                         required
                     >
@@ -109,7 +109,6 @@
                         >Select</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
-                        <option value="Other">Other</option>
                     </select>
                 </div>
 
@@ -134,12 +133,12 @@
                 <div class="col-md-3">
                     <label
                         class="form-label"
-                        for="birthDate"
+                        for="b_date"
                     >Birth Date: <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
-                        id="birthDate"
-                        name="birthDate"
+                        id="b_date"
+                        name="b_date"
                         type="date"
                         required
                     >

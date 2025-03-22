@@ -2,20 +2,24 @@
 
 namespace App\Services;
 
+use Exception;
+use App\Models\User;
 use App\Events\ProjectEvent;
 use App\Models\ApplicationForm;
-use Exception;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Cache;
+use App\Actions\GenerateUniqueUsernameAction;
 
 class RegistrationService
 {
     public function __construct(
         private TNAdataHandlerService $TNAdataHandlerService,
         private ApplicantFileHandlerService $fileHandler,
-        private ApplicationForm $applicationForm
+        private ApplicationForm $applicationForm,
+        private GenerateUniqueUsernameAction $generateUniqueUsernameAction
     ) {}
 
     /**
@@ -101,6 +105,46 @@ class RegistrationService
         }
     }
 
+    public function registerApplicant(array $validatedInputs)
+    {
+        // Generate a unique username using the action class
+        $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
+        $initial_password = str_replace('-', '', $validatedInputs['b_date']);
+
+        $user = User::create([
+            'user_name' => $username,
+            'email' => $validatedInputs['email'],
+            'password' => Hash::make($initial_password),
+            'role' => 'Cooperator',
+            'created_at' => now(),
+            'updated_at' => now(),
+            'must_change_password' => true,
+        ]);
+
+        $user->coopUserInfo()->create([
+            'prefix' => $validatedInputs['prefix'],
+            'f_name' => $validatedInputs['f_name'],
+            'mid_name' => $validatedInputs['middle_name'],
+            'l_name' => $validatedInputs['l_name'],
+            'suffix' => $validatedInputs['suffix'],
+            'sex' => $validatedInputs['sex'],
+            'birth_date' => $validatedInputs['b_date'],
+            'designation' => $validatedInputs['designation'],
+            'mobile_number' => $validatedInputs['Mobile_no'],
+            'landline' => $validatedInputs['landline'],
+        ]);
+
+        return $user;
+    }
+
+    public function sendApplicantionFormThroughEmail(User $user)
+    {
+        $email = $user->email;
+    }
+
+    public function draftApplicantPersonalInfo(array $validatedInputs) {}
+
+
     /**
      * Store personal information in the database
      *
@@ -112,14 +156,14 @@ class RegistrationService
     {
         $name_prefix = $validatedInputs['prefix'];
         $f_name = $validatedInputs['f_name'];
-        $mid_name = $validatedInputs['middle_name'];
+        $mid_name = $validatedInputs['mid_name'];
         $l_name = $validatedInputs['l_name'];
         $name_suffix = $validatedInputs['suffix'];
         $sex = $validatedInputs['sex'];
         $b_date = $validatedInputs['b_date'];
         $designation = $validatedInputs['designation'];
         $country_mobile_code = $validatedInputs['country_code'];
-        $mobile_number = $validatedInputs['Mobile_no'];
+        $mobile_number = $validatedInputs['mobile_no'];
         $full_mobile_number = $country_mobile_code . $mobile_number;
         $landline = $validatedInputs['landline'];
 
