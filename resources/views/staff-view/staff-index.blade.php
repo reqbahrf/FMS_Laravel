@@ -198,7 +198,7 @@
         const NAV_ROUTES = {
             DASHBOARD: '{{ route('staff.dashboard') }}',
             PROJECT: '{{ route('staff.Project') }}',
-            ADD_PROJECT: '{{ route('staff.Project.AddProject') }}',
+            ADD_PROJECT: '{{ route('staff.Project.get.add.project-form') }}',
             APPLICANT: '{{ route('staff.Applicant') }}',
             ADD_APPLICANT: '{{ route('staff.Project.get.add.applicant-form') }}',
 

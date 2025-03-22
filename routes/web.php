@@ -43,6 +43,7 @@ use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
+use App\Http\Controllers\applicant_project\CreateProjectController;
 use App\Http\Controllers\applicant_project\CreateApplicantController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
@@ -247,6 +248,9 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
     Route::get('Staff/Project/get/add/applicant-form', [CreateApplicantController::class, 'index'])
         ->name('staff.Project.get.add.applicant-form');
+
+    Route::get('Staff/Project/get/add/project-form', [CreateProjectController::class, 'index'])
+        ->name('staff.Project.get.add.project-form');
 
 
     Route::controller(PISDocController::class)->group(function () {

@@ -2923,38 +2923,33 @@ async function initializeStaffPageJs() {
         },
         AddApplicant: async () => {},
         AddProject: async () => {
-            const module = await import('../application-page');
-            // If you know specific functions that need to be called
-            if (module.initializeForm) {
-                module.initializeForm();
-            }
-
-            function toggleProjectInputs() {
-                const selectedStatus = $('#projectStatus').val();
-                const ongoingProjectInputs = $(
-                    'input[data-status-dependency="ongoing"]'
-                );
-
-                if (selectedStatus === 'new') {
-                    ongoingProjectInputs
-                        .prop('disabled', true)
-                        .closest('.col-12')
-                        .hide();
-                } else {
-                    ongoingProjectInputs
-                        .prop('disabled', false)
-                        .closest('.col-12')
-                        .show();
-                }
-            }
-
-            customFormatNumericInput('#step-1', 'input#funded_amount');
-
-            // Initial check on page load
-            toggleProjectInputs();
-
-            // Add event listener for status changes
-            $('#projectStatus').on('change', toggleProjectInputs);
+            // const module = await import('../application-page');
+            // // If you know specific functions that need to be called
+            // if (module.initializeForm) {
+            //     module.initializeForm();
+            // }
+            // function toggleProjectInputs() {
+            //     const selectedStatus = $('#projectStatus').val();
+            //     const ongoingProjectInputs = $(
+            //         'input[data-status-dependency="ongoing"]'
+            //     );
+            //     if (selectedStatus === 'new') {
+            //         ongoingProjectInputs
+            //             .prop('disabled', true)
+            //             .closest('.col-12')
+            //             .hide();
+            //     } else {
+            //         ongoingProjectInputs
+            //             .prop('disabled', false)
+            //             .closest('.col-12')
+            //             .show();
+            //     }
+            // }
+            // customFormatNumericInput('#step-1', 'input#funded_amount');
+            // // Initial check on page load
+            // toggleProjectInputs();
+            // // Add event listener for status changes
+            // $('#projectStatus').on('change', toggleProjectInputs);
         },
         Applicant: async () => {
             new smartWizard();

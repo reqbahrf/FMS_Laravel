@@ -23,7 +23,7 @@
                     <label
                         class="form-label"
                         for="email"
-                    >Email Address <span class="text-danger">*</span></label>
+                    >Email Address: <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         id="email"
@@ -46,7 +46,7 @@
                     <label
                         class="form-label"
                         for="firstName"
-                    >First Name <span class="text-danger">*</span></label>
+                    >First Name: <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         id="firstName"
@@ -62,7 +62,7 @@
                     <label
                         class="form-label"
                         for="middleName"
-                    >Middle Name</label>
+                    >Middle Name:</label>
                     <input
                         class="form-control"
                         id="middleName"
@@ -77,7 +77,7 @@
                     <label
                         class="form-label"
                         for="lastName"
-                    >Last Name <span class="text-danger">*</span></label>
+                    >Last Name: <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         id="lastName"
@@ -95,7 +95,7 @@
                     <label
                         class="form-label"
                         for="sex"
-                    >Sex <span class="text-danger">*</span></label>
+                    >Sex: <span class="text-danger">*</span></label>
                     <select
                         class="form-select"
                         id="sex"
@@ -118,7 +118,7 @@
                     <label
                         class="form-label"
                         for="designation"
-                    >Designation <span class="text-danger">*</span></label>
+                    >Designation: <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         id="designation"
@@ -135,7 +135,7 @@
                     <label
                         class="form-label"
                         for="birthDate"
-                    >Birth Date <span class="text-danger">*</span></label>
+                    >Birth Date: <span class="text-danger">*</span></label>
                     <input
                         class="form-control"
                         id="birthDate"
@@ -160,7 +160,7 @@
                     <label
                         class="form-label"
                         for="landline"
-                    >Landline</label>
+                    >Landline:</label>
                     <input
                         class="form-control"
                         id="landline"
@@ -175,7 +175,7 @@
             </div>
             <div class="d-flex flex-row justify-content-end mb-3">
                 <div class="d-flex flex-column align-items-start">
-                    <h5 class="mb-3">Mode of Application</h5>
+                    <h5 class="mb-3">Mode of Application:</h5>
                     <div>
                         <div class="form-check mb-2">
                             <input
