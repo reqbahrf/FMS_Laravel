@@ -19,7 +19,7 @@
                 </div>
 
                 <!-- Email -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-12">
                     <label
                         class="form-label"
                         for="email"
@@ -32,9 +32,10 @@
                         required
                     >
                 </div>
+                <x-custom-input.prefix-input />
 
                 <!-- First Name -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-3">
                     <label
                         class="form-label"
                         for="firstName"
@@ -49,7 +50,7 @@
                 </div>
 
                 <!-- Middle Name -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-2">
                     <label
                         class="form-label"
                         for="middleName"
@@ -63,7 +64,7 @@
                 </div>
 
                 <!-- Last Name -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-3">
                     <label
                         class="form-label"
                         for="lastName"
@@ -77,31 +78,10 @@
                     >
                 </div>
 
-                <!-- Suffix -->
-                <div class="col-md-3 mb-3">
-                    <label
-                        class="form-label"
-                        for="suffix"
-                    >Suffix</label>
-                    <select
-                        class="form-select"
-                        id="suffix"
-                        name="suffix"
-                    >
-                        <option
-                            value=""
-                            selected
-                        >None</option>
-                        <option value="Jr.">Jr.</option>
-                        <option value="Sr.">Sr.</option>
-                        <option value="II">II</option>
-                        <option value="III">III</option>
-                        <option value="IV">IV</option>
-                    </select>
-                </div>
+                <x-custom-input.suffix-input />
 
                 <!-- Sex -->
-                <div class="col-md-3 mb-3">
+                <div class="col-md-3">
                     <label
                         class="form-label"
                         for="sex"
@@ -124,7 +104,7 @@
                 </div>
 
                 <!-- Designation -->
-                <div class="col-md-3 mb-3">
+                <div class="col-md-3">
                     <label
                         class="form-label"
                         for="designation"
@@ -140,7 +120,7 @@
                 </div>
 
                 <!-- Birth Date -->
-                <div class="col-md-3 mb-3">
+                <div class="col-md-3">
                     <label
                         class="form-label"
                         for="birthDate"
@@ -164,7 +144,7 @@
                 <x-custom-input.mobile-num-input />
 
                 <!-- Landline -->
-                <div class="col-md-6 mb-3">
+                <div class="col-md-6">
                     <label
                         class="form-label"
                         for="landline"

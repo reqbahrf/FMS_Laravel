@@ -180,29 +180,12 @@
                             <hr>
                         @endif
                         <h5>Contact Person:</h5>
-                        <div class="col-12 col-md-2">
-                            <label for="prefix">Prefix:</label>
-                            <input
-                                class="form-control"
-                                id="prefix"
-                                name="prefix"
-                                list="prefixOptions"
-                            >
-                            <datalist id="prefixOptions">
-                                <option value="Mx.">Mx.</option>
-                                <option value="Mr.">Mr.</option>
-                                <option value="Mrs.">Mrs.</option>
-                                <option value="Miss">Miss</option>
-                                <option value="Ms.">Ms.</option>
-                                <option value="Dr.">Dr.</option>
-                                <option value="Prof.">Prof.</option>
-                                <option value="Rev.">Rev.</option>
-                                <option value="Hon.">Hon.</option>
-                                <option value="Atty.">Atty.</option>
-                            </datalist>
-                        </div>
+                        <x-custom-input.prefix-input />
                         <div class="col-12 col-md-3">
-                            <label for="f_name">First Name: <span class="requiredFields"> *</span></label>
+                            <label
+                                class="form-label"
+                                for="f_name"
+                            >First Name: <span class="requiredFields"> *</span></label>
                             <input
                                 class="form-control"
                                 id="f_name"
@@ -217,7 +200,10 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-2">
-                            <label for="middle_name">Middle Name:</label>
+                            <label
+                                class="form-label"
+                                for="middle_name"
+                            >Middle Name:</label>
                             <input
                                 class="form-control"
                                 id="middle_name"
@@ -228,7 +214,10 @@
                             >
                         </div>
                         <div class="col-12 col-md-3">
-                            <label for="l_name">Last Name: <span class="requiredFields"> *</span></label>
+                            <label
+                                class="form-label"
+                                for="l_name"
+                            >Last Name: <span class="requiredFields"> *</span></label>
                             <input
                                 class="form-control"
                                 id="l_name"
@@ -242,29 +231,14 @@
                                 Please enter your last name.
                             </div>
                         </div>
-                        <div class="col-12 col-md-2">
-                            <label for="suffix">Suffix: </label>
-                            <input
-                                class="form-control"
-                                id="suffix"
-                                name="suffix"
-                                value="{{ old('suffix') }}"
-                                list="suffixList"
-                            >
-                            <datalist id="suffixList">
-                                <option value="Jr.">Jr.</option>
-                                <option value="Sr.">Sr.</option>
-                                <option value="II">II</option>
-                                <option value="III">III</option>
-                                <option value="IV">IV</option>
-                                <option value="Esq.">Esq.</option>
-                                <option value="Ph.D.">Ph.D.</option>
-                            </datalist>
-                        </div>
+                        <x-custom-input.suffix-input />
                         <div class="col-12 col-md-4">
                             <div class="row">
                                 <div class="col-12 me-auto">
-                                    <label for="sex">sex: <span class="requiredFields">*</span></label>
+                                    <label
+                                        class="form-label"
+                                        for="sex"
+                                    >sex: <span class="requiredFields">*</span></label>
                                     <select
                                         class="form-select"
                                         id="sex"
@@ -284,7 +258,10 @@
                         <div class="col-12 col-md-4">
                             <div class="row">
                                 <div class="col-12 mx-auto">
-                                    <label for="designation">Designation: <span class="requiredFields">*</span>
+                                    <label
+                                        class="form-label"
+                                        for="designation"
+                                    >Designation: <span class="requiredFields">*</span>
                                     </label>
                                     <input
                                         class="form-control"
@@ -308,7 +285,10 @@
                         <div class="col-12 col-md-4">
                             <div class="row">
                                 <div class="col-12 ms-auto">
-                                    <label for="b_date">Birth Date: <span class="requiredFields">
+                                    <label
+                                        class="form-label"
+                                        for="b_date"
+                                    >Birth Date: <span class="requiredFields">
                                             *</span></label>
 
                                     <input
@@ -333,7 +313,10 @@
                             <div class="row">
                                 <x-custom-input.mobile-num-input />
                                 <div class="col-12 col-md-6">
-                                    <label for="landline">Landline:</label>
+                                    <label
+                                        class="form-label"
+                                        for="landline"
+                                    >Landline:</label>
                                     <input
                                         class="form-control"
                                         id="landline"
@@ -361,7 +344,10 @@
                     <!-- Where the business info displayed -->
                     <div class="row g-3">
                         <div class="col-12 col-md-8">
-                            <label for="firm_name">Name of Firm: <span class="requiredFields">
+                            <label
+                                class="form-label"
+                                for="firm_name"
+                            >Name of Firm: <span class="requiredFields">
                                     *</span></label>
                             <input
                                 class="form-control"
@@ -377,7 +363,10 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-4">
-                            <label for="enterpriseType">Type Of Enterprise <span class="requiredFields">
+                            <label
+                                class="form-label"
+                                for="enterpriseType"
+                            >Type Of Enterprise <span class="requiredFields">
                                     *</span></label>
                             <select
                                 class="form-select"
@@ -400,7 +389,10 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-12">
-                            <label for="briefBackground">Brief Enterprise Background: <span class="requiredFields">
+                            <label
+                                class="form-label"
+                                for="briefBackground"
+                            >Brief Enterprise Background: <span class="requiredFields">
                                     *</span></label>
                             <textarea
                                 class="form-control"
@@ -415,7 +407,10 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <label for="website">Website:</label>
+                            <label
+                                class="form-label"
+                                for="website"
+                            >Website:</label>
                             <input
                                 class="form-control"
                                 id="website"
@@ -429,8 +424,10 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-6">
-                            <label for="yearEstablished">Year Enterprise Was Established: <span
-                                    class="requiredFields">
+                            <label
+                                class="form-label"
+                                for="yearEstablished"
+                            >Year Enterprise Was Established: <span class="requiredFields">
                                     *</span></label>
                             <input
                                 class="form-control"
@@ -452,7 +449,10 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <label for="businessPermitNo">Business Permit No.: <span class="requiredFields">
+                            <label
+                                class="form-label"
+                                for="businessPermitNo"
+                            >Business Permit No.: <span class="requiredFields">
                                     *</span></label>
                             <input
                                 class="form-control"
@@ -468,7 +468,10 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <label for="yearRegistered">Year Registered: <span class="requiredFields">
+                            <label
+                                class="form-label"
+                                for="yearRegistered"
+                            >Year Registered: <span class="requiredFields">
                                     *</span></label>
                             <input
                                 class="form-control"
@@ -490,9 +493,10 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <label for="enterpriseRegistrationNo">Enterprise Registration No.: <span
-                                    class="requiredFields"
-                                >
+                            <label
+                                class="form-label"
+                                for="enterpriseRegistrationNo"
+                            >Enterprise Registration No.: <span class="requiredFields">
                                     *</span></label>
                             <input
                                 class="form-control"
@@ -509,9 +513,10 @@
                         </div>
 
                         <div class="col-12 col-md-6">
-                            <label for="yearEnterpriseRegistered">Year Enterprise Registered: <span
-                                    class="requiredFields"
-                                >
+                            <label
+                                class="form-label"
+                                for="yearEnterpriseRegistered"
+                            >Year Enterprise Registered: <span class="requiredFields">
                                     *</span></label>
                             <input
                                 class="form-control"
@@ -532,7 +537,10 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-4">
-                            <label for="initialCapitalization">Initial Capitalization: <span class="requiredFields">
+                            <label
+                                class="form-label"
+                                for="initialCapitalization"
+                            >Initial Capitalization: <span class="requiredFields">
                                     *</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">₱</span>
@@ -551,7 +559,10 @@
                             </div>
                         </div>
                         <div class="col-12 col-md-4">
-                            <label for="presentCapitalization">Present Capitalization: <span class="requiredFields">
+                            <label
+                                class="form-label"
+                                for="presentCapitalization"
+                            >Present Capitalization: <span class="requiredFields">
                                     *</span></label>
                             <div class="input-group">
                                 <span class="input-group-text">₱</span>
@@ -575,7 +586,10 @@
                             <div class="card-body">
                                 <div class="row gy-3">
                                     <div class="col-12 col-md-3">
-                                        <label for="region">Region:<span class="requiredFields">*</span></label>
+                                        <label
+                                            class="form-label"
+                                            for="region"
+                                        >Region:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
                                             id="officeRegion"
@@ -587,7 +601,10 @@
                                         <div class="invalid-feedback">Please select a region</div>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <label for="province">Province:<span class="requiredFields">*</span></label>
+                                        <label
+                                            class="form-label"
+                                            for="province"
+                                        >Province:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
                                             id="officeProvince"
@@ -600,7 +617,10 @@
                                         <div class="invalid-feedback">Please select a Province</div>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <label for="city">City:<span class="requiredFields">*</span></label>
+                                        <label
+                                            class="form-label"
+                                            for="city"
+                                        >City:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
                                             id="officeCity"
@@ -613,7 +633,10 @@
                                         <div class="invalid-feedback">Please select a City</div>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
+                                        <label
+                                            class="form-label"
+                                            for="barangay"
+                                        >Barangay:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
                                             id="officeBarangay"
@@ -626,7 +649,10 @@
                                         <div class="invalid-feedback">Please select a Barangey</div>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <label for="Landmark">Landmark: <span class="requiredFields">
+                                        <label
+                                            class="form-label"
+                                            for="Landmark"
+                                        >Landmark: <span class="requiredFields">
                                                 *</span></label>
                                         <input
                                             class="form-control"
@@ -642,7 +668,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <label for="zipcode">Zip Code: <span class="requiredFields"> *</span">
+                                        <label
+                                            class="form-label"
+                                            for="zipcode"
+                                        >Zip Code: <span class="requiredFields"> *</span">
                                         </label>
                                         <input
                                             class="form-control"
@@ -658,7 +687,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="telNo">Telephone No:</label>
+                                        <label
+                                            class="form-label"
+                                            for="telNo"
+                                        >Telephone No:</label>
                                         <input
                                             class="form-control"
                                             id="officeTelNo"
@@ -669,7 +701,10 @@
                                         >
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="faxNo">Fax No:</label>
+                                        <label
+                                            class="form-label"
+                                            for="faxNo"
+                                        >Fax No:</label>
                                         <input
                                             class="form-control"
                                             id="officeFaxNo"
@@ -680,7 +715,10 @@
                                         >
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="emailAddress">Email Address:</label>
+                                        <label
+                                            class="form-label"
+                                            for="emailAddress"
+                                        >Email Address:</label>
                                         <input
                                             class="form-control"
                                             id="officeEmailAddress"
@@ -701,7 +739,10 @@
                             <div class="card-body">
                                 <div class="row gy-3">
                                     <div class="col-12 col-md-3">
-                                        <label for="region">Region:<span class="requiredFields">*</span></label>
+                                        <label
+                                            class="form-label"
+                                            for="region"
+                                        >Region:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
                                             id="factoryRegion"
@@ -713,7 +754,10 @@
                                         <div class="invalid-feedback">Please select a region</div>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <label for="province">Province:<span class="requiredFields">*</span></label>
+                                        <label
+                                            class="form-label"
+                                            for="province"
+                                        >Province:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
                                             id="factoryProvince"
@@ -726,7 +770,10 @@
                                         <div class="invalid-feedback">Please select a Province</div>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <label for="city">City:<span class="requiredFields">*</span></label>
+                                        <label
+                                            class="form-label"
+                                            for="city"
+                                        >City:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
                                             id="factoryCity"
@@ -739,7 +786,10 @@
                                         <div class="invalid-feedback">Please select a City</div>
                                     </div>
                                     <div class="col-12 col-md-3">
-                                        <label for="barangay">Barangay:<span class="requiredFields">*</span></label>
+                                        <label
+                                            class="form-label"
+                                            for="barangay"
+                                        >Barangay:<span class="requiredFields">*</span></label>
                                         <select
                                             class="form-select"
                                             id="factoryBarangay"
@@ -752,7 +802,10 @@
                                         <div class="invalid-feedback">Please select a Barangey</div>
                                     </div>
                                     <div class="col-12 col-md-10">
-                                        <label for="Landmark">Landmark: <span class="requiredFields">
+                                        <label
+                                            class="form-label"
+                                            for="Landmark"
+                                        >Landmark: <span class="requiredFields">
                                                 *</span></label>
                                         <input
                                             class="form-control"
@@ -768,7 +821,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-2">
-                                        <label for="zipcode">Zip Code: <span class="requiredFields"> *</span">
+                                        <label
+                                            class="form-label"
+                                            for="zipcode"
+                                        >Zip Code: <span class="requiredFields"> *</span">
                                         </label>
                                         <input
                                             class="form-control"
@@ -784,7 +840,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="telNo">Telephone No:</label>
+                                        <label
+                                            class="form-label"
+                                            for="telNo"
+                                        >Telephone No:</label>
                                         <input
                                             class="form-control"
                                             id="factoryTelNo"
@@ -794,7 +853,10 @@
                                         >
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="faxNo">Fax No:</label>
+                                        <label
+                                            class="form-label"
+                                            for="faxNo"
+                                        >Fax No:</label>
                                         <input
                                             class="form-control"
                                             id="factoryFaxNo"
@@ -804,7 +866,10 @@
                                         >
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="emailAddress">Email Address:</label>
+                                        <label
+                                            class="form-label"
+                                            for="emailAddress"
+                                        >Email Address:</label>
                                         <input
                                             class="form-control"
                                             id="factoryEmailAddress"
@@ -825,7 +890,10 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12 col-md-4">
-                                        <label for="buildings">Buildings: <span class="requiredFields">
+                                        <label
+                                            class="form-label"
+                                            for="buildings"
+                                        >Buildings: <span class="requiredFields">
                                                 *</span></label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -846,7 +914,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="equipments">Equipments: <span class="requiredFields">
+                                        <label
+                                            class="form-label"
+                                            for="equipments"
+                                        >Equipments: <span class="requiredFields">
                                                 *</span></label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -867,7 +938,10 @@
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4">
-                                        <label for="working_capital">Working Capital: <span class="requiredFields">
+                                        <label
+                                            class="form-label"
+                                            for="working_capital"
+                                        >Working Capital: <span class="requiredFields">
                                                 *</span></label>
                                         <div class="input-group">
                                             <span class="input-group-text">
@@ -912,7 +986,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="form-group">
-                                    <label>Business Activity:</label>
+                                    <label class="form-label">Business Activity:</label>
                                     <div class="d-flex align-items-center mb-2">
                                         <div class="form-check mr-3">
                                             <input
@@ -1920,7 +1994,10 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="col-12">
-                                                                    <label for="m_personelDiRe">Male:
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="m_personelDiRe"
+                                                                    >Male:
                                                                     </label>
                                                                     <input
                                                                         class="form-control num_only"
@@ -1933,7 +2010,10 @@
 
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="f_personnelDiRe">Female:
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="f_personnelDiRe"
+                                                                    >Female:
                                                                     </label>
                                                                     <input
                                                                         class="form-control num_only"
@@ -1954,7 +2034,10 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="col-12">
-                                                                    <label for="m_personnelDiPart">Male:
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="m_personnelDiPart"
+                                                                    >Male:
                                                                     </label>
                                                                     <input
                                                                         class="form-control num_only"
@@ -1966,7 +2049,10 @@
                                                                     >
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="f_personnelDiPart">Female:
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="f_personnelDiPart"
+                                                                    >Female:
                                                                     </label>
                                                                     <input
                                                                         class="form-control num_only"
@@ -2018,7 +2104,10 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="col-12">
-                                                                    <label for="m_personnelIndRe">Male:
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="m_personnelIndRe"
+                                                                    >Male:
                                                                     </label>
                                                                     <input
                                                                         class="form-control num_only"
@@ -2031,7 +2120,10 @@
 
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="f_personnelIndRe">Female:
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="f_personnelIndRe"
+                                                                    >Female:
                                                                     </label>
                                                                     <input
                                                                         class="form-control num_only"
@@ -2053,7 +2145,10 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="col-12">
-                                                                    <label for="m_personnelIndPart">Male</label>
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="m_personnelIndPart"
+                                                                    >Male</label>
                                                                     <input
                                                                         class="form-control num_only"
                                                                         id="m_personnelIndPart"
@@ -2065,7 +2160,10 @@
 
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="f_personnelIndPart">Female</label>
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="f_personnelIndPart"
+                                                                    >Female</label>
                                                                     <input
                                                                         class="form-control num_only"
                                                                         id="f_personnelIndPart"
@@ -2536,7 +2634,10 @@
                                     <div class="card-body">
                                         <div class="row justify-content-center">
                                             <div class="col-12 col-md-6">
-                                                <label for="re_full_name">Full Name</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="re_full_name"
+                                                >Full Name</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_Full_name"
@@ -2545,7 +2646,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="designa">Designation</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="designa"
+                                                >Designation</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_designa"
@@ -2554,7 +2658,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-2">
-                                                <label for="b_Date">Birth Date</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="b_Date"
+                                                >Birth Date</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_b_Date"
@@ -2563,7 +2670,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="Mobile_no">Mobile Number</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="Mobile_no"
+                                                >Mobile Number</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_Mobile_no"
@@ -2572,7 +2682,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="landline">Landline</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="landline"
+                                                >Landline</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_landline"
@@ -2592,7 +2705,10 @@
                                     <div class="card-body">
                                         <div class="row gy-3">
                                             <div class="col-12 col-md-8">
-                                                <label for="firm_name">Firm Name</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="firm_name"
+                                                >Firm Name</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_firm_name"
@@ -2602,7 +2718,10 @@
 
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="type_enterprise">Type of Enterprise</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="type_enterprise"
+                                                >Type of Enterprise</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_type_enterprise"
@@ -2611,9 +2730,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-12">
-                                                <label for="briefBackground">Brief Enterprise Background: <span
-                                                        class="requiredFields"
-                                                    >
+                                                <label
+                                                    class="form-label"
+                                                    for="briefBackground"
+                                                >Brief Enterprise Background: <span class="requiredFields">
                                                         *</span></label>
                                                 <textarea
                                                     class="form-control"
@@ -2627,9 +2747,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-6">
-                                                <label for="re_business_permit_No">Business Permit No.: <span
-                                                        class="requiredFields"
-                                                    >
+                                                <label
+                                                    class="form-label"
+                                                    for="re_business_permit_No"
+                                                >Business Permit No.: <span class="requiredFields">
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2643,9 +2764,10 @@
                                             </div>
 
                                             <div class="col-12 col-md-6">
-                                                <label for="yearRegistered">Year Registered: <span
-                                                        class="requiredFields"
-                                                    >
+                                                <label
+                                                    class="form-label"
+                                                    for="yearRegistered"
+                                                >Year Registered: <span class="requiredFields">
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2661,7 +2783,10 @@
                                             </div>
 
                                             <div class="col-12 col-md-6">
-                                                <label for="enterpriseRegistrationNo">Enterprise Registration No.:
+                                                <label
+                                                    class="form-label"
+                                                    for="enterpriseRegistrationNo"
+                                                >Enterprise Registration No.:
                                                     <span class="requiredFields">
                                                         *</span></label>
                                                 <input
@@ -2678,7 +2803,10 @@
                                             </div>
 
                                             <div class="col-12 col-md-6">
-                                                <label for="yearEnterpriseRegistered">Year Enterprise Registered:
+                                                <label
+                                                    class="form-label"
+                                                    for="yearEnterpriseRegistered"
+                                                >Year Enterprise Registered:
                                                     <span class="requiredFields">
                                                         *</span></label>
                                                 <input
@@ -2695,9 +2823,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="initialCapitalization">Initial Capitalization: <span
-                                                        class="requiredFields"
-                                                    >
+                                                <label
+                                                    class="form-label"
+                                                    for="initialCapitalization"
+                                                >Initial Capitalization: <span class="requiredFields">
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2712,9 +2841,10 @@
                                                 </div>
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="re_present_capitalization">Present Capitalization: <span
-                                                        class="requiredFields"
-                                                    >
+                                                <label
+                                                    class="form-label"
+                                                    for="re_present_capitalization"
+                                                >Present Capitalization: <span class="requiredFields">
                                                         *</span></label>
                                                 <input
                                                     class="form-control"
@@ -2729,7 +2859,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <label
-                                                    class="fw-bold"
+                                                    class="form-label"
                                                     for="Address"
                                                 >Office Address</label>
                                                 <input
@@ -2740,7 +2870,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="officeTelNo">Telephone No:</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="officeTelNo"
+                                                >Telephone No:</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_officeTelNo"
@@ -2749,7 +2882,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="officeFaxNo">Fax No:</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="officeFaxNo"
+                                                >Fax No:</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_officeFaxNo"
@@ -2758,7 +2894,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="officeEmailAddress">Email Address:</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="officeEmailAddress"
+                                                >Email Address:</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_officeEmailAddress"
@@ -2768,7 +2907,7 @@
                                             </div>
                                             <div class="col-12">
                                                 <label
-                                                    class="fw-bold"
+                                                    class="form-label"
                                                     for="factoryAddress"
                                                 >Factory Address</label>
                                                 <input
@@ -2779,7 +2918,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="factoryTelNo">Telephone No:</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="factoryTelNo"
+                                                >Telephone No:</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_factoryTelNo"
@@ -2788,7 +2930,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="factoryFaxNo">Fax No:</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="factoryFaxNo"
+                                                >Fax No:</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_factoryFaxNo"
@@ -2797,7 +2942,10 @@
                                                 >
                                             </div>
                                             <div class="col-12 col-md-4">
-                                                <label for="factoryEmailAddress">Email Address:</label>
+                                                <label
+                                                    class="form-label"
+                                                    for="factoryEmailAddress"
+                                                >Email Address:</label>
                                                 <input
                                                     class="form-control mb-3"
                                                     id="re_factoryEmailAddress"
@@ -2811,7 +2959,7 @@
                                                 </div>
                                                 <div class="card-body">
                                                     <div class="form-group">
-                                                        <label>Business Activity:</label>
+                                                        <label class="form-label">Business Activity:</label>
                                                         <div class="d-flex align-items-center mb-2">
                                                             <div class="form-check mr-3">
                                                                 <input
@@ -2985,7 +3133,10 @@
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-12">
-                                                            <label for="re_specificProductOrService">
+                                                            <label
+                                                                class="form-label"
+                                                                for="re_specificProductOrService"
+                                                            >
                                                                 Specific product or service the enterprise offers its
                                                                 customers:
                                                             </label>
@@ -3000,7 +3151,10 @@
                                                     </div>
                                                     <div class="row g-3">
                                                         <div class="col-12">
-                                                            <label for="re_reasonsWhyAssistanceIsBeingSought">
+                                                            <label
+                                                                class="form-label"
+                                                                for="re_reasonsWhyAssistanceIsBeingSought"
+                                                            >
                                                                 Reasons why assistance is being sought:
                                                             </label>
                                                             <textarea
@@ -3146,7 +3300,10 @@
                                                     <div class="card-body">
                                                         <div class="row">
                                                             <div class="col-12 col-md-4">
-                                                                <label for="buildings">Buildings</label>
+                                                                <label
+                                                                    class="form-label"
+                                                                    for="buildings"
+                                                                >Buildings</label>
                                                                 <input
                                                                     class="form-control mb-3"
                                                                     id="re_buildings"
@@ -3155,7 +3312,10 @@
                                                                 >
                                                             </div>
                                                             <div class="col-12 col-md-4">
-                                                                <label for="equipments">Equipments</label>
+                                                                <label
+                                                                    class="form-label"
+                                                                    for="equipments"
+                                                                >Equipments</label>
                                                                 <input
                                                                     class="form-control mb-3"
                                                                     id="re_equipments"
@@ -3206,7 +3366,9 @@
 
                                                                         <div class="col-12">
                                                                             <label
-                                                                                for="re_m_personnelDiRe">Male</label>
+                                                                                class="form-label"
+                                                                                for="re_m_personnelDiRe"
+                                                                            >Male</label>
                                                                             <div class="mb-3">
                                                                                 <input
                                                                                     class="form-control"
@@ -3220,7 +3382,9 @@
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <label
-                                                                                for="re_f_personnelDiRe">Female</label>
+                                                                                class="form-label"
+                                                                                for="re_f_personnelDiRe"
+                                                                            >Female</label>
                                                                             <div class="mb-3">
                                                                                 <input
                                                                                     class="form-control"
@@ -3241,7 +3405,10 @@
                                                                     <div class="card-body">
 
                                                                         <div class="col-12">
-                                                                            <label for="">Male</label>
+                                                                            <label
+                                                                                class="form-label"
+                                                                                for=""
+                                                                            >Male</label>
                                                                             <div class="mb-3">
                                                                                 <input
                                                                                     class="form-control"
@@ -3253,7 +3420,10 @@
                                                                             </div>
                                                                         </div>
                                                                         <div class="col-12">
-                                                                            <label for="">Female</label>
+                                                                            <label
+                                                                                class="form-label"
+                                                                                for=""
+                                                                            >Female</label>
                                                                             <div class="mb-3">
                                                                                 <input
                                                                                     class="form-control"
@@ -3282,7 +3452,10 @@
                                                                     <div class="card-body">
 
                                                                         <div class="col-12">
-                                                                            <label for="re_m_personnelIndRe">Male
+                                                                            <label
+                                                                                class="form-label"
+                                                                                for="re_m_personnelIndRe"
+                                                                            >Male
                                                                             </label>
                                                                             <div class="mb-3">
                                                                                 <input
@@ -3296,7 +3469,9 @@
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <label
-                                                                                for="re_f_personnelIndRe">Female</label>
+                                                                                class="form-label"
+                                                                                for="re_f_personnelIndRe"
+                                                                            >Female</label>
                                                                             <div class="mb-3">
                                                                                 <input
                                                                                     class="form-control"
@@ -3316,7 +3491,9 @@
                                                                     <div class="card-body">
                                                                         <div class="col-12">
                                                                             <label
-                                                                                for="re_m_personnelIndPart">Male</label>
+                                                                                class="form-label"
+                                                                                for="re_m_personnelIndPart"
+                                                                            >Male</label>
                                                                             <div class="mb-3">
                                                                                 <input
                                                                                     class="form-control"
@@ -3329,7 +3506,9 @@
                                                                         </div>
                                                                         <div class="col-12">
                                                                             <label
-                                                                                for="re_f_personnelIndPart">Female</label>
+                                                                                class="form-label"
+                                                                                for="re_f_personnelIndPart"
+                                                                            >Female</label>
                                                                             <div class="mb-3">
                                                                                 <input
                                                                                     class="form-control"
@@ -3352,7 +3531,10 @@
                                                             </div>
                                                             <div class="card-body">
                                                                 <div class="col-12">
-                                                                    <label for="Export">Export</label>
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="Export"
+                                                                    >Export</label>
                                                                     <textarea
                                                                         class="form-control mb-3"
                                                                         id="re_ExportMar"
@@ -3360,7 +3542,10 @@
                                                                     ></textarea>
                                                                 </div>
                                                                 <div class="col-12">
-                                                                    <label for="Local">Local</label>
+                                                                    <label
+                                                                        class="form-label"
+                                                                        for="Local"
+                                                                    >Local</label>
                                                                     <textarea
                                                                         class="form-control mb-3"
                                                                         id="re_LocalMar"

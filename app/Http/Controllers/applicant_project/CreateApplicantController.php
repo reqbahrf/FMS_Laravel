@@ -7,8 +7,11 @@ use Illuminate\Http\Request;
 
 class CreateApplicantController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return view('components.add-applicant-or-project.applicant-info-form');
+        if ($request->ajax()) {
+            return view('components.add-applicant-or-project.applicant-info-form');
+        }
+        return view('staff-view.staff-index');
     }
 }
