@@ -1,7 +1,4 @@
-
-import {
-    showToastFeedback,
-} from '../Utilities/feedback-toast';
+import { showToastFeedback } from '../Utilities/feedback-toast';
 import 'jquery';
 
 type HTMLContent = string;
@@ -90,12 +87,20 @@ export default class NavigationHandler {
                 // If cached, use the cached response
                 this._handleLoadPageResponse(cachedPage, activeLink, url);
             } else {
-                const response = await $.ajax({
-                    url: url,
-                    type: 'GET',
-                    dataType: 'html',
-                } as JQuery.AjaxSettings);
-                await this._handleLoadPageResponse(response, activeLink, url);
+                const response = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        'X-Requested-With': 'XMLHttpRequest',
+                    },
+                });
+                const html = await response.text();
+                await this._handleLoadPageResponse(html, activeLink, url);
+                const actionInProjectTab = response?.headers?.get(
+                    'X-ACTION-IN-PROJECT-TAB'
+                );
+                if (actionInProjectTab) {
+                    this._handleActionInProjectTab(actionInProjectTab);
+                }
             }
         } catch (error) {
             this.spinner.addClass('d-none');
@@ -104,6 +109,15 @@ export default class NavigationHandler {
             this.spinner.addClass('d-none');
             this.tabContainer.show();
         }
+    }
+
+    //TODO: move this to a new staff NavigationHandler specific class
+    private _handleActionInProjectTab(action: string): void {
+        $(document).trigger('staff:retrieved-add-applicant-form', [
+            {
+                eventListenerToInitialize: action,
+            },
+        ]);
     }
 
     /**

@@ -9,11 +9,12 @@ use App\Events\ProjectEvent;
 use App\Models\ApplicationForm;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Database\Eloquent\Collection;
 use App\Actions\GenerateUniqueUsernameAction;
-use Illuminate\Support\Facades\URL;
 use Laravel\SerializableClosure\Serializers\Signed;
 
 class RegistrationService
@@ -156,6 +157,18 @@ class RegistrationService
     public function sendApplicantionFormThroughEmail(User $user)
     {
         $email = $user->email;
+    }
+
+    public function getAddedApplicant(): Collection
+    {
+        return FormDraft::where('form_type', 'LIKE', self::DRAFT_PREFIX . '%')
+            ->get();
+    }
+
+    public function isAddedApplicantExist(): bool
+    {
+        return FormDraft::where('form_type', 'LIKE', self::DRAFT_PREFIX . '%')
+            ->exists();
     }
 
     /**

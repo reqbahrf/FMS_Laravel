@@ -2925,7 +2925,19 @@ async function initializeStaffPageJs() {
             const module = new (
                 await import('../staff/add-projects/AddApplicant')
             ).default();
-            module.setupFormSubmitHandler();
+            $(document).on(
+                'staff:retrieved-add-applicant-form',
+                async (event, { eventListenerToInitialize }) => {
+                    console.log(
+                        'eventListenerToInitialize: ' +
+                            eventListenerToInitialize
+                    );
+                    if (eventListenerToInitialize !== 'add-applicant-form') {
+                        return;
+                    }
+                    module.setupFormSubmitHandler();
+                }
+            );
         },
         AddProject: async () => {
             // const module = await import('../application-page');
