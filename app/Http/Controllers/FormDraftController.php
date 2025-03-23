@@ -6,21 +6,16 @@ use Exception;
 use App\Models\FormDraft;
 use Illuminate\Http\Request;
 use App\Models\TemporaryFile;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 
 class FormDraftController extends Controller
 {
-    private $user_id;
 
-    public function __construct()
-    {
-        $this->user_id = Auth::user()->id;
-    }
     public function store(Request $request)
     {
         try {
+            $user_id = $request->user()->id;
             $draftType = $request->validate([
                 'draft_type' => 'required|string',
             ]);
@@ -28,13 +23,13 @@ class FormDraftController extends Controller
             $data = $request->except('draft_type');
 
             $draft = FormDraft::firstOrNew([
-                'owner_id' => $this->user_id,
+                'owner_id' => $user_id,
                 'form_type' => $draftType['draft_type'],
             ]);
 
-            $existingData = $draft->form_data ? json_decode($draft->form_data, true) : [];
+            $existingData = $draft->form_data ? $draft->form_data : [];
             $mergedData = array_merge($existingData, $data);
-            $draft->form_data = json_encode($mergedData);
+            $draft->form_data = $mergedData;
             $draft->save();
 
             return response()->json([
@@ -49,8 +44,9 @@ class FormDraftController extends Controller
     public function get(Request $request, $draft_type)
     {
         try {
+            $user_id = $request->user()->id;
             // Find the draft for the specific user and draft type
-            $draft = FormDraft::where('owner_id', $this->user_id)
+            $draft = FormDraft::where('owner_id', $user_id)
                 ->where('form_type', $draft_type)
                 ->where('is_submitted', false)
                 ->first();
@@ -65,7 +61,7 @@ class FormDraftController extends Controller
             }
 
             // Decode the form data
-            $draftData = json_decode($draft->form_data, true) ?? [];
+            $draftData = $draft->form_data ?? [];
 
             return response()->json([
                 'success' => true,
@@ -103,7 +99,7 @@ class FormDraftController extends Controller
         } catch (Exception $e) {
             return response()->json([
                 'error' => $e->getMessage(),
-                ], 500);
+            ], 500);
         }
     }
 }

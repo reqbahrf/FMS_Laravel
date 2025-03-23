@@ -49,6 +49,7 @@ use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
 use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
 use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
+use App\Models\FormDraft;
 
 Route::get('/', function () {
     return view('index');
@@ -101,14 +102,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
 
-    Route::get('/get/Draft/{draft_type}', [FormDraftController::class, 'get'])
-        ->name('form.getDraft');
+    Route::controller(FormDraftController::class)->group(function () {
+        Route::get('/get/Draft/{draft_type}', 'get')
+            ->name('form.getDraft')
+            ->middleware('signed');
 
-    Route::post('/set/Draft', [FormDraftController::class, 'store'])
-        ->name('form.setDraft');
+        Route::post('/set/Draft', 'store')
+            ->name('form.setDraft')
+            ->middleware('signed');
 
-    Route::get('/get/Draft/file/{uniqueId}', [FormDraftController::class, 'getFiles'])
-        ->name('form.getDraftFile');
+        Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
+            ->name('form.getDraftFile');
+    });
 
     Route::get('/activity/logs', [UserActivityLogController::class, 'getPersonalActivityLog'])
         ->name('activity.logs');
