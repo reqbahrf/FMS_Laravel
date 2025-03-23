@@ -8,18 +8,21 @@ import {
 import { serializeFormData } from '../../Utilities/utilFunctions';
 
 export default class AddApplicant {
-    private formElement: JQuery<HTMLFormElement>;
+    private formElement: JQuery<HTMLFormElement> | null;
+    private applicantListTable: JQuery<HTMLTableElement> | null;
     constructor() {
-        this.formElement = $('#addApplicantForm');
+        this.formElement = null;
+        this.applicantListTable = null;
     }
 
     public setupFormSubmitHandler() {
+        this.formElement = $('#addApplicantForm');
         try {
             if (!this.formElement) throw new Error('Form element not found');
             const form = this.formElement;
             form.on('submit', async (event: JQuery.SubmitEvent) => {
                 event.preventDefault();
-                const isConfirmed = createConfirmationModal({
+                const isConfirmed = await createConfirmationModal({
                     title: 'Confirm Applicant Addition',
                     message: 'Are you sure you want to add this applicant?',
                     confirmText: 'Yes',
@@ -39,6 +42,34 @@ export default class AddApplicant {
             });
         } catch (error) {
             processError('Error in Setting Up Form Submit Handler: ', error);
+        }
+    }
+
+    public setupApplicantTableActionListener() {
+        this.applicantListTable = $('#applicantListTable');
+        try {
+            if (!this.applicantListTable)
+                throw new Error('Applicant list table not found');
+            const table = this.applicantListTable;
+            table
+                .find('tbody')
+                .on(
+                    'click',
+                    '.editApplicantForm',
+                    (event: JQuery.ClickEvent) => {
+                        const button = $(event.target);
+                        const secureFormLink = button.data('secure-form-link');
+                        if (!secureFormLink)
+                            throw new Error('Secure form link not found');
+                        window.loadPage(secureFormLink, 'projectLink');
+                    }
+                );
+        } catch (error) {
+            processError(
+                'Error in Setting Up Applicant Table Action Listener: ',
+                error,
+                true
+            );
         }
     }
 

@@ -142,7 +142,7 @@ export default class NavigationHandler {
             );
 
             const pageFunction = await this._getPageFunction(url, functions);
-            if (typeof pageFunction === 'function') {
+            if (pageFunction && typeof pageFunction === 'function') {
                 await pageFunction();
             }
 
@@ -155,9 +155,13 @@ export default class NavigationHandler {
     protected async _getPageFunction(
         url: string,
         functions: Function
-    ): Promise<Function> {
+    ): Promise<Function | null> {
         const urlRoute = this.MappedUrlsRoutes;
-        return urlRoute[url](functions);
+        if (url in urlRoute) {
+            return urlRoute[url](functions);
+        }
+        console.warn('No page function found for Tab');
+        return null;
     }
 
     protected async _initializePageContext(

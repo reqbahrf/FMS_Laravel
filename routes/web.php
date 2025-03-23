@@ -66,14 +66,16 @@ Route::post('/signup/submit', [AuthController::class, 'signup'])
     ->name('signup');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/application/{id}', function () {
-        return view('registerpage.application');
-    })->name('application.form')
-        ->middleware('signed');
 
-    Route::post('/application/submit/{id}', [ApplicationController::class, 'store'])
-        ->name('applicationFormSubmit')
-        ->middleware('signed');
+    Route::controller(ApplicationController::class)->group(function () {
+        Route::get('/application/{id}', 'show')
+            ->name('application.form')
+            ->middleware('signed');
+
+        Route::post('/application/submit/{id}', 'store')
+            ->name('applicationFormSubmit')
+            ->middleware('signed');
+    });
 
     Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
 

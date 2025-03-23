@@ -42,7 +42,9 @@ interface ConfirmationModalOptions {
  *     size: 'modal-sm'
  * });
  */
-function createConfirmationModal(options: ConfirmationModalOptions = {}) {
+function createConfirmationModal(
+    options: ConfirmationModalOptions = {}
+): Promise<boolean> {
     const {
         title = 'Confirm Action',
         titleBg = 'bg-primary',

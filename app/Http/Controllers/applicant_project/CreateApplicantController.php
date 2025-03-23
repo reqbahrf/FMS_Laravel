@@ -20,8 +20,9 @@ class CreateApplicantController extends Controller
         $staffId = $request->user()->orgUserInfo->id;
         if ($request->ajax()) {
             if ($this->registrationService->isAddedApplicantExist()) {
+                $applicants = $this->registrationService->getAddedApplicants();
                 return response()
-                    ->view('components.add-applicant-or-project.view-list-of-added-applicant')
+                    ->view('components.add-applicant-or-project.view-list-of-added-applicant', compact('applicants'))
                     ->withHeaders([
                         'X-ACTION-IN-PROJECT-TAB' => 'view-applicant-form'
                     ]);

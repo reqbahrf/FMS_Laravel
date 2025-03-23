@@ -11,6 +11,11 @@ class ApplicationController extends Controller
     public function __construct(
         private RegistrationService $registrationService,
     ) {}
+
+    public function show($id)
+    {
+        return view('components.add-info-form', compact('id'));
+    }
     /**
      * Store a new application with all related data
      *

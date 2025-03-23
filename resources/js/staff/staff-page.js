@@ -2932,10 +2932,11 @@ async function initializeStaffPageJs() {
                         'eventListenerToInitialize: ' +
                             eventListenerToInitialize
                     );
-                    if (eventListenerToInitialize !== 'add-applicant-form') {
-                        return;
+                    if (eventListenerToInitialize == 'add-applicant-form') {
+                        module.setupFormSubmitHandler();
+                    } else {
+                        module.setupApplicantTableActionListener();
                     }
-                    module.setupFormSubmitHandler();
                 }
             );
         },

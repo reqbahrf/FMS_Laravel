@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
 use App\Actions\GenerateUniqueUsernameAction;
-use Laravel\SerializableClosure\Serializers\Signed;
+use App\Models\NotificationLog;
+
 
 class RegistrationService
 {
@@ -159,10 +160,21 @@ class RegistrationService
         $email = $user->email;
     }
 
-    public function getAddedApplicant(): Collection
+    public function isApplicantNotified(int $user_id, string $type): bool
+    {
+        return NotificationLog::where('user_id', $user_id)
+            ->where('notification_type', $type)
+            ->exists();
+    }
+
+    public function getAddedApplicants(): Collection
     {
         return FormDraft::where('form_type', 'LIKE', self::DRAFT_PREFIX . '%')
-            ->get();
+            ->get()
+            ->each(function ($draft) {
+                $draft->is_notified = $this->isApplicantNotified($draft->owner_id, self::DRAFT_PREFIX . 'NOTIFIED');
+                $draft->secure_form_link = URL::signedRoute('application.form', $draft->owner_id);
+            });
     }
 
     public function isAddedApplicantExist(): bool
