@@ -56,12 +56,19 @@ export default class AddApplicant {
                 .on(
                     'click',
                     '.editApplicantForm',
-                    (event: JQuery.ClickEvent) => {
+                    async (event: JQuery.ClickEvent) => {
                         const button = $(event.target);
                         const secureFormLink = button.data('secure-form-link');
                         if (!secureFormLink)
                             throw new Error('Secure form link not found');
-                        window.loadPage(secureFormLink, 'projectLink');
+                        await window.loadPage(secureFormLink, 'projectLink');
+
+                        const applicationJsModule = await import(
+                            '../../application-page.js'
+                        );
+                        if (applicationJsModule.initializeForm) {
+                            applicationJsModule.initializeForm();
+                        }
                     }
                 );
         } catch (error) {

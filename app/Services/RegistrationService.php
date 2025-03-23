@@ -173,7 +173,7 @@ class RegistrationService
             ->get()
             ->each(function ($draft) {
                 $draft->is_notified = $this->isApplicantNotified($draft->owner_id, self::DRAFT_PREFIX . 'NOTIFIED');
-                $draft->secure_form_link = URL::signedRoute('application.form', $draft->owner_id);
+                $draft->secure_form_link = URL::signedRoute('staff.Project.get.add.applicant-detailed-info-form', $draft->owner_id);
             });
     }
 

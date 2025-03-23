@@ -14,7 +14,7 @@ class ApplicationController extends Controller
 
     public function show($id)
     {
-        return view('components.add-info-form', compact('id'));
+        return view('registerpage.application', compact('id'));
     }
     /**
      * Store a new application with all related data

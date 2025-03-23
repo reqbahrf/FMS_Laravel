@@ -200,7 +200,7 @@
             PROJECT: '{{ route('staff.Project') }}',
             ADD_PROJECT: '{{ route('staff.Project.get.add.project-form') }}',
             APPLICANT: '{{ route('staff.Applicant') }}',
-            ADD_APPLICANT: '{{ route('staff.Project.get.add.applicant-form') }}',
+            ADD_APPLICANT: '{{ route('staff.Project.get.add.applicant-personal-form') }}',
         };
 
         const DASHBOARD_TAB_ROUTE = {

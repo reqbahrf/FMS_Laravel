@@ -209,8 +209,8 @@
             GET_FILE: "{{ route('form.getDraftFile', ':unique_id') }}",
             STORE: "{{ route('form.setDraft') }}",
         }
-        const GENERATE_DRAFT_KEY = ""
-        const REGISTRATIONFORM_SUBMISSION_ROUTE = "{{ route('applicationFormSubmit', ['id' => Auth::user()->id]) }}"
+        const REGISTRATIONFORM_SUBMISSION_ROUTE =
+            "{{ URL::signedRoute('applicationFormSubmit', ['id' => Auth::user()->id]) }}"
     </script>
     @vite('resources/js/application-page.js')
     <script type="module">

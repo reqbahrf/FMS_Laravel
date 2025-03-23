@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -23,8 +24,8 @@ class CheckCooperatorUser
         if (Auth::user()->role != 'Cooperator') {
             return redirect()->route('home');
         }
-        if (Auth::user()->coopUserInfo == null) {
-            return redirect()->route('application.form');
+        if (is_null(Auth::user()->coopUserInfo)) {
+            return redirect()->to(URL::signedRoute('application.form', ['id' => Auth::user()->id]));
         }
 
 

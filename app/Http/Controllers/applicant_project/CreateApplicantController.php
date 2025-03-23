@@ -35,6 +35,11 @@ class CreateApplicantController extends Controller
         }
         return view('staff-view.staff-index');
     }
+
+    public function show($id)
+    {
+        return view('components.applicant-form', compact('id'));
+    }
     public function storeApplicantDetail(ApplicantInfoRequest $request): JsonResponse
     {
         try {

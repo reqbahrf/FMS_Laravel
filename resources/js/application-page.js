@@ -780,10 +780,10 @@ export function initializeForm() {
             this.confirmButton = $(`#${this.confirmButtonId}`);
 
             if (!this.checkboxes.length) {
-                throw new Error('Required checkboxes not found in DOM');
+                console.warn('Required checkboxes not found in DOM');
             }
             if (!this.confirmButton.length) {
-                throw new Error('Confirm button not found in DOM');
+                console.warn('Confirm button not found in DOM');
             }
 
             // Bind event handler

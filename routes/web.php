@@ -108,8 +108,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->middleware('signed');
 
         Route::post('/set/Draft', 'store')
-            ->name('form.setDraft')
-            ->middleware('signed');
+            ->name('form.setDraft');
 
         Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
             ->name('form.getDraftFile');
@@ -255,8 +254,11 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 
 
     Route::controller(CreateApplicantController::class)->group(function () {
-        Route::get('Staff/Project/get/add/applicant-form', 'index')
-            ->name('staff.Project.get.add.applicant-form');
+        Route::get('Staff/Project/get/add/applicant-personal-form', 'index')
+            ->name('staff.Project.get.add.applicant-personal-form');
+
+        Route::get('Staff/Project/get/add/applicant-detailed-info-form/{id}', 'show')
+            ->name('staff.Project.get.add.applicant-detailed-info-form');
 
         Route::post('Staff/Project/submit-new-applicant/{staffId}', 'storeApplicantDetail')
             ->name('staff.Project.submit.new.applicant')
