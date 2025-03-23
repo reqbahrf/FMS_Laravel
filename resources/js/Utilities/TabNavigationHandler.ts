@@ -110,7 +110,12 @@ export default class NavigationHandler {
             this.tabContainer.show();
         }
     }
-
+    /**
+     * Handles the action to add an applicant in the project tab
+     * @param {string} action - The action to be performed
+     * @returns {void}
+     * @private
+     */
     //TODO: move this to a new staff NavigationHandler specific class
     private _handleActionInProjectTab(action: string): void {
         $(document).trigger('staff:retrieved-add-applicant-form', [
