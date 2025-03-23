@@ -2921,7 +2921,12 @@ async function initializeStaffPageJs() {
             await getOngoingProjects();
             await getCompletedProjects();
         },
-        AddApplicant: async () => {},
+        AddApplicant: async () => {
+            const module = new (
+                await import('../staff/add-projects/AddApplicant')
+            ).default();
+            module.setupFormSubmitHandler();
+        },
         AddProject: async () => {
             // const module = await import('../application-page');
             // // If you know specific functions that need to be called

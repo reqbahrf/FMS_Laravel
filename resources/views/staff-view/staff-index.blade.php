@@ -201,9 +201,8 @@
             ADD_PROJECT: '{{ route('staff.Project.get.add.project-form') }}',
             APPLICANT: '{{ route('staff.Applicant') }}',
             ADD_APPLICANT: '{{ route('staff.Project.get.add.applicant-form') }}',
-
-
         };
+
         const DASHBOARD_TAB_ROUTE = {
             GET_MONTHLY_PROJECTS_CHARTDATA: '{{ route('staff.Dashboard.chartData', ':yearToLoad') }}',
             GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',

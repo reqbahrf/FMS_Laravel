@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Cache;
 use App\Actions\GenerateUniqueUsernameAction;
+use Illuminate\Support\Facades\URL;
+use Laravel\SerializableClosure\Serializers\Signed;
 
 class RegistrationService
 {
@@ -107,40 +109,48 @@ class RegistrationService
         }
     }
 
-    public function registerApplicant(array $validatedInputs)
+    public function registerApplicant(array $validatedInputs): array
     {
-        // Generate a unique username using the action class
-        $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
-        $initial_password = str_replace('-', '', $validatedInputs['b_date']);
+        try {
+            $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
+            $initial_password = str_replace('-', '', $validatedInputs['b_date']);
 
-        DB::beginTransaction();
-        $user = User::create([
-            'user_name' => $username,
-            'email' => $validatedInputs['email'],
-            'password' => Hash::make($initial_password),
-            'role' => 'Cooperator',
-            'created_at' => now(),
-            'updated_at' => now(),
-            'must_change_password' => true,
-        ]);
+            DB::beginTransaction();
+            $user = User::create([
+                'user_name' => $username,
+                'email' => $validatedInputs['email'],
+                'password' => Hash::make($initial_password),
+                'role' => 'Cooperator',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'must_change_password' => true,
+            ]);
 
-        $user->coopUserInfo()->create([
-            'prefix' => $validatedInputs['prefix'],
-            'f_name' => $validatedInputs['f_name'],
-            'mid_name' => $validatedInputs['middle_name'],
-            'l_name' => $validatedInputs['l_name'],
-            'suffix' => $validatedInputs['suffix'],
-            'sex' => $validatedInputs['sex'],
-            'birth_date' => $validatedInputs['b_date'],
-            'designation' => $validatedInputs['designation'],
-            'mobile_number' => $validatedInputs['Mobile_no'],
-            'landline' => $validatedInputs['landline'],
-        ]);
+            $user->coopUserInfo()->create([
+                'prefix' => $validatedInputs['prefix'],
+                'f_name' => $validatedInputs['f_name'],
+                'mid_name' => $validatedInputs['mid_name'],
+                'l_name' => $validatedInputs['l_name'],
+                'suffix' => $validatedInputs['suffix'],
+                'sex' => $validatedInputs['sex'],
+                'birth_date' => $validatedInputs['b_date'],
+                'designation' => $validatedInputs['designation'],
+                'mobile_number' => $validatedInputs['mobile_no'],
+                'landline' => $validatedInputs['landline'],
+            ]);
 
-        $this->draftApplicantPersonalInfo($user, $validatedInputs);
-        DB::commit();
+            $this->draftApplicantPersonalInfo($user, $validatedInputs);
+            DB::commit();
 
-        return $user;
+            return [
+                'status' => 'success',
+                'application_form' => URL::signedRoute('application.form', $user->id),
+                'message' => 'Applicant registered successfully'
+            ];
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception('Error in Registering Applicant: ' . $e->getMessage());
+        }
     }
 
     public function sendApplicantionFormThroughEmail(User $user)
@@ -152,15 +162,15 @@ class RegistrationService
      * Create a draft for applicant personal information
      *
      * @param User $user The user to create a draft for
-     * @return FormDraft|null
+     * @return Void
      * @throws Exception If draft already exists
      */
     private function draftApplicantPersonalInfo(User $user, array $validatedInputs)
     {
         try {
-            $draftType = self::DRAFT_PREFIX . 'personal_info_' . $user->id;
+            $draftType = self::DRAFT_PREFIX . $user->id;
 
-            if (FormDraft::where('draft_type', $draftType)
+            if (FormDraft::where('form_type', $draftType)
                 ->where('owner_id', $user->id)
                 ->exists()
             ) {
@@ -168,7 +178,7 @@ class RegistrationService
             }
 
             $draft = new FormDraft();
-            $draft->draft_type = $draftType;
+            $draft->form_type = $draftType;
             $draft->owner_id = $user->id;
             $draft->form_data = $validatedInputs;
             $draft->save();

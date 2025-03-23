@@ -68,7 +68,7 @@ Route::post('/signup/submit', [AuthController::class, 'signup'])
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/application/{id}', function () {
         return view('registerpage.application');
-    })->name('registrationForm')
+    })->name('application.form')
         ->middleware('signed');
 
     Route::post('/application/submit/{id}', [ApplicationController::class, 'store'])
@@ -246,8 +246,15 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
     Route::post('/Staff/Submit-New-Projects', [StaffAddProjectController::class, 'store'])
         ->name('staff.Project.SubmitNewProject');
 
-    Route::get('Staff/Project/get/add/applicant-form', [CreateApplicantController::class, 'index'])
-        ->name('staff.Project.get.add.applicant-form');
+
+    Route::controller(CreateApplicantController::class)->group(function () {
+        Route::get('Staff/Project/get/add/applicant-form', 'index')
+            ->name('staff.Project.get.add.applicant-form');
+
+        Route::post('Staff/Project/submit-new-applicant/{staffId}', 'storeApplicantDetail')
+            ->name('staff.Project.submit.new.applicant')
+            ->middleware('signed');
+    });
 
     Route::get('Staff/Project/get/add/project-form', [CreateProjectController::class, 'index'])
         ->name('staff.Project.get.add.project-form');

@@ -103,7 +103,7 @@ class AuthController extends Controller
                         if ($coop_userInfo) {
                             return response()->json(['success' => 'Login successfully', 'redirect' => route('Cooperator.index')]);
                         } else if (is_null($coop_userInfo)) {
-                            return response()->json(['no_record' => 'No Application Record found.', 'redirect' => route('registrationForm')]);
+                            return response()->json(['no_record' => 'No Application Record found.', 'redirect' => route('application.form')]);
                         }
                         break;
                     case 'Staff':

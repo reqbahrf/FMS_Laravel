@@ -23,8 +23,8 @@ class CheckCooperatorUser
         if (Auth::user()->role != 'Cooperator') {
             return redirect()->route('home');
         }
-        if(Auth::user()->coopUserInfo == null) {
-            return redirect()->route('registrationForm');
+        if (Auth::user()->coopUserInfo == null) {
+            return redirect()->route('application.form');
         }
 
 

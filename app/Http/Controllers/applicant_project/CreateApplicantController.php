@@ -17,8 +17,9 @@ class CreateApplicantController extends Controller
     ) {}
     public function index(Request $request)
     {
+        $staffId = $request->user()->orgUserInfo->id;
         if ($request->ajax()) {
-            return view('components.add-applicant-or-project.applicant-info-form');
+            return view('components.add-applicant-or-project.applicant-info-form', compact('staffId'));
         }
         return view('staff-view.staff-index');
     }
@@ -27,17 +28,14 @@ class CreateApplicantController extends Controller
         try {
             $validated = $request->validated();
 
-            $user = $this->registrationService->registerApplicant($validated);
+            $result = $this->registrationService->registerApplicant($validated);
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Applicant detail stored successfully',
-            ]);
+            return response()->json($result, 200);
         } catch (Exception $e) {
             return response()->json([
-                'success' => false,
+                'status' => 'error',
                 'message' => $e->getMessage(),
-            ]);
+            ], 400);
         }
     }
 }

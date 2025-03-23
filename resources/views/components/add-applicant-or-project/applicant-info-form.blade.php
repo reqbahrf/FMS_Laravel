@@ -12,7 +12,11 @@
 </nav>
 <div class="card m-0 m-md-3">
     <div class="card-body">
-        <form class="p-4">
+        <form
+            class="p-4"
+            id="addApplicantForm"
+            action="{{ URL::signedRoute('staff.Project.submit.new.applicant', ['staffId' => $staffId]) }}"
+        >
             <div class="row mb-4 gy-3">
                 <div class="col-md-12">
                     <h5 class="mb-3">Personal Information</h5>

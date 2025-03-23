@@ -1,3 +1,70 @@
+import createConfirmationModal from '../../Utilities/confirmation-modal';
+import { processError } from '../../Utilities/error-handler-util';
+import {
+    hideProcessToast,
+    showProcessToast,
+    showToastFeedback,
+} from '../../Utilities/feedback-toast';
+import { serializeFormData } from '../../Utilities/utilFunctions';
+
 export default class AddApplicant {
-    constructor() {}
+    private formElement: JQuery<HTMLFormElement>;
+    constructor() {
+        this.formElement = $('#addApplicantForm');
+    }
+
+    public setupFormSubmitHandler() {
+        try {
+            if (!this.formElement) throw new Error('Form element not found');
+            const form = this.formElement;
+            form.on('submit', async (event: JQuery.SubmitEvent) => {
+                event.preventDefault();
+                const isConfirmed = createConfirmationModal({
+                    title: 'Confirm Applicant Addition',
+                    message: 'Are you sure you want to add this applicant?',
+                    confirmText: 'Yes',
+                    cancelText: 'No',
+                });
+                if (!isConfirmed) return;
+                try {
+                    const url = form.attr('action');
+                    const formData = form.serializeArray();
+                    if (!formData || !formData.length || !url)
+                        throw new Error('Form data not found');
+                    const formDataObject = serializeFormData(formData);
+                    await this._saveApplicant(formDataObject, url);
+                } catch (error: any) {
+                    processError('Error in Adding Applicant: ', error, true);
+                }
+            });
+        } catch (error) {
+            processError('Error in Setting Up Form Submit Handler: ', error);
+        }
+    }
+
+    private async _saveApplicant(
+        formData: { [key: string]: any },
+        url: string
+    ) {
+        const processToast = showProcessToast('Saving Applicant...');
+        try {
+            const response = await $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                dataType: 'json',
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN':
+                        $('meta[name="csrf-token"]').attr('content') || '',
+                },
+            });
+            hideProcessToast(processToast);
+            showToastFeedback('text-bg-success', response?.message);
+        } catch (error: any) {
+            hideProcessToast(processToast);
+            processError('Error in Saving Applicant: ', error, true);
+        }
+    }
 }

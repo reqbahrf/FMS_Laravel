@@ -38,7 +38,7 @@ class ApplicantInfoRequest extends FormRequest
 
             // Contact Information
             'country_code' => 'required|string',
-            'mobile_no' => 'required|string|regex:/^[0-9]{10}$/',
+            'mobile_no' => 'required|string|regex:/^\d{3}-\d{3}-\d{4}$/',
             'landline' => 'nullable|string|max:20',
 
         ];
@@ -53,12 +53,12 @@ class ApplicantInfoRequest extends FormRequest
     {
         return [
             'email' => 'email address',
-            'firstName' => 'first name',
-            'middleName' => 'middle name',
-            'lastName' => 'last name',
-            'birthDate' => 'birth date',
-            'mobileCountryCode' => 'country code',
-            'mobileNumber' => 'mobile number',
+            'f_name' => 'first name',
+            'mid_name' => 'middle name',
+            'l_name' => 'last name',
+            'b_date' => 'birth date',
+            'country_code' => 'country code',
+            'mobile_no' => 'mobile number',
         ];
     }
 
@@ -73,15 +73,14 @@ class ApplicantInfoRequest extends FormRequest
             'email.required' => 'Please enter an email address.',
             'email.email' => 'Please enter a valid email address.',
             'email.unique' => 'This email address is already registered.',
-            'firstName.required' => 'Please enter a first name.',
-            'lastName.required' => 'Please enter a last name.',
+            'f_name.required' => 'Please enter a first name.',
+            'l_name.required' => 'Please enter a last name.',
             'sex.required' => 'Please select a sex.',
             'designation.required' => 'Please enter a designation.',
-            'birthDate.required' => 'Please enter a birth date.',
-            'birthDate.before' => 'Birth date must be a date before today.',
-            'mobileNumber.required' => 'Please enter a mobile number.',
-            'mobileNumber.regex' => 'Please enter a valid 10-digit mobile number.',
-            'mode.required' => 'Please select a mode of application.',
+            'b_date.required' => 'Please enter a birth date.',
+            'b_date.before' => 'Birth date must be a date before today.',
+            'mobile_no.required' => 'Please enter a mobile number.',
+            'mobile_no.regex' => 'Please enter a valid mobile number.',
         ];
     }
 }

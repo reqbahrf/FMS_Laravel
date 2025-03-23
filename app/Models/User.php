@@ -68,7 +68,7 @@ class User extends Authenticatable  implements MustVerifyEmail, AuditableContrac
     {
         return $this->role === $role;
     }
-    public function isStaff(): bool
+    public function getIsStaffAttribute(): bool
     {
         return $this->role === 'Staff';
     }
