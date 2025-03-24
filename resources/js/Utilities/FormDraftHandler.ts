@@ -18,18 +18,19 @@ interface DraftData {
 
 export class FormDraftHandler {
     private formInstance: JQuery<HTMLFormElement>;
-    private draftType: string;
+    private getDraftRoute: string;
+    private storeDraftRoute: string;
     private saveInterval: number;
     private changedFields: { [key: string]: string | Object | number };
     private autoSaveTimeout: number | null;
 
     constructor(
         formInstance: JQuery<HTMLFormElement>,
-        draftType: string,
         saveInterval: number = 5000
     ) {
         this.formInstance = formInstance;
-        this.draftType = draftType;
+        this.getDraftRoute = formInstance.data('get-draft');
+        this.storeDraftRoute = formInstance.data('store-draft');
         this.saveInterval = saveInterval;
         this.changedFields = {};
         this.autoSaveTimeout = null;
@@ -413,11 +414,10 @@ export class FormDraftHandler {
         customFilepondLoaderFn: Function,
         customDataLoaderFn: Function
     ) {
-        console.log('Retrieving the form draft for', this.draftType);
         try {
             const response = await $.ajax({
                 type: 'GET',
-                url: DRAFT_ROUTE.GET.replace(':type', this.draftType),
+                url: this.getDraftRoute,
                 headers: {
                     'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                         'content'
@@ -487,6 +487,24 @@ export class FormDraftHandler {
         }, this.saveInterval);
     }
 
+    private _getDraftType(url: string): string | null {
+        try {
+            const urlObj = new URL(url);
+            const pathSegments = urlObj.pathname.split('/');
+
+            const draftTypeIndex = pathSegments.indexOf('Draft') + 1;
+
+            if (draftTypeIndex > 0 && draftTypeIndex < pathSegments.length) {
+                return pathSegments[draftTypeIndex];
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Invalid URL:', error);
+            return null;
+        }
+    }
+
     /**
      * Synchronizes draft changes with the server.
      * @param {Object} changedFields - Object containing the modified draft fields.
@@ -494,15 +512,17 @@ export class FormDraftHandler {
     async syncDraftWithServer(changedFields: DraftData) {
         if ($.isEmptyObject(changedFields)) return;
 
+        const draftType = this._getDraftType(this.storeDraftRoute);
+
         const requestData = {
             ...changedFields,
-            draft_type: this.draftType,
+            draft_type: draftType,
         };
 
         try {
             const response = await $.ajax({
                 type: 'POST',
-                url: DRAFT_ROUTE.STORE,
+                url: this.storeDraftRoute,
                 data: JSON.stringify(requestData),
                 contentType: 'application/json',
                 processData: false,

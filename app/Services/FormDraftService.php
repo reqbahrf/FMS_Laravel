@@ -98,13 +98,13 @@ class FormDraftService
             ->header('X-Unique-Id', $tempFile->unique_id);
     }
 
-    public static function generateSecureGetDraft(int $userId, string $draftType): string
+    public static function generateSecureGetDraft(string $draftType): string
     {
-        return URL::signedRoute('form.getDraft', ['draft_type' => $draftType, 'user_id' => $userId]);
+        return URL::signedRoute('form.getDraft', $draftType);
     }
 
-    public static function generateSecureStoreDraft(int $userId, string $draftType): string
+    public static function generateSecureStoreDraft(string $draftType): string
     {
-        return URL::signedRoute('form.setDraft', ['draft_type' => $draftType, 'user_id' => $userId]);
+        return URL::signedRoute('form.setDraft', $draftType);
     }
 }

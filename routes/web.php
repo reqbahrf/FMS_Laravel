@@ -107,8 +107,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('form.getDraft')
             ->middleware('signed');
 
-        Route::post('/set/Draft', 'store')
-            ->name('form.setDraft');
+        Route::post('/set/Draft/{draft_type}', 'store')
+            ->name('form.setDraft')
+            ->middleware('signed');
 
         Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
             ->name('form.getDraftFile');

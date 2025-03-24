@@ -1158,9 +1158,7 @@ export function initializeForm() {
         },
     };
 
-    const DRAFT_TYPE = 'Application';
-
-    const formDraftHandler = new FormDraftHandler(ApplicationForm, DRAFT_TYPE);
+    const formDraftHandler = new FormDraftHandler(ApplicationForm);
 
     formDraftHandler.syncTextInputData();
     formDraftHandler.syncTablesData(

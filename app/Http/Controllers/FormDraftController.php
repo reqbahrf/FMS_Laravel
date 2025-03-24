@@ -33,15 +33,13 @@ class FormDraftController extends Controller
     {
         try {
             $user_id = $request->user()->id;
-            $draftType = $request->validate([
-                'draft_type' => 'required|string',
-            ]);
+            $draftType = $request->draft_type;
 
             $data = $request->except('draft_type');
 
             $result = $this->formDraftService->storeDraft(
                 $user_id,
-                $draftType['draft_type'],
+                $draftType,
                 $data
             );
 

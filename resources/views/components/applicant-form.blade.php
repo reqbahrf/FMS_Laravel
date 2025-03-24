@@ -41,6 +41,9 @@
         <form
             class="g-3 p-5"
             id="applicationForm"
+            data-get-draft="@secureGetDraft('applicant')"
+            data-store-draft="@secureStoreDraft('applicant')"
+            action="{{ URL::signedRoute('applicationFormSubmit', ['id' => Auth::user()->id]) }}"
             novalidate
         >
             @csrf

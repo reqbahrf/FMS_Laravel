@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\PaymentRecord;
 use App\Models\ApplicationInfo;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\PaymentRecordObserver;
 use App\Observers\ApplicationInfoObserver;
@@ -30,5 +31,13 @@ class AppServiceProvider extends ServiceProvider
     {
         PaymentRecord::observe(PaymentRecordObserver::class);
         ApplicationInfo::observe(ApplicationInfoObserver::class);
+
+        Blade::directive('secureGetDraft', function ($expression) {
+            return "<?php echo \App\Services\FormDraftService::generateSecureGetDraft($expression); ?>";
+        });
+
+        Blade::directive('secureStoreDraft', function ($expression) {
+            return "<?php echo \App\Services\FormDraftService::generateSecureStoreDraft($expression); ?>";
+        });
     }
 }
