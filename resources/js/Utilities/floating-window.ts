@@ -1,5 +1,5 @@
 import { showToastFeedback } from './feedback-toast';
-import { FloatingWindowElements } from './floating-window.d';
+import { FloatingWindowElements } from '../@types/floating-window';
 
 export class FloatingWindow {
     private f_window: JQuery<HTMLElement>;
