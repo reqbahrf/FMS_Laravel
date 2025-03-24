@@ -188,7 +188,7 @@ export default class AddApplicant {
             'govIdFile',
             {
                 acceptedFileTypes: ['image/png', 'image/jpeg'],
-                captureMethod: 'environment',
+                captureMethod: 'environment' as any,
             },
             'GovIdFileID_Data_Handler',
             'GovIdSelector'
