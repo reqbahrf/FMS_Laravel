@@ -105,4 +105,6 @@ export default class AddApplicant {
             processError('Error in Saving Applicant: ', error, true);
         }
     }
+
+    public initializeApplicantDetailedForm() {}
 }

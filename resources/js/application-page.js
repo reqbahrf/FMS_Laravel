@@ -19,7 +19,6 @@ import BENCHMARKTableConfig from './Form_Config/form-table-config/tnaFormBenchMa
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
-window.smartWizard = smartWizard;
 //TODO: For testing purposes
 // $(window).on('beforeunload', function () {
 //     return 'Are you sure you want to leave?';
@@ -27,7 +26,6 @@ window.smartWizard = smartWizard;
 const ApplicationForm = $('#applicationForm');
 let is_initialized = false;
 export function initializeForm() {
-    new smartWizard();
     if (!is_initialized) {
         is_initialized = true;
     }
@@ -161,6 +159,7 @@ export function initializeForm() {
         }
     });
 
+    const smartWizardClassInstance = new smartWizard();
     const smartWizardInstance = $('#smartwizard').smartWizard({
         selected: 0,
         theme: 'dots',

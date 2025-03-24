@@ -198,9 +198,9 @@
 
 <body>
     <x-header />
-    <x-applicant-form
+    <x-application-form.main
         :$draft_type
-        :$id
+        :$ownerId
     />
     <x-toast-alert />
     <x-footer />
