@@ -5,6 +5,7 @@ namespace App\Services;
 use Exception;
 use App\Models\FormDraft;
 use App\Models\TemporaryFile;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Response;
 
@@ -95,5 +96,15 @@ class FormDraftService
             ->header('X-File-Type', $tempFile->type)
             ->header('X-File-path', $tempFile->owner_id)
             ->header('X-Unique-Id', $tempFile->unique_id);
+    }
+
+    public static function generateSecureGetDraft(int $userId, string $draftType): string
+    {
+        return URL::signedRoute('form.getDraft', ['draft_type' => $draftType, 'user_id' => $userId]);
+    }
+
+    public static function generateSecureStoreDraft(int $userId, string $draftType): string
+    {
+        return URL::signedRoute('form.setDraft', ['draft_type' => $draftType, 'user_id' => $userId]);
     }
 }
