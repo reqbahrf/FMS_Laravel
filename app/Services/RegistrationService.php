@@ -187,6 +187,7 @@ class RegistrationService
      * Create a draft for applicant personal information
      *
      * @param User $user The user to create a draft for
+     * @param array $validatedInputs The validated inputs
      * @return Void
      * @throws Exception If draft already exists
      */

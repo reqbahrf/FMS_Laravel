@@ -17,14 +17,14 @@ interface DraftData {
 }
 
 export class FormDraftHandler {
-    private formInstance: JQuery<HTMLElement>;
+    private formInstance: JQuery<HTMLFormElement>;
     private draftType: string;
     private saveInterval: number;
     private changedFields: { [key: string]: string | Object | number };
     private autoSaveTimeout: number | null;
 
     constructor(
-        formInstance: JQuery<HTMLElement>,
+        formInstance: JQuery<HTMLFormElement>,
         draftType: string,
         saveInterval: number = 5000
     ) {
@@ -57,7 +57,7 @@ export class FormDraftHandler {
      */
     syncTextInputData(inputSelectors: string | null = null) {
         // Expanded selector to include textarea, radio buttons, and checkboxes
-        console.log(this.formInstance)
+        console.log(this.formInstance);
         inputSelectors =
             inputSelectors ??
             'textarea[name]:not([readonly]), input[name]:not([readonly]), select[name]:not([readonly])';
@@ -87,7 +87,7 @@ export class FormDraftHandler {
                     break;
                 case 'select-one':
                 case 'select-multiple':
-                // For select elements, store the selected value(s)
+                    // For select elements, store the selected value(s)
                     fieldValue = (target as HTMLSelectElement).value;
                     break;
                 default:
@@ -198,7 +198,7 @@ export class FormDraftHandler {
                                 metaDataId: META_DATA_ID,
                             },
                         } as FilePondDraftData;
-                        if(!FILE_INPUT_NAME) return;
+                        if (!FILE_INPUT_NAME) return;
                         this.scheduleSave();
                     }
                 });
@@ -302,7 +302,10 @@ export class FormDraftHandler {
         });
     }
 
-    private loadFilepondData(draftData: FilePondDraftData, filepondIds: string[]) {
+    private loadFilepondData(
+        draftData: FilePondDraftData,
+        filepondIds: string[]
+    ) {
         if (!draftData || typeof draftData !== 'object' || !filepondIds) return;
 
         $.each(draftData, (key, value) => {
