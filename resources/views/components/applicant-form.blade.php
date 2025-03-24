@@ -44,7 +44,7 @@
             id="applicationForm"
             data-get-draft="@secureGetDraft($draft_type, $ownerId)"
             data-store-draft="@secureStoreDraft($draft_type, $ownerId)"
-            action="{{ URL::signedRoute('applicationFormSubmit', $id) }}"
+            action="{{ URL::signedRoute('applicationFormSubmit', $ownerId) }}"
             novalidate
         >
             @csrf
