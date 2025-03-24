@@ -103,11 +103,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
 
     Route::controller(FormDraftController::class)->group(function () {
-        Route::get('/get/Draft/{draft_type}', 'get')
+        Route::get('/get/Draft/{draft_type}/{ownerId}', 'get')
             ->name('form.getDraft')
             ->middleware('signed');
 
-        Route::post('/set/Draft/{draft_type}', 'store')
+        Route::post('/set/Draft/{draft_type}/{ownerId}', 'store')
             ->name('form.setDraft')
             ->middleware('signed');
 

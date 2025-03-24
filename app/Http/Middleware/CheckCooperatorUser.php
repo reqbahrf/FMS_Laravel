@@ -24,7 +24,7 @@ class CheckCooperatorUser
         if (Auth::user()->role != 'Cooperator') {
             return redirect()->route('home');
         }
-        if (is_null(Auth::user()->coopUserInfo)) {
+        if (is_null(Auth::user()->coopUserInfo->businessInfo)) {
             return redirect()->to(URL::signedRoute('application.form', ['id' => Auth::user()->id]));
         }
 

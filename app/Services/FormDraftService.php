@@ -14,16 +14,16 @@ class FormDraftService
     /**
      * Store or update a form draft
      *
-     * @param int $userId
+     * @param string $ownerId
      * @param string $draftType
      * @param array $data
      * @return array
      * @throws Exception
      */
-    public function storeDraft(int $userId, string $draftType, array $data): array
+    public function storeDraft(string $ownerId, string $draftType, array $data): array
     {
         $draft = FormDraft::firstOrNew([
-            'owner_id' => $userId,
+            'owner_id' => $ownerId,
             'form_type' => $draftType,
         ]);
 
@@ -41,14 +41,14 @@ class FormDraftService
     /**
      * Get a form draft by user ID and draft type
      *
-     * @param int $userId
+     * @param string $ownerId
      * @param string $draftType
      * @return array
      * @throws Exception
      */
-    public function getDraft(int $userId, string $draftType): array
+    public function getDraft(string $ownerId, string $draftType): array
     {
-        $draft = FormDraft::where('owner_id', $userId)
+        $draft = FormDraft::where('owner_id', $ownerId)
             ->where('form_type', $draftType)
             ->where('is_submitted', false)
             ->first();
@@ -98,13 +98,13 @@ class FormDraftService
             ->header('X-Unique-Id', $tempFile->unique_id);
     }
 
-    public static function generateSecureGetDraft(string $draftType): string
+    public static function generateSecureGetDraft(string $draftType, string $ownerId): string
     {
-        return URL::signedRoute('form.getDraft', $draftType);
+        return URL::signedRoute('form.getDraft', [$draftType, $ownerId]);
     }
 
-    public static function generateSecureStoreDraft(string $draftType): string
+    public static function generateSecureStoreDraft(string $draftType, string $ownerId): string
     {
-        return URL::signedRoute('form.setDraft', $draftType);
+        return URL::signedRoute('form.setDraft', [$draftType, $ownerId]);
     }
 }

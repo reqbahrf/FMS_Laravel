@@ -12,9 +12,13 @@ class ApplicationController extends Controller
         private RegistrationService $registrationService,
     ) {}
 
-    public function show($id)
+    public function show($ownerId)
     {
-        return view('registerpage.application', compact('id'));
+        $draft_type = $this->registrationService->isApplicantHasAssistDraft($ownerId)
+            ? $this->registrationService->getDraftType($ownerId)
+            : 'Applicant_' . $ownerId;
+
+        return view('registerpage.application', compact('ownerId', 'draft_type'));
     }
     /**
      * Store a new application with all related data

@@ -2,11 +2,15 @@
 
 namespace App\Http\Controllers\applicant_project;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use App\Services\RegistrationService;
 
 class CreateProjectController extends Controller
 {
+    public function __construct(
+        private RegistrationService $registrationService,
+    ) {}
     public function index(Request $request)
     {
         if ($request->ajax()) {

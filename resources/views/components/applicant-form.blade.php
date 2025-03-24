@@ -1,3 +1,4 @@
+@props(['ownerId', 'draft_type'])
 <div class="container mt-5 shadow">
     <div id="smartwizard">
         <ul class="nav nav-progress">
@@ -41,9 +42,9 @@
         <form
             class="g-3 p-5"
             id="applicationForm"
-            data-get-draft="@secureGetDraft('applicant')"
-            data-store-draft="@secureStoreDraft('applicant')"
-            action="{{ URL::signedRoute('applicationFormSubmit', ['id' => Auth::user()->id]) }}"
+            data-get-draft="@secureGetDraft($draft_type, $ownerId)"
+            data-store-draft="@secureStoreDraft($draft_type, $ownerId)"
+            action="{{ URL::signedRoute('applicationFormSubmit', $id) }}"
             novalidate
         >
             @csrf

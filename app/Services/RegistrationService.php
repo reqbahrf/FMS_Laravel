@@ -183,6 +183,18 @@ class RegistrationService
             ->exists();
     }
 
+    public function isApplicantHasAssistDraft(int $user_id): bool
+    {
+        return FormDraft::where('form_type', self::DRAFT_PREFIX . $user_id)
+            ->where('owner_id', $user_id)
+            ->exists();
+    }
+
+    public function getDraftType(int $user_id): string
+    {
+        return self::DRAFT_PREFIX . $user_id;
+    }
+
     /**
      * Create a draft for applicant personal information
      *

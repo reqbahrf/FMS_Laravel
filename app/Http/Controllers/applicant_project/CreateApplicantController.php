@@ -36,9 +36,10 @@ class CreateApplicantController extends Controller
         return view('staff-view.staff-index');
     }
 
-    public function show($id)
+    public function show($ownerId)
     {
-        return view('components.applicant-form', compact('id'));
+        $draft_type = $this->registrationService->getDraftType($ownerId);
+        return view('components.applicant-form', compact('ownerId', 'draft_type'));
     }
     public function storeApplicantDetail(ApplicantInfoRequest $request): JsonResponse
     {

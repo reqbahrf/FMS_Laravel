@@ -32,13 +32,13 @@ class FormDraftController extends Controller
     public function store(Request $request)
     {
         try {
-            $user_id = $request->user()->id;
+            $owner_id = $request->ownerId;
             $draftType = $request->draft_type;
 
-            $data = $request->except('draft_type');
+            $data = $request->except('draft_type', 'ownerId');
 
             $result = $this->formDraftService->storeDraft(
-                $user_id,
+                $owner_id,
                 $draftType,
                 $data
             );
@@ -56,11 +56,10 @@ class FormDraftController extends Controller
      * @param string $draft_type
      * @return \Illuminate\Http\JsonResponse
      */
-    public function get(Request $request, $draft_type)
+    public function get($ownerId, $draft_type)
     {
         try {
-            $user_id = $request->user()->id;
-            $result = $this->formDraftService->getDraft($user_id, $draft_type);
+            $result = $this->formDraftService->getDraft($ownerId, $draft_type);
 
             return response()->json($result);
         } catch (Exception $e) {
