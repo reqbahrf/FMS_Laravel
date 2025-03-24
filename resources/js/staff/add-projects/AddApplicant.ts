@@ -1,4 +1,9 @@
 import createConfirmationModal from '../../Utilities/confirmation-modal';
+import {
+    InitializeFilePond,
+    handleFilePondSelectorDisabling,
+} from '../../Utilities/FilepondHandlers';
+import { customFormatNumericInput } from '../../Utilities/input-utils';
 import { processError } from '../../Utilities/error-handler-util';
 import {
     hideProcessToast,
@@ -106,5 +111,103 @@ export default class AddApplicant {
         }
     }
 
-    public initializeApplicantDetailedForm() {}
+    public initializeApplicantDetailedForm() {
+        customFormatNumericInput('form', [
+            '#initial_capitalization',
+            '#present_capitalization',
+        ]);
+        customFormatNumericInput('#productAndSupplyChainTable tbody', [
+            'tr td:nth-child(3) input.UnitCost',
+            'tr td:nth-child(4) input.VolumeUsed',
+        ]);
+        customFormatNumericInput('#productionTable', [
+            'tr td:nth-child(3) .UnitCost',
+            'tr td:nth-child(4) .AnnualCost',
+        ]);
+        customFormatNumericInput('#productionEquipmentTable', ['.Capacity']);
+
+        const API_BASE_URL = 'https://psgc.gitlab.io/api';
+
+        const organizationalStructureInstance = InitializeFilePond(
+            'organizationalStructure',
+            { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+            'OrganizationalStructureFileID_Data_Handler'
+        );
+
+        const planLayoutInstance = InitializeFilePond(
+            'planLayout',
+            { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+            'PlanLayoutFileID_Data_Handler'
+        );
+
+        const processFlowInstance = InitializeFilePond(
+            'processFlow',
+            { acceptedFileTypes: ['image/png', 'image/jpeg'] },
+            'ProcessFlowFileID_Data_Handler'
+        );
+
+        // Intent File
+        const intentInstance = InitializeFilePond(
+            'intentFile',
+            { acceptedFileTypes: ['application/pdf'] },
+            'IntentFileID_Data_Handler'
+        );
+
+        // DTI/SEC/CDA File
+        const dtiSecCdaInstance = InitializeFilePond(
+            'DTI_SEC_CDA_File',
+            { acceptedFileTypes: ['application/pdf'] },
+            'DtiSecCdaFileID_Data_Handler',
+            'DtiSecCdaSelector'
+        );
+
+        // Business Permit File
+        const businessPermitInstance = InitializeFilePond(
+            'businessPermitFile',
+            { acceptedFileTypes: ['application/pdf'] },
+            'BusinessPermitFileID_Data_Handler'
+        );
+
+        // FDA LTO File
+        const fdaLtoInstance = InitializeFilePond(
+            'fdaLtoFile',
+            { acceptedFileTypes: ['application/pdf'] },
+            'FdaLtoFileID_Data_Handler',
+            'fdaLtoSelector'
+        );
+
+        // Receipt File
+        const receiptInstance = InitializeFilePond(
+            'receiptFile',
+            { acceptedFileTypes: ['application/pdf'] },
+            'ReceiptFileID_Data_Handler'
+        );
+
+        // Government ID File
+        const govIdInstance = InitializeFilePond(
+            'govIdFile',
+            {
+                acceptedFileTypes: ['image/png', 'image/jpeg'],
+                captureMethod: 'environment',
+            },
+            'GovIdFileID_Data_Handler',
+            'GovIdSelector'
+        );
+
+        // BIR File
+        const birInstance = InitializeFilePond(
+            'BIRFile',
+            { acceptedFileTypes: ['application/pdf'] },
+            'BIRFileID_Data_Handler'
+        );
+
+        if (dtiSecCdaInstance && govIdInstance && fdaLtoInstance) {
+            handleFilePondSelectorDisabling(
+                'DtiSecCdaSelector',
+                dtiSecCdaInstance
+            );
+            handleFilePondSelectorDisabling('fdaLtoSelector', fdaLtoInstance);
+            handleFilePondSelectorDisabling('GovIdSelector', govIdInstance);
+        }
+    }
 }

@@ -40,7 +40,7 @@ class CreateApplicantController extends Controller
     {
         if ($request->ajax()) {
             $draft_type = $this->registrationService->getDraftType($ownerId);
-            return view('components.applicant-form', compact('ownerId', 'draft_type'));
+            return view('components.detailed-applicant-info-form', compact('ownerId', 'draft_type'));
         }
         return view('staff-view.staff-index');
     }

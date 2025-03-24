@@ -4,6 +4,7 @@ interface FilePondResponse {
     unique_id: string;
 }
 
+type CaptureMethod = 'environment' | 'user';
 type CustomFilePondConfig = FilePond.FilePondOptions & {
     allowMultiple?: boolean;
     allowFileTypeValidation?: boolean;
