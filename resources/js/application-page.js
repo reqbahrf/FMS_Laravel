@@ -19,11 +19,13 @@ import BENCHMARKTableConfig from './Form_Config/form-table-config/tnaFormBenchMa
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
+import calculateEnterpriseLevel from './Utilities/calculate-enterprise-level';
 //TODO: For testing purposes
 // $(window).on('beforeunload', function () {
 //     return 'Are you sure you want to leave?';
 // });
-const ApplicationForm = $('#applicationForm');
+const APPLICATION_FORM = $('#applicationForm');
+const ASSETS_CARD = APPLICATION_FORM.find('#assetsCard');
 let is_initialized = false;
 export function initializeForm() {
     if (!is_initialized) {
@@ -344,7 +346,7 @@ export function initializeForm() {
             if (stepIndex === 3) {
                 // Since stepIndex is 0-based, step-4 corresponds to index 3
                 $('.btn-success, .btn-secondary').show();
-                const inputField = ApplicationForm.find(
+                const inputField = APPLICATION_FORM.find(
                     'input:not([readonly]), select:not([readonly]), textarea:not([readonly])'
                 );
                 const reviewInputsContainer = $('#reviewInputsContainer').find(
@@ -827,7 +829,7 @@ export function initializeForm() {
         const processToast = showProcessToast('Submitting form...');
         try {
             let formDataObject = {};
-            const form = ApplicationForm.find(':input:not([readonly])');
+            const form = APPLICATION_FORM.find(':input:not([readonly])');
             const updatedFormData = form.serializeArray();
             $.each(updatedFormData, function (i, v) {
                 formDataObject[v.name] = v.value;
@@ -908,52 +910,16 @@ export function initializeForm() {
 
     customFormatNumericInput($('div#personnelContainer'), 'input');
 
-    function updateEnterpriseLevel() {
-        // Cache DOM selections
-        const enterpriseLevelElement = $('span#Enterprise_Level');
-        const totalAssetsElement = $('span#to_Assets');
-        const enterpriseLevelInput = $('input#EnterpriseLevelInput');
-
-        // Helper function to parse comma-separated numbers
-        const parseNumericInput = (selector) => {
-            const value = $(selector).val().replace(/,/g, '');
-            return parseFloat(value) || 0;
-        };
-
-        // Parse values, removing commas before parsing
-        const buildingsValue = parseNumericInput('#buildings');
-        const equipmentsValue = parseNumericInput('#equipments');
-        const workingCapitalValue = parseNumericInput('#working_capital');
-
-        // Calculate total
-        const total = buildingsValue + equipmentsValue + workingCapitalValue;
-
-        // Format total with comma separators
-        totalAssetsElement.text(formatNumber(total));
-
-        // Determine enterprise level using a more declarative approach
-        const enterpriseLevels = [
-            { threshold: 3e6, level: 'Micro Enterprise' },
-            { threshold: 15e6, level: 'Small Enterprise' },
-            { threshold: 100e6, level: 'Medium Enterprise' },
-            { threshold: Infinity, level: 'Large Enterprise' },
-        ];
-
-        const enterpriseLevel =
-            enterpriseLevels.findLast(({ threshold }) => total >= threshold)
-                ?.level ?? 'Micro Enterprise';
-
-        console.log(enterpriseLevel);
-        enterpriseLevelElement.text(enterpriseLevel);
-        enterpriseLevelInput.val(enterpriseLevel);
-    }
-
     // Apply custom formatting to input fields
-    customFormatNumericInput('#buildings, #equipments, #working_capital');
+    customFormatNumericInput(ASSETS_CARD, [
+        '#buildings',
+        '#equipments',
+        '#working_capital',
+    ]);
 
-    $('#buildings, #equipments, #working_capital').on(
+    ASSETS_CARD.find('#buildings, #equipments, #working_capital').on(
         'input',
-        updateEnterpriseLevel
+        () => calculateEnterpriseLevel(ASSETS_CARD)
     );
 
     $('textarea').on('input', function () {
@@ -1157,7 +1123,7 @@ export function initializeForm() {
         },
     };
 
-    const formDraftHandler = new FormDraftHandler(ApplicationForm);
+    const formDraftHandler = new FormDraftHandler(APPLICATION_FORM);
 
     formDraftHandler.syncTextInputData();
     formDraftHandler.syncTablesData(
@@ -1320,7 +1286,7 @@ export function initializeForm() {
                 loadFactoryAddressDropdowns,
             }
         );
-        updateEnterpriseLevel();
+        calculateEnterpriseLevel($('#assetsCard'));
     });
 }
 

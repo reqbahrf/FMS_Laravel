@@ -71,7 +71,7 @@
                     aria-labelledby="step-2"
                     style="position: static; left: 0px; display: none;"
                 >
-                    <x-application-form.business-info />
+                    <x-application-form.business-info :withFileInput="true" />
                 </div>
                 <div
                     class="tab-pane py-5"

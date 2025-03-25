@@ -1,6 +1,7 @@
 import createConfirmationModal from '../../Utilities/confirmation-modal';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import { processError } from '../../Utilities/error-handler-util';
+import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
 import {
     hideProcessToast,
     showProcessToast,
@@ -115,6 +116,11 @@ export default class AddApplicant {
             '#equipments',
             '#working_capital',
         ]);
+
+        this.formElement.on('input', () => {
+            if (!this.formElement) return;
+            calculateEnterpriseLevel(this.formElement.find('#assetsCard'));
+        });
 
         customFormatNumericInput(
             this.formElement.find('#productAndSupplyChainTable tbody'),

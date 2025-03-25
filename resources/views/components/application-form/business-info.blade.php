@@ -541,7 +541,7 @@
     </div>
 </div>
 <div class="row justify-content-center my-1 g-3">
-    <div class="card p-0">
+    <div class="card p-0" id="assetsCard">
         <div class="card-header fw-bold">
             Assets:
         </div>
