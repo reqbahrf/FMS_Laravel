@@ -37,14 +37,16 @@ export function initializeForm() {
         '#present_capitalization',
     ]);
     customFormatNumericInput('#productAndSupplyChainTable tbody', [
-        'tr td:nth-child(3) input.UnitCost',
-        'tr td:nth-child(4) input.VolumeUsed',
+        'input.UnitCost',
+        'input.VolumeUsed',
     ]);
-    customFormatNumericInput('#productionTable', [
-        'tr td:nth-child(3) .UnitCost',
-        'tr td:nth-child(4) .AnnualCost',
+    customFormatNumericInput('#productionTable tbody', [
+        'input.UnitCost',
+        'input.AnnualCost',
     ]);
-    customFormatNumericInput('#productionEquipmentTable', ['.Capacity']);
+    customFormatNumericInput('#productionEquipmentTable tbody', [
+        'input.Capacity',
+    ]);
 
     const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
