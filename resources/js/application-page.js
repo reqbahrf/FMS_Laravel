@@ -7,6 +7,7 @@ import {
 import { setupPhoneNumberInput } from './Utilities/phone-formatter';
 import { customFormatNumericInput } from './Utilities/input-utils';
 import { FormDraftHandler } from './Utilities/FormDraftHandler';
+import { AddressFormInput, API } from './Utilities/AddressInputHandler';
 import {
     InitializeFilePond,
     handleFilePondSelectorDisabling,
@@ -921,161 +922,10 @@ export function initializeForm() {
         }
     });
 
-    const API = {
-        fetchRegions: () => {
-            return $.ajax({
-                type: 'GET',
-                url: `${API_BASE_URL}/regions/`,
-            }).fail((error) => {
-                console.error('Error fetching regions:', error);
-            });
-        },
-
-        fetchProvinces: (regionCode) => {
-            return $.ajax({
-                type: 'GET',
-                url: `${API_BASE_URL}/regions/${regionCode}/provinces/`,
-            }).fail((error) => {
-                console.error('Error fetching provinces:', error);
-            });
-        },
-
-        fetchCities: (provinceCode) => {
-            return $.ajax({
-                type: 'GET',
-                url: `${API_BASE_URL}/provinces/${provinceCode}/cities-municipalities/`,
-            }).fail((error) => {
-                console.error('Error fetching cities:', error);
-            });
-        },
-        fetchBarangay: (cityCode) => {
-            return $.ajax({
-                type: 'GET',
-                url: `${API_BASE_URL}/cities-municipalities/${cityCode}/barangays/`,
-            });
-        },
-    };
-
-    class AddressForm {
-        constructor(config) {
-            this.prefix = config.prefix;
-            this.selectors = {
-                region: `#${this.prefix}Region`,
-                province: `#${this.prefix}Province`,
-                city: `#${this.prefix}City`,
-                barangay: `#${this.prefix}Barangay`,
-            };
-            this.initializeAddressSelection();
-        }
-
-        static populateSelect(selectElement, data, placeholder) {
-            const parsedData =
-                typeof data === 'string' ? JSON.parse(data) : data;
-            $(selectElement).html(`<option value="">${placeholder}</option>`);
-            $.each(parsedData, (index, item) => {
-                $(selectElement).append(
-                    `<option value="${item.name}" data-code="${item.code}">${item.name}</option>`
-                );
-            });
-        }
-
-        initializeAddressSelection() {
-            this.initializeRegions();
-            $(this.selectors.region).on('change', () => this.updateProvinces());
-            $(this.selectors.province).on('change', () => this.updateCities());
-            $(this.selectors.city).on('change', () => this.updateBarangays());
-        }
-
-        initializeRegions() {
-            API.fetchRegions().done((regions) => {
-                AddressForm.populateSelect(
-                    this.selectors.region,
-                    regions,
-                    'Select Region'
-                );
-            });
-        }
-
-        updateProvinces() {
-            const regionCode = $(this.selectors.region)
-                .find(':selected')
-                .data('code');
-
-            $(this.selectors.province).prop('disabled', !regionCode);
-            $(this.selectors.city).prop('disabled', true);
-            $(this.selectors.barangay).prop('disabled', true);
-
-            AddressForm.populateSelect(
-                this.selectors.province,
-                [],
-                'Select Province'
-            );
-            AddressForm.populateSelect(this.selectors.city, [], 'Select City');
-            AddressForm.populateSelect(
-                this.selectors.barangay,
-                [],
-                'Select Barangay'
-            );
-
-            if (regionCode) {
-                API.fetchProvinces(regionCode).done((provinces) => {
-                    AddressForm.populateSelect(
-                        this.selectors.province,
-                        provinces,
-                        'Select Province'
-                    );
-                });
-            }
-        }
-
-        updateCities() {
-            const provinceCode = $(this.selectors.province)
-                .find(':selected')
-                .data('code');
-
-            $(this.selectors.city).prop('disabled', !provinceCode);
-            $(this.selectors.barangay).prop('disabled', true);
-
-            AddressForm.populateSelect(this.selectors.city, [], 'Select City');
-            AddressForm.populateSelect(
-                this.selectors.barangay,
-                [],
-                'Select Barangay'
-            );
-
-            if (provinceCode) {
-                API.fetchCities(provinceCode).done((cities) => {
-                    AddressForm.populateSelect(
-                        this.selectors.city,
-                        cities,
-                        'Select City'
-                    );
-                });
-            }
-        }
-
-        updateBarangays() {
-            const cityCode = $(this.selectors.city)
-                .find(':selected')
-                .data('code');
-            $(this.selectors.barangay).prop('disabled', !cityCode);
-
-            if (cityCode) {
-                API.fetchBarangay(cityCode).done((barangays) => {
-                    AddressForm.populateSelect(
-                        this.selectors.barangay,
-                        barangays,
-                        'Select Barangay'
-                    );
-                });
-            }
-        }
-    }
-
     // Initialize multiple address forms
     const addressForms = [
-        new AddressForm({ prefix: 'office' }),
-        new AddressForm({ prefix: 'factory' }),
+        new AddressFormInput({ prefix: 'office' }),
+        new AddressFormInput({ prefix: 'factory' }),
     ];
 
     const getMarketProductsData = (tableConfigs) => {
@@ -1156,7 +1006,11 @@ export function initializeForm() {
     ) => {
         return new Promise((resolve) => {
             fetchFn.done((items) => {
-                AddressForm.populateSelect($(selector), items, placeholder);
+                AddressFormInput.populateSelect(
+                    $(selector),
+                    items,
+                    placeholder
+                );
                 $(selector).val(data);
                 $(selector).prop('disabled', false);
                 resolve();
