@@ -541,7 +541,10 @@
     </div>
 </div>
 <div class="row justify-content-center my-1 g-3">
-    <div class="card p-0" id="assetsCard">
+    <div
+        class="card p-0"
+        id="assetsCard"
+    >
         <div class="card-header fw-bold">
             Assets:
         </div>
@@ -997,7 +1000,7 @@
                 <div class="mt-2">
                     <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                         <button
-                            class="btn btn-primary addProductAndSupplyChainRow"
+                            class="btn btn-sm btn-success add-product-and-supply-chain-row"
                             data-toggle="tooltip"
                             type="button"
                             title="Add a new row"
@@ -1005,7 +1008,7 @@
                             <i class="ri-add-box-fill"></i>
                         </button>
                         <button
-                            class="btn btn-danger removeRowButton mx-2"
+                            class="btn btn-sm btn-danger remove-product-and-supply-chain-row mx-2"
                             data-toggle="tooltip"
                             type="button"
                             title="Delete row"
@@ -1067,7 +1070,7 @@
                 <div class="mt-2">
                     <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                         <button
-                            class="btn btn-primary addProductionRow"
+                            class="btn btn-sm btn-success add-production-row"
                             data-toggle="tooltip"
                             type="button"
                             title="Add a new row"
@@ -1075,7 +1078,7 @@
                             <i class="ri-add-box-fill"></i>
                         </button>
                         <button
-                            class="btn btn-danger removeRowButton mx-2"
+                            class="btn btn-sm btn-danger remove-production-row mx-2"
                             data-toggle="tooltip"
                             type="button"
                             title="Delete row"
@@ -1136,7 +1139,7 @@
                 <div class="mt-2">
                     <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                         <button
-                            class="btn btn-primary addProductionEquipmentRow"
+                            class="btn btn-sm btn-success add-production-equipment-row"
                             data-toggle="tooltip"
                             type="button"
                             title="Add a new row"
@@ -1144,11 +1147,10 @@
                             <i class="ri-add-box-fill"></i>
                         </button>
                         <button
-                            class="btn btn-danger removeRowButton mx-2"
+                            class="btn btn-sm btn-danger remove-production-equipment-row mx-2"
                             data-toggle="tooltip"
                             type="button"
                             title="Delete row"
-                            disabled
                         >
                             <i class="ri-subtract-fill"></i>
                         </button>
@@ -1869,7 +1871,7 @@
                         <div class="mt-2">
                             <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                 <button
-                                    class="btn btn-primary addNewProductRow"
+                                    class="btn btn-sm btn-success add-new-local-product-row"
                                     data-toggle="tooltip"
                                     type="button"
                                     title="Add a new row"
@@ -1877,11 +1879,10 @@
                                     <i class="ri-add-box-fill"></i>
                                 </button>
                                 <button
-                                    class="btn btn-danger removeRowButton mx-2"
+                                    class="btn btn-sm btn-danger remove-new-local-product-row mx-2"
                                     data-toggle="tooltip"
                                     type="button"
                                     title="Delete row"
-                                    disabled
                                 >
                                     <i class="ri-subtract-fill"></i>
                                 </button>
@@ -1941,7 +1942,7 @@
                         <div class="mt-2">
                             <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
                                 <button
-                                    class="btn btn-primary addNewProductRow"
+                                    class="btn btn-sm btn-success add-new-export-product-row"
                                     data-toggle="tooltip"
                                     type="button"
                                     title="Add a new row"
@@ -1949,11 +1950,10 @@
                                     <i class="ri-add-box-fill"></i>
                                 </button>
                                 <button
-                                    class="btn btn-danger removeRowButton mx-2"
+                                    class="btn btn-sm btn-danger remove-new-export-product-row mx-2"
                                     data-toggle="tooltip"
                                     type="button"
                                     title="Delete row"
-                                    disabled
                                 >
                                     <i class="ri-subtract-fill"></i>
                                 </button>

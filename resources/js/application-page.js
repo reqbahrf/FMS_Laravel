@@ -136,27 +136,33 @@ export function initializeForm() {
 
     //TODO: fix these handler
     addNewRowHandler(
-        '.addProductAndSupplyChainRow',
+        '.add-product-and-supply-chain-row',
         '#productAndSupplyChainContainer'
     );
-    removeRowHandler('.removeRowButton', '#productAndSupplyChainContainer');
+    removeRowHandler(
+        '.remove-product-and-supply-chain-row',
+        '#productAndSupplyChainContainer'
+    );
 
-    addNewRowHandler('.addProductionRow', '#productionContainer');
-    removeRowHandler('.removeRowButton', '#productionContainer');
+    addNewRowHandler('.add-production-row', '#productionContainer');
+    removeRowHandler('.remove-production-row', '#productionContainer');
 
     addNewRowHandler(
-        '.addProductionEquipmentRow',
+        '.add-production-equipment-row',
         '#productionEquipmentContainer'
     );
-    removeRowHandler('.removeRowButton', '#productionEquipmentContainer');
-
-    addNewRowHandler(
-        '.addNewProductRow',
-        '#localMarketContainer, #exportMarketContainer'
-    );
     removeRowHandler(
-        '.removeRowButton',
-        '#localMarketContainer, #exportMarketContainer'
+        '.remove-production-equipment-row',
+        '#productionEquipmentContainer'
+    );
+
+    addNewRowHandler('.add-new-local-product-row', '#localMarketContainer');
+    removeRowHandler('.remove-new-local-product-row', '#localMarketContainer');
+
+    addNewRowHandler('.add-new-export-product-row', '#exportMarketContainer');
+    removeRowHandler(
+        '.remove-new-export-product-row',
+        '#exportMarketContainer'
     );
 
     $('input, select').on('focus', function () {
@@ -181,13 +187,13 @@ export function initializeForm() {
             position: 'both bottom',
             extraHtml: /*html*/ `<button
                     type="button"
-                    class="btn btn-success"
+                    class="btn btn-success submit-btn"
                     onclick="onFinish()"
                 >
                     Submit
                 </button>
                 <button
-                    class="btn btn-secondary"
+                    class="btn btn-secondary cancel-btn"
                     onclick="onCancel()"
                 >
                     Cancel
@@ -345,11 +351,11 @@ export function initializeForm() {
             const totalSteps = $('#smartwizard').find('ul li').length;
 
             if (stepIndex !== totalSteps - 1 && stepPosition !== 'last') {
-                $('.btn-success, .btn-secondary').hide();
+                $('.submit-btn, .cancel-btn').hide();
             }
             if (stepIndex === 3) {
                 // Since stepIndex is 0-based, step-4 corresponds to index 3
-                $('.btn-success, .btn-secondary').show();
+                $('.submit-btn, .cancel-btn').show();
                 const inputField = APPLICATION_FORM.find(
                     'input:not([readonly]), select:not([readonly]), textarea:not([readonly])'
                 );
