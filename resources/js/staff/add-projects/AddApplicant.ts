@@ -1,4 +1,5 @@
 import createConfirmationModal from '../../Utilities/confirmation-modal';
+import APPLICATION_FORM_CONFIG from '../../Form_Config/APPLICATION_CONFIG';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import { processError } from '../../Utilities/error-handler-util';
 import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
@@ -8,6 +9,7 @@ import {
     showToastFeedback,
 } from '../../Utilities/feedback-toast';
 import { serializeFormData } from '../../Utilities/utilFunctions';
+import { FormDraftHandler } from '../../Utilities/FormDraftHandler';
 
 export default class AddApplicant {
     private formElement: JQuery<HTMLFormElement> | null;
@@ -71,6 +73,7 @@ export default class AddApplicant {
                             );
                             this.formElement = $('#applicationForm');
                             this.initializeApplicantDetailedForm();
+                            this.__initSyncApplicantDetail();
                         } catch (error: any) {
                             processError(
                                 'Error in edit Applicant: ',
@@ -113,6 +116,15 @@ export default class AddApplicant {
             hideProcessToast(processToast);
             processError('Error in Saving Applicant: ', error, true);
         }
+    }
+
+    private __initSyncApplicantDetail() {
+        if (!this.formElement) throw new Error('Form element not found');
+        const draftClass = new FormDraftHandler(this.formElement);
+        draftClass.syncTextInputData();
+        //draftClass.syncTablesData('#productAndSupplyChainTable tbody');
+
+        draftClass.loadDraftData(APPLICATION_FORM_CONFIG);
     }
 
     public initializeApplicantDetailedForm() {

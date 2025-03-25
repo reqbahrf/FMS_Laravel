@@ -56,9 +56,11 @@ class FormDraftController extends Controller
      * @param string $draft_type
      * @return \Illuminate\Http\JsonResponse
      */
-    public function get($ownerId, $draft_type)
+    public function get(Request $request)
     {
         try {
+            $ownerId = $request->ownerId;
+            $draft_type = $request->draft_type;
             $result = $this->formDraftService->getDraft($ownerId, $draft_type);
 
             return response()->json($result);

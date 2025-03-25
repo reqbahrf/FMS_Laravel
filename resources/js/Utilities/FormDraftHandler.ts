@@ -401,18 +401,18 @@ export class FormDraftHandler {
      * Asynchronously loads draft data for a given type, populating form fields and tables.
      *
      * @param {object} formConfig - Configuration object containing form and table selectors.
-     * @param {function} [customInputDataLoaderFn] - Custom function to load text input data.
-     * @param {function} [customTableDataLoaderFn] - Custom function to load table data.
-     * @param {function|object} [customDataLoaderFn] - Custom function or object of functions to load other data.
+     * @param {function|undefined} [customInputDataLoaderFn] - Custom function to load text input data.
+     * @param {function|undefined} [customTableDataLoaderFn] - Custom function to load table data.
+     * @param {function|object|undefined} [customDataLoaderFn] - Custom function or object of functions to load other data.
      *
      * @returns {Promise<void>}
      */
     async loadDraftData(
         formConfig: DraftFormConfig,
-        customInputDataLoaderFn: Function,
-        customTableDataLoaderFn: Function,
-        customFilepondLoaderFn: Function,
-        customDataLoaderFn: Function
+        customInputDataLoaderFn?: Function,
+        customTableDataLoaderFn?: Function,
+        customFilepondLoaderFn?: Function,
+        customDataLoaderFn?: Function
     ) {
         try {
             const response = await $.ajax({
