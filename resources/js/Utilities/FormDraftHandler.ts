@@ -39,10 +39,8 @@ export class FormDraftHandler {
     /**
      * Synchronizes text input data with the server by monitoring input changes.
      * When an input field changes, the value is stored in the 'changedFields' object.
-     * The 'scheduleSave' method is called to save the changes to the server.
+     * The '_scheduleSave' method is called to save the changes to the server.
      *
-     * @param {string} [inputSelectors=:input[name]:not([readonly])] - default jQuery selector for input fields to monitor.
-     * @returns {void}
      *
      * @example
      * // Initialize and start monitoring input fields
@@ -54,11 +52,9 @@ export class FormDraftHandler {
      * 1. Sets up event listeners for input fields
      * 2. Monitors changes to input fields
      * 3. Stores the changed values in the 'changedFields' object
-     * 4. Calls the 'scheduleSave' method to save the changes to the server
+     * 4. Calls the '_scheduleSave' method to save the changes to the server
      */
-    syncTextInputData(inputSelectors: string | null = null) {
-        // Expanded selector to include textarea, radio buttons, and checkboxes
-        console.log(this.formInstance);
+    public syncTextInputData(inputSelectors: string | null = null) {
         inputSelectors =
             inputSelectors ??
             'textarea[name]:not([readonly]), input[name]:not([readonly]), select[name]:not([readonly])';
@@ -97,17 +93,14 @@ export class FormDraftHandler {
             }
 
             this.changedFields[fieldName] = fieldValue;
-            this.scheduleSave();
+            this._scheduleSave();
         });
     }
     /**
      * Synchronizes table input data with the server by monitoring input changes.
      * Uses TableDataExtractor to extract data from specified tables and stores it in the 'changedFields' object.
-     * Calls the 'scheduleSave' method to save the changes to the server.
+     * Calls the '_scheduleSave' method to save the changes to the server.
      *
-     * @param {string} tableSelectors - jQuery selector to target table inputs
-     * @param {Object.<string, {id: string, selectors: Object.<string, string|Object>, requiredFields: string[]}>} tableConfigs - Table configurations object
-     * @returns {void}
      *
      * @example
      * // Initialize and start monitoring table inputs
@@ -130,15 +123,18 @@ export class FormDraftHandler {
      * 1. Sets up event listeners for table inputs
      * 2. Monitors changes to table inputs
      * 3. Stores the changed values in the 'changedFields' object
-     * 4. Calls the 'scheduleSave' method to save the changes to the server
+     * 4. Calls the '_scheduleSave' method to save the changes to the server
      */
-    syncTablesData(tableSelectors: string, tableConfigs: Record<string, any>) {
+    public syncTablesData(
+        tableSelectors: string,
+        tableConfigs: Record<string, any>
+    ) {
         this.formInstance
             .find(tableSelectors)
             .on('input change', 'input', () => {
                 this.changedFields = TableDataExtractor(tableConfigs);
 
-                this.scheduleSave();
+                this._scheduleSave();
             });
     }
 
@@ -147,9 +143,6 @@ export class FormDraftHandler {
      * Uses MutationObserver to detect changes in file metadata hidden inputs and automatically
      * saves the changes to the server.
      *
-     * @async
-     * @param {string[]} FileMetaDataHiddenInputSelector - Array of input IDs to monitor for file metadata changes
-     * @returns {void}
      *
      * @example
      * // Initialize and start monitoring file inputs
@@ -163,7 +156,7 @@ export class FormDraftHandler {
      * 3. Extracts metadata (file path, unique ID, etc.)
      * 4. Automatically saves changes using the draft system
      */
-    syncFilepondData(FileMetaDataHiddenInputSelector: string[]) {
+    public syncFilepondData(FileMetaDataHiddenInputSelector: string[]) {
         FileMetaDataHiddenInputSelector.forEach((inputId) => {
             const inputElement = $(`#${inputId}`);
 
@@ -200,7 +193,7 @@ export class FormDraftHandler {
                             },
                         } as FilePondDraftData;
                         if (!FILE_INPUT_NAME) return;
-                        this.scheduleSave();
+                        this._scheduleSave();
                     }
                 });
                 setTimeout(() => {
@@ -215,9 +208,6 @@ export class FormDraftHandler {
 
     /**
      * Populates form text inputs with data from a draft object
-     * @param {Object} draftData - Object containing key-value pairs to populate the form
-     * @param {string} formSelector - jQuery selector for the target form
-     * @param {Array} [excludedFields=[]] - Array of field names to exclude from population
      */
     private loadTextInputData(
         draftData: DraftData,
@@ -261,11 +251,8 @@ export class FormDraftHandler {
 
     /**
      * Populates multiple tables with data using provided selectors and row configurations
-     * @param {Object} draftData - Object containing data for each table type
-     * @param {Object} tableSelectors - Object mapping table types to jQuery selectors
-     * @param {Object} tableRowConfigs - Object mapping table types to row configuration objects
      */
-    private loadTablesData(
+    private _loadTablesData(
         draftData: DraftData,
         tableSelectors: string[],
         tableRowConfigs: { [key: string]: any }
@@ -398,22 +385,15 @@ export class FormDraftHandler {
     }
 
     /**
-     * Asynchronously loads draft data for a given type, populating form fields and tables.
-     *
-     * @param {object} formConfig - Configuration object containing form and table selectors.
-     * @param {function|undefined} [customInputDataLoaderFn] - Custom function to load text input data.
-     * @param {function|undefined} [customTableDataLoaderFn] - Custom function to load table data.
-     * @param {function|object|undefined} [customDataLoaderFn] - Custom function or object of functions to load other data.
-     *
-     * @returns {Promise<void>}
+     * Asynchronously loads draft data for a given type, populating form fields, tables, and filepond.
      */
-    async loadDraftData(
+    public async loadDraftData(
         formConfig: DraftFormConfig,
         customInputDataLoaderFn?: Function,
         customTableDataLoaderFn?: Function,
         customFilepondLoaderFn?: Function,
         customDataLoaderFn?: Function
-    ) {
+    ): Promise<void> {
         try {
             const response = await $.ajax({
                 type: 'GET',
@@ -450,7 +430,7 @@ export class FormDraftHandler {
                         data: DraftData,
                         selectors: string[],
                         rowConfigs: { [key: string]: any }
-                    ) => this.loadTablesData(data, selectors, rowConfigs)),
+                    ) => this._loadTablesData(data, selectors, rowConfigs)),
                 FilePondField:
                     customFilepondLoaderFn ||
                     ((data: FilePondDraftData, selector: string[]) =>
@@ -479,11 +459,11 @@ export class FormDraftHandler {
         }
     }
 
-    private scheduleSave() {
-        this.draftLoadingHandler();
+    private _scheduleSave() {
+        this._draftLoadingHandler();
         clearTimeout(this.autoSaveTimeout ?? 0);
         this.autoSaveTimeout = setTimeout(() => {
-            this.syncDraftWithServer(this.changedFields);
+            this._syncDraftWithServer(this.changedFields);
         }, this.saveInterval);
     }
 
@@ -509,7 +489,7 @@ export class FormDraftHandler {
      * Synchronizes draft changes with the server.
      * @param {Object} changedFields - Object containing the modified draft fields.
      */
-    async syncDraftWithServer(changedFields: DraftData) {
+    private async _syncDraftWithServer(changedFields: DraftData) {
         if ($.isEmptyObject(changedFields)) return;
 
         const draftType = this._getDraftType(this.storeDraftRoute);
@@ -534,17 +514,17 @@ export class FormDraftHandler {
             });
 
             if (response.success) {
-                this.removeDraftLoadingHandler();
+                this._removeDraftLoadingHandler();
                 console.log('Draft saved successfully:', response.message);
                 this.changedFields = {}; // Clear changes after saving
             }
         } catch (error) {
-            this.removeDraftLoadingHandler();
+            this._removeDraftLoadingHandler();
             console.error('Error saving draft:', error);
         }
     }
 
-    draftLoadingHandler(customLoadingMessage = null) {
+    private _draftLoadingHandler(customLoadingMessage = null) {
         if (this.formInstance.find('#DraftingIndicator').length > 0) {
             return;
         }
@@ -558,7 +538,7 @@ export class FormDraftHandler {
                         </div>`;
         this.formInstance.prepend(spinner);
     }
-    removeDraftLoadingHandler() {
+    private _removeDraftLoadingHandler() {
         this.formInstance.find('#DraftingIndicator').remove();
     }
 }
