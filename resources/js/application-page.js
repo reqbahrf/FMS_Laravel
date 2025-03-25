@@ -4,6 +4,7 @@ import {
     showProcessToast,
     hideProcessToast,
 } from './Utilities/feedback-toast';
+import { setupPhoneNumberInput } from './Utilities/phone-formatter';
 import { customFormatNumericInput } from './Utilities/input-utils';
 import { FormDraftHandler } from './Utilities/FormDraftHandler';
 import {
@@ -888,27 +889,7 @@ export function initializeForm() {
         console.log('Form cancelled');
         window.location.href = 'some_cancel_url'; // Redirect to a specific URL
     }
-    $('#Mobile_no')
-        .on('keypress', function (e) {
-            const charCode = e.which ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false;
-            }
-            return true;
-        })
-        .on('input', function () {
-            const number = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
-            if (number.length > 0) {
-                var formattedNumber = number.match(
-                    /(\d{0,3})(\d{0,3})(\d{0,4})/
-                );
-                var formatted = '';
-                if (formattedNumber[1]) formatted += formattedNumber[1];
-                if (formattedNumber[2]) formatted += '-' + formattedNumber[2];
-                if (formattedNumber[3]) formatted += '-' + formattedNumber[3];
-                $(this).val(formatted);
-            }
-        });
+    setupPhoneNumberInput('#mobile_no');
 
     customFormatNumericInput($('div#personnelContainer'), 'input');
 
