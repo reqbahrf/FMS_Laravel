@@ -1,4 +1,4 @@
-
+@props(['withFileInput' => false])
 <!-- Where the business info displayed -->
 <div class="row g-3">
     <div class="col-12 col-md-8">
@@ -905,31 +905,33 @@
                             ></textarea>
                         </div>
                     </div>
-                    <div class="mb-3">
-                        <label
-                            class="form-label"
-                            for="organizationalStructure"
-                        >
-                            Please attach Organizational Structure:
-                        </label>
-                        <input
-                            class=""
-                            id="organizationalStructure"
-                            name="organizationalStructure"
-                            type="file"
-                            {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
-                        >
-                        <div class="invalid-feedback">
-                            Please upload the Organization Structure.
+                    @if ($withFileInput)
+                        <div class="mb-3">
+                            <label
+                                class="form-label"
+                                for="organizationalStructure"
+                            >
+                                Please attach Organizational Structure:
+                            </label>
+                            <input
+                                class=""
+                                id="organizationalStructure"
+                                name="organizationalStructure"
+                                type="file"
+                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                            >
+                            <div class="invalid-feedback">
+                                Please upload the Organization Structure.
+                            </div>
+                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                10MB</div>
+                            <input
+                                id="OrganizationalStructureFileID_Data_Handler"
+                                name="OrganizationalStructureFileID_Data_Handler"
+                                type="hidden"
+                            >
                         </div>
-                        <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
-                            10MB</div>
-                        <input
-                            id="OrganizationalStructureFileID_Data_Handler"
-                            name="OrganizationalStructureFileID_Data_Handler"
-                            type="hidden"
-                        >
-                    </div>
+                    @endif
                 </div>
             </div>
             <div class="row g-3">
@@ -1226,52 +1228,54 @@
                         rows="3"
                     ></textarea>
                 </div>
-                <div class="col-12">
-                    <div class="mb-3">
-                        <label
-                            class="form-label"
-                            for="PlanLayout"
-                        >-Plan Lay-out</label>
-                        <input
-                            id="planLayout"
-                            name="planLayout"
-                            type="file"
-                            {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
-                        >
-                        <div class="invalid-feedback">
-                            Please upload the Plan Lay-out.
+                @if ($withFileInput)
+                    <div class="col-12">
+                        <div class="mb-3">
+                            <label
+                                class="form-label"
+                                for="PlanLayout"
+                            >-Plan Lay-out</label>
+                            <input
+                                id="planLayout"
+                                name="planLayout"
+                                type="file"
+                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                            >
+                            <div class="invalid-feedback">
+                                Please upload the Plan Lay-out.
+                            </div>
+                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                10MB</div>
+                            <input
+                                id="PlanLayoutFileID_Data_Handler"
+                                name="PlanLayoutFileID_Data_Handler"
+                                type="hidden"
+                            >
                         </div>
-                        <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
-                            10MB</div>
-                        <input
-                            id="PlanLayoutFileID_Data_Handler"
-                            name="PlanLayoutFileID_Data_Handler"
-                            type="hidden"
-                        >
-                    </div>
-                    <div class="mb-3">
-                        <label
-                            class="form-label"
-                            for="processFlow"
-                        >-Process Flow</label>
-                        <input
-                            id="processFlow"
-                            name="processFlow"
-                            type="file"
-                            {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
-                        >
-                        <div class="invalid-feedback">
-                            Please upload the Process Flow.
+                        <div class="mb-3">
+                            <label
+                                class="form-label"
+                                for="processFlow"
+                            >-Process Flow</label>
+                            <input
+                                id="processFlow"
+                                name="processFlow"
+                                type="file"
+                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                            >
+                            <div class="invalid-feedback">
+                                Please upload the Process Flow.
+                            </div>
+                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                10MB</div>
+                            <input
+                                id="ProcessFlowFileID_Data_Handler"
+                                name="ProcessFlowFileID_Data_Handler"
+                                type="hidden"
+                            >
                         </div>
-                        <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
-                            10MB</div>
-                        <input
-                            id="ProcessFlowFileID_Data_Handler"
-                            name="ProcessFlowFileID_Data_Handler"
-                            type="hidden"
-                        >
                     </div>
-                </div>
+                @endif
                 <div class="col-12">
                     <label
                         class="form-label"

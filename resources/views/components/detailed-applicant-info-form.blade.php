@@ -4,6 +4,5 @@
     :withAction="false"
 >
     <x-application-form.personal-info />
-    <x-application-form.business-info />
-    <x-application-form.file-requirements />
+    <x-application-form.business-info :withFileInput="false" />
 </x-application-form.form>
