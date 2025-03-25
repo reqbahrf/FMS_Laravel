@@ -46,7 +46,7 @@ const toggleDeleteRowButton = (
     elementSelector: string
 ) => {
     const element = container.find(elementSelector);
-    const deleteRowButton = container.find('.removeRowButton');
+    const deleteRowButton = container.find('[data-remove-row-btn]');
 
     // Ensure the button exists before trying to disable it
     if (deleteRowButton.length > 0) {

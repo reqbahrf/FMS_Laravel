@@ -965,10 +965,21 @@ export function initializeForm() {
     const formDraftHandler = new FormDraftHandler(APPLICATION_FORM);
 
     formDraftHandler.syncTextInputData();
-    formDraftHandler.syncTablesData(
-        '#exportMarketTable tr, #localMarketTable tr',
-        tableConfigurations
-    );
+    formDraftHandler.syncTablesData('#productAndSupplyChainTable tbody', {
+        productAndSupply: BENCHMARKTableConfig.productAndSupply,
+    });
+    formDraftHandler.syncTablesData('#productionTable tbody', {
+        production: BENCHMARKTableConfig.production,
+    });
+    formDraftHandler.syncTablesData('#productionEquipmentTable tbody', {
+        productionEquipment: BENCHMARKTableConfig.productionEquipment,
+    });
+    formDraftHandler.syncTablesData('#exportMarketTable tbody', {
+        exportMarket: tableConfigurations.exportMarket,
+    });
+    formDraftHandler.syncTablesData('#localMarketTable tbody', {
+        localMarket: tableConfigurations.localMarket,
+    });
 
     const FileMetaHiddenInputs = [
         'OrganizationalStructureFileID_Data_Handler',

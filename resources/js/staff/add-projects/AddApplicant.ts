@@ -3,6 +3,7 @@ import APPLICATION_FORM_CONFIG from '../../Form_Config/APPLICATION_CONFIG';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import { processError } from '../../Utilities/error-handler-util';
 import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
+import BENCHMARKTableConfig from '../../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import {
     hideProcessToast,
     showProcessToast,
@@ -122,7 +123,15 @@ export default class AddApplicant {
         if (!this.formElement) throw new Error('Form element not found');
         const draftClass = new FormDraftHandler(this.formElement);
         draftClass.syncTextInputData();
-        //draftClass.syncTablesData('#productAndSupplyChainTable tbody');
+        draftClass.syncTablesData('#productAndSupplyChainTable tbody', {
+            productAndSupply: BENCHMARKTableConfig.productAndSupply,
+        });
+        draftClass.syncTablesData('#productionTable tbody', {
+            production: BENCHMARKTableConfig.production,
+        });
+        draftClass.syncTablesData('#productionEquipmentTable tbody', {
+            productionEquipment: BENCHMARKTableConfig.productionEquipment,
+        });
 
         draftClass.loadDraftData(APPLICATION_FORM_CONFIG);
     }

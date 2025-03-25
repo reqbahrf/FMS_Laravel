@@ -30,6 +30,7 @@
                 class="btn btn-danger btn-sm removeQuarterButton"
                 id="removeQuarterTableButton"
                 type="button"
+                data-remove-row-btn
                 {{ count($quarters) <= 1 ? 'disabled' : '' }}
             >
                 <i class="ri-subtract-line"></i>

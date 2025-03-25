@@ -1010,9 +1010,9 @@
                         <button
                             class="btn btn-sm btn-danger remove-product-and-supply-chain-row mx-2"
                             data-toggle="tooltip"
+                            data-remove-row-btn
                             type="button"
                             title="Delete row"
-                            disabled
                         >
                             <i class="ri-subtract-fill"></i>
                         </button>
@@ -1080,9 +1080,9 @@
                         <button
                             class="btn btn-sm btn-danger remove-production-row mx-2"
                             data-toggle="tooltip"
+                            data-remove-row-btn
                             type="button"
                             title="Delete row"
-                            disabled
                         >
                             <i class="ri-subtract-fill"></i>
                         </button>
@@ -1149,6 +1149,7 @@
                         <button
                             class="btn btn-sm btn-danger remove-production-equipment-row mx-2"
                             data-toggle="tooltip"
+                            data-remove-row-btn
                             type="button"
                             title="Delete row"
                         >
@@ -1881,6 +1882,7 @@
                                 <button
                                     class="btn btn-sm btn-danger remove-new-local-product-row mx-2"
                                     data-toggle="tooltip"
+                                    data-remove-row-btn
                                     type="button"
                                     title="Delete row"
                                 >
@@ -1952,6 +1954,7 @@
                                 <button
                                     class="btn btn-sm btn-danger remove-new-export-product-row mx-2"
                                     data-toggle="tooltip"
+                                    data-remove-row-btn
                                     type="button"
                                     title="Delete row"
                                 >

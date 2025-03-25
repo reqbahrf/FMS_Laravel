@@ -129,6 +129,7 @@ export class FormDraftHandler {
         tableSelectors: string,
         tableConfigs: Record<string, any>
     ) {
+        console.log(tableSelectors);
         this.formInstance
             .find(tableSelectors)
             .on('input change', 'input', () => {
