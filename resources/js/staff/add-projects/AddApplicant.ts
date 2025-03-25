@@ -59,13 +59,25 @@ export default class AddApplicant {
                     'click',
                     '.editApplicantForm',
                     async (event: JQuery.ClickEvent) => {
-                        const button = $(event.target);
-                        const secureFormLink = button.data('secure-form-link');
-                        if (!secureFormLink)
-                            throw new Error('Secure form link not found');
-                        await window.loadPage(secureFormLink, 'projectLink');
-                        this.formElement = $('#applicationForm');
-                        this.initializeApplicantDetailedForm();
+                        try {
+                            const button = $(event.target);
+                            const secureFormLink =
+                                button.data('secure-form-link');
+                            if (!secureFormLink)
+                                throw new Error('Secure form link not found');
+                            await window.loadPage(
+                                secureFormLink,
+                                'projectLink'
+                            );
+                            this.formElement = $('#applicationForm');
+                            this.initializeApplicantDetailedForm();
+                        } catch (error: any) {
+                            processError(
+                                'Error in edit Applicant: ',
+                                error,
+                                true
+                            );
+                        }
                     }
                 );
         } catch (error) {
