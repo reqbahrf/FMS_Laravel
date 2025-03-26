@@ -23,6 +23,7 @@ export class FormDraftHandler {
     private saveInterval: number;
     private changedFields: { [key: string]: string | Object | number };
     private autoSaveTimeout: number | null;
+    private savedIndicatorTimeout: number | null = null;
     private observers: MutationObserver[] = [];
     private boundInputSelectors: string[] = [];
     private boundTableSelectors: string[] = [];
@@ -518,7 +519,7 @@ export class FormDraftHandler {
             });
 
             if (response.success) {
-                this._removeDraftLoadingHandler();
+                this._showSavedIndicator();
                 this.changedFields = {};
             }
         } catch (error) {
@@ -530,18 +531,72 @@ export class FormDraftHandler {
         if (this.formInstance.find('#DraftingIndicator').length > 0) {
             return;
         }
-        const spinner =
+
+        // Create a container for the drafting indicator that will be sticky
+        const indicatorContainer =
             /*html*/
-            `<div class="d-flex align-items-center" id="DraftingIndicator">
-                            <div class="spinner-grow spinner-grow-sm text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <span role="status" class="ms-1 text-secondary">${customLoadingMessage ?? 'Drafting...'}</span>
-                        </div>`;
-        this.formInstance.prepend(spinner);
+            `<div class="position-sticky top-0 start-0 z-3 w-100 bg-white rounded-5 bg-opacity-90 py-2 border-bottom" id="DraftingIndicatorContainer">
+                <div class="d-flex align-items-center px-3" id="DraftingIndicator">
+                    <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
+                    </div>
+                    <span role="status" class="ms-1 text-secondary">${customLoadingMessage ?? 'Drafting...'}</span>
+                </div>
+            </div>`;
+
+        this.formInstance.prepend(indicatorContainer);
     }
+
     private _removeDraftLoadingHandler() {
-        this.formInstance.find('#DraftingIndicator').remove();
+        this.formInstance.find('#DraftingIndicatorContainer').remove();
+    }
+
+    /**
+     * Shows a saved indicator that appears briefly when a draft is successfully saved
+     */
+    private _showSavedIndicator() {
+        // First remove the drafting indicator
+        this._removeDraftLoadingHandler();
+
+        // Clear any existing timeout for the saved indicator
+        if (this.savedIndicatorTimeout !== null) {
+            clearTimeout(this.savedIndicatorTimeout);
+        }
+
+        // If the saved indicator already exists, just reset its timeout
+        if (this.formInstance.find('#SavedIndicatorContainer').length > 0) {
+            this.savedIndicatorTimeout = setTimeout(() => {
+                this.formInstance
+                    .find('#SavedIndicatorContainer')
+                    .fadeOut(300, function () {
+                        $(this).remove();
+                    });
+            }, 3000);
+            return;
+        }
+
+        // Create a container for the saved indicator
+        const savedIndicatorContainer =
+            /*html*/
+            `<div class="position-sticky top-0 start-0z-3 w-100 bg-white rounded-5 bg-opacity-90 py-2 border-bottom" id="SavedIndicatorContainer">
+                <div class="d-flex align-items-center px-3" id="SavedIndicator">
+                    <div class="text-success">
+                        <i class="bi bi-check-circle-fill"></i>
+                    </div>
+                    <span class="ms-1 text-success"><i class="ri-checkbox-circle-fill"></i>Draft saved successfully</span>
+                </div>
+            </div>`;
+
+        this.formInstance.prepend(savedIndicatorContainer);
+
+        // Set a timeout to remove the saved indicator after 3 seconds
+        this.savedIndicatorTimeout = setTimeout(() => {
+            this.formInstance
+                .find('#SavedIndicatorContainer')
+                .fadeOut(300, function () {
+                    $(this).remove();
+                });
+        }, 3000);
     }
 
     /**
@@ -565,6 +620,11 @@ export class FormDraftHandler {
             this.autoSaveTimeout = null;
         }
 
+        if (this.savedIndicatorTimeout !== null) {
+            clearTimeout(this.savedIndicatorTimeout);
+            this.savedIndicatorTimeout = null;
+        }
+
         this.observers.forEach((observer) => {
             observer.disconnect();
         });
@@ -581,6 +641,7 @@ export class FormDraftHandler {
         this.boundTableSelectors = [];
 
         this._removeDraftLoadingHandler();
+        this.formInstance.find('#SavedIndicatorContainer').remove();
 
         this.changedFields = {};
     }
