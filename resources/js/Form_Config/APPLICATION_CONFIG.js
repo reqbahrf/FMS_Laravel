@@ -48,6 +48,18 @@ const APPLICATION_FORM_CONFIG = {
         'govIdFile',
         'BIRFile',
     ],
+    excludedFields: [
+        'exportMarket',
+        'localMarket',
+        'officeRegion',
+        'officeProvince',
+        'officeCity',
+        'officeBarangay',
+        'factoryRegion',
+        'factoryProvince',
+        'factoryCity',
+        'factoryBarangay',
+    ],
 };
 
 const createProductAndSupplyChainTableRow = (rowData) => {

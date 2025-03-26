@@ -223,7 +223,7 @@ export class FormDraftHandler {
     /**
      * Populates form text inputs with data from a draft object
      */
-    private loadTextInputData(
+    public loadTextInputData(
         draftData: DraftData,
         formSelector: string,
         excludedFields: string[] = []
@@ -266,7 +266,7 @@ export class FormDraftHandler {
     /**
      * Populates multiple tables with data using provided selectors and row configurations
      */
-    private _loadTablesData(
+    public loadTablesData(
         draftData: DraftData,
         tableSelectors: string[],
         tableRowConfigs: { [key: string]: any }
@@ -298,13 +298,17 @@ export class FormDraftHandler {
                         typeof rowData === 'object'
                             ? rowData
                             : { value: rowData };
-                    this.addRowToTable(tableSelector, rowDataObject, rowConfig);
+                    this._addRowToTable(
+                        tableSelector,
+                        rowDataObject,
+                        rowConfig
+                    );
                 });
             }
         });
     }
 
-    private loadFilepondData(
+    public loadFilepondData(
         draftData: FilePondDraftData,
         filepondIds: string[]
     ) {
@@ -340,7 +344,7 @@ export class FormDraftHandler {
                     );
                     // Load file into corresponding FilePond instance
                     const filepondInstance =
-                        this.getFilepondInstanceHandler(filepondId);
+                        this._getFilepondInstanceHandler(filepondId);
                     if (filepondInstance) {
                         filepondInstance.addFile(fileUrl, {
                             type: 'local',
@@ -357,7 +361,7 @@ export class FormDraftHandler {
         });
     }
 
-    private getFilepondInstanceHandler(filepondInputID: string) {
+    private _getFilepondInstanceHandler(filepondInputID: string) {
         const filePondElement = document.getElementById(filepondInputID);
         if (filePondElement) {
             const instance = FilePond.find(filePondElement);
@@ -382,7 +386,7 @@ export class FormDraftHandler {
      * @param {Object} rowData - Data to populate the new row
      * @param {Object} rowConfig - Configuration object containing createRow method
      */
-    private addRowToTable(
+    private _addRowToTable(
         tableSelector: string,
         rowData: object,
         rowConfig: TableRowConfig
@@ -424,21 +428,26 @@ export class FormDraftHandler {
                 tableSelectors,
                 tableRowConfigs,
                 filepondSelector,
-            } = formConfig;
+                excludedFields,
+            }: DraftFormConfig = formConfig;
 
             // Use helper functions or fall back to generic loaders
             const loaders = {
                 textFields:
                     customInputDataLoaderFn ||
-                    ((data: DraftData, selector: string) =>
-                        this.loadTextInputData(data, selector)),
+                    ((
+                        data: DraftData,
+                        selector: string,
+                        excludedFields?: string[]
+                    ) =>
+                        this.loadTextInputData(data, selector, excludedFields)),
                 tablesFields:
                     customTableDataLoaderFn ||
                     ((
                         data: DraftData,
                         selectors: string[],
                         rowConfigs: { [key: string]: any }
-                    ) => this._loadTablesData(data, selectors, rowConfigs)),
+                    ) => this.loadTablesData(data, selectors, rowConfigs)),
                 FilePondField:
                     customFilepondLoaderFn ||
                     ((data: FilePondDraftData, selector: string[]) =>
@@ -451,7 +460,7 @@ export class FormDraftHandler {
                           },
             };
 
-            loaders.textFields(draftData, formSelector);
+            loaders.textFields(draftData, formSelector, excludedFields);
             loaders.tablesFields(draftData, tableSelectors, tableRowConfigs);
             loaders.FilePondField(draftData, filepondSelector);
             Object.entries(loaders.customFields).forEach(

@@ -148,7 +148,6 @@ export default class AddApplicant {
 
     public initializeApplicantDetailedForm() {
         if (!this.formElement) throw new Error('Form element not found');
-        const API_BASE_URL = 'https://psgc.gitlab.io/api';
         customFormatNumericInput(this.formElement, [
             '#initial_capitalization',
             '#present_capitalization',

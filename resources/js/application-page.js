@@ -22,6 +22,7 @@ import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 import calculateEnterpriseLevel from './Utilities/calculate-enterprise-level';
+import { NullConnector } from 'laravel-echo/dist/connector';
 //TODO: For testing purposes
 // $(window).on('beforeunload', function () {
 //     return 'Are you sure you want to leave?';
@@ -995,30 +996,10 @@ export function initializeForm() {
     ];
     formDraftHandler.syncFilepondData(FileMetaHiddenInputs);
 
-    const loadApplicationFormInputFields = (draftData, formSelector) => {
-        const excludedFields = [
-            'exportMarket',
-            'localMarket',
-            'officeRegion',
-            'officeProvince',
-            'officeCity',
-            'officeBarangay',
-            'factoryRegion',
-            'factoryProvince',
-            'factoryCity',
-            'factoryBarangay',
-        ];
-        formDraftHandler.loadTextInputData(
-            draftData,
-            formSelector,
-            excludedFields
-        );
-    };
-
     $(async () => {
         await formDraftHandler.loadDraftData(
             APPLICATION_FORM_CONFIG,
-            loadApplicationFormInputFields,
+            null,
             null,
             null,
             {
