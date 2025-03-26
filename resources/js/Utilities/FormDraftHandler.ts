@@ -544,12 +544,14 @@ export class FormDraftHandler {
         // Create a container for the drafting indicator that will be sticky
         const indicatorContainer =
             /*html*/
-            `<div class="position-sticky top-0 start-0 z-3 w-100 bg-white rounded-5 bg-opacity-90 py-2 border-bottom" id="DraftingIndicatorContainer">
-                <div class="d-flex align-items-center px-3" id="DraftingIndicator">
-                    <div class="spinner-grow spinner-grow-sm text-primary" role="status">
-                        <span class="visually-hidden">Loading...</span>
+            `<div class="position-sticky top-0 start-0 z-3 w-100 p-2">
+                <div class="bg-white rounded-5 bg-opacity-90 py-2 shadow-sm" id="DraftingIndicatorContainer">
+                    <div class="d-flex align-items-center px-3" id="DraftingIndicator">
+                        <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span role="status" class="ms-1 text-secondary">${customLoadingMessage ?? 'Drafting...'}</span>
                     </div>
-                    <span role="status" class="ms-1 text-secondary">${customLoadingMessage ?? 'Drafting...'}</span>
                 </div>
             </div>`;
 
@@ -587,12 +589,14 @@ export class FormDraftHandler {
         // Create a container for the saved indicator
         const savedIndicatorContainer =
             /*html*/
-            `<div class="position-sticky top-0 start-0z-3 w-100 bg-white rounded-5 bg-opacity-90 py-2 border-bottom" id="SavedIndicatorContainer">
-                <div class="d-flex align-items-center px-3" id="SavedIndicator">
-                    <div class="text-success">
-                        <i class="bi bi-check-circle-fill"></i>
+            `<div class="position-sticky top-0 start-0 z-3 w-100 p-2">
+                <div class="bg-white rounded-5 bg-opacity-90 py-2 shadow-sm border border-1 border-success" id="SavedIndicatorContainer">
+                    <div class="d-flex align-items-center px-3" id="SavedIndicator">
+                        <div class="text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <span class="ms-1 text-success"><i class="ri-checkbox-circle-fill"></i>Draft saved successfully</span>
                     </div>
-                    <span class="ms-1 text-success"><i class="ri-checkbox-circle-fill"></i>Draft saved successfully</span>
                 </div>
             </div>`;
 
