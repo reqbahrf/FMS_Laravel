@@ -190,7 +190,7 @@ export class FormDraftHandler {
                             'data-file-input-name'
                         ) as string;
                         const uniqueId = inputElement.attr('data-unique-id');
-                        console.log(
+                        console.warn(
                             `Hidden input ${inputId} changed to: ${filePath} with unique ID: ${uniqueId}`
                         );
                         this.changedFields = {
@@ -332,9 +332,6 @@ export class FormDraftHandler {
                     id.includes(String(key))
                 );
 
-                console.log('Looking for filepondId matching:', key);
-                console.log('Found filepondId:', filepondId);
-
                 if (filepondId) {
                     const fileUrl = DRAFT_ROUTE.GET_FILE.replace(
                         ':unique_id',
@@ -360,15 +357,12 @@ export class FormDraftHandler {
     }
 
     private getFilepondInstanceHandler(filepondInputID: string) {
-        console.log('Looking for FilePond instance with ID:', filepondInputID);
         const filePondElement = document.getElementById(filepondInputID);
         if (filePondElement) {
             const instance = FilePond.find(filePondElement);
-            console.log('Found FilePond instance:', instance);
 
             // Check if instance exists and is disabled
             if (instance && instance.disabled) {
-                console.log('FilePond instance was disabled, enabling it now');
                 instance.disabled = false;
             }
 
@@ -419,7 +413,7 @@ export class FormDraftHandler {
             });
 
             if (!response.success || !response.draftData) {
-                console.log('No draft found or draft data is empty.');
+                console.warn('No draft found or draft data is empty.');
                 return; // Exit early if no draft data
             }
 
@@ -462,11 +456,8 @@ export class FormDraftHandler {
             Object.entries(loaders.customFields).forEach(
                 ([loaderName, loaderFn]) => {
                     loaderFn(draftData, formSelector);
-                    console.log(`Executed custom loader: ${loaderName}`);
                 }
             );
-
-            console.log('Draft loaded:', draftData);
         } catch (error) {
             console.error('Error loading draft:', error);
         }
@@ -528,12 +519,10 @@ export class FormDraftHandler {
 
             if (response.success) {
                 this._removeDraftLoadingHandler();
-                console.log('Draft saved successfully:', response.message);
-                this.changedFields = {}; // Clear changes after saving
+                this.changedFields = {};
             }
         } catch (error) {
             this._removeDraftLoadingHandler();
-            console.error('Error saving draft:', error);
         }
     }
 
@@ -594,7 +583,5 @@ export class FormDraftHandler {
         this._removeDraftLoadingHandler();
 
         this.changedFields = {};
-
-        console.log('FormDraftHandler destroyed and resources cleaned up');
     }
 }
