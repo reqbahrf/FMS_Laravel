@@ -11,6 +11,7 @@ const API = {
         return $.ajax({
             type: 'GET',
             url: `${API_BASE_URL}/regions`,
+            dataType: 'json',
         }).fail((error: JQuery.jqXHR) => {
             console.error('Error fetching regions:', error);
         });
@@ -20,6 +21,7 @@ const API = {
         return $.ajax({
             type: 'GET',
             url: `${API_BASE_URL}/regions/${regionCode}/provinces`,
+            dataType: 'json',
         }).fail((error: JQuery.jqXHR) => {
             console.error('Error fetching provinces:', error);
         });
@@ -29,6 +31,7 @@ const API = {
         return $.ajax({
             type: 'GET',
             url: `${API_BASE_URL}/provinces/${provinceCode}/cities-municipalities`,
+            dataType: 'json',
         }).fail((error: JQuery.jqXHR) => {
             console.error('Error fetching cities:', error);
         });
@@ -38,6 +41,9 @@ const API = {
         return $.ajax({
             type: 'GET',
             url: `${API_BASE_URL}/cities-municipalities/${cityCode}/barangays`,
+            dataType: 'json',
+        }).fail((error: JQuery.jqXHR) => {
+            console.error('Error fetching barangays:', error);
         });
     },
 };
