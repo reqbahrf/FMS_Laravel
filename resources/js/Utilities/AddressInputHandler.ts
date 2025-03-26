@@ -1,10 +1,9 @@
 const API_BASE_URL: string = 'https://psgc.gitlab.io/api';
 
-// Define interfaces for the data structures
 interface LocationItem {
     name: string;
     code: string;
-    [key: string]: any; // For any additional properties
+    [key: string]: any;
 }
 
 interface AddressFormConfig {
@@ -18,7 +17,17 @@ interface Selectors {
     barangay: string;
 }
 
-// Define the API object with proper return types
+interface LocationDraftData {
+    officeRegion: string;
+    officeProvince: string;
+    officeCity: string;
+    officeBarangay: string;
+    factoryRegion: string;
+    factoryProvince: string;
+    factoryCity: string;
+    factoryBarangay: string;
+}
+
 const API = {
     fetchRegions: (): JQuery.jqXHR<LocationItem[]> => {
         return $.ajax({
@@ -86,6 +95,120 @@ class AddressFormInput {
             );
         });
     }
+
+    static async loadLocationDropdown(
+        selector: string,
+        fetchFn: JQuery.jqXHR<LocationItem[]>,
+        data: string,
+        placeholder: string
+    ): Promise<void> {
+        return new Promise((resolve) => {
+            fetchFn.done((items) => {
+                AddressFormInput.populateSelect(selector, items, placeholder);
+                $(selector).val(data);
+                $(selector).prop('disabled', false);
+                resolve();
+            });
+        });
+    }
+
+    static loadOfficeAddressDropdowns = async (
+        draftData: LocationDraftData
+    ) => {
+        if (!draftData.officeRegion) return;
+
+        // Load regions
+        await AddressFormInput.loadLocationDropdown(
+            '#officeRegion',
+            API.fetchRegions(),
+            draftData.officeRegion,
+            'Select Office Region'
+        );
+
+        if (!draftData.officeProvince) return;
+
+        // Load provinces
+        const regionCode = $('#officeRegion').find(':selected').data('code');
+        await AddressFormInput.loadLocationDropdown(
+            '#officeProvince',
+            API.fetchProvinces(regionCode),
+            draftData.officeProvince,
+            'Select Office Province'
+        );
+
+        if (!draftData.officeCity) return;
+
+        // Load cities
+        const provinceCode = $('#officeProvince')
+            .find(':selected')
+            .data('code');
+        await AddressFormInput.loadLocationDropdown(
+            '#officeCity',
+            API.fetchCities(provinceCode),
+            draftData.officeCity,
+            'Select Office City'
+        );
+
+        if (!draftData.officeBarangay) return;
+
+        // Load barangays
+        const cityCode = $('#officeCity').find(':selected').data('code');
+        await AddressFormInput.loadLocationDropdown(
+            '#officeBarangay',
+            API.fetchBarangay(cityCode),
+            draftData.officeBarangay,
+            'Select Office Barangay'
+        );
+    };
+
+    static loadFactoryAddressDropdowns = async (
+        draftData: LocationDraftData
+    ) => {
+        if (!draftData.factoryRegion) return;
+
+        // Load regions
+        await AddressFormInput.loadLocationDropdown(
+            '#factoryRegion',
+            API.fetchRegions(),
+            draftData.factoryRegion,
+            'Select Factory Region'
+        );
+
+        if (!draftData.factoryProvince) return;
+
+        // Load provinces
+        const regionCode = $('#factoryRegion').find(':selected').data('code');
+        await AddressFormInput.loadLocationDropdown(
+            '#factoryProvince',
+            API.fetchProvinces(regionCode),
+            draftData.factoryProvince,
+            'Select Factory Province'
+        );
+
+        if (!draftData.factoryCity) return;
+
+        // Load cities
+        const provinceCode = $('#factoryProvince')
+            .find(':selected')
+            .data('code');
+        await AddressFormInput.loadLocationDropdown(
+            '#factoryCity',
+            API.fetchCities(provinceCode),
+            draftData.factoryCity,
+            'Select Factory City'
+        );
+
+        if (!draftData.factoryBarangay) return;
+
+        // Load barangays
+        const cityCode = $('#factoryCity').find(':selected').data('code');
+        await AddressFormInput.loadLocationDropdown(
+            '#factoryBarangay',
+            API.fetchBarangay(cityCode),
+            draftData.factoryBarangay,
+            'Select Factory Barangay'
+        );
+    };
 
     private initializeAddressSelection(): void {
         this.initializeRegions();

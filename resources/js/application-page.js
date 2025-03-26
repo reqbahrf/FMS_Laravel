@@ -1015,120 +1015,6 @@ export function initializeForm() {
         );
     };
 
-    const loadLocationDropdown = async (
-        selector,
-        fetchFn,
-        data,
-        placeholder
-    ) => {
-        return new Promise((resolve) => {
-            fetchFn.done((items) => {
-                AddressFormInput.populateSelect(
-                    $(selector),
-                    items,
-                    placeholder
-                );
-                $(selector).val(data);
-                $(selector).prop('disabled', false);
-                resolve();
-            });
-        });
-    };
-
-    const loadOfficeAddressDropdowns = async (draftData) => {
-        if (!draftData.officeRegion) return;
-
-        // Load regions
-        await loadLocationDropdown(
-            '#officeRegion',
-            API.fetchRegions(),
-            draftData.officeRegion,
-            'Select Office Region'
-        );
-
-        if (!draftData.officeProvince) return;
-
-        // Load provinces
-        const regionCode = $('#officeRegion').find(':selected').data('code');
-        await loadLocationDropdown(
-            '#officeProvince',
-            API.fetchProvinces(regionCode),
-            draftData.officeProvince,
-            'Select Office Province'
-        );
-
-        if (!draftData.officeCity) return;
-
-        // Load cities
-        const provinceCode = $('#officeProvince')
-            .find(':selected')
-            .data('code');
-        await loadLocationDropdown(
-            '#officeCity',
-            API.fetchCities(provinceCode),
-            draftData.officeCity,
-            'Select Office City'
-        );
-
-        if (!draftData.officeBarangay) return;
-
-        // Load barangays
-        const cityCode = $('#officeCity').find(':selected').data('code');
-        await loadLocationDropdown(
-            '#officeBarangay',
-            API.fetchBarangay(cityCode),
-            draftData.officeBarangay,
-            'Select Office Barangay'
-        );
-    };
-
-    const loadFactoryAddressDropdowns = async (draftData) => {
-        if (!draftData.factoryRegion) return;
-
-        // Load regions
-        await loadLocationDropdown(
-            '#factoryRegion',
-            API.fetchRegions(),
-            draftData.factoryRegion,
-            'Select Factory Region'
-        );
-
-        if (!draftData.factoryProvince) return;
-
-        // Load provinces
-        const regionCode = $('#factoryRegion').find(':selected').data('code');
-        await loadLocationDropdown(
-            '#factoryProvince',
-            API.fetchProvinces(regionCode),
-            draftData.factoryProvince,
-            'Select Factory Province'
-        );
-
-        if (!draftData.factoryCity) return;
-
-        // Load cities
-        const provinceCode = $('#factoryProvince')
-            .find(':selected')
-            .data('code');
-        await loadLocationDropdown(
-            '#factoryCity',
-            API.fetchCities(provinceCode),
-            draftData.factoryCity,
-            'Select Factory City'
-        );
-
-        if (!draftData.factoryBarangay) return;
-
-        // Load barangays
-        const cityCode = $('#factoryCity').find(':selected').data('code');
-        await loadLocationDropdown(
-            '#factoryBarangay',
-            API.fetchBarangay(cityCode),
-            draftData.factoryBarangay,
-            'Select Factory Barangay'
-        );
-    };
-
     $(async () => {
         await formDraftHandler.loadDraftData(
             APPLICATION_FORM_CONFIG,
@@ -1136,8 +1022,10 @@ export function initializeForm() {
             null,
             null,
             {
-                loadOfficeAddressDropdowns,
-                loadFactoryAddressDropdowns,
+                loadOfficeAddressDropdowns:
+                    AddressFormInput.loadOfficeAddressDropdowns,
+                loadFactoryAddressDropdowns:
+                    AddressFormInput.loadFactoryAddressDropdowns,
             }
         );
         calculateEnterpriseLevel($('#assetsCard'));
