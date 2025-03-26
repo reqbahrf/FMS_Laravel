@@ -15,9 +15,11 @@ import { FormDraftHandler } from '../../Utilities/FormDraftHandler';
 export default class AddApplicant {
     private formElement: JQuery<HTMLFormElement> | null;
     private applicantListTable: JQuery<HTMLTableElement> | null;
+    private draftClass: FormDraftHandler | null;
     constructor() {
         this.formElement = null;
         this.applicantListTable = null;
+        this.draftClass = null;
     }
 
     public setupFormSubmitHandler() {
@@ -74,7 +76,12 @@ export default class AddApplicant {
                             );
                             this.formElement = $('#applicationForm');
                             this.initializeApplicantDetailedForm();
-                            this.__initSyncApplicantDetail();
+                            if (
+                                this.formElement.length &&
+                                this.formElement.is(':visible')
+                            ) {
+                                this._initSyncApplicantDetail();
+                            }
                         } catch (error: any) {
                             processError(
                                 'Error in edit Applicant: ',
@@ -119,21 +126,23 @@ export default class AddApplicant {
         }
     }
 
-    private __initSyncApplicantDetail() {
+    private _initSyncApplicantDetail() {
         if (!this.formElement) throw new Error('Form element not found');
-        const draftClass = new FormDraftHandler(this.formElement);
-        draftClass.syncTextInputData();
-        draftClass.syncTablesData('#productAndSupplyChainTable tbody', {
+        if (!this.draftClass) {
+            this.draftClass = new FormDraftHandler(this.formElement);
+        }
+        this.draftClass.syncTextInputData();
+        this.draftClass.syncTablesData('#productAndSupplyChainTable tbody', {
             productAndSupply: BENCHMARKTableConfig.productAndSupply,
         });
-        draftClass.syncTablesData('#productionTable tbody', {
+        this.draftClass.syncTablesData('#productionTable tbody', {
             production: BENCHMARKTableConfig.production,
         });
-        draftClass.syncTablesData('#productionEquipmentTable tbody', {
+        this.draftClass.syncTablesData('#productionEquipmentTable tbody', {
             productionEquipment: BENCHMARKTableConfig.productionEquipment,
         });
 
-        draftClass.loadDraftData(APPLICATION_FORM_CONFIG);
+        this.draftClass.loadDraftData(APPLICATION_FORM_CONFIG);
     }
 
     public initializeApplicantDetailedForm() {

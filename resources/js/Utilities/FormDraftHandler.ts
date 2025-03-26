@@ -23,6 +23,9 @@ export class FormDraftHandler {
     private saveInterval: number;
     private changedFields: { [key: string]: string | Object | number };
     private autoSaveTimeout: number | null;
+    private observers: MutationObserver[] = [];
+    private boundInputSelectors: string[] = [];
+    private boundTableSelectors: string[] = [];
 
     constructor(
         formInstance: JQuery<HTMLFormElement>,
@@ -95,6 +98,9 @@ export class FormDraftHandler {
             this.changedFields[fieldName] = fieldValue;
             this._scheduleSave();
         });
+
+        // Store the selector for cleanup
+        this.boundInputSelectors.push(inputSelectors);
     }
     /**
      * Synchronizes table input data with the server by monitoring input changes.
@@ -137,6 +143,9 @@ export class FormDraftHandler {
 
                 this._scheduleSave();
             });
+
+        // Store the selector for cleanup
+        this.boundTableSelectors.push(tableSelectors);
     }
 
     /**
@@ -204,6 +213,9 @@ export class FormDraftHandler {
 
             // Start observing the input element for changes to its attributes
             observer.observe(inputElement[0], { attributes: true });
+
+            // Store the observer for cleanup
+            this.observers.push(observer);
         });
     }
 
@@ -541,5 +553,48 @@ export class FormDraftHandler {
     }
     private _removeDraftLoadingHandler() {
         this.formInstance.find('#DraftingIndicator').remove();
+    }
+
+    /**
+     * Destroys the FormDraftHandler instance by cleaning up all resources.
+     * This includes:
+     * - Disconnecting all MutationObservers
+     * - Removing event listeners from form inputs and tables
+     * - Clearing any pending timeouts
+     * - Removing UI elements added by the handler
+     *
+     * Call this method when the form is being removed from the DOM or when
+     * the draft functionality is no longer needed to prevent memory leaks.
+     *
+     * @example
+     * // Clean up resources when form is no longer needed
+     * formHandler.destroy();
+     */
+    public destroy(): void {
+        if (this.autoSaveTimeout !== null) {
+            clearTimeout(this.autoSaveTimeout);
+            this.autoSaveTimeout = null;
+        }
+
+        this.observers.forEach((observer) => {
+            observer.disconnect();
+        });
+        this.observers = [];
+
+        this.boundInputSelectors.forEach((selector) => {
+            this.formInstance.find(selector).off('input change');
+        });
+        this.boundInputSelectors = [];
+
+        this.boundTableSelectors.forEach((selector) => {
+            this.formInstance.find(selector).off('input change', 'input');
+        });
+        this.boundTableSelectors = [];
+
+        this._removeDraftLoadingHandler();
+
+        this.changedFields = {};
+
+        console.log('FormDraftHandler destroyed and resources cleaned up');
     }
 }

@@ -2925,20 +2925,20 @@ async function initializeStaffPageJs() {
             const module = new (
                 await import('../staff/add-projects/AddApplicant')
             ).default();
-            $(document).on(
-                'staff:retrieved-add-applicant-form',
-                async (event, { eventListenerToInitialize }) => {
-                    console.log(
-                        'eventListenerToInitialize: ' +
-                            eventListenerToInitialize
-                    );
-                    if (eventListenerToInitialize == 'add-applicant-form') {
-                        module.setupFormSubmitHandler();
-                    } else {
-                        module.setupApplicantTableActionListener();
-                    }
+            const eventHandler = (event, { eventListenerToInitialize }) => {
+                if (eventListenerToInitialize == 'add-applicant-form') {
+                    module.setupFormSubmitHandler();
+                } else {
+                    module.setupApplicantTableActionListener();
                 }
-            );
+
+                $(document).off(
+                    'staff:retrieved-add-applicant-form',
+                    eventHandler
+                );
+            };
+
+            $(document).on('staff:retrieved-add-applicant-form', eventHandler);
         },
         AddProject: async () => {
             // const module = await import('../application-page');
