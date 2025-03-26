@@ -268,4 +268,4 @@ class AddressFormInput {
     }
 }
 
-export { AddressFormInput, API };
+export { AddressFormInput };

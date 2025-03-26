@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\FormDraft;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\checkAdminUser;
@@ -10,6 +11,7 @@ use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FormDraftController;
+use App\Http\Controllers\PSGCProxyController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\AdminReportController;
@@ -49,7 +51,6 @@ use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
 use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
 use App\Http\Controllers\ApplicationProcessForm\ProjectProposalDocController;
-use App\Models\FormDraft;
 
 Route::get('/', function () {
     return view('index');
@@ -511,3 +512,15 @@ Route::controller(PasswordChangeController::class)->group(function () {
     Route::post('/change-password', 'changePassword')
         ->name('password.update');
 })->middleware(['auth'])->withoutMiddleware('check.password.change');
+
+
+Route::prefix('proxy/psgc')->controller(PSGCProxyController::class)->group(function () {
+    Route::get('/regions', 'getRegions');
+    Route::get('/regions/{regionCode}/provinces', 'getProvinces');
+    Route::get('/provinces/{provinceCode}/cities-municipalities', 'getCities');
+    Route::get('/cities-municipalities/{cityCode}/barangays', 'getBarangays');
+
+    // Generic fallback route for any other endpoints
+    Route::get('/{path?}', 'proxy')
+        ->where('path', '.*');
+});
