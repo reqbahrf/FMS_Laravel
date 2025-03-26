@@ -3,7 +3,7 @@ import APPLICATION_FORM_CONFIG from '../../Form_Config/APPLICATION_CONFIG';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import { processError } from '../../Utilities/error-handler-util';
 import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
-import { AddressFormInput, API } from '../../Utilities/AddressInputHandler';
+import { AddressFormInput } from '../../Utilities/AddressInputHandler';
 import BENCHMARKTableConfig from '../../Form_Config/form-table-config/tnaFormBenchMarkTableConfig';
 import {
     hideProcessToast,
@@ -143,7 +143,18 @@ export default class AddApplicant {
             productionEquipment: BENCHMARKTableConfig.productionEquipment,
         });
 
-        this.draftClass.loadDraftData(APPLICATION_FORM_CONFIG);
+        this.draftClass.loadDraftData(
+            APPLICATION_FORM_CONFIG,
+            undefined,
+            undefined,
+            undefined,
+            {
+                loadOfficeAddressDropdowns:
+                    AddressFormInput.loadOfficeAddressDropdowns,
+                loadFactoryAddressDropdowns:
+                    AddressFormInput.loadFactoryAddressDropdowns,
+            }
+        );
     }
 
     public initializeApplicantDetailedForm() {

@@ -1,4 +1,4 @@
-const API_BASE_URL: string = 'https://psgc.gitlab.io/api';
+import { API } from './AddressAPI';
 
 interface LocationItem {
     name: string;
@@ -27,42 +27,6 @@ interface LocationDraftData {
     factoryCity: string;
     factoryBarangay: string;
 }
-
-const API = {
-    fetchRegions: (): JQuery.jqXHR<LocationItem[]> => {
-        return $.ajax({
-            type: 'GET',
-            url: `${API_BASE_URL}/regions/`,
-        }).fail((error: JQuery.jqXHR) => {
-            console.error('Error fetching regions:', error);
-        });
-    },
-
-    fetchProvinces: (regionCode: string): JQuery.jqXHR<LocationItem[]> => {
-        return $.ajax({
-            type: 'GET',
-            url: `${API_BASE_URL}/regions/${regionCode}/provinces/`,
-        }).fail((error: JQuery.jqXHR) => {
-            console.error('Error fetching provinces:', error);
-        });
-    },
-
-    fetchCities: (provinceCode: string): JQuery.jqXHR<LocationItem[]> => {
-        return $.ajax({
-            type: 'GET',
-            url: `${API_BASE_URL}/provinces/${provinceCode}/cities-municipalities/`,
-        }).fail((error: JQuery.jqXHR) => {
-            console.error('Error fetching cities:', error);
-        });
-    },
-
-    fetchBarangay: (cityCode: string): JQuery.jqXHR<LocationItem[]> => {
-        return $.ajax({
-            type: 'GET',
-            url: `${API_BASE_URL}/cities-municipalities/${cityCode}/barangays/`,
-        });
-    },
-};
 
 class AddressFormInput {
     private prefix: string;

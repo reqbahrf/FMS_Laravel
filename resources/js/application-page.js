@@ -22,7 +22,6 @@ import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
 import calculateEnterpriseLevel from './Utilities/calculate-enterprise-level';
-import { NullConnector } from 'laravel-echo/dist/connector';
 //TODO: For testing purposes
 // $(window).on('beforeunload', function () {
 //     return 'Are you sure you want to leave?';

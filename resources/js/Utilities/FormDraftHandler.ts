@@ -404,7 +404,7 @@ export class FormDraftHandler {
         customInputDataLoaderFn?: Function,
         customTableDataLoaderFn?: Function,
         customFilepondLoaderFn?: Function,
-        customDataLoaderFn?: Function
+        customDataLoaderFn?: Function | { [key: string]: Function }
     ): Promise<void> {
         try {
             const response = await $.ajax({
