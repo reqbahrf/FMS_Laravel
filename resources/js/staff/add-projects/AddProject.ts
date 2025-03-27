@@ -1,4 +1,5 @@
 import { processError } from '../../Utilities/error-handler-util';
+import { customFormatNumericInput } from '../../Utilities/input-utils';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
 import { parseFormattedNumberToFloat } from '../../Utilities/utilFunctions';
 
@@ -26,6 +27,12 @@ export default class AddProject {
         );
         this.refundCalculator.generateTableStructure();
         this.calculationBtn = this.form.find('button#generateRefundStructure');
+
+        customFormatNumericInput(this.form, 'input#funded_amount');
+        customFormatNumericInput(
+            this.refundStrutureTable.find('tbody'),
+            'input:not([readonly])'
+        );
     }
 
     private _initRefundCalculationBtn() {
