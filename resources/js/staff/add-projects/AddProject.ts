@@ -31,7 +31,7 @@ export default class AddProject {
         customFormatNumericInput(this.form, 'input#funded_amount');
         customFormatNumericInput(
             this.refundStrutureTable.find('tbody'),
-            'input:not([readonly])'
+            'input[type="text"]:not([readonly])'
         );
     }
 
