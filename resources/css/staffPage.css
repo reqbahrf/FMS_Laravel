@@ -1243,3 +1243,30 @@ Project Data Sheet Styles
     width: 100% !important;
     border-collapse: collapse;
 }
+
+
+/*
+   Add Existing Project Styles
+*/
+
+#projectInfoForm table {
+    width: 100% !important;
+    border-collapse: collapse;
+    border: 1px solid #000;
+}
+
+#projectInfoForm table td {
+    border: 1px solid #000;
+    padding: 5px;
+}
+
+#projectInfoForm table th {
+    border: 1px solid #000;
+    padding: 5px;
+}
+
+#projectInfoForm table tr {
+    border: 1px solid #000;
+    padding: 5px;
+}
+

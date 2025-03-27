@@ -150,7 +150,7 @@ export default class RefundStructureCalculator {
             !(fundReleaseDate instanceof Date) ||
             isNaN(fundReleaseDate.getTime())
         ) {
-            throw new Error('Invalid fund release date');
+            throw new Error('Invalid fund release date or no date selected');
         }
         if (
             !Number.isInteger(refundDurationYears) ||
@@ -331,7 +331,7 @@ export default class RefundStructureCalculator {
      * @returns jQuery object representing the spacer row
      */
     private generateSpacerRow(): JQuery {
-        const spacerRow = $('<tr class="no-border"></tr>');
+        const spacerRow = $('<tr></tr>');
         for (let i = 0; i < 7; i++) {
             spacerRow.append($('<td width="14.3%"></td>'));
         }
@@ -377,7 +377,7 @@ export default class RefundStructureCalculator {
 
             if (isEditable) {
                 const input = $(
-                    `<input class="${month}_Y${year}" name="${fieldName}" data-custom-numeric-input type="text" value="${value}">`
+                    `<input class="${month}_Y${year} form-control form-control-sm" name="${fieldName}" data-custom-numeric-input type="text" value="${value}">`
                 );
                 cell.append(input);
             } else {
@@ -393,7 +393,7 @@ export default class RefundStructureCalculator {
 
         if (isEditable) {
             const totalInput = $(
-                `<input class="${month}_total" name="${totalFieldName}" data-custom-numeric-input type="text" value="${totalValue}" readonly>`
+                `<input class="${month}_total form-control form-control-plaintext" name="${totalFieldName}" data-custom-numeric-input type="text" value="${totalValue}" readonly>`
             );
             totalCell.append(totalInput);
         } else {
@@ -414,7 +414,7 @@ export default class RefundStructureCalculator {
 
         // Add year total cells
         for (let year = 1; year <= 5; year++) {
-            totalsRow.append($('<td>0</td>'));
+            totalsRow.append($('<td class="text-center">0</td>'));
         }
 
         // Add grand total cell

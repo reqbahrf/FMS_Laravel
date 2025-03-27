@@ -145,13 +145,14 @@
                 <div class="col-12 text-end">
                     <button
                         class="btn btn-primary"
+                        id="generateRefundStructure"
                         type="button"
-                    >Generate Refund Structure</button>
+                    >Generate Refund</button>
                 </div>
                 <table
                     class="table table-bordered"
                     id="refundStructureTable"
-                    style="width:100%"
+                    style="width:100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #000000;"
                 >
                     <tbody>
                         <tr>
