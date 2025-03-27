@@ -136,10 +136,8 @@
                 </div>
             </div>
             <div class="row gy-3">
-                <div class="col-md-12">
-                    <h2 class="mb-3">Refund Structure Table</h2>
-                </div>
-                <div class="col-12 text-end">
+                <div class="col-md-12 d-flex align-items-center justify-content-between">
+                    <h2 class="mb-3 ps-3">Refund Structure Table</h2>
                     <button
                         class="btn btn-primary"
                         id="generateRefundStructure"
@@ -163,13 +161,22 @@
                 <hr>
             </div>
             <div class="col-md-12">
-                <h1 class="mb-3">Cooperator Information</h1>
+                <h1 class="mb-3">Cooperator's</h1>
+            </div>
+            <div class="col-md-12">
+                <h2 class="mb-3 ps-3">Personal Information</h2>
             </div>
             <x-application-form.personal-info />
+            <div class="col-12">
+                <hr>
+            </div>
             <div class="col-md-12">
-                <h1 class="mb-3">Cooperator's Business Information</h1>
+                <h2 class="mb-3 ps-3">Business Information</h2>
             </div>
             <x-application-form.business-info />
+            <div class="col-12">
+                <hr>
+            </div>
             <div class="row mt-4">
                 <div class="col-12 text-end">
                     <button
