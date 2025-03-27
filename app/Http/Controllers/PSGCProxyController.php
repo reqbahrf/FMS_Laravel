@@ -2,14 +2,24 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\PSGCService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\JsonResponse;
 
 class PSGCProxyController extends Controller
 {
-    protected $baseUrl = 'https://psgc.gitlab.io/api';
+    /**
+     * The PSGC service instance
+     */
+    protected $psgcService;
+
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct()
+    {
+        $this->psgcService = new PSGCService();
+    }
 
     /**
      * Proxy request to PSGC API
@@ -20,68 +30,51 @@ class PSGCProxyController extends Controller
      */
     public function proxy(Request $request, string $path = ''): JsonResponse
     {
-        try {
-            // Build the target URL by combining the base URL with the path
-            $targetUrl = $this->baseUrl;
-            if ($path) {
-                $targetUrl .= '/' . $path;
-            }
-
-            // Forward any query parameters from the original request
-            $queryParams = $request->query();
-
-            // Make the HTTP request to the target API
-            $response = Http::get($targetUrl, $queryParams);
-
-            // Check if the request was successful
-            if ($response->successful()) {
-                return response()->json($response->json());
-            }
-
-            // Handle error response
-            return response()->json([
-                'error' => 'Failed to retrieve data from the PSGC API',
-                'status_code' => $response->status()
-            ], $response->status());
-        } catch (\Exception $e) {
-            Log::error('PSGC Proxy Error: ' . $e->getMessage());
-
-            return response()->json([
-                'error' => 'Error connecting to the PSGC API',
-                'message' => $e->getMessage()
-            ], 500);
-        }
+        $result = $this->psgcService->makeProxyRequest($path, $request->query());
+        return response()->json($result);
     }
 
     /**
      * Get regions
+     *
+     * @return JsonResponse
      */
     public function getRegions(): JsonResponse
     {
-        return $this->proxy(request(), 'regions');
+        return response()->json($this->psgcService->getRegions());
     }
 
     /**
      * Get provinces for a region
+     *
+     * @param string $regionCode
+     * @return JsonResponse
      */
     public function getProvinces(string $regionCode): JsonResponse
     {
-        return $this->proxy(request(), "regions/{$regionCode}/provinces");
+        return response()->json($this->psgcService->getProvinces($regionCode));
     }
 
     /**
      * Get cities/municipalities for a province
+     *
+     * @param string $provinceCode
+     * @return JsonResponse
      */
     public function getCities(string $provinceCode): JsonResponse
     {
-        return $this->proxy(request(), "provinces/{$provinceCode}/cities-municipalities");
+        return response()->json($this->psgcService->getCities($provinceCode));
     }
 
     /**
      * Get barangays for a city/municipality
+     *
+     * @param string $cityCode
+     * @return JsonResponse
      */
     public function getBarangays(string $cityCode): JsonResponse
     {
-        return $this->proxy(request(), "cities-municipalities/{$cityCode}/barangays");
+        return response()->json($this->psgcService->getBarangays($cityCode));
     }
+
 }
