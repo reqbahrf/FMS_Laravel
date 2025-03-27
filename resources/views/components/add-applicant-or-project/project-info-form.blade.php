@@ -20,7 +20,7 @@
             @csrf
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <h5 class="mb-3">Project Information</h5>
+                    <h1 class="mb-3">Project Information</h1>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
@@ -135,12 +135,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-12">
-                <hr>
-            </div>
             <div class="row gy-3">
                 <div class="col-md-12">
-                    <h5 class="mb-3">Refund Structure Table</h5>
+                    <h2 class="mb-3">Refund Structure Table</h2>
                 </div>
                 <div class="col-12 text-end">
                     <button
@@ -162,7 +159,17 @@
                 </table>
 
             </div>
-
+            <div class="col-12">
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <h1 class="mb-3">Cooperator Information</h1>
+            </div>
+            <x-application-form.personal-info />
+            <div class="col-md-12">
+                <h1 class="mb-3">Cooperator's Business Information</h1>
+            </div>
+            <x-application-form.business-info />
             <div class="row mt-4">
                 <div class="col-12 text-end">
                     <button
