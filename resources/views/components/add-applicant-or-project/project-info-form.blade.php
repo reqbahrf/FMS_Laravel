@@ -147,7 +147,6 @@
                 <table
                     class="table table-bordered"
                     id="refundStructureTable"
-                    style="width:100%; table-layout: fixed; border-collapse: collapse; border: 1px solid #000000;"
                 >
                     <tbody>
                         <tr>
