@@ -286,7 +286,6 @@ export default class RefundStructureCalculator {
 
     /**
      * Generates the HTML structure for the refund structure table
-     * @param tableContainer - The container element where the table will be inserted
      * @param projectData - The project proposal data containing existing values
      * @param isEditable - Whether the table should be editable or read-only
      */
@@ -294,20 +293,56 @@ export default class RefundStructureCalculator {
         projectData: Record<string, string> = {},
         isEditable: boolean = true
     ): void {
-        // Create table element
-        const table = $(
-            '<table id="refundStructureTable" style="width: 100%; table-layout: fixed;"></table>'
-        );
-        const tbody = $('<tbody></tbody>');
+        // Create table element if it doesn't exist
+        if (
+            this.tableRefundStructure.find('#refundStructureTable').length === 0
+        ) {
+            const table = $(
+                '<table id="refundStructureTable" style="width: 100%; table-layout: fixed;"></table>'
+            );
+            const tbody = $('<tbody></tbody>');
+            table.append(tbody);
+            this.tableRefundStructure.empty().append(table);
+        }
 
-        // Add spacer row
+        const tbody = this.tableRefundStructure.find('tbody');
+        tbody.empty();
+
+        // Generate and append all rows
+        tbody.append(this.generateSpacerRow());
+        tbody.append(this.generateHeaderRow());
+
+        // Add month rows
+        this.monthNames.forEach((month) => {
+            tbody.append(this.generateMonthRow(month, projectData, isEditable));
+        });
+
+        // Add totals row
+        tbody.append(this._generateTotalsRow());
+
+        // Calculate all totals if data is provided
+        if (Object.keys(projectData).length > 0) {
+            this.calculateAllTotals();
+        }
+    }
+
+    /**
+     * Generates a spacer row for the table
+     * @returns jQuery object representing the spacer row
+     */
+    private generateSpacerRow(): JQuery {
         const spacerRow = $('<tr class="no-border"></tr>');
         for (let i = 0; i < 7; i++) {
             spacerRow.append($('<td width="14.3%"></td>'));
         }
-        tbody.append(spacerRow);
+        return spacerRow;
+    }
 
-        // Add header row
+    /**
+     * Generates the header row for the table
+     * @returns jQuery object representing the header row
+     */
+    private generateHeaderRow(): JQuery {
         const headerRow = $('<tr></tr>');
         headerRow.append($('<th style="text-align: center;">Months</th>'));
         for (let year = 1; year <= 5; year++) {
@@ -316,49 +351,64 @@ export default class RefundStructureCalculator {
             );
         }
         headerRow.append($('<th style="text-align: center;">Total</th>'));
-        tbody.append(headerRow);
+        return headerRow;
+    }
 
-        // Add month rows
-        this.monthNames.forEach((month) => {
-            const row = $('<tr></tr>');
-            row.append($(`<td>${month}</td>`));
+    /**
+     * Generates a row for a specific month
+     * @param month - The month name
+     * @param projectData - The project data containing existing values
+     * @param isEditable - Whether the cells should be editable
+     * @returns jQuery object representing the month row
+     */
+    private generateMonthRow(
+        month: string,
+        projectData: Record<string, string>,
+        isEditable: boolean
+    ): JQuery {
+        const row = $('<tr></tr>');
+        row.append($(`<td>${month}</td>`));
 
-            // Add year cells
-            for (let year = 1; year <= 5; year++) {
-                const cell = $('<td></td>');
-                const fieldName = `${month}_Y${year}`;
-                const value = projectData[fieldName] || '';
-
-                if (isEditable) {
-                    const input = $(
-                        `<input class="${month}_Y${year}" name="${fieldName}" data-custom-numeric-input type="text" value="${value}">`
-                    );
-                    cell.append(input);
-                } else {
-                    cell.text(value);
-                }
-                row.append(cell);
-            }
-
-            // Add total cell
-            const totalCell = $('<td></td>');
-            const totalFieldName = `${month}_total`;
-            const totalValue = projectData[totalFieldName] || '';
+        // Add year cells
+        for (let year = 1; year <= 5; year++) {
+            const cell = $('<td></td>');
+            const fieldName = `${month}_Y${year}`;
+            const value = projectData[fieldName] || '';
 
             if (isEditable) {
-                const totalInput = $(
-                    `<input class="${month}_total" name="${totalFieldName}" data-custom-numeric-input type="text" value="${totalValue}" readonly>`
+                const input = $(
+                    `<input class="${month}_Y${year}" name="${fieldName}" data-custom-numeric-input type="text" value="${value}">`
                 );
-                totalCell.append(totalInput);
+                cell.append(input);
             } else {
-                totalCell.text(totalValue);
+                cell.text(value);
             }
-            row.append(totalCell);
+            row.append(cell);
+        }
 
-            tbody.append(row);
-        });
+        // Add total cell
+        const totalCell = $('<td></td>');
+        const totalFieldName = `${month}_total`;
+        const totalValue = projectData[totalFieldName] || '';
 
-        // Add totals row
+        if (isEditable) {
+            const totalInput = $(
+                `<input class="${month}_total" name="${totalFieldName}" data-custom-numeric-input type="text" value="${totalValue}" readonly>`
+            );
+            totalCell.append(totalInput);
+        } else {
+            totalCell.text(totalValue);
+        }
+        row.append(totalCell);
+
+        return row;
+    }
+
+    /**
+     * Generates the totals row for the table
+     * @returns jQuery object representing the totals row
+     */
+    private _generateTotalsRow(): JQuery {
         const totalsRow = $('<tr></tr>');
         totalsRow.append($('<td class="bold">Total</td>'));
 
@@ -370,15 +420,6 @@ export default class RefundStructureCalculator {
         // Add grand total cell
         totalsRow.append($('<td>0</td>'));
 
-        tbody.append(totalsRow);
-        table.append(tbody);
-
-        // Clear container and append the new table
-        this.tableRefundStructure.empty().append(table);
-
-        // Calculate all totals if data is provided
-        if (Object.keys(projectData).length > 0) {
-            this.calculateAllTotals();
-        }
+        return totalsRow;
     }
 }

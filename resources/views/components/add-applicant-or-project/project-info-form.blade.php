@@ -58,8 +58,7 @@
             </div>
 
             <div class="row mb-3">
-
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group">
                         <label
                             class="form-label"
@@ -72,6 +71,23 @@
                             type="date"
                             value=""
                             max="{{ now()->toDateString() }}"
+                            required
+                        >
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group">
+                        <label
+                            class="form-label"
+                            for="project_duration"
+                        >Project Duration (years)</label>
+                        <input
+                            class="form-control"
+                            id="project_duration"
+                            name="project_duration"
+                            type="number"
+                            value="1"
+                            min="1"
                             required
                         >
                     </div>

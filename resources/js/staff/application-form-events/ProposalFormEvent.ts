@@ -3,36 +3,9 @@ import {
     customFormatNumericInput,
     yearInputs,
 } from '../../Utilities/input-utils';
-import {
-    parseFormattedNumberToFloat,
-    formatNumber,
-} from '../../Utilities/utilFunctions';
+import { parseFormattedNumberToFloat } from '../../Utilities/utilFunctions';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
 
-interface YearTotals {
-    y1: number;
-    y2: number;
-    y3: number;
-    y4: number;
-    y5: number;
-    [key: string]: number; // Index signature
-}
-
-interface MonthTotals {
-    January: number;
-    February: number;
-    March: number;
-    April: number;
-    May: number;
-    June: number;
-    July: number;
-    August: number;
-    September: number;
-    October: number;
-    November: number;
-    December: number;
-    [key: string]: number; // Index signature
-}
 export default class ProposalFormEvent {
     private form: JQuery<HTMLFormElement> | null;
     private tableRefundStructure: JQuery<HTMLTableElement>;
