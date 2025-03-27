@@ -5,6 +5,7 @@
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "moduleResolution": "node",
+        "module": "esnext",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
