@@ -23,7 +23,8 @@ export default class AddProject {
         this.refundStrutureTable = this.form.find('#refundStructureTable');
 
         this.refundCalculator = new RefundStructureCalculator(
-            this.refundStrutureTable
+            this.refundStrutureTable,
+            true
         );
         this.refundCalculator.generateTableStructure();
         this.calculationBtn = this.form.find('button#generateRefundStructure');
