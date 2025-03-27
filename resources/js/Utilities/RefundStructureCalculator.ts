@@ -35,9 +35,14 @@ interface MonthTotals {
 export default class RefundStructureCalculator {
     private tableRefundStructure: JQuery<HTMLTableElement>;
     private monthNames: string[];
+    private isWithRefundedChecklist: boolean;
 
-    constructor(tableRefundStructure: JQuery<HTMLTableElement>) {
+    constructor(
+        tableRefundStructure: JQuery<HTMLTableElement>,
+        isWithRefundedChecklist: boolean = false
+    ) {
         this.tableRefundStructure = tableRefundStructure;
+        this.isWithRefundedChecklist = isWithRefundedChecklist;
         this.monthNames = [
             'January',
             'February',
@@ -309,12 +314,14 @@ export default class RefundStructureCalculator {
         tbody.empty();
 
         // Generate and append all rows
-        tbody.append(this.generateSpacerRow());
-        tbody.append(this.generateHeaderRow());
+        tbody.append(this._generateSpacerRow());
+        tbody.append(this._generateHeaderRow());
 
         // Add month rows
         this.monthNames.forEach((month) => {
-            tbody.append(this.generateMonthRow(month, projectData, isEditable));
+            tbody.append(
+                this._generateMonthRow(month, projectData, isEditable)
+            );
         });
 
         // Add totals row
@@ -330,7 +337,7 @@ export default class RefundStructureCalculator {
      * Generates a spacer row for the table
      * @returns jQuery object representing the spacer row
      */
-    private generateSpacerRow(): JQuery {
+    private _generateSpacerRow(): JQuery {
         const spacerRow = $('<tr></tr>');
         for (let i = 0; i < 7; i++) {
             spacerRow.append($('<td width="14.3%"></td>'));
@@ -342,7 +349,7 @@ export default class RefundStructureCalculator {
      * Generates the header row for the table
      * @returns jQuery object representing the header row
      */
-    private generateHeaderRow(): JQuery {
+    private _generateHeaderRow(): JQuery {
         const headerRow = $('<tr></tr>');
         headerRow.append($('<th style="text-align: center;">Months</th>'));
         for (let year = 1; year <= 5; year++) {
@@ -361,7 +368,7 @@ export default class RefundStructureCalculator {
      * @param isEditable - Whether the cells should be editable
      * @returns jQuery object representing the month row
      */
-    private generateMonthRow(
+    private _generateMonthRow(
         month: string,
         projectData: Record<string, string>,
         isEditable: boolean
@@ -376,24 +383,40 @@ export default class RefundStructureCalculator {
             const value = projectData[fieldName] || '';
 
             if (isEditable) {
-                const input = $(
-                    `<input class="${month}_Y${year} form-control form-control-sm" name="${fieldName}" data-custom-numeric-input type="text" value="${value}">`
-                );
-                cell.append(input);
+                if (this.isWithRefundedChecklist) {
+                    const inputContainer = $(
+                        '<div class="d-flex align-items-center"></div>'
+                    );
+
+                    const input = $(
+                        /*html*/ `<input class="${month}_Y${year} form-control form-control-sm flex-grow-1 me-2" name="${fieldName}" data-custom-numeric-input type="text" value="${value}">`
+                    );
+
+                    const checkbox = $(
+                        /*html*/ `<input type="checkbox" class="ms-1" name="${fieldName}_refunded" value="1" ${value === '1' ? 'checked' : ''}>`
+                    );
+
+                    inputContainer.append(input).append(checkbox);
+                    cell.append(inputContainer);
+                } else {
+                    const input = $(
+                        /*html*/ `<input class="${month}_Y${year} form-control form-control-sm" name="${fieldName}" data-custom-numeric-input type="text" value="${value}">`
+                    );
+                    cell.append(input);
+                }
             } else {
                 cell.text(value);
             }
             row.append(cell);
         }
 
-        // Add total cell
         const totalCell = $('<td></td>');
         const totalFieldName = `${month}_total`;
         const totalValue = projectData[totalFieldName] || '';
 
         if (isEditable) {
             const totalInput = $(
-                `<input class="${month}_total form-control form-control-plaintext" name="${totalFieldName}" data-custom-numeric-input type="text" value="${totalValue}" readonly>`
+                /*html*/ `<input class="${month}_total form-control form-control-plaintext" name="${totalFieldName}" data-custom-numeric-input type="text" value="${totalValue}" readonly>`
             );
             totalCell.append(totalInput);
         } else {
