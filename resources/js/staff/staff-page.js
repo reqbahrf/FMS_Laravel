@@ -13,7 +13,6 @@ import {
     hideProcessToast,
 } from '../Utilities/feedback-toast';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
-import FormEvents from '../components/ProjectFormEvents';
 import EsignatureHandler from '../Utilities/EsignatureHandler';
 import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';
@@ -43,11 +42,8 @@ import 'datatables.net-responsive-bs5';
 import 'datatables.net-scroller-bs5';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
-import { TableDataExtractor } from '../Utilities/TableDataExtractor';
-import { InitializeFilePond } from '../Utilities/FilepondHandlers';
 import { processError } from '../Utilities/error-handler-util';
 window.smartWizard = smartWizard;
-let currentPage = null;
 const MAIN_CONTENT_CONTAINER = $('#main-content');
 const ACTIVITY_LOG_MODAL = $('#userActivityLogModal');
 
@@ -67,6 +63,7 @@ notificationManager.setupEventListeners();
 const urlMapFunctions = {
     [NAV_ROUTES.DASHBOARD]: (functions) => functions.Dashboard,
     [NAV_ROUTES.PROJECT]: (functions) => functions.Projects,
+    [NAV_ROUTES.ADD_APPLICANT]: (functions) => functions.AddApplicant,
     [NAV_ROUTES.ADD_PROJECT]: (functions) => functions.AddProject,
     [NAV_ROUTES.APPLICANT]: (functions) => functions.Applicant,
 };
@@ -1796,6 +1793,9 @@ async function initializeStaffPageJs() {
             await getHandleProject();
         },
         Projects: async () => {
+            const ADD_APPLICANT_OR_PROJECT_HANDLER = import(
+                './AddApplicantOrProjectHandler'
+            );
             const ApprovedDataTable = $('#approvedTable').DataTable({
                 responsive: true,
                 autoWidth: false,
@@ -1941,7 +1941,22 @@ async function initializeStaffPageJs() {
             const addProjectBtn = $('#addProjectManualy');
 
             addProjectBtn.on('click', async () => {
-                await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink');
+                try {
+                    const AddApplicantOrProjectHandler = (
+                        await ADD_APPLICANT_OR_PROJECT_HANDLER
+                    ).default;
+
+                    const userChoice =
+                        await AddApplicantOrProjectHandler.create();
+
+                    if (userChoice === 'applicant') {
+                        await loadPage(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
+                    } else if (userChoice === 'project') {
+                        await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink');
+                    }
+                } catch (error) {
+                    processError('Error in add project: ', error, true);
+                }
             });
 
             $('#ApprovedtableBody').on(
@@ -2899,39 +2914,29 @@ async function initializeStaffPageJs() {
             await getOngoingProjects();
             await getCompletedProjects();
         },
-        AddProject: async () => {
-            const module = await import('../application-page');
-            // If you know specific functions that need to be called
-            if (module.initializeForm) {
-                module.initializeForm();
-            }
-
-            function toggleProjectInputs() {
-                const selectedStatus = $('#projectStatus').val();
-                const ongoingProjectInputs = $(
-                    'input[data-status-dependency="ongoing"]'
-                );
-
-                if (selectedStatus === 'new') {
-                    ongoingProjectInputs
-                        .prop('disabled', true)
-                        .closest('.col-12')
-                        .hide();
+        AddApplicant: async () => {
+            const module = new (
+                await import('../staff/add-projects/AddApplicant')
+            ).default();
+            const eventHandler = (event, { eventListenerToInitialize }) => {
+                if (eventListenerToInitialize == 'add-applicant-form') {
+                    module.setupFormSubmitHandler();
                 } else {
-                    ongoingProjectInputs
-                        .prop('disabled', false)
-                        .closest('.col-12')
-                        .show();
+                    module.setupApplicantTableActionListener();
                 }
-            }
 
-            customFormatNumericInput('#step-1', 'input#funded_amount');
+                $(document).off(
+                    'staff:retrieved-add-applicant-form',
+                    eventHandler
+                );
+            };
 
-            // Initial check on page load
-            toggleProjectInputs();
-
-            // Add event listener for status changes
-            $('#projectStatus').on('change', toggleProjectInputs);
+            $(document).on('staff:retrieved-add-applicant-form', eventHandler);
+        },
+        AddProject: async () => {
+            const module = new (
+                await import('../staff/add-projects/AddProject')
+            ).default();
         },
         Applicant: async () => {
             new smartWizard();

@@ -167,6 +167,7 @@ const ProcessTableInputData = (
     requiredFields: string[]
 ): Array<any> => {
     try {
+        console.log(table_id);
         const table = $(`#${table_id}`);
         if (table.length === 0) {
             throw new Error(`Table with ID '${table_id}' not found`);

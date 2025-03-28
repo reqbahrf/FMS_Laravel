@@ -198,18 +198,15 @@
 
 <body>
     <x-header />
-    <x-applicant-form />
+    <x-application-form.main
+        :$draft_type
+        :$ownerId
+    />
     <x-toast-alert />
     <x-footer />
     @vite('resources/js/app.ts')
     <script type="text/javascript">
         const AUTH_USER_ID = "{{ Auth::user()->id }}";
-        const DRAFT_ROUTE = {
-            GET: "{{ route('form.getDraft', ':type') }}",
-            GET_FILE: "{{ route('form.getDraftFile', ':unique_id') }}",
-            STORE: "{{ route('form.setDraft') }}",
-        }
-        const REGISTRATIONFORM_SUBMISSION_ROUTE = "{{ route('applicationFormSubmit') }}"
     </script>
     @vite('resources/js/application-page.js')
     <script type="module">

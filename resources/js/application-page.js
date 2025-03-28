@@ -4,8 +4,10 @@ import {
     showProcessToast,
     hideProcessToast,
 } from './Utilities/feedback-toast';
+import { setupPhoneNumberInput } from './Utilities/phone-formatter';
 import { customFormatNumericInput } from './Utilities/input-utils';
 import { FormDraftHandler } from './Utilities/FormDraftHandler';
+import { AddressFormInput, API } from './Utilities/AddressInputHandler';
 import {
     InitializeFilePond,
     handleFilePondSelectorDisabling,
@@ -19,15 +21,15 @@ import BENCHMARKTableConfig from './Form_Config/form-table-config/tnaFormBenchMa
 import { TableDataExtractor } from './Utilities/TableDataExtractor';
 import 'smartwizard/dist/css/smart_wizard_all.css';
 import smartWizard from 'smartwizard';
-window.smartWizard = smartWizard;
+import calculateEnterpriseLevel from './Utilities/calculate-enterprise-level';
 //TODO: For testing purposes
 // $(window).on('beforeunload', function () {
 //     return 'Are you sure you want to leave?';
 // });
-const ApplicationForm = $('#applicationForm');
+const APPLICATION_FORM = $('#applicationForm');
+const ASSETS_CARD = APPLICATION_FORM.find('#assetsCard');
 let is_initialized = false;
 export function initializeForm() {
-    new smartWizard();
     if (!is_initialized) {
         is_initialized = true;
     }
@@ -37,14 +39,16 @@ export function initializeForm() {
         '#present_capitalization',
     ]);
     customFormatNumericInput('#productAndSupplyChainTable tbody', [
-        'tr td:nth-child(3) input.UnitCost',
-        'tr td:nth-child(4) input.VolumeUsed',
+        'input.UnitCost',
+        'input.VolumeUsed',
     ]);
-    customFormatNumericInput('#productionTable', [
-        'tr td:nth-child(3) .UnitCost',
-        'tr td:nth-child(4) .AnnualCost',
+    customFormatNumericInput('#productionTable tbody', [
+        'input.UnitCost',
+        'input.AnnualCost',
     ]);
-    customFormatNumericInput('#productionEquipmentTable', ['.Capacity']);
+    customFormatNumericInput('#productionEquipmentTable tbody', [
+        'input.Capacity',
+    ]);
 
     const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
@@ -132,27 +136,33 @@ export function initializeForm() {
 
     //TODO: fix these handler
     addNewRowHandler(
-        '.addProductAndSupplyChainRow',
+        '.add-product-and-supply-chain-row',
         '#productAndSupplyChainContainer'
     );
-    removeRowHandler('.removeRowButton', '#productAndSupplyChainContainer');
+    removeRowHandler(
+        '.remove-product-and-supply-chain-row',
+        '#productAndSupplyChainContainer'
+    );
 
-    addNewRowHandler('.addProductionRow', '#productionContainer');
-    removeRowHandler('.removeRowButton', '#productionContainer');
+    addNewRowHandler('.add-production-row', '#productionContainer');
+    removeRowHandler('.remove-production-row', '#productionContainer');
 
     addNewRowHandler(
-        '.addProductionEquipmentRow',
+        '.add-production-equipment-row',
         '#productionEquipmentContainer'
     );
-    removeRowHandler('.removeRowButton', '#productionEquipmentContainer');
-
-    addNewRowHandler(
-        '.addNewProductRow',
-        '#localMarketContainer, #exportMarketContainer'
-    );
     removeRowHandler(
-        '.removeRowButton',
-        '#localMarketContainer, #exportMarketContainer'
+        '.remove-production-equipment-row',
+        '#productionEquipmentContainer'
+    );
+
+    addNewRowHandler('.add-new-local-product-row', '#localMarketContainer');
+    removeRowHandler('.remove-new-local-product-row', '#localMarketContainer');
+
+    addNewRowHandler('.add-new-export-product-row', '#exportMarketContainer');
+    removeRowHandler(
+        '.remove-new-export-product-row',
+        '#exportMarketContainer'
     );
 
     $('input, select').on('focus', function () {
@@ -161,6 +171,7 @@ export function initializeForm() {
         }
     });
 
+    const smartWizardClassInstance = new smartWizard();
     const smartWizardInstance = $('#smartwizard').smartWizard({
         selected: 0,
         theme: 'dots',
@@ -176,13 +187,13 @@ export function initializeForm() {
             position: 'both bottom',
             extraHtml: /*html*/ `<button
                     type="button"
-                    class="btn btn-success"
+                    class="btn btn-success submit-btn"
                     onclick="onFinish()"
                 >
                     Submit
                 </button>
                 <button
-                    class="btn btn-secondary"
+                    class="btn btn-secondary cancel-btn"
                     onclick="onCancel()"
                 >
                     Cancel
@@ -340,12 +351,12 @@ export function initializeForm() {
             const totalSteps = $('#smartwizard').find('ul li').length;
 
             if (stepIndex !== totalSteps - 1 && stepPosition !== 'last') {
-                $('.btn-success, .btn-secondary').hide();
+                $('.submit-btn, .cancel-btn').hide();
             }
             if (stepIndex === 3) {
                 // Since stepIndex is 0-based, step-4 corresponds to index 3
-                $('.btn-success, .btn-secondary').show();
-                const inputField = ApplicationForm.find(
+                $('.submit-btn, .cancel-btn').show();
+                const inputField = APPLICATION_FORM.find(
                     'input:not([readonly]), select:not([readonly]), textarea:not([readonly])'
                 );
                 const reviewInputsContainer = $('#reviewInputsContainer').find(
@@ -780,10 +791,10 @@ export function initializeForm() {
             this.confirmButton = $(`#${this.confirmButtonId}`);
 
             if (!this.checkboxes.length) {
-                throw new Error('Required checkboxes not found in DOM');
+                console.warn('Required checkboxes not found in DOM');
             }
             if (!this.confirmButton.length) {
-                throw new Error('Confirm button not found in DOM');
+                console.warn('Confirm button not found in DOM');
             }
 
             // Bind event handler
@@ -828,7 +839,7 @@ export function initializeForm() {
         const processToast = showProcessToast('Submitting form...');
         try {
             let formDataObject = {};
-            const form = ApplicationForm.find(':input:not([readonly])');
+            const form = APPLICATION_FORM.find(':input:not([readonly])');
             const updatedFormData = form.serializeArray();
             $.each(updatedFormData, function (i, v) {
                 formDataObject[v.name] = v.value;
@@ -885,76 +896,20 @@ export function initializeForm() {
         console.log('Form cancelled');
         window.location.href = 'some_cancel_url'; // Redirect to a specific URL
     }
-    $('#Mobile_no')
-        .on('keypress', function (e) {
-            const charCode = e.which ? e.which : e.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false;
-            }
-            return true;
-        })
-        .on('input', function () {
-            const number = $(this).val().replace(/\D/g, ''); // Remove non-numeric characters
-            if (number.length > 0) {
-                var formattedNumber = number.match(
-                    /(\d{0,3})(\d{0,3})(\d{0,4})/
-                );
-                var formatted = '';
-                if (formattedNumber[1]) formatted += formattedNumber[1];
-                if (formattedNumber[2]) formatted += '-' + formattedNumber[2];
-                if (formattedNumber[3]) formatted += '-' + formattedNumber[3];
-                $(this).val(formatted);
-            }
-        });
+    setupPhoneNumberInput('#mobile_no');
 
     customFormatNumericInput($('div#personnelContainer'), 'input');
 
-    function updateEnterpriseLevel() {
-        // Cache DOM selections
-        const enterpriseLevelElement = $('span#Enterprise_Level');
-        const totalAssetsElement = $('span#to_Assets');
-        const enterpriseLevelInput = $('input#EnterpriseLevelInput');
-
-        // Helper function to parse comma-separated numbers
-        const parseNumericInput = (selector) => {
-            const value = $(selector).val().replace(/,/g, '');
-            return parseFloat(value) || 0;
-        };
-
-        // Parse values, removing commas before parsing
-        const buildingsValue = parseNumericInput('#buildings');
-        const equipmentsValue = parseNumericInput('#equipments');
-        const workingCapitalValue = parseNumericInput('#working_capital');
-
-        // Calculate total
-        const total = buildingsValue + equipmentsValue + workingCapitalValue;
-
-        // Format total with comma separators
-        totalAssetsElement.text(formatNumber(total));
-
-        // Determine enterprise level using a more declarative approach
-        const enterpriseLevels = [
-            { threshold: 3e6, level: 'Micro Enterprise' },
-            { threshold: 15e6, level: 'Small Enterprise' },
-            { threshold: 100e6, level: 'Medium Enterprise' },
-            { threshold: Infinity, level: 'Large Enterprise' },
-        ];
-
-        const enterpriseLevel =
-            enterpriseLevels.findLast(({ threshold }) => total >= threshold)
-                ?.level ?? 'Micro Enterprise';
-
-        console.log(enterpriseLevel);
-        enterpriseLevelElement.text(enterpriseLevel);
-        enterpriseLevelInput.val(enterpriseLevel);
-    }
-
     // Apply custom formatting to input fields
-    customFormatNumericInput('#buildings, #equipments, #working_capital');
+    customFormatNumericInput(ASSETS_CARD, [
+        '#buildings',
+        '#equipments',
+        '#working_capital',
+    ]);
 
-    $('#buildings, #equipments, #working_capital').on(
+    ASSETS_CARD.find('#buildings, #equipments, #working_capital').on(
         'input',
-        updateEnterpriseLevel
+        () => calculateEnterpriseLevel(ASSETS_CARD)
     );
 
     $('textarea').on('input', function () {
@@ -973,161 +928,10 @@ export function initializeForm() {
         }
     });
 
-    const API = {
-        fetchRegions: () => {
-            return $.ajax({
-                type: 'GET',
-                url: `${API_BASE_URL}/regions/`,
-            }).fail((error) => {
-                console.error('Error fetching regions:', error);
-            });
-        },
-
-        fetchProvinces: (regionCode) => {
-            return $.ajax({
-                type: 'GET',
-                url: `${API_BASE_URL}/regions/${regionCode}/provinces/`,
-            }).fail((error) => {
-                console.error('Error fetching provinces:', error);
-            });
-        },
-
-        fetchCities: (provinceCode) => {
-            return $.ajax({
-                type: 'GET',
-                url: `${API_BASE_URL}/provinces/${provinceCode}/cities-municipalities/`,
-            }).fail((error) => {
-                console.error('Error fetching cities:', error);
-            });
-        },
-        fetchBarangay: (cityCode) => {
-            return $.ajax({
-                type: 'GET',
-                url: `${API_BASE_URL}/cities-municipalities/${cityCode}/barangays/`,
-            });
-        },
-    };
-
-    class AddressForm {
-        constructor(config) {
-            this.prefix = config.prefix;
-            this.selectors = {
-                region: `#${this.prefix}Region`,
-                province: `#${this.prefix}Province`,
-                city: `#${this.prefix}City`,
-                barangay: `#${this.prefix}Barangay`,
-            };
-            this.initializeAddressSelection();
-        }
-
-        static populateSelect(selectElement, data, placeholder) {
-            const parsedData =
-                typeof data === 'string' ? JSON.parse(data) : data;
-            $(selectElement).html(`<option value="">${placeholder}</option>`);
-            $.each(parsedData, (index, item) => {
-                $(selectElement).append(
-                    `<option value="${item.name}" data-code="${item.code}">${item.name}</option>`
-                );
-            });
-        }
-
-        initializeAddressSelection() {
-            this.initializeRegions();
-            $(this.selectors.region).on('change', () => this.updateProvinces());
-            $(this.selectors.province).on('change', () => this.updateCities());
-            $(this.selectors.city).on('change', () => this.updateBarangays());
-        }
-
-        initializeRegions() {
-            API.fetchRegions().done((regions) => {
-                AddressForm.populateSelect(
-                    this.selectors.region,
-                    regions,
-                    'Select Region'
-                );
-            });
-        }
-
-        updateProvinces() {
-            const regionCode = $(this.selectors.region)
-                .find(':selected')
-                .data('code');
-
-            $(this.selectors.province).prop('disabled', !regionCode);
-            $(this.selectors.city).prop('disabled', true);
-            $(this.selectors.barangay).prop('disabled', true);
-
-            AddressForm.populateSelect(
-                this.selectors.province,
-                [],
-                'Select Province'
-            );
-            AddressForm.populateSelect(this.selectors.city, [], 'Select City');
-            AddressForm.populateSelect(
-                this.selectors.barangay,
-                [],
-                'Select Barangay'
-            );
-
-            if (regionCode) {
-                API.fetchProvinces(regionCode).done((provinces) => {
-                    AddressForm.populateSelect(
-                        this.selectors.province,
-                        provinces,
-                        'Select Province'
-                    );
-                });
-            }
-        }
-
-        updateCities() {
-            const provinceCode = $(this.selectors.province)
-                .find(':selected')
-                .data('code');
-
-            $(this.selectors.city).prop('disabled', !provinceCode);
-            $(this.selectors.barangay).prop('disabled', true);
-
-            AddressForm.populateSelect(this.selectors.city, [], 'Select City');
-            AddressForm.populateSelect(
-                this.selectors.barangay,
-                [],
-                'Select Barangay'
-            );
-
-            if (provinceCode) {
-                API.fetchCities(provinceCode).done((cities) => {
-                    AddressForm.populateSelect(
-                        this.selectors.city,
-                        cities,
-                        'Select City'
-                    );
-                });
-            }
-        }
-
-        updateBarangays() {
-            const cityCode = $(this.selectors.city)
-                .find(':selected')
-                .data('code');
-            $(this.selectors.barangay).prop('disabled', !cityCode);
-
-            if (cityCode) {
-                API.fetchBarangay(cityCode).done((barangays) => {
-                    AddressForm.populateSelect(
-                        this.selectors.barangay,
-                        barangays,
-                        'Select Barangay'
-                    );
-                });
-            }
-        }
-    }
-
     // Initialize multiple address forms
     const addressForms = [
-        new AddressForm({ prefix: 'office' }),
-        new AddressForm({ prefix: 'factory' }),
+        new AddressFormInput({ prefix: 'office' }),
+        new AddressFormInput({ prefix: 'factory' }),
     ];
 
     const getMarketProductsData = (tableConfigs) => {
@@ -1158,15 +962,24 @@ export function initializeForm() {
         },
     };
 
-    const DRAFT_TYPE = 'Application';
-
-    const formDraftHandler = new FormDraftHandler(ApplicationForm, DRAFT_TYPE);
+    const formDraftHandler = new FormDraftHandler(APPLICATION_FORM);
 
     formDraftHandler.syncTextInputData();
-    formDraftHandler.syncTablesData(
-        '#exportMarketTable tr, #localMarketTable tr',
-        tableConfigurations
-    );
+    formDraftHandler.syncTablesData('#productAndSupplyChainTable tbody', {
+        productAndSupply: BENCHMARKTableConfig.productAndSupply,
+    });
+    formDraftHandler.syncTablesData('#productionTable tbody', {
+        production: BENCHMARKTableConfig.production,
+    });
+    formDraftHandler.syncTablesData('#productionEquipmentTable tbody', {
+        productionEquipment: BENCHMARKTableConfig.productionEquipment,
+    });
+    formDraftHandler.syncTablesData('#exportMarketTable tbody', {
+        exportMarket: tableConfigurations.exportMarket,
+    });
+    formDraftHandler.syncTablesData('#localMarketTable tbody', {
+        localMarket: tableConfigurations.localMarket,
+    });
 
     const FileMetaHiddenInputs = [
         'OrganizationalStructureFileID_Data_Handler',
@@ -1182,148 +995,20 @@ export function initializeForm() {
     ];
     formDraftHandler.syncFilepondData(FileMetaHiddenInputs);
 
-    const loadApplicationFormInputFields = (draftData, formSelector) => {
-        const excludedFields = [
-            'exportMarket',
-            'localMarket',
-            'officeRegion',
-            'officeProvince',
-            'officeCity',
-            'officeBarangay',
-            'factoryRegion',
-            'factoryProvince',
-            'factoryCity',
-            'factoryBarangay',
-        ];
-        formDraftHandler.loadTextInputData(
-            draftData,
-            formSelector,
-            excludedFields
-        );
-    };
-
-    const loadLocationDropdown = async (
-        selector,
-        fetchFn,
-        data,
-        placeholder
-    ) => {
-        return new Promise((resolve) => {
-            fetchFn.done((items) => {
-                AddressForm.populateSelect($(selector), items, placeholder);
-                $(selector).val(data);
-                $(selector).prop('disabled', false);
-                resolve();
-            });
-        });
-    };
-
-    const loadOfficeAddressDropdowns = async (draftData) => {
-        if (!draftData.officeRegion) return;
-
-        // Load regions
-        await loadLocationDropdown(
-            '#officeRegion',
-            API.fetchRegions(),
-            draftData.officeRegion,
-            'Select Office Region'
-        );
-
-        if (!draftData.officeProvince) return;
-
-        // Load provinces
-        const regionCode = $('#officeRegion').find(':selected').data('code');
-        await loadLocationDropdown(
-            '#officeProvince',
-            API.fetchProvinces(regionCode),
-            draftData.officeProvince,
-            'Select Office Province'
-        );
-
-        if (!draftData.officeCity) return;
-
-        // Load cities
-        const provinceCode = $('#officeProvince')
-            .find(':selected')
-            .data('code');
-        await loadLocationDropdown(
-            '#officeCity',
-            API.fetchCities(provinceCode),
-            draftData.officeCity,
-            'Select Office City'
-        );
-
-        if (!draftData.officeBarangay) return;
-
-        // Load barangays
-        const cityCode = $('#officeCity').find(':selected').data('code');
-        await loadLocationDropdown(
-            '#officeBarangay',
-            API.fetchBarangay(cityCode),
-            draftData.officeBarangay,
-            'Select Office Barangay'
-        );
-    };
-
-    const loadFactoryAddressDropdowns = async (draftData) => {
-        if (!draftData.factoryRegion) return;
-
-        // Load regions
-        await loadLocationDropdown(
-            '#factoryRegion',
-            API.fetchRegions(),
-            draftData.factoryRegion,
-            'Select Factory Region'
-        );
-
-        if (!draftData.factoryProvince) return;
-
-        // Load provinces
-        const regionCode = $('#factoryRegion').find(':selected').data('code');
-        await loadLocationDropdown(
-            '#factoryProvince',
-            API.fetchProvinces(regionCode),
-            draftData.factoryProvince,
-            'Select Factory Province'
-        );
-
-        if (!draftData.factoryCity) return;
-
-        // Load cities
-        const provinceCode = $('#factoryProvince')
-            .find(':selected')
-            .data('code');
-        await loadLocationDropdown(
-            '#factoryCity',
-            API.fetchCities(provinceCode),
-            draftData.factoryCity,
-            'Select Factory City'
-        );
-
-        if (!draftData.factoryBarangay) return;
-
-        // Load barangays
-        const cityCode = $('#factoryCity').find(':selected').data('code');
-        await loadLocationDropdown(
-            '#factoryBarangay',
-            API.fetchBarangay(cityCode),
-            draftData.factoryBarangay,
-            'Select Factory Barangay'
-        );
-    };
-
     $(async () => {
         await formDraftHandler.loadDraftData(
             APPLICATION_FORM_CONFIG,
-            loadApplicationFormInputFields,
+            null,
             null,
             null,
             {
-                loadOfficeAddressDropdowns,
-                loadFactoryAddressDropdowns,
+                loadOfficeAddressDropdowns:
+                    AddressFormInput.loadOfficeAddressDropdowns,
+                loadFactoryAddressDropdowns:
+                    AddressFormInput.loadFactoryAddressDropdowns,
             }
         );
-        updateEnterpriseLevel();
+        calculateEnterpriseLevel($('#assetsCard'));
     });
 }
 

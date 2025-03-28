@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\FormDraft;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\checkAdminUser;
@@ -10,13 +11,11 @@ use App\Http\Middleware\CheckCooperatorUser;
 use App\Http\Controllers\AdminViewController;
 use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\FormDraftController;
+use App\Http\Controllers\PSGCProxyController;
 use App\Http\Controllers\StaffViewController;
 use App\Http\Controllers\FileUploadController;
-use App\Http\Controllers\ProjectForm\SRDocController;
 use App\Http\Controllers\AdminReportController;
 use App\Http\Controllers\ApplicationController;
-use App\Http\Controllers\ProjectForm\PDSDocController;
-use App\Http\Controllers\ProjectForm\PISDocController;
 use App\Http\Controllers\AdminProjectController;
 use App\Http\Controllers\GetApplicantController;
 use App\Http\Controllers\PasswordResetController;
@@ -34,7 +33,10 @@ use App\Http\Controllers\UserNotificationController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\GetOngoingProjectController;
 use App\Http\Controllers\GetPendingProjectController;
+use App\Http\Controllers\ProjectForm\SRDocController;
 use App\Http\Controllers\GetProjectProposalController;
+use App\Http\Controllers\ProjectForm\PDSDocController;
+use App\Http\Controllers\ProjectForm\PISDocController;
 use App\Http\Controllers\UpdateProjectStateController;
 use App\Http\Controllers\Auth\PasswordChangeController;
 use App\Http\Controllers\CoopQuarterlyReportController;
@@ -43,6 +45,8 @@ use App\Http\Controllers\ApplicantRequirementController;
 use App\Http\Controllers\StaffQuarterlyReportController;
 use App\Http\Controllers\StaffProjectRequirementController;
 use App\Http\Controllers\ApplicationProcessForm\TNADocController;
+use App\Http\Controllers\applicant_project\CreateProjectController;
+use App\Http\Controllers\applicant_project\CreateApplicantController;
 use App\Http\Controllers\ApplicationProcessForm\RTECReportDocController;
 use App\Http\Controllers\ApplicationProcessForm\SubmissionToAdminController;
 use App\Http\Controllers\ApplicationProcessForm\GetProjectFormListController;
@@ -56,9 +60,6 @@ Route::controller(GoogleAuthController::class)->group(function () {
     Route::get('/auth-with/google', 'AuthenticateWithGoogle')->name('auth-with.google');
     Route::get('/auth/google-callback', 'handleGoogleAuth')->name('handle.google.Auth');
 });
-Route::get('/test', function () {
-    return view('components.rtec-report-form.main');
-});
 Route::get('/signup', function () {
     return view('registerpage.signup');
 })->name('registerpage.signup');
@@ -67,16 +68,21 @@ Route::post('/signup/submit', [AuthController::class, 'signup'])
     ->name('signup');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/application', function () {
-        return view('registerpage.application');
-    })->name('registrationForm');
+
+    Route::controller(ApplicationController::class)->group(function () {
+        Route::get('/application/{id}', 'show')
+            ->name('application.form')
+            ->middleware('signed');
+
+        Route::post('/application/submit/{id}', 'store')
+            ->name('applicationFormSubmit')
+            ->middleware('signed');
+    });
 
     Route::post('/FileRequirementsUpload', [FileUploadController::class, 'upload']);
 
     Route::delete('/FileRequirementsRevert/{uniqueId}', [FileUploadController::class, 'destroy']);
 
-    Route::post('/application/submit', [ApplicationController::class, 'store'])
-        ->name('applicationFormSubmit');
 
     Route::get('/notification', [UserNotificationController::class, 'getUserNotifications'])
         ->middleware('auth')
@@ -97,14 +103,18 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
 
-    Route::get('/get/Draft/{draft_type}', [FormDraftController::class, 'get'])
-        ->name('form.getDraft');
+    Route::controller(FormDraftController::class)->group(function () {
+        Route::get('/get/Draft/{draft_type}/{ownerId}', 'get')
+            ->name('form.getDraft')
+            ->middleware('signed');
 
-    Route::post('/set/Draft', [FormDraftController::class, 'store'])
-        ->name('form.setDraft');
+        Route::post('/set/Draft/{draft_type}/{ownerId}', 'store')
+            ->name('form.setDraft')
+            ->middleware('signed');
 
-    Route::get('/get/Draft/file/{uniqueId}', [FormDraftController::class, 'getFiles'])
-        ->name('form.getDraftFile');
+        Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
+            ->name('form.getDraftFile');
+    });
 
     Route::get('/activity/logs', [UserActivityLogController::class, 'getPersonalActivityLog'])
         ->name('activity.logs');
@@ -238,11 +248,27 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         if ($request->ajax()) {
             return view('components.add-project-form');
         }
-        return view('staff-view.Staff_Index');
+        return view('staff-view.staff-index');
     })->name('staff.Project.AddProject');
 
     Route::post('/Staff/Submit-New-Projects', [StaffAddProjectController::class, 'store'])
         ->name('staff.Project.SubmitNewProject');
+
+
+    Route::controller(CreateApplicantController::class)->group(function () {
+        Route::get('Staff/Project/get/add/applicant-personal-form', 'index')
+            ->name('staff.Project.get.add.applicant-personal-form');
+
+        Route::get('Staff/Project/get/add/applicant-detailed-info-form/{id}', 'show')
+            ->name('staff.Project.get.add.applicant-detailed-info-form');
+
+        Route::post('Staff/Project/submit-new-applicant/{staffId}', 'storeApplicantDetail')
+            ->name('staff.Project.submit.new.applicant')
+            ->middleware('signed');
+    });
+
+    Route::get('Staff/Project/get/add/project-form', [CreateProjectController::class, 'index'])
+        ->name('staff.Project.get.add.project-form');
 
 
     Route::controller(PISDocController::class)->group(function () {
@@ -486,3 +512,15 @@ Route::controller(PasswordChangeController::class)->group(function () {
     Route::post('/change-password', 'changePassword')
         ->name('password.update');
 })->middleware(['auth'])->withoutMiddleware('check.password.change');
+
+
+Route::prefix('proxy/psgc')->controller(PSGCProxyController::class)->group(function () {
+    Route::get('/regions', 'getRegions');
+    Route::get('/regions/{regionCode}/provinces', 'getProvinces');
+    Route::get('/provinces/{provinceCode}/cities-municipalities', 'getCities');
+    Route::get('/cities-municipalities/{cityCode}/barangays', 'getBarangays');
+
+    // Generic fallback route for any other endpoints
+    Route::get('/{path?}', 'proxy')
+        ->where('path', '.*');
+});

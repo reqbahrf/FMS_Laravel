@@ -1,6 +1,6 @@
 const BENCHMARKTableConfig = {
     productAndSupply: {
-        id: 'productAndSupplyChainContainer',
+        id: 'productAndSupplyChainTable',
         selectors: {
             rowMaterial: '.RawMaterial',
             source: '.Source',
@@ -10,7 +10,7 @@ const BENCHMARKTableConfig = {
         requiredFields: ['rowMaterial', 'source', 'unitCost', 'volumeUsed'],
     },
     production: {
-        id: 'productionContainer',
+        id: 'productionTable',
         selectors: {
             product: '.Product',
             volumeProduction: '.VolumeProduction',
@@ -25,7 +25,7 @@ const BENCHMARKTableConfig = {
         ],
     },
     productionEquipment: {
-        id: 'productionEquipmentContainer',
+        id: 'productionEquipmentTable',
         selectors: {
             typeOfEquipment: '.TypeOfEquipment',
             specification: '.Specification',

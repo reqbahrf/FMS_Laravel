@@ -13,7 +13,7 @@ class ProjectFileLinkPolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->isStaff();
+        return $user->isStaff;
     }
 
     /**
@@ -29,7 +29,7 @@ class ProjectFileLinkPolicy
      */
     public function create(User $user): bool
     {
-        return $user->isStaff();
+        return $user->isStaff;
     }
 
     /**
@@ -75,7 +75,7 @@ class ProjectFileLinkPolicy
         }
 
         // Check if user is a staff member with access to this project
-        if ($user->isStaff() && $user->orgUserInfo->isHandlingThisProject($projectId)) {
+        if ($user->isStaff && $user->orgUserInfo->isHandlingThisProject($projectId)) {
             return true;
         }
 

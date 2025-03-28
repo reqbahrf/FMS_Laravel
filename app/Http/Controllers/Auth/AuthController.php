@@ -2,16 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Models\OrgUserInfo;
-use App\Http\Controllers\Controller;
-use App\Models\CoopUserInfo;
-use App\Models\User;
-use App\Services\AuditService;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Exception;
+use App\Models\User;
+use App\Models\OrgUserInfo;
+use App\Models\CoopUserInfo;
+use Illuminate\Http\Request;
+use App\Services\AuditService;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\URL;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
@@ -97,13 +98,12 @@ class AuthController extends Controller
 
                 switch ($user->role) {
                     case 'Cooperator':
-                        $coop_userInfo = CoopUserInfo::where('user_name', $user->user_name)->first();
+                        $coop_userInfo = $user->coopUserInfo->businessInfo;
 
-                        $this->userLoginAudit();
-                        if ($coop_userInfo) {
+                        if ($coop_userInfo->isNotEmpty()) {
                             return response()->json(['success' => 'Login successfully', 'redirect' => route('Cooperator.index')]);
-                        } else if (is_null($coop_userInfo)) {
-                            return response()->json(['no_record' => 'No Application Record found.', 'redirect' => route('registrationForm')]);
+                        } else {
+                            return response()->json(['no_record' => 'No Application Record found.', 'redirect' => URL::signedRoute('application.form', ['id' => $user->id])]);
                         }
                         break;
                     case 'Staff':

@@ -1,16 +1,18 @@
 {
     "compilerOptions": {
-        "target": "es2020",
-        "module": "esnext",
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
         "moduleResolution": "node",
+        "module": "esnext",
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
+        "allowJs": true,
+        "checkJs": false,
         "jsx": "react-jsx",
+        "lib": ["dom", "dom.iterable", "esnext", "es2023"],
         "types": ["vite/client", "jquery", "bootstrap"]
     },
     "include": ["resources/js/**/*"],

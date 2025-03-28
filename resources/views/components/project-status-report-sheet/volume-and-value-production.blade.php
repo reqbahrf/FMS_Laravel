@@ -59,6 +59,7 @@
             <button
                 class="btn btn-sm btn-danger"
                 id="removeVolumeAndValueProductionRow"
+                data-remove-row-btn
                 type="button"
             ><i class="ri-subtract-line"></i></button>
         </div>

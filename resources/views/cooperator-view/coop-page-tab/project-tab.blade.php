@@ -92,7 +92,7 @@
             <div class="d-flex justify-content-end">
                 <a
                     class="btn btn-primary btn-sm {{ !$allProjectsCompleted ? 'disabled' : '' }}"
-                    href="{{ !$allProjectsCompleted ? '#' : route('registrationForm') }}"
+                    href="{{ !$allProjectsCompleted ? '#' : route('application.form') }}"
                     @if (!$allProjectsCompleted) aria-disabled="true"
                         tabindex="-1"
                     @else

@@ -130,7 +130,7 @@ class GoogleAuthController extends Controller
 
     protected function handleGoogleSignup(GoogleUser $googleUser)
     {
-        try{
+        try {
             // Check if email already exists (optional, depends on your requirements)
             $existingEmailUser = User::where('email', $googleUser->getEmail())
                 ->where('provider', '!=', 'google')
@@ -161,12 +161,11 @@ class GoogleAuthController extends Controller
 
             Auth::login($newUser);
             return $this->CoopIntentedRoute($newUser);
-        }catch(Exception $e){
+        } catch (Exception $e) {
             Log::error("Google signup error: " . $e->getMessage());
             return redirect()->route('registerpage.signup')->withErrors([
                 'error' => 'An unexpected error occurred. Please try again.'
             ]);
-
         }
     }
 
@@ -188,11 +187,10 @@ class GoogleAuthController extends Controller
     protected function CoopIntentedRoute(User $user)
     {
         try {
-            return is_null($user->coopUserInfo) ? redirect()->route('registrationForm') : redirect()->route('Cooperator.index');
-        }catch(Exception $e){
+            return is_null($user->coopUserInfo) ? redirect()->route('application.form') : redirect()->route('Cooperator.index');
+        } catch (Exception $e) {
             Log::error("Failed to get intended route for user {$user->email}: " . $e->getMessage());
             return redirect()->route('home');
         }
-
     }
 }

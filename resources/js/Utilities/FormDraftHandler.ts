@@ -17,19 +17,24 @@ interface DraftData {
 }
 
 export class FormDraftHandler {
-    private formInstance: JQuery<HTMLElement>;
-    private draftType: string;
+    private formInstance: JQuery<HTMLFormElement>;
+    private getDraftRoute: string;
+    private storeDraftRoute: string;
     private saveInterval: number;
     private changedFields: { [key: string]: string | Object | number };
     private autoSaveTimeout: number | null;
+    private savedIndicatorTimeout: number | null = null;
+    private observers: MutationObserver[] = [];
+    private boundInputSelectors: string[] = [];
+    private boundTableSelectors: string[] = [];
 
     constructor(
-        formInstance: JQuery<HTMLElement>,
-        draftType: string,
+        formInstance: JQuery<HTMLFormElement>,
         saveInterval: number = 5000
     ) {
         this.formInstance = formInstance;
-        this.draftType = draftType;
+        this.getDraftRoute = formInstance.data('get-draft');
+        this.storeDraftRoute = formInstance.data('store-draft');
         this.saveInterval = saveInterval;
         this.changedFields = {};
         this.autoSaveTimeout = null;
@@ -38,10 +43,8 @@ export class FormDraftHandler {
     /**
      * Synchronizes text input data with the server by monitoring input changes.
      * When an input field changes, the value is stored in the 'changedFields' object.
-     * The 'scheduleSave' method is called to save the changes to the server.
+     * The '_scheduleSave' method is called to save the changes to the server.
      *
-     * @param {string} [inputSelectors=:input[name]:not([readonly])] - default jQuery selector for input fields to monitor.
-     * @returns {void}
      *
      * @example
      * // Initialize and start monitoring input fields
@@ -53,11 +56,9 @@ export class FormDraftHandler {
      * 1. Sets up event listeners for input fields
      * 2. Monitors changes to input fields
      * 3. Stores the changed values in the 'changedFields' object
-     * 4. Calls the 'scheduleSave' method to save the changes to the server
+     * 4. Calls the '_scheduleSave' method to save the changes to the server
      */
-    syncTextInputData(inputSelectors: string | null = null) {
-        // Expanded selector to include textarea, radio buttons, and checkboxes
-        console.log(this.formInstance)
+    public syncTextInputData(inputSelectors: string | null = null) {
         inputSelectors =
             inputSelectors ??
             'textarea[name]:not([readonly]), input[name]:not([readonly]), select[name]:not([readonly])';
@@ -87,7 +88,7 @@ export class FormDraftHandler {
                     break;
                 case 'select-one':
                 case 'select-multiple':
-                // For select elements, store the selected value(s)
+                    // For select elements, store the selected value(s)
                     fieldValue = (target as HTMLSelectElement).value;
                     break;
                 default:
@@ -96,17 +97,17 @@ export class FormDraftHandler {
             }
 
             this.changedFields[fieldName] = fieldValue;
-            this.scheduleSave();
+            this._scheduleSave();
         });
+
+        // Store the selector for cleanup
+        this.boundInputSelectors.push(inputSelectors);
     }
     /**
      * Synchronizes table input data with the server by monitoring input changes.
      * Uses TableDataExtractor to extract data from specified tables and stores it in the 'changedFields' object.
-     * Calls the 'scheduleSave' method to save the changes to the server.
+     * Calls the '_scheduleSave' method to save the changes to the server.
      *
-     * @param {string} tableSelectors - jQuery selector to target table inputs
-     * @param {Object.<string, {id: string, selectors: Object.<string, string|Object>, requiredFields: string[]}>} tableConfigs - Table configurations object
-     * @returns {void}
      *
      * @example
      * // Initialize and start monitoring table inputs
@@ -129,16 +130,23 @@ export class FormDraftHandler {
      * 1. Sets up event listeners for table inputs
      * 2. Monitors changes to table inputs
      * 3. Stores the changed values in the 'changedFields' object
-     * 4. Calls the 'scheduleSave' method to save the changes to the server
+     * 4. Calls the '_scheduleSave' method to save the changes to the server
      */
-    syncTablesData(tableSelectors: string, tableConfigs: Record<string, any>) {
+    public syncTablesData(
+        tableSelectors: string,
+        tableConfigs: Record<string, any>
+    ) {
+        console.log(tableSelectors);
         this.formInstance
             .find(tableSelectors)
             .on('input change', 'input', () => {
                 this.changedFields = TableDataExtractor(tableConfigs);
 
-                this.scheduleSave();
+                this._scheduleSave();
             });
+
+        // Store the selector for cleanup
+        this.boundTableSelectors.push(tableSelectors);
     }
 
     /**
@@ -146,9 +154,6 @@ export class FormDraftHandler {
      * Uses MutationObserver to detect changes in file metadata hidden inputs and automatically
      * saves the changes to the server.
      *
-     * @async
-     * @param {string[]} FileMetaDataHiddenInputSelector - Array of input IDs to monitor for file metadata changes
-     * @returns {void}
      *
      * @example
      * // Initialize and start monitoring file inputs
@@ -162,7 +167,7 @@ export class FormDraftHandler {
      * 3. Extracts metadata (file path, unique ID, etc.)
      * 4. Automatically saves changes using the draft system
      */
-    syncFilepondData(FileMetaDataHiddenInputSelector: string[]) {
+    public syncFilepondData(FileMetaDataHiddenInputSelector: string[]) {
         FileMetaDataHiddenInputSelector.forEach((inputId) => {
             const inputElement = $(`#${inputId}`);
 
@@ -186,7 +191,7 @@ export class FormDraftHandler {
                             'data-file-input-name'
                         ) as string;
                         const uniqueId = inputElement.attr('data-unique-id');
-                        console.log(
+                        console.warn(
                             `Hidden input ${inputId} changed to: ${filePath} with unique ID: ${uniqueId}`
                         );
                         this.changedFields = {
@@ -198,8 +203,8 @@ export class FormDraftHandler {
                                 metaDataId: META_DATA_ID,
                             },
                         } as FilePondDraftData;
-                        if(!FILE_INPUT_NAME) return;
-                        this.scheduleSave();
+                        if (!FILE_INPUT_NAME) return;
+                        this._scheduleSave();
                     }
                 });
                 setTimeout(() => {
@@ -209,16 +214,16 @@ export class FormDraftHandler {
 
             // Start observing the input element for changes to its attributes
             observer.observe(inputElement[0], { attributes: true });
+
+            // Store the observer for cleanup
+            this.observers.push(observer);
         });
     }
 
     /**
      * Populates form text inputs with data from a draft object
-     * @param {Object} draftData - Object containing key-value pairs to populate the form
-     * @param {string} formSelector - jQuery selector for the target form
-     * @param {Array} [excludedFields=[]] - Array of field names to exclude from population
      */
-    private loadTextInputData(
+    public loadTextInputData(
         draftData: DraftData,
         formSelector: string,
         excludedFields: string[] = []
@@ -260,11 +265,8 @@ export class FormDraftHandler {
 
     /**
      * Populates multiple tables with data using provided selectors and row configurations
-     * @param {Object} draftData - Object containing data for each table type
-     * @param {Object} tableSelectors - Object mapping table types to jQuery selectors
-     * @param {Object} tableRowConfigs - Object mapping table types to row configuration objects
      */
-    private loadTablesData(
+    public loadTablesData(
         draftData: DraftData,
         tableSelectors: string[],
         tableRowConfigs: { [key: string]: any }
@@ -296,13 +298,20 @@ export class FormDraftHandler {
                         typeof rowData === 'object'
                             ? rowData
                             : { value: rowData };
-                    this.addRowToTable(tableSelector, rowDataObject, rowConfig);
+                    this._addRowToTable(
+                        tableSelector,
+                        rowDataObject,
+                        rowConfig
+                    );
                 });
             }
         });
     }
 
-    private loadFilepondData(draftData: FilePondDraftData, filepondIds: string[]) {
+    public loadFilepondData(
+        draftData: FilePondDraftData,
+        filepondIds: string[]
+    ) {
         if (!draftData || typeof draftData !== 'object' || !filepondIds) return;
 
         $.each(draftData, (key, value) => {
@@ -328,9 +337,6 @@ export class FormDraftHandler {
                     id.includes(String(key))
                 );
 
-                console.log('Looking for filepondId matching:', key);
-                console.log('Found filepondId:', filepondId);
-
                 if (filepondId) {
                     const fileUrl = DRAFT_ROUTE.GET_FILE.replace(
                         ':unique_id',
@@ -338,7 +344,7 @@ export class FormDraftHandler {
                     );
                     // Load file into corresponding FilePond instance
                     const filepondInstance =
-                        this.getFilepondInstanceHandler(filepondId);
+                        this._getFilepondInstanceHandler(filepondId);
                     if (filepondInstance) {
                         filepondInstance.addFile(fileUrl, {
                             type: 'local',
@@ -355,16 +361,13 @@ export class FormDraftHandler {
         });
     }
 
-    private getFilepondInstanceHandler(filepondInputID: string) {
-        console.log('Looking for FilePond instance with ID:', filepondInputID);
+    private _getFilepondInstanceHandler(filepondInputID: string) {
         const filePondElement = document.getElementById(filepondInputID);
         if (filePondElement) {
             const instance = FilePond.find(filePondElement);
-            console.log('Found FilePond instance:', instance);
 
             // Check if instance exists and is disabled
             if (instance && instance.disabled) {
-                console.log('FilePond instance was disabled, enabling it now');
                 instance.disabled = false;
             }
 
@@ -383,7 +386,7 @@ export class FormDraftHandler {
      * @param {Object} rowData - Data to populate the new row
      * @param {Object} rowConfig - Configuration object containing createRow method
      */
-    private addRowToTable(
+    private _addRowToTable(
         tableSelector: string,
         rowData: object,
         rowConfig: TableRowConfig
@@ -394,27 +397,19 @@ export class FormDraftHandler {
     }
 
     /**
-     * Asynchronously loads draft data for a given type, populating form fields and tables.
-     *
-     * @param {object} formConfig - Configuration object containing form and table selectors.
-     * @param {function} [customInputDataLoaderFn] - Custom function to load text input data.
-     * @param {function} [customTableDataLoaderFn] - Custom function to load table data.
-     * @param {function|object} [customDataLoaderFn] - Custom function or object of functions to load other data.
-     *
-     * @returns {Promise<void>}
+     * Asynchronously loads draft data for a given type, populating form fields, tables, and filepond.
      */
-    async loadDraftData(
+    public async loadDraftData(
         formConfig: DraftFormConfig,
-        customInputDataLoaderFn: Function,
-        customTableDataLoaderFn: Function,
-        customFilepondLoaderFn: Function,
-        customDataLoaderFn: Function
-    ) {
-        console.log('Retrieving the form draft for', this.draftType);
+        customInputDataLoaderFn?: Function,
+        customTableDataLoaderFn?: Function,
+        customFilepondLoaderFn?: Function,
+        customDataLoaderFn?: Function | { [key: string]: Function }
+    ): Promise<void> {
         try {
             const response = await $.ajax({
                 type: 'GET',
-                url: DRAFT_ROUTE.GET.replace(':type', this.draftType),
+                url: this.getDraftRoute,
                 headers: {
                     'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                         'content'
@@ -423,7 +418,7 @@ export class FormDraftHandler {
             });
 
             if (!response.success || !response.draftData) {
-                console.log('No draft found or draft data is empty.');
+                console.warn('No draft found or draft data is empty.');
                 return; // Exit early if no draft data
             }
 
@@ -433,14 +428,19 @@ export class FormDraftHandler {
                 tableSelectors,
                 tableRowConfigs,
                 filepondSelector,
-            } = formConfig;
+                excludedFields,
+            }: DraftFormConfig = formConfig;
 
             // Use helper functions or fall back to generic loaders
             const loaders = {
                 textFields:
                     customInputDataLoaderFn ||
-                    ((data: DraftData, selector: string) =>
-                        this.loadTextInputData(data, selector)),
+                    ((
+                        data: DraftData,
+                        selector: string,
+                        excludedFields?: string[]
+                    ) =>
+                        this.loadTextInputData(data, selector, excludedFields)),
                 tablesFields:
                     customTableDataLoaderFn ||
                     ((
@@ -460,46 +460,63 @@ export class FormDraftHandler {
                           },
             };
 
-            loaders.textFields(draftData, formSelector);
+            loaders.textFields(draftData, formSelector, excludedFields);
             loaders.tablesFields(draftData, tableSelectors, tableRowConfigs);
             loaders.FilePondField(draftData, filepondSelector);
             Object.entries(loaders.customFields).forEach(
                 ([loaderName, loaderFn]) => {
                     loaderFn(draftData, formSelector);
-                    console.log(`Executed custom loader: ${loaderName}`);
                 }
             );
-
-            console.log('Draft loaded:', draftData);
         } catch (error) {
             console.error('Error loading draft:', error);
         }
     }
 
-    private scheduleSave() {
-        this.draftLoadingHandler();
+    private _scheduleSave() {
+        this._draftLoadingHandler();
         clearTimeout(this.autoSaveTimeout ?? 0);
         this.autoSaveTimeout = setTimeout(() => {
-            this.syncDraftWithServer(this.changedFields);
+            this._syncDraftWithServer(this.changedFields);
         }, this.saveInterval);
+    }
+
+    private _getDraftType(url: string): string | null {
+        try {
+            const urlObj = new URL(url);
+            const pathSegments = urlObj.pathname.split('/');
+
+            const draftTypeIndex = pathSegments.indexOf('Draft') + 1;
+
+            if (draftTypeIndex > 0 && draftTypeIndex < pathSegments.length) {
+                return pathSegments[draftTypeIndex];
+            } else {
+                return null;
+            }
+        } catch (error) {
+            console.error('Invalid URL:', error);
+            return null;
+        }
     }
 
     /**
      * Synchronizes draft changes with the server.
      * @param {Object} changedFields - Object containing the modified draft fields.
      */
-    async syncDraftWithServer(changedFields: DraftData) {
+    private async _syncDraftWithServer(changedFields: DraftData) {
         if ($.isEmptyObject(changedFields)) return;
+
+        const draftType = this._getDraftType(this.storeDraftRoute);
 
         const requestData = {
             ...changedFields,
-            draft_type: this.draftType,
+            draft_type: draftType,
         };
 
         try {
             const response = await $.ajax({
                 type: 'POST',
-                url: DRAFT_ROUTE.STORE,
+                url: this.storeDraftRoute,
                 data: JSON.stringify(requestData),
                 contentType: 'application/json',
                 processData: false,
@@ -511,31 +528,134 @@ export class FormDraftHandler {
             });
 
             if (response.success) {
-                this.removeDraftLoadingHandler();
-                console.log('Draft saved successfully:', response.message);
-                this.changedFields = {}; // Clear changes after saving
+                this._showSavedIndicator();
+                this.changedFields = {};
             }
         } catch (error) {
-            this.removeDraftLoadingHandler();
-            console.error('Error saving draft:', error);
+            this._removeDraftLoadingHandler();
         }
     }
 
-    draftLoadingHandler(customLoadingMessage = null) {
+    private _draftLoadingHandler(customLoadingMessage = null) {
         if (this.formInstance.find('#DraftingIndicator').length > 0) {
             return;
         }
-        const spinner =
+
+        // Create a container for the drafting indicator that will be sticky
+        const indicatorContainer =
             /*html*/
-            `<div class="d-flex align-items-center" id="DraftingIndicator">
-                            <div class="spinner-grow spinner-grow-sm text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <span role="status" class="ms-1 text-secondary">${customLoadingMessage ?? 'Drafting...'}</span>
-                        </div>`;
-        this.formInstance.prepend(spinner);
+            `<div class="position-sticky top-0 start-0 z-3 w-100 p-2">
+                <div class="bg-white rounded-5 bg-opacity-90 py-2 shadow-sm" id="DraftingIndicatorContainer">
+                    <div class="d-flex align-items-center px-3" id="DraftingIndicator">
+                        <div class="spinner-grow spinner-grow-sm text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <span role="status" class="ms-1 text-secondary">${customLoadingMessage ?? 'Drafting...'}</span>
+                    </div>
+                </div>
+            </div>`;
+
+        this.formInstance.prepend(indicatorContainer);
     }
-    removeDraftLoadingHandler() {
-        this.formInstance.find('#DraftingIndicator').remove();
+
+    private _removeDraftLoadingHandler() {
+        this.formInstance.find('#DraftingIndicatorContainer').remove();
+    }
+
+    /**
+     * Shows a saved indicator that appears briefly when a draft is successfully saved
+     */
+    private _showSavedIndicator() {
+        // First remove the drafting indicator
+        this._removeDraftLoadingHandler();
+
+        // Clear any existing timeout for the saved indicator
+        if (this.savedIndicatorTimeout !== null) {
+            clearTimeout(this.savedIndicatorTimeout);
+        }
+
+        // If the saved indicator already exists, just reset its timeout
+        if (this.formInstance.find('#SavedIndicatorContainer').length > 0) {
+            this.savedIndicatorTimeout = setTimeout(() => {
+                this.formInstance
+                    .find('#SavedIndicatorContainer')
+                    .fadeOut(300, function () {
+                        $(this).remove();
+                    });
+            }, 3000);
+            return;
+        }
+
+        // Create a container for the saved indicator
+        const savedIndicatorContainer =
+            /*html*/
+            `<div class="position-sticky top-0 start-0 z-3 w-100 p-2">
+                <div class="bg-white rounded-5 bg-opacity-90 py-2 shadow-sm border border-1 border-success" id="SavedIndicatorContainer">
+                    <div class="d-flex align-items-center px-3" id="SavedIndicator">
+                        <div class="text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </div>
+                        <span class="ms-1 text-success"><i class="ri-checkbox-circle-fill"></i>Draft saved successfully</span>
+                    </div>
+                </div>
+            </div>`;
+
+        this.formInstance.prepend(savedIndicatorContainer);
+
+        // Set a timeout to remove the saved indicator after 3 seconds
+        this.savedIndicatorTimeout = setTimeout(() => {
+            this.formInstance
+                .find('#SavedIndicatorContainer')
+                .fadeOut(300, function () {
+                    $(this).remove();
+                });
+        }, 3000);
+    }
+
+    /**
+     * Destroys the FormDraftHandler instance by cleaning up all resources.
+     * This includes:
+     * - Disconnecting all MutationObservers
+     * - Removing event listeners from form inputs and tables
+     * - Clearing any pending timeouts
+     * - Removing UI elements added by the handler
+     *
+     * Call this method when the form is being removed from the DOM or when
+     * the draft functionality is no longer needed to prevent memory leaks.
+     *
+     * @example
+     * // Clean up resources when form is no longer needed
+     * formHandler.destroy();
+     */
+    public destroy(): void {
+        if (this.autoSaveTimeout !== null) {
+            clearTimeout(this.autoSaveTimeout);
+            this.autoSaveTimeout = null;
+        }
+
+        if (this.savedIndicatorTimeout !== null) {
+            clearTimeout(this.savedIndicatorTimeout);
+            this.savedIndicatorTimeout = null;
+        }
+
+        this.observers.forEach((observer) => {
+            observer.disconnect();
+        });
+        this.observers = [];
+
+        this.boundInputSelectors.forEach((selector) => {
+            this.formInstance.find(selector).off('input change');
+        });
+        this.boundInputSelectors = [];
+
+        this.boundTableSelectors.forEach((selector) => {
+            this.formInstance.find(selector).off('input change', 'input');
+        });
+        this.boundTableSelectors = [];
+
+        this._removeDraftLoadingHandler();
+        this.formInstance.find('#SavedIndicatorContainer').remove();
+
+        this.changedFields = {};
     }
 }

@@ -1,3 +1,4 @@
+{{-- Used base64 on the image tag instead of link as this component will be used in Mpdf file generation --}}
 <div
     class="doc-header-container"
     style="font-family: Arial, sans-serif; margin: 0;"
@@ -14,9 +15,10 @@
             </td>
             <td style="text-align: left; vertical-align: top;">
 
-                <h1 style="font-size: 13px; margin: 0; font-weight: normal;">Republic of the Philippines</h1>
-                <h2 style="font-size: 16px; margin: 0; font-weight: bold;">DEPARTMENT OF SCIENCE AND TECHNOLOGY</h2>
-                <h3 style="font-size: 13px; margin: 0; font-weight: semi-bold;">REGIONAL OFFICE NO. XI</h3>
+                <h1 style="font-size: 13px !important; margin: 0; font-weight: normal;">Republic of the Philippines</h1>
+                <h2 style="font-size: 16px !important; margin: 0; font-weight: bold;">DEPARTMENT OF SCIENCE AND
+                    TECHNOLOGY</h2>
+                <h3 style="font-size: 13px !important; margin: 0; font-weight: semi-bold;">REGIONAL OFFICE NO. XI</h3>
             </td>
             <td style="width: 300px; vertical-align: top; text-align: right;">
                 <img

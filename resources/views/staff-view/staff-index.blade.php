@@ -198,11 +198,11 @@
         const NAV_ROUTES = {
             DASHBOARD: '{{ route('staff.dashboard') }}',
             PROJECT: '{{ route('staff.Project') }}',
-            ADD_PROJECT: '{{ route('staff.Project.AddProject') }}',
+            ADD_PROJECT: '{{ route('staff.Project.get.add.project-form') }}',
             APPLICANT: '{{ route('staff.Applicant') }}',
-
-
+            ADD_APPLICANT: '{{ route('staff.Project.get.add.applicant-personal-form') }}',
         };
+
         const DASHBOARD_TAB_ROUTE = {
             GET_MONTHLY_PROJECTS_CHARTDATA: '{{ route('staff.Dashboard.chartData', ':yearToLoad') }}',
             GET_HANDLED_PROJECTS: '{{ route('staff.Dashboard.getHandledProjects') }}',

@@ -57,10 +57,10 @@ export default class PaymentHandler {
         paymentForm.find('#paymentStatus').val(selected_payment_status);
     }
     async storePaymentRecords(): Promise<void> {
+        const processToast = showProcessToast('Storing Payment Record...');
         try {
             const formData =
                 this.paymentForm.serialize() + '&project_id=' + this.project_id;
-            showProcessToast('Storing Payment Record...');
             const response = await $.ajax({
                 type: 'POST',
                 url: DASHBOARD_TAB_ROUTE.STORE_PAYMENT_RECORDS,
@@ -72,9 +72,10 @@ export default class PaymentHandler {
                 data: formData,
             });
             await this.getPaymentAndCalculation();
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
+            hideProcessToast(processToast);
             throw new Error(
                 'Error:' +
                     (error?.responseJSON?.message ||
@@ -85,8 +86,8 @@ export default class PaymentHandler {
     }
 
     async updatePaymentRecords(): Promise<void> {
+        const processToast = showProcessToast('Updating Payment Record...');
         try {
-            showProcessToast('Updating Payment Record...');
             const formData = this.paymentForm.serialize();
             const reference_number = this.paymentForm
                 .find('#reference_number')
@@ -105,9 +106,10 @@ export default class PaymentHandler {
                 data: formData + '&project_id=' + this.project_id,
             });
             await this.getPaymentAndCalculation();
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
         } catch (error: any) {
+            hideProcessToast(processToast);
             throw new Error(
                 error?.responseJSON?.message ||
                     error?.message ||
@@ -120,21 +122,21 @@ export default class PaymentHandler {
         reference_number: string,
         { options }: { options?: any }
     ) {
+        const isConfirmed = await createConfirmationModal({
+            titleBg: 'bg-danger',
+            title: 'Delete Payment Record',
+            message:
+                options?.confirm ??
+                `Are you sure you want to delete this payment record? ${reference_number}`,
+            confirmText: 'Yes',
+            cancelText: 'Cancel',
+            confirmButtonClass: 'btn-danger',
+        });
+        if (!isConfirmed) {
+            return;
+        }
+        const processToast = showProcessToast('Deleting Payment Record...');
         try {
-            const isConfirmed = await createConfirmationModal({
-                titleBg: 'bg-danger',
-                title: 'Delete Payment Record',
-                message:
-                    options?.confirm ??
-                    `Are you sure you want to delete this payment record? ${reference_number}`,
-                confirmText: 'Yes',
-                cancelText: 'Cancel',
-                confirmButtonClass: 'btn-danger',
-            });
-            if (!isConfirmed) {
-                return;
-            }
-            showProcessToast('Deleting Payment Record...');
             const response = await $.ajax({
                 type: 'DELETE',
                 url: DASHBOARD_TAB_ROUTE.DELETE_PAYMENT_RECORDS.replace(
@@ -148,9 +150,10 @@ export default class PaymentHandler {
                 },
             });
             await this.getPaymentAndCalculation();
-            hideProcessToast();
+            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response.message);
         } catch (error) {
+            hideProcessToast(processToast);
             throw new Error('Error in deleting payment record: ' + error);
         }
     }

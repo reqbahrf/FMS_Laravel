@@ -39,6 +39,8 @@
                 data-quarter-project="{{ $projectId }}"
                 data-quarter-period="{{ $quarter }}"
                 data-quarter-status="{{ $reportStatus }}"
+                data-get-draft="@secureGetDraft('Quarterly_report_' . $quarter, $reportId)"
+                data-store-draft="@secureStoreDraft('Quarterly_report_' . $quarter, $reportId)"
                 action="{{ URL::signedRoute('QuarterlyReport.update', $reportId) }}"
             >
                 <div
