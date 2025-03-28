@@ -5,7 +5,13 @@ interface ProjectPayment {
     reference_number: string;
     amount: string;
     payment_method: string;
-    payment_status: 'Paid' | 'Pending' | 'Due' | 'Overdue';
+    payment_status:
+        | 'Paid'
+        | 'Pending'
+        | 'Due'
+        | 'Overdue'
+        | 'Failed'
+        | 'Completed';
     quarter: string;
     due_date: string;
     date_completed: string | null;
@@ -47,13 +53,21 @@ const getProjectPaymentHistory = async (
                 payment.reference_number,
                 formatNumber(parseFloat(payment.amount)),
                 payment.payment_method,
-                `<span class="badge bg-${
-                    payment.payment_status === 'Paid'
-                        ? 'success'
-                        : payment.payment_status === 'Pending'
-                          ? 'warning'
-                          : 'danger'
-                }">${payment.payment_status}</span>`,
+                `<span class="badge bg-${(() => {
+                    switch (payment.payment_status) {
+                        case 'Completed':
+                        case 'Paid':
+                            return 'success';
+                        case 'Pending':
+                            return 'secondary';
+                        case 'Due':
+                        case 'Overdue':
+                        case 'Failed':
+                            return 'danger';
+                        default:
+                            return 'primary';
+                    }
+                })()}">${payment.payment_status}</span>`,
                 payment.quarter,
                 dueDate,
                 dateCompleted,

@@ -311,15 +311,15 @@ async function initializeStaffPageJs() {
                 columns: [
                     {
                         title: 'Reference #',
-                        width: '10%',
+                        width: '15%',
                     },
                     {
                         title: 'Amount (₱)',
-                        width: '10%',
+                        width: '8%',
                     },
                     {
                         title: 'Payment Method',
-                        width: '10%',
+                        width: '8%',
                     },
                     {
                         title: 'Status',
@@ -327,24 +327,26 @@ async function initializeStaffPageJs() {
                     },
                     {
                         title: 'Quarter',
-                        width: '10%',
+                        className: 'text-center',
+                        width: '5%',
                         type: 'quarter',
                     },
                     {
                         title: 'Due Date',
-                        width: '15%',
+                        className: 'text-center',
+                        width: '8%',
                     },
                     {
                         title: 'Date Completed',
-                        width: '15%',
+                        width: '10%',
                     },
                     {
                         title: 'Last Modified',
-                        width: '15%',
+                        width: '10%',
                     },
                     {
                         title: 'Action',
-                        width: '3%',
+                        width: '5%',
                     },
                 ],
                 order: [[4, 'asc']],
@@ -1906,7 +1908,7 @@ async function initializeStaffPageJs() {
                 responsive: true,
                 columns: [
                     {
-                        title: 'Requirement #',
+                        title: 'Reference #',
                     },
                     {
                         title: 'Amount',
@@ -1923,9 +1925,11 @@ async function initializeStaffPageJs() {
                     },
                     {
                         title: 'Due Date',
+                        type: 'date',
                     },
                     {
                         title: 'Date Completed',
+                        type: 'date',
                     },
                     {
                         title: 'Date Created',
