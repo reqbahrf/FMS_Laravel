@@ -1361,7 +1361,9 @@ async function initializeStaffPageJs() {
                                 uniqueVal
                             ),
                         afterDelete: async (project_id) =>
-                            await projectFileClass.getProjectLinks(project_id),
+                            await classInstance.projectFileClass.getProjectLinks(
+                                project_id
+                            ),
                     },
                     quarterlyRecord: {
                         getMessage: () => {
