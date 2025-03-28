@@ -1794,6 +1794,9 @@ async function initializeStaffPageJs() {
             await getHandleProject();
         },
         Projects: async () => {
+            const ADD_APPLICANT_OR_PROJECT_HANDLER = import(
+                './AddApplicantOrProjectHandler'
+            );
             const ApprovedDataTable = $('#approvedTable').DataTable({
                 responsive: true,
                 autoWidth: false,
@@ -1941,28 +1944,19 @@ async function initializeStaffPageJs() {
             addProjectBtn.on('click', async () => {
                 try {
                     const AddApplicantOrProjectHandler = (
-                        await import('./AddApplicantOrProjectHandler')
+                        await ADD_APPLICANT_OR_PROJECT_HANDLER
                     ).default;
 
-                    // Create a new instance which returns a promise
                     const userChoice =
                         await AddApplicantOrProjectHandler.create();
 
-                    // Based on the user's choice, navigate to the appropriate page
                     if (userChoice === 'applicant') {
-                        // Navigate to add applicant page
                         await loadPage(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
                     } else if (userChoice === 'project') {
-                        // Navigate to add project page
                         await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink');
                     }
-                    // If modal was dismissed without a choice, we don't navigate anywhere
                 } catch (error) {
-                    console.log(
-                        'Modal was dismissed or an error occurred:',
-                        error
-                    );
-                    // Optionally handle the error or dismissal case
+                    processError('Error in add project: ', error, true);
                 }
             });
 
