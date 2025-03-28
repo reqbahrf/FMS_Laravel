@@ -9,11 +9,12 @@
             display: none;
             background-color: white;
             border: 1px solid #ccc;
-            z-index: 1000;
+            border-radius: 6px;
+            z-index: 2000;
             max-width: 100vw;
-            /* Maximum width is viewport width */
             max-height: 100vh;
-            /* Maximum height is viewport height */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15), 0 5px 10px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
         }
 
         #floating-header {
@@ -24,6 +25,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            user-select: none;
         }
 
         #floating-content {
@@ -41,6 +43,7 @@
         #floating-window .resizer {
             position: absolute;
             background: transparent;
+            user-select: none;
         }
 
         #floating-window .resizer-r,
@@ -83,28 +86,36 @@
             height: 10px;
         }
 
-        .resizer-tr {
+        #floating-window .resizer-tr {
             top: -5px;
             right: -5px;
             cursor: ne-resize;
         }
 
-        .resizer-tl {
+        #floating-window .resizer-tl {
             top: -5px;
             left: -5px;
             cursor: nw-resize;
         }
 
-        .resizer-br {
+        #floating-window .resizer-br {
             bottom: -5px;
             right: -5px;
             cursor: se-resize;
         }
 
-        .resizer-bl {
+        #floating-window .resizer-bl {
             bottom: -5px;
             left: -5px;
             cursor: sw-resize;
+        }
+
+        .no-select {
+            user-select: none !important;
+            -webkit-user-select: none !important;
+            -moz-user-select: none !important;
+            -ms-user-select: none !important;
+            cursor: grabbing !important;
         }
     </style>
 
