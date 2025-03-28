@@ -13,7 +13,6 @@ import {
     hideProcessToast,
 } from '../Utilities/feedback-toast';
 import getProjectPaymentHistory from '../Utilities/project-payment-history';
-import FormEvents from '../components/ProjectFormEvents';
 import EsignatureHandler from '../Utilities/EsignatureHandler';
 import NotificationManager from '../Utilities/NotificationManager';
 import ActivityLogHandler from '../Utilities/ActivityLogHandler';
