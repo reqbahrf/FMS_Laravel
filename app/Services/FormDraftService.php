@@ -98,13 +98,37 @@ class FormDraftService
             ->header('X-Unique-Id', $tempFile->unique_id);
     }
 
+
+    /**
+     * Generate a secure signed URL for retrieving a draft
+     *
+     * This method creates a signed URL that allows secure access to retrieve a draft
+     * based on the draft type and owner ID. The signed URL can be used to fetch a draft
+     *
+     * @param string $draftType The type of draft to retrieve
+     * @param string $ownerId The ID of the draft owner
+     * @return string A signed URL for retrieving the draft
+     */
     public static function generateSecureGetDraft(string $draftType, string $ownerId): string
     {
-        return URL::signedRoute('form.getDraft', [$draftType, $ownerId]);
+        $sanitizedDraftType = preg_replace('/\s+/', '', $draftType);
+        return URL::signedRoute('form.getDraft', [$sanitizedDraftType, $ownerId]);
     }
 
+
+    /**
+     * Generate a secure signed URL for storing a draft
+     *
+     * This method creates a signed URL that allows secure access to store a draft
+     * based on the draft type and owner ID. The signed URL can be used to save a draft
+     *
+     * @param string $draftType The type of draft to store
+     * @param string $ownerId The ID of the draft owner
+     * @return string A signed URL for storing the draft
+     */
     public static function generateSecureStoreDraft(string $draftType, string $ownerId): string
     {
-        return URL::signedRoute('form.setDraft', [$draftType, $ownerId]);
+        $sanitizedDraftType = preg_replace('/\s+/', '', $draftType);
+        return URL::signedRoute('form.setDraft', [$sanitizedDraftType, $ownerId]);
     }
 }

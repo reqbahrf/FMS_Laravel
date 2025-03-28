@@ -83,7 +83,7 @@ class CoopQuarterlyReportController extends Controller
                 return view('cooperator-view.coop-page-tab.quarterly-report-form-tab', compact('reportId', 'projectId', 'quarter', 'reportStatus'));
             }
         } else {
-            return view('cooperator-view.Cooperator_Index');
+            return view('cooperator-view.cooperator_index');
         }
     }
 

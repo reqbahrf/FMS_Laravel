@@ -582,10 +582,6 @@ async function initilizeCoopPageJs() {
 
             const QUARTERLY_FORM = $('#quarterlyForm');
             const QUARTER_PERIOD = QUARTERLY_FORM.data('quarter-period');
-            const DRAFT_TYPE = `Quarterly_report_${QUARTER_PERIOD}`.replace(
-                /\s/g,
-                ''
-            );
 
             const formDraftHandler = new FormDraftHandler(QUARTERLY_FORM);
 
