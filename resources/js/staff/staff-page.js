@@ -1929,7 +1929,7 @@ async function initializeStaffPageJs() {
                     },
                     {
                         title: 'Date Completed',
-                        type: 'data',
+                        type: 'date',
                     },
                     {
                         title: 'Date Created',
