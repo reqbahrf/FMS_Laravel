@@ -38,47 +38,47 @@
             border: none;
         }
 
-        .resizer {
+        #floating-window .resizer {
             position: absolute;
             background: transparent;
         }
 
-        .resizer-r,
-        .resizer-l {
+        #floating-window .resizer-r,
+        #floating-window .resizer-l {
             cursor: ew-resize;
             width: 5px;
             height: 100%;
             top: 0;
         }
 
-        .resizer-t,
-        .resizer-b {
+        #floating-window .resizer-t,
+        #floating-window .resizer-b {
             cursor: ns-resize;
             height: 5px;
             width: 100%;
             left: 0;
         }
 
-        .resizer-r {
+        #floating-window .resizer-r {
             right: -3px;
         }
 
-        .resizer-l {
+        #floating-window .resizer-l {
             left: -3px;
         }
 
-        .resizer-t {
+        #floating-window .resizer-t {
             top: -3px;
         }
 
-        .resizer-b {
+        #floating-window .resizer-b {
             bottom: -3px;
         }
 
-        .resizer-tr,
-        .resizer-tl,
-        .resizer-br,
-        .resizer-bl {
+        #floating-window .resizer-tr,
+        #floating-window .resizer-tl,
+        #floating-window .resizer-br,
+        #floating-window .resizer-bl {
             width: 10px;
             height: 10px;
         }
