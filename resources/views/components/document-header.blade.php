@@ -1,3 +1,4 @@
+{{-- Used base64 on the image tag instead of link as this component will be used in Mpdf file generation --}}
 <div
     class="doc-header-container"
     style="font-family: Arial, sans-serif; margin: 0;"
