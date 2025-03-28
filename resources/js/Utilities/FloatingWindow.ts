@@ -39,7 +39,30 @@ export class FloatingWindow {
         this.f_content = f_content;
         this.f_input = f_input;
 
+        // Apply CSS to prevent text selection during dragging
+        this.applyNoSelectStyles();
         this.initializeEventHandlers();
+    }
+
+    /**
+     * Apply CSS to prevent text selection during dragging
+     */
+    private applyNoSelectStyles(): void {
+        // Apply to the header (draggable area)
+        this.f_header.css({
+            'user-select': 'none',
+            '-webkit-user-select': 'none',
+            '-moz-user-select': 'none',
+            '-ms-user-select': 'none',
+        });
+
+        // Apply to resizers
+        this.f_window.find('.resizer').css({
+            'user-select': 'none',
+            '-webkit-user-select': 'none',
+            '-moz-user-select': 'none',
+            '-ms-user-select': 'none',
+        });
     }
 
     private initializeEventHandlers(): void {
@@ -50,16 +73,25 @@ export class FloatingWindow {
 
         // Dragging
         this.f_header.on('mousedown', (e) => {
+            // Prevent default browser behavior (text selection)
+            e.preventDefault();
+
             this.isDragging = true;
             if (this.f_window && this.f_window.length > 0) {
                 const offset = this.f_window.offset() || { left: 0, top: 0 };
                 this.startX = e.clientX - offset.left;
                 this.startY = e.clientY - offset.top;
             }
+
+            // Add a temporary class to the body to prevent text selection during dragging
+            $('body').addClass('no-select');
         });
 
         // Resizing
         this.f_window.find('.resizer').on('mousedown', (e) => {
+            // Prevent default browser behavior
+            e.preventDefault();
+
             this.isResizing = true;
             this.startX = e.clientX;
             this.startY = e.clientY;
@@ -69,15 +101,21 @@ export class FloatingWindow {
             }
             this.resizeType =
                 $(e.currentTarget).attr('class')?.split(' ')[1] || '';
-            e.preventDefault();
+
+            // Add a temporary class to the body to prevent text selection during resizing
+            $('body').addClass('no-select');
         });
 
         // Mouse movement for dragging and resizing
         $(document).on('mousemove', (e) => {
             if (this.isDragging) {
+                // Prevent default browser behavior during dragging
+                e.preventDefault();
                 this.handleDragging(e);
             }
             if (this.isResizing) {
+                // Prevent default browser behavior during resizing
+                e.preventDefault();
                 this.handleResizing(e);
             }
         });
@@ -86,6 +124,9 @@ export class FloatingWindow {
         $(document).on('mouseup', () => {
             this.isDragging = false;
             this.isResizing = false;
+
+            // Remove the temporary class from the body
+            $('body').removeClass('no-select');
         });
     }
 

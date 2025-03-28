@@ -426,7 +426,7 @@ export default class FormEvents {
         const closeButton = $('#close-button');
 
         openButton.on('click', async function () {
-            const module = await import('../Utilities/floating-window');
+            const module = await import('../Utilities/FloatingWindow');
             if (module.InitializeFloatingWindow) {
                 module.InitializeFloatingWindow({
                     content,

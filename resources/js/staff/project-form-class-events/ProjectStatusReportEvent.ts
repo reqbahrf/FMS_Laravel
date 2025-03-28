@@ -1,4 +1,4 @@
-import { InitializeFloatingWindow } from '../../Utilities/floating-window';
+import { InitializeFloatingWindow } from '../../Utilities/FloatingWindow';
 import {
     addNewRowHandler,
     removeRowHandler,
