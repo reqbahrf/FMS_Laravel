@@ -1,13 +1,12 @@
 import { customDateFormatter } from './utilFunctions';
-import {
-    showToastFeedback,
-} from '../Utilities/feedback-toast';
+import { showToastFeedback } from '../Utilities/feedback-toast';
 import * as bootstrap from 'bootstrap';
 import 'jquery';
+import { processError } from './error-handler-util';
 
 export enum RetrievalType {
     Personal = 'personal',
-    SelectedStaff = 'selectedStaff'
+    SelectedStaff = 'selectedStaff',
 }
 export default class ActivityLogHandler {
     private activityLog: Map<string, any>;
@@ -15,7 +14,11 @@ export default class ActivityLogHandler {
     private user_role: string;
     private ActivityLogRoute: string;
 
-    constructor(DivContainer: JQuery, user_role: string, retrievalType: RetrievalType) {
+    constructor(
+        DivContainer: JQuery,
+        user_role: string,
+        retrievalType: RetrievalType
+    ) {
         if (!Object.values(RetrievalType).includes(retrievalType)) {
             throw new Error(
                 'Invalid retrieval type. Must be either "personal" or "selectedStaff"'
@@ -45,16 +48,17 @@ export default class ActivityLogHandler {
                 const data = await this._getActivityLog();
                 this._renderActivityLogTable(ActivityTableLog, data.data);
             } catch (error) {
-                this._handleError('Error loading activity log:', error);
+                processError('Error loading activity log:', error, true);
             }
         });
     }
 
     _initializeStaffActivityLogEvents() {
         if (this.user_role !== 'admin') {
-            this._handleError(
+            processError(
                 'Unauthorized:',
-                new Error('User role is not admin')
+                new Error('User role is not admin'),
+                true
             );
             return;
         }
@@ -72,7 +76,7 @@ export default class ActivityLogHandler {
             const data = await this._getUserAuditLogs(user_id);
             this._renderActivityLogTable(table, data.data);
         } catch (error) {
-            this._handleError('Error loading activity log:', error);
+            processError('Error loading activity log:', error, true);
         }
     }
 
@@ -97,11 +101,15 @@ export default class ActivityLogHandler {
                     .join('<br>');
             };
 
-            return /*html*/`<strong>Old Values:</strong><br>${formatValues(oldValues)}<br><br>
+            return /*html*/ `<strong>Old Values:</strong><br>${formatValues(oldValues)}<br><br>
                     <strong>New Values:</strong><br>${formatValues(newValues)}`;
         };
 
-        const toolTipHelperFn = (auditableType: string, oldValues: object, newValues: object) => {
+        const toolTipHelperFn = (
+            auditableType: string,
+            oldValues: object,
+            newValues: object
+        ) => {
             const toolTipText =
                 auditableType?.replace('App\\Models\\', '') || '';
             const toolTipEl = `data-bs-toggle="tooltip" data-bs-html="true" data-bs-title="<strong>${toolTipText}</strong><br>${tooltipTitlehelperFn(oldValues, newValues)}" data-bs-placement="right"`;
@@ -109,7 +117,7 @@ export default class ActivityLogHandler {
         };
 
         const ActivityLogTableContent = (log: any) => {
-            return /*html*/`<tr>
+            return /*html*/ `<tr>
                     <td>${log.user_type}</td>
                     <td><span class="fw-bold text-decoration-underline" ${toolTipHelperFn(log.auditable_type, log.old_values, log.new_values)}>${log.event}</span></td>
                     <td>${log.ip_address}</td>
@@ -121,7 +129,9 @@ export default class ActivityLogHandler {
             tableBody.append(ActivityLogTableContent(log));
         });
 
-        const toolTipTriggerList = $('[data-bs-toggle="tooltip"]');
+        const toolTipTriggerList = $(
+            '[data-bs-toggle="tooltip"]'
+        ) as unknown as Array<HTMLElement>;
         const toolTipList = [...toolTipTriggerList].map(
             (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
         );
@@ -141,8 +151,7 @@ export default class ActivityLogHandler {
             }
             return this.activityLog.get('personal');
         } catch (error) {
-            this._handleError('Activity Log Retrieval', error);
-            throw error;
+            throw new Error(`Failed to fetch personal activity logs: ${error}`);
         }
     }
 
@@ -164,15 +173,7 @@ export default class ActivityLogHandler {
             }
             return this.activityLog.get(cacheKey);
         } catch (error) {
-            throw new Error(
-                `Failed to fetch user audit logs: ${error}`
-            );
+            throw new Error(`Failed to fetch user audit logs: ${error}`);
         }
-    }
-
-    _handleError(prefix: string, error?: unknown) {
-        const errorMessage = error instanceof Error ? error.message : String(error);
-        console.error(prefix, errorMessage);
-        showToastFeedback('text-bg-danger', `${prefix} ${errorMessage}`);
     }
 }
