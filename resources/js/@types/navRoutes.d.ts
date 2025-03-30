@@ -9,6 +9,7 @@ declare module 'global' {
 
         // Optional role-specific routes
         PROJECT?: string;
+        ADD_APPLICANT?: string;
         ADD_PROJECT?: string;
         APPLICANT?: string;
         PROJECTS?: string;

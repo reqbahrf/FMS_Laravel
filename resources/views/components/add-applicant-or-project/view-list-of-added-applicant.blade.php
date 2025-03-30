@@ -11,7 +11,10 @@
     </ol>
 </nav>
 <div class="card m-0 m-md-3">
-    <div class="card-body">
+    <div
+        class="card-body"
+        id="applicantListContainer"
+    >
         <div class="table-responsive">
             <table
                 class="table table-hover"

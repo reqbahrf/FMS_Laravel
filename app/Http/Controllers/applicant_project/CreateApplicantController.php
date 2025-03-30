@@ -20,8 +20,9 @@ class CreateApplicantController extends Controller
     public function index(Request $request): Response|View
     {
         $staffId = $request->user()->orgUserInfo->id;
+        $isToRetrivedForm = (bool) ($request->header('X-ADD-APPLICANT-FORM') ?? false);
         if ($request->ajax()) {
-            if ($this->registrationService->isAddedApplicantExist()) {
+            if (!$isToRetrivedForm && $this->registrationService->isAddedApplicantExist()) {
                 $applicants = $this->registrationService->getAddedApplicants();
                 return response()
                     ->view('components.add-applicant-or-project.view-list-of-added-applicant', compact('applicants'))

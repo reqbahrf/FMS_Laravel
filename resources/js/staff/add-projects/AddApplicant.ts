@@ -15,11 +15,11 @@ import { FormDraftHandler } from '../../Utilities/FormDraftHandler';
 
 export default class AddApplicant {
     private formElement: JQuery<HTMLFormElement> | null;
-    private applicantListTable: JQuery<HTMLTableElement> | null;
+    private applicantListContainer: JQuery<HTMLDivElement> | null;
     private draftClass: FormDraftHandler | null;
     constructor() {
         this.formElement = null;
-        this.applicantListTable = null;
+        this.applicantListContainer = null;
         this.draftClass = null;
     }
 
@@ -53,12 +53,20 @@ export default class AddApplicant {
         }
     }
 
-    public setupApplicantTableActionListener() {
-        this.applicantListTable = $('#applicantListTable');
+    public setupListApplicantActionListener() {
+        this.applicantListContainer = $('#applicantListContainer');
         try {
-            if (!this.applicantListTable)
+            if (!this.applicantListContainer)
                 throw new Error('Applicant list table not found');
-            const table = this.applicantListTable;
+            const table = this.applicantListContainer?.find(
+                '#applicantListTable'
+            );
+
+            const addNewApplicantBtn = this.applicantListContainer?.find(
+                '#addNewApplicantBtn'
+            );
+            if (!table || !addNewApplicantBtn)
+                throw new Error('Table or button not found');
             table
                 .find('tbody')
                 .on(
@@ -89,6 +97,18 @@ export default class AddApplicant {
                         }
                     }
                 );
+
+            addNewApplicantBtn?.on('click', async () => {
+                try {
+                    if (!NAV_ROUTES.ADD_APPLICANT)
+                        throw new Error('Add applicant route not found');
+                    await loadTab(NAV_ROUTES.ADD_APPLICANT, 'projectLink', {
+                        'X-ADD-APPLICANT-FORM': true,
+                    });
+                } catch (error: any) {
+                    processError('Error in add new applicant: ', error, true);
+                }
+            });
         } catch (error) {
             processError(
                 'Error in Setting Up Applicant Table Action Listener: ',
