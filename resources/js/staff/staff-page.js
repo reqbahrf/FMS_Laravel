@@ -2954,9 +2954,11 @@ async function initializeStaffPageJs() {
             const ApplicantProgressContainer = $('#ApplicationProgress');
             const RequirementsTable = $('#requirementsTables');
 
-            let tnaForm;
-            let projectProposalForm;
-            let rtecReportForm;
+            const FORM_CLASS_INSTANCE = {
+                tnaForm: null,
+                projectProposalForm: null,
+                rtecReportForm: null,
+            };
 
             $('#evaluationSchedule-datepicker').on('change', function () {
                 const selectedDate = new Date(this.value);
@@ -3112,11 +3114,18 @@ async function initializeStaffPageJs() {
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
 
-                    tnaForm.setId(businessID, ApplicationID);
-                    projectProposalForm.setId(businessID, ApplicationID);
-                    rtecReportForm.setId(businessID, ApplicationID);
-
-                    console.log(tnaForm, projectProposalForm, rtecReportForm);
+                    FORM_CLASS_INSTANCE.tnaForm.setId(
+                        businessID,
+                        ApplicationID
+                    );
+                    FORM_CLASS_INSTANCE.projectProposalForm.setId(
+                        businessID,
+                        ApplicationID
+                    );
+                    FORM_CLASS_INSTANCE.rtecReportForm.setId(
+                        businessID,
+                        ApplicationID
+                    );
                 }
             );
 
@@ -3623,17 +3632,21 @@ async function initializeStaffPageJs() {
             );
             const RTECReportContainerModal = $('#rtecReportContainerModal');
 
-            tnaForm = new TNAForm(TNADocumentContainerModal);
-            tnaForm.initializeTNAForm();
+            FORM_CLASS_INSTANCE.tnaForm = new TNAForm(
+                TNADocumentContainerModal
+            );
+            FORM_CLASS_INSTANCE.tnaForm.initializeTNAForm();
 
-            projectProposalForm = new ProjectProposalForm(
+            FORM_CLASS_INSTANCE.projectProposalForm = new ProjectProposalForm(
                 ProjectProposalDocumentContainerModal
             );
 
-            projectProposalForm.initializeProjectProposalForm();
+            FORM_CLASS_INSTANCE.projectProposalForm.initializeProjectProposalForm();
 
-            rtecReportForm = new RTECReportForm(RTECReportContainerModal);
-            rtecReportForm.initializeRTECReportForm();
+            FORM_CLASS_INSTANCE.rtecReportForm = new RTECReportForm(
+                RTECReportContainerModal
+            );
+            FORM_CLASS_INSTANCE.rtecReportForm.initializeRTECReportForm();
         },
     };
     return functions;
