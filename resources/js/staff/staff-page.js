@@ -2935,7 +2935,7 @@ async function initializeStaffPageJs() {
             const eventHandler = (event, { eventListenerToInitialize }) => {
                 if (eventListenerToInitialize == 'add-applicant-form') {
                     module.setupFormSubmitHandler();
-                } else {
+                } else if (eventListenerToInitialize == 'view-applicant-list') {
                     module.setupApplicantTableActionListener();
                 }
 

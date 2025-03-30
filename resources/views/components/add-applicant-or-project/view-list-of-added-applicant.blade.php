@@ -12,7 +12,6 @@
 </nav>
 <div class="card m-0 m-md-3">
     <div class="card-body">
-
         <div class="table-responsive">
             <table
                 class="table table-hover"
@@ -97,6 +96,15 @@
                     @endforelse
                 </tbody>
             </table>
+        </div>
+        <div class="d-flex justify-content-end mt-3">
+            <button
+                class="btn btn-primary"
+                id="addNewApplicantBtn"
+                type="button"
+            >
+                <i class="ri-user-add-line"></i> Add New Applicant
+            </button>
         </div>
     </div>
 </div>

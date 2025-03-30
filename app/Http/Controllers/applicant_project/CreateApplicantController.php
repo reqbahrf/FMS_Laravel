@@ -26,7 +26,7 @@ class CreateApplicantController extends Controller
                 return response()
                     ->view('components.add-applicant-or-project.view-list-of-added-applicant', compact('applicants'))
                     ->withHeaders([
-                        'X-ACTION-IN-PROJECT-TAB' => 'view-applicant-form'
+                        'X-ACTION-IN-PROJECT-TAB' => 'view-applicant-list'
                     ]);
             }
             return response()
