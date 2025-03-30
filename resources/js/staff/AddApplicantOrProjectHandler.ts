@@ -20,9 +20,7 @@ export default class AddApplicantOrProjectHandler {
     private showChoiceModal(): Promise<string> {
         return new Promise<string>((resolve, reject) => {
             this.resolveChoice = (action: string) => resolve(action);
-            this.rejectChoice = (reason: any) => {
-                reject(reason);
-            };
+            this.rejectChoice = (reason: any) => reject(reason);
             this.initialize();
         });
     }
