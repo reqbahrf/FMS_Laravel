@@ -4,18 +4,20 @@ namespace App\Http\Controllers\applicant_project;
 
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
 use App\Http\Controllers\Controller;
+use App\Services\RegistrationService;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\ApplicantInfoRequest;
-use App\Services\RegistrationService;
+use Illuminate\Contracts\View\View;
 
 class CreateApplicantController extends Controller
 {
     public function __construct(
         private RegistrationService $registrationService
     ) {}
-    public function index(Request $request)
+    public function index(Request $request): Response|View
     {
         $staffId = $request->user()->orgUserInfo->id;
         if ($request->ajax()) {
@@ -24,7 +26,7 @@ class CreateApplicantController extends Controller
                 return response()
                     ->view('components.add-applicant-or-project.view-list-of-added-applicant', compact('applicants'))
                     ->withHeaders([
-                        'X-ACTION-IN-PROJECT-TAB' => 'view-applicant-form'
+                        'X-ACTION-IN-PROJECT-TAB' => 'view-applicant-list'
                     ]);
             }
             return response()
@@ -36,7 +38,7 @@ class CreateApplicantController extends Controller
         return view('staff-view.staff-index');
     }
 
-    public function show(Request $request, $ownerId)
+    public function show(Request $request, $ownerId): View
     {
         if ($request->ajax()) {
             $draft_type = $this->registrationService->getDraftType($ownerId);

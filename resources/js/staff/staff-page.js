@@ -1952,13 +1952,21 @@ async function initializeStaffPageJs() {
                         await ADD_APPLICANT_OR_PROJECT_HANDLER
                     ).default;
 
-                    const userChoice =
-                        await AddApplicantOrProjectHandler.create();
+                    let userChoice;
+                    try {
+                        userChoice =
+                            await AddApplicantOrProjectHandler.create();
+                    } catch (reason) {
+                        showToastFeedback('info', reason);
+                        return;
+                    }
 
                     if (userChoice === 'applicant') {
                         await loadPage(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
                     } else if (userChoice === 'project') {
                         await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink');
+                    } else {
+                        throw new Error('Invalid choice');
                     }
                 } catch (error) {
                     processError('Error in add project: ', error, true);
@@ -2927,7 +2935,7 @@ async function initializeStaffPageJs() {
             const eventHandler = (event, { eventListenerToInitialize }) => {
                 if (eventListenerToInitialize == 'add-applicant-form') {
                     module.setupFormSubmitHandler();
-                } else {
+                } else if (eventListenerToInitialize == 'view-applicant-list') {
                     module.setupApplicantTableActionListener();
                 }
 

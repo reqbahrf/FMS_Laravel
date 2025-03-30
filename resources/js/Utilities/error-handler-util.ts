@@ -18,6 +18,7 @@ const processErrorMessage = (error: any): string => {
         error?.responseJSON?.message ||
         error?.message ||
         error?.error ||
+        error ||
         'An unexpected error occurred.'
     );
 };
