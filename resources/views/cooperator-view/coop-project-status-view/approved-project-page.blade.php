@@ -26,7 +26,7 @@
                     class="mb-2 d-flex align-items-center"
                     id="dashboardTab"
                     href="#"
-                    onclick="loadPage('{{ route('Cooperator.dashboard') }}','dashboardTab');"
+                    onclick="loadTab('{{ route('Cooperator.dashboard') }}','dashboardTab');"
                 >
                     <i class="ri-dashboard-3-fill ri-2x"></i>
                     <span class="nav-text ml-2">Dashboard</span>
@@ -37,7 +37,7 @@
                     class="mb-2 d-flex align-items-center"
                     id="paymentTab"
                     href="#"
-                    onclick="loadPage('{{ route('Cooperator.refund') }}','paymentTab');"
+                    onclick="loadTab('{{ route('Cooperator.refund') }}','paymentTab');"
                 >
                     <i class="ri-money-dollar-circle-fill ri-2x"></i>
                     <span class="nav-text ml-2">Payments</span>
@@ -48,7 +48,7 @@
                     class="mb-2 d-flex align-items-center"
                     id="ProjectsTab"
                     href="#"
-                    onclick="loadPage('{{ route('Cooperator.myProjects') }}','ProjectsTab');"
+                    onclick="loadTab('{{ route('Cooperator.myProjects') }}','ProjectsTab');"
                 >
                     <i class="ri-file-list-3-fill ri-2x"></i>
                     <span class="nav-text ml-2">Projects</span>
@@ -118,7 +118,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="dashboardTab"
                         href="#"
-                        onclick="loadPage('{{ route('Cooperator.dashboard') }}','dashboardTab');"
+                        onclick="loadTab('{{ route('Cooperator.dashboard') }}','dashboardTab');"
                     >
                         <i class="ri-dashboard-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Dashboard</span>
@@ -129,7 +129,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="paymentTab"
                         href="#"
-                        onclick="loadPage('{{ route('Cooperator.refund') }}','paymentTab');"
+                        onclick="loadTab('{{ route('Cooperator.refund') }}','paymentTab');"
                     >
                         <i class="ri-money-dollar-circle-fill ri-2x"></i>
                         <span class="nav-text ml-2">Payments</span>
@@ -140,7 +140,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="ProjectsTab"
                         href="#"
-                        onclick="loadPage('{{ route('Cooperator.myProjects') }}','ProjectsTab');"
+                        onclick="loadTab('{{ route('Cooperator.myProjects') }}','ProjectsTab');"
                     >
                         <i class="ri-file-list-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Projects</span>

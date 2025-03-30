@@ -75,7 +75,7 @@ const navigationHandler = new NavigationHandler(
     initializeStaffPageJs
 );
 navigationHandler.init();
-window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
+window.loadTab = navigationHandler.loadTab.bind(navigationHandler);
 
 $(function () {
     // Cache selectors
@@ -1962,9 +1962,9 @@ async function initializeStaffPageJs() {
                     }
 
                     if (userChoice === 'applicant') {
-                        await loadPage(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
+                        await loadTab(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
                     } else if (userChoice === 'project') {
-                        await loadPage(NAV_ROUTES.ADD_PROJECT, 'projectLink');
+                        await loadTab(NAV_ROUTES.ADD_PROJECT, 'projectLink');
                     } else {
                         throw new Error('Invalid choice');
                     }

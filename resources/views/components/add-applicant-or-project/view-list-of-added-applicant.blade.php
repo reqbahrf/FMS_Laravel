@@ -5,7 +5,7 @@
     <ol class="breadcrumb px-3">
         <li class="breadcrumb-item"><a
                 href="#"
-                onclick="loadPage('{{ route('staff.Project') }}', 'projectLink')"
+                onclick="loadTab('{{ route('staff.Project') }}', 'projectLink')"
             >Projects</a></li>
         <li class="breadcrumb-item active">Add Applicant List</li>
     </ol>

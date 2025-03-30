@@ -58,7 +58,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="dashboardLink"
                         href="#"
-                        onclick="loadPage('{{ route('staff.dashboard') }}','dashboardLink');"
+                        onclick="loadTab('{{ route('staff.dashboard') }}','dashboardLink');"
                     >
                         <i class="ri-dashboard-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Dashboard</span>
@@ -69,7 +69,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="projectLink"
                         href="#"
-                        onclick="loadPage('{{ route('staff.Project') }}','projectLink');"
+                        onclick="loadTab('{{ route('staff.Project') }}','projectLink');"
                     >
                         <i class="ri-file-list-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Projects</span>
@@ -80,7 +80,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="Applicationlink"
                         href="#"
-                        onclick="loadPage('{{ route('staff.Applicant') }}', 'Applicationlink');"
+                        onclick="loadTab('{{ route('staff.Applicant') }}', 'Applicationlink');"
                     >
                         <i class="ri-id-card-fill ri-2x"></i>
                         <span class="nav-text ml-2">Applicant</span>
@@ -128,7 +128,7 @@
                             class="mb-2 d-flex align-items-center"
                             id="dashboardLink"
                             href="#"
-                            onclick="loadPage('{{ route('staff.dashboard') }}','dashboardLink');"
+                            onclick="loadTab('{{ route('staff.dashboard') }}','dashboardLink');"
                         >
                             <i class="ri-dashboard-3-fill ri-2x"></i>
                             <span class="nav-text ml-2">Dashboard</span>
@@ -139,7 +139,7 @@
                             class="mb-2 d-flex align-items-center"
                             id="projectLink"
                             href="#"
-                            onclick="loadPage('{{ route('staff.Project') }}','projectLink');"
+                            onclick="loadTab('{{ route('staff.Project') }}','projectLink');"
                         >
                             <i class="ri-file-list-3-fill ri-2x"></i>
                             <span class="nav-text ml-2">Projects</span>
@@ -150,7 +150,7 @@
                             class="mb-2 d-flex align-items-center"
                             id="Applicationlink"
                             href="#"
-                            onclick="loadPage('{{ route('staff.Applicant') }}', 'Applicationlink');"
+                            onclick="loadTab('{{ route('staff.Applicant') }}', 'Applicationlink');"
                         >
                             <i class="ri-id-card-fill ri-2x"></i>
                             <span class="nav-text ml-2">Applicant</span>
