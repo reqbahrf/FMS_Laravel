@@ -7,7 +7,7 @@ import {
 import { setupPhoneNumberInput } from './Utilities/phone-formatter';
 import { customFormatNumericInput } from './Utilities/input-utils';
 import { FormDraftHandler } from './Utilities/FormDraftHandler';
-import { AddressFormInput, API } from './Utilities/AddressInputHandler';
+import { AddressFormInput } from './Utilities/AddressInputHandler';
 import {
     InitializeFilePond,
     handleFilePondSelectorDisabling,
@@ -49,8 +49,6 @@ export function initializeForm() {
     customFormatNumericInput('#productionEquipmentTable tbody', [
         'input.Capacity',
     ]);
-
-    const API_BASE_URL = 'https://psgc.gitlab.io/api';
 
     const organizationalStructureInstance = InitializeFilePond(
         'organizationalStructure',

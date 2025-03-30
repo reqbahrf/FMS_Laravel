@@ -2954,9 +2954,11 @@ async function initializeStaffPageJs() {
             const ApplicantProgressContainer = $('#ApplicationProgress');
             const RequirementsTable = $('#requirementsTables');
 
-            let tnaForm;
-            let projectProposalForm;
-            let rtecReportForm;
+            const FORM_CLASS_INSTANCE = {
+                tnaForm: null,
+                projectProposalForm: null,
+                rtecReportForm: null,
+            };
 
             $('#evaluationSchedule-datepicker').on('change', function () {
                 const selectedDate = new Date(this.value);
@@ -2978,48 +2980,52 @@ async function initializeStaffPageJs() {
                     const actionBtn = ApplicantProgressContainer.find(
                         '#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport, #submitToAdmin'
                     );
-                    const sex = row
-                        .find("td:nth-child(1) input[name='sex']")
-                        .val();
-                    console.log(sex);
-                    const designation = row
-                        .find('td:nth-child(2)')
-                        .text()
-                        .trim();
-                    const firmName = row
-                        .find('td:nth-child(3) span.firm_name')
-                        .text()
-                        .trim();
-                    const userID = row
-                        .find('td:nth-child(3) input[name="userID"]')
-                        .val();
+                    const CONTACT_PERSON_INFO = {
+                        fullName: row.find('td:nth-child(1)').text().trim(),
+                        sex: row.find("input[name='sex']").val(),
+                        age: null,
+                        designation: row.find('td:nth-child(2)').text().trim(),
+                        contactNumber: row
+                            .find('span.mobile_num')
+                            .text()
+                            .trim(),
+                        landline: row.find('span.landline').text().trim(),
+                        email: row.find('span.email_add').text().trim(),
+                    };
+
+                    const BUSINESS_INFO = {
+                        firmName: row.find('span.firm_name').text().trim(),
+                        businessAddress: row
+                            .find('span.b_address')
+                            .text()
+                            .trim(),
+                        enterpriseType: row
+                            .find('span.enterprise_l')
+                            .text()
+                            .trim(),
+                        buildingAsset: row
+                            .find('span.asset-building')
+                            .text()
+                            .replace('Building:', '')
+                            .trim(),
+                        equipmentAsset: row
+                            .find('span.asset-equipment')
+                            .text()
+                            .replace('Equipment:', '')
+                            .trim(),
+                        workingCapitalAsset: row
+                            .find('span.asset-working-capital')
+                            .text()
+                            .replace('Working Capital:', '')
+                            .trim(),
+                    };
+                    const userID = row.find('input[name="userID"]').val();
                     const ApplicationID = row
-                        .find('td:nth-child(3) input[name="applicationID"]')
+                        .find('input[name="applicationID"]')
                         .val();
                     const businessID = row
-                        .find('td:nth-child(3) input[name="businessID"]')
+                        .find('input[name="businessID"]')
                         .val();
-                    const businessAddress = row
-                        .find('td:nth-child(3) span.b_address')
-                        .text()
-                        .trim();
-                    const enterpriseType = row
-                        .find('td:nth-child(3) span.enterprise_l')
-                        .text()
-                        .trim();
-                    const landline = row
-                        .find('td:nth-child(3) span.landline')
-                        .text()
-                        .trim();
-                    const mobilePhone = row
-                        .find('td:nth-child(3) span.mobile_num')
-                        .text()
-                        .trim();
-                    const emailAddress = row
-                        .find('td:nth-child(3) span.email_add')
-                        .text()
-                        .trim();
-
                     const personnel = {
                         male_direct_re: row
                             .find('input[name="male_direct_re"]')
@@ -3051,14 +3057,35 @@ async function initializeStaffPageJs() {
                     };
 
                     const ApplicantDetails = ApplicantDetailsContainer.find(
-                        '.businessInfo input'
+                        '#applicantDetails input'
                     );
 
                     actionBtn
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
 
-                    ApplicantDetails.filter('#firm_name').val(firmName);
+                    ApplicantDetails.filter('#contact_person').val(
+                        CONTACT_PERSON_INFO.fullName
+                    );
+                    ApplicantDetails.filter('#designation').val(
+                        CONTACT_PERSON_INFO.designation
+                    );
+                    ApplicantDetails.filter('#sex').val(
+                        CONTACT_PERSON_INFO.sex
+                    );
+                    ApplicantDetails.filter('#landline').val(
+                        CONTACT_PERSON_INFO.landline
+                    );
+                    ApplicantDetails.filter('#mobile_phone').val(
+                        CONTACT_PERSON_INFO.contactNumber
+                    );
+                    ApplicantDetails.filter('#email').val(
+                        CONTACT_PERSON_INFO.email
+                    );
+
+                    ApplicantDetails.filter('#firm_name').val(
+                        BUSINESS_INFO.firmName
+                    );
                     ApplicantDetails.filter('#selected_userId').val(userID);
                     ApplicantDetails.filter('#selected_businessID').val(
                         businessID
@@ -3066,16 +3093,23 @@ async function initializeStaffPageJs() {
                     ApplicantDetails.filter('#selected_applicationId').val(
                         ApplicationID
                     );
-                    ApplicantDetails.filter('#address').val(businessAddress);
-                    ApplicantDetails.filter('#contact_person').val(fullName); // Add corresponding value
-                    ApplicantDetails.filter('#designation').val(designation);
-                    ApplicantDetails.filter('#sex').val(sex);
-                    ApplicantDetails.filter('#enterpriseType').val(
-                        enterpriseType
+                    ApplicantDetails.filter('#businessAddress').val(
+                        BUSINESS_INFO.businessAddress
+                            .replace(/\s+/g, ' ')
+                            .trim()
                     );
-                    ApplicantDetails.filter('#landline').val(landline);
-                    ApplicantDetails.filter('#mobile_phone').val(mobilePhone);
-                    ApplicantDetails.filter('#email').val(emailAddress);
+                    ApplicantDetails.filter('#building').val(
+                        BUSINESS_INFO.buildingAsset
+                    );
+                    ApplicantDetails.filter('#equipment').val(
+                        BUSINESS_INFO.equipmentAsset
+                    );
+                    ApplicantDetails.filter('#working_capital').val(
+                        BUSINESS_INFO.workingCapitalAsset
+                    );
+                    ApplicantDetails.filter('#enterpriseType').val(
+                        BUSINESS_INFO.enterpriseType
+                    );
                     ApplicantDetails.filter('#male_direct_re').val(
                         personnel.male_direct_re || '0'
                     );
@@ -3112,11 +3146,18 @@ async function initializeStaffPageJs() {
                     getApplicantRequirements(businessID);
                     getEvaluationScheduledDate(businessID, ApplicationID);
 
-                    tnaForm.setId(businessID, ApplicationID);
-                    projectProposalForm.setId(businessID, ApplicationID);
-                    rtecReportForm.setId(businessID, ApplicationID);
-
-                    console.log(tnaForm, projectProposalForm, rtecReportForm);
+                    FORM_CLASS_INSTANCE.tnaForm.setId(
+                        businessID,
+                        ApplicationID
+                    );
+                    FORM_CLASS_INSTANCE.projectProposalForm.setId(
+                        businessID,
+                        ApplicationID
+                    );
+                    FORM_CLASS_INSTANCE.rtecReportForm.setId(
+                        businessID,
+                        ApplicationID
+                    );
                 }
             );
 
@@ -3623,17 +3664,21 @@ async function initializeStaffPageJs() {
             );
             const RTECReportContainerModal = $('#rtecReportContainerModal');
 
-            tnaForm = new TNAForm(TNADocumentContainerModal);
-            tnaForm.initializeTNAForm();
+            FORM_CLASS_INSTANCE.tnaForm = new TNAForm(
+                TNADocumentContainerModal
+            );
+            FORM_CLASS_INSTANCE.tnaForm.initializeTNAForm();
 
-            projectProposalForm = new ProjectProposalForm(
+            FORM_CLASS_INSTANCE.projectProposalForm = new ProjectProposalForm(
                 ProjectProposalDocumentContainerModal
             );
 
-            projectProposalForm.initializeProjectProposalForm();
+            FORM_CLASS_INSTANCE.projectProposalForm.initializeProjectProposalForm();
 
-            rtecReportForm = new RTECReportForm(RTECReportContainerModal);
-            rtecReportForm.initializeRTECReportForm();
+            FORM_CLASS_INSTANCE.rtecReportForm = new RTECReportForm(
+                RTECReportContainerModal
+            );
+            FORM_CLASS_INSTANCE.rtecReportForm.initializeRTECReportForm();
         },
     };
     return functions;
