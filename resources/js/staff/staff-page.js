@@ -2980,13 +2980,45 @@ async function initializeStaffPageJs() {
                     const actionBtn = ApplicantProgressContainer.find(
                         '#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport, #submitToAdmin'
                     );
-                    const sex = row.find("input[name='sex']").val();
-                    console.log(sex);
-                    const designation = row
-                        .find('td:nth-child(2)')
-                        .text()
-                        .trim();
-                    const firmName = row.find('span.firm_name').text().trim();
+                    const CONTACT_PERSON_INFO = {
+                        fullName: row.find('td:nth-child(1)').text().trim(),
+                        sex: row.find("input[name='sex']").val(),
+                        age: null,
+                        designation: row.find('td:nth-child(2)').text().trim(),
+                        contactNumber: row
+                            .find('span.mobile_num')
+                            .text()
+                            .trim(),
+                        landline: row.find('span.landline').text().trim(),
+                        email: row.find('span.email_add').text().trim(),
+                    };
+
+                    const BUSINESS_INFO = {
+                        firmName: row.find('span.firm_name').text().trim(),
+                        businessAddress: row
+                            .find('span.b_address')
+                            .text()
+                            .trim(),
+                        enterpriseType: row
+                            .find('span.enterprise_l')
+                            .text()
+                            .trim(),
+                        buildingAsset: row
+                            .find('span.asset-building')
+                            .text()
+                            .replace('Building:', '')
+                            .trim(),
+                        equipmentAsset: row
+                            .find('span.asset-equipment')
+                            .text()
+                            .replace('Equipment:', '')
+                            .trim(),
+                        workingCapitalAsset: row
+                            .find('span.asset-working-capital')
+                            .text()
+                            .replace('Working Capital:', '')
+                            .trim(),
+                    };
                     const userID = row.find('input[name="userID"]').val();
                     const ApplicationID = row
                         .find('input[name="applicationID"]')
@@ -2994,24 +3026,6 @@ async function initializeStaffPageJs() {
                     const businessID = row
                         .find('input[name="businessID"]')
                         .val();
-                    const businessAddress = row
-                        .find('span.b_address')
-                        .text()
-                        .trim();
-                    const enterpriseType = row
-                        .find('span.enterprise_l')
-                        .text()
-                        .trim();
-                    const landline = row.find('span.landline').text().trim();
-                    const mobilePhone = row
-                        .find('span.mobile_num')
-                        .text()
-                        .trim();
-                    const emailAddress = row
-                        .find('span.email_add')
-                        .text()
-                        .trim();
-
                     const personnel = {
                         male_direct_re: row
                             .find('input[name="male_direct_re"]')
@@ -3050,7 +3064,28 @@ async function initializeStaffPageJs() {
                         .attr('data-business-id', businessID)
                         .attr('data-application-id', ApplicationID);
 
-                    ApplicantDetails.filter('#firm_name').val(firmName);
+                    ApplicantDetails.filter('#contact_person').val(
+                        CONTACT_PERSON_INFO.fullName
+                    );
+                    ApplicantDetails.filter('#designation').val(
+                        CONTACT_PERSON_INFO.designation
+                    );
+                    ApplicantDetails.filter('#sex').val(
+                        CONTACT_PERSON_INFO.sex
+                    );
+                    ApplicantDetails.filter('#landline').val(
+                        CONTACT_PERSON_INFO.landline
+                    );
+                    ApplicantDetails.filter('#mobile_phone').val(
+                        CONTACT_PERSON_INFO.contactNumber
+                    );
+                    ApplicantDetails.filter('#email').val(
+                        CONTACT_PERSON_INFO.email
+                    );
+
+                    ApplicantDetails.filter('#firm_name').val(
+                        BUSINESS_INFO.firmName
+                    );
                     ApplicantDetails.filter('#selected_userId').val(userID);
                     ApplicantDetails.filter('#selected_businessID').val(
                         businessID
@@ -3059,17 +3094,22 @@ async function initializeStaffPageJs() {
                         ApplicationID
                     );
                     ApplicantDetails.filter('#businessAddress').val(
-                        businessAddress.replace(/\s+/g, ' ').trim()
+                        BUSINESS_INFO.businessAddress
+                            .replace(/\s+/g, ' ')
+                            .trim()
                     );
-                    ApplicantDetails.filter('#contact_person').val(fullName);
-                    ApplicantDetails.filter('#designation').val(designation);
-                    ApplicantDetails.filter('#sex').val(sex);
+                    ApplicantDetails.filter('#building').val(
+                        BUSINESS_INFO.buildingAsset
+                    );
+                    ApplicantDetails.filter('#equipment').val(
+                        BUSINESS_INFO.equipmentAsset
+                    );
+                    ApplicantDetails.filter('#working_capital').val(
+                        BUSINESS_INFO.workingCapitalAsset
+                    );
                     ApplicantDetails.filter('#enterpriseType').val(
-                        enterpriseType
+                        BUSINESS_INFO.enterpriseType
                     );
-                    ApplicantDetails.filter('#landline').val(landline);
-                    ApplicantDetails.filter('#mobile_phone').val(mobilePhone);
-                    ApplicantDetails.filter('#email').val(emailAddress);
                     ApplicantDetails.filter('#male_direct_re').val(
                         personnel.male_direct_re || '0'
                     );

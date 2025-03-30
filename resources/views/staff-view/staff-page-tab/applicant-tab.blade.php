@@ -229,39 +229,54 @@
                                         class="form-label"
                                         for="building"
                                     >Building:</label>
-                                    <input
-                                        class="form-control"
-                                        id="building"
-                                        name="building"
-                                        type="text"
-                                        readonly
-                                    >
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            ₱
+                                        </span>
+                                        <input
+                                            class="form-control"
+                                            id="building"
+                                            name="building"
+                                            type="text"
+                                            readonly
+                                        >
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label
                                         class="form-label"
                                         for="equipment"
                                     >Equipment:</label>
-                                    <input
-                                        class="form-control"
-                                        id="equipment"
-                                        name="equipment"
-                                        type="text"
-                                        readonly
-                                    >
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            ₱
+                                        </span>
+                                        <input
+                                            class="form-control"
+                                            id="equipment"
+                                            name="equipment"
+                                            type="text"
+                                            readonly
+                                        >
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <label
                                         class="form-label"
                                         for="working_capital"
                                     >Working Capital:</label>
-                                    <input
-                                        class="form-control"
-                                        id="working_capital"
-                                        name="working_capital"
-                                        type="text"
-                                        readonly
-                                    >
+                                    <div class="input-group">
+                                        <span class="input-group-text">
+                                            ₱
+                                        </span>
+                                        <input
+                                            class="form-control"
+                                            id="working_capital"
+                                            name="working_capital"
+                                            type="text"
+                                            readonly
+                                        >
+                                    </div>
                                 </div>
                                 <div class="col-12">
                                     <h3>

@@ -428,20 +428,20 @@ export default class ApplicantDataTable {
                                 >
                                 <p>
                                     <strong>Assets:</strong> <br />
-                                    <span class="ps-2"
+                                    <span class="ps-2 asset-building"
                                         >Building:
                                         ${formatNumber(
                                             parseFloat(item.building_value)
                                         )}</span
                                     ><br />
-                                    <span class="ps-2"
+                                    <span class="ps-2 asset-equipment"
                                         >Equipment:
                                         ${formatNumber(
                                             parseFloat(item.equipment_value)
                                         )}</span
                                     >
                                     <br />
-                                    <span class="ps-2"
+                                    <span class="ps-2 asset-working-capital"
                                         >Working Capital:
                                         ${formatNumber(
                                             parseFloat(item.working_capital)
