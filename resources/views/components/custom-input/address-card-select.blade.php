@@ -1,4 +1,4 @@
-@props(['prefix'])
+@props(['prefix', 'isRequired' => true, 'isContactIncluded' => true])
 <div class="card p-0">
     <div class="card-header fw-bold">
         {{ ucfirst($prefix) }} Address:
@@ -9,12 +9,12 @@
                 <label
                     class="form-label"
                     for="{{ $prefix }}Region"
-                >Region:<span class="requiredFields">*</span></label>
+                >Region: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <select
                     class="form-select"
                     id="{{ $prefix }}Region"
                     name="{{ $prefix }}Region"
-                    required
+                    @required($isRequired)
                 >
                     <option value="">Select Region</option>
                 </select>
@@ -24,12 +24,12 @@
                 <label
                     class="form-label"
                     for="province"
-                >Province:<span class="requiredFields">*</span></label>
+                >Province: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <select
                     class="form-select"
                     id="{{ $prefix }}Province"
                     name="{{ $prefix }}Province"
-                    required
+                    @required($isRequired)
                     disabled
                 >
                     <option value="">Select Province</option>
@@ -40,12 +40,12 @@
                 <label
                     class="form-label"
                     for="city"
-                >City:<span class="requiredFields">*</span></label>
+                >City: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <select
                     class="form-select"
                     id="{{ $prefix }}City"
                     name="{{ $prefix }}City"
-                    required
+                    @required($isRequired)
                     disabled
                 >
                     <option value="">Select City</option>
@@ -56,12 +56,12 @@
                 <label
                     class="form-label"
                     for="{{ $prefix }}Barangay"
-                >Barangay:<span class="requiredFields">*</span></label>
+                >Barangay: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <select
                     class="form-select"
                     id="{{ $prefix }}Barangay"
                     name="{{ $prefix }}Barangay"
-                    required
+                    @required($isRequired)
                     disabled
                 >
                     <option value="">Select Barangay</option>
@@ -72,8 +72,7 @@
                 <label
                     class="form-label"
                     for="Landmark"
-                >Landmark: <span class="requiredFields">
-                        *</span></label>
+                >Landmark: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <input
                     class="form-control"
                     id="{{ $prefix }}Landmark"
@@ -81,7 +80,7 @@
                     type="text"
                     value="{{ old("{$prefix}Landmark") }}"
                     placeholder="Street Name, or Purok, Building No."
-                    required
+                    @required($isRequired)
                 >
                 <div class="invalid-feedback">
                     Please enter the landmark.
@@ -91,8 +90,7 @@
                 <label
                     class="form-label"
                     for="{{ $prefix }}Zipcode"
-                >Zip Code: <span class="requiredFields"> *</span">
-                </label>
+                >Zip Code: {!! $isRequired ? '<span class="requiredFields"> *</span>' : '' !!}</label>
                 <input
                     class="form-control"
                     id="{{ $prefix }}Zipcode"
@@ -100,54 +98,56 @@
                     type="text"
                     value="{{ old("{$prefix}Zipcode") }}"
                     placeholder="8000"
-                    required
+                    @required($isRequired)
                 >
                 <div class="invalid-feedback">
                     Please enter the zipcode.
                 </div>
             </div>
-            <div class="col-12 col-md-4">
-                <label
-                    class="form-label"
-                    for="{{ $prefix }}TelNo"
-                >Telephone No:</label>
-                <input
-                    class="form-control"
-                    id="{{ $prefix }}TelNo"
-                    name="{{ $prefix }}TelNo"
-                    type="text"
-                    value="{{ old("{$prefix}TelNo") }}"
-                    placeholder="1234567"
-                >
-            </div>
-            <div class="col-12 col-md-4">
-                <label
-                    class="form-label"
-                    for="{{ $prefix }}FaxNo"
-                >Fax No:</label>
-                <input
-                    class="form-control"
-                    id="{{ $prefix }}FaxNo"
-                    name="{{ $prefix }}FaxNo"
-                    type="text"
-                    value="{{ old("{$prefix}FaxNo") }}"
-                    placeholder="1234567"
-                >
-            </div>
-            <div class="col-12 col-md-4">
-                <label
-                    class="form-label"
-                    for="{{ $prefix }}EmailAddress"
-                >Email Address:</label>
-                <input
-                    class="form-control"
-                    id="{{ $prefix }}EmailAddress"
-                    name="{{ $prefix }}EmailAddress"
-                    type="email"
-                    value="{{ old("{$prefix}EmailAddress") }}"
-                    placeholder="example@domain.com"
-                >
-            </div>
+            @if ($isContactIncluded)
+                <div class="col-12 col-md-4">
+                    <label
+                        class="form-label"
+                        for="{{ $prefix }}TelNo"
+                    >Telephone No:</label>
+                    <input
+                        class="form-control"
+                        id="{{ $prefix }}TelNo"
+                        name="{{ $prefix }}TelNo"
+                        type="text"
+                        value="{{ old("{$prefix}TelNo") }}"
+                        placeholder="1234567"
+                    >
+                </div>
+                <div class="col-12 col-md-4">
+                    <label
+                        class="form-label"
+                        for="{{ $prefix }}FaxNo"
+                    >Fax No:</label>
+                    <input
+                        class="form-control"
+                        id="{{ $prefix }}FaxNo"
+                        name="{{ $prefix }}FaxNo"
+                        type="text"
+                        value="{{ old("{$prefix}FaxNo") }}"
+                        placeholder="1234567"
+                    >
+                </div>
+                <div class="col-12 col-md-4">
+                    <label
+                        class="form-label"
+                        for="{{ $prefix }}EmailAddress"
+                    >Email Address:</label>
+                    <input
+                        class="form-control"
+                        id="{{ $prefix }}EmailAddress"
+                        name="{{ $prefix }}EmailAddress"
+                        type="email"
+                        value="{{ old("{$prefix}EmailAddress") }}"
+                        placeholder="example@domain.com"
+                    >
+                </div>
+            @endif
 
         </div>
     </div>

@@ -19,7 +19,7 @@
         >
             <div class="row mb-4 gy-3">
                 <div class="col-md-12">
-                    <h2 class="mb-3">Personal Information</h2>
+                    <h2>Personal Information</h2>
                 </div>
 
                 <!-- Email -->
@@ -152,7 +152,7 @@
 
             <div class="row mb-4">
                 <div class="col-md-12">
-                    <h2 class="mb-3">Contact Information</h2>
+                    <h2>Contact Information</h2>
                 </div>
 
                 <!-- Mobile Number -->
@@ -174,6 +174,16 @@
                 </div>
                 <div class="col-12">
                     <hr>
+                </div>
+                <div class="col-12">
+                    <h2>Address</h2>
+                </div>
+                <div class="col-12">
+                    <x-custom-input.address-card-select
+                        prefix="home"
+                        :isRequired="false"
+                        :isContactIncluded="false"
+                    />
                 </div>
             </div>
             <div class="row">
