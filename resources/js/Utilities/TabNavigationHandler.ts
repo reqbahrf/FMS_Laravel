@@ -45,9 +45,9 @@ export default class NavigationHandler {
         const lastUrl = sessionStorage.getItem(`${this.userRole}LastUrl`);
         const lastActive = sessionStorage.getItem(`${this.userRole}LastActive`);
         if (lastUrl && lastActive) {
-            this.loadPage(lastUrl, lastActive);
+            this.loadTab(lastUrl, lastActive);
         } else {
-            this.loadPage(NAV_ROUTES.DASHBOARD, 'dashboardTab');
+            this.loadTab(NAV_ROUTES.DASHBOARD, 'dashboardTab');
         }
     }
 
@@ -71,7 +71,7 @@ export default class NavigationHandler {
      * @returns {Promise<void>}
      * @throws {Error} When page loading fails
      */
-    public async loadPage(url: string, activeLink: string): Promise<void> {
+    public async loadTab(url: string, activeLink: string): Promise<void> {
         try {
             $(document).trigger('page:changing', {
                 from: this.currentPage,
@@ -85,7 +85,7 @@ export default class NavigationHandler {
             const cachedPage = sessionStorage.getItem(url);
             if (cachedPage) {
                 // If cached, use the cached response
-                this._handleLoadPageResponse(cachedPage, activeLink, url);
+                this._handleloadTabResponse(cachedPage, activeLink, url);
             } else {
                 const response = await fetch(url, {
                     method: 'GET',
@@ -94,7 +94,7 @@ export default class NavigationHandler {
                     },
                 });
                 const html = await response.text();
-                await this._handleLoadPageResponse(html, activeLink, url);
+                await this._handleloadTabResponse(html, activeLink, url);
                 const actionInProjectTab = response?.headers?.get(
                     'X-ACTION-IN-PROJECT-TAB'
                 );
@@ -134,7 +134,7 @@ export default class NavigationHandler {
      * @throws {Error} When handling page response fails
      * @private
      */
-    async _handleLoadPageResponse(
+    async _handleloadTabResponse(
         response: HTMLContent,
         activeLink: string,
         url: string

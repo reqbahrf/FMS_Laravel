@@ -71,7 +71,7 @@ const navigationHandler = new NavigationHandler(
     initializeAdminPageJs
 );
 navigationHandler.init();
-window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
+window.loadTab = navigationHandler.loadTab.bind(navigationHandler);
 
 $(function () {
     // Cache selectors

@@ -1,5 +1,5 @@
 interface Window {
-    loadPage: (url: string, activeLink: string) => Promise<void>;
+    loadTab: (url: string, activeLink: string) => Promise<void>;
 }
 
-var loadPage: (url: string, activeLink: string) => Promise<void>;
+var loadTab: (url: string, activeLink: string) => Promise<void>;

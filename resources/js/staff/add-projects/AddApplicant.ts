@@ -71,10 +71,7 @@ export default class AddApplicant {
                                 button.data('secure-form-link');
                             if (!secureFormLink)
                                 throw new Error('Secure form link not found');
-                            await window.loadPage(
-                                secureFormLink,
-                                'projectLink'
-                            );
+                            await window.loadTab(secureFormLink, 'projectLink');
                             this.formElement = $('#applicationForm');
                             this.initializeApplicantDetailedForm();
                             if (

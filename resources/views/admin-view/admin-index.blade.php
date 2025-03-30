@@ -57,7 +57,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="dashboardLink"
                         href="#"
-                        onclick="loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');"
+                        onclick="loadTab('{{ route('admin.Dashboard') }}', 'dashboardLink');"
                     >
                         <i class="ri-dashboard-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Dashboard</span>
@@ -68,7 +68,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="projectList"
                         href="#"
-                        onclick="loadPage('{{ route('admin.Project') }}', 'projectList');"
+                        onclick="loadTab('{{ route('admin.Project') }}', 'projectList');"
                     >
                         <i class="ri-file-list-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Project List</span>
@@ -79,7 +79,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="applicantList"
                         href="#"
-                        onclick="loadPage('{{ route('admin.Applicant') }}','applicantList');"
+                        onclick="loadTab('{{ route('admin.Applicant') }}','applicantList');"
                     >
                         <i class="ri-id-card-fill ri-2x"></i>
                         <span class="nav-text ml-2">Applicant List</span>
@@ -90,7 +90,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="userList"
                         href="#"
-                        onclick="loadPage('{{ route('admin.Users-list') }}','userList');"
+                        onclick="loadTab('{{ route('admin.Users-list') }}','userList');"
                     >
                         <i class="ri-shield-user-fill ri-2x"></i>
                         <span class="nav-text ml-2">Users</span>
@@ -101,7 +101,7 @@
                         class="mb-2 d-flex align-items-center"
                         id="ProjectSettings"
                         href="#"
-                        onclick="loadPage('{{ route('admin.ProjectSettings') }}','ProjectSettings');"
+                        onclick="loadTab('{{ route('admin.ProjectSettings') }}','ProjectSettings');"
                     >
                         <i class="ri-settings-3-fill ri-2x"></i>
                         <span class="nav-text ml-2">Project Settings</span>
@@ -149,7 +149,7 @@
                             class="mb-2 d-flex align-items-center"
                             id="dashboardLink"
                             href="#"
-                            onclick="loadPage('{{ route('admin.Dashboard') }}', 'dashboardLink');"
+                            onclick="loadTab('{{ route('admin.Dashboard') }}', 'dashboardLink');"
                         >
                             <i class="ri-dashboard-3-fill ri-2x"></i>
                             <span class="nav-text ml-2">Dashboard</span>
@@ -160,7 +160,7 @@
                             class="mb-2 d-flex align-items-center"
                             id="projectList"
                             href="#"
-                            onclick="loadPage('{{ route('admin.Project') }}', 'projectList');"
+                            onclick="loadTab('{{ route('admin.Project') }}', 'projectList');"
                         >
                             <i class="ri-file-list-3-fill ri-2x"></i>
                             <span class="nav-text ml-2">Project List</span>
@@ -171,7 +171,7 @@
                             class="mb-2 d-flex align-items-center"
                             id="applicantList"
                             href="#"
-                            onclick="loadPage('{{ route('admin.Applicant') }}','applicantList');"
+                            onclick="loadTab('{{ route('admin.Applicant') }}','applicantList');"
                         >
                             <i class="ri-id-card-fill ri-2x"></i>
                             <span class="nav-text ml-2">Applicant List</span>
@@ -182,7 +182,7 @@
                             class="mb-2 d-flex align-items-center"
                             id="userList"
                             href="#"
-                            onclick="loadPage('{{ route('admin.Users-list') }}','userList');"
+                            onclick="loadTab('{{ route('admin.Users-list') }}','userList');"
                         >
                             <i class="ri-shield-user-fill ri-2x"></i>
                             <span class="nav-text ml-2">Users</span>

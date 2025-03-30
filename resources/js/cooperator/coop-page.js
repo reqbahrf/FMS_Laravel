@@ -92,7 +92,7 @@ const navigationHandler = new CoopPageNavHandler(
     initilizeCoopPageJs
 );
 navigationHandler.init();
-window.loadPage = navigationHandler.loadPage.bind(navigationHandler);
+window.loadTab = navigationHandler.loadTab.bind(navigationHandler);
 
 // $(window).on('beforeunload', function () {
 //     return 'Are you sure you want to leave?';
@@ -567,7 +567,7 @@ async function initilizeCoopPageJs() {
                             );
                         }, 500);
                         getQuarterlyReportLinks();
-                        loadPage(response.reportedFormUrl, response.navId);
+                        loadTab(response.reportedFormUrl, response.navId);
                     },
                     error: function (xhr, status, error) {
                         hideProcessToast(processToast);
