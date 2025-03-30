@@ -39,10 +39,8 @@ function calculateEnterpriseLevel(container: JQuery<HTMLElement>): void {
         enterpriseLevel = 'Micro Enterprise';
     } else if (total >= 3e6 && total < 15e6) {
         enterpriseLevel = 'Small Enterprise';
-    } else if (total >= 15e6 && total < 100e6) {
-        enterpriseLevel = 'Medium Enterprise';
     } else {
-        enterpriseLevel = 'Large Enterprise';
+        enterpriseLevel = 'Medium Enterprise';
     }
 
     enterpriseLevelElement.text(enterpriseLevel);
