@@ -1,5 +1,5 @@
-<div>
-    <h4 class="p-3">Add Applicant</h4>
+<div class="m-3">
+    <h1>Add Applicant</h1>
 </div>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3">
@@ -19,7 +19,7 @@
         >
             <div class="row mb-4 gy-3">
                 <div class="col-md-12">
-                    <h5 class="mb-3">Personal Information</h5>
+                    <h2 class="mb-3">Personal Information</h2>
                 </div>
 
                 <!-- Email -->
@@ -152,7 +152,7 @@
 
             <div class="row mb-4">
                 <div class="col-md-12">
-                    <h5 class="mb-3">Contact Information</h5>
+                    <h2 class="mb-3">Contact Information</h2>
                 </div>
 
                 <!-- Mobile Number -->
