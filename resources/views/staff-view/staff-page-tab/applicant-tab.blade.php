@@ -12,13 +12,13 @@
         tabindex="-1"
     >
         <div class="offcanvas-header bg-primary">
-            <h5
-                class="offcanvas-title text-white fs-4"
+            <h1
+                class="offcanvas-title text-white"
                 id="staticBackdropLabel"
             >
                 <i class="ri-id-card-fill ri-lg"></i>
                 Applicant Details
-            </h5>
+            </h1>
             <button
                 class="btn-close"
                 data-bs-dismiss="offcanvas"
@@ -26,18 +26,141 @@
                 aria-label="Close"
             ></button>
         </div>
-        <div class="offcanvas-body">
+        <div
+            class="offcanvas-body"
+            id="applicantDetails"
+        >
             <div class="row g-3">
                 <div class="col-12">
-                    <div class="card shadow-sm">
-                        <div class="card-header bg-primary">
-                            <div class="fw-bold fs-6 text-white">
-                                <i class="ri-briefcase-fill"></i>
-                                Business Info
-                            </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>
+                                <i class="ri-user-3-fill"></i>
+                                Contact Person Information:
+                            </h2>
                         </div>
                         <div class="card-body">
-                            <div class="row g-3 businessInfo">
+                            <div class="row g-3">
+                                <div class="col-md-5">
+                                    <label
+                                        class="form-label"
+                                        for="contact_person"
+                                    >Contact Person:</label>
+                                    <input
+                                        class="form-control"
+                                        id="contact_person"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-md-1">
+                                    <label
+                                        class="form-label"
+                                        for="sex"
+                                    >Sex:</label>
+                                    <input
+                                        class="form-control"
+                                        id="sex"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-md-1">
+                                    <label
+                                        class="form-label"
+                                        for="age"
+                                    >Age:</label>
+                                    <input
+                                        class="form-control"
+                                        id="age"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-md-3">
+                                    <label
+                                        class="form-label"
+                                        for="designation"
+                                    >Designation:</label>
+                                    <input
+                                        class="form-control"
+                                        id="designation"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-12">
+                                    <label
+                                        class="form-label"
+                                        for="contantPersonAddress"
+                                    >
+                                        Address:
+                                    </label>
+                                    <input
+                                        class="form-control"
+                                        id="contactPersonAddress"
+                                        type="text"
+                                        readonly
+                                    >
+
+                                </div>
+                                <div class="col-12">
+                                    <h3>
+                                        Contact Details:
+                                    </h3>
+                                </div>
+                                <div class="col-md-4">
+                                    <label
+                                        class="form-label"
+                                        for="landline"
+                                    >Landline:</label>
+                                    <input
+                                        class="form-control"
+                                        id="landline"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-md-4">
+                                    <label
+                                        class="form-label"
+                                        for="mobile_phone"
+                                    >Mobile Phone:</label>
+                                    <input
+                                        class="form-control"
+                                        id="mobile_phone"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-md-4">
+                                    <label
+                                        class="form-label"
+                                        for="email"
+                                    >Email Address:</label>
+                                    <input
+                                        class="form-control"
+                                        id="email"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h2>
+                                <i class="ri-briefcase-fill"></i>
+                                Business Information:
+                            </h2>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
                                 <input
                                     id="selected_userId"
                                     type="hidden"
@@ -54,54 +177,19 @@
                                     <label
                                         class="form-label"
                                         for="firm_name"
-                                    >Name of Firm</label>
+                                    >Name of Firm:</label>
                                     <input
-                                        class="form-control form-control-sm"
+                                        class="form-control"
                                         id="firm_name"
                                         type="text"
                                         readonly
                                     >
                                 </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Address</label>
+                                <div class="col-12">
+                                    <label class="form-label">Address:</label>
                                     <input
-                                        class="form-control form-control-sm text-nowrap"
-                                        type="text"
-                                        readonly
-                                    >
-                                </div>
-                                <div class="col-md-5">
-                                    <label
-                                        class="form-label"
-                                        for="contact_person"
-                                    >Contact Person:</label>
-                                    <input
-                                        class="form-control form-control-sm"
-                                        id="contact_person"
-                                        type="text"
-                                        readonly
-                                    >
-                                </div>
-                                <div class="col-md-1">
-                                    <label
-                                        class="form-label"
-                                        for="sex"
-                                    >Sex:</label>
-                                    <input
-                                        class="form-control form-control-sm"
-                                        id="sex"
-                                        type="text"
-                                        readonly
-                                    >
-                                </div>
-                                <div class="col-md-3">
-                                    <label
-                                        class="form-label"
-                                        for="designation"
-                                    >Designation:</label>
-                                    <input
-                                        class="form-control form-control-sm"
-                                        id="designation"
+                                        class="form-control text-nowrap"
+                                        id="businessAddress"
                                         type="text"
                                         readonly
                                     >
@@ -110,55 +198,75 @@
                                     <label
                                         class="form-label"
                                         for="enterpriseType"
-                                    >Type Of Enterprise:</label>
+                                    >Type of Enterprise:</label>
                                     <input
-                                        class="form-control form-control-sm"
+                                        class="form-control"
                                         id="enterpriseType"
                                         type="text"
                                         readonly
                                     >
                                 </div>
-                                <div class="col-12">
-                                    Contact Details:
-                                </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <label
                                         class="form-label"
-                                        for="landline"
-                                    >Landline:</label>
+                                        for="EnterpriseSector"
+                                    >Enterprise Sector:</label>
                                     <input
-                                        class="form-control form-control-sm"
-                                        id="landline"
-                                        type="text"
-                                        readonly
-                                    >
-                                </div>
-                                <div class="col-md-4">
-                                    <label
-                                        class="form-label"
-                                        for="mobile_phone"
-                                    >Mobile Phone:</label>
-                                    <input
-                                        class="form-control form-control-sm"
-                                        id="mobile_phone"
-                                        type="text"
-                                        readonly
-                                    >
-                                </div>
-                                <div class="col-md-4">
-                                    <label
-                                        class="form-label"
-                                        for="email"
-                                    >Email Address:</label>
-                                    <input
-                                        class="form-control form-control-sm"
-                                        id="email"
+                                        class="form-control"
+                                        id="enterpriseSector:"
                                         type="text"
                                         readonly
                                     >
                                 </div>
                                 <div class="col-12">
-                                    Personnel Information:
+                                    <h3>
+                                        Assets
+                                    </h3>
+
+                                </div>
+                                <div class="col-md-4">
+                                    <label
+                                        class="form-label"
+                                        for="building"
+                                    >Building:</label>
+                                    <input
+                                        class="form-control"
+                                        id="building"
+                                        name="building"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-md-4">
+                                    <label
+                                        class="form-label"
+                                        for="equipment"
+                                    >Equipment:</label>
+                                    <input
+                                        class="form-control"
+                                        id="equipment"
+                                        name="equipment"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-md-4">
+                                    <label
+                                        class="form-label"
+                                        for="working_capital"
+                                    >Working Capital:</label>
+                                    <input
+                                        class="form-control"
+                                        id="working_capital"
+                                        name="working_capital"
+                                        type="text"
+                                        readonly
+                                    >
+                                </div>
+                                <div class="col-12">
+                                    <h3>
+                                        Personnel Information:
+                                    </h3>
                                 </div>
                                 <div class="col-12">
                                     <table class="table table-bordered">
@@ -175,25 +283,25 @@
                                             <tr>
                                                 <th scope="row">Direct Personnel</th>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="male_direct_re"
                                                         type="text"
                                                         readonly
                                                     ></td>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="female_direct_re"
                                                         type="text"
                                                         readonly
                                                     ></td>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="male_direct_part"
                                                         type="text"
                                                         readonly
                                                     ></td>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="female_direct_part"
                                                         type="text"
                                                         readonly
@@ -202,25 +310,25 @@
                                             <tr>
                                                 <th scope="row">Indirect Personnel</th>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="male_indirect_re"
                                                         type="text"
                                                         readonly
                                                     ></td>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="female_indirect_re"
                                                         type="text"
                                                         readonly
                                                     ></td>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="male_indirect_part"
                                                         type="text"
                                                         readonly
                                                     ></td>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="female_indirect_part"
                                                         type="text"
                                                         readonly
@@ -232,7 +340,7 @@
                                                     colspan="4"
                                                 >Total Personnel</th>
                                                 <td><input
-                                                        class="form-control form-control-sm"
+                                                        class="form-control"
                                                         id="total_personnel"
                                                         type="text"
                                                         readonly

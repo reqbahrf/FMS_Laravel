@@ -2980,45 +2980,35 @@ async function initializeStaffPageJs() {
                     const actionBtn = ApplicantProgressContainer.find(
                         '#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport, #submitToAdmin'
                     );
-                    const sex = row
-                        .find("td:nth-child(1) input[name='sex']")
-                        .val();
+                    const sex = row.find("input[name='sex']").val();
                     console.log(sex);
                     const designation = row
                         .find('td:nth-child(2)')
                         .text()
                         .trim();
-                    const firmName = row
-                        .find('td:nth-child(3) span.firm_name')
-                        .text()
-                        .trim();
-                    const userID = row
-                        .find('td:nth-child(3) input[name="userID"]')
-                        .val();
+                    const firmName = row.find('span.firm_name').text().trim();
+                    const userID = row.find('input[name="userID"]').val();
                     const ApplicationID = row
-                        .find('td:nth-child(3) input[name="applicationID"]')
+                        .find('input[name="applicationID"]')
                         .val();
                     const businessID = row
-                        .find('td:nth-child(3) input[name="businessID"]')
+                        .find('input[name="businessID"]')
                         .val();
                     const businessAddress = row
-                        .find('td:nth-child(3) span.b_address')
+                        .find('span.b_address')
                         .text()
                         .trim();
                     const enterpriseType = row
-                        .find('td:nth-child(3) span.enterprise_l')
+                        .find('span.enterprise_l')
                         .text()
                         .trim();
-                    const landline = row
-                        .find('td:nth-child(3) span.landline')
-                        .text()
-                        .trim();
+                    const landline = row.find('span.landline').text().trim();
                     const mobilePhone = row
-                        .find('td:nth-child(3) span.mobile_num')
+                        .find('span.mobile_num')
                         .text()
                         .trim();
                     const emailAddress = row
-                        .find('td:nth-child(3) span.email_add')
+                        .find('span.email_add')
                         .text()
                         .trim();
 
@@ -3053,7 +3043,7 @@ async function initializeStaffPageJs() {
                     };
 
                     const ApplicantDetails = ApplicantDetailsContainer.find(
-                        '.businessInfo input'
+                        '#applicantDetails input'
                     );
 
                     actionBtn
@@ -3068,8 +3058,10 @@ async function initializeStaffPageJs() {
                     ApplicantDetails.filter('#selected_applicationId').val(
                         ApplicationID
                     );
-                    ApplicantDetails.filter('#address').val(businessAddress);
-                    ApplicantDetails.filter('#contact_person').val(fullName); // Add corresponding value
+                    ApplicantDetails.filter('#businessAddress').val(
+                        businessAddress.replace(/\s+/g, ' ').trim()
+                    );
+                    ApplicantDetails.filter('#contact_person').val(fullName);
                     ApplicantDetails.filter('#designation').val(designation);
                     ApplicantDetails.filter('#sex').val(sex);
                     ApplicantDetails.filter('#enterpriseType').val(
