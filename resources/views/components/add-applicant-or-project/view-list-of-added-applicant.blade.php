@@ -67,8 +67,9 @@
                                     role="group"
                                 >
                                     <button
-                                        class="btn btn-sm btn-info text-light @if (!$applicant->is_notified) notify--this-applicant @endif"
+                                        class="btn btn-sm btn-info text-light @if (!$applicant->is_notified) notify-this-applicant @endif"
                                         type="button"
+                                        @if (!$applicant->is_notified) data-secure-notified-link="{{ $applicant->secure_notify_link }}" @endif
                                         @disabled($applicant->is_notified)
                                     >
                                         <i class="bi bi-eye"></i> Notify

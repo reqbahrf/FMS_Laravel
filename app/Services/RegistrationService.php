@@ -7,15 +7,17 @@ use App\Models\User;
 use App\Models\FormDraft;
 use App\Events\ProjectEvent;
 use App\Models\ApplicationForm;
+use App\Models\NotificationLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendApplicationFormLink;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
 use App\Actions\GenerateUniqueUsernameAction;
-use App\Models\NotificationLog;
 
 
 class RegistrationService
@@ -155,9 +157,42 @@ class RegistrationService
         }
     }
 
-    public function sendApplicantionFormThroughEmail(User $user)
+    /**
+     * Send application form link to the user via email
+     *
+     * @param User $user The user to send the email to
+     * @return void
+     */
+    public function sendApplicationFormThroughEmail(User $user): void
     {
-        $email = $user->email;
+        try {
+            $applicationFormUrl = URL::signedRoute('application.form', $user->id);
+
+            $mail = new SendApplicationFormLink(
+                $user,
+                $applicationFormUrl,
+                $user->coopUserInfo
+            );
+
+            Mail::to($user->email)->send($mail);
+
+            NotificationLog::create([
+                'user_id' => $user->id,
+                'reference_id' => $user->id,
+                'reference_type' => 'User',
+                'notification_type' => self::DRAFT_PREFIX . 'NOTIFIED',
+                'sent_at' => now(),
+            ]);
+
+            Log::info("Application form link sent to user: {$user->email}");
+        } catch (Exception $e) {
+            Log::error("Failed to send application form link: {$e->getMessage()}", [
+                'user_id' => $user->id,
+                'email' => $user->email
+            ]);
+
+            throw new Exception("Failed to send application form link: {$e->getMessage()}");
+        }
     }
 
     public function isApplicantNotified(int $user_id, string $type): bool
@@ -174,6 +209,7 @@ class RegistrationService
             ->each(function ($draft) {
                 $draft->is_notified = $this->isApplicantNotified($draft->owner_id, self::DRAFT_PREFIX . 'NOTIFIED');
                 $draft->secure_form_link = URL::signedRoute('staff.Project.get.add.applicant-detailed-info-form', $draft->owner_id);
+                $draft->secure_notify_link = URL::signedRoute('staff.Project.applicant-notify', $draft->owner_id);
             });
     }
 

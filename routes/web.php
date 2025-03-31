@@ -262,6 +262,9 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
         Route::get('Staff/Project/get/add/applicant-detailed-info-form/{id}', 'show')
             ->name('staff.Project.get.add.applicant-detailed-info-form');
 
+        Route::post('Staff/Project/applicant-notify/{id}', 'notify')
+            ->name('staff.Project.applicant-notify');
+
         Route::post('Staff/Project/submit-new-applicant/{staffId}', 'storeApplicantDetail')
             ->name('staff.Project.submit.new.applicant')
             ->middleware('signed');

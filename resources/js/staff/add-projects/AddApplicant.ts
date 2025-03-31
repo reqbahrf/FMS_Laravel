@@ -107,7 +107,7 @@ export default class AddApplicant {
 
             this.applicantListTBody.on(
                 'click',
-                '.notify--this-applicant',
+                '.notify-this-applicant',
                 async (event: JQuery.ClickEvent) => {
                     const isConfirmed = await createConfirmationModal({
                         title: 'Confirm Applicant Notification',
@@ -117,8 +117,33 @@ export default class AddApplicant {
                         cancelText: 'No',
                     });
                     if (!isConfirmed) return;
+                    let processToast = showProcessToast(
+                        'Notifying Applicant...'
+                    );
                     try {
+                        const button = $(event.target);
+                        const secureNotifyLink = button.data(
+                            'secure-notified-link'
+                        );
+                        if (!secureNotifyLink)
+                            throw new Error('Secure notify link not found');
+                        const response = await fetch(secureNotifyLink, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN':
+                                    $('meta[name="csrf-token"]').attr(
+                                        'content'
+                                    ) || '',
+                            },
+                        });
+                        const data = await response.json();
+                        if (response.ok) {
+                            hideProcessToast(processToast);
+                            showToastFeedback('success', data.message);
+                        }
                     } catch (error: any) {
+                        hideProcessToast(processToast);
                         processError(
                             'Error in notify Applicant: ',
                             error,
