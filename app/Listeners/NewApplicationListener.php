@@ -62,10 +62,10 @@ class NewApplicationListener implements ShouldQueue
     private function updateLocalData(ChartYearOf $chart, ProjectEvent $event): array
     {
         $localData = json_decode($chart->project_local_categories, true) ?? [];
-        $region = $event->location['region'];
-        $province = $event->location['province'];
-        $city = $event->location['city'];
-        $barangay = $event->location['barangay'];
+        $region = $event->location['applicant_region'];
+        $province = $event->location['applicant_province'];
+        $city = $event->location['applicant_city'];
+        $barangay = $event->location['applicant_barangay'];
         $enterpriseLevel = $event->enterprise_level;
 
         $localData[$region]['byProvince'][$province]['byCity'][$city]['byBarangay'][$barangay][$enterpriseLevel] = ($localData[$region]['byProvince'][$province]['byCity'][$city]['byBarangay'][$barangay][$enterpriseLevel] ?? 0) + 1;

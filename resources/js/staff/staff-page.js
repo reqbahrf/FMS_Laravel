@@ -2936,7 +2936,7 @@ async function initializeStaffPageJs() {
                 if (eventListenerToInitialize == 'add-applicant-form') {
                     module.setupFormSubmitHandler();
                 } else if (eventListenerToInitialize == 'view-applicant-list') {
-                    module.setupApplicantTableActionListener();
+                    module.setupListApplicantActionListener();
                 }
 
                 $(document).off(

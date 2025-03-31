@@ -41,6 +41,14 @@ class ApplicantInfoRequest extends FormRequest
             'mobile_no' => 'required|string|regex:/^\d{3}-\d{3}-\d{4}$/',
             'landline' => 'nullable|string|max:20',
 
+            // Address Information
+            'home_region' => 'required|string',
+            'home_province' => 'required|string',
+            'home_city' => 'required|string',
+            'home_barangay' => 'required|string',
+            'home_landmark' => 'nullable|string',
+            'home_zipcode' => 'required|string',
+
         ];
     }
 

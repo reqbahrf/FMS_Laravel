@@ -35,10 +35,10 @@ class AddressFormInput {
     constructor(config: AddressFormConfig) {
         this.prefix = config.prefix;
         this.selectors = {
-            region: `#${this.prefix}Region`,
-            province: `#${this.prefix}Province`,
-            city: `#${this.prefix}City`,
-            barangay: `#${this.prefix}Barangay`,
+            region: `#${this.prefix}_region`,
+            province: `#${this.prefix}_province`,
+            city: `#${this.prefix}_city`,
+            barangay: `#${this.prefix}_barangay`,
         };
         this.initializeAddressSelection();
     }
@@ -48,130 +48,193 @@ class AddressFormInput {
         data: LocationItem[] | string,
         placeholder: string
     ): void {
-        const parsedData: LocationItem[] =
-            typeof data === 'string' ? JSON.parse(data) : data;
+        try {
+            const parsedData: LocationItem[] =
+                typeof data === 'string' ? JSON.parse(data) : data;
 
-        $(selectElement).html(`<option value="">${placeholder}</option>`);
+            $(selectElement).html(`<option value="">${placeholder}</option>`);
 
-        $.each(parsedData, (_: number, item: LocationItem) => {
-            $(selectElement).append(
-                `<option value="${item.name}" data-code="${item.code}">${item.name}</option>`
-            );
-        });
+            $.each(parsedData, (_: number, item: LocationItem) => {
+                $(selectElement).append(
+                    `<option value="${item.name}" data-code="${item.code}">${item.name}</option>`
+                );
+            });
+        } catch (error) {
+            console.error(`Error populating select ${selectElement}:`, error);
+            $(selectElement).html(`<option value="">${placeholder}</option>`);
+        }
     }
 
+    /**
+     * Load a location dropdown and return the code of the selected item
+     * @param selector The selector for the dropdown element
+     * @param fetchFn The function to fetch the data
+     * @param data The value to select
+     * @param placeholder The placeholder text
+     * @returns Promise that resolves with the code of the selected item or null
+     */
     static async loadLocationDropdown(
         selector: string,
         fetchFn: JQuery.jqXHR<LocationItem[]>,
         data: string,
         placeholder: string
-    ): Promise<void> {
+    ): Promise<string | null> {
         return new Promise((resolve) => {
-            fetchFn.done((items) => {
-                AddressFormInput.populateSelect(selector, items, placeholder);
-                $(selector).val(data);
-                $(selector).prop('disabled', false);
-                resolve();
-            });
+            fetchFn
+                .done((items) => {
+                    AddressFormInput.populateSelect(
+                        selector,
+                        items,
+                        placeholder
+                    );
+
+                    if (data) {
+                        $(selector).val(data);
+
+                        if ($(selector).val() !== data) {
+                            const options = $(selector).find('option');
+                            for (let i = 0; i < options.length; i++) {
+                                if (
+                                    $(options[i]).text().toLowerCase() ===
+                                    data.toLowerCase()
+                                ) {
+                                    $(selector).val(
+                                        $(options[i]).val() as string
+                                    );
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    $(selector).prop('disabled', false);
+
+                    // Get the code of the selected option
+                    const code = $(selector).find(':selected').data('code');
+                    resolve(code || null);
+                })
+                .fail((error) => {
+                    console.error(
+                        `Failed to load data for ${selector}:`,
+                        error
+                    );
+                    $(selector).prop('disabled', true);
+                    resolve(null);
+                });
         });
     }
 
+    /**
+     * Load address dropdowns for a specific address type (office or factory)
+     * @param prefix The address type prefix (e.g., 'office', 'factory')
+     * @param draftData The location data containing all address fields
+     */
+    static loadAddressDropdowns = async (
+        prefix: string,
+        draftData: LocationDraftData
+    ): Promise<void> => {
+        try {
+            const regionKey = `${prefix}Region` as keyof LocationDraftData;
+            const regionValue = draftData[regionKey];
+
+            if (!regionValue) {
+                return;
+            }
+
+            const regionSelector = `#${prefix}Region`;
+            const regionCode = await AddressFormInput.loadLocationDropdown(
+                regionSelector,
+                API.fetchRegions(),
+                regionValue,
+                `Select ${prefix.charAt(0).toUpperCase() + prefix.slice(1)} Region`
+            );
+
+            if (!regionCode) {
+                console.warn(
+                    `Region code not found for "${regionValue}", cannot load provinces`
+                );
+                return;
+            }
+
+            const provinceKey = `${prefix}Province` as keyof LocationDraftData;
+            const provinceValue = draftData[provinceKey];
+
+            if (!provinceValue) {
+                return;
+            }
+
+            const provinceSelector = `#${prefix}Province`;
+            const provinceCode = await AddressFormInput.loadLocationDropdown(
+                provinceSelector,
+                API.fetchProvinces(regionCode),
+                provinceValue,
+                `Select ${prefix.charAt(0).toUpperCase() + prefix.slice(1)} Province`
+            );
+
+            if (!provinceCode) {
+                console.warn(
+                    `Province code not found for "${provinceValue}", cannot load cities`
+                );
+                return;
+            }
+
+            const cityKey = `${prefix}City` as keyof LocationDraftData;
+            const cityValue = draftData[cityKey];
+
+            if (!cityValue) {
+                return;
+            }
+
+            const citySelector = `#${prefix}City`;
+            const cityCode = await AddressFormInput.loadLocationDropdown(
+                citySelector,
+                API.fetchCities(provinceCode),
+                cityValue,
+                `Select ${prefix.charAt(0).toUpperCase() + prefix.slice(1)} City`
+            );
+
+            if (!cityCode) {
+                console.warn(
+                    `City code not found for "${cityValue}", cannot load barangays`
+                );
+                return;
+            }
+
+            // Get the barangay value
+            const barangayKey = `${prefix}Barangay` as keyof LocationDraftData;
+            const barangayValue = draftData[barangayKey];
+
+            if (!barangayValue) {
+                return;
+            }
+
+            const barangaySelector = `#${prefix}Barangay`;
+            await AddressFormInput.loadLocationDropdown(
+                barangaySelector,
+                API.fetchBarangay(cityCode),
+                barangayValue,
+                `Select ${prefix.charAt(0).toUpperCase() + prefix.slice(1)} Barangay`
+            );
+        } catch (error) {
+            console.error(`Error loading ${prefix} address dropdowns:`, error);
+            // Reset dropdowns to a usable state
+            $(`#${prefix}Province, #${prefix}City, #${prefix}Barangay`).prop(
+                'disabled',
+                true
+            );
+        }
+    };
+
     static loadOfficeAddressDropdowns = async (
         draftData: LocationDraftData
-    ) => {
-        if (!draftData.officeRegion) return;
-
-        // Load regions
-        await AddressFormInput.loadLocationDropdown(
-            '#officeRegion',
-            API.fetchRegions(),
-            draftData.officeRegion,
-            'Select Office Region'
-        );
-
-        if (!draftData.officeProvince) return;
-
-        // Load provinces
-        const regionCode = $('#officeRegion').find(':selected').data('code');
-        await AddressFormInput.loadLocationDropdown(
-            '#officeProvince',
-            API.fetchProvinces(regionCode),
-            draftData.officeProvince,
-            'Select Office Province'
-        );
-
-        if (!draftData.officeCity) return;
-
-        // Load cities
-        const provinceCode = $('#officeProvince')
-            .find(':selected')
-            .data('code');
-        await AddressFormInput.loadLocationDropdown(
-            '#officeCity',
-            API.fetchCities(provinceCode),
-            draftData.officeCity,
-            'Select Office City'
-        );
-
-        if (!draftData.officeBarangay) return;
-
-        // Load barangays
-        const cityCode = $('#officeCity').find(':selected').data('code');
-        await AddressFormInput.loadLocationDropdown(
-            '#officeBarangay',
-            API.fetchBarangay(cityCode),
-            draftData.officeBarangay,
-            'Select Office Barangay'
-        );
+    ): Promise<void> => {
+        return AddressFormInput.loadAddressDropdowns('office', draftData);
     };
 
     static loadFactoryAddressDropdowns = async (
         draftData: LocationDraftData
-    ) => {
-        if (!draftData.factoryRegion) return;
-
-        // Load regions
-        await AddressFormInput.loadLocationDropdown(
-            '#factoryRegion',
-            API.fetchRegions(),
-            draftData.factoryRegion,
-            'Select Factory Region'
-        );
-
-        if (!draftData.factoryProvince) return;
-
-        // Load provinces
-        const regionCode = $('#factoryRegion').find(':selected').data('code');
-        await AddressFormInput.loadLocationDropdown(
-            '#factoryProvince',
-            API.fetchProvinces(regionCode),
-            draftData.factoryProvince,
-            'Select Factory Province'
-        );
-
-        if (!draftData.factoryCity) return;
-
-        // Load cities
-        const provinceCode = $('#factoryProvince')
-            .find(':selected')
-            .data('code');
-        await AddressFormInput.loadLocationDropdown(
-            '#factoryCity',
-            API.fetchCities(provinceCode),
-            draftData.factoryCity,
-            'Select Factory City'
-        );
-
-        if (!draftData.factoryBarangay) return;
-
-        // Load barangays
-        const cityCode = $('#factoryCity').find(':selected').data('code');
-        await AddressFormInput.loadLocationDropdown(
-            '#factoryBarangay',
-            API.fetchBarangay(cityCode),
-            draftData.factoryBarangay,
-            'Select Factory Barangay'
-        );
+    ): Promise<void> => {
+        return AddressFormInput.loadAddressDropdowns('factory', draftData);
     };
 
     private initializeAddressSelection(): void {
@@ -182,13 +245,26 @@ class AddressFormInput {
     }
 
     private initializeRegions(): void {
-        API.fetchRegions().done((regions: LocationItem[]) => {
-            AddressFormInput.populateSelect(
-                this.selectors.region,
-                regions,
-                'Select Region'
-            );
-        });
+        $(this.selectors.region).prop('disabled', true);
+        $(this.selectors.province).prop('disabled', true);
+        $(this.selectors.city).prop('disabled', true);
+        $(this.selectors.barangay).prop('disabled', true);
+
+        API.fetchRegions()
+            .done((regions: LocationItem[]) => {
+                AddressFormInput.populateSelect(
+                    this.selectors.region,
+                    regions,
+                    'Select Region'
+                );
+                $(this.selectors.region).prop('disabled', false);
+            })
+            .fail((error) => {
+                console.error('Failed to load regions:', error);
+                $(this.selectors.region).html(
+                    '<option value="">Error loading regions</option>'
+                );
+            });
     }
 
     private updateProvinces(): void {
@@ -196,7 +272,7 @@ class AddressFormInput {
             .find(':selected')
             .data('code');
 
-        $(this.selectors.province).prop('disabled', !regionCode);
+        $(this.selectors.province).prop('disabled', true);
         $(this.selectors.city).prop('disabled', true);
         $(this.selectors.barangay).prop('disabled', true);
 
@@ -213,13 +289,24 @@ class AddressFormInput {
         );
 
         if (regionCode) {
-            API.fetchProvinces(regionCode).done((provinces: LocationItem[]) => {
-                AddressFormInput.populateSelect(
-                    this.selectors.province,
-                    provinces,
-                    'Select Province'
-                );
-            });
+            API.fetchProvinces(regionCode)
+                .done((provinces: LocationItem[]) => {
+                    AddressFormInput.populateSelect(
+                        this.selectors.province,
+                        provinces,
+                        'Select Province'
+                    );
+                    $(this.selectors.province).prop('disabled', false);
+                })
+                .fail((error) => {
+                    console.error(
+                        `Failed to load provinces for region ${regionCode}:`,
+                        error
+                    );
+                    $(this.selectors.province).html(
+                        '<option value="">Error loading provinces</option>'
+                    );
+                });
         }
     }
 

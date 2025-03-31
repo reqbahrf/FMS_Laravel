@@ -6,11 +6,13 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\View\View;
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Services\RegistrationService;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Validator;
 use App\Http\Requests\ApplicantInfoRequest;
-use Illuminate\Contracts\View\View;
 
 class CreateApplicantController extends Controller
 {
@@ -20,8 +22,9 @@ class CreateApplicantController extends Controller
     public function index(Request $request): Response|View
     {
         $staffId = $request->user()->orgUserInfo->id;
+        $isToRetrivedForm = (bool) ($request->header('X-ADD-APPLICANT-FORM') ?? false);
         if ($request->ajax()) {
-            if ($this->registrationService->isAddedApplicantExist()) {
+            if (!$isToRetrivedForm && $this->registrationService->isAddedApplicantExist()) {
                 $applicants = $this->registrationService->getAddedApplicants();
                 return response()
                     ->view('components.add-applicant-or-project.view-list-of-added-applicant', compact('applicants'))
@@ -45,6 +48,66 @@ class CreateApplicantController extends Controller
             return view('components.detailed-applicant-info-form', compact('ownerId', 'draft_type'));
         }
         return view('staff-view.staff-index');
+    }
+
+    public function notify($id): JsonResponse
+    {
+        try {
+            $validated = Validator::make(['id' => $id], [
+                'id' => 'required|exists:users,id',
+            ])->validate();
+
+            $user = User::find($validated['id']);
+
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'User not found',
+                ], 404);
+            }
+
+            $this->registrationService->sendApplicationFormThroughEmail($user);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Applicant notified successfully',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 400);
+        }
+    }
+
+    public function destroy($id): JsonResponse
+    {
+        try {
+            $validated = Validator::make(['id' => $id], [
+                'id' => 'required|exists:users,id',
+            ])->validate();
+
+            $user = User::find($validated['id']);
+
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'User not found',
+                ], 404);
+            }
+
+            $this->registrationService->deleteApplicantDraft($user);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Applicant draft record deleted successfully',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 400);
+        }
     }
     public function storeApplicantDetail(ApplicantInfoRequest $request): JsonResponse
     {

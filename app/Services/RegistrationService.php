@@ -7,15 +7,17 @@ use App\Models\User;
 use App\Models\FormDraft;
 use App\Events\ProjectEvent;
 use App\Models\ApplicationForm;
+use App\Models\NotificationLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\SendApplicationFormLink;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
 use App\Actions\GenerateUniqueUsernameAction;
-use App\Models\NotificationLog;
 
 
 class RegistrationService
@@ -42,6 +44,8 @@ class RegistrationService
         DB::beginTransaction();
 
         try {
+            // Store user address
+            $this->storeUserAddress($validatedInputs, Auth::user()->id);
             // Process and store personal info
             $personalInfoId = $this->storePersonalInfo($validatedInputs, $user_name);
             $successful_inserts++;
@@ -74,10 +78,10 @@ class RegistrationService
                 DB::commit();
 
                 $location = [
-                    'region' => $businessInfo['region'],
-                    'province' => $businessInfo['province'],
-                    'city' => $businessInfo['city'],
-                    'barangay' => $businessInfo['barangay'],
+                    'applicant_region' => $businessInfo['home_region'],
+                    'applicant_province' => $businessInfo['home_province'],
+                    'applicant_city' => $businessInfo['home_city'],
+                    'applicant_barangay' => $businessInfo['home_barangay'],
                 ];
 
                 // Trigger event
@@ -127,6 +131,7 @@ class RegistrationService
                 'updated_at' => now(),
                 'must_change_password' => true,
             ]);
+            $this->storeUserAddress($validatedInputs, $user->id);
 
             $user->coopUserInfo()->create([
                 'prefix' => $validatedInputs['prefix'],
@@ -155,9 +160,44 @@ class RegistrationService
         }
     }
 
-    public function sendApplicantionFormThroughEmail(User $user)
+    /**
+     * Send application form link to the user via email
+     *
+     * @param User $user The user to send the email to
+     * @return void
+     */
+    public function sendApplicationFormThroughEmail(User $user): void
     {
-        $email = $user->email;
+        try {
+            $applicationFormUrl = URL::signedRoute('application.form', $user->id);
+
+            $mail = new SendApplicationFormLink(
+                $user,
+                $applicationFormUrl,
+                $user->coopUserInfo
+            );
+
+            dispatch(function () use ($user, $mail) {
+                Mail::to($user->email)->queue($mail);
+            })->afterResponse();
+
+            NotificationLog::create([
+                'user_id' => $user->id,
+                'reference_id' => $user->id,
+                'reference_type' => 'User',
+                'notification_type' => self::DRAFT_PREFIX . 'NOTIFIED',
+                'sent_at' => now(),
+            ]);
+
+            Log::info("Application form link sent to user: {$user->email}");
+        } catch (Exception $e) {
+            Log::error("Failed to send application form link: {$e->getMessage()}", [
+                'user_id' => $user->id,
+                'email' => $user->email
+            ]);
+
+            throw new Exception("Failed to send application form link: {$e->getMessage()}");
+        }
     }
 
     public function isApplicantNotified(int $user_id, string $type): bool
@@ -174,7 +214,16 @@ class RegistrationService
             ->each(function ($draft) {
                 $draft->is_notified = $this->isApplicantNotified($draft->owner_id, self::DRAFT_PREFIX . 'NOTIFIED');
                 $draft->secure_form_link = URL::signedRoute('staff.Project.get.add.applicant-detailed-info-form', $draft->owner_id);
+                $draft->secure_notify_link = URL::signedRoute('staff.Project.applicant-notify', $draft->owner_id);
+                $draft->secure_delete_link = URL::signedRoute('staff.Project.delete-applicant', $draft->owner_id);
             });
+    }
+
+    public function deleteApplicantDraft(User $user): void
+    {
+        FormDraft::where('form_type', self::DRAFT_PREFIX . $user->id)
+            ->where('owner_id', $user->id)
+            ->delete();
     }
 
     public function isAddedApplicantExist(): bool
@@ -223,6 +272,26 @@ class RegistrationService
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    private function storeUserAddress(array $validatedInputs, int $userId): void
+    {
+        $region = $validatedInputs['home_region'];
+        $province = $validatedInputs['home_province'];
+        $city = $validatedInputs['home_city'];
+        $barangay = $validatedInputs['home_barangay'];
+        $landmark = $validatedInputs['home_landmark'];
+        $zipcode = $validatedInputs['home_zipcode'];
+
+        DB::table('users_address_info')->insert([
+            'user_info_id' => $userId,
+            'region' => $region,
+            'province' => $province,
+            'city' => $city,
+            'barangay' => $barangay,
+            'landmark' => $landmark,
+            'zip_code' => $zipcode
+        ]);
     }
 
 
@@ -276,12 +345,12 @@ class RegistrationService
         $firm_name = $validatedInputs['firm_name'];
         $enterprise_type = $validatedInputs['enterpriseType'];
         $enterprise_level = $validatedInputs['enterprise_level'];
-        $office_region = $validatedInputs['officeRegion'];
-        $office_province = $validatedInputs['officeProvince'];
-        $office_city = $validatedInputs['officeCity'];
-        $office_barangay = $validatedInputs['officeBarangay'];
-        $office_landmark = $validatedInputs['officeLandmark'];
-        $office_zipcode = $validatedInputs['officeZipcode'];
+        $office_region = $validatedInputs['office_region'];
+        $office_province = $validatedInputs['office_province'];
+        $office_city = $validatedInputs['office_city'];
+        $office_barangay = $validatedInputs['office_barangay'];
+        $office_landmark = $validatedInputs['office_landmark'];
+        $office_zipcode = $validatedInputs['office_zipcode'];
         $export_market = json_encode($validatedInputs['exportMarket']);
         $local_market = json_encode($validatedInputs['localMarket']);
 

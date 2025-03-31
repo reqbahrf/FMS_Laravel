@@ -11,7 +11,10 @@
     </ol>
 </nav>
 <div class="card m-0 m-md-3">
-    <div class="card-body">
+    <div
+        class="card-body"
+        id="applicantListContainer"
+    >
         <div class="table-responsive">
             <table
                 class="table table-hover"
@@ -64,8 +67,10 @@
                                     role="group"
                                 >
                                     <button
-                                        class="btn btn-sm btn-info text-light"
+                                        class="btn btn-sm btn-info text-light @if (!$applicant->is_notified) notify-this-applicant @endif"
                                         type="button"
+                                        @if (!$applicant->is_notified) data-secure-notified-link="{{ $applicant->secure_notify_link }}" @endif
+                                        @disabled($applicant->is_notified)
                                     >
                                         <i class="bi bi-eye"></i> Notify
                                     </button>
@@ -77,7 +82,8 @@
                                         <i class="bi bi-pencil"></i> Edit
                                     </button>
                                     <button
-                                        class="btn btn-sm btn-danger"
+                                        class="btn btn-sm btn-danger delete-applicant-draft-record"
+                                        data-secure-delete-link="{{ $applicant->secure_delete_link }}"
                                         type="button"
                                     >
                                         <i class="bi bi-trash"></i> Delete

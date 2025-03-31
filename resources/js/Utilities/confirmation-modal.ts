@@ -8,6 +8,8 @@ interface ConfirmationModalOptions {
     cancelText?: string;
     confirmButtonClass?: string;
     size?: string;
+    position?: 'center' | 'top' | 'bottom';
+    fullscreen?: boolean | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
 }
 
 /**
@@ -22,6 +24,8 @@ interface ConfirmationModalOptions {
  * @param {string} [options.cancelText='Cancel'] - Text for the cancel button
  * @param {string} [options.confirmButtonClass='btn-primary'] - Bootstrap button class for the confirm button
  * @param {string} [options.size=''] - Bootstrap modal size class (e.g., 'modal-lg', 'modal-sm')
+ * @param {string} [options.position='center'] - Position of the modal ('center', 'top', 'bottom')
+ * @param {boolean|string} [options.fullscreen=false] - Make modal fullscreen (true or breakpoint: 'sm', 'md', 'lg', 'xl', 'xxl')
  * @returns {Promise<boolean>} Resolves to true if confirmed, false if cancelled or closed
  *
  * @example
@@ -41,6 +45,27 @@ interface ConfirmationModalOptions {
  *     confirmButtonClass: 'btn-danger',
  *     size: 'modal-sm'
  * });
+ *
+ * @example
+ * // Predefined positions
+ * const result = await createConfirmationModal({
+ *     title: 'Top Modal',
+ *     position: 'top' // 'center', 'top', 'bottom'
+ * });
+ *
+ * @example
+ * // Fullscreen modal
+ * const result = await createConfirmationModal({
+ *     title: 'Fullscreen Modal',
+ *     fullscreen: true
+ * });
+ *
+ * @example
+ * // Responsive fullscreen modal (fullscreen below lg breakpoint)
+ * const result = await createConfirmationModal({
+ *     title: 'Responsive Modal',
+ *     fullscreen: 'lg'
+ * });
  */
 function createConfirmationModal(
     options: ConfirmationModalOptions = {}
@@ -53,20 +78,38 @@ function createConfirmationModal(
         cancelText = 'Cancel',
         confirmButtonClass = 'btn-primary',
         size = '',
+        position = 'center',
+        fullscreen = false,
     } = options;
 
-    // Remove existing modal if any
     $('#confirmationModal').remove();
 
-    // Create modal HTML
+    let positionClass = '';
+    let modalContentStyle = '';
+
+    if (position === 'center') {
+        positionClass = 'modal-dialog-centered';
+    } else if (position === 'top') {
+        modalContentStyle = 'margin-top: 0;';
+    } else if (position === 'bottom') {
+        modalContentStyle = 'margin-top: auto; margin-bottom: 0;';
+    }
+
+    let fullscreenClass = '';
+    if (fullscreen === true) {
+        fullscreenClass = 'modal-fullscreen';
+    } else if (typeof fullscreen === 'string') {
+        fullscreenClass = `modal-fullscreen-${fullscreen}-down`;
+    }
+
     const modalHTML = /*html*/ `
         <div class="modal fade" style="z-index: 2000 !important;" data-bs-backdrop="static" id="confirmationModal" tabindex="-1" aria-labelledby="confirmationModalLabel" aria-hidden="true">
-            <div class="modal-dialog ${size}">
-                <div class="modal-content">
+            <div class="modal-dialog ${size} ${positionClass} ${fullscreenClass}">
+                <div class="modal-content" style="${modalContentStyle}">
                     <div class="modal-header ${titleBg}">
-                        <h5 class="modal-title text-white" id="confirmationModalLabel">${sanitize(
+                        <h1 class="modal-title text-white" id="confirmationModalLabel">${sanitize(
                             title
-                        )}</h5>
+                        )}</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -87,11 +130,9 @@ function createConfirmationModal(
         </div>
     `;
 
-    // Append modal to body
     $('body').append(modalHTML);
 
-    // Create and return a promise
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
         const modalElement = document.getElementById('confirmationModal');
         if (!modalElement)
             return console.warn(
@@ -99,19 +140,16 @@ function createConfirmationModal(
             );
         const modal = new bootstrap.Modal(modalElement);
 
-        // Handle confirm button click
         $('#confirmActionBtn').on('click', () => {
             modal.hide();
             resolve(true);
         });
 
-        // Handle modal hidden event (including cancel button and close button)
         modalElement.addEventListener('hidden.bs.modal', () => {
             $('#confirmationModal').remove();
             resolve(false);
         });
 
-        // Show the modal
         modal.show();
     });
 }

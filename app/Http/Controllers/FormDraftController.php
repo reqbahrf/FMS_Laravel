@@ -37,10 +37,12 @@ class FormDraftController extends Controller
 
             $data = $request->except('draft_type', 'ownerId');
 
+            $cleanedData = $this->cleanDraftData($data);
+
             $result = $this->formDraftService->storeDraft(
                 $owner_id,
                 $draftType,
-                $data
+                $cleanedData
             );
 
             return response()->json($result, 200);
@@ -88,5 +90,36 @@ class FormDraftController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+    /**
+     * Clean draft data before database insertion
+     *
+     * @param array $data
+     * @return array
+     */
+    private function cleanDraftData(array $data): array
+    {
+        $cleanedData = [];
+
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $cleanedData[$key] = $this->cleanDraftData($value);
+                continue;
+            }
+
+            if (is_string($value)) {
+                $cleanedValue = strip_tags($value);
+
+                $cleanedValue = trim($cleanedValue);
+
+                $cleanedData[$key] = $cleanedValue !== '' ? $cleanedValue : null;
+                continue;
+            }
+
+            $cleanedData[$key] = $value;
+        }
+
+        return $cleanedData;
     }
 }

@@ -68,14 +68,14 @@ export default class NavigationHandler {
      * Loads a page content via AJAX or from session storage cache
      * @param {string} url - The URL of the page to load
      * @param {string} activeLink - The ID of the navigation link to activate
-     * @param {Record<string, string>} [optionalHeaders] - Optional headers to be sent with the request
+     * @param {Record<string, string | boolean>} [optionalHeaders] - Optional headers to be sent with the request
      * @returns {Promise<void>}
      * @throws {Error} When page loading fails
      */
     public async loadTab(
         url: string,
         activeLink: string,
-        optionalHeaders?: Record<string, string>
+        optionalHeaders?: Record<string, string | boolean>
     ): Promise<void> {
         try {
             $(document).trigger('page:changing', {
