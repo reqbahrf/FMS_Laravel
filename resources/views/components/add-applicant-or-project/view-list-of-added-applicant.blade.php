@@ -82,7 +82,8 @@
                                         <i class="bi bi-pencil"></i> Edit
                                     </button>
                                     <button
-                                        class="btn btn-sm btn-danger"
+                                        class="btn btn-sm btn-danger delete-applicant-draft-record"
+                                        data-secure-delete-link="{{ $applicant->secure_delete_link }}"
                                         type="button"
                                     >
                                         <i class="bi bi-trash"></i> Delete

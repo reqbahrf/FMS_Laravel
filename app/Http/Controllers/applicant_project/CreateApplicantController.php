@@ -79,6 +79,36 @@ class CreateApplicantController extends Controller
             ], 400);
         }
     }
+
+    public function destroy($id): JsonResponse
+    {
+        try {
+            $validated = Validator::make(['id' => $id], [
+                'id' => 'required|exists:users,id',
+            ])->validate();
+
+            $user = User::find($validated['id']);
+
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'User not found',
+                ], 404);
+            }
+
+            $this->registrationService->deleteApplicantDraft($user);
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Applicant draft record deleted successfully',
+            ], 200);
+        } catch (Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => $e->getMessage(),
+            ], 400);
+        }
+    }
     public function storeApplicantDetail(ApplicantInfoRequest $request): JsonResponse
     {
         try {

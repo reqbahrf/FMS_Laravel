@@ -210,7 +210,15 @@ class RegistrationService
                 $draft->is_notified = $this->isApplicantNotified($draft->owner_id, self::DRAFT_PREFIX . 'NOTIFIED');
                 $draft->secure_form_link = URL::signedRoute('staff.Project.get.add.applicant-detailed-info-form', $draft->owner_id);
                 $draft->secure_notify_link = URL::signedRoute('staff.Project.applicant-notify', $draft->owner_id);
+                $draft->secure_delete_link = URL::signedRoute('staff.Project.delete-applicant', $draft->owner_id);
             });
+    }
+
+    public function deleteApplicantDraft(User $user): void
+    {
+        FormDraft::where('form_type', self::DRAFT_PREFIX . $user->id)
+            ->where('owner_id', $user->id)
+            ->delete();
     }
 
     public function isAddedApplicantExist(): bool
