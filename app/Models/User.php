@@ -87,4 +87,9 @@ class User extends Authenticatable  implements MustVerifyEmail, AuditableContrac
     {
         return lcfirst($this->role) . '.notifications.' . $this->id;
     }
+
+    public function addressInfo(): HasOne
+    {
+        return $this->hasOne(AddressInfo::class, 'user_info_id', 'id');
+    }
 }
