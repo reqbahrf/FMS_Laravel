@@ -16,10 +16,14 @@ import { FormDraftHandler } from '../../Utilities/FormDraftHandler';
 export default class AddApplicant {
     private formElement: JQuery<HTMLFormElement> | null;
     private applicantListContainer: JQuery<HTMLDivElement> | null;
+    private applicantListTable: JQuery<HTMLTableElement> | null;
+    private applicantListTBody: JQuery<HTMLElement> | null;
     private draftClass: FormDraftHandler | null;
     constructor() {
         this.formElement = null;
         this.applicantListContainer = null;
+        this.applicantListTable = null;
+        this.applicantListTBody = null;
         this.draftClass = null;
     }
 
@@ -58,53 +62,71 @@ export default class AddApplicant {
         try {
             if (!this.applicantListContainer)
                 throw new Error('Applicant list table not found');
-            const table = this.applicantListContainer?.find(
+            this.applicantListTable = this.applicantListContainer?.find(
                 '#applicantListTable'
             );
+
+            this.applicantListTBody = this.applicantListTable?.find('tbody');
 
             const addNewApplicantBtn = this.applicantListContainer?.find(
                 '#addNewApplicantBtn'
             );
-            if (!table || !addNewApplicantBtn)
+            if (!this.applicantListTBody || !addNewApplicantBtn)
                 throw new Error('Table or button not found');
-            table
-                .find('tbody')
-                .on(
-                    'click',
-                    '.editApplicantForm',
-                    async (event: JQuery.ClickEvent) => {
-                        const isConfirmed = await createConfirmationModal({
-                            title: 'Confirm Applicant Edit',
-                            message:
-                                'Are you sure you want to edit this applicant?',
-                            confirmText: 'Yes',
-                            cancelText: 'No',
-                        });
-                        if (!isConfirmed) return;
-                        try {
-                            const button = $(event.target);
-                            const secureFormLink =
-                                button.data('secure-form-link');
-                            if (!secureFormLink)
-                                throw new Error('Secure form link not found');
-                            await window.loadTab(secureFormLink, 'projectLink');
-                            this.formElement = $('#applicationForm');
-                            this.initializeApplicantDetailedForm();
-                            if (
-                                this.formElement.length &&
-                                this.formElement.is(':visible')
-                            ) {
-                                this._initSyncApplicantDetail();
-                            }
-                        } catch (error: any) {
-                            processError(
-                                'Error in edit Applicant: ',
-                                error,
-                                true
-                            );
+            this.applicantListTBody.on(
+                'click',
+                '.editApplicantForm',
+                async (event: JQuery.ClickEvent) => {
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Confirm Applicant Edit',
+                        message:
+                            'Are you sure you want to edit this applicant?',
+                        confirmText: 'Yes',
+                        cancelText: 'No',
+                    });
+                    if (!isConfirmed) return;
+                    try {
+                        const button = $(event.target);
+                        const secureFormLink = button.data('secure-form-link');
+                        if (!secureFormLink)
+                            throw new Error('Secure form link not found');
+                        await loadTab(secureFormLink, 'projectLink');
+                        this.formElement = $('#applicationForm');
+                        this.initializeApplicantDetailedForm();
+                        if (
+                            this.formElement.length &&
+                            this.formElement.is(':visible')
+                        ) {
+                            this._initSyncApplicantDetail();
                         }
+                    } catch (error: any) {
+                        processError('Error in edit Applicant: ', error, true);
                     }
-                );
+                }
+            );
+
+            this.applicantListTBody.on(
+                'click',
+                '.notify--this-applicant',
+                async (event: JQuery.ClickEvent) => {
+                    const isConfirmed = await createConfirmationModal({
+                        title: 'Confirm Applicant Notification',
+                        message:
+                            'Are you sure you want to notify this applicant?',
+                        confirmText: 'Yes',
+                        cancelText: 'No',
+                    });
+                    if (!isConfirmed) return;
+                    try {
+                    } catch (error: any) {
+                        processError(
+                            'Error in notify Applicant: ',
+                            error,
+                            true
+                        );
+                    }
+                }
+            );
 
             addNewApplicantBtn?.on('click', async () => {
                 try {
