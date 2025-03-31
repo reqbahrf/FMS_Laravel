@@ -18,7 +18,12 @@
     >
     @vite('resources/css/app.scss')
     @vite('resources/css/indexPage.css')
-    <link rel="preload" href="{{ asset('hero.jpg') }}" as="image" fetchpriority="high">
+    <link
+        href="{{ asset('images/hero.webp') }}"
+        rel="preload"
+        as="image"
+        fetchpriority="high"
+    >
 </head>
 
 <body>
@@ -26,7 +31,7 @@
     <section
         class="d-flex flex-column justify-content-center align-items-center"
         id="hero"
-        style="background-image: url({{ asset('hero.jpg') }});"
+        style="background-image: url({{ asset('images/hero.webp') }});"
     >
         <div
             class="container text-center text-md-left"
@@ -283,7 +288,10 @@
                                 </g>
                             </svg>
                         </div>
-                        <h6><a href="">Enhances business through technology.</a></h6>
+                        <h3><a
+                                class="text-decoration-none"
+                                href=""
+                            >Enhances business through technology.</a></h3>
                         <p>DOST-SETUP helps businesses incorporate modern technology for better operations.</p>
                     </div>
                 </div>
@@ -374,7 +382,10 @@
                                     </path>
                                 </g>
                             </svg></div>
-                        <h6><a href="">Provides technological assistance to MSMEs.</a></h6>
+                        <h3><a
+                                class="text-decoration-none"
+                                href=""
+                            >Provides technological assistance to MSMEs.</a></h3>
                         <p>The program specifically focuses on assisting micro, small, and medium-sized enterprises.
                         </p>
                     </div>
@@ -478,7 +489,10 @@
                                     </g>
                                 </g>
                             </svg></div>
-                        <h6><a href="">Boosts productivity and competitiveness.</a></h6>
+                        <h3><a
+                                class="text-decoration-none"
+                                href=""
+                            >Boosts productivity and competitiveness.</a></h3>
                         <p>By providing technological solutions, DOST-SETUP aims to increase business output and
                             efficiency.</p>
                     </div>
@@ -652,7 +666,7 @@
             <div class="benefit-item row align-items-center mb-5">
                 <div class="col-md-5">
                     <div class="benefit-content">
-                        <h6 class="mb-3">Infusion of new/advanced technologies</h6>
+                        <h3>Infusion of new/advanced technologies</h3>
                         <p class="paragraph-content">The infusion of new and advanced technologies is crucial for
                             enhancing efficiency and innovation. By adopting cutting-edge tools and systems,
                             organizations can streamline processes, reduce costs, and gain a competitive advantage.
@@ -682,8 +696,8 @@
                 </div>
                 <div class="col-md-5">
                     <div class="benefit-content">
-                        <h6 class="mb-3">Provision of seed funds for technology acquisition and equipment
-                            upgrading.</h6>
+                        <h3>Provision of seed funds for technology acquisition and equipment
+                            upgrading.</h3>
                         <p class="paragraph-content">The program provides financial support for acquiring new or
                             upgraded technology and equipment. This includes funding assistance for advanced tools
                             and
@@ -698,7 +712,7 @@
             <div class="benefit-item row align-items-center mb-5">
                 <div class="col-md-5">
                     <div class="benefit-content">
-                        <h6 class="mb-3">Technical trainings</h6>
+                        <h3>Technical trainings</h3>
                         <p class="paragraph-content">The program offers a comprehensive approach to quality and
                             environmental management, including training in specific technical skills. It covers
                             Hazard
@@ -731,7 +745,7 @@
                 </div>
                 <div class="col-md-5">
                     <div class="benefit-content">
-                        <h6 class="mb-3">Technical Advisory and Consultancy Services</h6>
+                        <h3>Technical Advisory and Consultancy Services</h3>
                         <p class="paragraph-content">The program focuses on enhancing food safety, resource
                             efficiency,
                             and cleaner production practices. It offers manufacturing, productivity, and extension
@@ -748,7 +762,7 @@
             <div class="benefit-item row align-items-center mb-5">
                 <div class="col-md-5">
                     <div class="benefit-content">
-                        <h6 class="mb-3">Design of functional packages and labels</h6>
+                        <h3>Design of functional packages and labels</h3>
                         <p class="paragraph-content">The program focuses on designing visually appealing and
                             practical
                             packaging solutions, developing clear and informative product labels, and creating
@@ -862,73 +876,47 @@
             <div class="row">
                 <div class="col-lg-12 pt-4 pt-lg-0">
                     <div class="row">
-                        <div class="col-12 col-md-4">
-                            <div class="card h-100">
-                                <div class="card-header bg-primary">
-                                    <strong class="text-white">VISION</strong>
-                                </div>
-                                <div class="card-body">
-                                    <p class="paragraph-content">
-                                        An agile and proactive organization with mastery in providing excellent
-                                        public service through Science, Engineering, Technology and Innovation
-                                        (SETI) for inclusive and sustainable development of Mindanao by 2025.
-                                    </p>
+                        <div class="col-md-6">
+                            <h2>About PSTO Davao Del Norte</h2>
+                            <div class="d-flex flex-column justify-content-center h-75 ps-3">
+                                <p class="text-justify">
+                                    The Provincial Science and Technology Office (PSTO) of Davao Del Norte plays a vital
+                                    role in promoting
+                                    innovation, research, and technological advancements in the region. It supports
+                                    local
+                                    enterprises,
+                                    researchers, and communities by providing funding opportunities, technical
+                                    assistance,
+                                    and access to
+                                    government programs.
+                                </p>
+                                <p class="text-justify">
+                                    Through initiatives like the DOST-SETUP Fund Monitoring System, businesses and
+                                    stakeholders can track
+                                    and manage their funding more efficiently, ensuring sustainable growth and
+                                    innovation.
+                                </p>
+                                <p class="text-justify">
+                                    For more details, visit our office or contact us through the information below.
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-md-6 d-flex align-items-center justify-content-center">
+                            <img
+                                class="img-fluid rounded shadow"
+                                src="{{ asset('images/psto_davao_del_norte.webp') }}"
+                                alt="PSTO Davao Del Norte Office"
+                                loading="lazy"
+                            >
+                        </div>
 
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="card h-100">
-                                <div class="card-header bg-primary">
-                                    <strong class="text-white">MISSION</strong>
-
-                                </div>
-                                <div class="card-body">
-                                    <p class="paragraph-content">
-                                        To inspire and transform communities through Science,
-                                        Engineering, Technology and Innovation (SETI).
-                                    </p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-4">
-                            <div class="card h-100">
-                                <div class="card-header bg-primary ">
-                                    <strong class="text-white">VALUES</strong>
-                                </div>
-                                <div class="card-body">
-                                    <ul class="Values-list">
-                                        <li>
-                                            Relevance
-                                        </li>
-                                        <li>
-                                            Excellence
-                                        </li>
-                                        <li>
-                                            Cooperation
-                                        </li>
-                                        <li>
-                                            Integrity
-                                        </li>
-                                        <li>
-                                            Professionalism
-                                        </li>
-                                        <li>
-                                            Effectiveness (Cost)
-                                        </li>
-                                        <li>
-                                            Service Innovation
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
     <x-footer />
+
     @vite('resources/js/app.ts')
     <x-toast-ssr-notification />
     <script type="module">

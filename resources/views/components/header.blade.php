@@ -26,7 +26,6 @@
         align-items: center;
         justify-content: center;
         height: 100%;
-        /* Ensure this element takes up the full height of its container */
     }
 
     :is(nav, footer) .header-cont {
@@ -55,7 +54,7 @@
     }
 
     :is(nav, footer) .navlogo {
-        height: 13vh;
+        height: 8vh;
         width: 40vw;
     }
 
@@ -68,6 +67,7 @@
         font-weight: 600;
         opacity: 0;
         animation: navLogo-text-main-expand 2s forwards;
+        white-space: nowrap;
     }
 
     :is(nav, footer) .sideTextSec::after {
@@ -79,6 +79,7 @@
         font-weight: 400;
         opacity: 0;
         animation: navLogo-text-sec-expand 3s forwards;
+        white-space: nowrap;
     }
 
     footer .sideTextMain::after {
@@ -179,7 +180,10 @@
     </div>
 </div>
 <!-- Confirmation modal End -->
-<div class="p-1 shadow-lg z-3 {{ Request::is('/') ? 'position-fixed' : '' }} bg-white header-cont w-100">
+<div
+    class="p-1 shadow-lg z-3 {{ Request::is('/') ? 'position-fixed' : '' }} bg-white header-cont w-100"
+    id="main-header"
+>
     <div class="container-flex px-0 px-md-5 px-lg-5">
         <nav class="navbar navbar-expand-md">
             <a
