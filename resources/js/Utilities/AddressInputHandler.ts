@@ -18,14 +18,18 @@ interface Selectors {
 }
 
 interface LocationDraftData {
-    officeRegion: string;
-    officeProvince: string;
-    officeCity: string;
-    officeBarangay: string;
-    factoryRegion: string;
-    factoryProvince: string;
-    factoryCity: string;
-    factoryBarangay: string;
+    home_region: string;
+    home_province: string;
+    home_city: string;
+    home_barangay: string;
+    office_region: string;
+    office_province: string;
+    office_city: string;
+    office_barangay: string;
+    factory_region: string;
+    factory_province: string;
+    factory_city: string;
+    factory_barangay: string;
 }
 
 class AddressFormInput {
@@ -134,14 +138,14 @@ class AddressFormInput {
         draftData: LocationDraftData
     ): Promise<void> => {
         try {
-            const regionKey = `${prefix}Region` as keyof LocationDraftData;
+            const regionKey = `${prefix}_region` as keyof LocationDraftData;
             const regionValue = draftData[regionKey];
 
             if (!regionValue) {
                 return;
             }
 
-            const regionSelector = `#${prefix}Region`;
+            const regionSelector = `#${prefix}_region`;
             const regionCode = await AddressFormInput.loadLocationDropdown(
                 regionSelector,
                 API.fetchRegions(),
@@ -156,14 +160,14 @@ class AddressFormInput {
                 return;
             }
 
-            const provinceKey = `${prefix}Province` as keyof LocationDraftData;
+            const provinceKey = `${prefix}_province` as keyof LocationDraftData;
             const provinceValue = draftData[provinceKey];
 
             if (!provinceValue) {
                 return;
             }
 
-            const provinceSelector = `#${prefix}Province`;
+            const provinceSelector = `#${prefix}_province`;
             const provinceCode = await AddressFormInput.loadLocationDropdown(
                 provinceSelector,
                 API.fetchProvinces(regionCode),
@@ -178,14 +182,14 @@ class AddressFormInput {
                 return;
             }
 
-            const cityKey = `${prefix}City` as keyof LocationDraftData;
+            const cityKey = `${prefix}_city` as keyof LocationDraftData;
             const cityValue = draftData[cityKey];
 
             if (!cityValue) {
                 return;
             }
 
-            const citySelector = `#${prefix}City`;
+            const citySelector = `#${prefix}_city`;
             const cityCode = await AddressFormInput.loadLocationDropdown(
                 citySelector,
                 API.fetchCities(provinceCode),
@@ -201,14 +205,14 @@ class AddressFormInput {
             }
 
             // Get the barangay value
-            const barangayKey = `${prefix}Barangay` as keyof LocationDraftData;
+            const barangayKey = `${prefix}_barangay` as keyof LocationDraftData;
             const barangayValue = draftData[barangayKey];
 
             if (!barangayValue) {
                 return;
             }
 
-            const barangaySelector = `#${prefix}Barangay`;
+            const barangaySelector = `#${prefix}_barangay`;
             await AddressFormInput.loadLocationDropdown(
                 barangaySelector,
                 API.fetchBarangay(cityCode),
@@ -218,7 +222,7 @@ class AddressFormInput {
         } catch (error) {
             console.error(`Error loading ${prefix} address dropdowns:`, error);
             // Reset dropdowns to a usable state
-            $(`#${prefix}Province, #${prefix}City, #${prefix}Barangay`).prop(
+            $(`#${prefix}_province, #${prefix}_city, #${prefix}_barangay`).prop(
                 'disabled',
                 true
             );
