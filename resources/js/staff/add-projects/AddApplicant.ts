@@ -12,6 +12,7 @@ import {
 } from '../../Utilities/feedback-toast';
 import { serializeFormData } from '../../Utilities/utilFunctions';
 import { FormDraftHandler } from '../../Utilities/FormDraftHandler';
+import { setupPhoneNumberInput } from '../../Utilities/phone-formatter';
 
 export default class AddApplicant {
     private formElement: JQuery<HTMLFormElement> | null;
@@ -41,6 +42,7 @@ export default class AddApplicant {
                     cancelText: 'No',
                 });
                 if (!isConfirmed) return;
+                const processToast = showProcessToast('Adding Applicant...');
                 try {
                     const url = form.attr('action');
                     const formData = form.serializeArray();
@@ -50,10 +52,27 @@ export default class AddApplicant {
                     await this._saveApplicant(formDataObject, url);
                 } catch (error: any) {
                     processError('Error in Adding Applicant: ', error, true);
+                } finally {
+                    hideProcessToast(processToast);
+                    this.reloadTab();
                 }
             });
+            this.setupFormInputEvent();
         } catch (error) {
             processError('Error in Setting Up Form Submit Handler: ', error);
+        }
+    }
+
+    private setupFormInputEvent() {
+        try {
+            if (!this.formElement) throw new Error('Form element not found');
+
+            setupPhoneNumberInput('#mobile_no');
+            const addressClassInstance = new AddressFormInput({
+                prefix: 'home',
+            });
+        } catch (error) {
+            processError('Error in Setting Up Form Input Event: ', error);
         }
     }
 
@@ -150,8 +169,7 @@ export default class AddApplicant {
                         );
                     } finally {
                         hideProcessToast(processToast);
-                        if (!NAV_ROUTES.ADD_APPLICANT) return;
-                        await loadTab(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
+                        this.reloadTab();
                     }
                 }
             );
@@ -209,8 +227,7 @@ export default class AddApplicant {
                         );
                     } finally {
                         hideProcessToast(processToast);
-                        if (!NAV_ROUTES.ADD_APPLICANT) return;
-                        await loadTab(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
+                        this.reloadTab();
                     }
                 }
             );
@@ -253,11 +270,12 @@ export default class AddApplicant {
                         $('meta[name="csrf-token"]').attr('content') || '',
                 },
             });
-            hideProcessToast(processToast);
             showToastFeedback('text-bg-success', response?.message);
         } catch (error: any) {
-            hideProcessToast(processToast);
             processError('Error in Saving Applicant: ', error, true);
+        } finally {
+            hideProcessToast(processToast);
+            this.reloadTab();
         }
     }
 
@@ -342,5 +360,10 @@ export default class AddApplicant {
             new AddressFormInput({ prefix: 'office' }),
             new AddressFormInput({ prefix: 'factory' }),
         ];
+    }
+
+    private reloadTab(): void {
+        if (!NAV_ROUTES.ADD_APPLICANT) return;
+        loadTab(NAV_ROUTES.ADD_APPLICANT, 'projectLink');
     }
 }
