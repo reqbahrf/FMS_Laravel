@@ -44,6 +44,8 @@ class RegistrationService
         DB::beginTransaction();
 
         try {
+            // Store user address
+            $this->storeUserAddress($validatedInputs, Auth::user()->id);
             // Process and store personal info
             $personalInfoId = $this->storePersonalInfo($validatedInputs, $user_name);
             $successful_inserts++;
@@ -76,10 +78,10 @@ class RegistrationService
                 DB::commit();
 
                 $location = [
-                    'region' => $businessInfo['region'],
-                    'province' => $businessInfo['province'],
-                    'city' => $businessInfo['city'],
-                    'barangay' => $businessInfo['barangay'],
+                    'applicant_region' => $businessInfo['home_region'],
+                    'applicant_province' => $businessInfo['home_province'],
+                    'applicant_city' => $businessInfo['home_city'],
+                    'applicant_barangay' => $businessInfo['home_barangay'],
                 ];
 
                 // Trigger event
@@ -129,6 +131,7 @@ class RegistrationService
                 'updated_at' => now(),
                 'must_change_password' => true,
             ]);
+            $this->storeUserAddress($validatedInputs, $user->id);
 
             $user->coopUserInfo()->create([
                 'prefix' => $validatedInputs['prefix'],
@@ -269,6 +272,26 @@ class RegistrationService
         }
     }
 
+    private function storeUserAddress(array $validatedInputs, int $userId): void
+    {
+        $region = $validatedInputs['home_region'];
+        $province = $validatedInputs['home_province'];
+        $city = $validatedInputs['home_city'];
+        $barangay = $validatedInputs['home_barangay'];
+        $landmark = $validatedInputs['home_landmark'];
+        $zipcode = $validatedInputs['home_zipcode'];
+
+        DB::table('users_address_info')->insert([
+            'user_info_id' => $userId,
+            'region' => $region,
+            'province' => $province,
+            'city' => $city,
+            'barangay' => $barangay,
+            'landmark' => $landmark,
+            'zip_code' => $zipcode
+        ]);
+    }
+
 
 
     /**
@@ -320,12 +343,12 @@ class RegistrationService
         $firm_name = $validatedInputs['firm_name'];
         $enterprise_type = $validatedInputs['enterpriseType'];
         $enterprise_level = $validatedInputs['enterprise_level'];
-        $office_region = $validatedInputs['officeRegion'];
-        $office_province = $validatedInputs['officeProvince'];
-        $office_city = $validatedInputs['officeCity'];
-        $office_barangay = $validatedInputs['officeBarangay'];
-        $office_landmark = $validatedInputs['officeLandmark'];
-        $office_zipcode = $validatedInputs['officeZipcode'];
+        $office_region = $validatedInputs['office_region'];
+        $office_province = $validatedInputs['office_province'];
+        $office_city = $validatedInputs['office_city'];
+        $office_barangay = $validatedInputs['office_barangay'];
+        $office_landmark = $validatedInputs['office_landmark'];
+        $office_zipcode = $validatedInputs['office_zipcode'];
         $export_market = json_encode($validatedInputs['exportMarket']);
         $local_market = json_encode($validatedInputs['localMarket']);
 

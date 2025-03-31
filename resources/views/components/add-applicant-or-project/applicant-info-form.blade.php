@@ -181,7 +181,7 @@
                 <div class="col-12">
                     <x-custom-input.address-card-select
                         prefix="home"
-                        :isRequired="false"
+                        :isRequired="true"
                         :isContactIncluded="false"
                     />
                 </div>

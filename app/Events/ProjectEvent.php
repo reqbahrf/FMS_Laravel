@@ -22,11 +22,11 @@ class ProjectEvent
         ?int $businessId = null,
         ?string $enterprise_type = null,
         ?string $enterprise_level = null,
-        ?Array $location = [
-            'region' => null,
-            'province' => null,
-            'city' => null,
-            'barangay' => null,
+        ?array $location = [
+            'applicant_region' => null,
+            'applicant_province' => null,
+            'applicant_city' => null,
+            'applicant_barangay' => null,
         ],
         ?string $event_type = null
     ) {

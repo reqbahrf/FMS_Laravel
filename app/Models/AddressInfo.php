@@ -12,7 +12,7 @@ class AddressInfo extends Model
     protected $fillable = [
         'user_info_id',
         'zip_code',
-        'landMark',
+        'landmark',
         'barangay',
         'city',
         'province',

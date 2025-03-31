@@ -35,10 +35,10 @@ class AddressFormInput {
     constructor(config: AddressFormConfig) {
         this.prefix = config.prefix;
         this.selectors = {
-            region: `#${this.prefix}Region`,
-            province: `#${this.prefix}Province`,
-            city: `#${this.prefix}City`,
-            barangay: `#${this.prefix}Barangay`,
+            region: `#${this.prefix}_region`,
+            province: `#${this.prefix}_province`,
+            city: `#${this.prefix}_city`,
+            barangay: `#${this.prefix}_barangay`,
         };
         this.initializeAddressSelection();
     }

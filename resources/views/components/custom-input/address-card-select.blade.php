@@ -8,12 +8,12 @@
             <div class="col-12 col-md-3">
                 <label
                     class="form-label"
-                    for="{{ $prefix }}Region"
+                    for="{{ $prefix }}_region"
                 >Region: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <select
                     class="form-select"
-                    id="{{ $prefix }}Region"
-                    name="{{ $prefix }}Region"
+                    id="{{ $prefix }}_region"
+                    name="{{ $prefix }}_region"
                     @required($isRequired)
                 >
                     <option value="">Select Region</option>
@@ -23,12 +23,12 @@
             <div class="col-12 col-md-3">
                 <label
                     class="form-label"
-                    for="province"
+                    for="{{ $prefix }}_province"
                 >Province: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <select
                     class="form-select"
-                    id="{{ $prefix }}Province"
-                    name="{{ $prefix }}Province"
+                    id="{{ $prefix }}_province"
+                    name="{{ $prefix }}_province"
                     @required($isRequired)
                     disabled
                 >
@@ -39,12 +39,12 @@
             <div class="col-12 col-md-3">
                 <label
                     class="form-label"
-                    for="city"
+                    for="{{ $prefix }}_city"
                 >City: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <select
                     class="form-select"
-                    id="{{ $prefix }}City"
-                    name="{{ $prefix }}City"
+                    id="{{ $prefix }}_city"
+                    name="{{ $prefix }}_city"
                     @required($isRequired)
                     disabled
                 >
@@ -55,12 +55,12 @@
             <div class="col-12 col-md-3">
                 <label
                     class="form-label"
-                    for="{{ $prefix }}Barangay"
+                    for="{{ $prefix }}_barangay"
                 >Barangay: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <select
                     class="form-select"
-                    id="{{ $prefix }}Barangay"
-                    name="{{ $prefix }}Barangay"
+                    id="{{ $prefix }}_barangay"
+                    name="{{ $prefix }}_barangay"
                     @required($isRequired)
                     disabled
                 >
@@ -71,14 +71,14 @@
             <div class="col-12 col-md-10">
                 <label
                     class="form-label"
-                    for="Landmark"
+                    for="{{ $prefix }}_landmark"
                 >Landmark: {!! $isRequired ? '<span class="requiredFields">*</span>' : '' !!}</label>
                 <input
                     class="form-control"
-                    id="{{ $prefix }}Landmark"
-                    name="{{ $prefix }}Landmark"
+                    id="{{ $prefix }}_landmark"
+                    name="{{ $prefix }}_landmark"
                     type="text"
-                    value="{{ old("{$prefix}Landmark") }}"
+                    value="{{ old("{$prefix}_landmark") }}"
                     placeholder="Street Name, or Purok, Building No."
                     @required($isRequired)
                 >
@@ -89,12 +89,12 @@
             <div class="col-12 col-md-2">
                 <label
                     class="form-label"
-                    for="{{ $prefix }}Zipcode"
+                    for="{{ $prefix }}_zipcode"
                 >Zip Code: {!! $isRequired ? '<span class="requiredFields"> *</span>' : '' !!}</label>
                 <input
                     class="form-control"
-                    id="{{ $prefix }}Zipcode"
-                    name="{{ $prefix }}Zipcode"
+                    id="{{ $prefix }}_zipcode"
+                    name="{{ $prefix }}_zipcode"
                     type="text"
                     value="{{ old("{$prefix}Zipcode") }}"
                     placeholder="8000"
@@ -108,42 +108,42 @@
                 <div class="col-12 col-md-4">
                     <label
                         class="form-label"
-                        for="{{ $prefix }}TelNo"
+                        for="{{ $prefix }}_telNo"
                     >Telephone No:</label>
                     <input
                         class="form-control"
-                        id="{{ $prefix }}TelNo"
-                        name="{{ $prefix }}TelNo"
+                        id="{{ $prefix }}_telNo"
+                        name="{{ $prefix }}_telNo"
                         type="text"
-                        value="{{ old("{$prefix}TelNo") }}"
+                        value="{{ old("{$prefix}_telNo") }}"
                         placeholder="1234567"
                     >
                 </div>
                 <div class="col-12 col-md-4">
                     <label
                         class="form-label"
-                        for="{{ $prefix }}FaxNo"
+                        for="{{ $prefix }}_faxNo"
                     >Fax No:</label>
                     <input
                         class="form-control"
-                        id="{{ $prefix }}FaxNo"
-                        name="{{ $prefix }}FaxNo"
+                        id="{{ $prefix }}_faxNo"
+                        name="{{ $prefix }}_faxNo"
                         type="text"
-                        value="{{ old("{$prefix}FaxNo") }}"
+                        value="{{ old("{$prefix}_faxNo") }}"
                         placeholder="1234567"
                     >
                 </div>
                 <div class="col-12 col-md-4">
                     <label
                         class="form-label"
-                        for="{{ $prefix }}EmailAddress"
+                        for="{{ $prefix }}_emailAddress"
                     >Email Address:</label>
                     <input
                         class="form-control"
-                        id="{{ $prefix }}EmailAddress"
-                        name="{{ $prefix }}EmailAddress"
+                        id="{{ $prefix }}_emailAddress"
+                        name="{{ $prefix }}_emailAddress"
                         type="email"
-                        value="{{ old("{$prefix}EmailAddress") }}"
+                        value="{{ old("{$prefix}_emailAddress") }}"
                         placeholder="example@domain.com"
                     >
                 </div>

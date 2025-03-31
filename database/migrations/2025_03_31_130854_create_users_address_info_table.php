@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_info_id')->unsigned()->unique();
             $table->string('zip_code', 10)->nullable();
-            $table->string('landMark', 64)->nullable();
+            $table->string('landmark', 64)->nullable();
             $table->string('barangay', 64)->nullable();
             $table->string('city', 64)->nullable();
             $table->string('province', 64)->nullable();
