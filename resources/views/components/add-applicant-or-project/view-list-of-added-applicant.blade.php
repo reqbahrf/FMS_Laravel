@@ -67,7 +67,7 @@
                                     role="group"
                                 >
                                     <button
-                                        class="btn btn-sm btn-info text-light"
+                                        class="btn btn-sm btn-info text-light @if ($applicant->is_notified) disabled notify--this-applicant @endif"
                                         type="button"
                                     >
                                         <i class="bi bi-eye"></i> Notify
