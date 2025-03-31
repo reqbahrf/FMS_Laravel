@@ -73,6 +73,14 @@ export default class AddApplicant {
                     'click',
                     '.editApplicantForm',
                     async (event: JQuery.ClickEvent) => {
+                        const isConfirmed = await createConfirmationModal({
+                            title: 'Confirm Applicant Edit',
+                            message:
+                                'Are you sure you want to edit this applicant?',
+                            confirmText: 'Yes',
+                            cancelText: 'No',
+                        });
+                        if (!isConfirmed) return;
                         try {
                             const button = $(event.target);
                             const secureFormLink =
