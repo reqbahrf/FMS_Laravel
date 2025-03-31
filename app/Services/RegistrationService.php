@@ -177,7 +177,9 @@ class RegistrationService
                 $user->coopUserInfo
             );
 
-            Mail::to($user->email)->send($mail);
+            dispatch(function () use ($user, $mail) {
+                Mail::to($user->email)->queue($mail);
+            })->afterResponse();
 
             NotificationLog::create([
                 'user_id' => $user->id,
