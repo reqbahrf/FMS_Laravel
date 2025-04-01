@@ -150,7 +150,7 @@ Route::controller(PasswordResetController::class)->group(function () {
 
 
 
-Route::middleware(['coopUser', 'check.password.change', 'verified'])->group(function () {
+Route::middleware(['coopUser', 'verified', 'check.password.change'])->group(function () {
     Route::post('/Cooperator/Projects', SetProjectToLoadController::class)
         ->name('Cooperator.Projects');
 
@@ -198,7 +198,7 @@ Route::middleware(['coopUser', 'check.password.change', 'verified'])->group(func
 //Cooperator Routes End
 //Staff Routes
 
-Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])->group(function () {
+Route::middleware([CheckStaffUser::class, 'verified', 'check.password.change'])->group(function () {
 
     Route::controller(StaffViewController::class)->group(function () {
         Route::get('/Staff/Home', 'index')
@@ -362,7 +362,7 @@ Route::middleware([CheckStaffUser::class, 'check.password.change', 'verified'])-
 //Staff Route End
 //Admin routes
 
-Route::middleware([CheckAdminUser::class, 'check.password.change'])->group(function () {
+Route::middleware([CheckAdminUser::class, 'verified', 'check.password.change'])->group(function () {
 
     Route::controller(AdminViewController::class)->group(function () {
 

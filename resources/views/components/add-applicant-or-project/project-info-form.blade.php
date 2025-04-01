@@ -1,5 +1,5 @@
-<div>
-    <h4 class="p-3">Add Project</h4>
+<div class="m-3">
+    <h1>Add Project</h1>
 </div>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3">
@@ -20,7 +20,24 @@
             @csrf
             <div class="row mb-3">
                 <div class="col-md-12">
-                    <h1 class="mb-3">Project Information</h1>
+                    <h2>Project Information</h2>
+                </div>
+                <div class="col-12">
+                    <label
+                        class="form-label"
+                        for="email"
+                    >Email Address: <span class="text-danger">*</span></label>
+                    <input
+                        class="form-control w-50"
+                        id="email"
+                        name="email"
+                        type="email"
+                        title="Please enter a valid email address"
+                        required
+                    >
+                    <div class="form-text text-muted">To ensure successful delivery of login
+                        credentials, please enter a valid email address for the user registration.</div>
+                    <div class="invalid-feedback">Please enter a valid email address.</div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
@@ -38,7 +55,6 @@
                         >
                     </div>
                 </div>
-
                 <div class="col-md-9">
                     <div class="form-group">
                         <label
@@ -137,7 +153,7 @@
             </div>
             <div class="row gy-3">
                 <div class="col-md-12 d-flex align-items-center justify-content-between">
-                    <h2 class="mb-3 ps-3">Refund Structure Table</h2>
+                    <h3 class="mb-3 ps-3">Refund Structure Table</h3>
                     <button
                         class="btn btn-primary"
                         id="generateRefundStructure"
@@ -160,19 +176,23 @@
                 <hr>
             </div>
             <div class="col-md-12">
-                <h1 class="mb-3">Cooperator's</h1>
+                <h2 class="mb-3">Cooperator's</h2>
             </div>
             <div class="col-md-12">
-                <h2 class="mb-3 ps-3">Personal Information</h2>
+                <h3 class="mb-3 ps-3">Personal Information</h3>
             </div>
             <x-application-form.personal-info />
             <div class="col-12">
                 <hr>
             </div>
             <div class="col-md-12">
-                <h2 class="mb-3 ps-3">Business Information</h2>
+                <h3 class="mb-3 ps-3">Business Information</h3>
             </div>
-            <x-application-form.business-info />
+            <x-application-form.business-info
+                :withFileInput="false"
+                :withBenchmarkInfoInputs="false"
+                :withAdditionalBusinessActivityInfo="false"
+            />
             <div class="col-12">
                 <hr>
             </div>
@@ -180,7 +200,7 @@
                 <div class="col-12 text-end">
                     <button
                         class="btn btn-primary"
-                        type="submit"
+                        type="button"
                     >Save Project</button>
                     <button
                         class="btn btn-secondary"

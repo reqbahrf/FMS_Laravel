@@ -1,4 +1,4 @@
-@props(['withFileInput' => false])
+@props(['withFileInput' => true, 'withBenchmarkInfoInputs' => true, 'withAdditionalBusinessActivityInfo' => true])
 <!-- Where the business info displayed -->
 <div class="row g-3">
     <div class="col-12 col-md-8">
@@ -515,6 +515,7 @@
                     >
                 </div>
             </div>
+            @if($withAdditionalBusinessActivityInfo)
             <div class="row g-3">
                 <div class="col-12">
                     <label
@@ -530,8 +531,7 @@
                         rows="3"
                     ></textarea>
                 </div>
-            </div>
-            <div class="row g-3">
+
                 <div class="col-12">
                     <label
                         class="form-label"
@@ -546,8 +546,6 @@
                         rows="3"
                     ></textarea>
                 </div>
-            </div>
-            <div class="row g-3">
                 <div class="col-12">
                     <label class="form-label">
                         3. Have you consulted any other individual/organization on any assistance?
@@ -636,8 +634,6 @@
                         </div>
                     @endif
                 </div>
-            </div>
-            <div class="row g-3">
                 <div class="col-12">
                     <label
                         class="form-label"
@@ -652,8 +648,6 @@
                         rows="3"
                     ></textarea>
                 </div>
-            </div>
-            <div class="row g-3">
                 <div class="col-12">
                     <label
                         class="form-label ms-2"
@@ -668,8 +662,6 @@
                         rows="3"
                     ></textarea>
                 </div>
-            </div>
-            <div class="row g-3">
                 <div class="col-12">
                     <label
                         class="form-label"
@@ -685,643 +677,646 @@
                     ></textarea>
                 </div>
             </div>
+            @endif
 
         </div>
     </div>
-    <div class="card p-0">
-        <div class="card-header fw-bold">
-            BENCHMARK INFORMATION
-        </div>
-        <div class="card-body">
-            <hr>
-            <h6 class="my-4">*Product and Supply Chain</h6>
-            <hr>
-            <div id="productAndSupplyChainContainer">
-                <div class="mt-2">
-                    <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
-                        <button
-                            class="btn btn-sm btn-success add-product-and-supply-chain-row"
-                            data-toggle="tooltip"
-                            type="button"
-                            title="Add a new row"
+    @if ($withBenchmarkInfoInputs)
+        <div class="card p-0">
+            <div class="card-header fw-bold">
+                BENCHMARK INFORMATION
+            </div>
+            <div class="card-body">
+                <hr>
+                <h6 class="my-4">*Product and Supply Chain</h6>
+                <hr>
+                <div id="productAndSupplyChainContainer">
+                    <div class="mt-2">
+                        <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                            <button
+                                class="btn btn-sm btn-success add-product-and-supply-chain-row"
+                                data-toggle="tooltip"
+                                type="button"
+                                title="Add a new row"
+                            >
+                                <i class="ri-add-box-fill"></i>
+                            </button>
+                            <button
+                                class="btn btn-sm btn-danger remove-product-and-supply-chain-row mx-2"
+                                data-toggle="tooltip"
+                                data-remove-row-btn
+                                type="button"
+                                title="Delete row"
+                            >
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table
+                            class="table table-bordered"
+                            id="productAndSupplyChainTable"
                         >
-                            <i class="ri-add-box-fill"></i>
-                        </button>
-                        <button
-                            class="btn btn-sm btn-danger remove-product-and-supply-chain-row mx-2"
-                            data-toggle="tooltip"
-                            data-remove-row-btn
-                            type="button"
-                            title="Delete row"
-                        >
-                            <i class="ri-subtract-fill"></i>
-                        </button>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Raw Material</th>
+                                    <th scope="col">Source</th>
+                                    <th scope="col">Unit Cost (₱)</th>
+                                    <th scope="col">Volume Used/Year</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input
+                                            class="form-control RawMaterial"
+                                            type="text"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="form-control Source"
+                                            type="text"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="form-control UnitCost"
+                                            type="text"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="form-control VolumeUsed"
+                                            type="text"
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table
-                        class="table table-bordered"
-                        id="productAndSupplyChainTable"
-                    >
-                        <thead>
-                            <tr>
-                                <th scope="col">Raw Material</th>
-                                <th scope="col">Source</th>
-                                <th scope="col">Unit Cost (₱)</th>
-                                <th scope="col">Volume Used/Year</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input
-                                        class="form-control RawMaterial"
-                                        type="text"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        class="form-control Source"
-                                        type="text"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        class="form-control UnitCost"
-                                        type="text"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        class="form-control VolumeUsed"
-                                        type="text"
-                                    />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <hr>
-            <h6 class="my-4">*Production</h6>
-            <hr>
-            <div id="productionContainer">
+                <hr>
+                <h6 class="my-4">*Production</h6>
+                <hr>
+                <div id="productionContainer">
 
-                <div class="mt-2">
-                    <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
-                        <button
-                            class="btn btn-sm btn-success add-production-row"
-                            data-toggle="tooltip"
-                            type="button"
-                            title="Add a new row"
+                    <div class="mt-2">
+                        <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                            <button
+                                class="btn btn-sm btn-success add-production-row"
+                                data-toggle="tooltip"
+                                type="button"
+                                title="Add a new row"
+                            >
+                                <i class="ri-add-box-fill"></i>
+                            </button>
+                            <button
+                                class="btn btn-sm btn-danger remove-production-row mx-2"
+                                data-toggle="tooltip"
+                                data-remove-row-btn
+                                type="button"
+                                title="Delete row"
+                            >
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table
+                            class="table table-bordered"
+                            id="productionTable"
                         >
-                            <i class="ri-add-box-fill"></i>
-                        </button>
-                        <button
-                            class="btn btn-sm btn-danger remove-production-row mx-2"
-                            data-toggle="tooltip"
-                            data-remove-row-btn
-                            type="button"
-                            title="Delete row"
-                        >
-                            <i class="ri-subtract-fill"></i>
-                        </button>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Product</th>
+                                    <th scope="col">Volume of Production/Year</th>
+                                    <th scope="col">Unit Cost of Production (₱)</th>
+                                    <th scope="col">Annual Cost of Production (₱)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input
+                                            class="form-control Product"
+                                            type="text"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="form-control VolumeProduction"
+                                            type="text"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="form-control UnitCost"
+                                            type="text"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="form-control AnnualCost"
+                                            type="text"
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table
-                        class="table table-bordered"
-                        id="productionTable"
-                    >
-                        <thead>
-                            <tr>
-                                <th scope="col">Product</th>
-                                <th scope="col">Volume of Production/Year</th>
-                                <th scope="col">Unit Cost of Production (₱)</th>
-                                <th scope="col">Annual Cost of Production (₱)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input
-                                        class="form-control Product"
-                                        type="text"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        class="form-control VolumeProduction"
-                                        type="text"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        class="form-control UnitCost"
-                                        type="text"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        class="form-control AnnualCost"
-                                        type="text"
-                                    />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <hr>
-            <h6 class="my-4">*Production Equipment</h6>
-            <hr>
-            <div id="productionEquipmentContainer">
-                <div class="mt-2">
-                    <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
-                        <button
-                            class="btn btn-sm btn-success add-production-equipment-row"
-                            data-toggle="tooltip"
-                            type="button"
-                            title="Add a new row"
+                <hr>
+                <h6 class="my-4">*Production Equipment</h6>
+                <hr>
+                <div id="productionEquipmentContainer">
+                    <div class="mt-2">
+                        <div class="d-flex justify-content-end p-2 addAndRemoveButton_Container">
+                            <button
+                                class="btn btn-sm btn-success add-production-equipment-row"
+                                data-toggle="tooltip"
+                                type="button"
+                                title="Add a new row"
+                            >
+                                <i class="ri-add-box-fill"></i>
+                            </button>
+                            <button
+                                class="btn btn-sm btn-danger remove-production-equipment-row mx-2"
+                                data-toggle="tooltip"
+                                data-remove-row-btn
+                                type="button"
+                                title="Delete row"
+                            >
+                                <i class="ri-subtract-fill"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="table-responsive">
+                        <table
+                            class="table table-bordered"
+                            id="productionEquipmentTable"
                         >
-                            <i class="ri-add-box-fill"></i>
-                        </button>
-                        <button
-                            class="btn btn-sm btn-danger remove-production-equipment-row mx-2"
-                            data-toggle="tooltip"
-                            data-remove-row-btn
-                            type="button"
-                            title="Delete row"
-                        >
-                            <i class="ri-subtract-fill"></i>
-                        </button>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Type of Equipment</th>
+                                    <th scope="col">Specification</th>
+                                    <th scope="col">Capacity</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input
+                                            class="form-control TypeOfEquipment"
+                                            type="text"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="form-control Specification"
+                                            type="text"
+                                        />
+                                    </td>
+                                    <td>
+                                        <input
+                                            class="form-control Capacity"
+                                            type="text"
+                                        />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table
-                        class="table table-bordered"
-                        id="productionEquipmentTable"
-                    >
-                        <thead>
-                            <tr>
-                                <th scope="col">Type of Equipment</th>
-                                <th scope="col">Specification</th>
-                                <th scope="col">Capacity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>
-                                    <input
-                                        class="form-control TypeOfEquipment"
-                                        type="text"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        class="form-control Specification"
-                                        type="text"
-                                    />
-                                </td>
-                                <td>
-                                    <input
-                                        class="form-control Capacity"
-                                        type="text"
-                                    />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="row gy-3">
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="ProductionProblemAndConcern"
-                    >-Production Problem and Concern</label>
-                    <textarea
-                        class="form-control"
-                        id="ProductionProblemAndConcern"
-                        name="ProductionProblemAndConcern"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="ProductionWasteManageSystem"
-                    >-Production Waste Management System</label>
-                    <textarea
-                        class="form-control"
-                        id="ProductionWasteManageSystem"
-                        name="ProductionWasteManageSystem"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="ProductionPlan"
-                    >-Production Plan</label>
-                    <textarea
-                        class="form-control"
-                        id="ProductionPlan"
-                        name="ProductionPlan"
-                        rows="3"
-                    ></textarea>
-                </div>
-                @if ($withFileInput)
+                <div class="row gy-3">
                     <div class="col-12">
-                        <div class="mb-3">
-                            <label
-                                class="form-label"
-                                for="PlanLayout"
-                            >-Plan Lay-out</label>
-                            <input
-                                id="planLayout"
-                                name="planLayout"
-                                type="file"
-                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
-                            >
-                            <div class="invalid-feedback">
-                                Please upload the Plan Lay-out.
-                            </div>
-                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
-                                10MB</div>
-                            <input
-                                id="PlanLayoutFileID_Data_Handler"
-                                name="PlanLayoutFileID_Data_Handler"
-                                type="hidden"
-                            >
-                        </div>
-                        <div class="mb-3">
-                            <label
-                                class="form-label"
-                                for="processFlow"
-                            >-Process Flow</label>
-                            <input
-                                id="processFlow"
-                                name="processFlow"
-                                type="file"
-                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
-                            >
-                            <div class="invalid-feedback">
-                                Please upload the Process Flow.
-                            </div>
-                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
-                                10MB</div>
-                            <input
-                                id="ProcessFlowFileID_Data_Handler"
-                                name="ProcessFlowFileID_Data_Handler"
-                                type="hidden"
-                            >
-                        </div>
+                        <label
+                            class="form-label"
+                            for="ProductionProblemAndConcern"
+                        >-Production Problem and Concern</label>
+                        <textarea
+                            class="form-control"
+                            id="ProductionProblemAndConcern"
+                            name="ProductionProblemAndConcern"
+                            rows="3"
+                        ></textarea>
                     </div>
-                @endif
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="InventorySystem"
-                    >-Inventory System</label>
-                    <textarea
-                        class="form-control"
-                        id="InventorySystem"
-                        name="InventorySystem"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="MaintenanceProgram"
-                    >-Maintenance Program</label>
-                    <textarea
-                        class="form-control"
-                        id="MaintenanceProgram"
-                        name="MaintenanceProgram"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="cGMPHACCPActivities"
-                    >-cGMP/HACCP Activities</label>
-                    <textarea
-                        class="form-control"
-                        id="cGMPHACCPActivities"
-                        name="cGMPHACCPActivities"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="SuppliesPurchasingSystem"
-                    >-Supplies/Purchasing System</label>
-                    <textarea
-                        class="form-control"
-                        id="SuppliesPurchasingSystem"
-                        name="SuppliesPurchasingSystem"
-                        rows="3"
-                    ></textarea>
-                </div>
-            </div>
-            <hr>
-            <h6 class="my-4">*Marketing</h6>
-            <hr>
-            <div class="row gy-3">
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="MarketingPlan"
-                    >-Marketing Plan</label>
-                    <textarea
-                        class="form-control"
-                        id="MarketingPlan"
-                        name="MarketingPlan"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="MarketOutletsAndNumber"
-                    >-Market Outlets and Number</label>
-                    <textarea
-                        class="form-control"
-                        id="MarketOutletsAndNumber"
-                        name="MarketOutletsAndNumber"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="PromotionalStrategies"
-                    >-Promotional Strategies</label>
-                    <textarea
-                        class="form-control"
-                        id="PromotionalStrategies"
-                        name="PromotionalStrategies"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="MarketCompetitors"
-                    >-Market Competitors</label>
-                    <textarea
-                        class="form-control"
-                        id="MarketCompetitors"
-                        name="MarketCompetitors"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <h6>-Packaging</h6>
-                <div class="row g-3">
                     <div class="col-12">
-                        <div class="form-group">
-                            <div class="form-check mb-2">
-                                <input
-                                    class="form-check-input"
-                                    id="nutritionEvaluation"
-                                    name="nutritionEvaluation"
-                                    type="checkbox"
-                                >
+                        <label
+                            class="form-label"
+                            for="ProductionWasteManageSystem"
+                        >-Production Waste Management System</label>
+                        <textarea
+                            class="form-control"
+                            id="ProductionWasteManageSystem"
+                            name="ProductionWasteManageSystem"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="ProductionPlan"
+                        >-Production Plan</label>
+                        <textarea
+                            class="form-control"
+                            id="ProductionPlan"
+                            name="ProductionPlan"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    @if ($withFileInput)
+                        <div class="col-12">
+                            <div class="mb-3">
                                 <label
-                                    class="form-check-label"
-                                    for="nutritionEvaluation"
-                                >
-                                    Nutrition Evaluation
-                                </label>
-                            </div>
-                            <input
-                                class="form-control mt-2 ms-2"
-                                id="nutritionEvaluationDetails"
-                                name="nutritionEvaluationDetails"
-                                type="text"
-                            >
-                        </div>
-                        <div class="form-group">
-                            <div class="form-check mb-2">
+                                    class="form-label"
+                                    for="PlanLayout"
+                                >-Plan Lay-out</label>
                                 <input
-                                    class="form-check-input"
-                                    id="barCode"
-                                    name="barCode"
-                                    type="checkbox"
+                                    id="planLayout"
+                                    name="planLayout"
+                                    type="file"
+                                    {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
                                 >
-                                <label
-                                    class="form-check-label"
-                                    for="barCode"
+                                <div class="invalid-feedback">
+                                    Please upload the Plan Lay-out.
+                                </div>
+                                <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                    10MB</div>
+                                <input
+                                    id="PlanLayoutFileID_Data_Handler"
+                                    name="PlanLayoutFileID_Data_Handler"
+                                    type="hidden"
                                 >
-                                    Bar Code
-                                </label>
                             </div>
-                            <input
-                                class="form-control mt-2 ms-2"
-                                id="barCodeDetails"
-                                name="barCodeDetails"
-                                type="text"
-                            >
+                            <div class="mb-3">
+                                <label
+                                    class="form-label"
+                                    for="processFlow"
+                                >-Process Flow</label>
+                                <input
+                                    id="processFlow"
+                                    name="processFlow"
+                                    type="file"
+                                    {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                                >
+                                <div class="invalid-feedback">
+                                    Please upload the Process Flow.
+                                </div>
+                                <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                    10MB</div>
+                                <input
+                                    id="ProcessFlowFileID_Data_Handler"
+                                    name="ProcessFlowFileID_Data_Handler"
+                                    type="hidden"
+                                >
+                            </div>
                         </div>
+                    @endif
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="InventorySystem"
+                        >-Inventory System</label>
+                        <textarea
+                            class="form-control"
+                            id="InventorySystem"
+                            name="InventorySystem"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="MaintenanceProgram"
+                        >-Maintenance Program</label>
+                        <textarea
+                            class="form-control"
+                            id="MaintenanceProgram"
+                            name="MaintenanceProgram"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="cGMPHACCPActivities"
+                        >-cGMP/HACCP Activities</label>
+                        <textarea
+                            class="form-control"
+                            id="cGMPHACCPActivities"
+                            name="cGMPHACCPActivities"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="SuppliesPurchasingSystem"
+                        >-Supplies/Purchasing System</label>
+                        <textarea
+                            class="form-control"
+                            id="SuppliesPurchasingSystem"
+                            name="SuppliesPurchasingSystem"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                </div>
+                <hr>
+                <h6 class="my-4">*Marketing</h6>
+                <hr>
+                <div class="row gy-3">
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="MarketingPlan"
+                        >-Marketing Plan</label>
+                        <textarea
+                            class="form-control"
+                            id="MarketingPlan"
+                            name="MarketingPlan"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="MarketOutletsAndNumber"
+                        >-Market Outlets and Number</label>
+                        <textarea
+                            class="form-control"
+                            id="MarketOutletsAndNumber"
+                            name="MarketOutletsAndNumber"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="PromotionalStrategies"
+                        >-Promotional Strategies</label>
+                        <textarea
+                            class="form-control"
+                            id="PromotionalStrategies"
+                            name="PromotionalStrategies"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="MarketCompetitors"
+                        >-Market Competitors</label>
+                        <textarea
+                            class="form-control"
+                            id="MarketCompetitors"
+                            name="MarketCompetitors"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <h6>-Packaging</h6>
+                    <div class="row g-3">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <div class="form-check mb-2">
+                                    <input
+                                        class="form-check-input"
+                                        id="nutritionEvaluation"
+                                        name="nutritionEvaluation"
+                                        type="checkbox"
+                                    >
+                                    <label
+                                        class="form-check-label"
+                                        for="nutritionEvaluation"
+                                    >
+                                        Nutrition Evaluation
+                                    </label>
+                                </div>
+                                <input
+                                    class="form-control mt-2 ms-2"
+                                    id="nutritionEvaluationDetails"
+                                    name="nutritionEvaluationDetails"
+                                    type="text"
+                                >
+                            </div>
+                            <div class="form-group">
+                                <div class="form-check mb-2">
+                                    <input
+                                        class="form-check-input"
+                                        id="barCode"
+                                        name="barCode"
+                                        type="checkbox"
+                                    >
+                                    <label
+                                        class="form-check-label"
+                                        for="barCode"
+                                    >
+                                        Bar Code
+                                    </label>
+                                </div>
+                                <input
+                                    class="form-control mt-2 ms-2"
+                                    id="barCodeDetails"
+                                    name="barCodeDetails"
+                                    type="text"
+                                >
+                            </div>
 
-                        <div class="form-group">
-                            <div class="form-check mb-2">
+                            <div class="form-group">
+                                <div class="form-check mb-2">
+                                    <input
+                                        class="form-check-input"
+                                        id="productLabel"
+                                        name="productLabel"
+                                        type="checkbox"
+                                    >
+                                    <label
+                                        class="form-check-label"
+                                        for="productLabel"
+                                    >
+                                        Product Label
+                                    </label>
+                                </div>
                                 <input
-                                    class="form-check-input"
-                                    id="productLabel"
-                                    name="productLabel"
-                                    type="checkbox"
+                                    class="form-control mt-2 ms-2"
+                                    id="productLabelDetails"
+                                    name="productLabelDetails"
+                                    type="text"
                                 >
-                                <label
-                                    class="form-check-label"
-                                    for="productLabel"
-                                >
-                                    Product Label
-                                </label>
                             </div>
-                            <input
-                                class="form-control mt-2 ms-2"
-                                id="productLabelDetails"
-                                name="productLabelDetails"
-                                type="text"
-                            >
-                        </div>
 
-                        <div class="form-group">
-                            <div class="form-check mb-2">
+                            <div class="form-group">
+                                <div class="form-check mb-2">
+                                    <input
+                                        class="form-check-input"
+                                        id="expiryDate"
+                                        name="expiryDate"
+                                        type="checkbox"
+                                    >
+                                    <label
+                                        class="form-check-label"
+                                        for="expiryDate"
+                                    >
+                                        Expiry Date
+                                    </label>
+                                </div>
                                 <input
-                                    class="form-check-input"
-                                    id="expiryDate"
-                                    name="expiryDate"
-                                    type="checkbox"
+                                    class="form-control mt-2 ms-2"
+                                    id="expiryDateDetails"
+                                    name="expiryDateDetails"
+                                    type="text"
                                 >
-                                <label
-                                    class="form-check-label"
-                                    for="expiryDate"
-                                >
-                                    Expiry Date
-                                </label>
                             </div>
-                            <input
-                                class="form-control mt-2 ms-2"
-                                id="expiryDateDetails"
-                                name="expiryDateDetails"
-                                type="text"
-                            >
                         </div>
+                    </div>
+
+                </div>
+                <hr>
+                <h6 class="my-4">Finance</h6>
+                <hr>
+                <div class="row gy-3">
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="CashFlowAndRelatedDocuments"
+                        >
+                            Cash Flow or other related documents:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="CashFlowAndRelatedDocuments"
+                            name="CashFlowAndRelatedDocuments"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="SourceOfCapitalCredit"
+                        >
+                            Source(s) of capital/credit:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="SourceOfCapitalCredit"
+                            name="SourceOfCapitalCredit"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="AccountingSystem"
+                        >
+                            Accounting System:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="AccountingSystem"
+                            name="AccountingSystem"
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+                </div>
+                <hr>
+                <h6 class="my-4">Human Resources</h6>
+                <hr>
+                <div class="row gy-3">
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="HiringAndCriteria"
+                        >
+                            Hiring and Criteria:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="HiringAndCriteria"
+                            name="HiringAndCriteria"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="IncentivesToEmployees"
+                        >
+                            Incentives to Employees:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="IncentivesToEmployees"
+                            name="IncentivesToEmployees"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="TrainingAndDevelopment"
+                        >
+                            Training and Development:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="TrainingAndDevelopment"
+                            name="TrainingAndDevelopment"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="SafetyMeasuresPracticed"
+                        >
+                            Safety Measures Practiced:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="SafetyMeasuresPracticed"
+                            name="SafetyMeasuresPracticed"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="OtherEmployeeWelfare"
+                        >
+                            Other Employee Welfare:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="OtherEmployeeWelfare"
+                            name="OtherEmployeeWelfare"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                </div>
+                <hr>
+                <h6 class="my-4">Other Concerns</h6>
+                <hr>
+                <div class="row gy-3">
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="OtherConcerns"
+                        >
+                            Other Concerns:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="OtherConcerns"
+                            name="OtherConcerns"
+                            rows="3"
+                        ></textarea>
                     </div>
                 </div>
 
             </div>
-            <hr>
-            <h6 class="my-4">Finance</h6>
-            <hr>
-            <div class="row gy-3">
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="CashFlowAndRelatedDocuments"
-                    >
-                        Cash Flow or other related documents:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="CashFlowAndRelatedDocuments"
-                        name="CashFlowAndRelatedDocuments"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="SourceOfCapitalCredit"
-                    >
-                        Source(s) of capital/credit:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="SourceOfCapitalCredit"
-                        name="SourceOfCapitalCredit"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="AccountingSystem"
-                    >
-                        Accounting System:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="AccountingSystem"
-                        name="AccountingSystem"
-                        rows="3"
-                    ></textarea>
-                </div>
-
-            </div>
-            <hr>
-            <h6 class="my-4">Human Resources</h6>
-            <hr>
-            <div class="row gy-3">
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="HiringAndCriteria"
-                    >
-                        Hiring and Criteria:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="HiringAndCriteria"
-                        name="HiringAndCriteria"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="IncentivesToEmployees"
-                    >
-                        Incentives to Employees:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="IncentivesToEmployees"
-                        name="IncentivesToEmployees"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="TrainingAndDevelopment"
-                    >
-                        Training and Development:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="TrainingAndDevelopment"
-                        name="TrainingAndDevelopment"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="SafetyMeasuresPracticed"
-                    >
-                        Safety Measures Practiced:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="SafetyMeasuresPracticed"
-                        name="SafetyMeasuresPracticed"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="OtherEmployeeWelfare"
-                    >
-                        Other Employee Welfare:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="OtherEmployeeWelfare"
-                        name="OtherEmployeeWelfare"
-                        rows="3"
-                    ></textarea>
-                </div>
-            </div>
-            <hr>
-            <h6 class="my-4">Other Concerns</h6>
-            <hr>
-            <div class="row gy-3">
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="OtherConcerns"
-                    >
-                        Other Concerns:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="OtherConcerns"
-                        name="OtherConcerns"
-                        rows="3"
-                    ></textarea>
-                </div>
-            </div>
-
         </div>
-    </div>
+    @endIf
     <div
         class="row p-0 mt-0 g-3"
         id="personnelContainer"

@@ -1,5 +1,5 @@
-<div>
-    <h4 class="p-3">Projects</h4>
+<div class="m-3">
+    <h1>Projects</h1>
 </div>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3">
@@ -480,7 +480,10 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <label for="amount_to_be_refunded" class="amount-to-be-refunded-label">Amount to be refunded:</label>
+                                    <label
+                                        class="amount-to-be-refunded-label"
+                                        for="amount_to_be_refunded"
+                                    >Amount to be refunded:</label>
                                     <div class="input-group">
                                         <span class="input-group-text">₱</span>
                                         <input

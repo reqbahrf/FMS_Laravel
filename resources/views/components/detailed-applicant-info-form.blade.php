@@ -1,6 +1,6 @@
 @props(['ownerId', 'draft_type', 'withAction' => false])
-<div>
-    <h4 class="p-3">Fill Applicant Information</h4>
+<div class="m-3">
+    <h1>Fill Applicant Information</h1>
 </div>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3">

@@ -1,5 +1,5 @@
-<div>
-    <h4 class="p-3">Add Applicant</h4>
+<div class="m-3">
+    <h1>Add Applicant</h1>
 </div>
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb px-3">
