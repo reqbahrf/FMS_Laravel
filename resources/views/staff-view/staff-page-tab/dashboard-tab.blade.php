@@ -8,7 +8,7 @@
     aria-hidden="true"
     tabindex="-1"
 >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header bg-primary">
                 <h1
@@ -26,7 +26,10 @@
                 <form id="paymentForm">
                     <div class="row gy-3">
                         <div class="col-12">
-                            <label for="reference_number">Transaction ID:</label>
+                            <label
+                                class=" form-label"
+                                for="reference_number"
+                            >Reference ID:</label>
                             <input
                                 class="form-control"
                                 id="reference_number"
@@ -34,21 +37,42 @@
                                 type="text"
                             >
                         </div>
-                        <div class="col-12">
-                            <label for="amount">Amount:</label>
+                        <div class="col-md-4">
+                            <label
+                                class=" form-label"
+                                for="payment_amount"
+                            >Amount:</label>
+                            <div class="input-group">
+                                <span class="input-group-text">₱</span>
+                                <input
+                                    class="form-control"
+                                    id="payment_amount"
+                                    name="payment_amount"
+                                    type="text"
+                                >
+                            </div>
+                        </div>
+                        <div class="col-md-8">
+                            <label
+                                class=" form-label"
+                                for="payment_due_date"
+                            >Due Date:</label>
                             <input
                                 class="form-control"
-                                id="paymentAmount"
-                                name="amount"
-                                type="text"
+                                id="payment_due_date"
+                                name="payment_due_date"
+                                type="date"
                             >
                         </div>
                         <div class="col-12 col-md-6">
-                            <label for="paymentMethod">Payment Method:</label>
+                            <label
+                                class=" form-label"
+                                for="payment_method"
+                            >Payment Method:</label>
                             <input
                                 class="form-control"
-                                id="paymentMethod"
-                                name="paymentMethod"
+                                id="payment_method"
+                                name="payment_method"
                                 type="text"
                                 list="paymentMethodList"
                                 placeholder="Select Payment Method"
@@ -61,11 +85,14 @@
                             </datalist>
                         </div>
                         <div class="col-12 col-md-6">
-                            <label for="paymentStatus">Payment Status:</label>
+                            <label
+                                class=" form-label"
+                                for="payment_status"
+                            >Payment Status:</label>
                             <input
                                 class="form-control"
-                                id="paymentStatus"
-                                name="paymentStatus"
+                                id="payment_status"
+                                name="payment_status"
                                 type="text"
                                 list="paymentStatusList"
                                 placeholder="Select Payment Status"
@@ -73,8 +100,37 @@
                             <datalist id="paymentStatusList">
                                 <option value="Paid"></option>
                                 <option value="Pending"></option>
-                                <option value="Failed"></option>
+                                <option value="Due"></option>
+                                <option value="Overdue"></option>
                             </datalist>
+                        </div>
+                        <div class="col-md-12 d-flex justify-content-end">
+                            <div class="w-50 me-md-5">
+                                <label
+                                    class="form-label"
+                                    for="completed_date"
+                                >Date Completed:</label>
+                                <input
+                                    class="form-control"
+                                    id="completed_date"
+                                    name="completed_date"
+                                    type="date"
+                                >
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <label
+                                class=" form-label"
+                                for="paymentNotes"
+                            >Notes:</label>
+                            <textarea
+                                class="form-control"
+                                id="payment_note"
+                                name="payment_note"
+                                placeholder="Enter Notes for this payment"
+                                maxlength="255"
+                                rows="3"
+                            ></textarea>
                         </div>
                     </div>
                 </form>
