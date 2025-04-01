@@ -65,6 +65,13 @@ export default class AddProject {
         ];
     }
 
+    private _initFormDataSubmitEvent() {
+        if (!this.form) return;
+        this.form.on('submit', (e: JQuery.SubmitEvent) => {
+            e.preventDefault();
+        });
+    }
+
     private _initRefundCalculationBtn() {
         if (!this.form || !this.calculationBtn) return;
         this.calculationBtn.on('click', () => {

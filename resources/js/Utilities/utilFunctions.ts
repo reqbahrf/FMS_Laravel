@@ -135,9 +135,12 @@ function serializeFormData(
             }
         }
         if (field.name.includes('[]')) {
-            FormDataObject[field.name] = FormDataObject[field.name]
-                ? [...FormDataObject[field.name], field.value]
-                : [field.value];
+            const existingValue = FormDataObject[field.name];
+            if (Array.isArray(existingValue)) {
+                FormDataObject[field.name] = [...existingValue, field.value];
+            } else {
+                FormDataObject[field.name] = [field.value];
+            }
         } else {
             FormDataObject[field.name] = field.value;
         }
