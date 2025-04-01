@@ -160,14 +160,28 @@
             for="business_permit_no"
         >Business Permit No.: <span class="requiredFields">
                 *</span></label>
-        <input
-            class="form-control"
-            id="business_permit_no"
-            name="business_permit_no"
-            type="text"
-            placeholder="Enter Business Permit No."
-            required
-        >
+        <div class="input-group">
+            <select
+                class="form-select"
+                id="permit_type"
+                name="permit_type"
+                style="max-width: 180px;"
+                required
+            >
+                <option value="">Select Permit Type</option>
+                <option value="DTI">Department of Trade and Industry (DTI)</option>
+                <option value="SEC">Securities and Exchange Commission (SEC)</option>
+                <option value="CDA">Cooperative Development Authority (CDA)</option>
+            </select>
+            <input
+                class="form-control"
+                id="business_permit_no"
+                name="business_permit_no"
+                type="text"
+                placeholder="Enter Business Permit No."
+                required
+            >
+        </div>
         <div class="invalid-feedback">
             Please enter the business permit no.
         </div>
@@ -179,15 +193,29 @@
             for="enterprise_registration_no"
         >Enterprise Registration No.: <span class="requiredFields">
                 *</span></label>
-        <input
-            class="form-control"
-            id="enterprise_registration_no"
-            name="enterprise_registration_no"
-            type="text"
-            value="{{ old('enterprise_registration_no') }}"
-            placeholder="Enter Enterprise Registration No."
-            required
-        >
+        <div class="input-group">
+            <select
+                class="form-select"
+                id="enterprise_registration_type"
+                name="enterprise_registration_type"
+                style="max-width: 180px;"
+                required
+            >
+                <option value="">Select Registration Type</option>
+                <option value="DTI">Department of Trade and Industry (DTI)</option>
+                <option value="SEC">Securities and Exchange Commission (SEC)</option>
+                <option value="CDA">Cooperative Development Authority (CDA)</option>
+            </select>
+            <input
+                class="form-control"
+                id="enterprise_registration_no"
+                name="enterprise_registration_no"
+                type="text"
+                value="{{ old('enterprise_registration_no') }}"
+                placeholder="Enter Enterprise Registration No."
+                required
+            >
+        </div>
         <div class="invalid-feedback">
             Please enter the enterprise registration no.
         </div>

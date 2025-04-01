@@ -15,6 +15,7 @@ class Personnel extends Model
     public $timestamps = false;
 
     protected $fillable = [
+        'id',
         'male_direct_re',
         'female_direct_re',
         'male_direct_part',

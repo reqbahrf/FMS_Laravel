@@ -20,6 +20,17 @@ class StoreExistingProjectRequest extends FormRequest
             'funded_amount' => str_replace(',', '', $this->funded_amount),
         ]);
 
+        $this->merge([
+            'm_personnelDiRe' => str_replace(',', '', $this->m_personnelDiRe) ?? 0,
+            'f_personnelDiRe' => str_replace(',', '', $this->f_personnelDiRe) ?? 0,
+            'm_personnelDiPart' => str_replace(',', '', $this->m_personnelDiPart) ?? 0,
+            'f_personnelDiPart' => str_replace(',', '', $this->f_personnelDiPart) ?? 0,
+            'm_personnelIndRe' => str_replace(',', '', $this->m_personnelIndRe) ?? 0,
+            'f_personnelIndRe' => str_replace(',', '', $this->f_personnelIndRe) ?? 0,
+            'm_personnelIndPart' => str_replace(',', '', $this->m_personnelIndPart) ?? 0,
+            'f_personnelIndPart' => str_replace(',', '', $this->f_personnelIndPart) ?? 0,
+        ]);
+
         // Handle same address checkbox for office and factory
         if ($this->has('same_address_with_home') && $this->same_address_with_home) {
             // Copy home address fields to office address fields
@@ -75,7 +86,7 @@ class StoreExistingProjectRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'project_id' => 'nullable|unique:project_info,Project_id|max:15',
             'project_title' => 'required|string|max:255',
-            'fund_release_date' => 'required|date|before_or_equal:today',
+            'fund_released_date' => 'required|date|before_or_equal:today',
             'project_duration' => 'required|integer|min:1',
             'funded_amount' => 'required|numeric|min:0',
             'fee_percentage' => 'required|numeric|min:0|max:100',
@@ -109,8 +120,10 @@ class StoreExistingProjectRequest extends FormRequest
             'brief_background' => 'required|string|max:1000',
             'website' => 'nullable|string',
             'year_established' => 'required|date_format:Y',
+            'permit_type' => 'required|string',
             'business_permit_no' => 'required|string|max:20',
             'permit_year_registered' => 'required|date_format:Y',
+            'enterprise_registration_type' => 'required|string',
             'enterprise_registration_no' => 'required|string|max:20',
             'year_enterprise_registered' => 'required|date_format:Y',
             'initial_capitalization' => 'required|string',
@@ -166,6 +179,16 @@ class StoreExistingProjectRequest extends FormRequest
             'same_address_with_home' => 'nullable|in:on,null',
             'same_address_with_office' => 'nullable|in:on,null',
             'same_address_with_factory' => 'nullable|in:on,null',
+
+            'm_personnelDiRe' => 'nullable|numeric',
+            'f_personnelDiRe' => 'nullable|numeric',
+            'm_personnelDiPart' => 'nullable|numeric',
+            'f_personnelDiPart' => 'nullable|numeric',
+            'm_personnelIndRe' => 'nullable|numeric',
+            'f_personnelIndRe' => 'nullable|numeric',
+            'm_personnelIndPart' => 'nullable|numeric',
+            'f_personnelIndPart' => 'nullable|numeric',
+
 
         ];
 

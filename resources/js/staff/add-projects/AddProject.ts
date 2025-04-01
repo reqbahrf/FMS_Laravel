@@ -132,7 +132,7 @@ export default class AddProject {
         this.calculationBtn.on('click', () => {
             try {
                 const fundReleaseDate = this.form
-                    ?.find('input#fund_release_date')
+                    ?.find('input#fund_released_date')
                     .val() as string;
                 const refundDurationYears = parseInt(
                     this.form?.find('input#project_duration').val() as string

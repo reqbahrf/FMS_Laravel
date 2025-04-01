@@ -26,6 +26,9 @@ class CreateProjectController extends Controller
     {
         try {
             $validatedInput = $request->validated();
+            $staffId = $request->user()->orgUserInfo->id;
+            $this->registrationService->staffRegisterExistingProject($validatedInput, $staffId);
+            return response()->json(['message' => 'Project registered successfully'], 200);
         } catch (Exception $e) {
             return response()->json(['message' => 'Error storing project detail' . $e->getMessage()], 500);
         }

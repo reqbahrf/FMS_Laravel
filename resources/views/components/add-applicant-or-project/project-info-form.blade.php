@@ -80,12 +80,12 @@
                     <div class="form-group">
                         <label
                             class="form-label"
-                            for="fund_release_date"
+                            for="fund_released_date"
                         >Fund Released Date</label>
                         <input
                             class="form-control"
-                            id="fund_release_date"
-                            name="fund_release_date"
+                            id="fund_released_date"
+                            name="fund_released_date"
                             type="date"
                             value=""
                             max="{{ now()->toDateString() }}"
@@ -104,8 +104,9 @@
                             id="project_duration"
                             name="project_duration"
                             type="number"
-                            value="1"
+                            value="3"
                             min="1"
+                            max="6"
                             required
                         >
                     </div>

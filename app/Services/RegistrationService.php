@@ -8,6 +8,7 @@ use App\Models\Assets;
 use App\Models\FormDraft;
 use App\Models\Personnel;
 use App\Models\AddressInfo;
+use App\Models\ProjectInfo;
 use App\Events\ProjectEvent;
 use App\Models\BusinessInfo;
 use App\Models\CoopUserInfo;
@@ -185,7 +186,7 @@ class RegistrationService
         }
     }
 
-    public function staffRegisterExistingProject(array $validatedInputs): array
+    public function staffRegisterExistingProject(array $validatedInputs, int $staffId): array
     {
         try {
             $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
@@ -208,8 +209,15 @@ class RegistrationService
             $this->storeAssets($validatedInputs, $businessInfo['businessId']);
             $this->storePersonnel($validatedInputs, $businessInfo['businessId']);
 
+            $projectInfo = $this->storeProjectInfo($validatedInputs, $businessInfo['businessId'], $staffId);
 
-
+            $this->createApplicationRecord(
+                $businessInfo['businessId'],
+                true,
+                $staffId,
+                'ongoing',
+                $projectInfo->Project_id
+            );
             DB::commit();
 
             return [
@@ -411,7 +419,7 @@ class RegistrationService
         $permit_type = $validatedInputs['permit_type'];
         $business_permit_no = $validatedInputs['business_permit_no'];
         $permit_year_registered = $validatedInputs['permit_year_registered'];
-        $registration_type = $validatedInputs['registration_type'];
+        $registration_type = $validatedInputs['enterprise_registration_type'];
         $enterprise_registration_no = $validatedInputs['enterprise_registration_no'];
         $enterprise_year_registered = $validatedInputs['year_enterprise_registered'];
         $office_region = $validatedInputs['office_region'];
@@ -432,8 +440,8 @@ class RegistrationService
         $factory_telNo = $validatedInputs['factory_telNo'];
         $factory_faxNo = $validatedInputs['factory_faxNo'];
         $factory_emailAddress = $validatedInputs['factory_emailAddress'];
-        $export_market = json_encode($validatedInputs['exportMarket']);
-        $local_market = json_encode($validatedInputs['localMarket']);
+        $export_market = json_encode($validatedInputs['exportMarket']) ?? null;
+        $local_market = json_encode($validatedInputs['localMarket']) ?? null;
 
         $businessInfo = BusinessInfo::updateOrCreate([
             'user_info_id' => $personalInfoId,
@@ -507,9 +515,9 @@ class RegistrationService
      *
      * @param array $validatedInputs
      * @param int $businessId
-     * @return bool
+     * @return void
      */
-    private function storePersonnel(array $validatedInputs, int $businessId): bool
+    private function storePersonnel(array $validatedInputs, int $businessId): void
     {
         $m_personnelDiRe = $validatedInputs['m_personnelDiRe'];
         $f_personnelDiRe = $validatedInputs['f_personnelDiRe'];
@@ -520,7 +528,7 @@ class RegistrationService
         $m_personnelIndPart = $validatedInputs['m_personnelIndPart'];
         $f_personnelIndPart = $validatedInputs['f_personnelIndPart'];
 
-        return Personnel::updateOrCreate([
+        Personnel::updateOrCreate([
             'id' => $businessId,
         ], [
             'male_direct_re' => $m_personnelDiRe,
@@ -544,7 +552,7 @@ class RegistrationService
      */
     private function createApplicationRecord(
         int $businessId,
-        ?bool $isAssistedBy = false,
+        ?bool $isAssisted = false,
         ?int $assistedBy = null,
         ?string $applicationStatus = 'new',
         ?string $projectId = null
@@ -552,17 +560,44 @@ class RegistrationService
         $applicationInfo = ApplicationInfo::create([
             'Project_id' => $projectId,
             'business_id' => $businessId,
-            'is_assisted_by' => $isAssistedBy,
+            'is_assisted' => $isAssisted,
             'application_status' => $applicationStatus,
             'assisted_by' => $assistedBy,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         return $applicationInfo->id;
     }
 
-    private function storeProjectInfo(array $validatedInputs, int $businessId) {}
+    /**
+     * Store project information in the database
+     *
+     * @param array $validatedInputs
+     * @param int $businessId
+     * @param int|null $Staff_ID
+     * @return ProjectInfo
+     */
+    private function storeProjectInfo(array $validatedInputs, int $businessId, ?int $Staff_ID = null): ProjectInfo
+    {
+        $projectId = $validatedInputs['project_id'];
+        $project_title = $validatedInputs['project_title'];
+        $funded_amount = $validatedInputs['funded_amount'];
+        $fee_amount = $validatedInputs['fee_percentage'];
+        $project_duration = $validatedInputs['project_duration'];
+        $fund_released_date = $validatedInputs['fund_released_date'];
+
+        return ProjectInfo::create([
+            'Project_id' => $projectId,
+            'business_id' => $businessId,
+            'evaluated_by_id' => $Staff_ID,
+            'handled_by_id' => $Staff_ID,
+            'project_title' => $project_title,
+            'project_duration' => $project_duration,
+            'fund_released_date' => $fund_released_date,
+            'fund_amount' => $funded_amount,
+            'actual_amount_to_be_refund' => $funded_amount,
+            'fee_applied' => $fee_amount,
+        ]);
+    }
 
     /**
      * Initialize the application process form container
