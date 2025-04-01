@@ -354,172 +354,185 @@
         </div>
         <div class="card-body">
             <div class="form-group">
-                <label class="form-label">Business Activity:</label>
-                <div class="d-flex align-items-center mb-2">
-                    <div class="form-check mr-3">
+                <label class="form-label">Sector:</label>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-check mt-3">
+                            <input
+                                class="form-check-input"
+                                id="food_processing_activity"
+                                name="food_processing_activity"
+                                type="checkbox"
+                            >
+                            <label
+                                class="form-check-label flex-grow-1"
+                                for="food_processing_activity"
+                            >
+                                Food processing (please specify specific sector)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6  mt-md-3">
                         <input
-                            class="form-check-input"
-                            id="food_processing_activity"
-                            name="food_processing_activity"
-                            type="checkbox"
+                            class="form-control ml-3"
+                            id="food_processing_specific_sector"
+                            name="food_processing_specific_sector"
+                            type="text"
                         >
                     </div>
-                    <label
-                        class="form-check-label flex-grow-1"
-                        for="food_processing_activity"
-                    >
-                        Food processing (please specify specific sector)
-                    </label>
-                    <input
-                        class="form-control ml-3"
-                        id="food_processing_specific_sector"
-                        name="food_processing_specific_sector"
-                        type="text"
-                        style="max-width: 300px;"
-                    >
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-check mt-3">
+                            <input
+                                class="form-check-input"
+                                id="furniture_activity"
+                                name="furniture_activity"
+                                type="checkbox"
+                            >
+                            <label
+                                class="form-check-label flex-grow-1"
+                                for="furniture_activity"
+                            >
+                                Furniture (please specify specific sector)
+                            </label>
+                        </div>
 
-                <div class="d-flex align-items-center mb-2">
-                    <div class="form-check mr-3">
+                    </div>
+                    <div class="col-md-6  mt-md-3">
                         <input
-                            class="form-check-input"
-                            id="furniture_activity"
-                            name="furniture_activity"
-                            type="checkbox"
+                            class="form-control ml-3"
+                            id="furniture_specific_sector"
+                            name="furniture_specific_sector"
+                            type="text"
                         >
                     </div>
-                    <label
-                        class="form-check-label flex-grow-1"
-                        for="furniture"
-                    >
-                        Furniture (please specify specific sector)
-                    </label>
-                    <input
-                        class="form-control ml-3"
-                        id="furniture_specific_sector"
-                        name="furniture_specific_sector"
-                        type="text"
-                        style="max-width: 300px;"
-                    >
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-check mt-3">
+                            <input
+                                class="form-check-input"
+                                id="natural_fibers_activity"
+                                name="natural_fibers_activity"
+                                type="checkbox"
+                            >
+                            <label
+                                class="form-check-label flex-grow-1"
+                                for="natural_fibers_activity"
+                            >
+                                Natural fibers, gifts and home decors and fashion accessories (please
+                                specify specific sector)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6  mt-md-3">
+                        <input
+                            class="form-control ml-3"
+                            id="natural_fibers_specific_sector"
+                            name="natural_fibers_specific_sector"
+                            type="text"
+                        >
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check mt-3">
+                            <input
+                                class="form-check-input"
+                                id="metals_and_engineering_activity"
+                                name="metals_and_engineering_activity"
+                                type="checkbox"
+                            >
+                            <label
+                                class="form-check-label flex-grow-1"
+                                for="metals_and_engineering_activity"
+                            >
+                                Metals and engineering (please specify specific sector)
+                            </label>
+                        </div>
 
-                <div class="d-flex align-items-center mb-2">
-                    <div class="form-check mr-3">
-                        <input
-                            class="form-check-input"
-                            id="natural_fibers_activity"
-                            name="natural_fibers_activity"
-                            type="checkbox"
-                        >
                     </div>
-                    <label
-                        class="form-check-label flex-grow-1"
-                        for="natural_fibers_activity"
-                    >
-                        Natural fibers, gifts and home decors and fashion accessories (please
-                        specify specific sector)
-                    </label>
-                    <input
-                        class="form-control ml-3"
-                        id="natural_fibers_specific_sector"
-                        name="natural_fibers_specific_sector"
-                        type="text"
-                        style="max-width: 300px;"
-                    >
-                </div>
+                    <div class="col-md-6  mt-md-3">
+                        <input
+                            class="form-control ml-3"
+                            id="metals_and_engineering_specific_sector"
+                            name="metals_and_engineering_specific_sector"
+                            type="text"
+                        >
 
-                <div class="d-flex align-items-center mb-2">
-                    <div class="form-check mr-3">
-                        <input
-                            class="form-check-input"
-                            id="metals_and_engineering_activity"
-                            name="metals_and_engineering_activity"
-                            type="checkbox"
-                        >
                     </div>
-                    <label
-                        class="form-check-label flex-grow-1"
-                        for="metals_and_engineering_activity"
-                    >
-                        Metals and engineering (please specify specific sector)
-                    </label>
-                    <input
-                        class="form-control ml-3"
-                        id="metals_and_engineering_specific_sector"
-                        name="metals_and_engineering_specific_sector"
-                        type="text"
-                        style="max-width: 300px;"
-                    >
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-check mt-3">
+                            <input
+                                class="form-check-input"
+                                id="aquatic_and_marine_activity"
+                                name="aquatic_and_marine_activity"
+                                type="checkbox"
+                            >
+                            <label
+                                class="form-check-label flex-grow-1"
+                                for="aquatic_and_marine_activity"
+                            >
+                                Aquatic and marine resources (please specify specific sector)
+                            </label>
+                        </div>
 
-                <div class="d-flex align-items-center mb-2">
-                    <div class="form-check mr-3">
-                        <input
-                            class="form-check-input"
-                            id="aquatic_and_marine_activity"
-                            name="aquatic_and_marine_activity"
-                            type="checkbox"
-                        >
                     </div>
-                    <label
-                        class="form-check-label flex-grow-1"
-                        for="aquatic"
-                    >
-                        Aquatic and marine resources (please specify specific sector)
-                    </label>
-                    <input
-                        class="form-control ml-3"
-                        id="aquatic_and_marine_specific_sector"
-                        name="aquatic_and_marine_specific_sector"
-                        type="text"
-                        style="max-width: 300px;"
-                    >
-                </div>
+                    <div class="col-md-6  mt-md-3">
+                        <input
+                            class="form-control ml-3"
+                            id="aquatic_and_marine_specific_sector"
+                            name="aquatic_and_marine_specific_sector"
+                            type="text"
+                        >
 
-                <div class="d-flex align-items-center mb-2">
-                    <div class="form-check mr-3">
-                        <input
-                            class="form-check-input"
-                            id="horticulture_activity"
-                            name="horticulture_activity"
-                            type="checkbox"
-                        >
                     </div>
-                    <label
-                        class="form-check-label flex-grow-1"
-                        for="horticulture_activity"
-                    >
-                        Horticulture/Agriculture (please specify specific sector)
-                    </label>
-                    <input
-                        class="form-control ml-3"
-                        name="horticulture_specific_sector"
-                        type="text"
-                        style="max-width: 300px;"
-                    >
-                </div>
+                    <div class="col-md-6">
+                        <div class="form-check mt-3">
+                            <input
+                                class="form-check-input"
+                                id="horticulture_activity"
+                                name="horticulture_activity"
+                                type="checkbox"
+                            >
+                            <label
+                                class="form-check-label flex-grow-1"
+                                for="horticulture_activity"
+                            >
+                                Horticulture/Agriculture (please specify specific sector)
+                            </label>
+                        </div>
 
-                <div class="d-flex align-items-center">
-                    <div class="form-check mr-3">
-                        <input
-                            class="form-check-input"
-                            id="other_activity"
-                            name="other_activity"
-                            type="checkbox"
-                        >
                     </div>
-                    <label
-                        class="form-check-label flex-grow-1"
-                        for="other_activity"
-                    >
-                        Others, please specify
-                    </label>
-                    <input
-                        class="form-control ml-3"
-                        name="other_specific_sector"
-                        type="text"
-                        style="max-width: 300px;"
-                    >
+                    <div class="col-md-6  mt-md-3">
+                        <input
+                            class="form-control ml-3"
+                            name="horticulture_specific_sector"
+                            type="text"
+                        >
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-check mt-3">
+                            <input
+                                class="form-check-input"
+                                id="other_activity"
+                                name="other_activity"
+                                type="checkbox"
+                            >
+                            <label
+                                class="form-check-label flex-grow-1"
+                                for="other_activity"
+                            >
+                                Others, please specify
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6 mt-md-3">
+                        <input
+                            class="form-control ml-3"
+                            name="other_specific_sector"
+                            type="text"
+                        >
+
+                    </div>
+
                 </div>
             </div>
             @if ($withAdditionalBusinessActivityInfo)
