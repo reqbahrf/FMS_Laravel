@@ -273,8 +273,14 @@ Route::middleware([CheckStaffUser::class, 'verified', 'check.password.change'])-
             ->middleware('signed');
     });
 
-    Route::get('Staff/Project/get/add/project-form', [CreateProjectController::class, 'index'])
-        ->name('staff.Project.get.add.project-form');
+    Route::controller(CreateProjectController::class)->group(function () {
+        Route::get('Staff/Project/get/add/project-form', 'index')
+            ->name('staff.Project.get.add.project-form');
+
+        Route::post('Staff/Project/submit-new-project/{staffId}', 'storeProjectDetail')
+            ->name('staff.Project.submit.new.project')
+            ->middleware('signed');
+    });
 
 
     Route::controller(PISDocController::class)->group(function () {

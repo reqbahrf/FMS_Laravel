@@ -118,11 +118,11 @@ class StoreExistingProjectRequest extends FormRequest
             'enterpriseType' => 'required|string',
             'brief_background' => 'required|string|max:1000',
             'website' => 'nullable|string',
-            'yearEstablished' => 'required|date_format:Y',
-            'business_permit_No' => 'required|string|max:20',
+            'year_established' => 'required|date_format:Y',
+            'business_permit_no' => 'required|string|max:20',
             'permit_year_registered' => 'required|date_format:Y',
-            'enterpriseRegistrationNo' => 'required|string|max:20',
-            'yearEnterpriseRegistered' => 'required|date_format:Y',
+            'enterprise_registration_no' => 'required|string|max:20',
+            'year_enterprise_registered' => 'required|date_format:Y',
             'initial_capitalization' => 'required|string',
             'present_capitalization' => 'required|string',
 
@@ -152,30 +152,30 @@ class StoreExistingProjectRequest extends FormRequest
 
             //Business Activities
             'food_processing_activity' => 'nullable|in:on,null',
-            'food_processing_specific_sector' => 'nullable|string',
+            'food_processing_specific_sector' => 'nullable|string|required_if:food_processing_activity,on',
 
             'furniture_activity' => 'nullable|in:on,null',
-            'furniture_specific_sector' => 'nullable|string',
+            'furniture_specific_sector' => 'nullable|string|required_if:furniture_activity,on',
 
             'natural_fibers_activity' => 'nullable|in:on,null',
-            'natural_fibers_specific_sector' => 'nullable|string',
+            'natural_fibers_specific_sector' => 'nullable|string|required_if:natural_fibers_activity,on',
 
             'metals_and_engineering_activity' => 'nullable|in:on,null',
-            'metals_and_engineering_specific_sector' => 'nullable|string',
+            'metals_and_engineering_specific_sector' => 'nullable|string|required_if:metals_and_engineering_activity,on',
 
             'aquatic_and_marine_activity' => 'nullable|in:on,null',
-            'aquatic_and_marine_specific_sector' => 'nullable|string',
+            'aquatic_and_marine_specific_sector' => 'nullable|string|required_if:aquatic_and_marine_activity,on',
 
             'horticulture_activity' => 'nullable|in:on,null',
-            'horticulture_specific_sector' => 'nullable|string',
+            'horticulture_specific_sector' => 'nullable|string|required_if:horticulture_activity,on',
 
             'other_activity' => 'nullable|in:on,null',
-            'other_specific_sector' => 'nullable|string',
+            'other_specific_sector' => 'nullable|string|required_if:other_activity,on',
 
             // Same address checkboxes
-            'same_address_with_home' => 'nullable|boolean',
-            'same_address_with_office' => 'nullable|boolean',
-            'same_address_with_factory' => 'nullable|boolean',
+            'same_address_with_home' => 'nullable|in:on,null',
+            'same_address_with_office' => 'nullable|in:on,null',
+            'same_address_with_factory' => 'nullable|in:on,null',
 
         ];
 

@@ -14,8 +14,9 @@
 <div class="card m-0 m-md-3">
     <div class="card-body">
         <form
-            id="projectInfoForm"
+            id="ExistingProjectForm"
             method="POST"
+            action="{{ URL::signedRoute('staff.Project.submit.new.project', ['staffId' => $staffId]) }}"
         >
             @csrf
             <div class="row mb-3">
@@ -201,7 +202,7 @@
                 <div class="col-12 text-end">
                     <button
                         class="btn btn-primary"
-                        type="button"
+                        type="submit"
                     >Save Project</button>
                     <button
                         class="btn btn-secondary"

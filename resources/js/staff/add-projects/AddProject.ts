@@ -28,10 +28,11 @@ export default class AddProject {
         this._initDependencies();
         this._initTableTotalsCalculator();
         this._initRefundCalculationBtn();
+        this._initFormDataSubmitEvent();
     }
 
     private _initDependencies() {
-        this.form = $('#projectInfoForm');
+        this.form = $('#ExistingProjectForm');
         if (!this.form) return;
         this.refundStrutureTable = this.form.find('#refundStructureTable');
 
@@ -69,6 +70,7 @@ export default class AddProject {
         );
 
         const addressInputHandler = [
+            new AddressFormInput({ prefix: 'home' }),
             new AddressFormInput({ prefix: 'office' }),
             new AddressFormInput({ prefix: 'factory' }),
         ];
@@ -118,7 +120,10 @@ export default class AddProject {
             });
             showToastFeedback('text-bg-success', response?.message);
         } catch (error: any) {
-            throw new Error('Error in Saving Project: ' + error);
+            console.log(error);
+            throw new Error(
+                error?.responseJSON?.message || error?.message || error
+            );
         }
     }
 
