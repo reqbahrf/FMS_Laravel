@@ -237,8 +237,15 @@
             Please enter the present capitalization.
         </div>
     </div>
-    <x-custom-input.address-card-select prefix="office" />
-    <x-custom-input.address-card-select prefix="factory" />
+    <x-custom-input.address-card-select
+        prefix="office"
+        sameAddressWith="home"
+    />
+    <x-custom-input.address-card-select
+        prefix="factory"
+        :isRequired="false"
+        sameAddressWith="office"
+    />
 </div>
 <div class="row justify-content-center my-1 g-3">
     <div
@@ -515,168 +522,168 @@
                     >
                 </div>
             </div>
-            @if($withAdditionalBusinessActivityInfo)
-            <div class="row g-3">
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="specificProductOrService"
-                    >
-                        1. Specific product or service the enterprise offers its customers:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="specificProductOrService"
-                        name="specificProductOrService"
-                        rows="3"
-                    ></textarea>
-                </div>
-
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="reasonsWhyAssistanceIsBeingSought"
-                    >
-                        2. Reasons why assistance is being sought:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="reasonsWhyAssistanceIsBeingSought"
-                        name="reasonsWhyAssistanceIsBeingSought"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label class="form-label">
-                        3. Have you consulted any other individual/organization on any assistance?
-                    </label>
-                    <div class="ms-3">
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    id="consultationYes"
-                                    name="consultationAnswer"
-                                    type="radio"
-                                    value="yes"
-                                >
-                                <label
-                                    class="form-check-label"
-                                    for="consultationYes"
-                                >
-                                    Yes, from what company/agency
-                                </label>
-                            </div>
-                            <input
-                                class="form-control consultation-input"
-                                id="fromWhatCompanyAgency"
-                                name="fromWhatCompanyAgency"
-                                type="text"
-                            >
-                            <label class="form-label mt-2">Please specify the type of assistance
-                                sought</label>
-                            <textarea
-                                class="form-control consultation-input"
-                                id="pleaseSpecifyTheTypeOfAssistanceSought"
-                                name="pleaseSpecifyTheTypeOfAssistanceSought"
-                                rows="3"
-                            ></textarea>
-                        </div>
-                        <div>
-                            <div class="form-check">
-                                <input
-                                    class="form-check-input"
-                                    id="consultationNo"
-                                    name="consultationAnswer"
-                                    type="radio"
-                                    value="no"
-                                >
-                                <label
-                                    class="form-check-label"
-                                    for="consultationNo"
-                                >
-                                    No, why not?
-                                </label>
-                            </div>
-                            <textarea
-                                class="form-control consultation-input"
-                                id="whyNot"
-                                name="whyNot"
-                                rows="3"
-                            ></textarea>
-                        </div>
+            @if ($withAdditionalBusinessActivityInfo)
+                <div class="row g-3">
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="specificProductOrService"
+                        >
+                            1. Specific product or service the enterprise offers its customers:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="specificProductOrService"
+                            name="specificProductOrService"
+                            rows="3"
+                        ></textarea>
                     </div>
-                    @if ($withFileInput)
-                        <div class="mb-3">
-                            <label
-                                class="form-label"
-                                for="organizationalStructure"
-                            >
-                                Please attach Organizational Structure:
-                            </label>
-                            <input
-                                class=""
-                                id="organizationalStructure"
-                                name="organizationalStructure"
-                                type="file"
-                                {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
-                            >
-                            <div class="invalid-feedback">
-                                Please upload the Organization Structure.
+
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="reasonsWhyAssistanceIsBeingSought"
+                        >
+                            2. Reasons why assistance is being sought:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="reasonsWhyAssistanceIsBeingSought"
+                            name="reasonsWhyAssistanceIsBeingSought"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label class="form-label">
+                            3. Have you consulted any other individual/organization on any assistance?
+                        </label>
+                        <div class="ms-3">
+                            <div class="mb-3">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        id="consultationYes"
+                                        name="consultationAnswer"
+                                        type="radio"
+                                        value="yes"
+                                    >
+                                    <label
+                                        class="form-check-label"
+                                        for="consultationYes"
+                                    >
+                                        Yes, from what company/agency
+                                    </label>
+                                </div>
+                                <input
+                                    class="form-control consultation-input"
+                                    id="fromWhatCompanyAgency"
+                                    name="fromWhatCompanyAgency"
+                                    type="text"
+                                >
+                                <label class="form-label mt-2">Please specify the type of assistance
+                                    sought</label>
+                                <textarea
+                                    class="form-control consultation-input"
+                                    id="pleaseSpecifyTheTypeOfAssistanceSought"
+                                    name="pleaseSpecifyTheTypeOfAssistanceSought"
+                                    rows="3"
+                                ></textarea>
                             </div>
-                            <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
-                                10MB</div>
-                            <input
-                                id="OrganizationalStructureFileID_Data_Handler"
-                                name="OrganizationalStructureFileID_Data_Handler"
-                                type="hidden"
-                            >
+                            <div>
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        id="consultationNo"
+                                        name="consultationAnswer"
+                                        type="radio"
+                                        value="no"
+                                    >
+                                    <label
+                                        class="form-check-label"
+                                        for="consultationNo"
+                                    >
+                                        No, why not?
+                                    </label>
+                                </div>
+                                <textarea
+                                    class="form-control consultation-input"
+                                    id="whyNot"
+                                    name="whyNot"
+                                    rows="3"
+                                ></textarea>
+                            </div>
                         </div>
-                    @endif
+                        @if ($withFileInput)
+                            <div class="mb-3">
+                                <label
+                                    class="form-label"
+                                    for="organizationalStructure"
+                                >
+                                    Please attach Organizational Structure:
+                                </label>
+                                <input
+                                    class=""
+                                    id="organizationalStructure"
+                                    name="organizationalStructure"
+                                    type="file"
+                                    {{ auth()->user()->hasRole('Cooperator') ? 'required' : '' }}
+                                >
+                                <div class="invalid-feedback">
+                                    Please upload the Organization Structure.
+                                </div>
+                                <div class="form-text">Accepted formats: .jpeg, .png. Maximum file size:
+                                    10MB</div>
+                                <input
+                                    id="OrganizationalStructureFileID_Data_Handler"
+                                    name="OrganizationalStructureFileID_Data_Handler"
+                                    type="hidden"
+                                >
+                            </div>
+                        @endif
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="enterprisePlanForTheNext5Years"
+                        >
+                            4. Enterprise plan for the next 5 years:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="enterprisePlanForTheNext5Years"
+                            name="enterprisePlanForTheNext5Years"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label ms-2"
+                            for="nextTenYears"
+                        >
+                            Next 10 years?
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="nextTenYears"
+                            name="nextTenYears"
+                            rows="3"
+                        ></textarea>
+                    </div>
+                    <div class="col-12">
+                        <label
+                            class="form-label"
+                            for="currentAgreementAndAlliancesUndertaken"
+                        >
+                            5. Current agreement and alliances undertaken:
+                        </label>
+                        <textarea
+                            class="form-control"
+                            id="currentAgreementAndAlliancesUndertaken"
+                            name="currentAgreementAndAlliancesUndertaken"
+                            rows="3"
+                        ></textarea>
+                    </div>
                 </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="enterprisePlanForTheNext5Years"
-                    >
-                        4. Enterprise plan for the next 5 years:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="enterprisePlanForTheNext5Years"
-                        name="enterprisePlanForTheNext5Years"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label ms-2"
-                        for="nextTenYears"
-                    >
-                        Next 10 years?
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="nextTenYears"
-                        name="nextTenYears"
-                        rows="3"
-                    ></textarea>
-                </div>
-                <div class="col-12">
-                    <label
-                        class="form-label"
-                        for="currentAgreementAndAlliancesUndertaken"
-                    >
-                        5. Current agreement and alliances undertaken:
-                    </label>
-                    <textarea
-                        class="form-control"
-                        id="currentAgreementAndAlliancesUndertaken"
-                        name="currentAgreementAndAlliancesUndertaken"
-                        rows="3"
-                    ></textarea>
-                </div>
-            </div>
             @endif
 
         </div>

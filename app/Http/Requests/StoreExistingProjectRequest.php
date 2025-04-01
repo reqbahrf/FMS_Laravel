@@ -29,6 +29,49 @@ class StoreExistingProjectRequest extends FormRequest
                 ]);
             }
         }
+
+        // Handle same address checkbox for office and factory
+        if ($this->has('same_address_with_home') && $this->same_address_with_home) {
+            // Copy home address fields to office address fields
+            $this->merge([
+                'office_region' => $this->home_region,
+                'office_province' => $this->home_province,
+                'office_city' => $this->home_city,
+                'office_barangay' => $this->home_barangay,
+                'office_landmark' => $this->home_landmark,
+                'office_zipcode' => $this->home_zipcode,
+            ]);
+        }
+
+        if ($this->has('same_address_with_office') && $this->same_address_with_office) {
+            // Copy office address fields to factory address fields
+            $this->merge([
+                'factory_region' => $this->office_region,
+                'factory_province' => $this->office_province,
+                'factory_city' => $this->office_city,
+                'factory_barangay' => $this->office_barangay,
+                'factory_landmark' => $this->office_landmark,
+                'factory_zipcode' => $this->office_zipcode,
+                'factory_telNo' => $this->office_telNo,
+                'factory_faxNo' => $this->office_faxNo,
+                'factory_emailAddress' => $this->office_emailAddress,
+            ]);
+        }
+
+        if ($this->has('same_address_with_factory') && $this->same_address_with_factory) {
+            // Copy factory address fields to office address fields
+            $this->merge([
+                'office_region' => $this->factory_region,
+                'office_province' => $this->factory_province,
+                'office_city' => $this->factory_city,
+                'office_barangay' => $this->factory_barangay,
+                'office_landmark' => $this->factory_landmark,
+                'office_zipcode' => $this->factory_zipcode,
+                'office_telNo' => $this->factory_telNo,
+                'office_faxNo' => $this->factory_faxNo,
+                'office_emailAddress' => $this->factory_emailAddress,
+            ]);
+        }
     }
 
     /**
@@ -129,8 +172,10 @@ class StoreExistingProjectRequest extends FormRequest
             'other_activity' => 'nullable|in:on,null',
             'other_specific_sector' => 'nullable|string',
 
-
-
+            // Same address checkboxes
+            'same_address_with_home' => 'nullable|boolean',
+            'same_address_with_office' => 'nullable|boolean',
+            'same_address_with_factory' => 'nullable|boolean',
 
         ];
 

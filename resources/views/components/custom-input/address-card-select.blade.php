@@ -1,10 +1,29 @@
-@props(['prefix', 'isRequired' => true, 'isContactIncluded' => true])
+@props(['prefix', 'isRequired' => true, 'isContactIncluded' => true, 'sameAddressWith' => null])
 <div class="card p-0">
     <div class="card-header fw-bold">
         {{ ucfirst($prefix) }} Address:
     </div>
     <div class="card-body">
         <div class="row gy-3">
+            @isset($sameAddressWith)
+                <div class="d-flex justify-content-end align-items-center">
+                    <div class="form-check">
+                        <input
+                            class="form-check-input"
+                            id="same_address_with_{{ $sameAddressWith }}"
+                            name="same_address_with_{{ $sameAddressWith }}"
+                            type="checkbox"
+                        >
+                        <label
+                            class="form-check-label"
+                            for="same_address_with_{{ $sameAddressWith }}"
+                        >Same Address With: {{ ucfirst($sameAddressWith) }}</label>
+                        <div class="form-text">
+                            Check this box if the address is the same as the {{ $sameAddressWith }} address.
+                        </div>
+                    </div>
+                </div>
+            @endisset
             <div class="col-12 col-md-3">
                 <label
                     class="form-label"
