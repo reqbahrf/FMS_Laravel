@@ -51,6 +51,7 @@
                             name="project_id"
                             type="text"
                             value="{{ old('project_id') }}"
+                            maxlength="15"
                             required
                         >
                     </div>

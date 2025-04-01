@@ -40,8 +40,8 @@ class NewRegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
-        $user = User::find(Auth::user()->id);
-        $isCooperator = $user && $user->hasRole('Cooperator');
+        $user = Auth::user();
+        $isCooperator = $user && $user->role === 'Cooperator';
         return [
             'email' => 'required|email|sometimes',
             'prefix' => 'nullable',
@@ -69,21 +69,21 @@ class NewRegistrationRequest extends FormRequest
             'initial_capitalization' => 'required|string',
             'present_capitalization' => 'required|string',
 
-            'office_region' => 'required',
-            'office_province' => 'required',
-            'office_city' => 'required',
-            'office_barangay' => 'required',
-            'office_landmark' => 'required|max:40',
-            'office_zipcode' => 'required:max:5',
+            'office_region' => 'required|string|max:64',
+            'office_province' => 'required|string|max:64',
+            'office_city' => 'required|string|max:64',
+            'office_barangay' => 'required|string|max:64',
+            'office_landmark' => 'required|string|max:64',
+            'office_zipcode' => 'required|string|max:5',
             'office_telNo' => 'nullable',
             'office_faxNo' => 'nullable',
             'office_emailAddress' => 'nullable|email',
-            'factory_region' => 'nullable',
-            'factory_province' => 'nullable',
-            'factory_city' => 'nullable',
-            'factory_barangay' => 'nullable',
-            'factory_landmark' => 'nullable',
-            'factory_zipcode' => 'nullable',
+            'factory_region' => 'nullable|string|max:64',
+            'factory_province' => 'nullable|string|max:64',
+            'factory_city' => 'nullable|string|max:64',
+            'factory_barangay' => 'nullable|string|max:64',
+            'factory_landmark' => 'nullable|string|max:64',
+            'factory_zipcode' => 'nullable|string|max:5',
             'factory_telNo' => 'nullable',
             'factory_faxNo' => 'nullable',
             'factory_emailAddress' => 'nullable|email',
