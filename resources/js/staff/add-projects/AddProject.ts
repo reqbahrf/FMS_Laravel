@@ -2,6 +2,7 @@ import { processError } from '../../Utilities/error-handler-util';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
 import { parseFormattedNumberToFloat } from '../../Utilities/utilFunctions';
+import { AddressFormInput } from '../../Utilities/AddressInputHandler';
 
 export default class AddProject {
     private form: JQuery<HTMLFormElement> | null;
@@ -34,6 +35,11 @@ export default class AddProject {
             this.refundStrutureTable.find('tbody'),
             'input[type="text"]:not([readonly])'
         );
+
+        const addressInputHandler = [
+            new AddressFormInput({ prefix: 'office' }),
+            new AddressFormInput({ prefix: 'factory' }),
+        ];
     }
 
     private _initRefundCalculationBtn() {
