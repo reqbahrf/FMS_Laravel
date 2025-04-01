@@ -1,10 +1,19 @@
 import { processError } from '../../Utilities/error-handler-util';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
-import { parseFormattedNumberToFloat } from '../../Utilities/utilFunctions';
+import {
+    parseFormattedNumberToFloat,
+    serializeFormData,
+} from '../../Utilities/utilFunctions';
 import { AddressFormInput } from '../../Utilities/AddressInputHandler';
 import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
 import { setupPhoneNumberInput } from '../../Utilities/phone-formatter';
+import createConfirmationModal from '../../Utilities/confirmation-modal';
+import {
+    showProcessToast,
+    hideProcessToast,
+    showToastFeedback,
+} from '../../Utilities/feedback-toast';
 
 export default class AddProject {
     private form: JQuery<HTMLFormElement> | null;
@@ -67,9 +76,50 @@ export default class AddProject {
 
     private _initFormDataSubmitEvent() {
         if (!this.form) return;
-        this.form.on('submit', (e: JQuery.SubmitEvent) => {
+        this.form.on('submit', async (e: JQuery.SubmitEvent) => {
             e.preventDefault();
+            const isConfirmed = await createConfirmationModal({
+                title: 'Confirm Project Addition',
+                message: 'Are you sure you want to add this project?',
+                confirmText: 'Yes',
+                cancelText: 'No',
+            });
+            if (!isConfirmed) return;
+            const processToast = showProcessToast('Adding Project...');
+            try {
+                if (!this.form) throw new Error('Form not found');
+                const url = this.form.attr('action');
+                const formData = this.form.serializeArray();
+                if (!formData || !formData.length || !url)
+                    throw new Error('Form data not found');
+                const formDataObject = serializeFormData(formData);
+                await this._saveProject(formDataObject, url);
+            } catch (error: any) {
+                processError('Error in Adding Project: ', error, true);
+            } finally {
+                hideProcessToast(processToast);
+            }
         });
+    }
+
+    private async _saveProject(formData: { [key: string]: any }, url: string) {
+        try {
+            const response = await $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                dataType: 'json',
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN':
+                        $('meta[name="csrf-token"]').attr('content') || '',
+                },
+            });
+            showToastFeedback('text-bg-success', response?.message);
+        } catch (error: any) {
+            throw new Error('Error in Saving Project: ' + error);
+        }
     }
 
     private _initRefundCalculationBtn() {

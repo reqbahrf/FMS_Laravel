@@ -256,7 +256,6 @@ export default class AddApplicant {
         formData: { [key: string]: any },
         url: string
     ) {
-        const processToast = showProcessToast('Saving Applicant...');
         try {
             const response = await $.ajax({
                 type: 'POST',
@@ -272,10 +271,7 @@ export default class AddApplicant {
             });
             showToastFeedback('text-bg-success', response?.message);
         } catch (error: any) {
-            processError('Error in Saving Applicant: ', error, true);
-        } finally {
-            hideProcessToast(processToast);
-            this.reloadTab();
+            throw new Error('Error in Saving Applicant: ' + error);
         }
     }
 
