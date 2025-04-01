@@ -28,7 +28,13 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('business_info', function (Blueprint $table) {
-            //
+            $table->dropColumn('year_established');
+            $table->dropColumn('permit_type');
+            $table->dropColumn('business_permit_no');
+            $table->dropColumn('permit_year_registered');
+            $table->dropColumn('registration_type');
+            $table->dropColumn('enterprise_registration_no');
+            $table->dropColumn('enterprise_year_registered');
         });
     }
 };
