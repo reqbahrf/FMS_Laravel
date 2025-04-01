@@ -64,13 +64,13 @@
             Please enter the brief enterprise background.
         </div>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12">
         <label
             class="form-label"
             for="website"
         >Website:</label>
         <input
-            class="form-control"
+            class="form-control w-75"
             id="website"
             name="website"
             type="url"
@@ -81,7 +81,7 @@
             Please enter a valid website.
         </div>
     </div>
-    <div class="col-12 col-md-6">
+    <div class="col-12 col-md-4">
         <label
             class="form-label"
             for="yearEstablished"
@@ -103,6 +103,54 @@
         >
         <div class="invalid-feedback">
             Please enter the year enterprise was established.
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <label
+            class="form-label"
+            for="yearRegistered"
+        >Year Registered: <span class="requiredFields">
+                *</span></label>
+        <input
+            class="form-control"
+            id="permitYearRegistered"
+            name="permit_year_registered"
+            type="text"
+            value=""
+            placeholder="YYYY"
+            pattern="^(19[0-9]{2}|20[0-9]{2})$"
+            maxlength="4"
+            min="1900"
+            max="{{ date('Y') }}"
+            inputmode="numeric"
+            required
+        >
+        <div class="invalid-feedback">
+            Please enter the year registered.
+        </div>
+    </div>
+    <div class="col-12 col-md-4">
+        <label
+            class="form-label"
+            for="yearEnterpriseRegistered"
+        >Year Enterprise Registered: <span class="requiredFields">
+                *</span></label>
+        <input
+            class="form-control"
+            id="yearEnterpriseRegistered"
+            name="yearEnterpriseRegistered"
+            type="text"
+            value=""
+            placeholder="YYYY"
+            pattern="^(19[0-9]{2}|20[0-9]{2})$"
+            maxlength="4"
+            min="1900"
+            max="{{ date('Y') }}"
+            inputmode="numeric"
+            required
+        >
+        <div class="invalid-feedback">
+            Please enter the year enterprise registered.
         </div>
     </div>
 
@@ -128,31 +176,6 @@
     <div class="col-12 col-md-6">
         <label
             class="form-label"
-            for="yearRegistered"
-        >Year Registered: <span class="requiredFields">
-                *</span></label>
-        <input
-            class="form-control"
-            id="permitYearRegistered"
-            name="permit_year_registered"
-            type="text"
-            value=""
-            placeholder="YYYY"
-            pattern="^(19[0-9]{2}|20[0-9]{2})$"
-            maxlength="4"
-            min="1900"
-            max="{{ date('Y') }}"
-            inputmode="numeric"
-            required
-        >
-        <div class="invalid-feedback">
-            Please enter the year registered.
-        </div>
-    </div>
-
-    <div class="col-12 col-md-6">
-        <label
-            class="form-label"
             for="enterpriseRegistrationNo"
         >Enterprise Registration No.: <span class="requiredFields">
                 *</span></label>
@@ -170,30 +193,6 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-6">
-        <label
-            class="form-label"
-            for="yearEnterpriseRegistered"
-        >Year Enterprise Registered: <span class="requiredFields">
-                *</span></label>
-        <input
-            class="form-control"
-            id="yearEnterpriseRegistered"
-            name="yearEnterpriseRegistered"
-            type="text"
-            value=""
-            placeholder="YYYY"
-            pattern="^(19[0-9]{2}|20[0-9]{2})$"
-            maxlength="4"
-            min="1900"
-            max="{{ date('Y') }}"
-            inputmode="numeric"
-            required
-        >
-        <div class="invalid-feedback">
-            Please enter the year enterprise registered.
-        </div>
-    </div>
     <div class="col-12 col-md-4">
         <label
             class="form-label"
