@@ -1,0 +1,90 @@
+<?php
+
+namespace App\Constants;
+
+class ProjectRefundConstants
+{
+    /**
+     * Payment structure keys for project proposals
+     *
+     * These constants represent the monthly payment structure keys across 5 years
+     * plus monthly totals
+     */
+    public const PAYMENT_STRUCTURE_KEYS = [
+        // Year 1-5 monthly keys
+        'January_Y1',
+        'January_Y2',
+        'January_Y3',
+        'January_Y4',
+        'January_Y5',
+        'February_Y1',
+        'February_Y2',
+        'February_Y3',
+        'February_Y4',
+        'February_Y5',
+        'March_Y1',
+        'March_Y2',
+        'March_Y3',
+        'March_Y4',
+        'March_Y5',
+        'April_Y1',
+        'April_Y2',
+        'April_Y3',
+        'April_Y4',
+        'April_Y5',
+        'May_Y1',
+        'May_Y2',
+        'May_Y3',
+        'May_Y4',
+        'May_Y5',
+        'June_Y1',
+        'June_Y2',
+        'June_Y3',
+        'June_Y4',
+        'June_Y5',
+        'July_Y1',
+        'July_Y2',
+        'July_Y3',
+        'July_Y4',
+        'July_Y5',
+        'August_Y1',
+        'August_Y2',
+        'August_Y3',
+        'August_Y4',
+        'August_Y5',
+        'September_Y1',
+        'September_Y2',
+        'September_Y3',
+        'September_Y4',
+        'September_Y5',
+        'October_Y1',
+        'October_Y2',
+        'October_Y3',
+        'October_Y4',
+        'October_Y5',
+        'November_Y1',
+        'November_Y2',
+        'November_Y3',
+        'November_Y4',
+        'November_Y5',
+        'December_Y1',
+        'December_Y2',
+        'December_Y3',
+        'December_Y4',
+        'December_Y5',
+
+        // Monthly totals
+        'January_total',
+        'February_total',
+        'March_total',
+        'April_total',
+        'May_total',
+        'June_total',
+        'July_total',
+        'August_total',
+        'September_total',
+        'October_total',
+        'November_total',
+        'December_total',
+    ];
+}
