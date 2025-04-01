@@ -76,6 +76,30 @@ class FormDraftController extends Controller
     }
 
     /**
+     * Delete a form draft
+     *
+     * @param Request $request
+     * @param string $draft_type
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function destroy(Request $request)
+    {
+        try {
+            $ownerId = $request->ownerId;
+            $draft_type = $request->draft_type;
+            $result = $this->formDraftService->deleteDraft($ownerId, $draft_type);
+
+            return response()->json($result);
+        } catch (Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Error deleting draft',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Get files by unique ID
      *
      * @param string $uniqueId

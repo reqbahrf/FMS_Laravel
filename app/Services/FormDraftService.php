@@ -71,6 +71,35 @@ class FormDraftService
     }
 
     /**
+     * Delete a form draft by user ID and draft type
+     *
+     * @param string $ownerId
+     * @param string $draftType
+     * @return array
+     * @throws Exception
+     */
+    public function deleteDraft(string $ownerId, string $draftType): array
+    {
+        $draft = FormDraft::where('owner_id', $ownerId)
+            ->where('form_type', $draftType)
+            ->first();
+
+        if (!$draft) {
+            return [
+                'success' => true,
+                'message' => 'No draft found'
+            ];
+        }
+
+        $draft->delete();
+
+        return [
+            'success' => true,
+            'message' => 'Draft deleted successfully'
+        ];
+    }
+
+    /**
      * Get file by unique ID
      *
      * @param string $uniqueId
@@ -130,5 +159,21 @@ class FormDraftService
     {
         $sanitizedDraftType = preg_replace('/\s+/', '', $draftType);
         return URL::signedRoute('form.setDraft', [$sanitizedDraftType, $ownerId]);
+    }
+
+    /**
+     * Generate a secure signed URL for deleting a draft
+     *
+     * This method creates a signed URL that allows secure access to delete a draft
+     * based on the draft type and owner ID. The signed URL can be used to delete a draft
+     *
+     * @param string $draftType The type of draft to delete
+     * @param string $ownerId The ID of the draft owner
+     * @return string A signed URL for deleting the draft
+     */
+    public static function generateSecureDeleteDraft(string $draftType, string $ownerId): string
+    {
+        $sanitizedDraftType = preg_replace('/\s+/', '', $draftType);
+        return URL::signedRoute('form.deleteDraft', [$sanitizedDraftType, $ownerId]);
     }
 }

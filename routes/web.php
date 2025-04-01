@@ -112,6 +112,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('form.setDraft')
             ->middleware('signed');
 
+        Route::delete('/delete/Draft/{draft_type}/{ownerId}', 'destroy')
+            ->name('form.deleteDraft')
+            ->middleware('signed');
+
         Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
             ->name('form.getDraftFile');
     });
