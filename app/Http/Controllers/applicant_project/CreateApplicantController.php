@@ -114,7 +114,7 @@ class CreateApplicantController extends Controller
         try {
             $validated = $request->validated();
 
-            $result = $this->registrationService->registerApplicant($validated);
+            $result = $this->registrationService->staffRegisterApplicant($validated);
 
             return response()->json($result, 200);
         } catch (Exception $e) {

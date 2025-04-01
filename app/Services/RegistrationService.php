@@ -52,11 +52,11 @@ class RegistrationService
             // Store user address
             $this->storeUserAddress($validatedInputs, Auth::user()->id);
             // Process and store personal info
-            $personalInfoId = $this->storePersonalInfo($validatedInputs, $user_name);
+            $personalInfo = $this->storePersonalInfo($validatedInputs, $user_name);
             $successful_inserts++;
 
             // Process and store business info
-            $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfoId);
+            $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfo->id);
             $businessId = $businessInfo['businessId'];
             $successful_inserts++;
 
@@ -120,7 +120,27 @@ class RegistrationService
         }
     }
 
-    public function registerApplicant(array $validatedInputs): array
+    /**
+     * Register a new applicant in the system.
+     *
+     * This method handles the complete process of creating a new user account for an applicant,
+     * including user creation, address storage, and cooperative user information.
+     *
+     * @param array $validatedInputs Validated input data for the applicant registration
+     *
+     * @throws Exception If there is an error during the registration process
+     *
+     * @return array An associative array containing:
+     *               - 'status': 'success' if registration is completed
+     *               - 'application_form': Signed URL for the application form
+     *               - 'message': Success message
+     *
+     * @uses \App\Actions\GenerateUniqueUsernameAction to generate a unique username
+     * @uses \Illuminate\Support\Facades\DB for transaction management
+     * @uses \Illuminate\Support\Facades\Hash for password hashing
+     * @uses \Illuminate\Support\Facades\URL for generating signed routes
+     */
+    public function staffRegisterApplicant(array $validatedInputs): array
     {
         try {
             $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
@@ -162,6 +182,43 @@ class RegistrationService
         } catch (Exception $e) {
             DB::rollBack();
             throw new Exception('Error in Registering Applicant: ' . $e->getMessage());
+        }
+    }
+
+    public function staffRegisterExistingProject(array $validatedInputs): array
+    {
+        try {
+            $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
+            $initial_password = str_replace('-', '', $validatedInputs['b_date']);
+
+            DB::beginTransaction();
+            $user = User::create([
+                'user_name' => $username,
+                'email' => $validatedInputs['email'],
+                'password' => Hash::make($initial_password),
+                'role' => 'Cooperator',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'must_change_password' => true,
+            ]);
+            $this->storeUserAddress($validatedInputs, $user->id);
+            $personalInfo = $this->storePersonalInfo($validatedInputs, $user->user_name);
+            $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfo->id);
+
+            $this->storeAssets($validatedInputs, $businessInfo['businessId']);
+            $this->storePersonnel($validatedInputs, $businessInfo['businessId']);
+
+
+
+            DB::commit();
+
+            return [
+                'status' => 'success',
+                'message' => 'Project registered successfully'
+            ];
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception('Error in Registering Existing Project: ' . $e->getMessage());
         }
     }
 
@@ -306,9 +363,9 @@ class RegistrationService
      *
      * @param array $validatedInputs
      * @param string $user_name
-     * @return int The personal info ID
+     * @return CoopUserInfo
      */
-    private function storePersonalInfo(array $validatedInputs, string $user_name): int
+    private function storePersonalInfo(array $validatedInputs, string $user_name): CoopUserInfo
     {
         $name_prefix = $validatedInputs['prefix'];
         $f_name = $validatedInputs['f_name'];
@@ -323,9 +380,8 @@ class RegistrationService
         $full_mobile_number = $country_mobile_code . $mobile_number;
         $landline = $validatedInputs['landline'];
 
-        return CoopUserInfo::updateOrCreate([
+        return CoopUserInfo::create([
             'user_name' => $user_name,
-        ], [
             'prefix' => $name_prefix,
             'f_name' => $f_name,
             'mid_name' => $mid_name,
@@ -486,11 +542,18 @@ class RegistrationService
      * @param int $assistedBy optional
      * @return int The application record
      */
-    private function createApplicationRecord(int $businessId, ?bool $isAssistedBy = false, ?int $assistedBy = null): int
-    {
+    private function createApplicationRecord(
+        int $businessId,
+        ?bool $isAssistedBy = false,
+        ?int $assistedBy = null,
+        ?string $applicationStatus = 'new',
+        ?string $projectId = null
+    ): int {
         $applicationInfo = ApplicationInfo::create([
+            'Project_id' => $projectId,
             'business_id' => $businessId,
             'is_assisted_by' => $isAssistedBy,
+            'application_status' => $applicationStatus,
             'assisted_by' => $assistedBy,
             'created_at' => now(),
             'updated_at' => now(),
@@ -498,6 +561,8 @@ class RegistrationService
 
         return $applicationInfo->id;
     }
+
+    private function storeProjectInfo(array $validatedInputs, int $businessId) {}
 
     /**
      * Initialize the application process form container
