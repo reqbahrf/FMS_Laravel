@@ -7,7 +7,6 @@ use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\PaymentRecord;
 use App\Services\StructurePaymentYearService;
-use PhpParser\Node\Stmt\TryCatch;
 
 class PaymentProcessingService
 {
@@ -19,10 +18,15 @@ class PaymentProcessingService
      * @param string $startDate The starting date in Y-m-d format
      * @param array $paymentStructure Array of yearly payment structure
      * @param string $projectId Project identifier
+     * @param array|null $refundedPayments Optional array of refunded payment flags
      * @return void
      */
-    public function processPayments(string $startDate, array $paymentStructure, string $projectId): void
-    {
+    public function processPayments(
+        string $startDate,
+        array $paymentStructure,
+        string $projectId,
+        ?array $refundedPayments = null
+    ): void {
         try {
 
             // Clean the payment structure (remove _total keys and null values)
@@ -40,7 +44,8 @@ class PaymentProcessingService
                     $year,
                     $startDateCarbon->copy(),
                     $projectId,
-                    $cleanedStructure
+                    $cleanedStructure,
+                    $refundedPayments
                 );
             }
         } catch (Exception $e) {
@@ -54,11 +59,10 @@ class PaymentProcessingService
     private function cleanPaymentStructure(array $paymentStructure): array
     {
         try {
-
             $cleaned = [];
             foreach ($paymentStructure as $key => $value) {
-                // Skip if key ends with _total or value is null
-                if (str_ends_with($key, '_total') || is_null($value)) {
+                // Skip if key ends with _total or value is null or key ends with _refunded
+                if (str_ends_with($key, '_total') || is_null($value) || str_ends_with($key, '_refunded')) {
                     continue;
                 }
                 $cleaned[$key] = $value;
@@ -99,7 +103,8 @@ class PaymentProcessingService
         int $yearNumber,
         Carbon $startDate,
         string $projectId,
-        array $paymentStructure
+        array $paymentStructure,
+        ?array $refundedPayments = null
     ): void {
         try {
             $months = [
@@ -122,6 +127,7 @@ class PaymentProcessingService
 
             foreach ($months as $monthIndex => $month) {
                 $key = "{$month}_Y{$yearNumber}";
+                $refundedKey = "{$key}_refunded";
 
                 // Skip if key doesn't exist or value is null
                 if (!isset($paymentStructure[$key])) {
@@ -129,6 +135,9 @@ class PaymentProcessingService
                 }
 
                 $monthAmount = $this->structurePaymentYearService->parseNumber($paymentStructure[$key]);
+
+                // Check if this payment is marked as refunded
+                $isRefunded = isset($refundedPayments[$refundedKey]) && $refundedPayments[$refundedKey] === true;
 
                 if ($monthAmount > 0) {
                     // For first year, adjust dates based on start date
@@ -158,15 +167,17 @@ class PaymentProcessingService
                             ->addDays(14);
                     }
 
+                    // Set payment status based on refund flag
+                    $paymentStatus = $isRefunded ? 'Paid' : 'Pending';
+
                     PaymentRecord::create([
                         'Project_id' => $projectId,
                         'reference_number' => Str::random(10),
                         'amount' => $monthAmount,
-                        'payment_status' => 'Pending',
+                        'payment_status' => $paymentStatus,
                         'payment_method' => 'N/A',
-                        'quarter' => 'Q' . ceil(($dueDate->month) / 3) . ' ' . $dueDate->year,
                         'due_date' => $dueDate->toDateString(),
-                        'date_completed' => null,
+                        'date_completed' => $isRefunded ? $dueDate->toDateString() : null,
                     ]);
                 }
             }

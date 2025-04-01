@@ -20,16 +20,6 @@ class StoreExistingProjectRequest extends FormRequest
             'funded_amount' => str_replace(',', '', $this->funded_amount),
         ]);
 
-        // Clean up refund structure numeric inputs
-        foreach ($this->all() as $key => $value) {
-            // Match month_Y{year} pattern for refund inputs
-            if (preg_match('/^(January|February|March|April|May|June|July|August|September|October|November|December)_Y[1-5]$/', $key)) {
-                $this->merge([
-                    $key => $value !== '' ? str_replace(',', '', $value) : null,
-                ]);
-            }
-        }
-
         // Handle same address checkbox for office and factory
         if ($this->has('same_address_with_home') && $this->same_address_with_home) {
             // Copy home address fields to office address fields
@@ -199,7 +189,7 @@ class StoreExistingProjectRequest extends FormRequest
             // Add rules for each year (1-5)
             for ($year = 1; $year <= 5; $year++) {
                 $fieldName = "{$month}_Y{$year}";
-                $rules[$fieldName] = 'nullable|numeric|min:0';
+                $rules[$fieldName] = 'nullable|string|min:0';
 
                 // Add rule for refunded checkbox
                 $refundedFieldName = "{$fieldName}_refunded";
