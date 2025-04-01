@@ -83,10 +83,10 @@ class RegistrationService
                 DB::commit();
 
                 $location = [
-                    'applicant_region' => $businessInfo['home_region'],
-                    'applicant_province' => $businessInfo['home_province'],
-                    'applicant_city' => $businessInfo['home_city'],
-                    'applicant_barangay' => $businessInfo['home_barangay'],
+                    'applicant_region' => $validatedInputs['home_region'],
+                    'applicant_province' => $validatedInputs['home_province'],
+                    'applicant_city' => $validatedInputs['home_city'],
+                    'applicant_barangay' => $validatedInputs['home_barangay'],
                 ];
 
                 // Trigger event
@@ -351,12 +351,31 @@ class RegistrationService
         $firm_name = $validatedInputs['firm_name'];
         $enterprise_type = $validatedInputs['enterpriseType'];
         $enterprise_level = $validatedInputs['enterprise_level'];
+        $year_established = $validatedInputs['year_established'];
+        $permit_type = $validatedInputs['permit_type'];
+        $business_permit_no = $validatedInputs['business_permit_no'];
+        $permit_year_registered = $validatedInputs['permit_year_registered'];
+        $registration_type = $validatedInputs['registration_type'];
+        $enterprise_registration_no = $validatedInputs['enterprise_registration_no'];
+        $enterprise_year_registered = $validatedInputs['year_enterprise_registered'];
         $office_region = $validatedInputs['office_region'];
         $office_province = $validatedInputs['office_province'];
         $office_city = $validatedInputs['office_city'];
         $office_barangay = $validatedInputs['office_barangay'];
         $office_landmark = $validatedInputs['office_landmark'];
         $office_zipcode = $validatedInputs['office_zipcode'];
+        $factory_region = $validatedInputs['factory_region'];
+        $factory_province = $validatedInputs['factory_province'];
+        $factory_city = $validatedInputs['factory_city'];
+        $factory_barangay = $validatedInputs['factory_barangay'];
+        $factory_landmark = $validatedInputs['factory_landmark'];
+        $factory_zipcode = $validatedInputs['factory_zipcode'];
+        $office_telNo = $validatedInputs['office_telNo'];
+        $office_faxNo = $validatedInputs['office_faxNo'];
+        $office_emailAddress = $validatedInputs['office_emailAddress'];
+        $factory_telNo = $validatedInputs['factory_telNo'];
+        $factory_faxNo = $validatedInputs['factory_faxNo'];
+        $factory_emailAddress = $validatedInputs['factory_emailAddress'];
         $export_market = json_encode($validatedInputs['exportMarket']);
         $local_market = json_encode($validatedInputs['localMarket']);
 
@@ -366,24 +385,43 @@ class RegistrationService
         ], [
             'enterprise_type' => $enterprise_type,
             'enterprise_level' => $enterprise_level,
-            'zip_code' => $office_zipcode,
-            'landmark' => $office_landmark,
-            'barangay' => $office_barangay,
-            'city' => $office_city,
-            'province' => $office_province,
-            'region' => $office_region,
+            'year_established' => $year_established,
+            'permit_type' => $permit_type,
+            'business_permit_no' => $business_permit_no,
+            'permit_year_registered' => $permit_year_registered,
+            'registration_type' => $registration_type,
+            'enterprise_registration_no' => $enterprise_registration_no,
+            'enterprise_year_registered' => $enterprise_year_registered,
+            'office_telephone' => $office_telNo,
+            'office_fax_no' => $office_faxNo,
+            'office_email' => $office_emailAddress,
+            'factory_telephone' => $factory_telNo,
+            'factory_fax_no' => $factory_faxNo,
+            'factory_email' => $factory_emailAddress,
             'Export_Mkt_Outlet' => $export_market,
             'Local_Mkt_Outlet' => $local_market,
+        ]);
+
+        $businessInfo->addressInfo()->create([
+            'business_info_id' => $businessInfo->id,
+            'office_landmark' => $office_landmark,
+            'office_barangay' => $office_barangay,
+            'office_city' => $office_city,
+            'office_province' => $office_province,
+            'office_region' => $office_region,
+            'office_zip_code' => $office_zipcode,
+            'factory_landmark' => $factory_landmark,
+            'factory_barangay' => $factory_barangay,
+            'factory_city' => $factory_city,
+            'factory_province' => $factory_province,
+            'factory_region' => $factory_region,
+            'factory_zip_code' => $factory_zipcode,
         ]);
 
         return [
             'businessId' => $businessInfo->id,
             'enterprise_type' => $enterprise_type,
             'enterprise_level' => $enterprise_level,
-            'region' => $office_region,
-            'province' => $office_province,
-            'city' => $office_city,
-            'barangay' => $office_barangay,
         ];
     }
 

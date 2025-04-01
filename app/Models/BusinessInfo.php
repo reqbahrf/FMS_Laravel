@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Events\NewApplicant;
 use App\Events\ProjectEvent;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class BusinessInfo extends Model
 {
@@ -23,12 +25,18 @@ class BusinessInfo extends Model
         'firm_name',
         'enterprise_type',
         'enterprise_level',
-        'zip_code',
-        'landMark',
-        'barangay',
-        'city',
-        'province',
-        'region',
+        'permit_type',
+        'business_permit_no',
+        'permit_year_registered',
+        'registration_type',
+        'enterprise_registration_no',
+        'enterprise_year_registered',
+        'office_telephone',
+        'office_fax_no',
+        'office_email',
+        'factory_telephone',
+        'factory_fax_no',
+        'factory_email',
         'Export_Mkt_Outlet',
         'Local_Mkt_Outlet',
     ];
@@ -68,23 +76,67 @@ class BusinessInfo extends Model
         return $this->hasOne(BusinessAddressInfo::class, 'business_info_id', 'id');
     }
 
+    /**
+     * The "booted" method of the model.
+     * Registers a created model event with the dispatcher.
+     *
+     * @return void
+     */
     protected static function booted()
     {
-        // Listen to the "created" event
         static::created(function ($business) {
-            // Dispatch the NewApplicant event
-            event(new ProjectEvent(
-                $business->id,
-                $business->enterprise_type,
-                $business->enterprise_level,
-                [
-                    'region' => $business->region,
-                    'province' => $business->province,
-                    'city' => $business->city,
-                    'barangay' => $business->barangay,
-                ],
-                'NEW_APPLICANT'
-            ));
+            try {
+                $business->load(['userInfo.user.addressInfo']);
+
+                $addressData = [
+                    'applicant_region' => null,
+                    'applicant_province' => null,
+                    'applicant_city' => null,
+                    'applicant_barangay' => null,
+                ];
+
+                if (
+                    $business->userInfo &&
+                    $business->userInfo->user &&
+                    $business->userInfo->user->addressInfo
+                ) {
+
+                    $addressInfo = $business->userInfo->user->addressInfo;
+
+                    $addressData = [
+                        'applicant_region' => $addressInfo->region,
+                        'applicant_province' => $addressInfo->province,
+                        'applicant_city' => $addressInfo->city,
+                        'applicant_barangay' => $addressInfo->barangay,
+                    ];
+                }
+
+                // Dispatch the NewApplicant event
+                event(new ProjectEvent(
+                    $business->id,
+                    $business->enterprise_type,
+                    $business->enterprise_level,
+                    $addressData,
+                    'NEW_APPLICANT'
+                ));
+            } catch (\Exception $e) {
+                // Log the error but don't halt execution
+                Log::error('Error in BusinessInfo created event: ' . $e->getMessage());
+
+                // Still dispatch event but with null address data
+                event(new ProjectEvent(
+                    $business->id,
+                    $business->enterprise_type,
+                    $business->enterprise_level,
+                    [
+                        'applicant_region' => null,
+                        'applicant_province' => null,
+                        'applicant_city' => null,
+                        'applicant_barangay' => null,
+                    ],
+                    'NEW_APPLICANT'
+                ));
+            }
         });
     }
 }

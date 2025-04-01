@@ -84,13 +84,13 @@
     <div class="col-12 col-md-4">
         <label
             class="form-label"
-            for="yearEstablished"
+            for="year_established"
         >Year Enterprise Was Established: <span class="requiredFields">
                 *</span></label>
         <input
             class="form-control"
-            id="yearEstablished"
-            name="yearEstablished"
+            id="year_established"
+            name="year_established"
             type="text"
             value=""
             placeholder="YYYY"
@@ -108,12 +108,12 @@
     <div class="col-12 col-md-4">
         <label
             class="form-label"
-            for="yearRegistered"
-        >Year Registered: <span class="requiredFields">
+            for="permit_year_registered"
+        >Year Permit Registered: <span class="requiredFields">
                 *</span></label>
         <input
             class="form-control"
-            id="permitYearRegistered"
+            id="permit_year_registered"
             name="permit_year_registered"
             type="text"
             value=""
@@ -132,13 +132,13 @@
     <div class="col-12 col-md-4">
         <label
             class="form-label"
-            for="yearEnterpriseRegistered"
+            for="year_enterprise_registered"
         >Year Enterprise Registered: <span class="requiredFields">
                 *</span></label>
         <input
             class="form-control"
-            id="yearEnterpriseRegistered"
-            name="yearEnterpriseRegistered"
+            id="year_enterprise_registered"
+            name="year_enterprise_registered"
             type="text"
             value=""
             placeholder="YYYY"
@@ -157,13 +157,13 @@
     <div class="col-12 col-md-6">
         <label
             class="form-label"
-            for="businessPermitNo"
+            for="business_permit_no"
         >Business Permit No.: <span class="requiredFields">
                 *</span></label>
         <input
             class="form-control"
-            id="business_permit_No"
-            name="business_permit_No"
+            id="business_permit_no"
+            name="business_permit_no"
             type="text"
             placeholder="Enter Business Permit No."
             required
@@ -176,15 +176,15 @@
     <div class="col-12 col-md-6">
         <label
             class="form-label"
-            for="enterpriseRegistrationNo"
+            for="enterprise_registration_no"
         >Enterprise Registration No.: <span class="requiredFields">
                 *</span></label>
         <input
             class="form-control"
-            id="enterpriseRegistrationNo"
-            name="enterpriseRegistrationNo"
+            id="enterprise_registration_no"
+            name="enterprise_registration_no"
             type="text"
-            value="{{ old('enterpriseRegistrationNo') }}"
+            value="{{ old('enterprise_registration_no') }}"
             placeholder="Enter Enterprise Registration No."
             required
         >
