@@ -35,9 +35,11 @@ interface LocationDraftData {
 class AddressFormInput {
     private prefix: string;
     private selectors: Selectors;
+    private instanceId: string;
 
     constructor(config: AddressFormConfig) {
         this.prefix = config.prefix;
+        this.instanceId = `address_form_${Math.random().toString(36).substring(2, 9)}`;
         this.selectors = {
             region: `#${this.prefix}_region`,
             province: `#${this.prefix}_province`,
@@ -45,6 +47,7 @@ class AddressFormInput {
             barangay: `#${this.prefix}_barangay`,
         };
         this.initializeAddressSelection();
+        this.initializeSameAddressCheckboxes();
     }
 
     static populateSelect(
@@ -355,6 +358,224 @@ class AddressFormInput {
                     'Select Barangay'
                 );
             });
+        }
+    }
+
+    /**
+     * Initialize the "Same Address With" checkboxes with namespaced events
+     * to prevent multiple handlers when multiple instances are created
+     */
+    private initializeSameAddressCheckboxes(): void {
+        if (this.prefix === 'office') {
+            $('#same_address_with_home').off(`change.${this.instanceId}`);
+            $('#same_address_with_home').on(
+                `change.${this.instanceId}`,
+                function () {
+                    const isChecked = $(this).prop('checked');
+                    AddressFormInput.handleSameAddressCheckbox(
+                        'home',
+                        'office',
+                        isChecked
+                    );
+                }
+            );
+        }
+
+        if (this.prefix === 'factory') {
+            $('#same_address_with_office').off(`change.${this.instanceId}`);
+            $('#same_address_with_office').on(
+                `change.${this.instanceId}`,
+                function () {
+                    const isChecked = $(this).prop('checked');
+                    AddressFormInput.handleSameAddressCheckbox(
+                        'office',
+                        'factory',
+                        isChecked
+                    );
+                }
+            );
+        }
+    }
+
+    /**
+     * Clean up event handlers when the instance is no longer needed
+     */
+    public destroy(): void {
+        $('#same_address_with_home').off(`change.${this.instanceId}`);
+        $('#same_address_with_office').off(`change.${this.instanceId}`);
+        $('#same_address_with_factory').off(`change.${this.instanceId}`);
+    }
+
+    /**
+     * Handle the "Same Address With" checkbox functionality
+     * @param sourcePrefix The source address prefix (e.g., 'home', 'office')
+     * @param targetPrefix The target address prefix (e.g., 'office', 'factory')
+     * @param isChecked Whether the checkbox is checked
+     */
+    static handleSameAddressCheckbox(
+        sourcePrefix: string,
+        targetPrefix: string,
+        isChecked: boolean
+    ): void {
+        const fields = [
+            'region',
+            'province',
+            'city',
+            'barangay',
+            'landmark',
+            'zipcode',
+        ];
+
+        const contactFields = ['telNo', 'faxNo', 'emailAddress'];
+
+        const allFields = fields.concat(
+            (sourcePrefix === 'office' || sourcePrefix === 'factory') &&
+                (targetPrefix === 'office' || targetPrefix === 'factory')
+                ? contactFields
+                : []
+        );
+
+        if (isChecked) {
+            // First handle non-cascading fields
+            allFields.forEach((field) => {
+                if (
+                    !['region', 'province', 'city', 'barangay'].includes(field)
+                ) {
+                    const sourceValue = $(
+                        `#${sourcePrefix}_${field}`
+                    ).val() as string;
+                    const targetElement = $(`#${targetPrefix}_${field}`);
+                    targetElement.val(sourceValue);
+                    targetElement.prop('disabled', true);
+                }
+            });
+
+            // Handle cascading fields with proper event handling
+            AddressFormInput.copyAddressHierarchy(sourcePrefix, targetPrefix);
+        } else {
+            allFields.forEach((field) => {
+                const targetElement = $(`#${targetPrefix}_${field}`);
+
+                if (field === 'region') {
+                    targetElement.prop('disabled', false);
+                } else if (field === 'province') {
+                    targetElement.prop(
+                        'disabled',
+                        !$(`#${targetPrefix}_region`).val()
+                    );
+                } else if (field === 'city') {
+                    targetElement.prop(
+                        'disabled',
+                        !$(`#${targetPrefix}_province`).val()
+                    );
+                } else if (field === 'barangay') {
+                    targetElement.prop(
+                        'disabled',
+                        !$(`#${targetPrefix}_city`).val()
+                    );
+                } else {
+                    targetElement.prop('disabled', false);
+                }
+            });
+        }
+    }
+
+    /**
+     * Copy address hierarchy (region, province, city, barangay) from source to target
+     * with proper event handling for cascading dropdowns
+     * @param sourcePrefix The source address prefix
+     * @param targetPrefix The target address prefix
+     */
+    private static copyAddressHierarchy(
+        sourcePrefix: string,
+        targetPrefix: string
+    ): void {
+        const sourceRegion = $(`#${sourcePrefix}_region`);
+        const sourceRegionCode = sourceRegion.find(':selected').data('code');
+        const sourceRegionValue = sourceRegion.val() as string;
+
+        const sourceProvince = $(`#${sourcePrefix}_province`);
+        const sourceProvinceCode = sourceProvince
+            .find(':selected')
+            .data('code');
+        const sourceProvinceValue = sourceProvince.val() as string;
+
+        const sourceCity = $(`#${sourcePrefix}_city`);
+        const sourceCityCode = sourceCity.find(':selected').data('code');
+        const sourceCityValue = sourceCity.val() as string;
+
+        const sourceBarangay = $(`#${sourcePrefix}_barangay`);
+        const sourceBarangayValue = sourceBarangay.val() as string;
+
+        const targetRegion = $(`#${targetPrefix}_region`);
+        const targetProvince = $(`#${targetPrefix}_province`);
+        const targetCity = $(`#${targetPrefix}_city`);
+        const targetBarangay = $(`#${targetPrefix}_barangay`);
+
+        targetRegion.prop('disabled', true);
+        targetProvince.prop('disabled', true);
+        targetCity.prop('disabled', true);
+        targetBarangay.prop('disabled', true);
+
+        targetRegion.val(sourceRegionValue);
+
+        if (sourceRegionCode) {
+            API.fetchProvinces(sourceRegionCode)
+                .done((provinces: LocationItem[]) => {
+                    AddressFormInput.populateSelect(
+                        `#${targetPrefix}_province`,
+                        provinces,
+                        'Select Province'
+                    );
+
+                    targetProvince.val(sourceProvinceValue);
+
+                    if (sourceProvinceCode) {
+                        API.fetchCities(sourceProvinceCode)
+                            .done((cities: LocationItem[]) => {
+                                AddressFormInput.populateSelect(
+                                    `#${targetPrefix}_city`,
+                                    cities,
+                                    'Select City'
+                                );
+
+                                targetCity.val(sourceCityValue);
+
+                                if (sourceCityCode) {
+                                    API.fetchBarangay(sourceCityCode)
+                                        .done((barangays: LocationItem[]) => {
+                                            AddressFormInput.populateSelect(
+                                                `#${targetPrefix}_barangay`,
+                                                barangays,
+                                                'Select Barangay'
+                                            );
+
+                                            targetBarangay.val(
+                                                sourceBarangayValue
+                                            );
+                                        })
+                                        .fail((error) => {
+                                            console.error(
+                                                `Failed to load barangays for city ${sourceCityCode}:`,
+                                                error
+                                            );
+                                        });
+                                }
+                            })
+                            .fail((error) => {
+                                console.error(
+                                    `Failed to load cities for province ${sourceProvinceCode}:`,
+                                    error
+                                );
+                            });
+                    }
+                })
+                .fail((error) => {
+                    console.error(
+                        `Failed to load provinces for region ${sourceRegionCode}:`,
+                        error
+                    );
+                });
         }
     }
 }

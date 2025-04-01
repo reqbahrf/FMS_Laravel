@@ -2,6 +2,9 @@ import { processError } from '../../Utilities/error-handler-util';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
 import { parseFormattedNumberToFloat } from '../../Utilities/utilFunctions';
+import { AddressFormInput } from '../../Utilities/AddressInputHandler';
+import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
+import { setupPhoneNumberInput } from '../../Utilities/phone-formatter';
 
 export default class AddProject {
     private form: JQuery<HTMLFormElement> | null;
@@ -20,6 +23,7 @@ export default class AddProject {
 
     private _initDependencies() {
         this.form = $('#projectInfoForm');
+        if (!this.form) return;
         this.refundStrutureTable = this.form.find('#refundStructureTable');
 
         this.refundCalculator = new RefundStructureCalculator(
@@ -34,6 +38,31 @@ export default class AddProject {
             this.refundStrutureTable.find('tbody'),
             'input[type="text"]:not([readonly])'
         );
+
+        setupPhoneNumberInput('input#mobile_no');
+
+        const ASSET_CARD = this.form?.find('div#assetsCard');
+
+        customFormatNumericInput(ASSET_CARD, [
+            '#buildings',
+            '#equipments',
+            '#working_capital',
+        ]);
+
+        ASSET_CARD.find('#buildings, #equipments, #working_capital').on(
+            'input',
+            () => calculateEnterpriseLevel(ASSET_CARD)
+        );
+
+        customFormatNumericInput(
+            this.form.find('#personnelContainer'),
+            'input'
+        );
+
+        const addressInputHandler = [
+            new AddressFormInput({ prefix: 'office' }),
+            new AddressFormInput({ prefix: 'factory' }),
+        ];
     }
 
     private _initRefundCalculationBtn() {
