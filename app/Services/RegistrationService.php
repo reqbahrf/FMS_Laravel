@@ -4,9 +4,15 @@ namespace App\Services;
 
 use Exception;
 use App\Models\User;
+use App\Models\Assets;
 use App\Models\FormDraft;
+use App\Models\Personnel;
+use App\Models\AddressInfo;
 use App\Events\ProjectEvent;
+use App\Models\BusinessInfo;
+use App\Models\CoopUserInfo;
 use App\Models\ApplicationForm;
+use App\Models\ApplicationInfo;
 use App\Models\NotificationLog;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -18,7 +24,6 @@ use App\Mail\SendApplicationFormLink;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Database\Eloquent\Collection;
 use App\Actions\GenerateUniqueUsernameAction;
-
 
 class RegistrationService
 {
@@ -283,7 +288,7 @@ class RegistrationService
         $landmark = $validatedInputs['home_landmark'];
         $zipcode = $validatedInputs['home_zipcode'];
 
-        DB::table('users_address_info')->insert([
+        AddressInfo::insert([
             'user_info_id' => $userId,
             'region' => $region,
             'province' => $province,
@@ -318,8 +323,9 @@ class RegistrationService
         $full_mobile_number = $country_mobile_code . $mobile_number;
         $landline = $validatedInputs['landline'];
 
-        return DB::table('coop_users_info')->insertGetId([
+        return CoopUserInfo::updateOrCreate([
             'user_name' => $user_name,
+        ], [
             'prefix' => $name_prefix,
             'f_name' => $f_name,
             'mid_name' => $mid_name,
@@ -354,9 +360,10 @@ class RegistrationService
         $export_market = json_encode($validatedInputs['exportMarket']);
         $local_market = json_encode($validatedInputs['localMarket']);
 
-        $businessId = DB::table('business_info')->insertGetId([
+        $businessInfo = BusinessInfo::updateOrCreate([
             'user_info_id' => $personalInfoId,
             'firm_name' => $firm_name,
+        ], [
             'enterprise_type' => $enterprise_type,
             'enterprise_level' => $enterprise_level,
             'zip_code' => $office_zipcode,
@@ -370,7 +377,7 @@ class RegistrationService
         ]);
 
         return [
-            'businessId' => $businessId,
+            'businessId' => $businessInfo->id,
             'enterprise_type' => $enterprise_type,
             'enterprise_level' => $enterprise_level,
             'region' => $office_region,
@@ -393,7 +400,7 @@ class RegistrationService
         $equipment_value = str_replace(',', '', ($validatedInputs['equipments']));
         $working_capital = str_replace(',', '', ($validatedInputs['working_capital']));
 
-        return DB::table('assets')->insert([
+        return Assets::insert([
             'id' => $businessId,
             'building_value' => $building_value,
             'equipment_value' => $equipment_value,
@@ -419,8 +426,9 @@ class RegistrationService
         $m_personnelIndPart = $validatedInputs['m_personnelIndPart'];
         $f_personnelIndPart = $validatedInputs['f_personnelIndPart'];
 
-        return DB::table('personnel')->insert([
+        return Personnel::updateOrCreate([
             'id' => $businessId,
+        ], [
             'male_direct_re' => $m_personnelDiRe,
             'female_direct_re' => $f_personnelDiRe,
             'male_direct_part' => $m_personnelDiPart,
@@ -438,17 +446,19 @@ class RegistrationService
      * @param int $businessId
      * @param bool $isAssistedBy optional
      * @param int $assistedBy optional
-     * @return int The application ID
+     * @return int The application record
      */
     private function createApplicationRecord(int $businessId, ?bool $isAssistedBy = false, ?int $assistedBy = null): int
     {
-        return DB::table('application_info')->insertGetId([
+        $applicationInfo = ApplicationInfo::create([
             'business_id' => $businessId,
             'is_assisted_by' => $isAssistedBy,
             'assisted_by' => $assistedBy,
             'created_at' => now(),
             'updated_at' => now(),
         ]);
+
+        return $applicationInfo->id;
     }
 
     /**
