@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('business_address_info', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('business_info_id')->unsigned();
+            $table->bigInteger('business_info_id')->unsigned()->unique();
             $table->string('office_landmark', 64);
             $table->string('office_barangay', 64);
             $table->string('office_city', 64);
@@ -26,9 +26,7 @@ return new class extends Migration
             $table->string('factory_province', 64);
             $table->string('factory_region', 64);
             $table->string('factory_zip_code', 10);
-            $table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
-
             $table->foreign('business_info_id')->references('id')->on('business_info')->onDelete('cascade')->onUpdate('cascade');
         });
     }

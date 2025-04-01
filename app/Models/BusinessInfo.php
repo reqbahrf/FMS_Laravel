@@ -63,6 +63,11 @@ class BusinessInfo extends Model
         return $this->hasMany(Requirement::class, 'business_id', 'id');
     }
 
+    public function addressInfo(): HasOne
+    {
+        return $this->hasOne(BusinessAddressInfo::class, 'business_info_id', 'id');
+    }
+
     protected static function booted()
     {
         // Listen to the "created" event
