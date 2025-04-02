@@ -994,20 +994,18 @@ export function initializeForm() {
     ];
     formDraftHandler.syncFilepondData(FileMetaHiddenInputs);
 
+    const loadAddressDropdowns = async (draftData) => {
+        await AddressFormInput.loadHomeAddressDropdowns(draftData);
+        await AddressFormInput.loadOfficeAddressDropdowns(draftData);
+        await AddressFormInput.loadFactoryAddressDropdowns(draftData);
+    };
     $(async () => {
         await formDraftHandler.loadDraftData(
             APPLICATION_FORM_CONFIG,
             null,
             null,
             null,
-            {
-                loadHomeAddressDropdowns:
-                    AddressFormInput.loadHomeAddressDropdowns,
-                loadOfficeAddressDropdowns:
-                    AddressFormInput.loadOfficeAddressDropdowns,
-                loadFactoryAddressDropdowns:
-                    AddressFormInput.loadFactoryAddressDropdowns,
-            }
+            loadAddressDropdowns
         );
         calculateEnterpriseLevel($('#assetsCard'));
     });
