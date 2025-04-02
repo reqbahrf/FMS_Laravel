@@ -27,6 +27,7 @@ class ApplicantInfoRequest extends FormRequest
         return [
             // Personal Information
             'email' => 'required|email|unique:users,email',
+            'requested_fund_amount' => 'required',
             'prefix' => 'nullable|string|max:10',
             'f_name' => 'required|string|max:255',
             'mid_name' => 'nullable|string|max:255',
@@ -61,6 +62,7 @@ class ApplicantInfoRequest extends FormRequest
     {
         return [
             'email' => 'email address',
+            'requested_fund_amount' => 'requested fund amount',
             'f_name' => 'first name',
             'mid_name' => 'middle name',
             'l_name' => 'last name',
@@ -87,6 +89,7 @@ class ApplicantInfoRequest extends FormRequest
             'designation.required' => 'Please enter a designation.',
             'b_date.required' => 'Please enter a birth date.',
             'b_date.before' => 'Birth date must be a date before today.',
+            'requested_fund_amount.required' => 'Please enter a requested fund amount.',
             'mobile_no.required' => 'Please enter a mobile number.',
             'mobile_no.regex' => 'Please enter a valid mobile number.',
         ];

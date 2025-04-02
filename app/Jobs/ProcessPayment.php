@@ -19,7 +19,8 @@ class ProcessPayment implements ShouldQueue
     public function __construct(
         public string $startDate,
         public array $paymentStructure,
-        public string $projectId
+        public string $projectId,
+        public ?array $refundedPayments = null
     ) {}
 
     /**
@@ -31,7 +32,8 @@ class ProcessPayment implements ShouldQueue
             $service->processPayments(
                 $this->startDate,
                 $this->paymentStructure,
-                $this->projectId
+                $this->projectId,
+                $this->refundedPayments
             );
         } catch (\Exception $e) {
             Log::error('Error processing payment: ' . $e->getMessage());

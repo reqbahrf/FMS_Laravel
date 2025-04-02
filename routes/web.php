@@ -104,6 +104,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
 
     Route::controller(FormDraftController::class)->group(function () {
+
+        Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
+            ->name('form.getDraftFile')
+            ->withoutMiddleware('signed');
+
         Route::get('/get/Draft/{draft_type}/{ownerId}', 'get')
             ->name('form.getDraft')
             ->middleware('signed');
@@ -112,8 +117,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
             ->name('form.setDraft')
             ->middleware('signed');
 
-        Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
-            ->name('form.getDraftFile');
+        Route::delete('/delete/Draft/{draft_type}/{ownerId}', 'destroy')
+            ->name('form.deleteDraft')
+            ->middleware('signed');
     });
 
     Route::get('/activity/logs', [UserActivityLogController::class, 'getPersonalActivityLog'])
@@ -273,8 +279,14 @@ Route::middleware([CheckStaffUser::class, 'verified', 'check.password.change'])-
             ->middleware('signed');
     });
 
-    Route::get('Staff/Project/get/add/project-form', [CreateProjectController::class, 'index'])
-        ->name('staff.Project.get.add.project-form');
+    Route::controller(CreateProjectController::class)->group(function () {
+        Route::get('Staff/Project/get/add/project-form', 'index')
+            ->name('staff.Project.get.add.project-form');
+
+        Route::post('Staff/Project/submit-new-project/{staffId}', 'storeProjectDetail')
+            ->name('staff.Project.submit.new.project')
+            ->middleware('signed');
+    });
 
 
     Route::controller(PISDocController::class)->group(function () {

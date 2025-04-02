@@ -1,10 +1,19 @@
 import { processError } from '../../Utilities/error-handler-util';
 import { customFormatNumericInput } from '../../Utilities/input-utils';
 import RefundStructureCalculator from '../../Utilities/RefundStructureCalculator';
-import { parseFormattedNumberToFloat } from '../../Utilities/utilFunctions';
+import {
+    parseFormattedNumberToFloat,
+    serializeFormData,
+} from '../../Utilities/utilFunctions';
 import { AddressFormInput } from '../../Utilities/AddressInputHandler';
 import calculateEnterpriseLevel from '../../Utilities/calculate-enterprise-level';
 import { setupPhoneNumberInput } from '../../Utilities/phone-formatter';
+import createConfirmationModal from '../../Utilities/confirmation-modal';
+import {
+    showProcessToast,
+    hideProcessToast,
+    showToastFeedback,
+} from '../../Utilities/feedback-toast';
 
 export default class AddProject {
     private form: JQuery<HTMLFormElement> | null;
@@ -19,10 +28,11 @@ export default class AddProject {
         this._initDependencies();
         this._initTableTotalsCalculator();
         this._initRefundCalculationBtn();
+        this._initFormDataSubmitEvent();
     }
 
     private _initDependencies() {
-        this.form = $('#projectInfoForm');
+        this.form = $('#ExistingProjectForm');
         if (!this.form) return;
         this.refundStrutureTable = this.form.find('#refundStructureTable');
 
@@ -60,9 +70,61 @@ export default class AddProject {
         );
 
         const addressInputHandler = [
+            new AddressFormInput({ prefix: 'home' }),
             new AddressFormInput({ prefix: 'office' }),
             new AddressFormInput({ prefix: 'factory' }),
         ];
+    }
+
+    private _initFormDataSubmitEvent() {
+        if (!this.form) return;
+        this.form.on('submit', async (e: JQuery.SubmitEvent) => {
+            e.preventDefault();
+            const isConfirmed = await createConfirmationModal({
+                title: 'Confirm Project Addition',
+                message: 'Are you sure you want to add this project?',
+                confirmText: 'Yes',
+                cancelText: 'No',
+            });
+            if (!isConfirmed) return;
+            const processToast = showProcessToast('Adding Project...');
+            try {
+                if (!this.form) throw new Error('Form not found');
+                const url = this.form.attr('action');
+                const formData = this.form.serializeArray();
+                if (!formData || !formData.length || !url)
+                    throw new Error('Form data not found');
+                const formDataObject = serializeFormData(formData);
+                await this._saveProject(formDataObject, url);
+            } catch (error: any) {
+                processError('Error in Adding Project: ', error, true);
+            } finally {
+                hideProcessToast(processToast);
+            }
+        });
+    }
+
+    private async _saveProject(formData: { [key: string]: any }, url: string) {
+        try {
+            const response = await $.ajax({
+                type: 'POST',
+                url: url,
+                data: JSON.stringify(formData),
+                contentType: 'application/json',
+                dataType: 'json',
+                processData: false,
+                headers: {
+                    'X-CSRF-TOKEN':
+                        $('meta[name="csrf-token"]').attr('content') || '',
+                },
+            });
+            showToastFeedback('text-bg-success', response?.message);
+        } catch (error: any) {
+            console.log(error);
+            throw new Error(
+                error?.responseJSON?.message || error?.message || error
+            );
+        }
     }
 
     private _initRefundCalculationBtn() {
@@ -70,7 +132,7 @@ export default class AddProject {
         this.calculationBtn.on('click', () => {
             try {
                 const fundReleaseDate = this.form
-                    ?.find('input#fund_release_date')
+                    ?.find('input#fund_released_date')
                     .val() as string;
                 const refundDurationYears = parseInt(
                     this.form?.find('input#project_duration').val() as string

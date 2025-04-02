@@ -41,6 +41,22 @@
                     <div class="invalid-feedback">Please enter a valid email address.</div>
                 </div>
                 <div class="col-12">
+                    <h4 class="text-center">
+                        Requested Fund Amount by the Applicant:<span class="text-danger">*</span>
+                    </h4>
+                    <div class="d-flex align-items-center justify-content-center">
+                        <div class="input-group w-50">
+                            <span class="input-group-text">₱</span>
+                            <input
+                                class="form-control fw-bold"
+                                id="requested_fund_amount"
+                                name="requested_fund_amount"
+                                type="text"
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
                     <hr>
                 </div>
                 <x-custom-input.prefix-input />

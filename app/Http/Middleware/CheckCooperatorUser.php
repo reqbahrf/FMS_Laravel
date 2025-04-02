@@ -21,11 +21,20 @@ class CheckCooperatorUser
             return redirect()->route('login');
         }
 
-        if (Auth::user()->role != 'Cooperator') {
+        $authUser = Auth::user();
+
+        if ($authUser->role != 'Cooperator') {
             return redirect()->route('home');
         }
-        if (is_null(Auth::user()->coopUserInfo->businessInfo)) {
-            return redirect()->to(URL::signedRoute('application.form', ['id' => Auth::user()->id]));
+
+        // First check if coopUserInfo exists
+        if (is_null($authUser->coopUserInfo)) {
+            return redirect()->to(URL::signedRoute('application.form', ['id' => $authUser->id]));
+        }
+
+        // Then check if businessInfo exists
+        if (is_null($authUser->coopUserInfo->businessInfo)) {
+            return redirect()->to(URL::signedRoute('application.form', ['id' => $authUser->id]));
         }
 
 

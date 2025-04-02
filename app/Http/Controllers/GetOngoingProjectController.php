@@ -20,6 +20,7 @@ class GetOngoingProjectController extends Controller
             } else {
                 $ongoingProjects = DB::table('application_info')
                     ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
+                    ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
                     ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
                     ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
                     ->join('assets', 'assets.id', '=', 'business_info.id')

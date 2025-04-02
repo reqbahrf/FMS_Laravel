@@ -65,9 +65,9 @@ class TNADocController extends Controller
             DB::transaction(function () use ($validated, $request) {
                 $this->TNAservice->setTNAData(
                     $validated,
-                    $request->user(),
                     $request->business_id,
-                    $request->application_id
+                    $request->application_id,
+                    $request->user(),
                 );
             });
 

@@ -338,24 +338,67 @@ export class FormDraftHandler {
                 );
 
                 if (filepondId) {
-                    const fileUrl = DRAFT_ROUTE.GET_FILE.replace(
-                        ':unique_id',
+                    const fileUrl = GET_DRAFT_FILE.replace(
+                        ':uniqueId',
                         value.uniqueId
                     );
-                    // Load file into corresponding FilePond instance
-                    const filepondInstance =
-                        this._getFilepondInstanceHandler(filepondId);
-                    if (filepondInstance) {
-                        filepondInstance.addFile(fileUrl, {
-                            type: 'local',
-                            metadata: {
-                                unique_id: value.uniqueId,
-                                file_path: value.filePath,
-                                file_input_name: key,
-                                meta_data_handler_id: value.metaDataId,
-                            },
+
+                    fetch(fileUrl)
+                        .then((response) => {
+                            if (!response.ok) {
+                                throw new Error(
+                                    `HTTP error! Status: ${response.status}`
+                                );
+                            }
+
+                            // Extract metadata from headers
+                            const fileName = response.headers.get(
+                                'X-File-Name'
+                            ) as string;
+                            const fileSize = response.headers.get(
+                                'X-File-Size'
+                            ) as string;
+                            const fileType = response.headers.get(
+                                'X-Mime-Type'
+                            ) as string;
+
+                            // Clone the response to use the body twice
+                            const responseClone = response.clone();
+
+                            // Get the file content as a blob
+                            return responseClone.blob().then((blob) => {
+                                return {
+                                    blob,
+                                    fileName,
+                                    fileSize: Number(fileSize),
+                                    fileType,
+                                };
+                            });
+                        })
+                        .then(({ blob, fileName, fileSize, fileType }) => {
+                            const filepondInstance =
+                                this._getFilepondInstanceHandler(filepondId);
+
+                            if (filepondInstance) {
+                                // Create a File object from the blob
+                                const file = new File([blob], fileName, {
+                                    type: fileType,
+                                });
+
+                                // Add the file to FilePond with metadata
+                                filepondInstance.addFile(file, {
+                                    metadata: {
+                                        unique_id: value.uniqueId,
+                                        file_path: value.filePath,
+                                        file_input_name: key,
+                                        meta_data_handler_id: value.metaDataId,
+                                    },
+                                });
+                            }
+                        })
+                        .catch((error) => {
+                            console.error('Error loading file:', error);
                         });
-                    }
                 }
             }
         });

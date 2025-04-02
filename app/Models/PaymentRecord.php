@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use OwenIt\Auditing\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -20,8 +21,8 @@ class PaymentRecord extends Model implements AuditableContract
         'amount',
         'payment_status',
         'payment_method',
-        'quarter',
         'due_date',
+        'note',
         'date_completed'
     ];
     protected $casts = [
@@ -35,5 +36,21 @@ class PaymentRecord extends Model implements AuditableContract
     public function projectInfo(): BelongsTo
     {
         return $this->belongsTo(ProjectInfo::class, 'Project_id', 'Project_id');
+    }
+
+    /**
+     * The "booted" method of the model.
+     *
+     * @return void
+     */
+    protected static function booted()
+    {
+        // Calculate quarter before saving the model
+        static::saving(function ($paymentRecord) {
+            if ($paymentRecord->due_date) {
+                $dueDate = Carbon::parse($paymentRecord->due_date);
+                $paymentRecord->quarter = 'Q' . ceil($dueDate->month / 3) . ' ' . $dueDate->year;
+            }
+        });
     }
 }

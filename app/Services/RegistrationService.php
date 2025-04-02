@@ -8,7 +8,9 @@ use App\Models\Assets;
 use App\Models\FormDraft;
 use App\Models\Personnel;
 use App\Models\AddressInfo;
+use App\Models\ProjectInfo;
 use App\Events\ProjectEvent;
+use App\Jobs\ProcessPayment;
 use App\Models\BusinessInfo;
 use App\Models\CoopUserInfo;
 use App\Models\ApplicationForm;
@@ -43,20 +45,22 @@ class RegistrationService
      */
     public function registerApplication(array $validatedInputs): array
     {
-        $user_name = Auth::user()->user_name;
+        $applicant = Auth::user();
+        $user_name = $applicant->user_name;
         $successful_inserts = 0;
 
         DB::beginTransaction();
 
         try {
             // Store user address
-            $this->storeUserAddress($validatedInputs, Auth::user()->id);
+            $this->storeUserAddress($validatedInputs, $applicant->id);
+            $successful_inserts++;
             // Process and store personal info
-            $personalInfoId = $this->storePersonalInfo($validatedInputs, $user_name);
+            $personalInfo = $this->storePersonalInfo($validatedInputs, $user_name);
             $successful_inserts++;
 
             // Process and store business info
-            $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfoId);
+            $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfo->id);
             $businessId = $businessInfo['businessId'];
             $successful_inserts++;
 
@@ -68,20 +72,27 @@ class RegistrationService
             $this->storePersonnel($validatedInputs, $businessId);
             $successful_inserts++;
 
-            // Store files
-            $firm_name = $validatedInputs['firm_name'];
-            $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
-            $successful_inserts++;
-
             // Create application record
-            $applicationId = $this->createApplicationRecord($businessId);
+            $applicationId = $this->createApplicationRecord(
+                $businessId,
+                false,
+                null,
+                'new',
+                null,
+                $validatedInputs['requested_fund_amount']
+            );
             $successful_inserts++;
-
             if ($successful_inserts == 6) {
+                $firm_name = $validatedInputs['firm_name'];
+                $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
                 $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
-                $this->TNAdataHandlerService->setTNAData($validatedInputs, request()->user(), $businessId, $applicationId);
+                $this->TNAdataHandlerService->setTNAData(
+                    $validatedInputs,
+                    $businessId,
+                    $applicationId
+                );
+                $this->updateDraftToSubmitted($applicant);
                 DB::commit();
-
                 $location = [
                     'applicant_region' => $validatedInputs['home_region'],
                     'applicant_province' => $validatedInputs['home_province'],
@@ -107,7 +118,35 @@ class RegistrationService
                 ];
             } else {
                 DB::rollBack();
-                throw new Exception("Data insertion failed: Only {$successful_inserts} of 6 required insertions completed successfully.");
+                $insertionSteps = [
+                    1 => 'User Address',
+                    2 => 'Personal Information',
+                    3 => 'Business Information',
+                    4 => 'Assets',
+                    5 => 'Personnel',
+                    6 => 'Application Record'
+                ];
+
+                $failedSteps = array_filter($insertionSteps, function ($key) use ($successful_inserts) {
+                    return $key > $successful_inserts;
+                }, ARRAY_FILTER_USE_KEY);
+
+                $errorMessage = sprintf(
+                    "Data insertion incomplete. Only %d of 6 required insertions completed successfully. " .
+                        "Failed to complete the following steps: %s",
+                    $successful_inserts,
+                    implode(', ', $failedSteps)
+                );
+
+                Log::error($errorMessage, [
+                    'successful_inserts' => $successful_inserts,
+                    'failed_steps' => $failedSteps
+                ]);
+
+                return [
+                    'status' => 'error',
+                    'message' => $errorMessage
+                ];
             }
         } catch (Exception $e) {
             DB::rollBack();
@@ -120,7 +159,27 @@ class RegistrationService
         }
     }
 
-    public function registerApplicant(array $validatedInputs): array
+    /**
+     * Register a new applicant in the system.
+     *
+     * This method handles the complete process of creating a new user account for an applicant,
+     * including user creation, address storage, and cooperative user information.
+     *
+     * @param array $validatedInputs Validated input data for the applicant registration
+     *
+     * @throws Exception If there is an error during the registration process
+     *
+     * @return array An associative array containing:
+     *               - 'status': 'success' if registration is completed
+     *               - 'application_form': Signed URL for the application form
+     *               - 'message': Success message
+     *
+     * @uses \App\Actions\GenerateUniqueUsernameAction to generate a unique username
+     * @uses \Illuminate\Support\Facades\DB for transaction management
+     * @uses \Illuminate\Support\Facades\Hash for password hashing
+     * @uses \Illuminate\Support\Facades\URL for generating signed routes
+     */
+    public function staffRegisterApplicant(array $validatedInputs): array
     {
         try {
             $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
@@ -162,6 +221,58 @@ class RegistrationService
         } catch (Exception $e) {
             DB::rollBack();
             throw new Exception('Error in Registering Applicant: ' . $e->getMessage());
+        }
+    }
+
+    public function staffRegisterExistingProject(array $validatedInputs, int $staffId): array
+    {
+        try {
+            $username = $this->generateUniqueUsernameAction->execute($validatedInputs['f_name']);
+            $initial_password = str_replace('-', '', $validatedInputs['b_date']);
+
+            DB::beginTransaction();
+            $user = User::create([
+                'user_name' => $username,
+                'email' => $validatedInputs['email'],
+                'password' => Hash::make($initial_password),
+                'role' => 'Cooperator',
+                'created_at' => now(),
+                'updated_at' => now(),
+                'must_change_password' => true,
+            ]);
+            $this->storeUserAddress($validatedInputs, $user->id);
+            $personalInfo = $this->storePersonalInfo($validatedInputs, $user->user_name);
+            $businessInfo = $this->storeBusinessInfo($validatedInputs, $personalInfo->id);
+
+            $this->storeAssets($validatedInputs, $businessInfo['businessId']);
+            $this->storePersonnel($validatedInputs, $businessInfo['businessId']);
+
+            $projectInfo = $this->storeProjectInfo($validatedInputs, $businessInfo['businessId'], $staffId);
+
+            $this->createApplicationRecord(
+                $businessInfo['businessId'],
+                true,
+                $staffId,
+                'ongoing',
+                $projectInfo->Project_id,
+            );
+            DB::commit();
+            $paymentStructure = PaymentProcessingService::extractPaymentStructure($validatedInputs);
+            $refundedPayments = PaymentProcessingService::extractRefundedPayments($validatedInputs);
+            ProcessPayment::dispatchAfterResponse(
+                $validatedInputs['fund_released_date'],
+                $paymentStructure,
+                $projectInfo->Project_id,
+                $refundedPayments
+            );
+
+            return [
+                'status' => 'success',
+                'message' => 'Project registered successfully'
+            ];
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception('Error in Registering Existing Project: ' . $e->getMessage());
         }
     }
 
@@ -231,6 +342,13 @@ class RegistrationService
             ->delete();
     }
 
+    private function updateDraftToSubmitted(User $user): void
+    {
+        FormDraft::where('form_type', self::DRAFT_PREFIX . $user->id)
+            ->where('owner_id', $user->id)
+            ->update(['is_submitted' => true]);
+    }
+
     public function isAddedApplicantExist(): bool
     {
         return FormDraft::where('form_type', 'LIKE', self::DRAFT_PREFIX . '%')
@@ -288,8 +406,9 @@ class RegistrationService
         $landmark = $validatedInputs['home_landmark'];
         $zipcode = $validatedInputs['home_zipcode'];
 
-        AddressInfo::insert([
+        AddressInfo::updateOrCreate([
             'user_info_id' => $userId,
+        ], [
             'region' => $region,
             'province' => $province,
             'city' => $city,
@@ -306,9 +425,9 @@ class RegistrationService
      *
      * @param array $validatedInputs
      * @param string $user_name
-     * @return int The personal info ID
+     * @return CoopUserInfo
      */
-    private function storePersonalInfo(array $validatedInputs, string $user_name): int
+    private function storePersonalInfo(array $validatedInputs, string $user_name): CoopUserInfo
     {
         $name_prefix = $validatedInputs['prefix'];
         $f_name = $validatedInputs['f_name'];
@@ -355,7 +474,7 @@ class RegistrationService
         $permit_type = $validatedInputs['permit_type'];
         $business_permit_no = $validatedInputs['business_permit_no'];
         $permit_year_registered = $validatedInputs['permit_year_registered'];
-        $registration_type = $validatedInputs['registration_type'];
+        $registration_type = $validatedInputs['enterprise_registration_type'];
         $enterprise_registration_no = $validatedInputs['enterprise_registration_no'];
         $enterprise_year_registered = $validatedInputs['year_enterprise_registered'];
         $office_region = $validatedInputs['office_region'];
@@ -376,8 +495,8 @@ class RegistrationService
         $factory_telNo = $validatedInputs['factory_telNo'];
         $factory_faxNo = $validatedInputs['factory_faxNo'];
         $factory_emailAddress = $validatedInputs['factory_emailAddress'];
-        $export_market = json_encode($validatedInputs['exportMarket']);
-        $local_market = json_encode($validatedInputs['localMarket']);
+        $export_market = json_encode($validatedInputs['exportMarket'] ?? []);
+        $local_market = json_encode($validatedInputs['localMarket'] ?? []);
 
         $businessInfo = BusinessInfo::updateOrCreate([
             'user_info_id' => $personalInfoId,
@@ -451,9 +570,9 @@ class RegistrationService
      *
      * @param array $validatedInputs
      * @param int $businessId
-     * @return bool
+     * @return void
      */
-    private function storePersonnel(array $validatedInputs, int $businessId): bool
+    private function storePersonnel(array $validatedInputs, int $businessId): void
     {
         $m_personnelDiRe = $validatedInputs['m_personnelDiRe'];
         $f_personnelDiRe = $validatedInputs['f_personnelDiRe'];
@@ -464,7 +583,7 @@ class RegistrationService
         $m_personnelIndPart = $validatedInputs['m_personnelIndPart'];
         $f_personnelIndPart = $validatedInputs['f_personnelIndPart'];
 
-        return Personnel::updateOrCreate([
+        Personnel::updateOrCreate([
             'id' => $businessId,
         ], [
             'male_direct_re' => $m_personnelDiRe,
@@ -486,17 +605,55 @@ class RegistrationService
      * @param int $assistedBy optional
      * @return int The application record
      */
-    private function createApplicationRecord(int $businessId, ?bool $isAssistedBy = false, ?int $assistedBy = null): int
-    {
+    private function createApplicationRecord(
+        int $businessId,
+        ?bool $isAssisted = false,
+        ?int $assistedBy = null,
+        ?string $applicationStatus = 'new',
+        ?string $projectId = null,
+        ?string $requestedFundAmount = null
+    ): int {
         $applicationInfo = ApplicationInfo::create([
+            'Project_id' => $projectId,
             'business_id' => $businessId,
-            'is_assisted_by' => $isAssistedBy,
+            'is_assisted' => $isAssisted,
+            'application_status' => $applicationStatus,
+            'requested_fund_amount' => $requestedFundAmount,
             'assisted_by' => $assistedBy,
-            'created_at' => now(),
-            'updated_at' => now(),
         ]);
 
         return $applicationInfo->id;
+    }
+
+    /**
+     * Store project information in the database
+     *
+     * @param array $validatedInputs
+     * @param int $businessId
+     * @param int|null $Staff_ID
+     * @return ProjectInfo
+     */
+    private function storeProjectInfo(array $validatedInputs, int $businessId, ?int $Staff_ID = null): ProjectInfo
+    {
+        $projectId = $validatedInputs['project_id'];
+        $project_title = $validatedInputs['project_title'];
+        $funded_amount = $validatedInputs['funded_amount'];
+        $fee_amount = $validatedInputs['fee_percentage'];
+        $project_duration = $validatedInputs['project_duration'];
+        $fund_released_date = $validatedInputs['fund_released_date'];
+
+        return ProjectInfo::create([
+            'Project_id' => $projectId,
+            'business_id' => $businessId,
+            'evaluated_by_id' => $Staff_ID,
+            'handled_by_id' => $Staff_ID,
+            'project_title' => $project_title,
+            'project_duration' => $project_duration,
+            'fund_released_date' => $fund_released_date,
+            'fund_amount' => $funded_amount,
+            'actual_amount_to_be_refund' => $funded_amount,
+            'fee_applied' => $fee_amount,
+        ]);
     }
 
     /**

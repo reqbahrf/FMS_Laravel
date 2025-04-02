@@ -851,12 +851,12 @@ export function initializeForm() {
 
             const response = await $.ajax({
                 type: 'POST',
-                url: REGISTRATIONFORM_SUBMISSION_ROUTE,
+                url: APPLICATION_FORM.attr('action'),
                 data: JSON.stringify(formDataObject),
                 contentType: 'application/json',
                 processData: false,
                 headers: {
-                    'X-XSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
                         'content'
                     ),
                 },
@@ -928,6 +928,7 @@ export function initializeForm() {
 
     // Initialize multiple address forms
     const addressForms = [
+        new AddressFormInput({ prefix: 'home' }),
         new AddressFormInput({ prefix: 'office' }),
         new AddressFormInput({ prefix: 'factory' }),
     ];
@@ -993,18 +994,18 @@ export function initializeForm() {
     ];
     formDraftHandler.syncFilepondData(FileMetaHiddenInputs);
 
+    const loadAddressDropdowns = async (draftData) => {
+        await AddressFormInput.loadHomeAddressDropdowns(draftData);
+        await AddressFormInput.loadOfficeAddressDropdowns(draftData);
+        await AddressFormInput.loadFactoryAddressDropdowns(draftData);
+    };
     $(async () => {
         await formDraftHandler.loadDraftData(
             APPLICATION_FORM_CONFIG,
             null,
             null,
             null,
-            {
-                loadOfficeAddressDropdowns:
-                    AddressFormInput.loadOfficeAddressDropdowns,
-                loadFactoryAddressDropdowns:
-                    AddressFormInput.loadFactoryAddressDropdowns,
-            }
+            loadAddressDropdowns
         );
         calculateEnterpriseLevel($('#assetsCard'));
     });

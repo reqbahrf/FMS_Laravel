@@ -3,22 +3,22 @@
 namespace App\Services;
 
 use Exception;
+use App\Models\TemporaryFile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 class ApplicantFileHandlerService
 {
-
     public function __construct(
         private PathGenerationService $pathGenerationService
     ) {}
     public function storeFile(array $validatedInputs, int $businessId, string $firm_name): void
     {
         $file_to_insert = [
-            'OrganizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'],
-            'PlanLayoutPath' => $validatedInputs['PlanLayoutFileID_Data_Handler'],
-            'ProcessFlowPath' => $validatedInputs['ProcessFlowFileID_Data_Handler'],
+            'OrganizationalStructurePath' => $validatedInputs['OrganizationalStructureFileID_Data_Handler'] ?? '',
+            'PlanLayoutPath' => $validatedInputs['PlanLayoutFileID_Data_Handler'] ?? '',
+            'ProcessFlowPath' => $validatedInputs['ProcessFlowFileID_Data_Handler'] ?? '',
             'IntentFilePath' => $validatedInputs['IntentFileID_Data_Handler'],
             'DSCFilePath' => $validatedInputs['DtiSecCdaFileID_Data_Handler'],
             'businessPermitFilePath' => $validatedInputs['BusinessPermitFileID_Data_Handler'],
@@ -56,10 +56,48 @@ class ApplicantFileHandlerService
             return;
         }
 
-        foreach ($file_to_insert as $filekey => $filePath) {
-            if (Storage::disk('public')->exists($filePath)) {
+        foreach ($file_to_insert as $filekey => $fileIdentifier) {
+            try {
+                // Extract the unique_id from the path (assuming format like "tmp/_67ecd4f446dbc/filename.ext")
+                $uniqueId = null;
+                if (preg_match('/tmp\/(_[a-z0-9]+)\//', $fileIdentifier, $matches)) {
+                    $uniqueId = $matches[1];
+                } else {
+                    // If the value is already just the unique ID (without the full path)
+                    $uniqueId = $fileIdentifier;
+                }
+
+                // Look up the file in the database first
+                $tempFile = TemporaryFile::where('unique_id', $uniqueId)->first();
+
+                if (!$tempFile) {
+                    Log::error('Temporary file record not found in database', [
+                        'unique_id' => $uniqueId,
+                        'file_key' => $filekey,
+                        'file_name' => $fileNames[$filekey] ?? 'Unknown',
+                        'business_id' => $businessId
+                    ]);
+
+                    throw new Exception("This file {$fileNames[$filekey]} does not exist in the database");
+                }
+
+                $filePath = $tempFile->file_path;
+
+                // Now check if the file exists in storage
+                if (!Storage::disk('public')->exists($filePath)) {
+                    Log::error('File does not exist in public storage', [
+                        'file_path' => $filePath,
+                        'unique_id' => $uniqueId,
+                        'file_key' => $filekey,
+                        'file_name' => $fileNames[$filekey] ?? 'Unknown',
+                        'business_id' => $businessId
+                    ]);
+
+                    throw new Exception("This file {$fileNames[$filekey]} exists in database but not in storage");
+                }
+
                 $fileName = $fileNames[$filekey];
-                $fileExtension = pathinfo($filePath, PATHINFO_EXTENSION);
+                $fileExtension = pathinfo($tempFile->original_file_name, PATHINFO_EXTENSION);
 
                 $requirementsPath = $this->pathGenerationService->generateRequirementsPath($businessId);
 
@@ -70,6 +108,11 @@ class ApplicantFileHandlerService
                 $finalPath = $this->pathGenerationService->generateFinalPath($requirementsPath, $fileName, $fileExtension);
 
                 $sourceStream = Storage::disk('public')->readStream($filePath);
+
+                if (!is_resource($sourceStream)) {
+                    throw new Exception("Failed to open stream for file: {$filePath}");
+                }
+
                 $result = Storage::disk('private')->writeStream($finalPath, $sourceStream);
 
                 if (is_resource($sourceStream)) {
@@ -78,6 +121,7 @@ class ApplicantFileHandlerService
 
                 if ($result) {
                     Storage::disk('public')->delete($filePath);
+                    $tempFile->delete(); // Also remove the temporary file record
 
                     DB::table('requirements')->insert([
                         'business_id' => $businessId,
@@ -89,9 +133,23 @@ class ApplicantFileHandlerService
                         'created_at' => now(),
                         'updated_at' => now(),
                     ]);
+
+                    Log::info('File successfully stored', [
+                        'file_name' => $fileName,
+                        'business_id' => $businessId,
+                        'final_path' => $finalPath
+                    ]);
+                } else {
+                    throw new Exception("Failed to write file to private storage: {$fileName}");
                 }
-            } else {
-                throw new Exception("This file {$fileNames[$filekey]} does not exist");
+            } catch (Exception $e) {
+                Log::error('Error processing file', [
+                    'file_key' => $filekey,
+                    'file_identifier' => $fileIdentifier ?? 'Unknown',
+                    'error' => $e->getMessage(),
+                    'business_id' => $businessId
+                ]);
+                throw $e;
             }
         }
     }

@@ -111,37 +111,118 @@ function InitializeFilePond(
         ...options,
         server: {
             ...(baseFilePondConfig.server as ServerConfig),
-            process: {
-                ...(baseFilePondConfig.server.process as ProcessConfig),
-                onload: (response: any) => {
-                    // Parse the response if it's a string, otherwise use it directly
-                    const data: FilePondResponse =
-                        typeof response === 'string'
-                            ? JSON.parse(response)
-                            : response;
+            process: (
+                fieldName: string,
+                file: File,
+                metadata: { [key: string]: any },
+                load: (p: string | { [key: string]: any }) => void,
+                error: (errorText: string) => void,
+                progress: (computableEvent: {
+                    lengthComputable: boolean;
+                    loaded: number;
+                    total: number;
+                }) => void,
+                abort: () => void
+            ) => {
+                if (metadata && metadata.unique_id && metadata.file_path) {
+                    const uniqueId = metadata.unique_id;
+                    const filePath = metadata.file_path;
 
-                    if (data.unique_id && data.file_path) {
-                        element.setAttribute('data-unique-id', data.unique_id);
-                        element.setAttribute('data-file-path', data.file_path);
-                        if (metaDataHandler) {
-                            metaDataHandler.value = data.file_path;
-                            metaDataHandler.setAttribute(
+                    element.setAttribute('data-unique-id', uniqueId);
+                    element.setAttribute('data-file-path', filePath);
+
+                    if (metaDataHandler) {
+                        metaDataHandler.value = filePath;
+                        metaDataHandler.setAttribute(
+                            'data-unique-id',
+                            uniqueId
+                        );
+                        metaDataHandler.setAttribute(
+                            'data-file-input-name',
+                            elementName
+                        );
+                    }
+
+                    if (selectorId) {
+                        document
+                            .getElementById(selectorId)
+                            ?.classList.add('disabled');
+                    }
+
+                    load(uniqueId);
+                    return;
+                }
+
+                const formData = new FormData();
+                formData.append(fieldName, file, file.name);
+
+                const controller = new AbortController();
+                const signal = controller.signal;
+
+                fetch('/FileRequirementsUpload', {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: formData,
+                    signal: signal,
+                })
+                    .then((response) => {
+                        if (!response.ok) {
+                            throw new Error(
+                                `HTTP error! Status: ${response.status}`
+                            );
+                        }
+                        return response.json();
+                    })
+                    .then((data: FilePondResponse) => {
+                        if (data.unique_id && data.file_path) {
+                            element.setAttribute(
                                 'data-unique-id',
                                 data.unique_id
                             );
-                            metaDataHandler.setAttribute(
-                                'data-file-input-name',
-                                elementName
+                            element.setAttribute(
+                                'data-file-path',
+                                data.file_path
                             );
+                            if (metaDataHandler) {
+                                metaDataHandler.value = data.file_path;
+                                metaDataHandler.setAttribute(
+                                    'data-unique-id',
+                                    data.unique_id
+                                );
+                                metaDataHandler.setAttribute(
+                                    'data-file-input-name',
+                                    elementName
+                                );
+                            }
+                            if (selectorId) {
+                                document
+                                    .getElementById(selectorId)
+                                    ?.classList.add('disabled');
+                            }
                         }
-                        if (selectorId) {
-                            document
-                                .getElementById(selectorId)
-                                ?.classList.add('disabled');
+
+                        load(data.unique_id);
+                    })
+                    .catch((err) => {
+                        if (err.name === 'AbortError') {
+                            // Request was aborted
+                            return;
                         }
-                    }
-                    return data.unique_id;
-                },
+                        error(err.message || 'File upload failed');
+                    });
+
+                // Note: Fetch API doesn't have built-in progress events like XMLHttpRequest
+                // This is a limitation when switching to fetch API
+
+                // Return abort function
+                return {
+                    abort: () => {
+                        controller.abort();
+                        abort();
+                    },
+                };
             },
             revert: async (
                 uniqueFileId: string,
@@ -171,6 +252,11 @@ function InitializeFilePond(
                         if (!metaDataHandler) return;
                         metaDataHandler.value = '';
                         metaDataHandler.setAttribute('data-unique-id', '');
+                        if (selectorId) {
+                            document
+                                .getElementById(selectorId)
+                                ?.classList.remove('disabled');
+                        }
                     }
                 } catch (err: any) {
                     error(
@@ -204,7 +290,7 @@ function InitializeFilePond(
                 }
             },
         },
-        labelFileLoadError: (error) => {
+        labelFileLoadError: (error: any) => {
             return `Error: ${error?.body || error}`;
         },
         onremovefile: async (

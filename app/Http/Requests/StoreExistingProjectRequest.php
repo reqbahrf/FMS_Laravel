@@ -20,15 +20,16 @@ class StoreExistingProjectRequest extends FormRequest
             'funded_amount' => str_replace(',', '', $this->funded_amount),
         ]);
 
-        // Clean up refund structure numeric inputs
-        foreach ($this->all() as $key => $value) {
-            // Match month_Y{year} pattern for refund inputs
-            if (preg_match('/^(January|February|March|April|May|June|July|August|September|October|November|December)_Y[1-5]$/', $key)) {
-                $this->merge([
-                    $key => $value !== '' ? str_replace(',', '', $value) : null,
-                ]);
-            }
-        }
+        $this->merge([
+            'm_personnelDiRe' => str_replace(',', '', $this->m_personnelDiRe) ?? 0,
+            'f_personnelDiRe' => str_replace(',', '', $this->f_personnelDiRe) ?? 0,
+            'm_personnelDiPart' => str_replace(',', '', $this->m_personnelDiPart) ?? 0,
+            'f_personnelDiPart' => str_replace(',', '', $this->f_personnelDiPart) ?? 0,
+            'm_personnelIndRe' => str_replace(',', '', $this->m_personnelIndRe) ?? 0,
+            'f_personnelIndRe' => str_replace(',', '', $this->f_personnelIndRe) ?? 0,
+            'm_personnelIndPart' => str_replace(',', '', $this->m_personnelIndPart) ?? 0,
+            'f_personnelIndPart' => str_replace(',', '', $this->f_personnelIndPart) ?? 0,
+        ]);
 
         // Handle same address checkbox for office and factory
         if ($this->has('same_address_with_home') && $this->same_address_with_home) {
@@ -85,7 +86,7 @@ class StoreExistingProjectRequest extends FormRequest
             'email' => 'required|email|unique:users,email',
             'project_id' => 'nullable|unique:project_info,Project_id|max:15',
             'project_title' => 'required|string|max:255',
-            'fund_release_date' => 'required|date|before_or_equal:today',
+            'fund_released_date' => 'required|date|before_or_equal:today',
             'project_duration' => 'required|integer|min:1',
             'funded_amount' => 'required|numeric|min:0',
             'fee_percentage' => 'required|numeric|min:0|max:100',
@@ -118,11 +119,13 @@ class StoreExistingProjectRequest extends FormRequest
             'enterpriseType' => 'required|string',
             'brief_background' => 'required|string|max:1000',
             'website' => 'nullable|string',
-            'yearEstablished' => 'required|date_format:Y',
-            'business_permit_No' => 'required|string|max:20',
+            'year_established' => 'required|date_format:Y',
+            'permit_type' => 'required|string',
+            'business_permit_no' => 'required|string|max:20',
             'permit_year_registered' => 'required|date_format:Y',
-            'enterpriseRegistrationNo' => 'required|string|max:20',
-            'yearEnterpriseRegistered' => 'required|date_format:Y',
+            'enterprise_registration_type' => 'required|string',
+            'enterprise_registration_no' => 'required|string|max:20',
+            'year_enterprise_registered' => 'required|date_format:Y',
             'initial_capitalization' => 'required|string',
             'present_capitalization' => 'required|string',
 
@@ -152,30 +155,40 @@ class StoreExistingProjectRequest extends FormRequest
 
             //Business Activities
             'food_processing_activity' => 'nullable|in:on,null',
-            'food_processing_specific_sector' => 'nullable|string',
+            'food_processing_specific_sector' => 'nullable|string|required_if:food_processing_activity,on',
 
             'furniture_activity' => 'nullable|in:on,null',
-            'furniture_specific_sector' => 'nullable|string',
+            'furniture_specific_sector' => 'nullable|string|required_if:furniture_activity,on',
 
             'natural_fibers_activity' => 'nullable|in:on,null',
-            'natural_fibers_specific_sector' => 'nullable|string',
+            'natural_fibers_specific_sector' => 'nullable|string|required_if:natural_fibers_activity,on',
 
             'metals_and_engineering_activity' => 'nullable|in:on,null',
-            'metals_and_engineering_specific_sector' => 'nullable|string',
+            'metals_and_engineering_specific_sector' => 'nullable|string|required_if:metals_and_engineering_activity,on',
 
             'aquatic_and_marine_activity' => 'nullable|in:on,null',
-            'aquatic_and_marine_specific_sector' => 'nullable|string',
+            'aquatic_and_marine_specific_sector' => 'nullable|string|required_if:aquatic_and_marine_activity,on',
 
             'horticulture_activity' => 'nullable|in:on,null',
-            'horticulture_specific_sector' => 'nullable|string',
+            'horticulture_specific_sector' => 'nullable|string|required_if:horticulture_activity,on',
 
             'other_activity' => 'nullable|in:on,null',
-            'other_specific_sector' => 'nullable|string',
+            'other_specific_sector' => 'nullable|string|required_if:other_activity,on',
 
             // Same address checkboxes
-            'same_address_with_home' => 'nullable|boolean',
-            'same_address_with_office' => 'nullable|boolean',
-            'same_address_with_factory' => 'nullable|boolean',
+            'same_address_with_home' => 'nullable|in:on,null',
+            'same_address_with_office' => 'nullable|in:on,null',
+            'same_address_with_factory' => 'nullable|in:on,null',
+
+            'm_personnelDiRe' => 'nullable|numeric',
+            'f_personnelDiRe' => 'nullable|numeric',
+            'm_personnelDiPart' => 'nullable|numeric',
+            'f_personnelDiPart' => 'nullable|numeric',
+            'm_personnelIndRe' => 'nullable|numeric',
+            'f_personnelIndRe' => 'nullable|numeric',
+            'm_personnelIndPart' => 'nullable|numeric',
+            'f_personnelIndPart' => 'nullable|numeric',
+
 
         ];
 
@@ -196,14 +209,13 @@ class StoreExistingProjectRequest extends FormRequest
         ];
 
         foreach ($months as $month) {
-            // Add rules for each year (1-5)
+
             for ($year = 1; $year <= 5; $year++) {
                 $fieldName = "{$month}_Y{$year}";
-                $rules[$fieldName] = 'nullable|numeric|min:0';
+                $rules[$fieldName] = 'nullable|string|min:0';
 
-                // Add rule for refunded checkbox
                 $refundedFieldName = "{$fieldName}_refunded";
-                $rules[$refundedFieldName] = 'nullable|boolean';
+                $rules[$refundedFieldName] = 'nullable|in:1,0,null';
             }
         }
 
@@ -243,9 +255,6 @@ class StoreExistingProjectRequest extends FormRequest
                 $fieldName = "{$month}_Y{$year}";
                 $messages["{$fieldName}.numeric"] = "The refund amount for {$month} Year {$year} must be a valid number.";
                 $messages["{$fieldName}.min"] = "The refund amount for {$month} Year {$year} must be at least 0.";
-
-                $refundedFieldName = "{$fieldName}_refunded";
-                $messages["{$refundedFieldName}.boolean"] = "The refunded status for {$month} Year {$year} must be a valid boolean value.";
             }
         }
 

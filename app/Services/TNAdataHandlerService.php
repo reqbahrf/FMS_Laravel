@@ -59,7 +59,7 @@ class TNAdataHandlerService
         }
     }
 
-    public function setTNAData(array $data, User $user, int $business_id, int $application_id)
+    public function setTNAData(array $data, int $business_id, int $application_id, ?User $user = null)
     {
         try {
             // Find the existing record
@@ -69,9 +69,13 @@ class TNAdataHandlerService
                 'key' => self::TNA_FORM
             ])->first();
 
-            $documentStatus = $data['tna_doc_status'];
-            $filteredData = array_diff_key($data, array_flip(['tna_doc_status']));
-            $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
+            if ($user) {
+                $documentStatus = $data['tna_doc_status'];
+                $filteredData = array_diff_key($data, array_flip(['tna_doc_status']));
+                $statusData = DSA::determineReviewerOrModifier($documentStatus, $user);
+            }
+
+            $filteredData = $filteredData ?? $data;
 
             $mergedData = $existingRecord
                 ? array_merge($existingRecord->data, $filteredData, [
@@ -86,12 +90,12 @@ class TNAdataHandlerService
                 'application_id' => $application_id,
                 'key' => self::TNA_FORM
             ], [
-                'reviewed_by' => $statusData['reviewed_by'],
-                'modified_by' => $statusData['modified_by'],
-                'reviewed_at' => $statusData['reviewed_at'],
-                'modified_at' => $statusData['modified_at'],
+                'reviewed_by' => $statusData['reviewed_by'] ?? null,
+                'modified_by' => $statusData['modified_by'] ?? null,
+                'reviewed_at' => $statusData['reviewed_at'] ?? null,
+                'modified_at' => $statusData['modified_at'] ?? null,
                 'data' => $mergedData,
-                'status' => $documentStatus
+                'status' => $documentStatus ?? 'Pending'
             ]);
         } catch (Exception $e) {
             throw new Exception("Failed to set TNA data: " . $e->getMessage());

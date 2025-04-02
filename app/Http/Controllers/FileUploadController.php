@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Str;
 
 class FileUploadController extends Controller
 {
@@ -23,8 +24,11 @@ class FileUploadController extends Controller
             $file = $request->file(key($request->allFiles()));
             $uniqueId = '_' . uniqid();
 
-            $fileName = $file->hashName();
-            $filePath = $file->storeAs("tmp/$uniqueId", $fileName, 'public');
+            // Get original filename and sanitize it
+            $originalFileName = $file->getClientOriginalName();
+            $sanitizedFileName = $file->hashName();
+
+            $filePath = $file->storeAs("tmp/$uniqueId", $sanitizedFileName, 'public');
 
             // Get authenticated user ID if available
             $ownerId = Auth::id() ?? null;
@@ -33,7 +37,8 @@ class FileUploadController extends Controller
             TemporaryFile::create([
                 'owner_id' => $ownerId,
                 'unique_id' => $uniqueId,
-                'file_name' => $fileName,
+                'file_name' => $sanitizedFileName,
+                'original_file_name' => $originalFileName,
                 'file_path' => $filePath,
                 'mime_type' => $file->getMimeType(),
                 'file_size' => $file->getSize(),

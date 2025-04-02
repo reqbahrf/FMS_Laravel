@@ -11,8 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('business_info', function (Blueprint $table) {
-            $table->string('sector', 255)->nullable()->after('enterprise_level');
+        Schema::table('temporary_files', function (Blueprint $table) {
+            $table->string('original_file_name')->nullable()->after('file_name');
         });
     }
 
@@ -21,8 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('business_info', function (Blueprint $table) {
-            $table->dropColumn('sector');
+        Schema::table('temporary_files', function (Blueprint $table) {
+            $table->dropColumn('original_file_name');
         });
     }
 };

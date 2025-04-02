@@ -14,8 +14,9 @@
 <div class="card m-0 m-md-3">
     <div class="card-body">
         <form
-            id="projectInfoForm"
+            id="ExistingProjectForm"
             method="POST"
+            action="{{ URL::signedRoute('staff.Project.submit.new.project', ['staffId' => $staffId]) }}"
         >
             @csrf
             <div class="row mb-3">
@@ -79,12 +80,12 @@
                     <div class="form-group">
                         <label
                             class="form-label"
-                            for="fund_release_date"
+                            for="fund_released_date"
                         >Fund Released Date</label>
                         <input
                             class="form-control"
-                            id="fund_release_date"
-                            name="fund_release_date"
+                            id="fund_released_date"
+                            name="fund_released_date"
                             type="date"
                             value=""
                             max="{{ now()->toDateString() }}"
@@ -103,8 +104,9 @@
                             id="project_duration"
                             name="project_duration"
                             type="number"
-                            value="1"
+                            value="3"
                             min="1"
+                            max="6"
                             required
                         >
                     </div>
@@ -182,7 +184,7 @@
             <div class="col-md-12">
                 <h3 class="mb-3 ps-3">Personal Information</h3>
             </div>
-            <x-application-form.personal-info />
+            <x-application-form.personal-info :withRequestRefundInput="false" />
             <div class="col-12">
                 <hr>
             </div>
@@ -201,7 +203,7 @@
                 <div class="col-12 text-end">
                     <button
                         class="btn btn-primary"
-                        type="button"
+                        type="submit"
                     >Save Project</button>
                     <button
                         class="btn btn-secondary"

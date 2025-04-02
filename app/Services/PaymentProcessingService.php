@@ -6,8 +6,9 @@ use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\PaymentRecord;
+use Illuminate\Support\Facades\Log;
+use App\Constants\ProjectRefundConstants;
 use App\Services\StructurePaymentYearService;
-use PhpParser\Node\Stmt\TryCatch;
 
 class PaymentProcessingService
 {
@@ -19,10 +20,15 @@ class PaymentProcessingService
      * @param string $startDate The starting date in Y-m-d format
      * @param array $paymentStructure Array of yearly payment structure
      * @param string $projectId Project identifier
+     * @param array|null $refundedPayments Optional array of refunded payment flags
      * @return void
      */
-    public function processPayments(string $startDate, array $paymentStructure, string $projectId): void
-    {
+    public function processPayments(
+        string $startDate,
+        array $paymentStructure,
+        string $projectId,
+        ?array $refundedPayments = null
+    ): void {
         try {
 
             // Clean the payment structure (remove _total keys and null values)
@@ -40,9 +46,57 @@ class PaymentProcessingService
                     $year,
                     $startDateCarbon->copy(),
                     $projectId,
-                    $cleanedStructure
+                    $cleanedStructure,
+                    $refundedPayments
                 );
             }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Extracts payment structure from validated data.
+     *
+     * @param array $validatedData The validated data containing payment structure
+     * @return array The extracted payment structure with only valid keys
+     * @throws Exception If extraction process fails
+     */
+    public static function extractPaymentStructure(array $validatedData): array
+    {
+        try {
+            $keys = ProjectRefundConstants::PAYMENT_STRUCTURE_KEYS;
+
+            $keysArray = array_fill_keys($keys, 0);
+
+            $paymentStructure = array_intersect_key($validatedData, $keysArray);
+
+            return $paymentStructure;
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Extracts refunded payment flags from validated data.
+     *
+     * @param array $validatedData The validated data containing payment structure
+     * @return array The extracted refunded payment flags with only valid keys
+     * @throws Exception If extraction process fails
+     */
+    public static function extractRefundedPayments(array $validatedData): array
+    {
+        try {
+            $keys = ProjectRefundConstants::REFUNDED_PAYMENT_KEYS;
+
+            $refundedPayments = [];
+            foreach ($keys as $key) {
+                if (isset($validatedData[$key]) && !empty($validatedData[$key])) {
+                    $refundedPayments[$key] = $validatedData[$key];
+                }
+            }
+
+            return $refundedPayments;
         } catch (Exception $e) {
             throw $e;
         }
@@ -54,11 +108,10 @@ class PaymentProcessingService
     private function cleanPaymentStructure(array $paymentStructure): array
     {
         try {
-
             $cleaned = [];
             foreach ($paymentStructure as $key => $value) {
-                // Skip if key ends with _total or value is null
-                if (str_ends_with($key, '_total') || is_null($value)) {
+                // Skip if key ends with _total or value is null or key ends with _refunded
+                if (str_ends_with($key, '_total') || is_null($value) || str_ends_with($key, '_refunded')) {
                     continue;
                 }
                 $cleaned[$key] = $value;
@@ -99,7 +152,8 @@ class PaymentProcessingService
         int $yearNumber,
         Carbon $startDate,
         string $projectId,
-        array $paymentStructure
+        array $paymentStructure,
+        ?array $refundedPayments = null
     ): void {
         try {
             $months = [
@@ -117,32 +171,30 @@ class PaymentProcessingService
                 'December'
             ];
 
-            // Calculate the starting month based on the start date
-            $startingMonth = (int) $startDate->format('n') - 1; // 0-based index
+            $startingMonth = (int) $startDate->format('n') - 1;
 
             foreach ($months as $monthIndex => $month) {
                 $key = "{$month}_Y{$yearNumber}";
+                $refundedKey = "{$key}_refunded";
 
-                // Skip if key doesn't exist or value is null
                 if (!isset($paymentStructure[$key])) {
                     continue;
                 }
 
                 $monthAmount = $this->structurePaymentYearService->parseNumber($paymentStructure[$key]);
 
+                $isRefunded = isset($refundedPayments[$refundedKey]) &&
+                    ($refundedPayments[$refundedKey] === true || $refundedPayments[$refundedKey] === '1' || $refundedPayments[$refundedKey] === 1);
+
                 if ($monthAmount > 0) {
-                    // For first year, adjust dates based on start date
                     if ($yearNumber === 1) {
                         if ($monthIndex < $startingMonth) {
-                            // Skip months before the start date in the first year
                             continue;
                         }
 
                         if ($monthIndex === $startingMonth) {
-                            // For the starting month, use exact one year date
                             $dueDate = $startDate->copy()->addYear();
                         } else {
-                            // For subsequent months in first year, use the 15th
                             $dueDate = $startDate->copy()
                                 ->addYear()
                                 ->addMonths($monthIndex - $startingMonth)
@@ -150,7 +202,6 @@ class PaymentProcessingService
                                 ->addDays(14);
                         }
                     } else {
-                        // For subsequent years, calculate based on the first year's pattern
                         $dueDate = $startDate->copy()
                             ->addYears($yearNumber - 1)
                             ->addMonths($monthIndex - $startingMonth)
@@ -158,15 +209,16 @@ class PaymentProcessingService
                             ->addDays(14);
                     }
 
+                    $paymentStatus = $isRefunded ? 'Paid' : 'Pending';
+
                     PaymentRecord::create([
                         'Project_id' => $projectId,
                         'reference_number' => Str::random(10),
                         'amount' => $monthAmount,
-                        'payment_status' => 'Pending',
+                        'payment_status' => $paymentStatus,
                         'payment_method' => 'N/A',
-                        'quarter' => 'Q' . ceil(($dueDate->month) / 3) . ' ' . $dueDate->year,
                         'due_date' => $dueDate->toDateString(),
-                        'date_completed' => null,
+                        'date_completed' => $isRefunded ? $dueDate->toDateString() : null,
                     ]);
                 }
             }

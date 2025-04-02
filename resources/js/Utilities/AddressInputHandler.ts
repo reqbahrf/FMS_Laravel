@@ -232,6 +232,12 @@ class AddressFormInput {
         }
     };
 
+    static loadHomeAddressDropdowns = async (
+        draftData: LocationDraftData
+    ): Promise<void> => {
+        return AddressFormInput.loadAddressDropdowns('home', draftData);
+    };
+
     static loadOfficeAddressDropdowns = async (
         draftData: LocationDraftData
     ): Promise<void> => {

@@ -50,11 +50,11 @@ export default class AddApplicant {
                         throw new Error('Form data not found');
                     const formDataObject = serializeFormData(formData);
                     await this._saveApplicant(formDataObject, url);
+                    this.reloadTab();
                 } catch (error: any) {
                     processError('Error in Adding Applicant: ', error, true);
                 } finally {
                     hideProcessToast(processToast);
-                    this.reloadTab();
                 }
             });
             this.setupFormInputEvent();
@@ -66,6 +66,10 @@ export default class AddApplicant {
     private setupFormInputEvent() {
         try {
             if (!this.formElement) throw new Error('Form element not found');
+
+            customFormatNumericInput(this.formElement, [
+                '#requested_fund_amount',
+            ]);
 
             setupPhoneNumberInput('#mobile_no');
             const addressClassInstance = new AddressFormInput({
@@ -256,7 +260,6 @@ export default class AddApplicant {
         formData: { [key: string]: any },
         url: string
     ) {
-        const processToast = showProcessToast('Saving Applicant...');
         try {
             const response = await $.ajax({
                 type: 'POST',
@@ -272,10 +275,11 @@ export default class AddApplicant {
             });
             showToastFeedback('text-bg-success', response?.message);
         } catch (error: any) {
-            processError('Error in Saving Applicant: ', error, true);
-        } finally {
-            hideProcessToast(processToast);
-            this.reloadTab();
+            throw new Error(
+                'Error in Saving Applicant: ' + error?.responseJSON?.message ||
+                    error?.message ||
+                    'An unexpected error occurred.'
+            );
         }
     }
 
@@ -301,6 +305,8 @@ export default class AddApplicant {
             undefined,
             undefined,
             {
+                loadHomeAddressDropdowns:
+                    AddressFormInput.loadHomeAddressDropdowns,
                 loadOfficeAddressDropdowns:
                     AddressFormInput.loadOfficeAddressDropdowns,
                 loadFactoryAddressDropdowns:
@@ -311,6 +317,7 @@ export default class AddApplicant {
 
     public initializeApplicantDetailedForm() {
         if (!this.formElement) throw new Error('Form element not found');
+
         customFormatNumericInput(this.formElement, [
             '#initial_capitalization',
             '#present_capitalization',
@@ -357,6 +364,7 @@ export default class AddApplicant {
             });
 
         const addressForms = [
+            new AddressFormInput({ prefix: 'home' }),
             new AddressFormInput({ prefix: 'office' }),
             new AddressFormInput({ prefix: 'factory' }),
         ];

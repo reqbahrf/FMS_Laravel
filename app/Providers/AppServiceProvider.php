@@ -39,5 +39,9 @@ class AppServiceProvider extends ServiceProvider
         Blade::directive('secureStoreDraft', function ($expression) {
             return "<?php echo \App\Services\FormDraftService::generateSecureStoreDraft($expression); ?>";
         });
+
+        Blade::directive('secureDeleteDraft', function ($expression) {
+            return "<?php echo \App\Services\FormDraftService::generateSecureDeleteDraft($expression); ?>";
+        });
     }
 }

@@ -927,7 +927,9 @@ async function initializeStaffPageJs() {
                 }
             });
 
-            $('#paymentModal').on('show.bs.modal', function (event) {
+            //TODO: move this to payment handler class
+            const paymentModal = $('#paymentModal');
+            paymentModal.on('show.bs.modal', function (event) {
                 const button = $(event.relatedTarget);
                 const action = button.data('action');
 
@@ -938,10 +940,12 @@ async function initializeStaffPageJs() {
                 if (action === 'Add') {
                     modalTitle.text('Add Payment');
                     submitButton.text('Add Payment');
+                    modal.find('#reference_number').prop('readonly', false);
                     submitButton.attr('data-submissionMethod', 'add');
                 } else if (action === 'Update') {
                     modalTitle.text('Update Payment');
                     submitButton.text('Update Payment');
+                    modal.find('#reference_number').prop('readonly', true);
                     submitButton.attr('data-submissionMethod', 'update');
                     PaymentHandler.toUpdatePaymentRecord(
                         button.closest('tr'),
@@ -949,6 +953,10 @@ async function initializeStaffPageJs() {
                     );
                 }
             });
+
+            // paymentModal.on('hide.bs.modal', function () {
+            //     paymentModal.find('#paymentForm')[0].reset();
+            // });
 
             const ProjectLedgerInput = $('#projectLedgerLink');
             const ProjectLedgerSubmitBtn = $('#saveProjectLedgerLink');
@@ -2988,10 +2996,20 @@ async function initializeStaffPageJs() {
                     const actionBtn = ApplicantProgressContainer.find(
                         '#viewTNA, #editTNA, #viewProjectProposal, #editProjectProposal, #viewRTECReport, #editRTECReport, #submitToAdmin'
                     );
+                    const birthDate = row
+                        .find('input[name="birth_date"]')
+                        .val();
+                    console.log(birthDate);
                     const CONTACT_PERSON_INFO = {
                         fullName: row.find('td:nth-child(1)').text().trim(),
                         sex: row.find("input[name='sex']").val(),
-                        age: null,
+                        age: (
+                            new Date().getFullYear() -
+                            new Date(birthDate).getFullYear()
+                        ).toString(),
+                        homeAddress: row
+                            .find('input[name="applicant_home_address"]')
+                            .val(),
                         designation: row.find('td:nth-child(2)').text().trim(),
                         contactNumber: row
                             .find('span.mobile_num')
@@ -2999,12 +3017,19 @@ async function initializeStaffPageJs() {
                             .trim(),
                         landline: row.find('span.landline').text().trim(),
                         email: row.find('span.email_add').text().trim(),
+                        requestedFundAmount: row
+                            .find('input[name="requested_fund_amount"]')
+                            .val(),
                     };
 
                     const BUSINESS_INFO = {
                         firmName: row.find('span.firm_name').text().trim(),
-                        businessAddress: row
-                            .find('span.b_address')
+                        officeAddress: row
+                            .find('span.business_address')
+                            .text()
+                            .trim(),
+                        factoryAddress: row
+                            .find('span.factory_address')
                             .text()
                             .trim(),
                         enterpriseType: row
@@ -3075,6 +3100,9 @@ async function initializeStaffPageJs() {
                     ApplicantDetails.filter('#contact_person').val(
                         CONTACT_PERSON_INFO.fullName
                     );
+                    ApplicantDetails.filter('#age').val(
+                        CONTACT_PERSON_INFO.age
+                    );
                     ApplicantDetails.filter('#designation').val(
                         CONTACT_PERSON_INFO.designation
                     );
@@ -3090,6 +3118,13 @@ async function initializeStaffPageJs() {
                     ApplicantDetails.filter('#email').val(
                         CONTACT_PERSON_INFO.email
                     );
+                    ApplicantDetails.filter('#requested_fund_amount').val(
+                        formatNumber(
+                            parseFloat(
+                                CONTACT_PERSON_INFO.requestedFundAmount ?? 0
+                            )
+                        )
+                    );
 
                     ApplicantDetails.filter('#firm_name').val(
                         BUSINESS_INFO.firmName
@@ -3101,10 +3136,16 @@ async function initializeStaffPageJs() {
                     ApplicantDetails.filter('#selected_applicationId').val(
                         ApplicationID
                     );
-                    ApplicantDetails.filter('#businessAddress').val(
-                        BUSINESS_INFO.businessAddress
+                    ApplicantDetails.filter('#contactPersonHomeAddress').val(
+                        CONTACT_PERSON_INFO.homeAddress
                             .replace(/\s+/g, ' ')
                             .trim()
+                    );
+                    ApplicantDetails.filter('#factoryAddress').val(
+                        BUSINESS_INFO.factoryAddress.replace(/\s+/g, ' ').trim()
+                    );
+                    ApplicantDetails.filter('#officeAddress').val(
+                        BUSINESS_INFO.officeAddress.replace(/\s+/g, ' ').trim()
                     );
                     ApplicantDetails.filter('#building').val(
                         BUSINESS_INFO.buildingAsset

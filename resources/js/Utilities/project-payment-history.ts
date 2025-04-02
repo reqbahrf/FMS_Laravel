@@ -15,6 +15,7 @@ interface ProjectPayment {
     quarter: string;
     due_date: string;
     date_completed: string | null;
+    note: string | null;
     updated_at: string;
 }
 
@@ -70,7 +71,8 @@ const getProjectPaymentHistory = async (
                 })()}">${payment.payment_status}</span>`,
                 payment.quarter,
                 dueDate,
-                dateCompleted,
+                /*html*/ `${dateCompleted}
+                <input type="hidden" class="hidden-payment-note" value="${payment.note}">`,
                 dateUpdated,
                 actionButtons,
             ];
