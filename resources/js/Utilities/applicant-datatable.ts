@@ -496,7 +496,11 @@ export default class ApplicantDataTable {
                                             : 'bg-danger'
                                 }"
                                 >${item.application_status}</span
-                            >`,
+                            ><input
+                                type="hidden"
+                                name="requested_fund_amount"
+                                value="${item.requested_fund_amount}"
+                            />`,
                             /*html*/ ` <button
                                 class="btn btn-primary applicantDetailsBtn"
                                 data-applicant-id="${item.Application_ID}"

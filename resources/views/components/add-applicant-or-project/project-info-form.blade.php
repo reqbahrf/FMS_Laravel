@@ -184,7 +184,7 @@
             <div class="col-md-12">
                 <h3 class="mb-3 ps-3">Personal Information</h3>
             </div>
-            <x-application-form.personal-info />
+            <x-application-form.personal-info :withRequestRefundInput="false" />
             <div class="col-12">
                 <hr>
             </div>

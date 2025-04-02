@@ -160,6 +160,8 @@ class NewRegistrationRequest extends FormRequest
             'home_landmark' => 'nullable|string',
             'home_zipcode' => 'required|string',
 
+            'requested_fund_amount' => 'required|string',
+
 
 
             //TNA Important Data

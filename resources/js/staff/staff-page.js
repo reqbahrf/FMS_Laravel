@@ -3017,6 +3017,9 @@ async function initializeStaffPageJs() {
                             .trim(),
                         landline: row.find('span.landline').text().trim(),
                         email: row.find('span.email_add').text().trim(),
+                        requestedFundAmount: row
+                            .find('input[name="requested_fund_amount"]')
+                            .val(),
                     };
 
                     const BUSINESS_INFO = {
@@ -3114,6 +3117,13 @@ async function initializeStaffPageJs() {
                     );
                     ApplicantDetails.filter('#email').val(
                         CONTACT_PERSON_INFO.email
+                    );
+                    ApplicantDetails.filter('#requested_fund_amount').val(
+                        formatNumber(
+                            parseFloat(
+                                CONTACT_PERSON_INFO.requestedFundAmount ?? 0
+                            )
+                        )
                     );
 
                     ApplicantDetails.filter('#firm_name').val(

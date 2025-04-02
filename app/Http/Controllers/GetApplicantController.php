@@ -66,6 +66,7 @@ class GetApplicantController extends Controller
                         'application_info.id as Application_ID',
                         'application_info.created_at as date_applied',
                         'application_info.application_status',
+                        'application_info.requested_fund_amount',
                         'business_info.id as business_id',
                         'personnel.male_direct_re',
                         'personnel.female_direct_re',

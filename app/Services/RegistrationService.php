@@ -73,7 +73,14 @@ class RegistrationService
             $successful_inserts++;
 
             // Create application record
-            $applicationId = $this->createApplicationRecord($businessId);
+            $applicationId = $this->createApplicationRecord(
+                $businessId,
+                false,
+                null,
+                'new',
+                null,
+                $validatedInputs['requested_fund_amount']
+            );
             $successful_inserts++;
             if ($successful_inserts == 6) {
                 $firm_name = $validatedInputs['firm_name'];
@@ -247,7 +254,7 @@ class RegistrationService
                 true,
                 $staffId,
                 'ongoing',
-                $projectInfo->Project_id
+                $projectInfo->Project_id,
             );
             DB::commit();
             $paymentStructure = PaymentProcessingService::extractPaymentStructure($validatedInputs);
@@ -603,13 +610,15 @@ class RegistrationService
         ?bool $isAssisted = false,
         ?int $assistedBy = null,
         ?string $applicationStatus = 'new',
-        ?string $projectId = null
+        ?string $projectId = null,
+        ?string $requestedFundAmount = null
     ): int {
         $applicationInfo = ApplicationInfo::create([
             'Project_id' => $projectId,
             'business_id' => $businessId,
             'is_assisted' => $isAssisted,
             'application_status' => $applicationStatus,
+            'requested_fund_amount' => $requestedFundAmount,
             'assisted_by' => $assistedBy,
         ]);
 

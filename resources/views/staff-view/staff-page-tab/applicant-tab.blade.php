@@ -373,6 +373,22 @@
                                         </tbody>
                                     </table>
                                 </div>
+                                <div class="col-12">
+                                    <h4 class="text-center">
+                                        Requested Fund Amount by the Applicant:
+                                    </h4>
+                                    <div class="d-flex align-items-center justify-content-center">
+                                        <div class="input-group w-50">
+                                            <span class="input-group-text">₱</span>
+                                            <input
+                                                class="form-control fw-bold"
+                                                id="requested_fund_amount"
+                                                type="text"
+                                                readonly
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
