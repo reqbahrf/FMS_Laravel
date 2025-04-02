@@ -169,13 +169,7 @@ class ProjectProposaldataHandlerService
 
             $fundReleaseDate = $projectProposalData['fund_release_date'];
 
-            $keys = ProjectRefundConstants::PAYMENT_STRUCTURE_KEYS;
-
-            // Create an array with keys as keys and 0 values
-            $keysArray = array_fill_keys($keys, 0);
-
-            // Use array_intersect_key to filter the project proposal data
-            $paymentStructure = array_intersect_key($projectProposalData, $keysArray);
+            $paymentStructure = PaymentProcessingService::extractPaymentStrucute($projectProposalData);
 
             return [
                 $paymentStructure,

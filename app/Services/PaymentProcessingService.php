@@ -6,6 +6,7 @@ use Exception;
 use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\Models\PaymentRecord;
+use App\Constants\ProjectRefundConstants;
 use App\Services\StructurePaymentYearService;
 
 class PaymentProcessingService
@@ -48,6 +49,28 @@ class PaymentProcessingService
                     $refundedPayments
                 );
             }
+        } catch (Exception $e) {
+            throw $e;
+        }
+    }
+
+    /**
+     * Extracts payment structure from validated data.
+     *
+     * @param array $validatedData The validated data containing payment structure
+     * @return array The extracted payment structure with only valid keys
+     * @throws Exception If extraction process fails
+     */
+    public static function extractPaymentStrucute(array $validatedData): array
+    {
+        try {
+            $keys = ProjectRefundConstants::PAYMENT_STRUCTURE_KEYS;
+
+            $keysArray = array_fill_keys($keys, 0);
+
+            $paymentStructure = array_intersect_key($validatedData, $keysArray);
+
+            return $paymentStructure;
         } catch (Exception $e) {
             throw $e;
         }
