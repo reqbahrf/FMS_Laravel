@@ -39,7 +39,6 @@ class ProjectStateService
         try {
             $applicationInfo = $this->findApplicationInfo($project_id, $business_id);
 
-            // Ensure project info and refund check exists
             if (
                 !$applicationInfo->projectInfo ||
                 $applicationInfo->projectInfo->actual_amount_to_be_refund !== $applicationInfo->projectInfo->refunded_amount
@@ -71,5 +70,7 @@ class ProjectStateService
     private function refreshCache()
     {
         Cache::forget('handled_projects' . Auth::user()->orgUserInfo->id);
+        Cache::forget('completed_projects');
+        Cache::forget('ongoing_projects');
     }
 }

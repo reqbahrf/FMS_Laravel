@@ -18,22 +18,23 @@ class GetCompletedProjectController extends Controller
                 $completedProjects = Cache::get('completed_projects');
             } else {
                 $completedProjects = DB::table('application_info')
-                ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
-                ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
-                ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
-                ->join('assets', 'assets.id', '=', 'business_info.id')
-                ->join('project_info as PI', 'PI.business_id', '=', 'business_info.id')
-                ->leftJoin('org_users_info as handled_by', function ($join) {
-                    $join->on('PI.handled_by_id', '=', 'handled_by.id');
-                })
-                ->leftJoin('org_users_info as evaluated_by', function ($join) {
-                    $join->on('PI.evaluated_by_id', '=', 'evaluated_by.id');
-                })
-                ->where('application_info.application_status', 'completed')
-                ->where('users.role', 'Cooperator')
-                ->whereNotNull('PI.handled_by_id')
-                ->whereNotNull('PI.evaluated_by_id')
-                ->select(
+                    ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
+                    ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
+                    ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
+                    ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+                    ->join('assets', 'assets.id', '=', 'business_info.id')
+                    ->join('project_info as PI', 'PI.business_id', '=', 'business_info.id')
+                    ->leftJoin('org_users_info as handled_by', function ($join) {
+                        $join->on('PI.handled_by_id', '=', 'handled_by.id');
+                    })
+                    ->leftJoin('org_users_info as evaluated_by', function ($join) {
+                        $join->on('PI.evaluated_by_id', '=', 'evaluated_by.id');
+                    })
+                    ->where('application_info.application_status', 'completed')
+                    ->where('users.role', 'Cooperator')
+                    ->whereNotNull('PI.handled_by_id')
+                    ->whereNotNull('PI.evaluated_by_id')
+                    ->select(
                         'users.user_name',
                         'users.email',
                         'users.role',
