@@ -345,6 +345,13 @@ export class FormDraftHandler {
 
                     fetch(fileUrl)
                         .then((response) => {
+                            if (!response.ok) {
+                                throw new Error(
+                                    `HTTP error! Status: ${response.status}`
+                                );
+                            }
+
+                            // Extract metadata from headers
                             const fileName = response.headers.get(
                                 'X-File-Name'
                             ) as string;
@@ -352,19 +359,34 @@ export class FormDraftHandler {
                                 'X-File-Size'
                             ) as string;
                             const fileType = response.headers.get(
-                                'X-File-Type'
+                                'X-Mime-Type'
                             ) as string;
 
+                            // Clone the response to use the body twice
+                            const responseClone = response.clone();
+
+                            // Get the file content as a blob
+                            return responseClone.blob().then((blob) => {
+                                return {
+                                    blob,
+                                    fileName,
+                                    fileSize: Number(fileSize),
+                                    fileType,
+                                };
+                            });
+                        })
+                        .then(({ blob, fileName, fileSize, fileType }) => {
                             const filepondInstance =
                                 this._getFilepondInstanceHandler(filepondId);
+
                             if (filepondInstance) {
-                                filepondInstance.addFile(fileUrl, {
-                                    type: 'local',
-                                    file: {
-                                        name: fileName,
-                                        size: Number(fileSize),
-                                        type: fileType,
-                                    },
+                                // Create a File object from the blob
+                                const file = new File([blob], fileName, {
+                                    type: fileType,
+                                });
+
+                                // Add the file to FilePond with metadata
+                                filepondInstance.addFile(file, {
                                     metadata: {
                                         unique_id: value.uniqueId,
                                         file_path: value.filePath,
@@ -375,10 +397,7 @@ export class FormDraftHandler {
                             }
                         })
                         .catch((error) => {
-                            console.error(
-                                'Error fetching file metadata:',
-                                error
-                            );
+                            console.error('Error loading file:', error);
                         });
                 }
             }

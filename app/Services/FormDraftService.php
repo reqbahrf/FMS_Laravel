@@ -122,7 +122,7 @@ class FormDraftService
             ->header('Content-Type', $tempFile->mime_type)
             ->header('X-File-Name', $tempFile->original_file_name)
             ->header('X-File-Size', $tempFile->file_size)
-            ->header('X-File-Type', $tempFile->type)
+            ->header('X-Mime-Type', $tempFile->mime_type)
             ->header('X-File-path', $tempFile->owner_id)
             ->header('X-Unique-Id', $tempFile->unique_id);
     }
