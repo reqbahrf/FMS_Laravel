@@ -22,11 +22,6 @@ declare module 'global' {
     interface USERS_LIST_ROUTE {
         GET_STAFF_USER_ACTIVITY_LOGS: string;
     }
-    interface DRAFT_ROUTE {
-        GET_FILE: string;
-        GET: string;
-        STORE: string;
-    }
 
     interface APPLICANT_TAB_ROUTE {
         GET_TNA_FORM_STATUS: string;
@@ -71,7 +66,7 @@ declare module 'global' {
         var NAV_ROUTES: NavRoutes;
         var USER_ACTIVITY_LOG_ROUTE: string;
         var USERS_LIST_ROUTE: USERS_LIST_ROUTE;
-        var DRAFT_ROUTE: DRAFT_ROUTE;
+        var GET_DRAFT_FILE: string;
         var PROJECT_SHEETS_ROUTE: GENERATE_PROJECT_SHEETS_ROUTE;
         var PROJECT_SETTINGS_ROUTE: UPDATE_PROJECT_SETTINGS_ROUTE;
         var APPLICANT_TAB_ROUTE: APPLICANT_TAB_ROUTE;

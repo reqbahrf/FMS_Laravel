@@ -207,6 +207,7 @@
     @vite('resources/js/app.ts')
     <script type="text/javascript">
         const AUTH_USER_ID = "{{ Auth::user()->id }}";
+        const GET_DRAFT_FILE = "{{ route('form.getDraftFile', ':uniqueId') }}";
     </script>
     @vite('resources/js/application-page.js')
     <script type="module">

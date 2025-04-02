@@ -928,6 +928,7 @@ export function initializeForm() {
 
     // Initialize multiple address forms
     const addressForms = [
+        new AddressFormInput({ prefix: 'home' }),
         new AddressFormInput({ prefix: 'office' }),
         new AddressFormInput({ prefix: 'factory' }),
     ];
@@ -1000,6 +1001,8 @@ export function initializeForm() {
             null,
             null,
             {
+                loadHomeAddressDropdowns:
+                    AddressFormInput.loadHomeAddressDropdowns,
                 loadOfficeAddressDropdowns:
                     AddressFormInput.loadOfficeAddressDropdowns,
                 loadFactoryAddressDropdowns:

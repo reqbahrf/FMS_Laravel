@@ -338,8 +338,8 @@ export class FormDraftHandler {
                 );
 
                 if (filepondId) {
-                    const fileUrl = DRAFT_ROUTE.GET_FILE.replace(
-                        ':unique_id',
+                    const fileUrl = GET_DRAFT_FILE.replace(
+                        ':uniqueId',
                         value.uniqueId
                     );
                     // Load file into corresponding FilePond instance

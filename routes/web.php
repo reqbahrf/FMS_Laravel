@@ -104,6 +104,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/handleProject', [AdminViewController::class, 'getStaffHandledProjects']);
 
     Route::controller(FormDraftController::class)->group(function () {
+
+        Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
+            ->name('form.getDraftFile')
+            ->withoutMiddleware('signed');
+
         Route::get('/get/Draft/{draft_type}/{ownerId}', 'get')
             ->name('form.getDraft')
             ->middleware('signed');
@@ -115,9 +120,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::delete('/delete/Draft/{draft_type}/{ownerId}', 'destroy')
             ->name('form.deleteDraft')
             ->middleware('signed');
-
-        Route::get('/get/Draft/file/{uniqueId}', 'getFiles')
-            ->name('form.getDraftFile');
     });
 
     Route::get('/activity/logs', [UserActivityLogController::class, 'getPersonalActivityLog'])
