@@ -92,9 +92,17 @@
                             type="hidden"
                         >
                         <div class="col-12">
-                            <label for="businessAddress">Business Address:</label>
+                            <label for="factoryAddress">Factory Address:</label>
                             <input
-                                class="form-control business-address"
+                                class="form-control factory-address"
+                                type="text"
+                                readonly
+                            >
+                        </div>
+                        <div class="col-12">
+                            <label for="officeAddress">Office Address:</label>
+                            <input
+                                class="form-control office-address"
                                 type="text"
                                 readonly
                             >
