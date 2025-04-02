@@ -209,14 +209,13 @@ class StoreExistingProjectRequest extends FormRequest
         ];
 
         foreach ($months as $month) {
-            // Add rules for each year (1-5)
+
             for ($year = 1; $year <= 5; $year++) {
                 $fieldName = "{$month}_Y{$year}";
                 $rules[$fieldName] = 'nullable|string|min:0';
 
-                // Add rule for refunded checkbox
                 $refundedFieldName = "{$fieldName}_refunded";
-                $rules[$refundedFieldName] = 'nullable|boolean';
+                $rules[$refundedFieldName] = 'nullable|in:1,0,null';
             }
         }
 
@@ -256,9 +255,6 @@ class StoreExistingProjectRequest extends FormRequest
                 $fieldName = "{$month}_Y{$year}";
                 $messages["{$fieldName}.numeric"] = "The refund amount for {$month} Year {$year} must be a valid number.";
                 $messages["{$fieldName}.min"] = "The refund amount for {$month} Year {$year} must be at least 0.";
-
-                $refundedFieldName = "{$fieldName}_refunded";
-                $messages["{$refundedFieldName}.boolean"] = "The refunded status for {$month} Year {$year} must be a valid boolean value.";
             }
         }
 

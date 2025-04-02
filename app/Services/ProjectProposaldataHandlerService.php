@@ -169,7 +169,7 @@ class ProjectProposaldataHandlerService
 
             $fundReleaseDate = $projectProposalData['fund_release_date'];
 
-            $paymentStructure = PaymentProcessingService::extractPaymentStrucute($projectProposalData);
+            $paymentStructure = PaymentProcessingService::extractPaymentStructure($projectProposalData);
 
             return [
                 $paymentStructure,

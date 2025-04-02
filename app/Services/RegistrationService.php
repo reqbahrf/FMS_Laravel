@@ -10,6 +10,7 @@ use App\Models\Personnel;
 use App\Models\AddressInfo;
 use App\Models\ProjectInfo;
 use App\Events\ProjectEvent;
+use App\Jobs\ProcessPayment;
 use App\Models\BusinessInfo;
 use App\Models\CoopUserInfo;
 use App\Models\ApplicationForm;
@@ -219,6 +220,14 @@ class RegistrationService
                 $projectInfo->Project_id
             );
             DB::commit();
+            $paymentStructure = PaymentProcessingService::extractPaymentStructure($validatedInputs);
+            $refundedPayments = PaymentProcessingService::extractRefundedPayments($validatedInputs);
+            ProcessPayment::dispatchAfterResponse(
+                $validatedInputs['fund_released_date'],
+                $paymentStructure,
+                $projectInfo->Project_id,
+                $refundedPayments
+            );
 
             return [
                 'status' => 'success',
@@ -440,8 +449,8 @@ class RegistrationService
         $factory_telNo = $validatedInputs['factory_telNo'];
         $factory_faxNo = $validatedInputs['factory_faxNo'];
         $factory_emailAddress = $validatedInputs['factory_emailAddress'];
-        $export_market = json_encode($validatedInputs['exportMarket']) ?? null;
-        $local_market = json_encode($validatedInputs['localMarket']) ?? null;
+        $export_market = json_encode($validatedInputs['exportMarket'] ?? []);
+        $local_market = json_encode($validatedInputs['localMarket'] ?? []);
 
         $businessInfo = BusinessInfo::updateOrCreate([
             'user_info_id' => $personalInfoId,
