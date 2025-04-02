@@ -26,7 +26,7 @@ class FileUploadController extends Controller
 
             // Get original filename and sanitize it
             $originalFileName = $file->getClientOriginalName();
-            $sanitizedFileName = $this->sanitizeFileName($originalFileName);
+            $sanitizedFileName = $file->hashName();
 
             $filePath = $file->storeAs("tmp/$uniqueId", $sanitizedFileName, 'public');
 
@@ -52,38 +52,6 @@ class FileUploadController extends Controller
         } catch (Exception $e) {
             return response()->json(['status' => 'error', 'message' => $e->getMessage()], 500);
         }
-    }
-
-    /**
-     * Sanitize a filename to make it safe for storage
-     *
-     * @param string $fileName The original filename
-     * @return string The sanitized filename
-     */
-    private function sanitizeFileName($fileName)
-    {
-        // Get file extension
-        $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-
-        // Get filename without extension and sanitize it
-        $nameWithoutExt = pathinfo($fileName, PATHINFO_FILENAME);
-
-        // Remove any characters that aren't alphanumeric, dashes, underscores or dots
-        $nameWithoutExt = preg_replace('/[^a-zA-Z0-9-_.]/', '', $nameWithoutExt);
-
-        // Replace spaces with underscores
-        $nameWithoutExt = str_replace(' ', '_', $nameWithoutExt);
-
-        // Limit the length of the filename (optional)
-        $nameWithoutExt = Str::limit($nameWithoutExt, 100, '');
-
-        // If the filename is empty after sanitization, use a default name
-        if (empty($nameWithoutExt)) {
-            $nameWithoutExt = 'file_' . Str::random(8);
-        }
-
-        // Combine sanitized name with extension
-        return $nameWithoutExt . '.' . $extension;
     }
 
     public function destroy(Request $request, $uniqueId)
