@@ -45,14 +45,16 @@ class RegistrationService
      */
     public function registerApplication(array $validatedInputs): array
     {
-        $user_name = Auth::user()->user_name;
+        $applicant = Auth::user();
+        $user_name = $applicant->user_name;
         $successful_inserts = 0;
 
         DB::beginTransaction();
 
         try {
             // Store user address
-            $this->storeUserAddress($validatedInputs, Auth::user()->id);
+            $this->storeUserAddress($validatedInputs, $applicant->id);
+            $successful_inserts++;
             // Process and store personal info
             $personalInfo = $this->storePersonalInfo($validatedInputs, $user_name);
             $successful_inserts++;
@@ -70,20 +72,27 @@ class RegistrationService
             $this->storePersonnel($validatedInputs, $businessId);
             $successful_inserts++;
 
-            // Store files
-            $firm_name = $validatedInputs['firm_name'];
-            $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
-            $successful_inserts++;
-
             // Create application record
-            $applicationId = $this->createApplicationRecord($businessId);
+            $applicationId = $this->createApplicationRecord(
+                $businessId,
+                false,
+                null,
+                'new',
+                null,
+                $validatedInputs['requested_fund_amount']
+            );
             $successful_inserts++;
-
             if ($successful_inserts == 6) {
+                $firm_name = $validatedInputs['firm_name'];
+                $this->fileHandler->storeFile($validatedInputs, $businessId, $firm_name);
                 $this->initializeApplicationProcessFormContainer($businessId, $applicationId);
-                $this->TNAdataHandlerService->setTNAData($validatedInputs, request()->user(), $businessId, $applicationId);
+                $this->TNAdataHandlerService->setTNAData(
+                    $validatedInputs,
+                    $businessId,
+                    $applicationId
+                );
+                $this->updateDraftToSubmitted($applicant);
                 DB::commit();
-
                 $location = [
                     'applicant_region' => $validatedInputs['home_region'],
                     'applicant_province' => $validatedInputs['home_province'],
@@ -109,7 +118,35 @@ class RegistrationService
                 ];
             } else {
                 DB::rollBack();
-                throw new Exception("Data insertion failed: Only {$successful_inserts} of 6 required insertions completed successfully.");
+                $insertionSteps = [
+                    1 => 'User Address',
+                    2 => 'Personal Information',
+                    3 => 'Business Information',
+                    4 => 'Assets',
+                    5 => 'Personnel',
+                    6 => 'Application Record'
+                ];
+
+                $failedSteps = array_filter($insertionSteps, function ($key) use ($successful_inserts) {
+                    return $key > $successful_inserts;
+                }, ARRAY_FILTER_USE_KEY);
+
+                $errorMessage = sprintf(
+                    "Data insertion incomplete. Only %d of 6 required insertions completed successfully. " .
+                        "Failed to complete the following steps: %s",
+                    $successful_inserts,
+                    implode(', ', $failedSteps)
+                );
+
+                Log::error($errorMessage, [
+                    'successful_inserts' => $successful_inserts,
+                    'failed_steps' => $failedSteps
+                ]);
+
+                return [
+                    'status' => 'error',
+                    'message' => $errorMessage
+                ];
             }
         } catch (Exception $e) {
             DB::rollBack();
@@ -217,7 +254,7 @@ class RegistrationService
                 true,
                 $staffId,
                 'ongoing',
-                $projectInfo->Project_id
+                $projectInfo->Project_id,
             );
             DB::commit();
             $paymentStructure = PaymentProcessingService::extractPaymentStructure($validatedInputs);
@@ -305,6 +342,13 @@ class RegistrationService
             ->delete();
     }
 
+    private function updateDraftToSubmitted(User $user): void
+    {
+        FormDraft::where('form_type', self::DRAFT_PREFIX . $user->id)
+            ->where('owner_id', $user->id)
+            ->update(['is_submitted' => true]);
+    }
+
     public function isAddedApplicantExist(): bool
     {
         return FormDraft::where('form_type', 'LIKE', self::DRAFT_PREFIX . '%')
@@ -362,8 +406,9 @@ class RegistrationService
         $landmark = $validatedInputs['home_landmark'];
         $zipcode = $validatedInputs['home_zipcode'];
 
-        AddressInfo::insert([
+        AddressInfo::updateOrCreate([
             'user_info_id' => $userId,
+        ], [
             'region' => $region,
             'province' => $province,
             'city' => $city,
@@ -397,8 +442,9 @@ class RegistrationService
         $full_mobile_number = $country_mobile_code . $mobile_number;
         $landline = $validatedInputs['landline'];
 
-        return CoopUserInfo::create([
+        return CoopUserInfo::updateOrCreate([
             'user_name' => $user_name,
+        ], [
             'prefix' => $name_prefix,
             'f_name' => $f_name,
             'mid_name' => $mid_name,
@@ -564,13 +610,15 @@ class RegistrationService
         ?bool $isAssisted = false,
         ?int $assistedBy = null,
         ?string $applicationStatus = 'new',
-        ?string $projectId = null
+        ?string $projectId = null,
+        ?string $requestedFundAmount = null
     ): int {
         $applicationInfo = ApplicationInfo::create([
             'Project_id' => $projectId,
             'business_id' => $businessId,
             'is_assisted' => $isAssisted,
             'application_status' => $applicationStatus,
+            'requested_fund_amount' => $requestedFundAmount,
             'assisted_by' => $assistedBy,
         ]);
 

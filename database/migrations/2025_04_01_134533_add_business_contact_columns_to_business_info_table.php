@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::table('business_info', function (Blueprint $table) {
             $table->string('office_telephone', 64)->nullable()->after('enterprise_year_registered');
-            $table->string('office_fax_no', 16)->nullable()->after('office_telephone');
+            $table->string('office_fax_no', 32)->nullable()->after('office_telephone');
             $table->string('office_email', 128)->nullable()->after('office_fax_no');
             $table->string('factory_telephone', 64)->nullable()->after('office_email');
-            $table->string('factory_fax_no', 16)->nullable()->after('factory_telephone');
+            $table->string('factory_fax_no', 32)->nullable()->after('factory_telephone');
             $table->string('factory_email', 128)->nullable()->after('factory_fax_no');
         });
     }

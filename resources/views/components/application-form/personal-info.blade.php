@@ -1,4 +1,5 @@
 <!-- Where Personal Info Displayed -->
+@props(['withRequestRefundInput' => true])
 <div class="row mb-3 gy-3">
     <h5>Contact Person:</h5>
     <x-custom-input.prefix-input />
@@ -152,6 +153,24 @@
             </div>
         </div>
     </div>
+    @if ($withRequestRefundInput)
+        <div class="col-12">
+            <h4 class="text-center">
+                Requested Fund Amount by the Applicant:<span class="text-danger">*</span>
+            </h4>
+            <div class="d-flex align-items-center justify-content-center">
+                <div class="input-group w-50">
+                    <span class="input-group-text">₱</span>
+                    <input
+                        class="form-control fw-bold"
+                        id="requested_fund_amount"
+                        name="requested_fund_amount"
+                        type="text"
+                    >
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="col-12">
         <x-custom-input.address-card-select
             prefix="home"

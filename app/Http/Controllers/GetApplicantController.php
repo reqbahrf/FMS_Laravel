@@ -20,8 +20,10 @@ class GetApplicantController extends Controller
             } else {
                 $applicants = DB::table('application_info')
                     ->join('business_info', 'business_info.id', '=', 'application_info.business_id')
+                    ->join('business_address_info', 'business_address_info.business_info_id', '=', 'business_info.id')
                     ->join('coop_users_info', 'coop_users_info.id', '=', 'business_info.user_info_id')
                     ->join('users', 'users.user_name', '=', 'coop_users_info.user_name')
+                    ->join('users_address_info', 'users_address_info.user_info_id', '=', 'users.id')
                     ->join('assets', 'assets.id', '=', 'business_info.id')
                     ->leftJoin('personnel', 'personnel.id', '=', 'business_info.id')
                     ->whereIn('application_info.application_status', ['new', 'evaluation', 'pending', 'rejected'])
@@ -35,21 +37,36 @@ class GetApplicantController extends Controller
                         'coop_users_info.suffix',
                         'coop_users_info.designation',
                         'coop_users_info.sex',
+                        'coop_users_info.birth_date',
                         'coop_users_info.mobile_number',
                         'coop_users_info.landline',
+                        'users_address_info.landmark',
+                        'users_address_info.barangay',
+                        'users_address_info.city',
+                        'users_address_info.province',
+                        'users_address_info.region',
+                        'users_address_info.zip_code',
                         'business_info.firm_name',
                         'business_info.enterprise_type',
-                        'business_info.landMark',
-                        'business_info.barangay',
-                        'business_info.city',
-                        'business_info.province',
-                        'business_info.region',
+                        'business_address_info.office_landmark',
+                        'business_address_info.office_barangay',
+                        'business_address_info.office_city',
+                        'business_address_info.office_province',
+                        'business_address_info.office_region',
+                        'business_address_info.office_zip_code',
+                        'business_address_info.factory_landmark',
+                        'business_address_info.factory_barangay',
+                        'business_address_info.factory_city',
+                        'business_address_info.factory_province',
+                        'business_address_info.factory_region',
+                        'business_address_info.factory_zip_code',
                         'assets.building_value',
                         'assets.equipment_value',
                         'assets.working_capital',
                         'application_info.id as Application_ID',
                         'application_info.created_at as date_applied',
                         'application_info.application_status',
+                        'application_info.requested_fund_amount',
                         'business_info.id as business_id',
                         'personnel.male_direct_re',
                         'personnel.female_direct_re',

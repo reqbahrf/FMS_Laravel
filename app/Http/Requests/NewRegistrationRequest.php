@@ -31,6 +31,104 @@ class NewRegistrationRequest extends FormRequest
             'm_personnelIndPart' => str_replace(',', '', $this->m_personnelIndPart) ?? 0,
             'f_personnelIndPart' => str_replace(',', '', $this->f_personnelIndPart) ?? 0,
         ]);
+
+        // Consolidate activity sectors into a structured array
+        $sectors = [];
+
+        $activityMapping = [
+            'food_processing_activity' => [
+                'name' => 'Food Processing',
+                'specific' => 'food_processing_specific_sector'
+            ],
+            'furniture_activity' => [
+                'name' => 'Furniture',
+                'specific' => 'furniture_specific_sector'
+            ],
+            'natural_fibers_activity' => [
+                'name' => 'Natural Fibers',
+                'specific' => 'natural_fibers_specific_sector'
+            ],
+            'metals_and_engineering_activity' => [
+                'name' => 'Metals and Engineering',
+                'specific' => 'metals_and_engineering_specific_sector'
+            ],
+            'aquatic_and_marine_activity' => [
+                'name' => 'Aquatic and Marine',
+                'specific' => 'aquatic_and_marine_specific_sector'
+            ],
+            'horticulture_activity' => [
+                'name' => 'Horticulture',
+                'specific' => 'horticulture_specific_sector'
+            ],
+            'other_activity' => [
+                'name' => 'Other',
+                'specific' => 'other_specific_sector'
+            ],
+        ];
+
+        foreach ($activityMapping as $activity => $details) {
+            if ($this->input($activity) === 'on') {
+                $specificSector = $this->input($details['specific']);
+                $sectorName = $details['name'];
+
+                if (!empty($specificSector)) {
+                    $sectors[] = [
+                        'name' => $sectorName,
+                        'specific' => $specificSector
+                    ];
+                } else {
+                    $sectors[] = [
+                        'name' => $sectorName
+                    ];
+                }
+            }
+        }
+
+        $this->merge([
+            'sectors' => $sectors
+        ]);
+
+        if ($this->has('same_address_with_home') && $this->same_address_with_home) {
+            // Copy home address fields to office address fields
+            $this->merge([
+                'office_region' => $this->home_region,
+                'office_province' => $this->home_province,
+                'office_city' => $this->home_city,
+                'office_barangay' => $this->home_barangay,
+                'office_landmark' => $this->home_landmark,
+                'office_zipcode' => $this->home_zipcode,
+            ]);
+        }
+
+        if ($this->has('same_address_with_office') && $this->same_address_with_office) {
+            // Copy office address fields to factory address fields
+            $this->merge([
+                'factory_region' => $this->office_region,
+                'factory_province' => $this->office_province,
+                'factory_city' => $this->office_city,
+                'factory_barangay' => $this->office_barangay,
+                'factory_landmark' => $this->office_landmark,
+                'factory_zipcode' => $this->office_zipcode,
+                'factory_telNo' => $this->office_telNo,
+                'factory_faxNo' => $this->office_faxNo,
+                'factory_emailAddress' => $this->office_emailAddress,
+            ]);
+        }
+
+        if ($this->has('same_address_with_factory') && $this->same_address_with_factory) {
+            // Copy factory address fields to office address fields
+            $this->merge([
+                'office_region' => $this->factory_region,
+                'office_province' => $this->factory_province,
+                'office_city' => $this->factory_city,
+                'office_barangay' => $this->factory_barangay,
+                'office_landmark' => $this->factory_landmark,
+                'office_zipcode' => $this->factory_zipcode,
+                'office_telNo' => $this->factory_telNo,
+                'office_faxNo' => $this->factory_faxNo,
+                'office_emailAddress' => $this->factory_emailAddress,
+            ]);
+        }
     }
 
     /**
@@ -62,6 +160,8 @@ class NewRegistrationRequest extends FormRequest
             'home_landmark' => 'nullable|string',
             'home_zipcode' => 'required|string',
 
+            'requested_fund_amount' => 'required|string',
+
 
 
             //TNA Important Data
@@ -73,7 +173,7 @@ class NewRegistrationRequest extends FormRequest
             'permit_type' => 'required|string|max:20',
             'business_permit_no' => 'required|string|max:64',
             'permit_year_registered' => 'required|date_format:Y',
-            'registration_type' => 'required|string|max:20',
+            'enterprise_registration_type' => 'required|string|max:20',
             'enterprise_registration_no' => 'required|string|max:64',
             'year_enterprise_registered' => 'required|date_format:Y',
             'initial_capitalization' => 'required|string',
@@ -117,7 +217,7 @@ class NewRegistrationRequest extends FormRequest
             'metals_and_engineering_specific_sector' => 'nullable|string|required_if:metals_and_engineering_activity,on',
 
             'aquatic_and_marine_activity' => 'nullable|in:on,null',
-            'aquatic_and_marine_specific_sector' => 'nullable|string|required_if:metals_and_engineering_activity,on',
+            'aquatic_and_marine_specific_sector' => 'nullable|string|required_if:aquatic_and_marine_activity,on',
 
             'horticulture_activity' => 'nullable|in:on,null',
             'horticulture_specific_sector' => 'nullable|string|required_if:horticulture_activity,on',
@@ -125,8 +225,8 @@ class NewRegistrationRequest extends FormRequest
             'other_activity' => 'nullable|in:on,null',
             'other_specific_sector' => 'nullable|string|required_if:other_activity,on',
 
-            'specificProductOrService' => 'nullable|string|required_if:other_activity,on',
-            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string|required_if:other_activity,on',
+            'specificProductOrService' => 'nullable|string',
+            'reasonsWhyAssistanceIsBeingSought' => 'nullable|string',
 
             //TNA Important Data
             'consultationAnswer' => 'nullable|in:yes,no',
@@ -185,6 +285,18 @@ class NewRegistrationRequest extends FormRequest
             'production.*.volumeProduction' => 'nullable|string',
             'production.*.unitCost' => 'nullable|string',
 
+            'exportMarket' => 'nullable|array',
+            'exportMarket.*.product' => 'nullable|string',
+            'exportMarket.*.location' => 'nullable|string',
+            'exportMarket.*.volume' => 'nullable|string',
+            'exportMarket.*.unit' => 'nullable|string',
+
+            'localMarket' => 'nullable|array',
+            'localMarket.*.product' => 'nullable|string',
+            'localMarket.*.location' => 'nullable|string',
+            'localMarket.*.volume' => 'nullable|string',
+            'localMarket.*.unit' => 'nullable|string',
+
             'productionEquipment' => 'nullable|array',
             'productionEquipment.*.typeOfEquipment' => 'nullable|string',
             'productionEquipment.*.specification' => 'nullable|string',
@@ -198,8 +310,7 @@ class NewRegistrationRequest extends FormRequest
             'f_personnelIndRe' => 'nullable|numeric',
             'm_personnelIndPart' => 'nullable|numeric',
             'f_personnelIndPart' => 'nullable|numeric',
-            'exportMarket' => 'nullable|array',
-            'localMarket' => 'nullable|array',
+
             'organizationalStructure' =>  'nullable|string',
             'planLayout' => 'nullable|string',
             'processFlow' => 'nullable|string',

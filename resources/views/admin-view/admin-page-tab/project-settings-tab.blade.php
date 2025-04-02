@@ -92,7 +92,7 @@
                                 class="form-label fw-semibold"
                                 for="notify_interval"
                             >
-                                Notify Interval (Hours)
+                                Notify Interval (Days)
                             </label>
                             <div
                                 class="input-group"
@@ -115,7 +115,7 @@
                             <div class="form-text">
                                 <small>
                                     <i class="ri-information-line me-1"></i>
-                                    Hours interval for the next notification
+                                    Days interval for the next notification
                                 </small>
                             </div>
                         </div>

@@ -341,6 +341,16 @@ export default class ApplicantDataTable {
                                     type="hidden"
                                     name="sex"
                                     value="${item.sex}"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="birth_date"
+                                    value="${item.birth_date}"
+                                />
+                                <input
+                                    type="hidden"
+                                    name="applicant_home_address"
+                                    value="${item.landmark || ''}, ${item.barangay || ''}, ${item.city || ''}, ${item.province || ''}, ${item.region || ''}, ${item.zip_code || ''}"
                                 />`,
                             `${item.designation}`,
                             /*html*/ `<div>
@@ -348,6 +358,7 @@ export default class ApplicantDataTable {
                                 <span class="firm_name">${item.firm_name}</span
                                 ><br />
                                 <strong>Business Address:</strong>
+                                <br>
                                 <input
                                     type="hidden"
                                     name="userID"
@@ -417,10 +428,17 @@ export default class ApplicantDataTable {
                                         parseInt(item.female_indirect_part || 0)
                                     }"
                                 />
-                                <span class="b_address text-truncate"
-                                    >${item.landMark}, ${item.barangay},
-                                    ${item.city}, ${item.province},
-                                    ${item.region}</span
+                                <strong class="ps-2"> Office Address:</strong>
+                                <span class="business_address text-truncate ps-3"
+                                    >${item.office_landmark || ''}, ${item.office_barangay || ''},
+                                    ${item.office_city || ''}, ${item.office_province || ''},
+                                    ${item.office_region || ''}</span
+                                ><br />
+                                <strong class="ps-2">Factory Address:</strong>
+                                <span class="factory_address text-truncate ps-3"
+                                    >${item.factory_landmark || ''}, ${item.factory_barangay || ''},
+                                    ${item.factory_city || ''}, ${item.factory_province || ''},
+                                    ${item.factory_region || ''}</span
                                 ><br />
                                 <strong>Type of Enterprise:</strong>
                                 <span class="enterprise_l"
@@ -478,7 +496,11 @@ export default class ApplicantDataTable {
                                             : 'bg-danger'
                                 }"
                                 >${item.application_status}</span
-                            >`,
+                            ><input
+                                type="hidden"
+                                name="requested_fund_amount"
+                                value="${item.requested_fund_amount}"
+                            />`,
                             /*html*/ ` <button
                                 class="btn btn-primary applicantDetailsBtn"
                                 data-applicant-id="${item.Application_ID}"
