@@ -9,11 +9,14 @@ class TemporaryFile extends Model
 {
     use HasFactory;
 
+    protected $table = 'temporary_files';
+
     protected $fillable = [
         'type',
         'owner_id',
         'unique_id',
         'file_name',
+        'original_file_name',
         'file_path',
         'mime_type',
         'file_size'

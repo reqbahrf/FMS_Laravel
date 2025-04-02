@@ -342,20 +342,44 @@ export class FormDraftHandler {
                         ':uniqueId',
                         value.uniqueId
                     );
-                    // Load file into corresponding FilePond instance
-                    const filepondInstance =
-                        this._getFilepondInstanceHandler(filepondId);
-                    if (filepondInstance) {
-                        filepondInstance.addFile(fileUrl, {
-                            type: 'local',
-                            metadata: {
-                                unique_id: value.uniqueId,
-                                file_path: value.filePath,
-                                file_input_name: key,
-                                meta_data_handler_id: value.metaDataId,
-                            },
+
+                    fetch(fileUrl)
+                        .then((response) => {
+                            const fileName = response.headers.get(
+                                'X-File-Name'
+                            ) as string;
+                            const fileSize = response.headers.get(
+                                'X-File-Size'
+                            ) as string;
+                            const fileType = response.headers.get(
+                                'X-File-Type'
+                            ) as string;
+
+                            const filepondInstance =
+                                this._getFilepondInstanceHandler(filepondId);
+                            if (filepondInstance) {
+                                filepondInstance.addFile(fileUrl, {
+                                    type: 'local',
+                                    file: {
+                                        name: fileName,
+                                        size: Number(fileSize),
+                                        type: fileType,
+                                    },
+                                    metadata: {
+                                        unique_id: value.uniqueId,
+                                        file_path: value.filePath,
+                                        file_input_name: key,
+                                        meta_data_handler_id: value.metaDataId,
+                                    },
+                                });
+                            }
+                        })
+                        .catch((error) => {
+                            console.error(
+                                'Error fetching file metadata:',
+                                error
+                            );
                         });
-                    }
                 }
             }
         });

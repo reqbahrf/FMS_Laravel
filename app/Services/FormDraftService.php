@@ -120,7 +120,7 @@ class FormDraftService
 
         return Response::make($file, 200)
             ->header('Content-Type', $tempFile->mime_type)
-            ->header('X-File-Name', $tempFile->file_name)
+            ->header('X-File-Name', $tempFile->original_file_name)
             ->header('X-File-Size', $tempFile->file_size)
             ->header('X-File-Type', $tempFile->type)
             ->header('X-File-path', $tempFile->owner_id)
